@@ -15,9 +15,7 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
 public class ItemSearchCriteria implements SearchCriteria {
 
     private int lastCount;
-    @SuppressWarnings("unused")
-	private boolean dirty = false;
-    private final boolean customDirty = false;
+    private boolean dirty = false;
     private String filter = StringUtils.EMPTY;
 
     public ItemSearchCriteria() {
@@ -36,7 +34,7 @@ public class ItemSearchCriteria implements SearchCriteria {
 
     @Override
     public boolean isDirty() {
-        return customDirty;
+        return dirty;
     }
 
     @Override

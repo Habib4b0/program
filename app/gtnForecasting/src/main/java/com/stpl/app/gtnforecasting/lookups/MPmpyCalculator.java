@@ -380,13 +380,7 @@ public class MPmpyCalculator extends Window {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-
-                    List chartList = new ArrayList();
                     ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-                    for (Object obj : pmpyTable.getContainerDataSource().getItemIds()) {
-                        MPmpyDTO dto = (MPmpyDTO) obj;                        
-                            chartList.add(dto);                        
-                    }
 					final MandatedChartUtils chart = new MandatedChartUtils(String.valueOf(frequencyDDLB.getValue()),
 							StringUtils.EMPTY, headerDTO, "PMPYCalculator", projectionDTO);
                     final MandatedGraphWindow pmpyGraphWindow = new MandatedGraphWindow(chart.getChart(), Constant.PMPY_CALCULATOR);

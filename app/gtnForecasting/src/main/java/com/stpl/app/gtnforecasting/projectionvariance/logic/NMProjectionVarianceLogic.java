@@ -1609,8 +1609,6 @@ public class NMProjectionVarianceLogic {
 				String commonHeader = common.get(1);
 				if (periodList.contains(pcommonColumn)) {
 					periodList.remove(pcommonColumn);
-					List<String> columnList = new ArrayList<>(pvsdto.getColumns());
-					columnList.remove(Constant.GROUP);
 					ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
 					projDTO.setGroup(commonHeader);
                                         projDTO.setDfLevelNumber(commonHeader);

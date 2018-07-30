@@ -91,7 +91,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
-
         mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
         this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(mode);
         this.isEditMode = Constant.EDIT.equalsIgnoreCase(mode);
@@ -103,22 +102,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             removeAndDisablingComponents();
         }
         addSecurity();
-
-    }
-
-    @Override
-    public void intailizingObject() {
-
-        uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
-        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);       
-        filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + moduleName);
-        wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
-        pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
-                
-        if (isViewMode) {
-            removeAndDisablingComponents();
-        }
 
     }
 

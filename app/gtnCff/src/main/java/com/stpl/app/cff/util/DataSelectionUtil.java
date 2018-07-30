@@ -168,7 +168,7 @@ public class DataSelectionUtil {
             final ExtTreeContainer<Leveldto> selectedContainer, final BeanItemContainer<Leveldto> availableContainer, final int currentLevel) {
         if (selectedTable.hasChildren(item)) {
             Collection<?> children = selectedTable.getChildren(item);
-            if (children != null && children.size() > 0) {
+            if (children != null && !children.isEmpty()) {
                 BeanItemContainer<Leveldto> tempBean = new BeanItemContainer<>(Leveldto.class);
                 LinkedList<Object> children2 = new LinkedList<>();
                 for (Iterator<?> i = children.iterator(); i.hasNext();) {

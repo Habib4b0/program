@@ -85,10 +85,10 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 				.getIntegerFromV8ComboBox();
 		int productRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[2])
 				.getIntegerFromV8ComboBox();
-                String separator="~";
+		String separator = "~";
 		String variableType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3]).getV8StringFromField();
 		String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[4]).getV8StringFromField();
-		String customViewType = "report" + separator+variableType+separator+rowType;
+		String customViewType = "report" + separator + variableType + separator + rowType;
 		reportCustomViewRequest.setCustomViewName(customViewName);
 		reportCustomViewRequest.setCustomViewDescription(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		reportCustomViewRequest.setCustomerRelationshipSid(customerRelationSid);
@@ -107,7 +107,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
 		if (cvResponse.isSuccess()) {
-			saveCustomView(componentId, customViewName, reportCustomViewRequest,(String) paramList.get(3));
+			saveCustomView(componentId, customViewName, reportCustomViewRequest, paramList);
 		} else {
 			GtnUIFrameWorkActionConfig cvSaveAlertAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.ALERT_ACTION);
@@ -138,26 +138,32 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		return false;
 	}
 
-	private void saveCustomView(String componentId, String customViewName, GtnWsCustomViewRequest cvRequest,String tabName)
-			throws GtnFrameworkGeneralException {
-		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-                confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
+	private void saveCustomView(String componentId, String customViewName, GtnWsCustomViewRequest cvRequest,
+			List<Object> paramList) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
 		confirmActionConfig.addActionParameter("Save record " + customViewName + " ?");
 		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig();
 		saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
 		saveActionConfig.addActionParameter(cvRequest);
-		saveActionConfig.addActionParameter(tabName);
+		saveActionConfig.addActionParameter((String) paramList.get(3));
 		successActionConfigList.add(saveActionConfig);
+		if (paramList.size() > 4) {
+			for (int i = 4; i < paramList.size(); i++) {
+				GtnUIFrameWorkActionConfig actionConfig = (GtnUIFrameWorkActionConfig) paramList.get(i);
+				successActionConfigList.add(actionConfig);
+			}
+		}
 		confirmActionConfig.addActionParameter(successActionConfigList);
-                GtnUIFrameworkActionExecutor.executeSingleAction(componentId,confirmActionConfig);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmActionConfig);
 	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
-
 
 }

@@ -24,7 +24,7 @@ public class BrandCriteria implements BeanSearchCriteria{
     private Set<Container.Filter> filters;
     private int lastCount;
     @SuppressWarnings("unused")
-	private boolean dirty;
+	private boolean dirty = true;
     
     public BrandCriteria(){
     	super();
@@ -32,7 +32,7 @@ public class BrandCriteria implements BeanSearchCriteria{
     
    @Override
     public boolean isDirty() {
-        return customDirty;
+        return dirty;
     }	
 
     public boolean isCustomDirty() {

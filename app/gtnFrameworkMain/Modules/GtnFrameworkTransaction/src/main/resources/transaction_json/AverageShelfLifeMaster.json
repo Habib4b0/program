@@ -76,7 +76,6 @@
 		"isSearchCriteria": true,
 		"isResultView": true,
 		"componentType": "text",
-		"defaultValue": "N",
 		"isInvalidComponent": true
 	},
 	{

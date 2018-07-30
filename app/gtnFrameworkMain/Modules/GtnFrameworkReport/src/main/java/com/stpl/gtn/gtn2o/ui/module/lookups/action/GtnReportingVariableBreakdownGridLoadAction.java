@@ -253,7 +253,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
         
         GtnUIFrameworkBaseComponent variableBreakdownLookupCustomData = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromParent("reportingDashboardTab_reportOptionsTabVariableBreakdown", componentId);
-        if (Optional.ofNullable(landingScreenVariableBreakdownLookupCustomData.getComponentData().getCustomData()).isPresent()) {
+        if (landingScreenVariableBreakdownLookupCustomData.getComponent()!=null&&landingScreenVariableBreakdownLookupCustomData.getComponentData()!=null&&landingScreenVariableBreakdownLookupCustomData.getComponentData().getCustomData()!=null) {
             List<GtnReportVariableBreakdownLookupBean> variableBreakdownReportProfileBean = (List<GtnReportVariableBreakdownLookupBean>) landingScreenVariableBreakdownLookupCustomData.getComponentData().getCustomData();
             setVariableBreakdownFromView(gridComponent, grid, reportProfileSubmitBeanList,
 					variableBreakdownReportProfileBean);

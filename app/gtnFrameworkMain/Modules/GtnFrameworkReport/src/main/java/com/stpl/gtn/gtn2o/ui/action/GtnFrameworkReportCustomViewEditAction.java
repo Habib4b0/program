@@ -5,20 +5,18 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -30,7 +28,7 @@ import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkReportCustomViewEditAction.class);
+	private String screenName;
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -41,12 +39,33 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		String selectedItem = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW)
-				.getV8StringFromField();
-		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
-			loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
+		String selectedItem;
+		this.screenName = gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString();
+		if (screenName.contains(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS)) {
+			selectedItem = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponentFromParent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+					.getCaptionFromV8ComboBox();
+		} else if (screenName.contains(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_RD)) {
+			selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+					"reportingDashboardTab_displaySelectionTabCustomView", componentId).getCaptionFromV8ComboBox();
+		} else {
+			selectedItem = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW)
+					.getV8StringFromField();
+		}
 
+		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
+			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Edit");
+			GtnUIFrameworkGlobalUI.addSessionProperty("customSid", selectedItem);
+			loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
+			GtnUIFrameworkBaseComponent deleteButton = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(screenName + "customViewDelete");
+			deleteButton.setEnable(true);
+		} else {
+			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Add");
+			GtnUIFrameworkBaseComponent deleteButton = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(screenName + "customViewDelete");
+			deleteButton.setEnable(false);
 		}
 	}
 
@@ -57,16 +76,15 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 	}
 
 	private void loadViewName(String customViewName) {
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_hierarchyName")
-				.setHasValue(customViewName);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(screenName + "_hierarchyName").setHasValue(customViewName);
 	}
 
 	private void loadVariableType(String viewType) {
 		String[] list = viewType.split("~");
 		if (list.length == 3) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_custom_Variable_Type_OptionGroup")
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(screenName + "_custom_Variable_Type_OptionGroup")
 					.setHasValue(list[1]);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_custom_Variable_OptionGroup")
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(screenName + "_custom_Variable_OptionGroup")
 					.setHasValue(list[2]);
 		}
 	}
@@ -97,7 +115,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 	}
 
 	private void removeLeftVariables(GtnWsRecordBean currentTempData) {
-		removeFromGrid("reportCustomViewLookupcustomViewLookupVariableTable", currentTempData);
+		removeFromGrid(screenName + "customViewLookupVariableTable", currentTempData);
 
 	}
 
@@ -114,17 +132,17 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 	}
 
 	private void removeLeftDeduction(GtnWsRecordBean currentTempData) {
-		removeFromGrid("reportCustomViewLookupcustomViewLookupDeductionTable", currentTempData);
+		removeFromGrid(screenName + "customViewLookupDeductionTable", currentTempData);
 
 	}
 
 	private void removeLeftProduct(GtnWsRecordBean currentTempData) {
-		removeFromGrid("reportCustomViewLookupcustomViewLookupProductTable", currentTempData);
+		removeFromGrid(screenName + "customViewLookupProductTable", currentTempData);
 
 	}
 
 	private void removeLeftCustomer(GtnWsRecordBean currentTempData) {
-		removeFromGrid("reportCustomViewLookupcustomViewLookupCustomerTable", currentTempData);
+		removeFromGrid(screenName + "customViewLookupCustomerTable", currentTempData);
 
 	}
 

@@ -33,6 +33,7 @@ import com.vaadin.v7.ui.ComboBox;
 import java.util.Date;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -50,6 +51,7 @@ public class ItemLogic {
     private Map<String, String> psMap = new HashMap<>();
     private Map<Integer, String> users = new HashMap<>();
     private String userid = "";
+    public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     public void setCfpSearch() {
         componentMap = new HashMap<>();
@@ -645,7 +647,7 @@ public class ItemLogic {
             input.add("%");
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( " + startDate + " >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+            input.add(" AND ( " + startDate + " >= '" + formatter.format(binderDto.getStartDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -667,7 +669,7 @@ public class ItemLogic {
             input.add("%");
         }
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( " + endDate + " <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( " + endDate + " <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -711,24 +713,6 @@ public class ItemLogic {
             ItemQueries.itemUpdate(input, "deleting itemIndex table");
         }
 
-    }
-
-    public List<Integer> isMandatoryCheck(SelectionDTO selection) {
-        final List input = new ArrayList();
-        input.add(selection.getSessionId());
-        input.add(selection.getInternalSessionid());
-        final List<Integer> finalList = new ArrayList<>();
-        List<Object[]> list = ItemQueries.getItemData(input, "contractTempValidations", null);
-        if (!list.isEmpty()) {
-            Object[] obj = list.get(0);
-            int startDate = obj[0] == null ? 0 : (Integer) obj[0];
-            int cpStartDateCount = obj[1] == null ? 0 : (Integer) obj[1];
-            int priceType = obj[NumericConstants.TWO] == null ? 0 : (Integer) obj[NumericConstants.TWO];
-            finalList.add(startDate);
-            finalList.add(cpStartDateCount);
-            finalList.add(priceType);
-        }
-        return new ArrayList<>();
     }
 
     private void addList(List input, Integer size) {

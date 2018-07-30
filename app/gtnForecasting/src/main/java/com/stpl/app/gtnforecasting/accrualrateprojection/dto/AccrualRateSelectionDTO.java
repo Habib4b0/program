@@ -29,9 +29,9 @@ public class AccrualRateSelectionDTO {
     private Date endDate;
 
     private boolean isRateOrAmount;
-    
+
     private String rateBasis;
-    
+
     private String priceBasis;
 
     private boolean isFilterValid;
@@ -47,25 +47,25 @@ public class AccrualRateSelectionDTO {
     private String companyName = StringUtils.EMPTY;
 
     private String excludedField = StringUtils.EMPTY;
-    
-    private String companyMasterSid= StringUtils.EMPTY;
-    
-    private String companyId= StringUtils.EMPTY;
-    
+
+    private String companyMasterSid = StringUtils.EMPTY;
+
+    private String companyId = StringUtils.EMPTY;
+
     private final ArrayList<String> availableVisibleColumns = new ArrayList();
-    
+
     private final List<Object> filterList = new ArrayList();
-    
-    private final List<String> variableList = new ArrayList();
-    
+
+    private List<String> variableList = null;
+
     private String periodBasis;
-    
+
     private Object customer;
-    
+
     private Object brand;
-   
+
     private Object product;
-    
+
     private SessionDTO sessionDto;
 
     public AccrualRateSelectionDTO() {
@@ -193,15 +193,19 @@ public class AccrualRateSelectionDTO {
     public void setFilterEndMonth(int filterEndMonth) {
         this.filterEndMonth = filterEndMonth;
     }
+
     public List<Object> getFilterList() {
         return filterList == null ? filterList : Collections.unmodifiableList(filterList);
     }
+
     public void addFilterlist(Object doubleColumn) {
         filterList.add(doubleColumn);
     }
+
     public void clearFilterlist() {
         filterList.clear();
     }
+
     public String getPriceBasis() {
         return priceBasis;
     }
@@ -218,15 +222,13 @@ public class AccrualRateSelectionDTO {
         this.companyName = companyName;
     }
 
- 
-
     public String getExcludedField() {
         return excludedField;
     }
 
     public void setExcludedField(String excludedField) {
         this.excludedField = excludedField;
-    }    
+    }
 
     public String getCompanyMasterSid() {
         return companyMasterSid;
@@ -244,7 +246,10 @@ public class AccrualRateSelectionDTO {
         this.companyId = companyId;
     }
 
-    
+    public void setVariableList(List<String> arrayList) {
+        this.variableList = new ArrayList<>(arrayList);
+    }
+
     public List<String> getVariableList() {
         return variableList == null ? variableList : Collections.unmodifiableList(variableList);
     }
@@ -288,5 +293,5 @@ public class AccrualRateSelectionDTO {
     public void setSessionDto(SessionDTO sessionDto) {
         this.sessionDto = sessionDto;
     }
-    
+
 }

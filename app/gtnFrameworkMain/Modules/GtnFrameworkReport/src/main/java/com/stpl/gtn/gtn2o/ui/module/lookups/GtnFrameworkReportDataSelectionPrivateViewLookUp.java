@@ -150,7 +150,7 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		hierarchyNameValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		hierarchyNameValidationConfig.setAttachRegxValidatior(true);
-		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_100_CHARACTER);
+		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_0_MAX_100_CHARACTER);
 		hierarchyNameValidationConfig.setRegxValidationMessage("View Name Should be less than 100 Characters");
 		privateViewName.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
 

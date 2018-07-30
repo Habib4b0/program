@@ -1115,10 +1115,8 @@ public class SalesProjectionLogic {
         int tempNum = 0;
         int startYear = session.getForecastDTO().getHistoryStartYear();
         int startQuator = logic.getQuator(session.getForecastDTO().getHistoryStartMonth());
-        List<Integer> allKeyList = new ArrayList<>();
         while (tempNum != endPeriod) {
             tempNum = Integer.parseInt(startYear + StringUtils.EMPTY + startQuator);
-            allKeyList.add(tempNum);
             if (startQuator == NumericConstants.FOUR) {
                 startQuator = 1;
                 startYear = startYear + 1;
