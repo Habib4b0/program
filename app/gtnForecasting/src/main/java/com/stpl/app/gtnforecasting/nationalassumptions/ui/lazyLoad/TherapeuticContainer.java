@@ -32,7 +32,7 @@ public class TherapeuticContainer implements DAO<HelperDTO> {
      * Method used for get Count.
      */
     public TherapeuticContainer() {
-       
+       // Default constructor
     }
 
     @Override
