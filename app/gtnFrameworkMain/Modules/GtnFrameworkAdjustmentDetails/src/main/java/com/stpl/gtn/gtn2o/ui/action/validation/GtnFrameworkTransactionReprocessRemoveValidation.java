@@ -58,14 +58,6 @@ public class GtnFrameworkTransactionReprocessRemoveValidation
 
         GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
-//        if ((boolean) actionParametersList.get(3)) {
-//            gtnWsTransactionRequest
-//                    .setTableName(getProcessName().get(String.valueOf(String.valueOf(actionParametersList.get(4)))));
-//        } else {
-//            String valueFromDdlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("intefaceName")
-//                    .getCaptionFromComboBox();
-//            gtnWsTransactionRequest.setTableName(String.valueOf(getProcessName().get(valueFromDdlb)));
-//        }
         gtnWsTransactionRequest.setTableName("ADJUSTMENT_DETAIL_OUTBOUND_INTERFACE");
 
         request.setGtnWsTransactionRequest(gtnWsTransactionRequest);
@@ -85,38 +77,4 @@ public class GtnFrameworkTransactionReprocessRemoveValidation
         return this;
     }
 
-//    private Map<String, String> getProcessName() {
-//        Map<String, String> processNameMap = new HashMap<>(50);
-//        processNameMap.put("Accrual Details", "ACCRUAL_INBOUND_INTERFACE");
-//        processNameMap.put("Average Shelf Life", "AVERAGE_SHELF_LIFE_INTERFACE");
-//        processNameMap.put("Contract Header", "CONTRACT_HEADER_INTERFACE");
-//        processNameMap.put("CPI", "CPI_INTERFACE");
-//        processNameMap.put("Demand", "DEMAND_ACTUAL_INTERFACE");
-//        processNameMap.put("GL Balance", "GL_BALANCE_INTERFACE");
-//        processNameMap.put("GL Cost Center", "GL_COST_CENTER_INTERFACE");
-//        processNameMap.put("Global Files Company Family Plan", "COMPANY_FAMILY_PLAN_INTERFACE");
-//        processNameMap.put("Global Files Company Identifier", "COMPANY_IDENTIFIER_INTERFACE");
-//        processNameMap.put("Global Files Company Master", "COMPANY_MASTER_INTERFACE");
-//        processNameMap.put("Global Files Company Parent", "COMPANY_PARENT_DETAILS_INTERFACE");
-//        processNameMap.put("Global Files Company Trade Class", "COMPANY_TRADE_CLASS_INTERFACE");
-//        processNameMap.put("Global Files Item Family Plan", "ITEM_FAMILY_PLAN_INTERFACE");
-//        processNameMap.put("Global Files Item Identifier", "ITEM_IDENTIFIER_INTERFACE");
-//        processNameMap.put("Global Files Item Master", "ITEM_MASTER_INTERFACE");
-//        processNameMap.put("Global Files Item Pricing", "ITEM_PRICING_INTERFACE");
-//        processNameMap.put("Global Files Price Schedule", "PRICE_SCHEDULE_INTERFACE");
-//        processNameMap.put("Global Files Rebate Plan", "REBATE_PLAN_INTERFACE");
-//        processNameMap.put("Global Files Rebate Schedule", "REBATE_SCHEDULE_INTERFACE");
-//        processNameMap.put("GTS Actual", "CUSTOMER_GTS_ACTUAL_INTERFACE");
-//        processNameMap.put("GTS Forecast", "CUSTOMER_GTS_FORECAST_INTERFACE");
-//        processNameMap.put("Inventory Withdrawal", "INVENTORY_WITHDRAWAL_ACTUAL_DETAIL_INTERFACE");
-//        processNameMap.put("Lot Master", "LOT_MASTER_INTERFACE");
-//        processNameMap.put("Payments", "ACTUAL_MASTER_INTERFACE");
-//        processNameMap.put("Returns", "RETURNS_INTERFACE");
-//        processNameMap.put("Sales Actual", "SALES_MASTER_INTERFACE");
-//        processNameMap.put("Sales Forecast", "FORECAST_SALES_INTERFACE");
-//        processNameMap.put("Return Rate Forecast", "RETURN_RATE_FORECAST_INTERFACE");
-//        processNameMap.put("Item Uom", "ITEM_UOM_INTERFACE");
-//        processNameMap.put("VwCffOutboundMaster", "CFF_OUTBOUND_INTERFACE");
-//        return processNameMap;
-//    }
 }
