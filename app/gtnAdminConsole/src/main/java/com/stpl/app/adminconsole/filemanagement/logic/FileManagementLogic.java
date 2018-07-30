@@ -91,8 +91,6 @@ public class FileManagementLogic {
 	public static final String COMPANY_NAME = "companyName";
 	public static final String SELECT_ONE = "-Select One-";
 
-	private Map<String, String> monthMap = new HashMap<>();
-
 	private HashMap<String, String> columnNames = new HashMap<>();
 
 	public int getFoecastYearCount() {
@@ -797,6 +795,7 @@ public class FileManagementLogic {
 						InventoryWdProjMasLocalServiceUtil.addInventoryWdProjMas(inventoryWdProjMas);
 					} else if (fileType.getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 						String query = insertQueryForInventoryDetails();
+                                                String date=new Date().toString();
 						if (beanItem.getYear() == null || ConstantsUtils.EMPTY.equals(beanItem.getYear())) {
 							query += "0";
 						} else {
@@ -820,9 +819,9 @@ public class FileManagementLogic {
 								: buildQuery(beanItem.getUnitsWithdrawn());
 						query += buildQuery(beanItem.getAmountWithdrawn());
 						query += buildQuery(beanItem.getPrice());
-						query += ",'" + convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT,
+						query += ",'" + convertStringToDate(date, DEFAULT_JAVA_DATE_FORMAT,
 								DEFAULT_SQL_DATE_FORMAT) + "'";
-						query += ",'" + convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT,
+						query += ",'" + convertStringToDate(date, DEFAULT_JAVA_DATE_FORMAT,
 								DEFAULT_SQL_DATE_FORMAT) + "'";
 						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
 								: buildQuery(beanItem.getBatchId());
@@ -1035,21 +1034,6 @@ public class FileManagementLogic {
 		return list;
 	}
 
-	private void loadMonthMap() {
-		monthMap.put("1", "Jan");
-		monthMap.put("2", "Feb");
-		monthMap.put("3", "Mar");
-		monthMap.put("4", "Apr");
-		monthMap.put("5", "May");
-		monthMap.put("6", "Jun");
-		monthMap.put("7", "Jul");
-		monthMap.put("8", "Aug");
-		monthMap.put("9", "Sep");
-		monthMap.put("10", "Oct");
-		monthMap.put("11", "Nov");
-		monthMap.put("12", "Dec");
-
-	}
 
 	/**
 	 * * Gets the file history results based on country and fileType.
@@ -1482,7 +1466,6 @@ public class FileManagementLogic {
 
 			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(searchQuery);
 			if (!isCount) {
-				loadMonthMap();
 				for (int i = 0; i < resultsList.size(); i++) {
 					final Object[] obj = (Object[]) resultsList.get(i);
 					final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
