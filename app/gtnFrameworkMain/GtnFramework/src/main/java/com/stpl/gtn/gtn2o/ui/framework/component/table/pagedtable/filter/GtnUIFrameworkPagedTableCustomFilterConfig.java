@@ -9,7 +9,7 @@ public class GtnUIFrameworkPagedTableCustomFilterConfig {
 
 	private GtnUIFrameworkComponentType gtnComponentType=null;
 
-	private GtnUIFrameworkComponentConfig gtnComponentConfig=null;
+	private GtnUIFrameworkComponentConfig gtnComponentConfig=new GtnUIFrameworkComponentConfig();
 
 	public String getPropertId() {
 		return propertId;

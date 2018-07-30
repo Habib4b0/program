@@ -65,6 +65,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		hierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		hierarchyRelationshipConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.HIERARCHY_RELATIONSHIP_LAYOUT);
+		hierarchyRelationshipConfig.addComponentStyle("stpl-margin-top-18");
 		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setGtnLayoutConfig(customerSelectionHierarchyRelationshiplayout);
 		hierarchyRelationshipConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -298,7 +299,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 						GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
 		customerSelectionForecastEligibilityDate.addComponentStyle("datefieldcentered");
-
+                customerSelectionForecastEligibilityDate.setComponentHight("20px");
 		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);
 		componentList.add(customerSelectionRelationshipLayout);

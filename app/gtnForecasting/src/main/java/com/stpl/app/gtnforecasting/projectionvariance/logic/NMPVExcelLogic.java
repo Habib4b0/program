@@ -1568,7 +1568,7 @@ public class NMPVExcelLogic {
 
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();;
+            String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.parseInt(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
             String groupId = common.get(0);

@@ -1050,7 +1050,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiHandler("graphIcon")
     public void totalLiveGraph(Button.ClickEvent event) {
         LOGGER.debug("Entering Total Lives Handler");
-        TotalLivesChart totalLivesChart = new TotalLivesChart(session);
+        TotalLivesChart totalLivesChart = new TotalLivesChart();
         getUI().addWindow(totalLivesChart);
         LOGGER.debug("Ending Total Lives Handler");
     }

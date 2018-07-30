@@ -5,18 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.addons.tableexport.TableHolder;
-import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Property;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -29,6 +23,13 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 
 /**
  *
@@ -47,7 +48,11 @@ public class SalesExcelNM extends ExcelExport{
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesExcelNM.class);
     private TableHolder tableHolder;
-
+    private static final String UNIT_DECIMAL = "UNIT_DECIMAL";
+    private static final String UNITTWODECIMAL = "UNITTWODECIMAL";
+    private static final String PRODUCT_GROWTH_SUM = "PRODUCT_GROWTH_SUM";
+    private static final String ACCOUNT_GROWTH_SUM = "ACCOUNT_GROWTH_SUM";
+    
     public static final String COLUMN_FORMULA = "column formula{}";
 
     public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter, boolean isAg) {
@@ -120,22 +125,25 @@ public class SalesExcelNM extends ExcelExport{
     }
 
     private Double getCellValue(Object propId, Double d, Double cellValue) {
+    	
+    	Double getCellValue = (double) 0;
+    	
         if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        if ((formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        if ((formatter.get(UNIT_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNIT_DECIMAL))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        if ((formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        if ((formatter.get(UNITTWODECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNITTWODECIMAL))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        if ((formatter.get("PRODUCT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("PRODUCT_GROWTH_SUM"))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        if ((formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        if ((formatter.get("ACCOUNT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("ACCOUNT_GROWTH_SUM"))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        if ((formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        return cellValue;
+        return getCellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {
@@ -167,18 +175,16 @@ public class SalesExcelNM extends ExcelExport{
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
-        }else if (formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) {
+        }else if (formatter.get(UNITTWODECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNITTWODECIMAL))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
                 String agformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
                 LOGGER.info(COLUMN_FORMULA , agformula);
                 sheetCell.setCellFormula(agformula);
             }
-        }else if (formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) {
+        }else if (formatter.get(UNIT_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNIT_DECIMAL))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                LOGGER.info("isAG: " + isAg);
                 int columnIndex = isAg ? sheetCell.getColumnIndex() + 4 : sheetCell.getColumnIndex() + 2;
                 String pgformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,columnIndex);
                 LOGGER.info(COLUMN_FORMULA , pgformula);
@@ -186,7 +192,7 @@ public class SalesExcelNM extends ExcelExport{
             }
         }
         //Added Formula to PG_SUM column  
-        else if (formatter.get("PRODUCT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("PRODUCT_GROWTH_SUM"))) {
+        else if (formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) {
             sheetCell.setCellStyle(style3);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
@@ -196,7 +202,7 @@ public class SalesExcelNM extends ExcelExport{
             }
         }
         //Added Formula to AG_SUM column
-        else if (formatter.get("ACCOUNT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("ACCOUNT_GROWTH_SUM"))) {
+        else if (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) {
             sheetCell.setCellStyle(style3);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
