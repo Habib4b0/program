@@ -567,6 +567,22 @@ public class GtnFrameworkReportComparisonLookup {
 
 		List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig projectionTypeValidationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+		projectionTypeValidationActionConfig.setFieldValues(Arrays.asList(nameSpace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.PROJECTION_TYPE));
+
+		GtnUIFrameWorkActionConfig projectionTypeAlertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> projectionTypeAlertParams = new ArrayList<>();
+		projectionTypeAlertParams.add(GtnFrameworkCommonConstants.ERROR);
+		projectionTypeAlertParams.add("Please select a Projection Type");
+		projectionTypeAlertActionConfig.setActionParameterList(projectionTypeAlertParams);
+
+		projectionTypeValidationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(projectionTypeAlertActionConfig)));
+		searchActionConfigList.add(projectionTypeValidationActionConfig);
+		
 		GtnUIFrameWorkActionConfig workflowStatusValidationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		workflowStatusValidationActionConfig.setFieldValues(Arrays.asList(
