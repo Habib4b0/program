@@ -1079,7 +1079,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		unitOfMeasureConfig.setReloadLogicActionClassName(GtnFrameworkUIUOMLoadAction.class.getName());
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
-		comboBoxConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
+                comboBoxConfig.setHasDefaultValue(true);
+		comboBoxConfig.setDefaultDesc(GtnFrameworkReportStringConstants.UOM_DEFAULT);
 		unitOfMeasureConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentList.add(unitOfMeasureConfig);
 	}

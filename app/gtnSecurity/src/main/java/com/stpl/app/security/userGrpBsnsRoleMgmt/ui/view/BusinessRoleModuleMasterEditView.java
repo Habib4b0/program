@@ -16,15 +16,10 @@ public class BusinessRoleModuleMasterEditView extends VerticalLayout implements 
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "view";
-	
-	private final BusinessRoleModuleMasterDTO businessRoleModuleMasterDTO = new BusinessRoleModuleMasterDTO();
-	private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-			 new BeanItem<BusinessRoleModuleMasterDTO>(businessRoleModuleMasterDTO));
-	 
 	 
 	public BusinessRoleModuleMasterEditView(){		
 		setSpacing(true);
-		addComponent(new ViewForm(businessRoleModuleMasterDTO,binder));
+		addComponent(new ViewForm(new BusinessRoleModuleMasterDTO(),new ErrorfulFieldGroup(new BeanItem<>(new BusinessRoleModuleMasterDTO()))));
 		setComponentError(new UserError(""));
 	}
 	
