@@ -102,7 +102,7 @@ public class LevelDto implements Comparable<LevelDto> {
 	private String deductionLevel = "";
 	private String deductionValue = "";
 	private String hierarchyType = "";
-	private Integer hierarchyVersionNo = new Integer("0");
+	private Integer hierarchyVersionNo = Integer.valueOf("0");
 	private int relationShipVersionNo;
 
 	public String getHierarchyType() {

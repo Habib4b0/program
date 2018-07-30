@@ -24,17 +24,11 @@ public class BusinessRoleModuleMasterSearchView extends VerticalLayout implement
         private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRoleModuleMasterSearchView.class
 			.getName());
         
-	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans = new BeanItemContainer<SearchBusinessRoleModuleForm>(
-			SearchBusinessRoleModuleForm.class);
-	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult = new BeanItemContainer<SearchBusinessRoleModuleForm>(
-			SearchBusinessRoleModuleForm.class);
-	private final ExtFilterTable table=new ExtFilterTable();
-	private final ExtFilterTable tableResult=new ExtFilterTable();
 	public BusinessRoleModuleMasterSearchView(){		
        super();
          userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
 		setSpacing(true);		
-		addComponent(new SearchForm(searchResultbeans,searchFieldResult,table,tableResult,userId));
+		addComponent(new SearchForm(new BeanItemContainer<>(SearchBusinessRoleModuleForm.class),new BeanItemContainer<>(SearchBusinessRoleModuleForm.class),new ExtFilterTable(),new ExtFilterTable(),userId));
 		setComponentError(new UserError(""));
 	}
         @Override

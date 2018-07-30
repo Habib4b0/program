@@ -30,6 +30,7 @@ import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -341,12 +342,11 @@ public class PagedGrid {
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter.append(condition).append(' ').append(key).append("  like '%").append(value).append("%'");
+            filter.append(condition).append(" ").append(key).append("  like '%").append(value).append("%'");
         }
 
         return query.replace("@filter", filter.toString());
     }
-
     private String getDBColumnName(String key) {
         HashMap<String, String> dbColumnMap = new HashMap<>();
         dbColumnMap.put("hierName", "c.HIERARCHY_NAME");
@@ -363,13 +363,13 @@ public class PagedGrid {
             GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
                     .get(property);
             if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
-            	return getTextFieldFilterComponent(property);
+            	return getTextFieldFilterComponent(property,filterConfig);
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
             	return getDateFieldFilterComponent(property);
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
             	return getComboboxFilterComponent(property, filterConfig);
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                return getCalendarFieldFilterComponent(property);
+                 return getCalendarFieldFilterComponent(property,filterConfig);
             }
 
         } catch (GtnFrameworkGeneralException exception) {
@@ -379,20 +379,32 @@ public class PagedGrid {
         return null;
     }
 
-	private Component getCalendarFieldFilterComponent(String property) {
-		Button dateFilterPopupButton = new Button(SHOW_ALL);
-		dateFilterPopupButton.setWidth("100%");
-		Window window = getDateFilterPopup(dateFilterPopupButton, property);
-		dateFilterPopupButton.addClickListener(new Button.ClickListener() {
-		    @Override
-		    public void buttonClick(Button.ClickEvent event) {
-
-		        window.setPosition(event.getClientX(), event.getClientY());
-		        UI.getCurrent().addWindow(window);
-		    }
+	private Component getCalendarFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
+		HorizontalLayout hl = new HorizontalLayout();
+                hl.setMargin(false);
+		hl.setWidth("105%");
+                TextField textField = new TextField();
+		textField.setWidth("118%");
+                textField.setId(property);
+                 List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
+                if(!(componentStyle.isEmpty() || componentStyle == null)){
+                    textField.setStyleName(componentStyle.get(0));
+                }
+                hl.addComponent(textField);
+		Window window = getDateFilterPopup(hl, property);
+		 hl.addLayoutClickListener(new LayoutClickListener() {
+                    @Override
+                    public void layoutClick(LayoutClickEvent event) {
+                        if(event.getChildComponent() == textField){
+                    window.setPosition(event.getClientX(), event.getClientY());
+		        UI.getCurrent().addWindow(window);                       
+                    }
+                    }
 		});
+                 
+                 
 
-		return dateFilterPopupButton;
+		return hl;
 	}
 
 	private Component getComboboxFilterComponent(String property,
@@ -462,34 +474,39 @@ public class PagedGrid {
 		    return h2;
 	}
 
-	private Component getTextFieldFilterComponent(String property) {
+	private Component getTextFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setMargin(false);
 		hl.setWidth("105%");
-		TextField textFieldFilter = new TextField();
-		textFieldFilter.setPlaceholder(SHOW_ALL);
-		textFieldFilter.setWidth("118%");
-		textFieldFilter.setId(property);
-		textFieldFilter.addValueChangeListener(this::onFilterTextChange);
+		TextField textField = new TextField();
+		textField.setPlaceholder(SHOW_ALL);
+		textField.setWidth("118%");
+		textField.setId(property);
+                List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
+                if(!(componentStyle.isEmpty() || componentStyle == null)){
+                    textField.setStyleName(componentStyle.get(0));
+                }
+		textField.addValueChangeListener(this::onFilterTextChange);
 		
-		hl.addComponent(textFieldFilter);
+		hl.addComponent(textField);
 		
 		hl.addLayoutClickListener(new LayoutClickListener() {
 		@Override
-		public void layoutClick(LayoutClickEvent layoutClickEvent) {
+		public void layoutClick(LayoutClickEvent event) {
 			
-				if (layoutClickEvent.getChildComponent() == textFieldFilter) {
-					textFieldFilter.setPlaceholder("");
+				if (event.getChildComponent() == textField) {
+					textField.setPlaceholder("");
 					}
 				}
 		});
-		textFieldFilter.addBlurListener(new BlurListener(){
+		textField.addBlurListener(new BlurListener(){
 				@Override
-				public void blur(BlurEvent blurEvent) {
-					if (blurEvent.getComponent() == textFieldFilter){
-		                    String value = textFieldFilter.getValue();
+				public void blur(BlurEvent event) {
+					if (event.getComponent() == textField){
+		                    String value = textField.getValue();
 						if(value.equals(""))
-							textFieldFilter.setPlaceholder(SHOW_ALL);
+							textField.setPlaceholder(SHOW_ALL);                                                       
+                                                        
 					}
 				} 
 		});         
@@ -538,9 +555,9 @@ public class PagedGrid {
         this.pagedTableLogic = pagedTableLogic;
     }
 
-    public Window getDateFilterPopup(Button dateFilterPopupButton, String property) {
-        Window window = new Window();
-
+    public Window getDateFilterPopup(HorizontalLayout dateFilterPopupButton, String property) {
+          Window window = new Window();        
+           
         VerticalLayout verticalLayout = new VerticalLayout();
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         HorizontalLayout horizontalLayoutForButton = new HorizontalLayout();
@@ -558,9 +575,9 @@ public class PagedGrid {
         horizontalLayoutForButton.addComponents(setButton, clearButton);
         verticalLayout.addComponents(horizontalLayout, horizontalLayoutForButton);
 
-        window.setContent(verticalLayout);
+        window.setContent(verticalLayout);        
         window.setResizable(false);
-        window.setClosable(false);
+        window.setClosable(false);       
         return window;
     }
 
@@ -569,28 +586,58 @@ public class PagedGrid {
 
             @Override
             public void valueChange(ValueChangeEvent<LocalDate> event) {
+                if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
                     inlineDateField.setData(event.getValue());
+                } else {
+                    inlineDateField.setData(event.getValue());
+                }
             }
         });
     }
 
-    private void addClickListenerForButton(Button button, Window window, Button buttonFromGrid, String property,
+    private void addClickListenerForButton(Button button, Window window, HorizontalLayout buttonFromGrid, String property,
             InlineDateField inlineDateFieldStartDate, InlineDateField inlineDateFieldEndDate) {
+        try{
+        TextField textField=(TextField) buttonFromGrid.getComponent(0);
+              textField.setPlaceholder(SHOW_ALL);
+        buttonFromGrid.addLayoutClickListener(new LayoutClickListener() {
+		@Override
+		public void layoutClick(LayoutClickEvent event) {
+			
+				if (event.getChildComponent() == textField) {
+					textField.setPlaceholder("");
+					}
+				}
+		});
+		textField.addBlurListener(new BlurListener(){
+				@Override
+				public void blur(BlurEvent event) {
+					if (event.getComponent() == textField){
+		                    String value = textField.getValue();
+						if(value.equals(""))
+							textField.setPlaceholder(SHOW_ALL);
+                                                        
+					}
+                                                                         
+				}
+                                   
+		});   
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 String startDate = "";
                 String endDate = "";
-                window.close();
+               
                 if (button.getId().equals("setButton")) {
                     if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
                         startDate = inlineDateFieldStartDate.getData().toString();
                         endDate = inlineDateFieldEndDate.getData().toString();
 
-                        buttonFromGrid.setCaption(startDate + " - " + endDate);
+                        textField.setValue(startDate + " - " + endDate);
 
                         tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                         refreshGrid();
+                        
                     }
                     if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
                         startDate = inlineDateFieldStartDate.getData().toString();
@@ -598,16 +645,27 @@ public class PagedGrid {
                     if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
                         endDate = inlineDateFieldEndDate.getData().toString();
                     }
-                    buttonFromGrid.setCaption(startDate + " - " + endDate);
-                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
+                    textField.setValue(startDate + " - " + endDate);
+                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);                  
                     refreshGrid();
+                  window.close();
                 } else {
-                    buttonFromGrid.setCaption(SHOW_ALL);
-                    tableConfig.getFilterValueMap().put(property, buttonFromGrid.getCaption());
+                                  textField.setValue("");
+
+                    textField.setPlaceholder(SHOW_ALL);
+                    tableConfig.getFilterValueMap().put(property, textField.getCaption());
                     refreshGrid();
+                     window.close();
                 }
             }
         });
+        UI.getCurrent().removeWindow(window);
+        }
+        catch(Exception e)
+        {
+             gtnlogger.error("Exception while creating the filter component", e);
+        }
+                
     }
 
     private InlineDateField getDateField(String caption, String id) {
@@ -619,13 +677,20 @@ public class PagedGrid {
         return inlineDateField;
     }
 
-    private Button getButton(String caption, String id, Window window, Button dateFilterPopupButton, String property,
+    private Button getButton(String caption, String id, Window window, HorizontalLayout dateFilterPopupButton, String property,
             InlineDateField inlineDateFieldStartDate, InlineDateField inlineDateFieldEndDate) {
-        Button button = new Button(caption);
+        Button button = new Button(caption); 
+        try{
+               
         button.setId(id);
         addClickListenerForButton(button, window, dateFilterPopupButton, property, inlineDateFieldStartDate,
                 inlineDateFieldEndDate);
         return button;
+        }
+        catch(Exception e)
+        {
+            gtnlogger.error("Exception while creating the filter component", e);
+        }return button;
     }
       public static List<Object> addRangeInInput(Object[] input, int offset, int limit) {
         List<Object> list = new ArrayList<>();

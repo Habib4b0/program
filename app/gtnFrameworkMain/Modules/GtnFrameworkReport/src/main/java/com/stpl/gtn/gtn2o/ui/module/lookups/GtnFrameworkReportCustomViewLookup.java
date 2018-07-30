@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariableGridLoadAction;
@@ -38,19 +38,39 @@ public class GtnFrameworkReportCustomViewLookup {
 	private final GtnFrameworkReportLayoutsConfig layoutsConfig = new GtnFrameworkReportLayoutsConfig();
 	private String tabName = "";
 
-	public GtnUIFrameworkViewConfig getCustomViewLookUpView(String tabName) {
+	public GtnUIFrameworkViewConfig getCustomViewLookUpViewLandingScreen(String tabName) {
 		this.tabName = tabName;
+		GtnUIFrameworkViewConfig view = getViewConfig("reportCustomViewLookup");
+		addComponentList(view);
+		return view;
+	}
+
+	public GtnUIFrameworkViewConfig getCustomViewLookUpViewDataSelection(String tabName) {
+		this.tabName = tabName;
+		GtnUIFrameworkViewConfig view = getViewConfig(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS);
+		addComponentList(view);
+		return view;
+	}
+
+	public GtnUIFrameworkViewConfig getCustomViewLookUpViewReportDashboard(String tabName) {
+		this.tabName = tabName;
+		GtnUIFrameworkViewConfig view = getViewConfig(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_RD);
+		addComponentList(view);
+		return view;
+	}
+
+	private GtnUIFrameworkViewConfig getViewConfig(String viewId) {
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
 		view.setViewName("Custom Tree View Popup");
-		view.setViewId("reportCustomViewLookup");
+		view.setViewId(viewId);
 		view.setDefaultView(false);
 		view.setResetAllowed(true);
 		GtnUIFrameWorkActionConfig treeLoadActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		treeLoadActionConfig.addActionParameter(GtnFrameworkReportCustomViewEditAction.class.getName());
 		treeLoadActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
+		treeLoadActionConfig.addActionParameter(viewId);
 		view.addViewAction(treeLoadActionConfig);
-		addComponentList(view);
 		return view;
 	}
 
@@ -213,6 +233,9 @@ public class GtnFrameworkReportCustomViewLookup {
 		valuChangeConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
+		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.ADD_VARIABLES_BTN);
+		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.REMOVE_VARIABLES_BTN);
+
 		variablePositionOptionGroup.addGtnUIFrameWorkActionConfig(valuChangeConfig);
 		componentList.add(variablePositionOptionGroup);
 	}
@@ -345,7 +368,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		treeAddActionConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
 		treeAddActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
-		treeAddActionConfig.addActionParameter("reportCustomViewLookup_custom_Variable_Type_OptionGroup");
+		treeAddActionConfig.addActionParameter(this.tabName + "_custom_Variable_Type_OptionGroup");
 		addCustomerButton.addGtnUIFrameWorkActionConfig(treeAddActionConfig);
 
 		GtnUIFrameworkComponentConfig removeCustomerButton = new GtnUIFrameworkComponentConfig();
@@ -420,7 +443,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		productTreeAddActionConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
 		productTreeAddActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
-		productTreeAddActionConfig.addActionParameter("reportCustomViewLookup_custom_Variable_Type_OptionGroup");
+		productTreeAddActionConfig.addActionParameter(this.tabName + "_custom_Variable_Type_OptionGroup");
 		addProductButton.addGtnUIFrameWorkActionConfig(productTreeAddActionConfig);
 
 		GtnUIFrameworkComponentConfig removeProductButton = new GtnUIFrameworkComponentConfig();
@@ -495,7 +518,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		deductionTreeAddActionConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
 		deductionTreeAddActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
-		deductionTreeAddActionConfig.addActionParameter("reportCustomViewLookup_custom_Variable_Type_OptionGroup");
+		deductionTreeAddActionConfig.addActionParameter(this.tabName + "_custom_Variable_Type_OptionGroup");
 		addDeductionButton.addGtnUIFrameWorkActionConfig(deductionTreeAddActionConfig);
 
 		GtnUIFrameworkComponentConfig removeDeductionButton = new GtnUIFrameworkComponentConfig();
@@ -576,7 +599,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		deductionTreeAddActionConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 		deductionTreeAddActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
-		deductionTreeAddActionConfig.addActionParameter("reportCustomViewLookup_custom_Variable_Type_OptionGroup");
+		deductionTreeAddActionConfig.addActionParameter(this.tabName + "_custom_Variable_Type_OptionGroup");
 		addVariablesButton.addGtnUIFrameWorkActionConfig(deductionTreeAddActionConfig);
 
 		GtnUIFrameworkComponentConfig removeVariablesButton = new GtnUIFrameworkComponentConfig();
@@ -644,6 +667,16 @@ public class GtnFrameworkReportCustomViewLookup {
 		deleteButton.setParentComponentId(layoutConfig.getComponentId());
 		deleteButton.setAddToParent(true);
 		componentList.add(deleteButton);
+		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteActionConfig.addActionParameter(GtnFrameworkReportCustomViewDeleteAction.class.getName());
+		deleteActionConfig.addActionParameter(this.tabName);
+
+		GtnUIFrameWorkActionConfig deletecloseActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		deleteActionConfig.addActionParameter(deletecloseActionConfig);
+
+		deleteButton.addGtnUIFrameWorkActionConfig(deleteActionConfig);
 
 		GtnUIFrameworkComponentConfig saveButton = new GtnUIFrameworkComponentConfig();
 		saveButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -659,8 +692,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		saveActionConfig.addActionParameter(new String[] {
 				tabName + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME,
 				"reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship",
-				"reportCustomViewLookup_custom_Variable_Type_OptionGroup",
-				"reportCustomViewLookup_custom_Variable_OptionGroup" });
+				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
@@ -672,17 +704,23 @@ public class GtnFrameworkReportCustomViewLookup {
 		selectButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		selectButtonConfig.setAddToParent(true);
 		componentList.add(selectButtonConfig);
-                
-                
+
+		GtnUIFrameWorkActionConfig selectSaveActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		selectSaveActionConfig.addActionParameter(GtnFrameworkCVSaveValidationAction.class.getName());
+		selectSaveActionConfig.addActionParameter(new String[] {
+				tabName + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME,
+				"reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship",
+				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
+		selectSaveActionConfig.addActionParameter(tabName + "customTreeTable");
+		selectSaveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
+
 		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-	
 
-		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		selectButtonActionConfig.addActionParameter(GtnFrameworkUICustomSelectAction.class.getName());
-		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
-		selectButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
+		selectSaveActionConfig.addActionParameter(closeConfig);
+
+		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectSaveActionConfig);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
 		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -690,10 +728,9 @@ public class GtnFrameworkReportCustomViewLookup {
 		closeButtonConfig.setComponentName("CLOSE");
 		closeButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		closeButtonConfig.setAddToParent(true);
-	
-                closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
+
+		closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 		componentList.add(closeButtonConfig);
-                
 
 	}
 
