@@ -47,7 +47,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 
 	private void loadAllBusinessRoles() {
 		searchResultbeans.removeAllItems();
-		List<BusinessroleMasterDTO> searchResults = new ArrayList<BusinessroleMasterDTO>();
+		List<BusinessroleMasterDTO> searchResults = new ArrayList<>();
 		try {
 			searchResults = businessRoleMgmtLogic.getAllBusinessroles();
 			
