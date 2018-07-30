@@ -246,6 +246,7 @@ public class ForecastForm extends AbstractForm {
 	private ExecutorService service = ThreadPool.getInstance().getService();
         private boolean discountLoadFlag = true;
         private boolean discountUpsFlag = false;
+        private static final String GENERATE_FLAG = "G";
       
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
 			ForecastEditWindow editWindow, final ExtFilterTable resultTable, final String screenName,

@@ -5755,7 +5755,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
+                parentKey = CommonUtil.getParentItemId(key, itemId.getParentHierarchyNo());
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -5780,16 +5780,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             map.remove(key);
         }
         return itemId;
-    }
-
-    private List<Object[]> getDiscountExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
-        String sIds = projectionSelectionDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projectionSelectionDTO.getDeductionLevelFilter());
-        int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
-        Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()),
-            projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-            "Sales", "0", projectionSelectionDTO.getHierarchyNo(),
-            projectionSelectionDTO.getLevelNo(), "DETAIL_DISCOUNT", customMasterSid, "Period", projectionSelectionDTO.getUomCode(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), sIds, DISCOUNT};
-        return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
     }
 
     @Override
@@ -5920,7 +5910,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     
     public List getDiscountProjectionExcelResults() {
         if (!projectionSelection.isIsCustomHierarchy()) {
-            String queryBuilder = StringUtils.EMPTY;
+            String queryBuilder;
             String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
             String deducQuery = NINE_LEVELS_DED;
             String viewTableJoin = "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT";
