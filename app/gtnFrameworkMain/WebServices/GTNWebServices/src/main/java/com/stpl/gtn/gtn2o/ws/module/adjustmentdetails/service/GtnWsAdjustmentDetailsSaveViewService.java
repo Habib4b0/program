@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjusmentDetailsRequ
 import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjustmentDetailsSaveViewMasterRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ public class GtnWsAdjustmentDetailsSaveViewService {
 
     @Autowired
     private GtnWsSqlService gtnWsSqlService;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public org.hibernate.SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -79,11 +81,19 @@ public class GtnWsAdjustmentDetailsSaveViewService {
         input.add(request.getCustomerNo());
         input.add(request.getItemNo());
         input.add(request.getDeductionLevel());
-        input.add(request.getCreatedDate());
+        if (request.getCreatedDate() != null) {
+            input.add(simpleDateFormat.format(request.getCreatedDate()));
+        } else {
+            input.add(request.getCreatedDate());
+        }
         input.add(request.getCustomerName());
         input.add(request.getItemName());
         input.add(request.getDeductionValue());
-        input.add(request.getGlDate());
+        if (request.getGlDate() != null) {
+            input.add(simpleDateFormat.format(request.getGlDate()));
+        } else {
+            input.add(request.getGlDate());
+        }
         input.add(request.getOriginalBatchId());
         input.add(request.getBrandName());
         input.add(request.getRedemptionPeriodStartDate());

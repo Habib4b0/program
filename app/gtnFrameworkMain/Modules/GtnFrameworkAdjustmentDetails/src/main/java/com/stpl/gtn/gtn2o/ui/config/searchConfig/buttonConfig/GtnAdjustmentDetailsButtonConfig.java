@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,13 +48,27 @@ public class GtnAdjustmentDetailsButtonConfig {
 
         GtnUIFrameWorkActionConfig searchValidationActionConfig = componentConfig
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
-        searchValidationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
-                GtnFrameworkCommonConstants.GL_COMPANY,
-                GtnFrameworkCommonConstants.WORKFLOW_ID,
-                GtnFrameworkCommonConstants.BUSINESS_UNIT,
+        searchValidationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.WORKFLOW_ID,
                 GtnFrameworkCommonConstants.WORKFLOW_NAME,
+                GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.CREATED_DATE,
+                GtnFrameworkCommonConstants.ITEM_NO,
+                GtnFrameworkCommonConstants.ITEM_NAME,
+                GtnFrameworkCommonConstants.GL_DATE,
                 GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID,
-                GtnFrameworkCommonConstants.BRAND_NAME));
+                GtnFrameworkCommonConstants.BRAND_NAME,
+                GtnFrameworkCommonConstants.REDEMPTION_PERIOD,
+                GtnFrameworkCommonConstants.CUSTOMER_NO,
+                GtnFrameworkCommonConstants.CUSTOMER_NAME,
+                GtnFrameworkCommonConstants.TRANSACTION_LEVEL,
+                GtnFrameworkCommonConstants.GL_COMPANY,
+                GtnFrameworkCommonConstants.BUSINESS_UNIT,
+                GtnFrameworkCommonConstants.DEDUCTION_LEVEL,
+                GtnFrameworkCommonConstants.POSTING_INDICATOR,
+                GtnFrameworkCommonConstants.ACCOUNT_CATEGORY,
+                GtnFrameworkCommonConstants.ACCOUNT_TYPE,
+                GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL
+        ));
 
         GtnUIFrameWorkActionConfig alertActionConfig = componentConfig
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -74,16 +89,18 @@ public class GtnAdjustmentDetailsButtonConfig {
         loadDataTableActionConfig.setFieldValues(Arrays.asList(
                 GtnFrameworkCommonConstants.WORKFLOW_ID,
                 GtnFrameworkCommonConstants.WORKFLOW_NAME,
+                GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.CREATED_DATE,
                 GtnFrameworkCommonConstants.ITEM_NO,
                 GtnFrameworkCommonConstants.ITEM_NAME,
                 GtnFrameworkCommonConstants.GL_DATE,
                 GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID,
                 GtnFrameworkCommonConstants.BRAND_NAME,
                 GtnFrameworkCommonConstants.REDEMPTION_PERIOD,
+                GtnFrameworkCommonConstants.CUSTOMER_NAME,
                 GtnFrameworkCommonConstants.CUSTOMER_NO));
         loadDataTableActionConfig.setFieldDescription(Arrays.asList(
                 GtnFrameworkCommonConstants.TRANSACTION_LEVEL,
-                GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
                 GtnFrameworkCommonConstants.GL_COMPANY,
                 GtnFrameworkCommonConstants.BUSINESS_UNIT,
                 GtnFrameworkCommonConstants.DEDUCTION_LEVEL,
@@ -137,22 +154,26 @@ public class GtnAdjustmentDetailsButtonConfig {
         resetActionConfig.addActionParameter(GtnFrameworkAdjustmentDetailsWindowMessages.GTN_ITEM_MASTER_VALIDATION_MSG_RESET);
         Map<String, Object> resetMap = new HashMap<>(50);
         resetMap.put(GtnFrameworkCommonConstants.TRANSACTION_LEVEL, "Reserve Details");
-//        resetMap.put(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS, null);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, null);
-//        resetMap.put(GtnFrameworkCommonConstants.THERAPEUTIC_CLASS, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9, null);
-//        resetMap.put("form", null);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME, null);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-//        resetMap.put(GtnFrameworkCommonConstants.BRAND, null);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, null);
-//        resetMap.put(GtnFrameworkCommonConstants.STRENGTH, null);
-//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.WORKFLOW_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.WORKFLOW_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE, null);
+        resetMap.put(GtnFrameworkCommonConstants.CREATED_DATE, null);
+        resetMap.put(GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.GL_DATE, null);
+        resetMap.put(GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.BRAND_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.REDEMPTION_PERIOD, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.CUSTOMER_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.CUSTOMER_NO, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+        resetMap.put(GtnFrameworkCommonConstants.TRANSACTION_LEVEL, null);
+        resetMap.put(GtnFrameworkCommonConstants.GL_COMPANY, null);
+        resetMap.put(GtnFrameworkCommonConstants.BUSINESS_UNIT, null);
+        resetMap.put(GtnFrameworkCommonConstants.DEDUCTION_LEVEL, null);
+        resetMap.put(GtnFrameworkCommonConstants.POSTING_INDICATOR, null);
+        resetMap.put(GtnFrameworkCommonConstants.ACCOUNT_CATEGORY, null);
+        resetMap.put(GtnFrameworkCommonConstants.ACCOUNT_TYPE, null);
+        resetMap.put(GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL, null);
         resetActionConfig.addActionParameter(resetMap);
         resetActionConfig.addActionParameter(paramsList);
         resetBtnActionConfigList.add(resetActionConfig);
@@ -225,23 +246,23 @@ public class GtnAdjustmentDetailsButtonConfig {
         deleteConfirmationAlertParams.add("Are you sure you want to Reprocess the selected record(s)  ?");
         GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
         loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
-        List<Object> actionParams = new ArrayList<>();
-        actionParams.add(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
-        loadDataTableActionConfig.setActionParameterList(actionParams);
+
         loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
         loadDataTableActionConfig.setFieldValues(Arrays.asList(
                 GtnFrameworkCommonConstants.WORKFLOW_ID,
                 GtnFrameworkCommonConstants.WORKFLOW_NAME,
+                GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.CREATED_DATE,
                 GtnFrameworkCommonConstants.ITEM_NO,
                 GtnFrameworkCommonConstants.ITEM_NAME,
                 GtnFrameworkCommonConstants.GL_DATE,
                 GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID,
                 GtnFrameworkCommonConstants.BRAND_NAME,
                 GtnFrameworkCommonConstants.REDEMPTION_PERIOD,
+                GtnFrameworkCommonConstants.CUSTOMER_NAME,
                 GtnFrameworkCommonConstants.CUSTOMER_NO));
         loadDataTableActionConfig.setFieldDescription(Arrays.asList(
                 GtnFrameworkCommonConstants.TRANSACTION_LEVEL,
-                GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
                 GtnFrameworkCommonConstants.GL_COMPANY,
                 GtnFrameworkCommonConstants.BUSINESS_UNIT,
                 GtnFrameworkCommonConstants.DEDUCTION_LEVEL,

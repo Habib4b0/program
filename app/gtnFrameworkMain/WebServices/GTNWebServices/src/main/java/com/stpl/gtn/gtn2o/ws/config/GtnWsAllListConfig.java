@@ -365,7 +365,7 @@ public class GtnWsAllListConfig {
 		comboBoxQueryMap.put("Business_Unit",
 				"select COMPANY_MASTER_SID,COMPANY_NO+' - '+COMPANY_NAME as company "
 						+ "from COMPANY_MASTER CM JOIN  HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CM.COMPANY_TYPE "
-						+ "where HT.LIST_NAME='COMPANY_TYPE' AND HT.DESCRIPTION='GLCOMP'");
+						+ "where HT.LIST_NAME='COMPANY_TYPE' AND HT.DESCRIPTION='Business Unit'");
 
 		comboBoxQueryMap.put("Mode",
 				"select HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME like 'PERIODCONFIG_MODE'  order by HELPER_TABLE_SID");

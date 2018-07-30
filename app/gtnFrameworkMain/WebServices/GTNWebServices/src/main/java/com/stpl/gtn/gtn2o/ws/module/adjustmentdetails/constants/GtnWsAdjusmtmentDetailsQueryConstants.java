@@ -18,13 +18,21 @@ public class GtnWsAdjusmtmentDetailsQueryConstants {
 
     private static final Map<String, String> FILTER_MAP = new HashMap<>();
 
-    public static final String SELECT_PRIVATE_PUBLIC_VIEW = "FROM ARM_VIEW_MASTER AVM ";
+    public static final String SELECT_PRIVATE_PUBLIC_VIEW = "FROM ARM_VIEW_MASTER AVM "
+            + "JOIN ARM_ADJUSTMENT_VIEW_DETAILS AVD ON AVM.ARM_VIEW_MASTER_SID = AVD.ARM_VIEW_MASTER_SID \n"
+            + "        LEFT JOIN @SYS.dbo.User_ UN\n"
+            + "        on un.userId=AVM.CREATED_BY\n"
+            + "        LEFT JOIN @SYS.dbo.User_ MB\n"
+            + "        on MB.userId=AVM.MODIFIED_BY";
+    
     public static final String AVM = "AVM";
+    public static final String AVD = "AVD";
+    public static final String UN = "UN";
 
     public static Map<String, String> getColumnMap() {
         if (FILTER_MAP.isEmpty()) {
             FILTER_MAP.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, "CHECK_RECORD");
-            FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_COMPANY, "COMPANY");
+            FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_COMPANY, "GL_COMPANY");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_DIVISION, "DIVISON");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_COST_CENTER, "COST_CENTER");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ACCOUNT, "ACCOUNT");
@@ -49,7 +57,7 @@ public class GtnWsAdjusmtmentDetailsQueryConstants {
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_JOURNAL_DESCRIPTION, "JOURNAL_DESCRIPTION");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_REVERSE_JOURNAL, "REVERSE_JOURNAL");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_REVERSAL_PERIOD_DATE, "REVERSAL_PERIOD_DATE");
-            FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_BUSINESS_UNIT, "BUSINESS_UNIT");
+            FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_BUSINESS_UNIT, "BUSINESS_UNIT_NAME");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ADJUSTMENT_TYPE, "ADJUSTMENT_TYPE");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ADJUSTMENT_LEVEL, "ADJUSTMENT_LEVEL");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ACCOUNT_CATEGORY, "ACCOUNT_CATEGORY");
@@ -68,7 +76,7 @@ public class GtnWsAdjusmtmentDetailsQueryConstants {
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_ID, "WORKFLOW_ID");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_NAME, "WORKFLOW_NAME");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_CREATED_BY, "WORKFLOW_CREATED_BY");
-            FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_CREATED_DATE, "WORKFLOW_CREATED_DATE");
+            FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_CREATED_DATE, "CREATED_DATE");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_BY, "WORKFLOW_APPROVED_BY");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_DATE, "WORKFLOW_APPROVED_DATE");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_BATCH_ID, "BATCH_ID");

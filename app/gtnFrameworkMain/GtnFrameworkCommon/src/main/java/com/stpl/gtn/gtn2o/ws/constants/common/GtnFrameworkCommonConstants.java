@@ -1153,9 +1153,10 @@ public class GtnFrameworkCommonConstants {
     public static final String TRANSACTION_LEVEL = "transactionLevel";
     public static final String DEDUCTION_LEVEL = "deductionLevel";
     public static final String DEDUCTION_VALUE = "deductionValue";
-    public static final String GL_DATE = "Gl Date";
+    public static final String GL_DATE = "glDate";
     public static final String ORIGINAL_BATCH_ID = "originalBatchIdLayout";
     public static final String REDEMPTION_PERIOD = "redemptionPeriod";
+    public static final String REDEMPTION_PERIOD_END_DATE = "redemptionPeriodEndDate";
     public static final String ACCOUNT = "account";
     public static final String POSTING_INDICATOR = "postingIndicator";
     public static final String ACCOUNT_CATEGORY = "accountCategory";
@@ -1194,6 +1195,7 @@ public class GtnFrameworkCommonConstants {
     public static final String RESERVE_DETAILS_REVERSAL_PERIOD_DATE = "reversalPeriodDate";
     public static final String RESERVE_DETAILS_BUSINESS_UNIT = BUSINESS_UNIT;
     public static final String RESERVE_GTN_DETAILS_ADJUSTMENT_TYPE = ADJUSTMENT_TYPE;
+    public static final String RESERVE_GTN_DETAILS_TRANSACTION_NAME = "transactionName";
     public static final String RESERVE_GTN_DETAILS_ADJUSTMENT_LEVEL = "adjustmentLevel";
     public static final String RESERVE_GTN_DETAILS_ACCOUNT_CATEGORY = "accountCategory";
     public static final String RESERVE_GTN_DETAILS_ACCOUNT_TYPE = "accountType";
@@ -1211,7 +1213,7 @@ public class GtnFrameworkCommonConstants {
     public static final String RESERVE_GTN_DETAILS_WORKFLOW_ID = WORKFLOW_ID;
     public static final String RESERVE_GTN_DETAILS_WORKFLOW_NAME = WORKFLOW_NAME;
     public static final String RESERVE_GTN_DETAILS_WORKFLOW_CREATED_BY = "workflowCreatedBy";
-    public static final String RESERVE_GTN_DETAILS_WORKFLOW_CREATED_DATE = "workflowCreatedDate";
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_CREATED_DATE = CREATED_DATE;
     public static final String RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_BY = "workflowApprovedBy";
     public static final String RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_DATE = "workflowApprovedDate";
     public static final String RESERVE_GTN_DETAILS_BATCH_ID = "batchID";
@@ -1227,7 +1229,7 @@ public class GtnFrameworkCommonConstants {
     public static final String GTN_DETAILS_ITEM_NO = "itemNo";
     public static final String GTN_DETAILS_DEDUCTION_AMOUNT = "deductionAmount";
     public static final String GTN_DETAILS_GL_COMPANY_NO = "glCompanyNo";
-    public static final String GTN_DETAILS_GL_DATE = "glDate";
+    public static final String GTN_DETAILS_GL_DATE = GL_DATE;
     public static final String GTN_DETAILS_GL_COMPANY_NAME = "glCompanyName";
     public static final String GTN_DETAILS_BUSINESS_UNIT_ID = "businessUnitID";
     public static final String GTN_DETAILS_BUSINESS_UNIT_NO = "businessUnitNo";
@@ -1272,7 +1274,7 @@ public class GtnFrameworkCommonConstants {
 
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME = SAVE_VIEW_VIEW_NAME;
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_TYPE = SAVE_VIEW_VIEW_TYPE;
-    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_DATE = CREATED_DATE;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_DATE = "viewcreatedDate";
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_BY = CREATED_BY;
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_DATE = MODIFIED_DATE;
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY = MODIFIED_BY;

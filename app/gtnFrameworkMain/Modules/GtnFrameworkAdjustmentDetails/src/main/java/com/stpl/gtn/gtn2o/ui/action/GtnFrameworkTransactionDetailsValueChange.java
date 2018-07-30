@@ -38,10 +38,10 @@ public class GtnFrameworkTransactionDetailsValueChange implements GtnUIFrameWork
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-        String transactionDetails = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString()).getValueFromComponent().toString();
+        String transactionDetails = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString()).getCaptionFromComboBox();
         String[] columnHeader;
         Object[] visiColumn;
-        if ("GTN Details".equals(transactionDetails)) {
+        if ("GTN Detail".equals(transactionDetails)) {
             enableDisableComponents(parameters, true);
             columnHeader = GtnFrameworkAdjustmentDetailsStringConstants.getGtnColumnHeaders();
             visiColumn = GtnFrameworkAdjustmentDetailsStringConstants.getGtnPropertyIds();

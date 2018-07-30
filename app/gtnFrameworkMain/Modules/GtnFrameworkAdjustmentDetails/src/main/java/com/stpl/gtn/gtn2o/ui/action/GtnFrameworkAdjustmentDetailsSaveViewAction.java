@@ -83,7 +83,7 @@ public class GtnFrameworkAdjustmentDetailsSaveViewAction implements GtnUIFrameWo
     }
 
     public String getVaadinComponentValue(List<Object> parameters, int i) throws GtnFrameworkValidationFailedException {
-        Object value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(17).toString()).getValueFromComponent();
+        Object value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(i).toString()).getValueFromComponent();
         return value == null ? null : value.toString();
     }
 

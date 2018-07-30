@@ -154,12 +154,8 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     }
 
     private void addTransactionLevel(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-        String componentName = "Transaction Level";
-        String objectComponentName = GtnFrameworkCommonConstants.TRANSACTION_LEVEL;
-        List transactionLevels = new ArrayList();
-        transactionLevels.add("GTN Details");
-        transactionLevels.add("Reserve Details");
-        GtnUIFrameworkComponentConfig transactionLevelConfig = getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, transactionLevels, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_SUMMARY_LAYOUT, true);
+        ComponentPojo componentPojo = new ComponentPojo("Transaction Level", GtnFrameworkCommonConstants.TRANSACTION_LEVEL, "ARM_CONFIGURATION_TYPE", GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_SUMMARY_LAYOUT);
+        GtnUIFrameworkComponentConfig transactionLevelConfig = getComboBoxComponent(componentConfig, componentList, componentPojo);
         List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
         GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
         customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -189,7 +185,6 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     }
 
     private void addSearchCriteriaDetailsPanel(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-
         GtnUIFrameworkComponentConfig searchCriteriaDetailsPanelConfig = componentConfig.getPanelConfig("searchCriteriaDetailsPanel",
                 false, null);
         searchCriteriaDetailsPanelConfig.setComponentName("Search Criteria Details");
@@ -208,7 +203,6 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
 
     private void addButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
             GtnFrameworkComponentConfigProvider componentConfig) {
-
         GtnUIFrameworkComponentConfig itemMasterButtonLayout = componentConfig
                 .getCssLayoutConfig(GtnFrameworkCommonConstants.ITEM_SEARCH_BUTTONLAYOUT, false, null);
         itemMasterButtonLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
@@ -334,38 +328,23 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     }
 
     private void addPostingIndicator(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-        String componentName = "Posting Indicator";
-        String objectComponentName = GtnFrameworkCommonConstants.POSTING_INDICATOR;
-        List posInd = new ArrayList<>();
-        posInd.add("N");
-        posInd.add("Y");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, posInd, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
+        ComponentPojo componentPojo = new ComponentPojo("Posting Indicator", GtnFrameworkCommonConstants.POSTING_INDICATOR, "ARM_POSTING_INDICATOR", GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT);
+        getComboBoxComponent(componentConfig, componentList, componentPojo);
     }
 
     private void addAccountCategory(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-        String componentName = "Account Category";
-        String objectComponentName = GtnFrameworkCommonConstants.ACCOUNT_CATEGORY;
-        List accCategory = new ArrayList<>();
-        accCategory.add("Balance Sheet");
-        accCategory.add("P&L");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, accCategory, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
+        ComponentPojo componentPojo = new ComponentPojo("Account Category", GtnFrameworkCommonConstants.ACCOUNT_CATEGORY, "ACCOUNT_CATEGORY", GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT);
+        getComboBoxComponent(componentConfig, componentList, componentPojo);
     }
 
     private void addAccountType(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-        String componentName = "Account Type";
-        String objectComponentName = GtnFrameworkCommonConstants.ACCOUNT_TYPE;
-        List accCategory = new ArrayList<>();
-        accCategory.add("Expense");
-        accCategory.add("Liability");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, accCategory, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
+        ComponentPojo componentPojo = new ComponentPojo("Account Type", GtnFrameworkCommonConstants.ACCOUNT_TYPE, "ARM_ACCOUNT_TYPE", GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT);
+        getComboBoxComponent(componentConfig, componentList, componentPojo);
     }
 
     private void addAdjustmentLevel(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-        String componentName = "Adjustment Level";
-        String objectComponentName = GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL;
-        List adjLevels = new ArrayList<>();
-        adjLevels.add("Item");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, adjLevels, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
+        ComponentPojo componentPojo = new ComponentPojo("Adjustment Level", GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL, "ARM_RES_ADJUSTMENT_LEVEL", GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT);
+        getComboBoxComponent(componentConfig, componentList, componentPojo);
     }
 
     private void addResultPanel(List<GtnUIFrameworkComponentConfig> componentList,

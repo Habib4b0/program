@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER)
-public class GtnWsAdjustmentDetailsDeductionLevelsController {
+public class GtnWsTransactionAdjustmentDetailsController {
     
     @Autowired
     GtnWsAdjustmentDetailsDeductionsLoadService gtnFrameworkDeductionsLoadService;

@@ -36,7 +36,7 @@ public class GtnWsAdjustmentTableLoadService {
     @Autowired
     private GtnWsAllListConfig gtnWebServiceAllListConfig;
 
-    private Map<String, String> loadFiltermap = new HashMap<>();
+    private Map<String, String> filterMap = new HashMap<>();
 
     private boolean isReserve = true;
 
@@ -44,7 +44,7 @@ public class GtnWsAdjustmentTableLoadService {
         String finalSql = StringUtils.EMPTY;
         try {
             GtnWsGeneralRequest generalRequest = gtnWsRequest.getGtnWsGeneralRequest();
-            loadFiltermap = GtnWsAdjusmtmentDetailsQueryConstants.getColumnMap();
+            filterMap = GtnWsAdjusmtmentDetailsQueryConstants.getColumnMap();
             String filter = getFilters(gtnWsRequest);
             String searchSql = isReserve ? gtnWsSqlService.getQuery("searchReserveAdjustmentDetails") : gtnWsSqlService.getQuery("searchGTNAdjustmentDetails");
             String selectSql = isCount ? gtnWsSqlService.getQuery("searchAdjustmentDetailsCount") : gtnWsSqlService.getQuery("searchAdjustmentDetailsData");
@@ -70,18 +70,23 @@ public class GtnWsAdjustmentTableLoadService {
         ListIterator<GtnWebServiceSearchCriteria> namesIterator = filterList.listIterator();
         while (namesIterator.hasNext()) {
             GtnWebServiceSearchCriteria searchCriteria = namesIterator.next();
-            if (GtnFrameworkCommonConstants.TRANSACTION_LEVEL.equals(searchCriteria.getFieldId())) {
-                isReserve = searchCriteria.getFilterValue1().equals("Reserve Details");
-                
-            } else if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
-                filterBuilder.append(" AND ").append(getCriteria(searchCriteria));
-            }
+            getFilterBuilder(searchCriteria, filterBuilder);
         }
-        return filterBuilder.toString().replace("WHERE  AND", " WHERE ");
+        return filterBuilder.toString().replace("WHERE  AND ", "  WHERE ");
+    }
+
+    private void getFilterBuilder(GtnWebServiceSearchCriteria searchCriteria, StringBuilder filterBuilder) {
+        if (GtnFrameworkCommonConstants.TRANSACTION_LEVEL.equals(searchCriteria.getFieldId())) {
+            isReserve = searchCriteria.getFilterValue1().equals("Reserve Detail");
+        } else if (!searchCriteria.isFilter()) {
+            filterBuilder.append(" AND ").append(getSearchCriteria(searchCriteria));
+        } else if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+            filterBuilder.append(" AND ").append(getCriteria(searchCriteria));
+        }
     }
 
     private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
-        return new StringBuilder(loadFiltermap.get(searchCriteria.getFieldId())).append(" LIKE '")
+        return new StringBuilder(filterMap.get(searchCriteria.getFieldId())).append(" LIKE '")
                 .append(searchCriteria.isFilter() ? "%" + searchCriteria.getFilterValue1() + "%" : searchCriteria.getFilterValue1().replace("*", "%")).append("'").toString();
     }
 
@@ -100,11 +105,36 @@ public class GtnWsAdjustmentTableLoadService {
     }
 
     private String getOrder(GtnWebServiceOrderByCriteria searchCriteria) {
-        return loadFiltermap.get(searchCriteria.getPropertyId());
+        return filterMap.get(searchCriteria.getPropertyId());
     }
 
     private String getOffset(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         return " OFFSET " + gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart() + " ROWS FETCH NEXT " + gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset() + " ROWS ONLY";
+    }
+
+    private String getSearchCriteria(GtnWebServiceSearchCriteria searchCriteria) {
+        String returnValue;
+        switch (searchCriteria.getFieldId()) {
+            case GtnFrameworkCommonConstants.GL_COMPANY:
+                returnValue = " COMPANY LIKE '" + searchCriteria.getFilterValue1() + "'";
+                break;
+            case GtnFrameworkCommonConstants.BUSINESS_UNIT:
+                returnValue = " BUSINESS_UNIT LIKE '" + searchCriteria.getFilterValue1() + "'";
+                break;
+            case GtnFrameworkCommonConstants.DEDUCTION_LEVEL:
+                returnValue = " COMPANY LIKE '" + searchCriteria.getFilterValue1() + "'";
+                break;
+            case GtnFrameworkCommonConstants.REDEMPTION_PERIOD:
+                String[] str = searchCriteria.getFilterValue1().split("\\-");
+                returnValue = " (REDEMPTION_PERIOD_DATE BETWEEN CONVERT(DATETIME,'" + str[0] + "',101) AND CONVERT(DATETIME,'" + str[1] + "',101)) ";
+                break;
+            case GtnFrameworkCommonConstants.CUSTOMER_NO:
+                returnValue = "COMPANY_NO LIKE '" + searchCriteria.getFilterValue2() + "'";
+                break;
+            default:
+                returnValue = getCriteria(searchCriteria);
+        }
+        return returnValue;
     }
 
 }

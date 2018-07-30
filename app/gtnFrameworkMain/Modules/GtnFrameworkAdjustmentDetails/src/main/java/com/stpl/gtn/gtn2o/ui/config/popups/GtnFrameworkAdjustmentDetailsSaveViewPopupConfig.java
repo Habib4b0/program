@@ -134,33 +134,38 @@ public class GtnFrameworkAdjustmentDetailsSaveViewPopupConfig extends GTNFramewo
         saveView.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE);
         saveView.addActionParameter(GtnFrameworkCommonConstants.GL_COMPANY);
         saveView.addActionParameter(GtnFrameworkCommonConstants.WORKFLOW_ID);
-        
+
         saveView.addActionParameter(GtnFrameworkCommonConstants.TRANSACTION_LEVEL);
         saveView.addActionParameter(GtnFrameworkCommonConstants.BUSINESS_UNIT);
         saveView.addActionParameter(GtnFrameworkCommonConstants.WORKFLOW_NAME);
-        
+
         saveView.addActionParameter(GtnFrameworkCommonConstants.CUSTOMER_NO);
         saveView.addActionParameter(GtnFrameworkCommonConstants.ITEM_NO);
-         saveView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_LEVEL);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_LEVEL);
         saveView.addActionParameter(GtnFrameworkCommonConstants.CREATED_DATE);
-        
+
         saveView.addActionParameter(GtnFrameworkCommonConstants.CUSTOMER_NAME);
         saveView.addActionParameter(GtnFrameworkCommonConstants.ITEM_NAME);
         saveView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_VALUE);
         saveView.addActionParameter(GtnFrameworkCommonConstants.GL_DATE);
-        
+
         saveView.addActionParameter(GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID);
         saveView.addActionParameter(GtnFrameworkCommonConstants.BRAND_NAME);
         saveView.addActionParameter(GtnFrameworkCommonConstants.FROM_DATE);
         saveView.addActionParameter(GtnFrameworkCommonConstants.TO_DATE);
         saveView.addActionParameter(GtnFrameworkCommonConstants.POSTING_INDICATOR);
-        
+
         saveView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT_CATEGORY);
         saveView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT_TYPE);
         saveView.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL);
         saveView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT);
         saveViewActionConfig.add(saveView);
+        GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+        closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+        closeAction.addActionParameter("V002");
+        saveViewActionConfig.add(closeAction);
         saveButtonConfig.setGtnUIFrameWorkActionConfigList(saveViewActionConfig);
+
     }
 
     private void addCancelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -173,8 +178,12 @@ public class GtnFrameworkAdjustmentDetailsSaveViewPopupConfig extends GTNFramewo
         cancelButtonConfig.setComponentName("CANCEL");
         cancelButtonConfig.setAuthorizationIncluded(true);
         componentList.add(cancelButtonConfig);
-        List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
-        cancelButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
+        List<GtnUIFrameWorkActionConfig> cancelActionConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+        closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+        closeAction.addActionParameter("V002");
+        cancelActionConfigList.add(closeAction);
+        cancelButtonConfig.setGtnUIFrameWorkActionConfigList(cancelActionConfigList);
     }
 
     private void addUpdateButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -188,6 +197,44 @@ public class GtnFrameworkAdjustmentDetailsSaveViewPopupConfig extends GTNFramewo
         updateButtonConfig.setAuthorizationIncluded(true);
         componentList.add(updateButtonConfig);
         List<GtnUIFrameWorkActionConfig> updateActionConfig = new ArrayList<>();
+        GtnUIFrameWorkActionConfig updateView = new GtnUIFrameWorkActionConfig();
+        updateView.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        updateView.addActionParameter(GtnFrameworkAdjustmentDetailsSaveViewAction.class.getName());
+        updateView.addActionParameter(GtnFrameworkCommonConstants.SAVE_VIEW_VIEW_NAME);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.SAVE_VIEW_VIEW_TYPE);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.GL_COMPANY);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.WORKFLOW_ID);
+
+        updateView.addActionParameter(GtnFrameworkCommonConstants.TRANSACTION_LEVEL);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.BUSINESS_UNIT);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.WORKFLOW_NAME);
+
+        updateView.addActionParameter(GtnFrameworkCommonConstants.CUSTOMER_NO);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ITEM_NO);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_LEVEL);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.CREATED_DATE);
+
+        updateView.addActionParameter(GtnFrameworkCommonConstants.CUSTOMER_NAME);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ITEM_NAME);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_VALUE);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.GL_DATE);
+
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.BRAND_NAME);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.FROM_DATE);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.TO_DATE);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.POSTING_INDICATOR);
+
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT_CATEGORY);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT_TYPE);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL);
+        updateView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT);
+        updateActionConfig.add(updateView);
+        GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+        closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+        closeAction.addActionParameter("V002");
+        updateActionConfig.add(closeAction);
         updateButtonConfig.setGtnUIFrameWorkActionConfigList(updateActionConfig);
     }
 }

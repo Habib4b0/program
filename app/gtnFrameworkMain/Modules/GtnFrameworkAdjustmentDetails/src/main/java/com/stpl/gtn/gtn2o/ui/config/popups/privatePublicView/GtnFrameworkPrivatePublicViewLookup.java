@@ -140,8 +140,7 @@ public class GtnFrameworkPrivatePublicViewLookup extends GTNFrameworkAbstractCom
         loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 
         loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_VIEW_SEARCH_RESULT_TABLE);
-        loadDataTableActionConfig.setFieldValues(Arrays.asList(
-                GtnFrameworkCommonConstants.VIEW_NAME));
+        loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.VIEW_NAME));
         searchActionConfigList.add(loadDataTableActionConfig);
 
         GtnUIFrameWorkActionConfig notificationActionConfig = componentConfig
@@ -187,11 +186,32 @@ public class GtnFrameworkPrivatePublicViewLookup extends GTNFrameworkAbstractCom
 
         searchResults.setTableVisibleHeader(GtnFrameworkAdjustmentDetailsStringConstants.getPrivatePublicColumnHeaders());
         searchResults.setTableColumnMappingId(GtnFrameworkAdjustmentDetailsStringConstants.getPrivatePublicPropertyIds());
-        searchResults.setExtraColumn(new Object[]{"viewMasterSId"});
-        searchResults.setExtraColumnDataType(new Class[]{Integer.class});
+
+        searchResults.setExtraColumn(new Object[]{"viewMasterSId", GtnFrameworkCommonConstants.WORKFLOW_ID,
+            GtnFrameworkCommonConstants.WORKFLOW_NAME, GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+            GtnFrameworkCommonConstants.CREATED_DATE, GtnFrameworkCommonConstants.ITEM_NO,
+            GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkCommonConstants.GL_DATE,
+            GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID, GtnFrameworkCommonConstants.BRAND_NAME,
+            GtnFrameworkCommonConstants.REDEMPTION_PERIOD, GtnFrameworkCommonConstants.CUSTOMER_NO,
+            GtnFrameworkCommonConstants.TRANSACTION_LEVEL, GtnFrameworkCommonConstants.GL_COMPANY,
+            GtnFrameworkCommonConstants.BUSINESS_UNIT, GtnFrameworkCommonConstants.DEDUCTION_LEVEL,
+            GtnFrameworkCommonConstants.POSTING_INDICATOR, GtnFrameworkCommonConstants.ACCOUNT_CATEGORY,
+            GtnFrameworkCommonConstants.ACCOUNT_TYPE, GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL});
+        searchResults.setExtraColumnDataType(new Class[]{Integer.class, String.class,
+            String.class, Integer.class,
+            Date.class, String.class,
+            String.class, Date.class,
+            String.class, String.class,
+            String.class, String.class,
+            String.class, Integer.class,
+            Integer.class, Integer.class,
+            String.class, String.class,
+            String.class, String.class});
         searchResults.setCustomFilterConfigMap(getCVCustomFilterConfig());
         searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.ADJUSTMENT_DETAILS);
-        searchResults.setDoubleClickEnable(true);
+
+        searchResults.setDoubleClickEnable(
+                true);
         searchResultConfig.setGtnPagedTableConfig(searchResults);
     }
 
@@ -271,9 +291,26 @@ public class GtnFrameworkPrivatePublicViewLookup extends GTNFrameworkAbstractCom
         selectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
         selectAction.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_VIEW_SEARCH_RESULT_TABLE);
         selectAction.addActionParameter(GtnFrameworkCommonConstants.PUBLIC_VIEWS);
-        selectAction.addActionParameter(
-                Arrays.asList(GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME, GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME));
-        selectAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.PUBLIC_VIEWS, GtnFrameworkCommonConstants.WORKFLOW_ID));
+        selectAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME, GtnFrameworkCommonConstants.WORKFLOW_ID,
+                GtnFrameworkCommonConstants.WORKFLOW_NAME, GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.CREATED_DATE, GtnFrameworkCommonConstants.ITEM_NO,
+                GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkCommonConstants.GL_DATE,
+                GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID, GtnFrameworkCommonConstants.BRAND_NAME,
+                GtnFrameworkCommonConstants.REDEMPTION_PERIOD, GtnFrameworkCommonConstants.CUSTOMER_NO,
+                GtnFrameworkCommonConstants.TRANSACTION_LEVEL, GtnFrameworkCommonConstants.GL_COMPANY,
+                GtnFrameworkCommonConstants.BUSINESS_UNIT, GtnFrameworkCommonConstants.DEDUCTION_LEVEL,
+                GtnFrameworkCommonConstants.POSTING_INDICATOR, GtnFrameworkCommonConstants.ACCOUNT_CATEGORY,
+                GtnFrameworkCommonConstants.ACCOUNT_TYPE, GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL));
+        selectAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.PUBLIC_VIEWS, GtnFrameworkCommonConstants.WORKFLOW_ID,
+                GtnFrameworkCommonConstants.WORKFLOW_NAME, GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.CREATED_DATE, GtnFrameworkCommonConstants.ITEM_NO,
+                GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkCommonConstants.GL_DATE,
+                GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID, GtnFrameworkCommonConstants.BRAND_NAME,
+                GtnFrameworkCommonConstants.REDEMPTION_PERIOD, GtnFrameworkCommonConstants.CUSTOMER_NO,
+                GtnFrameworkCommonConstants.TRANSACTION_LEVEL, GtnFrameworkCommonConstants.GL_COMPANY,
+                GtnFrameworkCommonConstants.BUSINESS_UNIT, GtnFrameworkCommonConstants.DEDUCTION_LEVEL,
+                GtnFrameworkCommonConstants.POSTING_INDICATOR, GtnFrameworkCommonConstants.ACCOUNT_CATEGORY,
+                GtnFrameworkCommonConstants.ACCOUNT_TYPE, GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL));
         GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
         closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
         closeAction.addActionParameter(GtnFrameworkCommonConstants.PARENT_CFP_VIEW);
