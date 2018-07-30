@@ -6,6 +6,7 @@
 
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -191,11 +192,11 @@ public class GtnWsReportDashboardBean {
 	}
 
 	public Object[] getDisplayFormat() {
-		return displayFormat;
+		return displayFormat == null ? displayFormat : displayFormat.clone();
 	}
 
 	public void setDisplayFormat(Object[] displayFormat) {
-		this.displayFormat = displayFormat;
+		this.displayFormat = displayFormat == null ? displayFormat : displayFormat.clone();
 	}
 
 	public String getAnnualTotals() {
@@ -231,11 +232,11 @@ public class GtnWsReportDashboardBean {
 	}
 
 	public Set<String> getFilteredHierarchy() {
-		return filteredHierarchy;
+		return filteredHierarchy == null ? null : Collections.unmodifiableSet(filteredHierarchy);
 	}
 
 	public void setFilteredHierarchy(Set<String> filteredHierarchy) {
-		this.filteredHierarchy = filteredHierarchy;
+		this.filteredHierarchy = filteredHierarchy == null ? null : Collections.unmodifiableSet(filteredHierarchy);
 	}
 
 	public Set<Object> getRsContractSidList() {
@@ -247,11 +248,12 @@ public class GtnWsReportDashboardBean {
 	}
 
 	public List<GtnReportComparisonProjectionBean> getComparisonProjectionBeanList() {
-		return comparisonProjectionBeanList;
+		return comparisonProjectionBeanList == null ? null : Collections.unmodifiableList(comparisonProjectionBeanList);
 	}
 
 	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
-		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
+		this.comparisonProjectionBeanList = comparisonProjectionBeanList == null ? null
+				: Collections.unmodifiableList(comparisonProjectionBeanList);
 	}
 
 }
