@@ -440,11 +440,9 @@ public class GtnUIFrameworkBaseComponent {
 	public void updateSelection(List<Object> list) throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
-
 			if (!list.isEmpty()) {
 				ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.getDataProvider());
 				for (Object object : list) {
-
 					listDataProvider.getItems().stream().filter(e -> e.toString().equals(object.toString()))
 							.forEach(e -> {
 								vaadinMultiSelect.selectItem(e, true);
