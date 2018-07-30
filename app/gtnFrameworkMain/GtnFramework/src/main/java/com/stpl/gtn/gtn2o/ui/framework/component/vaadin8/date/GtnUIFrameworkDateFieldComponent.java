@@ -30,6 +30,7 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 		DateField dateField = new DateField(componentConfig.getComponentName());
 		Binder<ComponentBinderValidatorBean> dateFieldBinder = new Binder<>();
 		loadStyles(dateField, componentConfig.getComponentStyle());
+                dateField.setHeight(componentConfig.getComponentHight());
 		dateField.setVisible(componentConfig.isVisible());
 		dateField.setId(componentConfig.getComponentId());
 		dateField.setDateFormat("MM/dd/yyyy");

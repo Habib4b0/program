@@ -8,6 +8,9 @@ package com.stpl.gtn.gtn2o.ws.contractdashboard.beans;
 import java.util.SortedSet;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -112,7 +115,7 @@ public class GtnWsContractDashboardProcessBean {
 	}
 
 	public SortedSet<String> getVisibleTabIndexSet() {
-		return visibleTabIndexSet;
+                return (SortedSet<String>) (visibleTabIndexSet == null ? visibleTabIndexSet : Collections.unmodifiableSet(visibleTabIndexSet));
 	}
 
 	public void setVisibleTabIndexSet(SortedSet<String> visibleTabIndexSet) {

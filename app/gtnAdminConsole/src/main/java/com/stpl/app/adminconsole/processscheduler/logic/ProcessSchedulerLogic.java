@@ -361,11 +361,8 @@ public class ProcessSchedulerLogic {
 
 	public int getSearchCount(final ProcessSchedulerDTO binderDto, SessionDTO sessionDTO) {
 		int count = 0;
-		List parameters = new ArrayList();
 		List resultCountList;
 		String countQuery = SQlUtil.getQuery("getCffSearchCount");
-		parameters.add(sessionDTO.getUserId());
-		parameters.add(sessionDTO.getSessionId());
 		countQuery = countQuery.replace("@USER_ID", sessionDTO.getUserId());
 		countQuery = countQuery.replace("@SESSION_ID", sessionDTO.getSessionId());
 		String filterQuery = AbstractFilterLogic.getAdminInstance()
@@ -373,9 +370,6 @@ public class ProcessSchedulerLogic {
 		if (filterQuery != null) {
 			filterQuery = filterQuery.replace("where", "AND");
 			countQuery = countQuery.replace(FILTERQUERY, filterQuery);
-			parameters.add(filterQuery);
-		} else {
-			parameters.add(" ");
 		}
 		resultCountList = (List) HelperTableLocalServiceUtil.executeSelectQuery(countQuery);
 		count = getCount(resultCountList);

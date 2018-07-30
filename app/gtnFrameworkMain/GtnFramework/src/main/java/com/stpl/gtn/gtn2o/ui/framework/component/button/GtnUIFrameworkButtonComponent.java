@@ -27,16 +27,23 @@ public class GtnUIFrameworkButtonComponent implements GtnUIFrameworkComponent, G
 			componentName = componentName.toUpperCase(Locale.ENGLISH);
 
 		}
+                if(!(componentConfig.getButtonConfig() == null
+				|| componentConfig.getButtonConfig().isButtonCaptionInUpperCase())){
+                    
+                        componentName = componentConfig.getComponentName();
+                }
 		Button vaadinButton = new Button(componentName);
 		vaadinButton.setWidth(componentConfig.getComponentWidth());
 		vaadinButton.setVisible(componentConfig.isVisible());
 		if(!"doNotAddButtonCustomStyle".equals(componentConfig.getCustomReference()))
 		vaadinButton.addStyleName("buttonCustomStyle");
-		if (gtnUIFrameworkButtonConfig != null
-				&& GtnUiFrameworkButtonType.LINK_BUTTON == gtnUIFrameworkButtonConfig.getButtonType()) {
+                if(gtnUIFrameworkButtonConfig != null)
+                {
+		if (GtnUiFrameworkButtonType.LINK_BUTTON == gtnUIFrameworkButtonConfig.getButtonType()) {
 			vaadinButton.setStyleName(ValoTheme.BUTTON_LINK);
 		}
 		setButtonIcon(vaadinButton, gtnUIFrameworkButtonConfig);
+                }
 		loadStyles(vaadinButton, componentConfig.getComponentStyle());
 		vaadinButton.setEnabled(componentConfig.isEnable());
 		return vaadinButton;

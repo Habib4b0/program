@@ -36,13 +36,7 @@ public class ResponsiveUtils {
     }
 
     public static void addButtonListeners(final ExtFilterTable table, final Button prevColumn, final Button nextColumn) {
-        List<Object> collapsedColumns1 = new ArrayList<>();
 
-        for (Object item : table.getVisibleColumns()) {
-            if (!table.isColumnCollapsed(item)) {
-                collapsedColumns1.add(item);
-            }
-        }
         prevColumn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
@@ -65,13 +59,6 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(true);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<>();
-
-                for (Object item : table.getVisibleColumns()) {
-                    if (!table.isColumnCollapsed(item)) {
-                        collapsedColumns1.add(item);
-                    }
-                }
 
                 if (collapsedColumns.size() <= NumericConstants.TWO) {
                     prevColumn.setEnabled(false);

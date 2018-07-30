@@ -93,11 +93,11 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return this.createdDate == null ? null : (Date) this.createdDate.clone();
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public int getCreatedBy() {
@@ -115,7 +115,7 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 	public void setProjectionType(String projectionType) {
 		this.projectionType = projectionType;
 	}
-	
+
 	public String getUserId() {
 		return userId;
 	}

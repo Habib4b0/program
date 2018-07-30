@@ -35,8 +35,6 @@ import org.slf4j.LoggerFactory;
 @JavaScript("js/WorkflowInboxListener.js")
 public class GlobalChangeUI extends UI {
 
-    private Navigator navigator;
-
     /**
      * The Constant LOGGER.
      */
@@ -50,7 +48,7 @@ public class GlobalChangeUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
         addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
-        navigator = new Navigator(this, this);
+        Navigator navigator = new Navigator(this, this);
 
         final String userId = request.getRemoteUser();
         final String sessionId = request.getWrappedSession().getId();
