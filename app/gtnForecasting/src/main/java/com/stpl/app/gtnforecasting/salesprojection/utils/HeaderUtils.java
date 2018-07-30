@@ -1071,7 +1071,7 @@ public class HeaderUtils {
         if (frequency.equals(QUARTERLY)) {
             current = curMonth / NumericConstants.THREE;
             division = NumericConstants.FOUR;
-        } else if (frequency.equals(SEMI_ANNUALLY)) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
             current = curMonth / NumericConstants.SIX;
             division = NumericConstants.TWO;
         } else if (frequency.equals(MONTHLY)) {

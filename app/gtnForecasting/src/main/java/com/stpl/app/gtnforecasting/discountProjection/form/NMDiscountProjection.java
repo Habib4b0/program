@@ -19,7 +19,6 @@ import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.PVCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
@@ -3297,7 +3296,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         LOGGER.debug("excel ends");
         long endTime = System.currentTimeMillis();
-        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
+        LOGGER.info("Excel Export time--------------------------------------------------------------{}",(endTime-startTime)/1000);
     }
 
     public void generateButtonlogicForExcel() {
@@ -3610,8 +3609,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
                 dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
                 CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
-                customerFlag = true;
-                productFlag = true;
             }
             hierarchyListForCheckRecord.clear();
             session.setFrequency(projectionSelection.getFrequency());
@@ -5738,7 +5735,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
+                parentKey = CommonUtil.getParentItemId(key);
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -5763,16 +5760,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             map.remove(key);
         }
         return itemId;
-    }
-
-    private List<Object[]> getDiscountExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
-        String sIds = projectionSelectionDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projectionSelectionDTO.getDeductionLevelFilter());
-        int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
-        Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()),
-            projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-            "Sales", "0", projectionSelectionDTO.getHierarchyNo(),
-            projectionSelectionDTO.getLevelNo(), "DETAIL_DISCOUNT", customMasterSid, "Period", projectionSelectionDTO.getUomCode(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), sIds, DISCOUNT};
-        return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
     }
 
     @Override
@@ -5903,7 +5890,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     
     public List getDiscountProjectionExcelResults() {
         if (!projectionSelection.isIsCustomHierarchy()) {
-            String queryBuilder = StringUtils.EMPTY;
+            String queryBuilder;
             String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
             String deducQuery = NINE_LEVELS_DED;
             String viewTableJoin = "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT";

@@ -29,7 +29,6 @@ public class PromoteTpToChEdit extends VerticalLayout {
      * Binder for DataSelection.
      */
     private final ErrorfulFieldGroup promoteTpToChBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
-    private final PromoteTPToChForm promoteTPToChForm;
 
     /**
      *
@@ -37,11 +36,10 @@ public class PromoteTpToChEdit extends VerticalLayout {
      * @param promoteTpToChDto
      * @param editWindow
      * @param resultTable
-     * @throws Exception
      */
     public PromoteTpToChEdit(final SessionDTO session, final PromoteTpToChDto promoteTpToChDto, final PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         this.promoteTpToChDto = promoteTpToChDto;
-        promoteTPToChForm = new PromoteTPToChForm(promoteTpToChBinder, session, editWindow, resultTable);
+        PromoteTPToChForm promoteTPToChForm = new PromoteTPToChForm(promoteTpToChBinder, session, editWindow, resultTable);
         addComponent(promoteTPToChForm);
         enter();
     }
