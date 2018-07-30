@@ -22,6 +22,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bpm.properties.DroolsProperties;
 import com.stpl.gtn.gtn2o.ws.bpm.service.BpmProcessBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
@@ -62,6 +64,8 @@ public class WorkflowLogicService {
 
     @Autowired
     private BpmProcessBean bpmProcessBean;
+    
+    private GtnFrameworkSqlQueryEngine sqlQueryEngine;
 
     public WorkflowLogicService() {
         super();
@@ -88,7 +92,7 @@ public class WorkflowLogicService {
         }
         try {
             Object[] workFlowStatusQueryParams = {projectionId};
-            List<Object[]> statusList = databaseService.executeQuery(workflowStatusQuery, workFlowStatusQueryParams);
+            List<Object[]> statusList = (List<Object[]>) sqlQueryEngine.executeSelectQuery(workflowStatusQuery,workFlowStatusQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
             if (statusList != null && statusList.isEmpty()) {
                 Object[] statusArray = statusList.get(0);
                 workflowStatus = String.valueOf(statusArray[0]);
@@ -229,8 +233,7 @@ public class WorkflowLogicService {
             String customSql = "SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WHERE PROJECTION_MASTER_SID=?";
 
             Object[] customSqlParams = {projectionId};
-            obj = databaseService.executeQuery(customSql, customSqlParams);
-
+            obj = sqlQueryEngine.executeSelectQuery(customSql,customSqlParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
         } catch (Exception e) {
             LOGGER.error("Exception in selectWFInstanceInfo() method." + e);
         }
@@ -246,9 +249,8 @@ public class WorkflowLogicService {
             String customSql = "SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WHERE CONTRACT_MASTER_SID="
                     + contractId;
             Object[] cmProcessInstanceIdParams = {contractId};
-            obj = databaseService.executeQuery(customSql, cmProcessInstanceIdParams);
-
-        } catch (Exception e) {
+            obj = sqlQueryEngine.executeSelectQuery(customSql,cmProcessInstanceIdParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+        } catch (GtnFrameworkGeneralException e) {
             LOGGER.error("Exception in selectContractWFInstanceInfo() method." + e);
         }
         return obj;
@@ -327,12 +329,12 @@ public class WorkflowLogicService {
             if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_RETURNS)) {
                 String projectionRecordsQuery = SQLUtility.getQuery("getProjectionRecordsForReturns");
                 Object[] projectionRecordsQueryParams = {projectionId};
-                obj = databaseService.executeQuery(projectionRecordsQuery, projectionRecordsQueryParams);
+                obj =  (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery,projectionRecordsQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
 
             } else if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)) {
                 String projectionRecordsQuery = SQLUtility.getQuery("getProjectionRecords");
                 Object[] projectionRecordsQueryParams = {projectionId, userId, sessionId};
-                obj = databaseService.executeQuery(projectionRecordsQuery, projectionRecordsQueryParams);
+                obj = (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery,projectionRecordsQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
             }
         } catch (Exception e) {
             LOGGER.error("Exception in selectWFInstanceInfo() method." + e);
@@ -371,7 +373,7 @@ public class WorkflowLogicService {
             GtnWsGeneralRequest gtnWsGeneralRequest, String noOfUsers) {
         LOGGER.debug("Entering submitProjection method");
         String moduleName = forecastProjectionSubmitBean.getModuleName();
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         String returnValue;
         String workflowStatus = "";
@@ -472,7 +474,7 @@ public class WorkflowLogicService {
 
     public String submitContract(GtnWsCommonWorkflowRequest workflowRequest, GtnUIFrameworkWebserviceRequest generalWSRequest) throws GtnFrameworkGeneralException {
         LOGGER.debug("Entering submitContract method");
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         String returnValue;
         try {
@@ -490,7 +492,7 @@ public class WorkflowLogicService {
 
     public String updateContract(GtnWsCommonWorkflowRequest workflowRequest) {
         LOGGER.debug("Entering updateContract method");
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         String returnValue;
         try {
@@ -589,7 +591,7 @@ public class WorkflowLogicService {
     public GtnWsContractWorkflowBean getGtnWsContractWorkflowBean(GtnWsContractDashboardRequest cdRequest)
             throws GtnFrameworkGeneralException {
         GtnWsContractWorkflowBean bean = null;
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         try {
             WorkflowMaster workflowMaster = getWorkFlowMasterBasedOnContract(cdRequest.getWorkflowMasterId(),
                     cdRequest.getContractId(), cdRequest.getContractStructure(), session);
@@ -644,7 +646,7 @@ public class WorkflowLogicService {
 
     @SuppressWarnings("unchecked")
     public WorkflowMaster getWorkflowMasterByProjectionId(int projectionId) {
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         try {
             ProjectionMaster projectionMaster = databaseService.getProjectionMaster(projectionId, session);
             Criteria cr = session.createCriteria(WorkflowMaster.class)
@@ -664,7 +666,7 @@ public class WorkflowLogicService {
 
     public String updateWorkflow(GtnWsWorkflowMasterBean workflowMasterBean) throws GtnFrameworkGeneralException {
         WorkflowMaster workflowMaster = getWorkflowMaster(workflowMasterBean.getWorkflowMasterSystemId());
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
             if (workflowMaster != null) {
@@ -719,7 +721,7 @@ public class WorkflowLogicService {
 
     @SuppressWarnings("unchecked")
     private WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws GtnFrameworkGeneralException {
-        Session session = databaseService.getSessionFactory().openSession();
+        Session session = sqlQueryEngine.getSessionFactory().openSession();
         try {
             Criteria cr = session.createCriteria(WorkflowMaster.class)
                     .add(Restrictions.eq("workflowMasterSid", workflowMasterSystemId));
