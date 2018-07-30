@@ -2423,7 +2423,9 @@ public class NonMandatedLogic {
     public List<Integer> getMaximumLevelno(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) {
         List<Object> input = new ArrayList<>();
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
         return QueryUtils.getAppData(input, "getmaximumlevelnoqueryy", null);
     }   
     
