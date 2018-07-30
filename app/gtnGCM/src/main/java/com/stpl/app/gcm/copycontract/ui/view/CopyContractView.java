@@ -21,22 +21,15 @@ public class CopyContractView extends VerticalLayout {
     public static final String NAME = "GTNBALANCE";
 
     /**
-     * Binder for DataSelection.
-     */
-
-    private final CopyContractform addDiscountForm;
-
-    /**
      * Default constructor.
      *
+     * @param addWindow
      * @param session
-     * @param resultTable
-     * @param dataSelectionDTO
-     * @param editWindow
-     * @throws java.lang.Exception
+     * @param selectedList
+     * @param Count
      */
     public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) {
-        addDiscountForm = new CopyContractform(addWindow, selectedList, Count);
+        CopyContractform addDiscountForm = new CopyContractform(addWindow, selectedList, Count);
         addComponent(addDiscountForm);
     }
 

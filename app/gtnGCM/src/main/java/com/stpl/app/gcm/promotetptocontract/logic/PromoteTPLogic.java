@@ -2786,7 +2786,7 @@ public class PromoteTPLogic {
         StringBuilder query = new StringBuilder("   ");
         /*This query is used to check whether record is preset or not in the Table */
         query.append("SELECT * FROM GCM_GLOBAL_DETAILS ");
-        query.append("WHERE CONTRACT_MASTER_SID ='").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append("'  ");
+        query.append("WHERE CONTRACT_MASTER_SID ='").append(dto.getContractSid()).append("'  ");
         query.append("AND CFP_CONTRACT_SID ='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
         query.append("AND IFP_CONTRACT_SID ='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
         query.append("AND RS_CONTRACT_SID ='").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append("'  ");
@@ -2802,7 +2802,7 @@ public class PromoteTPLogic {
             /*This query is used to update the record */
             query = new StringBuilder("   ");
             query.append("UPDATE GCM_GLOBAL_DETAILS SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append('\'');
-            query.append("WHERE CONTRACT_MASTER_SID='").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append("'  ");
+            query.append("WHERE CONTRACT_MASTER_SID='").append(dto.getContractSid()).append("'  ");
             query.append("AND CFP_CONTRACT_SID='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
             query.append("AND IFP_CONTRACT_SID='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
             query.append("AND RS_CONTRACT_SID='").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append("'  ");
@@ -2819,7 +2819,7 @@ public class PromoteTPLogic {
             query = new StringBuilder("   ");
             query.append("INSERT INTO dbo.GCM_GLOBAL_DETAILS(CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,PS_CONTRACT_SID,RS_CONTRACT_SID,"
                     + "PROJECTION_MASTER_SID,CHECK_RECORD,USER_ID,SESSION_ID,SCREEN_NAME)VALUES(");
-            query.append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append(',');
+            query.append(dto.getContractSid()).append(',');
             query.append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append(',');
             query.append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append(',');
             query.append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0).append(", ");
@@ -2854,7 +2854,7 @@ public class PromoteTPLogic {
 
         query.append(VALUES);
         query.append('\'').append(checkValue ? 1 : 0).append('\'');
-        query.append(',').append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0);
+        query.append(',').append(dto.getContractSid());
         query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
         query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
         query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
@@ -2945,7 +2945,7 @@ public class PromoteTPLogic {
         StringBuilder query = new StringBuilder("   ");
 
         query.append("UPDATE GCM_GLOBAL_DETAILS SET  ").append(startOrEnd).append("='").append(dateFormater.format(date)).append('\'');
-        query.append("WHERE CONTRACT_MASTER_SID='").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append("'  ");
+        query.append("WHERE CONTRACT_MASTER_SID='").append(dto.getContractSid()).append("'  ");
         query.append("AND CFP_CONTRACT_SID='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
         query.append("AND IFP_CONTRACT_SID='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
         query.append("AND RS_CONTRACT_SID='").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append("'  ");
@@ -2986,7 +2986,7 @@ public class PromoteTPLogic {
 
         query.append(VALUES);
         query.append('\'').append(dateFormater.format(date)).append('\'');
-        query.append(',').append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0);
+        query.append(',').append(dto.getContractSid());
         query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
         query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
         query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);

@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
  */
 public class NonFampTableLogic extends PageTreeTableLogic {
 
-    private int levelNo;
     private String hierarchyNo;
     private boolean firstGenerated = false;
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
@@ -98,7 +97,6 @@ public class NonFampTableLogic extends PageTreeTableLogic {
     public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO sessionDTO) {
        
         this.projSelDTO = projSelDTO;
-        this.levelNo = levelNo;
         this.hierarchyNo = hierarchyNo;
         this.sessionDTO=sessionDTO;
         clearAll();
@@ -133,10 +131,8 @@ public class NonFampTableLogic extends PageTreeTableLogic {
         HelperDTO helperDTO = (HelperDTO) value;        
         if (value != null && !"Show all".equals(helperDTO.toString()) && StringUtils.isNotBlank(helperDTO.getDescription())) {
             projSelDTO.setLevelNo(helperDTO.getId());
-            this.levelNo = helperDTO.getId();
         } else {
             projSelDTO.setLevelNo(0);
-            this.levelNo = 0;
         }
         clearAll();
     }

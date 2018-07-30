@@ -1967,7 +1967,7 @@ public class ForecastForm extends AbstractForm {
 
 	private void checkForActualSales() throws Exception {
 
-		if (logic.checkForZeroActuals(session)) {
+	if (logic.checkForZeroActuals(session)) {
 			new AbstractNotificationUtils() {
 				@Override
 				public void yesMethod() {
