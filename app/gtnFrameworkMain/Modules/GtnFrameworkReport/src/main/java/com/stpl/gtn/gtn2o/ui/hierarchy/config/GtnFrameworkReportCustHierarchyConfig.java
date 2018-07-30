@@ -65,6 +65,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		hierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		hierarchyRelationshipConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.HIERARCHY_RELATIONSHIP_LAYOUT);
+		hierarchyRelationshipConfig.addComponentStyle("stpl-margin-top-18");
 		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setGtnLayoutConfig(customerSelectionHierarchyRelationshiplayout);
 		hierarchyRelationshipConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
