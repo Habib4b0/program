@@ -142,6 +142,7 @@ public class HeaderUtils {
 			int j = 0;
                         List<Object> singleList = new ArrayList<>();
 			for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderVisibleColumns()) {
+                               singleList.clear();                               
 				Object[] doubleHeaders = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
 				for (Object dbl : doubleHeaders) {
 					if (pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl) != null) {
