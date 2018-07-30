@@ -1898,7 +1898,6 @@ public class HeaderUtils {
         syear = curYear;
         for (int i = 0; i < projectFrequency; i++) {
             List<Object> dmap = new ArrayList<>();
-            List<Object> projectionObj = new ArrayList<>();
             String commonColumn;
             String commonHeader;
             commonColumn = Constant.Q_SMALL + squr + "-" + syear;
@@ -1934,7 +1933,6 @@ public class HeaderUtils {
                 if (salesVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-ProjectedSales";
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTED_SALES1);
                     excelDto.addSingleColumn(singleColumn, commonHeader + SPACE_PROJECTED_SALES, String.class);
@@ -1942,7 +1940,6 @@ public class HeaderUtils {
                 if (unitsVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-ProjectedUnits";
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_UNITS1, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTED_UNITS1);
                     excelDto.addSingleColumn(singleColumn, commonHeader + SPACE_PROJECTED_UNITS, String.class);
@@ -1950,7 +1947,6 @@ public class HeaderUtils {
                 if (pGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-ProductGrowth";
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PRODUCT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PRODUCT_GROWTH);
                     excelDto.addSingleColumn(singleColumn, commonHeader + PRODUCT_GROWTH, String.class);
@@ -1958,7 +1954,6 @@ public class HeaderUtils {
                 if (aGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-AccountGrowth";
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACCOUNT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.ACCOUNT_GROWTH);
                     excelDto.addSingleColumn(singleColumn, commonHeader + ACCOUNT_GROWTH, String.class);

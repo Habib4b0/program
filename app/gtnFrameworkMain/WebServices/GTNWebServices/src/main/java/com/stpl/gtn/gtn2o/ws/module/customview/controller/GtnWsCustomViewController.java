@@ -36,193 +36,209 @@ public class GtnWsCustomViewController {
 	private static final String ENTERS_CUSTOM_VIEW_TREE_DATA = "Enters customViewTreeData";
 	private static final String EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA = "Exception in customViewTreeData";
 
-	
-    public GtnWsCustomViewController() {
-        super();
-    }
+	public GtnWsCustomViewController() {
+		super();
+	}
 
-    @Autowired
-    private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
-    @Autowired
-    private GtnWsSqlService gtnWsSqlService;
+	@Autowired
+	private GtnWsSqlService gtnWsSqlService;
 
-    @Autowired
-    private GtnWsCustomViewService logic;
+	@Autowired
+	private GtnWsCustomViewService logic;
 
-    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCustomViewController.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCustomViewController.class);
 
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = GtnWsCustomViewConstants.GET_CUSTOM_VIEW_TABLE_DATA, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse getCustomViewTableData(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        GtnUIFrameworkWebserviceResponse tableDataResponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        try {
-            GtnSerachResponse tableLoadResponse = new GtnSerachResponse();
-            String queryName = "getCustomViewCustomerHierarchyData";
-            List<Object> list = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
-            List<Object[]> result = executeQuery(getQuery(queryName), list);
-            GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-            gtnUIFrameworkDataTable.addData(result);
-            tableLoadResponse.setResultSet(gtnUIFrameworkDataTable);
-            tableDataResponse.setGtnSerachResponse(tableLoadResponse);
-            generalResponse.setSucess(true);
-        } catch (GtnFrameworkGeneralException ex // | SQLException ex
-                ) {
-            generalResponse.setSucess(false);
-            generalResponse.setGtnGeneralException(ex);
-        }
-        tableDataResponse.setGtnWsGeneralResponse(generalResponse);
-        return tableDataResponse;
-    }
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = GtnWsCustomViewConstants.GET_CUSTOM_VIEW_TABLE_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getCustomViewTableData(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse tableDataResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		try {
+			GtnSerachResponse tableLoadResponse = new GtnSerachResponse();
+			String queryName = "getCustomViewCustomerHierarchyData";
+			List<Object> list = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
+			List<Object[]> result = executeQuery(getQuery(queryName), list);
+			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+			gtnUIFrameworkDataTable.addData(result);
+			tableLoadResponse.setResultSet(gtnUIFrameworkDataTable);
+			tableDataResponse.setGtnSerachResponse(tableLoadResponse);
+			generalResponse.setSucess(true);
+		} catch (GtnFrameworkGeneralException ex // | SQLException ex
+		) {
+			generalResponse.setSucess(false);
+			generalResponse.setGtnGeneralException(ex);
+		}
+		tableDataResponse.setGtnWsGeneralResponse(generalResponse);
+		return tableDataResponse;
+	}
 
-    @SuppressWarnings("rawtypes")
-    public List executeQuery(String sqlQuery, List paramList) throws GtnFrameworkGeneralException {
-        return gtnSqlQueryEngine.executeSelectQuery(sqlQuery, paramList);
-    }
+	@SuppressWarnings("rawtypes")
+	public List executeQuery(String sqlQuery, List paramList) throws GtnFrameworkGeneralException {
+		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery, paramList);
+	}
 
-    public String getQuery(String sqlId) {
-        return gtnWsSqlService.getQuery(sqlId);
-    }
+	public String getQuery(String sqlId) {
+		return gtnWsSqlService.getQuery(sqlId);
+	}
 
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = GtnWsCustomViewConstants.GET_DEDUCTION_HIERARCHY_TABLE_DATA, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse getDeductionHierarchyTableData(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        GtnUIFrameworkWebserviceResponse deductionHierResponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        try {
-            GtnSerachResponse deductionHierLoadResponse = new GtnSerachResponse();
-            String queryName = "getCustomViewDeductionHierarchyData";
-            List<Object> list = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
-            List<Object[]> result = executeQuery(getQuery(queryName), list);
-            GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-            gtnUIFrameworkDataTable.addData(result);
-            deductionHierLoadResponse.setResultSet(gtnUIFrameworkDataTable);
-            deductionHierResponse.setGtnSerachResponse(deductionHierLoadResponse);
-            generalResponse.setSucess(true);
-        } catch (GtnFrameworkGeneralException ex // | SQLException ex
-                ) {
-            generalResponse.setSucess(false);
-            generalResponse.setGtnGeneralException(ex);
-        }
-        deductionHierResponse.setGtnWsGeneralResponse(generalResponse);
-        return deductionHierResponse;
-    }
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = GtnWsCustomViewConstants.GET_DEDUCTION_HIERARCHY_TABLE_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getDeductionHierarchyTableData(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse deductionHierResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		try {
+			GtnSerachResponse deductionHierLoadResponse = new GtnSerachResponse();
+			String queryName = "getCustomViewDeductionHierarchyData";
+			List<Object> list = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
+			List<Object[]> result = executeQuery(getQuery(queryName), list);
+			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+			gtnUIFrameworkDataTable.addData(result);
+			deductionHierLoadResponse.setResultSet(gtnUIFrameworkDataTable);
+			deductionHierResponse.setGtnSerachResponse(deductionHierLoadResponse);
+			generalResponse.setSucess(true);
+		} catch (GtnFrameworkGeneralException ex // | SQLException ex
+		) {
+			generalResponse.setSucess(false);
+			generalResponse.setGtnGeneralException(ex);
+		}
+		deductionHierResponse.setGtnWsGeneralResponse(generalResponse);
+		return deductionHierResponse;
+	}
 
-    @RequestMapping(value = GtnWsCustomViewConstants.CHECK_CUSTOM_VIEW_SAVE, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse checkCustomViewSave(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters checkCustomViewSave");
-        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-        try {
-            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
-            logic.checkCustomViewSave(gtnWsRequest.getGtnWsCustomViewRequest(), cvResponse);
-        } catch (Exception ex) {
-            logger.error("Exception in checkCustomViewSave", ex);
-        }
+	@RequestMapping(value = GtnWsCustomViewConstants.CHECK_CUSTOM_VIEW_SAVE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse checkCustomViewSave(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enters checkCustomViewSave");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+			logic.checkCustomViewSave(gtnWsRequest.getGtnWsCustomViewRequest(), cvResponse);
+		} catch (Exception ex) {
+			logger.error("Exception in checkCustomViewSave", ex);
+		}
 
-        logger.info("Exit checkCustomViewSave");
-        return gtnResponse;
-    }
+		logger.info("Exit checkCustomViewSave");
+		return gtnResponse;
+	}
 
-    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse customViewSaveLogic(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters customViewSaveLogic");
-         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-        try {
-            gtnResponse.setGtnWsCustomViewResponse(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
-        } catch (Exception ex) {
-            logger.error("Exception in customViewSaveLogic", ex);
-        }
+	@RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse customViewSaveLogic(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enters customViewSaveLogic");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnResponse.setGtnWsCustomViewResponse(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
+		} catch (Exception ex) {
+			logger.error("Exception in customViewSaveLogic", ex);
+		}
 
-        logger.info("Exit customViewSaveLogic");
-        return gtnResponse;
-    }
+		logger.info("Exit customViewSaveLogic");
+		return gtnResponse;
+	}
 
-    @RequestMapping(value = "deleteCustomViewReport", method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse deleteCustomViewLogic(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters customViewSaveLogic");
-        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-        try {
-            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            cvResponse.setSuccess(logic.deleteCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest()));
-            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
-        } catch (Exception ex) {
-            logger.error("Exception in customViewSaveLogic", ex);
-        }
+	@RequestMapping(value = "deleteCustomViewReport", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteCustomViewLogic(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enters customViewSaveLogic");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+			cvResponse.setSuccess(logic.deleteCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest()));
+			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+		} catch (Exception ex) {
+			logger.error("Exception in customViewSaveLogic", ex);
+		}
 
-        logger.info("Exit customViewSaveLogic");
-        return gtnResponse;
-    }
+		logger.info("Exit customViewSaveLogic");
+		return gtnResponse;
+	}
 
-    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse customViewTreeData(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
-        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-        try {
-            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            if (gtnWsRequest.getGtnWsCustomViewRequest().getCustomViewType().startsWith("report")) {
-                cvResponse = logic.getCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest());
-            } else {
-                cvResponse.setCvTreeNodeList(logic.getSavedTreeData(gtnWsRequest.getGtnWsCustomViewRequest()));
-            }
-            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
-        } catch (Exception ex) {
-            logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
-        }
+	@RequestMapping(value = "deleteCustomViewUserValidationReport", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteCustomViewUserValidationLogic(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enters customViewSaveLogic");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+			cvResponse.setSuccess(logic.validateCustViewUser(gtnWsRequest.getGtnWsCustomViewRequest()));
+			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+		} catch (Exception ex) {
+			logger.error("Exception in customViewSaveLogic", ex);
+		}
 
-        logger.info("Exit customViewTreeData");
-        return gtnResponse;
-    }
-    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_LEVEL_DATA, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse customViewlevelData(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
-        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
-        try {
-            response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewLevelData(gtnWsRequest.getGtnWsCustomViewRequest()));
-            return response;
-        } catch (Exception ex) {
-            logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
-            return response;
-        }
-    }
-    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DATA, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse customViewData(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
-        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
-        try {
-            response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewList());
-            return response;
-        } catch (Exception ex) {
-            logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
-            return response;
-        }
-    }
-    
-    
-    
- @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
-    public GtnUIFrameworkWebserviceResponse deleteCustomView(
-            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
-        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-        try {
-            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            logic.deleteCustomViewFromTable(gtnWsRequest.getGtnWsCustomViewRequest(),cvResponse);
-            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
-        } catch (Exception ex) {
-            logger.error("Exception in customViewDelete", ex);
-        }
+		logger.info("Exit customViewSaveLogic");
+		return gtnResponse;
+	}
 
-        logger.info("Exit customViewDelete");
-        return gtnResponse;
-    }
+	@RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse customViewTreeData(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+			if (gtnWsRequest.getGtnWsCustomViewRequest().getCustomViewType().startsWith("report")) {
+				cvResponse = logic.getCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest());
+			} else {
+				cvResponse.setCvTreeNodeList(logic.getSavedTreeData(gtnWsRequest.getGtnWsCustomViewRequest()));
+			}
+			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+		} catch (Exception ex) {
+			logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
+		}
+
+		logger.info("Exit customViewTreeData");
+		return gtnResponse;
+	}
+
+	@RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_LEVEL_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse customViewlevelData(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
+		try {
+			response.setGtnUIFrameworkWebserviceComboBoxResponse(
+					logic.getCustomViewLevelData(gtnWsRequest.getGtnWsCustomViewRequest()));
+			return response;
+		} catch (Exception ex) {
+			logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
+			return response;
+		}
+	}
+
+	@RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse customViewData(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
+		try {
+			response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewList());
+			return response;
+		} catch (Exception ex) {
+			logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
+			return response;
+		}
+	}
+
+	@RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteCustomView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+			logic.deleteCustomViewFromTable(gtnWsRequest.getGtnWsCustomViewRequest(), cvResponse);
+			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+		} catch (Exception ex) {
+			logger.error("Exception in customViewDelete", ex);
+		}
+
+		logger.info("Exit customViewDelete");
+		return gtnResponse;
+	}
 }

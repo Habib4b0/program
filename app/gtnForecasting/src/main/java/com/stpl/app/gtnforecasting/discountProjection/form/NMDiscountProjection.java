@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
@@ -2776,13 +2775,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             if (!adjustmentValue.replace(" ", StringUtils.EMPTY).isEmpty()) {
 
                 if (!checkedDiscountsPropertyIds.isEmpty()) {
-
-                    List<String> headerList = new ArrayList<>();
-                    for (Object propertyId : checkedDiscountsPropertyIds) {
-                        String tripleHeader = resultsTable.getRightFreezeAsTable()
-                                .getTripleHeaderColumnHeader(propertyId);
-                        headerList.add(tripleHeader);
-                    }
 
                     for (Object propertyId : checkedDiscountsPropertyIds) {
 
