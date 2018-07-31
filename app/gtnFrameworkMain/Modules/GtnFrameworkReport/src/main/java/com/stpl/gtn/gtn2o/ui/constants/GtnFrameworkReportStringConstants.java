@@ -438,6 +438,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUSTOMER_DUALLISTBOX = "customerDualListBox";
 	public static final String EMPTY_SELECTION = "Empty Selection";
 	public static final String CUSTOM_TREETABLE = "customTreeTable";
+	public static final String UOM_DEFAULT = "EACH";
 
 	public static final String CURRENCY_DISPLAY = "CONVERSION_FACTOR";
 	public static final String REPORT_LANDING_SCREEN_CUSTOM_VIEW = "reportLandingScreen_displaySelectionTabCustomView";
