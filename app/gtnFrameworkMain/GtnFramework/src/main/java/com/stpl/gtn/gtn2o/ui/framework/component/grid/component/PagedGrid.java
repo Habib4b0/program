@@ -626,7 +626,7 @@ public class PagedGrid {
             public void buttonClick(Button.ClickEvent event) {
                 String startDate = "";
                 String endDate = "";
-               
+
                 if (button.getId().equals("setButton")) {
                     if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
                         startDate = inlineDateFieldStartDate.getData().toString();
@@ -636,26 +636,36 @@ public class PagedGrid {
 
                         tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                         refreshGrid();
-                        
+
                     }
-                    if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
-                        startDate = inlineDateFieldStartDate.getData().toString();
-                    }
-                    if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
-                        endDate = inlineDateFieldEndDate.getData().toString();
-                    }
+                    startDate = startDateIsNotNull(startDate);
+                    endDate = endDateIsNotNull(endDate);
                     textField.setValue(startDate + " - " + endDate);
-                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);                  
+                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                     refreshGrid();
-                  window.close();
+                    window.close();
                 } else {
-                                  textField.setValue("");
+                    textField.setValue("");
 
                     textField.setPlaceholder(SHOW_ALL);
                     tableConfig.getFilterValueMap().put(property, textField.getCaption());
                     refreshGrid();
-                     window.close();
+                    window.close();
                 }
+            }
+
+            private String endDateIsNotNull(String endDate) {
+                if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
+                    endDate = inlineDateFieldEndDate.getData().toString();
+                }
+                return endDate;
+            }
+
+            private String startDateIsNotNull(String startDate) {
+                if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
+                    startDate = inlineDateFieldStartDate.getData().toString();
+                }
+                return startDate;
             }
         });
         UI.getCurrent().removeWindow(window);
