@@ -360,19 +360,19 @@ public class GtnForecastBean implements Serializable {
     }
 
     public Date getHistoryStartDate() {
-        return historyStartDate == null ? null : (Date) historyStartDate.clone();
+        return historyStartDate;
     }
 
     public void setHistoryStartDate(Date historyStartDate) {
-        this.historyStartDate = historyStartDate == null ? null : (Date) historyStartDate.clone();
+        this.historyStartDate = historyStartDate;
     }
 
     public Date getHistoryEndDate() {
-         return historyEndDate == null ? null : (Date) historyEndDate.clone();
+        return historyEndDate;
     }
 
     public void setHistoryEndDate(Date historyEndDate) {
-        this.historyEndDate = historyEndDate == null ? null : (Date) historyEndDate.clone();
+        this.historyEndDate = historyEndDate;
     }
 
     public void setForecastEndDate(Date forecastEndDate) {

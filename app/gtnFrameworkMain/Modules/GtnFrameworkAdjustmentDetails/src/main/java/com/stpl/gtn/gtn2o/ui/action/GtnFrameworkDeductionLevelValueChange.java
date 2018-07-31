@@ -39,7 +39,7 @@ public class GtnFrameworkDeductionLevelValueChange implements GtnUIFrameWorkActi
         GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString());
         GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsAdjusmentDetailsRequest request = new GtnWsAdjusmentDetailsRequest();
-        request.setDeductionLevel(deductionLevels);
+        request.setDeductionLevelCaption(deductionLevels);
         gtnRequest.setGtnWsAdjusmentDetailsRequest(request);
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
                 GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER

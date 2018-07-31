@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponen
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkTreeGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid.GtnUIFrameworkPagedGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid.GtnUIFrameworkPagedTreeGridComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.inlinedate.GtnFrameworkInlineDateComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.error.GtnUIFrameworkErrorBannerComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutComponent;
@@ -63,6 +64,8 @@ public enum GtnUIFrameworkComponentType {
 	DATATABLE(new GtnUIFrameworkTableCompnent()),
 
 	DATEFIELD(new GtnUIFrameworkDateComponent()),
+        
+        INLINE_DATE_FIELD(new GtnFrameworkInlineDateComponent()),
 
 	NOTES_TAB(new GtnUIFrameworkNotesTabComponent()),
 

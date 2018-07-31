@@ -59,11 +59,11 @@ public class GtnUIFrameworkCheckedComboBoxConfig {
 	}
 
     public List<String> getItemCodeList() {
-        return itemCodeList == null ? itemCodeList : Collections.unmodifiableList(itemCodeList);
+        return itemCodeList;
     }
 
     public void setItemCodeList(List<String> itemCodeList) {
-        this.itemCodeList = new ArrayList<>(itemCodeList);
+        this.itemCodeList = itemCodeList;
     }
         
 }

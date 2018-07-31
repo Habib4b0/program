@@ -701,4 +701,8 @@ public class CommonUtils {
 	public static void setUserMap(Map<Integer,String> userMap) {
 		CommonUtils.userMap = userMap;
 	}
+        
+      public static int compareDoubleValues(String value) {
+        return Double.compare(Double.parseDouble(value), 0.0);
+    }
 }

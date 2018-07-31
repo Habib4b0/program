@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.request;
 
 import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjusmentDetailsRequest;
+import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjustmentDetailsSaveViewMasterRequest;
 import com.stpl.gtn.gtn2o.ws.request.arm.GtnWsArmRequest;
 import com.stpl.gtn.gtn2o.ws.request.authorization.GtnWsModuleAuthorizationGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
@@ -83,8 +84,7 @@ public class GtnUIFrameworkWebserviceRequest {
 
     private GtnWsItemMasterRequest gtnWsItemMasterRequest;
 
-    
-	private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
+    private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
 
     private GtnWsCFFSubmitRequest gtnCffsubmitRequest;
 
@@ -126,18 +126,20 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsCsvExportRequest gtnWsCsvExportRequest;
 
     private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
-   private GtnWsUdcRequest gtnWsUdcRequest;
+    private GtnWsUdcRequest gtnWsUdcRequest;
 
-  public GtnWsSearchRequest getGtnWsSearchRequest() {
-		return gtnWsSearchRequest;
-	}
+    private GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest;
+
+    public GtnWsSearchRequest getGtnWsSearchRequest() {
+        return gtnWsSearchRequest;
+    }
     private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 
     private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
-	private GtnWsReportRequest gtnWsReportRequest;
+    private GtnWsReportRequest gtnWsReportRequest;
     private GtnWsCustomViewRequest gtnWsCustomViewRequest;
-    
+
     private GtnWsAdjusmentDetailsRequest gtnWsAdjusmentDetailsRequest;
 
     public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
@@ -260,21 +262,22 @@ public class GtnUIFrameworkWebserviceRequest {
         return gtnWsContractDashboardRequest;
     }
 
-	public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
-		return gtnCffsubmitRequest;
-	}
+    public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
+        return gtnCffsubmitRequest;
+    }
 
-	public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
-		this.gtnCffsubmitRequest = gtnCffsubmitRequest;
-	}
+    public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
+        this.gtnCffsubmitRequest = gtnCffsubmitRequest;
+    }
 
-	public GtnWsReportRequest getGtnWsReportRequest() {
-		return gtnWsReportRequest;
-	}
+    public GtnWsReportRequest getGtnWsReportRequest() {
+        return gtnWsReportRequest;
+    }
 
-	public void setGtnWsReportRequest(GtnWsReportRequest gtnWsReportRequest) {
-		this.gtnWsReportRequest = gtnWsReportRequest;
-	}
+    public void setGtnWsReportRequest(GtnWsReportRequest gtnWsReportRequest) {
+        this.gtnWsReportRequest = gtnWsReportRequest;
+    }
+
     public void setGtnWsContractDashboardRequest(GtnWsContractDashboardRequest gtnWsContractDashboardRequest) {
         this.gtnWsContractDashboardRequest = gtnWsContractDashboardRequest;
     }
@@ -474,7 +477,6 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnWsUdcRequest = gtnWsUdcRequest;
     }
 
-
     public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
         return gtnWsAttachmentRequest;
     }
@@ -498,7 +500,7 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsArmRequest(GtnWsArmRequest gtnWsArmRequest) {
         this.gtnWsArmRequest = gtnWsArmRequest;
     }
-    
+
     public GtnWsAdjusmentDetailsRequest getGtnWsAdjusmentDetailsRequest() {
         return gtnWsAdjusmentDetailsRequest;
     }
@@ -506,4 +508,13 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsAdjusmentDetailsRequest(GtnWsAdjusmentDetailsRequest gtnWsAdjusmentDetailsRequest) {
         this.gtnWsAdjusmentDetailsRequest = gtnWsAdjusmentDetailsRequest;
     }
+
+    public GtnWsAdjustmentDetailsSaveViewMasterRequest getGtnWsAdjustmentDetailsSaveViewMasterRequest() {
+        return gtnWsAdjustmentDetailsSaveViewMasterRequest;
+    }
+
+    public void setGtnWsAdjustmentDetailsSaveViewMasterRequest(GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest) {
+        this.gtnWsAdjustmentDetailsSaveViewMasterRequest = gtnWsAdjustmentDetailsSaveViewMasterRequest;
+    }
+
 }
