@@ -187,14 +187,18 @@ public class SalesExcelNM extends ExcelExport{
         //Added Formula to Child Count column
         else if (formatter.get("CHILD_COUNT") != null && String.valueOf(propId).endsWith(formatter.get("CHILD_COUNT"))) {
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if (((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)) {
-                String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info(COLUMN_FORMULA, getAppendedFormulaForPG_AG_Sum(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
-            } else {
-                // Setting 1 to children
-                sheetCell.setCellValue(1);
-            }
+            forChildCountColumn(rootItemId, sheetCell);
+        }
+    }
+
+    private void forChildCountColumn(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if (((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)) {
+            String formula = getFormula(sheetCell, rootItemId);
+            LOGGER.info(COLUMN_FORMULA, getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+        } else {
+            // Setting 1 to children
+            sheetCell.setCellValue(1);
         }
     }
 
