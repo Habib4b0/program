@@ -25,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-@Scope(value = "singleton")
+@Service
+@Scope("prototype")
 public class GtnWsAdjustmentTableLoadService {
 
     @Autowired
@@ -39,6 +39,10 @@ public class GtnWsAdjustmentTableLoadService {
     private Map<String, String> filterMap = new HashMap<>();
 
     private boolean isReserve = true;
+
+    public GtnWsAdjustmentTableLoadService() {
+        super();
+    }
 
     public String loadResults(GtnUIFrameworkWebserviceRequest gtnWsRequest, boolean isCount) {
         String finalSql = StringUtils.EMPTY;

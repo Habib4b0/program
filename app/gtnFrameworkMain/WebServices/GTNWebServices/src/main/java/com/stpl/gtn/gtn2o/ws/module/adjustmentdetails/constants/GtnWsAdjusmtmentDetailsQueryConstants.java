@@ -24,10 +24,14 @@ public class GtnWsAdjusmtmentDetailsQueryConstants {
             + "        on un.userId=AVM.CREATED_BY\n"
             + "        LEFT JOIN @SYS.dbo.User_ MB\n"
             + "        on MB.userId=AVM.MODIFIED_BY";
-    
+
     public static final String AVM = "AVM";
     public static final String AVD = "AVD";
     public static final String UN = "UN";
+
+    public GtnWsAdjusmtmentDetailsQueryConstants() {
+        super();
+    }
 
     public static Map<String, String> getColumnMap() {
         if (FILTER_MAP.isEmpty()) {

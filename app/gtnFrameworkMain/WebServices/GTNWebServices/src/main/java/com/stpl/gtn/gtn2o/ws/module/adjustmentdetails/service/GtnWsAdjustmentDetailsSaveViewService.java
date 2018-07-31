@@ -36,6 +36,10 @@ public class GtnWsAdjustmentDetailsSaveViewService {
         return sessionFactory;
     }
 
+    public GtnWsAdjustmentDetailsSaveViewService() {
+        super();
+    }
+
     public int saveCustViewMaster(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         GtnWsAdjustmentDetailsSaveViewMasterRequest request = gtnWsRequest.getGtnWsAdjustmentDetailsSaveViewMasterRequest();
         Session session = getSessionFactory().openSession();
@@ -69,7 +73,7 @@ public class GtnWsAdjustmentDetailsSaveViewService {
     }
 
     public String saveCustViewDetails(GtnUIFrameworkWebserviceRequest gtnWsRequest, int armAdjustmentMasterSid) {
-        List input = new ArrayList();
+        List input = new ArrayList(24);
         GtnWsAdjusmentDetailsRequest request = gtnWsRequest.getGtnWsAdjusmentDetailsRequest();
         input.add(armAdjustmentMasterSid);
         input.add(request.getAdjustmentType());
