@@ -8,16 +8,10 @@ package com.stpl.gtn.gtn2o.ws.service;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.projectionmaster.ProjectionMaster;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +31,7 @@ public class GtnWsReturnsDatabaseService {
 
 	@SuppressWarnings("unchecked")
 	public HelperTable getHelperTableByDescription(String description, String listName, Session session) {
+            logger.debug("Getting Helper table data for List Name  "+description);
 		Criteria cr = session.createCriteria(HelperTable.class).add(Restrictions.eq("description", description))
 				.add(Restrictions.eq("listName", listName));
 		List<HelperTable> results = cr.list();
@@ -48,6 +43,7 @@ public class GtnWsReturnsDatabaseService {
 
 	@SuppressWarnings("unchecked")
 	public ProjectionMaster getProjectionMaster(int projectionId, Session session) {
+            logger.debug("Loading Projection Master "+projectionId);
 		Criteria cr = session.createCriteria(ProjectionMaster.class)
 				.add(Restrictions.eq("projectionMasterSid", projectionId));
 		List<ProjectionMaster> results = cr.list();
