@@ -63,42 +63,42 @@ public class GtnCustomRelationshipLevelValueService {
 		List<Object> input = new ArrayList<>();
 		input.add(String.valueOf(tempListObject[0]));
 		input.add(getDisplayFormatColumnClause(gtnDisplayFormatMasterBean.getDisplayFormatList(),
-				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
+				String.valueOf(tempListObject[NumericConstants.REPORT_ZERO]), bean));
 		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		input.add(dataSelectionBean.getCustomViewMasterSid());
-		input.add(String.valueOf(tempListObject[NumericConstants.ONE]));
-		input.add(String.valueOf(tempListObject[NumericConstants.TWO]));
-		input.add(String.valueOf(tempListObject[NumericConstants.FOUR]));
+		input.add(String.valueOf(tempListObject[NumericConstants.REPORT_ONE]));
+		input.add(String.valueOf(tempListObject[NumericConstants.REPORT_TWO]));
+		input.add(String.valueOf(tempListObject[NumericConstants.REPORT_FOUR]));
 		bean.setQuery(sqlService.getQuery(input, "getCustomViewRelationshipLevelValues"));
 		return bean;
 	}
 
 	private RelationshipLevelValuesBean getCustomisedQueryDiscount(Object[] tempListObject) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
-		boolean isUdc = tempListObject[7].equals(NumericConstants.ONE);
-		boolean isHelper = tempListObject[6].equals(NumericConstants.ONE);
+		boolean isUdc = tempListObject[7].equals(NumericConstants.REPORT_ONE);
+		boolean isHelper = tempListObject[6].equals(NumericConstants.REPORT_ONE);
 		boolean isRsId = !isUdc && !isHelper;
 		List<Object> input = new ArrayList<>();
 		input.add(isRsId ? " TEMP.RS_ID " : " HT.DESCRIPTION ");
 		input.add(getDisplayFormatColumnClause(gtnDisplayFormatMasterBean.getDisplayFormatList(),
-				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
+				String.valueOf(tempListObject[NumericConstants.REPORT_ZERO]), bean));
 		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		input.add(dataSelectionBean.getCustomViewMasterSid());
 		input.add(isUdc
-				? "JOIN UDCS U on U." + tempListObject[NumericConstants.THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES"
+				? "JOIN UDCS U on U." + tempListObject[NumericConstants.REPORT_THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES"
 				: StringUtils.EMPTY);
 		input.add(isUdc ? " TEMP.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' "
-				: "RS_ID".equals(tempListObject[NumericConstants.THREE].toString())
+				: "RS_ID".equals(tempListObject[NumericConstants.REPORT_THREE].toString())
 						? " TEMP.RS_CONTRACT_SID = CVH.RELATIONSHIP_LEVEL_VALUES "
-						: "TEMP." + tempListObject[NumericConstants.THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
+						: "TEMP." + tempListObject[NumericConstants.REPORT_THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
 		if (isUdc) {
-			input.add("JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=U." + tempListObject[NumericConstants.THREE]);
+			input.add("JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=U." + tempListObject[NumericConstants.REPORT_THREE]);
 		} else if (isHelper) {
-			input.add(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=TEMP." + tempListObject[NumericConstants.THREE]);
+			input.add(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=TEMP." + tempListObject[NumericConstants.REPORT_THREE]);
 		} else {
 			input.add(StringUtils.EMPTY);
 		}
-		input.add(String.valueOf(tempListObject[NumericConstants.FOUR]));
+		input.add(String.valueOf(tempListObject[NumericConstants.REPORT_FOUR]));
 		bean.setQuery(sqlService.getQuery(input, "getCustomViewRelationshipLevelValuesDiscount"));
 		return bean;
 	}

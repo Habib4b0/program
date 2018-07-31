@@ -1974,4 +1974,9 @@ public class CommonUtils {
     public static void setPortletConfig(PortletConfig portletConfig) {
             CommonUtils.portletConfig = portletConfig;
     }
+    
+    public static int compareDoubleValues(String value) {
+        return Double.compare(Double.parseDouble(value), 0.0);
+    }
+    
 }
