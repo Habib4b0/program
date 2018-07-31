@@ -374,17 +374,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 			String value = getValueFromFormula(s);
 			splitOperator(s, splitList);
 
-			for (int i = 0; i < splitList.size(); i++) {
-				Character s3 = splitList.get(i);
-				String comma = "";
-				if (i != splitList.size() - 1) {
-					comma = ",";
-				}
-				if ((s3 == '$' || s3 == '%')) {
-					sym.append(s3);
-					sym.append(comma);
-				}
-			}
+                        appendForBalancedPareanthesis(splitList, sym);
 
 			splitValue(s, dto, recordHeaderComplex, signs, sym, value);
                         resultList.add(dto);
@@ -406,6 +396,20 @@ public class GtnUIFrameWorkResetYesButtonAction
 		
 	}
         }
+
+    private void appendForBalancedPareanthesis(List<Character> splitList, StringBuilder sym) {
+        for (int i = 0; i < splitList.size(); i++) {
+            Character s3 = splitList.get(i);
+            String comma = "";
+            if (i != splitList.size() - 1) {
+                comma = ",";
+            }
+            if ((s3 == '$' || s3 == '%')) {
+                sym.append(s3);
+                sym.append(comma);
+            }
+        }
+    }
 
 	public void splitValue(String s, GtnWsRecordBean dto, List<Object> recordHeader, String[] signarray,
 			StringBuilder sym, String value) {

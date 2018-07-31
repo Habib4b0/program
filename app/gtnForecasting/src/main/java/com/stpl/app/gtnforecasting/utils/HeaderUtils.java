@@ -673,10 +673,10 @@ public class HeaderUtils {
         int year = isInteger(yearValue) ? Integer.parseInt(yearValue) : 0;
         int historyStartIndex = -1;
         int projectionStartIndex = -1;
-        int forecastStartIndex = -1;
+        int forecastStartIndexAtCommon = -1;
         int historyEndIndex = -1;
         int projectionEndIndex = -1;
-        int forecastEndIndex = -1;
+        int forecastEndIndexAtCommon = -1;
         List<String> periodList = new ArrayList<>();
         Map<String, String> periodListMap = new HashMap<>();
         int startPr = 1;
@@ -719,10 +719,10 @@ public class HeaderUtils {
                 }
                 if ((year > projSelDTO.getForecastDTO().getForecastStartYear() && year < projSelDTO.getForecastDTO().getForecastEndYear()) || (year == projSelDTO.getForecastDTO().getForecastStartYear() && pr >= projSelDTO.getForecastStartPeriod()) || (year == projSelDTO.getForecastDTO().getForecastEndYear() && pr <= projSelDTO.getForecastEndPeriod())) {
 
-                    if (forecastStartIndex == -1) {
-                        forecastStartIndex = periodList.size();
+                    if (forecastStartIndexAtCommon == -1) {
+                        forecastStartIndexAtCommon = periodList.size();
                     }
-                    forecastEndIndex = periodList.size();
+                    forecastEndIndexAtCommon = periodList.size();
                 }
                 periodList.add(commonColumn);
                 periodListMap.put(commonColumn, commonHeader);
@@ -826,63 +826,63 @@ public class HeaderUtils {
                 }
             }
 
-            forecastStartIndex = periodList.indexOf(forecastStartCommon);
-            forecastEndIndex = periodList.indexOf(forecastEndCommon);
+            forecastStartIndexAtCommon = periodList.indexOf(forecastStartCommon);
+            forecastEndIndexAtCommon = periodList.indexOf(forecastEndCommon);
 
         }
         if (projectionOrder != 1) {
-            String historyStart = null;
-            String projectionStart = null;
-            String forecastStart = null;
-            String historyEnd = null;
-            String projectionEnd = null;
-            String forecastEnd = null;
+            String historyStartOnDesc = null;
+            String projectionStartOnDesc = null;
+            String forecastStartOnDesc = null;
+            String historyEndOnDesc = null;
+            String projectionEndOnDesc = null;
+            String forecastEndOnDesc = null;
 
             if (historyStartIndex >= 0) {
-                historyStart = periodList.get(historyStartIndex);
+                historyStartOnDesc = periodList.get(historyStartIndex);
             }
             if (projectionStartIndex >= 0) {
-                projectionStart = periodList.get(projectionStartIndex);
+                projectionStartOnDesc = periodList.get(projectionStartIndex);
             }
-            if (forecastStartIndex >= 0) {
-                forecastStart = periodList.get(forecastStartIndex);
+            if (forecastStartIndexAtCommon >= 0) {
+                forecastStartOnDesc = periodList.get(forecastStartIndexAtCommon);
             }
             if (historyEndIndex >= 0) {
-                historyEnd = periodList.get(historyEndIndex);
+                historyEndOnDesc = periodList.get(historyEndIndex);
             }
             if (projectionEndIndex >= 0) {
-                projectionEnd = periodList.get(projectionEndIndex);
+                projectionEndOnDesc = periodList.get(projectionEndIndex);
             }
-            if (forecastEndIndex >= 0) {
-                forecastEnd = periodList.get(forecastEndIndex);
+            if (forecastEndIndexAtCommon >= 0) {
+                forecastEndOnDesc = periodList.get(forecastEndIndexAtCommon);
             }
 
             Collections.reverse(periodList);
 
             historyStartIndex = -1;
             projectionStartIndex = -1;
-            forecastStartIndex = -1;
+            forecastStartIndexAtCommon = -1;
             historyEndIndex = -1;
             projectionEndIndex = -1;
-            forecastEndIndex = -1;
+            forecastEndIndexAtCommon = -1;
 
-            if (historyEnd != null) {
-                historyStartIndex = periodList.indexOf(historyEnd);
+            if (historyEndOnDesc != null) {
+                historyStartIndex = periodList.indexOf(historyEndOnDesc);
             }
-            if (projectionEnd != null) {
-                projectionStartIndex = periodList.indexOf(projectionEnd);
+            if (projectionEndOnDesc != null) {
+                projectionStartIndex = periodList.indexOf(projectionEndOnDesc);
             }
-            if (forecastEnd != null) {
-                forecastStartIndex = periodList.indexOf(forecastEnd);
+            if (forecastEndOnDesc != null) {
+                forecastStartIndexAtCommon = periodList.indexOf(forecastEndOnDesc);
             }
-            if (historyStart != null) {
-                historyEndIndex = periodList.indexOf(historyStart);
+            if (historyStartOnDesc != null) {
+                historyEndIndex = periodList.indexOf(historyStartOnDesc);
             }
-            if (projectionStart != null) {
-                projectionEndIndex = periodList.indexOf(projectionStart);
+            if (projectionStartOnDesc != null) {
+                projectionEndIndex = periodList.indexOf(projectionStartOnDesc);
             }
-            if (forecastStart != null) {
-                forecastEndIndex = periodList.indexOf(forecastStart);
+            if (forecastStartOnDesc != null) {
+                forecastEndIndexAtCommon = periodList.indexOf(forecastStartOnDesc);
             }
         }
         projSelDTO.setPeriodList(periodList);
@@ -891,8 +891,8 @@ public class HeaderUtils {
         projSelDTO.setHistoryEndIndex(historyEndIndex);
         projSelDTO.setProjectionStartIndex(projectionStartIndex);
         projSelDTO.setProjectionEndIndex(projectionEndIndex);
-        projSelDTO.setForecastStartIndex(forecastStartIndex);
-        projSelDTO.setForecastEndIndex(forecastEndIndex);
+        projSelDTO.setForecastStartIndex(forecastStartIndexAtCommon);
+        projSelDTO.setForecastEndIndex(forecastEndIndexAtCommon);
 
     }
     protected static final String ALTERNATE_HISTORY = "Alternate-History";
