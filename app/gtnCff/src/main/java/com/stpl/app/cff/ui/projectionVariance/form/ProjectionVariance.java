@@ -1365,7 +1365,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         tableLogic.setProjectionResultsData(pvSelectionDTO);
         pvSelectionDTO.setPpa(true);
         pvSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(pvSelectionDTO, Constants.LabelConstants.TOTAL.equals(level.getValue().toString())));
+        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(pvSelectionDTO, Constants.LabelConstants.TOTAL.getConstant().equals(level.getValue().toString())));
     }
 
     protected void loadLevelAndFilterValue() {
