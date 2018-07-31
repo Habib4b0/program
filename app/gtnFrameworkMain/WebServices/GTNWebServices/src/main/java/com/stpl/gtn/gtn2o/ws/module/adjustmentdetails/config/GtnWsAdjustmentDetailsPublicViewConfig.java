@@ -24,6 +24,7 @@ import java.util.Map;
 public class GtnWsAdjustmentDetailsPublicViewConfig implements GtnWsSearchQueryConfigLoader {
 
     private Map<String, GtnWsSearchQueryConfig> adjustmentDetailsSearchQueryConfigMap = null;
+    private Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
 
     @Override
     public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
@@ -45,7 +46,6 @@ public class GtnWsAdjustmentDetailsPublicViewConfig implements GtnWsSearchQueryC
         gtnWebServiceCustSearchQueryConfig.setSearchQuery(GtnWsAdjusmtmentDetailsQueryConstants.SELECT_PRIVATE_PUBLIC_VIEW);
         gtnWebServiceCustSearchQueryConfig.setCountQuerySelectClause("Select  count(distinct AVM.ARM_VIEW_MASTER_SID) ");
         GtnWsSearchQueryConfigProvider searchConfigProvider = GtnWsSearchQueryConfigProvider.getInstance();
-        Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
 
         fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.ARM_VIEW_MASTER_SID, searchConfigProvider.getColumnIntegerConfig("ARM_VIEW_MASTER_SID", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
         fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME, searchConfigProvider.getColumnStringConfig("VIEW_NAME", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
