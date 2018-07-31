@@ -145,34 +145,34 @@ public class GtnWsCustomViewController {
 	@RequestMapping(value = "deleteCustomViewReport", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse deleteCustomViewLogic(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info("Enters customViewSaveLogic");
+		logger.info("Enters customViewDeleteLogic");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
 			cvResponse.setSuccess(logic.deleteCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest()));
 			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
 		} catch (Exception ex) {
-			logger.error("Exception in customViewSaveLogic", ex);
+			logger.error("Exception in customViewDeleteLogic", ex);
 		}
 
-		logger.info("Exit customViewSaveLogic");
+		logger.info("Exit customViewDeleteLogic");
 		return gtnResponse;
 	}
 
 	@RequestMapping(value = "deleteCustomViewUserValidationReport", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse deleteCustomViewUserValidationLogic(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info("Enters customViewSaveLogic");
+		logger.info("Enters customViewDeletUserValidationLogic");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
 			cvResponse.setSuccess(logic.validateCustViewUser(gtnWsRequest.getGtnWsCustomViewRequest()));
 			gtnResponse.setGtnWsCustomViewResponse(cvResponse);
 		} catch (Exception ex) {
-			logger.error("Exception in customViewSaveLogic", ex);
+			logger.error("Exception in customViewDeleteUserValidationLogic", ex);
 		}
 
-		logger.info("Exit customViewSaveLogic");
+		logger.info("Exit customViewDeleteUserValidationLogic");
 		return gtnResponse;
 	}
 
