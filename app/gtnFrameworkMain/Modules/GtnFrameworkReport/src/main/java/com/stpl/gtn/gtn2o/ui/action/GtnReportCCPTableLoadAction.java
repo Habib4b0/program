@@ -87,6 +87,7 @@ public class GtnReportCCPTableLoadAction
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		params.add(null);
 		params.add(dataSelectionDto);
+		params.add("v-position-fixed");
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
