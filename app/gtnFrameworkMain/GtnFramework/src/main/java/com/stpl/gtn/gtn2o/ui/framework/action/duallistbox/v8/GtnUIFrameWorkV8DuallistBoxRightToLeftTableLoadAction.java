@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastAlertMsgConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.vaadin.ui.TreeGrid;
+import java.util.Set;
 
 public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements GtnUIFrameWorkAction {
 
@@ -50,8 +51,13 @@ public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements Gt
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
 			return;
 		}
-		GtnWsRecordBean deleteNode = rightTable.getSelectedItems().iterator().next();
-		rightTable.getTreeData().removeItem(deleteNode);
+		Set<GtnWsRecordBean> deleteNode = rightTable.getSelectedItems();
+                if(deleteNode!=null){
+                    deleteNode.stream().forEach(child -> {
+                        rightTable.deselect(child);
+                        rightTable.getTreeData().removeItem(child);
+                    });
+                }		
 		rightTable.getDataProvider().refreshAll();
 		rightTable.markAsDirty();
 	}

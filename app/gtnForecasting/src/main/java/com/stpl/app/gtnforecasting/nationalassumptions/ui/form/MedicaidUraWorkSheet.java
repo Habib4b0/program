@@ -1213,18 +1213,18 @@ public class MedicaidUraWorkSheet extends Window {
 
         boolean formatFlag = false;
 
-        for (String values : notesValues.keySet()) {
-            String formatedValue = notesValues.get(values);
+        for (Map.Entry<String, String> values : notesValues.entrySet()) {
+            String formatedValue = values.getValue();
             formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
             if ("-".equals(formatedValue) || "+".equals(formatedValue)) {
                 formatFlag = true;
                 break;
             }
-                if ((StringUtils.isNotBlank(formatedValue)) && (!formatedValue.matches("^[\\+\\-]?\\d{0,5}\\.?\\d{0,4}$"))) {
-                    formatFlag = true;
-                    break;
-                }
+            if ((StringUtils.isNotBlank(formatedValue)) && (!formatedValue.matches("^[\\+\\-]?\\d{0,5}\\.?\\d{0,4}$"))) {
+                formatFlag = true;
+                break;
             }
+        }
         return formatFlag;
     }
 

@@ -196,13 +196,13 @@ public class StChSalesProjectionImpl  {
         if (joinAllowed) {
             Map<String, Object> joinMap = (HashMap<String, Object>) parameters.get(Constants.JOIN_MAP);
             if (joinMap != null) {
-                for (String key : joinMap.keySet()) {
-                    query = query.replace(key, String.valueOf(joinMap.get(key)));
+                for (Map.Entry<String, Object> key : joinMap.entrySet()) {
+                    query = query.replace(key.getKey(), String.valueOf(key.getValue()));
                 }
             }
         }
-        for (String key : inputs.keySet()) {
-            query = query.replace(key, String.valueOf(inputs.get(key)));
+        for (Map.Entry<String, Object> key : inputs.entrySet()) {
+            query = query.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         return query;
     }

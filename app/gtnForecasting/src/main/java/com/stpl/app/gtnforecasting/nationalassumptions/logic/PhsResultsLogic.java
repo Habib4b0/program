@@ -879,7 +879,7 @@ public class PhsResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }
