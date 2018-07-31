@@ -51,6 +51,7 @@ public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements Gt
 			return;
 		}
 		GtnWsRecordBean deleteNode = rightTable.getSelectedItems().iterator().next();
+		rightTable.deselect(deleteNode);
 		rightTable.getTreeData().removeItem(deleteNode);
 		rightTable.getDataProvider().refreshAll();
 		rightTable.markAsDirty();

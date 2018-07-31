@@ -113,8 +113,12 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 			TreeGrid<GtnWsRecordBean> rightGrid = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(treeComponentId, componentId).getTreeGrid();
 			Optional.ofNullable(rightGrid).ifPresent(grid -> {
+				for (GtnWsRecordBean bean : grid.getSelectedItems()) {
+					grid.deselect(bean);
+				}
 				grid.getTreeData().clear();
 				grid.getDataProvider().refreshAll();
+				grid.markAsDirty();
 			});
 		}
 

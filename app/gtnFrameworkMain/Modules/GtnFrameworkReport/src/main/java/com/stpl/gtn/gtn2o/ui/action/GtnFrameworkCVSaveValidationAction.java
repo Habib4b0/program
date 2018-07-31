@@ -56,10 +56,10 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 	private void validateEmptyViewName(String customViewName, String componentId) throws GtnFrameworkGeneralException {
 		if (customViewName == null || customViewName.equals("")) {
 			GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+					GtnUIFrameworkActionType.ALERT_ACTION);
 			String missingViewName = "Missing Tree View Name";
-			noLevelChoosedAction.addActionParameter(missingViewName);
 			noLevelChoosedAction.addActionParameter("Missing Required Field");
+			noLevelChoosedAction.addActionParameter(missingViewName);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
 			throw new GtnFrameworkSkipActionException("No Name found");
 
@@ -71,23 +71,24 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		TreeGrid<GtnWsRecordBean> treeComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent((String) paramList.get(2), componentId).getTreeGrid();
 		TreeData<GtnWsRecordBean> treeData = treeComponent.getTreeData();
-		if (validateEmptyTree(treeData)) {
-			return;
-		}
-		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnWsCustomViewRequest reportCustomViewRequest = new GtnWsCustomViewRequest();
-		request.setGtnWsCustomViewRequest(reportCustomViewRequest);
 		String[] fields = (String[]) paramList.get(1);
-		reportCustomViewRequest.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 		String customViewName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[0]).getV8StringFromField();
 		int customerRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
 				.getIntegerFromV8ComboBox();
 		int productRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[2])
 				.getIntegerFromV8ComboBox();
-		String separator = "~";
 		String variableType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3]).getV8StringFromField();
 		String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[4]).getV8StringFromField();
+
+		validateEmptyTree(treeData, componentId);
+		validateTreeStructre(treeData, componentId, rowType, variableType);
+
+		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+		final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsCustomViewRequest reportCustomViewRequest = new GtnWsCustomViewRequest();
+		request.setGtnWsCustomViewRequest(reportCustomViewRequest);
+		reportCustomViewRequest.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+		String separator = "~";
 		String customViewType = "report" + separator + variableType + separator + rowType;
 		reportCustomViewRequest.setCustomViewName(customViewName);
 		reportCustomViewRequest.setCustomViewDescription(GtnFrameworkCommonStringConstants.STRING_EMPTY);
@@ -118,6 +119,35 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 
 	}
 
+	private void validateTreeStructre(TreeData<GtnWsRecordBean> treeData, String componentId, String rowType,
+			String variableType) throws GtnFrameworkGeneralException {
+		if (rowType.equals("Rows") && variableType.equals("Expandable")) {
+			List<GtnWsRecordBean> rootItems = treeData.getRootItems();
+			if (!treeContainsVariables(treeData, componentId, rootItems)) {
+				GtnUIFrameWorkActionConfig wrongVariableAlertAction = new GtnUIFrameWorkActionConfig(
+						GtnUIFrameworkActionType.ALERT_ACTION);
+				wrongVariableAlertAction.addActionParameter("Variables level");
+				wrongVariableAlertAction.addActionParameter(
+						"When Variable Position = Rows and Variable Type = Expandable, the ‘Variables’ level must be included within the Tree Structure list view.");
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, wrongVariableAlertAction);
+				throw new GtnFrameworkSkipActionException("Expandable is not selected");
+			}
+		}
+	}
+
+	private boolean treeContainsVariables(TreeData<GtnWsRecordBean> treeData, String componentId,
+			List<GtnWsRecordBean> parentItems) {
+		boolean isExpandable = false;
+		for (GtnWsRecordBean gtnWsRecordBean : parentItems) {
+			if ("Variables".equals(gtnWsRecordBean.getStringPropertyByIndex(0))) {
+				isExpandable = true;
+				break;
+			}
+			isExpandable = treeContainsVariables(treeData, componentId, treeData.getChildren(gtnWsRecordBean));
+		}
+		return isExpandable;
+	}
+
 	public List<GtnWsRecordBean> getAllTreeNodes(TreeData<GtnWsRecordBean> treeData, List<GtnWsRecordBean> treeNodeList,
 			List<GtnWsRecordBean> parentItems) throws GtnFrameworkValidationFailedException {
 
@@ -129,13 +159,16 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		return treeNodeList;
 	}
 
-	public boolean validateEmptyTree(TreeData<GtnWsRecordBean> treeData) throws GtnFrameworkGeneralException {
+	public void validateEmptyTree(TreeData<GtnWsRecordBean> treeData, String componentId)
+			throws GtnFrameworkGeneralException {
 		if (treeData.getRootItems() == null || treeData.getRootItems().isEmpty()) {
-			GtnUIFrameworkGlobalUI.showMessageBox("Error", GtnUIFrameworkActionType.ALERT_ACTION, "Error",
-					"Please make a tree to save");
-			return true;
+			GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			noLevelChoosedAction.addActionParameter("Missing Level");
+			noLevelChoosedAction.addActionParameter("Please add at least one level to the Tree Structure list view.");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
+			throw new GtnFrameworkSkipActionException("Tree is not Constructed");
 		}
-		return false;
 	}
 
 	private void saveCustomView(String componentId, String customViewName, GtnWsCustomViewRequest cvRequest,
