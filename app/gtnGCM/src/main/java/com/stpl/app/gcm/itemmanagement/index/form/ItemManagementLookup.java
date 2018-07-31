@@ -361,9 +361,6 @@ public class ItemManagementLookup extends CustomWindow {
                 selection.setReset(true);
 
                 List input = getInputForInsert();
-                List ccpInsert = new ArrayList();
-                ccpInsert.add(itemList.get(0).getSystemId());
-                ccpInsert.add(selection.getSessionId());
                 ItemQueries.itemUpdate(input, "IFP Add Insert");
                 ItemQueries.itemUpdate(input, "PS Add Insert");
                 ItemQueries.itemUpdate(input, "RS Add Insert");

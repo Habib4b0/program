@@ -64,12 +64,12 @@ public class LevelDto implements Comparable<LevelDto> {
 	/**
 	 * The tree level no.
 	 */
-	private Integer treeLevelNo = new Integer("0");
+	private Integer treeLevelNo = Integer.valueOf("0");
 
 	/**
 	 * The hierarchy Id.
 	 */
-	private Integer hierarchyId = new Integer("0");
+	private Integer hierarchyId = Integer.valueOf("0");
 
 	/**
 	 * The hierarchy Indicator.
@@ -102,7 +102,7 @@ public class LevelDto implements Comparable<LevelDto> {
 	private String deductionLevel = "";
 	private String deductionValue = "";
 	private String hierarchyType = "";
-	private Integer hierarchyVersionNo = new Integer("0");
+	private Integer hierarchyVersionNo = Integer.valueOf("0");
 	private int relationShipVersionNo;
 
 	public String getHierarchyType() {

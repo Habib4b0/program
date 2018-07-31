@@ -2095,9 +2095,6 @@ public class CommonLogic {
             LOGGER.debug(" cust Rel Builder Sid  {} " , String.valueOf(projectionMasterRow[0]));
             LOGGER.debug("  prod Rel Builder Sid {} " , String.valueOf(projectionMasterRow[1]));
             setProdRelationshipId(Integer.parseInt(String.valueOf(projectionMasterRow[1])));
-            List<String> relationshipBuilderSids = new ArrayList<>();
-            relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
-            relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
             int newProjectionID = cloneProjection(oldProjectionId, session.getUserId());
             LOGGER.debug(" New Projection Id ===== {} " , newProjectionID);
             insertIntoNmProjectionSelection(oldProjectionId, newProjectionID);
@@ -2105,9 +2102,6 @@ public class CommonLogic {
                 setNewProjectionId(newProjectionID);
                 setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
                 cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionID, true, true, session);
-//                for (Object relationshipLevelSid : relationshipBuilderSids) {  //  FOREIGN KEY constraint , twice insert is happening in PROJECTION_PROD_HIERARCHY , PROJECTION_CUST_HIERARCHY
-//                    updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
-//                }
                 if (insertIntoProjectionDetails(oldProjectionId, newProjectionID, session)) {
                     String marketType = StringUtils.EMPTY;
                     Object[] inputs = new Object[NumericConstants.FOUR];
@@ -2277,7 +2271,6 @@ public class CommonLogic {
         StringBuilder salesQuery = new StringBuilder();
         StringBuilder discountQuery = new StringBuilder();
         StringBuilder rebateQuery = new StringBuilder();
-        List queryList = new ArrayList();
         try {
             if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
 				salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
@@ -2316,9 +2309,6 @@ public class CommonLogic {
 
             rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
                     rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
-
-            queryList.add(salesQuery.toString());
-            queryList.add(rebateQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());

@@ -2017,7 +2017,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 		return selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
 	}
 
-	public void setSelectedItemList(List<ItemIndexDto> selectedItemList) {
+	public final void setSelectedItemList(List<ItemIndexDto> selectedItemList) {
 		this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
 	}
 

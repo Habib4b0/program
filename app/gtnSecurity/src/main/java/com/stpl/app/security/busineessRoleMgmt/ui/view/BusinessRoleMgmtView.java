@@ -30,9 +30,8 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	private final ErrorLabel errorMsg = new ErrorLabel();
 	
 	private final BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
-	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans = new BeanItemContainer<BusinessroleMasterDTO>(
+	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans = new BeanItemContainer<>(
 			BusinessroleMasterDTO.class);
-	private final Table table=new Table();
 	
 	private static final Logger LOGGER =
 			 LoggerFactory.getLogger(ActionButtonLayout.class
@@ -42,13 +41,13 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	public BusinessRoleMgmtView(){		
 		setSpacing(true);
 		loadAllBusinessRoles();
-		addComponent(new SearchResults(getBinder(),searchResultbeans,table));
+		addComponent(new SearchResults(getBinder(),searchResultbeans, new Table()));
 		setComponentError(new UserError(""));
 	}
 
 	private void loadAllBusinessRoles() {
 		searchResultbeans.removeAllItems();
-		List<BusinessroleMasterDTO> searchResults = new ArrayList<BusinessroleMasterDTO>();
+		List<BusinessroleMasterDTO> searchResults = new ArrayList<>();
 		try {
 			searchResults = businessRoleMgmtLogic.getAllBusinessroles();
 			

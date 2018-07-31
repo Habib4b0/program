@@ -265,7 +265,6 @@
                 "isSearchCriteria": true,
                 "isResultView": true,
                 "componentType": "text",
-                "defaultValue": "N",
                 "isInvalidComponent": true,
                 "viewModeIndex": 20,
                 "listViewIndex": 20

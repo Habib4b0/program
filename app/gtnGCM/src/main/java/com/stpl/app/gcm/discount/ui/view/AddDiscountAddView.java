@@ -24,26 +24,14 @@ public class AddDiscountAddView extends VerticalLayout {
     public static final String NAME = "GTNBALANCE";
 
     /**
-     * Binder for DataSelection.
-     */
-    private final AddDiscountWindow addWindow;
-
-    private final AddDiscountForm addDiscountForm;
-    private final SessionDTO session;
-
-    /**
      * Default constructor.
      *
+     * @param addWindow
      * @param session
-     * @param resultTable
-     * @param dataSelectionDTO
-     * @param editWindow
-     * @throws java.lang.Exception
+     * @param removeList
      */
     public AddDiscountAddView(final AddDiscountWindow addWindow, final SessionDTO session, List<RemoveDiscountDto> removeList)  {
-        this.addWindow = addWindow;
-        this.session = session;
-        addDiscountForm = new AddDiscountForm(this.addWindow, removeList, this.session);
+        AddDiscountForm addDiscountForm = new AddDiscountForm(addWindow, removeList, session);
         addComponent(addDiscountForm);
     }
 
