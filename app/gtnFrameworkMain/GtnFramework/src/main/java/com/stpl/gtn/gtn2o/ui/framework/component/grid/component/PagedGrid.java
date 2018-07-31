@@ -30,7 +30,6 @@ import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -373,7 +372,7 @@ public class PagedGrid {
             }
 
         } catch (GtnFrameworkGeneralException exception) {
-            gtnlogger.error("Exception while creating the filter component", exception);
+            gtnlogger.error("Exception while creating the custom filter component", exception);
         }
 
         return null;
@@ -663,7 +662,7 @@ public class PagedGrid {
         }
         catch(Exception e)
         {
-             gtnlogger.error("Exception while creating the filter component", e);
+             gtnlogger.error("Exception while click button", e);
         }
                 
     }
@@ -689,7 +688,7 @@ public class PagedGrid {
         }
         catch(Exception e)
         {
-            gtnlogger.error("Exception while creating the filter component", e);
+            gtnlogger.error("Exception while get the Button component", e);
         }return button;
     }
       public static List<Object> addRangeInInput(Object[] input, int offset, int limit) {
