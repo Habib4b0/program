@@ -666,7 +666,7 @@ public class PagedGrid {
 			});
 			UI.getCurrent().removeWindow(window);
 		} catch (Exception e) {
-			gtnlogger.error("Exception while creating the filter component", e);
+			gtnlogger.error("Exception while Click Listener", e);
 		}
 
 	}
@@ -690,7 +690,7 @@ public class PagedGrid {
 					inlineDateFieldEndDate);
 			return button;
 		} catch (Exception e) {
-			gtnlogger.error("Exception while creating the filter component", e);
+			gtnlogger.error("Exception while adding Click Listener", e);
 		}
 		return button;
 	}
