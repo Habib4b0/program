@@ -122,14 +122,16 @@ SELECT
 									    
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
-										HIERARCHY_NO VARCHAR(50)
+										HIERARCHY_NO VARCHAR(50),
+                                                                                SALES_INCLUSION INT
 									) INSERT
 										INTO
 											#COMP_CONT(
 											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
-												HIERARCHY_NO
+												HIERARCHY_NO,
+                                                                                                SALES_INCLUSION
 											)?
 		
 		

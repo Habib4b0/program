@@ -86,6 +86,9 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 			break;
 		}
 
+		if(historyPeriodCaptionList.isEmpty()) {
+			return;
+		}
 		GtnUIFrameworkComboBoxConfig historyReloadComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParams.get(3).toString(), componentId).getComponentConfig()
 				.getGtnComboboxConfig();

@@ -39,10 +39,6 @@ import org.slf4j.LoggerFactory;
 public class DeductionCalendarUI extends UI {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarUI.class);
-    /**
-     * Navigator
-     */
-    private Navigator navigator;
     
     private final SessionDTO sessionDTO=new SessionDTO();
 
@@ -54,6 +50,7 @@ public class DeductionCalendarUI extends UI {
     protected void init(VaadinRequest request) {
         try {
             LOGGER.info("Enter Inside DeductionCalendar UI");
+            Navigator navigator;
             CommonUIUtils.beforeUnloadCloseUi(this,sessionDTO, ConstantUtil.DEDUCTION_CALENDAR);
             setId("DeductionCal");
             addStyleName(ConstantsUtils.BOOTSTRAP);

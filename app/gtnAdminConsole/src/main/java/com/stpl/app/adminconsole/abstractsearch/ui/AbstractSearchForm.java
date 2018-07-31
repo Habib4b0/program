@@ -429,12 +429,6 @@ public class AbstractSearchForm extends CustomComponent {
         editBtn.setEnabled(true);
         copyBtn.setEnabled(true);
         deleteBtn.setEnabled(true);
-        List<Object> collapsedColumns = new ArrayList<>();
-        for (Object item : resultTable.getVisibleColumns()) {
-            if (resultTable.isColumnCollapsed(item)) {
-                collapsedColumns.add(item);
-            }
-        }
         if (!searchLogic.checkSearchCriteria(binder)) {
             AbstractNotificationUtils.getWarningNotification(MessageUtil.getMessage(Message.SEARCH_CRITERIA_HEADER), MessageUtil.getMessage(Message.SEARCH_CRITERIA_MESSAGE));
         } else {
@@ -480,12 +474,6 @@ public class AbstractSearchForm extends CustomComponent {
     @UiHandler("auditSearchBtn")
     public void auditSearchBtnLogic(Button.ClickEvent event) {
         binder.getErrorDisplay().clearError();
-        List<Object> collapsedColumns = new ArrayList<>();
-        for (Object item : resultTable.getVisibleColumns()) {
-            if (resultTable.isColumnCollapsed(item)) {
-                collapsedColumns.add(item);
-            }
-        }
         if (!searchLogic.checkSearchCriteria(binder)) {
             AbstractNotificationUtils.getWarningNotification(MessageUtil.getMessage(Message.SEARCH_CRITERIA_HEADER), MessageUtil.getMessage(Message.SEARCH_CRITERIA_MESSAGE));
         } else {

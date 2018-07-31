@@ -2423,7 +2423,9 @@ public class NonMandatedLogic {
     public List<Integer> getMaximumLevelno(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) {
         List<Object> input = new ArrayList<>();
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
         return QueryUtils.getAppData(input, "getmaximumlevelnoqueryy", null);
     }   
     
@@ -2451,7 +2453,8 @@ public class NonMandatedLogic {
 				+ "                        PM.PRODUCT_HIERARCHY_SID productHierarchySid, PM.COMPANY_GROUP_SID companyGroupSid, PM.ITEM_GROUP_SID productGroupSid, PM.COMPANY_MASTER_SID companyMasterSid, PM.FROM_DATE fromDate, PM.TO_DATE toDate, "
 				+ "                        PM.CUSTOMER_HIERARCHY_INNER_LEVEL customerInnerLevel,PM.PRODUCT_HIERARCHY_INNER_LEVEL productInnerLevel, PM.CUST_RELATIONSHIP_BUILDER_SID custRelationshipBuilderSid, "
 				+ "     PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid  "
-				+ ",APS.FIELD_NAME,APS.FIELD_VALUES,HT.DESCRIPTION AS DEDUCTION_VALUE ,PM.BUSINESS_UNIT AS BUSINESSUNIT, CM1.COMPANY_NAME AS  BUSINESSUNITNAME "
+				+ ",APS.FIELD_NAME,APS.FIELD_VALUES,HT.DESCRIPTION AS DEDUCTION_VALUE ,PM.BUSINESS_UNIT AS BUSINESSUNIT, CM1.COMPANY_NAME AS  BUSINESSUNITNAME, "
+                                + "PM.CUSTOMER_HIER_VERSION_NO custHierarchyVersion, PM.PRODUCT_HIER_VERSION_NO prodHierarchyVersion "
 				+ "                        from PROJECTION_MASTER PM " + "                        "
 				+ "                        LEFT JOIN FORECASTING_VIEW_MASTER FVM "
 				+ "                        on FVM.projection_Id  = PM.projection_Master_Sid " + ""
@@ -2567,7 +2570,6 @@ public class NonMandatedLogic {
 	 */
 	public void mainToTempTableInsert(SessionDTO session, ExecutorService service) {
             CommonUtil commonUtil = CommonUtil.getInstance();
-		List<Future> tempInsertFutureList = new ArrayList<>();
 		session.addFutureMap(Constant.PPA_SMALL,
 				new Future[] {
 						// PPA MASTER INSERT

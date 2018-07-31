@@ -14,8 +14,7 @@ public class DdlbCriteria implements SearchCriteria {
 
     private String filter;
     private int lastCount;
-    @SuppressWarnings("unused")
-	private boolean dirty;
+	private boolean dirty = true;
 
     public DdlbCriteria() {
         super();
@@ -33,7 +32,7 @@ public class DdlbCriteria implements SearchCriteria {
 
     @Override
     public boolean isDirty() {
-        return true;
+        return dirty;
     }
 
     @Override

@@ -5,8 +5,15 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import static com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid.gtnlogger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CheckBoxGroup;
@@ -14,11 +21,6 @@ import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -37,14 +39,15 @@ public class HeaderUtils {
 
 	public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {
 		int columnCount = pagedTreeGrid.getTableConfig().getColumnHeaders().size();
+		int columnEndCount = columnEnd;
 		if (columnStart > columnEnd) {
 			return;
 		}
 		if (columnEnd > columnCount) {
-			columnEnd = columnCount;
+			columnEndCount = columnCount;
 		}
 		repaintGrid(pagedTreeGrid);
-                List<Object> currentSingleColumns = addSingleHeader(pagedTreeGrid, columnStart, columnEnd);
+		List<Object> currentSingleColumns = addSingleHeader(pagedTreeGrid, columnStart, columnEndCount);
 		if (pagedTreeGrid.getTableConfig().getCustomFilterConfigMap() != null) {
 			pagedTreeGrid.shiftLeftSingeHeader = true;
 		}
@@ -64,22 +67,26 @@ public class HeaderUtils {
 		addTripleHeader(currentSingleColumns, pagedTreeGrid);
 	}
 
-    private static List<Object> addSingleHeader(PagedTreeGrid pagedTreeGrid, int columnStart, int columnEnd) throws IllegalStateException, IllegalArgumentException {
-        List<Object> leftColumns = Arrays.stream(pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId()).collect(Collectors.toList());
-        for (int j = 0; j < leftColumns.size(); j++) {
-            String column = (leftColumns.get(j)).toString();
-            String header = pagedTreeGrid.getTableConfig().getLeftTableVisibleHeader()[j];
-            pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
-        }
-        List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream().skip(columnStart + leftColumns.size()
-        ).limit(columnEnd).distinct().collect(Collectors.toList());
-        for (int j = 0; j < currentSingleColumns.size(); j++) {
-            String column = (currentSingleColumns.get(j)).toString();
-            String header = pagedTreeGrid.getTableConfig().getRightTableVisibleHeader()[columnStart + j];
-            pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
-        }
-        return currentSingleColumns;
-    }
+	private static List<Object> addSingleHeader(PagedTreeGrid pagedTreeGrid, int columnStart, int columnEnd) {
+		List<Object> leftColumns = Arrays.stream(pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId())
+				.collect(Collectors.toList());
+		for (int j = 0; j < leftColumns.size(); j++) {
+			String column = (leftColumns.get(j)).toString();
+			String header = pagedTreeGrid.getTableConfig().getLeftTableVisibleHeader()[j];
+			pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header)
+					.setId(column).setWidth(170);
+		}
+		List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream()
+				.skip(Long.parseLong(String.valueOf(columnStart)) + leftColumns.size()).limit(columnEnd).distinct()
+				.collect(Collectors.toList());
+		for (int j = 0; j < currentSingleColumns.size(); j++) {
+			String column = (currentSingleColumns.get(j)).toString();
+			String header = pagedTreeGrid.getTableConfig().getRightTableVisibleHeader()[columnStart + j];
+			pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header)
+					.setId(column).setWidth(170);
+		}
+		return currentSingleColumns;
+	}
 
 	public static void repaintGrid(PagedTreeGrid pagedTreeGrid) {
 		if (pagedTreeGrid.getGrid().getParent() != null) {
@@ -88,10 +95,9 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
 			pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
 			parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
-                        pagedTreeGrid.columnLazyLoading=true;
+			pagedTreeGrid.columnLazyLoading = true;
 			pagedTreeGrid.initialConfig(pagedTreeGrid.componentIdInMap);
-                        pagedTreeGrid.columnLazyLoading=false;
-                       
+			pagedTreeGrid.columnLazyLoading = false;
 
 		}
 	}
@@ -103,49 +109,51 @@ public class HeaderUtils {
 		if (pagedTreeGrid.shiftLeftSingeHeader) {
 			shiftLeftHeader(groupingHeader, pagedTreeGrid);
 		}
-            Iterator<String> douleLeftHeaders = pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleHeaders().iterator();
-            pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleColumns().stream().distinct().forEach(property -> {
-                Object[] joinList = pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderMap().get(property);
-                if (joinList != null) {
-                    String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-                    if (stringArray.length > 1) {
-                        groupingHeader.join(stringArray)
-                                .setText(douleLeftHeaders.next());
-                    } else if (stringArray.length > 0) {
-                        groupingHeader.getCell(stringArray[0])
-                                .setText(douleLeftHeaders.next());
-                    }
-                }
-            });
-            Iterator<String> douleHeaders = pagedTreeGrid.getTableConfig().getRightTableDoubleVisibleHeaders().iterator();
-            pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderVisibleColumns().stream().distinct().forEach(property -> {
-                Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(property);
-                String[] stringArray = getSingleColumnsMapping(currentSingleColumns, joinList).toArray(new String[0]);
-                if (stringArray.length > 1) {
-                    String header = douleHeaders.next();
-                    if (property.toString().contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
-                        groupingHeader.getCell(stringArray[stringArray.length - 1]).setText(header);
-                    } else {
-                        groupingHeader.join(stringArray)
-                                .setText(header);
-                    }
-                } else if (stringArray.length > 0) {
-                    groupingHeader.getCell(stringArray[0])
-                            .setText(douleHeaders.next());
-                }
-            });
+		Iterator<String> douleLeftHeaders = pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleHeaders()
+				.iterator();
+		pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleColumns().stream().distinct()
+				.forEach(property -> {
+					Object[] joinList = pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderMap().get(property);
+					if (joinList != null) {
+						String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
+						if (stringArray.length > 1) {
+							groupingHeader.join(stringArray).setText(douleLeftHeaders.next());
+						} else if (stringArray.length > 0) {
+							groupingHeader.getCell(stringArray[0]).setText(douleLeftHeaders.next());
+						}
+					}
+				});
+		Iterator<String> douleHeaders = pagedTreeGrid.getTableConfig().getRightTableDoubleVisibleHeaders().iterator();
+		pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderVisibleColumns().stream().distinct()
+				.forEach(property -> {
+					Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(property);
+					String[] stringArray = getSingleColumnsMapping(currentSingleColumns, joinList)
+							.toArray(new String[0]);
+					if (stringArray.length > 1) {
+						String header = douleHeaders.next();
+						if (property.toString().contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
+							groupingHeader.getCell(stringArray[stringArray.length - 1]).setText(header);
+						} else {
+							groupingHeader.join(stringArray).setText(header);
+						}
+					} else if (stringArray.length > 0) {
+						groupingHeader.getCell(stringArray[0]).setText(douleHeaders.next());
+					}
+				});
 	}
 
 	public static void addTripleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {
 		if (pagedTreeGrid.getTableConfig().isTripleHeaderVisible()) {
 			HeaderRow groupingHeader = pagedTreeGrid.getGrid().prependHeaderRow();
 			int j = 0;
+			List<Object> singleList = new ArrayList<>();
 			for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderVisibleColumns()) {
+                               singleList.clear();                               
 				Object[] doubleHeaders = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
-				List<Object> singleList = new ArrayList<>();
 				for (Object dbl : doubleHeaders) {
 					if (pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl) != null) {
-						singleList.addAll(Arrays.stream(pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl))
+						singleList.addAll(
+								Arrays.stream(pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl))
 										.collect(Collectors.toList()));
 					}
 				}
@@ -176,7 +184,7 @@ public class HeaderUtils {
 		pagedTreeGrid.shiftLeftSingeHeader = false;
 	}
 
-	private static List<String> getSingleColumnsMapping(List<Object> currentSingleColumns, Object joinList[]) {
+	private static List<String> getSingleColumnsMapping(List<Object> currentSingleColumns, Object[] joinList) {
 
 		return currentSingleColumns.stream().filter(e -> arrayContains(joinList, String.valueOf(e)))
 				.map(Object::toString).collect(Collectors.toList());
@@ -192,7 +200,7 @@ public class HeaderUtils {
 		HeaderRow row = pagedTreeGrid.getGrid().getHeaderRowCount() > 2 ? pagedTreeGrid.getGrid().getHeaderRow(1)
 				: pagedTreeGrid.getGrid().getHeaderRow(0);
 		if (pagedTreeGrid.getTableConfig().getCheckBoxVisibleColoumn() != null) {
-			pagedTreeGrid.getTableConfig().getCheckBoxVisibleColoumn().stream().map((columnId) -> {
+			pagedTreeGrid.getTableConfig().getCheckBoxVisibleColoumn().stream().map(columnId -> {
 				return columnId;
 			}).forEach(columnId -> {
 				CheckBox vaadinCheckBoxGroup = new CheckBox();

@@ -34,14 +34,6 @@ public class CustomViewLogic {
     
     public static final String DOT = ".";
 
-    private final Map<Integer, String> levelValMap = new HashMap();
-    private final Map<Integer, String[]> levelTableFieldNames = new HashMap();
-    private final Map<String, String> tableFieldHelperList = new HashMap();
-    private final List<String> listNameCollection = new ArrayList();
-    private final List<Integer> helperListValues = new ArrayList();
-    private final StringBuilder tableName = new StringBuilder();
-    private final StringBuilder fieldName = new StringBuilder();
-    private final StringBuilder finalQuery = new StringBuilder();
     private final List<LevelMapKey> hierarchyList = new ArrayList();
 
       /**

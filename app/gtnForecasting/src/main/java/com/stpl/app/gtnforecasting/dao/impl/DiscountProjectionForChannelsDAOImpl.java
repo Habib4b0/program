@@ -41,7 +41,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionForChannelsDAOImpl.class);
     protected CommonUtils commonUtils = new CommonUtils();
     protected DPQueryUtils queryUtils = new DPQueryUtils();
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     @Override
     public List<DiscountProjectionDTO> getDiscountProjection(

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -463,10 +462,10 @@ public class GtnWsDataSelectionEditController {
 		relationshipLevelDefBean.setHierarchyCategory(selectedHierarchyBean.getHierarchyType());
 		for (int i = 0; i < recordBean.size(); i++) {
 			GtnWsRecordBean gtnWsRecordBean = recordBean.get(i);
-			hierarchyNo.append("' ");
+			hierarchyNo.append("'");
 			hierarchyNo.append(gtnWsRecordBean.getStringPropertyByIndex(4));
 			if (i != recordBean.size() - 1) {
-				hierarchyNo.append("' ");
+				hierarchyNo.append("'");
 				hierarchyNo.append(',');
 			}
 		}

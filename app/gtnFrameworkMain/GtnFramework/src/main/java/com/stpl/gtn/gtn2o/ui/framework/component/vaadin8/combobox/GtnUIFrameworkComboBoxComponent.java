@@ -91,7 +91,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 					gtnLogger.error(e.getMessage(), e);
 				}
 			});
-
+			
 		}
 	}
 
@@ -363,10 +363,12 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				try {
 					AbstractComponent component = (AbstractComponent) event.getComponent();
 					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
+                                        componentConfig.setUserOriginatedFlag(event.isUserOriginated());
 					GtnUIFrameworkComponentConfig valueChangeComponentConfig = componentData
 							.getCurrentComponentConfig();
 					GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
 							valueChangeComponentConfig.getGtnUIFrameWorkActionConfigList());
+                                        componentConfig.setUserOriginatedFlag(false);
 
 				} catch (GtnFrameworkGeneralException e) {
 					gtnLogger.error(e.getMessage(), e);

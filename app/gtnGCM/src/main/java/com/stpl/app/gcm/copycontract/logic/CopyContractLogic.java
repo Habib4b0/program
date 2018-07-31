@@ -789,7 +789,7 @@ public class CopyContractLogic {
 
     private List getCustomizedRSData(List itemList) throws ParseException {
         List finalList = new ArrayList();
-        if (itemList != null && itemList.size() > 0) {
+        if (itemList != null && !itemList.isEmpty()) {
             for (int i = 0; i < itemList.size(); i++) {
                 NewComponentDTO itemDTO = new NewComponentDTO();
                 Object[] obje = (Object[]) itemList.get(i);
@@ -827,7 +827,7 @@ public class CopyContractLogic {
 
     private List getCustomizedPSData(List itemList) throws ParseException {
         List finalList = new ArrayList();
-        if (itemList != null && itemList.size() > 0) {
+        if (itemList != null && !itemList.isEmpty()) {
             for (int i = 0; i < itemList.size(); i++) {
                 NewComponentDTO itemDTO = new NewComponentDTO();
                 Object[] obje = (Object[]) itemList.get(i);
@@ -1114,7 +1114,7 @@ public class CopyContractLogic {
 
     private List getCustomizedCFP(List itemData) {
         List<CopyComponentDTO> companyList = new ArrayList<>();
-        if (itemData != null && itemData.size() > 0) {
+        if (itemData != null && !itemData.isEmpty()) {
             for (int i = 0; i < itemData.size(); i++) {
                 CopyComponentDTO companyDTO = new CopyComponentDTO();
                 Object[] obje = (Object[]) itemData.get(i);
@@ -1182,7 +1182,7 @@ public class CopyContractLogic {
 
     public List<CopyComponentDTO> SelectedContracts(List<ContractSelectionDTO> selectedList) throws ParseException {
         List<CopyComponentDTO> copyList = new ArrayList<>();
-        if (selectedList != null && selectedList.size() > 0) {
+        if (selectedList != null && !selectedList.isEmpty()) {
 
             for (int i = 0; i < selectedList.size(); i++) {
                 LOGGER.debug("inside for");
@@ -1247,7 +1247,7 @@ public class CopyContractLogic {
 
     public List<CopyComponentDTO> setCompanyValues(List componentList) {
         List<CopyComponentDTO> companyList = new ArrayList<>();
-        if (componentList != null && componentList.size() > 0) {
+        if (componentList != null && !componentList.isEmpty()) {
             for (int i = 0; i < componentList.size(); i++) {
                 CopyComponentDTO companyDTO = new CopyComponentDTO();
                 Object[] obje = (Object[]) componentList.get(i);
@@ -1276,7 +1276,7 @@ public class CopyContractLogic {
     public List<CopyComponentDTO> setIFPAttatchedItems(List componentList) {
         List<CopyComponentDTO> itemList = new ArrayList<>();
 
-        if (componentList != null && componentList.size() > 0) {
+        if (componentList != null && !componentList.isEmpty()) {
             for (int i = 0; i < componentList.size(); i++) {
                 CopyComponentDTO itemDTO = new CopyComponentDTO();
                 Object[] obje = (Object[]) componentList.get(i);
@@ -1307,7 +1307,7 @@ public class CopyContractLogic {
     public List<CopyComponentDTO> setPSAttatchedItems(List componentList) {
         List<CopyComponentDTO> priceList = new ArrayList<>();
 
-        if (componentList != null && componentList.size() > 0) {
+        if (componentList != null && !componentList.isEmpty()) {
 
             for (int i = 0; i < componentList.size(); i++) {
                 CopyComponentDTO itemDTO = new CopyComponentDTO();
@@ -1365,7 +1365,7 @@ public class CopyContractLogic {
 
     public List<CopyComponentDTO> setRSAttatchedItems(List componentList) {
         List<CopyComponentDTO> rebateList = new ArrayList<>();
-        if (componentList != null && componentList.size() > 0) {
+        if (componentList != null && !componentList.isEmpty()) {
 
             for (int i = 0; i < componentList.size(); i++) {
                 CopyComponentDTO rebateDTO = new CopyComponentDTO();

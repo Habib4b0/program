@@ -57,7 +57,7 @@ public class GtnWsWorkflowDdlbChangeController {
 
 			getWfUsersListConnection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions()
 					.getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select lastName,firstName,CONCAT(lastName, ' ', firstName) as fullName from ").append(getWfUsersListConnection.getCatalog()).append(".dbo.User_");
+			sqlQuery.append("select lastName,firstName,CONCAT(lastName, ' ', firstName) as fullName,userId from ").append(getWfUsersListConnection.getCatalog()).append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(sqlQuery.toString());
@@ -67,10 +67,11 @@ public class GtnWsWorkflowDdlbChangeController {
 				Object[] currentRow = resultList.get(i);
 				GtnWsRecordBean bean = new GtnWsRecordBean();
 
-				bean.setRecordHeader(Arrays.asList("lastName", "firstName", "fullName"));
+				bean.setRecordHeader(Arrays.asList("lastName", "firstName", "fullName", "userId"));
 				currentRow[0] = String.valueOf(currentRow[0]) == null ? "" : String.valueOf(currentRow[0]);
 				currentRow[1] = String.valueOf(currentRow[1]) == null ? "" : String.valueOf(currentRow[1]);
 				currentRow[2] = String.valueOf(currentRow[2]) == null ? "" : String.valueOf(currentRow[2]);
+                                currentRow[3] = String.valueOf(currentRow[3]) == null ? "" : String.valueOf(currentRow[3]);
 				bean.setProperties(Arrays.asList(currentRow));
 				resultListBean.add(bean);
 

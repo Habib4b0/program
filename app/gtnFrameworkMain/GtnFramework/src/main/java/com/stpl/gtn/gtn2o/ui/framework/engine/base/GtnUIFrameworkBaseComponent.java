@@ -475,7 +475,6 @@ public class GtnUIFrameworkBaseComponent {
 						: GtnFrameworkCommonStringConstants.SELECT_ONE;
 				idList.add(0, "0");
 				valueList.add(0, defaultValue);
-				vaadinComboBox.setSelectedItem(idList.get(0));
 			} else {
 				for (int i = 0; i < valueList.size(); i++) {
 					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
