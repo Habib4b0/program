@@ -21,6 +21,8 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+
+
 ------ Default Constraints
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.DEFAULT_CONSTRAINTS
@@ -3487,7 +3489,7 @@ IF EXISTS (SELECT 1 FROM   PERIOD_CONFIG_MASTER
     FROM   PERIOD_CONFIG_MASTER PM
    JOIN ARM_ADJUSTMENT_CONFIG AD
  ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
-AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )) 
+AND BUSINESS_PROCESS_TYPE NOT LIKE ('%-%')) 
   BEGIN 
       DELETE FROM PERIOD_CONFIG_DETAILS 
       WHERE  PERIOD_CONFIG_MASTER_SID IN(SELECT PERIOD_CONFIG_MASTER_SID 
@@ -3498,7 +3500,7 @@ AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 ))
                                                                                                               FROM   PERIOD_CONFIG_MASTER PM
                                                                                                                      JOIN ARM_ADJUSTMENT_CONFIG AD
                                                                                                                        ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
-                                                                                AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )))
+                                                                                AND BUSINESS_PROCESS_TYPE NOT LIKE ('%-%')))
   END 
 
   GO
@@ -3510,7 +3512,7 @@ IF EXISTS (SELECT 1
                                                 FROM   PERIOD_CONFIG_MASTER PM 
                                                        JOIN ARM_ADJUSTMENT_CONFIG AD 
                                                          ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
-                  AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )) 
+                  AND BUSINESS_PROCESS_TYPE NOT LIKE ('%-%')) 
   BEGIN 
       DELETE FROM PERIOD_CONFIG_MASTER 
       WHERE  BUSINESS_PROCESS_TYPE IN(SELECT BUSINESS_PROCESS_TYPE 
@@ -3519,7 +3521,7 @@ IF EXISTS (SELECT 1
                                                                            FROM   PERIOD_CONFIG_MASTER PM
                                                                                   JOIN ARM_ADJUSTMENT_CONFIG AD
                                                                                     ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
-                                             AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )) 
+                                             AND BUSINESS_PROCESS_TYPE NOT LIKE ('%-%')) 
   END 
 
 GO

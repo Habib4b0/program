@@ -703,7 +703,7 @@ public class CommonUtil {
     }
 
     public static double getConversionFormattedMultipleValue(ProjectionSelectionDTO selection, double value) {
-        if (0.0 == value || 0 == value || stringNullCheck(selection.getConversionFactor())
+        if (0 == Double.compare(value, 0) || stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             return value;
