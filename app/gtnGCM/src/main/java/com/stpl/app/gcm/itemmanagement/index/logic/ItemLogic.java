@@ -300,8 +300,8 @@ public class ItemLogic {
                 input.add("%");
             }
             if (filterMap.get(Constants.PLACE_HOLDER_PROPERTY) != null) {
-                if (!filterMap.get(Constants.PLACE_HOLDER_PROPERTY).equals(NumericConstants.ELEVEN)) {
-                    String placehold = String.valueOf(filterMap.get(Constants.PLACE_HOLDER_PROPERTY));
+                if (!filterMap.get(Constants.PLACE_HOLDER_PROPERTY).equals(Integer.toString(NumericConstants.ELEVEN))) {
+                    String placehold = filterMap.get(Constants.PLACE_HOLDER_PROPERTY);
                     if (placehold.contains("0")) {
                         input.add(" != " + userid + " ");
                     } else {

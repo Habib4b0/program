@@ -62,8 +62,8 @@ public class MedicaidQueryUtils {
 
             String customSql = SQlUtil
                     .getQuery(getClass(),queryName);
-            for (String key : input.keySet()) {
-                customSql = customSql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             medicaidList = (List) DAO.executeSelectQuery(customSql);
         } catch (PortalException | SystemException ex) {
@@ -97,8 +97,8 @@ public class MedicaidQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidAmountForView" : "getMedicaidAmount");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         medicaidList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -288,8 +288,8 @@ public class MedicaidQueryUtils {
         input.put(Constant.NDC_NINE_QUESTION, ndc9);
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -334,15 +334,15 @@ public class MedicaidQueryUtils {
 
         if (StringUtils.isNotBlank(ndc9LevelFilter)) {
             customSql = SQlUtil.getQuery("getMedicaidLevelFilter");
-            for (String key : input.keySet()) {
-                customSql = customSql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             customSql += " AND IM.NDC9 = '" + ndc9LevelFilter + "'";
             customSql += " GROUP  BY IM.NDC9,IM.ITEM_DESC ORDER  BY IM.NDC9 ";
         } else {
             customSql = SQlUtil.getQuery("getMedicaidParent");
-            for (String key : input.keySet()) {
-                customSql = customSql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
         }
 
@@ -357,8 +357,8 @@ public class MedicaidQueryUtils {
 
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
@@ -381,8 +381,8 @@ public class MedicaidQueryUtils {
         input.put("?LIMIT", end);
         input.put("?TEXT", filterText);
         String customSql = SQlUtil.getQuery(getClass(),"getMedicaidDropDown");
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         medicaidList = (List) DAO.executeSelectQuery(customSql);
