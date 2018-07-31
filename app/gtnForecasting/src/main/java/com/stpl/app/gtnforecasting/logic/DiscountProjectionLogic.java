@@ -1179,9 +1179,9 @@ public class DiscountProjectionLogic {
 
         final Map<Integer, List> finalMap = new HashMap<>();
 
-        for (int key : sourceHeaderMap.keySet()) {
+        for (Map.Entry<Integer, List> key : sourceHeaderMap.entrySet()) {
 
-            List list = sourceHeaderMap.get(key);
+            List list = key.getValue();
             if (finalMap.containsKey((Integer) list.get(NumericConstants.TWO))) {
 
                 List tempList = finalMap.get((Integer) list.get(NumericConstants.TWO));

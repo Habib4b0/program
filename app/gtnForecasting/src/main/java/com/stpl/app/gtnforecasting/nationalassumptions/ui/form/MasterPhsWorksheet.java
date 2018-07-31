@@ -610,8 +610,8 @@ public class MasterPhsWorksheet extends Window {
     public void calculate(Button.ClickEvent event) {
         try {
             boolean formatFlag = false;
-            for (String values : adjustedValues.keySet()) {
-                String formatedValue = adjustedValues.get(values);
+            for (Map.Entry<String, String> entry : adjustedValues.entrySet()) {
+                String formatedValue = entry.getValue();
                 formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
                 if (StringUtils.isNotBlank(formatedValue)) {
                     if ("-".equals(formatedValue) || "+".equals(formatedValue)) {

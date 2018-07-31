@@ -132,7 +132,7 @@ public class GtnWsSqlService {
 			}
 
 		} catch (Exception ex) {
-			GTNLOGGER.error("Exception in getQuery", ex);
+			GTNLOGGER.error("Exception in getReplacedQuery", ex);
 		}
 		return sql.toString();
 	}
@@ -239,7 +239,7 @@ public class GtnWsSqlService {
             }
 
         } catch (Exception ex) {
-            GTNLOGGER.error("Exception in getQuery", ex);
+            GTNLOGGER.error("Exception in getNullReplacedQuery", ex);
         }
         return sql.toString();
     }

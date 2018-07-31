@@ -342,12 +342,11 @@ public class PagedGrid {
 		for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
 			String key = getDBColumnName(entry.getKey());
 			Object value = entry.getValue();
-			filter.append(condition).append(" ").append(key).append("  like '%").append(value).append("%'");
+            filter.append(condition).append(' ').append(key).append("  like '%").append(value).append("%'");
 		}
 
 		return query.replace("@filter", filter.toString());
 	}
-
 	private String getDBColumnName(String key) {
 		HashMap<String, String> dbColumnMap = new HashMap<>();
 		dbColumnMap.put("hierName", "c.HIERARCHY_NAME");
@@ -591,12 +590,8 @@ public class PagedGrid {
 
 			@Override
 			public void valueChange(ValueChangeEvent<LocalDate> event) {
-				if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
-					inlineDateField.setData(event.getValue());
-				} else {
 					inlineDateField.setData(event.getValue());
 				}
-			}
 		});
 	}
 
@@ -666,7 +661,7 @@ public class PagedGrid {
 			});
 			UI.getCurrent().removeWindow(window);
 		} catch (Exception e) {
-			gtnlogger.error("Exception while creating the filter component", e);
+			gtnlogger.error("Exception while Click Listener", e);
 		}
 
 	}
@@ -690,7 +685,7 @@ public class PagedGrid {
 					inlineDateFieldEndDate);
 			return button;
 		} catch (Exception e) {
-			gtnlogger.error("Exception while creating the filter component", e);
+			gtnlogger.error("Exception while adding Click Listener", e);
 		}
 		return button;
 	}

@@ -986,8 +986,8 @@ public class MasterFcpWorkSheet extends Window {
 
         boolean formatFlag = false;
 
-        for (String values : notesValues.keySet()) {
-            String formatedValue = notesValues.get(values);
+        for (Map.Entry<String, String> entry : notesValues.entrySet()) {
+            String formatedValue = entry.getKey();
             formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
             if (StringUtils.isNotBlank(formatedValue)) {
                 if ("-".equals(formatedValue) || "+".equals(formatedValue)) {

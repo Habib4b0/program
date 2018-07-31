@@ -38,21 +38,21 @@ public class PagedTreeGrid {
     public static final GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedTreeGrid.class);
     public static final List<String> INPUT = Arrays.asList("levelNumber", "hierarchyNo");
     private GtnUIFrameworkPagedTreeTableConfig tableConfig;
-    int count;
+    private int count;
     private int pageLength = 10;
     private int pageNumber = 0;
     private int columnPageNumber = 0;
     private DataSet dataSet;
-    TreeGrid<GtnWsRecordBean> grid;
-    Set<String> tableColumns = new HashSet<>();
-    GtnWsRecordBean lastRow;
+    private TreeGrid<GtnWsRecordBean> grid;
+    private Set<String> tableColumns = new HashSet<>();
+    private GtnWsRecordBean lastRow;
 
     private final String emptyString = GtnFrameworkCommonStringConstants.STRING_EMPTY;
     private final Set<GtnWsRecordBean> expandedItemIds = new HashSet<>();
     private final Set<Integer> expandedRowIds = new HashSet<>();
-    HashMap<Integer, GtnWsRecordBean> lastExpandedItemHierarchy = new HashMap<>(7);
-    GtnWsRecordBean lastExpandedItem;
-    HorizontalLayout controlLayout = new HorizontalLayout();
+    private HashMap<Integer, GtnWsRecordBean> lastExpandedItemHierarchy = new HashMap<>(7);
+    private GtnWsRecordBean lastExpandedItem;
+    private HorizontalLayout controlLayout = new HorizontalLayout();
     private TextField pageNoField = new TextField();
     private TextField columnPageNoField = new TextField();
     private ComboBox itemsPerPage = new ComboBox();
@@ -60,17 +60,17 @@ public class PagedTreeGrid {
 
     private TextField totalColumns = new TextField();
     private TextField pageCountLabel;
-    GtnUIFrameworkComponentConfig componentConfig;
-    int expandTempIndex = 0;
-    int expandFinalIndex = 0;
-    boolean removeExcessItems = false;
-    int excessItemsStartIndex = 0;
-    List<GtnWsRecordBean> itemsTobeRemoved = new ArrayList<>();
+    private GtnUIFrameworkComponentConfig componentConfig;
+    private int expandTempIndex = 0;
+    private int expandFinalIndex = 0;
+    private boolean removeExcessItems = false;
+    private int excessItemsStartIndex = 0;
+    private List<GtnWsRecordBean> itemsTobeRemoved = new ArrayList<>();
     public boolean shiftLeftSingeHeader;
-    GtnWsRecordBean tempBean =null;
-    int fetched = 0;
-    boolean levelExpandOn=false;
-    int   levelExpandNo=1;
+    private GtnWsRecordBean tempBean =null;
+    private int fetched = 0;
+    private boolean levelExpandOn=false;
+    private int levelExpandNo=1;
     
     public String componentIdInMap = null;
     public boolean columnLazyLoading=false;
