@@ -47,7 +47,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
     private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkExcelExportAction.class);
     public static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
-    int excelRowCount=0;
+    public int excelRowCount=0;
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)

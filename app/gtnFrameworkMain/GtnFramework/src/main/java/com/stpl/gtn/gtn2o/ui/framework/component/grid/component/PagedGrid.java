@@ -585,12 +585,8 @@ public class PagedGrid {
 
             @Override
             public void valueChange(ValueChangeEvent<LocalDate> event) {
-                if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
-                    inlineDateField.setData(event.getValue());
-                } else {
                     inlineDateField.setData(event.getValue());
                 }
-            }
         });
     }
 
