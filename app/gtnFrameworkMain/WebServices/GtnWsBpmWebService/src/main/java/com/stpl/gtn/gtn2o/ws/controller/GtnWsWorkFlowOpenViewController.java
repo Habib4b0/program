@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class GtnWsWorkFlowOpenViewController {
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsWorkFlowOpenViewController.class);
 
         @Autowired
-	private GtnWsReturnBpmDbService GtnWsReturnBpmDbService;
+	private GtnWsReturnBpmDbService gtnWsReturnBpmDbService;
 
 	@Autowired
 	private GtnWsUserRoleService gtnWsUserRoleService;
@@ -63,7 +64,7 @@ public class GtnWsWorkFlowOpenViewController {
 			String bpmOpenViewQuery = openviewWebservice.openviewSearchQuery();
 			Object[] bpmOpenViewQueryParams = { gtnWsRequest.getGtnWSCommonWorkflowRequest().getProcessInstanceId() };
 			@SuppressWarnings("unchecked")
-			List<Object[]> resultList = GtnWsReturnBpmDbService.bpmexecuteQuery(bpmOpenViewQuery, bpmOpenViewQueryParams);
+			List<Object[]> resultList = gtnWsReturnBpmDbService.bpmexecuteQuery(bpmOpenViewQuery, bpmOpenViewQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
 			if (resultList != null) {
 				for (Object[] obj : resultList) {
 					roleList.add(String.valueOf(obj[1]));

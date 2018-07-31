@@ -442,7 +442,7 @@ public class PagedGrid {
 			}
 		});
 		return h3;
-	}
+						}
 
 	private Component getDateFieldFilterComponent(String property) {
 		HorizontalLayout h2 = new HorizontalLayout();
@@ -705,4 +705,4 @@ public class PagedGrid {
 		return list;
 	}
 
-}
+						}
