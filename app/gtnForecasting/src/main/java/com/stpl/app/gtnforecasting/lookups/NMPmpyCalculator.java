@@ -941,7 +941,7 @@ public class NMPmpyCalculator extends Window {
         Double marketShareValue;
 
         if (marketShare.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(marketShare.getValue())) && !Constant.NULL.equals(String.valueOf(marketShare.getValue()))
-                && isNumeric(String.valueOf(marketShare.getValue())) && Double.parseDouble(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0.0) {
+                && isNumeric(String.valueOf(marketShare.getValue())) && Double.parseDouble(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0) {
             marketShareValue = Double.valueOf(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY));
         } else {
             valuePerLife.setValue(StringUtils.EMPTY);
@@ -978,7 +978,7 @@ public class NMPmpyCalculator extends Window {
         double valuePerLifeValue = 1.0;
 
         if (valuePerLife.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
-                && CommonUtils.compareDoubleValues(tempValuePerLifeValue) != 0.0) {
+                && CommonUtils.compareDoubleValues(tempValuePerLifeValue) != 0) {
 
             if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))){
                 valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
