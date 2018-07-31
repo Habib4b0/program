@@ -2969,7 +2969,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 customDeductionRelationDdlb.addItem(objects[0]);
                 customDeductionRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
             }
-            if (queryDiscountList != null && !queryDiscountList.isEmpty() && isDataSelection) {
+            if (queryDiscountList != null && !queryDiscountList.isEmpty() && isDataSelection && !queryDiscountList.isEmpty()) {
                 customDeductionRelationDdlb.select(queryDiscountList.get(0)[0]);
             }
         }
