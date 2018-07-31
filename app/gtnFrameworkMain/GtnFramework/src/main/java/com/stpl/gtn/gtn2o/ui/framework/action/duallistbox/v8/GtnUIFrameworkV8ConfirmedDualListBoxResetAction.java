@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -33,15 +34,16 @@ public class GtnUIFrameworkV8ConfirmedDualListBoxResetAction implements GtnUIFra
 
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
 
-		Optional.ofNullable(leftTable).ifPresent(left -> {
-			leftTable.setItems(new ArrayList<>());
-		});
+		Optional.ofNullable(leftTable).ifPresent(left -> leftTable.setItems(new ArrayList<>()));
 
 		Optional.ofNullable(rightTable).ifPresent(right -> {
 			right.getTreeData().clear();
 			right.getDataProvider().refreshAll();
 		});
+		Optional.ofNullable(treeBuilder).ifPresent(GtnUIFrameworkHierarchyTreeBuilder::clearRootNode);
+
 	}
 
 	@Override
