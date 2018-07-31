@@ -53,6 +53,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnWsCustomViewService {
 
 	private static final String REPORT = "report";
+	private static final String CUSTOM_VIEW_MASTER_SID_DB_PROPERTY = "customViewMasterSid";
 
 	public GtnWsCustomViewService() {
 		super();
@@ -176,27 +177,14 @@ public class GtnWsCustomViewService {
 		try (Session session = getSessionFactory().openSession()) {
 			tx = session.beginTransaction();
 			if (cvRequest.getCvSysId() != 0) {
-				session.createSQLQuery(gtnWsSqlService.getQuery("getCustomCCPDetailsDeleteQuery"))
-						.setParameter(0, cvRequest.getCvSysId()).executeUpdate();
+				Object[] param = { cvRequest.getCvSysId() };
+				GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER };
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery("getCustomCCPDetailsDeleteQuery"),
+						param, type);
 
 				List<CustViewDetails> details = session.createCriteria(CustViewDetails.class)
-						.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId())).list();
-				if (details != null) {
-					for (CustViewDetails custViewDetails : details) {
-						if (custViewDetails.getHierarchyIndicator() == 'V') {
-							List<CustomViewVariables> variables = session
-									.createCriteria(CustomViewVariables.class).add(Restrictions
-											.eq("customViewDetailsSid", custViewDetails.getCustomViewDetailsSid()))
-									.list();
-							if (variables != null) {
-								for (CustomViewVariables customViewVariables : variables) {
-									session.delete(customViewVariables);
-								}
-							}
-						}
-						session.delete(custViewDetails);
-					}
-				}
+						.add(Restrictions.eq(CUSTOM_VIEW_MASTER_SID_DB_PROPERTY, cvRequest.getCvSysId())).list();
+				customViewDetailsAndVariablesDeletion(details, session);
 
 				CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
 				if (master != null) {
@@ -214,6 +202,24 @@ public class GtnWsCustomViewService {
 		}
 	}
 
+	private void customViewDetailsAndVariablesDeletion(List<CustViewDetails> details, Session session) {
+		if (details != null) {
+			for (CustViewDetails custViewDetails : details) {
+				if (custViewDetails.getHierarchyIndicator() == 'V') {
+					List<CustomViewVariables> variables = session.createCriteria(CustomViewVariables.class)
+							.add(Restrictions.eq("customViewDetailsSid", custViewDetails.getCustomViewDetailsSid()))
+							.list();
+					if (variables != null) {
+						for (CustomViewVariables customViewVariables : variables) {
+							session.delete(customViewVariables);
+						}
+					}
+				}
+				session.delete(custViewDetails);
+			}
+		}
+	}
+
 	public boolean validateCustViewUser(GtnWsCustomViewRequest cvRequest) {
 		Transaction tx = null;
 		try (Session session = getSessionFactory().openSession()) {
@@ -225,7 +231,9 @@ public class GtnWsCustomViewService {
 			tx.commit();
 			return false;
 		} catch (Exception e) {
-			tx.rollback();
+			if (tx != null) {
+				tx.rollback();
+			}
 			logger.error(e.getMessage(), e);
 			return false;
 		}
@@ -483,7 +491,7 @@ public class GtnWsCustomViewService {
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
 		try (Session session = getSessionFactory().openSession()) {
 			Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
-			selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+			selectCriteria.add(Restrictions.eq(CUSTOM_VIEW_MASTER_SID_DB_PROPERTY, cvRequest.getCvSysId()));
 			List<CustViewDetails> gtnListOfData = selectCriteria.list();
 			for (CustViewDetails detailsData : gtnListOfData) {
 				response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
@@ -518,7 +526,7 @@ public class GtnWsCustomViewService {
 			throws GtnFrameworkGeneralException {
 		try (Session session = getSessionFactory().openSession()) {
 			Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
-			selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+			selectCriteria.add(Restrictions.eq(CUSTOM_VIEW_MASTER_SID_DB_PROPERTY, cvRequest.getCvSysId()));
 			List<CustViewDetails> gtnListOfData = selectCriteria.list();
 
 			List<GtnWsRecordBean> recordTreeData = new ArrayList<>();
