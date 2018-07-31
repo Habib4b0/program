@@ -161,69 +161,83 @@ public class SalesExcelNM extends ExcelExport{
     private void formatForCurrencyAndDecimal(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
         if (currencyNoDecimalFormat(propId)) {
             sheetCell.setCellStyle(style1);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style1);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
+            currencyWithNoDecimal(rootItemId, sheetCell);
         } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
             sheetCell.setCellStyle(style2);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style2);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
+            unitWithNoDecimal(rootItemId, sheetCell);
         }else if (formatter.get(UNITTWODECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNITTWODECIMAL))) {
             sheetCell.setCellStyle(style3);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String agformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
-                LOGGER.info(COLUMN_FORMULA , agformula);
-                sheetCell.setCellFormula(agformula);
-            }
+            unitWithTwoDecimal(rootItemId, sheetCell);
         }else if (formatter.get(UNIT_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNIT_DECIMAL))) {
             sheetCell.setCellStyle(style3);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                int columnIndex = isAg ? sheetCell.getColumnIndex() + 4 : sheetCell.getColumnIndex() + 2;
-                String pgformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,columnIndex);
-                LOGGER.info(COLUMN_FORMULA , pgformula);
-                sheetCell.setCellFormula(pgformula);
-            }
+            unitDecimal(rootItemId, sheetCell);
         }
         //Added Formula to PG_SUM column  
         else if (formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) {
             sheetCell.setCellStyle(style3);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
-            }
+            growthSum(rootItemId, sheetCell);
         }
         //Added Formula to AG_SUM column
         else if (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) {
             sheetCell.setCellStyle(style3);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
-            }
+            growthSum(rootItemId, sheetCell);
         }
         //Added Formula to Child Count column
         else if (formatter.get("CHILD_COUNT") != null && String.valueOf(propId).endsWith(formatter.get("CHILD_COUNT"))) {
-        	sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-        	if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-        		String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
+            if (((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)) {
+                String formula = getFormula(sheetCell, rootItemId);
+                LOGGER.info(COLUMN_FORMULA, getAppendedFormulaForPG_AG_Sum(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            } else {
+                // Setting 1 to children
+                sheetCell.setCellValue(1);
             }
-        	else
-        	{
-        		// Setting 1 to children
-        		sheetCell.setCellValue(1);
-        	}
+        }
+    }
+
+    private void growthSum(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String formula = getFormula(sheetCell, rootItemId);
+            LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+        }
+    }
+
+    private void unitDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            int columnIndex = isAg ? sheetCell.getColumnIndex() + 4 : sheetCell.getColumnIndex() + 2;
+            String pgformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,columnIndex);
+            LOGGER.info(COLUMN_FORMULA , pgformula);
+            sheetCell.setCellFormula(pgformula);
+        }
+    }
+
+    private void unitWithTwoDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String agformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
+            LOGGER.info(COLUMN_FORMULA , agformula);
+            sheetCell.setCellFormula(agformula);
+        }
+    }
+
+    private void unitWithNoDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String formula = getFormula(sheetCell, rootItemId);
+            sheetCell.setCellStyle(style2);
+            LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
+        }
+    }
+
+    private void currencyWithNoDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String formula = getFormula(sheetCell, rootItemId);
+            sheetCell.setCellStyle(style1);
+            LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
         }
     }
     public String getColumnLetter(Cell sheetCell,int columnIndex) {
