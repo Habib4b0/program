@@ -3410,7 +3410,7 @@ public class SalesLogic {
                 return false;
             } else {
                 BigDecimal obj = (BigDecimal) list.get(0);
-                return CommonUtils.compareDoubleValues(String.valueOf(obj.doubleValue())) != 0.0;
+                return CommonUtils.compareDoubleValues(String.valueOf(obj.doubleValue())) != 0;
             }
         } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
@@ -3868,10 +3868,10 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} ", amount);
-        if (CommonUtils.compareDoubleValues(String.valueOf(amountA)) == 0 && CommonUtils.compareDoubleValues(String.valueOf(amountB)) == 0) {
+        LOGGER.debug("amount     = {} ", amount); 
+        if (Double.compare(amountA, 0.0) == 0 && Double.compare(amountB, 0.0) == 0) {
             amount = 0.0;
-        } else if (CommonUtils.compareDoubleValues(String.valueOf(amountA)) != 0 && CommonUtils.compareDoubleValues(String.valueOf(amountB)) != 0) {
+        } else if (Double.compare(amountA, 0.0) != 0 && Double.compare(amountB, 0.0) != 0) {
             amount = (amountA / amountB) * amount;
         }
         return amount;
