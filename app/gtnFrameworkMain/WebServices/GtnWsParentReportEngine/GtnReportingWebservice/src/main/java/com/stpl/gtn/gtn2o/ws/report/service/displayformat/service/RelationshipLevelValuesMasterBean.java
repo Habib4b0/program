@@ -102,10 +102,10 @@ public class RelationshipLevelValuesMasterBean {
 		input.add(dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
 		input.add(hierarchyNoType);
 		input.add(String.valueOf(tempListObject[1]));
-		input.add(String.valueOf(tempListObject[NumericConstants.TWO]));
+		input.add(String.valueOf(tempListObject[NumericConstants.REPORT_TWO]));
 		input.add(isCustomer() ? dataSelectionBean.getCustomerRelationshipBuilderSid()
 				: dataSelectionBean.getProductRelationshipBuilderSid());
-		input.add(String.valueOf(tempListObject[NumericConstants.THREE]));
+		input.add(String.valueOf(tempListObject[NumericConstants.REPORT_THREE]));
 		input.add(isCustomer() ? dataSelectionBean.getCustomerRelationshipVersionNo()
 				: dataSelectionBean.getProductRelationshipVersionNo());
 		bean.setQuery(sqlService.getQuery(input, "getRelationshipLevelValues"));
@@ -118,7 +118,7 @@ public class RelationshipLevelValuesMasterBean {
 	// String customSql;
 	// customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
 	// customSql = customSql.replace("?LNO",
-	// String.valueOf(tempListObject[NumericConstants.ZERO]));
+	// String.valueOf(tempListObject[NumericConstants.REPORT_ZERO]));
 	// customSql = customSql.replace(RBSID, relationshipBuilderSid);
 	// customSql = customSql.replace("?RLDV",
 	// sessionDTO.getDeductionRelationVersion() + StringUtils.EMPTY);
@@ -133,17 +133,17 @@ public class RelationshipLevelValuesMasterBean {
 	// RLD.RELATIONSHIP_LEVEL_VALUES");
 	// } else {
 	// customSql = customSql.replace(FIELD_VALUE,
-	// " RS." + tempListObject[NumericConstants.ONE] +
+	// " RS." + tempListObject[NumericConstants.REPORT_ONE] +
 	// "=RLD.RELATIONSHIP_LEVEL_VALUES");
 	// }
 	//
 	// if (isUDC) {
 	// customSql = customSql.replace("?UDCJOIN",
-	// " JOIN UDCS U ON U." + tempListObject[NumericConstants.ONE] +
+	// " JOIN UDCS U ON U." + tempListObject[NumericConstants.REPORT_ONE] +
 	// "=RLD.RELATIONSHIP_LEVEL_VALUES ");
 	// customSql = customSql.replace("?HELPERTABLEJOIN",
 	// " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=U." +
-	// tempListObject[NumericConstants.ONE]);
+	// tempListObject[NumericConstants.REPORT_ONE]);
 	// customSql = customSql.replace("?REBATEJOIN", StringUtils.EMPTY);
 	// customSql = customSql.replace("?HTDESCRIPTION", HT_DESC);
 	// customSql = customSql.replace("?DEDGROUPBY", HT_DESC);
@@ -151,7 +151,7 @@ public class RelationshipLevelValuesMasterBean {
 	// customSql = customSql.replace("?REBATEJOIN",
 	// isHelperTableJoin
 	// ? " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=RS." +
-	// tempListObject[NumericConstants.ONE]
+	// tempListObject[NumericConstants.REPORT_ONE]
 	// : StringUtils.EMPTY);
 	// customSql = customSql.replace("?HELPERTABLEJOIN", StringUtils.EMPTY);
 	// customSql = customSql.replace("?UDCJOIN", StringUtils.EMPTY);

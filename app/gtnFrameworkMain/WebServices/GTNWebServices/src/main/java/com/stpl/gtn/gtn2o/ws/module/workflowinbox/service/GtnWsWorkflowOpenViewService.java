@@ -82,7 +82,7 @@ public class GtnWsWorkflowOpenViewService {
 		String bpicatalog = getController().getSysSchemaCatalogs();
 		portletidList.add(bpicatalog);
 		portletidList.add(bpicatalog);
-		portletidList.add(fetchpath.getProperty(key));
+		portletidList.add(fetchpath.getProperty(key).trim());
 
 		sqlQuery.append(gtnWsSqlService.getQuery(portletidList, GtnFrameworkCommonStringConstants.GETFRIENDLYURLQUERY));
 		return sqlQuery.toString();
