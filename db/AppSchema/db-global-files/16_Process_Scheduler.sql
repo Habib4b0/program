@@ -5280,6 +5280,46 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADJUSTMENT_DETAIL_OUTBOUND_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]			
+		,[PROCESS_DISPLAY_NAME]
+		,[SCRIPT_NAME]
+		,[ACTIVE_FLAG]			
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]		
+		)
+	VALUES (
+		'ADJUSTMENT_DETAIL_OUTBOUND_INTERFACE'		
+		,'ADJUSTMENT_DETAIL_OUTBOUND_INTERFACE'
+		,'Adjustment_Detail_Outbound_Intf.sh'
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1		
+		)
+END
+GO
+
+
 -----------------------UPDATE Starts Here
 IF EXISTS (
 		SELECT 1
