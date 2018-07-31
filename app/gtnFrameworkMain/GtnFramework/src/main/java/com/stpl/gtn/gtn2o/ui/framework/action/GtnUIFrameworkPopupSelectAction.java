@@ -16,107 +16,124 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.InlineDateField;
+import org.apache.commons.lang3.StringUtils;
 
 public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		return;
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        return;
 
-	}
+    }
 
-	/*
+    /*
 	 * Param 0 - Result table Id , Param 1 - popup source compoent id, Param2 -
 	 * input column idList(property id of table), Param3 - component id list of
 	 * parant view (param 2 and 3 sholud be same size), Param4 - Close Action
 	 * class, Param5 - PopUpSharedData *
-	 */
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
+        List<Object> selectParam = gtnUIFrameWorkActionConfig.getActionParameterList();
+        String resultTableId = (String) selectParam.get(0);
+        String idComponent = (String) selectParam.get(1);
+        List<String> inputColumIds = (List<String>) selectParam.get(2);
+        List<String> outputFieldIds = (List<String>) selectParam.get(3);
 
-		List<Object> selectParam = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String resultTableId = (String) selectParam.get(0);
-		String idComponent = (String) selectParam.get(1);
-		List<String> inputColumIds = (List<String>) selectParam.get(2);
-		List<String> outputFieldIds = (List<String>) selectParam.get(3);
+        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, componentId);
+        GtnUIFrameworkComponentData componenetData = (GtnUIFrameworkComponentData) abstractComponent.getData();
+        if (abstractComponent instanceof InlineDateField) {
+            String newValue = StringUtils.EMPTY;
+            for (String inputColumId : inputColumIds) {
+                AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, inputColumId);
+                newValue = newValue + " - " + String.valueOf(vaadinField.getValue());
+            }
+            newValue = newValue.substring(2);
+            AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponentFromParent(outputFieldIds.get(0), componentId).getComponent();
+            if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
+                boolean isReadOnly = vaadinField.isReadOnly();
+                vaadinField.setReadOnly(false);
+                vaadinField.setValue(String.valueOf(newValue));
+                vaadinField.setReadOnly(isReadOnly);
 
-		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, componentId);
-		GtnUIFrameworkComponentData componenetData = (GtnUIFrameworkComponentData) abstractComponent.getData();
-		ExtFilterTable resultTable = (ExtFilterTable) componenetData.getCustomData();
-		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
-		idComponentData.setCustomData(resultTable.getValue());
+            }
+        } else {
+            ExtFilterTable resultTable = (ExtFilterTable) componenetData.getCustomData();
+            GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
+            idComponentData.setCustomData(resultTable.getValue());
 
-		GtnWsRecordBean dto = (GtnWsRecordBean) resultTable.getValue();
+            GtnWsRecordBean dto = (GtnWsRecordBean) resultTable.getValue();
 
-		for (int i = 0; i < inputColumIds.size(); i++) {
-			AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId).getComponent();
-			Object newValue = null;
-			if (dto != null && dto.getPropertyValue(inputColumIds.get(i)) != null) {
-				newValue = dto.getPropertyValue(inputColumIds.get(i));
-			}
-                        else if(dto==null){
-                            GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgParamsList = new ArrayList<>();
-			alertMsgParamsList.add("Select Error");
-			alertMsgParamsList.add("Please select a row from the Results list view to proceed");
-			alertActionConfig.setActionParameterList(alertMsgParamsList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
-                        
-                        throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
-                        }
-                        else {
-				newValue = dto.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
-			}
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
-					.getComponentData().setCustomData(dto);
-			if (vaadinField != null && newValue!=null && !"null".equals(String.valueOf(newValue))) {
-				boolean isReadOnly = vaadinField.isReadOnly();
-				vaadinField.setReadOnly(false);
-				vaadinField.setValue(String.valueOf(newValue));
-				vaadinField.setReadOnly(isReadOnly);
+            for (int i = 0; i < inputColumIds.size(); i++) {
+                AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI
+                        .getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId).getComponent();
+                Object newValue = null;
+                if (dto != null && dto.getPropertyValue(inputColumIds.get(i)) != null) {
+                    newValue = dto.getPropertyValue(inputColumIds.get(i));
+                } else if (dto == null) {
+                    GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+                    alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+                    List<Object> alertMsgParamsList = new ArrayList<>();
+                    alertMsgParamsList.add("Select Error");
+                    alertMsgParamsList.add("Please select a row from the Results list view to proceed");
+                    alertActionConfig.setActionParameterList(alertMsgParamsList);
+                    GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 
-			}
-		}
+                    throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
+                } else {
+                    newValue = dto.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
+                }
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
+                        .getComponentData().setCustomData(dto);
+                if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
+                    boolean isReadOnly = vaadinField.isReadOnly();
+                    vaadinField.setReadOnly(false);
+                    vaadinField.setValue(String.valueOf(newValue));
+                    vaadinField.setReadOnly(isReadOnly);
 
-		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId);
+                }
+            }
 
-		GtnUIFrameworkComponentConfig currentComponentConfig = componentData.getCurrentComponentConfig();
+            GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId);
 
-		if (currentComponentConfig.getDependentComponentList() != null) {
+            GtnUIFrameworkComponentConfig currentComponentConfig = componentData.getCurrentComponentConfig();
 
-			for (String reloadComponentId : currentComponentConfig.getDependentComponentList()) {
-				GtnUIFrameworkComponentData reloadComponentData = GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponentFromParent(reloadComponentId, componentId).getComponentData();
-				GtnUIFrameworkComponentConfig reloadComponentConfig = reloadComponentData.getCurrentComponentConfig();
-				GtnUIFrameworkComponent gtnUIFrameworkComponent = reloadComponentConfig.getComponentType()
-						.getGtnComponent();
-				List<Object> comboboxWhereClauseParamList = new ArrayList<>();
-				comboboxWhereClauseParamList.add(dto.getPropertyValueByIndex(dto.getProperties().size() - 1));
+            if (currentComponentConfig.getDependentComponentList() != null) {
 
-				gtnUIFrameworkComponent.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION, reloadComponentId,
-						getParentViewId(componentData, componentId), comboboxWhereClauseParamList);
-			}
-		}
-	}
+                for (String reloadComponentId : currentComponentConfig.getDependentComponentList()) {
+                    GtnUIFrameworkComponentData reloadComponentData = GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponentFromParent(reloadComponentId, componentId).getComponentData();
+                    GtnUIFrameworkComponentConfig reloadComponentConfig = reloadComponentData.getCurrentComponentConfig();
+                    GtnUIFrameworkComponent gtnUIFrameworkComponent = reloadComponentConfig.getComponentType()
+                            .getGtnComponent();
+                    List<Object> comboboxWhereClauseParamList = new ArrayList<>();
+                    comboboxWhereClauseParamList.add(dto.getPropertyValueByIndex(dto.getProperties().size() - 1));
 
-	private String getParentViewId(GtnUIFrameworkComponentData componentData, String componentId) {
-		if (componentData.getParentViewId() != null) {
-			return componentData.getParentViewId();
-		} else {
-			return componentId;
-		}
-	}
+                    gtnUIFrameworkComponent.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION, reloadComponentId,
+                            getParentViewId(componentData, componentId), comboboxWhereClauseParamList);
+                }
+            }
+        }
+    }
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
+    private String getParentViewId(GtnUIFrameworkComponentData componentData, String componentId) {
+        if (componentData.getParentViewId() != null) {
+            return componentData.getParentViewId();
+        } else {
+            return componentId;
+        }
+    }
+
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
+        return this;
+    }
 
 }

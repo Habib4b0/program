@@ -109,20 +109,16 @@
 		<property name="jndiName" value="java:jboss/datasources/jdbc/bpmDataPool" />
 		<property name="lookupOnStartup" value="true" />
 	</bean>
-
+        <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger"/>
+        <bean id="gtnSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryLogger" ref="queryLogger"></property>
+	</bean>
 	<bean id="TestWebService" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsHealthCheck">
 	</bean>
 	<bean id="databaseService"
 		class="com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService">
-		<property name="sysSessionFactory">
-			<ref bean="sysSessionFactory" />
-		</property>
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-		<property name="bpmSessionFactory">
-			<ref bean="bpmSessionFactory" />
-		</property>
 	</bean>
 	<bean id="gtnWsUserRoleService"
 		class="com.stpl.gtn.gtn2o.ws.service.userrole.GtnWsUserRoleService">

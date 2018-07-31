@@ -27,8 +27,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,7 +109,6 @@ public class HeaderUtils {
         String projections = projSelDTO.getActualsOrProjections();
         String pivotView = projSelDTO.getPivotView();
         String frequency = projSelDTO.getFrequency();
-//        Set massPopulateSet = new TreeSet();
          List<String> colList = new ArrayList<>();
         CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
 
@@ -275,7 +272,7 @@ public class HeaderUtils {
                     commonColumn = str.insert(commonColumn.length() - NumericConstants.FOUR, '-').toString();
                 }
                 
-                int count_column = 0;
+                int countColumn = 0;
                 
                 String[] variableArr = new String[projSelDTO.getVariableList().size()];
                 variableArr = projSelDTO.getVariableList().toArray(variableArr);
@@ -342,7 +339,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside PG");
                                 break;
                             case Constant.ACCOUNT_GROWTH:
@@ -353,7 +350,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside AG");
                                 break;
                                 
@@ -362,10 +359,8 @@ public class HeaderUtils {
                         }
                     }
                     
-                    LOGGER.info("col count if: " + count_column);
-                    if(count_column != 0)
+                    if(countColumn != 0)
                     {
-                    	LOGGER.info("if");
                 		columnConfigureSum(commonColumn + Constant.CHILD_COUNT, commonHeader + Constant.CHILD_COUNT_HEADER, excelHeader, dmapsum);
                         singleColumnForExcel.add(commonColumn + Constant.CHILD_COUNT);//Added for tabwise excel export
                         singleHeaderForExcel.add(commonHeader + Constant.CHILD_COUNT_HEADER);//Ends here
@@ -396,7 +391,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside PG");
                                 break;
                            
@@ -408,7 +403,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside AG");
                                 break;
                                 
@@ -418,7 +413,7 @@ public class HeaderUtils {
                         
                     }
                     // Added Count Column
-                    if(count_column != 0)
+                    if(countColumn != 0)
                     {
                 		columnConfigureSum(commonColumn + Constant.CHILD_COUNT, commonHeader + Constant.CHILD_COUNT_HEADER, excelHeader, dmapsum);
                         singleColumnForExcel.add(commonColumn + Constant.CHILD_COUNT);//Added for tabwise excel export
@@ -786,6 +781,7 @@ public class HeaderUtils {
         for (int i = 0; i < frequency; i++) {
             List<Object> dmap = new ArrayList<>();
             List<Object> historyObj = new ArrayList<>();
+            List<Object> projectionObj = new ArrayList<>();
 
             String commonColumn = Constant.Q_SMALL + squr + "-" + syear;
             String commonHeader = Constant.Q + squr + " " + syear;
@@ -831,6 +827,7 @@ public class HeaderUtils {
                         String singleColumn = commonColumn + Constant.PROJECTED_SALES2;
                         dmap.add(singleColumn);
                         historyObj.add(singleColumn);
+                        projectionObj.add(singleColumn);
                         tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
                         tableHeaderDTO.addSingleHistoryColumn(singleColumn, PROJECTED_SALES1);
                         excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_SALES_SPACE, String.class);
@@ -862,6 +859,7 @@ public class HeaderUtils {
                         String singleColumn = commonColumn + Constant.PROJECTED_UNITS_TILT;
                         dmap.add(singleColumn);
                         historyObj.add(singleColumn);
+                        projectionObj.add(singleColumn);
                         tableHeaderDTO.addSingleColumn(singleColumn, Constant.PROJECTED_UNITS, String.class);
                         tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.PROJECTED_UNITS);
                         excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_UNITS_SPACE, String.class);
@@ -871,6 +869,7 @@ public class HeaderUtils {
                 if (pGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + Constant.PRODUCT_GROWTH_TILT;
                     dmap.add(singleColumn);
+                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PRODUCT_GROWTH, String.class);
                     tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.PRODUCT_GROWTH);
                     excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PRODUCT_GROWTH_SPACE, String.class);
@@ -879,6 +878,7 @@ public class HeaderUtils {
                 if (aGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + Constant.ACCOUNT_GROWTH_TILT;
                     dmap.add(singleColumn);
+                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACCOUNT_GROWTH, String.class);
                     tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.ACCOUNT_GROWTH);
                     excelDto.addSingleColumn(singleColumn, commonHeader + Constant.SPACE_ACCOUNT_GROWTH, String.class);
@@ -904,7 +904,6 @@ public class HeaderUtils {
         syear = curYear;
         for (int i = 0; i < projectFrequency; i++) {
             List<Object> dmap = new ArrayList<>();
-            List<Object> projectionObj = new ArrayList<>();
             String commonColumn = Constant.Q_SMALL + squr + "-" + syear;
             String commonHeader = Constant.Q + squr + " " + syear;
 
@@ -935,7 +934,6 @@ public class HeaderUtils {
                 if (salesVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + Constant.PROJECTED_SALES2;
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTED_SALES1);
                     excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_SALES_SPACE, String.class);
@@ -943,7 +941,6 @@ public class HeaderUtils {
                 if (unitsVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + Constant.PROJECTED_UNITS_TILT;
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PROJECTED_UNITS, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PROJECTED_UNITS);
                     excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_UNITS_SPACE, String.class);
@@ -951,7 +948,6 @@ public class HeaderUtils {
                 if (pGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + Constant.PRODUCT_GROWTH_TILT;
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PRODUCT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PRODUCT_GROWTH);
                     excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PRODUCT_GROWTH_SPACE, String.class);
@@ -959,7 +955,6 @@ public class HeaderUtils {
                 if (aGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + Constant.ACCOUNT_GROWTH_TILT;
                     dmap.add(singleColumn);
-                    projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACCOUNT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.ACCOUNT_GROWTH);
                     excelDto.addSingleColumn(singleColumn, commonHeader + Constant.SPACE_ACCOUNT_GROWTH, String.class);
@@ -1064,7 +1059,7 @@ public class HeaderUtils {
         if (frequency.equals(QUARTERLY)) {
             current = curMonth / NumericConstants.THREE;
             division = NumericConstants.FOUR;
-        } else if (frequency.equals(SEMI_ANNUALLY)) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
             current = curMonth / NumericConstants.SIX;
             division = NumericConstants.TWO;
         } else if (frequency.equals(MONTHLY)) {

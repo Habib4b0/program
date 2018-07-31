@@ -36,7 +36,9 @@ import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean.GtnFrameworkDu
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.newpagedtreetable.GtnUIFrameworkNewPagedTreeTableComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableFilterGenerator;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -72,6 +74,7 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
+import java.util.HashMap;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -440,9 +443,11 @@ public class GtnUIFrameworkBaseComponent {
 	public void updateSelection(List<Object> list) throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+
 			if (!list.isEmpty()) {
 				ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.getDataProvider());
 				for (Object object : list) {
+
 					listDataProvider.getItems().stream().filter(e -> e.toString().equals(object.toString()))
 							.forEach(e -> {
 								vaadinMultiSelect.selectItem(e, true);
@@ -470,7 +475,6 @@ public class GtnUIFrameworkBaseComponent {
 						: GtnFrameworkCommonStringConstants.SELECT_ONE;
 				idList.add(0, "0");
 				valueList.add(0, defaultValue);
-				vaadinComboBox.setSelectedItem(idList.get(0));
 			} else {
 				for (int i = 0; i < valueList.size(); i++) {
 					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
@@ -1466,4 +1470,18 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
+        
+    public void reloadPagedTable(GtnUIFrameworkPagedTableConfig tableConfig, ExtPagedTable resultsTable, Class[] classProperties, Object[] visibleColumns, String[] columnHeaders) {
+        ExtContainer resultsContainer = (ExtContainer) resultsTable.getContainerDataSource();
+        Map properties = new HashMap();
+        for (int i = 0; i < visibleColumns.length; i++) {
+            properties.put(visibleColumns[i], classProperties[i]);
+        }
+        resultsContainer.setColumnProperties(properties);
+        resultsContainer.setRecordHeader(Arrays.asList(visibleColumns));
+        resultsTable.setVisibleColumns(visibleColumns);
+        resultsTable.setColumnHeaders(columnHeaders);
+        resultsTable.setFilterGenerator(new GtnUIFrameworkPagedTableFilterGenerator(tableConfig));
+        resultsTable.setRefresh(true);
+    }
 }

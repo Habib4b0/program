@@ -601,7 +601,6 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        LOGGER.info("List View Query" + aaa);
         
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
@@ -619,7 +618,6 @@ public class SalesLogic {
         sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #ST_NM_SALES_PROJECTION_MASTER ");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
-        LOGGER.info("Excel Query: " + query); 
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
     }
@@ -3412,7 +3410,7 @@ public class SalesLogic {
                 return false;
             } else {
                 BigDecimal obj = (BigDecimal) list.get(0);
-                return obj.doubleValue() != 0.0;
+                return CommonUtils.compareDoubleValues(String.valueOf(obj.doubleValue())) != 0;
             }
         } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
@@ -3870,7 +3868,7 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} ", amount);
+        LOGGER.debug("amount     = {} ", amount); 
         if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
         } else if (amountA != 0.0 && amountB != 0.0) {

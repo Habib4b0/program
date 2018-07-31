@@ -1122,7 +1122,7 @@ public class FcpResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = Double.compare(Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])), 0) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }

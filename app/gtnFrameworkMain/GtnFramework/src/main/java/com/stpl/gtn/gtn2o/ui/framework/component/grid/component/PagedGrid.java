@@ -30,7 +30,6 @@ import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -373,7 +372,7 @@ public class PagedGrid {
             }
 
         } catch (GtnFrameworkGeneralException exception) {
-            gtnlogger.error("Exception while creating the filter component", exception);
+            gtnlogger.error("Exception while creating the custom filter component", exception);
         }
 
         return null;
@@ -627,7 +626,7 @@ public class PagedGrid {
             public void buttonClick(Button.ClickEvent event) {
                 String startDate = "";
                 String endDate = "";
-               
+
                 if (button.getId().equals("setButton")) {
                     if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
                         startDate = inlineDateFieldStartDate.getData().toString();
@@ -637,33 +636,43 @@ public class PagedGrid {
 
                         tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                         refreshGrid();
-                        
+
                     }
-                    if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
-                        startDate = inlineDateFieldStartDate.getData().toString();
-                    }
-                    if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
-                        endDate = inlineDateFieldEndDate.getData().toString();
-                    }
+                    startDate = startDateIsNotNull(startDate);
+                    endDate = endDateIsNotNull(endDate);
                     textField.setValue(startDate + " - " + endDate);
-                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);                  
+                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                     refreshGrid();
-                  window.close();
+                    window.close();
                 } else {
-                                  textField.setValue("");
+                    textField.setValue("");
 
                     textField.setPlaceholder(SHOW_ALL);
                     tableConfig.getFilterValueMap().put(property, textField.getCaption());
                     refreshGrid();
-                     window.close();
+                    window.close();
                 }
+            }
+
+            private String endDateIsNotNull(String endDate) {
+                if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
+                    endDate = inlineDateFieldEndDate.getData().toString();
+                }
+                return endDate;
+            }
+
+            private String startDateIsNotNull(String startDate) {
+                if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
+                    startDate = inlineDateFieldStartDate.getData().toString();
+                }
+                return startDate;
             }
         });
         UI.getCurrent().removeWindow(window);
         }
         catch(Exception e)
         {
-             gtnlogger.error("Exception while creating the filter component", e);
+             gtnlogger.error("Exception while click button", e);
         }
                 
     }
@@ -689,7 +698,7 @@ public class PagedGrid {
         }
         catch(Exception e)
         {
-            gtnlogger.error("Exception while creating the filter component", e);
+            gtnlogger.error("Exception while get the Button component", e);
         }return button;
     }
       public static List<Object> addRangeInInput(Object[] input, int offset, int limit) {

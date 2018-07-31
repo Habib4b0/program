@@ -944,7 +944,7 @@ public class MedicaidURAResultsLogic {
                                 String[] notesArray = new String[NumericConstants.TWO];
                                 if (medicaidDTO.getGroup().startsWith("Historical AMP")) {
                                     if (obj[NumericConstants.SIX] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                        notesArray[0] = CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -956,7 +956,7 @@ public class MedicaidURAResultsLogic {
                                 }
                                 if (medicaidDTO.getGroup().startsWith("Historical CPI-U")) {
                                     if (obj[NumericConstants.SIX] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                        notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -1074,7 +1074,7 @@ public class MedicaidURAResultsLogic {
                             if (group.equalsIgnoreCase(groupIndicator.trim())) {
 
                                 if (obj[NumericConstants.SIX] != null) {
-                                    value = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    value =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 }
                                 medicaidDTO.addStringProperties(column, value);
                                 columnList.remove(column);
@@ -1084,7 +1084,7 @@ public class MedicaidURAResultsLogic {
                             if (group.equalsIgnoreCase(AMP.getConstant())) {
 
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1094,7 +1094,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase(BEST_PRICE_CAPS.getConstant())) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1104,7 +1104,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase(CPI_U)) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1114,7 +1114,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase("CPI URA")) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1173,7 +1173,7 @@ public class MedicaidURAResultsLogic {
                                 String[] notesArray = new String[NumericConstants.TWO];
                                 if (medicaidDTO.getGroup().startsWith(Constant.AMP)) {
                                     if (obj[NumericConstants.EIGHT] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
+                                        notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -1185,7 +1185,7 @@ public class MedicaidURAResultsLogic {
                                 }
                                 if (medicaidDTO.getGroup().startsWith(CPI_U)) {
                                     if (obj[NumericConstants.EIGHT] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
+                                        notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }

@@ -90,6 +90,7 @@ import com.stpl.gtn.gtn2o.ws.entity.transaction.VwRebateSchedule;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.VwReturnReserve;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.adjustmentdetails.config.GtnWsAdjustmentDetailsPublicViewConfig;
 import com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.config.GtnWebServiceCompanyFamilyPlanAdditionSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.config.GtnWebServiceCompanyFamilyPlanSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.companygroups.config.GtnWebServiceCompanyGroupConfig;
@@ -364,7 +365,7 @@ public class GtnWsAllListConfig {
 		comboBoxQueryMap.put("Business_Unit",
 				"select COMPANY_MASTER_SID,COMPANY_NO+' - '+COMPANY_NAME as company "
 						+ "from COMPANY_MASTER CM JOIN  HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CM.COMPANY_TYPE "
-						+ "where HT.LIST_NAME='COMPANY_TYPE' AND HT.DESCRIPTION='GLCOMP'");
+						+ "where HT.LIST_NAME='COMPANY_TYPE' AND HT.DESCRIPTION='Business Unit'");
 
 		comboBoxQueryMap.put("Mode",
 				"select HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME like 'PERIODCONFIG_MODE'  order by HELPER_TABLE_SID");
@@ -598,7 +599,8 @@ public class GtnWsAllListConfig {
 				new GtnWsUdcConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG.getClassName(),
 				new GtnWebServiceCustomSearchConfig());
-
+		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.ADJUSTMENT_DETAILS.getClassName(),
+				new GtnWsAdjustmentDetailsPublicViewConfig());
 	}
 
 	private void loadTransctionDynamicClassObjects() {

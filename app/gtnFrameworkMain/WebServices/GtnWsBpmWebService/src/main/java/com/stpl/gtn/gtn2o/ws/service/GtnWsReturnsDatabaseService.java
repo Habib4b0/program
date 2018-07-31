@@ -31,40 +31,8 @@ public class GtnWsReturnsDatabaseService {
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsReturnsDatabaseService.class);
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
 	public GtnWsReturnsDatabaseService() {
 		super();
-	}
-
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
-
-
-
-	@SuppressWarnings("rawtypes")
-	public List executeQuery(String sqlQuery, Object[] params) throws GtnFrameworkGeneralException {
-		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY_IN_GTN_WS_RETURNS_DATABASE_SE + sqlQuery);
-		Session session = sessionFactory.openSession();
-		List list = null;
-		try {
-			Query query = generateSQLQuery(session, sqlQuery, params);
-			list = query.list();
-		} catch (Exception ex) {
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
-			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
-					ex);
-		} finally {
-			session.close();
-		}
-		return list;
 	}
 
 	public int executeUpdate(String sqlQuery, Object[] params) throws GtnFrameworkGeneralException {
