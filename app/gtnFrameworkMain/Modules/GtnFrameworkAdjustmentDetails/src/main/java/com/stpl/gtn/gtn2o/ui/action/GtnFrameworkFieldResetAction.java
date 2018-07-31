@@ -8,29 +8,44 @@ package com.stpl.gtn.gtn2o.ui.action;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.util.List;
+import org.sonar.api.internal.apachecommons.lang.StringUtils;
 
 /**
  *
  * @author Sathya.Seelan
  */
-public class GtnFrameworkSearchConfig implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkFieldResetAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkDeductionLevelValueChange.class);
+    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkFieldResetAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        // No Need to Implement. Its an unused method.
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-        Object obj = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString()).getValueFromComponent();
-        gtnLogger.info(obj.toString());
+        resetComponents(parameters);
+    }
+
+    private void resetComponents(List<Object> parameters) {
+        int length = parameters.size();
+        for (int i = 1; i < length; i++) {
+            GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(i).toString());
+            GtnUIFrameworkComponentType defaultValue = component.getComponentConfig().getComponentType();
+            gtnLogger.info(defaultValue.name());
+            switch (defaultValue) {
+                default:
+                    component.loadFieldValue(StringUtils.EMPTY);
+            }
+        }
     }
 
     @Override

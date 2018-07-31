@@ -984,7 +984,7 @@ public class AlternateSummery extends CustomComponent {
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
                                      Double incOrDec;
-                                    if (oldNumber == 0.0) {
+                                    if (CommonUtils.compareDoubleValues(String.valueOf(oldNumber)) == 0) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;

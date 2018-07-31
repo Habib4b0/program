@@ -776,10 +776,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 
-		GtnUIFrameworkComboBoxConfig deductionLevelConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionLevel.setGtnComboboxConfig(deductionLevelConfig);
+		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
+                companyStatusConfig.setItemCaptionValues(new ArrayList<>());
+                companyStatusConfig.setItemValues(new ArrayList<>());
+                deductionLevel.setGtnComboboxConfig(companyStatusConfig);
 	}
 
 	private void addProductLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -816,10 +816,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(productLevelConfig);
 
-		GtnUIFrameworkComboBoxConfig productLevelLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		productLevelConfig.setGtnComboboxConfig(productLevelLoadConfig);
+		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
+                companyStatusConfig.setItemCaptionValues(new ArrayList<>());
+                companyStatusConfig.setItemValues(new ArrayList<>());
+                productLevelConfig.setGtnComboboxConfig(companyStatusConfig);
 	}
 
 	private void addCustomerLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -856,9 +856,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
 		customerLevelConfig.addGtnUIFrameWorkActionConfig(reloadAction);
 
-		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
+                companyStatusConfig.setItemCaptionValues(new ArrayList<>());
+                companyStatusConfig.setItemValues(new ArrayList<>());
 		customerLevelConfig.setGtnComboboxConfig(companyStatusConfig);
 	}
 
@@ -1079,7 +1079,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		unitOfMeasureConfig.setReloadLogicActionClassName(GtnFrameworkUIUOMLoadAction.class.getName());
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
-		comboBoxConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
+                comboBoxConfig.setHasDefaultValue(true);
+		comboBoxConfig.setDefaultDesc(GtnFrameworkReportStringConstants.UOM_DEFAULT);
 		unitOfMeasureConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentList.add(unitOfMeasureConfig);
 	}
