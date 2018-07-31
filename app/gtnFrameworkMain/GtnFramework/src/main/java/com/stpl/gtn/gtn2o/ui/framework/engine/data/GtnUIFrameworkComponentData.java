@@ -78,7 +78,7 @@ public class GtnUIFrameworkComponentData {
         
         private PagedGrid  pagedGrid;
         
-        GtnUIFrameworkPagedTableConfig tableConfig;
+        private GtnUIFrameworkPagedTableConfig tableConfig;
 
 	public String getSourceComponentId() {
 		return sourceComponentId;

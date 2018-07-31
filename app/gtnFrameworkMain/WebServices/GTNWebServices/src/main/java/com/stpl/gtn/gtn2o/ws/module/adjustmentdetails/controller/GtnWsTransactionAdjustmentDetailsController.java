@@ -29,19 +29,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class GtnWsTransactionAdjustmentDetailsController {
     
     @Autowired
-    GtnWsAdjustmentDetailsDeductionsLoadService gtnFrameworkDeductionsLoadService;
+    private GtnWsAdjustmentDetailsDeductionsLoadService gtnFrameworkDeductionsLoadService;
     
     @Autowired
-    GtnWsAdjustmentTableLoadService gtnWsAdjustmentTableLoadService;
+    private GtnWsAdjustmentTableLoadService gtnWsAdjustmentTableLoadService;
     
     @Autowired
-    GtnWsAdjustmentDetailsSaveViewService gtnWsAdjustmentDetailsSaveViewService;
+    private GtnWsAdjustmentDetailsSaveViewService gtnWsAdjustmentDetailsSaveViewService;
     
     @Autowired
     private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
     
     @Autowired
-    GtnWsTransactionReprocessIOService gtnWsTransactionReprocessIOService;
+    private GtnWsTransactionReprocessIOService gtnWsTransactionReprocessIOService;
     
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_SERVICE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse loadCustomerHierarcyLevel(
