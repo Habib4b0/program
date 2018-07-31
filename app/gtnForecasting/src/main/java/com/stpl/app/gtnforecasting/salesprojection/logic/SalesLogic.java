@@ -3869,9 +3869,9 @@ public class SalesLogic {
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
-        if (Double.compare(amountA, 0.0) == 0 && Double.compare(amountB, 0.0) == 0) {
+        if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
-        } else if (Double.compare(amountA, 0.0) != 0 && Double.compare(amountB, 0.0) != 0) {
+        } else if (amountA != 0.0 && amountB != 0.0) {
             amount = (amountA / amountB) * amount;
         }
         return amount;
