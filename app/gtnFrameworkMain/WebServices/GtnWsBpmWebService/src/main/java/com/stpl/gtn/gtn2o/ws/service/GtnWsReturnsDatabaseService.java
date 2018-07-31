@@ -29,27 +29,10 @@ import org.springframework.stereotype.Service;
 public class GtnWsReturnsDatabaseService {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsReturnsDatabaseService.class);
-	@Autowired
-	private SessionFactory sessionFactory;
+
+        
 	public GtnWsReturnsDatabaseService() {
 		super();
-	}
-
-	public int executeUpdate(String sqlQuery, Object[] params) throws GtnFrameworkGeneralException {
-		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY_IN_GTN_WS_RETURNS_DATABASE_SE + sqlQuery);
-		Session session = sessionFactory.openSession();
-		int count = 0;
-		try {
-			Query query = generateSQLQuery(session, sqlQuery, params);
-			count = query.executeUpdate();
-		} catch (Exception ex) {
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
-			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
-					ex);
-		} finally {
-			session.close();
-		}
-		return count;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -75,12 +58,4 @@ public class GtnWsReturnsDatabaseService {
 	}
 
 
-
-	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params) {
-		Query query = session.createSQLQuery(sqlQuery);
-		for (int i = 0; i < params.length; i++) {
-			query.setParameter(i, params[i]);
-		}
-		return query;
-	}
 }

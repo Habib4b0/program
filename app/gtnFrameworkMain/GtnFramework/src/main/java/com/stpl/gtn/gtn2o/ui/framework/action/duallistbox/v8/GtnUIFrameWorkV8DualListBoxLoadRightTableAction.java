@@ -42,7 +42,7 @@ import com.vaadin.ui.TreeGrid;
  */
 public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFrameWorkAction {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkV8DualListBoxLoadRightTableAction.class);
+private	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkV8DualListBoxLoadRightTableAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
