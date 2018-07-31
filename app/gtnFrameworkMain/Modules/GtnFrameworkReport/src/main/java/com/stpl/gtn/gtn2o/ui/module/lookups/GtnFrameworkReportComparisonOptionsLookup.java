@@ -1,11 +1,13 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
@@ -13,7 +15,9 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownSubmitAction;
@@ -23,7 +27,6 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportComparisonOptionsLookup {
 	private GtnFrameworkReportLayoutsConfig layoutsConfig = new GtnFrameworkReportLayoutsConfig();
-
 	public GtnUIFrameworkViewConfig getComparisonOptionsLookUpView(String namespace) {
 
 		GtnUIFrameworkViewConfig comparisonOptionsLookupView = new GtnUIFrameworkViewConfig();
@@ -251,6 +254,11 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBreakdownValueLoadConfig.setItemValues(new ArrayList<>());
 		comparisonBreakdownValueLoadConfig.setItemCaptionValues(new ArrayList<>());
 		value.setGtnComboboxConfig(comparisonBreakdownValueLoadConfig);
+		
+		GtnUIFrameworkValidationConfig valueValidationConfig = new GtnUIFrameworkValidationConfig();
+		valueValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		value.setGtnUIFrameworkValidationConfig(valueValidationConfig);
+		
 		componentList.add(value);
 	}
 
@@ -275,6 +283,11 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBreakdownComparisonBreakdownLoadConfig.setItemValues(new ArrayList<>());
 		comparisonBreakdownComparisonBreakdownLoadConfig.setItemCaptionValues(new ArrayList<>());
 		comparison.setGtnComboboxConfig(comparisonBreakdownComparisonBreakdownLoadConfig);
+		
+		GtnUIFrameworkValidationConfig comparisonValidationConfig = new GtnUIFrameworkValidationConfig();
+		comparisonValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		comparison.setGtnUIFrameworkValidationConfig(comparisonValidationConfig);
+		
 		componentList.add(comparison);
 	}
 
@@ -299,6 +312,11 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		startPeriodLoadConfig.setItemCaptionValues(new ArrayList());
 
 		startPeriod.setGtnComboboxConfig(startPeriodLoadConfig);
+		
+		GtnUIFrameworkValidationConfig startPeriodValidationConfig = new GtnUIFrameworkValidationConfig();
+		startPeriodValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		startPeriod.setGtnUIFrameworkValidationConfig(startPeriodValidationConfig);
+		
 		componentList.add(startPeriod);
 	}
 
@@ -322,6 +340,11 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		endPeriodLoadConfig.setItemValues(new ArrayList());
 		endPeriodLoadConfig.setItemCaptionValues(new ArrayList());
 		endPeriod.setGtnComboboxConfig(endPeriodLoadConfig);
+		
+		GtnUIFrameworkValidationConfig endPeriodValidationConfig = new GtnUIFrameworkValidationConfig();
+		endPeriodValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		endPeriod.setGtnUIFrameworkValidationConfig(endPeriodValidationConfig);
+		
 		componentList.add(endPeriod);
 	}
 
@@ -335,11 +358,34 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		populateButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		populateButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "populateButton");
 		populateButton.setComponentName("POPULATE");
+		populateButton.setAuthorizationIncluded(true);
 		populateButton.setAddToParent(true);
 		populateButton.setParentComponentId(populateButtonConfig.getComponentId());
+		componentList.add(populateButton);
+		
+		List<GtnUIFrameWorkActionConfig> populateButtonActionConfigList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig populateButtonValidationActionConfig = new GtnUIFrameWorkActionConfig();
+		populateButtonValidationActionConfig.setActionType(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+		populateButtonValidationActionConfig.setFieldValues(Arrays.asList(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "value",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparison",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "startPeriod",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "endPeriod"));
 
-		GtnUIFrameWorkActionConfig comparisonBreakDownPopulateLoadAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		GtnUIFrameWorkActionConfig populateButtonAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		populateButtonAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParams = new ArrayList<>();
+		alertParams.add("Missing Fields");
+		alertParams.add("Please make sure that all Mass Update fields are populated. Then try again.");
+		populateButtonAlertActionConfig.setActionParameterList(alertParams);
+
+		populateButtonValidationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(populateButtonAlertActionConfig)));
+		populateButtonActionConfigList.add(populateButtonValidationActionConfig);
+
+		GtnUIFrameWorkActionConfig comparisonBreakDownPopulateLoadAction = new GtnUIFrameWorkActionConfig();
+		comparisonBreakDownPopulateLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		comparisonBreakDownPopulateLoadAction
 				.addActionParameter(GtnReportingComparisonBreakdownMassUpdateAction.class.getName());
 		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_value");
@@ -347,9 +393,10 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_startPeriod");
 		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_endPeriod");
 		comparisonBreakDownPopulateLoadAction
-				.addActionParameter("comparisonBreakdownResultsLayout_comparisonBreakdownResultsPagedTableComponent");
-		populateButton.addGtnUIFrameWorkActionConfig(comparisonBreakDownPopulateLoadAction);
-		componentList.add(populateButton);
+				.addActionParameter("comparisonBreakdownResultsLayout_comparisonBreakdownResultsPagedTableComponent");		
+		populateButtonActionConfigList.add(comparisonBreakDownPopulateLoadAction);
+		
+		populateButton.setGtnUIFrameWorkActionConfigList(populateButtonActionConfigList);
 	}
 
 	private void addControlButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
@@ -388,8 +435,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		GtnUIFrameWorkActionConfig comparisonBreakdownResetButtonConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
 		comparisonBreakdownResetButtonConfirmationActionConfig
 				.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		actionParamForReset.add("Confirm Reset");
-		actionParamForReset.add("Are you sure you want to reset the page to default values?");
+		actionParamForReset.add("Reset Confirmation");
+		actionParamForReset.add("Are you sure you want to reset the popup?");
 		List<GtnUIFrameWorkActionConfig> actionConfigListForReset = new ArrayList<>();
 		GtnUIFrameWorkActionConfig comparisonBreakdownResetButtonAction = new GtnUIFrameWorkActionConfig();
 		comparisonBreakdownResetButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -412,12 +459,22 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		closeButton.setComponentName("CLOSE");
 		closeButton.setAddToParent(true);
 		closeButton.setParentComponentId(controlButtonConfig.getComponentId());
+		
+		List<Object> actionParamForClose = new ArrayList<>();
+		GtnUIFrameWorkActionConfig comparisonBreakdownCloseButtonConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
+		comparisonBreakdownCloseButtonConfirmationActionConfig
+				.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		actionParamForClose.add("Close Confirmation");
+		actionParamForClose.add("Are you sure you want to close the popup?");
+		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter("comparisonOptions");
 		actionConfigList.add(closeAction);
-		closeButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		actionParamForClose.add(actionConfigList);
+		comparisonBreakdownCloseButtonConfirmationActionConfig.setActionParameterList(actionParamForClose);
+		closeButton.addGtnUIFrameWorkActionConfig(comparisonBreakdownCloseButtonConfirmationActionConfig);
 
 		componentList.add(comparisonBreakDownSubmitButton);
 		componentList.add(resetButton);
