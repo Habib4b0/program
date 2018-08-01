@@ -54,7 +54,7 @@ public class GtnFrameworkHierarchyChangeAction implements GtnUIFrameWorkAction, 
 		return this;
 	}
 
-	private List<Integer> getVersion(int hierarchySid) {
+	public  List<Integer> getVersion(int hierarchySid) {
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();

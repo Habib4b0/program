@@ -8,7 +8,10 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -83,6 +86,33 @@ public class GtnFrameworkAddToTreeActionTest {
         Object result=method.invoke(instance, selectedValue,levelNo);
         assertEquals(expResult, (Boolean)result);
          } catch (Exception ex) {
+            Logger.getLogger(GtnFrameworkAddToTreeActionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    
+//
+    /**
+     * Test of loadAdditionProperty method, of class GtnFrameworkAddToTreeAction.
+     */
+    @Test
+    public void testLoadAdditionProperty() {
+        try {
+            System.out.println("loadAdditionProperty");
+            
+            Set<GtnWsRecordBean> selectedValue = new HashSet<>();
+            GtnWsRecordBean gtnWsRecordBean=new GtnWsRecordBean();
+            gtnWsRecordBean.setRecordHeader(Arrays.asList(GtnWsRelationshipBuilderKeyConstant.VALUE.ordinal(),GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
+            gtnWsRecordBean.setProperties(Arrays.asList(GtnWsRelationshipBuilderKeyConstant.VALUE.ordinal(),GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
+            selectedValue.add(gtnWsRecordBean);
+            GtnFrameworkAddToTreeAction instance = new GtnFrameworkAddToTreeAction();
+            boolean expResult = false;
+            Method method = instance.getClass().getDeclaredMethod("loadAdditionProperty",Set.class);
+            method.setAccessible(true);
+            method.invoke(instance, selectedValue);
+            assertEquals(expResult, (Boolean)gtnWsRecordBean.getProperties().get(gtnWsRecordBean.getProperties().size()-1));
+        } catch (Exception ex) {
             Logger.getLogger(GtnFrameworkAddToTreeActionTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

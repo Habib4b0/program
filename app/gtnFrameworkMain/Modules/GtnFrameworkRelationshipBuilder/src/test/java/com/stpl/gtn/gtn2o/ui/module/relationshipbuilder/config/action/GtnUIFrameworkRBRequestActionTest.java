@@ -8,6 +8,12 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -61,5 +67,28 @@ public class GtnUIFrameworkRBRequestActionTest {
         GtnUIFrameWorkAction result = instance.createInstance();
         assertEquals(instance, result);
     }
-    
+
+    /**
+     * Test of doAction method, of class GtnUIFrameworkRBRequestAction.
+     */
+    @Test
+    public void testDoAction() throws Exception {
+        System.out.println("doAction");
+        String componentId = "";
+        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+        gtnUIFrameWorkActionConfig.addActionParameter(componentId);
+        GtnWsRelationshipBuilderRequest rbRequest=new GtnWsRelationshipBuilderRequest();
+        GtnWsRecordBean bean=new GtnWsRecordBean();
+        List<Object> parameters = IntStream.rangeClosed(0, 15).boxed().collect(Collectors.toList());
+        
+        bean.setRecordHeader(parameters);
+        parameters.set(5, new Date());
+        parameters.set(6, new Date());
+        parameters.set(7,  new Date());
+        bean.setProperties(parameters);
+        rbRequest.setMainNode(bean);
+        gtnUIFrameWorkActionConfig.addActionParameter(rbRequest);
+        GtnUIFrameworkRBRequestAction instance = new GtnUIFrameworkRBRequestAction();
+        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+    }
 }

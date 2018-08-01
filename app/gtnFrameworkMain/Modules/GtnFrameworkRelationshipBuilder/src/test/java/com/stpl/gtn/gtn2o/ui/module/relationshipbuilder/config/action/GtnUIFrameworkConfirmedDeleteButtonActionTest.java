@@ -8,6 +8,10 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -62,6 +66,32 @@ public class GtnUIFrameworkConfirmedDeleteButtonActionTest {
         GtnUIFrameWorkAction result = instance.createInstance();
         assertEquals(instance, result);
         
+    }
+
+
+    /**
+     * Test of getRbDeleteActionConfig method, of class GtnUIFrameworkConfirmedDeleteButtonAction.
+     */
+    @Test
+    public void testGetRbDeleteActionConfig() {
+        System.out.println("getRbDeleteActionConfig");
+        GtnWsRecordBean relationBean = null;
+       List<Object> parameters = IntStream.rangeClosed(0, 1).boxed().collect(Collectors.toList());
+        GtnUIFrameworkConfirmedDeleteButtonAction instance = new GtnUIFrameworkConfirmedDeleteButtonAction();
+        GtnUIFrameWorkActionConfig result = instance.getRbDeleteActionConfig(relationBean, parameters);
+        assertEquals(3, result.getActionParameterList().size());
+    }
+
+    /**
+     * Test of getRbDeleteInfoAction method, of class GtnUIFrameworkConfirmedDeleteButtonAction.
+     */
+    @Test
+    public void testGetRbDeleteInfoAction() {
+        System.out.println("getRbDeleteInfoAction");
+        List<Object> parameters = IntStream.rangeClosed(0, 3).boxed().collect(Collectors.toList());
+        GtnUIFrameworkConfirmedDeleteButtonAction instance = new GtnUIFrameworkConfirmedDeleteButtonAction();
+        GtnUIFrameWorkActionConfig result = instance.getRbDeleteInfoAction(parameters);
+        assertEquals(2, result.getActionParameterList().size());
     }
     
 }

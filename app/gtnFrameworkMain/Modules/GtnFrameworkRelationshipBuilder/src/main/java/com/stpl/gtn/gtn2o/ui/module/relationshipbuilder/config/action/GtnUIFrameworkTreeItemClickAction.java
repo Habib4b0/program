@@ -22,7 +22,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
@@ -37,7 +36,7 @@ import com.vaadin.v7.ui.Tree;
  * @author Abhiram.Giri
  */
 public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkTreeItemClickAction.class);
+	public final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkTreeItemClickAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -57,7 +56,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 		return this;
 	}
 
-	private void loadFilteredResultLayout(GtnWsRecordBean levelBean, List<Object> parameters, String componentId)
+	public void loadFilteredResultLayout(GtnWsRecordBean levelBean, List<Object> parameters, String componentId)
 			throws GtnFrameworkGeneralException {
 		try {
 			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(5).toString(), levelBean);
@@ -96,7 +95,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 		}
 	}
 
-	private List<List<String>> getParentIDInfo(GtnWsRecordBean levelBean,
+	public List<List<String>> getParentIDInfo(GtnWsRecordBean levelBean,
 			GtnUIFrameworkBaseComponent rbTreeBaseComponent, int levelNo) {
 		List<List<String>> idList = new ArrayList<>();
 		Tree rbTree = (Tree) rbTreeBaseComponent.getComponentData().getCustomData();
@@ -128,7 +127,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 	}
 
 	@SuppressWarnings("unchecked")
-	private Set<String> getLinkedLevelNotInList(GtnWsRecordBean currentSelectedBean,
+	public Set<String> getLinkedLevelNotInList(GtnWsRecordBean currentSelectedBean,
 			GtnUIFrameworkBaseComponent rbTreeBaseComponent, List<Object> parameters) {
 		Set<String> notInList = new HashSet<>();
 		String currentLevelNo = currentSelectedBean
@@ -147,7 +146,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 		return notInList;
 	}
 
-	private GtnWsRecordBean getRecentLinkedLevel(GtnWsRecordBean newLevelBean, Tree relationBuilderTree) {
+	public GtnWsRecordBean getRecentLinkedLevel(GtnWsRecordBean newLevelBean, Tree relationBuilderTree) {
 		if (isFirstLevel(newLevelBean)) {
 			return newLevelBean;
 		}
@@ -160,7 +159,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 	}
 
 	@SuppressWarnings("unchecked")
-	private void addAllNotInConditionValues(List<GtnWsRecordBean> childList, Set<String> notInList,
+	public void addAllNotInConditionValues(List<GtnWsRecordBean> childList, Set<String> notInList,
 			String currentLevelNo, List<GtnWsRecordBean> entireTreeNodeList) {
 		if (childList != null && !childList.isEmpty()) {
 			int originalEndLeveNo = Integer.parseInt(currentLevelNo);
@@ -180,7 +179,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 		}
 	}
 
-	private void setNotInValues(GtnWsRecordBean childListBean, List<GtnWsRecordBean> entireTreeNodeList,
+	public void setNotInValues(GtnWsRecordBean childListBean, List<GtnWsRecordBean> entireTreeNodeList,
 			Set<String> notInList) {
 		@SuppressWarnings("unchecked")
 		List<GtnWsRecordBean> subChildList = getCurrentChildList(entireTreeNodeList, childListBean,
@@ -196,7 +195,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 
 	}
 
-	private List<GtnWsRecordBean> getCurrentChildList(List<GtnWsRecordBean> childList, GtnWsRecordBean bean,
+	public List<GtnWsRecordBean> getCurrentChildList(List<GtnWsRecordBean> childList, GtnWsRecordBean bean,
 			String currentLevelNo) {
 		List<GtnWsRecordBean> returnList = new ArrayList<>();
 		if (childList != null && !childList.isEmpty()) {
@@ -225,17 +224,17 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 		return returnList;
 	}
 
-	private boolean isUserDefinedLevel(final GtnWsRecordBean levelBean) {
+	public boolean isUserDefinedLevel(final GtnWsRecordBean levelBean) {
 		return GtnFrameworkWebserviceConstant.USER_DEFINED.equals(levelBean
 				.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_VALUES_REFERENCE.ordinal()));
 	}
 
-	private boolean isFirstLevel(final GtnWsRecordBean levelBean) {
+	public boolean isFirstLevel(final GtnWsRecordBean levelBean) {
 		return GtnWsRelationshipBuilderConstants.NUMERIC_CONSTANT_ONE
 				.equals(levelBean.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
 	}
 
-	private boolean isEligibleForAdding(int currentLevelNo, List<Object> parameters) {
+	public boolean isEligibleForAdding(int currentLevelNo, List<Object> parameters) {
 		boolean returnFlag = false;
 		try {
 			int hierarchySid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
@@ -259,7 +258,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 					.equals(hierarchyLevelNameList.get(currentLevelNo))) {
 				returnFlag = true;
 			}
-		} catch (GtnFrameworkValidationFailedException e) {
+		} catch (Exception e) {
 			gtnLogger.error(" Error while checking Eligible For Adding not in list " + e);
 		}
 		return returnFlag;

@@ -44,7 +44,7 @@ public class GtnUIFrameworkRSBuilderDynamicClassFillerTest {
     @Test
     public void testAddDynamicObject() {
         System.out.println("addDynamicObject");
-//        GtnUIFrameworkRSBuilderDynamicClassFiller instance = new GtnUIFrameworkRSBuilderDynamicClassFiller();
+        GtnUIFrameworkRSBuilderDynamicClassFiller instance = new GtnUIFrameworkRSBuilderDynamicClassFiller();
 //        instance.addDynamicObject();
     }
     
