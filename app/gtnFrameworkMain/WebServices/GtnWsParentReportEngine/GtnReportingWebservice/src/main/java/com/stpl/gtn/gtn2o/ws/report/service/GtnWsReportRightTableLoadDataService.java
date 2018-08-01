@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
@@ -26,6 +27,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
 public class GtnWsReportRightTableLoadDataService {
+	
+	
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportRightTableLoadDataService.class);
 
 	@Autowired
 	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -90,6 +94,7 @@ public class GtnWsReportRightTableLoadDataService {
 		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
 			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
+		
 		ccpFilter = !ccpFilter.equals("NULL") ? "'" + ccpFilter + "'" : "NULL";
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
 		procedure = procedure.replaceAll(":startPerioSid:", String.valueOf(dashboardBean.getPeriodRangeFromSid()));
@@ -99,6 +104,9 @@ public class GtnWsReportRightTableLoadDataService {
 						: dashboardBean.getComparisonBasis();
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
+		
+		gtnLogger.info("Procedure SQL: " + procedure);
+		
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,
 						gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid(), levelNo,
@@ -108,6 +116,9 @@ public class GtnWsReportRightTableLoadDataService {
 						GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
 						GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
 						GtnFrameworkDataType.STRING });
+		
+		
+		
 
 		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = '" + comparisonBasis + "',@level_no int = "
 				+ levelNo + " , @HIERARCHY_NO varchar(100) = '" + hierarchyNo + "'";
