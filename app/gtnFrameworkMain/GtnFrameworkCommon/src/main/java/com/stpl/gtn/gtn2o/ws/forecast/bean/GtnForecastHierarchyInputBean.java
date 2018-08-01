@@ -325,11 +325,11 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	}
 
 	public List<GtnReportHierarchyLevelBean> getLevelList() {
-		return levelList;
+                return levelList == null ? levelList : new ArrayList<>(levelList);
 	}
 
 	public void setLevelList(List<GtnReportHierarchyLevelBean> levelList) {
-		this.levelList = levelList;
+                this.levelList = levelList==null? levelList : new ArrayList<>(levelList);
 	}
 
 	public boolean isForecastInsert() {

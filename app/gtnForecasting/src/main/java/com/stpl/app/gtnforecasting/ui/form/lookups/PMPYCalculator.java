@@ -1330,7 +1330,7 @@ public class PMPYCalculator extends Window {
         Double analogLives;
 
         if (analogLivesField.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(analogLivesField.getValue())) && !Constant.NULL.equals(String.valueOf(analogLivesField.getValue()))
-                && isNumeric(String.valueOf(analogLivesField.getValue())) && Double.parseDouble(String.valueOf(analogLivesField.getValue())) != 0.0) {
+                && isNumeric(String.valueOf(analogLivesField.getValue())) && CommonUtils.compareDoubleValues(String.valueOf(analogLivesField.getValue())) != 0) {
             analogLives = Double.valueOf(String.valueOf(analogLivesField.getValue()));
         } else {
             AbstractNotificationUtils.getErrorNotification("No Lives", "Please enter a numeric value for Lives.");
@@ -1339,7 +1339,7 @@ public class PMPYCalculator extends Window {
         }
         final String tempSales = String.valueOf(salesField.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
         Double salesVal = 1.0;
-        if (salesField.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && Double.parseDouble(tempSales) != 0.0) {
+        if (salesField.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && CommonUtils.compareDoubleValues(tempSales) != 0) {
 
             if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
                 final DecimalFormat salesFormat = new DecimalFormat("####");
@@ -1356,7 +1356,7 @@ public class PMPYCalculator extends Window {
         Double marketShareValue;
 
         if (marketShareField.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(marketShareField.getValue())) && !Constant.NULL.equals(String.valueOf(marketShareField.getValue()))
-                && isNumeric(String.valueOf(marketShareField.getValue())) && Double.parseDouble(String.valueOf(marketShareField.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0.0) {
+                && isNumeric(String.valueOf(marketShareField.getValue())) && CommonUtils.compareDoubleValues(String.valueOf(marketShareField.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0) {
             marketShareValue = Double.valueOf(String.valueOf(marketShareField.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY));
         } else {
             valuePerLifeField.setValue(StringUtils.EMPTY);
@@ -1380,7 +1380,7 @@ public class PMPYCalculator extends Window {
         Double projectedLivesValue;
 
         if (projectedLivesField.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(projectedLivesField.getValue())) && !Constant.NULL.equals(String.valueOf(projectedLivesField.getValue()))
-                && isNumeric(String.valueOf(projectedLivesField.getValue())) && Double.parseDouble(String.valueOf(projectedLivesField.getValue())) != 0.0) {
+                && isNumeric(String.valueOf(projectedLivesField.getValue())) && CommonUtils.compareDoubleValues(String.valueOf(projectedLivesField.getValue())) != 0) {
             projectedLivesValue = Double.valueOf(String.valueOf(projectedLivesField.getValue()));
         } else {
             AbstractNotificationUtils.getErrorNotification("No Total Lives", "Please enter a numeric value for Total Lives.");
@@ -1393,7 +1393,7 @@ public class PMPYCalculator extends Window {
         double valuePerLifeValue = 1.0;
 
         if (valuePerLifeField.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
-                && Double.parseDouble(tempValuePerLifeValue) != 0.0) {
+                && CommonUtils.compareDoubleValues(String.valueOf(tempValuePerLifeValue)) != 0) {
 
             if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))) {
                 valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);

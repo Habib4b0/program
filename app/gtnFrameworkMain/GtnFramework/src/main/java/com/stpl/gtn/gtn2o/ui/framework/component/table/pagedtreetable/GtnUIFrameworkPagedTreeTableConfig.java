@@ -188,9 +188,9 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	private String countQuery;
 	private String dataQuery;
 	private String leftDataQuery;
-	Object[] dataQueryInputs;
-	Object[] leftDataQueryInputs;
-	Object[] countQueryInputs;
+	private Object[] dataQueryInputs;
+	private Object[] leftDataQueryInputs;
+	private Object[] countQueryInputs;
 	private List<Object> visibleColumns;
 	private List<String> columnHeaders;
         private String aggregationColumnHeader;

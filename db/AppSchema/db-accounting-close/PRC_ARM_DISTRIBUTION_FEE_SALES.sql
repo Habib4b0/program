@@ -41,6 +41,10 @@ AS
 ** ---   --------  ---------        -------------    -----------------------------
 ** 1    11/08/2016  GAL-8283        @Ajay             Temp table Changes.
 ** 2	08/07/2017  GAL-12264       @Kishore Kumar	  MI003 - Unqualified column name
+** 3    26/10/2017  GAL-12644       @AjayNaidu        PUlling exfactory latest price changes
+** 4    28-12-2017  GAL-12267       @AjayNaidu        BP014 - [NOT] NULL option
+** s    04-01-2018  GAL-12268       @AjayNaidu        BP012 - CASE without ELSE
+** 6    08-01-2018  GAL-12270       @AjayNaidu        EI025 PE001 PE010 ST008 MI005 MI002 Error codes
 *********************************************************************************************************/
 BEGIN
 	SET NOCOUNT ON
@@ -81,8 +85,60 @@ BEGIN
 				,@PRICE_YEAR INT
 				,@BUISNESS_UNIT INT
 				,@GL_COMP_COMPANY INT
+            -- Variables Initialization for this no override block ends here
+----------------Creating all necessray temp tables(all ddl statements) for the logic Starts here (PE010 CodeGuarderror)
+			IF OBJECT_ID('TEMPDB..#TEMP_ARM_PROJ_DETAILS') IS NOT NULL
+				DROP TABLE #TEMP_ARM_PROJ_DETAILS
 
-			-- Variables Initialization for this no override block ends here
+			CREATE TABLE #TEMP_ARM_PROJ_DETAILS (
+				PROJECTION_MASTER_SID INT NOT NULL
+				,COMPANY_MASTER_SID INT NOT NULL
+				,ITEM_MASTER_SID INT NOT NULL
+				)
+
+				IF OBJECT_ID('TEMPDB..#TEMP_ARM_PROJ_ITEM') IS NOT NULL
+				DROP TABLE #TEMP_ARM_PROJ_ITEM
+
+			CREATE TABLE #TEMP_ARM_PROJ_ITEM (
+				PROJECTION_MASTER_SID INT NOT NULL
+				,ITEM_MASTER_SID INT NOT NULL
+				,ITEM_ID VARCHAR(50) NOT NULL
+				,PERIOD_SID INT NOT NULL
+				,PRIMARY KEY (
+					ITEM_ID
+					,ITEM_MASTER_SID
+					,PROJECTION_MASTER_SID
+					)
+				)
+
+				IF OBJECT_ID('TEMPDB..#TEMP_CUST_GTS') IS NOT NULL
+				DROP TABLE #TEMP_CUST_GTS
+
+			CREATE TABLE #TEMP_CUST_GTS (
+				ITEM_MASTER_SID INT NOT NULL
+				,ITEM_ID VARCHAR(50) NOT NULL
+				,COMPANY_MASTER_SID INT NOT NULL
+				,ACCOUNT_ID VARCHAR(50) NOT NULL
+				,AMOUNT NUMERIC(22, 6) NULL
+				,QUANTITY NUMERIC(22, 6) NULL
+				,PERIOD_SID INT NOT NULL
+				)
+
+			IF OBJECT_ID('TEMPDB..#TEMP_EXCLUDE_CUST') IS NOT NULL
+				DROP TABLE #TEMP_EXCLUDE_CUST
+
+			CREATE TABLE #TEMP_EXCLUDE_CUST (COMPANY_MASTER_SID INT PRIMARY KEY)
+		   
+		   	IF OBJECT_ID('TEMPDB..#TEMP_PRICE') IS NOT NULL
+				DROP TABLE #TEMP_PRICE
+
+			CREATE TABLE #TEMP_PRICE (
+				ITEM_MASTER_SID INT NOT NULL
+				,PRICE NUMERIC(22, 6) NULL,
+				PRIMARY KEY(ITEM_MASTER_SID)
+				)
+
+----------------Creating all necessray temp tables(all ddl statements) for the logic Ends here (PE010 CodeGuarderror)
 			--taking price related period selected in data selection and assigning GL and BU to variable starts here 
 			SELECT @PRICE = REPLACE(@PRICE, ' ', ',')
 
@@ -111,6 +167,7 @@ BEGIN
 						THEN 11
 					WHEN TOKEN = 'DEC'
 						THEN 12
+				    ELSE 0
 					END
 			FROM UDF_SPLITSTRING(@PRICE, ',')
 			WHERE TRY_CONVERT(INT, TOKEN) IS NULL
@@ -144,15 +201,6 @@ BEGIN
 
 			--taking price related period selected in data selection and assigning GL and BU to variable Ends here 
 			-- Pulling CCP+D Combination for Current projection starts here
-			IF OBJECT_ID('TEMPDB..#TEMP_ARM_PROJ_DETAILS') IS NOT NULL
-				DROP TABLE #TEMP_ARM_PROJ_DETAILS
-
-			CREATE TABLE #TEMP_ARM_PROJ_DETAILS (
-				PROJECTION_MASTER_SID INT
-				,COMPANY_MASTER_SID INT
-				,ITEM_MASTER_SID INT
-				)
-
 			INSERT INTO #TEMP_ARM_PROJ_DETAILS (
 				PROJECTION_MASTER_SID
 				,COMPANY_MASTER_SID
@@ -167,21 +215,6 @@ BEGIN
 
 			-- Pulling CCP+D Combination for Current projection ends here
 			--Pulling product related information for current projection starts here
-			IF OBJECT_ID('TEMPDB..#TEMP_ARM_PROJ_ITEM') IS NOT NULL
-				DROP TABLE #TEMP_ARM_PROJ_ITEM
-
-			CREATE TABLE #TEMP_ARM_PROJ_ITEM (
-				PROJECTION_MASTER_SID INT
-				,ITEM_MASTER_SID INT
-				,ITEM_ID VARCHAR(50)
-				,PERIOD_SID INT
-				,PRIMARY KEY (
-					ITEM_ID
-					,ITEM_MASTER_SID
-					,PROJECTION_MASTER_SID
-					)
-				)
-
 			INSERT INTO #TEMP_ARM_PROJ_ITEM (
 				ITEM_ID
 				,ITEM_MASTER_SID
@@ -197,19 +230,6 @@ BEGIN
 
 			--Pulling product related information for current projection ends here
 			--Pulling Actual Amount from Cutsomer Gts actual for C+I Combination starts here
-			IF OBJECT_ID('TEMPDB..#TEMP_CUST_GTS') IS NOT NULL
-				DROP TABLE #TEMP_CUST_GTS
-
-			CREATE TABLE #TEMP_CUST_GTS (
-				ITEM_MASTER_SID INT
-				,ITEM_ID VARCHAR(50)
-				,COMPANY_MASTER_SID INT
-				,ACCOUNT_ID VARCHAR(50)
-				,AMOUNT NUMERIC(22, 6)
-				,QUANTITY NUMERIC(22, 6)
-				,PERIOD_SID INT
-				)
-
 			INSERT INTO #TEMP_CUST_GTS (
 				ITEM_MASTER_SID
 				,ITEM_ID
@@ -236,8 +256,7 @@ BEGIN
 							THEN A.ORDER_RECEIVED_DATE
 						WHEN @DATE_TYPE = 'CREATED_DATE'
 							THEN A.CREATED_DATE
-						WHEN @DATE_TYPE = 'MODIFIED_DATE'
-							THEN A.INVOICE_DATE
+						ELSE A.MODIFIED_DATE
 						END) = @MONTH
 				AND YEAR(CASE 
 						WHEN @DATE_TYPE = 'INVOICE_DATE'
@@ -246,17 +265,11 @@ BEGIN
 							THEN A.ORDER_RECEIVED_DATE
 						WHEN @DATE_TYPE = 'CREATED_DATE'
 							THEN A.CREATED_DATE
-						WHEN @DATE_TYPE = 'MODIFIED_DATE'
-							THEN A.INVOICE_DATE
+					   ELSE A.MODIFIED_DATE
 						END) = @YEAR
 
 			--Pulling Actual Amount from Cutsomer Gts actual for C+I Combination ends here
 			-- Find out the Excluded Customers for the current Projection (Note: GAL-8283 Chnages also included here) starts here
-			IF OBJECT_ID('TEMPDB..#TEMP_EXCLUDE_CUST') IS NOT NULL
-				DROP TABLE #TEMP_EXCLUDE_CUST
-
-			CREATE TABLE #TEMP_EXCLUDE_CUST (COMPANY_MASTER_SID INT PRIMARY KEY)
-
 			SET @SQL = CONCAT (
 					'INSERT INTO #TEMP_EXCLUDE_CUST (COMPANY_MASTER_SID) SELECT COMPANY_MASTER_SID FROM '
 					,@PIPELINE_EXCL_DETAILS_TABLE
@@ -268,14 +281,6 @@ BEGIN
 
 			-- Find out the Excluded Customers for the current Projection (Note: GAL-8283 Chnages also included here) ends here
 			--Pulling Exfactory/ITEM Pricing  Price based on item  strats here(Note: Item and Price for current Ptojection stores in below temp table) starts here
-			IF OBJECT_ID('TEMPDB..#TEMP_PRICE') IS NOT NULL
-				DROP TABLE #TEMP_PRICE
-
-			CREATE TABLE #TEMP_PRICE (
-				ITEM_MASTER_SID INT PRIMARY KEY
-				,PRICE NUMERIC(22, 6)
-				)
-
 			INSERT INTO @ITEM_UDT (ITEM_MASTER_SID)
 			SELECT ITEM_MASTER_SID
 			FROM #TEMP_ARM_PROJ_ITEM
@@ -326,8 +331,10 @@ BEGIN
 					ITEM_MASTER_SID
 					,PRICE
 					)
+					SELECT A.ITEM_MASTER_SID,A.PRICE FROM (
 				SELECT B.ITEM_MASTER_SID
 					,A.PRICE
+					,ROW_NUMBER() OVER(PARTITION BY  FORECAST_YEAR,FORECAST_MONTH,NDC ORDER BY CREATED_DATE DESC) AS RN
 				FROM FORECASTING_MASTER A
 				INNER JOIN #TEMP_ARM_PROJ_ITEM B ON A.NDC = B.ITEM_ID
 				WHERE A.FORECAST_MONTH = @PRICE_MONTH
@@ -336,7 +343,7 @@ BEGIN
 					AND A.FORECAST_VER IN (
 						@FORECAST_VERSION_EXFACTORY
 						,FLOOR(@FORECAST_VERSION_EXFACTORY)
-						)
+						)) A WHERE A.RN=1
 					-- Price Period select in UI greater than getdate() pulling price from exfactory ends here 
 			END
 
@@ -440,7 +447,7 @@ BEGIN
 		DECLARE @ERRORPROCEDURE VARCHAR(200);
 		DECLARE @ERRORLINE INT;
 
-		EXEC USPERRORCOLLECTOR
+		EXEC [dbo].USPERRORCOLLECTOR
 
 		SELECT @ERRORMESSAGE = ERROR_MESSAGE()
 			,@ERRORSEVERITY = ERROR_SEVERITY()
@@ -464,4 +471,5 @@ BEGIN
 				);
 	END CATCH
 END
+
 GO

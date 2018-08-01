@@ -546,21 +546,6 @@ public class CommonUtils {
         return viewtable;
     }
 
-    /**
-     * To check whether the given string is double or not
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isDouble(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     public static int getMonthForString(String num) {
         String[] months = new DateFormatSymbols().getShortMonths();
         for (int i = 0; i < months.length; i++) {
@@ -1098,7 +1083,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -1570,7 +1555,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -1974,4 +1959,9 @@ public class CommonUtils {
     public static void setPortletConfig(PortletConfig portletConfig) {
             CommonUtils.portletConfig = portletConfig;
     }
+    
+    public static int compareDoubleValues(String value) {
+        return Double.compare(Double.parseDouble(value), 0.0);
+    }
+    
 }

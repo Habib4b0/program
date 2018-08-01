@@ -1786,7 +1786,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));
@@ -1817,7 +1817,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));

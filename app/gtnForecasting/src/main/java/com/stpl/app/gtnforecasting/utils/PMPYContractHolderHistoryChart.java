@@ -25,25 +25,6 @@ public class PMPYContractHolderHistoryChart {
      * The dto.
      */
     private final List<PMPYRowDto> dto;
-
-    /**
-     * The chart.
-     */
-    /**
-     * The conf.
-     */
-    /**
-     * The chart1.O
-     */
-    /**
-     * The conf1.
-     */
-    /**
-     * The chart2.
-     */
-    /**
-     * The conf2.
-     */
     /**
      * The Constant LOGGER.
      */

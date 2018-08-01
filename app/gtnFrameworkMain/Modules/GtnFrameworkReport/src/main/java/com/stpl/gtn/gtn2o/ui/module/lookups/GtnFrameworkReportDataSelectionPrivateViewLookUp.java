@@ -222,8 +222,9 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		dsPrivateViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
 		dsPrivateViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
 		dsPrivateViewResetActionConfig.addActionParameter(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME));
-		dsPrivateViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
+				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME,namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE));
+		dsPrivateViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,GtnFrameworkCommonStringConstants.STRING_EMPTY ));
 		dsPrivateViewResetButton.addGtnUIFrameWorkActionConfig(dsPrivateViewResetActionConfig);
 		
 		componentList.add(dsPrivateViewResetButton);

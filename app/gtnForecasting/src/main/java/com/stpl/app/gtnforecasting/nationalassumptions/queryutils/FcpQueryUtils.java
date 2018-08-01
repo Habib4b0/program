@@ -60,8 +60,8 @@ public class FcpQueryUtils {
 
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         if (parentLevelId != 0) {
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
@@ -99,8 +99,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpAmountForView" : "getFcpAmount");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
@@ -128,8 +128,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampAmountForView" : "getNonFampAmount");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -140,12 +140,12 @@ public class FcpQueryUtils {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
-            for (String values : editedValues.keySet()) {
+            for (Map.Entry<String, String> values : editedValues.entrySet()) {
                 queryBuilder1 = new StringBuilder();
 
-                String formatedValue = editedValues.get(values);
+                String formatedValue = values.getValue();
 
-                String tempValue[] = values.split("~");
+                String tempValue[] = values.getValue().split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -268,8 +268,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetQtrValuesForView" : "getFcpWorkSheetQtrValues");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -306,8 +306,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),"getFcpParent");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         fcpList = (List) DAO.executeSelectQuery(customSql);
@@ -321,8 +321,8 @@ public class FcpQueryUtils {
 
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));

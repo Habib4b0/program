@@ -1249,7 +1249,10 @@ public class NewComponents extends CustomComponent implements View {
         }
         /*used to check whether all component selection fields are entered or not */
         if (component.equals(Constants.REBATE_SCHEDULE)) {
-            if (!rebateScheduleId.getValue().equals(StringUtils.EMPTY) && !rsNumber.getValue().equals(StringUtils.EMPTY) && !rsName.getValue().equals(StringUtils.EMPTY) && startDate.getValue() != null && endDate.getValue() != null && rsType.getValue() != null && status.getValue() != null && rebatePlanLevel.getValue() != null && rsProgramType.getValue() != null && paymentFrequency.getValue() != null && paymentMethod.getValue() != null && rsType.getValue() != null) {
+            if (!rebateScheduleId.getValue().equals(StringUtils.EMPTY) && !rsNumber.getValue().equals(StringUtils.EMPTY) 
+                    && !rsName.getValue().equals(StringUtils.EMPTY) && startDate.getValue() != null && endDate.getValue() != null 
+                    && rsType.getValue() != null && status.getValue() != null && rebatePlanLevel.getValue() != null
+                    && rsProgramType.getValue() != null && paymentFrequency.getValue() != null && paymentMethod.getValue() != null) {
                 /*used to check whether Entered RS ID is already exist in the system or not */
                 Boolean psIdFlag = tpLogic.duplicateCheck("RS_ID", String.valueOf(rebateScheduleId.getValue()), "rs");
                 if (psIdFlag) {

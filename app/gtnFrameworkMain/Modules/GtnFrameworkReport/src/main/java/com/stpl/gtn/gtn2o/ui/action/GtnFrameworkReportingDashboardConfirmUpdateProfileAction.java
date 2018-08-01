@@ -19,7 +19,7 @@ public class GtnFrameworkReportingDashboardConfirmUpdateProfileAction implements
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		
+		logger.debug("configure params");
 	}
 
 	@Override

@@ -78,13 +78,13 @@ public class GtnWsARMWorkFlowController {
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse forecastCompleteTask(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        GtnWsForecastProjectionSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+        GtnUIFrameworkWebserviceResponse gtnArmWsresponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse armGeneralResponse = new GtnWsGeneralResponse();
+        GtnWsForecastProjectionSubmitRequest armProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
                 .getGtnWsForecastProjectionSubmitRequest();
-        GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+        GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = armProjectionSubmitRequest
                 .getGtnWsForecastProjectionSubmitBean();
-        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
+        GtnWsGeneralRequest gtnWsGeneralRequest = armProjectionSubmitRequest.getGtnWsGeneralRequest();
         int projectionId = forecastProjectionSubmitBean.getProjectionId();
         String userId = gtnWsGeneralRequest.getUserId();
         User userModel = gtnWsUserRoleService.getUser(Long.parseLong(userId.trim()));
@@ -95,10 +95,10 @@ public class GtnWsARMWorkFlowController {
         LOGGER.info("Process Instance ID========= taskSummary.getProcessInstanceId()" + processInstanceId);
         GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
         wfResponse.setProcessInstanceId(processInstanceId.intValue());
-        generalResponse.setSucess(true);
-        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
-        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
-        return gtnWsresponse;
+        armGeneralResponse.setSucess(true);
+        gtnArmWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
+        gtnArmWsresponse.setGtnWsGeneralResponse(armGeneralResponse);
+        return gtnArmWsresponse;
     }
     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_ARM_GET_VARIABLE)
     @ResponseBody

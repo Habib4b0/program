@@ -87,6 +87,7 @@ public class GtnReportCCPTableLoadAction
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		params.add(null);
 		params.add(dataSelectionDto);
+		params.add("v-position-fixed");
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
@@ -211,6 +212,7 @@ public class GtnReportCCPTableLoadAction
 				List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
 						.getCustomData();
 				dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+				dto.setCustomDataList(gridComponent.getCustomDataList());
 			}
 		}
 

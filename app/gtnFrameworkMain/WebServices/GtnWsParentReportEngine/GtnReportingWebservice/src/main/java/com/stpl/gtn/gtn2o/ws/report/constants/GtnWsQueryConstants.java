@@ -82,5 +82,7 @@ public class GtnWsQueryConstants {
 			+ "                         HELPER_TABLE AS HT ON HT.HELPER_TABLE_SID = CUSTOM_VIEW_VARIABLES.VARIABLE_SID\r\n"
 			+ "ORDER BY CUSTOM_VIEW_VARIABLES.VARIABLE_INDICATOR";
         public static final String UOM_DEFAULT = "EACH";
+        
+        public static final String FILTER_CONSTANT = "@filter";
 
 }

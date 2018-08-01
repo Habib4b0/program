@@ -488,7 +488,7 @@ public class AccrualRateUtils {
 
     public static void getCurrentCheckValue(List<String> selectedVariables, CustomMenuBar.CustomMenuItem customMenuItem, final String tabName) {
 
-        selectedVariables.removeAll(selectedVariables);
+        selectedVariables.clear();
         if (customMenuItem != null && customMenuItem.getSize() > 0) {
             List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
             for (CustomMenuBar.CustomMenuItem customMenuItem1 : items) {

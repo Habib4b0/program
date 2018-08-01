@@ -310,21 +310,6 @@ public class CommonUtils {
         return viewtable;
     }
     
-    /**
-     * To check whether the given string is integer or not
-     *
-     * @param s
-     * @return
-     */
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
-    
       /**
      * To convert List<String> into a comma separated String
      *
@@ -355,7 +340,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

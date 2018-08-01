@@ -850,8 +850,8 @@ public class QueryUtils {
         try {
              sql = SQlUtil.getQuery(queryName);
             if(input !=null){
-            for (String key : input.keySet()) {
-                sql = sql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                sql = sql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             }
         } catch (Exception ex) {
