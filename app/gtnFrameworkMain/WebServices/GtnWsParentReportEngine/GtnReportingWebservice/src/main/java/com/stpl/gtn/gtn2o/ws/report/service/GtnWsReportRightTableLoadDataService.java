@@ -106,21 +106,6 @@ public class GtnWsReportRightTableLoadDataService {
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 		
 		gtnLogger.info("Procedure SQL: " + procedure);
-		gtnLogger.info("Procedure frequency: " + frequency);
-		gtnLogger.info("Procedure annualTotals: " + annualTotals);
-		gtnLogger.info("Procedure currencyConversion: " + currencyConversion);
-		gtnLogger.info("Procedure getCustomViewMasterSid: " + gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid());
-		gtnLogger.info("Procedure levelNo: " + levelNo);
-		gtnLogger.info("Procedure gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId(): " + gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId());
-		gtnLogger.info("Procedure Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()): " + Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()));
-		gtnLogger.info("Procedure hierarchy: " + hierarchy);
-		gtnLogger.info("Procedure customViewType: " + customViewType);
-		gtnLogger.info("Procedure :salesInclusion: " + String.valueOf(salesInClusion));
-		gtnLogger.info("Procedure :deductionIncl: " + String.valueOf(deductionInclusion));
-		gtnLogger.info("Procedure :ccpComp ccpfilter: " + ccpFilter);
-		gtnLogger.info("Procedure :startPerioSid: " + String.valueOf(dashboardBean.getPeriodRangeFromSid()));
-		gtnLogger.info("Procedure :endPeriodSid: " + String.valueOf(dashboardBean.getPeriodRangeToSid()));
-		gtnLogger.info("Procedure :comparisonBasis: " + comparisonBasis);
 		
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,
