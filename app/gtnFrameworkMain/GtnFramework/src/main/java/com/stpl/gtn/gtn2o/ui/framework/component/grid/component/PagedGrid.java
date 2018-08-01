@@ -30,7 +30,6 @@ import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -369,7 +368,7 @@ public class PagedGrid {
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
             	return getComboboxFilterComponent(property, filterConfig);
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                 return getCalendarFieldFilterComponent(property,filterConfig);
+                 return getCalendarFieldFilterComponent(property);
             }
 
         } catch (GtnFrameworkGeneralException exception) {
@@ -379,32 +378,25 @@ public class PagedGrid {
         return null;
     }
 
-	private Component getCalendarFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
-		HorizontalLayout hl = new HorizontalLayout();
-                hl.setMargin(false);
-		hl.setWidth("105%");
-                TextField textField = new TextField();
-		textField.setWidth("118%");
-                textField.setId(property);
-                 List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
-                if(!(componentStyle.isEmpty() || componentStyle == null)){
-                    textField.setStyleName(componentStyle.get(0));
-                }
-                hl.addComponent(textField);
-		Window window = getDateFilterPopup(hl, property);
-		 hl.addLayoutClickListener(new LayoutClickListener() {
+	private Component getCalendarFieldFilterComponent(String property) {
+                DateFilterPopup filter=new DateFilterPopup(property);
+                filter.addStyleName("v-textfield-custom-report");
+                filter.addStyleName("filters-wrap");
+                filter.setWidth("130%");
+                filter.addValueChangeListener(new ValueChangeListener<DateInterval>() {
                     @Override
-                    public void layoutClick(LayoutClickEvent event) {
-                        if(event.getChildComponent() == textField){
-                    window.setPosition(event.getClientX(), event.getClientY());
-		        UI.getCurrent().addWindow(window);                       
+                    public void valueChange(ValueChangeEvent<DateInterval> event) {
+                        if (!String.valueOf(event.getValue().getFrom()).equals("null")) {
+                            tableConfig.getFilterValueMap().put(property, event.getValue().getFrom());
+                        } else if (!String.valueOf(event.getValue().getTo()).equals("null")) {
+                            tableConfig.getFilterValueMap().put(property, event.getValue().getTo());
+                        } else {
+                            tableConfig.getFilterValueMap().put(property, event.getValue().getFrom() + " - " + event.getValue().getTo());
+                        }
+                        refreshGrid();
                     }
-                    }
-		});
-                 
-                 
-
-		return hl;
+                });
+		return filter;
 	}
 
 	private Component getComboboxFilterComponent(String property,
