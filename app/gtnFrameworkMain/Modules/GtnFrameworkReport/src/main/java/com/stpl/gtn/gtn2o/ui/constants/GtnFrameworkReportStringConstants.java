@@ -482,6 +482,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PROJECTION_NAMES = "projectionNames";
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
+        
+	public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
 
         public static final String CONFIRMATION = "Confirmation";
 	
