@@ -1278,5 +1278,6 @@ public class GtnFrameworkCommonConstants {
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_BY = CREATED_BY;
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_DATE = MODIFIED_DATE;
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY = MODIFIED_BY;
+    public static final String ARM_VIEW_MASTER_SID = "viewMasterSId";
 
 }
