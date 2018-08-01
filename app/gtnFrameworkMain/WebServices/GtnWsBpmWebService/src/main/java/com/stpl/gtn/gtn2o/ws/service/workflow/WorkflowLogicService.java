@@ -65,6 +65,7 @@ public class WorkflowLogicService {
     @Autowired
     private BpmProcessBean bpmProcessBean;
     
+     @Autowired
     private GtnFrameworkSqlQueryEngine sqlQueryEngine;
 
     public WorkflowLogicService() {
@@ -203,7 +204,7 @@ public class WorkflowLogicService {
                 customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
             }
             Object[] queryParams = {projectionId, processInstanceId};
-            return databaseService.executeUpdate(customSql, queryParams) > 0;
+            return sqlQueryEngine.executeInsertOrUpdateQuery(customSql, queryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.INTEGER}) >0;
 
         } catch (Exception e) {
             LOGGER.error("Exception in insertWFInstanceInfo() method." + e);
@@ -217,7 +218,7 @@ public class WorkflowLogicService {
             String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (CONTRACT_MASTER_SID,PROCESS_INSTANCE_ID,CONTRACT_STRUCTURE) "
                     + "VALUES(?,?,?)";
             Object[] queryParams = {contractId, processInstanceId, contractStructure};
-            return databaseService.executeUpdate(customSql, queryParams) > 0;
+            return sqlQueryEngine.executeInsertOrUpdateQuery(customSql, queryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING}) > 0;
 
         } catch (Exception e) {
             LOGGER.error("Exception in insertContractWFInstanceInfo() method." + e);

@@ -2196,9 +2196,9 @@ public class NonMandatedLogic {
 		input.put("?PSY", inputDto.getForecastDTO().getProjectionStartYear());
 		input.put("?PEY", inputDto.getForecastDTO().getForecastEndYear());
 		String customSql = SQlUtil.getQuery(getClass(),customSqlId);
-		for (String key : input.keySet()) {
-			if (customSql.contains(key)) {
-				customSql = customSql.replace(key, String.valueOf(input.get(key)));
+		for (Map.Entry<String, Object> key : input.entrySet()) {
+			if (customSql.contains(key.getKey())) {
+				customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
 			}
 		}
 		HelperTableLocalServiceUtil

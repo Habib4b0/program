@@ -1763,7 +1763,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
                                     }
                                     Double incOrDec;                            
-                                    if (CommonUtils.compareDoubleValues(String.valueOf(oldNumber)) == 0.0) {
+                                    if (oldNumber == 0.0) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
@@ -2992,8 +2992,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         boolean tempSalesvalue = false;
         boolean tempUnitValue = false;
 
-        for (Object key : radioMap.keySet()) {
-            String value = radioMap.get(key);
+           for (Map.Entry<Object, String> key : radioMap.entrySet()) {
+            String value = key.getValue();
             if (checkBoxMap.get(key)) {
                 if ((value != null) && (value.contains(Constant.ACTUALSALES))) {
                     tempSalesvalue = true;

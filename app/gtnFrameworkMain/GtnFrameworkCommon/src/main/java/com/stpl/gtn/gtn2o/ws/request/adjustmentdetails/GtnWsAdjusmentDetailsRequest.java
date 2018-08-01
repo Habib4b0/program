@@ -129,19 +129,19 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+         return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+         this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public Date getGlDate() {
-        return glDate;
+        return glDate == null ? null : (Date) glDate.clone();
     }
 
     public void setGlDate(Date glDate) {
-        this.glDate = glDate;
+        this.glDate = glDate == null ? null : (Date) glDate.clone();
     }
 
     public String getOriginalBatchId() {
@@ -225,19 +225,19 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     }
 
     public Date getRedemptionPeriodStartDate() {
-        return redemptionPeriodStartDate;
+         return redemptionPeriodStartDate == null ? null : (Date) redemptionPeriodStartDate.clone();
     }
 
     public void setRedemptionPeriodStartDate(Date redemptionPeriodStartDate) {
-        this.redemptionPeriodStartDate = redemptionPeriodStartDate;
+        this.redemptionPeriodStartDate = redemptionPeriodStartDate == null ? null : (Date) redemptionPeriodStartDate.clone();
     }
 
     public Date getRedemptionPeriodEndDate() {
-        return redemptionPeriodEndDate;
+        return redemptionPeriodEndDate == null ? null : (Date) redemptionPeriodEndDate.clone();
     }
 
     public void setRedemptionPeriodEndDate(Date redemptionPeriodEndDate) {
-        this.redemptionPeriodEndDate = redemptionPeriodEndDate;
+        this.redemptionPeriodEndDate = redemptionPeriodEndDate == null ? null : (Date) redemptionPeriodEndDate.clone();
     }
 
 }

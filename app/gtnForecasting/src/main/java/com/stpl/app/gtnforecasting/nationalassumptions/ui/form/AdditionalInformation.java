@@ -376,7 +376,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void updateProgress(final long readBytes, final long contentLength) {
                 LOGGER.debug("updateProgress method in addProgressListener started");
-                fileSize = Double.valueOf(contentLength) / Double.valueOf(NumericConstants.ONE_ZERO_TWO_FOUR);
+                fileSize = contentLength/ NumericConstants.ONE_ZERO_TWO_FOUR_DOUBLE;
                 LOGGER.debug("updateProgress method in addProgressListener ends");
             }
         });
