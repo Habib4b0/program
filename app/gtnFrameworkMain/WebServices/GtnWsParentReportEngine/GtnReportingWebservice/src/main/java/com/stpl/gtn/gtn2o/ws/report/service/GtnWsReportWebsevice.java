@@ -491,7 +491,7 @@ public class GtnWsReportWebsevice {
 	private String getFilterValueForDateFields(String filter, String filterValue, String[] splitedArray,
 			String filterId) {
 		String filterString = filter;
-		if ("Show all".equals(filterValue)) {
+		if ("Show all".equals(filterValue)|| filterValue.startsWith("null")) {
 			filterString = filterString + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 
@@ -518,7 +518,7 @@ public class GtnWsReportWebsevice {
 		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
 		dbColumnIdMap.put("type", "ht.DESCRIPTION");
 		dbColumnIdMap.put("version", "VERSION");
-		dbColumnIdMap.put("activeFrom", "ACTIVE_FROM");
+		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");
 		dbColumnIdMap.put("fromPeriod", "FROM_PERIOD");
 		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
 		return dbColumnIdMap;
