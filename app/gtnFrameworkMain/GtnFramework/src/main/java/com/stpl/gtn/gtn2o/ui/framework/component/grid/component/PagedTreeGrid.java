@@ -36,7 +36,7 @@ public class PagedTreeGrid {
      * Logger
      */
     public static final GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedTreeGrid.class);
-    public static final List<String> INPUT = Arrays.asList("levelNumber", "hierarchyNo");
+    protected static final List<String> INPUT = Arrays.asList("levelNumber", "hierarchyNo");
     private GtnUIFrameworkPagedTreeTableConfig tableConfig;
     private int count;
     private int pageLength = 10;
@@ -66,13 +66,13 @@ public class PagedTreeGrid {
     private boolean removeExcessItems = false;
     private int excessItemsStartIndex = 0;
     private List<GtnWsRecordBean> itemsTobeRemoved = new ArrayList<>();
-    public boolean shiftLeftSingeHeader;
+    public static boolean shiftLeftSingeHeader;
     private GtnWsRecordBean tempBean =null;
     private int fetched = 0;
     private boolean levelExpandOn=false;
     private int levelExpandNo=1;
     
-    public String componentIdInMap = null;
+    public static String componentIdInMap = null;
     public boolean columnLazyLoading=false;
 
     public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
@@ -570,14 +570,14 @@ public class PagedTreeGrid {
         setPageNoFieldValue(0);
         controlLayout.addComponent(new Label("Items per page:"));
         controlLayout.addComponent(getItemsPerPage());
-        controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0),false));
-        controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage(),true));
+        controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0),Boolean.FALSE));
+        controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage(),Boolean.TRUE));
         controlLayout.addComponent(new Label("Page No:"));
         controlLayout.addComponent(pageNoField);
         controlLayout.addComponent(new Label("/"));
         controlLayout.addComponent(pageCountLabel);
-        controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage(),false));
-        controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1),true));
+        controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage(),Boolean.FALSE));
+        controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1),Boolean.TRUE));
         pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
         columnController();
         return controlLayout;
@@ -634,16 +634,16 @@ public class PagedTreeGrid {
         columnPageNoField.setStyleName("v-report-display-pagination-label");
         controlLayout.addComponent(new Label("Columns per page:"));
         controlLayout.addComponent(getColumnsPerPageComponenet());
-        controlLayout.addComponent(getControlLayoutButtons("<<", e -> setColumnPageNumber(0),false));
-        controlLayout.addComponent(getControlLayoutButtons("<", e -> setColumnPageNumber(--columnPageNumber),true));
+        controlLayout.addComponent(getControlLayoutButtons("<<", e -> setColumnPageNumber(0),Boolean.FALSE));
+        controlLayout.addComponent(getControlLayoutButtons("<", e -> setColumnPageNumber(--columnPageNumber),Boolean.TRUE));
         controlLayout.addComponent(new Label("Columns Page No:"));
         controlLayout.addComponent(columnPageNoField);
         controlLayout.addComponent(new Label("/"));
         totalColumns.setWidth("45px");
         totalColumns.setStyleName("v-report-display-pagination-label");
         controlLayout.addComponent(totalColumns);
-        controlLayout.addComponent(getControlLayoutButtons(">", e -> setColumnPageNumber(++columnPageNumber),false));
-        controlLayout.addComponent(getControlLayoutButtons(">>", e -> setColumnPageNumber(getTotalPageCount()),true));
+        controlLayout.addComponent(getControlLayoutButtons(">", e -> setColumnPageNumber(++columnPageNumber),Boolean.FALSE));
+        controlLayout.addComponent(getControlLayoutButtons(">>", e -> setColumnPageNumber(getTotalPageCount()),Boolean.TRUE));
         columnPageNoField.addBlurListener(e -> setColumnPageNumber((Integer.parseInt(columnPageNoField.getValue())) - 1));
 
         return hl;
