@@ -25,6 +25,7 @@ public class DroolsProperties {
     private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(DroolsProperties.class);
 
     private static final String ERROR_READING_PROPERTY_FILE = "Error while reading the property file :";
+
     /**
      * method will return properties class
      *
@@ -59,12 +60,12 @@ public class DroolsProperties {
                 isPrinted = true;
             }
         } catch (FileNotFoundException e) {
-            logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
+            logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
             logger.error("Please check the forecasting_properties.properties file in following path :[" + path + "]");
         } catch (IOException e) {
-            logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
+            logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
         }
-         return (Properties) properties.clone();
+        return (Properties) properties.clone();
     }
     private static final String CONFIGURATION = "configuration";
     private static final String BPMCONFIG = "bpmconfig";
@@ -77,18 +78,18 @@ public class DroolsProperties {
      * @return
      */
     public static Properties getCffPropertiesData() {
-        String path = "";
+        String cffPath = "";
         try {
-            path = System.getProperty(JBOSS_SERVER_CONFIG_DIR);
+            cffPath = System.getProperty(JBOSS_SERVER_CONFIG_DIR);
             if (!isPrinted) {
-                logger.info("jboss.server.config.dir in getCffPropertiesData() :" + path);
+                logger.info("jboss.server.config.dir in getCffPropertiesData() :" + cffPath);
             }
-            path = path.replace(STANDALONE, BPMCONFIG);
-            path = path.replace(CONFIGURATION, "cff_properties.properties");
+            cffPath = cffPath.replace(STANDALONE, BPMCONFIG);
+            cffPath = cffPath.replace(CONFIGURATION, "cff_properties.properties");
             if (!isPrinted) {
-                logger.info("Resources Path :[" + path + "]");
+                logger.info("Resources Path :[" + cffPath + "]");
             }
-            File file = new File(path);
+            File file = new File(cffPath);
             if (!isPrinted) {
                 logger.info("File resources Path in getCffPropertiesData():" + file.getAbsolutePath());
             }
@@ -106,7 +107,7 @@ public class DroolsProperties {
             }
         } catch (FileNotFoundException e) {
             logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
-            logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");
+            logger.error("Please check the hierarchy_properties.properties file in following path :[" + cffPath + "]");
         } catch (IOException e) {
             logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
         }
@@ -114,18 +115,18 @@ public class DroolsProperties {
     }
 
     public static Properties getArmPropertiesData() {
-        String path = "";
+        String armPath = "";
         try {
-            path = System.getProperty(JBOSS_SERVER_CONFIG_DIR);
+            armPath = System.getProperty(JBOSS_SERVER_CONFIG_DIR);
             if (!isPrinted) {
-                logger.info("jboss.server.config.dir in getArmPropertiesData() :" + path);
+                logger.info("jboss.server.config.dir in getArmPropertiesData() :" + armPath);
             }
-            path = path.replace(STANDALONE, BPMCONFIG);
-            path = path.replace(CONFIGURATION, "forecasting_properties.properties");
+            armPath = armPath.replace(STANDALONE, BPMCONFIG);
+            armPath = armPath.replace(CONFIGURATION, "forecasting_properties.properties");
             if (!isPrinted) {
-                logger.info("Resources Path :[" + path + "]");
+                logger.info("Resources Path :[" + armPath + "]");
             }
-            File file = new File(path);
+            File file = new File(armPath);
             if (!isPrinted) {
                 logger.info("File resources Path in getArmPropertiesData() :" + file.getAbsolutePath());
             }
@@ -143,11 +144,11 @@ public class DroolsProperties {
             }
         } catch (FileNotFoundException e) {
             logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
-            logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");
+            logger.error("Please check the hierarchy_properties.properties file in following path :[" + armPath + "]");
         } catch (IOException e) {
             logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
         }
-        return armProperties;
+        return (Properties) armProperties.clone();
     }
 
 }
