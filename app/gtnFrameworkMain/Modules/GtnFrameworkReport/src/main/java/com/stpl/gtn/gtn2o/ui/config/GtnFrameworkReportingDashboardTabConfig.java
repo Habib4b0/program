@@ -135,12 +135,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelVerticalLayout = configProvider
 				.getVerticalLayoutConfig("displaySelectionTabPanelVerticalLayout", true, "displaySelectionTabPanel");
-		displaySelectionTabPanelVerticalLayout.setComponentWidth("1700px");
+		displaySelectionTabPanelVerticalLayout.setComponentWidth("1625px");
 		componentList.add(displaySelectionTabPanelVerticalLayout);
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelLayout = configProvider.getHorizontalLayoutConfig(
 				"displaySelectionTabPanelLayout", true, "displaySelectionTabPanelVerticalLayout");
 		displaySelectionTabPanelLayout.addComponentStyle("stpl-padding-top-20");
+		displaySelectionTabPanelLayout.addComponentStyle("stpl-margin-left--20");
 		componentList.add(displaySelectionTabPanelLayout);
 
 		GtnUIFrameworkLayoutConfig cssLayout = new GtnUIFrameworkLayoutConfig();
@@ -158,6 +159,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelLayoutBottom = configProvider.getHorizontalLayoutConfig(
 				"displaySelectionTabPanelLayoutBottom", true, "displaySelectionTabPanelVerticalLayout");
+		displaySelectionTabPanelLayoutBottom.addComponentStyle("stpl-margin-left--20");
 		componentList.add(displaySelectionTabPanelLayoutBottom);
 
 		GtnUIFrameworkLayoutConfig cssLayoutBottom = new GtnUIFrameworkLayoutConfig();

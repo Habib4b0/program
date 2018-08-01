@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -25,7 +24,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.Column;
 
@@ -121,6 +123,16 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 					"reportOptionsTab_variableBreakdownEndPeriod", componentId, Arrays.asList(""));
 			captionList.clear();
 			valueList.clear();
+			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();	
+    		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+    				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+    		List<GtnReportVariableBreakdownLookupBean> variableLookupBeanList = dataSelectionBean.getVariableBreakdownSaveList();
+			for (GtnReportVariableBreakdownLookupBean bean : variableLookupBeanList) {
+				
+				ComboBox comboBox = (ComboBox) grid.getHeaderRow(bean.getRowCount()).getCell(bean.getProperty())
+						.getComponent();
+				comboBox.setSelectedItem(bean.getSelectedVariable());
+			}
 		}
 	}
 

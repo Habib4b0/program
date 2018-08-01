@@ -212,6 +212,7 @@ public class GtnReportCCPTableLoadAction
 				List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
 						.getCustomData();
 				dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+				dto.setCustomDataList(gridComponent.getCustomDataList());
 			}
 		}
 
