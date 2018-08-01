@@ -102,7 +102,7 @@ public class GtnReportingDashboardReportProfileLoadAction
 		
 		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(8).toString(), viewId).updateSelection(
-				Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory())!= null
+				Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()).isPresent() == true
 						? reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()
 						: new ArrayList<>());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(9).toString(), viewId)
