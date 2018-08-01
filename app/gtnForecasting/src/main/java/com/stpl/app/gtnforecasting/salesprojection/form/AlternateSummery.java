@@ -1262,8 +1262,8 @@ public class AlternateSummery extends CustomComponent {
         int currentYear = (Integer) list.get(NumericConstants.TWO);
         int currentSemi = (Integer) list.get(NumericConstants.THREE);
         String selectedFreq = projectionDTO.getFrequency();
-        for (Object key : checkBoxMap.keySet()) {
-            String temp[] = ((String) key).split("-");
+        for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {
+            String temp[] = ((String) key.getKey()).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -1285,11 +1285,11 @@ public class AlternateSummery extends CustomComponent {
                 default:
                     break;
             }
-            if ((condition) && (checkBoxMap.get(key))) {
+             if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
                     selectedPeriods = selectedPeriods + ",";
                 }
-                String value = (String) key;
+                String value = (String) key.getKey();
                 value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
                 selectedPeriods = selectedPeriods + value;
             }
@@ -1362,8 +1362,8 @@ public class AlternateSummery extends CustomComponent {
         int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
 
-        for (Object key : checkBoxMap.keySet()) {
-            String temp[] = ((String) key).split("-");
+        for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {
+            String temp[] = ((String) key.getKey()).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -1386,11 +1386,11 @@ public class AlternateSummery extends CustomComponent {
                     break;
             }
 
-            if ((condition) && (checkBoxMap.get(key))) {
+            if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
                     selectedPeriods = selectedPeriods + ",";
                 }
-                String value = (String) key;
+                String value = (String) key.getKey();
                 value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
                 selectedPeriods = selectedPeriods + value;
             }
