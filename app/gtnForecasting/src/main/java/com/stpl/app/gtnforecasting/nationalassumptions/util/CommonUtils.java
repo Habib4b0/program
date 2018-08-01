@@ -336,20 +336,6 @@ public class CommonUtils {
         }
         return results;
     }
-  /**
-     * To check whether the given string is integer or not
-     *
-     * @param s
-     * @return
-     */
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-}
-        return true;
-    }
 
     public static int getIntegerForMonth(String month) {
         String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -439,7 +425,7 @@ public class CommonUtils {
             }
             
             if(toRemoveSpace){
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
