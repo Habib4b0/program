@@ -44,6 +44,8 @@ AS
         VALUES (Source.contract_master_sid,
                 Source.COMPANY_MASTER_SID,
                 Source.ITEM_MASTER_SID);
+		
+	EXEC PRC_ACTUAL_DETAILS_POPULATION
   END
 
 GO 
