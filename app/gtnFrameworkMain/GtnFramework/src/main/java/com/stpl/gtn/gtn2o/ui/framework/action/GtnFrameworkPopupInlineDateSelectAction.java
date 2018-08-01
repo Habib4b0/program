@@ -30,18 +30,18 @@ public class GtnFrameworkPopupInlineDateSelectAction implements GtnUIFrameWorkAc
         List<String> resultTableId = (List<String>) selectParam.get(0);
         List<String> inputColumIds = (List<String>) selectParam.get(1);
         String outputFieldId = selectParam.get(2).toString();
-        String newValue = StringUtils.EMPTY;
+        StringBuilder newValue = new StringBuilder();
         for (int i = 0; i < inputColumIds.size(); i++) {
             AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId.get(i), inputColumIds.get(i));
-            newValue = newValue + getDate(vaadinField.getValue());
+            newValue.append(getDate((Date) vaadinField.getValue()));
         }
-        newValue = newValue.substring(2);
+        String dateValue = newValue.substring(2);
         AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromParent(outputFieldId, componentId).getComponent();
-        if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
+        if (vaadinField != null && dateValue != null && !"null".equals(String.valueOf(dateValue))) {
             boolean isReadOnly = vaadinField.isReadOnly();
             vaadinField.setReadOnly(false);
-            vaadinField.setValue(String.valueOf(newValue));
+            vaadinField.setValue(String.valueOf(dateValue));
             vaadinField.setReadOnly(isReadOnly);
         }
     }
@@ -51,11 +51,10 @@ public class GtnFrameworkPopupInlineDateSelectAction implements GtnUIFrameWorkAc
         return this;
     }
 
-    private String getDate(Object value) {
-        Date date = (Date) value;
+    private String getDate(Date value) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        if (date != null) {
-            return " - " + simpleDateFormat.format(date);
+        if (value != null) {
+            return " - " + simpleDateFormat.format(value);
         }
         return StringUtils.EMPTY;
     }

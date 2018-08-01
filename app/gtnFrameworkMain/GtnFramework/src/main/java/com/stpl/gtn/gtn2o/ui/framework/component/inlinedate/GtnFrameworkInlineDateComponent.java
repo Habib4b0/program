@@ -7,6 +7,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.inlinedate;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -32,7 +33,7 @@ public class GtnFrameworkInlineDateComponent implements GtnUIFrameworkComponent 
         dateField.setResolution(Resolution.MONTH);
         dateField.setEnabled(componentConfig.isEnable());
         dateField.setValue((Date) componentConfig.getComponentValue());
-        GtnUIFrameworkInlineDateFieldConfig dateFieldConfig = componentConfig.getGtnUIFrameworkInlineDateFieldConfig();
+        GtnUIFrameworkDateFieldConfig dateFieldConfig = componentConfig.getGtnUIFrameworkInlineDateFieldConfig();
         if (dateFieldConfig != null) {
             dateField.setRequired(dateFieldConfig.isRequired());
             dateField.setRequiredError(dateFieldConfig.getRequiredMessage());
@@ -61,7 +62,7 @@ public class GtnFrameworkInlineDateComponent implements GtnUIFrameworkComponent 
         dateField.setVisible(componentConfig.isVisible());
         dateField.setDateFormat("MM/dd/yyyy");
         dateField.setEnabled(componentConfig.isEnable());
-        GtnUIFrameworkInlineDateFieldConfig dateFieldConfig = componentConfig.getGtnUIFrameworkInlineDateFieldConfig();
+        GtnUIFrameworkDateFieldConfig dateFieldConfig = componentConfig.getGtnUIFrameworkInlineDateFieldConfig();
         if (dateFieldConfig != null) {
             dateField.setRequired(dateFieldConfig.isRequired());
             dateField.setRequiredError(dateFieldConfig.getRequiredMessage());
