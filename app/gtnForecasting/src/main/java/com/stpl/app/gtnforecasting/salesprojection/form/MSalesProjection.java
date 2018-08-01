@@ -41,10 +41,8 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -66,7 +64,6 @@ public class MSalesProjection extends ForecastSalesProjection {
     private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
-    private final Set<String> tableHierarchyNos = new HashSet<>();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
@@ -291,7 +288,6 @@ public class MSalesProjection extends ForecastSalesProjection {
         if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1 || tempCustomerLevel <= 1)) {
             if (!hasActuals) {
                 hierarchyNo = salesPMPYDTO.getHierarchyNo();
-                tableHierarchyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(salesPMPYDTO));
                 final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);
                 getUI().addWindow(pmpyCalc);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
