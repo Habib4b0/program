@@ -529,12 +529,12 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		ComboBox vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		vaadinComboBox.setEnabled(componentConfig.isEnable());
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = componentConfig.getGtnComboboxConfig();
-		if (comboBoxConfig != null) {
-			if (comboBoxConfig.getItemValues() != null && !comboBoxConfig.getItemValues().isEmpty()) {
-				vaadinComboBox.setSelectedItem(comboBoxConfig.getItemValues().get(0));
-			}
+		if (comboBoxConfig != null && comboBoxConfig.getItemValues() != null
+				&& !comboBoxConfig.getItemValues().isEmpty()) {
+			vaadinComboBox.setRequiredIndicatorVisible(comboBoxConfig.isRequired());
+			vaadinComboBox.setVisible(componentConfig.isVisible());
+			vaadinComboBox.setSelectedItem(comboBoxConfig.getItemValues().get(0));
 		}
-
 	}
 
 	private void setDefaultFocus(ComboBox vaadinComboBox, GtnUIFrameworkComponentConfig componentConfig) {
