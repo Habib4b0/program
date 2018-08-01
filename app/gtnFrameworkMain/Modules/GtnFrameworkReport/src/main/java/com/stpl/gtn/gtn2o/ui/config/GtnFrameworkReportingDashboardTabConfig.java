@@ -697,6 +697,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER_LAYOUT, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+		gtnLayout.addComponentStyle("v-report-filter-options");
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customerFilterConfig = configProvider.getUIFrameworkComponentConfig(
@@ -844,6 +845,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+		gtnLayout.addComponentStyle("v-report-filter-options");
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customerLevelConfig = configProvider.getUIFrameworkComponentConfig(
