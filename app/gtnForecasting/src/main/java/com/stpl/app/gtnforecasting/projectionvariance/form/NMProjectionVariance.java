@@ -155,7 +155,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final ForecastForm nonMandatedForm;
     private List<List<String>> discountlist = new ArrayList<>();
     private boolean firstGenerated = false;
-    private final List<Integer> comparisonProjId = new ArrayList<>();
     private List<String> comparisonProjName = new ArrayList<>();
     private boolean editFlag = false;
     public static final String SID = "SID";
@@ -1856,7 +1855,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             comparison.setValue(projNameList.size() > 1 ? Constant.MULTIPLE : projNameList.get(0));
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
-            comparisonProjId.addAll(projIdList);
             if (!pvSelectionDTO.getProjIdList().isEmpty()) {
                 for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                     comparisonBasis.addItem(j);
