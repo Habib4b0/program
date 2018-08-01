@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.framework.type;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.button.GtnUIFrameworkButtonComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.calendarfield.GtnUIFrameworkCalendarComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.chart.GtnUIFrameworkBarChart;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboboxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboboxComponent;
@@ -79,8 +80,8 @@ public enum GtnUIFrameworkComponentType {
 	TREE(new GtnUIFrameworkTreeComponent()),
 
 	LABEL(new GtnUIFrameworkLabelComponent()),
-        
-        V8_LABEL(new GtnUIFrameworkV8LabelComponent()),
+
+	V8_LABEL(new GtnUIFrameworkV8LabelComponent()),
 
 	HORIZONTAL_SPLIT_PANEL(new GtnUIFrameworkHorizontalSplitPanelComponent()),
 
@@ -106,12 +107,10 @@ public enum GtnUIFrameworkComponentType {
 
 	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
 
-	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()), PAGED_GRID(
-			new GtnUIFrameworkPagedGridComponent()), V8_DUALLISTBOX(
-					new GtnUIFrameworkV8DualListBoxComponent()), PAGED_TREE_GRID(
-							new GtnUIFrameworkPagedTreeGridComponent()), GRID(
-									new GtnUIFrameworkGridComponent()), TREE_GRID(
-											new GtnUIFrameworkTreeGridComponent());
+	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()), PAGED_GRID(new GtnUIFrameworkPagedGridComponent()),
+	V8_DUALLISTBOX(new GtnUIFrameworkV8DualListBoxComponent()),
+	PAGED_TREE_GRID(new GtnUIFrameworkPagedTreeGridComponent()), GRID(new GtnUIFrameworkGridComponent()),
+	TREE_GRID(new GtnUIFrameworkTreeGridComponent()), BAR_CHART(new GtnUIFrameworkBarChart());
 
 	private GtnUIFrameworkComponent gtnComponent;
 

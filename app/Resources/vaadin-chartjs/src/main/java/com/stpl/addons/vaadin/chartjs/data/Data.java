@@ -19,6 +19,7 @@ public class Data<T> extends And<T> implements JsonBuilder {
     private static final long serialVersionUID = 8683322928360358252L;
 
     private List<String> labels;
+    private List<String[]> labelsAsArray;
     private List<Dataset<?, ?>> datasets;
     private boolean extractLabelsFromDataset;
 
@@ -33,6 +34,11 @@ public class Data<T> extends And<T> implements JsonBuilder {
 
     public Data<T> labelsAsList(List<String> labels) {
         this.labels = labels;
+        return this;
+    }
+    
+    public Data<T> labelsAsStringArray(List<String[]> labels) {
+        this.labelsAsArray = labels;
         return this;
     }
 
@@ -107,6 +113,8 @@ public class Data<T> extends And<T> implements JsonBuilder {
             }
         }
         JUtils.putNotNull(map, "labels", labels);
+        JUtils.putNotNullAsStringArrayList(map, "labels", labelsAsArray);
+        
         JUtils.putNotNullBuilders(map, "datasets", datasets);
         return map;
     }

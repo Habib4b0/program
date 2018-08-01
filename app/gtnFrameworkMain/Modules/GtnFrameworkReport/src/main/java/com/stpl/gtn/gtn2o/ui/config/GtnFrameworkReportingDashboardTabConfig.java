@@ -256,17 +256,18 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);
 		customViewComboboxConfig
 				.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
-		
+
 		GtnUIFrameWorkActionConfig enableComparisonLookupActionConfig = new GtnUIFrameWorkActionConfig();
 		enableComparisonLookupActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		enableComparisonLookupActionConfig.addActionParameter(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName());
-		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG);
+		enableComparisonLookupActionConfig
+				.addActionParameter(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName());
+		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG);
 		enableComparisonLookupActionConfig.addActionParameter("");
 		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
 		enableComparisonLookupActionConfig.addActionParameter("");
 		customViewComboboxConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(enableComparisonLookupActionConfig));
-
 
 	}
 
@@ -362,7 +363,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				Arrays.asList("reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
 						"reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
 						"reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ "reportProfilePagedTableComponent"),Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY })));
+								+ "reportProfilePagedTableComponent"),
+				Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY,
+						GtnFrameworkCommonStringConstants.STRING_EMPTY })));
 		list.add(conf);
 
 		reportProfileConfig.setGtnUIFrameWorkActionConfigList(list);
@@ -489,7 +492,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(annualTotalsConfig);
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
 		annualTotalsLoadConfig.setDefaultDesc("next");
 		annualTotalsLoadConfig.setHasDefaultValue(true);
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
@@ -1370,6 +1373,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		chartButtonConfig.addComponentStyle(GtnFrameworkCssConstants.LINK);
 		chartButtonConfig.setAuthorizationIncluded(true);
 		chartButtonConfig.setButtonConfig(config);
+
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig chartViewAction = new GtnUIFrameWorkActionConfig();
+		chartViewAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		chartViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CHART_LOOKUP_VIEW);
+		chartViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CHART_LOOKUP_VIEW);
+		chartViewAction.addActionParameter("75%");
+		chartViewAction.addActionParameter(null);
+		actionConfigList.add(chartViewAction);
+
+		chartButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(chartButtonConfig);
 
 	}

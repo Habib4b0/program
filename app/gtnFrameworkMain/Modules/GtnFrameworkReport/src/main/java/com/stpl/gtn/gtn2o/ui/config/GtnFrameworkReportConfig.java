@@ -6,6 +6,7 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportChartLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportComparisonLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportComparisonOptionsLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportCustomViewLookup;
@@ -85,6 +86,8 @@ public class GtnFrameworkReportConfig {
 
 		viewList.add(new GtnFrameworkReportDataSelectionPublicViewSearchLookUp()
 				.getPublicViewLookUpView(GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW));
+
+		viewList.add(new GtnFrameworkReportChartLookup().getReportChartViewConfig());
 
 		rootConfig.setGtnViewConfigList(viewList);
 

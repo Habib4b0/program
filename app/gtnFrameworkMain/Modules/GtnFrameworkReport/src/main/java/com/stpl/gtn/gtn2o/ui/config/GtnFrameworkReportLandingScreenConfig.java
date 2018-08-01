@@ -747,7 +747,17 @@ public class GtnFrameworkReportLandingScreenConfig {
 						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
 		onSuccessActionConfigList.add(resetAction);
 		resetActionList.add(confirmResetAction);
-		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig chartViewAction = new GtnUIFrameWorkActionConfig();
+		chartViewAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		chartViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CHART_LOOKUP_VIEW);
+		chartViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CHART_LOOKUP_VIEW);
+		chartViewAction.addActionParameter("100%");
+		chartViewAction.addActionParameter(null);
+		actionConfigList.add(chartViewAction);
+		
+		resetButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig saveViewBtn = new GtnUIFrameworkComponentConfig();
 		saveViewBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
