@@ -97,7 +97,7 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 			}
 			else if(baseComponent.getComponent() instanceof ComboBox){
 				if(baseComponent.getComponentConfig().getCustomReference().equals("integerId")){
-				baseComponent.loadV8ComboBoxComponentValue((int)value);
+				baseComponent.loadV8ComboBoxComponentValue((Integer)value);
 				}
 				else{
 					baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
@@ -110,6 +110,8 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 	}
 
 	private void resetFilterComponents(String componentId, GtnUIFrameworkBaseComponent baseComponent) {
+		
+		gtnLogger.debug("componentId" + componentId);
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> filterMap = baseComponent.getComponentConfig()
 				.getGtnPagedTableConfig().getCustomFilterConfigMap();
 		Set<String> fliterComponents = filterMap.keySet();

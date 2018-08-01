@@ -137,7 +137,7 @@ public class GtnUIFrameworkPagedGridLogic {
 					dto.setProperties(record.getColList());
 					records.add(dto);
 				}
-			} if(response.getGtnSerachResponse().getResultSet().getDataTable().size() == 0) {
+			} if(response != null && response.getGtnSerachResponse().getResultSet().getDataTable().size() == 0) {
 				if (componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
 					try{
 					GtnUIFrameworkActionExecutor.executeSingleAction(componentConfig.getComponentId(),

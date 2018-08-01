@@ -168,7 +168,7 @@ public class DataSelectionUtil {
             final ExtTreeContainer<Leveldto> selectedContainer, final BeanItemContainer<Leveldto> availableContainer, final int currentLevel) {
         if (selectedTable.hasChildren(item)) {
             Collection<?> children = selectedTable.getChildren(item);
-            if (children != null && children.size() > 0) {
+            if (children != null && !children.isEmpty()) {
                 BeanItemContainer<Leveldto> tempBean = new BeanItemContainer<>(Leveldto.class);
                 LinkedList<Object> children2 = new LinkedList<>();
                 for (Iterator<?> i = children.iterator(); i.hasNext();) {
@@ -432,7 +432,7 @@ public class DataSelectionUtil {
     }
 
     public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<>();
+        List<String> tempTables = new ArrayList<>(NumericConstants.TWENTY_FIVE);
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");

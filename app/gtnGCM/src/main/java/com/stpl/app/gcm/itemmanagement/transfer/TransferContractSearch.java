@@ -171,7 +171,7 @@ public class TransferContractSearch extends AbstractContractSearch {
 
     @Override
     public List getInput() {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(selectionDto.getSessionId());
         input.add(ConstantsUtil.CURRENT_SUMMARY);
         if (allItems.getValue().equals("YES")) {

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid;
 
 import java.util.Collections;
+import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -37,21 +38,30 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 		grid.setWidth(componentConfig.getComponentWidth());
 		grid.setCaption(componentConfig.getComponentName());
 		grid.setHeight(componentConfig.getComponentHight());
+		loadStylesForGrid(grid, componentConfig.getComponentStyle());
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
 		setComponentData(grid, componentConfig);
 		return grid;
 	}
 
-	private void generateColumns(Grid<GtnWsRecordBean> grid,
-			GtnUIFrameworkGridComponentConfig gtnUIFrameworkGridComponentConfig) {
-		boolean isHeaderNameAvailable = gtnUIFrameworkGridComponentConfig.getColumnHeadersName().length > 0;
-		int index = 0;
+	private void loadStylesForGrid(Grid<GtnWsRecordBean> currentGrid, List<String> stylesForGrid) {
+		if (stylesForGrid != null) {
+			for (String style : stylesForGrid) {
+				currentGrid.addStyleName(style);
+			}
+		}		
+	}
 
-		for (String propertyId : gtnUIFrameworkGridComponentConfig.getColumnHeadersId()) {
-			Column<GtnWsRecordBean, Object> column = grid
-					.addColumn(recordBean -> recordBean.getPropertyValue(propertyId));
-			if (isHeaderNameAvailable) {
-				column.setCaption(gtnUIFrameworkGridComponentConfig.getColumnHeadersName()[index++]);
+	private void generateColumns(Grid<GtnWsRecordBean> grid,
+			GtnUIFrameworkGridComponentConfig gridComponentConfig) {
+		boolean isTheHeaderNameAvailable = gridComponentConfig.getColumnHeadersName().length > 0;
+		int i = 0;
+
+		for (String propId : gridComponentConfig.getColumnHeadersId()) {
+			Column<GtnWsRecordBean, Object> col = grid
+					.addColumn(recordBean -> recordBean.getPropertyValue(propId));
+			if (isTheHeaderNameAvailable) {
+				col.setCaption(gridComponentConfig.getColumnHeadersName()[i++]);
 			}
 		}
 	}

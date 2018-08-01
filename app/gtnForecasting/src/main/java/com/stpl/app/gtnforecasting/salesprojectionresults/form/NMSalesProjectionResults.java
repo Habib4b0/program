@@ -92,7 +92,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResults.class);
     
 
-    private final List<Object> possibleKeyList = new ArrayList<>();
     private boolean sales;
     private boolean units;
 
@@ -1415,7 +1414,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         return group;
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             configureFields();
             securityForButtons();

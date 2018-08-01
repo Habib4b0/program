@@ -55,6 +55,7 @@ public class GtnUIFrameworkComponentConfig {
 	private String componentWsFieldId;
 
 	private List<String> componentStyle = new ArrayList<>();
+        private List<String> textComponentStyle = new ArrayList<>();    
 	private List<Object> queryInputs = new ArrayList<>();
 	private GtnUIFrameworkComboBoxConfig gtnComboboxConfig;
 	private GtnUIFrameworkPagedTableConfig gtnPagedTableConfig;
@@ -89,7 +90,7 @@ public class GtnUIFrameworkComponentConfig {
 	private boolean enable = true;
 	private boolean rebuild = false;
 	private boolean userOriginatedFlag = false;
-
+	
 	private GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig;
 	private GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig;
 
@@ -108,6 +109,7 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
 	private String customReference = "";
 	private String vaadinComponentPlaceHolder = "";
+        private GtnUIFrameworkDateFieldConfig gtnUIFrameworkInlineDateFieldConfig;
 	/*
 	 * List of dependent componentIds. For example is combobox1 is changed, then
 	 * combobox2 has to load, then combobox2 will be the dependent component of
@@ -145,7 +147,7 @@ public class GtnUIFrameworkComponentConfig {
 	}
 
 	public GtnUIFrameworkComponentConfig(GtnUIFrameworkComponentConfig componentConfig) {
-		this.componentType = componentConfig.getComponentType();
+		this.componentType = componentConfig.getComponentType(); 
 		this.componentName = componentConfig.getComponentName();
 		this.componentId = componentConfig.getComponentId();
 		this.componentWidth = componentConfig.getComponentWidth();
@@ -158,6 +160,7 @@ public class GtnUIFrameworkComponentConfig {
 		this.resetToDefaultAllowed = componentConfig.isResetToDefaultAllowed();
 		this.componentWsFieldId = componentConfig.getComponentWsFieldId();
 		this.componentStyle = componentConfig.getComponentStyle();
+                this.textComponentStyle=componentConfig.getTextComponentStyle();
 		this.queryInputs = componentConfig.getQueryInputs();
 		this.gtnComboboxConfig = componentConfig.getGtnComboboxConfig();
 		this.gtnPagedTableConfig = componentConfig.getGtnPagedTableConfig();
@@ -259,6 +262,19 @@ public class GtnUIFrameworkComponentConfig {
 			return;
 		}
 		this.componentStyle.add(componentStyle);
+	}
+        public List<String> getTextComponentStyle() {
+            return textComponentStyle == null ? textComponentStyle : Collections.unmodifiableList(textComponentStyle);      
+        }
+
+        public void setTextComponentStyle(List<String> textComponentStyle) {
+             this.textComponentStyle = new ArrayList<>(textComponentStyle);
+        }
+        public void addTextComponentStyle(String textComponentStyle) {
+		if (textComponentStyle == null) {
+			return;
+		}
+		this.textComponentStyle.add(textComponentStyle);
 	}
 
 	public GtnUIFrameworkComboBoxConfig getGtnComboboxConfig() {
@@ -757,5 +773,12 @@ public class GtnUIFrameworkComponentConfig {
 	public void setUserOriginatedFlag(boolean userOriginatedFlag) {
 		this.userOriginatedFlag = userOriginatedFlag;
 	}
+        
+        public GtnUIFrameworkDateFieldConfig getGtnUIFrameworkInlineDateFieldConfig() {
+            return gtnUIFrameworkInlineDateFieldConfig;
+        }
 
+        public void setGtnUIFrameworkInlineDateFieldConfig(GtnUIFrameworkDateFieldConfig gtnUIFrameworkInlineDateFieldConfig) {
+            this.gtnUIFrameworkInlineDateFieldConfig = gtnUIFrameworkInlineDateFieldConfig;
+        }
 }

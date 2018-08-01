@@ -37,6 +37,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -71,9 +72,11 @@ public class PPAProjectionLogic {
     private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
     private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
     private static final Map<String, String> dbColumnIdentifier = Constant.getDatabaseColumnIdentifier();
+    
 
     private static List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object priceCap, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
+        final SimpleDateFormat formatter = new SimpleDateFormat(Constant.DATE_FORMAT);
         List startAndEndDate = getStartAndEndDate(startQuater, endQuater, startYear, endYear);
         input.add(Double.valueOf(priceCap.toString()));
         input.add(selection.getRelationshipBuilderSid());
@@ -82,8 +85,8 @@ public class PPAProjectionLogic {
         } else {
             input.add(Constant.PERCENT);
         }
-        input.add(CommonUtils.DBDate.format(startAndEndDate.get(0)));
-        input.add(CommonUtils.DBDate.format(startAndEndDate.get(1)));
+        input.add(formatter.format(startAndEndDate.get(0)));
+        input.add(formatter.format(startAndEndDate.get(1)));
         return input;
 
     }
@@ -459,7 +462,7 @@ public class PPAProjectionLogic {
                 list = (List) getPPAProjectionResults(selection, rightDto, start, offset);
             } else if (!selection.isIsFilter()) {
                 selection.setHierarchyNo(StringUtils.EMPTY);
-                selection.setLevelNo(Integer.valueOf(selection.getCustomerLevelNo()));
+                selection.setLevelNo(selection.getCustomerLevelNo());
                 list = (List) getPPAProjectionResults(selection, rightDto, start, offset);
             }
             if (selection.isIsFilter()) {

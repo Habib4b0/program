@@ -1,5 +1,6 @@
 package com.stpl.app.serviceUtils;
 
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.ui.NativeSelect;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -407,7 +408,7 @@ public class CommonUtils {
     }
        
      public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<String>();
+        List<String> tempTables = new ArrayList<>(NumericConstants.TWENTY_FIVE);
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");

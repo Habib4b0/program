@@ -5,27 +5,29 @@
  */
 package com.stpl.app.gtnforecasting.salesprojection.logic;
 
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.ACTUAL_SALES;
+import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.DASH_PROJECTED_SALES;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.PROJECTED_UNITS1;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.UNITNODECIMAL;
-import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.UNITTWODECIMAL;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.ifs.ui.util.NumericConstants;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
-import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.DASH_PROJECTED_SALES;
-import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SalesRowDto;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *
@@ -160,6 +162,9 @@ public class NMSalesExcelLogic {
             salesRowDto.addStringProperties(header + PROJECTED_UNITS1, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-ProductGrowth", StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-AccountGrowth", StringUtils.EMPTY);
+            //Added For PG_SUM and AG_SUM column
+            salesRowDto.addStringProperties(header + "-ProductGrowthSum", StringUtils.EMPTY);
+            salesRowDto.addStringProperties(header + "-AccountGrowthSum", StringUtils.EMPTY);
 
         }
     }
@@ -174,8 +179,14 @@ public class NMSalesExcelLogic {
         } else {
             salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.SIX], true));
             salesRowDto.addStringProperties(header + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])));
-            salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])) + Constant.PERCENT);
-            salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR])) + Constant.PERCENT);
+            
+            //Made some changes here
+            salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE]));
+            salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR]));
+            //Added For PG_SUM and AG_SUM column
+            salesRowDto.addStringProperties(header + "-ProductGrowthSum", String.valueOf(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE]));
+            salesRowDto.addStringProperties(header + "-AccountGrowthSum", String.valueOf(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR]));
+            
         }
     }
 

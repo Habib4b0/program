@@ -73,7 +73,7 @@ public class AllCustomers extends Window {
         configureFields();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         closeButton.setEnabled(true);
         tradingPartnerTableLayout.addComponent(companySearchResultsTable);
         excelButton.setIcon(excelExportImage);

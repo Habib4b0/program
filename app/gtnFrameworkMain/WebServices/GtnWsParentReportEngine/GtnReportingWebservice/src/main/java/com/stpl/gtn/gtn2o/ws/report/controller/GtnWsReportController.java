@@ -423,6 +423,8 @@ public class GtnWsReportController {
 			Optional.ofNullable(resultList).ifPresent(e -> {
 				List<String> itemCodeList = new ArrayList<>();
 				List<String> itemValueList = new ArrayList<>();
+                                itemCodeList.add(GtnWsQueryConstants.UOM_DEFAULT);
+			        itemValueList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				for (Object[] object : e) {
 					itemCodeList.add(String.valueOf(object[0]));
 					itemValueList.add(String.valueOf(object[0]));

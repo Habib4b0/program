@@ -471,7 +471,7 @@ public class GtnWsReportWebsevice {
 		String filterString = filter;
 		String filterId = Optional.ofNullable(dbColumnIdMap.get(searchCriteria.getFieldId())).isPresent() == true
 				? dbColumnIdMap.get(searchCriteria.getFieldId()) : "";
-		String filterValue = searchCriteria.getFilterValue1();
+		String filterValue = searchCriteria.getFilterValue1().equals("null")?"":searchCriteria.getFilterValue1();
 		String filterDataType = Optional.ofNullable(dbColumnDataTypeMap.get(searchCriteria.getFieldId()))
 				.isPresent() == true ? dbColumnDataTypeMap.get(searchCriteria.getFieldId()) : "";
 		String filterExpression = searchCriteria.getExpression();
@@ -539,7 +539,7 @@ public class GtnWsReportWebsevice {
 		dbColumnIdMap.put("viewNameFilter", "VIEW_NAME");
 		dbColumnIdMap.put("createdDateFilter", "CREATED_DATE");
 		dbColumnIdMap.put("modifiedDateFilter", "MODIFIED_DATE");
-		dbColumnIdMap.put("createdByFilter", "CREATED_BY");
+		dbColumnIdMap.put("createdByFilter", "FIRSTNAME+LASTNAME");
 		return dbColumnIdMap;
 	}
 

@@ -905,7 +905,7 @@
 	
 	<entry key="getUOMDetails">
 		<![CDATA[
-			select UOM_CODE from ST_ITEM_UOM_DETAILS
+			select UOM_CODE from ST_ITEM_UOM_DETAILS where UOM_CODE <>'EACH'
 		]]>
 	</entry>
 	

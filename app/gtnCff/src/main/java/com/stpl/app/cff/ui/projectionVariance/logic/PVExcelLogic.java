@@ -1306,34 +1306,6 @@ public class PVExcelLogic {
 
     }
 
-    public void getTotalPivotVariance(PVSelectionDTO selection) {
-        String frequency = selection.getFrequency();
-        List<Object> pivotTotalList;
-        String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<>();
-        pivotTotalList = new ArrayList<>();
-        pivotPriorProjIdList = new ArrayList<>();
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = StringConstantsUtil.QUARTERLY_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
-            frequency = StringConstantsUtil.SEMI_ANNUAL_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
-            frequency = StringConstantsUtil.MONTHLY_LABEL;
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
-        projectionIdList.add(String.valueOf(selection.getCurrentProjId()));
-        for (Integer projId : selection.getProjIdList()) {
-            projectionIdList.add(String.valueOf(projId));
-            pivotPriorProjIdList.add(projId);
-        }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-
-        Object[] orderedArg = {projectionId, frequency, discountId, StringConstantsUtil.VARIANCE1, selection.getSessionId(), selection.getUserId(), PIVOT_LABEL};
-        List< Object[]> gtsResult = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
-        pivotTotalList.addAll(gtsResult);
-    }
-
     /**
      * Discount procedure
      *

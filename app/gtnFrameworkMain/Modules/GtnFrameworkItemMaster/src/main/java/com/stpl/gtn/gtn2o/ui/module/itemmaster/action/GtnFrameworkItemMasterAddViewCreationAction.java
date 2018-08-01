@@ -58,9 +58,9 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 		 * Visibility Of Udc1 Component
 		 */
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(Boolean.TRUE);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout").setVisible(Boolean.FALSE);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(Boolean.FALSE);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(true);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout").setVisible(false);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(false);
 	}
 
 	private void activeCheckedComboBoxUdc1() {
@@ -89,9 +89,9 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 			 * Visibility Of Udc1 Component
 			 */
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout")
-					.setVisible(Boolean.TRUE);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(Boolean.FALSE);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(Boolean.FALSE);
+					.setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(false);
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error("Error in GtnFrameworkItemMasterAddViewCreationAction --> activeCheckedComboBoxUdc1", e);
 		}

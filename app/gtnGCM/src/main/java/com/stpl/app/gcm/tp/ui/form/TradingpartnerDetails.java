@@ -88,7 +88,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         configureSecurityPermissions();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         tradingPartnerTableLayout.addComponent(tradingPartnerDetailsTable);
         excelBtn.setIcon(excelExportImage);
         configueTradingPartnerDetailsTable();

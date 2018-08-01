@@ -95,7 +95,7 @@ public class Copycomponents extends CustomComponent {
     private final BeanItemContainer<CopyComponentDTO> contractComponentContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
-    public static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private CopyContractLogic copyContractLogic = new CopyContractLogic();
     private  QueryUtils queryUtils = new QueryUtils();
     @UiField("SearchfieldNC")
@@ -231,7 +231,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             BtnsearchNC.setEnabled(false);
             componentitems.addItem(Constants.COMPANY_FAMILY_PLAN);

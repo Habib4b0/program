@@ -81,4 +81,6 @@ public class GtnWsQueryConstants {
 			+ "FROM            CUSTOM_VIEW_VARIABLES INNER JOIN\r\n"
 			+ "                         HELPER_TABLE AS HT ON HT.HELPER_TABLE_SID = CUSTOM_VIEW_VARIABLES.VARIABLE_SID\r\n"
 			+ "ORDER BY CUSTOM_VIEW_VARIABLES.VARIABLE_INDICATOR";
+        public static final String UOM_DEFAULT = "EACH";
+
 }

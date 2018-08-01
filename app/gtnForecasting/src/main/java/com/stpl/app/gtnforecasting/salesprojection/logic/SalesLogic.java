@@ -601,6 +601,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
+        
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
     
@@ -1612,7 +1613,7 @@ public class SalesLogic {
     public void saveCheckRecord(final ProjectionSelectionDTO projectionDTO, final String checkedRecord, final boolean isSaveCheck, final String queryName) throws PortalException {
         try {
             Map<String, Object> parameters = new HashMap<>();
-            Map<String, String> input = new HashMap<>();
+            Map<String, String> input = new HashMap<>(NumericConstants.FIFTEEN);
             Map<String, String> join = new HashMap<>();
             String[] splitArray = null;
             if (!StringUtils.isBlank(checkedRecord)) {
@@ -3409,7 +3410,7 @@ public class SalesLogic {
                 return false;
             } else {
                 BigDecimal obj = (BigDecimal) list.get(0);
-                return obj.doubleValue() != 0.0;
+                return CommonUtils.compareDoubleValues(String.valueOf(obj.doubleValue())) != 0;
             }
         } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
@@ -3867,7 +3868,7 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} ", amount);
+        LOGGER.debug("amount     = {} ", amount); 
         if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
         } else if (amountA != 0.0 && amountB != 0.0) {

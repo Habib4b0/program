@@ -30,6 +30,11 @@ AS
   ** VER   Date      Ticket No         Author          Description 
   ** ---   --------  ---------        -------------    -----------------------------
   ** 1    07/26/2017  GAL-12236      @SandeepKumar     Contract Details information setup for the Tx-3 AND Tx-7.
+  ** 2    10/16/2017  GAL-12531      @SandeepKumar     Contract Details information setup for the Tx-3.
+  ** 3    13/12,2017  GAL-12903      @AjayNaidu        NetCalculated sales pulling logic change
+  ** 4    04-01-2018  GAL-12268      @AjayNaidu        BP012 - CASE without ELSE
+  ** 5    08-01-2018  GAL-12270      @AjayNaidu        EI025 PE001 PE010 ST008 MI005 MI002 Error codes
+  ** 6    26-02-2018  GAL-13196      @AjayNaidu        Inventory Sales Pulling Logic Changed in Contract Details Methodology
   *********************************************************************************************************/
   BEGIN
       SET NOCOUNT ON
@@ -42,35 +47,148 @@ AS
                   @PROJECTION_START_DATE       DATE,
                   @SQL                         NVARCHAR(MAX),
                   @FROM_PERIOD_DATE            DATETIME,
-                  @TYPE                        INT,
                   @MODULE                      VARCHAR(100)
           DECLARE @ARM_DISTRIBUTION_FEES_SALES_TABLE VARCHAR(200) = Concat ('ST_ARM_DISTRIBUTION_FEES_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @INVENTORY_TABLE                   VARCHAR(200) = Concat ('ST_ARM_INVENTORY_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
 
           -- Variables Initialization Ends here
-          -- Select base methodolgy starts here
-          SELECT @TYPE = TRANSACTION_TYPE
-          FROM   dbo.ARM_ADJUSTMENT_MASTER
-          WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
-
-          -- Select base methodolgy Ends here
-          --Effective dating and elimination of CCP'S Based on effective dating Concept Starts here
-          IF Object_id('TEMPDB..#TEMP_EFFECTIVE1') IS NOT NULL
+----------------Creating all necessray temp tables(all ddl statements) for the logic Starts here (PE010 CodeGuarderror)
+   IF Object_id('TEMPDB..#TEMP_EFFECTIVE1') IS NOT NULL
             BEGIN
                 DROP TABLE #TEMP_EFFECTIVE1
             END
 
           CREATE TABLE #TEMP_EFFECTIVE1
             (
-               PROJECTION_DETAILS_SID INT,
-               CCP_DETAILS_SID        INT,
-               RS_MODEL_SID           INT,
-               RS_CATEGORY            VARCHAR(50),
-               START_DATE             DATETIME,
-               END_DATE               DATETIME,
+               PROJECTION_DETAILS_SID INT NOT NULL,
+               CCP_DETAILS_SID        INT NOT NULL,
+               RS_MODEL_SID           INT NOT NULL,
+               RS_CATEGORY            VARCHAR(50) NULL,
+               START_DATE             DATETIME NULL,
+               END_DATE               DATETIME NULL,
                PRIMARY KEY (PROJECTION_DETAILS_SID)
             )
 
+   IF Object_id('TEMPDB..#TEMP_RATE_IDENTIFICATION') IS NOT NULL
+            BEGIN
+                DROP TABLE #TEMP_RATE_IDENTIFICATION
+            END
+
+          CREATE TABLE #TEMP_RATE_IDENTIFICATION
+            (
+               ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
+               PROJECTION_MASTER_SID      INT NOT NULL,
+               CCP_DETAILS_SID            INT NOT NULL,
+               RS_MODEL_SID               INT NOT NULL,
+               NET_CALCULATED_SALES       NUMERIC(22, 6) NULL,
+               NET_UNITS                  NUMERIC(22, 6) NULL
+               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+            )
+
+	         IF Object_id('TEMPDB..#ARM_MASTER_MASTER1') IS NOT NULL
+            BEGIN
+                DROP TABLE #ARM_MASTER_MASTER1
+            END
+
+          CREATE TABLE #ARM_MASTER_MASTER1
+            (
+               PROJECTION_MASTER_SID      INT NOT NULL,
+               ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
+               CCP_DETAILS_SID            INT NOT NULL,
+               CONTRACT_MASTER_SID        INT NOT NULL,
+               COMPANY_MASTER_SID         INT NOT NULL,
+               ITEM_MASTER_SID            INT NOT NULL,
+               RS_MODEL_SID               INT NOT NULL,
+               ACTUAL_START_DATE          DATETIME NULL,
+               PROJ_START_DATE            DATETIME NULL,
+               PROJECTION_END_PERIOD_DATE DATETIME NULL,
+               GL_COMPANY_MASTER_SID      INT NULL
+               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+            )
+
+		   IF Object_id('TEMPDB..#ARM_MASTER1') IS NOT NULL
+            BEGIN
+                DROP TABLE #ARM_MASTER1
+            END
+
+          CREATE TABLE #ARM_MASTER1
+            (
+               [PROJECTION_MASTER_SID]      INT NOT NULL,
+               [ARM_ADJUSTMENT_DETAILS_SID] INT NOT NULL,
+               [CCP_DETAILS_SID]            INT NOT NULL,
+               [CONTRACT_MASTER_SID]        INT NOT NULL,
+               [COMPANY_MASTER_SID]         INT NOT NULL,
+               [ITEM_MASTER_SID]            INT NOT NULL,
+               [RS_MODEL_SID]               INT NOT NULL,
+               [ACTUAL_START_DATE]          DATETIME NULL,
+               [PROJ_START_DATE]            DATETIME NULL,
+               [PROJECTION_END_PERIOD_DATE] DATETIME NULL,
+               [GL_COMPANY_MASTER_SID]      INT NULL,
+               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+            );
+
+		   IF Object_id('TEMPDB..#REBATE_INFO1') IS NOT NULL
+            BEGIN
+                DROP TABLE #REBATE_INFO1
+            END
+
+          CREATE TABLE #REBATE_INFO1
+            (
+               PROJECTION_MASTER_SID      INT NOT NULL,
+               ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
+               CONTRACT_MASTER_SID        INT NOT NULL,
+               COMPANY_MASTER_SID         INT NOT NULL,
+               ITEM_MASTER_SID            INT NOT NULL,
+               RS_MODEL_SID               INT NOT NULL,
+               BUNDLE_NO                  INT NULL,
+               REBATE_PLAN_MASTER_SID     INT NULL,
+               TIER_OPERATOR              CHAR(1) NULL,
+               REBATE_STRUCTURE           VARCHAR(50) NULL,
+               REBATE_BASED_ON            VARCHAR(50) NULL,
+               REBATE_RANGE_BASED_ON      VARCHAR(50) NULL,
+               CALCULATION_TYPE           VARCHAR(50) NULL,
+               CALCULATION_LEVEL          VARCHAR(50) NULL
+               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+            )
+
+		     IF Object_id('TEMPDB..#CONTRACT_DETAILS1') IS NOT NULL
+                  DROP TABLE #CONTRACT_DETAILS1
+
+                CREATE TABLE #CONTRACT_DETAILS1
+                  (
+                     ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
+                     RS_MODEL_SID               INT NOT NULL,
+                     PRICE_GROUP_TYPE           VARCHAR(50) NULL,
+                     PERIOD_SID                 INT NOT NULL,
+                     PROJECTION_AMOUNT          NUMERIC(22, 6) NULL,
+                     PROJECTION_RATE            NUMERIC(22, 6) NULL,
+                     PROJECTION_REBATE_PER_UNIT NUMERIC(22, 6) NULL,
+                     NET_CALCULATED_SALES       NUMERIC(22, 6) NULL,
+                     NET_UNITS                  NUMERIC(22, 6) NULL,
+                     SALES_PROJECTED_VALUE      NUMERIC(22, 6) NULL,
+                     CALCULATION_TYPE           VARCHAR(50) NULL,
+					 SUM_PROJECTION             NUMERIC(22, 6) NULL----GAL-12531
+                     PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+                  )
+
+			IF Object_id('TEMPDB..#TIER_INFO1') IS NOT NULL
+                        BEGIN
+                            DROP TABLE #TIER_INFO1
+                        END
+
+                      CREATE TABLE #TIER_INFO1
+                        (
+                           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
+                           RS_MODEL_SID               INT NOT NULL,
+                           TIER_FROM                  NUMERIC(22, 6) NULL,
+                           TIER_TO                    NUMERIC(22, 6) NULL,
+                           DISCOUNT_RATE              NUMERIC(22, 6) NULL,
+                           REBATE_PER_UNIT            NUMERIC(22, 6) NULL,
+                           FLAT_DISCOUNT              NUMERIC(22, 6) NULL
+                        )
+----------------Creating all necessray temp tables(all ddl statements) for the logic Ends here (PE010 CodeGuarderror)
+          -- Select base methodolgy Ends here
+          --Effective dating and elimination of CCP'S Based on effective dating Concept Starts here
           SELECT @FROM_PERIOD_DATE = CONVERT(DATETIME, Dateadd(MM, -1, Dateadd(DD, 1, Eomonth(FROM_DATE, 0))))
           FROM   DBO.PROJECTION_MASTER
           WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -120,49 +238,35 @@ AS
           WHERE  a.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
 
           --Effective dating and elimination of CCP'S Based on effective dating Concept Ends here
-          IF Object_id('TEMPDB..#TEMP_RATE_IDENTIFICATION') IS NOT NULL
-            BEGIN
-                DROP TABLE #TEMP_RATE_IDENTIFICATION
-            END
-
-          CREATE TABLE #TEMP_RATE_IDENTIFICATION
-            (
-               ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
-               PROJECTION_MASTER_SID      INT NOT NULL,
-               CCP_DETAILS_SID            INT NOT NULL,
-               RS_MODEL_SID               INT NOT NULL,
-               NET_CALCULATED_SALES       NUMERIC(22, 6) NULL,
-               NET_UNITS                  NUMERIC(22, 6) NULL
-               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
-            )
-
           DECLARE @rate_ident NVARCHAR(max)
-
+----GAL-12531 ---REMOVED TH CCP DETAILS CONDITION
           IF EXISTS (SELECT *
                      FROM   DBO.HELPER_TABLE
                      WHERE  DESCRIPTION = 'TRANSACTION 3 - PIPELINE INVENTORY TRUE-UP'
                             AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
                             AND @MODULE = DESCRIPTION)
             BEGIN
-                SET @RATE_IDENT = Concat (' INSERT INTO #TEMP_RATE_IDENTIFICATION
+                 SET @RATE_IDENT = Concat (' INSERT INTO #TEMP_RATE_IDENTIFICATION
                                                (ARM_ADJUSTMENT_DETAILS_SID,
                                                 PROJECTION_MASTER_SID,
                                                 NET_CALCULATED_SALES,
                                                 CCP_DETAILS_SID,
                                                 RS_MODEL_SID)
-                                   SELECT ARM_DET.ARM_ADJUSTMENT_DETAILS_SID,
-                                          INVEN.PROJECTION_MASTER_SID,
-                                          MAX(INVEN.NET_PIPELINE_VALUE) NET_PIPELINE_VALUE,
-                                          ARM_DET.CCP_DETAILS_SID,
-                                          ARM_DET.RS_MODEL_SID 
-                                          FROM  ', @INVENTORY_TABLE, ' INVEN
-                                   JOIN ARM_ADJUSTMENT_DETAILS ARM_DET ON ARM_DET.PROJECTION_MASTER_SID = INVEN.PROJECTION_MASTER_SID
-                                   JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = ARM_DET.CCP_DETAILS_SID
-                                   AND INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
-								   GROUP BY ARM_DET.ARM_ADJUSTMENT_DETAILS_SID,
-                                          INVEN.PROJECTION_MASTER_SID,
-                                          ARM_DET.CCP_DETAILS_SID,
-                                          ARM_DET.RS_MODEL_SID')
+                                  SELECT AD.ARM_ADJUSTMENT_DETAILS_SID,
+                                          AD.PROJECTION_MASTER_SID,
+                                          APS.NET_PIPELINE_VALUE AS  NET_PIPELINE_VALUE,
+                                          AD.CCP_DETAILS_SID,
+                                          AD.RS_MODEL_SID 
+                                           FROM ARM_ADJUSTMENT_DETAILS AD
+                                  JOIN CCP_DETAILS CD
+                   ON AD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+                 JOIN ARM_ADJUSTMENT_MASTER AM
+                   ON AM.PROJECTION_MASTER_SID = ',@PROJECTION_MASTER_SID,'
+				   JOIN (SELECT ITEM_MASTER_SID,
+				                MAX(NET_PIPELINE_VALUE) NET_PIPELINE_VALUE  
+				   FROM  ',  @INVENTORY_TABLE ,' INVEN WHERE PROJECTION_MASTER_SID=',@PROJECTION_MASTER_SID,' GROUP BY ITEM_MASTER_SID)APS
+				   ON CD.ITEM_MASTER_SID=APS.ITEM_MASTER_SID
+					WHERE  AD.PROJECTION_MASTER_SID = ',@PROJECTION_MASTER_SID,'')
             END
 
           IF EXISTS (SELECT *
@@ -188,33 +292,15 @@ AS
 								  FROM  ', @ARM_DISTRIBUTION_FEES_SALES_TABLE, ' INVEN
                                   JOIN ARM_ADJUSTMENT_DETAILS ARM_DET ON ARM_DET.PROJECTION_MASTER_SID = INVEN.PROJECTION_MASTER_SID
                                   JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = ARM_DET.CCP_DETAILS_SID
-                                  AND INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID')
+                                  AND INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+								  AND INVEN.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+								  WHERE  ARM_DET.PROJECTION_MASTER_SID = ',@PROJECTION_MASTER_SID,'')
             END
 
           EXEC Sp_executesql
             @RATE_IDENT
 
           -- Pulling CCP+D Combination for Current projection starts here
-          IF Object_id('TEMPDB..#ARM_MASTER_MASTER1') IS NOT NULL
-            BEGIN
-                DROP TABLE #ARM_MASTER_MASTER1
-            END
-
-          CREATE TABLE #ARM_MASTER_MASTER1
-            (
-               PROJECTION_MASTER_SID      INT NOT NULL,
-               ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
-               CCP_DETAILS_SID            INT NOT NULL,
-               CONTRACT_MASTER_SID        INT NOT NULL,
-               COMPANY_MASTER_SID         INT NOT NULL,
-               ITEM_MASTER_SID            INT NOT NULL,
-               RS_MODEL_SID               INT NOT NULL,
-               ACTUAL_START_DATE          DATETIME NULL,
-               PROJ_START_DATE            DATETIME NULL,
-               PROJECTION_END_PERIOD_DATE DATETIME NULL,
-               GL_COMPANY_MASTER_SID      INT NULL
-               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
-            )
 
           INSERT INTO #ARM_MASTER_MASTER1
                       (PROJECTION_MASTER_SID,
@@ -249,27 +335,6 @@ AS
 
           -- Pulling CCP+D Combination for Current projection Ends here
           --Effective Dating Locic applies here
-          IF Object_id('TEMPDB..#ARM_MASTER1') IS NOT NULL
-            BEGIN
-                DROP TABLE #ARM_MASTER1
-            END
-
-          CREATE TABLE #ARM_MASTER1
-            (
-               [PROJECTION_MASTER_SID]      INT NOT NULL,
-               [ARM_ADJUSTMENT_DETAILS_SID] INT NOT NULL,
-               [CCP_DETAILS_SID]            INT NOT NULL,
-               [CONTRACT_MASTER_SID]        INT NOT NULL,
-               [COMPANY_MASTER_SID]         INT NOT NULL,
-               [ITEM_MASTER_SID]            INT NOT NULL,
-               [RS_MODEL_SID]               INT NOT NULL,
-               [ACTUAL_START_DATE]          DATETIME NULL,
-               [PROJ_START_DATE]            DATETIME NULL,
-               [PROJECTION_END_PERIOD_DATE] DATETIME NULL,
-               [GL_COMPANY_MASTER_SID]      INT NULL,
-               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
-            );
-
           INSERT INTO #ARM_MASTER1
                       ([PROJECTION_MASTER_SID],
                        [ARM_ADJUSTMENT_DETAILS_SID],
@@ -299,29 +364,6 @@ AS
           WHERE  b.START_DATE = @FROM_PERIOD_DATE
 
           --Taking Liability Accounts and calculating Debit and Credit Logic Starts here
-          IF Object_id('TEMPDB..#REBATE_INFO1') IS NOT NULL
-            BEGIN
-                DROP TABLE #REBATE_INFO1
-            END
-
-          CREATE TABLE #REBATE_INFO1
-            (
-               PROJECTION_MASTER_SID      INT NOT NULL,
-               ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
-               CONTRACT_MASTER_SID        INT NOT NULL,
-               COMPANY_MASTER_SID         INT NOT NULL,
-               ITEM_MASTER_SID            INT NOT NULL,
-               RS_MODEL_SID               INT NOT NULL,
-               BUNDLE_NO                  INT NULL,
-               REBATE_PLAN_MASTER_SID     INT NULL,
-               TIER_OPERATOR              CHAR(1) NULL,
-               REBATE_STRUCTURE           VARCHAR(50) NULL,
-               REBATE_BASED_ON            VARCHAR(50) NULL,
-               REBATE_RANGE_BASED_ON      VARCHAR(50) NULL,
-               CALCULATION_TYPE           VARCHAR(50) NULL,
-               CALCULATION_LEVEL          VARCHAR(50) NULL
-               PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
-            )
 
           --Taking Liability Accounts and calculating Debit and Credit Logic Ends here
           IF EXISTS (SELECT 1
@@ -336,31 +378,13 @@ AS
 
                 SELECT @PROJECTION_START_PERIOD_SID = Max(CASE
                                                             WHEN @PROJECTION_START_DATE = PERIOD_DATE THEN PERIOD_SID
+															ELSE NULL
                                                           END)
                 FROM   dbo.PERIOD
                 WHERE  PERIOD_DATE IN ( @ACTUAL_START_DATE, @PROJECTION_START_DATE, @PROJECTION_END_PERIOD_DATE )
 
                 -- CONTRACT DETAILS METHODOLOGY STARTS HERE  
-                IF Object_id('TEMPDB..#CONTRACT_DETAILS1') IS NOT NULL
-                  DROP TABLE #CONTRACT_DETAILS1
-
-                CREATE TABLE #CONTRACT_DETAILS1
-                  (
-                     ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
-                     RS_MODEL_SID               INT NOT NULL,
-                     PRICE_GROUP_TYPE           VARCHAR(50) NULL,
-                     PERIOD_SID                 INT NOT NULL,
-                     PROJECTION_AMOUNT          NUMERIC(22, 6) NULL,
-                     PROJECTION_RATE            NUMERIC(22, 6) NULL,
-                     PROJECTION_REBATE_PER_UNIT NUMERIC(22, 6) NULL,
-                     NET_CALCULATED_SALES       NUMERIC(22, 6) NULL,
-                     NET_UNITS                  NUMERIC(22, 6) NULL,
-                     SALES_PROJECTED_VALUE      NUMERIC(22, 6) NULL,
-                     CALCULATION_TYPE           VARCHAR(50) NULL
-                     PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
-                  );
-
-                WITH CTE
+				  ; WITH CTE
                      AS (SELECT AM.PROJECTION_MASTER_SID,
                                 AM.ARM_ADJUSTMENT_DETAILS_SID,
                                 AM.CONTRACT_MASTER_SID,
@@ -504,22 +528,6 @@ AS
                            FROM   #REBATE_INFO1
                            WHERE  CALCULATION_TYPE = 'REBATE PLAN')
                   BEGIN
-                      IF Object_id('TEMPDB..#TIER_INFO1') IS NOT NULL
-                        BEGIN
-                            DROP TABLE #TIER_INFO1
-                        END
-
-                      CREATE TABLE #TIER_INFO1
-                        (
-                           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL,
-                           RS_MODEL_SID               INT NOT NULL,
-                           TIER_FROM                  NUMERIC(22, 6) NULL,
-                           TIER_TO                    NUMERIC(22, 6) NULL,
-                           DISCOUNT_RATE              NUMERIC(22, 6) NULL,
-                           REBATE_PER_UNIT            NUMERIC(22, 6) NULL,
-                           FLAT_DISCOUNT              NUMERIC(22, 6) NULL
-                        )
-
                       INSERT INTO #TIER_INFO1
                                   (ARM_ADJUSTMENT_DETAILS_SID,
                                    RS_MODEL_SID,
@@ -532,6 +540,7 @@ AS
                                       RPT.TIER_TO,
                                       Isnull(CASE
                                                WHEN RS.TIER_OPERATOR = '%' THEN RPT.TIER_VALUE
+											   ELSE NULL
                                              END, 0) AS DISCOUNT_RATE
                       FROM   #REBATE_INFO1 RS
                              JOIN dbo.REBATE_PLAN_MASTER RPM
@@ -648,14 +657,14 @@ AS
                                 PROJECTION_REBATE_PER_UNIT= ( AMOUNT / NULLIF(NET_UNITS, 0) ),
                                 NET_CALCULATED_SALES,
 								NET_UNITS,
-                                SALES_PROJECTED_VALUE
+                                SALES_PROJECTED_VALUE,SUM_PROJECTION----GAL-12531
                          FROM   (SELECT ARM_ADJUSTMENT_DETAILS_SID,
                                         RS_MODEL_SID,
                                         PERIOD_SID,
                                         AMOUNT,
                                         NET_CALCULATED_SALES,
 										NET_UNITS,
-                                        SALES_PROJECTED_VALUE
+                                        SALES_PROJECTED_VALUE,SUM_PROJECTION--------GAL-12531
                                  FROM   (SELECT ARM_ADJUSTMENT_DETAILS_SID,
                                                 RS_MODEL_SID,
                                                 PERIOD_SID,
@@ -667,7 +676,7 @@ AS
                                                 NET_CALCULATED_SALES,
 												NET_UNITS,
                                                 SALES_PROJECTED_VALUE,
-                                                REBATE_STRUCTURE
+                                                REBATE_STRUCTURE,SUM_PROJECTION----GAL-12531
                                          FROM   AGGREGATION
                                          WHERE  RN = 1)B)A)
                 INSERT INTO #CONTRACT_DETAILS1
@@ -680,7 +689,7 @@ AS
                              NET_CALCULATED_SALES,
                              NET_UNITS,
                              SALES_PROJECTED_VALUE,
-                             CALCULATION_TYPE)
+                             CALCULATION_TYPE,SUM_PROJECTION)--------GAL-12531
                 SELECT ARM_ADJUSTMENT_DETAILS_SID,
                        RS_MODEL_SID,
                        ISNULL(PERIOD_SID, ', @PROJECTION_START_PERIOD_SID, '),
@@ -690,23 +699,50 @@ AS
                        ISNULL(NET_CALCULATED_SALES, 0),
                        ISNULL(NET_UNITS, 0),
                        ISNULL(SALES_PROJECTED_VALUE, 0),
-                       ''REBATE PLAN''
+                       ''REBATE PLAN'',SUM_PROJECTION--------GAL-12531
                 FROM   CONTRACT_DETAILS')
 
                       EXEC Sp_executesql
                         @SQL
-
-                      SELECT ARM_ADJUSTMENT_DETAILS_SID,
-                             RS_MODEL_SID,
-                             PERIOD_SID,
-                             PROJECTION_AMOUNT,
-                             PROJECTION_RATE,
-                             PROJECTION_REBATE_PER_UNIT,
-                             NET_CALCULATED_SALES,
-                             NET_UNITS,
-                             SALES_PROJECTED_VALUE,
-                             CALCULATION_TYPE
-                      FROM   #CONTRACT_DETAILS1
+						----GAL-12531
+						IF EXISTS (SELECT *
+                                   FROM   DBO.HELPER_TABLE
+                                   WHERE  DESCRIPTION = 'TRANSACTION 3 - PIPELINE INVENTORY TRUE-UP'
+                                          AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
+                                          AND @MODULE = DESCRIPTION)
+                          BEGIN
+                              SELECT ARM_ADJUSTMENT_DETAILS_SID,
+                                     RS_MODEL_SID,
+                                     PERIOD_SID,
+                                     PROJECTION_AMOUNT,
+                                     SUM_PROJECTION*100 PROJECTION_RATE,
+                                     PROJECTION_REBATE_PER_UNIT,
+                                     NET_CALCULATED_SALES,
+                                     NET_UNITS,
+                                     SALES_PROJECTED_VALUE,
+                                     CALCULATION_TYPE
+                              FROM   #CONTRACT_DETAILS1
+                          END 
+                        IF EXISTS (SELECT *
+                                   FROM   DBO.HELPER_TABLE
+                                   WHERE  LIST_NAME = 'ARM_TRX_METHDOLOGY'
+                                          AND DESCRIPTION = 'TRANSACTION 7 - DISTRIBUTION FEES'
+                                          AND @MODULE = DESCRIPTION)
+                          BEGIN
+                              SELECT ARM_ADJUSTMENT_DETAILS_SID,
+                                     RS_MODEL_SID,
+                                     PERIOD_SID,
+                                     PROJECTION_AMOUNT,
+									 SUM_PROJECTION*100 PROJECTION_RATE,--------galuat-939
+                                     ------PROJECTION_RATE,--------galuat-939
+                                     PROJECTION_REBATE_PER_UNIT,
+                                     NET_CALCULATED_SALES,
+                                     NET_UNITS,
+                                     SALES_PROJECTED_VALUE,
+                                     CALCULATION_TYPE
+                              FROM   #CONTRACT_DETAILS1
+                          END 
+                        
                   END
             END
       END TRY
@@ -719,7 +755,7 @@ AS
           DECLARE @ERRORPROCEDURE VARCHAR(200);
           DECLARE @ERRORLINE INT;
 
-          EXEC Usperrorcollector
+          EXEC [dbo].Usperrorcollector
 
           SELECT @ERRORMESSAGE = Error_message(),
                  @ERRORSEVERITY = Error_severity(),
@@ -737,3 +773,4 @@ AS
           );
       END CATCH
   END
+GO

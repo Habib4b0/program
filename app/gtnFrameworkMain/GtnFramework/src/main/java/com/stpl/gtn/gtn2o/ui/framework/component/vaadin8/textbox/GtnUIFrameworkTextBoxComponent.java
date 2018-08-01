@@ -39,6 +39,9 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 		loadStyles(textField, componentConfig.getComponentStyle());
 		textField.setVisible(componentConfig.isVisible());
 		textField.setEnabled(componentConfig.isEnable());
+		if(componentConfig.getComponentHight()!=null) {
+			textField.setHeight(componentConfig.getComponentHight());
+		}
 		String value = "";
 		if (componentConfig.getComponentValue() != null) {
 			value = String.valueOf(componentConfig.getComponentValue());
@@ -136,6 +139,8 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 			}
 			abstractTextField.setEnabled(textBoxComponentConfig.isEnable());
 		}
+		
+		setDefaultFocus(abstractTextField, componentConfig);
 
 	}
 

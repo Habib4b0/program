@@ -543,7 +543,7 @@ public class OutboundLogic {
             relationBuilderDTO.setStartDate(parsetDate(String.valueOf(relationBuilder.getStartDate())));
             relationBuilderDTO.setCreatedBy(userInfoMap.get(String.valueOf(relationBuilder.getCreatedBy())));
             relationBuilderDTO.setCreatedDate(parsetDate(String.valueOf(relationBuilder.getCreatedDate())));
-            if (relationBuilder.getModifiedDate() != null && !relationBuilder.getModifiedDate().equals(ConstantsUtils.NULL)) {
+            if (relationBuilder.getModifiedDate() != null) {
                 relationBuilderDTO.setModifiedDate(parsetDate(String.valueOf(relationBuilder.getModifiedDate())));
             }
             relationBuilderDTO.setRbSystemId(String.valueOf(relationBuilder.getRelationshipBuilderSid()));

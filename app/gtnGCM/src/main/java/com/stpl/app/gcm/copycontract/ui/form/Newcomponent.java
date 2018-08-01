@@ -301,7 +301,7 @@ public class Newcomponent extends CustomComponent {
 
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             cfpStartDate.setDateFormat(Constants.MM_DD_YYYY);
             cfpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);

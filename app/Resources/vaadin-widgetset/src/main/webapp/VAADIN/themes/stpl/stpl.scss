@@ -76,7 +76,6 @@ border-radius: 0px;
 height: auto!important;
 }
 
-
 	th.v-treegrid-cell {
 height: auto!important;
 }
@@ -101,11 +100,13 @@ margin-left: -18px;
 }
 .v-grid-scroller::-webkit-scrollbar-thumb {
 border-radius: 0px !important;
+border: 3px solid transparent;
 }
 
 .datefieldcentered >input {
     text-align: center;
 }
+
 .v-grid-cell {
     font-size: 13px; 
 }
@@ -119,5 +120,107 @@ border-radius: 0px !important;
 .v-grid-column-header-content,.v-grid-column-footer-content {
     font-size: 12px; 
     font-weight: 600; 
+}
+.v-textfield-custom-report{
+     margin-left: -18px !important;
+     height : 39px !important;
+     margin-top: -5px !important;
+}
+.v-combobox-custom-report{
+    margin-left: 7px !important;
+}
+.v-layout-custom-report{
+    padding-left: 4px !important;
+}
+.v-layout-report-custom{
+    padding-left: 42px !important;
+}
+.v-report-save-lookup{
+    height: 26px !important;
+    margin-left: 10px !important;
+}
+.v-vertical-layout-report-save-lookup{
+    padding-left: 12px;
+    padding-bottom: 12px;
+    padding-right: 12px;
+    padding-top: 12px;
+}
+.v-h-layout-report-save-lookup{
+   margin-left: -7px !important;
+}
+#reportCustomViewLookup_custom_Variable_OptionGroup>span:nth-child(1){
+	margin-right: 52px;
+
+}
+#valueConfigHorizontal #reportOptionsTabComparisonOptions_value{
+	margin-left: 10px;
+}
+.v-margin-custom-style-10{
+ margin-left: 10px;
+ margin-right: 10px;
+ margin-top: 10px;
+ margin-bottom: 10px;
+}
+.v-report-display-pagination{
+    margin-left: -57px !important;
+}
+.v-report-display-pagination-button{
+    margin-left: -15px !important;
+    margin-top: -7px !important;
+}
+.v-report-display-pagination-label{
+   margin-left: -15px !important; 
+}
+.v-report-display-pagination-button-top{    
+    margin-top: -7px !important;
+}
+.v-report-display-selection-profile{
+    margin-left: -49px !important;
+}
+.v-report-display-selection-comparison{
+    margin-left: -12px !important;
+}
+.v-report-display-selection-variables{
+    margin-left: -10px !important;
+}
+.v-report-display-selection-comparison-search{
+    min-width: 186px !important;
+    width: 186px !important;
+    margin-left: 30px !important;
+}
+.v-report-display-selection-profile-search{
+    width: 186px !important;
+}
+.v-report-custom-view{
+    margin-left: -40px !important;
+}
+.v-report-display-selection-variable-category{
+    margin-left: 32px !important;
+}
+.v-report-display-selection-comparison-basis{
+    margin-left: 6px !important;
+}
+.v-report-display-selection-variables-combo{
+    margin-left: 49px !important;
+}
+.v-report-display-selection-annual-totals{
+    margin-left: 20px !important;
+}
+.v-report-display-selection-freq{
+    margin-left: 5px !important;
+}
+.v-report-display-selection-freq-combo{
+    margin-left: 17px !important;
+}
+.v-report-display-selection-prt{
+    margin-left: 4px !important;
+}
+
+.v-position-fixed {
+position: fixed!important;
+
+}
+.v-report-filter-options{
+margin-left: -50px !important;
 }
 }

@@ -380,13 +380,7 @@ public class MPmpyCalculator extends Window {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-
-                    List chartList = new ArrayList();
                     ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-                    for (Object obj : pmpyTable.getContainerDataSource().getItemIds()) {
-                        MPmpyDTO dto = (MPmpyDTO) obj;                        
-                            chartList.add(dto);                        
-                    }
 					final MandatedChartUtils chart = new MandatedChartUtils(String.valueOf(frequencyDDLB.getValue()),
 							StringUtils.EMPTY, headerDTO, "PMPYCalculator", projectionDTO);
                     final MandatedGraphWindow pmpyGraphWindow = new MandatedGraphWindow(chart.getChart(), Constant.PMPY_CALCULATOR);
@@ -1199,9 +1193,9 @@ public class MPmpyCalculator extends Window {
      * @return true if any of the check box in contract history header is checked
      */
     public boolean isContractHistorySelected() {    
-        for (Object key : chtCheckBoxMap.keySet()) {
+          for (Map.Entry<Object, Boolean> key : chtCheckBoxMap.entrySet()) {
 
-            if (chtCheckBoxMap.get(key)) {
+            if (key.getValue()) {
                 return true;
             }
         }

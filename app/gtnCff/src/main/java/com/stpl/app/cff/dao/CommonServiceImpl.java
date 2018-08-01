@@ -17,6 +17,7 @@ import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -578,8 +579,8 @@ public class CommonServiceImpl {
         try {
             Object temp;
             if ("getHierarchyTableDetails".equals(queryName)) {
-                for (String key : input.keySet()) {
-                    customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                 }
                 List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
                 Map<String, String> valueList = new HashMap<>();
@@ -604,9 +605,9 @@ public class CommonServiceImpl {
                 }
                 temp = valueList;
             } else {
-                for (String key : input.keySet()) {
-                    if (customSql.contains(key)) {
-                        customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    if (customSql.contains(key.getKey())) {
+                        customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                     }
                 }
                 if ("ds.singleBrand".equals(queryName)) {
@@ -637,7 +638,7 @@ public class CommonServiceImpl {
     }
 
     public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<String>();
+        List<String> tempTables = new ArrayList<String>(NumericConstants.TWENTY_FIVE);
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");

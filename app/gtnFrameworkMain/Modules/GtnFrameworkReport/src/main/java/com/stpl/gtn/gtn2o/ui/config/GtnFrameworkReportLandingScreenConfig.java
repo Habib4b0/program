@@ -229,7 +229,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
-		params.add("Variable Breakdown");
+		params.add("Variable Breakdown Popup");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
@@ -297,12 +297,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(reportOptionsMainLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig reportOptionsInnerLayout = new GtnUIFrameworkLayoutConfig();
-		reportOptionsInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		reportOptionsInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig reportOptionsInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportOptionsInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportOptionsInnerLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
 		reportOptionsInnerLayoutConfig.setAddToParent(true);
+		reportOptionsInnerLayoutConfig.addComponentStyle("stpl-margin-top--9");
+		reportOptionsInnerLayoutConfig.addComponentStyle("stpl-margin-left--35");
 		reportOptionsInnerLayoutConfig.setSpacing(true);
 		reportOptionsInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		reportOptionsInnerLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -324,14 +326,17 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(modeLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig fromToMainLayout = new GtnUIFrameworkLayoutConfig();
-		fromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		fromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		
 		GtnUIFrameworkComponentConfig fromToLayoutConfig = new GtnUIFrameworkComponentConfig();
 		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromToLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
 		fromToLayoutConfig.setAddToParent(true);
 		fromToLayoutConfig.setSpacing(true);
+		fromToLayoutConfig.setComponentWidth("33%");
 		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
+		fromToLayoutConfig.addComponentStyle("stpl-margin-top-12");
 		fromToLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
 		fromToLayoutConfig.setGtnLayoutConfig(fromToMainLayout);
@@ -343,6 +348,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		privateViewCompanyReportNameLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewCompanyReportNameLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
+		privateViewCompanyReportNameLayout.setComponentWidth("98%");
 		privateViewCompanyReportNameLayout.setAddToParent(true);
 		privateViewCompanyReportNameLayout.setGtnLayoutConfig(privateViewCompanyReportNameLayoutConfig);
 		privateViewCompanyReportNameLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -747,17 +753,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
 		onSuccessActionConfigList.add(resetAction);
 		resetActionList.add(confirmResetAction);
-		
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig chartViewAction = new GtnUIFrameWorkActionConfig();
-		chartViewAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		chartViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CHART_LOOKUP_VIEW);
-		chartViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CHART_LOOKUP_VIEW);
-		chartViewAction.addActionParameter("100%");
-		chartViewAction.addActionParameter(null);
-		actionConfigList.add(chartViewAction);
-		
-		resetButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);
 
 		GtnUIFrameworkComponentConfig saveViewBtn = new GtnUIFrameworkComponentConfig();
 		saveViewBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);

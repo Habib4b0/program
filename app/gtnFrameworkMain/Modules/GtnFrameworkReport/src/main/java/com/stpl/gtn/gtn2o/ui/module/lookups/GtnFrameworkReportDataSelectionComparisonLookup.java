@@ -44,6 +44,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 	public GtnUIFrameworkViewConfig getReportDSComparisonLookupView() {
 		GtnUIFrameworkViewConfig dataSelectionComparisonLookupView = configProvider.getViewConfig("Comparison Lookup",
 				"dataSelectionComparisonLookupView", false);
+		dataSelectionComparisonLookupView.setResetAllowed(true);
 		addComponentList(dataSelectionComparisonLookupView);
 		return dataSelectionComparisonLookupView;
 	}

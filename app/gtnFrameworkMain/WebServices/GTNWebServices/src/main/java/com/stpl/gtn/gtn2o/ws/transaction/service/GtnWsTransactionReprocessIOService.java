@@ -267,7 +267,7 @@ public class GtnWsTransactionReprocessIOService {
 
 	}
 
-	private void runJobForReprocess(String tableName) {
+	public void runJobForReprocess(String tableName) {
 		LOGGER.debug("inside runjob");
 		try {
 			String scriptUrl = gtnWsCallEtlService.buildUrl(tableName);

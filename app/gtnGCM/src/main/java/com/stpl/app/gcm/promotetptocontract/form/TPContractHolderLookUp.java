@@ -102,7 +102,7 @@ public class TPContractHolderLookUp extends Window {
         init();
     }
 
-    public void init() {
+    public final void init() {
         setClosable(true);
         setModal(true); 
         setContent(Clara.create(getClass().getResourceAsStream("/contractHolderLookUp.xml"), this));

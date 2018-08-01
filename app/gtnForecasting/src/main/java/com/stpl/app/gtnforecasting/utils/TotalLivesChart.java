@@ -31,12 +31,6 @@ public class TotalLivesChart extends Window {
      * The history.
      */
     private String history;
-    /**
-     * The Constant LOGGER.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TotalLivesChart.class);
-
-    private final SessionDTO session;
 
     /**
      * The Constructor.
@@ -45,8 +39,8 @@ public class TotalLivesChart extends Window {
      * @param unitDto the unit dto
      * @param frequency the frequency
      */
-    public TotalLivesChart(SessionDTO dto) {
-        this.session = dto;
+    public TotalLivesChart() {
+        super();
     }
 
     /**
@@ -59,12 +53,12 @@ public class TotalLivesChart extends Window {
         return layout;
     }
 
-	public String getHistory() {
-		return history;
-	}
+    public String getHistory() {
+        return history;
+    }
 
-	public void setHistory(String history) {
-		this.history = history;
-	}
-
+    public void setHistory(String history) {
+        this.history = history;
+    }
+    
 }

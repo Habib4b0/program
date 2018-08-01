@@ -958,14 +958,8 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public void clearTemp(final SessionDTO inputDto) {
-        Map<String, Object> input = new HashMap<>();
-        input.put("?UID", inputDto.getUserId());
-        input.put("?SID", inputDto.getSessionId());
         Date tempDate = new Date();
-        final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
         tempDate.setDate(tempDate.getDate() - NumericConstants.TWO);
-        input.put("?LD", fmt.format(tempDate));
-
         clearTempTables(tempDate);
     }
 

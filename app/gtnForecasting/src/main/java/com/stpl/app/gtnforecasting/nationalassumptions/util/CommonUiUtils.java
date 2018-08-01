@@ -155,13 +155,13 @@ public class CommonUiUtils {
         if (frequency.equals(QUARTERLY.getConstant())) {
             currentPeriod = curMonth / NumericConstants.THREE;
             frequencyDivision = NumericConstants.FOUR;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             currentPeriod = curMonth / NumericConstants.SIX;
             frequencyDivision = NumericConstants.TWO;
         } else if (frequency.equals(MONTHLY.getConstant())) {
             currentPeriod = curMonth;
             frequencyDivision = NumericConstants.TWELVE;
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             currentPeriod = curYear;
             frequencyDivision = 1;
         }

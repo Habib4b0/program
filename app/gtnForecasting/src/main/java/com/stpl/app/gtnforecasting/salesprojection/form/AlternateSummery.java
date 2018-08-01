@@ -984,7 +984,7 @@ public class AlternateSummery extends CustomComponent {
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
                                      Double incOrDec;
-                                    if (oldNumber == 0.0) {
+                                     if (oldNumber == 0.0) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
@@ -1727,10 +1727,10 @@ public class AlternateSummery extends CustomComponent {
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkedDoubleHeaders.keySet()) {
-                List a = checkedDoubleHeaders.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
+                List a = entry.getValue();
                 if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
@@ -1878,7 +1878,7 @@ public class AlternateSummery extends CustomComponent {
         });
     }
 
-    public void init() throws PortalException, SystemException {
+    public final void init() throws PortalException, SystemException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));

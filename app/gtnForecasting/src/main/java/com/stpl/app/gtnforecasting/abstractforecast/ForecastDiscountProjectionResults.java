@@ -184,7 +184,7 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     private int projectionId;
 
     private DPRTableLogic tableLogic = new DPRTableLogic();
-    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(getTableLogic());
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     /**
      * The max split position.
      */

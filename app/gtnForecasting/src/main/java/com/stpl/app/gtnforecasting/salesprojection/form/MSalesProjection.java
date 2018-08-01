@@ -41,10 +41,8 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -66,15 +64,15 @@ public class MSalesProjection extends ForecastSalesProjection {
     private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
-    private final Set<String> tableHierarchyNos = new HashSet<>();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
+        enableDisableFields();
         this.scrnName = screenName;
         init();
     }
 
-    public void init() throws PortalException, SystemException  {
+    public final void init() throws PortalException, SystemException  {
         projectionDTO.setSessionDTO(session);
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -119,7 +117,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
     
@@ -290,7 +288,6 @@ public class MSalesProjection extends ForecastSalesProjection {
         if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1 || tempCustomerLevel <= 1)) {
             if (!hasActuals) {
                 hierarchyNo = salesPMPYDTO.getHierarchyNo();
-                tableHierarchyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(salesPMPYDTO));
                 final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);
                 getUI().addWindow(pmpyCalc);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
@@ -411,7 +408,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !NULL.getConstant().equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

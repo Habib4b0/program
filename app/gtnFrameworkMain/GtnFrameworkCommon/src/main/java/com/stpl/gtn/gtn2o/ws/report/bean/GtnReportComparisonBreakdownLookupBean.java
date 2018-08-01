@@ -1,8 +1,16 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GtnReportComparisonBreakdownLookupBean {
+public class GtnReportComparisonBreakdownLookupBean implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	private int masterSid;
 	private int period;
 	private int year;

@@ -110,9 +110,12 @@ public class BpmProcessBean {
 		if (list == null || list.isEmpty()) {
 			return Collections.emptyList();
 		} else {
+                    if(rolesNameList != null)
+                    {
 			for (OrganizationalEntity organizationalEntity : list) {
 				rolesNameList.add(organizationalEntity.getId());
 			}
+                    }
 			return rolesNameList;
 		}
 	}

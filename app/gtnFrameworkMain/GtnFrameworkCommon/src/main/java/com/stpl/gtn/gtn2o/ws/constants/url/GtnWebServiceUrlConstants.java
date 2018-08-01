@@ -78,6 +78,7 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_HIERARCHY_CONTROL = "/GtnHierarchyQueryGenerator";
 	public static final String GTN_DATASELECTION_EDIT_CUSTHIERARCHY_INSERT = "/relationShipCustHierarchyInsert";
 	public static final String GTN_CCP_INSERT = "/forecastCCPInsert";
+        public static final String GTN_CCP_INSERT_FOR_ARP = "/forecastCCPInsertForARP";
 	public static final String GTN_REPORT_CCP_INSERT_SQL = "/reportCCPInsertSql";
 	public static final String GTN_REPORT_CCP_INSERT_MONGO = "/reportCCPInsertMongo";
 	public static final String GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE = "/getQueryByTableNameAndHierarchyTypeForMultiLevel";
@@ -98,6 +99,10 @@ public final class GtnWebServiceUrlConstants {
         
         public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_SERVICE = "/GtnAdjustmentDetailsDeductionValue";
         public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER = "/GtnAdjustmentDetailsDeductionValueController";
+        public static final String GTN_ADJUSTMENT_DETAILS_TABLE_LOAD_SERVICE = "/gtnAdjustmentDetailsTableLoadService";
+        public static final String GTN_ADJUSTMENT_DETAILS_PUBLIC_VIEW_TABLE_LOAD_SERVICE = "/gtnAdjustmentDetailsPublicViewTableLoadService";
+        public static final String GTN_ADJUSTMENT_DETAILS_SAVE_VIEW_MASTER_SERVICE = "/gtnAdjustmentDetailsSaveViewMasterService";
+        public static final String GTN_ADJUSTMENT_DETAILS_UPDATE_REPROCESS_SERVICE = "/gtnAdjustmentDetailsUpdateReprocessService";
 
 	private GtnWebServiceUrlConstants() {
 		super();

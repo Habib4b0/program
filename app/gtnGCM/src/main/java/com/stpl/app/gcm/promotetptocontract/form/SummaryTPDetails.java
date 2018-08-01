@@ -100,7 +100,6 @@ public class SummaryTPDetails extends CustomComponent implements View {
     private boolean isLoad = false;
     private boolean isRebateLoad = false;
     private PromoteTPLogic logic = new PromoteTPLogic();
-    private List<CurrentContractDTO> transTpInfoList = new ArrayList<>();
     private boolean contractExcelFlag = false;
     private boolean infoExcelFlag = false;
     private final StplSecurity stplSecurity = new StplSecurity();
@@ -111,7 +110,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     public SummaryTPDetails(SessionDTO session, ExtFilterTable resultTable) {
         try {
             this.session = session;
-            this.setResultTable(resultTable);
+            this.resultTable = resultTable;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/promoteTpSummaryTPDetails.xml"), this));
             configureFields();
             configureSecurityPermissions();
@@ -120,7 +119,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         excelBtn1.setIcon(excelExportImage);
         excelBtn2.setIcon(excelExportImage);
         currentTradingPartnerTableLayout.addComponent(currentTradingPartnerTable);
@@ -288,7 +287,6 @@ public class SummaryTPDetails extends CustomComponent implements View {
         transferTpResultsContainer.removeAllItems();
         List<CurrentContractDTO> selctContractList = logic.getSelectedTPContractSummary(CommmonLogic.getPromotedContractDetails(contractId, companyId));
         transferTpResultsContainer.addAll(selctContractList);
-        transTpInfoList.addAll(selctContractList);
         setLoad(true);
         setRebateLoad(true);
     }

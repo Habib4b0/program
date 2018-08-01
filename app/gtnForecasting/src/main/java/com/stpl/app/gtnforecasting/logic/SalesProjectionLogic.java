@@ -1115,10 +1115,8 @@ public class SalesProjectionLogic {
         int tempNum = 0;
         int startYear = session.getForecastDTO().getHistoryStartYear();
         int startQuator = logic.getQuator(session.getForecastDTO().getHistoryStartMonth());
-        List<Integer> allKeyList = new ArrayList<>();
         while (tempNum != endPeriod) {
             tempNum = Integer.parseInt(startYear + StringUtils.EMPTY + startQuator);
-            allKeyList.add(tempNum);
             if (startQuator == NumericConstants.FOUR) {
                 startQuator = 1;
                 startYear = startYear + 1;
@@ -1127,8 +1125,8 @@ public class SalesProjectionLogic {
             }
         }
 
-        for (String companyKey : finalMap.keySet()) {
-            values = finalMap.get(companyKey);
+        for (Map.Entry<String, Map<Integer, Double>> companyKey : finalMap.entrySet()) {
+            values = companyKey.getValue();
             lastValue = values.get(DataTypeConverter.convertStringToInteger(year + StringUtils.EMPTY + quator));
             totalValue = totalValue.add(BigDecimal.valueOf(lastValue));
         }

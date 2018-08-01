@@ -464,7 +464,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			if (dto != null) {
 				final int projectionIdValue = dto.getCffMasterSid();
 				Long processId = 0L;
-				final List<String> roleList = new ArrayList<>();
+//				final List<String> roleList = new ArrayList<>();
 				final List processIdList = WorkflowPersistance.selectWFInstanceInfo(projectionIdValue);
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
@@ -626,13 +626,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 	private void loadSessionDTO() {
 		final int projectionId = dto.getCffMasterSid();
-		final Map<String, Object> parameters = new HashMap<>();
 		final DataSelectionLogic logic = new DataSelectionLogic();
                 SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY); 
 		if (projectionId != 0) {
 			try {
-				parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
 				final List list = logic.getProjection(projectionId);
 				for (final Object list1 : list) {
 					final Object[] temp = (Object[]) list1;

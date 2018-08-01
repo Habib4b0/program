@@ -16,6 +16,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	}
 
+	public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+
 	public static final String LEVEL_VALUE = "levelValue";
 
 	public static final String VALUE = "value";
@@ -256,6 +258,10 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_CUSTOM_VIEW_LOOKUP = "reportCustomViewLookup";
 
+	public static final String REPORT_CUSTOM_VIEW_LOOKUP_DS = "reportCustomViewLookupDataSelectiontab";
+
+	public static final String REPORT_CUSTOM_VIEW_LOOKUP_RD = "reportCustomViewLookupReportDashboard";
+
 	public static final String REPORT_CUSTOMER_HIERARCHY_LOOKUP = "reportCustomerHierarchyLookup";
 
 	public static final String REPORT_DS_CUSTOMER_HIERARCHY_LOOKUP = "reportDsCustomerHierarchyLookup";
@@ -420,6 +426,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String NO_LEVEL_SELECTED_CAPTION = "No level Selected";
 
+	public static final String SELECT_A_ROW_CAPTION = "Select a row";
+
 	public static final String NO_LEVEL_SELECTED_MSG = "Please select a row to move.";
 
 	public static final String VARIABLE_POSITION_OPTION_GROUP = "custom_Variable_OptionGroup";
@@ -433,6 +441,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUSTOMER_DUALLISTBOX = "customerDualListBox";
 	public static final String EMPTY_SELECTION = "Empty Selection";
 	public static final String CUSTOM_TREETABLE = "customTreeTable";
+	public static final String UOM_DEFAULT = "EACH";
 
 	public static final String CURRENCY_DISPLAY = "CONVERSION_FACTOR";
 	public static final String REPORT_LANDING_SCREEN_CUSTOM_VIEW = "reportLandingScreen_displaySelectionTabCustomView";
@@ -476,7 +485,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PROJECTION_NAMES = "projectionNames";
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
-	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
+
+	public static final String CONFIRMATION = "Confirmation";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");

@@ -884,7 +884,7 @@ public final class AccrualRateProjectionLogic {
     }
 
     public static List<String> getSelectedCompanyList() {
-        return selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
+        return selectedCompanyList == null ? Collections.emptyList() : selectedCompanyList;
     }
 
     public static void setSelectedCompanyList(List<String> selectedCompanyList) {

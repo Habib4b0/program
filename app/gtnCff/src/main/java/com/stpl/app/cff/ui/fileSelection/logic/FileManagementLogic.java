@@ -117,7 +117,6 @@ public class FileManagementLogic {
 	private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#0.00");
 	private final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 	private final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
-	protected static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
 	protected static final String ITEM_IDENTIFIER = "ITEM_IDENTIFIER";
 
@@ -199,26 +198,26 @@ public class FileManagementLogic {
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
 		final DateFormat vDateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
-		Criterion criterion;
+		Criterion criterionForCFFDetails;
 		String sqlString = "";
 		LOGGER.debug("getDetailsSumm started with P1:String fileName= {} and  P2:String version= {} and P3:String fileType= {} and P4:String country= {} ", fileName, version, fileType, country);
-		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
-		dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_NAME, fileName));
+		final DynamicQuery dynamicQueryForCFFDetails = ForecastingMasterLocalServiceUtil.dynamicQuery();
+		dynamicQueryForCFFDetails.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_NAME, fileName));
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType)) {
 			if (ConstantsUtils.COUNTRY_US.equals(country)) {
-				final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE,
+				final Criterion criterionForUS = RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE,
 						ConstantsUtils.FORE_SIGHT);
-				criterion = RestrictionsFactoryUtil.or(criterion1,
+				criterionForCFFDetails = RestrictionsFactoryUtil.or(criterionForUS,
 						RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, ConstantsUtils.LE_FORESIGHT));
 			} else if (ConstantsUtils.COUNTRY_PR.equals(country)) {
-				criterion = RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, ConstantsUtils.FF_SALES);
+				criterionForCFFDetails = RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, ConstantsUtils.FF_SALES);
 			} else {
-				criterion = NULLCREATION;
+				criterionForCFFDetails = NULLCREATION;
 			}
-			dynamicQuery.add(criterion);
-			dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country));
-			dynamicQuery.add(RestrictionsFactoryUtil.eq("forecastVer", version));
-			resultsList = DAO.getForecastList(dynamicQuery);
+			dynamicQueryForCFFDetails.add(criterionForCFFDetails);
+			dynamicQueryForCFFDetails.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country));
+			dynamicQueryForCFFDetails.add(RestrictionsFactoryUtil.eq("forecastVer", version));
+			resultsList = DAO.getForecastList(dynamicQueryForCFFDetails);
 			if (!resultsList.isEmpty()) {
 				final ForecastingMaster fmMaster = (ForecastingMaster) resultsList.get(0);
 				fileMgtDTO.setForecastName(fmMaster.getForecastName());
@@ -428,13 +427,13 @@ public class FileManagementLogic {
 		final String filter = StringUtils.trimToEmpty(filterText);
 		LOGGER.debug("Entering getLazyPriceTypeCount method with filterText : {}", filter);
 		List<Object[]> qualifierList;
-		final DynamicQuery dynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQueryForecastYearCount = FileManagementLocalServiceUtil.dynamicQuery();
 		if (!filter.equals("")) {
-			dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_YEAR, Integer.valueOf(filter)));
+			dynamicQueryForecastYearCount.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_YEAR, Integer.valueOf(filter)));
 		}
-		dynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct(ConstantsUtils.FORECAST_YEAR));
-		dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.FORECAST_YEAR));
-		qualifierList = DAO.getForecastList(dynamicQuery);
+		dynamicQueryForecastYearCount.setProjection(ProjectionFactoryUtil.countDistinct(ConstantsUtils.FORECAST_YEAR));
+		dynamicQueryForecastYearCount.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.FORECAST_YEAR));
+		qualifierList = DAO.getForecastList(dynamicQueryForecastYearCount);
 		foecastYearCount = Integer.parseInt(String.valueOf(qualifierList.get(0)));
 		return foecastYearCount;
 	}
@@ -456,71 +455,71 @@ public class FileManagementLogic {
 	 */
 	public static List<HelperDTO> getForecastYearResults(final int startIndex, final int end, final String filter)
 			throws SystemException {
-		final List<HelperDTO> list = new ArrayList<>();
+		final List<HelperDTO> listOfForecastYear = new ArrayList<>();
 		final String filterText = StringUtils.trimToEmpty(filter) + "%";
 		LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :{}", filterText);
-		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
-		dynamicQuery.setLimit(startIndex, end);
-		dynamicQuery.setProjection(
+		final DynamicQuery dynamicQueryForForecastYear = ForecastingMasterLocalServiceUtil.dynamicQuery();
+		dynamicQueryForForecastYear.setLimit(startIndex, end);
+		dynamicQueryForForecastYear.setProjection(
 				ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.FORECAST_YEAR)));
 
-		final List<Object> returnList = DAO.getForecastList(dynamicQuery);
+		final List<Object> returnList = DAO.getForecastList(dynamicQueryForForecastYear);
 		HelperDTO helperTable;
 		if (startIndex == ConstantsUtils.ZERO_INT) {
 			helperTable = new HelperDTO();
 			helperTable.setDescription(ConstantsUtils.SELECT_ONE);
-			list.add(helperTable);
+			listOfForecastYear.add(helperTable);
 		}
 		for (final Iterator<Object> iterator = returnList.iterator(); iterator.hasNext();) {
 			final Object value = iterator.next();
 			helperTable = new HelperDTO(value == null ? StringUtils.EMPTY : String.valueOf(value));
-			list.add(helperTable);
+			listOfForecastYear.add(helperTable);
 		}
-		LOGGER.debug("Ending getLazyPriceTypeResults  return list size : {}", list.size());
-		return list;
+		LOGGER.debug("Ending getLazyPriceTypeResults  return list size : {}", listOfForecastYear.size());
+		return listOfForecastYear;
 	}
 
 	public List<FileMananagementResultDTO> getItemSearchtrsults(final String itemName, final String itemNo)
 			throws SystemException {
-		List<FileMananagementResultDTO> resultList = new ArrayList<>();
-		final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
+		List<FileMananagementResultDTO> resultListOfItemResult = new ArrayList<>();
+		final DynamicQuery dynamicQueryItemSearch = ItemMasterLocalServiceUtil.dynamicQuery();
 		if (itemName.length() > 0) {
 			String name = itemName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-			dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_NAME, name));
+			dynamicQueryItemSearch.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_NAME, name));
 		}
 		if (itemNo.length() > 0) {
 			String number = itemNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-			dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_NO, number));
+			dynamicQueryItemSearch.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_NO, number));
 		}
-		List<ItemMaster> list = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
+		List<ItemMaster> list = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQueryItemSearch);
 		for (final Iterator<ItemMaster> iterator = list.iterator(); iterator.hasNext();) {
-			final ItemMaster itemMaster = iterator.next();
+			final ItemMaster itemMasterAtCFF = iterator.next();
 			FileMananagementResultDTO dto = new FileMananagementResultDTO();
-			dto.setItemName(itemMaster.getItemName());
-			dto.setItemNo(itemMaster.getItemNo());
-			resultList.add(dto);
+			dto.setItemName(itemMasterAtCFF.getItemName());
+			dto.setItemNo(itemMasterAtCFF.getItemNo());
+			resultListOfItemResult.add(dto);
 		}
-		return resultList;
+		return resultListOfItemResult;
 
 	}
 
 	public void populateAll(String clickEvent, final BeanItemContainer<FileMananagementResultDTO> detailsBean,
-			ExtFilterTable detailsTable) throws PortalException, SystemException {
+			ExtFilterTable detailsTableInCFF) throws PortalException, SystemException {
 		if (ConstantsUtils.CHECK.equalsIgnoreCase(clickEvent)) {
-			final List<FileMananagementResultDTO> itemIds;
-			itemIds = detailsBean.getItemIds();
-			for (int i = 0; i < itemIds.size(); i++) {
-				final FileMananagementResultDTO beanItem = itemIds.get(i);
+			final List<FileMananagementResultDTO> itemIdsForPopulateAll;
+			itemIdsForPopulateAll = detailsBean.getItemIds();
+			for (int i = 0; i < itemIdsForPopulateAll.size(); i++) {
+				final FileMananagementResultDTO beanItem = itemIdsForPopulateAll.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getTrueFlag());
+					detailsTableInCFF.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getTrueFlag());
 				}
 			}
 		} else if ("uncheck".equalsIgnoreCase(clickEvent)) {
-			final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
-			for (int i = 0; i < itemIds.size(); i++) {
-				final FileMananagementResultDTO beanItem = itemIds.get(i);
+			final List<FileMananagementResultDTO> itemIdsOnUncheckItem = detailsBean.getItemIds();
+			for (int i = 0; i < itemIdsOnUncheckItem.size(); i++) {
+				final FileMananagementResultDTO beanItem = itemIdsOnUncheckItem.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getFalseFlag());
+					detailsTableInCFF.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getFalseFlag());
 				}
 			}
 		}
@@ -535,141 +534,141 @@ public class FileManagementLogic {
 			final FileMananagementResultDTO beanItem = itemIds.get(i);
 			if (!beanItem.isRecordLockStatus()) {
 
-				ForecastingMaster master;
-				DemandForecast forecast;
-				AdjustedDemandForecast adjustedforecast;
-				InventoryWdProjMas inventoryWdProjMas;
+				ForecastingMaster forecastMaster;
+				DemandForecast demandForecast;
+				AdjustedDemandForecast adjDemandForecast;
+				InventoryWdProjMas invWdProjMas;
 				if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
                                     int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-					master = ForecastingMasterLocalServiceUtil.createForecastingMaster(create);
+					forecastMaster = ForecastingMasterLocalServiceUtil.createForecastingMaster(create);
 					flag = true;
-					master.setForecastYear(beanItem.getYear());
-					master.setForecastMonth(beanItem.getMonth());
-					master.setNdc(beanItem.getItemNo());
-					master.setRecordLockStatus(false);
+					forecastMaster.setForecastYear(beanItem.getYear());
+					forecastMaster.setForecastMonth(beanItem.getMonth());
+					forecastMaster.setNdc(beanItem.getItemNo());
+					forecastMaster.setRecordLockStatus(false);
 					Date date = new Date();
-					master.setForecastDate(beanItem.getStartDate());
-					master.setUnits(Double.parseDouble(beanItem.getUnits().replace("$", ConstantsUtils.EMPTY)));
-					master.setPrice(Double.parseDouble(beanItem.getPrice().replace("$", ConstantsUtils.EMPTY)));
-					master.setDollars(Double.parseDouble(beanItem.getDollars().replace("$", ConstantsUtils.EMPTY)));
-					master.setSource(source);
-					master.setCountry(country);
-					master.setForecastVer(version);
-					master.setForecastName(forecastName);
-					master.setCreatedDate(new Date());
-					master.setModifiedDate(date);
-					DAO.addForecastDetails(master);
+					forecastMaster.setForecastDate(beanItem.getStartDate());
+					forecastMaster.setUnits(Double.parseDouble(beanItem.getUnits().replace("$", ConstantsUtils.EMPTY)));
+					forecastMaster.setPrice(Double.parseDouble(beanItem.getPrice().replace("$", ConstantsUtils.EMPTY)));
+					forecastMaster.setDollars(Double.parseDouble(beanItem.getDollars().replace("$", ConstantsUtils.EMPTY)));
+					forecastMaster.setSource(source);
+					forecastMaster.setCountry(country);
+					forecastMaster.setForecastVer(version);
+					forecastMaster.setForecastName(forecastName);
+					forecastMaster.setCreatedDate(new Date());
+					forecastMaster.setModifiedDate(date);
+					DAO.addForecastDetails(forecastMaster);
 				} else if (fileType.equals(ConstantsUtils.DEMAND)) {
                                         int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-					forecast = DemandForecastLocalServiceUtil.createDemandForecast(create);
+					demandForecast = DemandForecastLocalServiceUtil.createDemandForecast(create);
 					flag = true;
-					forecast.setForecastType(beanItem.getForecastType());
-					forecast.setForecastYear(beanItem.getForcastYear());
-					forecast.setForecastMonth(beanItem.getForecastMonth());
-					forecast.setItemId(beanItem.getItemId());
-					forecast.setItemIdentifierCodeQualifier(beanItem.getItemIdentifierCodeQualifier());
-					forecast.setItemIdentifier(beanItem.getItemIdentifier());
-					forecast.setBrandId(beanItem.getBrandId());
-					forecast.setSegment(beanItem.getSegment());
-					forecast.setMarketSizeUnits(Double.parseDouble(beanItem.getMarketSizeUnits()));
-					forecast.setMarketShareUnits(Double.parseDouble(beanItem.getMarketShareUnits()));
-					forecast.setMarketShareRatio(beanItem.getMarketShareRatio());
-					forecast.setUncapturedUnits(Double.parseDouble(beanItem.getUncapturedUnits()));
-					forecast.setUncapturedUnitsRatio(beanItem.getUncapturedUnitsRatio());
-					forecast.setTotalDemandUnits(Double.parseDouble(beanItem.getTotalDemandUnits()));
-					forecast.setTotalDemandAmount(Double.parseDouble(beanItem.getTotalDemandAmount()));
-					forecast.setInventoryUnitChange(Double.parseDouble(beanItem.getInventoryUnitChange()));
-					forecast.setGrossUnits(Double.parseDouble(beanItem.getGrossUnits()));
-					forecast.setGrossPrice(Double.parseDouble(beanItem.getGrossPrice()));
-					forecast.setGrossAmount(Double.parseDouble(beanItem.getGrossAmount()));
-					forecast.setNetSalesPrice(Double.parseDouble(beanItem.getNetSalesPrice()));
-					forecast.setBatchId(beanItem.getBatchId());
-					forecast.setOrganizationKey(beanItem.getOrganizationKey());
+					demandForecast.setForecastType(beanItem.getForecastType());
+					demandForecast.setForecastYear(beanItem.getForcastYear());
+					demandForecast.setForecastMonth(beanItem.getForecastMonth());
+					demandForecast.setItemId(beanItem.getItemId());
+					demandForecast.setItemIdentifierCodeQualifier(beanItem.getItemIdentifierCodeQualifier());
+					demandForecast.setItemIdentifier(beanItem.getItemIdentifier());
+					demandForecast.setBrandId(beanItem.getBrandId());
+					demandForecast.setSegment(beanItem.getSegment());
+					demandForecast.setMarketSizeUnits(Double.parseDouble(beanItem.getMarketSizeUnits()));
+					demandForecast.setMarketShareUnits(Double.parseDouble(beanItem.getMarketShareUnits()));
+					demandForecast.setMarketShareRatio(beanItem.getMarketShareRatio());
+					demandForecast.setUncapturedUnits(Double.parseDouble(beanItem.getUncapturedUnits()));
+					demandForecast.setUncapturedUnitsRatio(beanItem.getUncapturedUnitsRatio());
+					demandForecast.setTotalDemandUnits(Double.parseDouble(beanItem.getTotalDemandUnits()));
+					demandForecast.setTotalDemandAmount(Double.parseDouble(beanItem.getTotalDemandAmount()));
+					demandForecast.setInventoryUnitChange(Double.parseDouble(beanItem.getInventoryUnitChange()));
+					demandForecast.setGrossUnits(Double.parseDouble(beanItem.getGrossUnits()));
+					demandForecast.setGrossPrice(Double.parseDouble(beanItem.getGrossPrice()));
+					demandForecast.setGrossAmount(Double.parseDouble(beanItem.getGrossAmount()));
+					demandForecast.setNetSalesPrice(Double.parseDouble(beanItem.getNetSalesPrice()));
+					demandForecast.setBatchId(beanItem.getBatchId());
+					demandForecast.setOrganizationKey(beanItem.getOrganizationKey());
 					Date date = new Date();
-					forecast.setSource(source);
-					forecast.setCountry(country);
-					forecast.setForecastVer(version);
-					forecast.setForecastName(forecastName);
-					forecast.setCreatedDate(new Date());
-					forecast.setModifiedDate(date);
-					DemandForecastLocalServiceUtil.addDemandForecast(forecast);
+					demandForecast.setSource(source);
+					demandForecast.setCountry(country);
+					demandForecast.setForecastVer(version);
+					demandForecast.setForecastName(forecastName);
+					demandForecast.setCreatedDate(new Date());
+					demandForecast.setModifiedDate(date);
+					DemandForecastLocalServiceUtil.addDemandForecast(demandForecast);
 				} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 					try {
                                                 int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-						adjustedforecast = AdjustedDemandForecastLocalServiceUtil.createAdjustedDemandForecast(create);
+						adjDemandForecast = AdjustedDemandForecastLocalServiceUtil.createAdjustedDemandForecast(create);
 						flag = true;
-						adjustedforecast.setForecastType(beanItem.getForecastType());
-						adjustedforecast.setYear(beanItem.getForcastYear());
-						adjustedforecast.setMonth(beanItem.getForecastMonth());
-						adjustedforecast.setItemId(beanItem.getItemId());
-						adjustedforecast.setBrandId(beanItem.getBrandId());
-						adjustedforecast.setSegment(beanItem.getSegment());
-						adjustedforecast
+						adjDemandForecast.setForecastType(beanItem.getForecastType());
+						adjDemandForecast.setYear(beanItem.getForcastYear());
+						adjDemandForecast.setMonth(beanItem.getForecastMonth());
+						adjDemandForecast.setItemId(beanItem.getItemId());
+						adjDemandForecast.setBrandId(beanItem.getBrandId());
+						adjDemandForecast.setSegment(beanItem.getSegment());
+						adjDemandForecast
 								.setMarketSizeUnits(Double.valueOf(beanItem.getMarketSizeUnits() == StringUtils.EMPTY
 										? "0" : beanItem.getMarketSizeUnits()));
-						adjustedforecast.setMarketShareUnits(Double.valueOf((beanItem.getMarketShareUnits() == null
+						adjDemandForecast.setMarketShareUnits(Double.valueOf((beanItem.getMarketShareUnits() == null
 								|| beanItem.getMarketShareUnits().trim() == StringUtils.EMPTY) ? "0"
 										: beanItem.getMarketShareUnits()));
-						adjustedforecast.setMarketShareRatio(beanItem.getMarketShareRatio() == StringUtils.EMPTY ? "0"
+						adjDemandForecast.setMarketShareRatio(beanItem.getMarketShareRatio() == StringUtils.EMPTY ? "0"
 								: beanItem.getMarketShareRatio());
-						adjustedforecast
+						adjDemandForecast
 								.setUncapturedUnits(Double.valueOf(beanItem.getUncapturedUnits() == StringUtils.EMPTY
 										? "0" : beanItem.getUncapturedUnits()));
-						adjustedforecast.setUncapturedUnitsRatio(beanItem.getUncapturedUnitsRatio());
-						adjustedforecast.setTotalDemandUnits(
+						adjDemandForecast.setUncapturedUnitsRatio(beanItem.getUncapturedUnitsRatio());
+						adjDemandForecast.setTotalDemandUnits(
 								Double.valueOf(beanItem.getTotalDemandUnits().trim() == StringUtils.EMPTY ? "0"
 										: beanItem.getTotalDemandUnits()));
-						adjustedforecast.setTotalDemandAmount(
+						adjDemandForecast.setTotalDemandAmount(
 								Double.valueOf(beanItem.getTotalDemandAmount() == StringUtils.EMPTY ? "0"
 										: beanItem.getTotalDemandAmount()));
-						adjustedforecast.setInventoryUnitChange(
+						adjDemandForecast.setInventoryUnitChange(
 								Double.valueOf(beanItem.getInventoryUnitChange() == StringUtils.EMPTY ? "0"
 										: beanItem.getInventoryUnitChange()));
-						adjustedforecast.setGrossUnits(Double.valueOf(
+						adjDemandForecast.setGrossUnits(Double.valueOf(
 								beanItem.getGrossUnits() == StringUtils.EMPTY ? "0" : beanItem.getGrossUnits()));
-						adjustedforecast.setGrossPrice(Double.valueOf(
+						adjDemandForecast.setGrossPrice(Double.valueOf(
 								beanItem.getGrossPrice() == StringUtils.EMPTY ? "0" : beanItem.getGrossPrice()));
-						adjustedforecast.setGrossAmount(Double.valueOf(
+						adjDemandForecast.setGrossAmount(Double.valueOf(
 								beanItem.getGrossAmount() == StringUtils.EMPTY ? "0" : beanItem.getGrossAmount()));
-						adjustedforecast.setNetSalesPrice(Double.valueOf(
+						adjDemandForecast.setNetSalesPrice(Double.valueOf(
 								beanItem.getNetSalesPrice() == StringUtils.EMPTY ? "0" : beanItem.getNetSalesPrice()));
-						adjustedforecast.setBatchId(beanItem.getBatchId());
-						adjustedforecast.setOrganizationKey(beanItem.getOrganizationKey());
+						adjDemandForecast.setBatchId(beanItem.getBatchId());
+						adjDemandForecast.setOrganizationKey(beanItem.getOrganizationKey());
 						Date date = new Date();
-						adjustedforecast.setSource(source);
-						adjustedforecast.setCountry(country);
-						adjustedforecast.setForecastVer(version);
-						adjustedforecast.setForecastName(forecastName);
-						adjustedforecast.setCreatedDate(new Date());
-						adjustedforecast.setModifiedDate(date);
+						adjDemandForecast.setSource(source);
+						adjDemandForecast.setCountry(country);
+						adjDemandForecast.setForecastVer(version);
+						adjDemandForecast.setForecastName(forecastName);
+						adjDemandForecast.setCreatedDate(new Date());
+						adjDemandForecast.setModifiedDate(date);
 
-						AdjustedDemandForecastLocalServiceUtil.addAdjustedDemandForecast(adjustedforecast);
+						AdjustedDemandForecastLocalServiceUtil.addAdjustedDemandForecast(adjDemandForecast);
 					} catch (NumberFormatException e) {
 						LOGGER.error(e.getMessage());
 					}
 				} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
                                         int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-					inventoryWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(create);
+					invWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(create);
 					flag = true;
-					inventoryWdProjMas.setYear(beanItem.getYear());
-					inventoryWdProjMas.setMonth(beanItem.getMonth());
-					inventoryWdProjMas.setWeek(beanItem.getWeek());
-					inventoryWdProjMas.setDay(beanItem.getDay());
-					inventoryWdProjMas.setItemId(beanItem.getItemId());
-					inventoryWdProjMas.setItemIdentifierCodeQualifier(beanItem.getItemIdentifierCodeQualifier());
-					inventoryWdProjMas.setItemIdentifier(beanItem.getItemIdentifier());
-					inventoryWdProjMas.setUnitsWithdrawn(beanItem.getUnitsWithdrawn());
-					inventoryWdProjMas.setAmountWithdrawn(beanItem.getAmountWithdrawn());
-					inventoryWdProjMas.setBatchId(beanItem.getBatchId());
-					inventoryWdProjMas.setOrganizationKey(beanItem.getOrganizationKey());
+					invWdProjMas.setYear(beanItem.getYear());
+					invWdProjMas.setMonth(beanItem.getMonth());
+					invWdProjMas.setWeek(beanItem.getWeek());
+					invWdProjMas.setDay(beanItem.getDay());
+					invWdProjMas.setItemId(beanItem.getItemId());
+					invWdProjMas.setItemIdentifierCodeQualifier(beanItem.getItemIdentifierCodeQualifier());
+					invWdProjMas.setItemIdentifier(beanItem.getItemIdentifier());
+					invWdProjMas.setUnitsWithdrawn(beanItem.getUnitsWithdrawn());
+					invWdProjMas.setAmountWithdrawn(beanItem.getAmountWithdrawn());
+					invWdProjMas.setBatchId(beanItem.getBatchId());
+					invWdProjMas.setOrganizationKey(beanItem.getOrganizationKey());
 					Date date = new Date();
-					inventoryWdProjMas.setSource(source);
-					inventoryWdProjMas.setCountry(country);
-					inventoryWdProjMas.setForecastVer(version);
-					inventoryWdProjMas.setForecastName(forecastName);
-					inventoryWdProjMas.setCreatedDate(new Date());
-					inventoryWdProjMas.setModifiedDate(date);
-					InventoryWdProjMasLocalServiceUtil.addInventoryWdProjMas(inventoryWdProjMas);
+					invWdProjMas.setSource(source);
+					invWdProjMas.setCountry(country);
+					invWdProjMas.setForecastVer(version);
+					invWdProjMas.setForecastName(forecastName);
+					invWdProjMas.setCreatedDate(new Date());
+					invWdProjMas.setModifiedDate(date);
+					InventoryWdProjMasLocalServiceUtil.addInventoryWdProjMas(invWdProjMas);
 				} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 					String query = insertQueryForInventoryDetails();
 					if (beanItem.getYear() == null || "".equals(beanItem.getYear())) {
@@ -736,22 +735,22 @@ public class FileManagementLogic {
 	}
 
 	public void updateAutoModeProcess(final Date date) throws SystemException {
-		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
-		List<ForecastConfig> config;
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BooleanConstant.getTrueFlag()));
-		config = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQuery);
-		if (!config.isEmpty()) {
-			for (ForecastConfig forecastConfig : config) {
+		final DynamicQuery dynamicQueryUpdateAuto = ForecastConfigLocalServiceUtil.dynamicQuery();
+		List<ForecastConfig> configForAutoUpdate;
+		dynamicQueryUpdateAuto.add(RestrictionsFactoryUtil.eq("processType", BooleanConstant.getTrueFlag()));
+		configForAutoUpdate = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQueryUpdateAuto);
+		if (!configForAutoUpdate.isEmpty()) {
+			for (ForecastConfig forecastConfig : configForAutoUpdate) {
 				forecastConfig.setToDate(date);
 				ForecastConfigLocalServiceUtil.updateForecastConfig(forecastConfig);
 			}
 		}
 	}
 
-	public ComboBox getNativeSelect(final ComboBox select, final List<HelperDTO> helperList) {
+	public ComboBox getNativeSelect(final ComboBox select, final List<HelperDTO> helperDtoList) {
 
-		for (int i = 0; i < helperList.size(); i++) {
-			final HelperDTO helperDTO = helperList.get(i);
+		for (int i = 0; i < helperDtoList.size(); i++) {
+			final HelperDTO helperDTO = helperDtoList.get(i);
 			select.addItem(helperDTO.getId());
 			select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
 		}
@@ -768,24 +767,24 @@ public class FileManagementLogic {
 	 */
 	public List<HelperDTO> getItemType(final String listType) throws SystemException {
 
-		final List<HelperDTO> helperList = new ArrayList<>();
+		final List<HelperDTO> helperListOfItemType = new ArrayList<>();
 
 		LOGGER.debug("Entering getItemType P1: {}", listType);
-		final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
-		cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME, listType));
-		cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
-		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
+		final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
+		helperDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME, listType));
+		helperDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
+		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperDynamicQuery);
 
 		if (list != null) {
 			for (int i = 0; i < list.size(); i++) {
 				final HelperTable helperTable = (HelperTable) list.get(i);
-				helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
+				helperListOfItemType.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
 
 			}
 		}
-		LOGGER.debug("returns size= {} ", helperList.size());
+		LOGGER.debug("returns size= {} ", helperListOfItemType.size());
 
-		return helperList;
+		return helperListOfItemType;
 	}
 
 	/**
@@ -799,17 +798,17 @@ public class FileManagementLogic {
 	 * @throws SystemException
 	 */
 	public List<HelperDTO> getItemQualifierNameResults() throws PortalException, SystemException {
-		final List<HelperDTO> list = new ArrayList<>();
-		final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
+		final List<HelperDTO> listOfItemQualifier = new ArrayList<>();
+		final DynamicQuery itemQualifierDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
 		projectionList.add(ProjectionFactoryUtil.property(ITEM_QUALIFIER_SID));
 		projectionList.add(ProjectionFactoryUtil.property(ITEM_QUAL_NAME));
-		ifpDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
-		ifpDynamicQuery.addOrder(OrderFactoryUtil.asc(ITEM_QUAL_NAME));
-		ifpDynamicQuery
+		itemQualifierDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
+		itemQualifierDynamicQuery.addOrder(OrderFactoryUtil.asc(ITEM_QUAL_NAME));
+		itemQualifierDynamicQuery
 				.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ITEM_QUAL_NAME, StringUtils.EMPTY)));
-		ifpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ITEM_QUAL_NAME));
-		final List<Object[]> qualifierList = DAO.itemIrtQualifierNameList(ifpDynamicQuery);
+		itemQualifierDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ITEM_QUAL_NAME));
+		final List<Object[]> qualifierList = DAO.itemIrtQualifierNameList(itemQualifierDynamicQuery);
 
 		HelperDTO dto;
 		for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
@@ -818,11 +817,11 @@ public class FileManagementLogic {
 			dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
 			dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
 			if (!StringUtils.EMPTY.equals(dto.getDescription())) {
-				list.add(dto);
+				listOfItemQualifier.add(dto);
 			}
 		}
-		LOGGER.debug("return CompanyQualifier size= {}", list.size());
-		return list;
+		LOGGER.debug("return CompanyQualifier size= {}", listOfItemQualifier.size());
+		return listOfItemQualifier;
 	}
 
 	/**
@@ -837,28 +836,28 @@ public class FileManagementLogic {
 	 */
 	public List<HelperDTO> getBrandResults() throws PortalException, SystemException {
 		List<Object[]> qualifierList;
-		final List<HelperDTO> list = new ArrayList<>();
+		final List<HelperDTO> brandList = new ArrayList<>();
 
-		final DynamicQuery ifpDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
+		final DynamicQuery brandDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
 		projectionList.add(ProjectionFactoryUtil.property("brandMasterSid"));
 		projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_NAME));
-		ifpDynamicQuery.setProjection(projectionList);
-		ifpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.BRAND_NAME));
-		ifpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.BRAND_NAME));
+		brandDynamicQuery.setProjection(projectionList);
+		brandDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.BRAND_NAME));
+		brandDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.BRAND_NAME));
 
-		qualifierList = DAO.getBrandList(ifpDynamicQuery);
+		qualifierList = DAO.getBrandList(brandDynamicQuery);
 
-		HelperDTO dto;
+		HelperDTO helperDto;
 		for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
 			final Object[] value = iterator.next();
-			dto = new HelperDTO(StringUtils.EMPTY);
-			dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
-			dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
-			list.add(dto);
+			helperDto = new HelperDTO(StringUtils.EMPTY);
+			helperDto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+			helperDto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
+			brandList.add(helperDto);
 		}
-		LOGGER.debug("return Brand size= {}", list.size());
-		return list;
+		LOGGER.debug("return Brand size= {}", brandList.size());
+		return brandList;
 	}
 
 	private void loadMonthMap() {
@@ -886,12 +885,12 @@ public class FileManagementLogic {
 	 * @param endIndex
 	 * @param sortByColumns
 	 * @param filterSet
-	 * @param isCount
+	 * @param isCountFHR
 	 * @return
 	 */
 	public Object getFileHistoryResults(final HelperDTO fileType, final String country, final int startIndex,
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
-			boolean isCount) throws SystemException {
+			boolean isCountFHR) throws SystemException {
 
 		LOGGER.debug("Entering getFileHistoryResults ");
 		DynamicQuery projectionDynamicQuery = null;
@@ -981,63 +980,63 @@ public class FileManagementLogic {
 			}
 		}
 		loadFMColumnName();
-		if (!isCount) {
+		if (!isCountFHR) {
 
-			boolean sortOrder = false;
-			String columnName = null;
-			String orderByColumn = null;
+			boolean sortOrderInFHR = false;
+			String columnNameInFHR = null;
+			String orderByColumnInFHR = null;
 
 			if (sortByColumns != null) {
 				for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
 					final SortByColumn sortByColumn = (SortByColumn) iterator.next();
 
-					columnName = sortByColumn.getName();
-					orderByColumn = getfileDBColumnName(columnName);
+					columnNameInFHR = sortByColumn.getName();
+					orderByColumnInFHR = getfileDBColumnName(columnNameInFHR);
 
 					if (sortByColumn.getType() == SortByColumn.Type.ASC) {
-						sortOrder = false;
+						sortOrderInFHR = false;
 					} else {
-						sortOrder = true;
+						sortOrderInFHR = true;
 					}
 				}
 			}
 
-			if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+			if (orderByColumnInFHR == null || StringUtils.EMPTY.equals(orderByColumnInFHR)) {
 				final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
 				projectionDynamicQuery.addOrder(defaultOrder);
 			} else {
-				if (sortOrder) {
-					projectionDynamicQuery.addOrder(OrderFactoryUtil.desc(orderByColumn));
+				if (sortOrderInFHR) {
+					projectionDynamicQuery.addOrder(OrderFactoryUtil.desc(orderByColumnInFHR));
 				} else {
-					projectionDynamicQuery.addOrder(OrderFactoryUtil.asc(orderByColumn));
+					projectionDynamicQuery.addOrder(OrderFactoryUtil.asc(orderByColumnInFHR));
 				}
 			}
 
 		}
-		final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
+		final List<FileMananagementResultDTO> resultsListInFHR = new ArrayList<>();
 
-		if (isCount) {
+		if (isCountFHR) {
 			object = (Integer) DAO.getFileManagementCount(projectionDynamicQuery);
 		} else {
 			projectionDynamicQuery.setLimit(startIndex, endIndex);
 			resultsList = DAO.getFilesList(projectionDynamicQuery);
 			for (final Iterator<FileManagement> iterator = resultsList.iterator(); iterator.hasNext();) {
 				final FileManagement fileMgt = iterator.next();
-				final FileMananagementResultDTO fileMgtDTO = new FileMananagementResultDTO();
-				fileMgtDTO.setFile(fileMgt.getForecastName());
-				fileMgtDTO.setEffectiveDate(fileMgt.getCreatedDate());
-				fileMgtDTO.setType(fileMgt.getForecastSource());
-				fileMgtDTO.setVersion(
+				final FileMananagementResultDTO fileMgtDtoInFHR = new FileMananagementResultDTO();
+				fileMgtDtoInFHR.setFile(fileMgt.getForecastName());
+				fileMgtDtoInFHR.setEffectiveDate(fileMgt.getCreatedDate());
+				fileMgtDtoInFHR.setType(fileMgt.getForecastSource());
+				fileMgtDtoInFHR.setVersion(
 						fileMgt.getVersion().equals(ConstantsUtils.NULL) ? ConstantsUtils.EMPTY : fileMgt.getVersion());
-				fileMgtDTO.setFromPeriod(fileMgt.getFromPeriod() == null ? null : fileMgt.getFromPeriod());
-				fileMgtDTO.setToPeriod(fileMgt.getToPeriod() == null ? null : fileMgt.getToPeriod());
-				fileMgtDTO.setFileId(String.valueOf(fileMgt.getFileManagementSid()));
-				resultsListDTO.add(fileMgtDTO);
+				fileMgtDtoInFHR.setFromPeriod(fileMgt.getFromPeriod() == null ? null : fileMgt.getFromPeriod());
+				fileMgtDtoInFHR.setToPeriod(fileMgt.getToPeriod() == null ? null : fileMgt.getToPeriod());
+				fileMgtDtoInFHR.setFileId(String.valueOf(fileMgt.getFileManagementSid()));
+				resultsListInFHR.add(fileMgtDtoInFHR);
 			}
-			object = resultsListDTO;
+			object = resultsListInFHR;
 		}
 
-		LOGGER.debug("getFileHistoryResults return resultsListDTO= {}", resultsListDTO.size());
+		LOGGER.debug("getFileHistoryResults return resultsListDTO= {}", resultsListInFHR.size());
 		return object;
 	}
 
@@ -1071,7 +1070,7 @@ public class FileManagementLogic {
 			final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
 		Object object = new Object();
 		try {
-			List resultsList;
+			List resultsListInFileRes;
 			final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
 			String fileName = resultDTO.getFileName();
 			String type = resultDTO.getType();
@@ -1271,19 +1270,19 @@ public class FileManagementLogic {
 						Date filterString1 = (Date) stringFilter.getEndValue();
 						if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
 
-							condition = condition + " AND FT_MIN_DATE >= '" + DB_DATE.format(filterString) + "' ";
-							condition = condition + " AND FT_MIN_DATE <= '" + DB_DATE.format(filterString1) + "' ";
+							condition = condition + " AND FT_MIN_DATE >= '" + formatter.format(filterString) + "' ";
+							condition = condition + " AND FT_MIN_DATE <= '" + formatter.format(filterString1) + "' ";
 						} else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
-							filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + DB_DATE.format(filterString)
+							filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + formatter.format(filterString)
 									+ "' ";
-							filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + DB_DATE.format(filterString1)
+							filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + formatter.format(filterString1)
 									+ "' ";
 						}
 					} else if (filter instanceof Compare) {
 						Compare stringFilter = (Compare) filter;
 						Compare.Operation operation = stringFilter.getOperation();
 						if (stringFilter.getValue() instanceof Date) {
-							String filterString = DB_DATE.format(stringFilter.getValue());
+							String filterString = formatter.format(stringFilter.getValue());
 
 							if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
 								if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
@@ -1357,41 +1356,41 @@ public class FileManagementLogic {
 						+ "GROUP BY FORECAST_NAME, FORECAST_VER,SOURCE,COUNTRY,MIN_YEAR,MAX_MONTH,MAX_YEAR " + order;
 			}
 
-    			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
+    			resultsListInFileRes = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 
 			if (!isCount) {
 				loadMonthMap();
-				for (int i = 0; i < resultsList.size(); i++) {
-					final Object[] obj = (Object[]) resultsList.get(i);
-					final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
-					fmDTO.setFileName(String.valueOf(obj[0]));
+				for (int i = 0; i < resultsListInFileRes.size(); i++) {
+					final Object[] obj = (Object[]) resultsListInFileRes.get(i);
+					final FileMananagementResultDTO fmDTOForFR = new FileMananagementResultDTO();
+					fmDTOForFR.setFileName(String.valueOf(obj[0]));
 					if (!ConstantsUtils.NULL.equals(String.valueOf(obj[1]))) {
-						fmDTO.setVersion(String.valueOf(obj[1]));
+						fmDTOForFR.setVersion(String.valueOf(obj[1]));
 					}
-					fmDTO.setFileType(String.valueOf(obj[NumericConstants.TWO]));
-					fmDTO.setType(String.valueOf(obj[NumericConstants.TWO]));
-					fmDTO.setCountry(String.valueOf(obj[NumericConstants.THREE]));
+					fmDTOForFR.setFileType(String.valueOf(obj[NumericConstants.TWO]));
+					fmDTOForFR.setType(String.valueOf(obj[NumericConstants.TWO]));
+					fmDTOForFR.setCountry(String.valueOf(obj[NumericConstants.THREE]));
 					String from = null;
 					if (String.valueOf(obj[NumericConstants.FOUR]) != null
 							&& !"".equals(String.valueOf(obj[NumericConstants.FOUR]))) {
 						from = dateFormat.format(dateFormatToParse.parse(String.valueOf(obj[NumericConstants.FOUR])));
-						fmDTO.setFromDate(dateFormat.parse(from));
+						fmDTOForFR.setFromDate(dateFormat.parse(from));
 					}
 
 					String to = null;
 					if (String.valueOf(obj[NumericConstants.FIVE]) != null
 							&& !"".equals(String.valueOf(obj[NumericConstants.FIVE]))) {
 						to = dateFormat.format(dateFormatToParse.parse(String.valueOf(obj[NumericConstants.FIVE])));
-						fmDTO.setToDate(dateFormat.parse(to));
+						fmDTOForFR.setToDate(dateFormat.parse(to));
 					}
-					fmDTO.setAuditVersion(0);
-					resultsListDTO.add(fmDTO);
+					fmDTOForFR.setAuditVersion(0);
+					resultsListDTO.add(fmDTOForFR);
 				}
 				object = resultsListDTO;
 				LOGGER.debug("getResults return List<FileMananagementResultDTO> resultsListDTO= {}", resultsListDTO.size());
 			} else {
-				object = resultsList.size();
-				LOGGER.debug("getResults return List<FileMananagementResultDTO> resultsList= {}", resultsList.size());
+				object = resultsListInFileRes.size();
+				LOGGER.debug("getResults return List<FileMananagementResultDTO> resultsList= {}", resultsListInFileRes.size());
 			}
 
 		} catch (ParseException e) {
@@ -1538,38 +1537,38 @@ public class FileManagementLogic {
 			detailsObj = resultsListDTO;
 		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 			for (Object resultsList1 : resultsList) {
-				final Object[] obj = (Object[]) resultsList1;
+				final Object[] objForIWDS = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
-				fmDTO.setYear(obj[0] != null ? String.valueOf(obj[0]) : "");
-				fmDTO.setHiddenYear(obj[0] != null ? String.valueOf(obj[0]) : "");
-				fmDTO.setMonth(obj[1] != null ? String.valueOf(obj[1]) : "");
-				fmDTO.setHiddenMonth(obj[1] != null ? String.valueOf(obj[1]) : "");
-				fmDTO.setDay(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : "");
-				fmDTO.setHiddenDay(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : "");
-				fmDTO.setWeek(obj[NumericConstants.THREE] != null ? String.valueOf(obj[NumericConstants.THREE]) : "");
+				fmDTO.setYear(objForIWDS[0] != null ? String.valueOf(objForIWDS[0]) : "");
+				fmDTO.setHiddenYear(objForIWDS[0] != null ? String.valueOf(objForIWDS[0]) : "");
+				fmDTO.setMonth(objForIWDS[1] != null ? String.valueOf(objForIWDS[1]) : "");
+				fmDTO.setHiddenMonth(objForIWDS[1] != null ? String.valueOf(objForIWDS[1]) : "");
+				fmDTO.setDay(objForIWDS[NumericConstants.TWO] != null ? String.valueOf(objForIWDS[NumericConstants.TWO]) : "");
+				fmDTO.setHiddenDay(objForIWDS[NumericConstants.TWO] != null ? String.valueOf(objForIWDS[NumericConstants.TWO]) : "");
+				fmDTO.setWeek(objForIWDS[NumericConstants.THREE] != null ? String.valueOf(objForIWDS[NumericConstants.THREE]) : "");
 				fmDTO.setHiddenWeek(
-						obj[NumericConstants.THREE] != null ? String.valueOf(obj[NumericConstants.THREE]) : "");
-				fmDTO.setItemId(obj[NumericConstants.FOUR] != null ? String.valueOf(obj[NumericConstants.FOUR]) : "");
+						objForIWDS[NumericConstants.THREE] != null ? String.valueOf(objForIWDS[NumericConstants.THREE]) : "");
+				fmDTO.setItemId(objForIWDS[NumericConstants.FOUR] != null ? String.valueOf(objForIWDS[NumericConstants.FOUR]) : "");
 				fmDTO.setItemIdentifierCodeQualifier(
-						obj[NumericConstants.FIVE] != null ? String.valueOf(obj[NumericConstants.FIVE]) : "");
+						objForIWDS[NumericConstants.FIVE] != null ? String.valueOf(objForIWDS[NumericConstants.FIVE]) : "");
 				fmDTO.setItemIdentifier(
-						obj[NumericConstants.SIX] != null ? String.valueOf(obj[NumericConstants.SIX]) : "");
+						objForIWDS[NumericConstants.SIX] != null ? String.valueOf(objForIWDS[NumericConstants.SIX]) : "");
 				fmDTO.setUnitsWithdrawn(
-						obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : "");
+						objForIWDS[NumericConstants.SEVEN] != null ? String.valueOf(objForIWDS[NumericConstants.SEVEN]) : "");
 				fmDTO.setAmountWithdrawn(
-						obj[NumericConstants.EIGHT] != null ? String.valueOf(obj[NumericConstants.EIGHT]) : "");
-				fmDTO.setPrice(obj[NumericConstants.NINE] == null ? " "
-						: dollar + PRICE_FORMAT.format(obj[NumericConstants.NINE]));
-				fmDTO.setBatchId(obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
+						objForIWDS[NumericConstants.EIGHT] != null ? String.valueOf(objForIWDS[NumericConstants.EIGHT]) : "");
+				fmDTO.setPrice(objForIWDS[NumericConstants.NINE] == null ? " "
+						: dollar + PRICE_FORMAT.format(objForIWDS[NumericConstants.NINE]));
+				fmDTO.setBatchId(objForIWDS[NumericConstants.TEN] != null ? String.valueOf(objForIWDS[NumericConstants.TEN]) : "");
 				fmDTO.setHiddenbatchId(
-						obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
+						objForIWDS[NumericConstants.TEN] != null ? String.valueOf(objForIWDS[NumericConstants.TEN]) : "");
 				fmDTO.setOrganizationKey(
-						obj[NumericConstants.ELEVEN] != null ? String.valueOf(obj[NumericConstants.ELEVEN]) : "");
+						objForIWDS[NumericConstants.ELEVEN] != null ? String.valueOf(objForIWDS[NumericConstants.ELEVEN]) : "");
 				fmDTO.setHiddenOrganisationKey(
-						obj[NumericConstants.ELEVEN] != null ? String.valueOf(obj[NumericConstants.ELEVEN]) : "");
-				boolean recordStatus = ((Boolean) obj[NumericConstants.TWELVE]).booleanValue();
+						objForIWDS[NumericConstants.ELEVEN] != null ? String.valueOf(objForIWDS[NumericConstants.ELEVEN]) : "");
+				boolean recordStatus = ((Boolean) objForIWDS[NumericConstants.TWELVE]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
-				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.THIRTEEN]);
+				fmDTO.setForecastSystemId((Integer) objForIWDS[NumericConstants.THIRTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
 				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
@@ -1577,49 +1576,49 @@ public class FileManagementLogic {
 			detailsObj = resultsListDTO;
 		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 			for (Object resultsList1 : resultsList) {
-				final Object[] obj = (Object[]) resultsList1;
+				final Object[] objForIWDD = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
-				fmDTO.setYear(obj[0] != null ? String.valueOf(obj[0]) : "");
-				fmDTO.setHiddenYear(obj[0] != null ? String.valueOf(obj[0]) : "");
-				fmDTO.setMonth(obj[1] != null ? String.valueOf(obj[1]) : "");
-				fmDTO.setHiddenMonth(obj[1] != null ? String.valueOf(obj[1]) : "");
-				fmDTO.setDay(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : "");
-				fmDTO.setHiddenDay(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : "");
-				fmDTO.setWeek(obj[NumericConstants.THREE] != null ? String.valueOf(obj[NumericConstants.THREE]) : "");
+				fmDTO.setYear(objForIWDD[0] != null ? String.valueOf(objForIWDD[0]) : "");
+				fmDTO.setHiddenYear(objForIWDD[0] != null ? String.valueOf(objForIWDD[0]) : "");
+				fmDTO.setMonth(objForIWDD[1] != null ? String.valueOf(objForIWDD[1]) : "");
+				fmDTO.setHiddenMonth(objForIWDD[1] != null ? String.valueOf(objForIWDD[1]) : "");
+				fmDTO.setDay(objForIWDD[NumericConstants.TWO] != null ? String.valueOf(objForIWDD[NumericConstants.TWO]) : "");
+				fmDTO.setHiddenDay(objForIWDD[NumericConstants.TWO] != null ? String.valueOf(objForIWDD[NumericConstants.TWO]) : "");
+				fmDTO.setWeek(objForIWDD[NumericConstants.THREE] != null ? String.valueOf(objForIWDD[NumericConstants.THREE]) : "");
 				fmDTO.setHiddenWeek(
-						obj[NumericConstants.THREE] != null ? String.valueOf(obj[NumericConstants.THREE]) : "");
+						objForIWDD[NumericConstants.THREE] != null ? String.valueOf(objForIWDD[NumericConstants.THREE]) : "");
 				fmDTO.setCompanyId(
-						obj[NumericConstants.FOUR] != null ? String.valueOf(obj[NumericConstants.FOUR]) : "");
+						objForIWDD[NumericConstants.FOUR] != null ? String.valueOf(objForIWDD[NumericConstants.FOUR]) : "");
 				fmDTO.setHiddenCompanyId(
-						obj[NumericConstants.FOUR] != null ? String.valueOf(obj[NumericConstants.FOUR]) : "");
+						objForIWDD[NumericConstants.FOUR] != null ? String.valueOf(objForIWDD[NumericConstants.FOUR]) : "");
 				fmDTO.setIdentifierCodeQualifier(
-						obj[NumericConstants.FIVE] != null ? String.valueOf(obj[NumericConstants.FIVE]) : "");
+						objForIWDD[NumericConstants.FIVE] != null ? String.valueOf(objForIWDD[NumericConstants.FIVE]) : "");
 				fmDTO.setCompanyIdentifier(
-						obj[NumericConstants.SIX] != null ? String.valueOf(obj[NumericConstants.SIX]) : "");
-				fmDTO.setItemId(obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : "");
+						objForIWDD[NumericConstants.SIX] != null ? String.valueOf(objForIWDD[NumericConstants.SIX]) : "");
+				fmDTO.setItemId(objForIWDD[NumericConstants.SEVEN] != null ? String.valueOf(objForIWDD[NumericConstants.SEVEN]) : "");
 				fmDTO.setHiddenItemId(
-						obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : "");
+						objForIWDD[NumericConstants.SEVEN] != null ? String.valueOf(objForIWDD[NumericConstants.SEVEN]) : "");
 				fmDTO.setItemIdentifierCodeQualifier(
-						obj[NumericConstants.EIGHT] != null ? String.valueOf(obj[NumericConstants.EIGHT]) : "");
+						objForIWDD[NumericConstants.EIGHT] != null ? String.valueOf(objForIWDD[NumericConstants.EIGHT]) : "");
 				fmDTO.setItemIdentifier(
-						obj[NumericConstants.NINE] != null ? String.valueOf(obj[NumericConstants.NINE]) : "");
+						objForIWDD[NumericConstants.NINE] != null ? String.valueOf(objForIWDD[NumericConstants.NINE]) : "");
 				fmDTO.setUnitsWithdrawn(
-						obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
+						objForIWDD[NumericConstants.TEN] != null ? String.valueOf(objForIWDD[NumericConstants.TEN]) : "");
 				fmDTO.setAmountWithdrawn(
-						obj[NumericConstants.ELEVEN] != null ? String.valueOf(obj[NumericConstants.ELEVEN]) : "");
-				fmDTO.setPrice(obj[NumericConstants.TWELVE] != null
-						? dollar + PRICE_FORMAT.format(obj[NumericConstants.TWELVE]) : " ");
+						objForIWDD[NumericConstants.ELEVEN] != null ? String.valueOf(objForIWDD[NumericConstants.ELEVEN]) : "");
+				fmDTO.setPrice(objForIWDD[NumericConstants.TWELVE] != null
+						? dollar + PRICE_FORMAT.format(objForIWDD[NumericConstants.TWELVE]) : " ");
 				fmDTO.setBatchId(
-						obj[NumericConstants.THIRTEEN] != null ? String.valueOf(obj[NumericConstants.THIRTEEN]) : "");
+						objForIWDD[NumericConstants.THIRTEEN] != null ? String.valueOf(objForIWDD[NumericConstants.THIRTEEN]) : "");
 				fmDTO.setHiddenbatchId(
-						obj[NumericConstants.THIRTEEN] != null ? String.valueOf(obj[NumericConstants.THIRTEEN]) : "");
+						objForIWDD[NumericConstants.THIRTEEN] != null ? String.valueOf(objForIWDD[NumericConstants.THIRTEEN]) : "");
 				fmDTO.setOrganizationKey(
-						obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : "");
+						objForIWDD[NumericConstants.FOURTEEN] != null ? String.valueOf(objForIWDD[NumericConstants.FOURTEEN]) : "");
 				fmDTO.setHiddenOrganisationKey(
-						obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : "");
-				boolean recordStatus = ((Boolean) obj[NumericConstants.FIFTEEN]).booleanValue();
+						objForIWDD[NumericConstants.FOURTEEN] != null ? String.valueOf(objForIWDD[NumericConstants.FOURTEEN]) : "");
+				boolean recordStatus = ((Boolean) objForIWDD[NumericConstants.FIFTEEN]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
-				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
+				fmDTO.setForecastSystemId((Integer) objForIWDD[NumericConstants.SIXTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
 				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
@@ -1693,69 +1692,69 @@ public class FileManagementLogic {
 			detailsObj = resultsListDTO;
 		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 			for (Object resultsList1 : resultsList) {
-				final Object[] obj = (Object[]) resultsList1;
+				final Object[] objForAdjDemand = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
-				fmDTO.setItemId(obj[0] != null ? String.valueOf(obj[0]) : ConstantsUtils.EMPTY);
-				fmDTO.setItemName(obj[1] != null ? String.valueOf(obj[1]) : ConstantsUtils.EMPTY);
-				fmDTO.setBrandId(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO])
+				fmDTO.setItemId(objForAdjDemand[0] != null ? String.valueOf(objForAdjDemand[0]) : ConstantsUtils.EMPTY);
+				fmDTO.setItemName(objForAdjDemand[1] != null ? String.valueOf(objForAdjDemand[1]) : ConstantsUtils.EMPTY);
+				fmDTO.setBrandId(objForAdjDemand[NumericConstants.TWO] != null ? String.valueOf(objForAdjDemand[NumericConstants.TWO])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setBrandName(obj[NumericConstants.THREE] != null ? String.valueOf(obj[NumericConstants.THREE])
+				fmDTO.setBrandName(objForAdjDemand[NumericConstants.THREE] != null ? String.valueOf(objForAdjDemand[NumericConstants.THREE])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setSegment(obj[NumericConstants.FOUR] != null ? String.valueOf(obj[NumericConstants.FOUR])
+				fmDTO.setSegment(objForAdjDemand[NumericConstants.FOUR] != null ? String.valueOf(objForAdjDemand[NumericConstants.FOUR])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setForcastYear(obj[NumericConstants.FIVE] != null ? String.valueOf(obj[NumericConstants.FIVE])
+				fmDTO.setForcastYear(objForAdjDemand[NumericConstants.FIVE] != null ? String.valueOf(objForAdjDemand[NumericConstants.FIVE])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setHiddenYear(obj[NumericConstants.FIVE] != null ? String.valueOf(obj[NumericConstants.FIVE])
+				fmDTO.setHiddenYear(objForAdjDemand[NumericConstants.FIVE] != null ? String.valueOf(objForAdjDemand[NumericConstants.FIVE])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setForecastMonth(obj[NumericConstants.SIX] != null ? String.valueOf(obj[NumericConstants.SIX])
+				fmDTO.setForecastMonth(objForAdjDemand[NumericConstants.SIX] != null ? String.valueOf(objForAdjDemand[NumericConstants.SIX])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setHiddenMonth(obj[NumericConstants.SIX] != null ? String.valueOf(obj[NumericConstants.SIX])
+				fmDTO.setHiddenMonth(objForAdjDemand[NumericConstants.SIX] != null ? String.valueOf(objForAdjDemand[NumericConstants.SIX])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setMarketSizeUnits(obj[NumericConstants.SEVEN] != null
-						? String.valueOf(obj[NumericConstants.SEVEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setMarketShareRatio(obj[NumericConstants.EIGHT] != null
-						? String.valueOf(obj[NumericConstants.EIGHT]) : ConstantsUtils.EMPTY);
-				fmDTO.setMarketShareUnits(obj[NumericConstants.NINE] != null
-						? String.valueOf(obj[NumericConstants.NINE]) : ConstantsUtils.EMPTY);
-				fmDTO.setUncapturedUnits(obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN])
+				fmDTO.setMarketSizeUnits(objForAdjDemand[NumericConstants.SEVEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.SEVEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setMarketShareRatio(objForAdjDemand[NumericConstants.EIGHT] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.EIGHT]) : ConstantsUtils.EMPTY);
+				fmDTO.setMarketShareUnits(objForAdjDemand[NumericConstants.NINE] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.NINE]) : ConstantsUtils.EMPTY);
+				fmDTO.setUncapturedUnits(objForAdjDemand[NumericConstants.TEN] != null ? String.valueOf(objForAdjDemand[NumericConstants.TEN])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setUncapturedUnitsRatio(obj[NumericConstants.ELEVEN] != null
-						? String.valueOf(obj[NumericConstants.ELEVEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setTotalDemandUnits(obj[NumericConstants.TWELVE] != null
-						? String.valueOf(obj[NumericConstants.TWELVE]) : ConstantsUtils.EMPTY);
-				fmDTO.setTotalDemandAmount(obj[NumericConstants.THIRTEEN] != null
-						? String.valueOf(obj[NumericConstants.THIRTEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setInventoryUnitChange(obj[NumericConstants.FOURTEEN] != null
-						? String.valueOf(obj[NumericConstants.FOURTEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setGrossUnits(obj[NumericConstants.FIFTEEN] != null
-						? String.valueOf(obj[NumericConstants.FIFTEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setGrossPrice(obj[NumericConstants.SIXTEEN] != null
-						? String.valueOf(obj[NumericConstants.SIXTEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setGrossAmount(obj[NumericConstants.SEVENTEEN] != null
-						? String.valueOf(obj[NumericConstants.SEVENTEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setNetSalesPrice(obj[NumericConstants.EIGHTEEN] != null
-						? String.valueOf(obj[NumericConstants.EIGHTEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setNetSalesAmount(obj[NumericConstants.NINETEEN] != null
-						? String.valueOf(obj[NumericConstants.NINETEEN]) : ConstantsUtils.EMPTY);
-				fmDTO.setBatchId(obj[NumericConstants.TWENTY] != null ? String.valueOf(obj[NumericConstants.TWENTY])
+				fmDTO.setUncapturedUnitsRatio(objForAdjDemand[NumericConstants.ELEVEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.ELEVEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setTotalDemandUnits(objForAdjDemand[NumericConstants.TWELVE] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWELVE]) : ConstantsUtils.EMPTY);
+				fmDTO.setTotalDemandAmount(objForAdjDemand[NumericConstants.THIRTEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.THIRTEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setInventoryUnitChange(objForAdjDemand[NumericConstants.FOURTEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.FOURTEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setGrossUnits(objForAdjDemand[NumericConstants.FIFTEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.FIFTEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setGrossPrice(objForAdjDemand[NumericConstants.SIXTEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.SIXTEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setGrossAmount(objForAdjDemand[NumericConstants.SEVENTEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.SEVENTEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setNetSalesPrice(objForAdjDemand[NumericConstants.EIGHTEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.EIGHTEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setNetSalesAmount(objForAdjDemand[NumericConstants.NINETEEN] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.NINETEEN]) : ConstantsUtils.EMPTY);
+				fmDTO.setBatchId(objForAdjDemand[NumericConstants.TWENTY] != null ? String.valueOf(objForAdjDemand[NumericConstants.TWENTY])
 						: ConstantsUtils.EMPTY);
-				fmDTO.setSource(obj[NumericConstants.TWENTY_ONE] != null
-						? String.valueOf(obj[NumericConstants.TWENTY_ONE]) : ConstantsUtils.EMPTY);
-				fmDTO.setOrganizationKey(obj[NumericConstants.TWENTY_TWO] != null
-						? String.valueOf(obj[NumericConstants.TWENTY_TWO]) : ConstantsUtils.EMPTY);
-				fmDTO.setHiddenOrganisationKey(obj[NumericConstants.TWENTY_TWO] != null
-						? String.valueOf(obj[NumericConstants.TWENTY_TWO]) : ConstantsUtils.EMPTY);
-				fmDTO.setForecastName(obj[NumericConstants.TWENTY_THREE] != null
-						? String.valueOf(obj[NumericConstants.TWENTY_THREE]) : ConstantsUtils.EMPTY);
-				fmDTO.setForecastVersion(obj[NumericConstants.TWENTY_FOUR] != null
-						? String.valueOf(obj[NumericConstants.TWENTY_FOUR]) : ConstantsUtils.EMPTY);
-				fmDTO.setCountry(obj[NumericConstants.TWENTY_FIVE] != null
-						? String.valueOf(obj[NumericConstants.TWENTY_FIVE]) : ConstantsUtils.EMPTY);
+				fmDTO.setSource(objForAdjDemand[NumericConstants.TWENTY_ONE] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWENTY_ONE]) : ConstantsUtils.EMPTY);
+				fmDTO.setOrganizationKey(objForAdjDemand[NumericConstants.TWENTY_TWO] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWENTY_TWO]) : ConstantsUtils.EMPTY);
+				fmDTO.setHiddenOrganisationKey(objForAdjDemand[NumericConstants.TWENTY_TWO] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWENTY_TWO]) : ConstantsUtils.EMPTY);
+				fmDTO.setForecastName(objForAdjDemand[NumericConstants.TWENTY_THREE] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWENTY_THREE]) : ConstantsUtils.EMPTY);
+				fmDTO.setForecastVersion(objForAdjDemand[NumericConstants.TWENTY_FOUR] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWENTY_FOUR]) : ConstantsUtils.EMPTY);
+				fmDTO.setCountry(objForAdjDemand[NumericConstants.TWENTY_FIVE] != null
+						? String.valueOf(objForAdjDemand[NumericConstants.TWENTY_FIVE]) : ConstantsUtils.EMPTY);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				boolean recordStatus = ((Boolean) obj[NumericConstants.TWENTY_SIX]).booleanValue();
+				boolean recordStatus = ((Boolean) objForAdjDemand[NumericConstants.TWENTY_SIX]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
-				if (obj[NumericConstants.TWENTY_SEVEN] != null) {
-					fmDTO.setForecastSystemId(Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
+				if (objForAdjDemand[NumericConstants.TWENTY_SEVEN] != null) {
+					fmDTO.setForecastSystemId(Integer.parseInt(String.valueOf(objForAdjDemand[NumericConstants.TWENTY_SEVEN])));
 				}
 				fmDTO.setCheck(Boolean.FALSE);
 				resultsListDTO.add(fmDTO);

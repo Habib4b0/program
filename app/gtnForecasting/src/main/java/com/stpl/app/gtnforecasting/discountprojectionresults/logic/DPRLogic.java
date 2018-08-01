@@ -148,17 +148,6 @@ public class DPRLogic {
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         boolean tempCustomFlag = false;
 
-        List<Integer> yearList = new ArrayList<>();
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndMonth());
-
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
-
         if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
             DiscountProjectionResultsDTO mandatedDisc = null;
             DiscountProjectionResultsDTO SupplDisc = null;
@@ -324,8 +313,6 @@ public class DPRLogic {
 
     public List<DiscountProjectionResultsDTO> getCustomizedMandSuppDisc(List<Object> list, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> projDtoList = new ArrayList<>();
-        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
-        columnList.remove("levelValue");
         DiscountProjectionResultsDTO mandatedDTO = projSelDTO.getMandatedDTO();
         DiscountProjectionResultsDTO suppDTO = projSelDTO.getSupplementalDTO();
         mandatedDTO.setLevelNo(projSelDTO.getLevelNo());
