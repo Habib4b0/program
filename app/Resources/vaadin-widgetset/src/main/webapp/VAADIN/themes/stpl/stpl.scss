@@ -161,9 +161,64 @@ border: 3px solid transparent;
  margin-top: 10px;
  margin-bottom: 10px;
 }
+.v-report-display-pagination{
+    margin-left: -57px !important;
+}
+.v-report-display-pagination-button{
+    margin-left: -15px !important;
+    margin-top: -7px !important;
+}
+.v-report-display-pagination-label{
+   margin-left: -15px !important; 
+}
+.v-report-display-pagination-button-top{    
+    margin-top: -7px !important;
+}
+.v-report-display-selection-profile{
+    margin-left: -49px !important;
+}
+.v-report-display-selection-comparison{
+    margin-left: -12px !important;
+}
+.v-report-display-selection-variables{
+    margin-left: -10px !important;
+}
+.v-report-display-selection-comparison-search{
+    min-width: 186px !important;
+    width: 186px !important;
+    margin-left: 30px !important;
+}
+.v-report-display-selection-profile-search{
+    width: 186px !important;
+}
+.v-report-custom-view{
+    margin-left: -40px !important;
+}
+.v-report-display-selection-variable-category{
+    margin-left: 32px !important;
+}
+.v-report-display-selection-comparison-basis{
+    margin-left: 6px !important;
+}
+.v-report-display-selection-variables-combo{
+    margin-left: 49px !important;
+}
+.v-report-display-selection-annual-totals{
+    margin-left: 20px !important;
+}
+.v-report-display-selection-freq{
+    margin-left: 5px !important;
+}
+.v-report-display-selection-freq-combo{
+    margin-left: 17px !important;
+}
+.v-report-display-selection-prt{
+    margin-left: 4px !important;
+}
 
 .v-position-fixed {
 position: fixed!important;
+
 }
 
 }
