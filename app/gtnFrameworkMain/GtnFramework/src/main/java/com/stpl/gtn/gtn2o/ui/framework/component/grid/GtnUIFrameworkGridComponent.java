@@ -38,30 +38,30 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 		grid.setWidth(componentConfig.getComponentWidth());
 		grid.setCaption(componentConfig.getComponentName());
 		grid.setHeight(componentConfig.getComponentHight());
-		loadStyles(grid, componentConfig.getComponentStyle());
+		loadStylesForGrid(grid, componentConfig.getComponentStyle());
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
 		setComponentData(grid, componentConfig);
 		return grid;
 	}
 
-	private void loadStyles(Grid<GtnWsRecordBean> grid, List<String> styleForGrid) {
-		if (styleForGrid != null) {
-			for (String styleText : styleForGrid) {
-				grid.addStyleName(styleText);
+	private void loadStylesForGrid(Grid<GtnWsRecordBean> currentGrid, List<String> stylesForGrid) {
+		if (stylesForGrid != null) {
+			for (String style : stylesForGrid) {
+				currentGrid.addStyleName(style);
 			}
 		}		
 	}
 
 	private void generateColumns(Grid<GtnWsRecordBean> grid,
-			GtnUIFrameworkGridComponentConfig gtnUIFrameworkGridComponentConfig) {
-		boolean isHeaderNameAvailable = gtnUIFrameworkGridComponentConfig.getColumnHeadersName().length > 0;
-		int index = 0;
+			GtnUIFrameworkGridComponentConfig gridComponentConfig) {
+		boolean isTheHeaderNameAvailable = gridComponentConfig.getColumnHeadersName().length > 0;
+		int i = 0;
 
-		for (String propertyId : gtnUIFrameworkGridComponentConfig.getColumnHeadersId()) {
-			Column<GtnWsRecordBean, Object> column = grid
-					.addColumn(recordBean -> recordBean.getPropertyValue(propertyId));
-			if (isHeaderNameAvailable) {
-				column.setCaption(gtnUIFrameworkGridComponentConfig.getColumnHeadersName()[index++]);
+		for (String propId : gridComponentConfig.getColumnHeadersId()) {
+			Column<GtnWsRecordBean, Object> col = grid
+					.addColumn(recordBean -> recordBean.getPropertyValue(propId));
+			if (isTheHeaderNameAvailable) {
+				col.setCaption(gridComponentConfig.getColumnHeadersName()[i++]);
 			}
 		}
 	}

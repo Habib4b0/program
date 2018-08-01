@@ -1199,8 +1199,8 @@ public class NationalAssumptionLogic {
         input.put("?IMID", itemId);
         String customSql = SQlUtil.getQuery(getClass(),"getFederalNdcDesc");
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         if (!input.isEmpty()) {
             input.clear();
@@ -1218,8 +1218,8 @@ public class NationalAssumptionLogic {
         input.put("?PID", projectionId);
         String customSql = SQlUtil.getQuery(getClass(),"getNewNdcCount");
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         if (!input.isEmpty()) {
             input.clear();

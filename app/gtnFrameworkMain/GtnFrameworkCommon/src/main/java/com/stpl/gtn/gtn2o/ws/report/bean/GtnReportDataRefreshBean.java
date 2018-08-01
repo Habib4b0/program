@@ -5,6 +5,10 @@ import java.util.List;
 
 public class GtnReportDataRefreshBean {
 
+        public GtnReportDataRefreshBean() {
+            super();
+        }
+
 	private int customViewMasterSid;
 	private String frequencyName;
 	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;

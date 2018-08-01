@@ -27,22 +27,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER)
 public class GtnWsTransactionAdjustmentDetailsController {
-    
+
     @Autowired
-    GtnWsAdjustmentDetailsDeductionsLoadService gtnFrameworkDeductionsLoadService;
-    
+    private GtnWsAdjustmentDetailsDeductionsLoadService gtnFrameworkDeductionsLoadService;
+
     @Autowired
-    GtnWsAdjustmentTableLoadService gtnWsAdjustmentTableLoadService;
-    
+    private GtnWsAdjustmentTableLoadService gtnWsAdjustmentTableLoadService;
+
     @Autowired
-    GtnWsAdjustmentDetailsSaveViewService gtnWsAdjustmentDetailsSaveViewService;
-    
+    private GtnWsAdjustmentDetailsSaveViewService gtnWsAdjustmentDetailsSaveViewService;
+
     @Autowired
     private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-    
+
     @Autowired
-    GtnWsTransactionReprocessIOService gtnWsTransactionReprocessIOService;
-    
+    private GtnWsTransactionReprocessIOService gtnWsTransactionReprocessIOService;
+
+    public GtnWsTransactionAdjustmentDetailsController() {
+        super();
+    }
+
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_SERVICE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse loadCustomerHierarcyLevel(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
@@ -60,7 +64,7 @@ public class GtnWsTransactionAdjustmentDetailsController {
         response.setItemValueList(itemValueList);
         return response;
     }
-    
+
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_TABLE_LOAD_SERVICE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse loadSearchResults(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
@@ -85,17 +89,17 @@ public class GtnWsTransactionAdjustmentDetailsController {
         response.setGtnSerachResponse(searchResponse);
         return response;
     }
-    
+
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_SAVE_VIEW_MASTER_SERVICE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse updateSaveView(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
         int armViewMasterSid = gtnWsAdjustmentDetailsSaveViewService.saveCustViewMaster(gtnWsRequest);
         String query = gtnWsAdjustmentDetailsSaveViewService.saveCustViewDetails(gtnWsRequest, armViewMasterSid);
         gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
-        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-        return response;
+
+        return new GtnUIFrameworkWebserviceResponse();
     }
-    
+
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_UPDATE_REPROCESS_SERVICE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse updateReprocessDetails(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {

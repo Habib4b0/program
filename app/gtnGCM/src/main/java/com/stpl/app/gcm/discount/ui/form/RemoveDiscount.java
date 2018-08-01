@@ -169,7 +169,6 @@ public class RemoveDiscount extends CustomComponent {
     private final BeanItemContainer<RemoveDiscountDto> selectedContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscount.class);
     private final List<String> removeList = new ArrayList<>();
-    private final List<Integer> contractList = new ArrayList<>();
     private final List<Integer> rebateList = new ArrayList<>();
     private List<RemoveDiscountDto> selecteditemList;
     private final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
@@ -259,7 +258,6 @@ public class RemoveDiscount extends CustomComponent {
 
             for (RemoveDiscountDto removeDiscountDTO : selecteditemList) {
                 removeList.add(removeDiscountDTO.getContractNo());
-                contractList.add(removeDiscountDTO.getContractSid());
                 rebateList.add(removeDiscountDTO.getRsSid());
             }
             componentResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);

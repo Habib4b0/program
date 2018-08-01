@@ -121,11 +121,11 @@ public class GtnWsReportRequest {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+                return forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
-		this.forecastEligibleDate = forecastEligibleDate;
+                 this.forecastEligibleDate = forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public GtnWsReportDashboardFilterBean getFilterBean() {

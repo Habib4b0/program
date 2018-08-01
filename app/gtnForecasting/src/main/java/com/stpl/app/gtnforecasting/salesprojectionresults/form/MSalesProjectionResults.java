@@ -108,7 +108,6 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     private HorizontalLayout controlLayout;
     private final SessionDTO session;
-    private final List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     private ExtCustomTreeTable exceltable;
     /**
      * The excel export image.

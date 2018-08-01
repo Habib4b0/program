@@ -155,7 +155,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
-		this.forecastEligibleDate = forecastEligibleDate;
+                 this.forecastEligibleDate = forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public Integer getCustomerHierarchySid() {

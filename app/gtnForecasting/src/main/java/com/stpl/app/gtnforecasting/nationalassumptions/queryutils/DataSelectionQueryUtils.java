@@ -711,8 +711,8 @@ public class DataSelectionQueryUtils {
         input.put("?PID", projMasterId);
         String customSql = SQlUtil.getQuery(getClass(),"na.deleteMain");
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         DAO.executeBulkUpdateQuery(customSql);
@@ -988,8 +988,8 @@ public class DataSelectionQueryUtils {
                 input.put("?TCQUERY", StringUtils.EMPTY);
             }
 
-            for (String key : input.keySet()) {
-                customSql = customSql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             if (!String.valueOf(businessUnit).equals("0") && !String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).isEmpty()) {
                 if (flag) {

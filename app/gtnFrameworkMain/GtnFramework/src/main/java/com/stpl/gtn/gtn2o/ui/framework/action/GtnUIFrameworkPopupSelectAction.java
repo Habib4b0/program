@@ -15,6 +15,8 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.InlineDateField;
 import org.apache.commons.lang3.StringUtils;
@@ -48,21 +50,10 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
         AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, componentId);
         GtnUIFrameworkComponentData componenetData = (GtnUIFrameworkComponentData) abstractComponent.getData();
         if (abstractComponent instanceof InlineDateField) {
-            String newValue = StringUtils.EMPTY;
-            for (String inputColumId : inputColumIds) {
-                AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, inputColumId);
-                newValue = newValue + " - " + String.valueOf(vaadinField.getValue());
-            }
-            newValue = newValue.substring(2);
+            String newValue = getNewValue(inputColumIds, resultTableId);
             AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI
                     .getVaadinBaseComponentFromParent(outputFieldIds.get(0), componentId).getComponent();
-            if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
-                boolean isReadOnly = vaadinField.isReadOnly();
-                vaadinField.setReadOnly(false);
-                vaadinField.setValue(String.valueOf(newValue));
-                vaadinField.setReadOnly(isReadOnly);
-
-            }
+            setVaadinField(vaadinField, newValue);
         } else {
             ExtFilterTable resultTable = (ExtFilterTable) componenetData.getCustomData();
             GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
@@ -92,13 +83,7 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
                 }
                 GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
                         .getComponentData().setCustomData(dto);
-                if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
-                    boolean isReadOnly = vaadinField.isReadOnly();
-                    vaadinField.setReadOnly(false);
-                    vaadinField.setValue(String.valueOf(newValue));
-                    vaadinField.setReadOnly(isReadOnly);
-
-                }
+                setVaadinField(vaadinField, newValue);
             }
 
             GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId);
@@ -121,6 +106,25 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
                 }
             }
         }
+    }
+
+    private void setVaadinField(AbstractField<Object> vaadinField, Object newValue) throws Converter.ConversionException, Property.ReadOnlyException {
+        if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
+            boolean isReadOnly = vaadinField.isReadOnly();
+            vaadinField.setReadOnly(false);
+            vaadinField.setValue(String.valueOf(newValue));
+            vaadinField.setReadOnly(isReadOnly);
+
+        }
+    }
+
+    private String getNewValue(List<String> inputColumIds, String resultTableId) {
+        StringBuilder newValue = new StringBuilder();
+        for (String inputColumId : inputColumIds) {
+            AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, inputColumId);
+            newValue.append(" - ").append(String.valueOf(vaadinField.getValue()));
+        }
+        return newValue.toString().substring(2);
     }
 
     private String getParentViewId(GtnUIFrameworkComponentData componentData, String componentId) {

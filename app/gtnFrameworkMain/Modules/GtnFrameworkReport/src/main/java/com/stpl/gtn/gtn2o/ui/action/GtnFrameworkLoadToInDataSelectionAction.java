@@ -26,8 +26,7 @@ public class GtnFrameworkLoadToInDataSelectionAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-
+		logger.debug("Configure Params..");
 	}
 
 	@Override
@@ -90,7 +89,6 @@ public class GtnFrameworkLoadToInDataSelectionAction
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

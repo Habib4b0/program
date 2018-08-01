@@ -38,21 +38,21 @@ public class PagedTreeGrid {
     public static final GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedTreeGrid.class);
     public static final List<String> INPUT = Arrays.asList("levelNumber", "hierarchyNo");
     private GtnUIFrameworkPagedTreeTableConfig tableConfig;
-    int count;
+    private int count;
     private int pageLength = 10;
     private int pageNumber = 0;
     private int columnPageNumber = 0;
     private DataSet dataSet;
-    TreeGrid<GtnWsRecordBean> grid;
-    Set<String> tableColumns = new HashSet<>();
-    GtnWsRecordBean lastRow;
+    private TreeGrid<GtnWsRecordBean> grid;
+    private Set<String> tableColumns = new HashSet<>();
+    private GtnWsRecordBean lastRow;
 
     private final String emptyString = GtnFrameworkCommonStringConstants.STRING_EMPTY;
     private final Set<GtnWsRecordBean> expandedItemIds = new HashSet<>();
     private final Set<Integer> expandedRowIds = new HashSet<>();
-    HashMap<Integer, GtnWsRecordBean> lastExpandedItemHierarchy = new HashMap<>(7);
-    GtnWsRecordBean lastExpandedItem;
-    HorizontalLayout controlLayout = new HorizontalLayout();
+    private HashMap<Integer, GtnWsRecordBean> lastExpandedItemHierarchy = new HashMap<>(7);
+    private GtnWsRecordBean lastExpandedItem;
+    private HorizontalLayout controlLayout = new HorizontalLayout();
     private TextField pageNoField = new TextField();
     private TextField columnPageNoField = new TextField();
     private ComboBox itemsPerPage = new ComboBox();
@@ -60,17 +60,17 @@ public class PagedTreeGrid {
 
     private TextField totalColumns = new TextField();
     private TextField pageCountLabel;
-    GtnUIFrameworkComponentConfig componentConfig;
-    int expandTempIndex = 0;
-    int expandFinalIndex = 0;
-    boolean removeExcessItems = false;
-    int excessItemsStartIndex = 0;
-    List<GtnWsRecordBean> itemsTobeRemoved = new ArrayList<>();
+    private GtnUIFrameworkComponentConfig componentConfig;
+    private int expandTempIndex = 0;
+    private int expandFinalIndex = 0;
+    private boolean removeExcessItems = false;
+    private int excessItemsStartIndex = 0;
+    private List<GtnWsRecordBean> itemsTobeRemoved = new ArrayList<>();
     public boolean shiftLeftSingeHeader;
-    GtnWsRecordBean tempBean =null;
-    int fetched = 0;
-    boolean levelExpandOn=false;
-    int   levelExpandNo=1;
+    private GtnWsRecordBean tempBean =null;
+    private int fetched = 0;
+    private boolean levelExpandOn=false;
+    private int levelExpandNo=1;
     
     public String componentIdInMap = null;
     public boolean columnLazyLoading=false;
@@ -560,29 +560,40 @@ public class PagedTreeGrid {
 
     public HorizontalLayout getControlLayout() {
         controlLayout.setWidth("100%");
+        controlLayout.setStyleName("v-report-display-pagination");
         pageCountLabel = new TextField();
-        pageCountLabel.setWidth("50px");
+        pageCountLabel.setWidth("45px");
         pageCountLabel.setReadOnly(true);
-        pageNoField.setWidth("50px");
+        pageCountLabel.setStyleName("v-report-display-pagination-label");
+        pageNoField.setWidth("45px");
+        pageNoField.setStyleName("v-report-display-pagination-label");
         setPageNoFieldValue(0);
         controlLayout.addComponent(new Label("Items per page:"));
         controlLayout.addComponent(getItemsPerPage());
-        controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
-        controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
+        controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0),false));
+        controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage(),true));
         controlLayout.addComponent(new Label("Page No:"));
         controlLayout.addComponent(pageNoField);
         controlLayout.addComponent(new Label("/"));
         controlLayout.addComponent(pageCountLabel);
-        controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
-        controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1)));
+        controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage(),false));
+        controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1),true));
         pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
         columnController();
         return controlLayout;
     }
 
-    private Button getControlLayoutButtons(String caption, Button.ClickListener listener) {
+    private Button getControlLayoutButtons(String caption, Button.ClickListener listener,Boolean flag) {
         Button button = new Button(caption, listener);
-        button.setStyleName("link");
+        if(flag)
+        {            
+            button.setStyleName("link");
+            button.addStyleName("v-report-display-pagination-button");
+            return button;
+        }else{
+          button.setStyleName("link"); 
+          button.addStyleName("v-report-display-pagination-button-top");
+        }        
         return button;
     }
 
@@ -590,7 +601,8 @@ public class PagedTreeGrid {
     private Component getItemsPerPage() {
         itemsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
         itemsPerPage.setSelectedItem(10);
-        itemsPerPage.setWidth("60px");
+        itemsPerPage.setWidth("65px");
+        itemsPerPage.setStyleName("v-report-display-pagination-label");
         itemsPerPage.setEmptySelectionAllowed(false);
         itemsPerPage.addValueChangeListener(e -> setPageLength((int) itemsPerPage.getValue()));
         return itemsPerPage;
@@ -600,7 +612,8 @@ public class PagedTreeGrid {
     private Component getColumnsPerPageComponenet() {
         columnsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
         columnsPerPage.setSelectedItem(10);
-        columnsPerPage.setWidth("60px");
+        columnsPerPage.setWidth("65px");
+        columnsPerPage.setStyleName("v-report-display-pagination-label");
         columnsPerPage.setEmptySelectionAllowed(false);
         columnsPerPage.addValueChangeListener(e -> setColumnPageNumber(0));
         return columnsPerPage;
@@ -617,18 +630,20 @@ public class PagedTreeGrid {
     public HorizontalLayout columnController() {
 
         HorizontalLayout hl = controlLayout;
-        columnPageNoField.setWidth("50px");
+        columnPageNoField.setWidth("45px");
+        columnPageNoField.setStyleName("v-report-display-pagination-label");
         controlLayout.addComponent(new Label("Columns per page:"));
         controlLayout.addComponent(getColumnsPerPageComponenet());
-        controlLayout.addComponent(getControlLayoutButtons("<<", e -> setColumnPageNumber(0)));
-        controlLayout.addComponent(getControlLayoutButtons("<", e -> setColumnPageNumber(--columnPageNumber)));
+        controlLayout.addComponent(getControlLayoutButtons("<<", e -> setColumnPageNumber(0),false));
+        controlLayout.addComponent(getControlLayoutButtons("<", e -> setColumnPageNumber(--columnPageNumber),true));
         controlLayout.addComponent(new Label("Columns Page No:"));
         controlLayout.addComponent(columnPageNoField);
         controlLayout.addComponent(new Label("/"));
-        totalColumns.setWidth("50px");
+        totalColumns.setWidth("45px");
+        totalColumns.setStyleName("v-report-display-pagination-label");
         controlLayout.addComponent(totalColumns);
-        controlLayout.addComponent(getControlLayoutButtons(">", e -> setColumnPageNumber(++columnPageNumber)));
-        controlLayout.addComponent(getControlLayoutButtons(">>", e -> setColumnPageNumber(getTotalPageCount())));
+        controlLayout.addComponent(getControlLayoutButtons(">", e -> setColumnPageNumber(++columnPageNumber),false));
+        controlLayout.addComponent(getControlLayoutButtons(">>", e -> setColumnPageNumber(getTotalPageCount()),true));
         columnPageNoField.addBlurListener(e -> setColumnPageNumber((Integer.parseInt(columnPageNoField.getValue())) - 1));
 
         return hl;
