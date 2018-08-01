@@ -832,11 +832,10 @@ public class CommonUtils {
 
     public static boolean isInteger(String s) {
         try {
-            Integer.parseInt(s);
+            return s.matches("^[0-9]");
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     public static void getHistoryAndProjectionDetails(ProjectionSelectionDTO projSelDTO) {
@@ -1238,7 +1237,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

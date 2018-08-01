@@ -89,9 +89,7 @@ public class DataFormatConverter implements Converter<String, String> {
             String tempValue;
             tempValue = value.trim().replaceAll(regex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
-            if (!StringUtils.EMPTY.equals(tempValue) && !CommonConstants.NULL.getConstant().equals(tempValue)
-                    && !CommonConstants.NULL.getConstant().equals(tempValue)
-                    && !StringUtils.EMPTY.equals(tempValue)) {
+            if (!StringUtils.EMPTY.equals(tempValue) && !CommonConstants.NULL.getConstant().equals(tempValue)) {
                 value = value.trim().replaceAll(regex, StringUtils.EMPTY);
 
                 if (df != null) {

@@ -73,9 +73,7 @@ public class DataFormatConverter implements Converter<String, String> {
             String tempValue;
             tempValue = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
-            if (!StringUtils.EMPTY.equals(tempValue) && !ConstantsUtils.NULL.equals(tempValue)
-                    && !ConstantsUtils.NULL.equals(tempValue)
-                    && !StringUtils.EMPTY.equals(tempValue)) {
+            if (!StringUtils.EMPTY.equals(tempValue) && !ConstantsUtils.NULL.equals(tempValue) && !StringUtils.EMPTY.equals(tempValue)) {
                 value = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
 
                 if (df != null) {
@@ -85,7 +83,7 @@ public class DataFormatConverter implements Converter<String, String> {
                 } else {
                     stringValue = value.replaceAll(numericDashRegex, StringUtils.EMPTY);
                 }
-                if (indicator != null && !StringUtils.EMPTY.equals(indicator) && !ConstantsUtils.NULL.equals(indicator) && INDICATOR_PERCENT.equals(indicator)) {
+                if (indicator != null && !StringUtils.EMPTY.equals(indicator) && INDICATOR_PERCENT.equals(indicator)) {
                     stringValue += INDICATOR_PERCENT;
                 }
             } else {

@@ -1193,11 +1193,10 @@ public class HeaderUtils {
      */
     public static boolean isInteger(String s) {
         try {
-            Integer.parseInt(s);
+            return s.matches("^[0-9]");
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {

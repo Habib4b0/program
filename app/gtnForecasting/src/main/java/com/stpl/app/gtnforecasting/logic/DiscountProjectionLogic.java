@@ -1103,7 +1103,7 @@ public class DiscountProjectionLogic {
                 }
             }
             detailsSid = idStringBuilder.toString();
-            detailsSid.substring(0, detailsSid.length() - 1);
+            detailsSid = detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
