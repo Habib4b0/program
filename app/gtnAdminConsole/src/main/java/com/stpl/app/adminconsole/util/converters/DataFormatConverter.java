@@ -73,7 +73,7 @@ public class DataFormatConverter implements Converter<String, String> {
             String tempValue;
             tempValue = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
-            if (!StringUtils.EMPTY.equals(tempValue) && !ConstantsUtils.NULL.equals(tempValue) && !StringUtils.EMPTY.equals(tempValue)) {
+            if (!StringUtils.EMPTY.equals(tempValue) && !ConstantsUtils.NULL.equals(tempValue)) {
                 value = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
 
                 if (df != null) {
