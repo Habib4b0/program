@@ -387,7 +387,7 @@ public class PagedGrid {
 		textField.setWidth("118%");
                 textField.setId(property);
                  List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
-                if(!(componentStyle.isEmpty() || componentStyle == null)){
+                if(!(componentStyle.isEmpty())){
                     textField.setStyleName(componentStyle.get(0));
                 }
                 hl.addComponent(textField);
@@ -483,7 +483,7 @@ public class PagedGrid {
 		textField.setWidth("118%");
 		textField.setId(property);
                 List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
-                if(!(componentStyle.isEmpty() || componentStyle == null)){
+                if(!(componentStyle.isEmpty())){
                     textField.setStyleName(componentStyle.get(0));
                 }
 		textField.addValueChangeListener(this::onFilterTextChange);

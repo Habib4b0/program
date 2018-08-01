@@ -66,6 +66,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 
 		popupTextField.addStyleName(GtnFrameworkCssConstants.SEARCHICON);
 		loadStyles(popupTextBoxHorizontalComponent, componentConfig.getComponentStyle());
+                loadStyles(popupTextField, componentConfig.getTextComponentStyle());
 		popupTextBoxHorizontalComponent.addComponent(popupTextField);
 
 		popupTextBoxHorizontalComponent.setData(componentData);
