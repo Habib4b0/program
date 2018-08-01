@@ -224,8 +224,9 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
 		privateViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
 		privateViewResetActionConfig.addActionParameter(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME));
-		privateViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
+				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME,namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE));
+		privateViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,GtnFrameworkCommonStringConstants.STRING_EMPTY));
 		privateViewSearchLookupResetButton.addGtnUIFrameWorkActionConfig(privateViewResetActionConfig);
 		
 		componentList.add(privateViewSearchLookupResetButton);
