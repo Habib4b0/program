@@ -57,7 +57,6 @@ public class GtnFrameworkGridToBarChartAction
 		TreeData<GtnWsRecordBean> treeData = dataGrid.getGrid().getTreeData();
 		List<GtnWsRecordBean> dataInGrid = new ArrayList<>();
 		getAllDataInTreeGrid(treeData, null, dataInGrid);
-		dataInGrid.stream().forEach(this::printRecordBean);
 		return buildBarCharConfig(availableColumns, dataInGrid);
 	}
 
@@ -110,10 +109,6 @@ public class GtnFrameworkGridToBarChartAction
 
 	}
 
-	void printRecordBean(GtnWsRecordBean bean) {
-		LOGGER.info(bean.getStringProperty("levelValue"));
-	}
-
 	private Map<String, String[]> getRightColumnString(PagedTreeGrid dataGrid) {
 
 		Map<String, String[]> headerToIdMap = new LinkedHashMap<>();
@@ -140,40 +135,5 @@ public class GtnFrameworkGridToBarChartAction
 		return headerToIdMap;
 	}
 
-	// private Map<String, String> getLeftColumnString(PagedTreeGrid dataGrid) {
-	//
-	// Map<String, String> headerToIdMap = new LinkedHashMap<>();
-	//
-	// Iterator<String> thirdHeaderIterator =
-	// dataGrid.getTableConfig().getLeftTableTripleHeaderVisibleHeaders()
-	// .iterator();
-	// Iterator<String> secondHeaderIterator =
-	// dataGrid.getTableConfig().getLeftTableDoubleHeaderVisibleHeaders()
-	// .iterator();
-	// Iterator<String> firstHeaderIterator =
-	// Arrays.asList(dataGrid.getTableConfig().getLeftTableVisibleHeader())
-	// .iterator();
-	//
-	// for (Object thirdColumnId :
-	// dataGrid.getTableConfig().getLeftTableTripleHeaderVisibleColumns()) {
-	// String thirdHeader = thirdHeaderIterator.next();
-	// for (Object secondColumniD :
-	// dataGrid.getTableConfig().getLeftTableTripleHeaderMap().get(thirdColumnId)) {
-	// String secondHeader = secondHeaderIterator.next();
-	// for (Object singleColumnId :
-	// dataGrid.getTableConfig().getLeftTableDoubleHeaderMap()
-	// .get(secondColumniD)) {
-	// String combinedHeader = new StringBuilder().append(thirdHeader).append("
-	// ").append(secondHeader)
-	// .append(" ").append(firstHeaderIterator.next()).toString();
-	// headerToIdMap.put(String.valueOf(singleColumnId), combinedHeader);
-	// LOGGER.info(combinedHeader);
-	// }
-	// }
-	// }
-	//
-	// return headerToIdMap;
-	//
-	// }
 
 }
