@@ -214,8 +214,9 @@ public class GtnFrameworkReportDataSelectionPublicViewSearchLookUp{
 		GtnUIFrameWorkActionConfig dsPublicViewResetActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.V8_RESET_ACTION);
 		dsPublicViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
 		dsPublicViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
-		dsPublicViewResetActionConfig.addActionParameter(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpViewNameTextBox"));
-		dsPublicViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
+		dsPublicViewResetActionConfig.addActionParameter(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpViewNameTextBox",namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PUBLIC_SEARCH_RESULT_TABLE));
+		dsPublicViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,GtnFrameworkCommonStringConstants.STRING_EMPTY));
 		dsPublicViewResetButton.addGtnUIFrameWorkActionConfig(dsPublicViewResetActionConfig);
 		
 		componentList.add(dsPublicViewResetButton);

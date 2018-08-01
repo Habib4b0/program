@@ -286,7 +286,7 @@ public class CustomerSelection extends CustomComponent {
             selectedCustomersTable.addStyleName("table-header-normal");
             Arrays.asList(HeaderUtils.getCustomerCols());
             for (Object list1 : availableCustomersTable.getVisibleColumns()) {
-                if(list1.equals("tradeClassStartDate") || list1.equals("tradeClassStartDate") ||
+                if(list1.equals("tradeClassStartDate") ||
                         list1.equals("customerStartDate") || list1.equals("customerEndDate") ||
                         list1.equals("parentStartDate") || list1.equals("parentEndDate")  ||
                         list1.equals("priorParentStartDate")){
@@ -409,7 +409,7 @@ public class CustomerSelection extends CustomComponent {
                             && StringUtils.isBlank(customerName.getValue()) 
                             && StringUtils.isBlank(state.getValue())
                             && StringUtils.isBlank(city.getValue()) 
-                            && (customerType.getValue() == null || ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(customerType.getValue().toString()).trim())) && StringUtils.isBlank(zipcode.getValue())) {
+                            && (customerType.getValue() == null || ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(customerType.getValue().toString()).trim()))) {
 
                         AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.DC_SEARCH_CRITERIA_HEADER), MessageUtil.getMessage(Message.DC_SEARCH_CRITERIA_MESSAGE));
                     } else {

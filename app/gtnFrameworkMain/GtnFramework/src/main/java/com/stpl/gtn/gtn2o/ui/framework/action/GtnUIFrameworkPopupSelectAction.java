@@ -15,8 +15,6 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.v7.data.Property;
-import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.InlineDateField;
 

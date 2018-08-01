@@ -65,6 +65,7 @@ public class GtnWsReportDataSelectionBean {
 
 	private String privateViewName;
 	private String publicViewName;
+	private List<Object> customDataList ;
 
 	public String getFromOrToForDataSelection() {
 		return fromOrToForDataSelection;
@@ -447,6 +448,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setPublicViewName(String publicViewName) {
 		this.publicViewName = publicViewName;
+	}
+
+	public List<Object> getCustomDataList() {
+		return customDataList;
+	}
+
+	public void setCustomDataList(List<Object> customDataList) {
+		this.customDataList = customDataList;
 	}
 
 }

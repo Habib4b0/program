@@ -10,7 +10,6 @@ GO
 
 CREATE PROCEDURE [dbo].[PRC_CFF_OUTBOUND] (@CFF_MASTER_SID INT)
 AS
-
 /**********************************************************************************************************
 ** FILE NAME		:	PRC_CFF_OUTBOUND.SQL
 ** PROCEDURE NAME	:	PRC_CFF_OUTBOUND
@@ -392,17 +391,17 @@ WHERE EXISTS (
 
 ---------------------------------PULLING PPA DISCOUN discount  attached to cff (GALUAT-817)-----------------------------------------------------------------------
 
-      IF Object_id('TEMPDB..#NM_PPA_PROJECTION') IS NOT NULL
-        DROP TABLE #NM_PPA_PROJECTION
+      --IF Object_id('TEMPDB..#NM_PPA_PROJECTION') IS NOT NULL
+      --  DROP TABLE #NM_PPA_PROJECTION
 
-      SELECT *
-      INTO   #NM_PPA_PROJECTION
-      FROM   NM_PPA_PROJECTION NS
-      WHERE  EXISTS (SELECT 1
-                     FROM   #INPUT_INFO2 I
-                     WHERE  NS.PROJECTION_DETAILS_SID = I.PROJECTION_DETAILS_SID
-                            AND NS.RS_MODEL_SID = I.RS_MODEL_SID
-                            AND I.FORECASTING_TYPE = 'NON MANDATED')
+      --SELECT *
+      --INTO   #NM_PPA_PROJECTION
+      --FROM   NM_PPA_PROJECTION NS
+      --WHERE  EXISTS (SELECT 1
+      --               FROM   #INPUT_INFO2 I
+      --               WHERE  NS.PROJECTION_DETAILS_SID = I.PROJECTION_DETAILS_SID
+      --                      AND NS.RS_MODEL_SID = I.RS_MODEL_SID
+      --                      AND I.FORECASTING_TYPE = 'NON MANDATED')
 ----------------------PULLING  mandated discount  attached to cff---------------------------------------
       IF Object_id('TEMPDB..#M_DISCOUNT_PROJECTION') IS NOT NULL
         DROP TABLE #M_DISCOUNT_PROJECTION
@@ -487,18 +486,15 @@ WHERE EXISTS (
                               FROM   #NM_DISCOUNT_PROJECTION NS
                               
 							  Union All
-							  select NP.PROJECTION_DETAILS_SID,
-                                     NP.PERIOD_SID,
-                                     NP.RS_MODEL_SID,
-                                     NP.PROJECTION_DISCOUNT_DOLLAR AS PROJECTED_DISCOUNT
+							  select ndm.PROJECTION_DETAILS_SID,
+                                     ndm.PERIOD_SID,
+                                     ndm.RS_MODEL_SID,
+                                     ndm.PROJECTION_SALES AS PROJECTED_DISCOUNT
 	,ISNULL(ndm.PROJECTION_SALES / NULLIF(abc.PROJECTION_SALES, 0), 0) PROJECTION_RATE
 	,ISNULL(ndm.PROJECTION_SALES / NULLIF(abc.PROJECTION_UNITS, 0), 0) PROJECTION_RPU
-									 from #NM_PPA_PROJECTION NP join #NM_DISCOUNT_PROJECTION ndm on ndm.PROJECTION_DETAILS_SID=np.PROJECTION_DETAILS_SID
-									 and np.RS_CONTRACT_SID=ndm.RS_CONTRACT_SID
-									 and np.PERIOD_SID=ndm.PERIOD_SID
-									 join #NM_SALES_PROJECTION abc on abc.PROJECTION_DETAILS_SID=np.PROJECTION_DETAILS_SID
-									 and abc.PERIOD_SID=np.PROJECTION_DETAILS_SID
-									 and abc.PERIOD_SID=np.PERIOD_SID
+									 from #NM_DISCOUNT_PROJECTION ndm 
+									 join #NM_SALES_PROJECTION abc on abc.PROJECTION_DETAILS_SID=ndm.PROJECTION_DETAILS_SID
+									 and abc.PERIOD_SID=ndm.PERIOD_SID
 
                               
 							  UNION ALL
@@ -617,6 +613,8 @@ WHERE EXISTS (
                      ON TC.ITEM_MASTER_SID = T.ITEM_MASTER_SID
                         AND FD.PERIOD_SID = T.PERIOD_SID
 ------------------STORING INTO MAIN TABLE ---------------------------------
+
+
       INSERT INTO CFF_OUTBOUND_MASTER
                   (FINANCIAL_FORECAST_ID,
                    CFF_DETAILS_SID,
@@ -739,4 +737,3 @@ WHERE EXISTS (
                         T.CFF_DETAILS_SID = F.CFF_DETAILS_SID
                         AND T.RS_MODEL_SID = F.RS_MODEL_SID
 GO
-

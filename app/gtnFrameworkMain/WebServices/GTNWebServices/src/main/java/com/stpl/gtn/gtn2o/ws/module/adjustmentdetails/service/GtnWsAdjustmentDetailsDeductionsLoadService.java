@@ -37,14 +37,14 @@ public class GtnWsAdjustmentDetailsDeductionsLoadService {
     }
 
     private Map<String, String[]> getLevelMap() {
-        int udcStart = 2;
-        int udcEnd = 7;
-        int descStart = 5;
+        final int UDCSTART = 2;
+        final int UDCEND = 7;
+        final int DESCSTART = 5;
         Map<String, String[]> levelMap = new HashMap<>();
         levelMap.put("Deduction Category", new String[]{"A.RS_CATEGORY,H1.DESCRIPTION AS CATEGORY", "CATEGORY"});
         levelMap.put("Deduction type", new String[]{"A.RS_TYPE,H2.DESCRIPTION AS TYPE", "TYPE"});
         levelMap.put("Deduction program", new String[]{"A.REBATE_PROGRAM_TYPE,H3.DESCRIPTION AS PROGRAM_TYPE", "PROGRAM_TYPE"});
-        for (int i = udcStart, j = descStart; i < udcEnd; i++, j++) {
+        for (int i = UDCSTART, j = DESCSTART; i < UDCEND; i++, j++) {
             levelMap.put("Deduction Category " + i, new String[]{"U.UDC" + i + ",H" + j + ".DESCRIPTION AS UDC", "UDC", "UDC" + i});
         }
         levelMap.put("Deduction", new String[]{"A.RS_MODEL_SID,A.RS_ID + '- ' + A.RS_NAME AS RS_MODEL_ID", "RS_MODEL_ID"});
