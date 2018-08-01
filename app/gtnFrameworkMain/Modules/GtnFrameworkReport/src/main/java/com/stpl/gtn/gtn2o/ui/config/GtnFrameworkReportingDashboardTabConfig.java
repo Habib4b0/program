@@ -932,6 +932,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_COMPARISON_OPTIONS_LAYOUT, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CSS_LAYOUT);
 		gtnLayout.setComponentWidth("12%");
+                gtnLayout.addComponentStyle("v-report-reportoptions-comparison");
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig comparisonOptionsConfig = configProvider.getUIFrameworkComponentConfig(
@@ -1028,6 +1029,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CSS_LAYOUT);
 		gtnLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_TOP_17);
                 gtnLayout.addComponentStyle("v-layout-custom-report");
+                gtnLayout.addComponentStyle("v-report-display-selection-freq");
                 gtnLayout.setComponentWidth("36%");
                 componentList.add(gtnLayout);
 
@@ -1041,6 +1043,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableAndVarianceSequencingConfig.setComponentName("Variable & Variance Sequencing: ");
 		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);
                 variableAndVarianceSequencingConfig.addComponentStyle("v-combobox-custom-report");
+                variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-reportoptions-vseq");
 		componentList.add(variableAndVarianceSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1112,6 +1115,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		gtnLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_TOP_17);
                 gtnLayout.setComponentWidth("36%");
                 gtnLayout.addComponentStyle("v-layout-report-custom");
+                gtnLayout.addComponentStyle("v-report-reportoptions-hseq");
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig headerSequencingConfig = configProvider.getUIFrameworkComponentConfig(
@@ -1120,6 +1124,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_HEADER_SEQUENCING_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		headerSequencingConfig.setComponentName("Header Sequencing:     ");
+                headerSequencingConfig.addComponentStyle("v-report-reportoptions-hseq-combo");
 		headerSequencingConfig.setAuthorizationIncluded(true);
 
 		componentList.add(headerSequencingConfig);
@@ -1593,6 +1598,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "excelButtonConfig");
 		excelButtonConfig.setParentComponentId(parentId);
 		excelButtonConfig.setAddToParent(true);
+                excelButtonConfig.addComponentStyle("v-report-excel-button");
 		excelButtonConfig.setAuthorizationIncluded(true);
 
 		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonInput = new GtnUIFrameworkExcelButtonConfig();
