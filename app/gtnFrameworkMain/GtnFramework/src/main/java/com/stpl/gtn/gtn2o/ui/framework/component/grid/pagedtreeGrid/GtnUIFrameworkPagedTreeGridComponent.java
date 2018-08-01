@@ -41,7 +41,7 @@ import com.vaadin.ui.VerticalLayout;
 public class GtnUIFrameworkPagedTreeGridComponent
 		implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 
-	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedTreeGridComponent.class);
+	private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedTreeGridComponent.class);
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig)

@@ -413,6 +413,8 @@
 				</value>
                                 <value>/com/stpl/gtn/gtn2o/ws/xml/customviewforecast/CustomViewVariables.hbm.xml
 				</value>
+                                <value>/com/stpl/gtn/gtn2o/ws/xml/adjustmentDetails/ArmViewMaster.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>

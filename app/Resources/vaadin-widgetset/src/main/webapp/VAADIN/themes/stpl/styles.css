@@ -14951,6 +14951,7 @@ div.v-layout.v-horizontal.v-widget {
 	margin-bottom: 10px;
 }
 
+
 .stpl .v-report-display-pagination {
 	margin-left: -57px !important;
 }
@@ -15020,6 +15021,10 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-report-display-selection-prt {
 	margin-left: 4px !important;
+
+.stpl .v-position-fixed {
+	position: fixed !important;
+
 }
 
 .v-slot, .v-spacing {

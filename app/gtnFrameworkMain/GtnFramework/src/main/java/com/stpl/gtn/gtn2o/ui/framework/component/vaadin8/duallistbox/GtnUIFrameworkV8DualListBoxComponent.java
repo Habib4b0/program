@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -32,7 +33,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.util.Locale;
 
 public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkComponent {
 
@@ -157,34 +157,34 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		horizontalLayout.setMargin(false);
 		horizontalLayout.setWidth("113%");
 		horizontalLayout.setHeight("37px");
-		TextField textField = new TextField();
-		textField.setPlaceholder("Show All");
-		textField.setId(column);
-		textField.setHeight("100%");
-		textField.setWidth("100%");
+		TextField gridShowAllTextField = new TextField();
+		gridShowAllTextField.setPlaceholder("Show All");
+		gridShowAllTextField.setId(column);
+		gridShowAllTextField.setHeight("100%");
+		gridShowAllTextField.setWidth("100%");
 
-		horizontalLayout.addComponent(textField);
+		horizontalLayout.addComponent(gridShowAllTextField);
 
 		horizontalLayout.addLayoutClickListener(new LayoutClickListener() {
 			@Override
-			public void layoutClick(LayoutClickEvent event) {
+			public void layoutClick(LayoutClickEvent gridShowAllTextFieldEvent) {
 
-				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder("");
+				if (gridShowAllTextFieldEvent.getChildComponent() == gridShowAllTextField) {
+					gridShowAllTextField.setPlaceholder("");
 				}
 			}
 		});
-		textField.addBlurListener(new BlurListener() {
+		gridShowAllTextField.addBlurListener(new BlurListener() {
 			@Override
-			public void blur(BlurEvent event) {
-				if (event.getComponent() == textField) {
-					String value = textField.getValue();
+			public void blur(BlurEvent gridShowAllTextFieldBlurEvent) {
+				if (gridShowAllTextFieldBlurEvent.getComponent() == gridShowAllTextField) {
+					String value = gridShowAllTextField.getValue();
 					if (value.equals(""))
-						textField.setPlaceholder("Show All");
+						gridShowAllTextField.setPlaceholder("Show All");
 				}
 			}
 		});
-		textField.addValueChangeListener(event -> {
+		gridShowAllTextField.addValueChangeListener(event -> {
 			String filterText = event.getValue();
 			ListDataProvider<GtnWsRecordBean> dataprovider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
 			dataprovider.setFilter(s -> {

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.type;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnFrameworkFieldFactoryPopupSelectAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnFrameworkPopupInlineDateSelectAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAlertAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkChangeCaptionAction;
@@ -93,6 +94,8 @@ public enum GtnUIFrameworkActionType {
 	TREETABLE_ACTION(new GtnUIFrameWorkLoadDataTreeTableAction()),
 
 	POPUP_SELECT_ACTION(new GtnUIFrameworkPopupSelectAction()),
+        
+	POPUP_INLINE_SELECT_ACTION(new GtnFrameworkPopupInlineDateSelectAction()),
 
 	FIELDFACTORY_POPUP_SELECT_ACTION(new GtnFrameworkFieldFactoryPopupSelectAction()),
 

@@ -368,11 +368,11 @@ public class GtnForecastBean implements Serializable {
     }
 
     public Date getHistoryEndDate() {
-         return historyEndDate == null ? null : (Date) historyEndDate.clone();
+        return historyEndDate == null ? null : (Date) historyEndDate.clone();
     }
 
     public void setHistoryEndDate(Date historyEndDate) {
-        this.historyEndDate = historyEndDate == null ? null : (Date) historyEndDate.clone();
+         this.historyEndDate = historyEndDate == null ? null : (Date) historyEndDate.clone();
     }
 
     public void setForecastEndDate(Date forecastEndDate) {

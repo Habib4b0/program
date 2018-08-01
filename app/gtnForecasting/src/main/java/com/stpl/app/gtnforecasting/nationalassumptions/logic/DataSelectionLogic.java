@@ -186,8 +186,8 @@ public class DataSelectionLogic {
                 input.put("?PID", naProjDetailsID);
                 String customSql = SQlUtil.getQuery(getClass(),"na.update");
                 
-                for (String key : input.keySet()) {
-                    customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                 }
                 DAO.executeBulkUpdateQuery(customSql);
                 for (Integer naProjID : removeList) {

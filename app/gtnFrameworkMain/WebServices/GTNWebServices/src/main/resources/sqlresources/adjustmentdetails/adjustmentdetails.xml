@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+To change this template file, choose Tools | Templates and open the template 
+in the editor. -->
+<sql>
+    <entity id="searchReserveAdjustmentDetails">
+        <query> 
+     <![CDATA[
+DECLARE @DEDUCTION_LEVEL        INT, 
+        @DEDUCTION_VALUE        VARCHAR(200), 
+        @WORKFLOW_ID            VARCHAR(50), 
+        @WORKFLOW_NAME          VARCHAR(30), 
+        @GL_COMPANY_MASTER_SID  INT, 
+        @BU_COMPANY_MASTER_SID  INT, 
+        @COMPANY_NO             VARCHAR(100), 
+        @COMPANY_NAME           VARCHAR(100), 
+        @ITEM_NO                VARCHAR(100), 
+        @ITEM_NAME              VARCHAR(100), 
+        @BRAND_NAME             VARCHAR(100), 
+        @GL_DATE                DATETIME, 
+        @CREATED_DATE           DATETIME, 
+        @ADJUSTMENT_TYPE        VARCHAR(100), 
+        @ACCOUNT_CATEGORY       INT, 
+        @ACCOUNT_TYPE           INT, 
+        @ACCOUNT                VARCHAR(100), 
+        @POSITION_INDICATOR     BIT, 
+        @ADJUSTMENT_LEVEL       INT, 
+        @REDEMPTION_FROM_PERIOD DATETIME, 
+        @REDEMPTION_TO_PERIOD   DATETIME, 
+        @BATCH_ID               VARCHAR(100), 
+        @ACCOUNT_INDICATOR      INT 
+
+SELECT @DEDUCTION_VALUE = NULLIF(@DEDUCTION_VALUE, '*'), 
+       @WORKFLOW_ID = NULLIF(@WORKFLOW_ID, '*'), 
+       @WORKFLOW_NAME = NULLIF(@WORKFLOW_NAME, '*'), 
+       @COMPANY_NO = NULLIF(@COMPANY_NO, '*'), 
+       @COMPANY_NAME = NULLIF(@COMPANY_NAME, '*'), 
+       @ITEM_NO = NULLIF(@ITEM_NO, '*'),
+       @ITEM_NAME = NULLIF(@ITEM_NAME, '*'), 
+       @BRAND_NAME = NULLIF(@BRAND_NAME, '*'), 
+       @ACCOUNT = NULLIF(@ACCOUNT, '*'), 
+       @ADJUSTMENT_TYPE = NULLIF(@ADJUSTMENT_TYPE, '*'), 
+       @BATCH_ID = NULLIF(@BATCH_ID, '*') 
+
+SET @REDEMPTION_FROM_PERIOD = CASE 
+                                WHEN @REDEMPTION_FROM_PERIOD IS NULL THEN DATEADD(MM, DATEDIFF(MM, 0, GETDATE()) - ( 120 ), 0)
+                                ELSE @REDEMPTION_FROM_PERIOD 
+                              END 
+SET @REDEMPTION_TO_PERIOD = CASE 
+                              WHEN @REDEMPTION_TO_PERIOD IS NULL THEN DATEADD(MM, DATEDIFF(MM, 0, GETDATE()) + ( 120 ), 0)
+                              ELSE @REDEMPTION_TO_PERIOD 
+                            END 
+
+DECLARE @DEDUCTION VARCHAR(100) 
+
+SELECT @DEDUCTION = DESCRIPTION 
+FROM   HELPER_TABLE 
+WHERE  HELPER_TABLE_SID = @DEDUCTION_LEVEL 
+
+IF OBJECT_ID('TEMPDB..#TEMP_DEDUCTION') IS NOT NULL 
+  DROP TABLE #TEMP_DEDUCTION 
+
+CREATE TABLE #TEMP_DEDUCTION 
+  ( 
+     DEDUCTION_VALUE INT, 
+     PRIMARY KEY (DEDUCTION_VALUE) 
+  ) 
+
+INSERT INTO #TEMP_DEDUCTION 
+            (DEDUCTION_VALUE) 
+SELECT CONVERT(VARCHAR(500), TOKEN) TOKEN 
+FROM   UDF_SPLITSTRING(@DEDUCTION_VALUE, ',') 
+
+IF ( @DEDUCTION_VALUE IS NULL ) 
+  BEGIN 
+      INSERT INTO #TEMP_DEDUCTION 
+      VALUES      (1) 
+  END 
+
+IF OBJECT_ID('TEMPDB..#TEMP_HELPER') IS NOT NULL 
+  DROP TABLE #TEMP_HELPER 
+
+CREATE TABLE #TEMP_HELPER 
+  ( 
+     HELPER_TABLE_SID INT, 
+     DESCRIPTION      VARCHAR(100), 
+     LIST_NAME        VARCHAR(100), 
+     PRIMARY KEY ( HELPER_TABLE_SID, LIST_NAME, DESCRIPTION ) 
+  ) 
+
+INSERT INTO #TEMP_HELPER 
+            (HELPER_TABLE_SID, 
+             DESCRIPTION, 
+             LIST_NAME) 
+SELECT HELPER_TABLE_SID, 
+       DESCRIPTION, 
+       LIST_NAME 
+FROM   HELPER_TABLE 
+WHERE  LIST_NAME IN ( 'RS_TYPE', 'RS_CATEGORY', 'ARM_UDC_1', 'ARM_UDC_2', 
+                      'ARM_UDC_3', 'ARM_UDC_4', 'ARM_UDC_5', 'ARM_UDC_6', 
+                      'RS_UDC1', 'RS_UDC2', 'RS_UDC3', 'RS_UDC4', 
+                      'RS_UDC5', 'RS_UDC6', 'REBATE_PROGRAM_TYPE', 'ARM_TRX_METHDOLOGY', 
+                      'DEDUCTION_LEVELS', 'ARM_ACCOUNT_TYPE', 'ACCOUNT_CATEGORY', 'ARM_ADJUSTMENT_TYPE',
+                      'ARM_GTN_ADJUSTMENT_LEVEL', 'CURRENCY', 'ACCOUNT_INDICTOR', 'ARM_RES_ADJUSTMENT_LEVEL', 'LOCKED_STATUS' )
+
+IF OBJECT_ID('TEMPDB..#RESERVE') IS NOT NULL 
+  DROP TABLE #RESERVE 
+
+SELECT DISTINCT AGD.ADJUSTMENT_RESERVE_DETAIL_SID,
+                AGD.WORKFLOW_ID,
+                AGD.WORKFLOW_NAME,
+                AGD.COMPANY,
+                GL.COMPANY_NAME,
+                AGD.DIVISION,
+                AGD.BUSINESS_UNIT,
+                BU.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                AGD.JOURNAL_NAME,
+                AGD.JOURNAL_DESCRIPTION,
+                AGD.BRAND,
+                AGD.DEBIT  DEBIT,
+                AGD.CREDIT CREDIT,
+                AGD.CURRENCY,
+                AGD.ACCOUNTING_DATE,
+                AGD.REDEMPTION_PERIOD,
+                AGD.CALCULATION_PERIOD,
+                AGD.POSTING_INDICATOR,
+                AGD.CATEGORY,
+                AGD.BALANCE_TYPE,
+                AGD.ARD_DB,
+                AGD.DATA_ACCESS_SET,
+                AGD.CHART_OF_ACCOUNTS,
+                AGD.LEDGER,
+                AGD.REVERSE_JOURNAL,
+                AGD.REVERSAL_PERIOD_DATE,
+                AGD.LINE_DESCRIPTION,
+                AGD.ACCOUNT_CATEGORY,
+                AGD.ACCOUNT_TYPE,
+                AGD.ADJUSTMENT_TYPE,
+                AGD.ADJUSTMENT_LEVEL,
+                AGD.ACCOUNT,
+                AGD.COST_CENTER,
+                AGD.PROJECT,
+                AGD.FUTURE_1,
+                AGD.FUTURE_2,
+                AGD.UDC_1,
+                AGD.UDC_2,
+                AGD.UDC_3,
+                AGD.UDC_4,
+                AGD.UDC_5,
+                AGD.UDC_6,
+                AGD.WORKFLOW_CREATED_BY,
+                AGD.WORKFLOW_CREATED_DATE,
+                AGD.WORKFLOW_APPROVED_BY,
+                AGD.WORKFLOW_APPROVED_DATE,
+                AGD.ADJUSTMENT_CREATED_DATE,
+                AGD.GL_POSTING_STATUS,
+                AGD.OUTBOUND_STATUS,
+                AGD.CREATED_BY,
+                AGD.CREATED_DATE,
+                AGD.MODIFIED_BY,
+                AGD.MODIFIED_DATE,
+                AGD.SOURCE,
+                AGD.BATCH_NAME,
+                AGD.BATCH_ID,
+                AGD.ORIGINAL_BATCH_ID,
+                AGD.ACCOUNT_INDICATOR,
+                AGD.ACCOUNT_DESCRIPTION,
+                AGD.RS_CATEGORY,
+                AGD.RS_TYPE,
+                AGD.REBATE_PROGRAM_TYPE
+INTO   #RESERVE 
+FROM   ADJUSTMENT_RESERVE_DETAIL AGD 
+       JOIN COMPANY_MASTER GL 
+         ON GL.COMPANY_ID = AGD.COMPANY 
+       JOIN COMPANY_MASTER BU 
+         ON BU.COMPANY_ID = AGD.BUSINESS_UNIT 
+       LEFT JOIN BRAND_MASTER BM 
+              ON BM.BRAND_ID = AGD.BRAND 
+WHERE  ( GL.COMPANY_NO LIKE @COMPANY_NO 
+          OR @COMPANY_NO IS NULL ) 
+       AND ( GL.COMPANY_NAME LIKE @COMPANY_NAME 
+              OR @COMPANY_NAME IS NULL ) 
+       AND ( BM.BRAND_NAME LIKE @BRAND_NAME 
+              OR @BRAND_NAME IS NULL ) 
+       AND ( WORKFLOW_CREATED_DATE = @CREATED_DATE 
+              OR @CREATED_DATE IS NULL ) 
+       AND ( REDEMPTION_PERIOD BETWEEN @REDEMPTION_FROM_PERIOD AND @REDEMPTION_TO_PERIOD 
+              OR REDEMPTION_PERIOD IS NULL ) 
+       AND ( AGD.ORIGINAL_BATCH_ID LIKE @BATCH_ID 
+              OR @BATCH_ID IS NULL 
+              OR AGD.ORIGINAL_BATCH_ID IS NULL ) 
+       AND ( ACCOUNT_CATEGORY = @ACCOUNT_CATEGORY 
+              OR @ACCOUNT_CATEGORY IS NULL ) 
+       AND ( ACCOUNT_TYPE = @ACCOUNT_TYPE 
+              OR @ACCOUNT_TYPE IS NULL ) 
+       AND ( ADJUSTMENT_LEVEL LIKE @ADJUSTMENT_LEVEL 
+              OR @ADJUSTMENT_LEVEL IS NULL ) 
+       AND ( ACCOUNT LIKE @ACCOUNT 
+              OR @ACCOUNT IS NULL ) 
+       AND ( ADJUSTMENT_TYPE = @ADJUSTMENT_TYPE 
+              OR @ADJUSTMENT_TYPE IS NULL ) 
+       AND ( WORKFLOW_ID LIKE @WORKFLOW_ID 
+              OR @WORKFLOW_ID IS NULL ) 
+       AND ( WORKFLOW_NAME LIKE @WORKFLOW_NAME 
+              OR @WORKFLOW_NAME IS NULL ) 
+       AND ( GL.COMPANY_MASTER_SID = @GL_COMPANY_MASTER_SID 
+              OR @GL_COMPANY_MASTER_SID IS NULL ) 
+       AND ( BU.COMPANY_MASTER_SID = @BU_COMPANY_MASTER_SID 
+              OR @BU_COMPANY_MASTER_SID IS NULL ) 
+       AND ISNULL(POSTING_INDICATOR, '') = CASE 
+                                             WHEN @POSITION_INDICATOR IS NULL THEN ISNULL(POSTING_INDICATOR, '')
+                                             WHEN @POSITION_INDICATOR = 1 THEN 'Y' 
+                                             ELSE 'N' 
+                                           END 
+       AND ( @ACCOUNT_INDICATOR = @ACCOUNT_INDICATOR 
+              OR @ACCOUNT_INDICATOR IS NULL ) 
+
+IF OBJECT_ID('TEMPDB..#HELPER_TABLE') IS NOT NULL 
+  DROP TABLE #HELPER_TABLE 
+
+SELECT A.ADJUSTMENT_RESERVE_DETAIL_SID, 
+       ACC_C.DESCRIPTION AS ACCOUNT_CATEGORY, 
+       ACC_T.DESCRIPTION AS ACCOUNT_TYPE, 
+       CURR.DESCRIPTION  AS CURRENCY, 
+       ACC_L.DESCRIPTION AS ADJUSTMENT_LEVEL, 
+       UDC1.DESCRIPTION  AS UDC_1, 
+       UDC2.DESCRIPTION  AS UDC_2, 
+       UDC3.DESCRIPTION  AS UDC_3, 
+       UDC4.DESCRIPTION  AS UDC_4, 
+       UDC5.DESCRIPTION  AS UDC_5, 
+       UDC6.DESCRIPTION  AS UDC_6, 
+       ACC_I.DESCRIPTION AS ACCOUNT_INDICATOR 
+INTO   #HELPER_TABLE 
+FROM   #RESERVE A 
+       LEFT JOIN #TEMP_HELPER UDC1 
+              ON UDC1.HELPER_TABLE_SID = A.UDC_1 
+       LEFT JOIN #TEMP_HELPER UDC2 
+              ON UDC2.HELPER_TABLE_SID = A.UDC_2 
+       LEFT JOIN #TEMP_HELPER UDC3 
+              ON UDC3.HELPER_TABLE_SID = A.UDC_3 
+       LEFT JOIN #TEMP_HELPER UDC4 
+              ON UDC4.HELPER_TABLE_SID = A.UDC_4 
+       LEFT JOIN #TEMP_HELPER UDC5 
+              ON UDC5.HELPER_TABLE_SID = A.UDC_5 
+       LEFT JOIN #TEMP_HELPER UDC6 
+              ON UDC6.HELPER_TABLE_SID = A.UDC_6 
+       LEFT JOIN #TEMP_HELPER ACC_T 
+              ON ACC_T.HELPER_TABLE_SID = A.ACCOUNT_TYPE 
+       LEFT JOIN #TEMP_HELPER ACC_C 
+              ON ACC_C.HELPER_TABLE_SID = A.ACCOUNT_CATEGORY 
+       LEFT JOIN #TEMP_HELPER ACC_L 
+              ON ACC_L.HELPER_TABLE_SID = A.ADJUSTMENT_LEVEL 
+       LEFT JOIN #TEMP_HELPER CURR 
+              ON CURR.HELPER_TABLE_SID = A.CURRENCY 
+       LEFT JOIN #TEMP_HELPER ACC_I 
+              ON ACC_I.HELPER_TABLE_SID = A.ACCOUNT_INDICATOR 
+IF NOT EXISTS (SELECT * FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE USER_ID = @USER_ID AND SESSION_ID = @SESSION_ID)
+    BEGIN 
+        INSERT INTO [DBO].[ST_ADJUSTMENT_RESERVE_DETAIL]
+            (WORKFLOW_ID,
+             COMPANY,
+             BUSINESS_UNIT,
+             BRAND,
+             CALCULATION_PERIOD,
+             ACCOUNT_CATEGORY,
+             ACCOUNT_TYPE,
+             ADJUSTMENT_TYPE,
+             ACCOUNT,
+             USER_ID,
+             SESSION_ID,
+             LAST_MODIFIED_DATE,
+             RS_CATEGORY,
+             RS_TYPE,
+             REBATE_PROGRAM_TYPE,
+             ADJUSTMENT_RESERVE_DETAIL_SID)
+        SELECT WORKFLOW_ID,
+               COMPANY,
+               BUSINESS_UNIT,
+               BRAND,
+               CALCULATION_PERIOD,
+               ACCOUNT_CATEGORY,
+               ACCOUNT_TYPE,
+               ADJUSTMENT_TYPE,
+               ACCOUNT,
+               @USER_ID,
+               @SESSION_ID,
+               GETDATE() ,
+               RS_CATEGORY,
+               RS_TYPE,
+               REBATE_PROGRAM_TYPE,
+               ADJUSTMENT_RESERVE_DETAIL_SID
+        FROM   #RESERVE
+    END
+
+;WITH CTE AS (
+    SELECT ISNULL(ST.CHECK_RECORD, 0 ) AS CHECK_RECORD,
+       A.COMPANY AS GL_COMPANY, 
+       A.DIVISION, 
+       A.COST_CENTER, 
+       A.ACCOUNT, 
+       A.BRAND, 
+       A.FUTURE_1, 
+       A.FUTURE_2, 
+       A.PROJECT, 
+       '$' 
+       + CONVERT(VARCHAR(50), CAST(ROUND(DEBIT, 2) AS NUMERIC(22, 2)))  AS DEBIT, 
+       '$' 
+       + CONVERT(VARCHAR(50), CAST(ROUND(CREDIT, 2) AS NUMERIC(22, 2))) AS CREDIT, 
+       A.LINE_DESCRIPTION, 
+       A.BALANCE_TYPE, 
+       A.ARD_DB, 
+       A.DATA_ACCESS_SET, 
+       A.CHART_OF_ACCOUNTS, 
+       A.LEDGER, 
+       CATEGORY, 
+       SOURCE, 
+       HT.CURRENCY, 
+       CONVERT(VARCHAR(10), ACCOUNTING_DATE, 101)                       AS ACCOUNTING_DATE, 
+       BATCH_NAME, 
+       JOURNAL_NAME, 
+       JOURNAL_DESCRIPTION, 
+       REVERSE_JOURNAL, 
+       CONVERT(VARCHAR(10), REVERSAL_PERIOD_DATE, 101)                  AS REVERSAL_PERIOD_DATE,
+       A.BUSINESS_UNIT AS BUSINESS_UNIT_NAME, 
+       AAC.TRANSACTION_NAME                                             AS TRANSACTION_NAME , 
+       HT.ADJUSTMENT_LEVEL                                              AS ADJUSTMENT_LEVEL, 
+       HT.ACCOUNT_CATEGORY                                              AS ACCOUNT_CATEGORY, 
+       HT.ACCOUNT_TYPE                                                  AS ACCOUNT_TYPE, 
+       A.ACCOUNT_DESCRIPTION, 
+       HT.ACCOUNT_INDICATOR                                             AS ACCOUNT_INDICATOR, 
+       HT.UDC_1, 
+       HT.UDC_2, 
+       HT.UDC_3, 
+       HT.UDC_4, 
+       HT.UDC_5, 
+       HT.UDC_6, 
+       CONVERT(VARCHAR(10), A.REDEMPTION_PERIOD, 101)                   AS REDEMPTION_PERIOD, 
+       CONVERT(VARCHAR(10), A.CALCULATION_PERIOD, 101)                  AS CALCULATION_PERIOD, 
+       POSTING_INDICATOR, 
+       A.WORKFLOW_ID, 
+       WORKFLOW_NAME, 
+       USR.FIRSTNAME + ' ' + USR.LASTNAME                               AS WORKFLOW_CREATED_BY,
+       CONVERT(VARCHAR(10), WORKFLOW_CREATED_DATE, 101)                 AS CREATED_DATE,
+       USR1.FIRSTNAME + ' ' + USR1.LASTNAME                             AS WORKFLOW_APPROVED_BY,
+       CONVERT(VARCHAR(10), WORKFLOW_APPROVED_DATE, 101)                AS WORKFLOW_APPROVED_DATE,
+       BATCH_ID, 
+       ISNULL(A.ORIGINAL_BATCH_ID, '' ) AS ORIGINAL_BATCH_ID,
+       A.ADJUSTMENT_RESERVE_DETAIL_SID,
+       A.COMPANY + ' - ' + A.COMPANY_NAME AS COMPANY,
+       A.BUSINESS_UNIT + ' - ' + A.BUSINESS_UNIT_NAME AS BUSINESS_UNIT,
+       AAC.METHODOLGY AS ADJUSTMENT_TYPE,
+       A.REDEMPTION_PERIOD AS REDEMPTION_PERIOD_DATE,
+       A.ADJUSTMENT_RESERVE_DETAIL_SID AS REPROCESS_SID
+FROM   #RESERVE A 
+       JOIN #HELPER_TABLE HT 
+         ON A.ADJUSTMENT_RESERVE_DETAIL_SID = HT.ADJUSTMENT_RESERVE_DETAIL_SID 
+       JOIN DBO.ARM_ADJUSTMENT_CONFIG AAC 
+         ON AAC.ARM_ADJUSTMENT_CONFIG_SID = A.ADJUSTMENT_TYPE 
+       JOIN [ST_ADJUSTMENT_RESERVE_DETAIL] ST 
+         ON A.WORKFLOW_ID = ST.WORKFLOW_ID 
+            AND A.COMPANY = ST.COMPANY 
+            AND A.BUSINESS_UNIT = ST.BUSINESS_UNIT 
+            AND A.BRAND = ST.BRAND 
+            AND A.CALCULATION_PERIOD = ST.CALCULATION_PERIOD 
+            AND A.ADJUSTMENT_TYPE = ST.ADJUSTMENT_TYPE 
+            AND A.RS_CATEGORY = ST.RS_CATEGORY 
+            AND A.RS_TYPE = ST.RS_TYPE 
+            AND A.REBATE_PROGRAM_TYPE = ST.REBATE_PROGRAM_TYPE 
+            AND A.ACCOUNT = ST.ACCOUNT 
+            AND ST.USER_ID = @USER_ID 
+            AND ST.SESSION_ID = @SESSION_ID 
+       JOIN $SYS.DBO.USER_ USR 
+         ON USR.USERID = A.WORKFLOW_CREATED_BY 
+       JOIN $SYS.DBO.USER_ USR1 
+         ON USR1.USERID = A.WORKFLOW_APPROVED_BY )
+
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="searchAdjustmentDetailsCount">
+        <query> 
+     <![CDATA[
+                SELECT COUNT(*) FROM CTE
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="searchAdjustmentDetailsData">
+        <query> 
+     <![CDATA[
+            SELECT * FROM CTE
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="insertAdjustmentDetails">
+        <query> 
+     <![CDATA[
+    DECLARE @MASTER_SID INT = ?
+    IF EXISTS (SELECT * FROM ARM_ADJUSTMENT_VIEW_DETAILS WHERE ARM_VIEW_MASTER_SID = @MASTER_SID)
+BEGIN
+	DELETE ARM_ADJUSTMENT_VIEW_DETAILS WHERE ARM_VIEW_MASTER_SID = @MASTER_SID 
+END 
+     
+            INSERT
+    INTO
+        ARM_ADJUSTMENT_VIEW_DETAILS(
+            ARM_VIEW_MASTER_SID,
+            ADJUSTMENT_TYPE,
+            ADJUSTMENT_LEVEL,
+            COMPANY_MASTER_SID,
+            BU_COMPANY_MASTER_SID,
+            WORKFLOW_ID,
+            WORKFLOW_NAME,
+            CUSTOMER_NO,
+            ITEM_NO,
+            DEDUCTION_LEVEL,
+            CREATION_DATE,
+            CUSTOMER_NAME,
+            ITEM_NAME,
+            DEDUCTION_VALUE,
+            GL_DATE,
+            BATCH_ID,
+            BRAND_NAME,
+            REDEMPTION_PERIOD,
+            POSTING_INDICATOR,
+            TRANSACTION_LEVEL,
+            ACCOUNT_CATEGORY,
+            ACCOUNT_TYPE,
+            ACCOUNT,
+            REDEMPTION_PERIOD_END_DATE
+        )
+    VALUES (
+        @MASTER_SID,
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?'
+    )
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="searchGTNAdjustmentDetails">
+        <query> 
+     <![CDATA[
+        DECLARE 
+                     @DEDUCTION_LEVEL INT  
+                    ,@DEDUCTION_VALUE VARCHAR(200) 
+                    ,@WORKFLOW_ID VARCHAR(50)  
+                    ,@WORKFLOW_NAME VARCHAR(30) 
+                    ,@GL_COMPANY_MASTER_SID INT 
+                    ,@BU_COMPANY_MASTER_SID INT 
+                    ,@COMPANY_NO VARCHAR(100) 
+                    ,@COMPANY_NAME VARCHAR(100) 
+                    ,@ITEM_NO VARCHAR(100) 
+                    ,@ITEM_NAME VARCHAR(100) 
+                    ,@BRAND_NAME VARCHAR(100) 
+                    ,@GL_DATE DATETIME  
+                    ,@CREATED_DATE DATETIME  
+                    ,@ADJUSTMENT_TYPE VARCHAR(100) 
+                    ,@ACCOUNT_CATEGORY INT 
+                    ,@ACCOUNT_TYPE INT 
+                    ,@ACCOUNT VARCHAR(100) 
+                    ,@POSITION_INDICATOR BIT 
+                    ,@ADJUSTMENT_LEVEL INT 
+                    ,@REDEMPTION_FROM_PERIOD DATETIME 
+                    ,@REDEMPTION_TO_PERIOD DATETIME 
+                    ,@BATCH_ID VARCHAR(100) 
+                    ,@ACCOUNT_INDICATOR INT
+
+            SELECT @DEDUCTION_VALUE = NULLIF(@DEDUCTION_VALUE,'*'), 
+                   @WORKFLOW_ID = NULLIF(@WORKFLOW_ID,'*'), 
+                   @WORKFLOW_NAME = NULLIF(@WORKFLOW_NAME,'*'), 
+                   @COMPANY_NO = NULLIF(@COMPANY_NO,'*'), 
+                   @COMPANY_NAME = NULLIF(@COMPANY_NAME,'*'), 
+                   @ITEM_NO = NULLIF(@ITEM_NO,'*'), 
+                   @ITEM_NAME = NULLIF(@ITEM_NAME,'*'), 
+                   @BRAND_NAME = NULLIF(@BRAND_NAME,'*'), 
+                   @ACCOUNT = NULLIF(@ACCOUNT,'*'), 
+                   @ADJUSTMENT_TYPE = NULLIF(@ADJUSTMENT_TYPE,'*'), 
+                   @BATCH_ID = NULLIF(@BATCH_ID,'*') 
+       
+SET @REDEMPTION_FROM_PERIOD = CASE 
+                                WHEN @REDEMPTION_FROM_PERIOD IS NULL THEN DATEADD(MM, DATEDIFF(MM, 0, GETDATE()) - ( 120 ), 0)
+                                ELSE @REDEMPTION_FROM_PERIOD 
+                              END 
+SET @REDEMPTION_TO_PERIOD = CASE 
+                              WHEN @REDEMPTION_TO_PERIOD IS NULL THEN DATEADD(MM, DATEDIFF(MM, 0, GETDATE()) + ( 120 ), 0)
+                              ELSE @REDEMPTION_TO_PERIOD 
+                            END 
+
+DECLARE @DEDUCTION VARCHAR(100) 
+
+SELECT @DEDUCTION = DESCRIPTION 
+FROM   HELPER_TABLE 
+WHERE  HELPER_TABLE_SID = @DEDUCTION_LEVEL 
+
+IF OBJECT_ID('TEMPDB..#TEMP_DEDUCTION') IS NOT NULL 
+  DROP TABLE #TEMP_DEDUCTION 
+
+CREATE TABLE #TEMP_DEDUCTION 
+  ( 
+     DEDUCTION_VALUE INT, 
+     PRIMARY KEY (DEDUCTION_VALUE) 
+  ) 
+
+
+INSERT INTO #TEMP_DEDUCTION 
+            (DEDUCTION_VALUE) 
+SELECT CONVERT(VARCHAR(500), TOKEN) TOKEN 
+             FROM   UDF_SPLITSTRING(@DEDUCTION_VALUE, ',')
+
+IF (@DEDUCTION_VALUE IS NULL)
+  BEGIN 
+      INSERT INTO #TEMP_DEDUCTION 
+      VALUES      (1) 
+  END 
+ 
+
+IF OBJECT_ID('TEMPDB..#TEMP_HELPER') IS NOT NULL 
+  DROP TABLE #TEMP_HELPER 
+
+CREATE TABLE #TEMP_HELPER 
+  ( 
+     HELPER_TABLE_SID INT, 
+     DESCRIPTION      VARCHAR(100), 
+     LIST_NAME        VARCHAR(100), 
+     PRIMARY KEY ( HELPER_TABLE_SID, LIST_NAME, DESCRIPTION ) 
+  ) 
+
+INSERT INTO #TEMP_HELPER 
+            (HELPER_TABLE_SID, 
+             DESCRIPTION, 
+             LIST_NAME) 
+SELECT HELPER_TABLE_SID, 
+       DESCRIPTION, 
+       LIST_NAME 
+FROM   HELPER_TABLE 
+WHERE  LIST_NAME IN ( 'RS_TYPE', 'RS_CATEGORY', 'ARM_UDC_1', 'ARM_UDC_2', 
+                      'ARM_UDC_3', 'ARM_UDC_4', 'ARM_UDC_5', 'ARM_UDC_6', 
+                      'RS_UDC1', 'RS_UDC2', 'RS_UDC3', 'RS_UDC4', 
+                      'RS_UDC5', 'RS_UDC6', 'REBATE_PROGRAM_TYPE', 'ARM_TRX_METHDOLOGY', 
+                      'DEDUCTION_LEVELS', 'ARM_ACCOUNT_TYPE', 'ACCOUNT_CATEGORY', 'ARM_ADJUSTMENT_TYPE',
+                      'ARM_GTN_ADJUSTMENT_LEVEL', 'CURRENCY','ACCOUNT_INDICTOR','ARM_RES_ADJUSTMENT_LEVEL','LOCKED_STATUS') 
+
+                			
+                   	
+    IF OBJECT_ID('TEMPDB..#GTN') IS NOT NULL 
+        DROP TABLE #GTN 
+
+      SELECT DISTINCT AGD.ADJUSTMENT_GTN_DETAIL_SID, 
+                AGD.WORKFLOW_ID, 
+                AGD.WORKFLOW_NAME, 
+                AGD.ADJUSTMENT_TYPE, 
+                AGD.GL_YEAR, 
+                AGD.GL_MONTH, 
+                AGD.GL_DATE, 
+                AGD.REDEMPTION_PERIOD, 
+                AGD.CALCULATION_PERIOD, 
+                AGD.GL_COMPANY_ID, 
+                AGD.GL_COMPANY_NO, 
+                AGD.GL_COMPANY_NAME, 
+                AGD.BUSINESS_UNIT_ID, 
+                AGD.BUSINESS_UNIT_NO, 
+                AGD.BUSINESS_UNIT_NAME, 
+                AGD.COST_CENTER, 
+                AGD.PROJECT, 
+                AGD.FUTURE_1, 
+                AGD.FUTURE_2, 
+                AGD.GL_STRING, 
+                AGD.ACCOUNT_CATEGORY, 
+                AGD.ACCOUNT_TYPE, 
+                AGD.ACCOUNT, 
+                AGD.CONTRACT_ID, 
+                AGD.CONTRACT_NO, 
+                AGD.CONTRACT_NAME, 
+                AGD.COMPANY_ID, 
+                AGD.COMPANY_NO, 
+                AGD.COMPANY_NAME, 
+                AGD.ITEM_ID, 
+                AGD.ITEM_NO, 
+                AGD.ITEM_NAME, 
+                AGD.BRAND_ID, 
+                AGD.BRAND_NAME, 
+                AGD.DEDUCTION_ID, 
+                AGD.DEDUCTION_NO, 
+                AGD.DEDUCTION_NAME, 
+                AGD.DEDUCTION_CATEGORY, 
+                AGD.DEDUCTION_TYPE, 
+                AGD.DEDUCTION_PROGRAM, 
+                AGD.DEDUCTION_INCLUSION, 
+                AGD.DEDUCTION_UDC_1, 
+                AGD.DEDUCTION_UDC_2, 
+                AGD.DEDUCTION_UDC_3, 
+                AGD.DEDUCTION_UDC_4, 
+                AGD.DEDUCTION_UDC_5, 
+                AGD.DEDUCTION_UDC_6, 
+                AGD.DEDUCTION_AMOUNT, 
+                AGD.DEDUCTION_RATE, 
+                AGD.UDC_1, 
+                AGD.UDC_2, 
+                AGD.UDC_3, 
+                AGD.UDC_4, 
+                AGD.UDC_5, 
+                AGD.UDC_6, 
+                AGD.WORKFLOW_CREATED_BY, 
+                AGD.WORKFLOW_CREATED_DATE, 
+                AGD.WORKFLOW_APPROVED_BY, 
+                AGD.WORKFLOW_APPROVED_DATE, 
+                AGD.ADJUSTMENT_CREATED_DATE, 
+                AGD.BATCH_ID, 
+                AGD.ORIGINAL_BATCH_ID, 
+                AGD.SOURCE, 
+                AGD.GL_POSTING_STATUS, 
+                AGD.OUTBOUND_STATUS, 
+                AGD.CREATED_BY, 
+                AGD.CREATED_DATE, 
+                AGD.MODIFIED_BY, 
+                AGD.MODIFIED_DATE, 
+                AGD.ADJUSTMENT_LEVEL ,
+                AGD.POSTING_INDICATOR ,
+                 AGD.ACCOUNT_DESCRIPTION ,
+                 AGD.ACCOUNT_INDICATOR,
+                 AGD.DIVISION
+ INTO   #GTN 
+FROM   ADJUSTMENT_GTN_DETAIL AGD 
+       JOIN COMPANY_MASTER GL 
+         ON GL.COMPANY_ID = AGD.GL_COMPANY_ID 
+       JOIN COMPANY_MASTER BU 
+         ON BU.COMPANY_ID = AGD.BUSINESS_UNIT_ID 
+          JOIN CONTRACT_MASTER CON ON CON.CONTRACT_ID=AGD.CONTRACT_ID
+          JOIN RS_CONTRACT RS ON RS.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND RS.RS_ID=AGD.DEDUCTION_ID
+          AND RS.INBOUND_STATUS<>'D'
+       INNER JOIN #TEMP_DEDUCTION TD 
+               ON CASE 
+                    WHEN @DEDUCTION IS NULL THEN 1
+                    ELSE DEDUCTION_VALUE 
+                  END = ( CASE @DEDUCTION 
+                            WHEN 'DEDUCTION CATEGORY' THEN AGD.DEDUCTION_CATEGORY
+                            WHEN 'DEDUCTION TYPE' THEN AGD.DEDUCTION_TYPE
+                            WHEN 'DEDUCTION PROGRAM' THEN AGD.DEDUCTION_PROGRAM
+                            WHEN 'DEDUCTION CATEGORY 2' THEN AGD.DEDUCTION_UDC_2
+                            WHEN 'DEDUCTION CATEGORY 3' THEN AGD.DEDUCTION_UDC_3 
+                            WHEN 'DEDUCTION CATEGORY 4' THEN AGD.DEDUCTION_UDC_4
+                            WHEN 'DEDUCTION CATEGORY 5' THEN AGD.DEDUCTION_UDC_5
+                            WHEN 'DEDUCTION CATEGORY 6' THEN AGD.DEDUCTION_UDC_6
+                            WHEN 'DEDUCTION' THEN RS.RS_MODEL_SID 
+                            ELSE 1
+                          END ) 
+WHERE  ( AGD.COMPANY_NO LIKE @COMPANY_NO 
+          OR @COMPANY_NO IS NULL ) 
+       AND ( AGD.COMPANY_NAME LIKE @COMPANY_NAME 
+              OR @COMPANY_NAME IS NULL ) 
+       AND ( ITEM_NO LIKE @ITEM_NO 
+              OR @ITEM_NO IS NULL ) 
+       AND ( ITEM_NAME LIKE @ITEM_NAME 
+              OR @ITEM_NAME IS NULL ) 
+       AND ( BRAND_NAME LIKE @BRAND_NAME 
+              OR @BRAND_NAME IS NULL ) 
+       AND ( WORKFLOW_CREATED_DATE = @CREATED_DATE 
+              OR @CREATED_DATE IS NULL ) 
+       AND ( REDEMPTION_PERIOD BETWEEN @REDEMPTION_FROM_PERIOD AND @REDEMPTION_TO_PERIOD OR REDEMPTION_PERIOD IS NULL ) 
+       AND ( GL_DATE = @GL_DATE 
+              OR @GL_DATE IS NULL ) 
+       AND ( AGD.ORIGINAL_BATCH_ID LIKE @BATCH_ID 
+              OR @BATCH_ID IS NULL  OR AGD.ORIGINAL_BATCH_ID IS NULL ) 
+       AND ISNULL(POSTING_INDICATOR, '') = CASE 
+                                             WHEN @POSITION_INDICATOR IS NULL THEN ISNULL(POSTING_INDICATOR, '')
+                                             WHEN @POSITION_INDICATOR = 1 THEN 'Y' 
+                                             ELSE 'N' 
+                                           END 
+       AND ( ACCOUNT_CATEGORY = @ACCOUNT_CATEGORY 
+              OR @ACCOUNT_CATEGORY IS NULL ) 
+       AND ( ACCOUNT_TYPE = @ACCOUNT_TYPE 
+              OR @ACCOUNT_TYPE IS NULL ) 
+               AND ( ADJUSTMENT_LEVEL LIKE @ADJUSTMENT_LEVEL 
+                  OR @ADJUSTMENT_LEVEL IS NULL ) 
+       AND ( ACCOUNT LIKE @ACCOUNT 
+              OR @ACCOUNT IS NULL ) 
+       AND ( ADJUSTMENT_TYPE = @ADJUSTMENT_TYPE 
+              OR @ADJUSTMENT_TYPE IS NULL ) 
+       AND ( WORKFLOW_ID LIKE @WORKFLOW_ID 
+              OR @WORKFLOW_ID IS NULL ) 
+       AND ( WORKFLOW_NAME LIKE @WORKFLOW_NAME 
+              OR @WORKFLOW_NAME IS NULL ) 
+       AND ( GL.COMPANY_MASTER_SID = @GL_COMPANY_MASTER_SID 
+              OR @GL_COMPANY_MASTER_SID IS NULL ) 
+       AND ( BU.COMPANY_MASTER_SID = @BU_COMPANY_MASTER_SID 
+              OR @BU_COMPANY_MASTER_SID IS NULL ) 
+       AND ( AGD.ADJUSTMENT_LEVEL = @ADJUSTMENT_LEVEL 
+              OR @ADJUSTMENT_LEVEL IS NULL ) 
+        AND ( @ACCOUNT_INDICATOR = @ACCOUNT_INDICATOR 
+               OR @ACCOUNT_INDICATOR IS NULL ) 
+      IF OBJECT_ID('TEMPDB..#HELPER_TABLE_GTN') IS NOT NULL 
+        DROP TABLE #HELPER_TABLE_GTN 
+
+      SELECT A.ADJUSTMENT_GTN_DETAIL_SID, 
+             ACC_C.DESCRIPTION          AS ACCOUNT_CATEGORY, 
+             ACC_T.DESCRIPTION          AS ACCOUNT_TYPE, 
+             DED_C.DESCRIPTION          AS DEDUCTION_CATEGORY, 
+             DED_P.DESCRIPTION          AS DEDUCTION_PROGRAM, 
+             DED_T.DESCRIPTION          AS DEDUCTION_TYPE, 
+             UDC1.DESCRIPTION           AS UDC_1, 
+             UDC2.DESCRIPTION           AS UDC_2, 
+             UDC3.DESCRIPTION           AS UDC_3, 
+             UDC4.DESCRIPTION           AS UDC_4, 
+             UDC5.DESCRIPTION           AS UDC_5, 
+             UDC6.DESCRIPTION           AS UDC_6, 
+             DEDUCTION_UDC1.DESCRIPTION AS DEDUCTION_UDC_1, 
+             DEDUCTION_UDC2.DESCRIPTION AS DEDUCTION_UDC_2, 
+             DEDUCTION_UDC3.DESCRIPTION AS DEDUCTION_UDC_3, 
+             DEDUCTION_UDC4.DESCRIPTION AS DEDUCTION_UDC_4, 
+             DEDUCTION_UDC5.DESCRIPTION AS DEDUCTION_UDC_5, 
+             DEDUCTION_UDC6.DESCRIPTION AS DEDUCTION_UDC_6, 
+             ACC_L.DESCRIPTION          AS ADJUSTMENT_LEVEL,
+             ACC_I.DESCRIPTION          AS ACCOUNT_INDICATOR,
+             DEDUCTION_INCLUSION.DESCRIPTION        AS DEDUCTION_INCLUSION
+      INTO   #HELPER_TABLE_GTN 
+      FROM   #GTN A 
+             LEFT JOIN #TEMP_HELPER ACC_T 
+                    ON ACC_T.HELPER_TABLE_SID = A.ACCOUNT_TYPE 
+             LEFT JOIN #TEMP_HELPER ACC_C 
+                    ON ACC_C.HELPER_TABLE_SID = A.ACCOUNT_CATEGORY 
+             LEFT JOIN #TEMP_HELPER DED_C 
+                    ON DED_C.HELPER_TABLE_SID = A.DEDUCTION_CATEGORY 
+             LEFT JOIN #TEMP_HELPER DED_P 
+                    ON DED_P.HELPER_TABLE_SID = A.DEDUCTION_PROGRAM 
+             LEFT JOIN #TEMP_HELPER DED_T 
+                    ON DED_T.HELPER_TABLE_SID = A.DEDUCTION_TYPE 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_UDC1 
+                    ON DEDUCTION_UDC1.HELPER_TABLE_SID = A.DEDUCTION_UDC_1 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_UDC2 
+                    ON DEDUCTION_UDC2.HELPER_TABLE_SID = A.DEDUCTION_UDC_2 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_UDC3 
+                    ON DEDUCTION_UDC3.HELPER_TABLE_SID = A.DEDUCTION_UDC_3 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_UDC4 
+                    ON DEDUCTION_UDC4.HELPER_TABLE_SID = A.DEDUCTION_UDC_4 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_UDC5 
+                    ON DEDUCTION_UDC5.HELPER_TABLE_SID = A.DEDUCTION_UDC_5 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_UDC6 
+                    ON DEDUCTION_UDC6.HELPER_TABLE_SID = A.DEDUCTION_UDC_6 
+             LEFT JOIN #TEMP_HELPER UDC1 
+                    ON UDC1.HELPER_TABLE_SID = A.UDC_1 
+             LEFT JOIN #TEMP_HELPER UDC2 
+                    ON UDC2.HELPER_TABLE_SID = A.UDC_2 
+             LEFT JOIN #TEMP_HELPER UDC3 
+                    ON UDC3.HELPER_TABLE_SID = A.UDC_3 
+             LEFT JOIN #TEMP_HELPER UDC4 
+                    ON UDC4.HELPER_TABLE_SID = A.UDC_4 
+             LEFT JOIN #TEMP_HELPER UDC5 
+                    ON UDC5.HELPER_TABLE_SID = A.UDC_5 
+             LEFT JOIN #TEMP_HELPER UDC6 
+                    ON UDC6.HELPER_TABLE_SID = A.UDC_6 
+             LEFT JOIN #TEMP_HELPER ACC_L 
+                    ON ACC_L.HELPER_TABLE_SID = A.ADJUSTMENT_LEVEL 
+             LEFT JOIN #TEMP_HELPER ACC_I 
+                    ON ACC_I.HELPER_TABLE_SID = A.ACCOUNT_INDICATOR 
+             LEFT JOIN #TEMP_HELPER DEDUCTION_INCLUSION 
+                    ON DEDUCTION_INCLUSION.HELPER_TABLE_SID = A.DEDUCTION_INCLUSION
+       			
+IF NOT EXISTS (SELECT * FROM ST_ADJUSTMENT_GTN_DETAIL WHERE USER_ID = @USER_ID AND SESSION_ID = @SESSION_ID)
+    BEGIN          	
+        INSERT INTO ST_ADJUSTMENT_GTN_DETAIL
+            (WORKFLOW_ID, 
+             ADJUSTMENT_TYPE, 
+             CALCULATION_PERIOD, 
+             GL_COMPANY_ID, 
+             BUSINESS_UNIT_ID, 
+             ACCOUNT_CATEGORY, 
+             ACCOUNT_TYPE, 
+             ACCOUNT, 
+             CONTRACT_ID, 
+             COMPANY_ID, 
+             ITEM_ID, 
+             DEDUCTION_ID, 
+             USER_ID, 
+             SESSION_ID, 
+             LAST_MODIFIED_DATE,
+             ADJUSTMENT_GTN_DETAIL_SID) 
+        SELECT WORKFLOW_ID, 
+            ADJUSTMENT_TYPE, 
+            CALCULATION_PERIOD, 
+            GL_COMPANY_ID, 
+            BUSINESS_UNIT_ID, 
+            ACCOUNT_CATEGORY, 
+            ACCOUNT_TYPE, 
+            ACCOUNT, 
+            CONTRACT_ID, 
+            COMPANY_ID, 
+            ITEM_ID, 
+            DEDUCTION_ID, 
+            @USER_ID , 
+            @SESSION_ID , 
+            GETDATE(),
+            ADJUSTMENT_GTN_DETAIL_SID
+        FROM   #GTN 
+END
+                   			
+              
+;WITH CTE AS (
+        SELECT ISNULL(ST.CHECK_RECORD, 0 ) AS CHECK_RECORD,
+        HT.DEDUCTION_TYPE     AS DEDUCTION_TYPE, 
+        AAC.TRANSACTION_NAME  AS TRANSACTION_NAME, 
+        GL_MONTH,
+        GL_YEAR,
+        A.GL_STRING,
+        A.GL_COMPANY_ID,
+        A.DIVISION,
+        COST_CENTER, 
+        A.ACCOUNT,
+        BRAND_ID, 
+        PROJECT, 
+        FUTURE_1, 
+        FUTURE_2, 
+        ITEM_NO, 
+        CASE WHEN DEDUCTION_AMOUNT < 0 THEN STUFF(CONVERT(VARCHAR(50),CAST(ROUND(DEDUCTION_AMOUNT,2) AS NUMERIC(22,2))),1,1,'-$')
+                    ELSE '$' + CONVERT(VARCHAR(50),CAST(ROUND(DEDUCTION_AMOUNT,2) AS NUMERIC(22,2))) END AS DEDUCTION_AMOUNT,
+        HT.ADJUSTMENT_LEVEL   AS ADJUSTMENT_LEVEL, 
+        HT.ACCOUNT_CATEGORY   AS ACCOUNT_CATEGORY, 
+        HT.ACCOUNT_TYPE       AS ACCOUNT_TYPE, 
+        A.ACCOUNT_DESCRIPTION,
+        HT.ACCOUNT_INDICATOR AS ACCOUNT_INDICATOR,
+        HT.UDC_1              AS UDC_1, 
+        HT.UDC_2              AS UDC_2, 
+        HT.UDC_3              AS UDC_3, 
+        HT.UDC_4              AS UDC_4, 
+        HT.UDC_5              AS UDC_5, 
+        HT.UDC_6              AS UDC_6, 
+        GL_COMPANY_NO, 
+        CONVERT(VARCHAR(10),GL_DATE,101)  AS GL_DATE,
+        CONVERT(VARCHAR(10),A.REDEMPTION_PERIOD,101)  AS REDEMPTION_PERIOD,
+        CONVERT(VARCHAR(10),A.CALCULATION_PERIOD,101)  AS CALCULATION_PERIOD,
+        GL_COMPANY_NAME  AS GL_COMPANY_NAME,
+        A.BUSINESS_UNIT_ID, 
+        BUSINESS_UNIT_NO, 
+        BUSINESS_UNIT_NAME, 
+        A.CONTRACT_ID, 
+        CONTRACT_NO, 
+        CONTRACT_NAME, 
+        A.COMPANY_ID, 
+        COMPANY_NO, 
+        COMPANY_NAME, 
+        A.ITEM_ID, 
+        ITEM_NAME, 
+        BRAND_NAME, 
+        A.DEDUCTION_ID, 
+        DEDUCTION_NO, 
+        DEDUCTION_NAME, 
+        HT.DEDUCTION_CATEGORY AS DEDUCTION_CATEGORY, 
+        HT.DEDUCTION_PROGRAM  AS DEDUCTION_PROGRAM, 
+        HT.DEDUCTION_INCLUSION, 
+        HT.DEDUCTION_UDC_1    AS DEDUCTION_UDC_1, 
+        HT.DEDUCTION_UDC_2    AS DEDUCTION_UDC_2, 
+        HT.DEDUCTION_UDC_3    AS DEDUCTION_UDC_3, 
+        HT.DEDUCTION_UDC_4    AS DEDUCTION_UDC_4, 
+        HT.DEDUCTION_UDC_5    AS DEDUCTION_UDC_5, 
+        HT.DEDUCTION_UDC_6    AS DEDUCTION_UDC_6, 
+        CONVERT(VARCHAR(50),CAST(ROUND(DEDUCTION_RATE,2) AS NUMERIC(22,2))) +'%' AS DEDUCTION_RATE,
+        A.WORKFLOW_ID, 
+        WORKFLOW_NAME, 
+        usr.firstName +' '+ usr.lastName as WORKFLOW_CREATED_BY,
+        CONVERT(VARCHAR(10),WORKFLOW_CREATED_DATE,101)  AS CREATED_DATE,
+        usr1.firstName +' '+ usr1.lastName as WORKFLOW_APPROVED_BY , 
+        CONVERT(VARCHAR(10),WORKFLOW_APPROVED_DATE,101)  AS WORKFLOW_APPROVED_DATE, 
+        BATCH_ID,
+        ISNULL(A.ORIGINAL_BATCH_ID, '' ) AS ORIGINAL_BATCH_ID,
+        A.POSTING_INDICATOR,
+        A.ADJUSTMENT_GTN_DETAIL_SID,
+        A.GL_COMPANY_ID + ' - ' + A.GL_COMPANY_NAME AS COMPANY,
+        A.BUSINESS_UNIT_ID + ' - ' + A.BUSINESS_UNIT_NAME AS BUSINESS_UNIT,
+        AAC.METHODOLGY AS ADJUSTMENT_TYPE,
+        A.REDEMPTION_PERIOD AS REDEMPTION_PERIOD_DATE,
+        A.ADJUSTMENT_GTN_DETAIL_SID AS REPROCESS_SID
+      FROM   #GTN A 
+             JOIN #HELPER_TABLE_GTN HT 
+               ON A.ADJUSTMENT_GTN_DETAIL_SID = HT.ADJUSTMENT_GTN_DETAIL_SID 
+             JOIN ARM_ADJUSTMENT_CONFIG AAC 
+               ON AAC.ARM_ADJUSTMENT_CONFIG_SID = A.ADJUSTMENT_TYPE 
+             JOIN [ST_ADJUSTMENT_GTN_DETAIL] ST 
+               ON A.WORKFLOW_ID = ST.WORKFLOW_ID 
+                  AND A.CONTRACT_ID = ST.CONTRACT_ID 
+                  AND A.ITEM_ID = ST.ITEM_ID 
+                  AND A.COMPANY_ID = ST.COMPANY_ID 
+                  AND A.DEDUCTION_ID = ST.DEDUCTION_ID 
+                  AND A.CALCULATION_PERIOD = ST.CALCULATION_PERIOD 
+                  AND A.ACCOUNT_CATEGORY = ST.ACCOUNT_CATEGORY 
+                  AND A.ACCOUNT_TYPE = ST.ACCOUNT_TYPE 
+                  AND A.ACCOUNT = ST.ACCOUNT 
+                  AND A.ADJUSTMENT_TYPE = ST.ADJUSTMENT_TYPE 
+                  AND A.GL_COMPANY_ID = ST.GL_COMPANY_ID 
+                  AND A.BUSINESS_UNIT_ID = ST.BUSINESS_UNIT_ID 
+                  AND ST.USER_ID = @USER_ID  
+                  AND ST.SESSION_ID = @SESSION_ID  
+       JOIN $SYS.DBO.USER_ USR 
+         ON USR.USERID = A.WORKFLOW_CREATED_BY 
+       JOIN $SYS.DBO.USER_ USR1 
+         ON USR1.USERID = A.WORKFLOW_APPROVED_BY )
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="updateReprocessFlag">
+        <query> 
+     <![CDATA[
+            UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET ETL_CHECK_RECORD = 1 WHERE ADJUSTMENT_RESERVE_DETAIL_SID IN (?) AND USER_ID = '?' AND SESSION_ID = '?';
+                    ]]>    
+        </query>
+    </entity>
+</sql>

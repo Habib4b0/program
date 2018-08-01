@@ -1193,9 +1193,9 @@ public class MPmpyCalculator extends Window {
      * @return true if any of the check box in contract history header is checked
      */
     public boolean isContractHistorySelected() {    
-        for (Object key : chtCheckBoxMap.keySet()) {
+          for (Map.Entry<Object, Boolean> key : chtCheckBoxMap.entrySet()) {
 
-            if (chtCheckBoxMap.get(key)) {
+            if (key.getValue()) {
                 return true;
             }
         }

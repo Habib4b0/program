@@ -278,9 +278,9 @@ public class FederalNdcPopup extends CustomComponent {
     }
 
     private void loadNdcList() {
-        for (int key : itemIdMap.keySet()) {
-            ndc.addItem(key);
-            ndc.setItemCaption(key, itemIdMap.get(key));
+        for (Map.Entry<Integer, String> key : itemIdMap.entrySet()) {
+            ndc.addItem(key.getKey());
+            ndc.setItemCaption(key.getKey(), key.getValue());
         }
     }
 

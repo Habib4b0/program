@@ -59,7 +59,7 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
-	public void addReportingDashboardLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private String REPORT_PROFILE_LOOKUP = "reportProfileLookup";	public void addReportingDashboardLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
 		addTabLayout(componentList, nameSpace);
 
@@ -369,9 +369,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "1000px", "845px",
 				GtnFrameworkReportResetAndCloseAction.class.getName(),
-				Arrays.asList("reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
-						"reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
-						"reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE
+				Arrays.asList(REPORT_PROFILE_LOOKUP + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
+						REPORT_PROFILE_LOOKUP + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
+						REPORT_PROFILE_LOOKUP + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ "reportProfilePagedTableComponent"),Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY })));
 		list.add(conf);
 
@@ -794,10 +794,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 
-		GtnUIFrameworkComboBoxConfig deductionLevelConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionLevel.setGtnComboboxConfig(deductionLevelConfig);
+		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
+                companyStatusConfig.setItemCaptionValues(new ArrayList<>());
+                companyStatusConfig.setItemValues(new ArrayList<>());
+                deductionLevel.setGtnComboboxConfig(companyStatusConfig);
 	}
 
 	private void addProductLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -834,10 +834,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(productLevelConfig);
 
-		GtnUIFrameworkComboBoxConfig productLevelLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		productLevelConfig.setGtnComboboxConfig(productLevelLoadConfig);
+		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
+                companyStatusConfig.setItemCaptionValues(new ArrayList<>());
+                companyStatusConfig.setItemValues(new ArrayList<>());
+                productLevelConfig.setGtnComboboxConfig(companyStatusConfig);
 	}
 
 	private void addCustomerLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -874,9 +874,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
 		customerLevelConfig.addGtnUIFrameWorkActionConfig(reloadAction);
 
-		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
+                companyStatusConfig.setItemCaptionValues(new ArrayList<>());
+                companyStatusConfig.setItemValues(new ArrayList<>());
 		customerLevelConfig.setGtnComboboxConfig(companyStatusConfig);
 	}
 
