@@ -808,11 +808,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				|| StringUtils.isBlank(String.valueOf(financialForecastId.getValue())))
 				&& (financialForecastName.getValue().equals("null")
 						|| StringUtils.isBlank(String.valueOf(financialForecastName.getValue())))
-				&& (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE)
-						|| typeDdlb.getValue() == null)
+				&& (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE))
 				&& (statusDdlb.getValue() == null
-						|| String.valueOf(statusDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE)
-						|| statusDdlb.getValue() == null)
+						|| String.valueOf(statusDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE))
 				&& creationFromDate.getValue() == null && creationToDate.getValue() == null
 				&& approvalFromDate.getValue() == null && approvalToDate.getValue() == null) {
 			pass = false;

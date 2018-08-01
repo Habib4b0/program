@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,13 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
         
         List<Object[]> gtnReportVariableBreakdownLookupBeanList = new ArrayList<>(inputSet);
         
+        String frequencyCaption = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig",
+                componentId).getStringCaptionFromV8ComboBox();
+        
+        String historyCaption = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownHistoryConfig",
+                componentId).getStringCaptionFromV8ComboBox();
+        
+        
         List<GtnReportVariableBreakdownLookupBean> variableBreakdownLookupBeanSaveList = new ArrayList<>(gtnReportVariableBreakdownLookupBeanList.size());
          for(int i=0;i<gtnReportVariableBreakdownLookupBeanList.size();i++){
         	periodAndYearMap = GtnReportingComparisonBreakdownSubmitAction.getPeriodAndYear(gtnReportVariableBreakdownLookupBeanList.get(i)[1].toString());
@@ -74,7 +82,8 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
         }
          
          gridComponent.setCustomData(variableBreakdownLookupBeanSaveList);
-
+         gridComponent.setCustomDataList(Arrays.asList(frequencyCaption,historyCaption));
+         
          if("reportingDashboardScreen".equals(viewIdCheck)){
              	String sourceParentComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
                 String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(sourceParentComponentId).getViewId();

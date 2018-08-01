@@ -1081,7 +1081,7 @@ public class SalesLogic {
         }
         input.put("?RBSIDC?", projSelDTO.getCustRelationshipBuilderSid());
         input.put("?RBSIDP?", projSelDTO.getProdRelationshipBuilderSid());
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency())) || ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
+        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
             join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
             join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
             join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");
@@ -1163,7 +1163,7 @@ public class SalesLogic {
             input.put(Constant.LEVELNO1, projSelDTO.getLevelFilterValue());
             input.put(Constant.HNO1, PERCENT.getConstant());
         }
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency())) || ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
+        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
             join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
             join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
             join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");

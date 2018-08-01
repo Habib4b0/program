@@ -1921,7 +1921,7 @@ public class DiscountLogic {
             List results;
             results = discountDAO.getRebates(actualQuery);
             Object[] arr = (Object[]) results.get(0);
-            if (arr[0] != null || arr[0] != null) {
+            if (arr[0] != null) {
                 actual = true;
             }
         } catch (Exception e) {

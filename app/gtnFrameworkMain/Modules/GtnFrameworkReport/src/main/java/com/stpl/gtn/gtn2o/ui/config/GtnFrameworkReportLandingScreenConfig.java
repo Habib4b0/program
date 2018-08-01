@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionDeleteViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
@@ -168,6 +169,13 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportingDashboardComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		landingScreenVariableComparisonPopupActionList.add(reportingDashboardComparisonPopupConfig);
+		
+		GtnUIFrameWorkActionConfig landingScreenComparisonLookupGridLoadAction = new GtnUIFrameWorkActionConfig();
+		landingScreenComparisonLookupGridLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		landingScreenComparisonLookupGridLoadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
+		landingScreenComparisonLookupGridLoadAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		landingScreenVariableComparisonPopupActionList.add(landingScreenComparisonLookupGridLoadAction);
+		
 		landingScreenVariableComparisonConfig
 				.setGtnUIFrameWorkActionConfigList(landingScreenVariableComparisonPopupActionList);
 
