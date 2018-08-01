@@ -31,10 +31,8 @@ import com.stpl.app.service.WorkflowMasterLocalServiceUtil;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.vaadin.server.VaadinService;
 
 import java.io.FileInputStream;
 import java.io.IOException;

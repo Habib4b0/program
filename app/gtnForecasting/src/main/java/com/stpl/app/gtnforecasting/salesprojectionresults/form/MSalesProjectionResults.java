@@ -64,7 +64,6 @@ import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -108,7 +107,6 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     private HorizontalLayout controlLayout;
     private final SessionDTO session;
-    private final List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     private ExtCustomTreeTable exceltable;
     /**
      * The excel export image.

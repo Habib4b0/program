@@ -231,7 +231,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private static List<CurrentContractDTO> selectedContract = new ArrayList<>();
     private boolean contractExcelFlag = false;
     private boolean infoExcelFlag = false;
-    private List<Integer> contractid = new ArrayList<>();
     private final StplSecurity stplSecurity = new StplSecurity();
 
     /**
@@ -500,7 +499,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             if (check.getValue()) {
                                 CurrentContractDTO dto = (CurrentContractDTO) itemId;
-                                contractid.add(dto.getContractSid());
                                 session.setContractSystemId(dto.getContractSid());
                             } else {
                                 currentTradingPartnerTable2.removeColumnCheckListener(checkListener);

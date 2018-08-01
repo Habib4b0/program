@@ -109,6 +109,7 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
 	private String customReference = "";
 	private String vaadinComponentPlaceHolder = "";
+        private GtnUIFrameworkDateFieldConfig gtnUIFrameworkInlineDateFieldConfig;
 	/*
 	 * List of dependent componentIds. For example is combobox1 is changed, then
 	 * combobox2 has to load, then combobox2 will be the dependent component of
@@ -772,5 +773,12 @@ public class GtnUIFrameworkComponentConfig {
 	public void setUserOriginatedFlag(boolean userOriginatedFlag) {
 		this.userOriginatedFlag = userOriginatedFlag;
 	}
+        
+        public GtnUIFrameworkDateFieldConfig getGtnUIFrameworkInlineDateFieldConfig() {
+            return gtnUIFrameworkInlineDateFieldConfig;
+        }
 
+        public void setGtnUIFrameworkInlineDateFieldConfig(GtnUIFrameworkDateFieldConfig gtnUIFrameworkInlineDateFieldConfig) {
+            this.gtnUIFrameworkInlineDateFieldConfig = gtnUIFrameworkInlineDateFieldConfig;
+        }
 }

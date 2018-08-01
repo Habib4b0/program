@@ -31,8 +31,8 @@ public class StChSalesProjectionImpl  {
         if (parameters.get(Constants.INDICATOR) != null && "getListViewProductLevel".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             String query = SQlUtil.getQuery(getClass(),"getListViewProductLevel");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
-            for (String key : inputs.keySet()) {
-                query = query.replace(key, String.valueOf(inputs.get(key)));
+            for (Map.Entry<String, Object> key : inputs.entrySet()) {
+                query = query.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "getListViewProductLevelCount".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {

@@ -236,7 +236,6 @@ public class TransferComponents extends CustomComponent implements View {
     private QueryUtils queryUtils = new QueryUtils();
     private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
-    private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
     private String excelName = "Rebate Schedule Information";
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private boolean contractExcelFlag = false;
@@ -551,7 +550,6 @@ public class TransferComponents extends CustomComponent implements View {
                         itemList.add(itemDTO);
                     }
                     componentDetailResultsContainer.addAll(itemList);
-                    componentInformation.addAll(itemList);
                 }
                 Object[] visibleColumns = componentDetailsTable.getVisibleColumns();
                 for (Object column : visibleColumns) {
@@ -618,7 +616,6 @@ public class TransferComponents extends CustomComponent implements View {
                         priceList.add(itemDTO);
                     }
                     componentDetailResultsContainer.addAll(priceList);
-                    componentInformation.addAll(priceList);
                 }
                 Object[] visibleColumns = componentDetailsTable.getVisibleColumns();
                 for (Object column : visibleColumns) {
@@ -675,7 +672,6 @@ public class TransferComponents extends CustomComponent implements View {
                         rebateList.add(rebateDTO);
                     }
                     componentDetailResultsContainer.addAll(rebateList);
-                    componentInformation.addAll(rebateList);
                 }
 
                 Object[] visibleColumns = componentDetailsTable.getVisibleColumns();
