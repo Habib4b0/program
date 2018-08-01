@@ -103,7 +103,6 @@ public class ProjectionVarianceLogic {
     private static final String P = "P";
     private static final String CURRENT = "Current";
     private final CommonLogic commonLogic = new CommonLogic();
-    private final com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();

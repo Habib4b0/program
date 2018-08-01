@@ -1727,10 +1727,10 @@ public class AlternateSummery extends CustomComponent {
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkedDoubleHeaders.keySet()) {
-                List a = checkedDoubleHeaders.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
+                List a = entry.getValue();
                 if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;

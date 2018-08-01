@@ -66,7 +66,6 @@ public class MSalesProjection extends ForecastSalesProjection {
     private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
-    private final Set<String> tableHierarchyNos = new HashSet<>();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
@@ -291,7 +290,6 @@ public class MSalesProjection extends ForecastSalesProjection {
         if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1 || tempCustomerLevel <= 1)) {
             if (!hasActuals) {
                 hierarchyNo = salesPMPYDTO.getHierarchyNo();
-                tableHierarchyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(salesPMPYDTO));
                 final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);
                 getUI().addWindow(pmpyCalc);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
