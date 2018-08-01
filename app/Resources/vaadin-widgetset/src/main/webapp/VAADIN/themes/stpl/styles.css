@@ -15024,7 +15024,10 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-position-fixed {
 	position: fixed !important;
+}
 
+.stpl .v-report-filter-options {
+	margin-left: -50px !important;
 }
 
 .v-slot, .v-spacing {
