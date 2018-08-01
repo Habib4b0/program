@@ -464,11 +464,11 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
 	</bean>
-	<bean id="queryGeneratorService"
+<!--	<bean id="queryGeneratorService"
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator">
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
-	</bean>
+	</bean>-->
 
 	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
 		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
@@ -476,6 +476,6 @@
 		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
-		<property name="queryGeneratorService" ref="queryGeneratorService"></property>
+		<!--<property name="queryGeneratorService" ref="queryGeneratorService"></property>-->
 	</bean>
 </beans>
