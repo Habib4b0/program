@@ -191,7 +191,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionPrivateView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		reportDataSelectionPrivateView
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabPrivateViews");
-		reportDataSelectionPrivateView.setComponentName("Private Views");
+		reportDataSelectionPrivateView.setComponentName("Private Views:");
+                reportDataSelectionPrivateView.addComponentStyle("v-report-data-selection-private");
 		reportDataSelectionPrivateView.setAddToParent(true);
 		reportDataSelectionPrivateView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_SELECTIONLAYOUT1);
@@ -213,6 +214,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabCompanyLayout");
 		reportDataSelectionCompanyLayoutConfig.setAddToParent(true);
 		reportDataSelectionCompanyLayoutConfig.setSpacing(true);
+                reportDataSelectionCompanyLayoutConfig.addComponentStyle("v-report-data-selection-company");
 		reportDataSelectionCompanyLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_SELECTIONLAYOUT1);
@@ -222,7 +224,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComponentConfig reportDataSelectionCompany = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionCompany.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSelectionCompany.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company");
-		reportDataSelectionCompany.setComponentName("Company");
+		reportDataSelectionCompany.setComponentName("Company:");
+                reportDataSelectionCompany.addComponentStyle("v-report-data-selection-company-combo");
 		reportDataSelectionCompany.setAddToParent(true);
 		reportDataSelectionCompany
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabCompanyLayout");
@@ -239,6 +242,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionProjectionNameLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabProjectionNameLayout");
 		reportDataSelectionProjectionNameLayoutConfig.setAddToParent(true);
+                reportDataSelectionProjectionNameLayoutConfig.addComponentStyle("v-report-data-selection-reportdatasource");
 		reportDataSelectionProjectionNameLayoutConfig.setSpacing(true);
 		reportDataSelectionProjectionNameLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -250,7 +254,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionProjectionName.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSelectionProjectionName
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabProjectionName");
-		reportDataSelectionProjectionName.setComponentName("Report Data Source");
+		reportDataSelectionProjectionName.setComponentName("Report Data Source:");
 		reportDataSelectionProjectionName.setAddToParent(true);
 		reportDataSelectionProjectionName.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabProjectionNameLayout");
@@ -271,8 +275,10 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionPublicView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		reportDataSelectionPublicView
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabPublicViews");
-		reportDataSelectionPublicView.setComponentName("Public Views");
+		reportDataSelectionPublicView.setComponentName("Public Views:");              
 		reportDataSelectionPublicView.setAddToParent(true);
+                reportDataSelectionPublicView.addComponentStyle("v-report-data-selection-public");
+                reportDataSelectionPublicView.addTextComponentStyle("v-report-display-selection-freq");
 		reportDataSelectionPublicView.setEnable(false);
 		reportDataSelectionPublicView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_SELECTIONLAYOUT1);
@@ -303,7 +309,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionBusinessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSelectionBusinessUnit
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit");
-		reportDataSelectionBusinessUnit.setComponentName("Business Unit");
+		reportDataSelectionBusinessUnit.setComponentName("Business Unit:");
 		reportDataSelectionBusinessUnit.setAddToParent(true);
 		reportDataSelectionBusinessUnit.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabBusinessUnitLayout");
@@ -372,14 +378,15 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		componentList.add(reportDataSelectionFromAndToperiodLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionFromPeriodLayout = new GtnUIFrameworkLayoutConfig();
-		reportDataSelectionFromPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		reportDataSelectionFromPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);               
 		GtnUIFrameworkComponentConfig reportDataSelectionFromPeriodLayoutConfig = new GtnUIFrameworkComponentConfig();
-		reportDataSelectionFromPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		reportDataSelectionFromPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);               
 		reportDataSelectionFromPeriodLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromPeriodLayout");
 		reportDataSelectionFromPeriodLayoutConfig.setSpacing(true);
 		reportDataSelectionFromPeriodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportDataSelectionFromPeriodLayoutConfig.setAddToParent(true);
+                reportDataSelectionFromPeriodLayoutConfig.addComponentStyle("v-report-display-selection-from");
 		reportDataSelectionFromPeriodLayoutConfig.setGtnLayoutConfig(reportDataSelectionFromPeriodLayout);
 		reportDataSelectionFromPeriodLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -390,7 +397,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionFromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSelectionFromPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
-		reportDataSelectionFromPeriod.setComponentName("From ");
+		reportDataSelectionFromPeriod.setComponentName("From: ");
+                reportDataSelectionFromPeriod.addComponentStyle("v-report-data-selection-from-combo");
 		reportDataSelectionFromPeriod.setAddToParent(true);
 
 		reportDataSelectionFromPeriod.setParentComponentId(
@@ -415,6 +423,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionToPeriodLayoutConfig.setSpacing(true);
 		reportDataSelectionToPeriodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportDataSelectionToPeriodLayoutConfig.setAddToParent(true);
+                reportDataSelectionToPeriodLayoutConfig.addComponentStyle("v-report-display-selection-to");
 		reportDataSelectionToPeriodLayoutConfig.setGtnLayoutConfig(reportDataSelectionToPeriodLayout);
 		reportDataSelectionToPeriodLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -425,7 +434,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionToPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSelectionToPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.STATUS);
-		reportDataSelectionToPeriod.setComponentName("To ");
+		reportDataSelectionToPeriod.setComponentName("To :");
+                reportDataSelectionToPeriod.addComponentStyle("v-report-data-selection-to-combo");
 		reportDataSelectionToPeriod.setAddToParent(true);
 		reportDataSelectionToPeriod.setEnable(false);
 
