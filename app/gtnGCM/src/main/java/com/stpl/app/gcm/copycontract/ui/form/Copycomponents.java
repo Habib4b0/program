@@ -1075,6 +1075,26 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
+    public ContractMaster Cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate) throws NumberFormatException {
+        ContractMaster contractMaster;
+        contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
+        contractMaster.setContractId(contractId);
+        contractMaster.setContractNo(contractNo);
+        contractMaster.setContractName(contractName);
+        contractMaster.setContractType(contractType);
+        contractMaster.setContHoldCompanyMasterSid(contractHolder);
+        contractMaster.setProcessStatus(true);
+        contractMaster.setSource("BPI");
+        contractMaster.setContractStatus(status);
+        contractMaster.setCreatedBy(Integer.parseInt(userId));
+        contractMaster.setStartDate(startDate);
+        contractMaster.setEndDate(endDate);
+        contractMaster.setInboundStatus(Constants.A);
+        contractMaster.setCreatedDate(new Date());
+        contractMaster.setModifiedDate(new Date());
+        return contractMaster;
+    }
+
     public void saveCFP(Object item) {
         String cfpContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
         Object contractItem = contractDashBoardTable.getParent(item);
