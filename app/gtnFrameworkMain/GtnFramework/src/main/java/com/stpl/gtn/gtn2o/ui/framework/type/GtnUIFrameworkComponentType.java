@@ -40,6 +40,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.label.GtnUIFrameworkV8L
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox.GtnUIFrameworkPopupTextBox;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.radiobuttongroup.GtnUIFrameworkRadioButtonGroupComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.textbox.GtnUIFrameworkTextBoxComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.chart.GtnUIFrameworkBarChart;
 
 public enum GtnUIFrameworkComponentType {
 
@@ -114,7 +115,7 @@ public enum GtnUIFrameworkComponentType {
 					new GtnUIFrameworkV8DualListBoxComponent()), PAGED_TREE_GRID(
 							new GtnUIFrameworkPagedTreeGridComponent()), GRID(
 									new GtnUIFrameworkGridComponent()), TREE_GRID(
-											new GtnUIFrameworkTreeGridComponent());
+											new GtnUIFrameworkTreeGridComponent()), BAR_CHART(new GtnUIFrameworkBarChart());
 
 	private GtnUIFrameworkComponent gtnComponent;
 

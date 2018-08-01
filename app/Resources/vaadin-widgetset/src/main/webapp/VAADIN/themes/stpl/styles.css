@@ -15022,12 +15022,56 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: 4px !important;
 }
 
+.stpl .v-report-display-selection-from {
+	margin-left: -65px !important;
+	margin-top: 7px !important;
+}
+
+.stpl .v-report-data-selection-from-combo {
+	margin-left: 105px !important;
+	margin-top: -42px !important;
+}
+
+.stpl .v-report-display-selection-to {
+	margin-left: 36px !important;
+	margin-top: 7px !important;
+}
+
+.stpl .v-report-data-selection-to-combo {
+	margin-left: 105px !important;
+	margin-top: -46px !important;
+}
+
+.stpl .v-report-data-selection-private {
+	margin-left: -25px !important;
+}
+
+.stpl .v-report-data-selection-public {
+	margin-left: -31px !important;
+}
+
+.stpl .v-report-data-selection-company {
+	margin-left: -26px !important;
+}
+
+.stpl .v-report-data-selection-company-combo {
+	margin-left: 144px !important;
+	margin-top: -45px !important;
+}
+
+.stpl .v-report-data-selection-reportdatasource {
+	margin-left: 58px !important;
+}
+
 .stpl .v-position-fixed {
 	position: fixed !important;
+
+
 }
 
 .stpl .v-report-filter-options {
 	margin-left: -50px !important;
+
 }
 
 .v-slot, .v-spacing {
