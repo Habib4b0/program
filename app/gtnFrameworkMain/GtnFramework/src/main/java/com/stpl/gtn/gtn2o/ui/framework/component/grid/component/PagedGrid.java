@@ -30,7 +30,6 @@ import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -51,7 +50,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class PagedGrid {
 
     private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
-    GtnUIFrameworkPagedTableConfig tableConfig;
+    private GtnUIFrameworkPagedTableConfig tableConfig;
 
     private GtnUIFrameworkComponentConfig componentConfig;
     private int count;
@@ -60,10 +59,10 @@ public class PagedGrid {
     private DataSet dataSet;
     
     private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
-    Grid<GtnWsRecordBean> grid;
+    private Grid<GtnWsRecordBean> grid;
     private HorizontalLayout controlLayout;
     private TextField pageNoField;
-    GtnUIFrameworkPagedGridLogic pagedTableLogic;
+    private GtnUIFrameworkPagedGridLogic pagedTableLogic;
     
     private static final String SHOW_ALL = "Show all";
 
@@ -342,7 +341,7 @@ public class PagedGrid {
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter.append(condition).append(" ").append(key).append("  like '%").append(value).append("%'");
+            filter.append(condition).append(' ').append(key).append("  like '%").append(value).append("%'");
         }
 
         return query.replace("@filter", filter.toString());
@@ -586,11 +585,7 @@ public class PagedGrid {
 
             @Override
             public void valueChange(ValueChangeEvent<LocalDate> event) {
-                if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
                     inlineDateField.setData(event.getValue());
-                } else {
-                    inlineDateField.setData(event.getValue());
-                }
             }
         });
     }

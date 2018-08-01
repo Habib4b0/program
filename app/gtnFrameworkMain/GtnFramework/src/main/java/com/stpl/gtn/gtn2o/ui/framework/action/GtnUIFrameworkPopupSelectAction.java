@@ -19,7 +19,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.InlineDateField;
-import org.apache.commons.lang3.StringUtils;
 
 public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 
