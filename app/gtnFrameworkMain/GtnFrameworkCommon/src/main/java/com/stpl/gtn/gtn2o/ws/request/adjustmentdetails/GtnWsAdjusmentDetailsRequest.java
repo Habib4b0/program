@@ -40,6 +40,10 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     private Integer armAdjustmentDetailsMasterSid;
     private String deductionLevelCaption;
 
+    public GtnWsAdjusmentDetailsRequest() {
+        super();
+    }
+
     public String getDeductionLevelCaption() {
         return deductionLevelCaption;
     }
@@ -129,11 +133,11 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     }
 
     public Date getCreatedDate() {
-         return createdDate == null ? null : (Date) createdDate.clone();
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-         this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public Date getGlDate() {
@@ -225,7 +229,7 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     }
 
     public Date getRedemptionPeriodStartDate() {
-         return redemptionPeriodStartDate == null ? null : (Date) redemptionPeriodStartDate.clone();
+        return redemptionPeriodStartDate == null ? null : (Date) redemptionPeriodStartDate.clone();
     }
 
     public void setRedemptionPeriodStartDate(Date redemptionPeriodStartDate) {

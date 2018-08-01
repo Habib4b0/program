@@ -27,7 +27,7 @@ public class GtnUIFrameworkBarChart implements GtnUIFrameworkComponent, GtnUIFra
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType actionType, String dependentComponentId, String componentId,
 			Object reloadInput) {
-
+     			// Functionality not yet needed
 	}
 
 	@Override
