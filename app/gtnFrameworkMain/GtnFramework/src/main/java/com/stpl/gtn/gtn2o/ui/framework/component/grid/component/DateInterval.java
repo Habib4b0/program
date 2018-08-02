@@ -29,10 +29,10 @@ import java.time.LocalDate;
 public class DateInterval implements Serializable {
     
     /** The from. */
-    private final LocalDate from;
+    private transient final LocalDate from;
     
     /** The to. */
-    private final LocalDate to;
+    private transient final LocalDate to;
 
     /**
      * Instantiates a new ext date interval.
