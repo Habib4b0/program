@@ -145,7 +145,7 @@
 	width: 100%;
 }
 .gtnGrid-single-ln-layout .v-slot .v-caption, .gtnGrid-single-ln-layout .v-slot .v-caption+input, .gtnGrid-single-ln-layout .v-slot .v-filterselect, .gtnGrid-single-ln-layout .v-slot .v-label, .gtnGrid-single-ln-layout .v-slot .v-select-optiongroup-horizontal, .gtnGrid-single-ln-layout .v-slot .v-datefield, .gtnGrid-single-ln-layout .v-slot div[role="combobox"], .gtnGrid-single-ln-layout-3 .v-slot .v-caption, .gtnGrid-single-ln-layout-3 .v-slot .v-caption+input, .gtnGrid-single-ln-layout-3 .v-slot .v-filterselect, .gtnGrid-single-ln-layout-3 .v-slot .v-label, .gtnGrid-single-ln-layout-3 .v-slot .v-select-optiongroup-horizontal, .gtnGrid-single-ln-layout-3 .v-slot .v-datefield, .gtnGrid-single-ln-layout-3 .v-slot div[role="combobox"], .gtnGrid-single-ln-layout-1 .v-slot .v-caption, .gtnGrid-single-ln-layout-1 .v-slot .v-caption+input, .gtnGrid-single-ln-layout-1 .v-slot .v-filterselect, .gtnGrid-single-ln-layout-1 .v-slot .v-label, .gtnGrid-single-ln-layout-1 .v-slot .v-select-optiongroup-horizontal, .gtnGrid-single-ln-layout-1 .v-slot .v-datefield, .gtnGrid-single-ln-layout-1 .v-slot div[role="combobox"], .gtnGrid-single-ln-layout-4 .v-slot .v-caption, .gtnGrid-single-ln-layout-4 .v-slot .v-caption+input, .gtnGrid-single-ln-layout-4 .v-slot .v-filterselect, .gtnGrid-single-ln-layout-4 .v-slot .v-label, .gtnGrid-single-ln-layout-4 .v-slot .v-select-optiongroup-horizontal, .gtnGrid-single-ln-layout-4 .v-slot div[role="combobox"] .gtnGrid-single-ln-layout-4 .v-slot .v-datefield {
-	width: 48% ;
+	width: 48% !important;
 	display: inline-block;
 	margin-right: 1% !important;
 	min-width: 100px !important;
