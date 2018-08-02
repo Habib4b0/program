@@ -20,7 +20,7 @@ public final class ExcelExportUtil {
     public static final String CSV = ".csv";
     
     /** The Constant COMMA. */
-    public static final String COMMA = ConstantsUtils.COMMA;
+    public static final char COMMA = ConstantsUtils.COMMA;
     
     /** The Constant DATE_FORMAT. */
     public static final String DATE_FORMAT = "MM/dd/yyyy";
