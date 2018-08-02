@@ -182,8 +182,8 @@ public class PVQueryUtils {
                 selectClauseBuilder.append( ", (IsNull(C." ).append( projectedSales ).append( ", 0)- IsNull(P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0)) AS P" ).append( i ).append( '_' ).append( projectedSales ).append( ' ');
             } else {
                 selectClauseBuilder.append( CASE_WHEN_P ).append( i ).append( '.' ).append( projectedSales ).append( " = 0 THEN 0\n")
-                        .append( " ELSE (IsNull(C." ).append( projectedSales ).append( ", 0) - IsNull(P" ).append( i ).append( "." ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( '.' ).append( projectedSales ).append( ") \n")
-                        .append( " END   AS  P" ).append( i ).append( '_' ).append( projectedSales ).append( " ");
+                        .append( " ELSE (IsNull(C." ).append( projectedSales ).append( ", 0) - IsNull(P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( '.' ).append( projectedSales ).append( ") \n")
+                        .append( " END   AS  P" ).append( i ).append( '_' ).append( projectedSales ).append( ' ');
             }
         }
         selectClause = selectClauseBuilder.toString();

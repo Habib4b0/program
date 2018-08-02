@@ -1193,7 +1193,7 @@ public class HeaderUtils {
      */
     public static boolean isInteger(String s) {
         try {
-             return s.matches("^\\d+$");
+              return s != null && !"null".equals(s)&& s.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }
