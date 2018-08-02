@@ -1,27 +1,29 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
-public class GtnReportComparisonBreakdownLookupBean implements Serializable{
-	
+public class GtnReportComparisonBreakdownLookupBean implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private int masterSid;
 	private int period;
 	private int year;
 	private int selectedVariable;
 	private List<Object[]> resultList;
-	
+
 	private int rowCount;
 	private String property;
 	private String componentId;
-	private String columnId ;
-	
+	private String columnId;
+
 	public String getColumnId() {
 		return columnId;
 	}
@@ -34,8 +36,7 @@ public class GtnReportComparisonBreakdownLookupBean implements Serializable{
 	private int col;
 	private String projectionName;
 	private List comparisonBreakdownSaveActionList;
-	
-	
+
 	public int getRowId() {
 		return rowId;
 	}
@@ -78,7 +79,6 @@ public class GtnReportComparisonBreakdownLookupBean implements Serializable{
 
 	private List<GtnReportComparisonProjectionBean> comparisonLookupBeanList;
 
-	
 	public int getRowCount() {
 		return rowCount;
 	}
@@ -141,5 +141,13 @@ public class GtnReportComparisonBreakdownLookupBean implements Serializable{
 
 	public void setSelectedVariable(int selectedVariable) {
 		this.selectedVariable = selectedVariable;
+	}
+
+	private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
 	}
 }
