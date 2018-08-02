@@ -17,7 +17,6 @@ package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.datefield.DateResolution;
-import com.vaadin.ui.AbstractField;
 import java.util.Locale;
 
 
@@ -66,11 +65,11 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     /** The clear. */
     private Button set, clear;
     
-    /** The property id. */
-    private final Object propertyId;
-    
     /** The date format pattern. */
     private String dateFormatPattern="MM/dd/yy";
+    
+    
+    private String SHOW_ALL="Show all";
 
     /** The Constant DEFAULT_FROM_CAPTION. */
     private static final String DEFAULT_FROM_CAPTION = "From";
@@ -92,8 +91,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
      *
      * @param propertyId the property id
      */
-    public DateFilterPopup(Object propertyId) {
-        this.propertyId = propertyId;
+    public DateFilterPopup() {
         /* This call is needed for the value setting to function before attach */
         getContent();
     }
@@ -198,7 +196,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     private void updateCaption(boolean nullTheCaption) {
         if (nullTheCaption) {
           
-                content.setCaption(null);
+                content.setCaption(SHOW_ALL);
             
         } else {
             content.setCaption((fromField.getValue() == null ? "" : DateTimeFormatter.ofPattern(dateFormatPattern).format(fromField.getValue()))
@@ -256,6 +254,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
         if (content == null) {
             content = new PopupButton(null);
             content.setWidth(100, Unit.PERCENTAGE);
+            content.setCaption(SHOW_ALL);
             buildPopup();
             setStyleName("datefilterpopup");
             updateCaption(true);

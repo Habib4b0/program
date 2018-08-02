@@ -491,7 +491,7 @@ public class GtnWsReportWebsevice {
 	private String getFilterValueForDateFields(String filter, String filterValue, String[] splitedArray,
 			String filterId) {
 		String filterString = filter;
-		if ("Show all".equals(filterValue)|| filterValue.startsWith("null")) {
+		if ("Show all".equals(filterValue)|| filterValue.equals(" - ")) {
 			filterString = filterString + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 

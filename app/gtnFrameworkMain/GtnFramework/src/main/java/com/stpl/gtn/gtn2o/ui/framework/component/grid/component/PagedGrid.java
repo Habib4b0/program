@@ -52,23 +52,24 @@ public class PagedGrid {
     private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
     private GtnUIFrameworkPagedTableConfig tableConfig;
 
-    private GtnUIFrameworkComponentConfig componentConfig;
     private int count;
     private int pageLength = 10;
     private int pageNumber = 0;
     private DataSet dataSet;
     
-    private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
     private Grid<GtnWsRecordBean> grid;
     private HorizontalLayout controlLayout;
     private TextField pageNoField;
     private GtnUIFrameworkPagedGridLogic pagedTableLogic;
     
     private static final String SHOW_ALL = "Show all";
+    
+    private static final String SPECIAL_CHAR = " - ";
+    
+    private static final String EMPTY = "";
 
     public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
         this.tableConfig = tableConfig;
-        this.componentConfig = componentConfig;
         grid = new Grid<>();
         int i = 0;
 
@@ -379,20 +380,16 @@ public class PagedGrid {
     }
 
 	private Component getCalendarFieldFilterComponent(String property) {
-                DateFilterPopup filter=new DateFilterPopup(property);
+                DateFilterPopup filter=new DateFilterPopup();
                 filter.addStyleName("v-textfield-custom-report");
                 filter.addStyleName("filters-wrap");
                 filter.setWidth("130%");
                 filter.addValueChangeListener(new ValueChangeListener<DateInterval>() {
                     @Override
                     public void valueChange(ValueChangeEvent<DateInterval> event) {
-                        if (!String.valueOf(event.getValue().getFrom()).equals("null")) {
-                            tableConfig.getFilterValueMap().put(property, event.getValue().getFrom());
-                        } else if (!String.valueOf(event.getValue().getTo()).equals("null")) {
-                            tableConfig.getFilterValueMap().put(property, event.getValue().getTo());
-                        } else {
-                            tableConfig.getFilterValueMap().put(property, event.getValue().getFrom() + " - " + event.getValue().getTo());
-                        }
+                        String fromCaption = event.getValue().getFrom() == null ? EMPTY : String.valueOf(event.getValue().getFrom());
+                        String toCaption = event.getValue().getTo() == null ? EMPTY : String.valueOf(event.getValue().getTo());
+                        tableConfig.getFilterValueMap().put(property, fromCaption + SPECIAL_CHAR + toCaption);
                         refreshGrid();
                     }
                 });
@@ -415,7 +412,7 @@ public class PagedGrid {
 			public void layoutClick(LayoutClickEvent event) {
 				
 					if (event.getChildComponent() == vaadinCombobox) {
-						vaadinCombobox.setPlaceholder("");
+						vaadinCombobox.setPlaceholder(EMPTY);
 						}
 					}
 		    });
@@ -424,7 +421,7 @@ public class PagedGrid {
 					public void blur(BlurEvent event) {
 						if (event.getComponent() == vaadinCombobox){
 		                        String value = String.valueOf(vaadinCombobox.getItemCaptionGenerator().apply(vaadinCombobox.getValue())).trim();
-							if(value.equals(""))
+							if(value.equals(EMPTY))
 								vaadinCombobox.setPlaceholder(SHOW_ALL);
 						}
 					} 
@@ -448,7 +445,7 @@ public class PagedGrid {
 			public void layoutClick(LayoutClickEvent event) {
 				
 					if (event.getChildComponent() == dateField) {
-						dateField.setPlaceholder("");
+						dateField.setPlaceholder(EMPTY);
 						}
 					}
 		    });
@@ -487,7 +484,7 @@ public class PagedGrid {
 		public void layoutClick(LayoutClickEvent event) {
 			
 				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder("");
+					textField.setPlaceholder(EMPTY);
 					}
 				}
 		});
@@ -496,7 +493,7 @@ public class PagedGrid {
 				public void blur(BlurEvent event) {
 					if (event.getComponent() == textField){
 		                    String value = textField.getValue();
-						if(value.equals(""))
+						if(value.equals(EMPTY))
 							textField.setPlaceholder(SHOW_ALL);                                                       
                                                         
 					}
@@ -593,7 +590,7 @@ public class PagedGrid {
 		public void layoutClick(LayoutClickEvent event) {
 			
 				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder("");
+					textField.setPlaceholder(EMPTY);
 					}
 				}
 		});
@@ -602,7 +599,7 @@ public class PagedGrid {
 				public void blur(BlurEvent event) {
 					if (event.getComponent() == textField){
 		                    String value = textField.getValue();
-						if(value.equals(""))
+						if(value.equals(EMPTY))
 							textField.setPlaceholder(SHOW_ALL);
                                                         
 					}
@@ -613,17 +610,17 @@ public class PagedGrid {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                String startDate = "";
-                String endDate = "";
+                String startDate = EMPTY;
+                String endDate = EMPTY;
                
                 if (button.getId().equals("setButton")) {
                     if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
                         startDate = inlineDateFieldStartDate.getData().toString();
                         endDate = inlineDateFieldEndDate.getData().toString();
 
-                        textField.setValue(startDate + " - " + endDate);
+                        textField.setValue(startDate + SPECIAL_CHAR + endDate);
 
-                        tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
+                        tableConfig.getFilterValueMap().put(property, startDate + SPECIAL_CHAR + endDate);
                         refreshGrid();
                         
                     }
@@ -633,12 +630,12 @@ public class PagedGrid {
                     if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
                         endDate = inlineDateFieldEndDate.getData().toString();
                     }
-                    textField.setValue(startDate + " - " + endDate);
-                    tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);                  
+                    textField.setValue(startDate + SPECIAL_CHAR + endDate);
+                    tableConfig.getFilterValueMap().put(property, startDate + SPECIAL_CHAR + endDate);                  
                     refreshGrid();
                   window.close();
                 } else {
-                                  textField.setValue("");
+                                  textField.setValue(EMPTY);
 
                     textField.setPlaceholder(SHOW_ALL);
                     tableConfig.getFilterValueMap().put(property, textField.getCaption());
