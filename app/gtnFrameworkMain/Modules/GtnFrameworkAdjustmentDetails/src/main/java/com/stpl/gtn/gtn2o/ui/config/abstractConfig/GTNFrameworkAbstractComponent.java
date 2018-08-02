@@ -11,7 +11,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.inlinedate.GtnUIFrameworkInlineDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.pojo.ComponentPojo;
@@ -155,7 +154,7 @@ public class GTNFrameworkAbstractComponent {
         itemIdentifier.setAuthorizationIncluded(true);
         itemIdentifier.setComponentName(componentName);
         componentList.add(itemIdentifier);
-        GtnUIFrameworkInlineDateFieldConfig itemIdentifierFieldConfig = new GtnUIFrameworkInlineDateFieldConfig();
+        GtnUIFrameworkDateFieldConfig itemIdentifierFieldConfig = new GtnUIFrameworkDateFieldConfig();
         itemIdentifierFieldConfig.setImmediate(true);
         itemIdentifier.setGtnUIFrameworkInlineDateFieldConfig(itemIdentifierFieldConfig);
     }

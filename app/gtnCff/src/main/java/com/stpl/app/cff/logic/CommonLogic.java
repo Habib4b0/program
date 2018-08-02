@@ -2014,7 +2014,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

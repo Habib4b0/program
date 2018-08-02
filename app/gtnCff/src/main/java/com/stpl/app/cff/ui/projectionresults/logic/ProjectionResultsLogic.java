@@ -3721,7 +3721,7 @@ public class ProjectionResultsLogic {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

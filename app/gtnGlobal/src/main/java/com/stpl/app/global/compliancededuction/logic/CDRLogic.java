@@ -170,14 +170,16 @@ public class CDRLogic {
         if (CRITERIA.isEmpty()) {
             loadCriteriaInMap();
         }
-        Set<String> keys = CRITERIA.keySet();
-        for (String fields : keys) {
+        Set<Map.Entry<String, String>> keys = CRITERIA.entrySet();
+        for (Map.Entry<String, String> entry : keys) {
+            String fields = entry.getKey();
+            String value = entry.getValue();
 
             if ((ConstantsUtils.COMBO1.equals(fields) || ConstantsUtils.COMBO6.equals(fields)) && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString())) {
-                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append('\'');
+                queryBuilder.append(ConstantsUtils.AND).append(value).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append('\'');
 
             } else if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append('\'');
+                queryBuilder.append(ConstantsUtils.AND).append(value).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append('\'');
             }
         }
         queryBuilder = new StringBuilder(queryBuilder.toString().replace("WHERE AND", " WHERE "));

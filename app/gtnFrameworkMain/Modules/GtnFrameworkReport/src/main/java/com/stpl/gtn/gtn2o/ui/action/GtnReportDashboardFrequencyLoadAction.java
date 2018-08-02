@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.IsoFields;
@@ -10,15 +9,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.AbstractComponent;
 
 public class GtnReportDashboardFrequencyLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -36,8 +36,9 @@ public class GtnReportDashboardFrequencyLoadAction
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkBaseComponent vaadinFrequencyInReportingDashboardBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);
-
+		if(vaadinFrequencyInReportingDashboardBaseComponent.getComponentConfig().isUserOriginatedFlag()) {
 		loadFromTo(vaadinFrequencyInReportingDashboardBaseComponent.getStringCaptionFromV8ComboBox(), componentId);
+		}
 	}
 
 	private void loadFromTo(String selectedFrequency, String componentId) {

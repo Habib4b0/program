@@ -175,7 +175,6 @@ public class ExistingDiscountTab extends CustomComponent {
     /* Current Level Value */
     private int levelValue;
     private Object treeBeanId;
-    private final List<Integer> newlyAddedRebates = new ArrayList<>();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     private final List parentList = new ArrayList();
@@ -869,7 +868,6 @@ public class ExistingDiscountTab extends CustomComponent {
                                 }
                             }
                         }
-                        newlyAddedRebates.add(srcTableBean.getInternalId());
                         srcTableBean.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
                         setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean);
                         returnFlag = true;
@@ -908,7 +906,6 @@ public class ExistingDiscountTab extends CustomComponent {
                                     }
                                 }
                             }
-                            newlyAddedRebates.add(srcTableBean.getInternalId());
                             srcTableBean.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
                             setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanID);
                             returnFlag = true;

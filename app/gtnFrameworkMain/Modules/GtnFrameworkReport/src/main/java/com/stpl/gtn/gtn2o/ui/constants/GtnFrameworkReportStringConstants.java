@@ -487,6 +487,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
 
 	public static final String CONFIRMATION = "Confirmation";
+        
+        public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
+        
+	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");

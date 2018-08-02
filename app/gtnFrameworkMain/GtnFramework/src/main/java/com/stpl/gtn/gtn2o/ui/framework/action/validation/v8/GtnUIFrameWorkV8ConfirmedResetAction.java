@@ -110,6 +110,8 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 	}
 
 	private void resetFilterComponents(String componentId, GtnUIFrameworkBaseComponent baseComponent) {
+		
+		gtnLogger.debug("componentId" + componentId);
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> filterMap = baseComponent.getComponentConfig()
 				.getGtnPagedTableConfig().getCustomFilterConfigMap();
 		Set<String> fliterComponents = filterMap.keySet();

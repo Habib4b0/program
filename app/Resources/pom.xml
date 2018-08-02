@@ -42,6 +42,8 @@
         <module>MessageBox</module>
         <module>calendarfield</module>
       <module>window-header-extension</module> 
+	  <module>vaadin-chartjs</module> 
+	  
         <module>vaadin-widgetset</module>
         <module>ErrorLabel</module>
      	 <module>vaadin-combobox-multiselect-addon</module>

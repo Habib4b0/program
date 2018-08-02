@@ -111,12 +111,12 @@ public class MedicaidQueryUtils {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
-            for (String values : editedValues.keySet()) {
+            for (Map.Entry<String, String> values : editedValues.entrySet()) {
                 queryBuilder1 = new StringBuilder();
 
-                String formatedValue = editedValues.get(values);
+                String formatedValue = values.getValue();
 
-                String tempValue[] = values.split("~");
+                String tempValue[] = formatedValue.split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -225,12 +225,12 @@ public class MedicaidQueryUtils {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
-            for (String values : editedValues.keySet()) {
+            for (Map.Entry<String, String> values : editedValues.entrySet()) {
                 queryBuilder1 = new StringBuilder();
 
-                String formatedValue = editedValues.get(values);
+                String formatedValue = values.getValue();
 
-                String tempValue[] = values.split("~");
+                String tempValue[] = formatedValue.split("~");
                 String rowId = tempValue[1];
                 Double finalvalue;
 
@@ -393,10 +393,10 @@ public class MedicaidQueryUtils {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
-            for (String values : editedValues.keySet()) {
+            for (Map.Entry<String, String> values : editedValues.entrySet()) {
                 queryBuilder1 = new StringBuilder();
-                String formatedValue = editedValues.get(values);
-                String tempValue[] = values.split("~");
+                String formatedValue = values.getValue();
+                String tempValue[] = formatedValue.split("~");
                 String rowId = tempValue[1];
                 Double finalvalue;
 
