@@ -74,7 +74,7 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 		if(!processSchedularRunResponse.getGtnWsGeneralResponse().isSucess()) {
 			gtnLogger.info("================  process running");
 			
-			notificationAction.addActionParameter(schemaName+" Manual process underway."+ " Selected record " + schemaName + " is currently being processed. Please wait till the process is completed, to run the interface again.");
+			notificationAction.addActionParameter(" Selected record " + schemaName + " is currently being processed. Please wait till the process is completed, to run the interface again");
 			notificationAction.addActionParameter("");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationAction);
 		}else {
@@ -88,6 +88,7 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 					GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 							+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE_DATA,
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			notificationAction.addActionParameter( schemaName + " Manual process completed successfully");
 		}
 		
 	}

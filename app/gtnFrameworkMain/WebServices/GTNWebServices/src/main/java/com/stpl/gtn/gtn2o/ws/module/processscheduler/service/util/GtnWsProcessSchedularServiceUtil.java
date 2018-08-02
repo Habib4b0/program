@@ -150,6 +150,7 @@ public class GtnWsProcessSchedularServiceUtil {
 	public String buildUrl(String scriptName, Properties prop) throws GtnFrameworkGeneralException {
 		String interfaceUri = getInterFaceUri(scriptName);
 		String portNo = prop.getProperty("ETL_PORT_NO");
+		logger.info("http://localhost:" + portNo + "/" + interfaceUri);
 		return "http://localhost:" + portNo + "/" + interfaceUri;
 	}
 

@@ -54,7 +54,11 @@ public class GtnUIFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkA
 			}else {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString()).getComponentConfig().setComponentWidth("100%");
 				gtnLogger.info("100 px worked");
-			}	*/
+			}
+				*/
+			/*if(visibility) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("runEvery").loadV8ComboBoxComponentValue("");
+			}*/
 		}
 	}
 

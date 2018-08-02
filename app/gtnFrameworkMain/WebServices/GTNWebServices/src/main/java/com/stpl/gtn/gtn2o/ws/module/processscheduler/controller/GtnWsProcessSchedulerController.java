@@ -80,6 +80,7 @@ public class GtnWsProcessSchedulerController {
 		if (processSchedulerRequest.getGtnWsSearchRequest().isCount()) {
 			@SuppressWarnings("unchecked")
 			List<Object[]> result = gtnWsPSServiceUtil.executeQuery(gtnWsSqlService.getQuery(inputlist, queryName));
+			logger.info("result size: "+result.size());
 			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 		} else {
 			
@@ -135,6 +136,7 @@ public class GtnWsProcessSchedulerController {
 			
 			@SuppressWarnings("unchecked")		
 			List<Object[]> result = gtnWsPSServiceUtil.executeQuery(updatedOffsetQuery.toString());
+			logger.info("result size: "+result.size());
 			GtnUIFrameworkDataTable processSchedulerDataTable = new GtnUIFrameworkDataTable();
 			processSchedulerDataTable.addData(result);
 			gtnSerachResponse.setResultSet(processSchedulerDataTable);

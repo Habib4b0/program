@@ -6,6 +6,8 @@
 package com.stpl.gtn.gtn2o.ws.module.processscheduler.service;
 
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
-import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
@@ -93,18 +94,26 @@ public class GtnWsProcessSchedulerUpdateService {
 	
 	public void updateLastRun(Integer processId, boolean schedulerFlag, List<Object> inputList) {
 		logger.debug("Entering updateLastRun");
+		Date curManualDate = new Date();
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+	    String currentLastManualStringDate = format.format(curManualDate);
 		if (processId != 0) {
 
 			try {
-				String query=gtnWsSqlService.getQuery(inputList, "getProcessForLastRunUpdate");
+				logger.info("get current date: "+currentLastManualStringDate);
+				String query=gtnWsSqlService.getQuery(inputList,"updateProcessForLastManualRunUpdate");
 				logger.info(":::::::::::: query  "+query);
 				query=query.replace("@PROCESS_SID", processId.toString());
-				logger.info(":----------- query  after replace "+query);
+				logger.info(":----------- query  after replace process sid"+query);
+				query=query.replace("@LAST_MANUAL_RUN_DATETIME", currentLastManualStringDate);
+				logger.info(":----------- query  after replace last manual run "+query);
+				
+				
 				@SuppressWarnings("unchecked")
-				List<Object> result = gtnWsProcessSchedularServiceUtil.executeQuery(query);
-				logger.info(" ============== result record"+result);
-				WorkflowProfile profile = (WorkflowProfile) gtnWsProcessSchedularServiceUtil.executeQuery(query);
-				logger.info("profile process name................... "+profile.getProcessDisplayName());
+				List<Object> manualLastRun = gtnWsProcessSchedularServiceUtil.executeQuery(query);
+				logger.info(" ============== result record"+manualLastRun.get(0));
+				
+				
 				/*if (!schedulerFlag) {
 					profile.setManualLastRun(new Date());
 				} else {

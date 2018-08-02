@@ -156,16 +156,16 @@ public class GtnUIFrameworkPagedTableLogic extends PageTableLogic {
 			}
 			return records;
 		}
-
 		return records;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object configureContainer(Object object, Container container) {
+	public Object configureContainer(Object object, Container container) {		
 		GtnWsRecordBean dto = (GtnWsRecordBean) object;
 		((ExtContainer<GtnWsRecordBean>) container).addBean(dto);
 		return dto;
+		}
 	}
 
 	public List<Object> getRecordHeader() {

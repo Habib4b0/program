@@ -35,7 +35,7 @@ public class GtnFrameworkCommonConstants {
 	public static final Class<?> JAVA_LANG_BOOLEAN = Boolean.class;
 	public static final String SEARCH_CRITERIA_LAYOUT = "searchCriterialayout";
 	public static final String ACTION_BUTTON_LAYOUT = "actionButtonlayout";
-	public static final String STATUS = "STATUS";
+	public static final String STATUS = "status";
 	public static final String MODIFIED_BY = "modifiedBy";
 	public static final String MODIFIED_DATE = "modifiedDate";
 	public static final String SOURCE = "source";
@@ -877,7 +877,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String RUNLAYOUT = "runlayout";
 	public static final String FREQUENCY = "Frequency";
 	public static final String LAST_RUN = "lastRun";
-	public static final String STATUS_COMPONENT = "status";
+	public static final String LAST_RUN_COMPONENT = "Last Run";
+	public static final String STATUS_COMPONENT = "Status";
 	public static final String PROCESS_NAME_COMPONENT = "Process Name";
 	public static final String MANUAL_RESULT_TABLE = "manualResultTable";
 	public static final String RUN_TINES_HORIZONTAL3LAYOUT = "runTinesHorizontal3layout";

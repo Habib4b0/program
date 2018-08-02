@@ -19,8 +19,11 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkMandatoryFieldSettingAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkRunButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkScheduledProcessTableDoubleClickAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkStartEndDateValidationCustomAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkUpdateProcessAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnUIFrameworkFrequencyValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -29,9 +32,9 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 
 /**
-*
-* @author Deepak.kumar
-*/
+ *
+ * @author Deepak.kumar
+ */
 
 public class GtnNewProcessSchedularConfig {
 
@@ -41,8 +44,8 @@ public class GtnNewProcessSchedularConfig {
 	public GtnUIFrameworkViewConfig getProcessSchedularView() {
 		gtnLogger.info("enetred in new config");
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
-		view.setViewName("Process Schedular View");
-		view.setViewId("V001");
+		view.setViewName(GtnFrameworkProcessSchedulerStringContants.PROCESS_SCHEDULER_VIEW_NAME);
+		view.setViewId(GtnFrameworkProcessSchedulerStringContants.PROCESS_SCHEDULER_VIEWID);
 		view.setDefaultView(true); // need to change when needed to be the default view
 		addComponentList(view);
 		return view;
@@ -59,8 +62,8 @@ public class GtnNewProcessSchedularConfig {
 	private void addProcessSchedularRootLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		gtnLogger.info("Started the execution of addProcessSchedularRootLayout()");
 		GtnUIFrameworkComponentConfig processSchedularRootLayout = new GtnUIFrameworkComponentConfig();
-		processSchedularRootLayout.setComponentId("rootLayout");
-		processSchedularRootLayout.setComponentWidth("100%");
+		processSchedularRootLayout.setComponentId(GtnFrameworkProcessSchedulerStringContants.ROOT_LAYOUT);
+		processSchedularRootLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		processSchedularRootLayout.setAddToParent(false);
 		processSchedularRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		processSchedularRootLayout.setSpacing(true);
@@ -78,9 +81,8 @@ public class GtnNewProcessSchedularConfig {
 		gtnLogger.info("Started the execution of addProcessSchedularMainPanel()");
 		GtnUIFrameworkComponentConfig processSchedularRootPanel = new GtnUIFrameworkComponentConfig();
 		processSchedularRootPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		processSchedularRootPanel.setComponentId("rootPanel");
+		processSchedularRootPanel.setComponentId(GtnFrameworkProcessSchedulerStringContants.ROOT_PANEL);
 		processSchedularRootPanel.setAddToParent(true);
-		// processSchedularRootPanel.setComponentName("Root Panel");
 		processSchedularRootPanel.setParentComponentId(parentComponentId);
 		processSchedularRootPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(processSchedularRootPanel);
@@ -92,8 +94,9 @@ public class GtnNewProcessSchedularConfig {
 			String parentComponentId) {
 		gtnLogger.info("Started the execution of addProcessSchedularMainLayout()");
 		GtnUIFrameworkComponentConfig processSchedularMainLayout = new GtnUIFrameworkComponentConfig();
-		processSchedularMainLayout.setComponentId("mainLayout");
-		processSchedularMainLayout.setComponentWidth("110%");
+		processSchedularMainLayout.setComponentId(GtnFrameworkProcessSchedulerStringContants.MAIN_LAYOUT);
+		processSchedularMainLayout
+				.setComponentWidth(GtnFrameworkProcessSchedulerStringContants.HUNDERED_TEN_PERCENTAGE);
 		processSchedularMainLayout.setAddToParent(true);
 		processSchedularMainLayout.setParentComponentId(parentComponentId);
 		processSchedularMainLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
@@ -112,8 +115,8 @@ public class GtnNewProcessSchedularConfig {
 			String parentComponentId) {
 
 		GtnUIFrameworkComponentConfig processSchedularMainLayout = new GtnUIFrameworkComponentConfig();
-		processSchedularMainLayout.setComponentId("manualProcessingLayout");
-		processSchedularMainLayout.setComponentWidth("40%");
+		processSchedularMainLayout.setComponentId(GtnFrameworkProcessSchedulerStringContants.MANUAL_PROCESSING_LAYOUT);
+		processSchedularMainLayout.setComponentWidth(GtnFrameworkProcessSchedulerStringContants.FOURTY_PERCENTAGE);
 		processSchedularMainLayout.setAddToParent(true);
 		processSchedularMainLayout.setParentComponentId(parentComponentId);
 		processSchedularMainLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
@@ -150,15 +153,16 @@ public class GtnNewProcessSchedularConfig {
 
 	private void addManualProcessingPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
 		gtnLogger.info("Started the execution of addManualProcessingPanel()");
-		GtnUIFrameworkComponentConfig manualProcessingPanel = configProvider.getPanelConfig("manualProcessingPanelv1",
-				true, parentComponentId);
-		manualProcessingPanel.setComponentName("Manual Processing");
+		GtnUIFrameworkComponentConfig manualProcessingPanel = configProvider.getPanelConfig(
+				GtnFrameworkProcessSchedulerStringContants.MANUAL_PROCESSING_PANEL, true, parentComponentId);
+		manualProcessingPanel.setComponentName(GtnFrameworkProcessSchedulerStringContants.MANUAL_PROCESSING);
 		manualProcessingPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		// manualProcessingPanel.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		componentList.add(manualProcessingPanel);
 
-		GtnUIFrameworkComponentConfig manualProcessingPanelLayout = configProvider
-				.getVerticalLayoutConfig("processSchedularPanelLayout", true, manualProcessingPanel.getComponentId());
+		GtnUIFrameworkComponentConfig manualProcessingPanelLayout = configProvider.getVerticalLayoutConfig(
+				GtnFrameworkProcessSchedulerStringContants.MANUAL_PROCESSING_PANEL_LAYOUT, true,
+				manualProcessingPanel.getComponentId());
 		manualProcessingPanelLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(manualProcessingPanelLayout);
 
@@ -194,11 +198,12 @@ public class GtnNewProcessSchedularConfig {
 		searchResults.setSinkItemPerPageWithPageLength(false);
 
 		searchResults.setTableColumnDataType(new Class[] { String.class, Date.class });
-		searchResults
-				.setTableVisibleHeader(new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT, "Last Run" });
+		searchResults.setTableVisibleHeader(new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT,
+				GtnFrameworkCommonConstants.LAST_RUN_COMPONENT });
 		searchResults.setTableColumnMappingId(
 				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.LAST_RUN });
-		searchResults.setExtraColumn(new Object[] { "scriptname" ,"processsid"});
+		searchResults.setExtraColumn(new Object[] { GtnFrameworkProcessSchedulerStringContants.SCRIPT_NAME,
+				GtnFrameworkProcessSchedulerStringContants.PROCESS_SID });
 
 		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_PROCESS_SCHEDULER_TABLE_DATA);
@@ -207,7 +212,7 @@ public class GtnNewProcessSchedularConfig {
 
 		searchResults.setModuleName("processSchedulerManual");
 		searchResults.setQueryName("SearchQuery");
-		
+
 		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
 		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		searchResultConfig.setGtnUIFrameworkValidationConfig(validationConfig);
@@ -225,8 +230,8 @@ public class GtnNewProcessSchedularConfig {
 	private void addRunButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
 		GtnUIFrameworkComponentConfig addButtonConfig = new GtnUIFrameworkComponentConfig();
 		addButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		addButtonConfig.setComponentId("ManualProcessingRunButton");
-		addButtonConfig.setComponentName("RUN");
+		addButtonConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.MANUAL_RUN_ID);
+		addButtonConfig.setComponentName(GtnFrameworkProcessSchedulerStringContants.RUN);
 		addButtonConfig.setParentComponentId(parentComponentId);
 		addButtonConfig.setAddToParent(true);
 		componentList.add(addButtonConfig);
@@ -236,24 +241,25 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
 		validationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
 		validationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.MANUAL_RESULT_TABLE));
-		
+
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
 
 		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("ERROR");
-		alertParamsList.add("Please select a record to run");
+		alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.ERROR);
+		alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MESSAGE);
 		alertActionConfig.setActionParameterList(alertParamsList);
 
-		validationActionConfig.setActionParameterList(Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
-		
+		validationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
+
 		GtnUIFrameWorkActionConfig customActionConfig = new GtnUIFrameWorkActionConfig();
 		customActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionConfig.addActionParameter(GtnFrameworkRunButtonAction.class.getName());
-		
+
 		actionConfigList.add(validationActionConfig);
 		actionConfigList.add(customActionConfig);
-		
+
 		addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
@@ -261,7 +267,8 @@ public class GtnNewProcessSchedularConfig {
 			String parentComponentId) {
 
 		GtnUIFrameworkComponentConfig processSchedularMainLayout = new GtnUIFrameworkComponentConfig();
-		processSchedularMainLayout.setComponentId("SchProcessingSchProcessEditorLayout");
+		processSchedularMainLayout
+				.setComponentId(GtnFrameworkProcessSchedulerStringContants.PROCESS_SCHEDULAR_MAIN_LAYOUT);
 		processSchedularMainLayout.setComponentWidth("59%");
 		processSchedularMainLayout.setAddToParent(true);
 		processSchedularMainLayout.setParentComponentId(parentComponentId);
@@ -282,14 +289,15 @@ public class GtnNewProcessSchedularConfig {
 	private void addScheduledProcessingPanel(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId) {
 		gtnLogger.info("Started the execution of addScheduledProcessingPanel()");
-		GtnUIFrameworkComponentConfig scheduledProcessingPanel = configProvider
-				.getPanelConfig("scheduledProcessingPanel", true, parentComponentId);
-		scheduledProcessingPanel.setComponentName("Scheduled Processing");
+		GtnUIFrameworkComponentConfig scheduledProcessingPanel = configProvider.getPanelConfig(
+				GtnFrameworkProcessSchedulerStringContants.SCHEDULED_PROCESSING_PANEL, true, parentComponentId);
+		scheduledProcessingPanel.setComponentName(GtnFrameworkProcessSchedulerStringContants.SCHEDULED_PROCESSING);
 		scheduledProcessingPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(scheduledProcessingPanel);
 
 		GtnUIFrameworkComponentConfig scheduledProcessingPanelLayout = configProvider.getVerticalLayoutConfig(
-				"processSchedularPanelLayout", true, scheduledProcessingPanel.getComponentId());
+				GtnFrameworkProcessSchedulerStringContants.SCHEDULED_PROCESSING_PANEL_LAYOUT, true,
+				scheduledProcessingPanel.getComponentId());
 		scheduledProcessingPanelLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(scheduledProcessingPanelLayout);
 
@@ -302,7 +310,7 @@ public class GtnNewProcessSchedularConfig {
 		searchResultConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
 		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		// searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
-		searchResultConfig.setComponentId("schedulerResultTable");
+		searchResultConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.SCHEDULER_RESULTS_TABLE);
 		searchResultConfig.setComponentName("Results");
 		searchResultConfig.setParentComponentId(parentComponentId);
 		searchResultConfig.setAddToParent(true);
@@ -324,14 +332,14 @@ public class GtnNewProcessSchedularConfig {
 
 		searchResults.setTableColumnDataType(new Class[] { String.class, String.class, Date.class, Date.class,
 				String.class, Date.class, Date.class, String.class });
-		searchResults.setTableVisibleHeader(
-				new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT, "Status", "Start Date", "End Date",
-						GtnFrameworkCommonConstants.FREQUENCY, "Last Run Date", "Modified Date", "Modified By" });
+		searchResults.setTableVisibleHeader(new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT,
+				GtnFrameworkCommonConstants.STATUS_COMPONENT, "Start Date", "End Date",
+				GtnFrameworkCommonConstants.FREQUENCY, "Last Run Date", "Modified Date", "Modified By" });
 		searchResults.setTableColumnMappingId(
-				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.STATUS_COMPONENT,
+				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.STATUS,
 						GtnFrameworkCommonConstants.START_DATE, GtnFrameworkCommonConstants.END_DATE,
 						GtnFrameworkCommonConstants.FREQUENCY, "lastRunDate", "modifiedDate", "modifiedBy" });
-		searchResults.setExtraColumn(new Object[] { "scriptname" });
+		searchResults.setExtraColumn(new Object[] { "processSid","scriptName","startHour","startMinute" ,"startHour1","startHour2","startHour3" ,"startMinute1","startMinute2","startMinute3"});
 
 		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
@@ -346,21 +354,21 @@ public class GtnNewProcessSchedularConfig {
 		loadDataTableActionConfig.addActionParameter(searchResultConfig.getComponentId());
 		searchResults.addPostCreationActionConfig(loadDataTableActionConfig);
 		searchResults.setDoubleClickEnable(true);
-		
-		
-		List<GtnUIFrameWorkActionConfig> itemDoubleClickActionConfigList= new ArrayList<>();
-		
+
+		List<GtnUIFrameWorkActionConfig> itemDoubleClickActionConfigList = new ArrayList<>();
+
 		GtnUIFrameWorkActionConfig customDoubleClickActionConfig = new GtnUIFrameWorkActionConfig();
 		customDoubleClickActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customDoubleClickActionConfig.addActionParameter(GtnFrameworkScheduledProcessTableDoubleClickAction.class.getName());
+		customDoubleClickActionConfig
+				.addActionParameter(GtnFrameworkScheduledProcessTableDoubleClickAction.class.getName());
 		customDoubleClickActionConfig.addActionParameter("schedulerResultTable");
 		customDoubleClickActionConfig.addActionParameter(GtnFrameworkCommonConstants.PROCESS_NAME);
 		customDoubleClickActionConfig.addActionParameter(Boolean.TRUE);
 		itemDoubleClickActionConfigList.add(customDoubleClickActionConfig);
-	
+
 		searchResults.setGtnUIFrameWorkActionConfigList(itemDoubleClickActionConfigList);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
-		/*addItemDoubleClickActionConfig(customDoubleClickActionConfig);*/
+		/* addItemDoubleClickActionConfig(customDoubleClickActionConfig); */
 	}
 
 	private void addScheduledProcessEditorPanel(List<GtnUIFrameworkComponentConfig> componentList,
@@ -409,14 +417,19 @@ public class GtnNewProcessSchedularConfig {
 		processNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(processNameLayout);
 
-		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
-		frequency.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		frequency.setComponentName("Process Name:");
-		frequency.setComponentId("processName");
-		frequency.setComponentWidth("80%");
-		frequency.setParentComponentId(processNameLayout.getComponentId());
-		frequency.setAddToParent(true);
-		componentList.add(frequency);
+		GtnUIFrameworkComponentConfig processName = new GtnUIFrameworkComponentConfig();
+		processName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		processName.setComponentName("Process Name:");
+		processName.setComponentId(GtnFrameworkProcessSchedulerStringContants.PROCESS_NAME_ID);
+		processName.setComponentWidth("80%");
+		processName.setParentComponentId(processNameLayout.getComponentId());
+		processName.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
+		processName.setAddToParent(true);
+		componentList.add(processName);
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		processName.setGtnUIFrameworkValidationConfig(validationConfig);
 
 	}
 
@@ -428,7 +441,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComponentConfig frequencyOptionGroup = new GtnUIFrameworkComponentConfig();
 		frequencyOptionGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
-		frequencyOptionGroup.setComponentId("frequency");
+		frequencyOptionGroup.setComponentId(GtnFrameworkProcessSchedulerStringContants.FREQUENCY_ID);
 		frequencyOptionGroup.setComponentName("Frequency:");
 		frequencyOptionGroup.setAddToParent(Boolean.TRUE);
 		frequencyOptionGroup.setParentComponentId(fequencyLayout.getComponentId());
@@ -439,8 +452,13 @@ public class GtnNewProcessSchedularConfig {
 		frequencyOptionGroupConfig.setEnable(Boolean.TRUE);
 		frequencyOptionGroupConfig.setIsMultiSelect(false);
 		frequencyOptionGroupConfig.setDefaultSelection("Interval");
-		frequencyOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
+		frequencyOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE,
+				GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		frequencyOptionGroup.setGtnUIFrameworkOptionGroupConfig(frequencyOptionGroupConfig);
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		frequencyOptionGroup.setGtnUIFrameworkValidationConfig(validationConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
@@ -489,18 +507,18 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig status = new GtnUIFrameworkComponentConfig();
 		status.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		status.setComponentName("Status:");
-		status.setComponentId("status");
+		status.setComponentId(GtnFrameworkProcessSchedulerStringContants.STATUS_ID);
 		status.setParentComponentId(statusLayout.getComponentId());
 		status.setAddToParent(true);
+		status.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		componentList.add(status);
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		status.setGtnUIFrameworkValidationConfig(validationConfig);
 
 		GtnUIFrameworkComboBoxConfig statusConfig = new GtnUIFrameworkComboBoxConfig();
 		statusConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.STATUS));
-		status.setGtnComboboxConfig(statusConfig);
-
-		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
-		valConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		status.setGtnUIFrameworkValidationConfig(valConfig);
 		status.setGtnComboboxConfig(statusConfig);
 
 		status.setGtnComboboxConfig(statusConfig);
@@ -516,13 +534,19 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig runEvery = new GtnUIFrameworkComponentConfig();
 		runEvery.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		runEvery.setComponentName("Run Every:");
-		runEvery.setComponentId("runEvery");
+		runEvery.setComponentId(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID);
 		runEvery.setParentComponentId(runEveryLayout.getComponentId());
 		runEvery.setAddToParent(true);
+		runEvery.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		componentList.add(runEvery);
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		runEvery.setGtnUIFrameworkValidationConfig(validationConfig);
 
 		GtnUIFrameworkComboBoxConfig runEveryConfig = new GtnUIFrameworkComboBoxConfig();
 		runEveryConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		runEveryConfig.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		runEvery.setGtnComboboxConfig(runEveryConfig);
 		addHoursLabel(componentList, runEveryLayout.getComponentId());
 	}
@@ -540,8 +564,8 @@ public class GtnNewProcessSchedularConfig {
 		hourslabel.setComponentId("hoursLabel");
 		hourslabel.setAddToParent(true);
 		hourslabel.setComponentValue("hours");
-		hourslabel.addComponentStyle("stpl-left-caption-100");
-		hourslabel.addComponentStyle("stpl-text-align--left");
+		hourslabel.addComponentStyle(GtnFrameworkCssConstants.STPL_LEFT_CAPTION_100);
+		hourslabel.addComponentStyle(GtnFrameworkCssConstants.STPL_TEXT_ALIGN_LEFT);
 		hourslabel.setParentComponentId(parentComponentId);
 
 		componentList.add(hourslabel);
@@ -574,14 +598,16 @@ public class GtnNewProcessSchedularConfig {
 		componentList.add(startDateLayout);
 
 		GtnUIFrameworkComponentConfig startDate = new GtnUIFrameworkComponentConfig();
-		startDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
-		startDate.setComponentId("startDate");
+		//startDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
+		startDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
+		startDate.setComponentId(GtnFrameworkProcessSchedulerStringContants.START_DATE_ID);
 		startDate.setComponentName("Start Date:");
 		startDate.setParentComponentId(startDateLayout.getComponentId());
 		startDate.setAddToParent(true);
+		startDate.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 
 		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
-		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		startDate.setGtnUIFrameworkValidationConfig(validationConfig);
 
 		componentList.add(startDate);
@@ -602,6 +628,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComboBoxConfig minutesConfig = new GtnUIFrameworkComboBoxConfig();
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
+		minutesConfig.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes.setGtnComboboxConfig(minutesConfig);
 		minutes.setGtnComboboxConfig(minutesConfig);
 		addMinutesLabel(componentList, minutesComboBoxLayout.getComponentId());
@@ -618,8 +645,8 @@ public class GtnNewProcessSchedularConfig {
 		minuteslabel.setAddToParent(true);
 		minuteslabel.setComponentValue("minutes");
 		minuteslabel.setParentComponentId(minutesLayout.getComponentId());
-		minuteslabel.addComponentStyle("stpl-left-caption-100");
-		minuteslabel.addComponentStyle("stpl-text-align--left");
+		minuteslabel.addComponentStyle(GtnFrameworkCssConstants.STPL_LEFT_CAPTION_100);
+		minuteslabel.addComponentStyle(GtnFrameworkCssConstants.STPL_TEXT_ALIGN_LEFT);
 
 		componentList.add(minuteslabel);
 	}
@@ -650,14 +677,16 @@ public class GtnNewProcessSchedularConfig {
 		componentList.add(endDateLayout);
 
 		GtnUIFrameworkComponentConfig endDate = new GtnUIFrameworkComponentConfig();
-		endDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
-		endDate.setComponentId("endDate");
+		//endDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
+		endDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
+		endDate.setComponentId(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID);
 		endDate.setComponentName("End Date:");
 		endDate.setParentComponentId(endDateLayout.getComponentId());
 		endDate.setAddToParent(true);
+		endDate.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 
 		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
-		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		endDate.setGtnUIFrameworkValidationConfig(validationConfig);
 
 		componentList.add(endDate);
@@ -679,20 +708,55 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComboBoxConfig minutesConfig = new GtnUIFrameworkComboBoxConfig();
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
+		minutesConfig.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes.setGtnComboboxConfig(minutesConfig);
 		minutes.setGtnComboboxConfig(minutesConfig);
 		addMinutesLabel(componentList, minutes3ComboBoxLayout.getComponentId());
 	}
 
 	private void addUpdateButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
-		GtnUIFrameworkComponentConfig addButtonConfig = new GtnUIFrameworkComponentConfig();
-		addButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		addButtonConfig.setComponentId("scheduledProcessEditorUpdateButton");
-		addButtonConfig.setComponentName("UPDATE");
-		addButtonConfig.setParentComponentId(parentComponentId);
-		addButtonConfig.setAddToParent(true);
-		addButtonConfig.setEnable(false);
-		componentList.add(addButtonConfig);
+		GtnUIFrameworkComponentConfig updateButtonConfig = new GtnUIFrameworkComponentConfig();
+		updateButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		updateButtonConfig.setComponentId("scheduledProcessEditorUpdateButton");
+		updateButtonConfig.setComponentName("UPDATE");
+		updateButtonConfig.setParentComponentId(parentComponentId);
+		updateButtonConfig.setAddToParent(true);
+		updateButtonConfig.setEnable(false);
+		componentList.add(updateButtonConfig);
+
+		List<GtnUIFrameWorkActionConfig> updateActionList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig startEndDateValidationCustomAction = new GtnUIFrameWorkActionConfig();
+		startEndDateValidationCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		startEndDateValidationCustomAction.addActionParameter(GtnFrameworkStartEndDateValidationCustomAction.class.getName());
+		
+		GtnUIFrameWorkActionConfig checkManadatoryFieldAction = new GtnUIFrameWorkActionConfig();
+		checkManadatoryFieldAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkManadatoryFieldAction.addActionParameter(GtnFrameworkMandatoryFieldSettingAction.class.getName());
+
+		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
+		validationActionConfig.setActionType(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+				
+		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
+
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.ERROR);
+		alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MESSAGE_MANDATORY);
+		alertActionConfig.setActionParameterList(alertParamsList);
+
+		validationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
+		
+		GtnUIFrameWorkActionConfig updateAction = new GtnUIFrameWorkActionConfig();
+		updateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		updateAction.addActionParameter(GtnFrameworkUpdateProcessAction.class.getName());
+
+		updateActionList.add(checkManadatoryFieldAction);
+		updateActionList.add(validationActionConfig);
+		updateActionList.add(startEndDateValidationCustomAction);
+		updateActionList.add(updateAction);
+		updateButtonConfig.setGtnUIFrameWorkActionConfigList(updateActionList);
 
 	}
 
@@ -706,13 +770,20 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig run1 = new GtnUIFrameworkComponentConfig();
 		run1.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		run1.setComponentName("Run 1:");
-		run1.setComponentId("run1");
+		run1.setComponentId(GtnFrameworkProcessSchedulerStringContants.RUN1_ID);
 		run1.setParentComponentId(run1Layout.getComponentId());
 		run1.setAddToParent(true);
+		run1.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		componentList.add(run1);
 
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		run1.setGtnUIFrameworkValidationConfig(validationConfig);
+
 		GtnUIFrameworkComboBoxConfig run1Config = new GtnUIFrameworkComboBoxConfig();
+		
 		run1Config.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		run1Config.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		run1.setGtnComboboxConfig(run1Config);
 		addHoursLabel(componentList, run1Layout.getComponentId());
 	}
@@ -734,6 +805,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComboBoxConfig run2Config = new GtnUIFrameworkComboBoxConfig();
 		run2Config.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		run2Config.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		run2.setGtnComboboxConfig(run2Config);
 		addHoursLabel(componentList, run2Layout.getComponentId());
 	}
@@ -755,6 +827,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComboBoxConfig run3Config = new GtnUIFrameworkComboBoxConfig();
 		run3Config.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		run3Config.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		run3.setGtnComboboxConfig(run3Config);
 		addHoursLabel(componentList, run3Layout.getComponentId());
 	}
@@ -776,6 +849,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComboBoxConfig minutesConfig = new GtnUIFrameworkComboBoxConfig();
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
+		minutesConfig.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes1.setGtnComboboxConfig(minutesConfig);
 		addMinutesLabel(componentList, minutes1Layout.getComponentId());
 	}
