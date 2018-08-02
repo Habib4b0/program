@@ -487,15 +487,13 @@ public class PagedGrid {
 
 		hl.addComponent(textField);
 
-		hl.addLayoutClickListener(new LayoutClickListener() {
-			@Override
-			public void layoutClick(LayoutClickEvent event) {
+		layoutClickListener(hl, textField);
 
-				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder(EMPTY);
-				}
-			}
-		});
+		blurListenerForTextField(textField);
+		return hl;
+	}
+
+	private void blurListenerForTextField(TextField textField) {
 		textField.addBlurListener(new BlurListener() {
 			@Override
 			public void blur(BlurEvent event) {
@@ -507,7 +505,6 @@ public class PagedGrid {
 				}
 			}
 		});
-		return hl;
 	}
 
 	void setPageNoFieldValue(int pageNo) {
@@ -591,71 +588,67 @@ public class PagedGrid {
 	private void addClickListenerForButton(Button button, Window window, HorizontalLayout buttonFromGrid,
 			String property, InlineDateField inlineDateFieldStartDate, InlineDateField inlineDateFieldEndDate) {
 		try {
-			TextField dateTextField = (TextField) buttonFromGrid.getComponent(0);
-			dateTextField.setPlaceholder(SHOW_ALL);
-			buttonFromGrid.addLayoutClickListener(new LayoutClickListener() {
+			TextField textField = (TextField) buttonFromGrid.getComponent(0);
+			textField.setPlaceholder(SHOW_ALL);
+			blurListenerForTextField(textField);
+			layoutClickListener(buttonFromGrid, textField);
+
+			button.addClickListener(new Button.ClickListener() {
 				@Override
-				public void layoutClick(LayoutClickEvent event) {
+				public void buttonClick(Button.ClickEvent event) {
+					String startDate;
+					String endDate;
 
-					if (event.getChildComponent() == dateTextField) {
-						dateTextField.setPlaceholder(EMPTY);
-					}
-				}
-			});
-			dateTextField.addBlurListener(new BlurListener() {
-				@Override
-				public void blur(BlurEvent event) {
-					if (event.getComponent() == dateTextField) {
-						String value = dateTextField.getValue();
-						if (value.equals(EMPTY))
-							dateTextField.setPlaceholder(SHOW_ALL);
-					}
-				}
-			});
-			settingButtonListener(button, window, property, inlineDateFieldStartDate, inlineDateFieldEndDate,
-					dateTextField);
-			UI.getCurrent().removeWindow(window);
-		} catch (Exception e) {
-			gtnlogger.error("Exception while creating the adding listener component", e);
-		}
-	}
+					if (button.getId().equals("setButton")) {
+						if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
+							startDate = inlineDateFieldStartDate.getData().toString();
+							endDate = inlineDateFieldEndDate.getData().toString();
 
-	private void settingButtonListener(Button button, Window window, String property,
-			InlineDateField inlineDateFieldStartDate, InlineDateField inlineDateFieldEndDate, TextField dateTextField) {
-		button.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				String startDate = EMPTY;
-				String endDate = EMPTY;
+							textField.setValue(startDate + SPECIAL_CHAR + endDate);
 
-				if (button.getId().equals("setButton")) {
-					if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
-						startDate = inlineDateFieldStartDate.getData().toString();
-						endDate = inlineDateFieldEndDate.getData().toString();
+							tableConfig.getFilterValueMap().put(property, startDate + SPECIAL_CHAR + endDate);
+							refreshGrid();
 
-						dateTextField.setValue(startDate + SPECIAL_CHAR + endDate);
+						}
 
+						startDate = getInlineDates(inlineDateFieldStartDate);
+						endDate = getInlineDates(inlineDateFieldEndDate);
+						textField.setValue(startDate + SPECIAL_CHAR + endDate);
 						tableConfig.getFilterValueMap().put(property, startDate + SPECIAL_CHAR + endDate);
 						refreshGrid();
+						window.close();
+					} else {
+						textField.setValue(EMPTY);
 
+						textField.setPlaceholder(SHOW_ALL);
+						tableConfig.getFilterValueMap().put(property, textField.getCaption());
+						refreshGrid();
+						window.close();
 					}
-					if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
-						startDate = inlineDateFieldStartDate.getData().toString();
-					}
-					if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
-						endDate = inlineDateFieldEndDate.getData().toString();
-					}
-					dateTextField.setValue(startDate + SPECIAL_CHAR + endDate);
-					tableConfig.getFilterValueMap().put(property, startDate + SPECIAL_CHAR + endDate);
-					refreshGrid();
-					window.close();
-				} else {
-					dateTextField.setValue(EMPTY);
+				}
+			});
+			UI.getCurrent().removeWindow(window);
+		} catch (Exception e) {
+			gtnlogger.error("Exception while creating the button component", e);
+		}
 
-					dateTextField.setPlaceholder(SHOW_ALL);
-					tableConfig.getFilterValueMap().put(property, dateTextField.getCaption());
-					refreshGrid();
-					window.close();
+	}
+
+	private String getInlineDates(InlineDateField inlineDate) {
+		String value = EMPTY;
+		if (inlineDate.getData() != null && inlineDate.getData() == null) {
+			value = inlineDate.getData().toString();
+		}
+		return value;
+	}
+
+	private void layoutClickListener(HorizontalLayout buttonFromGrid, TextField textField) {
+		buttonFromGrid.addLayoutClickListener(new LayoutClickListener() {
+			@Override
+			public void layoutClick(LayoutClickEvent event) {
+
+				if (event.getChildComponent() == textField) {
+					textField.setPlaceholder(EMPTY);
 				}
 			}
 		});
