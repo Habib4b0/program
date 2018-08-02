@@ -243,10 +243,35 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + projectionDescription + "'");
 		return inputList;
 	}
+	
+	private List<String> getCffInputList(Map<String, String> criteriaMap){
+		List<String> cffInputList = new ArrayList<>();
+		String workFlowStatus = criteriaMap.get("workflowStatus");
+		if(workFlowStatus.equals("Submitted")) {
+			workFlowStatus = "Pending";
+		}
+		String customViewMasterSid = criteriaMap.get("customViewName");
+		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
+		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
+		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
+		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
+		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
+		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		
+		cffInputList.add("'"+workFlowStatus+"'");
+		cffInputList.add("'"+customViewMasterSid+"'");
+		cffInputList.add("'"+contract+"'");
+		cffInputList.add("'"+marketType+"'");
+		cffInputList.add("'"+contractHolder+"'");
+		cffInputList.add("'"+ndcName+"'");
+		cffInputList.add("'"+comparisonNDC+"'");
+		cffInputList.add("'"+comparisonBrand+"'");
+		return cffInputList;
+	}
 
 	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
 			throws GtnFrameworkGeneralException {
-		List<String> inputList = getInputList(criteriaMap);
+		List<String> inputList = getCffInputList(criteriaMap);
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
 		return resultList;
