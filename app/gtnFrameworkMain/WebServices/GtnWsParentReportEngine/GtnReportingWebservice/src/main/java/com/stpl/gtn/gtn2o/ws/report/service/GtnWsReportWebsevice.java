@@ -214,6 +214,8 @@ public class GtnWsReportWebsevice {
 	}
 
 	private List<String> getInputList(Map<String, String> criteriaMap) {
+		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()){
 		List<String> inputList = new ArrayList<>();
 		boolean isProjectionStatus = false;
 		if (criteriaMap.get("workflowStatus").equals("Saved")) {
@@ -233,6 +235,7 @@ public class GtnWsReportWebsevice {
 		String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
 		inputList.add(workflowJoinQuery);
 		inputList.add(customViewMasterSid);
+		inputList.add(connection.getCatalog());
 		inputList.add(whereCondition);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
@@ -243,6 +246,10 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + contractHolder + "'");
 		inputList.add("'" + projectionDescription + "'");
 		return inputList;
+		} catch (SQLException e) {
+			gtnLogger.error(e+"");
+			return Collections.emptyList();
+		}
 	}
 	
 	private List<String> getCffInputList(Map<String, String> criteriaMap){
