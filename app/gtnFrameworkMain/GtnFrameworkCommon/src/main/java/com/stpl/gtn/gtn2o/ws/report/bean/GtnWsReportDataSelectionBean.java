@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -451,11 +452,11 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public List<Object> getCustomDataList() {
-		return customDataList;
+		return customDataList == null ? customDataList : new ArrayList<>(customDataList);
 	}
 
 	public void setCustomDataList(List<Object> customDataList) {
-		this.customDataList = customDataList;
+		this.customDataList = customDataList!=null? new ArrayList<>(customDataList):customDataList;
 	}
 
 }
