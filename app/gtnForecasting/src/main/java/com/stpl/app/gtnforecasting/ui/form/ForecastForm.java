@@ -1133,7 +1133,9 @@ public class ForecastForm extends AbstractForm {
 	 */
 	@Override
 	protected void btnSaveLogic() {
-             if (NonMandatedLogic.isProjectionSavedSuccessFully(session)) return;
+             if (NonMandatedLogic.isProjectionSavedSuccessFully(session)){
+                 return;
+             }
 		MessageBox.showPlain(Icon.QUESTION, "Save Confirmation", "Are you sure you want to save the projection?",
 				new MessageBoxListener() {
                                         @Override
@@ -1143,7 +1145,7 @@ public class ForecastForm extends AbstractForm {
                                                                 session.setProjectionName(data.getProjectionName());
                                                                 session.setDescription(data.getProjectionDescription());
                                                                 dsLogic.updateProjectionNameAndProjectionDescription(session);
-								saveProjection();
+								saveProjection(true);
 								final Notification notif = new Notification("For Projection "+
 										session.getProjectionName() + " ,Save has been successfully Intiated",
  										Notification.Type.HUMANIZED_MESSAGE);
@@ -1240,8 +1242,10 @@ public class ForecastForm extends AbstractForm {
 								|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
 							try {
 								NonMandatedLogic nmLogic = new NonMandatedLogic();
-								if (NonMandatedLogic.isProjectionSavedSuccessFully(session)) return;
-                                                                saveProjection();
+								if (NonMandatedLogic.isProjectionSavedSuccessFully(session)){ 
+                                                                    return;
+                                                                }
+                                                                saveProjection(false);
 								nmLogic.deleteTempBySession();
 
 								if (editWindow != null) {
@@ -1309,7 +1313,7 @@ public class ForecastForm extends AbstractForm {
 										.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
 								resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaders());
 							}
-							saveProjection();
+							saveProjection(false);
 						} catch (IllegalArgumentException ex) {
 							LOGGER.error(ex.getMessage());
 						}
@@ -1422,8 +1426,8 @@ public class ForecastForm extends AbstractForm {
 					@Override
 					public void windowClose(Window.CloseEvent e) {
 						try {
-							nmPPAInitProcedure();
 							if (ppaProjectionResults.isIsTabVisible()) {
+                                                                nmPPAInitProcedure();
 								ppaProjectionResults.getContent();
 								ppaProjectionResults.ppaProcedure();
 							}
@@ -1487,7 +1491,7 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Saves the projection.
 	 */
-	private void saveProjection() {
+	private void saveProjection(boolean isSave) {
 		LOGGER.debug("Entering SaveProjection method---->>= {} " , session.getProjectionId());
 		try {
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
@@ -1498,7 +1502,7 @@ public class ForecastForm extends AbstractForm {
 				List<Future> saveFutureList = new ArrayList<>();
 				// To save data from temp to main. threads used
 				logic.saveTempToMain(session, service, saveFutureList, discountListView);
-
+                                
 				projectionVariance.savePvSelections();
 				salesProjectionResults.saveSPResults();
 				nmSalesProjection.saveSPSave();
@@ -1510,6 +1514,9 @@ public class ForecastForm extends AbstractForm {
 				dsLogic.saveCurrenctActiveFile(session);
 				// Below code will wait for the temp to main insertion to get
 				// complete
+                                if(!isSave){
+                                commUtil.isProcedureCompletedForSubmit("FORECASTING", "SAVE_VIEW", session);
+                                }
 				
 			} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
 				List<Future> saveFutureList = new ArrayList<>();
@@ -1558,7 +1565,7 @@ public class ForecastForm extends AbstractForm {
 			NonMandatedLogic nmLogic = new NonMandatedLogic();
 			Map<String, Object> params = new HashMap<>();
 			params.put(Constant.PROJECTION_ID, session.getProjectionId());
-			saveProjection();
+			saveProjection(false);
 			if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED))
 					&& (!checkMandatedDiscountAvailablity(session))) {
 				Object[] orderedArgs = { session.getProjectionId(), session.getUserId(), "SPAP",
@@ -1704,7 +1711,7 @@ public class ForecastForm extends AbstractForm {
     @Override
     protected void btnRefreshLogic() {
 
-        saveProjection();
+        saveProjection(false);
     }
 
     public void pushUpdate(String indicator) {
