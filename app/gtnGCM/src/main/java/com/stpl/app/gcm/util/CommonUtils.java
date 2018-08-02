@@ -120,21 +120,6 @@ public class CommonUtils {
         }
     }
 
-    /**
-     * To check whether the given string is double or not
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isDouble(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     public static SessionDTO attachSessionId(SessionDTO session) {
         session.setSessionId(createSessionId());
         session.setUserId(String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
