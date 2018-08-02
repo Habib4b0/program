@@ -137,6 +137,7 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 					comboBox.setSelectedItem(bean.getSelectedVariable());
 				}
 			}
+			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownValue", componentId).loadV8ComboBoxComponentValue(0);
 		}
 	}
 
