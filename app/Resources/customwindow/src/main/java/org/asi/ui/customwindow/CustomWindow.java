@@ -248,7 +248,6 @@ public class CustomWindow extends Window {
             myTray = createMinimizeTray(null);
         }
         if (myTray != null) {
-           setVisiblility(!getMinimize());
             myTray.addWindowItem(this);
             addCloseListener(closelistener);
         }
