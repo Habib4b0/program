@@ -832,7 +832,7 @@ public class CommonUtils {
 
     public static boolean isInteger(String strr) {
         try {
-             return strr.matches("^\\d+$");
+              return strr != null && !"null".equals(strr)&& strr.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }
