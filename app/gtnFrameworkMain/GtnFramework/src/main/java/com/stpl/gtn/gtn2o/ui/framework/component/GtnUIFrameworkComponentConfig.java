@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldCon
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.inlinedate.GtnUIFrameworkInlineDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTabConfig;
@@ -56,6 +55,8 @@ public class GtnUIFrameworkComponentConfig {
 	private String componentWsFieldId;
 
 	private List<String> componentStyle = new ArrayList<>();
+        private List<String> textComponentStyle = new ArrayList<>();
+        private List<String> comboBoxComponentStyle = new ArrayList<>();    
 	private List<Object> queryInputs = new ArrayList<>();
 	private GtnUIFrameworkComboBoxConfig gtnComboboxConfig;
 	private GtnUIFrameworkPagedTableConfig gtnPagedTableConfig;
@@ -107,9 +108,9 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkButtonConfig buttonConfig;
 	private GtnUIFrameWorkActionConfig gtnUIFrameWorkColumnGeneratorConfig;
 	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
-	private GtnUIFrameworkInlineDateFieldConfig gtnUIFrameworkInlineDateFieldConfig;
 	private String customReference = "";
 	private String vaadinComponentPlaceHolder = "";
+        private GtnUIFrameworkDateFieldConfig gtnUIFrameworkInlineDateFieldConfig;
 	/*
 	 * List of dependent componentIds. For example is combobox1 is changed, then
 	 * combobox2 has to load, then combobox2 will be the dependent component of
@@ -147,7 +148,7 @@ public class GtnUIFrameworkComponentConfig {
 	}
 
 	public GtnUIFrameworkComponentConfig(GtnUIFrameworkComponentConfig componentConfig) {
-		this.componentType = componentConfig.getComponentType();
+		this.componentType = componentConfig.getComponentType(); 
 		this.componentName = componentConfig.getComponentName();
 		this.componentId = componentConfig.getComponentId();
 		this.componentWidth = componentConfig.getComponentWidth();
@@ -160,6 +161,8 @@ public class GtnUIFrameworkComponentConfig {
 		this.resetToDefaultAllowed = componentConfig.isResetToDefaultAllowed();
 		this.componentWsFieldId = componentConfig.getComponentWsFieldId();
 		this.componentStyle = componentConfig.getComponentStyle();
+                this.textComponentStyle=componentConfig.getTextComponentStyle();
+                this.comboBoxComponentStyle=componentConfig.getComboBoxComponentStyle();
 		this.queryInputs = componentConfig.getQueryInputs();
 		this.gtnComboboxConfig = componentConfig.getGtnComboboxConfig();
 		this.gtnPagedTableConfig = componentConfig.getGtnPagedTableConfig();
@@ -261,6 +264,34 @@ public class GtnUIFrameworkComponentConfig {
 			return;
 		}
 		this.componentStyle.add(componentStyle);
+	}
+        
+        public List<String> getComboBoxComponentStyle() {
+        return comboBoxComponentStyle == null ? comboBoxComponentStyle : Collections.unmodifiableList(comboBoxComponentStyle);
+        }
+
+         public void setComboBoxComponentStyle(List<String> comboBoxComponentStyle) {
+        this.comboBoxComponentStyle = new ArrayList<>(comboBoxComponentStyle);
+        }
+         
+         public void addComboComponentStyle(String comboBoxComponentStyle) {
+		if (comboBoxComponentStyle == null) {
+			return;
+		}
+		this.comboBoxComponentStyle.add(comboBoxComponentStyle);
+	}
+        public List<String> getTextComponentStyle() {
+            return textComponentStyle == null ? textComponentStyle : Collections.unmodifiableList(textComponentStyle);      
+        }
+
+        public void setTextComponentStyle(List<String> textComponentStyle) {
+             this.textComponentStyle = new ArrayList<>(textComponentStyle);
+        }
+        public void addTextComponentStyle(String textComponentStyle) {
+		if (textComponentStyle == null) {
+			return;
+		}
+		this.textComponentStyle.add(textComponentStyle);
 	}
 
 	public GtnUIFrameworkComboBoxConfig getGtnComboboxConfig() {
@@ -751,14 +782,6 @@ public class GtnUIFrameworkComponentConfig {
 	public void setVaadinComponentPlaceHolder(String vaadinComponentPlaceHolder) {
 		this.vaadinComponentPlaceHolder = vaadinComponentPlaceHolder;
 	}
-        
-         public GtnUIFrameworkInlineDateFieldConfig getGtnUIFrameworkInlineDateFieldConfig() {
-            return gtnUIFrameworkInlineDateFieldConfig;
-        }
-
-        public void setGtnUIFrameworkInlineDateFieldConfig(GtnUIFrameworkInlineDateFieldConfig gtnUIFrameworkInlineDateFieldConfig) {
-            this.gtnUIFrameworkInlineDateFieldConfig = gtnUIFrameworkInlineDateFieldConfig;
-        }
 
 	public boolean isUserOriginatedFlag() {
 		return userOriginatedFlag;
@@ -767,5 +790,12 @@ public class GtnUIFrameworkComponentConfig {
 	public void setUserOriginatedFlag(boolean userOriginatedFlag) {
 		this.userOriginatedFlag = userOriginatedFlag;
 	}
+        
+        public GtnUIFrameworkDateFieldConfig getGtnUIFrameworkInlineDateFieldConfig() {
+            return gtnUIFrameworkInlineDateFieldConfig;
+        }
 
+        public void setGtnUIFrameworkInlineDateFieldConfig(GtnUIFrameworkDateFieldConfig gtnUIFrameworkInlineDateFieldConfig) {
+            this.gtnUIFrameworkInlineDateFieldConfig = gtnUIFrameworkInlineDateFieldConfig;
+        }
 }

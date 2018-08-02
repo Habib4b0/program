@@ -25,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-@Scope(value = "singleton")
+@Service
+@Scope("prototype")
 public class GtnWsAdjustmentTableLoadService {
 
     @Autowired
@@ -40,11 +40,15 @@ public class GtnWsAdjustmentTableLoadService {
 
     private boolean isReserve = true;
 
+    public GtnWsAdjustmentTableLoadService() {
+        super();
+    }
+
     public String loadResults(GtnUIFrameworkWebserviceRequest gtnWsRequest, boolean isCount) {
         String finalSql = StringUtils.EMPTY;
         try {
             GtnWsGeneralRequest generalRequest = gtnWsRequest.getGtnWsGeneralRequest();
-            filterMap = GtnWsAdjusmtmentDetailsQueryConstants.getColumnMap();
+            filterMap = new GtnWsAdjusmtmentDetailsQueryConstants().getColumnMap();
             String filter = getFilters(gtnWsRequest);
             String searchSql = isReserve ? gtnWsSqlService.getQuery("searchReserveAdjustmentDetails") : gtnWsSqlService.getQuery("searchGTNAdjustmentDetails");
             String selectSql = isCount ? gtnWsSqlService.getQuery("searchAdjustmentDetailsCount") : gtnWsSqlService.getQuery("searchAdjustmentDetailsData");
@@ -87,7 +91,8 @@ public class GtnWsAdjustmentTableLoadService {
 
     private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
         return new StringBuilder(filterMap.get(searchCriteria.getFieldId())).append(" LIKE '")
-                .append(searchCriteria.isFilter() ? "%" + searchCriteria.getFilterValue1() + "%" : searchCriteria.getFilterValue1().replace("*", "%")).append("'").toString();
+                .append(searchCriteria.isFilter() ? GtnWsAdjusmtmentDetailsQueryConstants.PERCENT + searchCriteria.getFilterValue1() + GtnWsAdjusmtmentDetailsQueryConstants.PERCENT
+                        : searchCriteria.getFilterValue1().replace(GtnWsAdjusmtmentDetailsQueryConstants.ASTERISK, GtnWsAdjusmtmentDetailsQueryConstants.PERCENT)).append(GtnWsAdjusmtmentDetailsQueryConstants.QUOTES).toString();
     }
 
     private String getOrderby(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
@@ -97,7 +102,7 @@ public class GtnWsAdjustmentTableLoadService {
         for (GtnWebServiceOrderByCriteria searchCriteria : gtnWsRequest.getGtnWsSearchRequest()
                 .getGtnWebServiceOrderByCriteriaList()) {
             if (searchCriteria.getOrderByCriteria() != null && !searchCriteria.getOrderByCriteria().isEmpty()) {
-                criteria.append(getOrder(searchCriteria)).append(" ").append(searchCriteria.getOrderByCriteria());
+                criteria.append(getOrder(searchCriteria)).append(GtnWsAdjusmtmentDetailsQueryConstants.SPACE).append(searchCriteria.getOrderByCriteria());
             }
         }
         return gtnWsRequest.getGtnWsSearchRequest()
@@ -116,20 +121,20 @@ public class GtnWsAdjustmentTableLoadService {
         String returnValue;
         switch (searchCriteria.getFieldId()) {
             case GtnFrameworkCommonConstants.GL_COMPANY:
-                returnValue = " COMPANY LIKE '" + searchCriteria.getFilterValue1() + "'";
+                returnValue = " COMPANY LIKE '" + searchCriteria.getFilterValue1() + GtnWsAdjusmtmentDetailsQueryConstants.QUOTES;
                 break;
             case GtnFrameworkCommonConstants.BUSINESS_UNIT:
-                returnValue = " BUSINESS_UNIT LIKE '" + searchCriteria.getFilterValue1() + "'";
+                returnValue = " BUSINESS_UNIT LIKE '" + searchCriteria.getFilterValue1() + GtnWsAdjusmtmentDetailsQueryConstants.QUOTES;
                 break;
             case GtnFrameworkCommonConstants.DEDUCTION_LEVEL:
-                returnValue = " COMPANY LIKE '" + searchCriteria.getFilterValue1() + "'";
+                returnValue = " COMPANY LIKE '" + searchCriteria.getFilterValue1() + GtnWsAdjusmtmentDetailsQueryConstants.QUOTES;
                 break;
             case GtnFrameworkCommonConstants.REDEMPTION_PERIOD:
                 String[] str = searchCriteria.getFilterValue1().split("\\-");
                 returnValue = " (REDEMPTION_PERIOD_DATE BETWEEN CONVERT(DATETIME,'" + str[0] + "',101) AND CONVERT(DATETIME,'" + str[1] + "',101)) ";
                 break;
             case GtnFrameworkCommonConstants.CUSTOMER_NO:
-                returnValue = "COMPANY_NO LIKE '" + searchCriteria.getFilterValue2() + "'";
+                returnValue = "COMPANY_NO LIKE '" + searchCriteria.getFilterValue2() + GtnWsAdjusmtmentDetailsQueryConstants.QUOTES;
                 break;
             default:
                 returnValue = getCriteria(searchCriteria);

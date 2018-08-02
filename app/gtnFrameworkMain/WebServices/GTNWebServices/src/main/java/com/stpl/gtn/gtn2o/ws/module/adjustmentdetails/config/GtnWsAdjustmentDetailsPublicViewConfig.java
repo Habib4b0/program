@@ -23,31 +23,31 @@ import java.util.Map;
  */
 public class GtnWsAdjustmentDetailsPublicViewConfig implements GtnWsSearchQueryConfigLoader {
 
-    private Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap = null;
+    private Map<String, GtnWsSearchQueryConfig> adjustmentDetailsSearchQueryConfigMap = null;
+    private Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
 
     @Override
     public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
-        if (searchQueryConfigMap == null) {
-            searchQueryConfigMap = new HashMap<>();
-            loadCustomViewSearchQueryConfig();
+        if (adjustmentDetailsSearchQueryConfigMap == null) {
+            adjustmentDetailsSearchQueryConfigMap = new HashMap<>();
+            loadAdjustmentDetailsSearchQueryConfig();
         }
-        return searchQueryConfigMap;
+        return adjustmentDetailsSearchQueryConfigMap;
     }
 
     public void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
-        this.searchQueryConfigMap = searchQueryConfigMap;
+        this.adjustmentDetailsSearchQueryConfigMap = searchQueryConfigMap;
     }
 
-    private Map<String, GtnWsSearchQueryConfig> loadCustomViewSearchQueryConfig() {
+    private Map<String, GtnWsSearchQueryConfig> loadAdjustmentDetailsSearchQueryConfig() {
 
         GtnWsSearchQueryConfig gtnWebServiceCustSearchQueryConfig = new GtnWsSearchQueryConfig();
         gtnWebServiceCustSearchQueryConfig.setCountQuery(GtnWsAdjusmtmentDetailsQueryConstants.SELECT_PRIVATE_PUBLIC_VIEW);
         gtnWebServiceCustSearchQueryConfig.setSearchQuery(GtnWsAdjusmtmentDetailsQueryConstants.SELECT_PRIVATE_PUBLIC_VIEW);
         gtnWebServiceCustSearchQueryConfig.setCountQuerySelectClause("Select  count(distinct AVM.ARM_VIEW_MASTER_SID) ");
         GtnWsSearchQueryConfigProvider searchConfigProvider = GtnWsSearchQueryConfigProvider.getInstance();
-        Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
 
-        fieldToColumnDetailsMap.put("viewMasterSId",searchConfigProvider.getColumnIntegerConfig("ARM_VIEW_MASTER_SID", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
+        fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.ARM_VIEW_MASTER_SID, searchConfigProvider.getColumnIntegerConfig("ARM_VIEW_MASTER_SID", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
         fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME, searchConfigProvider.getColumnStringConfig("VIEW_NAME", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
         fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_TYPE, searchConfigProvider.getColumnStringConfig("VIEW_TYPE", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
         fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_DATE, searchConfigProvider.getColumnDateConfig("CREATED_DATE", GtnWsAdjusmtmentDetailsQueryConstants.AVM));
@@ -84,9 +84,9 @@ public class GtnWsAdjustmentDetailsPublicViewConfig implements GtnWsSearchQueryC
         orderByList.add(new GtnWebServiceOrderByCriteria("AVM.ARM_VIEW_MASTER_SID", "ASC"));
         gtnWebServiceCustSearchQueryConfig.setOrderByClause(orderByList);
 
-        searchQueryConfigMap.put("privatePublicViewSearchQuery", gtnWebServiceCustSearchQueryConfig);
+        adjustmentDetailsSearchQueryConfigMap.put("privatePublicViewSearchQuery", gtnWebServiceCustSearchQueryConfig);
 
-        return searchQueryConfigMap;
+        return adjustmentDetailsSearchQueryConfigMap;
     }
 
 }

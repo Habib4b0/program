@@ -38,7 +38,6 @@ public class SummaryLookUp extends CustomComponent {
     private SelectionDTO selection;
     private final TabSheet mainTab = new TabSheet();
     private int tabPosition = 0;
-    private final List<Integer> tabList = new ArrayList<>();
     private Summary sales;
     private List<ItemIndexDto> itemList;
     private Summary rebate;
@@ -106,21 +105,18 @@ public class SummaryLookUp extends CustomComponent {
             } else {
                 mainTab.replaceComponent(sales, sales.getContent(itemList, selection));
             }
-            tabList.add(tabPosition);
         }
         if (tabPosition == NumericConstants.TWO) {
             if (selection.isIsIFP()) {
             } else {
                 mainTab.replaceComponent(rebate, rebate.getContent(itemList, selection));
             }
-            tabList.add(tabPosition);
         }
         if (tabPosition == NumericConstants.THREE) {
             if (selection.isIsIFP()) {
             } else {
                 mainTab.replaceComponent(salesAndRebate, salesAndRebate.getContent(itemList, selection));
             }
-            tabList.add(tabPosition);
         }
     }
 

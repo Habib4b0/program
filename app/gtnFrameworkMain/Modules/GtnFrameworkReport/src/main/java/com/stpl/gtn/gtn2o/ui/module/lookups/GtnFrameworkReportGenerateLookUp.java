@@ -24,7 +24,7 @@ public class GtnFrameworkReportGenerateLookUp {
 	public GtnUIFrameworkViewConfig getGtnReportGenerateLookUpView(String namespace) {
 
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
-		view.setViewName("Report Generate Lookup View");
+		view.setViewName(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD);
 		view.setViewId(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
 		view.setDefaultView(false);
 		view.setReplicable(true);

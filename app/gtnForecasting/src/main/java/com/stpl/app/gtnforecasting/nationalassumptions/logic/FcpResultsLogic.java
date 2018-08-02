@@ -584,8 +584,8 @@ public class FcpResultsLogic {
             }
         }
 
-        for (int itemSid : nonFampMap.keySet()) {
-            projDTOList.addAll(getNonFampCust(list, projSelDTO, itemSid, nonFampMap.get(itemSid)));
+        for (Map.Entry<Integer, String> itemSid : nonFampMap.entrySet()) {
+            projDTOList.addAll(getNonFampCust(list, projSelDTO, itemSid.getKey(), itemSid.getValue()));
         }
 
         return projDTOList;

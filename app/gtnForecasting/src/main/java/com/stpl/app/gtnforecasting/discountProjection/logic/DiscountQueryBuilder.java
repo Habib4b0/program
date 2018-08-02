@@ -106,9 +106,9 @@ public class DiscountQueryBuilder {
                 baselineIndicator = "P";
             }
 
-            for (String discountName : periodsMap.keySet()) {
-                baselinePeriodsList = periodsMap.get(discountName).get(baselineIndicator);
-                selectedPeriodsList = periodsMap.get(discountName).get("P");
+            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+                baselinePeriodsList = discountName.getValue().get(baselineIndicator);
+                selectedPeriodsList = discountName.getValue().get("P");
 
                 baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
                 selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -124,12 +124,12 @@ public class DiscountQueryBuilder {
                 LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
                 LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
                 masterTableUpdateQuery = "UPDATE DM SET DM.BASELINE_PERIODS = '" + baselinePeriods + "', DM.SELECTED_PERIODS = '" + selectedPeriods + "' FROM ST_NM_DISCOUNT_PROJ_MASTER DM ";
-                discountName = discountName.contains("~") ? discountName.split("~")[0] : discountName ;
+               String discountNameValue = discountName.getKey().contains("~") ? discountName.getKey().split("~")[0] : discountName.getKey() ;
                 if (levelType.equals(Constants.PROGRAM)) {
                     masterTableUpdateQuery += " JOIN  RS_CONTRACT RS ON RS.RS_CONTRACT_SID = DM.RS_CONTRACT_SID \n"
-                            + "WHERE RS.RS_NAME = '" + discountName + "' AND DM.CHECK_RECORD = 1";
+                            + "WHERE RS.RS_NAME = '" + discountNameValue + "' AND DM.CHECK_RECORD = 1";
                 } else {
-                    masterTableUpdateQuery += " WHERE  DM.PRICE_GROUP_TYPE = '" + discountName + "' AND DM.CHECK_RECORD = 1";
+                    masterTableUpdateQuery += " WHERE  DM.PRICE_GROUP_TYPE = '" + discountNameValue + "' AND DM.CHECK_RECORD = 1";
                 }
 
             }

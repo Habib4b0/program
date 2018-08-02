@@ -27,18 +27,6 @@ public class PMPYTradingPartnerHistoryChart {
     private final List<PMPYRowDto> dto;
 
     /**
-     * The chart.
-     */
-    /**
-     * The conf.
-     */
-    /**
-     * The chart1.
-     */
-    /**
-     * The conf1.
-     */
-    /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PMPYTradingPartnerHistoryChart.class);

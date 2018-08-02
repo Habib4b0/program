@@ -49,7 +49,7 @@ public class HeaderUtils {
 		repaintGrid(pagedTreeGrid);
 		List<Object> currentSingleColumns = addSingleHeader(pagedTreeGrid, columnStart, columnEndCount);
 		if (pagedTreeGrid.getTableConfig().getCustomFilterConfigMap() != null) {
-			pagedTreeGrid.shiftLeftSingeHeader = true;
+			pagedTreeGrid.setShiftLeftSingeHeader(true); 
 		}
 		if (pagedTreeGrid.getTableConfig().isEnableRadioButtonInSingleHeader()) {
 			HeaderRow single = pagedTreeGrid.getGrid().getHeaderRow(0);
@@ -95,9 +95,9 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
 			pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
 			parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
-			pagedTreeGrid.columnLazyLoading = true;
-			pagedTreeGrid.initialConfig(pagedTreeGrid.componentIdInMap);
-			pagedTreeGrid.columnLazyLoading = false;
+			pagedTreeGrid.setColumnLazyLoading(true); 
+			pagedTreeGrid.initialConfig(pagedTreeGrid.getComponentIdInMap());
+			pagedTreeGrid.setColumnLazyLoading(false);
 
 		}
 	}
@@ -106,7 +106,7 @@ public class HeaderUtils {
 		HeaderRow groupingHeader = pagedTreeGrid.getGrid().getHeaderRowCount() > 1
 				? pagedTreeGrid.getGrid().getHeaderRow(1)
 				: pagedTreeGrid.getGrid().prependHeaderRow();
-		if (pagedTreeGrid.shiftLeftSingeHeader) {
+		if (pagedTreeGrid.isShiftLeftSingeHeader()) {
 			shiftLeftHeader(groupingHeader, pagedTreeGrid);
 		}
 		Iterator<String> douleLeftHeaders = pagedTreeGrid.getTableConfig().getLeftTableDoubleHeaderVisibleHeaders()
@@ -181,7 +181,7 @@ public class HeaderUtils {
 			FilterUtils.setFilterToGrid(pagedTreeGrid);
 		}
 		addTableHeaderCheck(pagedTreeGrid);
-		pagedTreeGrid.shiftLeftSingeHeader = false;
+		pagedTreeGrid.setShiftLeftSingeHeader(false);
 	}
 
 	private static List<String> getSingleColumnsMapping(List<Object> currentSingleColumns, Object[] joinList) {

@@ -516,9 +516,9 @@ public class DiscountProjectionLogic {
             baselineIndicator = "P";
         }
 
-        for (String discountName : periodsMap.keySet()) {
-            baselinePeriodsList = periodsMap.get(discountName).get(baselineIndicator);
-            selectedPeriodsList = periodsMap.get(discountName).get("P");
+         for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+            baselinePeriodsList = discountName.getValue().get(baselineIndicator);
+            selectedPeriodsList = discountName.getValue().get("P");
 
             baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
             selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -1103,7 +1103,7 @@ public class DiscountProjectionLogic {
                 }
             }
             detailsSid = idStringBuilder.toString();
-            detailsSid.substring(0, detailsSid.length() - 1);
+            detailsSid = detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
