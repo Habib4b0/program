@@ -2990,11 +2990,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public int getCalculationBased() {
 
         boolean tempSalesvalue = false;
-        boolean tempUnitValue = false;
+        boolean tempUnitValue =  false;
 
            for (Map.Entry<Object, String> key : radioMap.entrySet()) {
             String value = key.getValue();
-            if (checkBoxMap.get(key)) {
+            if (checkBoxMap.get(key.getKey())) {
                 if ((value != null) && (value.contains(Constant.ACTUALSALES))) {
                     tempSalesvalue = true;
                 }
