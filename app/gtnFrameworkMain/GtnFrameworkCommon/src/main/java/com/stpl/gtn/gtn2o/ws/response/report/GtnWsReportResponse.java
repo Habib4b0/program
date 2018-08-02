@@ -21,7 +21,7 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 	private List<GtnWsRecordBean> recordBeanResultList;
 
 	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
-	private List<Object> resultList;
+	private List<Object[]> resultList;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 
 	private GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean;
@@ -44,11 +44,11 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 		this.variableBreakdownLookupBean = variableBreakdownLookupBean;
 	}
 
-	public List<Object> getResultList() {
+	public List<Object[]> getResultList() {
 		return resultList == null ? resultList : new ArrayList<>(resultList);
 	}
 
-	public void setResultList(List<Object> resultList) {
+	public void setResultList(List<Object[]> resultList) {
 		this.resultList = resultList == null ? resultList : new ArrayList<>(resultList);
 	}
 
