@@ -127,7 +127,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
                 }
                 String notSearchProjId;
                 StringBuilder idStringBuilder = new StringBuilder();
-                idStringBuilder.append("'" ).append( currentProjId ).append( "'");
+                idStringBuilder.append('\'' ).append( currentProjId ).append( '\'');
                 for (int j = 0; j < selectedResultsBean.size(); j++) {
                     idStringBuilder.append( ",'" ).append( selectedResultsBean.getIdByIndex(j).getProjectionId() ).append( '\'');
                 }

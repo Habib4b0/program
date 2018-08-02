@@ -387,8 +387,8 @@ public StplSecurityDAO getDto() {
         String query;
         String[] str = null;
         String mod;
-        if (moduleName.contains(ConstantsUtils.COMMA)) {
-            str = moduleName.split(ConstantsUtils.COMMA);
+        if (moduleName.contains(String.valueOf(ConstantsUtils.COMMA))) {
+            str = moduleName.split(String.valueOf(ConstantsUtils.COMMA));
             mod = str[0];
         } else {
             mod = moduleName;
@@ -429,8 +429,8 @@ public StplSecurityDAO getDto() {
         String query;
         String[] str = null;
         String mod;
-        if (moduleName.contains(ConstantsUtils.COMMA)) {
-            str = moduleName.split(ConstantsUtils.COMMA);
+        if (moduleName.contains(String.valueOf(ConstantsUtils.COMMA))) {
+            str = moduleName.split(String.valueOf(ConstantsUtils.COMMA));
             mod = str[0];
         } else {
             mod = moduleName;
