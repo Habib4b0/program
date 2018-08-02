@@ -289,7 +289,7 @@ public class CDRLogic {
                 StringBuilder detailsQuery = new StringBuilder();
                 for (CDRDto object : (List<CDRDto>) beanObj) {
                     if (object.getCdrDetailsSid() == 0) {
-                        String value = (StringUtils.EMPTY.equals(object.getValueText()) || ConstantsUtils.NULL.equals(object.getValueText())) ? ConstantsUtils.ZERO : object.getValueText().replace(ConstantsUtils.COMMA, StringUtils.EMPTY).replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).trim();
+                        String value = (StringUtils.EMPTY.equals(object.getValueText()) || ConstantsUtils.NULL.equals(object.getValueText())) ? ConstantsUtils.ZERO : object.getValueText().replace(String.valueOf(ConstantsUtils.COMMA), StringUtils.EMPTY).replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).trim();
                         detailsQuery.append(", ( ").append(sessionDTO.getSystemId())
                                 .append(',').
                                 append('\'').append(object.getLineTypeDdlb().getId()).append('\'').append(',').
@@ -309,7 +309,7 @@ public class CDRLogic {
                 if (!detailsQuery.toString().isEmpty()) {
 
                     String masterQuery = QueryUtils.getQuery(null, "insertRuleDetails-Edit");
-                    String detailQuery = detailsQuery.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
+                    String detailQuery = detailsQuery.toString().replaceFirst(String.valueOf(ConstantsUtils.COMMA), StringUtils.EMPTY);
                     String finalQuery = masterQuery.concat(detailQuery);
                     HelperTableLocalServiceUtil.executeUpdateQuery(finalQuery);
                 }
@@ -325,7 +325,7 @@ public class CDRLogic {
             for (Object id : ruleDetailsIds) {
                 idsBuilder.append(',' ).append( String.valueOf(id));
             }
-            String ids = idsBuilder.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
+            String ids = idsBuilder.toString().replaceFirst(String.valueOf(ConstantsUtils.COMMA), StringUtils.EMPTY);
             String masterQuery = "delete FROM CDR_DETAILS where " + columnSid + "  in (" + ids + ") ";
             HelperTableLocalServiceUtil.executeUpdateQuery(masterQuery);
         }

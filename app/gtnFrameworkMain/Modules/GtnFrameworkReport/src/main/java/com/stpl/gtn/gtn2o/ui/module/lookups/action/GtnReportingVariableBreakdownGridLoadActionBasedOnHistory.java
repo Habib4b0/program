@@ -125,14 +125,19 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 			valueList.clear();
 			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();	
     		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-    				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-    		List<GtnReportVariableBreakdownLookupBean> variableLookupBeanList = dataSelectionBean.getVariableBreakdownSaveList();
-			for (GtnReportVariableBreakdownLookupBean bean : variableLookupBeanList) {
-				
-				ComboBox comboBox = (ComboBox) grid.getHeaderRow(bean.getRowCount()).getCell(bean.getProperty())
-						.getComponent();
-				comboBox.setSelectedItem(bean.getSelectedVariable());
+					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			if (dataSelectionBean != null && dataSelectionBean.getVariableBreakdownSaveList() != null) {
+				List<GtnReportVariableBreakdownLookupBean> variableLookupBeanList = dataSelectionBean
+						.getVariableBreakdownSaveList();
+
+				for (GtnReportVariableBreakdownLookupBean bean : variableLookupBeanList) {
+
+					ComboBox comboBox = (ComboBox) grid.getHeaderRow(bean.getRowCount()).getCell(bean.getProperty())
+							.getComponent();
+					comboBox.setSelectedItem(bean.getSelectedVariable());
+				}
 			}
+			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownValue", componentId).loadV8ComboBoxComponentValue(0);
 		}
 	}
 

@@ -8,7 +8,7 @@ public final class ConstantsUtils {
     /**
      * The comma.
      */
-    public static final String COMMA = ",";
+    public static final char COMMA = ',';
     /**
      * The percentage.
      */

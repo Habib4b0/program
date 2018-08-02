@@ -830,9 +830,9 @@ public class CommonUtils {
         return select;
     }
 
-    public static boolean isInteger(String s) {
+    public static boolean isInteger(String strr) {
         try {
-            return s.matches("^[0-9]");
+             return strr.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }
