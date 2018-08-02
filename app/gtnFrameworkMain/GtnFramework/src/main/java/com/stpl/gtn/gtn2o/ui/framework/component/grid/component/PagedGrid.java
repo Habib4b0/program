@@ -611,8 +611,8 @@ public class PagedGrid {
 
 						}
 
-						startDate = getInlineDates(inlineDateFieldStartDate);
-						endDate = getInlineDates(inlineDateFieldEndDate);
+						startDate = getInlineDates(inlineDateFieldStartDate, inlineDateFieldEndDate);
+						endDate = getInlineDates(inlineDateFieldEndDate, inlineDateFieldStartDate);
 						textField.setValue(startDate + SPECIAL_CHAR + endDate);
 						tableConfig.getFilterValueMap().put(property, startDate + SPECIAL_CHAR + endDate);
 						refreshGrid();
@@ -634,10 +634,10 @@ public class PagedGrid {
 
 	}
 
-	private String getInlineDates(InlineDateField inlineDate) {
+	private String getInlineDates(InlineDateField inlineStartDate, InlineDateField inlineEndDate) {
 		String value = EMPTY;
-		if (inlineDate.getData() != null && inlineDate.getData() == null) {
-			value = inlineDate.getData().toString();
+		if (inlineStartDate.getData() != null && inlineEndDate.getData() == null) {
+			value = inlineStartDate.getData().toString();
 		}
 		return value;
 	}
