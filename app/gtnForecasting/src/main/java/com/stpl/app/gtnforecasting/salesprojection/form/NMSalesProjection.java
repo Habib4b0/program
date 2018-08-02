@@ -180,7 +180,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setIsFilter(true);
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
-            projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
+            projectionDTO.setFilterLevelNo(Integer.parseInt(projectionDTO.getLevelFilterValue()));
             nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
@@ -521,7 +521,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 inputParameters[0] = session.getProjectionId();
                 inputParameters[1] = hierarchyNo;
                 List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
-                int projectionDetailsId = Integer.valueOf(projectionDetailsIdForPMPY.get(0).toString());
+                int projectionDetailsId = Integer.parseInt(projectionDetailsIdForPMPY.get(0).toString());
                 List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
 
                 String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");

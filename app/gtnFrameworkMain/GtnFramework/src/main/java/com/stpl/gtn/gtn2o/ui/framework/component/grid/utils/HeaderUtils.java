@@ -49,7 +49,7 @@ public class HeaderUtils {
 		repaintGrid(pagedTreeGrid);
 		List<Object> currentSingleColumns = addSingleHeader(pagedTreeGrid, columnStart, columnEndCount);
 		if (pagedTreeGrid.getTableConfig().getCustomFilterConfigMap() != null) {
-			pagedTreeGrid.setShiftLeftSingeHeader(true); 
+			pagedTreeGrid.setShiftLeftSingeHeader(true);
 		}
 		if (pagedTreeGrid.getTableConfig().isEnableRadioButtonInSingleHeader()) {
 			HeaderRow single = pagedTreeGrid.getGrid().getHeaderRow(0);
@@ -95,7 +95,7 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
 			pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
 			parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
-			pagedTreeGrid.setColumnLazyLoading(true); 
+			pagedTreeGrid.setColumnLazyLoading(true);
 			pagedTreeGrid.initialConfig(pagedTreeGrid.getComponentIdInMap());
 			pagedTreeGrid.setColumnLazyLoading(false);
 
@@ -148,7 +148,7 @@ public class HeaderUtils {
 			int j = 0;
 			List<Object> singleList = new ArrayList<>();
 			for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderVisibleColumns()) {
-                               singleList.clear();                               
+				singleList.clear();
 				Object[] doubleHeaders = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
 				for (Object dbl : doubleHeaders) {
 					if (pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl) != null) {
@@ -167,13 +167,7 @@ public class HeaderUtils {
 							.setItems(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
 					groupingHeader.join(columnList).setComponent(vaadinCheckBoxGroup);
 				} else {
-					if (columnList.length > 1) {
-						groupingHeader.join(columnList)
-								.setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
-					} else if (columnList.length > 0) {
-						groupingHeader.getCell(columnList[columnList.length - 1])
-								.setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
-					}
+					tripleHeaderGrouping(pagedTreeGrid, groupingHeader, columnList, j++);
 				}
 			}
 		}
@@ -182,6 +176,17 @@ public class HeaderUtils {
 		}
 		addTableHeaderCheck(pagedTreeGrid);
 		pagedTreeGrid.setShiftLeftSingeHeader(false);
+	}
+
+	private static void tripleHeaderGrouping(PagedTreeGrid pagedTreeGrid, HeaderRow groupingHeader, String[] columnList,
+			int j) {
+		if (columnList.length > 1) {
+			groupingHeader.join(columnList)
+					.setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j));
+		} else if (columnList.length > 0) {
+			groupingHeader.getCell(columnList[columnList.length - 1])
+					.setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j));
+		}
 	}
 
 	private static List<String> getSingleColumnsMapping(List<Object> currentSingleColumns, Object[] joinList) {

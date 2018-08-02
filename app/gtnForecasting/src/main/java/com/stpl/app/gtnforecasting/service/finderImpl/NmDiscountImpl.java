@@ -1202,9 +1202,9 @@ public class NmDiscountImpl {
                 baselineIndicator = "P";
             }
 
-            for (String discountName : periodsMap.keySet()) {
-                baselinePeriodsList = periodsMap.get(discountName).get(baselineIndicator);
-                selectedPeriodsList = periodsMap.get(discountName).get("P");
+            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+                baselinePeriodsList = discountName.getValue().get(baselineIndicator);
+                selectedPeriodsList = discountName.getValue().get("P");
 
                 baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
                 selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -1237,7 +1237,7 @@ public class NmDiscountImpl {
                 } else {
                     masterTableUpdateQuery += " AND DPM.PRICE_GROUP_TYPE = ";
                 }
-                masterTableUpdateQuery += "'" + discountName + "')A ON A.PROJECTION_DETAILS_SID = DM.PROJECTION_DETAILS_SID  WHERE DM.CHECK_RECORD = 1";
+                masterTableUpdateQuery += "'" + discountName.getKey() + "')A ON A.PROJECTION_DETAILS_SID = DM.PROJECTION_DETAILS_SID  WHERE DM.CHECK_RECORD = 1";
 
                 if (levelType.equals(Constants.PROGRAM)) {
                     masterTableUpdateQuery += " AND A.RS_MODEL_SID = DM.RS_MODEL_SID";

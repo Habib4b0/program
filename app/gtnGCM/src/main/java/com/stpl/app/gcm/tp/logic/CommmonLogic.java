@@ -384,7 +384,7 @@ public class CommmonLogic {
                 where = true;
             }
         }
-        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
+        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
                 query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
@@ -991,7 +991,7 @@ public class CommmonLogic {
                 where = true;
             }
         }
-        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
+        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
                 query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);

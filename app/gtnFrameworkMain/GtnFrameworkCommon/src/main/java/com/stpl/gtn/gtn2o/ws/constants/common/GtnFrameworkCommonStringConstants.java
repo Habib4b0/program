@@ -66,7 +66,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String LAYOUT = "Layout";
 
 	public static final String GTNFRAMEWORK_BASE_PATH = "com.stpl.gtnframework.base.path";
-	
+
 	public static final String GTNFRAMEWORK_BASE_PATH_PROPERTY = "com.stpl.gtnframework.base.path.property";
 
 	public static final String CREATOR = "creator";
@@ -100,7 +100,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String CSV_EXPORT_PATH = "GtnCsvExport";
 
 	public static final String EXCEL_ICON_URL = "img/excel.png";
-	
+
 	public static final String CHART_ICON_URL = "img/chart.png";
 
 	public static final String INBOUND_STATUS_A = "A";
@@ -193,14 +193,15 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String GREATER_THAN = ">";
 	public static final String CUMULATIVE_FILE_PATH = "cumulative.file.path";
 	public static final String ATTACHMENTS = "Attachments";
-        public static final String NET_SALES = "Net Sales";
+	public static final String NET_SALES = "Net Sales";
 	public static final String FETCH_PORTLET_ID = "fetchportletid";
 	public static final String CF = "CF";
 	public static final String CM = "CM";
 	public static final String CMF = "CMF";
 	public static final String GETFRIENDLYURLQUERY = "getfriendlyURLQuery";
-	
+
 	public static final String REPORT_MODULE_NAME = "report";
+	public static final String REPORT_DISPLAY_PAGINATION_LABEL = "v-report-display-pagination-label";
 
 	private GtnFrameworkCommonStringConstants() {
 	}

@@ -47,27 +47,27 @@ public class GtnFrameworkInsertCcpArm {
         super();
     }
 
-    public void insertToCPPTable(GtnARMHierarchyInputBean inputBean) {
+    public void insertToCPPTable(GtnARMHierarchyInputBean armInputBean) {
         try {
-            List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
-                    .getHierarchyBuilder(inputBean.getSelectedCustomerHierarcySid(),
-                            inputBean.getSelectedCustomerHierarchyVersionNo());
+            List<HierarchyLevelDefinitionBean> armCustomerHierarchyLevelDefinitionList = relationUpdateService
+                    .getHierarchyBuilder(armInputBean.getSelectedCustomerHierarcySid(),
+                            armInputBean.getSelectedCustomerHierarchyVersionNo());
             List<HierarchyLevelDefinitionBean> productHierarchyLevelDefinitionList = relationUpdateService
-                    .getHierarchyBuilder(inputBean.getSelectedProductHierarcySid(),
-                            inputBean.getSelectedProductHierarchyVersionNo());
-            List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerRelationLevelList = inputBean
+                    .getHierarchyBuilder(armInputBean.getSelectedProductHierarcySid(),
+                            armInputBean.getSelectedProductHierarchyVersionNo());
+            List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerRelationLevelList = armInputBean
                     .getSelectedCustomerList();
-            List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductRelationLevelList = inputBean
+            List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductRelationLevelList = armInputBean
                     .getSelectedProductList();
-            String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(inputBean,
-                    customerHierarchyLevelDefinitionList, selectedCustomerRelationLevelList, false);
-            String productHierarchyQuery = getCustomerAndContractHierarchyQuery(inputBean,
+            String armCustomerHierarchyQuery = getCustomerAndContractHierarchyQuery(armInputBean,
+                    armCustomerHierarchyLevelDefinitionList, selectedCustomerRelationLevelList, false);
+            String armProductHierarchyQuery = getCustomerAndContractHierarchyQuery(armInputBean,
                     productHierarchyLevelDefinitionList, selectedProductRelationLevelList, true);
             List<String> input = new ArrayList<>();
-            input.add(customerHierarchyQuery);
-            input.add(productHierarchyQuery);
+            input.add(armCustomerHierarchyQuery);
+            input.add(armProductHierarchyQuery);
             String withTableNameQuery = replaceTableNames(gtnWsSqlService.getQuery(input, "ccpInsertQuery"),
-                    inputBean.getTempTableMap());
+                    armInputBean.getTempTableMap());
             gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
         } catch (GtnFrameworkGeneralException e) {
             LOGGER.error(e.getMessage());

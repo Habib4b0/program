@@ -29,6 +29,10 @@ public class GtnFrameworkDataSelectionAvailableCustomers {
     @Autowired
     private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
+    public GtnFrameworkDataSelectionAvailableCustomers() {
+        super();
+    }
+
     public String getCustomerLevelQuery(GtnARMHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
         List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService
                 .getHierarchyBuilder(inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
