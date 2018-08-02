@@ -479,28 +479,25 @@ public class PagedGrid {
 		
 		hl.addComponent(textField);
 		
-		hl.addLayoutClickListener(new LayoutClickListener() {
-		@Override
-		public void layoutClick(LayoutClickEvent event) {
-			
-				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder(EMPTY);
-					}
-				}
-		});
-		textField.addBlurListener(new BlurListener(){
-				@Override
-				public void blur(BlurEvent event) {
-					if (event.getComponent() == textField){
-		                    String value = textField.getValue();
-						if(value.equals(EMPTY))
-							textField.setPlaceholder(SHOW_ALL);                                                       
-                                                        
-					}
-				} 
-		});         
+		buttonClickListener(hl, textField);
+                
+		blurListenerForTextField(textField);         
 		return hl;
 	}
+
+    private void blurListenerForTextField(TextField textField) {
+        textField.addBlurListener(new BlurListener(){
+            @Override
+            public void blur(BlurEvent event) {
+                if (event.getComponent() == textField){
+                    String value = textField.getValue();
+                    if(value.equals(EMPTY))
+                        textField.setPlaceholder(SHOW_ALL);
+                    
+                }
+            }
+        });
+    }
 
     void setPageNoFieldValue(int pageNo) {
         pageNoField.setValue(String.valueOf(pageNo + 1));
@@ -585,28 +582,9 @@ public class PagedGrid {
         try{
         TextField textField=(TextField) buttonFromGrid.getComponent(0);
               textField.setPlaceholder(SHOW_ALL);
-        buttonFromGrid.addLayoutClickListener(new LayoutClickListener() {
-		@Override
-		public void layoutClick(LayoutClickEvent event) {
-			
-				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder(EMPTY);
-					}
-				}
-		});
-		textField.addBlurListener(new BlurListener(){
-				@Override
-				public void blur(BlurEvent event) {
-					if (event.getComponent() == textField){
-		                    String value = textField.getValue();
-						if(value.equals(EMPTY))
-							textField.setPlaceholder(SHOW_ALL);
-                                                        
-					}
-                                                                         
-				}
-                                   
-		});   
+            blurListenerForTextField(textField); 
+            buttonClickListener(buttonFromGrid, textField);
+                
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -651,6 +629,18 @@ public class PagedGrid {
              gtnlogger.error("Exception while creating the filter component", e);
         }
                 
+    }
+
+    private void buttonClickListener(HorizontalLayout buttonFromGrid, TextField textField) {
+        buttonFromGrid.addLayoutClickListener(new LayoutClickListener() {
+            @Override
+            public void layoutClick(LayoutClickEvent event) {
+                
+                if (event.getChildComponent() == textField) {
+                    textField.setPlaceholder(EMPTY);
+                }
+            }
+        });
     }
 
     private InlineDateField getDateField(String caption, String id) {
