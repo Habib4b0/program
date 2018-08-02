@@ -90,14 +90,20 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 	}
 
 	private GtnUIFrameworkWebserviceResponse callWebService(final String webServiceUrl,
-			final GtnUIFrameworkWebserviceRequest request, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		if (dualListBoxConfig.getModuleType().equals("forecast")) {
-			return client.callGtnWebServiceUrl(webServiceUrl, "forecast", request,
+			final GtnUIFrameworkWebserviceRequest wsRequest, GtnUIFrameworkV8DualListBoxConfig v8DualListBoxConfig) {
+		GtnUIFrameworkWebServiceClient wsClient = new GtnUIFrameworkWebServiceClient();
+		if (v8DualListBoxConfig.getModuleType().equals("forecast")) {
+			return wsClient.callGtnWebServiceUrl(webServiceUrl, "forecast", wsRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		} else {
-			return client.callGtnWebServiceUrl(webServiceUrl, request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			return wsClient.callGtnWebServiceUrl(webServiceUrl, wsRequest,
+					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		}
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
 	}
 
 	@Override
@@ -105,11 +111,6 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 			throws GtnFrameworkGeneralException {
 		return;
 
-	}
-
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
 	}
 
 }

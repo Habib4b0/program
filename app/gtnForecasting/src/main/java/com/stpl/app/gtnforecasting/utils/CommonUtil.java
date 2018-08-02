@@ -809,6 +809,22 @@ public class CommonUtil {
         }
         return ;
     }
+      public void isProcedureCompletedForSubmit(String screenName, String viewName, SessionDTO session) {
+        List paramList = new ArrayList();
+        paramList.add(screenName);
+        paramList.add(viewName);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(paramList, "getProcedureStatus"), session.getCurrentTableNames()));
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            if (!"6".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
+                isProcedureCompletedForSubmit(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
+            } else {
+                return ;
+            }
+        }
+        return ;
+    }
     
     public void waitForSeconds() {
         try {

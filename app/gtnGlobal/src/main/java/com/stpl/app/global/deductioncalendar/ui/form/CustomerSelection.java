@@ -733,7 +733,7 @@ public class CustomerSelection extends CustomComponent {
             }
             
             if(dto.getCustomerGroup()!=null) {
-            printWriter.print(ConstantsUtils.QUOTE + dto.getCustomerGroup()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+                printWriter.print(ConstantsUtils.QUOTE + dto.getCustomerGroup().getDescription()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             } else {
                 printWriter.print(ConstantsUtils.QUOTE + CommonUtils.EMPTY + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             }

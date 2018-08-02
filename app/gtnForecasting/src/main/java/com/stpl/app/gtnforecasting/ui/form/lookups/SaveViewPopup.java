@@ -230,7 +230,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     dtoValue.setActionFlag(Constant.UPDATE_SMALL);
                     accLogic.updateRebateValue(dtoValue);
                 } else {
-                    dataselectionDtoToSave.setProjectionId(Integer.valueOf(viewDTO.getProjectionId()));
+                    dataselectionDtoToSave.setProjectionId(Integer.parseInt(viewDTO.getProjectionId()));
                     projectionIdValue = logic.saveProjection(dataselectionDtoToSave, screenName,true);
                 }
 
