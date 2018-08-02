@@ -527,8 +527,7 @@ public class CommonUtils {
     public static boolean isInteger(String str) {
         try {
             if ((str != null) && (!"null".equals(str)) && (!"".equals(str)) && (!"All".equals(str))) { // For GAL-9221,GAL-9219,GAL-9197 server log issues	
-                Integer.parseInt(str);
-                return true;
+                 return str.matches("^\\d+$");
             }
         } catch (NumberFormatException e) {
             return false;
