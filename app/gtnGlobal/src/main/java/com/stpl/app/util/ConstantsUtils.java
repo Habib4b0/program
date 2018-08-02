@@ -143,7 +143,7 @@ public final class ConstantsUtils {
     /**
      * The quote.
      */
-    public static final String QUOTE = "\"";
+    public static final char QUOTE = '\"';
 
     /**
      * The tab.
