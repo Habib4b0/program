@@ -64,13 +64,13 @@ public class GtnFrameworkUICustomTreeAddAction
 		GtnWsRecordBean parentBean = isEmpty ? null : grid.getSelectedItems().iterator().next();
 
 		GtnWsRecordBean beanTobeAdded = selectedBean.iterator().next();
-		addToTree(leftGrid, grid, parentBean, beanTobeAdded, isStatic);
+		addToTree(leftGrid, grid, parentBean, beanTobeAdded, isStatic, componentId);
 	}
 
 	private void addToTree(GtnUIFrameworkBaseComponent leftGrid, TreeGrid<GtnWsRecordBean> grid,
-			GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded, boolean isStatic)
+			GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded, boolean isStatic, String componentId)
 			throws GtnFrameworkGeneralException {
-		checkValidations(grid, beanTobeAdded, parentBean, isStatic);
+		checkValidations(grid, beanTobeAdded, parentBean, isStatic, componentId);
 		grid.getTreeData().addItem(parentBean, beanTobeAdded);
 		grid.select(beanTobeAdded);
 		leftGrid.removeItemsFromGrid(beanTobeAdded);
@@ -81,28 +81,50 @@ public class GtnFrameworkUICustomTreeAddAction
 	}
 
 	private void checkValidations(TreeGrid<GtnWsRecordBean> grid, GtnWsRecordBean beanTobeAdded,
-			GtnWsRecordBean parentBean, boolean isStatic) throws GtnFrameworkGeneralException {
+			GtnWsRecordBean parentBean, boolean isStatic, String componentId) throws GtnFrameworkGeneralException {
 		TreeData<GtnWsRecordBean> data = grid.getTreeData();
-		isstaticVaribleAdd(isStatic, parentBean);
+		isParentSelected(parentBean, grid.getTreeData().getRootItems().size());
+		isstaticVaribleAdd(isStatic, parentBean, componentId);
 		isLowerValueAlreadyAdded(parentBean, beanTobeAdded, data);
 		isChildAlreadAdded(data, parentBean, beanTobeAdded, isStatic);
-		isAddingToVariable(parentBean, beanTobeAdded);
+		isAddingToVariable(parentBean, beanTobeAdded, componentId);
 	}
 
-	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
-			throws GtnFrameworkSkipActionException {
+	private void isParentSelected(GtnWsRecordBean parentBean, int size) throws GtnFrameworkGeneralException {
+		if (parentBean == null && size != 0) {
+			GtnUIFrameWorkActionConfig parentAlertConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			parentAlertConfig.addActionParameter("No Parent Level Selected");
+			parentAlertConfig.addActionParameter("Please select parent node");
+			GtnUIFrameworkActionExecutor.executeSingleAction(null, parentAlertConfig);
+			throw new GtnFrameworkSkipActionException("No Parent Level Selected");
+		}
+	}
+
+	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded, String componentId)
+			throws GtnFrameworkGeneralException {
 
 		if (parentBean == null
 				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(3))
 				&& !beanTobeAdded.getStringPropertyByIndex(1).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
+			GtnUIFrameWorkActionConfig variableNotificationConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			variableNotificationConfig.addActionParameter(INVALID_STRUCTURE_CAPTION);
+			variableNotificationConfig.addActionParameter("Cannot variable as parent node");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, variableNotificationConfig);
 			throw new GtnFrameworkSkipActionException("Can't add  Variables to root Level");
 		}
 
 	}
 
-	private void isstaticVaribleAdd(boolean isStatic, GtnWsRecordBean parentBean)
-			throws GtnFrameworkSkipActionException {
+	private void isstaticVaribleAdd(boolean isStatic, GtnWsRecordBean parentBean, String componentId)
+			throws GtnFrameworkGeneralException {
 		if (isStatic && isVariable(parentBean)) {
+			GtnUIFrameWorkActionConfig variableConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			variableConfig.addActionParameter(INVALID_STRUCTURE_CAPTION);
+			variableConfig.addActionParameter("Cannot add levels to variable node");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, variableConfig);
 			throw new GtnFrameworkSkipActionException("Can not add to static variable");
 		}
 	}

@@ -114,6 +114,9 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 				defaultValue = historyPeriodCaptionList.get(0);
 				break;
 			}
+			if(actionParams.size()>4 && actionParams.get(4)!=null) {
+				defaultValue= String.valueOf(actionParams.get(4));
+			}
 			historyReloadComboboxConfig.setDefaultDesc(defaultValue);
 			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(3).toString(),
 					componentId) != null) {

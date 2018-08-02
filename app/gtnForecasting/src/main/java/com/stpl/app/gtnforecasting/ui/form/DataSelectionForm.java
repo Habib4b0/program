@@ -870,8 +870,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProjectionName(projectionName.getValue());
 			dataSelectionDTO.setDescription(description.getValue());
                         dataSelectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
-                        dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlb.getValue())): 0 );
-                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
+                        dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlb.getValue())): 0 );
+                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
 
 		} catch (ParseException ex) {
 
@@ -4319,8 +4319,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 
 					bindDataselectionDtoToSave();
-                                        dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlb.getValue())) :0 );
-                                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlbDeduction.getValue())): 0);
+                                        dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlb.getValue())) :0 );
+                                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())): 0);
 					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 					projectionId.setValue(String.valueOf(projectionIdValue));

@@ -6,6 +6,10 @@
 
 package com.stpl.gtn.gtn2o.ui.framework.action;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 /**
  *
  * @author Karthik.Raja
@@ -25,9 +29,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.HorizontalLayout;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 
@@ -41,8 +42,8 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 	/*
 	 * Param 0 - Result table Id , Param 1 - popup source component id, Param2 -
 	 * input column idList(property id of table), Param3 - component id list of
-	 * parant view (param 2 and 3 sholud be same size), Param4 - Close Action
-	 * class, Param5 - PopUpSharedData *
+	 * parant view (param 2 and 3 sholud be same size), Param4 - Close Action class,
+	 * Param5 - PopUpSharedData *
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -101,11 +102,13 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 
 			}
 		}
-
 		GtnUIFrameworkComponentData customData = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId);
-
 		GtnUIFrameworkComponentConfig currentComponentConfig = customData.getCurrentComponentConfig();
+		reloadingDependentComponentConfig(currentComponentConfig, customData, selectedRow, sourceComponentId);
+	}
 
+	private void reloadingDependentComponentConfig(GtnUIFrameworkComponentConfig currentComponentConfig,
+			GtnUIFrameworkComponentData customData, GtnWsRecordBean selectedRow, String componentId) {
 		if (currentComponentConfig.getDependentComponentList() != null) {
 
 			for (String reloadComponentId : currentComponentConfig.getDependentComponentList()) {

@@ -97,7 +97,6 @@ public class Summary extends CustomComponent {
     
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final List contractList = new ArrayList();
-    private final List companyList = new ArrayList();
     private final List rsList = new ArrayList();
     private List<RemoveDiscountDto> selecteditemList;
     private ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
@@ -235,7 +234,6 @@ public class Summary extends CustomComponent {
         for (RemoveDiscountDto remove : selecteditemList) {
             contractList.add(remove.getContractSid());
             rsList.add(remove.getRsSid());
-            companyList.add(remove.getCompanySid());
 
         }
     }

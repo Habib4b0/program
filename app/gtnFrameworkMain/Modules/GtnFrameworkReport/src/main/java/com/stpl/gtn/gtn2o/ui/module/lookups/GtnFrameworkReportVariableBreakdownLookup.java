@@ -34,6 +34,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownView.setViewName("Variable Breakdown");
 		variableBreakdownView.setViewId(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID);
 		variableBreakdownView.setDefaultView(false);
+		variableBreakdownView.setResetAllowed(true);
 		addComponentList(variableBreakdownView, namespace);
 		return variableBreakdownView;
 	}

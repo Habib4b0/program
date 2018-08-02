@@ -15,11 +15,8 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.v7.data.Property;
-import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.InlineDateField;
-import org.apache.commons.lang3.StringUtils;
 
 public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 
@@ -108,7 +105,7 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
         }
     }
 
-    private void setVaadinField(AbstractField<Object> vaadinField, Object newValue) throws Converter.ConversionException, Property.ReadOnlyException {
+    private void setVaadinField(AbstractField<Object> vaadinField, Object newValue) {
         if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
             boolean isReadOnly = vaadinField.isReadOnly();
             vaadinField.setReadOnly(false);

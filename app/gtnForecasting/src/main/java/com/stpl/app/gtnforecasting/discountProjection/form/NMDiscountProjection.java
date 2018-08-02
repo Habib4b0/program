@@ -951,7 +951,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
+            int startFreqNo = Integer.parseInt(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
@@ -4594,10 +4594,10 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkDoubleHeader = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkDoubleHeader.keySet()) {
-                List a = checkDoubleHeader.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkDoubleHeader = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
+                List a = entry.getValue();
                 if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
                     ismultipleDiscount = true;
                     break;

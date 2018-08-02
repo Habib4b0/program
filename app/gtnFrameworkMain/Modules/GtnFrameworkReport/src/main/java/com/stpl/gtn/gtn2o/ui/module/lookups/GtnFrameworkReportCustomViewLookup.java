@@ -191,6 +191,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 		variableLoadConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 
 		variableTypeOptionGroup.addGtnUIFrameWorkActionConfig(variableLoadConfig);
 		componentList.add(variableTypeOptionGroup);
@@ -263,7 +271,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		hierarchyNameTextBox.setComponentName("Tree View Name: ");
 		hierarchyNameTextBox.setAddToParent(true);
 		hierarchyNameTextBox.addComponentStyle("stpl-margin-left-30");
-		
+
 		hierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		hierarchyNameTextBox.setComponentWidth("300px");
 		hierarchyNameTextBox.setDefaultFocus(true);
@@ -559,7 +567,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		variablesGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		variablesGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
 		variablesGrid.setComponentWidth("100%");
-		
+
 		GtnUIFrameWorkActionConfig variableLoadConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableLoadConfig.addActionParameter(GtnFrameworkUICustomVariableGridLoadAction.class.getName());

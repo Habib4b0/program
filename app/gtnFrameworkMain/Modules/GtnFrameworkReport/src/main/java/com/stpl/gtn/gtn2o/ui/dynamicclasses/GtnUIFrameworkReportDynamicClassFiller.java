@@ -67,6 +67,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportLevelDdlbLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIReportExpandCollapseAction;
+import com.stpl.gtn.gtn2o.ui.action.chart.GtnFrameworkGridToBarChartAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
@@ -295,9 +296,13 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkComparisonLookupTextFieldEnableAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportCustomViewConfirmDeleteAction.class.getName(),
 				new GtnFrameworkReportCustomViewConfirmDeleteAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownGridLoadActionBasedOnHistory.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnReportingVariableBreakdownGridLoadActionBasedOnHistory.class.getName(),
 				new GtnReportingVariableBreakdownGridLoadActionBasedOnHistory());
-		
+				
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkGridToBarChartAction.class.getName(),
+				new GtnFrameworkGridToBarChartAction());
+
 	}
 
 }
