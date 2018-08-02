@@ -760,8 +760,8 @@ public class SessionDTO implements Cloneable {
     public void setCustomerLevelDetails(Map<String, List> customerLevelDetails) {
         if (customerLevelDetails != null && !customerLevelDetails.isEmpty()) {
             this.customerDescription.clear();
-            for (String key : customerLevelDetails.keySet()) {
-                this.customerDescription.put(key, customerLevelDetails.get(key).get(0).toString());
+            for (Entry<String, List> key : customerLevelDetails.entrySet()) {
+                this.customerDescription.put(key.getKey(), key.getValue().get(0).toString()); 
             }
         }
         this.hierarchyLevelDetails.putAll(customerLevelDetails);
@@ -774,8 +774,8 @@ public class SessionDTO implements Cloneable {
     public void setProductLevelDetails(Map<String, List> productLevelDetails) {
         if (productLevelDetails != null && !productLevelDetails.isEmpty()) {
             this.productDescription.clear();
-            for (String key : productLevelDetails.keySet()) {
-                this.productDescription.put(key, productLevelDetails.get(key).get(0).toString());
+            for (Entry<String, List> entry : productLevelDetails.entrySet()) {
+                this.productDescription.put(entry.getKey(), entry.getValue().get(0).toString());
             }
         }
         this.hierarchyLevelDetails.putAll(productLevelDetails);

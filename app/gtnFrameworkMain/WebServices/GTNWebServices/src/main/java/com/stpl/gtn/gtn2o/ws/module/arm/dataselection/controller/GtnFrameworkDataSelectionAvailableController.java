@@ -28,15 +28,19 @@ public class GtnFrameworkDataSelectionAvailableController {
 
     @Autowired
     private GtnFrameworkDataSelectionAvailableCustomers customerLevelService;
-   
+
     @Autowired
     private GtnFrameworkArmDataSelectionAvailableProducts productLevelService;
-    
+
     @Autowired
     private GtnFrameworkARMLoadLevelMap levelValueMapQueryService;
-    
+
     @Autowired
     private GtnFrameworkInsertCcpArm ccpInsertService;
+
+    public GtnFrameworkDataSelectionAvailableController() {
+        super();
+    }
 
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse loadCustomerHierarcyLevel(
@@ -57,7 +61,7 @@ public class GtnFrameworkDataSelectionAvailableController {
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
         GtnWsArmRequest forecastRequet = gtnWsRequest.getGtnWsArmRequest();
         GtnARMHierarchyInputBean inputBean = forecastRequet.getInputBean();
-        String finalQuery = levelValueMapQueryService.getQueryForLevelValueMap(inputBean);
+        String finalQuery = levelValueMapQueryService.getArmQueryForLevelValueMap(inputBean);
         inputBean.setFramedQuery(finalQuery);
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
         GtnWsARMResponse forecastResponse = new GtnWsARMResponse();
@@ -65,27 +69,27 @@ public class GtnFrameworkDataSelectionAvailableController {
         response.setGtnWsARMResponse(forecastResponse);
         return response;
     }
-    
+
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_PRODUCT_LEVEL, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadProductHierarcyLevel(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
-		GtnWsArmRequest forecastRequet = gtnWsRequest.getGtnWsArmRequest();
-		GtnARMHierarchyInputBean inputBean = forecastRequet.getInputBean();
-		String finalQuery = productLevelService.getProductLevelQuery(inputBean);
-		inputBean.setFramedQuery(finalQuery);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		GtnWsARMResponse forecastResponse = new GtnWsARMResponse();
-		forecastResponse.setInputBean(inputBean);
-		response.setGtnWsARMResponse(forecastResponse);
-		return response;
-	}
-        
-        @RequestMapping(value = GtnWebServiceUrlConstants.GTN_CCP_INSERT, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse ccpInsertToForecasting(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-            GtnWsArmRequest armRequest = gtnWsRequest.getGtnWsArmRequest();
-            GtnARMHierarchyInputBean inputBean = armRequest.getInputBean();
-            ccpInsertService.insertToCPPTable(inputBean);
-            return new GtnUIFrameworkWebserviceResponse();
-	}
+    public GtnUIFrameworkWebserviceResponse loadProductHierarcyLevel(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+        GtnWsArmRequest forecastRequet = gtnWsRequest.getGtnWsArmRequest();
+        GtnARMHierarchyInputBean inputBean = forecastRequet.getInputBean();
+        String finalQuery = productLevelService.getProductLevelQuery(inputBean);
+        inputBean.setFramedQuery(finalQuery);
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+        GtnWsARMResponse forecastResponse = new GtnWsARMResponse();
+        forecastResponse.setInputBean(inputBean);
+        response.setGtnWsARMResponse(forecastResponse);
+        return response;
+    }
+
+    @RequestMapping(value = GtnWebServiceUrlConstants.GTN_CCP_INSERT, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse ccpInsertToForecasting(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        GtnWsArmRequest armRequest = gtnWsRequest.getGtnWsArmRequest();
+        GtnARMHierarchyInputBean inputBean = armRequest.getInputBean();
+        ccpInsertService.insertToCPPTable(inputBean);
+        return new GtnUIFrameworkWebserviceResponse();
+    }
 }

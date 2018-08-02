@@ -1,5 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.response.report;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -17,35 +21,35 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 	private List<GtnWsRecordBean> recordBeanResultList;
 
 	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
-	private List<?> resultList;
+	private List<Object[]> resultList;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 
-    private GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean;
-    
-    private GtnReportComparisonBreakdownLookupBean comparisonBreakdownLookupBean;
+	private GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean;
 
-    public GtnReportComparisonBreakdownLookupBean getComparisonBreakdownLookupBean() {
-        return comparisonBreakdownLookupBean;
-    }
+	private GtnReportComparisonBreakdownLookupBean comparisonBreakdownLookupBean;
 
-    public void setComparisonBreakdownLookupBean(GtnReportComparisonBreakdownLookupBean comparisonBreakdownLookupBean) {
-        this.comparisonBreakdownLookupBean = comparisonBreakdownLookupBean;
-    }
-    
-    public GtnReportVariableBreakdownLookupBean getVariableBreakdownLookupBean() {
-        return variableBreakdownLookupBean;
-    }
-
-    public void setVariableBreakdownLookupBean(GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean) {
-        this.variableBreakdownLookupBean = variableBreakdownLookupBean;
-    }
-    
-	public List<?> getResultList() {
-		return resultList;
+	public GtnReportComparisonBreakdownLookupBean getComparisonBreakdownLookupBean() {
+		return comparisonBreakdownLookupBean;
 	}
 
-	public void setResultList(List<?> resultList) {
-		this.resultList = resultList;
+	public void setComparisonBreakdownLookupBean(GtnReportComparisonBreakdownLookupBean comparisonBreakdownLookupBean) {
+		this.comparisonBreakdownLookupBean = comparisonBreakdownLookupBean;
+	}
+
+	public GtnReportVariableBreakdownLookupBean getVariableBreakdownLookupBean() {
+		return variableBreakdownLookupBean;
+	}
+
+	public void setVariableBreakdownLookupBean(GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean) {
+		this.variableBreakdownLookupBean = variableBreakdownLookupBean;
+	}
+
+	public List<Object[]> getResultList() {
+		return resultList == null ? resultList : new ArrayList<>(resultList);
+	}
+
+	public void setResultList(List<Object[]> resultList) {
+		this.resultList = resultList == null ? resultList : new ArrayList<>(resultList);
 	}
 
 	public GtnWsReportResponse() {
@@ -61,11 +65,12 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 	}
 
 	public List<GtnWsRecordBean> getRecordBeanResultList() {
-		return recordBeanResultList;
+		return recordBeanResultList == null ? recordBeanResultList : new ArrayList<>(recordBeanResultList);
 	}
 
 	public void setRecordBeanResultList(List<GtnWsRecordBean> recordBeanResultList) {
-		this.recordBeanResultList = recordBeanResultList;
+		this.recordBeanResultList = recordBeanResultList == null ? recordBeanResultList
+				: new ArrayList<>(recordBeanResultList);
 	}
 
 	public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
@@ -82,6 +87,14 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 
 	public void setDataSelectionBean(GtnWsReportDataSelectionBean dataSelectionBean) {
 		this.dataSelectionBean = dataSelectionBean;
+	}
+
+	private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
 	}
 
 }

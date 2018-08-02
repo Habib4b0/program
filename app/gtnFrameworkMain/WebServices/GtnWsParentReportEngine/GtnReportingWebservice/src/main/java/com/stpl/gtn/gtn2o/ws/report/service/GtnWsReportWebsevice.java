@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -243,13 +244,51 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + projectionDescription + "'");
 		return inputList;
 	}
+	
+	private List<String> getCffInputList(Map<String, String> criteriaMap){
+		List<String> cffInputList = new ArrayList<>();
+
+		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()){
+		String workFlowStatus = criteriaMap.get("workflowStatus");
+		if(workFlowStatus.equals("Submitted")) {
+			workFlowStatus = "Pending";
+		}
+		String customViewMasterSid = criteriaMap.get("customViewName");
+		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
+		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
+		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
+		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
+		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
+		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		
+		cffInputList.add("'"+workFlowStatus+"'");
+		cffInputList.add("'"+customViewMasterSid+"'");
+		cffInputList.add("'"+contract+"'");
+		cffInputList.add("'"+marketType+"'");
+		cffInputList.add("'"+contractHolder+"'");
+		cffInputList.add("'"+ndcName+"'");
+		cffInputList.add("'"+comparisonNDC+"'");
+		cffInputList.add("'"+comparisonBrand+"'");
+		cffInputList.add(connection.getCatalog());
+		return cffInputList;
+		} catch (SQLException e) {
+			gtnLogger.error(e + " ");
+			return cffInputList;
+		}
+		
+	}
 
 	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
 			throws GtnFrameworkGeneralException {
-		List<String> inputList = getInputList(criteriaMap);
+		
+		List<String> inputList = getCffInputList(criteriaMap);
+		if(!inputList.isEmpty()) {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
 		return resultList;
+		}
+		return Collections.emptyList();
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
@@ -491,7 +530,7 @@ public class GtnWsReportWebsevice {
 	private String getFilterValueForDateFields(String filter, String filterValue, String[] splitedArray,
 			String filterId) {
 		String filterString = filter;
-		if ("Show all".equals(filterValue)) {
+		if ("Show all".equals(filterValue)|| filterValue.equals(" - ")) {
 			filterString = filterString + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 
@@ -518,7 +557,7 @@ public class GtnWsReportWebsevice {
 		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
 		dbColumnIdMap.put("type", "ht.DESCRIPTION");
 		dbColumnIdMap.put("version", "VERSION");
-		dbColumnIdMap.put("activeFrom", "ACTIVE_FROM");
+		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");
 		dbColumnIdMap.put("fromPeriod", "FROM_PERIOD");
 		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
 		return dbColumnIdMap;

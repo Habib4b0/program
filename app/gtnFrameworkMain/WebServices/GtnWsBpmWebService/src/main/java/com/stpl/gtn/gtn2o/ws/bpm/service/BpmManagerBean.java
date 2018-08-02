@@ -29,183 +29,180 @@ import org.springframework.stereotype.Service;
 @Service
 public class BpmManagerBean {
 
-    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
-    private static final String COM_STPL_APP_BPM = "com.stpl.app.bpm";
-    protected ReleaseId releaseId;
-    private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
-    private Properties properties = DroolsProperties.getPropertiesData();
-    private Properties cffproperties = DroolsProperties.getCffPropertiesData();
-    private Properties armproperties = DroolsProperties.getArmPropertiesData();
-    protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
+	private static final String COM_STPL_APP_BPM = "com.stpl.app.bpm";
+	protected ReleaseId releaseId;
+	private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
+	private Properties properties = DroolsProperties.getPropertiesData();
+	private Properties cffproperties = DroolsProperties.getCffPropertiesData();
+	private Properties armproperties = DroolsProperties.getArmPropertiesData();
+	protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
 
-    @Autowired
-    private EntityManagerFactoryInfo enitiyManagerFactoryBean;
+	@Autowired
+	private EntityManagerFactoryInfo enitiyManagerFactoryBean;
 
-    @Autowired
-    private CustomUserCallBack userGroupCallback;
+	@Autowired
+	private CustomUserCallBack userGroupCallback;
 
-    public BpmManagerBean() {
-        super();
-    }
+	public BpmManagerBean() {
+		super();
+	}
 
-    public BpmManagerBean(ReleaseId releaseId, Map<String, RuntimeEngine> runtimeEngineMap, Properties properties,
-            RuntimeManagerRegistry registry, CustomUserCallBack userGroupCallback) {
-        super();
-        this.releaseId = releaseId;
-        this.runtimeEngineMap = runtimeEngineMap;
-        this.properties = (Properties) properties.clone();
-        this.registry = registry;
-        this.userGroupCallback = userGroupCallback;
-    }
+	public BpmManagerBean(ReleaseId releaseId, Map<String, RuntimeEngine> runtimeEngineMap, Properties properties,
+			RuntimeManagerRegistry registry, CustomUserCallBack userGroupCallback) {
+		super();
+		this.releaseId = releaseId;
+		this.runtimeEngineMap = runtimeEngineMap;
+		this.properties = (Properties) properties.clone();
+		this.registry = registry;
+		this.userGroupCallback = userGroupCallback;
+	}
 
-    public RuntimeEngine getRuntimeEngine(String moduleName) {
-        return runtimeEngineMap.get(moduleName);
-    }
+	public RuntimeEngine getRuntimeEngine(String moduleName) {
+		return runtimeEngineMap.get(moduleName);
+	}
 
-    public EntityManagerFactoryInfo getEnitiyManagerFactoryBean() {
-        return enitiyManagerFactoryBean;
-    }
+	public EntityManagerFactoryInfo getEnitiyManagerFactoryBean() {
+		return enitiyManagerFactoryBean;
+	}
 
-    public void setEnitiyManagerFactoryBean(EntityManagerFactoryInfo enitiyManagerFactoryBean) {
-        this.enitiyManagerFactoryBean = enitiyManagerFactoryBean;
-    }
+	public void setEnitiyManagerFactoryBean(EntityManagerFactoryInfo enitiyManagerFactoryBean) {
+		this.enitiyManagerFactoryBean = enitiyManagerFactoryBean;
+	}
 
-    public CustomUserCallBack getUserGroupCallback() {
-        return userGroupCallback;
-    }
+	public CustomUserCallBack getUserGroupCallback() {
+		return userGroupCallback;
+	}
 
     @PostConstruct
     public void setUpEngineData() {
-        initForecastRuntimeEngine();
-        initContractRuntimeEngine();
-        initReturnsRuntimeEngine();
-        initCFFRuntimeEngine();
-        initARMRuntimeEngine();
-    }
+			initForecastRuntimeEngine();
+			initContractRuntimeEngine();
+			initReturnsRuntimeEngine();
+			initCFFRuntimeEngine();
+			initARMRuntimeEngine();
+		}
 
-    public void setUserGroupCallback(CustomUserCallBack userGroupCallback) {
-        this.userGroupCallback = userGroupCallback;
-    }
 
-    public void initReturnsRuntimeEngine() {
+	public void initReturnsRuntimeEngine() {
         try {
-            LOGGER.info("initReturnsRuntimeEngine Started ");
-            String identifier = "com.stpl:returns:1.0";
-            releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
-                    properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
-                    properties.getProperty("Forecasting_version", "1.0"));
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-                    .entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
-            getContainerAndSetToEnvironment(builder, releaseId);
-            if (registry.isRegistered(identifier)) {
-                registry.remove(identifier);
-            }
-            RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-                    .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-            runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_RETURNS, runtimeEngine);
+		LOGGER.info("initReturnsRuntimeEngine Started ");
+		String identifier = "com.stpl:returns:1.0";
+		releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
+				properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
+				properties.getProperty("Forecasting_version", "1.0"));
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
+		if (registry.isRegistered(identifier)) {
+			registry.remove(identifier);
+		}
+		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+		runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_RETURNS, runtimeEngine);
 
-            LOGGER.info("initReturnsRuntimeEngine End ");
+		LOGGER.info("initReturnsRuntimeEngine End ");
         } catch (Exception e) {
             LOGGER.error("Exception in initialising Returns runtime ", e);
-        }
+	}
     }
 
-    public void initContractRuntimeEngine() {
+	public void initContractRuntimeEngine() {
         try {
-            LOGGER.info("initContractRuntimeEngine Started ");
-            String identifier = "com.stpl:contract:1.0";
-            releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", COM_STPL_APP_BPM),
-                    properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
-                    properties.getProperty("Contract_version", "1.0"));
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-                    .entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
-            getContainerAndSetToEnvironment(builder, releaseId);
-            if (registry.isRegistered(identifier)) {
-                registry.remove(identifier);
-            }
-            RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-                    .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-            runtimeEngineMap.put(GtnWsBpmCommonConstants.CONTRACT_MASTER, runtimeEngine);
-            LOGGER.info("initContractRuntimeEngine End ");
+		LOGGER.info("initContractRuntimeEngine Started ");
+		String identifier = "com.stpl:contract:1.0";
+		releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", COM_STPL_APP_BPM),
+				properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
+				properties.getProperty("Contract_version", "1.0"));
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
+		if (registry.isRegistered(identifier)) {
+			registry.remove(identifier);
+		}
+		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+		runtimeEngineMap.put(GtnWsBpmCommonConstants.CONTRACT_MASTER, runtimeEngine);
+		LOGGER.info("initContractRuntimeEngine End ");
         } catch (Exception e) {
             LOGGER.error("Exception in initialising Contract runtime ", e);
-        }
+	}
     }
 
-    public void initForecastRuntimeEngine() {
+	public void initForecastRuntimeEngine() {
         try {
-            LOGGER.info("init Forecast RuntimeEngine Started ");
-            String identifier = "com.stpl:forecast:1.0";
-            releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
-                    properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
-                    properties.getProperty("Forecasting_version", "1.0"));
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-                    .entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
-            getContainerAndSetToEnvironment(builder, releaseId);
+		LOGGER.info("init Forecast RuntimeEngine Started ");
+		String identifier = "com.stpl:forecast:1.0";
+		releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
+				properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
+				properties.getProperty("Forecasting_version", "1.0"));
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+		getContainerAndSetToEnvironment(builder, releaseId);
 
-            if (registry.isRegistered(identifier)) {
-                registry.remove(identifier);
-            }
-            RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-                    .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-            runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL, runtimeEngine);
-            LOGGER.info("initForecastRuntimeEngine End ");
+		if (registry.isRegistered(identifier)) {
+			registry.remove(identifier);
+		}
+		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+		runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL, runtimeEngine);
+		LOGGER.info("initForecastRuntimeEngine End ");
         } catch (Exception e) {
             LOGGER.error("Exception in initialising Forecast runtime ", e);
-        }
+	}
     }
 
-    private void getContainerAndSetToEnvironment(RuntimeEnvironmentBuilder builder, ReleaseId releaseId2) {
-        MavenRepository repository = MavenRepository.getMavenRepository();
-        repository.resolveArtifact(releaseId2.toExternalForm());
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kieContainer = ks.newKieContainer(releaseId2);
-        builder.addEnvironmentEntry("KieContainer", kieContainer);
-    }
+	private void getContainerAndSetToEnvironment(RuntimeEnvironmentBuilder builder, ReleaseId releaseId2) {
+		MavenRepository repository = MavenRepository.getMavenRepository();
+		repository.resolveArtifact(releaseId2.toExternalForm());
+		KieServices ks = KieServices.Factory.get();
+		KieContainer kieContainer = ks.newKieContainer(releaseId2);
+		builder.addEnvironmentEntry("KieContainer", kieContainer);
+	}
 
-    public void initCFFRuntimeEngine() {
+	public void initCFFRuntimeEngine() {
         try {
-            LOGGER.info("Init CffRuntime Engine Started ");
-            String identifier = "com.sample:example:1.0";
-            releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", COM_STPL_APP_BPM),
-                    cffproperties.getProperty("CFF_artifactId", "CFFWorkflow"),
-                    cffproperties.getProperty("CFF_version", "1.0"));
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-                    .entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
-            getContainerAndSetToEnvironment(builder, releaseId);
-            if (registry.isRegistered(identifier)) {
-                registry.remove(identifier);
-            }
-            RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-                    .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-            runtimeEngineMap.put(GtnWsBpmCommonConstants.CFF, runtimeEngine);
-            LOGGER.info("init CffRuntime RuntimeEngine End ");
+		LOGGER.info("Init CffRuntime Engine Started ");
+		String identifier = "com.sample:example:1.0";
+		releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", COM_STPL_APP_BPM),
+				cffproperties.getProperty("CFF_artifactId", "CFFWorkflow"),
+				cffproperties.getProperty("CFF_version", "1.0"));
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
+		if (registry.isRegistered(identifier)) {
+			registry.remove(identifier);
+		}
+		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+		runtimeEngineMap.put(GtnWsBpmCommonConstants.CFF, runtimeEngine);
+		LOGGER.info("init CffRuntime RuntimeEngine End ");
         } catch (Exception e) {
             LOGGER.error("Exception in initialising CFF runtime ", e);
-        }
+	}
     }
 
-    public void initARMRuntimeEngine() {
+	public void initARMRuntimeEngine() {
         try {
-            LOGGER.info("Init CffRuntime Engine Started ");
-            String identifier = "com.sample:example:1.0";
-            releaseId = new ReleaseIdImpl(cffproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
-                    cffproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
-                    cffproperties.getProperty("ARM_version", "1.0"));
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-                    .entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
-            getContainerAndSetToEnvironment(builder, releaseId);
-            if (registry.isRegistered(identifier)) {
-                registry.remove(identifier);
-            }
-            RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-                    .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-            runtimeEngineMap.put(GtnWsBpmCommonConstants.ARM, runtimeEngine);
-            LOGGER.info("init CffRuntime RuntimeEngine End ");
+		LOGGER.info("Init CffRuntime Engine Started ");
+		String identifier = "com.sample:example:1.0";
+		releaseId = new ReleaseIdImpl(armproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
+				armproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
+				armproperties.getProperty("ARM_version", "1.0"));
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
+		if (registry.isRegistered(identifier)) {
+			registry.remove(identifier);
+		}
+		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+		runtimeEngineMap.put(GtnWsBpmCommonConstants.ARM, runtimeEngine);
+		LOGGER.info("init CffRuntime RuntimeEngine End ");
         } catch (Exception e) {
             LOGGER.error("Exception in initialising ARM runtime ", e);
-        }
+	}
     }
 
 }

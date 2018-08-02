@@ -49,52 +49,52 @@ public class GtnFrameworkARMLoadLevelMap {
         super();
     }
 
-    public String getQueryForLevelValueMap(GtnARMHierarchyInputBean inputBean)
+    public String getArmQueryForLevelValueMap(GtnARMHierarchyInputBean armInputBean)
             throws GtnFrameworkGeneralException {
         try {
-            List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = relationUpdateService.getHierarchyBuilder(
-                    inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
-            StringBuilder finalQuery = new StringBuilder();
-            List<GtnFrameworkQueryGeneratorBean> queryBeanList = new ArrayList<>();
-            for (HierarchyLevelDefinitionBean leveldto : hierarchyLevelDefinitionList) {
-                if (leveldto.isUserDefined()) {
-                    List<Object> input = new ArrayList<>();
-                    input.add(inputBean.getRelationShipBuilderSid());
-                    input.add(inputBean.getRelationVersionNo());
+            List<HierarchyLevelDefinitionBean> armHierarchyLevelDefinitionList = relationUpdateService.getHierarchyBuilder(
+                    armInputBean.getHierarchyDefinitionSid(), armInputBean.getHierarchyVersionNo());
+            StringBuilder query = new StringBuilder();
+            List<GtnFrameworkQueryGeneratorBean> armQueryBeanList = new ArrayList<>();
+            for (HierarchyLevelDefinitionBean armLeveldto : armHierarchyLevelDefinitionList) {
+                if (armLeveldto.isUserDefined()) {
+                    List<Object> armInput = new ArrayList<>();
+                    armInput.add(armInputBean.getRelationShipBuilderSid());
+                    armInput.add(armInputBean.getRelationVersionNo());
 
-                    finalQuery.append(gtnWsSqlService.getQuery(input, "RelationShipUserDefinedLoading"));
-                    finalQuery.append(" union ");
+                    query.append(gtnWsSqlService.getQuery(armInput, "RelationShipUserDefinedLoading"));
+                    query.append(" union ");
                     continue;
                 }
-                GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
+                GtnFrameworkQueryGeneratorBean armQueryBean = new GtnFrameworkQueryGeneratorBean();
                 GtnFrameworkSelectColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
-                        .getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-                queryBean.addSelectClauseBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, Boolean.TRUE, null);
-                queryBean.addSelectClauseBean(keyBean.getJoinColumnTable() + "." + keyBean.getDescriptionClauseColumn(),
+                        .getKeyRelationBeanUsingTableIdAndColumnName(armLeveldto.getTableName(), armLeveldto.getFieldName());
+                armQueryBean.addSelectClauseBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, Boolean.TRUE, null);
+                armQueryBean.addSelectClauseBean(keyBean.getJoinColumnTable() + "." + keyBean.getDescriptionClauseColumn(),
                         null, Boolean.TRUE, null);
-                queryBean.setFromTableNameWithAlies(RELATIONSHIP_LEVEL_DEFN, RELATIONSHIP_LEVEL_DEFN);
-                GtnFrameworkJoinClauseBean tableJoin = queryBean.addJoinClauseBean(keyBean.getJoinColumnTable(),
+                armQueryBean.setFromTableNameWithAlies(RELATIONSHIP_LEVEL_DEFN, RELATIONSHIP_LEVEL_DEFN);
+                GtnFrameworkJoinClauseBean tableJoin = armQueryBean.addJoinClauseBean(keyBean.getJoinColumnTable(),
                         keyBean.getJoinColumnTable(), GtnFrameworkJoinType.JOIN);
                 tableJoin.addConditionBean(keyBean.getJoinColumnTable() + "." + keyBean.getMasterSidColumn(),
                         "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES", GtnFrameworkOperatorType.EQUAL_TO);
-                queryBean.addWhereClauseBean(RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID, null,
+                armQueryBean.addWhereClauseBean(RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID, null,
                         GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.INTEGER,
-                        inputBean.getRelationShipBuilderSid());
-                queryBean.addWhereClauseBean("RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO", null,
+                        armInputBean.getRelationShipBuilderSid());
+                armQueryBean.addWhereClauseBean("RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO", null,
                         GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.INTEGER,
-                        leveldto.getLevelNo());
-                queryBean.addWhereClauseBean(RELATIONSHIP_BUILD_VERSION, null, GtnFrameworkOperatorType.EQUAL_TO,
-                        GtnFrameworkDataType.INTEGER, inputBean.getRelationVersionNo());
-                queryBeanList.add(queryBean);
+                        armLeveldto.getLevelNo());
+                armQueryBean.addWhereClauseBean(RELATIONSHIP_BUILD_VERSION, null, GtnFrameworkOperatorType.EQUAL_TO,
+                        GtnFrameworkDataType.INTEGER, armInputBean.getRelationVersionNo());
+                armQueryBeanList.add(armQueryBean);
 
             }
 
-            for (GtnFrameworkQueryGeneratorBean queryBean : queryBeanList) {
-                finalQuery.append(queryBean.generateQuery());
-                finalQuery.append(" union ");
+            for (GtnFrameworkQueryGeneratorBean armQueryBean : armQueryBeanList) {
+                query.append(armQueryBean.generateQuery());
+                query.append(" union ");
             }
-            finalQuery.replace(finalQuery.lastIndexOf("union"), finalQuery.length() - 1, "");
-            return finalQuery.toString();
+            query.replace(query.lastIndexOf("union"), query.length() - 1, "");
+            return query.toString();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

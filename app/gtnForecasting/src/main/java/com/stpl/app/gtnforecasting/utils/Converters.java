@@ -122,8 +122,8 @@ public class Converters {
 		    result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
 		    result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
 		    result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
-                    result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
-                    result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
+                    result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
+                    result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
 		}
 	}
 
