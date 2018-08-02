@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -246,6 +247,9 @@ public class GtnWsReportWebsevice {
 	
 	private List<String> getCffInputList(Map<String, String> criteriaMap){
 		List<String> cffInputList = new ArrayList<>();
+
+		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()){
 		String workFlowStatus = criteriaMap.get("workflowStatus");
 		if(workFlowStatus.equals("Submitted")) {
 			workFlowStatus = "Pending";
@@ -266,15 +270,25 @@ public class GtnWsReportWebsevice {
 		cffInputList.add("'"+ndcName+"'");
 		cffInputList.add("'"+comparisonNDC+"'");
 		cffInputList.add("'"+comparisonBrand+"'");
+		cffInputList.add(connection.getCatalog());
 		return cffInputList;
+		} catch (SQLException e) {
+			gtnLogger.error(e + " ");
+			return cffInputList;
+		}
+		
 	}
 
 	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
 			throws GtnFrameworkGeneralException {
+		
 		List<String> inputList = getCffInputList(criteriaMap);
+		if(!inputList.isEmpty()) {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
 		return resultList;
+		}
+		return Collections.emptyList();
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
