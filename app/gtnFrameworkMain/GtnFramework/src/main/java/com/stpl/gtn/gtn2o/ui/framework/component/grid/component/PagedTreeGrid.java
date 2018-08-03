@@ -807,10 +807,11 @@ public class PagedTreeGrid {
 	}
 
 	public void setColumnPageNumber(int newPageNumber) {
-		if(getTotalPageCount()<newPageNumber) {
+		int newPageNumberValue = newPageNumber;
+		if(getTotalPageCount()<newPageNumberValue) {
 			return;
 		}
-		if (newPageNumber < 0) {
+		if (newPageNumberValue < 0) {
 			columnPageNumber = 0;
 			newPageNumber = 0;
 		}
