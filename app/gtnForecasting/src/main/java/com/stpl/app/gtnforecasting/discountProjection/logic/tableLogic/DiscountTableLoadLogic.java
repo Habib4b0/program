@@ -99,7 +99,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             int treeLevelNo = 0;
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {} " , dto.getTreeLevelNo());
@@ -201,7 +201,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
 //            List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {}, ---->>= {} " , dto.getTreeLevelNo(), currentHierarchy);

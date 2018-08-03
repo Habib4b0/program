@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnWsRelationshipBuilderServiceTest {
@@ -28,7 +27,7 @@ public class GtnWsRelationshipBuilderServiceTest {
 	@Test
 	public void loadAutoBuildData() {
 		try {
-			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
+			System.setProperty("com.stpl.gtnframework.base.path", "D:\\Karthik/26-dec/liferay7/liferay7/conf/");
 			List<String> hiddenIdList = new ArrayList<>();
 			hiddenIdList.add("");
 			hiddenIdList.add("222");

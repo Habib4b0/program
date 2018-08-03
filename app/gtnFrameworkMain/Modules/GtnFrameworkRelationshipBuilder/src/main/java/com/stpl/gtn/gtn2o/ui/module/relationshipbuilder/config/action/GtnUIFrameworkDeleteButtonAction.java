@@ -45,10 +45,7 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		request.setRelationshipBuilderRequest(rbRequest);
 		rbRequest.setMainNode((GtnWsRecordBean) parameters.get(1));
 
-		GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
-		rbRequestAction.addActionParameter(rbRequest);
+		GtnUIFrameWorkActionConfig rbRequestAction = getRbRequestActionConfig(rbRequest);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
 
 		GtnUIFrameworkWebserviceResponse newResponse = wsclient.callGtnWebServiceUrl(
@@ -65,12 +62,25 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 					rbNewResponse.getMessage(), null);
 			return;
 		}
-		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.ALERT_ACTION);
-		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessageType());
-		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessage());
+		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = getRbDeleteSuccessAlertAction(rbNewResponse);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteSuccessAlertAction);
 	}
+
+    public GtnUIFrameWorkActionConfig getRbRequestActionConfig(GtnWsRelationshipBuilderRequest rbRequest) {
+        GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
+                GtnUIFrameworkActionType.CUSTOM_ACTION);
+        rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
+        rbRequestAction.addActionParameter(rbRequest);
+        return rbRequestAction;
+    }
+
+    public GtnUIFrameWorkActionConfig getRbDeleteSuccessAlertAction(GtnWsRelationshipBuilderResponse rbNewResponse) {
+        GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = new GtnUIFrameWorkActionConfig(
+                GtnUIFrameworkActionType.ALERT_ACTION);
+        rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessageType());
+        rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessage());
+        return rbDeleteSuccessAlertAction;
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

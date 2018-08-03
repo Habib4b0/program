@@ -97,20 +97,8 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 	}
 
 	public String getQueryReplaced(List<String> input, String queryName) {
-		StringBuilder sqlStringBuilder = new StringBuilder();
-		try {
-			sqlStringBuilder = new StringBuilder(getQuery(queryName));
-			if (input != null) {
-				for (Object tempInput : input) {
-					sqlStringBuilder.replace(sqlStringBuilder.indexOf("?"), sqlStringBuilder.indexOf("?") + 1,
-							String.valueOf(tempInput));
-				}
-			}
-
-		} catch (Exception ex) {
-			LOGGER.error("Exception in getQueryReplaced", ex);
-		}
-		return sqlStringBuilder.toString();
+	
+		return getFinalQueryReplaced(input, getQuery(queryName));
 	}
 
 	public String getFinalQueryReplaced(List<String> input, String finalQuery) {
@@ -161,7 +149,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 	@SuppressWarnings("unchecked")
 	public List<HierarchyLevelDefinitionBean> getRBHierarchyLevelDefinitionBySid(int hierarchyDefSid, int versionNo)
 			throws GtnFrameworkGeneralException {
-		List<String> inputlist = new ArrayList<>();
+		List<String> inputlist = new ArrayList<>(2);
 		inputlist.add(String.valueOf(hierarchyDefSid));
 		inputlist.add(String.valueOf(versionNo));
 		List<Object[]> result = executeQuery(getQueryReplaced(inputlist, "getRBHierarchyLevelDefinitionBySid"));
@@ -170,7 +158,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 	}
 
 	public List<HierarchyLevelDefinitionBean> gettHierarchyLevelDefinitionListMain(List<Object[]> resultList) {
-		List<HierarchyLevelDefinitionBean> hierarchyList = new ArrayList<>();
+		List<HierarchyLevelDefinitionBean> hierarchyList = new ArrayList<>(resultList.size());
 		HierarchyLevelDefinitionBean hierarchyLevelBean = null;
 
 		for (Object[] result : resultList) {
