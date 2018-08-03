@@ -1,23 +1,23 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid;
 
 public class GtnUIFrameworkGridComponentConfig {
-	private String[] columnHeadersId;
-	private String[] columnHeadersName;
+	private String[] gridColumnHeadersId;
+	private String[] GridColumnHeadersName;
 
 	public String[] getColumnHeadersId() {
-		return columnHeadersId;
+		return gridColumnHeadersId;
 	}
 
 	public void setColumnHeadersId(String[] columnHeadersId) {
-		this.columnHeadersId = columnHeadersId;
+		this.gridColumnHeadersId = columnHeadersId;
 	}
 
 	public String[] getColumnHeadersName() {
-		return columnHeadersName;
+		return GridColumnHeadersName;
 	}
 
 	public void setColumnHeadersName(String[] columnHeadersName) {
-		this.columnHeadersName = columnHeadersName;
+		this.GridColumnHeadersName = columnHeadersName;
 	}
 
 }
