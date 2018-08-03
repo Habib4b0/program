@@ -406,7 +406,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 		customViewComboboxConfig.setComponentWsFieldId("customViewName");
-
+		customViewComboboxConfig.setVaadinComponentPlaceHolder("-Select one-");
 		componentList.add(customViewComboboxConfig);
 
 		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig("REPORT_CUSTOM_VIEW",

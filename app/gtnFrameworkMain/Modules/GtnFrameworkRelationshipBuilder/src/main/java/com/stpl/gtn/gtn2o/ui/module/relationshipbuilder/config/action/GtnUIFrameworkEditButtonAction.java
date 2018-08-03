@@ -71,7 +71,7 @@ public class GtnUIFrameworkEditButtonAction implements GtnUIFrameWorkAction, Gtn
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkEditButtonAction();
+		return this;
 	}
 
 }

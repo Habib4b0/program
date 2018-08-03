@@ -55,7 +55,7 @@ public class GtnUIFrameworkRelationshipCopyAction implements GtnUIFrameWorkActio
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkRelationshipCopyAction();
+		return this;
 	}
 
 }

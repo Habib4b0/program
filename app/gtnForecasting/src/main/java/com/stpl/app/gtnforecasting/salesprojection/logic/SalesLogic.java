@@ -2409,7 +2409,7 @@ public class SalesLogic {
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
+                statement.setObject(NumericConstants.TWO, session.getUserId()); //  @USER_ID
                 statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {

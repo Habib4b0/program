@@ -89,11 +89,6 @@ public class CustomUserCallBack implements UserGroupCallback {
         return gtnWsUserRoleService;
     }
 
-    public void setGtnWsUserRoleService(GtnWsUserRoleService gtnWsUserRoleService) {
-        this.gtnWsUserRoleService = gtnWsUserRoleService;
-
-    }
-
     @PostConstruct
     public void initializeUserRoleMap() {
         try {

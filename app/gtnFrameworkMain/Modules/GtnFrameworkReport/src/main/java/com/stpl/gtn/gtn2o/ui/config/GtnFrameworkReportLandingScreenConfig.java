@@ -790,7 +790,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
-		alertParams.add(GtnFrameworkCommonConstants.ERROR);
+		alertParams.add("No Search Criteria ");
 		alertParams.add("No search criteria were found. Please enter search criteria and try again.");
 		saveViewDataSelectionAlertActionConfig.setActionParameterList(alertParams);
 
