@@ -51,9 +51,6 @@ public class GtnWsUserRoleService {
 		return databaseService;
 	}
 
-	public void setDatabaseService(GtnWsReturnsDatabaseService databaseService) {
-		this.databaseService = databaseService;
-	}
 
 	public User getUser(long userId) {
 		User user = null;
