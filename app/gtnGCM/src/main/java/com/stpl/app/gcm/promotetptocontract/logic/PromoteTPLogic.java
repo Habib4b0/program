@@ -1320,7 +1320,7 @@ public class PromoteTPLogic {
             String rsNo = conSelDTO.getRebateScheduleNo().replace('*', '%');
             query.append(" AND RS_CON.RS_NO like '" ).append( rsNo ).append( "' \n ");
         }
-        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
+        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             query.append(" AND RS_CON.RS_CATEGORY in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" ).append( rsCategory ).append( "' and HT.LIST_NAME = 'RS_CATEGORY' ) \n ");
         }

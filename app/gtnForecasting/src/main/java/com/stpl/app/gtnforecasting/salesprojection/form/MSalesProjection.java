@@ -285,7 +285,7 @@ public class MSalesProjection extends ForecastSalesProjection {
             }
 
         }
-        if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1 || tempCustomerLevel <= 1)) {
+        if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1)) {
             if (!hasActuals) {
                 hierarchyNo = salesPMPYDTO.getHierarchyNo();
                 final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +66,7 @@ public class GtnWsReportDataSelectionBean {
 
 	private String privateViewName;
 	private String publicViewName;
+	private List<Object> customDataList ;
 
 	public String getFromOrToForDataSelection() {
 		return fromOrToForDataSelection;
@@ -447,6 +449,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setPublicViewName(String publicViewName) {
 		this.publicViewName = publicViewName;
+	}
+
+	public List<Object> getCustomDataList() {
+		return customDataList == null ? customDataList : new ArrayList<>(customDataList);
+	}
+
+	public void setCustomDataList(List<Object> customDataList) {
+		this.customDataList = customDataList!=null? new ArrayList<>(customDataList):customDataList;
 	}
 
 }

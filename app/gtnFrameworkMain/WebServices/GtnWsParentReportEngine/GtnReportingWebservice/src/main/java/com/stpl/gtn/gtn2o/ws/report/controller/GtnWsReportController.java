@@ -230,18 +230,17 @@ public class GtnWsReportController {
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
 		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
-
+                 String filter =  gtnWsRequest.getGtnWsSearchRequest()
+				.getGtnWebServiceSearchCriteriaList().isEmpty()?"": gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
 		if (count) {
-			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
+			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter));
 			wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 		}
 
 		else {
 			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-			String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
-
-			finalQuery = finalQuery.replace("@filter", filter);
+			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter);
 			resultList = executeQuery(finalQuery);
 			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
 			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
