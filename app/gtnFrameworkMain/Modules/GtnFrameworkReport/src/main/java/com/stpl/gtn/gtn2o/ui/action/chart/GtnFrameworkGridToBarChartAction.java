@@ -46,7 +46,6 @@ public class GtnFrameworkGridToBarChartAction
 
 	private BarChartConfig getBarChartConfigBasedOnGrid(PagedTreeGrid dataGrid) {
 		Map<String, String[]> headerToIdMap = new LinkedHashMap<>();
-		// headerToIdMap.putAll(getLeftColumnString(dataGrid));
 		headerToIdMap.putAll(getRightColumnString(dataGrid));
 		int start = dataGrid.getColumnPageNumber() == 1 ? 0
 				: dataGrid.getColumnPageNumber() * dataGrid.getColumnsPerPage();
@@ -125,7 +124,6 @@ public class GtnFrameworkGridToBarChartAction
 				String secondHeader = secondHeaderIterator.next();
 				for (Object singleColumnId : dataGrid.getTableConfig().getRightTableDoubleHeaderMap()
 						.get(secondColumniD)) {
-
 					headerToIdMap.put(String.valueOf(singleColumnId),
 							new String[] { thirdHeader, secondHeader, firstHeaderIterator.next() });
 				}
