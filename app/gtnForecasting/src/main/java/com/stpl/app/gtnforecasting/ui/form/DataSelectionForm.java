@@ -1291,7 +1291,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 								childHierarchyNo = tempHNo + ".";
 							}
 							if (customerBeanList.isEmpty()
-									|| !customerBeanList.contains(Integer.parseInt(newLevel.getRelationShipBuilderId()))) {
+									|| !customerBeanList.contains(Integer.valueOf(newLevel.getRelationShipBuilderId()))) {
 								customerBeanList.add(newLevel.getRelationshipLevelSid());
 								selectedCustomerContainer.addBean(newLevel);
 								if (forecastLevel != newLevel.getLevelNo()) {
