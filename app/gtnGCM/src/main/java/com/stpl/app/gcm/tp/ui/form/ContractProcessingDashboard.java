@@ -871,8 +871,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     @UiHandler("populate")
     public void populateButtonLogic(Button.ClickEvent event) {
-        if (!tableBean.getCategory().equals(CONTRACT.getConstant())) {
-            if (tableBean != null) {
+        if (tableBean != null && !tableBean.getCategory().equals(CONTRACT.getConstant())) {
                 try {
                     loadComponentInformation(tableBean.getCategory());
 
@@ -882,7 +881,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             } else {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected",
                         "Please select a Level to populate the Component Information.");
-            }
         }
     }
 
