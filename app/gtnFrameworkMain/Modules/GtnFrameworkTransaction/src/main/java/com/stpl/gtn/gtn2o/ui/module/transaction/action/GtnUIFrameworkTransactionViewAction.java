@@ -52,7 +52,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		boolean isInvalid = (Boolean) actionParamList.get(8);
 		String tableName = (String) actionParamList.get(2);
-		List<Object> componentList = null;
+		List<Object> componentList = new ArrayList<>();;
 		String wsViewName = tableName;
 		String demandTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		String demandTypeColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
@@ -67,7 +67,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			List<String> defaultViewColumnList = (List<String>) actionParamList.get(5);
 			defaultViewColumnList.remove("transactionViewLayoutcheckRecord");
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(false, defaultViewColumnList, componentId);
-			componentList = new ArrayList<>(columnList);
+			componentList.addAll(columnList);
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(true, viewColumnList, componentId);
 			inventoryType.add(GtnTransactionUIConstants.INVENTORY_TYPE);
 			inventoryType.add(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_TYPE)

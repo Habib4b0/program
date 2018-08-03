@@ -102,7 +102,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	public AbstractGroupLookup(final String indicator, final String windowName, final String screenName) {
 		super(windowName);
 		this.indicator = indicator;
-		this.setScreenName(screenName);
+		this.screenName = screenName;
 		customerOrProduct();
 	}
 

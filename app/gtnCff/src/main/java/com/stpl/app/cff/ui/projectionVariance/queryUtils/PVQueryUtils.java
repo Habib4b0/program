@@ -126,7 +126,7 @@ public class PVQueryUtils {
             if (projSelDTO.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
                 selectClauseBuilder.append(", P" ).append( i ).append( '.' ).append( projectedSales ).append( " AS P" ).append( i ).append( "_PROJECTION_SALES  ");
             } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClauseBuilder.append( ", (IsNull(C." ).append( projectedSales ).append( ", 0)- IsNull(P" ).append( i ).append( "." ).append( projectedSales ).append( ", 0)) AS P" ).append( i ).append( "_PROJECTION_SALES ");
+                selectClauseBuilder.append( ", (IsNull(C." ).append( projectedSales ).append( ", 0)- IsNull(P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0)) AS P" ).append( i ).append( "_PROJECTION_SALES ");
             } else {
                 selectClauseBuilder.append( CASE_WHEN_P ).append( i ).append( '.' ).append( projectedSales ).append( " = 0 THEN  0\n")
                         .append( " ELSE ( IsNull(C." ).append( projectedSales ).append( ", 0) -  IsNull (P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( '.' ).append( projectedSales ).append( " )  \n")
@@ -181,9 +181,9 @@ public class PVQueryUtils {
             } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
                 selectClauseBuilder.append( ", (IsNull(C." ).append( projectedSales ).append( ", 0)- IsNull(P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0)) AS P" ).append( i ).append( '_' ).append( projectedSales ).append( ' ');
             } else {
-                selectClauseBuilder.append( CASE_WHEN_P ).append( i ).append( "." ).append( projectedSales ).append( " = 0 THEN 0\n")
-                        .append( " ELSE (IsNull(C." ).append( projectedSales ).append( ", 0) - IsNull(P" ).append( i ).append( "." ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( "." ).append( projectedSales ).append( ") \n")
-                        .append( " END   AS  P" ).append( i ).append( "_" ).append( projectedSales ).append( " ");
+                selectClauseBuilder.append( CASE_WHEN_P ).append( i ).append( '.' ).append( projectedSales ).append( " = 0 THEN 0\n")
+                        .append( " ELSE (IsNull(C." ).append( projectedSales ).append( ", 0) - IsNull(P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( '.' ).append( projectedSales ).append( ") \n")
+                        .append( " END   AS  P" ).append( i ).append( '_' ).append( projectedSales ).append( ' ');
             }
         }
         selectClause = selectClauseBuilder.toString();
@@ -298,7 +298,7 @@ public class PVQueryUtils {
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery.append(" LEFT  JOIN  (\n" ).append( getProjectionResultsDiscountsPerQuery(projSelDTO) ).append( "\n) " ).append( "P" ).append( i ).append( "  \n on C.DISCOUNTS=P" ).append( i ).append( ".DISCOUNTS \n  ")
+            customQuery.append(" LEFT  JOIN  (\n" ).append( getProjectionResultsDiscountsPerQuery(projSelDTO) ).append( "\n) " ).append( 'P' ).append( i ).append( "  \n on C.DISCOUNTS=P" ).append( i ).append( ".DISCOUNTS \n  ")
                     .append( " AND C.YEARS=P" ).append( i ).append( ".YEARS  \n ")
                     .append( " and C.PERIODS =P" ).append( i ).append( ".PERIODS   ");
         }
@@ -451,8 +451,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID  ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -855,8 +855,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -1082,7 +1082,7 @@ public class PVQueryUtils {
                 + "AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
         }
         ccpQuery += " ) CCPMAP,\n"
                 + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID \n"
@@ -1124,7 +1124,7 @@ public class PVQueryUtils {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
         }
 
         ccpQuery += " ) CCPMAPC \n"
@@ -1136,7 +1136,7 @@ public class PVQueryUtils {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
         }
 
         ccpQuery += " ) CCPMAPP \n"
@@ -1356,8 +1356,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID = J.RS_MODEL_SID ";
@@ -1433,8 +1433,8 @@ public class PVQueryUtils {
                 + "where A1.PROJECTION_DETAILS_SID = B1.PROJECTION_DETAILS_SID "
                 + "and B1.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B1")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A1");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B1")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A1");
         }
         customSql += " and  E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId()
                 + ccpWhereCond

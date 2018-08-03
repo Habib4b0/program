@@ -1,4 +1,4 @@
------------------------------------------------ NM_SALES_PROJECTION_MASTER -------------------------------
+---------------------------------------------- NM_SALES_PROJECTION_MASTER -------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
                WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'

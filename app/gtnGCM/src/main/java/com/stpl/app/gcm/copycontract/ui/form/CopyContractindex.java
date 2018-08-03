@@ -124,7 +124,7 @@ public class CopyContractindex extends VerticalLayout {
         
     }
     
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             contractHolder.focus();
             commonUtils.loadComboBox(aliastypecc, UiUtils.CONTRACT_ALIAS_TYPE, false);
@@ -160,7 +160,7 @@ public class CopyContractindex extends VerticalLayout {
         return binderLocal;
     }
 
-    public void configuretable() {
+    public final void configuretable() {
         try {
             copycontractResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
             copycontractResultsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);

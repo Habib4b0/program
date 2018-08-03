@@ -299,7 +299,7 @@ public class AltSummeryDiscount extends CustomComponent {
         getContent();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         frequencyDdlb.addItem(SELECT_ONE.getConstant());
         frequencyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         frequencyDdlb.addItem(MONTHLY.getConstant());
@@ -456,7 +456,7 @@ public class AltSummeryDiscount extends CustomComponent {
         customDdlbLogic();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("Inside getContent= {} " , session.getAction());
         configureFeildsForNm();
 
@@ -1434,10 +1434,10 @@ public class AltSummeryDiscount extends CustomComponent {
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkedDoubleHeaders.keySet()) {
-                List a = checkedDoubleHeaders.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
+                List a = entry.getValue();
                 if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;

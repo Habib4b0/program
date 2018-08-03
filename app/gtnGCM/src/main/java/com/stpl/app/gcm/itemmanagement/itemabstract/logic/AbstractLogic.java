@@ -49,6 +49,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -75,6 +76,7 @@ public class AbstractLogic {
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final AbstractLogic logic = new AbstractLogic();
     private static final String COMMA = ",";
+    public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     /**
      * The helper list util.
      */
@@ -252,9 +254,9 @@ public class AbstractLogic {
             String basePriceType = dto.getBasePriceType().getDescription();
             if (!Constants.EMPTY.equals(dto.getBaseLineWacManual()) && Constants.MANUAL_LABLE_NAME.equals(basePriceType)) {
                 dto.setBaselineWAC(dto.getBaseLineWacManual());
-            } else if (!Constants.NULL.equals(dto.getBaseLineWacDate()) && Constants.DATE_LABLE_NAME.equals(basePriceType)) {
+            } else if (Constants.DATE_LABLE_NAME.equals(basePriceType)) {
                 dto.setBaselineWAC(dto.getBaseLineWacDate());
-            } else if (!Constants.ZEROSTRING.equals(dto.getBaseLineWacPriceType()) && Constants.PRICE_TYPE_LABEL.equals(basePriceType)) {
+            } else if (Constants.PRICE_TYPE_LABEL.equals(basePriceType)) {
                 dto.setBaselineWAC(dto.getBaseLineWacPriceType());
             } else {
                 dto.setBaselineWAC(Constants.EMPTY);
@@ -585,17 +587,17 @@ public class AbstractLogic {
             dto.setComponentStartDate(str[NumericConstants.FIVE] == null ? null : (Date) str[NumericConstants.FIVE]);
             dto.setComponentEndDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
             if (componentFlag.equals("RS text")) {
-                dto.setRsType_Value((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                dto.setRsType_Value((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
-                dto.setRebateFrequency_Value((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                dto.setRebateFrequency_Value((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
-                dto.setRsProgramType_Value((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                dto.setRsProgramType_Value((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-                dto.setRsCategory_Value((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                dto.setRsCategory_Value((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-                dto.setPaymentFrequency_Value((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                dto.setPaymentFrequency_Value((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-                dto.setRebatePlanLevel_Value((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                dto.setRebatePlanLevel_Value((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             }
         }
@@ -709,19 +711,19 @@ public class AbstractLogic {
         input.add(compDTO.getColumnName());
         switch (compDTO.getCaseNo()) {
             case NumericConstants.ONE:
-                input.add(compDTO.getItemStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getItemStartDate())) : null);
+                input.add(compDTO.getItemStartDate() != null ? setQuotes(formatter.format(compDTO.getItemStartDate())) : null);
                 break;
             case NumericConstants.TWO:
-                input.add(compDTO.getItemEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getItemEndDate())) : null);
+                input.add(compDTO.getItemEndDate() != null ? setQuotes(formatter.format(compDTO.getItemEndDate())) : null);
                 break;
             case NumericConstants.THREE:
                 input.add(compDTO.getPriceToleranceType() != null ? compDTO.getPriceToleranceType().getId() : null);
                 break;
             case NumericConstants.FOUR:
-                input.add(compDTO.getCpStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getCpStartDate())) : null);
+                input.add(compDTO.getCpStartDate() != null ? setQuotes(formatter.format(compDTO.getCpStartDate())) : null);
                 break;
             case NumericConstants.FIVE:
-                input.add(compDTO.getCpEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getCpEndDate())) : null);
+                input.add(compDTO.getCpEndDate() != null ? setQuotes(formatter.format(compDTO.getCpEndDate())) : null);
                 break;
             case NumericConstants.SIX:
                 input.add(compDTO.getStatus() != null ? compDTO.getStatus().getId() : null);
@@ -730,10 +732,10 @@ public class AbstractLogic {
                 input.add(compDTO.getPriceTolerance() != null && !compDTO.getPriceTolerance().isEmpty() ? compDTO.getPriceTolerance() : null);
                 break;
             case NumericConstants.EIGHT:
-                input.add(compDTO.getPriceProtectionStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getPriceProtectionStartDate())) : null);
+                input.add(compDTO.getPriceProtectionStartDate() != null ? setQuotes(formatter.format(compDTO.getPriceProtectionStartDate())) : null);
                 break;
             case NumericConstants.NINE:
-                input.add(compDTO.getPriceProtectionEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getPriceProtectionEndDate())) : null);
+                input.add(compDTO.getPriceProtectionEndDate() != null ? setQuotes(formatter.format(compDTO.getPriceProtectionEndDate())) : null);
                 break;
             case NumericConstants.TEN:
                 input.add(compDTO.getPriceToleranceType() != null ? compDTO.getPriceToleranceType().getId() : null);
@@ -748,13 +750,13 @@ public class AbstractLogic {
                 input.add(compDTO.getBasePrice() != null && !compDTO.getBasePrice().isEmpty() ? compDTO.getBasePrice() : null);
                 break;
             case NumericConstants.FOURTEEN:
-                input.add(compDTO.getStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getStartDate())) : null);
+                input.add(compDTO.getStartDate() != null ? setQuotes(formatter.format(compDTO.getStartDate())) : null);
                 break;
             case NumericConstants.FIFTEEN:
                 input.add(compDTO.getPrice() != null && !compDTO.getPrice().isEmpty() ? compDTO.getPrice() : null);
                 break;
             case NumericConstants.SIXTEEN:
-                input.add(compDTO.getEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getEndDate())) : null);
+                input.add(compDTO.getEndDate() != null ? setQuotes(formatter.format(compDTO.getEndDate())) : null);
                 break;
             case NumericConstants.SEVENTEEN:
                 input.add(compDTO.getCheckRecord() ? 1 : 0);
@@ -763,10 +765,10 @@ public class AbstractLogic {
                 input.add(compDTO.getContractPrice() != null && !compDTO.getContractPrice().isEmpty() ? compDTO.getContractPrice() : null);
                 break;
             case NumericConstants.NINETEEN:
-                input.add(compDTO.getRSStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getRSStartDate())) : null);
+                input.add(compDTO.getRSStartDate() != null ? setQuotes(formatter.format(compDTO.getRSStartDate())) : null);
                 break;
             case NumericConstants.TWENTY:
-                input.add(compDTO.getRSEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getRSEndDate())) : null);
+                input.add(compDTO.getRSEndDate() != null ? setQuotes(formatter.format(compDTO.getRSEndDate())) : null);
                 break;
             case NumericConstants.TWENTY_ONE:
                 input.add(compDTO.getRebateAmount() != null && !compDTO.getRebateAmount().isEmpty() ? compDTO.getRebateAmount() : null);
@@ -799,7 +801,7 @@ public class AbstractLogic {
                 input.add(compDTO.getResetType() != null ? compDTO.getResetType().getId() : null);
                 break;
             case NumericConstants.THIRTY_ONE:
-                input.add(compDTO.getResetDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getResetDate())) : null);
+                input.add(compDTO.getResetDate() != null ? setQuotes(formatter.format(compDTO.getResetDate())) : null);
                 break;
             case NumericConstants.THIRTY_TWO:
                 input.add(compDTO.getResetInterval() != null ? compDTO.getResetInterval().getId() : null);
@@ -851,7 +853,7 @@ public class AbstractLogic {
                 break;
 
             case NumericConstants.FORTY_EIGHT:
-                input.add(compDTO.getBaseLineWacDate()!= null ? setQuotes(CommonUtils.DBDate.format(compDTO.getBaseLineWacDate())) : null);
+                input.add(compDTO.getBaseLineWacDate()!= null ? setQuotes(formatter.format(compDTO.getBaseLineWacDate())) : null);
                 break;
 
             case NumericConstants.FORTY_NINE:
@@ -907,23 +909,23 @@ public class AbstractLogic {
     }
 
     private List getEditedInput(AddItemTableDTO dto, SelectionDTO selection) {
-        List<Object> input = new ArrayList();
+        List<Object> input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(dto.getColumnName());
         switch (dto.getCaseNo()) {
             case NumericConstants.ONE:
-                input.add(dto.getItemStartDate() != null ? CommonUtils.DBDate.format(dto.getItemStartDate()) : null);
+                input.add(dto.getItemStartDate() != null ? formatter.format(dto.getItemStartDate()) : null);
                 break;
             case NumericConstants.TWO:
-                input.add(dto.getItemEndDate() != null ? CommonUtils.DBDate.format(dto.getItemEndDate()) : null);
+                input.add(dto.getItemEndDate() != null ? formatter.format(dto.getItemEndDate()) : null);
                 break;
             case NumericConstants.THREE:
                 input.add(dto.getPriceToleranceType() != null ? dto.getPriceToleranceType() : null);
                 break;
             case NumericConstants.FOUR:
-                input.add(dto.getCpStartDate() != null ? CommonUtils.DBDate.format(dto.getCpStartDate()) : null);
+                input.add(dto.getCpStartDate() != null ? formatter.format(dto.getCpStartDate()) : null);
                 break;
             case NumericConstants.FIVE:
-                input.add(dto.getCpEndDate() != null ? CommonUtils.DBDate.format(dto.getCpEndDate()) : null);
+                input.add(dto.getCpEndDate() != null ? formatter.format(dto.getCpEndDate()) : null);
                 break;
             case NumericConstants.SIX:
                 input.add(dto.getStatus() != null ? dto.getStatus().getId() : null);
@@ -932,10 +934,10 @@ public class AbstractLogic {
                 input.add(dto.getPriceTolerance() != null && !dto.getPriceTolerance().isEmpty() ? dto.getPriceTolerance() : null);
                 break;
             case NumericConstants.EIGHT:
-                input.add(dto.getPriceProtectionStartDate() != null ? CommonUtils.DBDate.format(dto.getPriceProtectionStartDate()) : null);
+                input.add(dto.getPriceProtectionStartDate() != null ? formatter.format(dto.getPriceProtectionStartDate()) : null);
                 break;
             case NumericConstants.NINE:
-                input.add(dto.getPriceProtectionEndDate() != null ? CommonUtils.DBDate.format(dto.getPriceProtectionEndDate()) : null);
+                input.add(dto.getPriceProtectionEndDate() != null ? formatter.format(dto.getPriceProtectionEndDate()) : null);
                 break;
             case NumericConstants.TEN:
                 input.add(dto.getPriceToleranceType() != null ? dto.getPriceToleranceType().getId() : null);
@@ -950,22 +952,22 @@ public class AbstractLogic {
                 input.add(dto.getBasePrice() != null && !dto.getBasePrice().isEmpty() ? dto.getBasePrice() : null);
                 break;
             case NumericConstants.FOURTEEN:
-                input.add(dto.getStartDate() != null ? CommonUtils.DBDate.format(dto.getStartDate()) : null);
+                input.add(dto.getStartDate() != null ? formatter.format(dto.getStartDate()) : null);
                 break;
             case NumericConstants.FIFTEEN:
                 input.add(dto.getPrice() != null ? dto.getPrice() : null);
                 break;
             case NumericConstants.SIXTEEN:
-                input.add(dto.getEndDate() != null ? CommonUtils.DBDate.format(dto.getEndDate()) : null);
+                input.add(dto.getEndDate() != null ? formatter.format(dto.getEndDate()) : null);
                 break;
             case NumericConstants.SEVENTEEN:
                 input.add(dto.getCheckRecord() != null ? dto.getCheckRecord() : null);
                 break;
             case NumericConstants.EIGHTEEN:
-                input.add(dto.getRSStartDate() != null ? CommonUtils.DBDate.format(dto.getRSStartDate()) : null);
+                input.add(dto.getRSStartDate() != null ? formatter.format(dto.getRSStartDate()) : null);
                 break;
             case NumericConstants.NINETEEN:
-                input.add(dto.getRSEndDate() != null ? CommonUtils.DBDate.format(dto.getRSEndDate()) : null);
+                input.add(dto.getRSEndDate() != null ? formatter.format(dto.getRSEndDate()) : null);
                 break;
             case NumericConstants.TWENTY:
                 input.add(dto.getRebateAmount() != null ? dto.getRebateAmount() : null);
@@ -992,7 +994,7 @@ public class AbstractLogic {
                 input.add(dto.getResetType() != null ? dto.getResetType().getId() : null);
                 break;
             case NumericConstants.THIRTY_ONE:
-                input.add(dto.getResetDate() != null ? setQuotes(CommonUtils.DBDate.format(dto.getResetDate())) : null);
+                input.add(dto.getResetDate() != null ? setQuotes(formatter.format(dto.getResetDate())) : null);
                 break;
             case NumericConstants.THIRTY_TWO:
                 input.add(dto.getResetInterval() != null ? dto.getResetInterval().getId() : null);
@@ -1044,7 +1046,7 @@ public class AbstractLogic {
                 break;
 
             case NumericConstants.FORTY_EIGHT:
-                input.add(dto.getBaseLineWacDate() != null ? setQuotes(CommonUtils.DBDate.format(dto.getBaseLineWacDate())) : null);
+                input.add(dto.getBaseLineWacDate() != null ? setQuotes(formatter.format(dto.getBaseLineWacDate())) : null);
                 break;
             case NumericConstants.FORTY_NINE:
                 input.add(dto.getBaseLineWacPriceType() != 0 ? dto.getBaseLineWacPriceType() : null);
@@ -1069,7 +1071,7 @@ public class AbstractLogic {
     }
 
     private List getInput(SelectionDTO selection, AddItemTableDTO binderDto) {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
@@ -1088,13 +1090,13 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( cm.START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getItemStartDate()) + "')");
+            input.add(" AND ( cm.START_DATE >= '" + formatter.format(binderDto.getItemStartDate()) + "')");
         } else {
             input.add(" ");
         }
 
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( CM.END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( CM.END_DATE <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -1217,7 +1219,7 @@ public class AbstractLogic {
      * @return
      */
     private List getCFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
             input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
@@ -1235,7 +1237,7 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( CC.CFP_START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+            input.add(" AND ( CC.CFP_START_DATE >= '" + formatter.format(binderDto.getStartDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -1257,7 +1259,7 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( CC.CFP_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( CC.CFP_END_DATE <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -1282,7 +1284,7 @@ public class AbstractLogic {
      * @return
      */
     private List getIFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
             input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
@@ -1309,12 +1311,12 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( IFP_C.IFP_START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+            input.add(" AND ( IFP_C.IFP_START_DATE >= '" + formatter.format(binderDto.getStartDate()) + "')");
         } else {
             input.add(" ");
         }
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( IFP_C.IFP_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( IFP_C.IFP_END_DATE <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -1339,7 +1341,7 @@ public class AbstractLogic {
      * @return
      */
     private List getPSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
             input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
@@ -1366,12 +1368,12 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( PS_C.PS_START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+            input.add(" AND ( PS_C.PS_START_DATE >= '" + formatter.format(binderDto.getStartDate()) + "')");
         } else {
             input.add(" ");
         }
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( PS_C.PS_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( PS_C.PS_END_DATE <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -1396,7 +1398,7 @@ public class AbstractLogic {
      * @return
      */
     private List getRSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
             input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
@@ -1433,12 +1435,12 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( RS_C.RS_START_DATE  >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+            input.add(" AND ( RS_C.RS_START_DATE  >= '" + formatter.format(binderDto.getStartDate()) + "')");
         } else {
             input.add(" ");
         }
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( RS_C.RS_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( RS_C.RS_END_DATE <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }

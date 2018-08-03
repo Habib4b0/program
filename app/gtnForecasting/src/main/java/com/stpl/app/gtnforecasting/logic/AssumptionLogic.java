@@ -73,7 +73,7 @@ public class AssumptionLogic {
      * @throws PortalException
      */
     public void getPVResults(final SessionDTO session)  {
-        List<Object> input = new ArrayList<>();
+        List<Object> input = new ArrayList<>(NumericConstants.TWENTY_FIVE);
         input.add(Constant.UPDATE);
         input.add(session.getUserId());
         input.add(session.getUserId());
@@ -128,9 +128,9 @@ public class AssumptionLogic {
                 BigDecimal grossSalePrior = Constant.NULL.equals(String.valueOf(temp[NumericConstants.EIGHT])) || StringUtils.EMPTY.equals(String.valueOf(temp[NumericConstants.EIGHT])) ? new BigDecimal(0) : (BigDecimal) temp[NumericConstants.EIGHT];
                 BigDecimal grossSaleProjected = Constant.NULL.equals(String.valueOf(temp[NumericConstants.NINE])) || StringUtils.EMPTY.equals(String.valueOf(temp[NumericConstants.NINE])) ? new BigDecimal(0) : (BigDecimal) temp[NumericConstants.NINE];
                 Double grossSaleChange = 0d;
-                if (grossSaleProjected.doubleValue() != 0d) {
+                if (Double.compare(grossSaleProjected.doubleValue(), 0d) != 0) {
                     grossSaleChange = ((grossSaleProjected.doubleValue() - grossSalePrior.doubleValue()) / grossSaleProjected.doubleValue()) * NumericConstants.HUNDRED;
-                } else if (grossSalePrior.doubleValue() != 0d) {
+                } else if (Double.compare(grossSalePrior.doubleValue(), 0d) != 0) {
                     grossSaleChange = ((grossSaleProjected.doubleValue() - grossSalePrior.doubleValue()) / grossSalePrior.doubleValue()) * NumericConstants.HUNDRED;
                 }
                 BigDecimal totalDiscountPrior1 = Constant.NULL.equals(String.valueOf(temp[NumericConstants.ELEVEN])) || StringUtils.EMPTY.equals(String.valueOf(temp[NumericConstants.ELEVEN])) ? new BigDecimal(0) : (BigDecimal) temp[NumericConstants.ELEVEN];
@@ -138,24 +138,24 @@ public class AssumptionLogic {
                 Double totalDiscountPrior = totalDiscountPrior1.doubleValue() * NumericConstants.HUNDRED / grossSalePrior.doubleValue();
                 Double totalDiscountProjected = totalDiscountProjected1.doubleValue() * NumericConstants.HUNDRED / grossSaleProjected.doubleValue();
                 Double totalDiscountChange = 0d;
-                if (totalDiscountProjected1.doubleValue() != 0d) {
+                if (Double.compare(totalDiscountProjected1.doubleValue(), 0d) != 0) {
                     totalDiscountChange = ((totalDiscountProjected1.doubleValue() - totalDiscountPrior1.doubleValue()) / totalDiscountProjected1.doubleValue()) * NumericConstants.HUNDRED;
-                } else if (totalDiscountPrior1.doubleValue() != 0d) {
+                } else if (Double.compare(totalDiscountPrior1.doubleValue(), 0d) != 0) {
                     totalDiscountChange = ((totalDiscountProjected1.doubleValue() - totalDiscountPrior1.doubleValue()) / totalDiscountPrior1.doubleValue()) * NumericConstants.HUNDRED;
                 }
                 Double netSalePrior = grossSalePrior.doubleValue() - totalDiscountPrior1.doubleValue();
                 Double netSaleProjected = grossSaleProjected.doubleValue() - totalDiscountProjected1.doubleValue();
                 Double netSaleChange = 0d;
-                if (netSaleProjected.doubleValue() != 0d) {
-                    netSaleChange = ((netSaleProjected.doubleValue() - netSalePrior.doubleValue()) / netSaleProjected.doubleValue()) * NumericConstants.HUNDRED;
-                } else if (netSalePrior.doubleValue() != 0d) {
-                    netSaleChange = ((netSaleProjected.doubleValue() - netSalePrior.doubleValue()) / netSalePrior.doubleValue()) * NumericConstants.HUNDRED;
+                if (Double.compare(netSaleProjected, 0d) != 0) {
+                    netSaleChange = ((netSaleProjected - netSalePrior) / netSaleProjected) * NumericConstants.HUNDRED;
+                } else if (Double.compare(netSalePrior, 0d) != 0) {
+                    netSaleChange = ((netSaleProjected - netSalePrior) / netSalePrior) * NumericConstants.HUNDRED;
                 }
                 tempDto.setGrossSalePriorPV(dollZeroDec.format(grossSalePrior.doubleValue()));
                 tempDto.setGrossSaleProjectedPV(dollZeroDec.format(grossSaleProjected.doubleValue()));
                 tempDto.setGrossSaleChangePV(perOneDec.format(grossSaleChange.doubleValue()) + Constant.PERCENT);
-                tempDto.setTotalDiscountPriorPV(perOneDec.format(totalDiscountPrior.isNaN() ? 0 : totalDiscountPrior.doubleValue()) + '%');
-                tempDto.setTotalDiscountProjectedPV(perOneDec.format(totalDiscountProjected.isNaN() ? 0 : totalDiscountProjected.doubleValue()) + '%');
+                tempDto.setTotalDiscountPriorPV(perOneDec.format(totalDiscountPrior.isNaN() ? 0 : totalDiscountPrior) + '%');
+                tempDto.setTotalDiscountProjectedPV(perOneDec.format(totalDiscountProjected.isNaN() ? 0 : totalDiscountProjected) + '%');
                 tempDto.setTotalDiscountChangePV(perOneDec.format(totalDiscountChange.doubleValue()) + Constant.PERCENT);
                 tempDto.setNetSalePriorPV(dollZeroDec.format(netSalePrior.doubleValue()));
                 tempDto.setNetSaleProjectedPV(dollZeroDec.format(netSaleProjected.doubleValue()));
@@ -320,7 +320,7 @@ public class AssumptionLogic {
      * @throws PortalException
      */
     public void removeLinePVS(final SessionDTO session, AssumptionPVDTO child)  {
-            List<Object> input = new ArrayList<>();
+            List<Object> input = new ArrayList<>(NumericConstants.TWENTY_FIVE);
             input.add(Constant.UPDATE);
             
             input.add(child.getChildPeriod());

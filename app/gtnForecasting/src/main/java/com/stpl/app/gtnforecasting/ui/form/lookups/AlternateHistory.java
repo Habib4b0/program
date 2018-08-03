@@ -87,7 +87,7 @@ public class AlternateHistory extends CustomWindow {
 
     }
 
-    public void configInConstructor() {
+    public final void configInConstructor() {
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(0);

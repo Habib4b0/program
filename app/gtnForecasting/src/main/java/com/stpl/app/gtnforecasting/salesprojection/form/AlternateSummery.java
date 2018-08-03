@@ -981,10 +981,10 @@ public class AlternateSummery extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 try {
                                     Double newNumber, oldNumber;
-                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
-                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
+                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
+                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
                                      Double incOrDec;
-                                    if (oldNumber == 0.0) {
+                                     if (oldNumber == 0.0) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
@@ -1262,8 +1262,8 @@ public class AlternateSummery extends CustomComponent {
         int currentYear = (Integer) list.get(NumericConstants.TWO);
         int currentSemi = (Integer) list.get(NumericConstants.THREE);
         String selectedFreq = projectionDTO.getFrequency();
-        for (Object key : checkBoxMap.keySet()) {
-            String temp[] = ((String) key).split("-");
+        for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {
+            String temp[] = ((String) key.getKey()).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -1285,11 +1285,11 @@ public class AlternateSummery extends CustomComponent {
                 default:
                     break;
             }
-            if ((condition) && (checkBoxMap.get(key))) {
+             if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
                     selectedPeriods = selectedPeriods + ",";
                 }
-                String value = (String) key;
+                String value = (String) key.getKey();
                 value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
                 selectedPeriods = selectedPeriods + value;
             }
@@ -1362,8 +1362,8 @@ public class AlternateSummery extends CustomComponent {
         int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
 
-        for (Object key : checkBoxMap.keySet()) {
-            String temp[] = ((String) key).split("-");
+        for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {
+            String temp[] = ((String) key.getKey()).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.REGEX_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -1386,11 +1386,11 @@ public class AlternateSummery extends CustomComponent {
                     break;
             }
 
-            if ((condition) && (checkBoxMap.get(key))) {
+            if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
                     selectedPeriods = selectedPeriods + ",";
                 }
-                String value = (String) key;
+                String value = (String) key.getKey();
                 value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
                 selectedPeriods = selectedPeriods + value;
             }
@@ -1727,10 +1727,10 @@ public class AlternateSummery extends CustomComponent {
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkedDoubleHeaders.keySet()) {
-                List a = checkedDoubleHeaders.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
+                List a = entry.getValue();
                 if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
@@ -1878,7 +1878,7 @@ public class AlternateSummery extends CustomComponent {
         });
     }
 
-    public void init() throws PortalException, SystemException {
+    public final void init() throws PortalException, SystemException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
@@ -1993,7 +1993,7 @@ public class AlternateSummery extends CustomComponent {
             for (Object key : dto.getProperties().keySet()) {
                 if (((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) && (String.valueOf(key).contains("Actual"))) {
                     String value = String.valueOf(dto.getProperties().get(key));
-                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH) && !value.equals("0.000000")) {
+                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH.getConstant()) && !value.equals("0.000000")) {
                         hasActuals = true;
                     }
 
@@ -2182,7 +2182,7 @@ public class AlternateSummery extends CustomComponent {
         projectionDTO.setPivotView(String.valueOf(pivotViewVar.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

@@ -516,9 +516,9 @@ public class DiscountProjectionLogic {
             baselineIndicator = "P";
         }
 
-        for (String discountName : periodsMap.keySet()) {
-            baselinePeriodsList = periodsMap.get(discountName).get(baselineIndicator);
-            selectedPeriodsList = periodsMap.get(discountName).get("P");
+         for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+            baselinePeriodsList = discountName.getValue().get(baselineIndicator);
+            selectedPeriodsList = discountName.getValue().get("P");
 
             baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
             selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -935,12 +935,12 @@ public class DiscountProjectionLogic {
                     String commonColumn = StringUtils.EMPTY;
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         commonColumn = Constant.Q_SMALL + obj[1] + obj[0];
-                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                         commonColumn = Constant.S_SMALL + obj[1] + obj[0];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                         commonColumn = monthName.toLowerCase() + obj[0];
-                    } else if (frequency.equals(ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
                     commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + commonColumn;
@@ -1041,12 +1041,12 @@ public class DiscountProjectionLogic {
                     String headerColumn = StringUtils.EMPTY;
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         headerColumn = Constant.Q_SMALL + obj[NumericConstants.SIX] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                         headerColumn = Constant.S_SMALL + obj[NumericConstants.SIX] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SIX]) - 1);
                         headerColumn = monthName + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequency.equals(ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         headerColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     }
                     if (!periodList.contains(headerColumn)) {
@@ -1103,7 +1103,7 @@ public class DiscountProjectionLogic {
                 }
             }
             detailsSid = idStringBuilder.toString();
-            detailsSid.substring(0, detailsSid.length() - 1);
+            detailsSid = detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
@@ -1179,9 +1179,9 @@ public class DiscountProjectionLogic {
 
         final Map<Integer, List> finalMap = new HashMap<>();
 
-        for (int key : sourceHeaderMap.keySet()) {
+        for (Map.Entry<Integer, List> key : sourceHeaderMap.entrySet()) {
 
-            List list = sourceHeaderMap.get(key);
+            List list = key.getValue();
             if (finalMap.containsKey((Integer) list.get(NumericConstants.TWO))) {
 
                 List tempList = finalMap.get((Integer) list.get(NumericConstants.TWO));

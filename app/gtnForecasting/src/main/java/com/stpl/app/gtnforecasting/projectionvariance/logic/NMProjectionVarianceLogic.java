@@ -105,6 +105,9 @@ public class NMProjectionVarianceLogic {
 	private List chartList;
 	private static final String FROM = " FROM ";
 	private static final String SELECTED_HIERARCHY_NO_FOR_CUSTOMER_PV = "selected-hierarchy-no-for-customer-pv";
+        protected static final String DF_LEVEL_NAME = "dfLevelName";
+        protected static final String DF_LEVEL_NUMBER= "dfLevelNumber";
+        protected static final String LEVEL_NAME = "Level Name";
 
 	public NMProjectionVarianceLogic() {
 		super();
@@ -860,6 +863,10 @@ public class NMProjectionVarianceLogic {
 			frequency = Constant.SEMIANNUAL_CAPS;
 			break;
 		}
+		case Constant.SEMI_ANNUALY: {
+			frequency = Constant.SEMIANNUAL_CAPS;
+			break;
+		}
 		case Constant.MONTHLY: {
 			frequency = Constant.MONTHLY_COLUMN;
 			break;
@@ -1363,7 +1370,7 @@ public class NMProjectionVarianceLogic {
 		pivotPriorProjIdList = new ArrayList<>();
 		if (frequency.equals(Constant.QUARTERLY)) {
 			frequency = Constant.QUARTERLY1;
-		} else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
+		} else if (frequency.equals(Constant.SEMI_ANNUALLY) || frequency.equals(Constant.SEMI_ANNUALY)) {
 			frequency = Constant.SEMIANNUAL_CAPS;
 		} else if (frequency.equals(Constant.MONTHLY)) {
 			frequency = Constant.MONTHLY_COLUMN;
@@ -1428,6 +1435,7 @@ public class NMProjectionVarianceLogic {
 				}
 			}
 		} catch (Exception e) {
+                    LOGGER.error(e.getMessage());
 		}
 		return rsIds;
 	}
@@ -1450,11 +1458,12 @@ public class NMProjectionVarianceLogic {
 						rsIds = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + String.valueOf(obj);
+						rsIds = rsIds + "," + obj;
 					}
 				}
 			}
 		} catch (Exception e) {
+                    LOGGER.error(e.getMessage());
 		}
 		return rsIds;
 	}
@@ -1519,23 +1528,36 @@ public class NMProjectionVarianceLogic {
 			visibleSingleCol.addAll(Arrays.asList(doubleMap.get(visibleDoubleCol.get(i))));
 			doubleFinalMap.put(visibleDoubleCol.get(i), doubleMap.get(visibleDoubleCol.get(i)));
 
-		}
-		int startSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(0));
-		int endSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(visibleSingleCol.size() - 1));
+		          }
+            int startSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(0));
+            int endSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(visibleSingleCol.size() - 1));
 
-		for (int i = startSingle; i <= endSingle; i++) {
-			visibleSingleHead.add(visibleSingleHeader.get(i));
-		}
-		rightTable.setVisibleColumns(visibleSingleCol.toArray());
-		rightTable.setColumnHeaders(visibleSingleHead.toArray(new String[visibleSingleHead.size()]));
-		rightTable.setDoubleHeaderVisibleColumns(finalVisList.toArray());
-		rightTable.setDoubleHeaderColumnHeaders(finalHeaderList.toArray(new String[finalHeaderList.size()]));
-		rightTable.setDoubleHeaderMap(doubleFinalMap);
-		// For Chart and Excel Header when date range is selected
-		for (int i = 0; i < visibleSingleCol.size(); i++) {
-			String singleHeader = fullHeader.getSingleHeader(visibleSingleCol.get(i));
-			newFullHeader.addSingleColumn(visibleSingleCol.get(i), singleHeader, String.class);
-		}
+            for (int i = startSingle; i <= endSingle; i++) {
+                visibleSingleHead.add(visibleSingleHeader.get(i));
+            }
+            rightTable.setVisibleColumns(visibleSingleCol.toArray());
+            rightTable.setColumnHeaders(visibleSingleHead.toArray(new String[visibleSingleHead.size()]));
+            rightTable.setDoubleHeaderVisibleColumns(finalVisList.toArray());
+            rightTable.setDoubleHeaderColumnHeaders(finalHeaderList.toArray(new String[finalHeaderList.size()]));
+            rightTable.setDoubleHeaderMap(doubleFinalMap);
+            // For Chart and Excel Header when date range is selected
+            Object singleCol = Constant.GROUP;
+            newFullHeader.addSingleColumn(singleCol, " ", String.class); 
+            newFullHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number",String.class);
+            newFullHeader.addSingleColumn(DF_LEVEL_NAME, LEVEL_NAME, String.class);
+            for (int i = 0; i < visibleSingleCol.size(); i++) {
+                String singleHeader = fullHeader.getSingleHeader(visibleSingleCol.get(i));
+                newFullHeader.addSingleColumn(visibleSingleCol.get(i), singleHeader, String.class);
+            }
+            if (!doubleFinalMap.isEmpty()) {
+                Object doubleCol = Constant.GROUP;
+                newFullHeader.addDoubleColumn(doubleCol, "");
+                doubleFinalMap.put(doubleCol, new Object[]{Constant.GROUP,DF_LEVEL_NUMBER, DF_LEVEL_NAME});
+                for (int i = 0; i < finalVisList.size(); i++) {
+                    newFullHeader.addDoubleColumn(finalVisList.get(i), finalHeaderList.get(i));
+                }
+                newFullHeader.setDoubleHeaderMaps(doubleFinalMap);
+            }
 		return newFullHeader;
 	}
 
@@ -1588,10 +1610,10 @@ public class NMProjectionVarianceLogic {
 				String commonHeader = common.get(1);
 				if (periodList.contains(pcommonColumn)) {
 					periodList.remove(pcommonColumn);
-					List<String> columnList = new ArrayList<>(pvsdto.getColumns());
-					columnList.remove(Constant.GROUP);
 					ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
 					projDTO.setGroup(commonHeader);
+                                        projDTO.setDfLevelNumber(commonHeader);
+                                        projDTO.setDfLevelName(commonHeader);
 
 					// Exfactory Sales
 					if ((baseVariables.isVarExFacSales())) {
@@ -2053,6 +2075,8 @@ public class NMProjectionVarianceLogic {
 		ProjectionVarianceDTO totalDTO = new ProjectionVarianceDTO();
 		if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
 			totalDTO.setGroup(Constant.PROJECTION_TOTAL);
+			totalDTO.setDfLevelNumber(Constant.PROJECTION_TOTAL);
+			totalDTO.setDfLevelName(Constant.PROJECTION_TOTAL);
 			projDTOList.add(0, totalDTO);
 		}
 		return projDTOList;
@@ -2066,7 +2090,7 @@ public class NMProjectionVarianceLogic {
 	public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto,
 			final ProjectionVarianceDTO parentDto, final PVSelectionDTO baseVariables) {
 		try {
-			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
 			if (pvsdto.getLevel().equals(Constant.DETAIL)) {
 				// No action required
 			} else {
@@ -3203,7 +3227,6 @@ public class NMProjectionVarianceLogic {
 				: SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_CUSTOM);
 		if (projSelDTO.isIsCustomHierarchy()) {
 			String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-			int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
 			switch (String.valueOf(currentHierarchyIndicator)) {
 			case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
 				sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,
@@ -3246,14 +3269,12 @@ public class NMProjectionVarianceLogic {
 			currentHierarchyIndicator = projSelDTO.getHierarchyIndicator();
 		}
 
-		String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomerHierarchyNo(),
-				projSelDTO.getProductHierarchyNo(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator,
+		String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), currentHierarchyIndicator,
 				projSelDTO);
 		return joinQuery;
 	}
 
-	public String getHierarchyJoinQuery(boolean isCustomHierarchy, String customerHierarchyNo,
-			String productHierarchyNo, String deductionHierarchyNo, String hierarchyIndicator,
+	public String getHierarchyJoinQuery(boolean isCustomHierarchy, String hierarchyIndicator,
 			ProjectionSelectionDTO projSelDTO) {
 		StringBuilder joinQuery = new StringBuilder();
 		String dedJoin = StringUtils.EMPTY;
@@ -3268,7 +3289,7 @@ public class NMProjectionVarianceLogic {
 		if (isCustomHierarchy) {
 			joinQuery.append("CH.CCP_DETAILS_SID = RLD1.CCP_DETAILS_SID ");
 			dedJoin = "AND ( RLD1.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID\n"
-					+ "                   OR RLD1.RS_CONTRACT_SID=0 )";
+					+ "                   OR RLD1.RS_CONTRACT_SID=0 ) AND PV_FILTERS=1 ";
 
 		} else {
 			joinQuery.append(
@@ -3416,7 +3437,6 @@ public class NMProjectionVarianceLogic {
 			LOGGER.info("Custom view last level");
 			return 0;
 		}
-		int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
 		String countQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
 		countQuery = countQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
 		countQuery += insertAvailableHierarchyNo(projSelDTO);
@@ -3432,7 +3452,6 @@ public class NMProjectionVarianceLogic {
 
     public List<String> getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
-        int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
         List<String> resultSet = new ArrayList();
         String query = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
         query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));

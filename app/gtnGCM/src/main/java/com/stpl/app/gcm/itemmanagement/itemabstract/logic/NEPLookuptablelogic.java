@@ -36,7 +36,7 @@ public class NEPLookuptablelogic extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                count = (Integer) logic.lookupCountQuery(formulaDto, 0, 0, null, this.getFilters(), true);
+                count = logic.lookupCountQuery(formulaDto, 0, 0, null, this.getFilters(), true);
             }
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;

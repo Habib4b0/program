@@ -2369,8 +2369,6 @@ public class MProjectionResultsLogic {
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
-                columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
                 projDTO.setRelationshipLevelName(commonHeader);
                 String value;
@@ -2380,14 +2378,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.TWO];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.THREE];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
 
                 commonColumn = "unitVol";
@@ -2396,14 +2392,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.FOUR];
                     value = getFormattedValue(NUM_ZERO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.FIVE];
                     value = getFormattedValue(NUM_ZERO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
@@ -2411,14 +2405,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.SIX];
                     value = getFormattedValue(PER_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.SEVEN];
                     value = getFormattedValue(PER_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = Constant.TOT_RPU;
                 column = commonColumn + ACTUALS.getConstant();
@@ -2426,14 +2418,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.EIGHT];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.NINE];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
@@ -2441,14 +2431,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.TEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.ELEVEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "totDisDolMandatedDiscount";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2456,14 +2444,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.FOURTEEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
 
                 commonColumn = "totRPUMandatedDiscount";
@@ -2472,14 +2458,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.FIFTEEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "totDisPerMandatedDiscount";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2487,14 +2471,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.SIXTEEN];
                     value = getFormattedValue(PER_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_TWO];
                     value = getFormattedValue(PER_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "totDisDolSupplementalDiscount";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2502,14 +2484,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.SEVENTEEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_THREE];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "totRPUSupplementalDiscount";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2517,14 +2497,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.EIGHTEEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_FOUR];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "totDisPerSupplementalDiscount";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2532,14 +2510,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.NINETEEN];
                     value = getFormattedValue(PER_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_FIVE];
                     value = getFormattedValue(PER_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "netSales";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2547,14 +2523,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.TWELVE];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.THIRTEEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "cogs";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2562,14 +2536,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_SIX];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_SEVEN];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 commonColumn = "netProfit";
                 column = commonColumn + ACTUALS.getConstant();
@@ -2577,14 +2549,12 @@ public class MProjectionResultsLogic {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_EIGHT];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TWENTY_NINE];
                     value = getFormattedValue(CUR_TWO, value);
                     projDTO.addStringProperties(column, value);
-                    columnList.remove(column);
                 }
 
                 for (int i = NumericConstants.ZERO; i < pcList.size(); i++) {
@@ -2601,56 +2571,48 @@ public class MProjectionResultsLogic {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.FIVE];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_DIS_PER + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.ELEVEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.EIGHT];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.FOURTEEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.FOUR];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.TEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.SEVEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.THIRTEEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
 
                         column = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
@@ -2658,28 +2620,24 @@ public class MProjectionResultsLogic {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.THREE];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.NINE];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.SIX];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                         column = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.TWELVE];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
-                            columnList.remove(column);
                         }
                     }
 
@@ -3732,7 +3690,7 @@ public class MProjectionResultsLogic {
          CommonLogic commonLogic = new CommonLogic();
         String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);;
 
-        StringBuffer netSalesQuery = new StringBuffer();
+        StringBuilder netSalesQuery = new StringBuilder();
         List<String> list = getCommonSelectPeriodNetSalesClause(Constant.TODIS_LABEL, "SALE", projSelDTO.getFrequencyDivision());
         List<String> list2 = getCommonSelectPeriodNetSalesClause(Constant.HISTORY1, Constant.FUTURE, projSelDTO.getFrequencyDivision());
         String value = StringUtils.EMPTY;
@@ -3973,7 +3931,7 @@ public class MProjectionResultsLogic {
 
             productLevelNo = StringUtils.EMPTY + projSelDTO.getTreeLevelNo();
         }
-        StringBuffer customQuery = new StringBuffer();
+        StringBuilder customQuery = new StringBuilder();
         customQuery.append("INSERT INTO @CCP (RELATIONSHIP_LEVEL_SID\n"
                 ).append( ", PROJECTION_DETAILS_SID\n"
                 ).append( ", CCP_DETAILS_SID\n"
@@ -4046,7 +4004,7 @@ public class MProjectionResultsLogic {
     }
 
     public String getCusProdQuery(ProjectionSelectionDTO projSelDTO, String relationshipBuilderSid) {
-        StringBuffer cusProdQuery = new StringBuffer();
+        StringBuilder cusProdQuery = new StringBuilder();
         cusProdQuery.append("  INSERT INTO @CCP\n"
                 ).append( "             (RELATIONSHIP_LEVEL_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID,HIERARCHY_NO)\n"
                 ).append( "  SELECT LCCP.RELATIONSHIP_LEVEL_SID,LCCP.PROJECTION_DETAILS_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from\n"
@@ -4120,7 +4078,7 @@ public class MProjectionResultsLogic {
                 + "  ON CC.ITEM_MASTER_SID = U.ITEM_MASTER_SID\n"
                 + "  AND A.PERIOD_SID = U.PERIOD_SID  "
                 + "where  "
-                + CommonLogic.getUserSessionQueryConditionForPR(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A")
+                + CommonLogic.getUserSessionQueryConditionForPR(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A")
                 + periodFilter + "\n"
                 + whereClause + "\n";
 

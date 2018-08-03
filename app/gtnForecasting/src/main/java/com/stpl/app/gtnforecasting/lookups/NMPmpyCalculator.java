@@ -319,7 +319,7 @@ public class NMPmpyCalculator extends Window {
     /**
      * Adds the screen contents and configures all the components.
      */
-    public void init() {
+    public final void init() {
         try {
             LOGGER.debug("Entering init method");
             center();
@@ -915,7 +915,7 @@ public class NMPmpyCalculator extends Window {
         Double analogLivesValue;
 
         if (analogLives.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(analogLives.getValue())) && !Constant.NULL.equals(String.valueOf(analogLives.getValue()))
-                && isNumeric(String.valueOf(analogLives.getValue())) && Double.parseDouble(String.valueOf(analogLives.getValue())) != 0.0) {
+                && isNumeric(String.valueOf(analogLives.getValue())) && CommonUtils.compareDoubleValues(String.valueOf(analogLives.getValue())) != 0) {
             analogLivesValue = Double.valueOf(String.valueOf(analogLives.getValue()));
         } else {
             AbstractNotificationUtils.getErrorNotification("No Lives", "Please enter a numeric value for Lives.");
@@ -924,7 +924,7 @@ public class NMPmpyCalculator extends Window {
         }
         final String tempSales = String.valueOf(sales.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
         Double salesValue = 1.0;
-        if (sales.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && Double.parseDouble(tempSales) != 0.0) {
+        if (sales.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && CommonUtils.compareDoubleValues(tempSales) != 0) {
 
             if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
                 final DecimalFormat salesFormat = new DecimalFormat("####");
@@ -941,7 +941,7 @@ public class NMPmpyCalculator extends Window {
         Double marketShareValue;
 
         if (marketShare.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(marketShare.getValue())) && !Constant.NULL.equals(String.valueOf(marketShare.getValue()))
-                && isNumeric(String.valueOf(marketShare.getValue())) && Double.parseDouble(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0.0) {
+                && isNumeric(String.valueOf(marketShare.getValue())) && Double.parseDouble(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0) {
             marketShareValue = Double.valueOf(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY));
         } else {
             valuePerLife.setValue(StringUtils.EMPTY);
@@ -965,7 +965,7 @@ public class NMPmpyCalculator extends Window {
 
         Double projectedLivesValue;
         if (projectedLives.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(projectedLives.getValue())) && !Constant.NULL.equals(String.valueOf(projectedLives.getValue()))
-                && isNumeric(String.valueOf(projectedLives.getValue())) && Double.parseDouble(String.valueOf(projectedLives.getValue())) != 0.0) {
+                && isNumeric(String.valueOf(projectedLives.getValue())) && CommonUtils.compareDoubleValues(String.valueOf(projectedLives.getValue())) != 0) {
             projectedLivesValue = Double.valueOf(String.valueOf(projectedLives.getValue()));
         } else {
             AbstractNotificationUtils.getErrorNotification("No Total Lives", "Please enter a numeric value for Total Lives.");
@@ -978,7 +978,7 @@ public class NMPmpyCalculator extends Window {
         double valuePerLifeValue = 1.0;
 
         if (valuePerLife.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
-                && Double.parseDouble(tempValuePerLifeValue) != 0.0) {
+                && CommonUtils.compareDoubleValues(tempValuePerLifeValue) != 0) {
 
             if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))){
                 valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
@@ -1111,16 +1111,7 @@ public class NMPmpyCalculator extends Window {
             AbstractNotificationUtils.getErrorNotification("No Projection Period Total", "Please complete the PMPY calculation before clicking IMPORT.");
         } else {
             String tempValue = StringUtils.EMPTY;
-            final int currentYear = calendar.get(Calendar.YEAR);
-            final int yearOne = currentYear + 1;
-            final int yearTwo = currentYear + NumericConstants.TWO;
-            final int yearThree = currentYear + NumericConstants.THREE;
             String queryName = StringUtils.EMPTY;
-            final int[] yearArray = new int[]{currentYear, yearOne, yearTwo, yearThree};
-            final List yearArrayList = new ArrayList();
-            for (int i = 0; i < yearArray.length; i++) {
-                yearArrayList.add(yearArray[i]);
-            }
             int annual;
             Double calculatedValue = 0.0;
 
@@ -1391,5 +1382,5 @@ public class NMPmpyCalculator extends Window {
         ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable2), Constant.TRADING_PARTNER, "PMPY Calculator - Trading Partner", "PMPYcalculatorTradingPartner.xls", false);
         export.export();
     }
-
+    
 }

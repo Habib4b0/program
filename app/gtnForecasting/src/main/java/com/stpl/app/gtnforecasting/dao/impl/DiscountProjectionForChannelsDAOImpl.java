@@ -41,7 +41,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionForChannelsDAOImpl.class);
     protected CommonUtils commonUtils = new CommonUtils();
     protected DPQueryUtils queryUtils = new DPQueryUtils();
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     @Override
     public List<DiscountProjectionDTO> getDiscountProjection(
@@ -150,9 +150,9 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
                 String custSql = SQlUtil.getQuery(getClass(),"ch.generateQuery");
 
-                for (String key : input.keySet()) {
-                    LOGGER.debug("Key= {} " , key);
-                    custSql = custSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    LOGGER.debug("Key= {} " , key.getKey());
+                    custSql = custSql.replace(key.getKey(), String.valueOf(key.getValue()));
                 }
                 customQuery = custSql;
 
@@ -669,9 +669,9 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             LOGGER.debug("Query Name= {} " , queryName);
             String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-            for (String key : input.keySet()) {
-                LOGGER.debug("Key= {} " , key);
-                customSql = customSql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                LOGGER.debug("Key= {} " , key.getKey());
+                customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
            HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
         } catch (Exception e) {

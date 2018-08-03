@@ -5,12 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.queryUtils;
 
-import static com.stpl.app.gtnforecasting.dao.impl.DiscountProjectionForChannelsDAOImpl.DBDate;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -20,13 +20,16 @@ import org.apache.commons.lang.StringUtils;
  * @author vigneshkanna
  */
 public class DPQueryUtils {
-
+    
+    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    
     public String updateCheckRecordQuery(SessionDTO session, String hierarchyNo, String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String hierarchy) {
         String ccpDetails;
         String customSql;
         final String userId = session.getUserId();
         final String sessionId = session.getSessionId();
         final int projectionId = session.getProjectionId();
+        
 
         if (isCustomView && customViewDetails != null && !customViewDetails.isEmpty()) {
 
@@ -240,9 +243,9 @@ public class DPQueryUtils {
     }
 
     public String getLevelvalues(boolean isLevelFilter, int endLevelNo, boolean isCustomHierarchy, int projectionId, String hierarchy, int startLevelNo) {
-        StringBuffer query = new StringBuffer();
-        StringBuffer orderBy = new StringBuffer();
-        StringBuffer endLevelRestriction = new StringBuffer();
+        StringBuilder query = new StringBuilder();
+        StringBuilder orderBy = new StringBuilder();
+        StringBuilder endLevelRestriction = new StringBuilder();
         if (isLevelFilter) {
             query.append("Select Distinct HLD.LEVEL_NO ,('Level '+HLD.LEVEL_NO +' - '+HLD.LEVEL_NAME)\n");
         } else {
@@ -279,7 +282,7 @@ public class DPQueryUtils {
     }
 
     public String masterTableUpdateQuery(String baselinePeriods, int projectionId, int discountName, String selectedPeriods) {
-        StringBuffer query = new StringBuffer();
+        StringBuilder query = new StringBuilder();
         query.append("UPDATE DM SET DM.BASELINE_PERIODS = '" ).append( baselinePeriods ).append( "', DM.SELECTED_PERIODS = '" ).append( selectedPeriods ).append( "' FROM ST_CH_DISCOUNT_PROJ_MASTER DM ");
         query.append(" JOIN (SELECT PD.PROJECTION_DETAILS_SID");
 
@@ -299,7 +302,7 @@ public class DPQueryUtils {
 
     public String discountProjectionTableUpdateQuery(String adjustmentType, String adjustmentBasis, String allocationMethodology, String adjustmentValue, int projectionId,
             int discountName, String userId, String sessionId, String period, String selectedPeriodsToUpdate) {
-        StringBuffer query = new StringBuffer();
+        StringBuilder query = new StringBuilder();
         if ("Lowest Level (Month and Product)".equals(allocationMethodology)) {
             allocationMethodology = "None";
         }

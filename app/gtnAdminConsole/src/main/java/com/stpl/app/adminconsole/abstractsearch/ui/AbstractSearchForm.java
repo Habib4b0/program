@@ -270,7 +270,7 @@ public class AbstractSearchForm extends CustomComponent {
      *
      * @return the binder
      */
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
         final ErrorfulFieldGroup fieldBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         fieldBinder.setBuffered(true);
@@ -285,7 +285,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
-    public void init() throws PortalException, SystemException {
+    public final void init() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, securityName() + "," + "Index Screen");
@@ -429,12 +429,6 @@ public class AbstractSearchForm extends CustomComponent {
         editBtn.setEnabled(true);
         copyBtn.setEnabled(true);
         deleteBtn.setEnabled(true);
-        List<Object> collapsedColumns = new ArrayList<>();
-        for (Object item : resultTable.getVisibleColumns()) {
-            if (resultTable.isColumnCollapsed(item)) {
-                collapsedColumns.add(item);
-            }
-        }
         if (!searchLogic.checkSearchCriteria(binder)) {
             AbstractNotificationUtils.getWarningNotification(MessageUtil.getMessage(Message.SEARCH_CRITERIA_HEADER), MessageUtil.getMessage(Message.SEARCH_CRITERIA_MESSAGE));
         } else {
@@ -480,12 +474,6 @@ public class AbstractSearchForm extends CustomComponent {
     @UiHandler("auditSearchBtn")
     public void auditSearchBtnLogic(Button.ClickEvent event) {
         binder.getErrorDisplay().clearError();
-        List<Object> collapsedColumns = new ArrayList<>();
-        for (Object item : resultTable.getVisibleColumns()) {
-            if (resultTable.isColumnCollapsed(item)) {
-                collapsedColumns.add(item);
-            }
-        }
         if (!searchLogic.checkSearchCriteria(binder)) {
             AbstractNotificationUtils.getWarningNotification(MessageUtil.getMessage(Message.SEARCH_CRITERIA_HEADER), MessageUtil.getMessage(Message.SEARCH_CRITERIA_MESSAGE));
         } else {

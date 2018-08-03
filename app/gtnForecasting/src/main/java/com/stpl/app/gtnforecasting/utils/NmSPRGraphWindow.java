@@ -31,7 +31,7 @@ public class NmSPRGraphWindow extends StplWindow{
 	 * @param component
 	 *            the component
 	 */
-	public void init(final Component component) {
+	public final void init(final Component component) {
 
 		LOGGER.debug("Entering init method");
 		center();

@@ -459,6 +459,8 @@ public class CommonExcelExport extends TableExport{
         // initial setup
         initialSheetSetup();
 
+        LOGGER.info("inside convert table");
+        
         // add title row
         startRow = addTitleRow();
         int row = startRow;
@@ -538,15 +540,24 @@ public class CommonExcelExport extends TableExport{
      * @return the int
      */
     protected int addTitleRow() {
+    	
+    	LOGGER.info("inside add Title Row");
+    	
         if ((null == reportTitle) || ("".equals(reportTitle))) {
             return 0;
         }
         titleRow = sheet.createRow(0);
+        
+        LOGGER.info("title row: " + titleRow);
+        
         titleRow.setHeightInPoints(NumericConstants.FORTY_FIVE);
         final Cell titleCell;
         final CellRangeAddress cra;
         if (rowHeaders) {
             titleCell = titleRow.createCell(1);
+            
+            LOGGER.info("title cell: " + titleCell);
+            
             cra = new CellRangeAddress(0, 0, 1, getPropIds().size() - 1);
             sheet.addMergedRegion(cra);
         } else {
@@ -554,6 +565,9 @@ public class CommonExcelExport extends TableExport{
             cra = new CellRangeAddress(0, 0, 0, getPropIds().size() - 1);
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, getPropIds().size() - 1));
         }
+        
+        LOGGER.info("report tile: " + reportTitle);
+        
         titleCell.setCellValue(reportTitle);
         titleCell.setCellStyle(titleCellStyle);
         // cell borders don't work on merged ranges so, if there are borders
@@ -712,6 +726,10 @@ public class CommonExcelExport extends TableExport{
      * @param row the row
      */
     protected void addDataRow(final Sheet sheetToAddTo, final Object rootItemId, final int row){
+    	
+    	
+    	LOGGER.info("Inside add Data Row");
+    	
         rowIndex++;
         final Row sheetRow = sheet.createRow(rowIndex);
         Property prop;

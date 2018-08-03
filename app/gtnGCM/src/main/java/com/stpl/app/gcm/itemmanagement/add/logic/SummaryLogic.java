@@ -11,13 +11,11 @@ import com.stpl.app.gcm.itemmanagement.add.dto.SummaryDTO;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractFilter;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -77,15 +75,10 @@ public class SummaryLogic {
     public List<ContractDashboardDTO> configureDashBoardLevel(SelectionDTO projSelDTO, List input) {
         List<ContractDashboardDTO> resultList = new ArrayList<>();
         List<Object[]> list = ItemQueries.getItemData(input, projSelDTO.getDataQueryName(), null);
-        Set<String> levelName = new HashSet<>();
         ContractDashboardDTO dto = new ContractDashboardDTO();
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
             if (i == 0) {
-                dto = setLevelValue(obj);
-                levelName.add(obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
-            } else if (levelName.add(obj[0] == null ? StringUtils.EMPTY : obj[0].toString())) {
-                resultList.add(dto);
                 dto = setLevelValue(obj);
             }
         }
@@ -159,6 +152,7 @@ public class SummaryLogic {
     public List<SummaryDTO> getContractResults(final SelectionDTO selection, int start, int offset) {
         List input = new ArrayList();
         input.add(selection.getSessionId());
+        final SimpleDateFormat commonDate = new SimpleDateFormat("MM-dd-yyy");
         if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             input.add(selection.getOperation());
         } else {
@@ -183,8 +177,8 @@ public class SummaryLogic {
             dto.setRs(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
             dto.setRarCategory(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
             dto.setStatus(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
-            dto.setItemstartdate(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : CommonUtils.commonDate.format(str[NumericConstants.TWELVE]));
-            dto.setItemenddate(str[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : CommonUtils.commonDate.format(str[NumericConstants.THIRTEEN]));
+            dto.setItemstartdate(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : commonDate.format(str[NumericConstants.TWELVE]));
+            dto.setItemenddate(str[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : commonDate.format(str[NumericConstants.THIRTEEN]));
             dto.setContractSid(str[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
             dto.setCfpSid(str[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTEEN]));
             dto.setIfpSid(str[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTEEN]));

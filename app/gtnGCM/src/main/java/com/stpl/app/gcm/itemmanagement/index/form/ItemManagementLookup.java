@@ -53,7 +53,6 @@ public class ItemManagementLookup extends CustomWindow {
 
     private TabSheet mainTab = new TabSheet();
     private int tabPosition;
-    private final List<Integer> tabList = new ArrayList<>();
     private List<ItemIndexDto> itemList = new ArrayList<>();
     private final SelectionDTO selection;
     private Button closeBtn = new Button("CLOSE");
@@ -264,7 +263,6 @@ public class ItemManagementLookup extends CustomWindow {
             } else {
                 mainTab.replaceComponent(removeSummary, removeSummary);
             }
-            tabList.add(tabPosition);
         }
         LOGGER.debug("tabLazyLoad outside");
 
@@ -361,9 +359,6 @@ public class ItemManagementLookup extends CustomWindow {
                 selection.setReset(true);
 
                 List input = getInputForInsert();
-                List ccpInsert = new ArrayList();
-                ccpInsert.add(itemList.get(0).getSystemId());
-                ccpInsert.add(selection.getSessionId());
                 ItemQueries.itemUpdate(input, "IFP Add Insert");
                 ItemQueries.itemUpdate(input, "PS Add Insert");
                 ItemQueries.itemUpdate(input, "RS Add Insert");

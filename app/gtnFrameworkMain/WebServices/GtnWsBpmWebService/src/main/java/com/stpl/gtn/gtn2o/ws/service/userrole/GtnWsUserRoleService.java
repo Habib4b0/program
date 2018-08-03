@@ -17,17 +17,23 @@ import com.stpl.gtn.gtn2o.ws.entity.role.Role;
 import com.stpl.gtn.gtn2o.ws.entity.user.User;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author STPL
  */
+@Service
 public class GtnWsUserRoleService {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsUserRoleService.class);
 	
 	@Autowired
 	private GtnWsReturnsDatabaseService databaseService;
+        
+        @Autowired
+	private SessionFactory sysSessionFactory;
 	
 	public GtnWsUserRoleService() {
 	super();
@@ -53,7 +59,7 @@ public class GtnWsUserRoleService {
 		User user = null;
 		Session session = null;
 		try {
-			session = databaseService.getSysSessionFactory().openSession();
+			session = sysSessionFactory.openSession();
 			user = (User) session.get(User.class, userId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -71,7 +77,7 @@ public class GtnWsUserRoleService {
 		List<Role> roles = new ArrayList<>();
 		Session session = null;
 		try {
-			session = databaseService.getSysSessionFactory().openSession();
+			session = sysSessionFactory.openSession();
 			StringBuilder userRoleQuery = new StringBuilder(
 					"select r.roleId,r.name from Role_ r join Users_Roles UR ON UR.roleId =r.roleId AND UR.userId=");
 			userRoleQuery.append(userId);
@@ -102,7 +108,7 @@ public class GtnWsUserRoleService {
 		List<User> results = null;
 		Session session = null;
 		try {
-			session = databaseService.getSysSessionFactory().openSession();
+			session = sysSessionFactory.openSession();
 			Criteria cr = session.createCriteria(User.class);
 			results = cr.list();
 		} catch (Exception e) {
@@ -120,7 +126,7 @@ public class GtnWsUserRoleService {
 		List<Role> roles = new ArrayList<>();
 		Session session = null;
 		try {
-			session = databaseService.getSysSessionFactory().openSession();
+			session = sysSessionFactory.openSession();
 			Criteria cr = session.createCriteria(Role.class);
 			roles = cr.list();
 		} catch (Exception e) {

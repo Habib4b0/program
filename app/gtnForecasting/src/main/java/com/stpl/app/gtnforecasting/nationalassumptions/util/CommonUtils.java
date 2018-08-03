@@ -336,20 +336,6 @@ public class CommonUtils {
         }
         return results;
     }
-  /**
-     * To check whether the given string is integer or not
-     *
-     * @param s
-     * @return
-     */
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-}
-        return true;
-    }
 
     public static int getIntegerForMonth(String month) {
         String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -439,7 +425,7 @@ public class CommonUtils {
             }
             
             if(toRemoveSpace){
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -464,7 +450,7 @@ public class CommonUtils {
     }
     public static int getProjections(Date startDate, Date endDate, String frequency) {
 
-        if (frequency.equals(ANNUALLY.getConstant())) {
+        if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             return endDate.getYear() - startDate.getYear();
         } else {
             Calendar startCalendar = Calendar.getInstance();
@@ -480,17 +466,21 @@ public class CommonUtils {
                     return (diffMonth / NumericConstants.THREE) + 1;
                 }
 
-            } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                if (diffMonth % NumericConstants.SIX == 0) {
-                    return diffMonth / NumericConstants.SIX;
-                } else {
-                    return (diffMonth / NumericConstants.SIX) + 1;
-                }
+            } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
+                return getProjectionForSemiAnnual(diffMonth);
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 return diffMonth;
             }
             return 0;
 
+        }
+    }
+
+    private static int getProjectionForSemiAnnual(int diffMonth) {
+        if (diffMonth % NumericConstants.SIX == 0) {
+            return diffMonth / NumericConstants.SIX;
+        } else {
+            return (diffMonth / NumericConstants.SIX) + 1;
         }
     }
 
@@ -697,4 +687,8 @@ public class CommonUtils {
 	public static void setUserMap(Map<Integer,String> userMap) {
 		CommonUtils.userMap = userMap;
 	}
+        
+      public static int compareDoubleValues(String value) {
+        return Double.compare(Double.parseDouble(value), 0.0);
+    }
 }

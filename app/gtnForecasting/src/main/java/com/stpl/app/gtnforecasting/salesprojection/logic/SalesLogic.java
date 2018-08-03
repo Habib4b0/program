@@ -601,6 +601,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
+        
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
     
@@ -1080,7 +1081,7 @@ public class SalesLogic {
         }
         input.put("?RBSIDC?", projSelDTO.getCustRelationshipBuilderSid());
         input.put("?RBSIDP?", projSelDTO.getProdRelationshipBuilderSid());
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency())) || ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
+        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
             join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
             join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
             join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");
@@ -1162,7 +1163,7 @@ public class SalesLogic {
             input.put(Constant.LEVELNO1, projSelDTO.getLevelFilterValue());
             input.put(Constant.HNO1, PERCENT.getConstant());
         }
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency())) || ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
+        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
             join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
             join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
             join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");
@@ -1612,7 +1613,7 @@ public class SalesLogic {
     public void saveCheckRecord(final ProjectionSelectionDTO projectionDTO, final String checkedRecord, final boolean isSaveCheck, final String queryName) throws PortalException {
         try {
             Map<String, Object> parameters = new HashMap<>();
-            Map<String, String> input = new HashMap<>();
+            Map<String, String> input = new HashMap<>(NumericConstants.FIFTEEN);
             Map<String, String> join = new HashMap<>();
             String[] splitArray = null;
             if (!StringUtils.isBlank(checkedRecord)) {
@@ -1631,7 +1632,7 @@ public class SalesLogic {
                 }
                 if (splitArray != null) {
                     input.put(Constant.HNO1, StringUtils.isBlank(String.valueOf(splitArray[1])) ? PERCENT.getConstant() : String.valueOf(splitArray[1]));
-                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
+                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH.getConstant()) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
                 } else {
                     input.put(Constant.HNO1, PERCENT.getConstant());
                     input.put(Constant.LEVELNO1, PERCENT.getConstant());
@@ -2224,18 +2225,18 @@ public class SalesLogic {
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
-                endPeriod = Integer.valueOf(startPeriod);
+                endPeriod = Integer.parseInt(startPeriod);
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
                 rowcount = rowcount * NumericConstants.THREE;
-                endPeriod = Integer.valueOf(startPeriod) + 2;
+                endPeriod = Integer.parseInt(startPeriod) + 2;
             } else if (frequencyDivision == NumericConstants.TWO) {
                 keyarr[0] = (keyarr[0]).replace('s', ' ');
                 rowcount = rowcount * NumericConstants.SIX;
-                endPeriod = Integer.valueOf(startPeriod) + 5;
+                endPeriod = Integer.parseInt(startPeriod) + 5;
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 keyarr[0] = (keyarr[0]).replace(keyarr[0], String.valueOf(getMonthNo(keyarr[0])));
-                endPeriod = Integer.valueOf(startPeriod) + 11;
+                endPeriod = Integer.parseInt(startPeriod) + 11;
             }
 
             String column = frequencyDivision == 1 ? keyarr[1] : keyarr[NumericConstants.TWO];
@@ -3409,7 +3410,7 @@ public class SalesLogic {
                 return false;
             } else {
                 BigDecimal obj = (BigDecimal) list.get(0);
-                return obj.doubleValue() != 0.0;
+                return CommonUtils.compareDoubleValues(String.valueOf(obj.doubleValue())) != 0;
             }
         } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
@@ -3867,7 +3868,7 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} ", amount);
+        LOGGER.debug("amount     = {} ", amount); 
         if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
         } else if (amountA != 0.0 && amountB != 0.0) {

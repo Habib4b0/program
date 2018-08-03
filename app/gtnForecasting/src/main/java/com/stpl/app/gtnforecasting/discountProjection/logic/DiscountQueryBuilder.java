@@ -106,9 +106,9 @@ public class DiscountQueryBuilder {
                 baselineIndicator = "P";
             }
 
-            for (String discountName : periodsMap.keySet()) {
-                baselinePeriodsList = periodsMap.get(discountName).get(baselineIndicator);
-                selectedPeriodsList = periodsMap.get(discountName).get("P");
+            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+                baselinePeriodsList = discountName.getValue().get(baselineIndicator);
+                selectedPeriodsList = discountName.getValue().get("P");
 
                 baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
                 selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -124,12 +124,12 @@ public class DiscountQueryBuilder {
                 LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
                 LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
                 masterTableUpdateQuery = "UPDATE DM SET DM.BASELINE_PERIODS = '" + baselinePeriods + "', DM.SELECTED_PERIODS = '" + selectedPeriods + "' FROM ST_NM_DISCOUNT_PROJ_MASTER DM ";
-                discountName = discountName.contains("~") ? discountName.split("~")[0] : discountName ;
+               String discountNameValue = discountName.getKey().contains("~") ? discountName.getKey().split("~")[0] : discountName.getKey() ;
                 if (levelType.equals(Constants.PROGRAM)) {
                     masterTableUpdateQuery += " JOIN  RS_CONTRACT RS ON RS.RS_CONTRACT_SID = DM.RS_CONTRACT_SID \n"
-                            + "WHERE RS.RS_NAME = '" + discountName + "' AND DM.CHECK_RECORD = 1";
+                            + "WHERE RS.RS_NAME = '" + discountNameValue + "' AND DM.CHECK_RECORD = 1";
                 } else {
-                    masterTableUpdateQuery += " WHERE  DM.PRICE_GROUP_TYPE = '" + discountName + "' AND DM.CHECK_RECORD = 1";
+                    masterTableUpdateQuery += " WHERE  DM.PRICE_GROUP_TYPE = '" + discountNameValue + "' AND DM.CHECK_RECORD = 1";
                 }
 
             }
@@ -139,13 +139,13 @@ public class DiscountQueryBuilder {
             if (frequency.equals(QUARTERLY.getConstant())) {
                 period = " CAST(PR.QUARTER AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
             }
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 period = " CAST(PR.SEMI_ANNUAL AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
             }
             if (frequency.equals(MONTHLY.getConstant())) {
                 period = " CASE WHEN LEN(\"MONTH\")>1 THEN  CAST(\"MONTH\" AS CHAR(2)) ELSE '0'+ CAST(\"MONTH\" AS CHAR(1)) END + CAST(PR.\"YEAR\" AS char(4))";
             }
-            if (frequency.equals(ANNUALLY.getConstant())) {
+            if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 period = "CAST(PR.\"YEAR\" AS char(4))";
             }
 
@@ -481,7 +481,7 @@ public class DiscountQueryBuilder {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
+            int startFreqNo = Integer.parseInt(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
@@ -635,7 +635,7 @@ public class DiscountQueryBuilder {
                 customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + MANUAL_ENTRY_COUNT );
             }
 
-            if (!frequency.equals(ANNUALLY.getConstant())) {
+            if (!frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 customSql += "and I.period = " + period;
             }
 

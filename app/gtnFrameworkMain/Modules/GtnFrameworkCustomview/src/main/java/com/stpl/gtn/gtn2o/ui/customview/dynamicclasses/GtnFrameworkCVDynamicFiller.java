@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkBackAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCRValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSaveValidationAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSearchNotification;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomerAddAction;
@@ -49,6 +50,8 @@ public class GtnFrameworkCVDynamicFiller implements GtnUIDynamicObjectFiller {
 				new GtnFrameworkAddAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkBackAction.class.getName(),
 				new GtnFrameworkBackAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCVSearchNotification.class.getName(),
+				new GtnFrameworkCVSearchNotification());
     }
     
 }

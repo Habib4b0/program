@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.RadioButtonGroup;
 
-
 public class GtnUIFrameworkRadioButtonGroupComponent implements GtnUIFrameworkComponent {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkRadioButtonGroupComponent.class);
@@ -76,8 +75,10 @@ public class GtnUIFrameworkRadioButtonGroupComponent implements GtnUIFrameworkCo
 		if (componentConfig.getGtnUIFrameWorkActionConfigList() != null) {
 			vaadinRadioButtonGroup.addValueChangeListener(e -> {
 				try {
+					componentConfig.setUserOriginatedFlag(e.isUserOriginated());
 					GtnUIFrameworkActionExecutor.executeActionList(componentConfig.getComponentId(),
 							componentConfig.getGtnUIFrameWorkActionConfigList());
+					componentConfig.setUserOriginatedFlag(false);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error("Error While Changiing option group value :", ex);
 

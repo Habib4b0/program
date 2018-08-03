@@ -97,7 +97,7 @@ public class NMDiscountExcelLogic {
         if (key.contains(".")) {
             int count = StringUtils.countMatches(key, ".");
             String keyValue = key.substring(0, key.lastIndexOf('.'));
-            int forecastLevel = projectionSelection.getHierarchyIndicator().equalsIgnoreCase("C") ? Integer.valueOf(projectionSelection.getSessionDTO().getCustomerLevelNumber()) : Integer.valueOf(projectionSelection.getSessionDTO().getProductLevelNumber());
+            int forecastLevel = projectionSelection.getHierarchyIndicator().equalsIgnoreCase("C") ? Integer.parseInt(projectionSelection.getSessionDTO().getCustomerLevelNumber()) : Integer.parseInt(projectionSelection.getSessionDTO().getProductLevelNumber());
             if (!projectionSelection.isIsCustomHierarchy()) {
             if (count >= forecastLevel) {
                 hierarchyValues.add(keyValue);
@@ -207,6 +207,10 @@ public class NMDiscountExcelLogic {
           discountProjectionDTO.addStringProperties(header + Constant.PROJECTEDRPU,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
           discountProjectionDTO.addStringProperties(header + Constant.GROWTH, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
+          
+          // Added Growth sum column
+          discountProjectionDTO.addStringProperties(header + Constant.GROWTH_SUM, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
+          
           if(!projectionSelection.isIsCustomHierarchy()){
           discountProjectionDTO.addStringProperties(header + "ProjectedSales", Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINETEEN])) ? DASH : String.valueOf(obj[NumericConstants.NINETEEN]));
           discountProjectionDTO.addStringProperties(header + "ProjectedUnits", Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWENTY])) ? DASH : String.valueOf(obj[NumericConstants.TWENTY]));
@@ -228,6 +232,9 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.addStringProperties(header + Constant.GROWTH,  StringUtils.EMPTY);
             discountProjectionDTO.addStringProperties(header + "ProjectedSales",  StringUtils.EMPTY);
             discountProjectionDTO.addStringProperties(header + "ProjectedUnits",  StringUtils.EMPTY);
+            
+            //Added Growth Sum column
+            discountProjectionDTO.addStringProperties(header + Constant.GROWTH_SUM,  StringUtils.EMPTY);
         }
     }
      

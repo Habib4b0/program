@@ -911,7 +911,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         }
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             configureFields();
             securityForButton();

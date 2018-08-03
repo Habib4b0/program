@@ -573,12 +573,6 @@ public final class AbstractSearchForm extends CustomComponent {
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
         binder.getErrorDisplay().clearError();
-        List<Object> collapsedColumns = new ArrayList<>();
-        for (Object item : resultTable.getVisibleColumns()) {
-            if (resultTable.isColumnCollapsed(item)) {
-                collapsedColumns.add(item);
-            }
-        }
         if (!searchLogic.checkSearchCriteria(binder)) {
             final MessageBox msg = MessageBox.showPlain(Icon.WARN, MessageUtil.getMessage(Message.SEARCH_CRITERIA_HEADER), MessageUtil.getMessage(Message.SEARCH_CRITERIA_MESSAGE), new MessageBoxListener() {
 

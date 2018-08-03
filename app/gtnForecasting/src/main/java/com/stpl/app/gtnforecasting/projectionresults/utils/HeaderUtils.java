@@ -272,7 +272,7 @@ public class HeaderUtils {
             forecastEndPeriod = getPeriod(projSelDTO.getForecastDTO().getForecastEndMonth(), NumericConstants.THREE);
             projectionStartPeriod = getPeriod(projSelDTO.getForecastDTO().getProjectionStartMonth(), NumericConstants.THREE);
             projectionEndPeriod = getPeriod(projSelDTO.getForecastDTO().getProjectionEndMonth(), NumericConstants.THREE);
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
             historyStartPeriod = getPeriod(projSelDTO.getForecastDTO().getHistoryStartMonth(), NumericConstants.SIX);
             historyEndPeriod = getPeriod(projSelDTO.getForecastDTO().getHistoryEndMonth(), NumericConstants.SIX);
@@ -288,7 +288,7 @@ public class HeaderUtils {
             forecastEndPeriod = projSelDTO.getForecastDTO().getForecastEndMonth();
             projectionStartPeriod = projSelDTO.getForecastDTO().getProjectionStartMonth();
             projectionEndPeriod = projSelDTO.getForecastDTO().getProjectionEndMonth();
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             frequencyDivision = 1;
             historyStartPeriod = projSelDTO.getForecastDTO().getHistoryStartYear();
             historyEndPeriod = projSelDTO.getForecastDTO().getHistoryEndYear();

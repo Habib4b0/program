@@ -809,7 +809,7 @@ public class QueryUtils {
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-            int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
+            int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
             return count > 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -828,7 +828,7 @@ public class QueryUtils {
                 }
             }
         }
-        int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
+        int count =  HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
         return count > 0 ? Boolean.TRUE : Boolean.FALSE;
     }
     
@@ -850,8 +850,8 @@ public class QueryUtils {
         try {
              sql = SQlUtil.getQuery(queryName);
             if(input !=null){
-            for (String key : input.keySet()) {
-                sql = sql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                sql = sql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             }
         } catch (Exception ex) {
@@ -869,7 +869,7 @@ public class QueryUtils {
             for (Object temp : input) {
                 sql.replace(sql.indexOf(StringConstants.QUESTION.getConstant()), sql.indexOf(StringConstants.QUESTION.getConstant()) + 1, String.valueOf(temp));
             }
-            int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(sql.toString(), session.getCurrentTableNames()));
+            int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(sql.toString(), session.getCurrentTableNames()));
             return count > 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());

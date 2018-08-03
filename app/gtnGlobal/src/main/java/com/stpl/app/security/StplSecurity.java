@@ -107,7 +107,7 @@ public StplSecurityDAO getDto() {
                 if (StringUtils.EMPTY.equals(businessRoleIds)) {
                     businessRoleIds=String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
                 } else {
-                    final StringBuffer tempStringBuffer = new StringBuffer();
+                    final StringBuilder tempStringBuffer = new StringBuilder();
                     businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                     tempStringBuffer.delete(0, tempStringBuffer.length());
                 } 
@@ -387,8 +387,8 @@ public StplSecurityDAO getDto() {
         String query;
         String[] str = null;
         String mod;
-        if (moduleName.contains(ConstantsUtils.COMMA)) {
-            str = moduleName.split(ConstantsUtils.COMMA);
+        if (moduleName.contains(String.valueOf(ConstantsUtils.COMMA))) {
+            str = moduleName.split(String.valueOf(ConstantsUtils.COMMA));
             mod = str[0];
         } else {
             mod = moduleName;
@@ -429,8 +429,8 @@ public StplSecurityDAO getDto() {
         String query;
         String[] str = null;
         String mod;
-        if (moduleName.contains(ConstantsUtils.COMMA)) {
-            str = moduleName.split(ConstantsUtils.COMMA);
+        if (moduleName.contains(String.valueOf(ConstantsUtils.COMMA))) {
+            str = moduleName.split(String.valueOf(ConstantsUtils.COMMA));
             mod = str[0];
         } else {
             mod = moduleName;
