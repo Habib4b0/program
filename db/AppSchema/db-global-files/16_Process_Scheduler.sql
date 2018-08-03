@@ -5319,38 +5319,33 @@ BEGIN
 END
 GO
 
-
 IF NOT EXISTS (
 		SELECT 1
 		FROM WORKFLOW_PROFILE
 		WHERE PROCESS_NAME = 'ARM_LOAD_INTERFACE'
 		)
 BEGIN
-	INSERT [dbo].[WORKFLOW_PROFILE] (
-		[PROCESS_NAME]		
-		,[ACTIVE_FLAG]		
-		,[FREQUENCY]		
-		,[MODIFIED_BY]
-		,[MODIFIED_DATE]		
+	INSERT INTO [WORKFLOW_PROFILE] (
+		[PROCESS_NAME]
+		,[ACTIVE_FLAG]
+		,[PROCESS_DISPLAY_NAME]
+		,[FREQUENCY]
 		,[SCHEMA_NAME]
-		,[INBOUND_STATUS]
-		,[CREATED_DATE]
 		,[SLA_CALENDAR_MASTER_SID]
 		,[USER_SID]
-		,[CREATED_BY]		
+		,[INBOUND_STATUS]
+		,[SCRIPT_NAME]
 		)
 	VALUES (
-		'ARM_LOAD_INTERFACE'		
-		,'Y'				
-		,'Time'		
-		,1
-		,getdate()		
+		'ARM_LOAD_INTERFACE'
+		,'Y'
+		,'ARM_LOAD_INTERFACE'
+		,'Time'
 		,'BPI'
+		,1
+		,1
 		,'A'
-		,getdate()
-		,1
-		,1
-		,1		
+		,'Arm_Load_Interface.sh'
 		)
 END
 GO
