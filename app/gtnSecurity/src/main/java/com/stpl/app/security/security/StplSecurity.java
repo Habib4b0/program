@@ -67,7 +67,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      */
     public Collection<Object> getUserGroupId(final long userId) throws PortalException, SystemException {
-        final Collection<Object> userGroupId = new ArrayList<Object>();
+        final Collection<Object> userGroupId = new ArrayList<>();
         final User user = dto.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
             final Long userGroup = user.getUserGroups().get(i).getUserGroupId();

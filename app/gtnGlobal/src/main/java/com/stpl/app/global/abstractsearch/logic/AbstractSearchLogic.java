@@ -65,12 +65,12 @@ public class AbstractSearchLogic {
     public boolean checkSearchCriteria(final ErrorfulFieldGroup binder) {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
-            if (object != null && object instanceof TextField && ((TextField) object).isVisible()) {
+            if (object instanceof TextField && ((TextField) object).isVisible()) {
                 if (StringUtils.isNotBlank(((TextField) object).getValue())) {
                     isvalid = true;
                     break;
                 }
-            } else if (object != null && object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantUtil.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
+            } else if (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantUtil.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
                     isvalid = true;
                     break;
             }
