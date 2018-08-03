@@ -18,11 +18,13 @@ import com.stpl.gtn.gtn2o.ws.entity.user.User;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author STPL
  */
+@Service
 public class GtnWsUserRoleService {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsUserRoleService.class);

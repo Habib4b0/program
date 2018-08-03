@@ -168,6 +168,20 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 
 	private void addReportCustomerHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
+		
+		GtnUIFrameworkComponentConfig addReportCustomerHierarchyNameTextBoxLayout = new GtnUIFrameworkComponentConfig();
+		addReportCustomerHierarchyNameTextBoxLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		addReportCustomerHierarchyNameTextBoxLayout
+		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportCustomerHierarchyNameTextBoxVerticalLayout");
+		addReportCustomerHierarchyNameTextBoxLayout.setAddToParent(true);
+		addReportCustomerHierarchyNameTextBoxLayout.setParentComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportLandingScreenCustomerHierarchyNameMainLayout = new GtnUIFrameworkLayoutConfig();
+		reportLandingScreenCustomerHierarchyNameMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		addReportCustomerHierarchyNameTextBoxLayout.setGtnLayoutConfig(reportLandingScreenCustomerHierarchyNameMainLayout);
+		
 		GtnUIFrameworkComponentConfig reportCustomerHierarchyNameTextBox = new GtnUIFrameworkComponentConfig();
 		reportCustomerHierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportCustomerHierarchyNameTextBox.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -179,7 +193,7 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		reportCustomerHierarchyNameTextBox.setDefaultFocus(true);
 		reportCustomerHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+				+ "reportCustomerHierarchyNameTextBoxVerticalLayout");
 		
 		GtnUIFrameworkTextBoxConfig textBoxConfig = new GtnUIFrameworkTextBoxConfig();
 
@@ -192,7 +206,7 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_200_CHARACTER);
 		hierarchyNameValidationConfig.setRegxValidationMessage("Hierarchy Name Should be less than 200 Characters");
 		reportCustomerHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
-
+		componentList.add(addReportCustomerHierarchyNameTextBoxLayout);
 		componentList.add(reportCustomerHierarchyNameTextBox);
 	}
 

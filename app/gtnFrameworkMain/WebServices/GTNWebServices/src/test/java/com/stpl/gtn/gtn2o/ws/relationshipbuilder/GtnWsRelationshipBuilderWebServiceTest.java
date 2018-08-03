@@ -30,10 +30,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-@Ignore
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/test/resources/GTNRestController-servlet.xml" })
+@ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml"})
 
 public class GtnWsRelationshipBuilderWebServiceTest {
 
