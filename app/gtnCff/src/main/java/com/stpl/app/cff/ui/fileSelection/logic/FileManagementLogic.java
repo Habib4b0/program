@@ -314,7 +314,7 @@ public class FileManagementLogic {
 			final SessionDTO sessionDTO) throws SystemException {
 		final String userId = sessionDTO.getUserId();
 		LOGGER.debug("saveFileMgtHist started with P1:FileMananagementResultDTO = {} and P2:String fileType= {}", fileMgtDTO, fileType);
-                int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                int create = (int) CounterLocalServiceUtil.increment();
 		FileManagement fileManagement = FileManagementLocalServiceUtil.createFileManagement(create);
 		fileManagement.setForecastName(fileMgtDTO.getFileName());
 		fileManagement.setForecastSource(fileMgtDTO.getType());
@@ -539,7 +539,7 @@ public class FileManagementLogic {
 				AdjustedDemandForecast adjDemandForecast;
 				InventoryWdProjMas invWdProjMas;
 				if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-                                    int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                    int create = (int) CounterLocalServiceUtil.increment();
 					forecastMaster = ForecastingMasterLocalServiceUtil.createForecastingMaster(create);
 					flag = true;
 					forecastMaster.setForecastYear(beanItem.getYear());
@@ -559,7 +559,7 @@ public class FileManagementLogic {
 					forecastMaster.setModifiedDate(date);
 					DAO.addForecastDetails(forecastMaster);
 				} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                        int create = (int) CounterLocalServiceUtil.increment();
 					demandForecast = DemandForecastLocalServiceUtil.createDemandForecast(create);
 					flag = true;
 					demandForecast.setForecastType(beanItem.getForecastType());
@@ -594,7 +594,7 @@ public class FileManagementLogic {
 					DemandForecastLocalServiceUtil.addDemandForecast(demandForecast);
 				} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 					try {
-                                                int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                                int create =(int) CounterLocalServiceUtil.increment();
 						adjDemandForecast = AdjustedDemandForecastLocalServiceUtil.createAdjustedDemandForecast(create);
 						flag = true;
 						adjDemandForecast.setForecastType(beanItem.getForecastType());
@@ -647,7 +647,7 @@ public class FileManagementLogic {
 						LOGGER.error(e.getMessage());
 					}
 				} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                        int create = (int) CounterLocalServiceUtil.increment();
 					invWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(create);
 					flag = true;
 					invWdProjMas.setYear(beanItem.getYear());

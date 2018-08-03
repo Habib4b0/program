@@ -32,7 +32,6 @@ public class BpmManagerBean {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
 	private static final String COM_STPL_APP_BPM = "com.stpl.app.bpm";
-	protected ReleaseId releaseId;
 	private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
 	private Properties properties = DroolsProperties.getPropertiesData();
 	private Properties cffproperties = DroolsProperties.getCffPropertiesData();
@@ -49,16 +48,6 @@ public class BpmManagerBean {
 		super();
 	}
 
-	public BpmManagerBean(ReleaseId releaseId, Map<String, RuntimeEngine> runtimeEngineMap, Properties properties,
-			RuntimeManagerRegistry registry, CustomUserCallBack userGroupCallback) {
-		super();
-		this.releaseId = releaseId;
-		this.runtimeEngineMap = runtimeEngineMap;
-		this.properties = (Properties) properties.clone();
-		this.registry = registry;
-		this.userGroupCallback = userGroupCallback;
-	}
-
 	public RuntimeEngine getRuntimeEngine(String moduleName) {
 		return runtimeEngineMap.get(moduleName);
 	}
@@ -67,9 +56,6 @@ public class BpmManagerBean {
 		return enitiyManagerFactoryBean;
 	}
 
-	public void setEnitiyManagerFactoryBean(EntityManagerFactoryInfo enitiyManagerFactoryBean) {
-		this.enitiyManagerFactoryBean = enitiyManagerFactoryBean;
-	}
 
 	public CustomUserCallBack getUserGroupCallback() {
 		return userGroupCallback;
@@ -89,7 +75,7 @@ public class BpmManagerBean {
         try {
 		LOGGER.info("initReturnsRuntimeEngine Started ");
 		String identifier = "com.stpl:returns:1.0";
-		releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
+		ReleaseId releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
 				properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
 				properties.getProperty("Forecasting_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
@@ -112,7 +98,7 @@ public class BpmManagerBean {
         try {
 		LOGGER.info("initContractRuntimeEngine Started ");
 		String identifier = "com.stpl:contract:1.0";
-		releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", COM_STPL_APP_BPM),
+		ReleaseId releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", COM_STPL_APP_BPM),
 				properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
 				properties.getProperty("Contract_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
@@ -134,7 +120,7 @@ public class BpmManagerBean {
         try {
 		LOGGER.info("init Forecast RuntimeEngine Started ");
 		String identifier = "com.stpl:forecast:1.0";
-		releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
+		ReleaseId releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
 				properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
 				properties.getProperty("Forecasting_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
@@ -165,7 +151,7 @@ public class BpmManagerBean {
         try {
 		LOGGER.info("Init CffRuntime Engine Started ");
 		String identifier = "com.sample:example:1.0";
-		releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", COM_STPL_APP_BPM),
+		ReleaseId releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", COM_STPL_APP_BPM),
 				cffproperties.getProperty("CFF_artifactId", "CFFWorkflow"),
 				cffproperties.getProperty("CFF_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
@@ -187,7 +173,7 @@ public class BpmManagerBean {
         try {
 		LOGGER.info("Init CffRuntime Engine Started ");
 		String identifier = "com.sample:example:1.0";
-		releaseId = new ReleaseIdImpl(armproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
+		ReleaseId releaseId = new ReleaseIdImpl(armproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
 				armproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
 				armproperties.getProperty("ARM_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)

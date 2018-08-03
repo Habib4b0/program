@@ -83,7 +83,7 @@ public class NotesTabLogic {
 			for (NotesDTO uploadDetails : availableUploadedInformation) {
                             MasterDataFiles masterDataFiles ;
 				if (uploadDetails.getDocDetailsId() == 0) {
-                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                        int create = (int) CounterLocalServiceUtil.increment();
                                         masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(create);
 					masterDataFiles.setMasterTableName(moduleName);
 					masterDataFiles.setMasterTableSid(moduleSystemId);

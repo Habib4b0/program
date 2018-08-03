@@ -719,7 +719,7 @@ public class ProcessSchedulerLogic {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
 		List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
 		for (User user : userList) {
-			userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getLastName() + ", " + user.getFirstName());
+			userMap.put(Integer.valueOf(String.valueOf(user.getUserId())), user.getLastName() + ", " + user.getFirstName());
 		}
 		LOGGER.debug("End of getUserName method");
 		return userMap;
