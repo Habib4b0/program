@@ -83,7 +83,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 		String businessroleDesc=searchBusinessRoleForm.getField("businessroleDesc").getValue().toString();
 		String businessroleName=searchBusinessRoleForm.getField(CommonUtils.BUSINESS_ROLE_NAME).getValue().toString();
 		String hierarchyLevel=searchBusinessRoleForm.getField("hierarchyLevel").getValue().toString();
-		Integer businessroleMasterSid =  Integer.parseInt(searchBusinessRoleForm.getField(CommonUtils.BUSINESS_ROLE_MASTERSID).getValue().toString());
+		Integer businessroleMasterSid =  (Integer) (searchBusinessRoleForm.getField(CommonUtils.BUSINESS_ROLE_MASTERSID).getValue());
 		try {
 			BusinessroleMaster businessroleMaster = BusinessroleMasterLocalServiceUtil.fetchBusinessroleMaster(businessroleMasterSid);
 			businessroleMaster.setBusinessroleDesc(businessroleDesc);

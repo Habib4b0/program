@@ -42,21 +42,21 @@ public class GtnFrameworkNsfSalesTabCheckAllAction implements GtnUIFrameWorkActi
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		GtnUIFrameworkNsfInfoBean nsfInfoBean = new GtnUIFrameworkNsfInfoBean();
+		GtnUIFrameworkNsfInfoBean nsfInfoBeanCheckAll = new GtnUIFrameworkNsfInfoBean();
 
 		try {
-			nsfInfoBean.setCheckAll(true);
-			GtnUIFrameworkBaseComponent nsfTableBaseComponent = GtnUIFrameworkGlobalUI
+			nsfInfoBeanCheckAll.setCheckAll(true);
+			GtnUIFrameworkBaseComponent nsfTableBaseComponentCheckAll = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(componentId);
-			nsfInfoBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-			Object value = nsfTableBaseComponent
+			nsfInfoBeanCheckAll.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+			Object value = nsfTableBaseComponentCheckAll
 					.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-			nsfInfoBean.setValue(value);
+			nsfInfoBeanCheckAll.setValue(value);
 			updateField(componentId);
 
 			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(false);
-			GtnUIFrameworkPagedTableLogic pagedLogic = nsfTableBaseComponent.getLogicFromPagedDataTable();
-			pagedLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+			GtnUIFrameworkPagedTableLogic pagedLogicNsf = nsfTableBaseComponentCheckAll.getLogicFromPagedDataTable();
+			pagedLogicNsf.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(true);
 		} catch (GtnFrameworkValidationFailedException ex) {
 			LOGGER.error("Exception in GtnFramework Nsf Sales Deduction Tab CheckAll Action", ex);

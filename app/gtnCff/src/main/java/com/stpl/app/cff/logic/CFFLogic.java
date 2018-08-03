@@ -367,7 +367,7 @@ public class CFFLogic {
      */
     public String submitCffApproveDetails(String userId, int cffId) {
         final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        int create = (int) CounterLocalServiceUtil.increment();
         final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
@@ -507,7 +507,7 @@ public class CFFLogic {
      */
     public String rejectCffApproveDetails(String userId, int cffId) {
         final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        int create = (int) CounterLocalServiceUtil.increment();
         final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
@@ -543,7 +543,7 @@ public class CFFLogic {
      */
     public String cancelCffApproveDetails(String userId, int cffId) {
         final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        int create = (int) CounterLocalServiceUtil.increment();
         final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
@@ -988,7 +988,7 @@ public class CFFLogic {
         try {
             if ("update".equals(indicator)) {
                 for (String rsId : addLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
@@ -996,7 +996,7 @@ public class CFFLogic {
                 }
             } else if ("save".equals(indicator)) {
                 for (Leveldto dto : levelList) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
@@ -1005,7 +1005,7 @@ public class CFFLogic {
             }
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
@@ -1042,7 +1042,7 @@ public class CFFLogic {
         try {
             if ("update".equals(indicator)) {
                 for (String rsId : addLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
@@ -1050,7 +1050,7 @@ public class CFFLogic {
                 }
             } else if ("save".equals(indicator)) {
                 for (Leveldto levelListDto : levelList) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(levelListDto.getRelationshipLevelSid());
@@ -1059,7 +1059,7 @@ public class CFFLogic {
             }
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));

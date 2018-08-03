@@ -145,13 +145,6 @@ public class CommonUtils {
 		returnValue=""+aMask;
 		return returnValue;
 	}
-	public static final Double convertStringToDouble(String aMask){
-		Double returnValue=0d;
-		if(aMask!=null){
-			returnValue=Double.parseDouble(aMask);
-		}
-		return returnValue;		
-	}
 	
 	// Method to convert Char to String
 	public static final String convertCharToString(char aMask){

@@ -34,117 +34,127 @@ import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuild
  */
 public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		// No Need to Implement. Its an unused method.
-	}
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        // No Need to Implement. Its an unused method.
+    }
 
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-		saveRelationship(componentId, parameters);
-	}
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+        saveRelationship(componentId, parameters);
+    }
 
-	private void saveRelationship(String componentId, List<Object> parameters) throws GtnFrameworkGeneralException {
-		final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
-		request.setRelationshipBuilderRequest(rbRequest);
-		Object relation = GtnUIFrameworkGlobalUI.getSessionProperty(parameters.get(11).toString());
-		if (relation != null) {
-			GtnWsRecordBean relationshipBean = (GtnWsRecordBean) relation;
-			String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-			if (mode.equals(String.valueOf(GtnUIFrameworkModeType.COPY))) {
-				relationshipBean.setPropertyValueByIndex(4, GtnWsRelationshipBuilderConstants.NUMERIC_CONSTANT_ONE);
-				relationshipBean.setPropertyValueByIndex(9, GtnFrameworkWebserviceConstant.ZERO);
-			}
-			rbRequest.setMainNode(relationshipBean);
-			GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CUSTOM_ACTION);
-			rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
-			rbRequestAction.addActionParameter(rbRequest);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
-		}
+    private void saveRelationship(String componentId, List<Object> parameters) throws GtnFrameworkGeneralException {
+        final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+        final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+        request.setRelationshipBuilderRequest(rbRequest);
+        Object relation = GtnUIFrameworkGlobalUI.getSessionProperty(parameters.get(11).toString());
+        if (relation != null) {
+            GtnWsRecordBean relationshipBean = (GtnWsRecordBean) relation;
+            String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+            if (mode.equals(String.valueOf(GtnUIFrameworkModeType.COPY))) {
+                relationshipBean.setPropertyValueByIndex(4, GtnWsRelationshipBuilderConstants.NUMERIC_CONSTANT_ONE);
+                relationshipBean.setPropertyValueByIndex(9, GtnFrameworkWebserviceConstant.ZERO);
+            }
+            rbRequest.setMainNode(relationshipBean);
+            GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
+                    GtnUIFrameworkActionType.CUSTOM_ACTION);
+            rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
+            rbRequestAction.addActionParameter(rbRequest);
+            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
+        }
 		rbRequest.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
-		String relationshipName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
-				.getStringFromField();
-		String relationshipDesc = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString())
-				.getStringFromField();
-		int hierarchySid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString())
-				.getIntegerFromField();
-		String relationshipType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString())
-				.getStringFromField();
-		int versionNo = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString())
-				.getIntegerFromField();
-		Date startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString())
-				.getDateFromDateField();
-		String buildType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(8).toString())
-				.getStringFromField();
-		rbRequest.setHierarchyDefSId(hierarchySid);
-		rbRequest.setHierarchyVersionNo(versionNo);
-		rbRequest.setRelationshipName(relationshipName);
-		rbRequest.setRelationshipDescription(relationshipDesc);
-		rbRequest.setRelationshipType(relationshipType);
-		rbRequest.setBuildType(buildType);
-		rbRequest.setStartDate(startDate);
+        String relationshipName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
+                .getStringFromField();
+        String relationshipDesc = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString())
+                .getStringFromField();
+        int hierarchySid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString())
+                .getIntegerFromField();
+        String relationshipType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString())
+                .getStringFromField();
+        int versionNo = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString())
+                .getIntegerFromField();
+        Date startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString())
+                .getDateFromDateField();
+        String buildType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(8).toString())
+                .getStringFromField();
+        createRBRequest(rbRequest, hierarchySid, versionNo, relationshipName, relationshipDesc, relationshipType, buildType);
+          rbRequest.setStartDate(startDate);
+        GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(parameters.get(9).toString());
+        if (rbTreeBaseComponent != null) {
+            List<GtnWsRecordBean> treeNodeList = rbTreeBaseComponent.getTreeNodes();
+            rbRequest.setRsTreeNodeList(treeNodeList);
+        }
 
-		GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(parameters.get(9).toString());
-		if (rbTreeBaseComponent != null) {
-			List<GtnWsRecordBean> treeNodeList = rbTreeBaseComponent.getTreeNodes();
-			rbRequest.setRsTreeNodeList(treeNodeList);
-		}
+        GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
+                GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
+                + GtnWsRelationshipBuilderConstants.CHECK_SAVE_RELATIONSHIP,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
 
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-				GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
-						+ GtnWsRelationshipBuilderConstants.CHECK_SAVE_RELATIONSHIP,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString()).setComponentVisible(false);
+        if (rbResponse.isSuccess()) {
+            confirmSaveRelationship(componentId, parameters, relationshipName, rbRequest);
+            return;
+        }
+        if (rbResponse.getMessageType().equals(GtnFrameworkCommonStringConstants.VALIDATION)) {
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString()).setComponentVisible(true);
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString())
+                    .setPropertyValue(rbResponse.getMessage());
+            return;
+        }
+        GtnUIFrameWorkActionConfig rbSaveAlertAction = new GtnUIFrameWorkActionConfig(
+                GtnUIFrameworkActionType.INFO_ACTION);
+        rbSaveAlertAction.addActionParameter(rbResponse.getMessageType());
+        rbSaveAlertAction.addActionParameter(rbResponse.getMessage());
+        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbSaveAlertAction);
+    }
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString()).setComponentVisible(false);
-		if (rbResponse.isSuccess()) {
-			confirmSaveRelationship(componentId, parameters, relationshipName, rbRequest);
-			return;
-		}
-		if (rbResponse.getMessageType().equals(GtnFrameworkCommonStringConstants.VALIDATION)) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString()).setComponentVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString())
-					.setPropertyValue(rbResponse.getMessage());
-			return;
-		}
-		GtnUIFrameWorkActionConfig rbSaveAlertAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.INFO_ACTION);
-		rbSaveAlertAction.addActionParameter(rbResponse.getMessageType());
-		rbSaveAlertAction.addActionParameter(rbResponse.getMessage());
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbSaveAlertAction);
-	}
+    public void createRBRequest(GtnWsRelationshipBuilderRequest rbRequest, int hierarchySid, int versionNo, String relationshipName, String relationshipDesc, String relationshipType, String buildType)  {
+        
+        rbRequest.setHierarchyDefSId(hierarchySid);
+        rbRequest.setHierarchyVersionNo(versionNo);
+        rbRequest.setRelationshipName(relationshipName);
+        rbRequest.setRelationshipDescription(relationshipDesc);
+        rbRequest.setRelationshipType(relationshipType);
+        rbRequest.setBuildType(buildType);
+      
+    }
 
-	private void confirmSaveRelationship(String componentId, List<Object> parameters, String relationshipName,
-			GtnWsRelationshipBuilderRequest rbRequest) throws GtnFrameworkGeneralException {
-		GtnUIFrameWorkAction confirmAction = GtnUIFrameworkActionType.CONFIRMATION_ACTION.getGtnUIFrameWorkAction();
-		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig();
-		confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
-		confirmActionConfig.addActionParameter("Save record " + relationshipName + " ?");
-		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig();
-		saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		saveActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
-		saveActionConfig.addActionParameter(parameters.get(2).toString());
-		saveActionConfig.addActionParameter(parameters.get(3).toString());
-		saveActionConfig.addActionParameter(parameters.get(5).toString());
-		saveActionConfig.addActionParameter(parameters.get(7).toString());
-		saveActionConfig.addActionParameter(parameters.get(11).toString());
-		saveActionConfig.addActionParameter(rbRequest);
-		successActionConfigList.add(saveActionConfig);
-		confirmActionConfig.addActionParameter(successActionConfigList);
-		confirmAction.configureParams(confirmActionConfig);
-		confirmAction.doAction(componentId, confirmActionConfig);
-	}
+    private void confirmSaveRelationship(String componentId, List<Object> parameters, String relationshipName,
+            GtnWsRelationshipBuilderRequest rbRequest) throws GtnFrameworkGeneralException {
+        GtnUIFrameWorkAction confirmAction = GtnUIFrameworkActionType.CONFIRMATION_ACTION.getGtnUIFrameWorkAction();
+        GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig();
+        confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
+        confirmActionConfig.addActionParameter("Save record " + relationshipName + " ?");
+        List<GtnUIFrameWorkActionConfig> successActionConfigList = getSuccessActionConfigList(parameters, rbRequest);
+        confirmActionConfig.addActionParameter(successActionConfigList);
+        confirmAction.configureParams(confirmActionConfig);
+        confirmAction.doAction(componentId, confirmActionConfig);
+    }
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
+    public List<GtnUIFrameWorkActionConfig> getSuccessActionConfigList(List<Object> parameters, GtnWsRelationshipBuilderRequest rbRequest) {
+        List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig();
+        saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        saveActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
+        saveActionConfig.addActionParameter(parameters.get(2).toString());
+        saveActionConfig.addActionParameter(parameters.get(3).toString());
+        saveActionConfig.addActionParameter(parameters.get(5).toString());
+        saveActionConfig.addActionParameter(parameters.get(7).toString());
+        saveActionConfig.addActionParameter(parameters.get(11).toString());
+        saveActionConfig.addActionParameter(rbRequest);
+        successActionConfigList.add(saveActionConfig);
+        return successActionConfigList;
+    }
+
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
+        return this;
+    }
 }
