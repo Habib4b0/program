@@ -259,7 +259,13 @@ public class GtnWsReportController {
 		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
-		String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+		String finalQuery = null;
+		if(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getReportDataSource() == 3) {
+			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS;
+		} else {
+			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+		}		
+		
 		finalQuery = finalQuery.replace("@projectionMasterSid",
 				String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
 		// String filter =
