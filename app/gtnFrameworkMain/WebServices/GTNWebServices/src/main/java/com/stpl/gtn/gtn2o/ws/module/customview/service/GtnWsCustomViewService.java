@@ -495,7 +495,7 @@ public class GtnWsCustomViewService {
 			List<CustViewDetails> gtnListOfData = selectCriteria.list();
 			for (CustViewDetails detailsData : gtnListOfData) {
 				response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
-				response.addItemValueList(detailsData.getLevelNo() + " - "
+				response.addItemValueList("Level " + detailsData.getLevelNo() + " - "
 						+ GtnFrameworkCommonStringConstants.STRING_EMPTY + detailsData.getLevelName());
 			}
 		} catch (Exception ex) {
