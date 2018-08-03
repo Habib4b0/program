@@ -19,9 +19,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-<!--        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <!--        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>-->
         <sonar.language>java</sonar.language>
+           <powermock.version>1.5.6</powermock.version>
     </properties>
 
     <dependencies>
@@ -37,6 +38,22 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+ 
+      <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.6.6</version>
+      <scope>test</scope>
+         <type>jar</type>
+      </dependency>
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.6.6</version>
+      <scope>test</scope>
+    <type>jar</type>
+   </dependency>
+  
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>

@@ -6,17 +6,25 @@
 
 package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.dynamicclasses;
 
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import static org.mockito.Mockito.times;
+import org.powermock.api.mockito.PowerMockito;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  *
  * @author Karthik.Raja
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GtnUIFrameworkGlobalUI.class)
 public class GtnUIFrameworkRSBuilderDynamicClassFillerTest {
     
     public GtnUIFrameworkRSBuilderDynamicClassFillerTest() {
@@ -45,7 +53,13 @@ public class GtnUIFrameworkRSBuilderDynamicClassFillerTest {
     public void testAddDynamicObject() {
         System.out.println("addDynamicObject");
         GtnUIFrameworkRSBuilderDynamicClassFiller instance = new GtnUIFrameworkRSBuilderDynamicClassFiller();
-//        instance.addDynamicObject();
+        
+        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);
+       
+        instance.addDynamicObject();
+   
+        verifyStatic(times(18));
+       
     }
     
 }

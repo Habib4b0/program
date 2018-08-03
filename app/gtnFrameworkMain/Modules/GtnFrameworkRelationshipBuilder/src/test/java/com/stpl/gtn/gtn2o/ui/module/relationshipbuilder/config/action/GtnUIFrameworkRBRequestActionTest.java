@@ -8,6 +8,9 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import java.util.Date;
@@ -20,11 +23,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 /**
  *
  * @author Karthik.Raja
  */
+@PrepareForTest(value={GtnUIFrameworkGlobalUI.class,GtnUIFrameworkActionExecutor.class,GtnUIFrameWorkAction.class,GtnUIFrameworkBaseComponent.class,GtnUIFrameworkActionExecutor.class})
 public class GtnUIFrameworkRBRequestActionTest {
     
     public GtnUIFrameworkRBRequestActionTest() {
@@ -88,7 +93,12 @@ public class GtnUIFrameworkRBRequestActionTest {
         bean.setProperties(parameters);
         rbRequest.setMainNode(bean);
         gtnUIFrameWorkActionConfig.addActionParameter(rbRequest);
+        
         GtnUIFrameworkRBRequestAction instance = new GtnUIFrameworkRBRequestAction();
+        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+        
+        
+        rbRequest.setMainNode(null);
         instance.doAction(componentId, gtnUIFrameWorkActionConfig);
     }
 }

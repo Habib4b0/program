@@ -8,15 +8,17 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
-import com.vaadin.v7.ui.Tree;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.After;
@@ -25,12 +27,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import static org.powermock.api.mockito.PowerMockito.when;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  *
  * @author Karthik.Raja
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(value={GtnUIFrameworkGlobalUI.class,GtnUIFrameworkActionExecutor.class,GtnUIFrameWorkAction.class,GtnUIFrameworkBaseComponent.class,GtnUIFrameworkActionExecutor.class})
 public class GtnUIFrameworkTreeItemClickActionTest {
     
     public GtnUIFrameworkTreeItemClickActionTest() {
@@ -74,7 +83,24 @@ public class GtnUIFrameworkTreeItemClickActionTest {
         GtnUIFrameWorkAction result = instance.createInstance();
         assertEquals(instance, result);
     }
-
+  /**
+     * Test of doAction method, of class GtnUIFrameworkEditButtonAction.
+     */
+    @Test
+    public void testDoAction() throws Exception {
+        System.out.println("doAction");
+        
+        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
+        String componentId = "";
+        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+        Constructor cons= (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
+        cons.setAccessible(true);
+        GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(null,null);
+        when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
+        GtnUIFrameworkTreeItemClickAction instance = new GtnUIFrameworkTreeItemClickAction();
+        gtnUIFrameWorkActionConfig.setActionParameterList(IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList()));
+        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+    }
 //    /**
 //     * Test of doAction method, of class GtnUIFrameworkTreeItemClickAction.
 //     */
@@ -185,22 +211,30 @@ public class GtnUIFrameworkTreeItemClickActionTest {
 //        fail("The test case is a prototype.");
 //    }
 //
-//    /**
-//     * Test of getCurrentChildList method, of class GtnUIFrameworkTreeItemClickAction.
-//     */
-//    @Test
-//    public void testGetCurrentChildList() {
-//        System.out.println("getCurrentChildList");
-//        List<GtnWsRecordBean> childList = null;
-//        GtnWsRecordBean bean = null;
-//        String currentLevelNo = "";
-//        GtnUIFrameworkTreeItemClickAction instance = new GtnUIFrameworkTreeItemClickAction();
-//        List<GtnWsRecordBean> expResult = null;
-//        List<GtnWsRecordBean> result = instance.getCurrentChildList(childList, bean, currentLevelNo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of getCurrentChildList method, of class GtnUIFrameworkTreeItemClickAction.
+     */
+    @Test
+    public void testGetCurrentChildList() {
+        System.out.println("getCurrentChildList");
+        List<GtnWsRecordBean> childList = new ArrayList<>();
+        GtnWsRecordBean bean = new GtnWsRecordBean();
+        List<Object> values=IntStream.rangeClosed(0, GtnWsRelationshipBuilderKeyConstant.values().length).boxed().collect(Collectors.toList());
+        
+        bean.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        values.set(GtnWsRelationshipBuilderKeyConstant.IS_NODE_VISITED.ordinal(), false);
+        bean.setProperties(values);
+        
+        childList.add(bean);
+        
+        bean.setChildList(new ArrayList<>(childList));
+      
+        String currentLevelNo = "1";
+        GtnUIFrameworkTreeItemClickAction instance = new GtnUIFrameworkTreeItemClickAction();
+        List<GtnWsRecordBean> expResult = null;
+        List<GtnWsRecordBean> result = instance.getCurrentChildList(childList, bean, currentLevelNo);
+        assertEquals(1, result.size());
+     }
 
     /**
      * Test of isUserDefinedLevel method, of class GtnUIFrameworkTreeItemClickAction.

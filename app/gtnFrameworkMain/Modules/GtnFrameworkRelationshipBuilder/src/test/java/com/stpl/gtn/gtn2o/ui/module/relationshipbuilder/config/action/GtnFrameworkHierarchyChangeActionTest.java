@@ -7,6 +7,7 @@
 package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -63,5 +64,8 @@ public class GtnFrameworkHierarchyChangeActionTest {
         GtnFrameworkHierarchyChangeAction result = (GtnFrameworkHierarchyChangeAction) instance.createInstance();
         assertEquals(result,instance);
     }
+
+
+  
     
 }
