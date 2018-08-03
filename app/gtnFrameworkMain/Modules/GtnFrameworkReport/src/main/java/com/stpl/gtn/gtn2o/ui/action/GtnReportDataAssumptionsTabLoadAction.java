@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
@@ -45,6 +46,7 @@ public class GtnReportDataAssumptionsTabLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		logger.info("Inside GtnReportDataAssumptionsTabLoadAction");
 		try {
 			final List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
@@ -80,11 +82,17 @@ public class GtnReportDataAssumptionsTabLoadAction
 
 	private void setDataAssumptionsGridDataLoad(List<Integer> projectionMasterSidList, String sourceComponentId) {
 		for (int i = 0; i < projectionMasterSidList.size(); i++) {
+
 			Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = getDataAssumptionsGridComponent(
 					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId);
-			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i));
+			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i), "/gtnWsReportLoadDataAssumptionsMultipleTabs");
 			dataAssumptionsCurrentTabComponent.setItems(dsLoadResults);
 		}
+		
+		Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent1 = getDataAssumptionsGridComponent(
+				"dataAssumptionsPagedTableComponentcurrentTabdataAssumptionsTab", sourceComponentId);
+		List<GtnWsRecordBean> dsLoadResults1 = getDataAssumptionGridLoadValues(0, "/gtnWsReportLoadDataAssumptions");
+		dataAssumptionsCurrentTabComponent1.setItems(dsLoadResults1);
 	}
 
 	private void setTabSheetVisible(List<Integer> projectionMasterSidList, String sourceComponentId,
@@ -105,16 +113,26 @@ public class GtnReportDataAssumptionsTabLoadAction
 		}
 	}
 
-	private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid) {
+	private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid, String url) {
 
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		
+		if(url.equals("/gtnWsReportLoadDataAssumptions"))
+		{
+			GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+			gtnWsSearchRequest.setCount(true);
+			request.setGtnWsSearchRequest(gtnWsSearchRequest);
+		}
+		
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		
 		reportRequest.setProjectionMasterSid(projectionmasterSid);
 		request.setGtnWsReportRequest(reportRequest);
 		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-				"/gtnReport/gtnWsReportLoadDataAssumptionsMultipleTabs", "report", request,
+				"/gtnReport" + url, "report", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 		List<GtnWsRecordBean> records = new ArrayList<>(
 				response.getGtnSerachResponse().getResultSet().getDataTable().size());
 		for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
