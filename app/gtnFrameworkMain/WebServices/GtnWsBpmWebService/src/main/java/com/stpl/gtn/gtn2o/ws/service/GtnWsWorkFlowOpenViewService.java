@@ -28,9 +28,6 @@ public class GtnWsWorkFlowOpenViewService {
 		return sessionFactory;
 	}
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public String openviewSearchQuery() {
 		logger.debug("In Workflow view Search Query");

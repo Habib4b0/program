@@ -34,27 +34,27 @@ public class GtnUIFrameworkPSDeleteConfirmationAction implements GtnUIFrameWorkA
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig();
-		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		List<Object> alertParams = new ArrayList<>();
-		alertParams.add(" Delete Confirmation ");
-		alertParams.add(" Are you sure you want to delete record  "
+		GtnUIFrameWorkActionConfig confirmationActionConfigPs = new GtnUIFrameWorkActionConfig();
+		confirmationActionConfigPs.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		List<Object> alertParamsPs = new ArrayList<>();
+		alertParamsPs.add(" Delete Confirmation ");
+		alertParamsPs.add(" Are you sure you want to delete record  "
 				+ GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleName1").getStringFromField() + "?");
 
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig editActionConfig = new GtnUIFrameWorkActionConfig();
-		editActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(GtnFrameworkPSDeleteAction.class.getName());
-		parameters.add("/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_DELECTE_SERVICE);
-		parameters.add("psSearchResultTable");
-		parameters.add("");
-		parameters.add(Boolean.TRUE);
-		parameters.add(0);
+		GtnUIFrameWorkActionConfig editActionConfigPs = new GtnUIFrameWorkActionConfig();
+		editActionConfigPs.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		List<Object> parametersPs = new ArrayList<>();
+		parametersPs.add(GtnFrameworkPSDeleteAction.class.getName());
+		parametersPs.add("/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_DELECTE_SERVICE);
+		parametersPs.add("psSearchResultTable");
+		parametersPs.add("");
+		parametersPs.add(Boolean.TRUE);
+		parametersPs.add(0);
 
-		editActionConfig.setActionParameterList(parameters);
-		onSucessActionConfigList.add(editActionConfig);
+		editActionConfigPs.setActionParameterList(parametersPs);
+		onSucessActionConfigList.add(editActionConfigPs);
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
 		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
@@ -80,12 +80,12 @@ public class GtnUIFrameworkPSDeleteConfirmationAction implements GtnUIFrameWorkA
 		notificationAction.addActionParameter(message);
 		notificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		onSucessActionConfigList.add(notificationAction);
-		alertParams.add(onSucessActionConfigList);
-		confirmationActionConfig.setActionParameterList(alertParams);
-		GtnUIFrameWorkAction action = confirmationActionConfig.getActionType().getGtnUIFrameWorkAction();
-		action.configureParams(confirmationActionConfig);
+		alertParamsPs.add(onSucessActionConfigList);
+		confirmationActionConfigPs.setActionParameterList(alertParamsPs);
+		GtnUIFrameWorkAction action = confirmationActionConfigPs.getActionType().getGtnUIFrameWorkAction();
+		action.configureParams(confirmationActionConfigPs);
 
-		action.doAction(componentId, confirmationActionConfig);
+		action.doAction(componentId, confirmationActionConfigPs);
 
 	}
 
