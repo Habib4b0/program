@@ -80,7 +80,7 @@ public class GtnFrameworkGridToBarChartAction
 						isNeedToBeAdded = true;
 						String perCentRemovedIf = dataForColumnId.replace("%", "");
 						String dollarRemoved = perCentRemovedIf.replace("$", "");
-						dataSet.add(Double.valueOf(dollarRemoved) + 102);
+						dataSet.add(Double.valueOf(dollarRemoved));
 					} else {
 						dataSet.add(0d);
 					}
