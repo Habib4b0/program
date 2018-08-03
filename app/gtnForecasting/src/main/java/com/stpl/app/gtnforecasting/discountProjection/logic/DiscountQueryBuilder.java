@@ -249,7 +249,8 @@ public class DiscountQueryBuilder {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), customViewDetails.get(NumericConstants.NINE), hierarchyNo, customSql,session);
             } else {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, hierarchyNo, customSql,session);
-            }
+            } 
+            customSql += " AND FILTER_CCP = 1";
             return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         } catch (Exception e) {
