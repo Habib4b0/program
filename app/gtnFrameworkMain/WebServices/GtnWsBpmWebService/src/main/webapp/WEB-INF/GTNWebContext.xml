@@ -117,34 +117,6 @@
 	</bean>
 	<bean id="TestWebService" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsHealthCheck">
 	</bean>
-	<bean id="databaseService"
-		class="com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService">
-	</bean>
-	<bean id="gtnWsUserRoleService"
-		class="com.stpl.gtn.gtn2o.ws.service.userrole.GtnWsUserRoleService">
-		<property name="databaseService">
-			<ref bean="databaseService" />
-		</property>
-	</bean>
-	<bean id="userGroupCallback" class="com.stpl.gtn.gtn2o.ws.bpm.service.CustomUserCallBack">
-		<property name="gtnWsUserRoleService">
-			<ref bean="gtnWsUserRoleService" />
-		</property>
-	</bean>
-	<bean id="bpmManagerBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmManagerBean">
-		<property name="enitiyManagerFactoryBean">
-			<ref bean="jbpmEMF" />
-		</property>
-		<property name="userGroupCallback">
-			<ref bean="userGroupCallback" />
-		</property>
-	</bean>
-	<bean id="bpmProcessBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmProcessBean">
-		<property name="bpmManagerBean">
-			<ref bean="bpmManagerBean" />
-		</property>
-
-	</bean>
 	<bean id="jbpmEMF"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
