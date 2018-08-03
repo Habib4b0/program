@@ -98,9 +98,9 @@ public class RelationShipFilterLogic {
 				dto.setDisplayValue(customerDescMap.get(obj[NumericConstants.FOUR]));
 				dto.setLevel(customerDescMap.get(obj[NumericConstants.FOUR]));
 				dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
-				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
+				dto.setLevelNo((Integer) obj[NumericConstants.ONE]);
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+				dto.setRelationshipLevelSid((Integer) obj[NumericConstants.THREE]);
 				dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
 				dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
 				if (isNdc) {
