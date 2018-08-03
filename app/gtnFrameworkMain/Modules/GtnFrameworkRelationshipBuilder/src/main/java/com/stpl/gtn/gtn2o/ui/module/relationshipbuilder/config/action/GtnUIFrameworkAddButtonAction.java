@@ -93,7 +93,7 @@ public class GtnUIFrameworkAddButtonAction implements GtnUIFrameWorkAction, GtnU
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkAddButtonAction();
+		return this;
 	}
 
 }
