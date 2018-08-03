@@ -85,7 +85,7 @@ public class GtnUIFrameworkAddButtonActionTest {
         cons.setAccessible(true);
         GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(null,null);
         when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
-        GtnUIFrameworkConfirmedCopyAction instance = new GtnUIFrameworkConfirmedCopyAction();
+        GtnUIFrameworkAddButtonAction instance = new GtnUIFrameworkAddButtonAction();
         gtnUIFrameWorkActionConfig.setActionParameterList(IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList()));
         instance.doAction(componentId, gtnUIFrameWorkActionConfig);
     }
