@@ -93,7 +93,7 @@ public class GtnReportDataSelectionReGenerateAction
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
 	
-		if (isCustomerChanged || isProductChanged || isComparisonProjectionChanged || isCustomView || isFrequencyChanged
+		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged
 				|| isReportDataSourceChanged || isFromPeriodChanged) {
 
 			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
