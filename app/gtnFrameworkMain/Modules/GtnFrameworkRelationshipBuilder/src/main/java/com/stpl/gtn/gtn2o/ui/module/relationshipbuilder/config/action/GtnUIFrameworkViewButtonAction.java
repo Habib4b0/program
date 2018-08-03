@@ -74,10 +74,7 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 		request.setRelationshipBuilderRequest(rbRequest);
 		rbRequest.setMainNode(relationshipBean);
 
-		GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
-		rbRequestAction.addActionParameter(rbRequest);
+		GtnUIFrameWorkActionConfig rbRequestAction = getRbRequestAction(rbRequest);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
 				GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
@@ -99,6 +96,14 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(24)))
 				.setComponentVisible(!rbTreeBaseComponent.getItemsFromDataTable().isEmpty());
 	}
+
+     public GtnUIFrameWorkActionConfig getRbRequestAction(GtnWsRelationshipBuilderRequest rbRequest) {
+        GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
+                GtnUIFrameworkActionType.CUSTOM_ACTION);
+        rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
+        rbRequestAction.addActionParameter(rbRequest);
+        return rbRequestAction;
+    }
 
 	private void setInitialValue(List<Object> parameters, String namespaceprefix, GtnWsRecordBean relationshipBean,
 			int index, boolean view, String mode) {

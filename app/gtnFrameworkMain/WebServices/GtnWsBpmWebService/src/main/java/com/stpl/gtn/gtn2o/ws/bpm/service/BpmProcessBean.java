@@ -41,9 +41,6 @@ public class BpmProcessBean {
 		return bpmManagerBean;
 	}
 
-	public void setBpmManagerBean(BpmManagerBean bpmManagerBean) {
-		this.bpmManagerBean = bpmManagerBean;
-	}
 
 	public ProcessInstance startProcess(String processName, Map<String, Object> params, String moduleName) {
 		KieSession ksession = bpmManagerBean.getRuntimeEngine(moduleName).getKieSession();
