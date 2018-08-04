@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -998,7 +999,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			String tempFilterText = filterText;
 			tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
@@ -1059,7 +1060,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			String tempFilterText = filterText;
 			tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
@@ -1563,7 +1564,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.COMPANYMASTERSID,
 					UiUtils.convertStringListToIngeter(companySids)));
