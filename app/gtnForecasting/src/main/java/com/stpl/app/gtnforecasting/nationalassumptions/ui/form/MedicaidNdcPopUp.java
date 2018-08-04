@@ -181,7 +181,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                             double convertedWAC = Double.parseDouble(wacValue);
                             wac.setValue(dollar4decimal.format(convertedWAC));
                         } else {
-                            NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(ndc.getValue().toString());
+                            NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(Integer.valueOf(ndc.getValue().toString()));
                             if (dto != null && !dto.getWac().equalsIgnoreCase(Constant.NULL)) {
                                 wac.setValue(dto.getWac());
                             } else {
@@ -195,7 +195,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                             }
                         }
                         String cpiValue = cPIList.get(ndc.getValue().toString());
-                        NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(ndc.getValue().toString());
+                        NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(Integer.valueOf(ndc.getValue().toString()));
                         if (cpiValue != null && !cpiValue.equalsIgnoreCase(Constant.NULL)) {
                             baseYearCPI.setReadOnly(false);
                             double convertedCPI = Double.parseDouble(cpiValue);

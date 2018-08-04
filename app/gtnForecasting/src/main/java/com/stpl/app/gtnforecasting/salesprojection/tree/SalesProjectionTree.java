@@ -17,6 +17,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.util.QueryUtil;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public class SalesProjectionTree {
         HashMap dataMap = new HashMap<>(availableHierarachies.size());
 
         if (!availableHierarachies.isEmpty()) {
-            int startLevel = StringUtils.countMatches(String.valueOf(availableHierarachies.get(0)), ".");
+            int startLevel = StringUtils.countMatches(Arrays.toString(availableHierarachies.get(0)), ".");
             apex.setApex(true);
             List<String> child = new ArrayList<>();
             int currentLevel = startLevel;
