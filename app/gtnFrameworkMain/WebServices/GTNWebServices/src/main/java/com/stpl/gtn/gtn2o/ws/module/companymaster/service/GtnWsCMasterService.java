@@ -100,7 +100,7 @@ public class GtnWsCMasterService {
 		return queryGeneratorConfig;
 	}
 
-	private void getSearchColumnBean(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
+	public void getSearchColumnBean(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
 			GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig,
 			GtnFrameworkQueryGeneratorBean queryGeneratorConfig) {
 		List<Object> visibleColumnList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
@@ -117,7 +117,7 @@ public class GtnWsCMasterService {
 
 	}
 
-	private void getJoinClauseBean(GtnFrameworkQueryGeneratorBean queryGeneratorConfig) {
+	public void getJoinClauseBean(GtnFrameworkQueryGeneratorBean queryGeneratorConfig) {
 		String cmMasterSid = "cm.company_Master_Sid";
 		GtnFrameworkJoinClauseBean tradeClassjoinClauseBean = queryGeneratorConfig
 				.addJoinClauseBean("company_Trade_Class", "trade", GtnFrameworkJoinType.LEFT_JOIN);
@@ -159,7 +159,7 @@ public class GtnWsCMasterService {
 
 	}
 
-	private void getWhereClauseBean(GtnFrameworkQueryGeneratorBean queryGeneratorConfig,
+	public void getWhereClauseBean(GtnFrameworkQueryGeneratorBean queryGeneratorConfig,
 			GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		List<String> defaultWhereClauseList = gtnWebServiceSearchQueryConfig.getWhereClauseLeftPartList();
@@ -184,7 +184,7 @@ public class GtnWsCMasterService {
 		}
 	}
 
-	private void getOrderByClause(GtnFrameworkQueryGeneratorBean queryGeneratorConfig,
+	public void getOrderByClause(GtnFrameworkQueryGeneratorBean queryGeneratorConfig,
 			GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		List<GtnWebServiceOrderByCriteria> defaultOrderByClauseList = gtnWebServiceSearchQueryConfig.getOrderByClause();
@@ -207,7 +207,7 @@ public class GtnWsCMasterService {
 		}
 	}
 
-	private String getTableColumnForField(String fieldName, GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig) {
+	public String getTableColumnForField(String fieldName, GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig) {
 		Map<String, GtnWsColumnDetailsConfig> columnDetailsMap = gtnWebServiceSearchQueryConfig
 				.getFieldToColumnDetailsMap();
 		if (columnDetailsMap.containsKey(fieldName)) {
@@ -217,7 +217,7 @@ public class GtnWsCMasterService {
 		}
 	}
 
-	private String getTableColumnForWhereClause(String fieldName, GtnWsSearchQueryConfig searchQueryConfig) {
+	public String getTableColumnForWhereClause(String fieldName, GtnWsSearchQueryConfig searchQueryConfig) {
 		Map<String, GtnWsColumnDetailsConfig> columnDetailsMap = searchQueryConfig.getFieldToColumnDetailsMap();
 		if (columnDetailsMap.containsKey(fieldName)) {
 			return columnDetailsMap.get(fieldName).getColumnNameForWhereClause().contains("HELPER_TABLE_SID")
@@ -228,7 +228,7 @@ public class GtnWsCMasterService {
 		}
 	}
 
-	private List<String> findTypeList(GtnWsSearchQueryConfig searchQueryConfig, List<Object> columnNameList) {
+	public List<String> findTypeList(GtnWsSearchQueryConfig searchQueryConfig, List<Object> columnNameList) {
 		Map<String, GtnWsColumnDetailsConfig> columnDetailsMap = searchQueryConfig.getFieldToColumnDetailsMap();
 		List<String> typeList = new ArrayList<>();
 		for (Object column : columnNameList) {
@@ -303,7 +303,7 @@ public class GtnWsCMasterService {
 		}
 	}
 
-	private GtnFrameworkOperatorType getOperatorType(String expressionType) {
+	public GtnFrameworkOperatorType getOperatorType(String expressionType) {
 		GtnFrameworkOperatorType operatorType = null;
 
 		switch (expressionType) {
@@ -343,5 +343,13 @@ public class GtnWsCMasterService {
 		gtnWSresponse.setOutBountData(new Object[] { companySid.get(0) });
 
 	}
+        
+        public GtnWsAllListConfig getGtnWebServiceAllListConfig() {
+        return gtnWebServiceAllListConfig;
+    }
+
+    public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+        return gtnSqlQueryEngine;
+    }
 
 }

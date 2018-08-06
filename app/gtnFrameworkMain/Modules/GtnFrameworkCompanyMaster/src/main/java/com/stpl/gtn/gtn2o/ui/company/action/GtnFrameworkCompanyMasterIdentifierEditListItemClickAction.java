@@ -85,7 +85,7 @@ public class GtnFrameworkCompanyMasterIdentifierEditListItemClickAction
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnFrameworkCompanyMasterIdentifierEditListItemClickAction();
+		return this;
 	}
 
 }
