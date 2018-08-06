@@ -2163,7 +2163,6 @@ public class MProjectionResultsLogic {
     }
 
     public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
-        LOGGER.debug("Enters getCustomizedProgramCode with size = {} " , list.size());
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDolManDTOList = new ArrayList<>();

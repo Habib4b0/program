@@ -28,7 +28,7 @@ public class ProductGroupTableLogic extends PageTableLogic {
     protected String productGroupName = StringUtils.EMPTY;
     protected boolean loadData = false;
     protected ProductGroupLookUpDTO productGroupLookUpDTO;
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductGroupTableLogic.class);
     
 
     @Override

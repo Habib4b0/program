@@ -91,7 +91,7 @@ public class GtnReportDataAssumptionsTabLoadAction
 
 			dataAssumptionsCurrentTabComponent.setItems(dsLoadResults);
 		}
-		
+		// Current Tab must load by default
 		Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent1 = getDataAssumptionsGridComponent(
 				"dataAssumptionsPagedTableComponentcurrentTabdataAssumptionsTab", sourceComponentId);
 		List<GtnWsRecordBean> dsLoadResults1 = getDataAssumptionGridLoadValues(0, reportDataSourceValue, "/gtnWsReportLoadDataAssumptions");

@@ -694,7 +694,7 @@ public class DataSelection extends ForecastDataSelection {
 				if (companyLevel != null) {
 
 					innerLevelValues = logic.loadInnerLevel(companyLevel.getLevel(),
-							productHierarchyDto == null ? null : productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
+							productHierarchyDto == null ? 0 : productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
 							relationshipSid, productDescriptionMap, StringUtils.EMPTY, screenName,
 							discountDTO != null ? discountDTO.getRsModelSid() : 0, companyLevel.getLevelNo(),
 							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
@@ -1642,7 +1642,7 @@ public class DataSelection extends ForecastDataSelection {
 																		? Constant.RS_TYPE : StringUtils.EMPTY;
 						dedValue = String.valueOf(deductionValue.getValue());
 					}
-					innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(), productHierarchyDto == null ? null : productHierarchyDto.getHierarchyId(),
+					innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(), productHierarchyDto == null ? 0 : productHierarchyDto.getHierarchyId(),
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescriptionMap,
 							INDICATOR_LEVEL_NDC.getConstant(), screenName,
@@ -2195,7 +2195,7 @@ public class DataSelection extends ForecastDataSelection {
 						discountDTO = (CompanyDdlbDto) discount.getValue();
 					}
 					innerLevelValues = logic.loadInnerLevel(customerLevelDto.getLevel(),
-							customerHierarchyDto == null ? null : customerHierarchyDto.getHierarchyId(),
+							customerHierarchyDto == null ? 0 : customerHierarchyDto.getHierarchyId(),
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()),
 							false, customerLevelDto.getFieldName(), relationshipSid, customerDescriptionMap,
 							INDICATOR_LEVEL_CUSTOMER.getConstant(), screenName,
@@ -2659,7 +2659,7 @@ public class DataSelection extends ForecastDataSelection {
 								childHierarchyNo = tempHNo + ".";
 							}
 							if (customerBeanList.isEmpty()
-									|| !customerBeanList.contains(newLevel.getRelationShipBuilderId())) {
+									|| !customerBeanList.contains(Integer.valueOf(newLevel.getRelationShipBuilderId()))) {
 								customerBeanList.add(newLevel.getRelationshipLevelSid());
 								selectedCustomerContainer.addBean(newLevel);
 								if (forecastLevel != newLevel.getLevelNo()) {

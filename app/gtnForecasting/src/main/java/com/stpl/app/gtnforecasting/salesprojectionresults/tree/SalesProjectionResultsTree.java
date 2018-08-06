@@ -206,7 +206,7 @@ public class SalesProjectionResultsTree {
         apex.setApex(true);
         addStaticLinesToTree(apex);
         if (!availableHierarachies.isEmpty()) {
-            int startLevel = StringUtils.countMatches(String.valueOf(availableHierarachies.get(0)), ".");
+            int startLevel = StringUtils.countMatches(Arrays.toString(availableHierarachies.get(0)), ".");
             List<String> child = new ArrayList<>();
             int currentLevel = startLevel;
             SalesPRCP parent = apex;

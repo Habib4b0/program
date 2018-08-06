@@ -187,7 +187,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
             Map<String, Integer> historyEndDetails = CommonUtils.getHistoryEndDetails(sessionDTO, frequency);
-            endValue = CommonUtils.getProjections(sessionDTO.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH), historyEndDetails.get(HISTORY_END_YEAR)), frequency);
+            endValue = CommonUtils.getProjections(sessionDTO.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant())), frequency);
 
             history = CommonUtils.getHistoryDdlbList(endValue, period);
             sessionDTO.addFrequencyAndQuater(frequency, history);

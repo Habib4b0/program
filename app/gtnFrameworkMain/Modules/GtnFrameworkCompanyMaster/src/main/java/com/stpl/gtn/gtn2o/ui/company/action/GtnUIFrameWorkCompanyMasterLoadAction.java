@@ -425,7 +425,7 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameWorkCompanyMasterLoadAction();
+		return this;
 	}
 
 	public GtnWsRecordBean getValueFromTable(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)

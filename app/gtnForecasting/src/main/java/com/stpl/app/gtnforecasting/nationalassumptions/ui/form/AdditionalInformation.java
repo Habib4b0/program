@@ -345,7 +345,7 @@ public class AdditionalInformation extends CustomComponent {
                             BeanItem<AttachmentDTO> dtoBean = attachmentsListBean.getItem(item);
                             String docName = dtoBean.getBean().getDocumentName().getCaption();
                             String docUserName = dtoBean.getBean().getUserName();
-                            if (docName.equals(event.getFilename()) && docUserName.equals(CommonUtils.getUserMap().get(userId))) {
+                            if (docName.equals(event.getFilename()) && docUserName.equals(CommonUtils.getUserNameById(userId))) {
                                 attachmentsListBean.removeItem(item);
                                 break;
                             }
