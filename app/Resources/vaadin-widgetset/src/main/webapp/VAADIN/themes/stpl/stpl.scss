@@ -215,12 +215,61 @@ border: 3px solid transparent;
 .v-report-display-selection-prt{
     margin-left: 4px !important;
 }
-
+.v-report-display-selection-from{
+    margin-left: -65px !important;
+    margin-top: 7px !important;
+}
+.v-report-data-selection-from-combo{
+    margin-left: 105px !important;
+    margin-top: -42px !important;
+}
+.v-report-display-selection-to{
+    margin-left: 36px !important;
+    margin-top: 7px !important;
+}
+.v-report-data-selection-to-combo{
+    margin-left: 105px !important;
+    margin-top: -46px !important;
+}
+.v-report-data-selection-private{
+    margin-left: -25px !important;
+}
+.v-report-data-selection-public{
+    margin-left: -31px !important;
+}
+.v-report-data-selection-company{
+    margin-left: -26px !important;   
+}
+.v-report-data-selection-company-combo{
+    margin-left: 144px !important;
+    margin-top: -45px !important;
+}
+.v-report-data-selection-reportdatasource{
+    margin-left: 58px !important;
+    
+}
 .v-position-fixed {
 position: fixed!important;
 
 }
 .v-report-filter-options{
 margin-left: -50px !important;
+}
+.v-report-reportoptions-hseq{
+    margin-left: -104px !important;
+}
+.v-report-reportoptions-hseq-combo{
+   margin-left: 238px !important;
+   margin-top: -42px !important;
+   padding-left: 30px !important;
+}
+.v-report-reportoptions-comparison{
+    margin-left: 109px !important;
+}
+.v-report-reportoptions-vseq{
+    width: 40% !important;
+}
+.v-report-excel-button{
+    margin-left: -30px ! important;
 }
 }

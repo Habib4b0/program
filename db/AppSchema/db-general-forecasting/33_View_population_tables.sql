@@ -416,6 +416,24 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+IF EXISTS (SELECT 1
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'CUSTOM_PV'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME <> 'PK_CUSTOM_PV_HIERARCHY_NO_RS_CONTRACT_SID_PERIOD_YEAR_DEDUCTION_INCLUSION_INDICATOR'
+                      AND TYPE = 'PK')
+  BEGIN
+declare @drop_constraint nvarchar(max)='';
+ SELECT @drop_constraint=CONCAT('ALTER TABLE ',OBJECT_NAME(PARENT_OBJECT_ID),' DROP CONSTRAINT ',NAME,' ')
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CUSTOM_PV'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME <> 'PK_CUSTOM_PV_HIERARCHY_NO_RS_CONTRACT_SID_PERIOD_YEAR_DEDUCTION_INCLUSION_INDICATOR'
+                      AND TYPE = 'PK'
+					  exec sp_executesql @drop_constraint
+  END
+
+GO
 
 IF NOT EXISTS (SELECT 1
                FROM   SYS.KEY_CONSTRAINTS

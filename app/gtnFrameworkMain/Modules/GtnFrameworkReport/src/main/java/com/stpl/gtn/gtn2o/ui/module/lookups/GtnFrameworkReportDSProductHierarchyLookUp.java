@@ -165,6 +165,20 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 	}
 
 	private void addHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
+		
+		GtnUIFrameworkComponentConfig addDsReportProductHierarchyNameTextBoxLayout = new GtnUIFrameworkComponentConfig();
+		addDsReportProductHierarchyNameTextBoxLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		addDsReportProductHierarchyNameTextBoxLayout
+		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportDsProductHierarchyNameTextBoxVerticalLayout");
+		addDsReportProductHierarchyNameTextBoxLayout.setAddToParent(true);
+		addDsReportProductHierarchyNameTextBoxLayout.setParentComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportProductHierarchyNameMainLayout = new GtnUIFrameworkLayoutConfig();
+		reportProductHierarchyNameMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		addDsReportProductHierarchyNameTextBoxLayout.setGtnLayoutConfig(reportProductHierarchyNameMainLayout);
+		
 		GtnUIFrameworkComponentConfig productHierarchyName = new GtnUIFrameworkComponentConfig();
 		productHierarchyName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		productHierarchyName.setComponentId(
@@ -178,7 +192,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productHierarchyName.setAddToParent(true);
 		productHierarchyName.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		productHierarchyName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+				+ "reportDsProductHierarchyNameTextBoxVerticalLayout");
 		
 		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
 		hierarchyNameValidationConfig
@@ -188,6 +202,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		hierarchyNameValidationConfig.setRegxValidationMessage("Hierarchy Name Should be less than 200 Characters");
 		productHierarchyName.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
 
+		componentList.add(addDsReportProductHierarchyNameTextBoxLayout);
 		componentList.add(productHierarchyName);
 	}
 

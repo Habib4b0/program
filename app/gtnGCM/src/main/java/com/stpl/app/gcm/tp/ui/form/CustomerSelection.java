@@ -607,7 +607,7 @@ public class CustomerSelection extends VerticalLayout {
             DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
             List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
             for (User user : userList) {
-                userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+                userMap.put(Integer.valueOf(String.valueOf(user.getUserId())), user.getFullName());
             }
             LOGGER.debug("End of getUserName method");
            

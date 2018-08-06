@@ -55,7 +55,8 @@ public class GtnUIFrameworkComponentConfig {
 	private String componentWsFieldId;
 
 	private List<String> componentStyle = new ArrayList<>();
-        private List<String> textComponentStyle = new ArrayList<>();    
+        private List<String> textComponentStyle = new ArrayList<>();
+        private List<String> comboBoxComponentStyle = new ArrayList<>();    
 	private List<Object> queryInputs = new ArrayList<>();
 	private GtnUIFrameworkComboBoxConfig gtnComboboxConfig;
 	private GtnUIFrameworkPagedTableConfig gtnPagedTableConfig;
@@ -161,6 +162,7 @@ public class GtnUIFrameworkComponentConfig {
 		this.componentWsFieldId = componentConfig.getComponentWsFieldId();
 		this.componentStyle = componentConfig.getComponentStyle();
                 this.textComponentStyle=componentConfig.getTextComponentStyle();
+                this.comboBoxComponentStyle=componentConfig.getComboBoxComponentStyle();
 		this.queryInputs = componentConfig.getQueryInputs();
 		this.gtnComboboxConfig = componentConfig.getGtnComboboxConfig();
 		this.gtnPagedTableConfig = componentConfig.getGtnPagedTableConfig();
@@ -262,6 +264,21 @@ public class GtnUIFrameworkComponentConfig {
 			return;
 		}
 		this.componentStyle.add(componentStyle);
+	}
+        
+        public List<String> getComboBoxComponentStyle() {
+        return comboBoxComponentStyle == null ? comboBoxComponentStyle : Collections.unmodifiableList(comboBoxComponentStyle);
+        }
+
+         public void setComboBoxComponentStyle(List<String> comboBoxComponentStyle) {
+        this.comboBoxComponentStyle = new ArrayList<>(comboBoxComponentStyle);
+        }
+         
+         public void addComboComponentStyle(String comboBoxComponentStyle) {
+		if (comboBoxComponentStyle == null) {
+			return;
+		}
+		this.comboBoxComponentStyle.add(comboBoxComponentStyle);
 	}
         public List<String> getTextComponentStyle() {
             return textComponentStyle == null ? textComponentStyle : Collections.unmodifiableList(textComponentStyle);      

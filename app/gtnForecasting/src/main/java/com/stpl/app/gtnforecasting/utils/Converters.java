@@ -98,7 +98,7 @@ public class Converters {
             Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
             if (map != null && !map.isEmpty()) {
                 result.setDataSelectionFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
-                result.setDataSelectionDedLevel(Integer.parseInt(String.valueOf(map.get(Constant.DATA_SELECTION_DED_LEVEL))));
+                result.setDataSelectionDedLevel(Integer.valueOf(String.valueOf(map.get(Constant.DATA_SELECTION_DED_LEVEL))));
             }
             results.add(result);
         }
@@ -122,8 +122,8 @@ public class Converters {
 		    result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
 		    result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
 		    result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
-                    result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
-                    result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
+                    result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
+                    result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
 		}
 	}
 
@@ -262,23 +262,23 @@ public class Converters {
     private static Integer getDiscountSid(Object[] objects) {
     	String Twenty_one =  objects[NumericConstants.TWENTY_ONE].toString();
     	String final_String = objects[NumericConstants.TWENTY_ONE] == null ? DASH : Twenty_one;
-    	return Integer.parseInt(final_String);
+    	return Integer.valueOf(final_String);
     }
     
     private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
     	String thirty_Two = objects[NumericConstants.THIRTY_TWO].toString();
     	String to_be_parsed_String = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirty_Two;
-    	return Integer.parseInt(to_be_parsed_String);
+    	return Integer.valueOf(to_be_parsed_String);
     }
     
     private static Integer getCustomRelationShipSid(Object[] objects) {
     	String thirty_three_null_checked = objects[NumericConstants.THIRTY_THREE] == null ? DASH : objects[NumericConstants.THIRTY_THREE].toString();
-    	return Integer.parseInt(thirty_three_null_checked);
+    	return Integer.valueOf(thirty_three_null_checked);
     }
     
     private static Integer getCustomDeductionRelationShipSid(Object[] objects) {
     	String thirty_four_null_checked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString();
-    	return Integer.parseInt(thirty_four_null_checked);
+    	return Integer.valueOf(thirty_four_null_checked);
     }
     
     private static String getDeductionLevel(Object[] objects) {

@@ -95,9 +95,10 @@ public class SupplementalDiscountProjectionLogic {
             }
         } else {
             if (projSelDTO.isIsFilter()) {
+                Integer supplementalLevelNo = projSelDTO.getSupplementalLevelNo();
                 projSelDTO.setLevelNo(projSelDTO.getFilterLevelNo());
                 projSelDTO.setHierarchyIndicator(projSelDTO.getFilterHierarchyNo());
-                projSelDTO.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo());
+                projSelDTO.setSupplementalLevelNo(supplementalLevelNo);
                 projSelDTO.setSupplementalLevelName(getSupplementalLevelName(projSelDTO.getSupplementalLevelNo()));
             } else {
                 projSelDTO.setSupplementalLevelNo(0);
@@ -153,7 +154,8 @@ public class SupplementalDiscountProjectionLogic {
             }
         } else {
             if (projSelDTO.isIsFilter()) {
-                projSelDTO.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo());
+                Integer supplementalLevel = projSelDTO.getSupplementalLevelNo();
+                projSelDTO.setSupplementalLevelNo(supplementalLevel);
                 projSelDTO.setSupplementalLevelName(getSupplementalLevelName(projSelDTO.getSupplementalLevelNo()));
             } else {
                 projSelDTO.setSupplementalLevelNo(0);
@@ -1786,7 +1788,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));
@@ -1817,7 +1819,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));

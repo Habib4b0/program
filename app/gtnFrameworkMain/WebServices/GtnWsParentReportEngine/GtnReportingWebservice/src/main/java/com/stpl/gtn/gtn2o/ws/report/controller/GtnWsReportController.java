@@ -224,31 +224,33 @@ public class GtnWsReportController {
 	@RequestMapping(value = "/gtnWsReportLoadDataAssumptions", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getDataAssumptionsResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+
 		GtnUIFrameworkWebserviceResponse wsResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse wsGeneralResponse = new GtnWsGeneralResponse();
 		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
-		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
 
-		if (count) {
-			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
+		String filter = gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList() == null
+				|| gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().isEmpty() ? ""
+						: gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
+
+			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY
+					.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter));
 			wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
-		}
 
-		else {
 			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-			String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
-
-			finalQuery = finalQuery.replace("@filter", filter);
+			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter);
 			resultList = executeQuery(finalQuery);
 			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
 			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 			gtnUIFrameworkDataTable.addData(resultList);
 			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-		}
+
+
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
+
 		return wsResponse;
 	}
 
@@ -260,7 +262,13 @@ public class GtnWsReportController {
 		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
-		String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+		String finalQuery = null;
+		if(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getReportDataSource() == 3) {
+			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS;
+		} else {
+			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+		}		
+		
 		finalQuery = finalQuery.replace("@projectionMasterSid",
 				String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
 		// String filter =
@@ -423,8 +431,8 @@ public class GtnWsReportController {
 			Optional.ofNullable(resultList).ifPresent(e -> {
 				List<String> itemCodeList = new ArrayList<>();
 				List<String> itemValueList = new ArrayList<>();
-                                itemCodeList.add(GtnWsQueryConstants.UOM_DEFAULT);
-			        itemValueList.add(GtnWsQueryConstants.UOM_DEFAULT);
+				itemCodeList.add(GtnWsQueryConstants.UOM_DEFAULT);
+				itemValueList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				for (Object[] object : e) {
 					itemCodeList.add(String.valueOf(object[0]));
 					itemValueList.add(String.valueOf(object[0]));

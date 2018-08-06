@@ -121,19 +121,21 @@ public class OutboundLogic {
         queryBuilder.append(hierarchyTypeMap.get(hierType));
         loadHdSearchCriteriaMap();
           
-        Set<String> keys = hierarchySearchCriteria.keySet();
-        for (String fields : keys) {
+        Set<Map.Entry<String, String>> keys = hierarchySearchCriteria.entrySet();
+        for (Map.Entry<String, String> entry : keys) {
+            String fields = entry.getKey();
+            String value = entry.getValue();
             if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
 
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
 
                     } else if (ConstantsUtils.CREATED_DATE_FROM.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_TO.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                     }
             }
         }
@@ -239,12 +241,12 @@ public class OutboundLogic {
     public boolean checkSearchCriteria(final ErrorfulFieldGroup binder) {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
-            if (object != null && object instanceof TextField && ((TextField) object).isVisible()) {
+            if (object instanceof TextField && ((TextField) object).isVisible()) {
                 if (StringUtils.isNotBlank(((TextField) object).getValue())) {
                     isvalid = true;
                     break;
                 }
-            } else if (object != null && object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
+            } else if (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
                     isvalid = true;
                     break;
             }
@@ -846,23 +848,25 @@ public class OutboundLogic {
                 rbMap.put(StringConstantUtils.CREATION_DATE_FROM, "R.CREATED_DATE");
                 rbMap.put(StringConstantUtils.CREATION_DATE_TO, "R.CREATED_DATE");
             }
-            Set<String> keys = rbMap.keySet();
-            for (String fields : keys) {
+            Set<Map.Entry<String, String>> keys = rbMap.entrySet();
+            for (Map.Entry<String, String> entry : keys) {
+                String fields = entry.getKey();
+                String value = entry.getValue();
                 if (searchFields.getField(fields) != null) {
                     if (StringConstantUtils.HIERARCHY_NAME_DDLB.equalsIgnoreCase(fields)) {
                         if (searchFields.getField(StringConstantUtils.HIERARCHY_NAME_DDLB).getValue() != null && StringUtils.isNotBlank(searchFields.getField(StringConstantUtils.HIERARCHY_NAME_DDLB).getValue().toString())
                                 && ((HelperDTO) searchFields.getField(StringConstantUtils.HIERARCHY_NAME_DDLB).getValue()).getId() != 0) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getDescription()).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getDescription()).append('\'');
                         }
                     } else if (searchFields.getField(fields).getValue() != null && !String.valueOf(searchFields.getField(fields).getValue()).trim().isEmpty()) {
                         if (StringConstantUtils.RELATIONSHIP_TYPE_PROPERTY.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" = '").append(hierarchyTypeMap.get(String.valueOf(searchFields.getField(fields).getValue()))).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" = '").append(hierarchyTypeMap.get(String.valueOf(searchFields.getField(fields).getValue()))).append('\'');
                         } else if (StringConstantUtils.START_DATE_FROM.equalsIgnoreCase(fields) || StringConstantUtils.CREATION_DATE_FROM.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                         } else if (StringConstantUtils.START_DATE_TO.equalsIgnoreCase(fields) || StringConstantUtils.CREATION_DATE_TO.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                         } else {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                         }
                     }
                 }

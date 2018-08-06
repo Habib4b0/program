@@ -183,8 +183,6 @@ public class NMSalesProjectionResultsLogic {
 											obj[NumericConstants.SEVEN] != null
 													&& !StringUtils.EMPTY
 															.equals(String.valueOf(obj[NumericConstants.SEVEN]))
-													&& !StringUtils.EMPTY
-															.equals(String.valueOf(obj[NumericConstants.SEVEN]))
 																	? UNITVOLUME.format(Double.parseDouble(String
 																			.valueOf(obj[NumericConstants.SEVEN])))
 																	: "-");

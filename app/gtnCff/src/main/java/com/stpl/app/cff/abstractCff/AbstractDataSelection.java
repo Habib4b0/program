@@ -63,7 +63,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDataSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDataSelection.class);
         
         
         

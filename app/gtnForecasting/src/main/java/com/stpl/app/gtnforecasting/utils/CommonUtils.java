@@ -527,8 +527,7 @@ public class CommonUtils {
     public static boolean isInteger(String str) {
         try {
             if ((str != null) && (!"null".equals(str)) && (!"".equals(str)) && (!"All".equals(str))) { // For GAL-9221,GAL-9219,GAL-9197 server log issues	
-                Integer.parseInt(str);
-                return true;
+                 return str.matches("^\\d+$");
             }
         } catch (NumberFormatException e) {
             return false;
@@ -544,21 +543,6 @@ public class CommonUtils {
             viewtable = "PROJECTION_PROD_HIERARCHY";
         }
         return viewtable;
-    }
-
-    /**
-     * To check whether the given string is double or not
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isDouble(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     public static int getMonthForString(String num) {
@@ -1098,7 +1082,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -1570,7 +1554,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;

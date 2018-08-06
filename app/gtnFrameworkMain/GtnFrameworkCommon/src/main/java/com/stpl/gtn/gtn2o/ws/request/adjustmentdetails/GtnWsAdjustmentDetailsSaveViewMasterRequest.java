@@ -14,7 +14,11 @@ public class GtnWsAdjustmentDetailsSaveViewMasterRequest {
     private Integer armViewMasterSid;
     private String viewName;
     private String viewType;
-    
+
+    public GtnWsAdjustmentDetailsSaveViewMasterRequest() {
+        super();
+    }
+
     public Integer getArmViewMasterSid() {
         return armViewMasterSid;
     }
