@@ -34,7 +34,7 @@ public class PRChart {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SPRChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PRChart.class);
     protected ProjectionSelectionDTO projSelDTO;
 
     /**

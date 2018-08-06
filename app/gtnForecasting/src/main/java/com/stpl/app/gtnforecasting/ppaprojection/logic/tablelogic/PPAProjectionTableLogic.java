@@ -53,7 +53,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     protected int pageNumber = 1;
     protected boolean isRefresh;
     protected boolean isGenerated = false;
-    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionTableLogic.class);
     
 
     public boolean isIsRefresh() {
