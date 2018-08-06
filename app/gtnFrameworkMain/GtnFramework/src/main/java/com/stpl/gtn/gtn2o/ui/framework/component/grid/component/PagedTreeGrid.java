@@ -47,7 +47,6 @@ public class PagedTreeGrid {
 	private TreeGrid<GtnWsRecordBean> grid;
 	private Set<String> tableColumns = new HashSet<>();
 
-	private final String emptyString = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 	private final Set<GtnWsRecordBean> expandedItemIds = new HashSet<>();
 	private final Set<Integer> expandedRowIds = new HashSet<>();
 	private HashMap<Integer, GtnWsRecordBean> lastExpandedItemHierarchy = new HashMap<>(7);
@@ -115,7 +114,7 @@ public class PagedTreeGrid {
 	public void resetGridToInitialState() {
 		setCount(getTotalCount());
 		int offset = pageNumber * pageLength;
-		dataSet = loadData(offset, pageLength, tableConfig.getLevelNo(), emptyString);
+		dataSet = loadData(offset, pageLength, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		@SuppressWarnings("unchecked")
 		TreeData<GtnWsRecordBean> treeData = getTreeDataProvider().getTreeData();
 		treeData.clear();
@@ -144,7 +143,7 @@ public class PagedTreeGrid {
 		setCount(getTotalCount());
 
 		if (count > 0) {
-			dataSet = loadData((pageNumber * pageLength), pageLength, tableConfig.getLevelNo(), emptyString);
+			dataSet = loadData((pageNumber * pageLength), pageLength, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		}
 
 		TreeData<GtnWsRecordBean> data = new TreeData<>();
@@ -414,7 +413,7 @@ public class PagedTreeGrid {
 
 		if (tableConfig.getCountUrl() != null) {
 			GtnWsSearchRequest request = GridUtils.getWsRequest(0, pageLength, true, INPUT,
-					Arrays.asList(levelNo, emptyString), tableConfig);
+					Arrays.asList(levelNo, GtnFrameworkCommonStringConstants.STRING_EMPTY), tableConfig);
 			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request, getComponentIdInMap());
 
@@ -468,7 +467,7 @@ public class PagedTreeGrid {
 		}
 		int currentOffset = pageNumber * pageLength;
 		if (expandedItemIds.isEmpty() && !levelExpandOn) {
-			dataSet = loadData(currentOffset + 1, currentOffset + pageLength, tableConfig.getLevelNo(), emptyString);
+			dataSet = loadData(currentOffset + 1, currentOffset + pageLength, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		} else {
 			List<GtnWsRecordBean> childRows = null;
 			findLastExpandedHierarchy(currentOffset);
@@ -516,7 +515,7 @@ public class PagedTreeGrid {
 		setPageNoFieldValue(0);
 		TreeData<GtnWsRecordBean> treeData = grid.getTreeData();
 		treeData.clear();
-		fetchNextNItems(0, pageLength, treeData, tableConfig.getLevelNo(), emptyString, true);
+		fetchNextNItems(0, pageLength, treeData, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY, true);
 	}
 
 	private void fetchNextNItems(int start, int itemsToFetch, TreeData<GtnWsRecordBean> treeData, int currentLevel,
@@ -524,7 +523,7 @@ public class PagedTreeGrid {
 		while (currentLevel >= tableConfig.getLevelNo() && itemsToFetch >= fetched) {
 			start = findStart(start, isFirst, currentLevel);
 			List<GtnWsRecordBean> rows = loadData(start, itemsToFetch, currentLevel,
-					currentLevel == tableConfig.getLevelNo() ? emptyString
+					currentLevel == tableConfig.getLevelNo() ? GtnFrameworkCommonStringConstants.STRING_EMPTY
 							: hierNo.isEmpty() ? hierNo : hierNo.substring(0, hierNo.lastIndexOf('.'))).getRows();
 			currentLevel--;
 			fetchRowsRecursively(null, rows, treeData, itemsToFetch);
@@ -600,7 +599,7 @@ public class PagedTreeGrid {
 	@SuppressWarnings("unchecked")
 	private void initalizeColumnController() {
 		totalColumns.setReadOnly(false);
-		totalColumns.setValue(tableConfig.getColumnHeaders().size() + emptyString);
+		totalColumns.setValue(tableConfig.getColumnHeaders().size() + GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		totalColumns.setReadOnly(true);
 		columnsPerPage.setValue(50);
 		setColumnPageNumber(0);
@@ -852,7 +851,7 @@ public class PagedTreeGrid {
 	public void setCount(int count) {
 		this.count = count;
 		pageCountLabel.setReadOnly(false);
-		pageCountLabel.setValue(getPageCount() + emptyString);
+		pageCountLabel.setValue(getPageCount() + GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		pageCountLabel.setReadOnly(true);
 	}
 
