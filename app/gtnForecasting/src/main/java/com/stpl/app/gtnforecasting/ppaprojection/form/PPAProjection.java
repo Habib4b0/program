@@ -2096,8 +2096,8 @@ public class PPAProjection extends CustomComponent implements View {
 
     }
 
-    public static void setValueChangeAllowed(boolean valueChangeAllowed) {
-        valueChangeAllowed = valueChangeAllowed;
+    public void setValueChangeAllowed(boolean valueChangeAllowed) {
+        this.valueChangeAllowed = valueChangeAllowed;
     }
 
     private void updateUncheckedRecords(boolean value, Object item) {

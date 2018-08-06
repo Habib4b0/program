@@ -308,7 +308,7 @@ public class CommonUtils {
             List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
             int companyTypeId = 0;
             if (!companyTypeIds.isEmpty()) {
-                companyTypeId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+                companyTypeId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
             }
         DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 
