@@ -1366,7 +1366,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         }.getConfirmationMessage("Submit Confirmation", "In Ndc:" + notifyContent + " are not having any prior values.Do you wish to continue.?");
                         String emptyNull;
                         emptyNull = notifyContent;
-                        notifyContent.replaceAll(emptyNull, StringUtils.EMPTY);
                     }
 
                     selectedValue = String.valueOf(valueLookUp.getValue());

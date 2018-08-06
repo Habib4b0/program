@@ -16,6 +16,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -133,7 +134,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         Object custFilter = getColumnIdToFilterValue(Constant.GROUP);
         if (custFilter != null) {
             String[] custHeirarchyNo = custFilter.toString().split("~");
-            if (custHeirarchyNo != null && !Constant.DASH.equals(String.valueOf(custHeirarchyNo)) && String.valueOf(custFilter).contains(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+            if (custHeirarchyNo != null && !Constant.DASH.equals(custHeirarchyNo[0]) && String.valueOf(custFilter).contains(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
                 projSelDTO.setGroup(custHeirarchyNo[1]);
                 projSelDTO.setFilterCustomerDDLB(custHeirarchyNo[1]);
                 projSelDTO.setSelectedCust(custHeirarchyNo[0]);
