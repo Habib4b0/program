@@ -30,7 +30,6 @@ public class FileManagementIndexView extends VerticalLayout implements View {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(FileManagementIndexView.class);
-    private SessionDTO sessionDTO;
 
     /**
      * Instantiates a new file management index view.
@@ -39,9 +38,8 @@ public class FileManagementIndexView extends VerticalLayout implements View {
         super();
         LOGGER.debug("FileManagementIndexView Constructor Entered");
         setSpacing(true);
-        this.sessionDTO = sessionDTO;
         try{
-        addComponent(new FileManagementIndex(this.sessionDTO));
+        addComponent(new FileManagementIndex(sessionDTO));
         LOGGER.debug("FileManagementIndexView Constructor Ended");
         }
         catch(Exception e){

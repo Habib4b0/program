@@ -1,8 +1,13 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GtnReportDataRefreshBean {
+
+        public GtnReportDataRefreshBean() {
+            super();
+        }
 
 	private int customViewMasterSid;
 	private String frequencyName;
@@ -25,11 +30,12 @@ public class GtnReportDataRefreshBean {
 	}
 
 	public List<GtnReportComparisonProjectionBean> getComparisonProjectionBeanList() {
-		return comparisonProjectionBeanList;
+		return comparisonProjectionBeanList == null ? null : Collections.unmodifiableList(comparisonProjectionBeanList);
 	}
 
 	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
-		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
+		this.comparisonProjectionBeanList = comparisonProjectionBeanList == null ? null
+				: Collections.unmodifiableList(comparisonProjectionBeanList);
 	}
 
 }

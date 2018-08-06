@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PVGraphWindow extends StplWindow {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NmPPAGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVGraphWindow.class);
 
     public PVGraphWindow(final Component component, final String title) {
         super(title);
@@ -32,7 +32,7 @@ public class PVGraphWindow extends StplWindow {
      *
      * @param component the component
      */
-    public void init(final Component component) {
+    public final void init(final Component component) {
 
         LOGGER.debug("Entering init method");
         center();

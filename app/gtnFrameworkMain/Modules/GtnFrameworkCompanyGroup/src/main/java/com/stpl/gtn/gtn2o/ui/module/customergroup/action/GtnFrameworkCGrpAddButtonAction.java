@@ -54,14 +54,16 @@ public class GtnFrameworkCGrpAddButtonAction
 				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			}
 			List<GtnCompanyGrpDataBean> beanList = new ArrayList<>();
-			for (GtnWsRecordBean GtnWsRecordBean : dtoSet) {
-				GtnCompanyGrpDataBean bean = new GtnCompanyGrpDataBean();
-				bean.setCompanyMasterSid((Integer) GtnWsRecordBean.getPropertyValueByIndex(27));
-				bean.setCompanyTradeClassSid(String.valueOf(GtnWsRecordBean.getPropertyValueByIndex(28)));
-				bean.setCompanyParentDetailsSid(String.valueOf(GtnWsRecordBean.getPropertyValueByIndex(29)));
-				bean.setVersionNo(1);
-				beanList.add(bean);
-			}
+                       if (dtoSet != null) {
+                        for (GtnWsRecordBean GtnWsRecordBean : dtoSet) {
+                            GtnCompanyGrpDataBean bean = new GtnCompanyGrpDataBean();
+                            bean.setCompanyMasterSid((Integer) GtnWsRecordBean.getPropertyValueByIndex(27));
+                            bean.setCompanyTradeClassSid(String.valueOf(GtnWsRecordBean.getPropertyValueByIndex(28)));
+                            bean.setCompanyParentDetailsSid(String.valueOf(GtnWsRecordBean.getPropertyValueByIndex(29)));
+                            bean.setVersionNo(1);
+                            beanList.add(bean);
+                        }
+                    }
 			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 			GtnWsGeneralRequest gRequest = new GtnWsGeneralRequest();
 			gRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());

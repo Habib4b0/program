@@ -40,7 +40,7 @@ public class RebatePlanLookup extends Window {
     private final String indicator;
     private final CustomTextField groupLookup;
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(TPContractHolderLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RebatePlanLookup.class);
     @UiField("resultsTableRPL")
     private ExtFilterTable rebateResultTable;
     @UiField("cancelBtnRPL")
@@ -104,7 +104,7 @@ public class RebatePlanLookup extends Window {
         init();
     }
 
-    public void init() {
+    public final void init() {
         setClosable(true);
         setModal(true);
         setWidth(NumericConstants.NINE_FIVE_ZERO, Sizeable.Unit.PIXELS);

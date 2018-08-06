@@ -26,7 +26,7 @@ public class LinkedCompaniesTableLogic extends PageTableLogic {
     private final CompanyLinkDTO tpDTo = new CompanyLinkDTO();
     private String searchSessionid = StringUtils.EMPTY;
     private boolean firstTime = true;
-    private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LinkedCompaniesTableLogic.class);
 
     @Override
     public int getCount() {

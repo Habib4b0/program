@@ -33,17 +33,17 @@ public class GtnReportDataSelectionResetAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_privateViews").setV8PopupFieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_publicViews").setV8PopupFieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent("reportLandingScreen_privateViews",componentId).setV8PopupFieldValue("");
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent("reportLandingScreen_publicViews",componentId).setV8PopupFieldValue("");
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(1).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(2).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(2).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(3).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
 
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_fromPeriod").getComponentConfig().getGtnComboboxConfig();
+				.getVaadinBaseComponentFromParent("reportLandingScreen_fromPeriod",componentId).getComponentConfig().getGtnComboboxConfig();
 		fromPeriodConfig.setModuleName("report");
 		fromPeriodConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
 		fromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
@@ -51,15 +51,19 @@ public class GtnReportDataSelectionResetAction
 		fromPeriodConfig.setDefaultDesc("next");
 		
 		GtnUIFrameworkComboBoxComponent fromPeriod = new GtnUIFrameworkComboBoxComponent();
-		fromPeriod.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, "reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
+		fromPeriod.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, "reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString()).setV8PopupFieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(6).toString(),componentId).setV8PopupFieldValue("");
+		String value = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(7).toString(),componentId).getCaptionFromV8ComboBox();
+		String value3 = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(8).toString(),componentId).getCaptionFromV8ComboBox();
+		if(value != "" ||!value3.isEmpty()) {
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(7).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(8).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(8).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
+		}
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(11).toString()).getComponentData();
+				.getVaadinBaseComponentFromParent(actionParamsList.get(11).toString(),componentId).getComponentData();
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) componentData.getCustomData();
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		leftTable.setItems(new ArrayList<>());
@@ -71,14 +75,17 @@ public class GtnReportDataSelectionResetAction
 			rightTable.getDataProvider().refreshAll();
 		}
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(12).toString()).setV8PopupFieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(13).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(12).toString(),componentId).setV8PopupFieldValue("");
+		String value2 = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(13).toString(),componentId).getCaptionFromV8ComboBox();
+		String value4 = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(14).toString(),componentId).getCaptionFromV8ComboBox();
+		if(value2!= ""||!value4.isEmpty()) {
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(13).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(14).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(14).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
-
+		}
 		GtnUIFrameworkComponentData productComponentData = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(16).toString()).getComponentData();
+				.getVaadinBaseComponentFromParent(actionParamsList.get(16).toString(),componentId).getComponentData();
 		GtnFrameworkV8DualListBoxBean productDualListBoxBean = (GtnFrameworkV8DualListBoxBean) productComponentData
 				.getCustomData();
 		Grid<GtnWsRecordBean> productLeftTable = productDualListBoxBean.getLeftTable();
@@ -91,11 +98,11 @@ public class GtnReportDataSelectionResetAction
 			productRightTable.getDataProvider().refreshAll();
 		}
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(17).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(17).toString(),componentId)
 				.loadV8ComboBoxComponentValue("0");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(18).toString()).loadV8MultiSelectValue();
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(19).toString()).setV8PopupFieldValue(" ");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(20).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(18).toString(),componentId).loadV8MultiSelectValue();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(19).toString(),componentId).setV8PopupFieldValue(" ");
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(20).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
 
 	}

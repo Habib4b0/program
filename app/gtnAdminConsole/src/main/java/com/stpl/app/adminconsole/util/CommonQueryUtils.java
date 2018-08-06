@@ -73,7 +73,7 @@ public class CommonQueryUtils {
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-            int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
+            int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
             return count > 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
@@ -92,7 +92,7 @@ public class CommonQueryUtils {
                 }
             }
         }
-        int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
+        int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
         return count > 0 ? Boolean.TRUE : Boolean.FALSE;
     }
 

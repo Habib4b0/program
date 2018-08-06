@@ -119,7 +119,7 @@ public final class CommonUtil {
      */
     public static Date convert2DigitTo4DigitYearFormat(final Date enteredDate) throws ParseException {
         Date temp;
-        if (enteredDate == null || EMPTY.equals(enteredDate)) {
+        if (enteredDate == null) {
             temp = enteredDate;
         } else {
             LOGGER.debug("entering convert2DigitTo4DigitYearFormat with P1:Date enteredDate= {}" , enteredDate);

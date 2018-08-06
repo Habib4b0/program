@@ -244,7 +244,7 @@ public class CommonUtils {
         List<User> resultList;
         try {
             resultList = UserLocalServiceUtil.dynamicQuery(userSearchDynamicQuery);
-            if (resultList != null && resultList.size() > 0) {
+            if (resultList != null && !resultList.isEmpty()) {
                 return resultList.get(0);
             }
         } catch (SystemException ex) {
@@ -830,13 +830,12 @@ public class CommonUtils {
         return select;
     }
 
-    public static boolean isInteger(String s) {
+    public static boolean isInteger(String strr) {
         try {
-            Integer.parseInt(s);
+              return strr != null && !"null".equals(strr)&& strr.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     public static void getHistoryAndProjectionDetails(ProjectionSelectionDTO projSelDTO) {
@@ -1238,7 +1237,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

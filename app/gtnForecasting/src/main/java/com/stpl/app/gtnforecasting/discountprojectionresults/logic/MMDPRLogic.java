@@ -267,19 +267,7 @@ public class MMDPRLogic {
         int neededRecord = offset;
         int mayBeAdded = 0;
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
-        List<Integer> yearList = new ArrayList<>();
         projSelDTO.setProjectionHeaderList(CommonUtils.prepareProjectionPeriodList(projSelDTO));
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndMonth());
-
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
-
-
         if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal() && !projSelDTO.isFilterDdlb()) {
                 if (start < 1 && neededRecord > 0) {
@@ -576,17 +564,6 @@ public class MMDPRLogic {
         List<String> periodList = getProjectionTotalCount(projSelDTO);
         int maxrecord = periodList.size();
         List<DiscountProjectionResultsDTO> resultList = new ArrayList<>();
-
-        List<Integer> yearList = new ArrayList<>();
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndMonth());
-
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
         map.put("Jan", Constant.STRING_ONE);
         map.put("Feb", "2");
         map.put("Mar", "3");
@@ -982,7 +959,7 @@ public class MMDPRLogic {
         Object object0 = null;
         Integer historyStartMonth = projSel.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSel.getForecastDTO().getHistoryStartYear();
-        int projectionId = Integer.valueOf(projSel.getProjectionId());
+        int projectionId = projSel.getProjectionId();
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
             frequency = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {
@@ -1925,7 +1902,7 @@ public class MMDPRLogic {
         Object object0 = null;
         Integer historyStartMonth = projSelDTO.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSelDTO.getForecastDTO().getHistoryStartYear();
-        int projectionId = Integer.valueOf(projSelDTO.getProjectionId());
+        int projectionId = projSelDTO.getProjectionId();
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
             frequency = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {
@@ -2354,7 +2331,8 @@ public class MMDPRLogic {
                 } else {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         if (map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)) == null) {
-                            projSelDTO.setPivotValue(projSelDTO.getPivotValue());
+                            String pivotValueDiscount = projSelDTO.getPivotValue();
+                            projSelDTO.setPivotValue(pivotValueDiscount);
                         } else {
                             String monValue = projSelDTO.getPivotValue().replace(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE), map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)));
                             projSelDTO.setPivotValue(monValue);
@@ -2382,7 +2360,8 @@ public class MMDPRLogic {
                         if (map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)) != null) {
                             projSelDTO.setPivotValue(projSelDTO.getPivotValue().replace(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE), map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE))));
                         } else {
-                            projSelDTO.setPivotValue(projSelDTO.getPivotValue());
+                            String pivotValueSupplemental = projSelDTO.getPivotValue();
+                            projSelDTO.setPivotValue(pivotValueSupplemental);
                         }
                     } else {
                         projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));

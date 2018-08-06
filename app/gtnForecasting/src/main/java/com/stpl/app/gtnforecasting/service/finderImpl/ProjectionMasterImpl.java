@@ -1311,8 +1311,8 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         try {
             Object temp;
             if ("getHierarchyTableDetails".equals(queryName)) {
-                for (String key : input.keySet()) {
-                    customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                 }
                 List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
                 Map<String, String> valueList = new HashMap<>();
@@ -1339,9 +1339,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
                 temp = valueList;
             } else {
-                for (String key : input.keySet()) {
-                    if (customSql.contains(key)) {
-                        customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    if (customSql.contains(key.getKey())) {
+                        customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                     }
                 }
                 if ("ds.singleBrand".equals(queryName)) {

@@ -93,17 +93,17 @@ public class GtnReportDataSelectionReGenerateAction
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
 	
-		if (isCustomerChanged || isProductChanged || isComparisonProjectionChanged || isCustomView || isFrequencyChanged
+		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged
 				|| isReportDataSourceChanged || isFromPeriodChanged) {
 
 			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
 			List<GtnUIFrameWorkActionConfig> onFailureActionList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+					GtnUIFrameworkActionType.INFO_ACTION);
 
-			alertAction.addActionParameter("Update confirmation");
+			alertAction.addActionParameter("Information");
 			alertAction.addActionParameter(
-					"Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?");
+					"You have changed the set of CCP’s that included in this report. The report will now update to reflect these changes.");
 			alertAction.addActionParameter(onSuccessActionList);
 			alertAction.addActionParameter(onFailureActionList);
 			
@@ -113,7 +113,7 @@ public class GtnReportDataSelectionReGenerateAction
 			callRegenerateActionSuccessConfig
 					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
 			callRegenerateActionSuccessConfig.addActionParameter(dataSelectionBean);
-                        callRegenerateActionSuccessConfig.addActionParameter("YES");
+                        callRegenerateActionSuccessConfig.addActionParameter("OK");
 
                         callRegenerateActionSuccessConfig.addActionParameter(selectedCustomerList);
                         callRegenerateActionSuccessConfig.addActionParameter(selectedProductList);
@@ -139,15 +139,15 @@ public class GtnReportDataSelectionReGenerateAction
                         callRegenerateActionSuccessConfig.addActionParameter(isFromPeriodChanged);
                         
 			onSuccessActionList.add(callRegenerateActionSuccessConfig);
-			GtnUIFrameWorkActionConfig callRegenerateActionFailureConfig = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CUSTOM_ACTION);
-
-			callRegenerateActionFailureConfig
-					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
-			callRegenerateActionFailureConfig.addActionParameter(dataSelectionBeanPersist);
-			callRegenerateActionFailureConfig.addActionParameter("NO");
-                        
-			onFailureActionList.add(callRegenerateActionFailureConfig);
+//			GtnUIFrameWorkActionConfig callRegenerateActionFailureConfig = new GtnUIFrameWorkActionConfig(
+//					GtnUIFrameworkActionType.CUSTOM_ACTION);
+//
+//			callRegenerateActionFailureConfig
+//					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
+//			callRegenerateActionFailureConfig.addActionParameter(dataSelectionBeanPersist);
+//			callRegenerateActionFailureConfig.addActionParameter("NO");
+//                        
+//			onFailureActionList.add(callRegenerateActionFailureConfig);
 			
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
 			

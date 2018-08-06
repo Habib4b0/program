@@ -33,6 +33,8 @@ public class GtnUIFrameworkV8ValueChangeAction implements GtnUIFrameWorkAction {
 				.getVaadinComponent(componentId).getData();
 		GtnUIFrameworkComponentConfig currentComponentConfig = componentData.getCurrentComponentConfig();
 		for (String reloadComponentId : currentComponentConfig.getDependentComponentList()) {
+                        boolean action = currentComponentConfig.isUserOriginatedFlag();
+                        if(action){
 			GtnUIFrameworkComponentData reloadComponentData = GtnUIFrameworkGlobalUI
 					.getVaadinComponentData(reloadComponentId, componentId);
 			GtnUIFrameworkComponentConfig reloadComponentConfig = reloadComponentData.getCurrentComponentConfig();
@@ -52,6 +54,7 @@ public class GtnUIFrameworkV8ValueChangeAction implements GtnUIFrameWorkAction {
 
 			gtnUIFrameworkComponent.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, reloadComponentId,
 					componentId, comboboxWhereClauseParamList);
+                        }
 		}
 
 	}

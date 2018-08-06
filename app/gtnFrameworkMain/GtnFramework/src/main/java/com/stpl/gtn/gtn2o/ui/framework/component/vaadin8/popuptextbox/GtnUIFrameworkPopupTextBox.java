@@ -29,7 +29,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
 	public GtnUIFrameworkPopupTextBox() {
-
+            //Overridden method
 	}
 
 	@Override
@@ -66,6 +66,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 
 		popupTextField.addStyleName(GtnFrameworkCssConstants.SEARCHICON);
 		loadStyles(popupTextBoxHorizontalComponent, componentConfig.getComponentStyle());
+                loadStyles(popupTextField, componentConfig.getTextComponentStyle());
 		popupTextBoxHorizontalComponent.addComponent(popupTextField);
 
 		popupTextBoxHorizontalComponent.setData(componentData);

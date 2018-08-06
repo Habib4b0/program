@@ -314,9 +314,6 @@ public class PPAProjection extends CustomComponent implements View {
     private boolean valueChangeAllowed = false;
     private boolean generateFlag = true;
     private Date oldDate;
-    private final TableFieldFactory leftTableFieldFactory = getLeftTableFieldFactory();
-    private final TableFieldFactory rightTableFieldFactory = getRightTableFieldFactory();
-    private final ExtCustomTable.ColumnCheckListener olumnCheckListener = getColumnCheckListener();
 
     /**
      * Instantiates a new SALES_SMALL projection.
@@ -788,9 +785,9 @@ public class PPAProjection extends CustomComponent implements View {
         groupFilterDdlb.select(Constant.ALL_GROUP);
         groupFilterDdlb.setWidth("100%");
         OnLoadGroupFilter();
-        leftTable.addColumnCheckListener(olumnCheckListener);
-        leftTable.setTableFieldFactory(leftTableFieldFactory);
-        rightTable.setTableFieldFactory(rightTableFieldFactory);
+        leftTable.addColumnCheckListener(getColumnCheckListener());
+        leftTable.setTableFieldFactory(getLeftTableFieldFactory());
+        rightTable.setTableFieldFactory(getRightTableFieldFactory());
 
     }
 
@@ -1043,7 +1040,7 @@ public class PPAProjection extends CustomComponent implements View {
                 int startQuater = 0;
                 int startYear = 0;
                 if (startPeriod.getValue() != null) {
-                    startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
+                    startQuater = startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                     startYear = Integer.parseInt(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 } else if (startPeriod.isVisible()) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);
@@ -2080,7 +2077,7 @@ public class PPAProjection extends CustomComponent implements View {
                 if (tempId == null) {
                     tempId = tableLogic.getExpandedTreeValues(hierarchyNo);
                 }
-                    if ((tempId != null) && (tempId instanceof PPAProjectionDTO)) {
+                    if (tempId instanceof PPAProjectionDTO) {
                         PPAProjectionDTO dto = (PPAProjectionDTO) tempId;
                         if (!Constant.TRADING_PARTNER.equals(dto.getHirarechyName())) {
 
@@ -2099,8 +2096,8 @@ public class PPAProjection extends CustomComponent implements View {
 
     }
 
-    public static void setValueChangeAllowed(boolean valueChangeAllowed) {
-        valueChangeAllowed = valueChangeAllowed;
+    public void setValueChangeAllowed(boolean valueChangeAllowed) {
+        this.valueChangeAllowed = valueChangeAllowed;
     }
 
     private void updateUncheckedRecords(boolean value, Object item) {

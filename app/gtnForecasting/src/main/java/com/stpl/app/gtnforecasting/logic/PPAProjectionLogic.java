@@ -37,7 +37,9 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -71,9 +73,11 @@ public class PPAProjectionLogic {
     private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
     private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
     private static final Map<String, String> dbColumnIdentifier = Constant.getDatabaseColumnIdentifier();
+    
 
     private static List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object priceCap, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
+        final SimpleDateFormat formatter = new SimpleDateFormat(Constant.DATE_FORMAT);
         List startAndEndDate = getStartAndEndDate(startQuater, endQuater, startYear, endYear);
         input.add(Double.valueOf(priceCap.toString()));
         input.add(selection.getRelationshipBuilderSid());
@@ -82,8 +86,8 @@ public class PPAProjectionLogic {
         } else {
             input.add(Constant.PERCENT);
         }
-        input.add(CommonUtils.DBDate.format(startAndEndDate.get(0)));
-        input.add(CommonUtils.DBDate.format(startAndEndDate.get(1)));
+        input.add(formatter.format(startAndEndDate.get(0)));
+        input.add(formatter.format(startAndEndDate.get(1)));
         return input;
 
     }
@@ -451,7 +455,7 @@ public class PPAProjectionLogic {
         try {
             int levelNo;
             selection.setIsCount(BooleanConstant.getFalseFlag());
-            if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
+            if (lastParent instanceof PPAProjectionDTO) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();
                 selection.setLevelNo(levelNo + 1);
@@ -459,7 +463,7 @@ public class PPAProjectionLogic {
                 list = (List) getPPAProjectionResults(selection, rightDto, start, offset);
             } else if (!selection.isIsFilter()) {
                 selection.setHierarchyNo(StringUtils.EMPTY);
-                selection.setLevelNo(Integer.valueOf(selection.getCustomerLevelNo()));
+                selection.setLevelNo(selection.getCustomerLevelNo());
                 list = (List) getPPAProjectionResults(selection, rightDto, start, offset);
             }
             if (selection.isIsFilter()) {
@@ -594,7 +598,7 @@ public class PPAProjectionLogic {
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.ITEM_PRICING_QUAL_NAME, StringUtils.EMPTY)));
         qualifierList = DAO.getItemPricingTypeList(cfpDynamicQuery);
         LOGGER.debug("Ending getLazyPriceTypeCount method with filterText with count= {}" , qualifierList.get(0));
-        return Integer.parseInt(String.valueOf(qualifierList.get(0)));
+        return Integer.parseInt(Arrays.toString(qualifierList.get(0)));
     }
 
     public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws SystemException {

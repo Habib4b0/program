@@ -37,10 +37,7 @@ public class GtnUIFrameworkConfirmedDeleteButtonAction implements GtnUIFrameWork
 		Object value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
 				.getValueFromComponent();
 		if (value == null) {
-			GtnUIFrameWorkActionConfig rbDeleteAlertAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.INFO_ACTION);
-			rbDeleteAlertAction.addActionParameter(parameters.get(2).toString());
-			rbDeleteAlertAction.addActionParameter(parameters.get(3).toString());
+			GtnUIFrameWorkActionConfig rbDeleteAlertAction = getRbDeleteInfoAction(parameters);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteAlertAction);
 			return;
 		}
@@ -51,17 +48,30 @@ public class GtnUIFrameworkConfirmedDeleteButtonAction implements GtnUIFrameWork
 		confirmActionConfig
 				.addActionParameter(parameters.get(4).toString() + relationBean.getStringPropertyByIndex(0) + "?");
 		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
-		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		deleteActionConfig.addActionParameter(GtnUIFrameworkDeleteButtonAction.class.getName());
-		deleteActionConfig.addActionParameter(relationBean);
-		deleteActionConfig.addActionParameter(parameters.get(1));
+		GtnUIFrameWorkActionConfig deleteActionConfig = getRbDeleteActionConfig(relationBean, parameters);
 		successActionConfigList.add(deleteActionConfig);
 		confirmActionConfig.addActionParameter(successActionConfigList);
 		confirmAction.configureParams(confirmActionConfig);
 		confirmAction.doAction(componentId, confirmActionConfig);
 
 	}
+
+    public GtnUIFrameWorkActionConfig getRbDeleteActionConfig(GtnWsRecordBean relationBean, List<Object> parameters) {
+        GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
+        deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        deleteActionConfig.addActionParameter(GtnUIFrameworkDeleteButtonAction.class.getName());
+        deleteActionConfig.addActionParameter(relationBean);
+        deleteActionConfig.addActionParameter(parameters.get(1));
+        return deleteActionConfig;
+    }
+
+    public GtnUIFrameWorkActionConfig getRbDeleteInfoAction(List<Object> parameters) {
+        GtnUIFrameWorkActionConfig rbDeleteAlertAction = new GtnUIFrameWorkActionConfig(
+                GtnUIFrameworkActionType.INFO_ACTION);
+        rbDeleteAlertAction.addActionParameter(parameters.get(2).toString());
+        rbDeleteAlertAction.addActionParameter(parameters.get(3).toString());
+        return rbDeleteAlertAction;
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

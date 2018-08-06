@@ -52,7 +52,7 @@ public class GtnUIFrameworkCheckedComboboxComponent implements GtnUIFrameworkCom
 						.size()];
 				for (int valueIndex = 0; valueIndex < response.getItemValueList().size(); valueIndex++) {
 					MenuItemDTO dto = new MenuItemDTO();
-					dto.setId(Integer.valueOf(response.getItemCodeList().get(valueIndex)));
+					dto.setId(Integer.parseInt(response.getItemCodeList().get(valueIndex)));
 					dto.setCaption(response.getItemValueList().get(valueIndex));
 					customItem[valueIndex] = customMenuItem.addItem(dto, null);
 					customItem[valueIndex].setCheckable(true);

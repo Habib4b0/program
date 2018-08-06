@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.sql.GtnWsSqlService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GtnWsWorkFlowOpenViewService {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsWorkFlowOpenViewService.class);
@@ -26,9 +28,6 @@ public class GtnWsWorkFlowOpenViewService {
 		return sessionFactory;
 	}
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public String openviewSearchQuery() {
 		logger.debug("In Workflow view Search Query");

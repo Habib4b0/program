@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -23,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -30,15 +32,18 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportProdHierarchyConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-	private String currentScreen ; 
-	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String namespace, String currentScreen) {
-		this.currentScreen = currentScreen;
+	private String currentScreenNameSpace;
+
+	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String namespace,
+			String currentScreenNameSpace) {
+
+		this.currentScreenNameSpace = currentScreenNameSpace;
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
 		addParentVerticalLayout(componentList, namespace);
 		addProductSelectionComponents(componentList, namespace);
 		return componentList;
 	}
-	
+
 	private void addParentVerticalLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkLayoutConfig parentVerticalLayout = new GtnUIFrameworkLayoutConfig();
 		parentVerticalLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -146,6 +151,11 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		hierarchypopupAction.addActionParameter("Product Hierarchy LookUp");
 		hierarchypopupAction.addActionParameter("1000px");
 		hierarchypopupAction.addActionParameter("845px");
+		hierarchypopupAction.addActionParameter(GtnFrameworkReportResetAndCloseAction.class.getName());
+		hierarchypopupAction
+				.addActionParameter(Arrays.asList(currentScreenNameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE));
+		hierarchypopupAction.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
 		hierarchy.addGtnUIFrameWorkActionConfig(hierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig relationshipLayout = configProvider
@@ -166,10 +176,9 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		relationship.setGtnComboboxConfig(relationshipLoadConfig);
 
 		GtnUIFrameworkValidationConfig relationshipValidationConfig = new GtnUIFrameworkValidationConfig();
-		relationshipValidationConfig
-				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		relationshipValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		relationship.setGtnUIFrameworkValidationConfig(relationshipValidationConfig);
-		
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -190,6 +199,14 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL);
 		actionConfigList.add(loadForecastLavelAction);
+
+		GtnUIFrameWorkActionConfig resetDualListBoxAction = new GtnUIFrameWorkActionConfig();
+		resetDualListBoxAction.setActionType(GtnUIFrameworkActionType.V8CONFIRMED_DUALLISTBOX_RESET_ACTION);
+		resetDualListBoxAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PRODUCT_DUALLISTBOX
+				+ GtnFrameworkCommonConstants.DUAL_LIST_BOX_COMP);
+		actionConfigList.add(resetDualListBoxAction);
+
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig productSelectionRelationshipVersionLayout = configProvider
@@ -232,10 +249,9 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		level.setGtnComboboxConfig(levelLoadConfig);
 
 		GtnUIFrameworkValidationConfig levelValidationConfig = new GtnUIFrameworkValidationConfig();
-		levelValidationConfig
-				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		levelValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		level.setGtnUIFrameworkValidationConfig(levelValidationConfig);
-		
+
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig refreshDualListBoxAction = new GtnUIFrameWorkActionConfig();
@@ -245,26 +261,26 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				+ GtnFrameworkCommonConstants.DUAL_LIST_BOX_COMP);
 		refreshDualListBoxAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL);
-		 actionList.add(refreshDualListBoxAction);
+		refreshDualListBoxAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHYRELATIONSHIP);
+		actionList.add(refreshDualListBoxAction);
 
 		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadAvailabletableActionConfig
-				.setActionParameterList(
-						Arrays.asList(new Object[] { GtnProductLevelAvailableTableLoadAction.class.getName(),
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-										+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHYRELATIONSHIP,
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-										+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION,
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-										+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL,
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-										+ "customerRelationshipVersion",
-								namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp" }));
+				.setActionParameterList(Arrays.asList(GtnProductLevelAvailableTableLoadAction.class.getName(),
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHYRELATIONSHIP,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"));
 
-		actionList.add(loadAvailabletableActionConfig);
+		refreshDualListBoxAction.addActionParameter(loadAvailabletableActionConfig);
 
 		GtnUIFrameWorkActionConfig loadLeftDualListBoxtableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadLeftDualListBoxtableActionConfig
@@ -272,7 +288,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		loadLeftDualListBoxtableActionConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_DUALLISTBOX
 				+ GtnFrameworkCommonConstants.DUAL_LIST_BOX_COMP);
-		actionList.add(loadLeftDualListBoxtableActionConfig);
+		refreshDualListBoxAction.addActionParameter(loadLeftDualListBoxtableActionConfig);
 
 		level.setGtnUIFrameWorkActionConfigList(actionList);
 
@@ -300,8 +316,9 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkValidationConfig productSelectionDualListBoxValidationConfig = new GtnUIFrameworkValidationConfig();
 		productSelectionDualListBoxValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		productSelectionDualListBoxComponent.setGtnUIFrameworkValidationConfig(productSelectionDualListBoxValidationConfig);
-		
+		productSelectionDualListBoxComponent
+				.setGtnUIFrameworkValidationConfig(productSelectionDualListBoxValidationConfig);
+
 		componentList.add(productSelectionDualListBoxComponent);
 		GtnUIFrameworkV8DualListBoxConfig productSelectionDualListBoxConfig = new GtnUIFrameworkV8DualListBoxConfig();
 		productSelectionDualListBoxConfig
@@ -363,7 +380,9 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customViewPopupAction = new GtnUIFrameWorkActionConfig();
 		customViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		customViewPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewPopupAction.addActionParameter("dataSelection".equals(currentScreenNameSpace)
+				? GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS
+				: "reportCustomViewLookup");
 		customViewPopupAction.addActionParameter("Custom Tree View Popup");
 		customViewPopupAction.addActionParameter("75%");
 		customViewPopupAction.addActionParameter(null);
@@ -380,7 +399,6 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		gtnLayout.addComponentStyle("stpl-padding-top-13");
 		componentList.add(gtnLayout);
 
-		
 		GtnUIFrameworkComponentConfig customViewComboboxConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
@@ -388,7 +406,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 		customViewComboboxConfig.setComponentWsFieldId("customViewName");
-
+		customViewComboboxConfig.setVaadinComponentPlaceHolder("-Select one-");
 		componentList.add(customViewComboboxConfig);
 
 		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig("REPORT_CUSTOM_VIEW",
@@ -402,20 +420,22 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);
 		customViewComboboxConfig
 				.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
-		
+
 		GtnUIFrameworkValidationConfig customViewValidationConfig = new GtnUIFrameworkValidationConfig();
-		customViewValidationConfig
-				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		customViewValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		customViewComboboxConfig.setGtnUIFrameworkValidationConfig(customViewValidationConfig);
-		
+
 		GtnUIFrameWorkActionConfig enableComparisonLookupActionConfig = new GtnUIFrameWorkActionConfig();
 		enableComparisonLookupActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		enableComparisonLookupActionConfig.addActionParameter(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName());
-		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG);
-		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup");
+		enableComparisonLookupActionConfig
+				.addActionParameter(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName());
+		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG);
+		enableComparisonLookupActionConfig
+				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup");
 		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
-		enableComparisonLookupActionConfig.addActionParameter(currentScreen);
+		enableComparisonLookupActionConfig.addActionParameter(currentScreenNameSpace);
 		customViewComboboxConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(enableComparisonLookupActionConfig));
 
 	}

@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -223,35 +224,33 @@ public class GtnWsReportController {
 	@RequestMapping(value = "/gtnWsReportLoadDataAssumptions", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getDataAssumptionsResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+
 		GtnUIFrameworkWebserviceResponse wsResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse wsGeneralResponse = new GtnWsGeneralResponse();
 		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
-		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
 
-		try {
-			if (count) {
-				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
-				wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
-			}
+		String filter = gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList() == null
+				|| gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().isEmpty() ? ""
+						: gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
 
-			else {
-				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
+			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY
+					.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter));
+			wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
-				String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
+			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-				finalQuery = finalQuery.replace("@filter", filter);
-				resultList = executeQuery(finalQuery);
-				resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
-				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-				gtnUIFrameworkDataTable.addData(resultList);
-				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-			}
-		} catch (GtnFrameworkGeneralException e) {
-			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
-		}
+			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter);
+			resultList = executeQuery(finalQuery);
+			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+			gtnUIFrameworkDataTable.addData(resultList);
+			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
+
+
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
+
 		return wsResponse;
 	}
 
@@ -263,32 +262,38 @@ public class GtnWsReportController {
 		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
-		try {
+		String finalQuery = null;
+		if(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getReportDataSource() == 3) {
+			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS;
+		} else {
+			finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+		}		
+		
+		finalQuery = finalQuery.replace("@projectionMasterSid",
+				String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
+		// String filter =
+		// gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
 
-			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
-			finalQuery = finalQuery.replace("@projectionMasterSid",
-					String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
-			// String filter =
-			// gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+		// finalQuery = finalQuery.replace("@filter", filter);
+		resultList = executeQuery(finalQuery);
+		resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+		gtnUIFrameworkDataTable.addData(resultList);
+		wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
 
-			// finalQuery = finalQuery.replace("@filter", filter);
-			resultList = executeQuery(finalQuery);
-			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
-			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-			gtnUIFrameworkDataTable.addData(resultList);
-			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-
-		} catch (GtnFrameworkGeneralException e) {
-			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
-		}
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
-		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
-		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
+	public List executeQuery(String sqlQuery) {
+		try {
+			gtnSqlQueryEngine.setSessionFactory(sessionFactory);
+			return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
+		} catch (GtnFrameworkGeneralException e) {
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
+			return Collections.emptyList();
+		}
 	}
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, method = RequestMethod.POST)
@@ -326,9 +331,9 @@ public class GtnWsReportController {
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
 			generalResponse.setSucess(false);
-		} else{
+		} else {
 			int count = gtnWsReportWebsevice.updateReportingViewMaster(dataSelectionBean, userId);
-			if(count == 0 ) {
+			if (count == 0) {
 				generalResponse.setSucess(false);
 			} else {
 				generalResponse.setSucess(true);
@@ -378,12 +383,11 @@ public class GtnWsReportController {
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
 			generalResponse.setSucess(false);
-		} else{
+		} else {
 			int count = gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
-			if(count == 0 ) {
+			if (count == 0) {
 				generalResponse.setSucess(false);
-			}
-			else {
+			} else {
 				generalResponse.setSucess(true);
 			}
 		}
@@ -427,6 +431,8 @@ public class GtnWsReportController {
 			Optional.ofNullable(resultList).ifPresent(e -> {
 				List<String> itemCodeList = new ArrayList<>();
 				List<String> itemValueList = new ArrayList<>();
+				itemCodeList.add(GtnWsQueryConstants.UOM_DEFAULT);
+				itemValueList.add(GtnWsQueryConstants.UOM_DEFAULT);
 				for (Object[] object : e) {
 					itemCodeList.add(String.valueOf(object[0]));
 					itemValueList.add(String.valueOf(object[0]));

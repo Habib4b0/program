@@ -499,7 +499,8 @@ public final class ConstantsUtils {
     public static final String PERCENT = "%";
     public static final String ADJ_RESERVER_DETAIL_INTERFACE = "ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE";
     public static final String ADJ_GTN_DETAIL_INTERFACE = "ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE";
-
+    public static final String NUMBER_ONE = "1";
+    
     private ConstantsUtils() {
 
     }

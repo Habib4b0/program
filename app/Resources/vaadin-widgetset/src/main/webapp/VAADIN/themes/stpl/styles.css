@@ -14851,10 +14851,6 @@ div.v-layout.v-horizontal.v-widget {
 	height: auto !important;
 }
 
-.stpl .v-grid-cell {
-	font-size: 12px !important;
-}
-
 .stpl th.v-treegrid-cell {
 	height: auto !important;
 }
@@ -14879,12 +14875,222 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: -18px;
 }
 
+.stpl .v-grid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+	border: 3px solid transparent;
+}
+
 .stpl .datefieldcentered > input {
 	text-align: center;
 }
-.stpl .v-grid-scroller::-webkit-scrollbar-thumb {
-	border-radius: 0px !important;
 
+.stpl .v-grid-cell {
+	font-size: 13px;
+}
+
+.stpl .v-treegrid-cell {
+	font-size: 13px;
+}
+
+.stpl .v-treegrid-column-header-content, .stpl .v-treegrid-column-footer-content {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.stpl .v-grid-column-header-content, .stpl .v-grid-column-footer-content {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.stpl .v-textfield-custom-report {
+	margin-left: -18px !important;
+	height: 39px !important;
+	margin-top: -5px !important;
+}
+
+.stpl .v-combobox-custom-report {
+	margin-left: 7px !important;
+}
+
+.stpl .v-layout-custom-report {
+	padding-left: 4px !important;
+}
+
+.stpl .v-layout-report-custom {
+	padding-left: 42px !important;
+}
+
+.stpl .v-report-save-lookup {
+	height: 26px !important;
+	margin-left: 10px !important;
+}
+
+.stpl .v-vertical-layout-report-save-lookup {
+	padding-left: 12px;
+	padding-bottom: 12px;
+	padding-right: 12px;
+	padding-top: 12px;
+}
+
+.stpl .v-h-layout-report-save-lookup {
+	margin-left: -7px !important;
+}
+
+.stpl #reportCustomViewLookup_custom_Variable_OptionGroup > span:nth-child(1) {
+	margin-right: 52px;
+}
+
+.stpl #valueConfigHorizontal #reportOptionsTabComparisonOptions_value {
+	margin-left: 10px;
+}
+
+.stpl .v-margin-custom-style-10 {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.stpl .v-report-display-pagination {
+	margin-left: -57px !important;
+}
+
+.stpl .v-report-display-pagination-button {
+	margin-left: -15px !important;
+	margin-top: -7px !important;
+}
+
+.stpl .v-report-display-pagination-label {
+	margin-left: -15px !important;
+}
+
+.stpl .v-report-display-pagination-button-top {
+	margin-top: -7px !important;
+}
+
+.stpl .v-report-display-selection-profile {
+	margin-left: -49px !important;
+}
+
+.stpl .v-report-display-selection-comparison {
+	margin-left: -12px !important;
+}
+
+.stpl .v-report-display-selection-variables {
+	margin-left: -10px !important;
+}
+
+.stpl .v-report-display-selection-comparison-search {
+	min-width: 186px !important;
+	width: 186px !important;
+	margin-left: 30px !important;
+}
+
+.stpl .v-report-display-selection-profile-search {
+	width: 186px !important;
+}
+
+.stpl .v-report-custom-view {
+	margin-left: -40px !important;
+}
+
+.stpl .v-report-display-selection-variable-category {
+	margin-left: 32px !important;
+}
+
+.stpl .v-report-display-selection-comparison-basis {
+	margin-left: 6px !important;
+}
+
+.stpl .v-report-display-selection-variables-combo {
+	margin-left: 49px !important;
+}
+
+.stpl .v-report-display-selection-annual-totals {
+	margin-left: 20px !important;
+}
+
+.stpl .v-report-display-selection-freq {
+	margin-left: 5px !important;
+}
+
+.stpl .v-report-display-selection-freq-combo {
+	margin-left: 17px !important;
+}
+
+.stpl .v-report-display-selection-prt {
+	margin-left: 4px !important;
+}
+
+.stpl .v-report-display-selection-from {
+	margin-left: -65px !important;
+	margin-top: 7px !important;
+}
+
+.stpl .v-report-data-selection-from-combo {
+	margin-left: 105px !important;
+	margin-top: -42px !important;
+}
+
+.stpl .v-report-display-selection-to {
+	margin-left: 36px !important;
+	margin-top: 7px !important;
+}
+
+.stpl .v-report-data-selection-to-combo {
+	margin-left: 105px !important;
+	margin-top: -46px !important;
+}
+
+.stpl .v-report-data-selection-private {
+	margin-left: -25px !important;
+}
+
+.stpl .v-report-data-selection-public {
+	margin-left: -31px !important;
+}
+
+.stpl .v-report-data-selection-company {
+	margin-left: -26px !important;
+}
+
+.stpl .v-report-data-selection-company-combo {
+	margin-left: 144px !important;
+	margin-top: -45px !important;
+}
+
+.stpl .v-report-data-selection-reportdatasource {
+	margin-left: 58px !important;
+}
+
+.stpl .v-position-fixed {
+	position: fixed !important;
+}
+
+.stpl .v-report-filter-options {
+	margin-left: -50px !important;
+}
+
+.stpl .v-report-reportoptions-hseq {
+	margin-left: -104px !important;
+}
+
+.stpl .v-report-reportoptions-hseq-combo {
+	margin-left: 238px !important;
+	margin-top: -42px !important;
+	padding-left: 30px !important;
+}
+
+.stpl .v-report-reportoptions-comparison {
+	margin-left: 109px !important;
+}
+
+.stpl .v-report-reportoptions-vseq {
+	width: 40% !important;
+}
+
+.stpl .v-report-excel-button {
+	margin-left: -30px !important;
 }
 
 .v-slot, .v-spacing {

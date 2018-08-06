@@ -78,7 +78,7 @@ public class FileSelection extends CustomComponent {
         configureFields();
     }
 
-    Component addComponent() {
+    final Component addComponent() {
         Panel mainPanel = new Panel(StringConstantsUtil.FILE_SELECTION);
         mainPanel.setContent(addResultTable());
         return mainPanel;

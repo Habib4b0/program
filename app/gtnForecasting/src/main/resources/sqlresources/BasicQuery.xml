@@ -1382,6 +1382,17 @@ WHERE
 		]]>
         </query>
     </entity> 
+    <entity id="ViewTableTruncationVariance">
+        <query>
+    		<![CDATA[
+                
+  TRUNCATE TABLE ST_CUSTOMER_PV;
+  TRUNCATE TABLE ST_PRODUCT_PV;
+  TRUNCATE TABLE ST_CUSTOM_PV;
+         
+		]]>
+        </query>
+    </entity> 
     
      <entity id="projectionMasterInsert">
         <query>

@@ -34,7 +34,7 @@ public class RelationshipDdlbCriteria  implements SearchCriteria {
 
     @Override
     public boolean isDirty() {
-        return true;
+        return dirty;
     }
 
     @Override

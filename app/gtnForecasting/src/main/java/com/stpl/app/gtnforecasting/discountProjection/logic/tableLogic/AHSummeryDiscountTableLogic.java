@@ -165,7 +165,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
             boolean isParentChecked = false;
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {}, dto.getLevelName()= {} " , dto.getTreeLevelNo(), dto.getLevelName());
@@ -307,7 +307,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {} " , dto.getTreeLevelNo());
@@ -574,7 +574,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustom = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustom = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,

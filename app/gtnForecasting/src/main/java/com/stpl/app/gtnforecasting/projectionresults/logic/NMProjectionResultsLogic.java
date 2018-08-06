@@ -79,7 +79,6 @@ public class NMProjectionResultsLogic {
 
     public List getTotalRPUDollar(ProjectionSelectionDTO projSelDTO, Boolean isVariable,int value) {
         LOGGER.debug("= = = Inside getTotalRPUDollar = = =");
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(value == 1 || value == 3 ? Constant.SALES_WHOLE_CAPS : Constant.DISCOUNT_EXFAC_SALES);
         CommonLogic commonLogic = new CommonLogic();
         String query = " IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL\n"
@@ -142,7 +141,6 @@ public class NMProjectionResultsLogic {
         List<ProjectionResultsDTO> projDTOList1 = null;
         if (!isVariable) {
             projDTOList1 = getCustomizedProjectionResultsDiscount(list, projSelDTO, false, value, false);
-            projDTOList.addAll(projDTOList1);
         }
         LOGGER.debug("= = = Ending getTotalRPUDollar = = =");
         return isVariable ? list : projDTOList1;
@@ -1745,7 +1743,7 @@ public class NMProjectionResultsLogic {
         List<ProjectionResultsDTO> projRPUDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projDisPerExfacDTOList = new ArrayList<>();
-        List<String> newList = new ArrayList<String>();
+        List<String> newList = new ArrayList<>();
         Iterator<String> iterator = projSelDTO.getDiscountNameList().iterator();
         Iterator<String> iterator1 = projSelDTO.getDiscountNoList().iterator();
         boolean ppaFlag = false;

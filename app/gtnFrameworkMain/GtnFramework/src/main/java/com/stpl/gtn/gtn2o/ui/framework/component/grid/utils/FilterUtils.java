@@ -78,7 +78,10 @@ final public class FilterUtils {
         Object[] filterColumnIdList = pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId();
         for (Object column : filterColumnIdList) {
             vaadinComponent = getCustomFilterComponent(String.valueOf(column), pagedTreeGrid);
+            if(vaadinComponent != null)
+            {
             vaadinComponent.setId(column.toString());
+            }
             filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
         }
         return filterRow;

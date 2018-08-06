@@ -134,7 +134,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private void addDataAssumptionsPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentId) {
-
 		GtnUIFrameworkComponentConfig dataAssumptionsPagedTableComponent = configProvider.getUIFrameworkComponentConfig(
 				"dataAssumptionsPagedTableComponent"+parentId, true, parentId, GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsPagedTableComponent.setAuthorizationIncluded(true);
@@ -165,6 +164,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		
 		String[] dataAssumptionsPropertyIDs = GtnFrameworkReportStringConstants
 				.getReportDataAssumptionsFilterPropertyId();
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dataAssumptionsFilterConfigMap = new HashMap<>(
@@ -174,14 +174,16 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
 				GtnUIFrameworkComponentType.CALENDAR_FIELD };
-
 		String[] dataAssumptionsComboboxIds = { "" };
 		String[] dataAssumptionsComboBoxType = { "" };
 		int comboboxStartIndex = 0;
 		for (int i = 0; i < dataAssumptionsPropertyIDs.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig dataAssumptionsTableFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			dataAssumptionsTableFilterConfig.setPropertId(dataAssumptionsPropertyIDs[i]);
-			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]);
+			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]); 
+                        GtnUIFrameworkComponentConfig componentList = new GtnUIFrameworkComponentConfig();
+                        componentList.addComponentStyle("v-textfield-custom-report");
+                        dataAssumptionsTableFilterConfig.setGtnComponentConfig(componentList);
 			if ((comboboxStartIndex < dataAssumptionsComboboxIds.length)
 					&& dataAssumptionsPropertyIDs[i].equals(dataAssumptionsComboboxIds[comboboxStartIndex])) {
 				GtnUIFrameworkComponentConfig dataAssumptionsSearchFilterConfig = new GtnUIFrameworkComponentConfig();
@@ -244,6 +246,11 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		
+		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
+		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetLandingScreenAction.setActionParameterList(GtnFrameworkReportDataSelectionTabConfig.getResetParameters());
+		actionConfigList.add(resetLandingScreenAction);
 		actionConfigList.add(closeAction);
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		

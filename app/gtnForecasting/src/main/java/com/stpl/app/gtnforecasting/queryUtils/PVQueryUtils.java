@@ -294,8 +294,7 @@ public class PVQueryUtils {
                 customSql.append(Constant.AND_PMCREATED_DATE);
                 customSql.append(format2.format(format2.parse(comparisonLookupDTO.getCreatedDateTo())));
                 customSql.append("' ");
-            } else if (comparisonLookupDTO.getCreatedDateFrom() != null && !Constant.NULL.equals(comparisonLookupDTO.getCreatedDateFrom()) && comparisonLookupDTO.getCreatedDateFrom() != null
-                    && comparisonLookupDTO.getCreatedDateTo() != null && !Constant.NULL.equals(comparisonLookupDTO.getCreatedDateTo()) && !StringUtils.isEmpty(comparisonLookupDTO.getCreatedDateTo())) {
+            } else if (comparisonLookupDTO.getCreatedDateFrom() != null && comparisonLookupDTO.getCreatedDateTo() != null && !Constant.NULL.equals(comparisonLookupDTO.getCreatedDateTo()) && !StringUtils.isEmpty(comparisonLookupDTO.getCreatedDateTo())) {
                 SimpleDateFormat format2 = new SimpleDateFormat(DATE_FORMAT.getConstant());
                 customSql.append("  AND PM.CREATED_DATE BETWEEN '");
                 customSql.append(format2.format(comparisonLookupDTO.getCreatedDateFrom()));

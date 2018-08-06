@@ -564,13 +564,9 @@ public class TransferContract extends VerticalLayout implements View {
 		CommonLogic logic = new CommonLogic();
 		if (tabPosition == 0) {
 			try {
-				List<Integer> list = transferComponents.saveTransferContract();
-				if (list != null && list.size() > 0) {
-					String.valueOf(list.get(0));
-				}
 				logic.callCcpInsertProcedure();
 				logic.callActualsDetailsInsertProcedure();
-			} catch (SystemException | PortalException | ParseException ex) {
+			} catch (SystemException ex) {
 				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}

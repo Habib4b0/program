@@ -67,7 +67,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      */
     public Collection<Object> getUserGroupId(final long userId) throws PortalException, SystemException {
-        final Collection<Object> userGroupId = new ArrayList<Object>();
+        final Collection<Object> userGroupId = new ArrayList<>();
         final User user = dto.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
             final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
@@ -95,9 +95,9 @@ public class StplSecurity {
             if (StringUtils.EMPTY.equals(businessRoleIds)) {
                 businessRoleIds = String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
             } else {
-                final StringBuffer tempStringBuffer = new StringBuffer();
-                businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
-                tempStringBuffer.delete(0, tempStringBuffer.length());
+                final StringBuilder sb = new StringBuilder();
+                businessRoleIds = sb.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
+                sb.delete(0, sb.length());
             }
         }
         if (ConstantsUtils.EMPTY.equals(businessRoleIds)) {

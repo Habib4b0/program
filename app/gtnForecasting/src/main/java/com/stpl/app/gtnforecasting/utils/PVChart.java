@@ -55,7 +55,7 @@ public class PVChart extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PPAChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVChart.class);
     /**
      * projSelDTO;
      */
@@ -84,7 +84,7 @@ public class PVChart extends Window {
      *
      * @return the chart
      */
-    public Component getChart() {
+    public final Component getChart() {
         LOGGER.debug("Entering getChart method ");
         try {
             return new Label();

@@ -44,6 +44,7 @@ public class GtnFrameworkReportComparisonLookup {
 	public GtnUIFrameworkViewConfig getReportComparisonLookupView() {
 		GtnUIFrameworkViewConfig comparisonLookupRootView = configProvider.getViewConfig("Comparison Lookup",
 				GtnFrameworkReportStringConstants.REPORT_COMPARISON_LOOKUP_VIEW, false);
+		comparisonLookupRootView.setResetAllowed(true);
 		addComponentList(comparisonLookupRootView);
 		return comparisonLookupRootView;
 	}
@@ -566,6 +567,22 @@ public class GtnFrameworkReportComparisonLookup {
 
 		List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig projectionTypeValidationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+		projectionTypeValidationActionConfig.setFieldValues(Arrays.asList(nameSpace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.PROJECTION_TYPE));
+
+		GtnUIFrameWorkActionConfig projectionTypeAlertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> projectionTypeAlertParams = new ArrayList<>();
+		projectionTypeAlertParams.add(GtnFrameworkCommonConstants.ERROR);
+		projectionTypeAlertParams.add("Please select a Projection Type");
+		projectionTypeAlertActionConfig.setActionParameterList(projectionTypeAlertParams);
+
+		projectionTypeValidationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(projectionTypeAlertActionConfig)));
+		searchActionConfigList.add(projectionTypeValidationActionConfig);
+		
 		GtnUIFrameWorkActionConfig workflowStatusValidationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		workflowStatusValidationActionConfig.setFieldValues(Arrays.asList(
@@ -674,6 +691,7 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupResultsPagedTableComponent.setComponentName("Results");
 		comparisonLookupResultsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupResultsPagedTableComponent.setAddToParent(true);
+		
 
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
@@ -766,7 +784,8 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupProjectionsPagedTableComponent.setComponentName("Projections");
 		comparisonLookupProjectionsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupProjectionsPagedTableComponent.setAddToParent(true);
-
+		comparisonLookupProjectionsPagedTableComponent.setResetToDefaultAllowed(false);
+	
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
 		tableStyle.add("v-has-width");

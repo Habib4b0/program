@@ -21,37 +21,16 @@ public class CopyContractView extends VerticalLayout {
     public static final String NAME = "GTNBALANCE";
 
     /**
-     * Binder for DataSelection.
-     */
-    private final CopyContractWindow addWindow;
-
-    private final CopyContractform addDiscountForm;
-    @SuppressWarnings("unused")
-	private final SessionDTO session;
-    private  List<ContractSelectionDTO> selectedList;
-
-    /**
      * Default constructor.
      *
+     * @param addWindow
      * @param session
-     * @param resultTable
-     * @param dataSelectionDTO
-     * @param editWindow
-     * @throws java.lang.Exception
+     * @param selectedList
+     * @param Count
      */
     public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) {
-        this.addWindow = addWindow;
-        this.session = session;
-        this.setSelectedList(selectedList == null ? selectedList : Collections.unmodifiableList(selectedList));
-        addDiscountForm = new CopyContractform(this.addWindow, selectedList, Count);
+        CopyContractform addDiscountForm = new CopyContractform(addWindow, selectedList, Count);
         addComponent(addDiscountForm);
     }
 
-	public List<ContractSelectionDTO> getSelectedList() {
-		return selectedList;
-	}
-
-	public void setSelectedList(List<ContractSelectionDTO> selectedList) {
-		this.selectedList = selectedList;
-	}
 }

@@ -174,7 +174,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
             boolean isParentChecked = false;
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {}, dto.getLevelName()= {} " , dto.getTreeLevelNo(),  dto.getLevelName());
@@ -182,7 +182,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 Leveldto levelDto = CommonLogic.getNextLevel(dto.getTreeLevelNo() + 1, currentHierarchy);
                 if (levelDto != null) {
                     if (isCustomHierarchy) {
-                        hierarchyNo = levelDto.getParentNode();
+                        hierarchyNo = dto.getHierarchyNo();
                         tempHierarchyIndicator = levelDto.getHierarchyIndicator();
                         levelNumber = levelDto.getLevelNo();
                         treeLevelNo = levelDto.getTreeLevelNo();
@@ -318,7 +318,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {} " , dto.getTreeLevelNo());
@@ -581,7 +581,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustomHierarchy = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustomHierarchy = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,

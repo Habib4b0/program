@@ -32,6 +32,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +146,7 @@ public class MedicaidURAResultsLogic {
                 int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
                 List<Object[]> medicaidList = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidParentCount", ndc9Level, therapeuticSid);
                 if (!medicaidList.isEmpty()) {
-                    count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidList.get(0))) ? String.valueOf(medicaidList.get(0)) : Constant.STRING_ONE);
+                    count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidList.get(0))) ? Arrays.toString(medicaidList.get(0)) : Constant.STRING_ONE);
                 }
             }
         }
@@ -944,7 +945,7 @@ public class MedicaidURAResultsLogic {
                                 String[] notesArray = new String[NumericConstants.TWO];
                                 if (medicaidDTO.getGroup().startsWith("Historical AMP")) {
                                     if (obj[NumericConstants.SIX] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                        notesArray[0] = CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -956,7 +957,7 @@ public class MedicaidURAResultsLogic {
                                 }
                                 if (medicaidDTO.getGroup().startsWith("Historical CPI-U")) {
                                     if (obj[NumericConstants.SIX] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                        notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -1007,7 +1008,7 @@ public class MedicaidURAResultsLogic {
             try {
                 List<Object[]> medicaidIndex = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidRowIndex", ndc9Level, therapeutic);
                 if (!medicaidIndex.isEmpty()) {
-                    count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
+                    count = Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidIndex.get(0))) ? Arrays.toString(medicaidIndex.get(0)) : Constant.DASH);
                 }
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
@@ -1074,7 +1075,7 @@ public class MedicaidURAResultsLogic {
                             if (group.equalsIgnoreCase(groupIndicator.trim())) {
 
                                 if (obj[NumericConstants.SIX] != null) {
-                                    value = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    value =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 }
                                 medicaidDTO.addStringProperties(column, value);
                                 columnList.remove(column);
@@ -1084,7 +1085,7 @@ public class MedicaidURAResultsLogic {
                             if (group.equalsIgnoreCase(AMP.getConstant())) {
 
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1094,7 +1095,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase(BEST_PRICE_CAPS.getConstant())) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1104,7 +1105,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase(CPI_U)) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1114,7 +1115,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase("CPI URA")) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1173,7 +1174,7 @@ public class MedicaidURAResultsLogic {
                                 String[] notesArray = new String[NumericConstants.TWO];
                                 if (medicaidDTO.getGroup().startsWith(Constant.AMP)) {
                                     if (obj[NumericConstants.EIGHT] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
+                                        notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -1185,7 +1186,7 @@ public class MedicaidURAResultsLogic {
                                 }
                                 if (medicaidDTO.getGroup().startsWith(CPI_U)) {
                                     if (obj[NumericConstants.EIGHT] != null) {
-                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
+                                        notesArray[0] =  CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }

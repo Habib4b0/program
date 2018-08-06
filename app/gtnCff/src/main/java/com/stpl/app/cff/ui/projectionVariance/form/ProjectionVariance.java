@@ -21,6 +21,7 @@ import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.FilterGenerator;
@@ -972,15 +973,16 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 comparison.setValue(SELECT_ONE);
                 comparison.setData(null);
                 comparison.setReadOnly(true);
-                level.select(Constants.LabelConstants.TOTAL);
-                projectionPeriodOrder.select(Constants.CommonConstantsForChannels.ASCENDING);
+                level.select(StringConstantsUtil.TOTAL);
+                projectionPeriodOrder.select(StringConstantsUtil.ASCENDING);
                 fromDate.select(SELECT_ONE);
                 toDate.select(SELECT_ONE);
                 frequency.select(ConstantsUtil.QUARTERLY);
                 discountLevel.select(StringConstantsUtil.TOTAL_DISCOUNT);
                 pivotView.select(Constants.PERIOD);
                 customMenuBar.removeItems();
-                String[] variableValues = ConstantsUtil.PVVariables.names();
+                List<String> returnList = loadVariablesDdlb();
+                String[] variableValues = returnList.toArray(new String[0]);
                 customMenuItem = customMenuBar.addItem(SELECT_VARIABLES, null);
                 CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[variableValues.length];
                 for (int i = 0; i < variableValues.length; i++) {
@@ -995,24 +997,47 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
                 getUnCheckedVariableMenuItem(customMenuItem);
                 customMenuBar.removeSubMenuCloseListener(customMenuBarListener);
-                customMenuItem.getChildren().get(13).setChecked(true);
-        customMenuItem.getChildren().get(15).setChecked(true);
-        customMenuItem.getChildren().get(16).setChecked(true);
-        customMenuItem.getChildren().get(19).setChecked(true);
-        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
-        
-        variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
-        variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
-        variableCategoryCustomMenuItem.getChildren().get(1).setChecked(false);
-        variableCategoryCustomMenuItem.getChildren().get(2).setChecked(false);
-        variableCategoryCustomMenuItem.getChildren().get(3).setChecked(false);
-        variableCategoryCustomMenuItem.getChildren().get(4).setChecked(false);
-         ChangeMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
-         loadSalesInclusion(true);
-         loadDeductionInclusion(true);
+                customMenuItem.getChildren().get(NumericConstants.FIVE).setChecked(true);
+                customMenuItem.getChildren().get(NumericConstants.SEVEN).setChecked(true);
+                customMenuItem.getChildren().get(NumericConstants.EIGHT).setChecked(true);
+                customMenuItem.getChildren().get(NumericConstants.ELEVEN).setChecked(true);
+                ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
+
+                variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
+                variableCategoryCustomMenuItem.getChildren().get(NumericConstants.ZERO).setChecked(true);
+                variableCategoryCustomMenuItem.getChildren().get(NumericConstants.ONE).setChecked(false);
+                variableCategoryCustomMenuItem.getChildren().get(NumericConstants.TWO).setChecked(false);
+                variableCategoryCustomMenuItem.getChildren().get(NumericConstants.THREE).setChecked(false);
+                variableCategoryCustomMenuItem.getChildren().get(NumericConstants.FOUR).setChecked(false);
+                ChangeMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
+                loadSalesInclusion(true);
+                loadDeductionInclusion(true);
+                resetForAdd();
+                uomDdlb.select(CommonLogic.EACH);
+                conversionFactorDdlb.select(Constants.CONVERSION_FACTOR_DEFALUT_VALUE);
+                loadDisplayFormatDdlb();
+                if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(sessionDTO.getAction()) || ConstantsUtils.VIEW.equalsIgnoreCase(sessionDTO.getAction())) {
+                    setProjectionSelection();
+                }
             }
         }.getConfirmationMessage("Confirmation",
                 "Are you sure you want to reset the values in the Variance Selection section to the previous values?");
+    }
+    
+    
+    public void resetForAdd() throws IllegalStateException {
+        pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
+        pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
+        pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
+        pvSelectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        unCheckMultiSelect(productFilterValues);
+        unCheckMultiSelect(customerFilterValues);
+        unCheckMultiSelect(deductionFilterValues);
+        customerlevelDdlb.select(ConstantsUtil.SELECT_ONE);
+        productlevelDdlb.select(ConstantsUtil.SELECT_ONE);
+        deductionlevelDdlb.select(ConstantsUtil.SELECT_ONE);
+        loadSalesInclusion(true);
+        loadDeductionInclusion(true);
     }
 
     /**
@@ -1112,13 +1137,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     @Override
     protected void graphBtnLogic() {
-        List chartiLst = new ArrayList();
-        for (Object obj : resultsTable.getRightFreezeAsTable().getContainerDataSource().getItemIds()) {
-            ProjectionVarianceDTO dto = (ProjectionVarianceDTO) obj;
-            if (dto.getLevelNo() != null && dto.getParent() == 0) {
-                chartiLst.add(dto);
-            }
-        }
+        /**
+         *  
+         * Empty Method graphBtnLogic
+         */
     }
 
     public static List<Date> getStartandTodate() {
@@ -1315,7 +1337,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             String deductionInclusionEditMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(deductionInclusionValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionEditMenuItemValue);
-        }
+        } 
     }
 
     @Override
@@ -1343,7 +1365,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         tableLogic.setProjectionResultsData(pvSelectionDTO);
         pvSelectionDTO.setPpa(true);
         pvSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(pvSelectionDTO, Constants.LabelConstants.TOTAL.equals(level.getValue().toString())));
+        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(pvSelectionDTO, Constants.LabelConstants.TOTAL.getConstant().equals(level.getValue().toString())));
     }
 
     protected void loadLevelAndFilterValue() {
@@ -1380,7 +1402,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     public void savePvSelections(SessionDTO sessionDTO) {
         LOGGER.debug("savePVSelections method starts");
-        Map map = new HashMap();
+        Map map = new HashMap(NumericConstants.TWENTY);
         try {
             String priorProjectionIds = projIdList == null || projIdList.isEmpty() ? StringUtils.EMPTY : projIdList.toString();
             map.put("Comparison", priorProjectionIds);
@@ -2264,10 +2286,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
-        displayFormatDdlb.setPageLength(NumericConstants.TEN);
         String displayFormatMenuItemValue = ChangeMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
         ChangeMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
@@ -2317,6 +2339,13 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NUMBER);
                 }
 
+            }
+        }
+    }
+    public static void unCheckMultiSelect(CustomMenuBar.CustomMenuItem filterValues) {
+        if (filterValues != null && filterValues.getChildren() != null) {
+            for (CustomMenuBar.CustomMenuItem string : filterValues.getChildren()) {
+                string.setChecked(false);
             }
         }
     }

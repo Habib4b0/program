@@ -47,6 +47,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.constants.BooleanConstant;
@@ -83,6 +84,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMSalesProjection extends ForecastSalesProjection {
 
+	private DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
     private final StplSecurity stplSecurity = new StplSecurity();
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjection.class);
     
@@ -99,6 +101,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     public static final String CURRENCY_NO_DECIMAL = "currencyNoDecimal";
     public static final String UNIT_NO_DECIMAL = "unitNoDecimal";
     public static final String UNITS = "Units";
+    private static final String ACNT_GRWOTH = "AccountGrowth";
     
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -136,6 +139,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public NMSalesProjection(SessionDTO session, String screenName) {
         super(session, screenName);
+        enableDisableFields();
         this.sessionDTO = session;
         if (CommonUtil.isValueEligibleForLoading()) {
             loadSalesInclusion();
@@ -150,7 +154,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     /**
      * Init method
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -176,7 +180,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setIsFilter(true);
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
-            projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
+            projectionDTO.setFilterLevelNo(Integer.parseInt(projectionDTO.getLevelFilterValue()));
             nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
@@ -222,6 +226,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         }
                     }
                     
+                    
+                    // Added for isAccountGrowth checking
+                    boolean isAg = false;
+                    for (Object propertyId : excelTable.getContainerPropertyIds()) {
+                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
+                            isAg = true;
+                            excelTable.setConverter(propertyId, percentFormat);
+                        }
+                    }
+                    
                     securityForListView(column, Arrays.copyOf(header, header.length, String[].class), excelTable);
 
                     excelTable.setRefresh(true);
@@ -230,11 +244,17 @@ public class NMSalesProjection extends ForecastSalesProjection {
                      Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
-                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
+                     
+                     // Added PG_SUM and AG_SUM cols to fomatter map 
+                     formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
+                     formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
+                     formatterMap.put("CHILD_COUNT", "ChildCount");
+                     
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
+                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                 }
@@ -267,13 +287,29 @@ public class NMSalesProjection extends ForecastSalesProjection {
                             }
                         }
                     }
+                    
+                 // Added for isAccountGrowth checking
+                    boolean isAg = false;
+                    for (Object propertyId : excelTable.getContainerPropertyIds()) {
+                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
+                            isAg = true;
+                            excelTable.setConverter(propertyId, percentFormat);
+                        }
+                    }
+                    
                     Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
-                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
+                     
+                     // Added PG_SUM and AG_SUM cols to fomatter map 
+                     formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
+                     formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
+                     formatterMap.put("CHILD_COUNT", "ChildCount");
+                     
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
-                exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
+                exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                 exp.export();
             }
         } catch (Exception e) {
@@ -281,12 +317,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.info(e.getMessage(),e);
         }
         long endTime = System.currentTimeMillis();
-        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
+        LOGGER.info("Excel Export time--------------------------------------------------------------{}",(endTime-startTime)/1000);
     }
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
 
@@ -427,6 +463,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         variables.addItem(Constant.ACCOUNT_GROWTH);
         variables.select(Constant.SALES_SMALL);
         unitOfMeasureDdlb.select("EACH");
+        conversionFactorDdlb.select(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
         loadDisplayFormatDdlb();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(true);
@@ -485,7 +522,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 inputParameters[0] = session.getProjectionId();
                 inputParameters[1] = hierarchyNo;
                 List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
-                int projectionDetailsId = Integer.valueOf(projectionDetailsIdForPMPY.get(0).toString());
+                int projectionDetailsId = Integer.parseInt(projectionDetailsIdForPMPY.get(0).toString());
                 List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
 
                 String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");
@@ -541,32 +578,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                    if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
-                        session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-                        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
-                        dataLogic.nmSalesViewsPopulationProcedure(session);
-                        CommonUtil.getInstance().waitForSeconds();
-                    }
-                    if (uomValueChange) {
-                        session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
-                        dataLogic.nmSalesViewsPopulationProcedureUOM(session);
-                        uomValueChange = false;
-                    }
-                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
-                        LOGGER.info("generateBtn :Inside Filter Option");
-                        session.setFunctionMode("F");
-                        CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
-                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
-                        dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
-                        CommonUtil.getInstance().waitForSeconds();
-                        customerFlag = true; 
-                        productFlag = true; 
-                    }
-                    projectionDTO.setGroup(StringUtils.EMPTY);
-                   
-                }
+                commercialGenerate(customerFlag, productFlag);
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
@@ -574,7 +586,43 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
+    }
 
+    private void customerFilterGenerate(boolean customerFlag, boolean productFlag) {
+        if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+            LOGGER.info("generateBtn :Inside Filter Option");
+            session.setFunctionMode("F");
+            CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
+            CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+            dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
+            CommonUtil.getInstance().waitForSeconds();
+            customerFlag = true;
+            productFlag = true;
+        }
+    }
+
+    private void commercialGenerate(boolean customerFlag, boolean productFlag) {
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+            if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
+                session.setFunctionMode(session.getAction().equalsIgnoreCase(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                dataLogic.nmSalesViewsPopulationProcedure(session);
+                CommonUtil.getInstance().waitForSeconds();
+            }
+            uomValueChangeGenerate();
+            customerFilterGenerate(customerFlag, productFlag);
+            projectionDTO.setGroup(StringUtils.EMPTY);
+
+        }
+    }
+
+    private void uomValueChangeGenerate() {
+        if (uomValueChange) {
+            session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
+            dataLogic.nmSalesViewsPopulationProcedureUOM(session);
+            uomValueChange = false;
+        }
     }
 
     /**
@@ -740,7 +788,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());
@@ -868,6 +916,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
             map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues), CommonUtil.COMMA));
+            map.put(Constant.UNIT_OF_MEASURE, String.valueOf(unitOfMeasureDdlb.getValue()));
+            map.put(Constant.CONVERSION_FACTOR_DDLB, String.valueOf(conversionFactorDdlb.getValue()));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -1071,7 +1121,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                    parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
+                    parentKey = CommonUtil.getParentItemId(key);
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -1111,13 +1161,24 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
+                    
+                    // Added for isAccountGrowth checking
+                    boolean isAg = false;
+                    for (Object propertyId : excelTable.getContainerPropertyIds()) {
+                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
+                            isAg = true;
+                            excelTable.setConverter(propertyId, percentFormat);
+                        }
+                    }
+                    
+                    
                     ForecastUI.setEXCEL_CLOSE(true);
                     Map<String, String> formatterMap = new HashMap<>();
                     formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                     formatterMap.put(UNIT_NO_DECIMAL, UNITS);
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
+                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -1141,6 +1202,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
                 tableLayout.addComponent(excelTable);
                 exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                
                 exp.export();
             }
         } catch (Exception e) {

@@ -5,18 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.addons.tableexport.TableHolder;
-import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Property;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -29,6 +23,13 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 
 /**
  *
@@ -53,6 +54,8 @@ public class CustomExcelNM extends ExcelExport {
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
     public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     public static final String GROWTH = "Growth";
+    public static final String GROWTH_SUM = "GrowthSum";
+    public static final String CHILD_COUNT = "ChildCount";
     
     
     public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter,boolean isRate,boolean isRPU,boolean isCustom) {
@@ -132,10 +135,20 @@ public class CustomExcelNM extends ExcelExport {
     }
 
     private Double getCellValue(Object propId, Double d, Double cellValue) {
+    	
+    	Double getCellValue = (double) 0;
+    	
         if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        return cellValue;
+        else if ((formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) && (d > 0)) {
+        	
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        else if ((formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        return getCellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {
@@ -196,12 +209,34 @@ public class CustomExcelNM extends ExcelExport {
             sheetCell.setCellStyle(style4);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
+            	String formula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
                 sheetCell.setCellStyle(style4);
+                sheetCell.setCellFormula(formula);
+            }
+        }
+        //Added Formula to Growth_SUM column  
+        else if (formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) {
+            sheetCell.setCellStyle(style4);
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            	String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
+            	sheetCell.setCellStyle(style4);
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }
-         
+       //Added Formula to Child Count column
+        else if (formatter.get(CHILD_COUNT) != null && String.valueOf(propId).endsWith(formatter.get(CHILD_COUNT))) {
+        	sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            	String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
+                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
+            }
+        	else
+        	{
+        		// Setting 1 to children
+        		sheetCell.setCellValue(1);
+        	}
+        }
     }
     private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
         if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
@@ -212,7 +247,7 @@ public class CustomExcelNM extends ExcelExport {
             sheetCell.setCellStyle(style6);
         } else if (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) {
             sheetCell.setCellStyle(style4);
-        } 
+        }
 
     }
 

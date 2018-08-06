@@ -464,7 +464,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			if (dto != null) {
 				final int projectionIdValue = dto.getCffMasterSid();
 				Long processId = 0L;
-				final List<String> roleList = new ArrayList<>();
+//				final List<String> roleList = new ArrayList<>();
 				final List processIdList = WorkflowPersistance.selectWFInstanceInfo(projectionIdValue);
 				if (processIdList != null && !processIdList.isEmpty()) {
 					processId = Long.valueOf(processIdList.get(0).toString());
@@ -626,13 +626,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 	private void loadSessionDTO() {
 		final int projectionId = dto.getCffMasterSid();
-		final Map<String, Object> parameters = new HashMap<>();
 		final DataSelectionLogic logic = new DataSelectionLogic();
                 SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY); 
 		if (projectionId != 0) {
 			try {
-				parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
 				final List list = logic.getProjection(projectionId);
 				for (final Object list1 : list) {
 					final Object[] temp = (Object[]) list1;
@@ -810,11 +808,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				|| StringUtils.isBlank(String.valueOf(financialForecastId.getValue())))
 				&& (financialForecastName.getValue().equals("null")
 						|| StringUtils.isBlank(String.valueOf(financialForecastName.getValue())))
-				&& (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE)
-						|| typeDdlb.getValue() == null)
+				&& (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE))
 				&& (statusDdlb.getValue() == null
-						|| String.valueOf(statusDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE)
-						|| statusDdlb.getValue() == null)
+						|| String.valueOf(statusDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE))
 				&& creationFromDate.getValue() == null && creationToDate.getValue() == null
 				&& approvalFromDate.getValue() == null && approvalToDate.getValue() == null) {
 			pass = false;
@@ -944,7 +940,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 	}
 
-	public void configurePermission() {
+	public final void configurePermission() {
 		try {
 			final StplSecurity stplSecurity = new StplSecurity();
 			final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));

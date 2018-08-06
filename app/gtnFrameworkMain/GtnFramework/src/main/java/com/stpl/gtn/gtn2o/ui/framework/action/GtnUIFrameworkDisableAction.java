@@ -26,7 +26,7 @@ public class GtnUIFrameworkDisableAction implements GtnUIFrameWorkAction {
 		if (componentIdList.get(0).toString().equals("disableReadOnly")) {
 			GtnUIFrameworkBaseComponent component1 = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentIdList.get(1).toString(),componentId);
 			AbstractComponent component = component1.getComponent();
-			if (component!=null &&component instanceof HorizontalLayout) {
+			if (component instanceof HorizontalLayout ) {
 				HorizontalLayout horizontalLayout = (HorizontalLayout) component;
 				horizontalLayout.setEnabled(false);
 				TextField textField = (TextField) horizontalLayout.getComponent(0);

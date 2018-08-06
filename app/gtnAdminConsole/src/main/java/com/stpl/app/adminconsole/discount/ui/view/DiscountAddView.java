@@ -34,16 +34,6 @@ public class DiscountAddView extends VerticalLayout implements View {
     private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
 
     /**
-     * The Discount Add form.
-     */
-    private DiscountAddForm discountAddForm = new DiscountAddForm();
-
-    /**
-     * The itemGroupDTO.
-     */
-    private DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO();
-
-    /**
      * The available availableRebate bean.
      */
     private BeanItemContainer<DiscountSearchDTO> availableResultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
@@ -73,6 +63,8 @@ public class DiscountAddView extends VerticalLayout implements View {
     @Override
     public void enter(final ViewChangeEvent event) {
         try {
+            DiscountAddForm discountAddForm = new DiscountAddForm();
+            DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO();
             final DiscountLogic logic = new DiscountLogic();
 
             final int deductionGroupSId = sessionDTO.getSystemId();

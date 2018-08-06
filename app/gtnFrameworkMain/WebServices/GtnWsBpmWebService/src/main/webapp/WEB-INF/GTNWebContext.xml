@@ -109,45 +109,13 @@
 		<property name="jndiName" value="java:jboss/datasources/jdbc/bpmDataPool" />
 		<property name="lookupOnStartup" value="true" />
 	</bean>
-
+        <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger"/>
+        <bean id="gtnSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryLogger" ref="queryLogger"></property>
+	</bean>
 	<bean id="TestWebService" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsHealthCheck">
-	</bean>
-	<bean id="databaseService"
-		class="com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService">
-		<property name="sysSessionFactory">
-			<ref bean="sysSessionFactory" />
-		</property>
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-		<property name="bpmSessionFactory">
-			<ref bean="bpmSessionFactory" />
-		</property>
-	</bean>
-	<bean id="gtnWsUserRoleService"
-		class="com.stpl.gtn.gtn2o.ws.service.userrole.GtnWsUserRoleService">
-		<property name="databaseService">
-			<ref bean="databaseService" />
-		</property>
-	</bean>
-	<bean id="userGroupCallback" class="com.stpl.gtn.gtn2o.ws.bpm.service.CustomUserCallBack">
-		<property name="gtnWsUserRoleService">
-			<ref bean="gtnWsUserRoleService" />
-		</property>
-	</bean>
-	<bean id="bpmManagerBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmManagerBean">
-		<property name="enitiyManagerFactoryBean">
-			<ref bean="jbpmEMF" />
-		</property>
-		<property name="userGroupCallback">
-			<ref bean="userGroupCallback" />
-		</property>
-	</bean>
-	<bean id="bpmProcessBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmProcessBean">
-		<property name="bpmManagerBean">
-			<ref bean="bpmManagerBean" />
-		</property>
-
 	</bean>
 	<bean id="jbpmEMF"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

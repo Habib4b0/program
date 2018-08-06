@@ -108,7 +108,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MSupplementalDiscountProjection.class);
     
     
     /**
@@ -1229,16 +1229,16 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
             String selectedValue;
 
-            final int startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
+            final int startQuater = startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
 
             final int startYear = Integer.parseInt(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             int endQuater = 0;
             int endYear = 0;
             if (endPeriod.getValue() == null || SELECT_ONE.getConstant().equals(endPeriod.getValue())) {
-                endQuater = Integer.valueOf(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).charAt(1) - NumericConstants.FORTY_EIGHT);
+                endQuater = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).charAt(1) - NumericConstants.FORTY_EIGHT;
                 endYear = Integer.parseInt(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).substring(NumericConstants.THREE, NumericConstants.SEVEN));
             } else {
-                endQuater = Integer.valueOf(endPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
+                endQuater = endPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                 endYear = Integer.parseInt(endPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             }
 
@@ -1366,7 +1366,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         }.getConfirmationMessage("Submit Confirmation", "In Ndc:" + notifyContent + " are not having any prior values.Do you wish to continue.?");
                         String emptyNull;
                         emptyNull = notifyContent;
-                        notifyContent.replaceAll(emptyNull, StringUtils.EMPTY);
                     }
 
                     selectedValue = String.valueOf(valueLookUp.getValue());
@@ -1401,7 +1400,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         supplementalDiscountDTO.setEndPeriod(endQuater);
                         supplementalDiscountProjectionLogic.populateValues(supplementalDiscountDTO, selectedValue, columnName, session);
                         tableLogic.setRefresh(true);
-                        if (columnName.equals(METHODOLOGY.getConstant().toUpperCase())) {
+                        if (columnName.containsKey(METHODOLOGY.getConstant().toUpperCase())) {
                             checkFlag = true;
                         }
                     }

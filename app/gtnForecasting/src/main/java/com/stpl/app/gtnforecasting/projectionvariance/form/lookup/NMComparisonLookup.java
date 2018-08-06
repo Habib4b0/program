@@ -70,7 +70,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         try {
             fromDate.setDateFormat("dd/M/yyyy");
             toDate.setDateFormat("dd/M/yyyy");
@@ -127,7 +127,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
                 }
                 String notSearchProjId;
                 StringBuilder idStringBuilder = new StringBuilder();
-                idStringBuilder.append("'" ).append( currentProjId ).append( "'");
+                idStringBuilder.append('\'' ).append( currentProjId ).append( '\'');
                 for (int j = 0; j < selectedResultsBean.size(); j++) {
                     idStringBuilder.append( ",'" ).append( selectedResultsBean.getIdByIndex(j).getProjectionId() ).append( '\'');
                 }

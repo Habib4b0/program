@@ -830,7 +830,7 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 
 		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
 				"itemInformationTabUDC1layout", 
-				Boolean.TRUE, 
+				true, 
 				GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
 		componentList.add(udc1Layout);
 
@@ -851,15 +851,15 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 			GtnFrameworkComponentConfigProvider componentConfig) {
 
 		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
-				"itemInfoTabUDC1CheckedComboBoxLayout", Boolean.TRUE,
+				"itemInfoTabUDC1CheckedComboBoxLayout", true,
 				GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
 		componentList.add(udc1Layout);
 
 		GtnUIFrameworkComponentConfig udc1 = componentConfig.getUIFrameworkComponentConfig(
-				"itemInfoTabUDC1CheckedComboBox", Boolean.TRUE, udc1Layout.getComponentId(),
+				"itemInfoTabUDC1CheckedComboBox", true, udc1Layout.getComponentId(),
 				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
 		udc1.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
-		udc1.setAuthorizationIncluded(Boolean.TRUE);
+		udc1.setAuthorizationIncluded(true);
 		componentList.add(udc1);
 
 		GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = new GtnUIFrameworkCheckedComboBoxConfig();
@@ -870,18 +870,18 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 			GtnFrameworkComponentConfigProvider componentConfig) {
 
 		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
-				"itemInfoTabUDC1TextBoxLayout", Boolean.TRUE, GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
+				"itemInfoTabUDC1TextBoxLayout", true, GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
 		componentList.add(udc1Layout);
 
 		GtnUIFrameworkComponentConfig udc1TextBox = componentConfig.getUIFrameworkComponentConfig(
-				"itemInfoTabUDC1TextBox", Boolean.TRUE, udc1Layout.getComponentId(),
+				"itemInfoTabUDC1TextBox", true, udc1Layout.getComponentId(),
 				GtnUIFrameworkComponentType.TEXTBOX);
 		udc1TextBox.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
-		udc1TextBox.setAuthorizationIncluded(Boolean.TRUE);
+		udc1TextBox.setAuthorizationIncluded(true);
 		componentList.add(udc1TextBox);
 
 		GtnUIFrameworkTextBoxConfig udcTextBoxConfig = new GtnUIFrameworkTextBoxConfig();
-		udcTextBoxConfig.setEnable(Boolean.FALSE);
+		udcTextBoxConfig.setEnable(false);
 		udc1TextBox.setGtnTextBoxConfig(udcTextBoxConfig);
 	}
 

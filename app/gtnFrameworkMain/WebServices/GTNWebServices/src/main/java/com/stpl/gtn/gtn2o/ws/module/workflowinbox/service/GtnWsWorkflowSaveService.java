@@ -54,27 +54,27 @@ public class GtnWsWorkflowSaveService {
 		return 0;
 	}
 
-	private WorkflowInbox generateSaveProfileModel(GtnWsWorkflowInboxBean masterbean,
+	private WorkflowInbox generateSaveProfileModel(GtnWsWorkflowInboxBean masterbeanSaveProfile,
 			GtnWsGeneralRequest generalWSRequest, Session session) {
 
 		int userId = Integer.parseInt(generalWSRequest.getUserId().trim());
 		WorkflowInbox workflowModel = new WorkflowInbox();
 		try {
-			workflowModel.setBrandId(masterbean.getBrandIdArm());
-			workflowModel.setAdjustmentType(String.valueOf(masterbean.getAdjustmentType()));
+			workflowModel.setBrandId(masterbeanSaveProfile.getBrandIdArm());
+			workflowModel.setAdjustmentType(String.valueOf(masterbeanSaveProfile.getAdjustmentType()));
 			Map<Integer, String> map = gtnWebServiceAllListConfig.getUserIdNameMap();
-			String createdBy = getKeyFromValue(map, masterbean.getCreatedBy());
-			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
-			if (createdBy != null) {
-				workflowModel.setCreatedBy(Integer.valueOf(createdBy));
+			String createdBySaveProfile = getKeyFromValue(map, masterbeanSaveProfile.getCreatedBy());
+			String approvedBySaveProfile = getKeyFromValue(map, masterbeanSaveProfile.getApprovedBy());
+			if (createdBySaveProfile != null) {
+				workflowModel.setCreatedBy(Integer.parseInt(createdBySaveProfile));
 			}
-			if (approvedBy != null) {
-				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
+			if (approvedBySaveProfile != null) {
+				workflowModel.setApprovedBy(Integer.valueOf(approvedBySaveProfile));
 			}
 			workflowModel.setCreatedDate(new Date());
 			workflowModel.setModifiedBy(userId);
 			workflowModel.setModifiedDate(new Date());
-			setWorkFlowInboxModel(workflowModel, masterbean, session);
+			setWorkFlowInboxModel(workflowModel, masterbeanSaveProfile, session);
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
@@ -99,30 +99,30 @@ public class GtnWsWorkflowSaveService {
 	}
 
 	public void updateSaveProfileQuery(GtnUIFrameworkWebserviceRequest generalWSRequest,
-			GtnWsWorkflowInboxBean masterbean) throws GtnFrameworkGeneralException {
+			GtnWsWorkflowInboxBean masterbeanSaveProfile) throws GtnFrameworkGeneralException {
 
 		Session session = gtnWebServiceAllListConfig.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 
 		try {
 
-			WorkflowInbox workflowModel = session.get(WorkflowInbox.class, masterbean.getWorkflowSid());
+			WorkflowInbox workflowModel = session.get(WorkflowInbox.class, masterbeanSaveProfile.getWorkflowSid());
 
-			workflowModel.setBrandId(masterbean.getBrandIdArm());
-			workflowModel.setAdjustmentType(String.valueOf(masterbean.getAdjustmentType()));
+			workflowModel.setBrandId(masterbeanSaveProfile.getBrandIdArm());
+			workflowModel.setAdjustmentType(String.valueOf(masterbeanSaveProfile.getAdjustmentType()));
 			Map<Integer, String> map = gtnWebServiceAllListConfig.getUserIdNameMap();
-			String createdBy = getKeyFromValue(map, masterbean.getCreatedBy());
-			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
-			if (createdBy != null) {
-				workflowModel.setCreatedBy(Integer.valueOf(createdBy));
+			String profileCreatedBy = getKeyFromValue(map, masterbeanSaveProfile.getCreatedBy());
+			String profileApprovedBy = getKeyFromValue(map, masterbeanSaveProfile.getApprovedBy());
+			if (profileCreatedBy != null) {
+				workflowModel.setCreatedBy(Integer.parseInt(profileCreatedBy));
 			}
-			if (approvedBy != null) {
-				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
+			if (profileApprovedBy != null) {
+				workflowModel.setApprovedBy(Integer.valueOf(profileApprovedBy));
 			}
 			workflowModel.setCreatedDate(new Date());
 			workflowModel.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			workflowModel.setModifiedDate(new Date());
-			setWorkFlowInboxModel(workflowModel, masterbean, session);
+			setWorkFlowInboxModel(workflowModel, masterbeanSaveProfile, session);
 			session.saveOrUpdate(workflowModel);
 			tx.commit();
 

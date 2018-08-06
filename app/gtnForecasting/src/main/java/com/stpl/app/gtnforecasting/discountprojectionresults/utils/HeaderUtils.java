@@ -1611,13 +1611,12 @@ public class HeaderUtils {
      * @param s
      * @return
      */
-    public static boolean isInteger(String s) {
+    public static boolean isInteger(String str) {
         try {
-            Integer.parseInt(s);
+             return str != null && !"null".equals(str)&& str.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     public static CustomTableHeaderDTO getDiscountProjectionResultsLeftTableColumn(CustomTableHeaderDTO fullHeaderDTO) {

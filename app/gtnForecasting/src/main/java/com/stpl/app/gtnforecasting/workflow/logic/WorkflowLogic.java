@@ -31,10 +31,8 @@ import com.stpl.app.service.WorkflowMasterLocalServiceUtil;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.vaadin.server.VaadinService;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -59,7 +57,6 @@ public class WorkflowLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowLogic.class);
-    private final String SUCCESS = Constant.SUCCESS;
     private WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
     private DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
 
@@ -277,7 +274,7 @@ public class WorkflowLogic {
 
                 workFlowLogicDao.updateWorkflowMaster(workflowMaster);
                 String projectionUpdated = updateProjectionMaster(workflowMasterDTO);
-                if (!projectionUpdated.equals(SUCCESS)) {
+                if (!projectionUpdated.equals(Constant.SUCCESS)) {
                     return CommonUtils.WORKFLOW_NOT_SAVED;
                 }
             } else {
@@ -334,7 +331,7 @@ public class WorkflowLogic {
                 projectionMaster.setIsApproved("W");
             }
             dataselectionLogicDao.updateProjectionMaster(projectionMaster);
-            return SUCCESS;
+            return Constant.SUCCESS;
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
             return CommonUtils.WORKFLOW_NOT_SAVED;
