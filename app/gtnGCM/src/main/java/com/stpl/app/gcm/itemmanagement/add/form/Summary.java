@@ -107,7 +107,7 @@ public class Summary extends CustomComponent {
     private final ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
     private final FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
     private List<ItemIndexDto> selecteditemList;
-    public static final Logger LOGGER = LoggerFactory.getLogger(AddContractSelection.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
     private final Object[] visibleColumn = {Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs"};
     private final String[] columnHeader = {"Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.CFP, Constants.IFP, Constants.PS, Constants.RS};
     private final Object[] contractDashBoardColumn = {"component", "id", "number", "name"};

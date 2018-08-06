@@ -7,7 +7,6 @@ package com.stpl.app.gcm.common;
 
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
-import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -21,7 +20,7 @@ import com.stpl.app.gcm.util.xmlparser.SQlUtil;
  */
 public class AppDataUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
     private static final CommonDao ITEMDAO = CommonImpl.getInstance();
 
     public static List getGroupList() {

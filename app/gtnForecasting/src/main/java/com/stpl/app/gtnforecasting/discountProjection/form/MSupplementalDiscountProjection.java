@@ -108,7 +108,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MSupplementalDiscountProjection.class);
     
     
     /**

@@ -66,7 +66,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTPDetails.class);
     
     
     
