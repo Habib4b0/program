@@ -1428,8 +1428,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     }
 
     public void refreshTableData(Set<String> finalHirarechyNo) {
+        int currentPage = tableLogic.getCurrentPage();
         tableLogic.setHierarchyToRefresh(finalHirarechyNo);
-        tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+        tableLogic.setCurrentPage(currentPage);
     }
 
     public void allowMethod(final String selectedValue) {
