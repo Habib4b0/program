@@ -53,7 +53,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     protected int pageNumber = 1;
     protected boolean isRefresh;
     protected boolean isGenerated = false;
-    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionTableLogic.class);
     
 
     public boolean isIsRefresh() {
@@ -139,7 +139,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     public int getCount() {
         int count = 0;
         if (isGenerated) {
-            PPAProjection.waitForSave();
+        	ppaProjection.waitForSave();
             count = logic.getPPAProjectionResultsCount(selection, getLastParent(), session);
         }
         return count;
@@ -182,7 +182,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
     @Override
     protected void createCurrentPageStart() {
-        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
+    	ppaProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         setCurrentPageProgress(true);
         setRefresh(BooleanConstant.getFalseFlag());
     }
@@ -191,23 +191,23 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
         setRefresh(BooleanConstant.getTrueFlag());
-        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
+        ppaProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     @Override
     protected void expandCollapseStart(boolean isExpand) {
-        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
+    	ppaProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         setExpandCollapseProgress(true);
     }
 
     @Override
     protected void expandCollapseEnd(boolean isExpand) {
         setExpandCollapseProgress(false);
-        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
+        ppaProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
-        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
+    	ppaProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         int count = logic.getPPAProjectionResultsCount(selection, parentId, session);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
@@ -224,7 +224,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             }
         }
-        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
+        ppaProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     public void loadExpandData(int levelNo) {
@@ -262,7 +262,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
         if ((prop != null && Constant.GROUP.equals(prop.toString())) && (!ppaProjection.isGroupChangeFlag())) {
 
-                PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
+        	ppaProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
                 ppaProjection.setValueChangeForColumnCheckBox(BooleanConstant.getTrueFlag());
                 String valu = Constant.NULL.equals(String.valueOf(value)) ? Constant.ALL_GROUP : String.valueOf(Constant.PPA + value);
                 selection.setGroupFilter(valu);
@@ -270,7 +270,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
                 setProjectionResultsData(true);
                 clearAll();
                 ppaProjection.setLevelFilterValue(SELECT_ONE);
-                PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
+                ppaProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
                 ppaProjection.setValueChangeForColumnCheckBox(BooleanConstant.getFalseFlag());
         }
 

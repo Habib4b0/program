@@ -189,7 +189,7 @@ public class NMDiscountProjectionLogic {
         for (Object list : tempList) {
             final Object[] obj = (Object[]) list;
             if (!(String.valueOf(obj[NumericConstants.TWO]).equals(Constant.DASH))) {
-                BigDecimal big = new BigDecimal(String.valueOf(obj[NumericConstants.TWO]));
+            	Integer big = new Integer(String.valueOf(obj[NumericConstants.TWO]));
                 totalccp.remove(big);
                 if (ccpList.length() == 0) {
             ccpList.append(String.valueOf(obj[0]));
