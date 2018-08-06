@@ -10,11 +10,13 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportConfirmedCloseAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewConfirmDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
@@ -25,7 +27,6 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardConfirmUpdateP
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkSelectButtonEnableActionInHierarchyLookup;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
@@ -66,6 +67,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportLevelDdlbLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIReportExpandCollapseAction;
+import com.stpl.gtn.gtn2o.ui.action.chart.GtnFrameworkGridToBarChartAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
@@ -81,6 +83,7 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdo
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadActionBasedOnHistory;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHistoryLoadAction;
@@ -176,8 +179,6 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportForecastLevelLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownGridLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownGridLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomSelectAction.class.getName(),
-				new GtnFrameworkUICustomSelectAction());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownGridLoadAction.class.getName(),
 				new GtnReportingComparisonBreakdownGridLoadAction());
@@ -270,7 +271,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportDataSelectionViewUpdateAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkReportConfirmedDeleteButtonAction.class.getName(),
 				new GtnUIFrameworkReportConfirmedDeleteButtonAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkSelectButtonEnableActionInHierarchyLookup.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkSelectButtonEnableActionInHierarchyLookup.class.getName(),
 				new GtnFrameworkSelectButtonEnableActionInHierarchyLookup());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDashboardValuesResetAction.class.getName(),
@@ -283,14 +285,24 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportResetAndCloseAction.class.getName(),
 				new GtnFrameworkReportResetAndCloseAction());
 
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName(),
 				new GtnFrameworkReportDataSelectionRegenerateConfirmationAction());
 
-		
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportConfirmedCloseAction.class.getName(),
 				new GtnFrameworkReportConfirmedCloseAction());
 
-		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName(),
+				new GtnFrameworkComparisonLookupTextFieldEnableAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportCustomViewConfirmDeleteAction.class.getName(),
+				new GtnFrameworkReportCustomViewConfirmDeleteAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnReportingVariableBreakdownGridLoadActionBasedOnHistory.class.getName(),
+				new GtnReportingVariableBreakdownGridLoadActionBasedOnHistory());
+				
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkGridToBarChartAction.class.getName(),
+				new GtnFrameworkGridToBarChartAction());
+
 	}
 
 }

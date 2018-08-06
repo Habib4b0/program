@@ -32,8 +32,6 @@ public class GtnFrameworkCM extends UI {
 		GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
 		frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, "Company Master",
 				new GtnUIFrameworkCdrDynamicClassFiller());
-		
-		//code changes done here
 	}
 
 }

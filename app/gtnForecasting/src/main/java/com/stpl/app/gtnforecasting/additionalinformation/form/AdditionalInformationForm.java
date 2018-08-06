@@ -17,13 +17,10 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.FileUploader;
 import com.stpl.app.utils.ValidationUtils;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.CommonUtil;
-import com.stpl.ifs.util.ExportPdf;
-import com.stpl.ifs.util.ExportWord;
 import com.stpl.ifs.util.GtnFileUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.FileResource;
@@ -33,14 +30,11 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.event.ItemClickEvent;
-import com.vaadin.v7.ui.Upload;
-import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.StartedEvent;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
@@ -91,7 +85,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
-
         mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
         this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(mode);
         this.isEditMode = Constant.EDIT.equalsIgnoreCase(mode);
@@ -103,22 +96,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             removeAndDisablingComponents();
         }
         addSecurity();
-
-    }
-
-    @Override
-    public void intailizingObject() {
-
-        uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
-        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);       
-        filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + moduleName);
-        wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
-        pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
-                
-        if (isViewMode) {
-            removeAndDisablingComponents();
-        }
 
     }
 
@@ -339,7 +316,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
         return;
     }
 
-    public void addSecurity() {
+    public final void addSecurity() {
 
         final StplSecurity stplSecurityNotes = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(USER_ID.getConstant()));

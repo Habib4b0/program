@@ -106,7 +106,7 @@ public StplSecurityDAO getDto() {
                 if ("".equals(businessRoleIds)) {
                     businessRoleIds=String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
                 } else {
-                    final StringBuffer tempStringBuffer = new StringBuffer();
+                    final StringBuilder tempStringBuffer = new StringBuilder();
                     businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                     tempStringBuffer.delete(0, tempStringBuffer.length());
                 } 
@@ -321,7 +321,7 @@ public StplSecurityDAO getDto() {
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            getUserMap().put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            getUserMap().put(Integer.valueOf(String.valueOf(user.getUserId())), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
         return getUserMap();

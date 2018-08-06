@@ -181,7 +181,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                             double convertedWAC = Double.parseDouble(wacValue);
                             wac.setValue(dollar4decimal.format(convertedWAC));
                         } else {
-                            NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(ndc.getValue().toString());
+                            NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(Integer.valueOf(ndc.getValue().toString()));
                             if (dto != null && !dto.getWac().equalsIgnoreCase(Constant.NULL)) {
                                 wac.setValue(dto.getWac());
                             } else {
@@ -195,7 +195,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                             }
                         }
                         String cpiValue = cPIList.get(ndc.getValue().toString());
-                        NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(ndc.getValue().toString());
+                        NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(Integer.valueOf(ndc.getValue().toString()));
                         if (cpiValue != null && !cpiValue.equalsIgnoreCase(Constant.NULL)) {
                             baseYearCPI.setReadOnly(false);
                             double convertedCPI = Double.parseDouble(cpiValue);
@@ -409,9 +409,9 @@ public class MedicaidNdcPopUp extends CustomComponent {
     }
 
     private void loadNdcList() {
-        for (int key : ndc9Map.keySet()) {
-            ndc.addItem(key);
-            ndc.setItemCaption(key, ndc9Map.get(key));
+        for (Map.Entry<Integer, String> key : ndc9Map.entrySet()) {
+            ndc.addItem(key.getKey());
+            ndc.setItemCaption(key.getKey(), key.getValue());
         }
     }
 
@@ -482,8 +482,8 @@ public class MedicaidNdcPopUp extends CustomComponent {
         List itemSameNDC = new ArrayList();
 
         StringBuilder itemSid = new StringBuilder();
-        for (int key : ndc9Map.keySet()) {
-            String des = ndc9Map.get(key);
+        for (Map.Entry<Integer, String> key : ndc9Map.entrySet()) {
+            String des = key.getValue();
             String[] value = des.split(",");
             String NDC9 = value[1].trim();
             if (SelectedNDC.equals(NDC9)) {

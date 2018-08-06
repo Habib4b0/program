@@ -1,20 +1,14 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -22,10 +16,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionReGenerateAction
@@ -101,17 +93,17 @@ public class GtnReportDataSelectionReGenerateAction
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
 	
-		if (isCustomerChanged || isProductChanged || isComparisonProjectionChanged || isCustomView || isFrequencyChanged
+		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged
 				|| isReportDataSourceChanged || isFromPeriodChanged) {
 
 			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
 			List<GtnUIFrameWorkActionConfig> onFailureActionList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+					GtnUIFrameworkActionType.INFO_ACTION);
 
-			alertAction.addActionParameter("Update confirmation");
+			alertAction.addActionParameter("Information");
 			alertAction.addActionParameter(
-					"Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?");
+					"You have changed the set of CCP’s that included in this report. The report will now update to reflect these changes.");
 			alertAction.addActionParameter(onSuccessActionList);
 			alertAction.addActionParameter(onFailureActionList);
 			
@@ -121,7 +113,7 @@ public class GtnReportDataSelectionReGenerateAction
 			callRegenerateActionSuccessConfig
 					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
 			callRegenerateActionSuccessConfig.addActionParameter(dataSelectionBean);
-                        callRegenerateActionSuccessConfig.addActionParameter("YES");
+                        callRegenerateActionSuccessConfig.addActionParameter("OK");
 
                         callRegenerateActionSuccessConfig.addActionParameter(selectedCustomerList);
                         callRegenerateActionSuccessConfig.addActionParameter(selectedProductList);
@@ -147,15 +139,15 @@ public class GtnReportDataSelectionReGenerateAction
                         callRegenerateActionSuccessConfig.addActionParameter(isFromPeriodChanged);
                         
 			onSuccessActionList.add(callRegenerateActionSuccessConfig);
-			GtnUIFrameWorkActionConfig callRegenerateActionFailureConfig = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.CUSTOM_ACTION);
-
-			callRegenerateActionFailureConfig
-					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
-			callRegenerateActionFailureConfig.addActionParameter(dataSelectionBeanPersist);
-			callRegenerateActionFailureConfig.addActionParameter("NO");
-                        
-			onFailureActionList.add(callRegenerateActionFailureConfig);
+//			GtnUIFrameWorkActionConfig callRegenerateActionFailureConfig = new GtnUIFrameWorkActionConfig(
+//					GtnUIFrameworkActionType.CUSTOM_ACTION);
+//
+//			callRegenerateActionFailureConfig
+//					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
+//			callRegenerateActionFailureConfig.addActionParameter(dataSelectionBeanPersist);
+//			callRegenerateActionFailureConfig.addActionParameter("NO");
+//                        
+//			onFailureActionList.add(callRegenerateActionFailureConfig);
 			
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
 			
@@ -243,7 +235,6 @@ public class GtnReportDataSelectionReGenerateAction
 		return true;
 	}
 
-	
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;

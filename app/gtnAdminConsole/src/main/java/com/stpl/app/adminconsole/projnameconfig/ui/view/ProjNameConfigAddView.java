@@ -31,7 +31,7 @@ public class ProjNameConfigAddView extends VerticalLayout implements View{
     public static final String NAME = "Add";
     
     /** The add form reference. */
-    private ProjNameConfigAddForm configAddForm;
+    private ProjNameConfigAddForm configAddForm = new ProjNameConfigAddForm();
     
     /**
      * Instantiates a new  view.
@@ -44,7 +44,6 @@ public class ProjNameConfigAddView extends VerticalLayout implements View{
         
         super();
         LOGGER.debug("ProjNameConfigAddView Constructor method is started");
-        configAddForm = new ProjNameConfigAddForm();
         addComponent(configAddForm);
         setSpacing(true);
         setStyleName("bootstrap");
@@ -59,7 +58,6 @@ public class ProjNameConfigAddView extends VerticalLayout implements View{
         setStyleName("bootstrap");
         try {
             this.removeAllComponents();
-            configAddForm = new ProjNameConfigAddForm();
             addComponent(configAddForm);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

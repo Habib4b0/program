@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -32,11 +33,13 @@ public class GtnForecastEligibleDateLoadAction
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE,
 				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		Date date = response.getGtnUIFrameworkWebserviceDateResponse().getResultValue();
-		LocalDateTime local = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-		LocalDate localDate = local.toLocalDate();
-		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString())
-				.loadV8DateValue(localDate);
+		Optional.ofNullable(date).ifPresent(d -> {
+			LocalDateTime local = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			LocalDate localDate = local.toLocalDate();
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString())
+					.loadV8DateValue(localDate);
+		});
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -20,29 +21,31 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 public class GtnReportDataSelectionViewAddAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataSelectionViewAddAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		return;
+		logger.debug("configure params");
 	}
 
 	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig actionConfig)
 			throws GtnFrameworkGeneralException {
-		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnWsReportDataSelectionBean reportDataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getComponentData().getSharedPopupData();
-		reportDataSelectionBean.setViewName(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getV8StringFromField()));
-		reportDataSelectionBean.setViewType(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(3).toString(), componentId).getV8StringFromField()));
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		reportRequest.setDataSelectionBean(reportDataSelectionBean);
-		request.setGtnWsReportRequest(reportRequest);
+		List<Object> actionParameterList = actionConfig.getActionParameterList();
+		GtnWsReportDataSelectionBean reportDSBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(1).toString()).getComponentData().getSharedPopupData();
+		reportDSBean.setViewName(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId).getV8StringFromField()));
+		reportDSBean.setViewType(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getV8StringFromField()));
+		GtnUIFrameworkWebserviceRequest webServiceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
+		gtnWsReportRequest.setDataSelectionBean(reportDSBean);
+		webServiceRequest.setGtnWsReportRequest(gtnWsReportRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, "report",
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				webServiceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
@@ -53,12 +56,12 @@ public class GtnReportDataSelectionViewAddAction
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
 			
 			gtnUIFrameAlertWorkActionConfig.addActionParameter("View Added Successfully");
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("You have successfully added " + reportDataSelectionBean.getViewType() + " View "
-					+ reportDataSelectionBean.getViewName());
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("You have successfully added " + reportDSBean.getViewType() + " View "
+					+ reportDSBean.getViewName());
 			
 		} else {
 			gtnUIFrameAlertWorkActionConfig.addActionParameter("Duplicate View Name");
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("The " + reportDataSelectionBean.getViewType().substring(0, 1).toLowerCase()+reportDataSelectionBean.getViewType().substring(1)
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("The " + reportDSBean.getViewType().substring(0, 1).toLowerCase()+reportDSBean.getViewType().substring(1)
 					+ " view name you have attempted to save is a duplicate of an existing view name."
 					+ " Please enter a different view name.");
 		}

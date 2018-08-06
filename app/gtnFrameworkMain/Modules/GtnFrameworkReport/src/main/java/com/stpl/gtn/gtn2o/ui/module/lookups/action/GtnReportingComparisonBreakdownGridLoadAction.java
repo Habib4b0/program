@@ -260,7 +260,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		List<Object> tableHeaderMappingIdList = tableHeadersResponse.getSingleColumns();
 		tableHeaderMappingIdList.add(0, GtnFrameworkReportStringConstants.PROJECTION_NAMES);
 		List<String> tableSingleHeaders = tableHeadersResponse.getSingleHeaders();
-		tableSingleHeaders.add(0, "Projections");
+		tableSingleHeaders.add(0, "");
 		comparisonBreakdownTableConfig.setTableColumnMappingId(tableHeaderMappingIdList.toArray());
 		comparisonBreakdownTableConfig.setColumnHeaders(tableSingleHeaders);
 		int j = 0;
@@ -271,17 +271,21 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 			j++;
 		}
+		
 		return comparisonBreakdownTableConfig;
 	}
 
 	private void configureCheckboxHeaderComponents(Object[] tableColumnMappingId, List<String> columnHeaders,
 			Grid<GtnWsRecordBean> grid, GtnUIFrameworkPagedTableConfig tableConfig) {
+		grid.setFrozenColumnCount(1);
 		if (tableConfig.isEnableCheckBoxInGridHeader()) {
 			HeaderRow mainHeader = grid.getHeaderRow(0);
 			for (int i = 0; i < tableColumnMappingId.length; i++) {
 				CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
 				vaadinCheckBoxGroup.setItems(columnHeaders.get(i));
+				if (!tableColumnMappingId[i].equals(GtnFrameworkReportStringConstants.PROJECTION_NAMES)){		
 				mainHeader.getCell(String.valueOf(tableColumnMappingId[i])).setComponent(vaadinCheckBoxGroup);
+				}
 			}
 		}
 	}
@@ -325,8 +329,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			gtnUIFrameworkComboBoxComponent.postCreateComponent(abstractVaadinComponent,
 					baseComponent.getComponentConfig());
 			ComboBox vaadinCombobox = (ComboBox) abstractVaadinComponent;
+			vaadinCombobox.addStyleName("stpl-comboBox-Inside-Grid-CustomStyle");
 			vaadinCombobox.setId(comparisonLookUpBean.getProperty() + String.valueOf(comparisonLookUpBean.getRowId()));
-			vaadinCombobox.setSelectedItem("0");
 			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
 				@Override
 				public void valueChange(HasValue.ValueChangeEvent event) {

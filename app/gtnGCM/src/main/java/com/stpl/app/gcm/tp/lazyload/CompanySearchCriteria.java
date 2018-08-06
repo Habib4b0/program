@@ -19,8 +19,7 @@ public class CompanySearchCriteria implements BeanSearchCriteria {
 
     private Set<Filter> filters;
     private int lastCount;
-    @SuppressWarnings("unused")
-	private boolean dirty;
+	private boolean dirty = true;
 
     public CompanySearchCriteria() {
         super();
@@ -38,7 +37,7 @@ public class CompanySearchCriteria implements BeanSearchCriteria {
 
     @Override
     public boolean isDirty() {
-        return true;
+        return dirty;
     }
 
     @Override

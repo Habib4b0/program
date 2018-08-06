@@ -6,6 +6,7 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportChartLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportComparisonLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportComparisonOptionsLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportCustomViewLookup;
@@ -56,7 +57,13 @@ public class GtnFrameworkReportConfig {
 				.getReportProfileLookupView(GtnFrameworkReportStringConstants.REPORT_PROFILE_LOOKUP));
 
 		viewList.add(new GtnFrameworkReportCustomViewLookup()
-				.getCustomViewLookUpView(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP));
+				.getCustomViewLookUpViewLandingScreen(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP));
+
+		viewList.add(new GtnFrameworkReportCustomViewLookup()
+				.getCustomViewLookUpViewDataSelection(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS));
+
+		viewList.add(new GtnFrameworkReportCustomViewLookup().getCustomViewLookUpViewReportDashboard(
+				GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_RD));
 
 		viewList.add(new GtnFrameworkReportCustomertHierarchyLookUp()
 				.getCustHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_LOOKUP));
@@ -85,6 +92,8 @@ public class GtnFrameworkReportConfig {
 
 		viewList.add(new GtnFrameworkReportDataSelectionPublicViewSearchLookUp()
 				.getPublicViewLookUpView(GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW));
+
+		viewList.add(new GtnFrameworkReportChartLookup().getReportChartViewConfig());
 
 		rootConfig.setGtnViewConfigList(viewList);
 

@@ -110,10 +110,21 @@ FROM   (VALUES ('DISCOUNT',
        NULL),
                ('SALES',
        'PRODUCT',
-       NULL)) A([SCREEN_NAME], [VIEW_NAME], [FLAG])
+       NULL),
+	     ('VARIANCE',
+       'CUSTOMER',
+       NULL),
+	 ('VARIANCE',
+       'PRODUCT',
+       NULL),
+	    ('VARIANCE',
+       'CUSTOM',
+       NULL)
+	  ) A([SCREEN_NAME], [VIEW_NAME], [FLAG])
 WHERE  NOT EXISTS (SELECT 1
                    FROM   STATUS_TABLE B
                    WHERE  A.SCREEN_NAME = B.SCREEN_NAME
                           AND A.VIEW_NAME = B.VIEW_NAME);
 
 GO 
+

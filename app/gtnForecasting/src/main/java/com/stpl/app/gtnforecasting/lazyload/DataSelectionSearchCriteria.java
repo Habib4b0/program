@@ -18,7 +18,7 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
  
 	private Set<Filter> filters;
 	private int lastCount;
-	private boolean dirty;
+	private boolean dirty =true;
 
     public DataSelectionSearchCriteria() {
         super();
@@ -39,7 +39,7 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	@Override
 	public boolean isDirty() {
 		// TODO Auto-generated method stub
-		return true;
+		return dirty;
 	}
 
 	@Override

@@ -60,8 +60,8 @@ public class FcpQueryUtils {
 
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         if (parentLevelId != 0) {
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
@@ -99,8 +99,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpAmountForView" : "getFcpAmount");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
@@ -128,8 +128,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampAmountForView" : "getNonFampAmount");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -140,12 +140,12 @@ public class FcpQueryUtils {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
-            for (String values : editedValues.keySet()) {
+            for (Map.Entry<String, String> values : editedValues.entrySet()) {
                 queryBuilder1 = new StringBuilder();
 
-                String formatedValue = editedValues.get(values);
+                String formatedValue = values.getValue();
 
-                String tempValue[] = values.split("~");
+                String tempValue[] = values.getValue().split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -210,7 +210,6 @@ public class FcpQueryUtils {
     }
 
     public String[] getTextValue(String propertyId, int itemSid, String pricetype, SessionDTO session) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder();
@@ -236,7 +235,6 @@ public class FcpQueryUtils {
         queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
         String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
         queryBuilder1 = new StringBuilder(replacedQuery);
-        queryList.add(queryBuilder1);
 
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
         String notesText[] = new String[NumericConstants.TWO];
@@ -270,8 +268,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetQtrValuesForView" : "getFcpWorkSheetQtrValues");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -308,8 +306,8 @@ public class FcpQueryUtils {
         } else {
             customSql = SQlUtil.getQuery(getClass(),"getFcpParent");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         fcpList = (List) DAO.executeSelectQuery(customSql);
@@ -317,19 +315,17 @@ public class FcpQueryUtils {
     }
 
     public void updateAdjustment(int itemSid, String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<>();
         Map<String, Object> input = new HashMap<>();
 
         input.put(Constant.IMID1, itemSid);
 
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
 
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
-        queryList.clear();
     }
 
     public Map<String, String> getFcpPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
@@ -346,5 +342,10 @@ public class FcpQueryUtils {
         }
 
         return priceType;
+    }
+    
+    public void updateBeforeAdjustment(String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
+        DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
     }
 }

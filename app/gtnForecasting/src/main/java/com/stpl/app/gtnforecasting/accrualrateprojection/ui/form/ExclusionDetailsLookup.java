@@ -100,7 +100,7 @@ public class ExclusionDetailsLookup extends Window {
         init();
         }
 
-    public void init() {
+    public final void init() {
         LOGGER.debug("Entering init ");
         try {
             center();

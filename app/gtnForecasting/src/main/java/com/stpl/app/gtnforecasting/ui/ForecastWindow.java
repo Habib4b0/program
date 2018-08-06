@@ -22,15 +22,11 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class ForecastWindow extends CustomWindow {
     protected ForecastForm forecastName;
-    // DTO object for DataSelection.
-    private final DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
-
-    // Binder for DataSelection.
-    private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
-
+    
      public ForecastWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm,final DataSelectionDTO dataSelectionDTO) throws  Exception {
         super(projectionName);
         init();
+        CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(new DataSelectionDTO()));
         setContent(new ForecastForm(dataSelectionBinder, dataSelectionDTO, session, null, resultTable,screenName,dataSelectionForm,this));
     }
 

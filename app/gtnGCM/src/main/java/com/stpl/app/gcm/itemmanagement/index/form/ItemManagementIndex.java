@@ -158,7 +158,7 @@ public class ItemManagementIndex extends CustomComponent {
         configureFields();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
 
             configureSearch();
@@ -566,12 +566,8 @@ public class ItemManagementIndex extends CustomComponent {
             SelectionDTO selectionDto = createSessionId();
             if (selectionDto.getButtonMode().equals(ConstantsUtil.EDIT)) {
                 selectionDto.setWindowName("Update Item");
-                if (true) {
                     final ItemManagementLookup editWindow = new ItemManagementLookup(selecteditemList, selectionDto);
                     createWindow(editWindow);
-                } else {
-                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
-                }
 
             } else {
                 MessageBox.showPlain(Icon.INFO, Constants.ERROR, "For the selected Update Type, this operation is not valid ", ButtonId.OK);
@@ -589,12 +585,8 @@ public class ItemManagementIndex extends CustomComponent {
             SelectionDTO selectionDto = createSessionId();
             if (selectionDto.getButtonMode().equals(ConstantsUtil.DELETE)) {
                 selectionDto.setWindowName("Remove Item");
-                if (true) {
                     final ItemManagementLookup removeWidow = new ItemManagementLookup(selecteditemList, selectionDto);
                     createWindow(removeWidow);
-                } else {
-                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
-                }
             } else {
                 MessageBox.showPlain(Icon.INFO, Constants.ERROR, "For the selected Update Type, this operation is not valid ", ButtonId.OK);
 

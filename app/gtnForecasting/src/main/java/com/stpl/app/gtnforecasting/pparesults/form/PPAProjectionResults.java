@@ -936,7 +936,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         tableLogic.setSelection(selection);
         tableLogic.setSession(session);
 
-        if (session.getForecastDTO().getForecastStartDate() != null && session.getForecastDTO().getForecastStartDate() != null) {
+        if (session.getForecastDTO().getForecastStartDate() != null) {
             selection.setProjectionNum(CommonUtils.getProjectionNumber(selection.getFrequency(), session));
         }
         selection.setStartDate(logic.getStartForData(frequency.getValue().toString(), Integer.parseInt(history.getValue().toString()) + 1, history.getItemCaption(history.getValue()), session));

@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -428,6 +427,10 @@ public class CommonUtil {
                         Thread.currentThread().setName(inputs[1].toString());
                         new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
                         break;
+                    case Constant.PV_PRC_VIEWS_CALL:
+                        Thread.currentThread().setName(inputs[1].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForPV((SessionDTO)inputs[NumericConstants.SEVEN] ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString());
+                        break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
                         new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,String.valueOf(inputs[5]) ,inputs[6].toString());
@@ -442,7 +445,7 @@ public class CommonUtil {
                          break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL_UOM:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForUOM((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        new DataSelectionLogic().callViewInsertProcedureForUOM((SessionDTO)inputs[NumericConstants.SEVEN] ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() );
                         break;
                     default:
                         break;
@@ -700,7 +703,7 @@ public class CommonUtil {
     }
 
     public static double getConversionFormattedMultipleValue(ProjectionSelectionDTO selection, double value) {
-        if (0.0 == value || 0 == value || stringNullCheck(selection.getConversionFactor())
+        if (0 == Double.compare(value, 0) || stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             return value;
@@ -743,7 +746,7 @@ public class CommonUtil {
 		return parentKey;
 	}
 
-	public static String getParentItemId(String key, boolean isCustomHierarchy, String parentHierarchyNo) {
+	public static String getParentItemId(String key) {
 		String parentKey;
 
 			parentKey = key.substring(0, key.lastIndexOf('.'));
@@ -800,6 +803,22 @@ public class CommonUtil {
             if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
                 waitForSeconds();
                 isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
+            } else {
+                return ;
+            }
+        }
+        return ;
+    }
+      public void isProcedureCompletedForSubmit(String screenName, String viewName, SessionDTO session) {
+        List paramList = new ArrayList();
+        paramList.add(screenName);
+        paramList.add(viewName);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(paramList, "getProcedureStatus"), session.getCurrentTableNames()));
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            if (!"6".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
+                isProcedureCompletedForSubmit(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
             } else {
                 return ;
             }

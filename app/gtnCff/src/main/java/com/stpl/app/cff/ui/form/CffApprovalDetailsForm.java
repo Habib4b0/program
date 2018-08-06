@@ -550,7 +550,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
         LOGGER.debug("Exits Approval Button click even method");
     }
 
-    public void disableFieldsOnview() {
+    public final void disableFieldsOnview() {
         approveBtn.setEnabled(false);
         rejectBtn.setEnabled(false);
         deleteBtn.setEnabled(false);

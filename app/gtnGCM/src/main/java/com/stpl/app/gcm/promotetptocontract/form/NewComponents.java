@@ -8,7 +8,6 @@ import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.common.QueryUtils;
-import static com.stpl.app.gcm.discount.logic.DiscountLogic.DBDate;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.NewComponentSearchTableLogic;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
@@ -292,7 +291,7 @@ public class NewComponents extends CustomComponent implements View {
     private PromoteTPLogic logic = new PromoteTPLogic();
     private List<ComponentInfoDTO> compInfo = new ArrayList<>();
     private List<HelperDTO> itemStatusList = new ArrayList<>();
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private PromoteTPLogic tpLogic = new PromoteTPLogic();
     private boolean contractExcelFlag = false;
     private boolean infoExcelFlag = false;
@@ -342,7 +341,7 @@ public class NewComponents extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             startDate.setDateFormat(Constants.MM_DD_YYYY);
             endDate.setDateFormat(Constants.MM_DD_YYYY);
@@ -1250,7 +1249,10 @@ public class NewComponents extends CustomComponent implements View {
         }
         /*used to check whether all component selection fields are entered or not */
         if (component.equals(Constants.REBATE_SCHEDULE)) {
-            if (!rebateScheduleId.getValue().equals(StringUtils.EMPTY) && !rsNumber.getValue().equals(StringUtils.EMPTY) && !rsName.getValue().equals(StringUtils.EMPTY) && startDate.getValue() != null && endDate.getValue() != null && rsType.getValue() != null && status.getValue() != null && rebatePlanLevel.getValue() != null && rsProgramType.getValue() != null && paymentFrequency.getValue() != null && paymentMethod.getValue() != null && rsType.getValue() != null) {
+            if (!rebateScheduleId.getValue().equals(StringUtils.EMPTY) && !rsNumber.getValue().equals(StringUtils.EMPTY) 
+                    && !rsName.getValue().equals(StringUtils.EMPTY) && startDate.getValue() != null && endDate.getValue() != null 
+                    && rsType.getValue() != null && status.getValue() != null && rebatePlanLevel.getValue() != null
+                    && rsProgramType.getValue() != null && paymentFrequency.getValue() != null && paymentMethod.getValue() != null) {
                 /*used to check whether Entered RS ID is already exist in the system or not */
                 Boolean psIdFlag = tpLogic.duplicateCheck("RS_ID", String.valueOf(rebateScheduleId.getValue()), "rs");
                 if (psIdFlag) {
@@ -1779,7 +1781,7 @@ public class NewComponents extends CustomComponent implements View {
                                 if (detList != null && detList.size() > 0) {
                                     Object[] obje = (Object[]) detList.get(0);
                                     ifpDetails.setIfpModelSid(ifpmodel.getIfpModelSid());
-                                    ifpDetails.setItemMasterSid(Integer.valueOf(itemMasterId));
+                                    ifpDetails.setItemMasterSid(itemMasterId);
                                     if (obje[1] != null) {
                                         ifpDetails.setStartDate((Date) obje[1]);
                                     } else {
@@ -1831,12 +1833,12 @@ public class NewComponents extends CustomComponent implements View {
                         List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                         input.add(ifpcontract.getIfpContractSid());
                         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                        input.add(DBDate.format(new Date()));
+                        input.add(simpleDateFormat.format(new Date()));
                         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                        input.add(DBDate.format(new Date()));
+                        input.add(simpleDateFormat.format(new Date()));
                         input.add(ifpmodel.getIfpModelSid());
-                        input.add(DBDate.format(ifpmodel.getIfpStartDate()));
-                        input.add(ifpmodel.getIfpEndDate() == null ? null : DBDate.format(ifpmodel.getIfpEndDate()));
+                        input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
+                        input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
                         IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
                     }
                 } else if (level.equals(Constants.THREE)) {
@@ -1950,12 +1952,12 @@ public class NewComponents extends CustomComponent implements View {
                     List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(psContract.getPsContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(psModelId);
-                    input.add(DBDate.format(psmodel.getPsStartDate()));
-                    input.add(psmodel.getPsEndDate() == null ? null : DBDate.format(psmodel.getPsEndDate()));
+                    input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
+                    input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
                     PsContractDetailsImpl.savePsDetailsAttached(input, null);
 
                 } else if (level.equals(Constants.FOUR)) {
@@ -2051,9 +2053,9 @@ public class NewComponents extends CustomComponent implements View {
                         List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                         input.add(rsContract.getRsContractSid());
                         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                        input.add(DBDate.format(new Date()));
+                        input.add(simpleDateFormat.format(new Date()));
                         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                        input.add(DBDate.format(new Date()));
+                        input.add(simpleDateFormat.format(new Date()));
                         input.add(rsModel.getRsModelSid());
                         input.add(rsModel.getRsStartDate());
                         input.add(rsModel.getRsEndDate() == null ? null : rsModel.getRsEndDate());

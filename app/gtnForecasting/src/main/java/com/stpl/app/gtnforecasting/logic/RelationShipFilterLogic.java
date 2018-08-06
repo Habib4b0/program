@@ -35,7 +35,7 @@ public class RelationShipFilterLogic {
 
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
 	private final CommonDAO daoImpl = new CommonDAOImpl();
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
 
 	private RelationShipFilterLogic() {
 		// Singleton constructor
@@ -98,9 +98,9 @@ public class RelationShipFilterLogic {
 				dto.setDisplayValue(customerDescMap.get(obj[NumericConstants.FOUR]));
 				dto.setLevel(customerDescMap.get(obj[NumericConstants.FOUR]));
 				dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
-				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
+				dto.setLevelNo((Integer) obj[NumericConstants.ONE]);
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+				dto.setRelationshipLevelSid((Integer) obj[NumericConstants.THREE]);
 				dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
 				dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
 				if (isNdc) {
@@ -307,7 +307,7 @@ public class RelationShipFilterLogic {
 				selectedCustomerContractList, selectedProductList, dto);
 		inputBean.setDeductionLevel(deductionLevel);
 		inputBean.setDeductionValue(dedValue);
-		insertToCCp(inputBean);
+                insertToCCpARP(inputBean);
 	}
 
 
@@ -477,6 +477,17 @@ public class RelationShipFilterLogic {
 		request.setGtnWsForecastRequest(forecastRequest);
 		client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_CCP_INSERT, request,
+				getGsnWsSecurityToken());
+	}
+        
+        private void insertToCCpARP(GtnForecastHierarchyInputBean inputBean) {
+		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+		forecastRequest.setInputBean(inputBean);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setGtnWsForecastRequest(forecastRequest);
+		client.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_CCP_INSERT_FOR_ARP, request,
 				getGsnWsSecurityToken());
 	}
 

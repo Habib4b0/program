@@ -62,7 +62,7 @@ public class CrossReferenceCustomers extends VerticalLayout {
         cfpResults.setColumnHeaders(HeaderUtil.getInstance().cfpDetailsHeader);
 
     }
-    public void configureFields(){
+    public final void configureFields(){
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         massField.addItem(ConstantsUtils.SELECT_ONE);

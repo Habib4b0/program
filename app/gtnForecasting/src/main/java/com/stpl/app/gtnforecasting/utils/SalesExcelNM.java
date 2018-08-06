@@ -5,18 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.addons.tableexport.TableHolder;
-import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Property;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -30,13 +24,21 @@ import org.apache.poi.ss.util.CellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+
 /**
  *
  * @author Porchelvi.Gunasekara
  */
 public class SalesExcelNM extends ExcelExport{
     
-     protected Map<String, String> formatter = null;
+	protected boolean isAg;
+    protected Map<String, String> formatter = null;
     protected final CellStyle style1 = this.workbook.createCellStyle();
     protected final CellStyle style2 = this.workbook.createCellStyle();
     protected final CellStyle style3 = this.workbook.createCellStyle();
@@ -46,14 +48,18 @@ public class SalesExcelNM extends ExcelExport{
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesExcelNM.class);
     private TableHolder tableHolder;
-
+    private static final String UNIT_DECIMAL = "UNIT_DECIMAL";
+    private static final String UNITTWODECIMAL = "UNITTWODECIMAL";
+    private static final String PRODUCT_GROWTH_SUM = "PRODUCT_GROWTH_SUM";
+    private static final String ACCOUNT_GROWTH_SUM = "ACCOUNT_GROWTH_SUM";
+    
     public static final String COLUMN_FORMULA = "column formula{}";
 
-    public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
+    public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter, boolean isAg) {
       
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
         this.tableHolder = tableHolder;
-        
+        this.isAg = isAg;
         this.formatter = formatter;
     }
 
@@ -96,9 +102,12 @@ public class SalesExcelNM extends ExcelExport{
                 try {
                     if (value != null) {
                         d = dataConverter(value);
+                        
+                        
                     }
                 } catch (final NumberFormatException nfe) {
-                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                	
+                	sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
                     continue;
                 }
 
@@ -116,10 +125,25 @@ public class SalesExcelNM extends ExcelExport{
     }
 
     private Double getCellValue(Object propId, Double d, Double cellValue) {
+    	
+    	Double getCellValue = (double) 0;
+    	
         if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        return cellValue;
+        if ((formatter.get(UNIT_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNIT_DECIMAL))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        if ((formatter.get(UNITTWODECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNITTWODECIMAL))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        if ((formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        if ((formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) && (d > 0)) {
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        return getCellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {
@@ -137,37 +161,93 @@ public class SalesExcelNM extends ExcelExport{
     private void formatForCurrencyAndDecimal(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
         if (currencyNoDecimalFormat(propId)) {
             sheetCell.setCellStyle(style1);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style1);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
+            currencyWithNoDecimal(rootItemId, sheetCell);
         } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
             sheetCell.setCellStyle(style2);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style2);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
-        }else if (formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) {
+            unitWithNoDecimal(rootItemId, sheetCell);
+        }else if (formatter.get(UNITTWODECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNITTWODECIMAL))) {
             sheetCell.setCellStyle(style3);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
-                LOGGER.info(COLUMN_FORMULA , formula);
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
-        }else if (formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) {
+            unitWithTwoDecimal(rootItemId, sheetCell);
+        }else if (formatter.get(UNIT_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(UNIT_DECIMAL))) {
             sheetCell.setCellStyle(style3);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
+            unitDecimal(rootItemId, sheetCell);
         }
+        //Added Formula to PG_SUM column  
+        else if (formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) {
+            sheetCell.setCellStyle(style3);
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
+            growthSum(rootItemId, sheetCell);
+        }
+        //Added Formula to AG_SUM column
+        else if (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) {
+            sheetCell.setCellStyle(style3);
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
+            growthSum(rootItemId, sheetCell);
+        }
+        //Added Formula to Child Count column
+        else if (formatter.get("CHILD_COUNT") != null && String.valueOf(propId).endsWith(formatter.get("CHILD_COUNT"))) {
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
+            forChildCountColumn(rootItemId, sheetCell);
+        }
+    }
+
+    private void forChildCountColumn(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if (((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)) {
+            String formula = getFormula(sheetCell, rootItemId);
+            LOGGER.info(COLUMN_FORMULA, getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+        } else {
+            // Setting 1 to children
+            sheetCell.setCellValue(1);
+        }
+    }
+
+    private void growthSum(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String formula = getFormula(sheetCell, rootItemId);
+            LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+        }
+    }
+
+    private void unitDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            int columnIndex = isAg ? sheetCell.getColumnIndex() + 4 : sheetCell.getColumnIndex() + 2;
+            String pgformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,columnIndex);
+            LOGGER.info(COLUMN_FORMULA , pgformula);
+            sheetCell.setCellFormula(pgformula);
+        }
+    }
+
+    private void unitWithTwoDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String agformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
+            LOGGER.info(COLUMN_FORMULA , agformula);
+            sheetCell.setCellFormula(agformula);
+        }
+    }
+
+    private void unitWithNoDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String formula = getFormula(sheetCell, rootItemId);
+            sheetCell.setCellStyle(style2);
+            LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
+        }
+    }
+
+    private void currencyWithNoDecimal(final Object rootItemId, Cell sheetCell) throws FormulaParseException {
+        if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+            String formula = getFormula(sheetCell, rootItemId);
+            sheetCell.setCellStyle(style1);
+            LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
+            sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
+        }
+    }
+    public String getColumnLetter(Cell sheetCell,int columnIndex) {
+        String columnLetter = CellReference.convertNumToColString(columnIndex);
+        int rowNo = sheetCell.getRowIndex() + 1;
+        return columnLetter+rowNo;
     }
 
 	private boolean currencyNoDecimalFormat(Object propId) {
@@ -278,14 +358,43 @@ public class SalesExcelNM extends ExcelExport{
              string = string.replaceFirst(",", "");
              
              if(isappend){
-                 formula = "SUM("+string+")";
+                 formula = "AVERAGE("+string+")";
              }else{
-                 formula += "+SUM("+string+")";
+                 formula += "+AVERAGE("+string+")";
              }
              isappend= false;
-             
          }
          return formula;
     }
+    // Created formula for PG_SUM and AG_SUM column 
+    public String getAppendedFormulaForPG_AG_Sum(String[] value){
+        boolean isappend = true;
+         List<String> str=new ArrayList<>();
+         String s="";
+         for (int i = 0; i < value.length; i++) {
+             s = s + "," + value[i];
+             if ((i+1) % 30 == 0 && i != 0) {
+                 str.add(s);
+                 s="";
+             }
+         }
+         if(!s.equals("")){
+         str.add(s);
+         }
+         String formula ="";
+          for (int j = 0; j < str.size(); j++) {
+              
+              String string = str.get(j);
+              string = string.replaceFirst(",", "");
+              
+              if(isappend){
+                  formula = "SUM("+string+")";
+              }else{
+                  formula += "+SUM("+string+")";
+              }
+              isappend= false;
+          }
+          return formula;
+     }
     
 }

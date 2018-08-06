@@ -558,7 +558,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		
 		/*
 		 * Additional Search criteria List
-		 * specially for "checked Combo box"
+		 * for "checked Combo box", "approvedBy customTextBox", "createdBy customTextBox"
 		 */
 		GtnUIFrameWorkActionConfig additionalSearchCriteriaAction = new GtnUIFrameWorkActionConfig();
 		additionalSearchCriteriaAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

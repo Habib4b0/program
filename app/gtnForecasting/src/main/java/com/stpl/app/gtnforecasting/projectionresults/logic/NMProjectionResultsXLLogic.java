@@ -75,7 +75,6 @@ public class NMProjectionResultsXLLogic {
     private static final String PRC_PR_EXCEL = "PRC_PROJECTION_RESULT_EXCEL_EXPORT";
     private static final String DASH = "-";
     private List<Object> pivotDiscountList = new ArrayList<>();
-    private final List<ProjectionResultsDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String DETAIL = "Detail";
@@ -475,7 +474,6 @@ public class NMProjectionResultsXLLogic {
     private void calculateAndCustomize_total_pivot() {
         String frequency = selection.getFrequency();
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY;
@@ -486,7 +484,6 @@ public class NMProjectionResultsXLLogic {
         } else {
             frequency = Constant.ANNUAL_CAPS;
         }
-        projectionIdList.add(String.valueOf(selection.getProjectionId()));
         Object[] orderedArgs = {selection.getProjectionId(), frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId()};
         hierarchyKeys.add(Constants.LabelConstants.TOTAL.toString());
         List<ProjectionResultsDTO> pvList = new ArrayList();
@@ -686,8 +683,6 @@ public class NMProjectionResultsXLLogic {
                 resultDto.add(pvDTO);
             }
         }
-        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = {} " , discountList.size());
-
     }
 
     public ProjectionResultsDTO getCustomizedPPA(List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, int index, int actIndex, boolean isPer, String parentGroup, String ppaGroup) {

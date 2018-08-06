@@ -360,11 +360,8 @@ public class ProcessSchedulerLogic {
 
 	public int getSearchCount(final ProcessSchedulerDTO binderDto, SessionDTO sessionDTO) {
 		int count = 0;
-		List parameters = new ArrayList();
 		List resultCountList;
 		String countQuery = SQlUtil.getQuery("getCffSearchCount");
-		parameters.add(sessionDTO.getUserId());
-		parameters.add(sessionDTO.getSessionId());
 		countQuery = countQuery.replace("@USER_ID", sessionDTO.getUserId());
 		countQuery = countQuery.replace("@SESSION_ID", sessionDTO.getSessionId());
 		String filterQuery = AbstractFilterLogic.getAdminInstance()
@@ -372,9 +369,6 @@ public class ProcessSchedulerLogic {
 		if (filterQuery != null) {
 			filterQuery = filterQuery.replace("where", "AND");
 			countQuery = countQuery.replace(FILTERQUERY, filterQuery);
-			parameters.add(filterQuery);
-		} else {
-			parameters.add(" ");
 		}
 		resultCountList = (List) HelperTableLocalServiceUtil.executeSelectQuery(countQuery);
 		count = getCount(resultCountList);
@@ -427,7 +421,7 @@ public class ProcessSchedulerLogic {
 	 * @return
 	 */
 	private Map<String, String> getFilterMap() {
-		Map<String, String> filterMap = new HashMap<>();
+		Map<String, String> filterMap = new HashMap<>(NumericConstants.SIXTY);
 		filterMap.put(StringConstantUtils.FINANCIAL_FORECAST_ID, "FINANCIAL_FORECAST_ID");
 		filterMap.put(StringConstantUtils.FINANCIAL_FORECAST_NAME, "FINANCIAL_FORECAST_NAME");
 		filterMap.put("typeDesc", "TYPE");
@@ -725,7 +719,7 @@ public class ProcessSchedulerLogic {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
 		List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
 		for (User user : userList) {
-			userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getLastName() + ", " + user.getFirstName());
+			userMap.put(Integer.valueOf(String.valueOf(user.getUserId())), user.getLastName() + ", " + user.getFirstName());
 		}
 		LOGGER.debug("End of getUserName method");
 		return userMap;

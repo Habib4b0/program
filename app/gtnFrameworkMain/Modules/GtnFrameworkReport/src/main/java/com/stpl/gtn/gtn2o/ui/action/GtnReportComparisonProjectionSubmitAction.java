@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,6 +23,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
 
@@ -62,6 +64,7 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(10)));
 				comparisonProjectionBean
 						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(11)));
+				comparisonProjectionBean.setUserId(String.valueOf(recordBean.getStringPropertyByIndex(7)));
 				comparisonProjectionBean.setCreatedBy(Integer.parseInt(recordBean.getStringPropertyByIndex(8)));
 				comparisonProjectionBean.setProjectionType(String.valueOf(recordBean.getAdditionalPropertyByIndex(0)));
 				comparisonProjectionBeanList.add(comparisonProjectionBean);
@@ -70,6 +73,12 @@ public class GtnReportComparisonProjectionSubmitAction
 					.getVaadinBaseComponentFromParent(
 							gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
 					.getComponentData();
+			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(idComponentData.getViewId()).getComponentData().getSharedPopupData();
+			if(Optional.ofNullable(dataSelectionBean).isPresent()) {
+				dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
+			}
+			
 			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
 			idComponentData.setCustomData(comparisonProjectionBeanList);
 			if (comparisonProjectionBeanList.isEmpty()) {

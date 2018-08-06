@@ -580,6 +580,8 @@ public class ExcelExport extends TableExport {
      * @return the int
      */
     protected int addDataRows(final Sheet sheetToAddTo, final int row) {
+    	
+    	
         final Collection<?> itemIds = getTableHolder().getContainerDataSource().getItemIds();
         int localRow = row;
         int count = 0;
@@ -635,6 +637,10 @@ public class ExcelExport extends TableExport {
      */
     protected void addDataRow(final Sheet sheetToAddTo, final Object rootItemId, final int row) {
         final Row sheetRow = sheetToAddTo.createRow(row);
+        
+        
+        LOGGER.info("Inside addDataRow - row: " + sheetRow);
+        
         Property prop;
         Object propId;
         Object value;
@@ -648,6 +654,10 @@ public class ExcelExport extends TableExport {
                 value = prop.getValue();
             }
             sheetCell = sheetRow.createCell(col);
+            
+            LOGGER.info("value: " + value.toString());
+            LOGGER.info("sheetCell: " + sheetCell);
+            
             final CellStyle cs = getCellStyle(rootItemId, row, col, false);
             sheetCell.setCellStyle(cs);
             final Short poiAlignment = getTableHolder().getCellAlignment(propId, 0);

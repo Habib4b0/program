@@ -34,13 +34,11 @@ public class DeductionCalendarView extends VerticalLayout implements View {
 
     public static final String NAME = "ADD";
 
-    private DeductionCalendarForm dcform;
     
     private String sessionID = StringUtils.EMPTY;
     private final SessionDTO sessionDTO;
     private final DeductionCalendarLogic deductionCalendarLogic = new DeductionCalendarLogic();
     private DeductionCalendarDTO dto = new DeductionCalendarDTO();
-    private ErrorfulFieldGroup binder;
 
     public DeductionCalendarView(final SessionDTO sessionDTO) {
         super();
@@ -61,6 +59,8 @@ public class DeductionCalendarView extends VerticalLayout implements View {
             sessionDTO.setUiSessionId(fmtID.format(tempDate));
             String mode = sessionDTO.getMode();
             sessionDTO.setScreenName(ConstantsUtils.DEDUCTION_CALENDAR);
+            DeductionCalendarForm dcform;
+            ErrorfulFieldGroup binder;
             if (!sessionID.equals(sessionDTO.getUiSessionId())) {
                 QueryUtils.createTempTables(sessionDTO);
                 sessionID = sessionDTO.getUiSessionId();

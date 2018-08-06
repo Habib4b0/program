@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroup
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -24,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -35,6 +37,7 @@ public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 		reportDSCustomertHierarchyView.setViewName("Customer Hierarchy LookUp");
 		reportDSCustomertHierarchyView.setViewId("dataSelectionTab_customerHierarchyLookup");
 		reportDSCustomertHierarchyView.setDefaultView(false);
+		reportDSCustomertHierarchyView.setResetAllowed(true);
 		addreportCustomertHierarchyComponentList(reportDSCustomertHierarchyView, namespace);
 		return reportDSCustomertHierarchyView;
 	}
@@ -163,26 +166,45 @@ public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 
 	private void addReportCustomerHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
+		
+		GtnUIFrameworkComponentConfig addReportDsCustomerHierarchyNameTextBoxLayout = new GtnUIFrameworkComponentConfig();
+		addReportDsCustomerHierarchyNameTextBoxLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		addReportDsCustomerHierarchyNameTextBoxLayout
+		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportDsCustomerHierarchyNameTextBoxVerticalLayout");
+		addReportDsCustomerHierarchyNameTextBoxLayout.setAddToParent(true);
+		addReportDsCustomerHierarchyNameTextBoxLayout.setParentComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportDsCustomerHierarchyNameMainLayout = new GtnUIFrameworkLayoutConfig();
+		reportDsCustomerHierarchyNameMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		addReportDsCustomerHierarchyNameTextBoxLayout.setGtnLayoutConfig(reportDsCustomerHierarchyNameMainLayout);
+		
+		
 		GtnUIFrameworkComponentConfig reportDsCustomerHierarchyNameTextBox = new GtnUIFrameworkComponentConfig();
 		reportDsCustomerHierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportDsCustomerHierarchyNameTextBox.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX);
 		reportDsCustomerHierarchyNameTextBox.setComponentName("Hierarchy Name:   ");
 		reportDsCustomerHierarchyNameTextBox.addComponentStyle("stpl-margin-left-25");
-		reportDsCustomerHierarchyNameTextBox.setComponentHight("100%");
+;		reportDsCustomerHierarchyNameTextBox.setComponentHight("100%");
 		reportDsCustomerHierarchyNameTextBox.setAddToParent(true);
 		reportDsCustomerHierarchyNameTextBox.setDefaultFocus(true);
-
+		GtnUIFrameworkTextBoxConfig textBoxConfig = new GtnUIFrameworkTextBoxConfig();
+		reportDsCustomerHierarchyNameTextBox.setGtnTextBoxConfig(textBoxConfig);
 		reportDsCustomerHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		reportDsCustomerHierarchyNameTextBox
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+						+"reportDsCustomerHierarchyNameTextBoxVerticalLayout");
 
-		GtnUIFrameworkValidationConfig dsHierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
-		dsHierarchyNameValidationConfig
+		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
+		hierarchyNameValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		reportDsCustomerHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(dsHierarchyNameValidationConfig);
-
+		hierarchyNameValidationConfig.setAttachRegxValidatior(true);
+		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_200_CHARACTER);
+		hierarchyNameValidationConfig.setRegxValidationMessage("Hierarchy Name Should be less than 200 Characters");
+		reportDsCustomerHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
+		componentList.add(addReportDsCustomerHierarchyNameTextBoxLayout);
 		componentList.add(reportDsCustomerHierarchyNameTextBox);
 	}
 

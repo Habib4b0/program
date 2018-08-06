@@ -20,7 +20,6 @@ public class MassUpdateRunnableJob implements Runnable {
     private final Object value;
     private final String fieldValue;
     private final String columnName;
-    private final String group;
     private final int startQuater;
     private final int endQuater;
     private final int startYear;
@@ -34,7 +33,6 @@ public class MassUpdateRunnableJob implements Runnable {
         this.value = value;
         this.fieldValue = fieldValue;
         this.columnName = columnName;
-        this.group = group;
         this.startQuater = startQuater;
         this.endQuater = endQuater;
         this.startYear = startYear;

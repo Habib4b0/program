@@ -18,6 +18,7 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 	private Date createdDate;
 	private int createdBy;
 	private String projectionType;
+	private String userId;
 
 	public String getProjectionName() {
 		return projectionName;
@@ -92,11 +93,11 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return this.createdDate == null ? null : (Date) this.createdDate.clone();
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public int getCreatedBy() {
@@ -115,6 +116,14 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 		this.projectionType = projectionType;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -130,6 +139,7 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 		result = PRIME * result + ((projectionDescription == null) ? 0 : projectionDescription.hashCode());
 		result = PRIME * result + projectionMasterSid;
 		result = PRIME * result + ((projectionName == null) ? 0 : projectionName.hashCode());
+		result = PRIME * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -142,6 +152,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 		if (getClass() != obj.getClass())
 			return false;
 		GtnReportComparisonProjectionBean other = (GtnReportComparisonProjectionBean) obj;
+		return equalsChecking(other);
+	}
+
+	private boolean equalsChecking(GtnReportComparisonProjectionBean other) {
 		if (brand == null) {
 			if (other.brand != null)
 				return false;
@@ -159,6 +173,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 			return false;
 		if (createdBy != other.createdBy)
 			return false;
+		return equalsValidationOne(other);
+	}
+
+	private boolean equalsValidationOne(GtnReportComparisonProjectionBean other) {
 		if (createdDate == null) {
 			if (other.createdDate != null)
 				return false;
@@ -174,6 +192,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 				return false;
 		} else if (!itemNo.equals(other.itemNo))
 			return false;
+		return equalsValidationTwo(other);
+	}
+
+	private boolean equalsValidationTwo(GtnReportComparisonProjectionBean other) {
 		if (marketType == null) {
 			if (other.marketType != null)
 				return false;
@@ -184,12 +206,21 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 				return false;
 		} else if (!projectionDescription.equals(other.projectionDescription))
 			return false;
+		return equalsValidationThree(other);
+	}
+
+	private boolean equalsValidationThree(GtnReportComparisonProjectionBean other) {
 		if (projectionMasterSid != other.projectionMasterSid)
 			return false;
 		if (projectionName == null) {
 			if (other.projectionName != null)
 				return false;
 		} else if (!projectionName.equals(other.projectionName))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}

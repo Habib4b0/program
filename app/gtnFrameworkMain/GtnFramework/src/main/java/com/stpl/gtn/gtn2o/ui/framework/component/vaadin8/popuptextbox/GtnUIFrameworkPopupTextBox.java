@@ -29,7 +29,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
 	public GtnUIFrameworkPopupTextBox() {
-
+            //Overridden method
 	}
 
 	@Override
@@ -53,18 +53,20 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 			if (textboxConfig.isRequired()) {
 				textBoxBinder.forField(popupTextField).asRequired(textboxConfig.getRequiredMessage()).bind(
 						ComponentBinderValidatorBean::getRequiredField, ComponentBinderValidatorBean::setRequiredField);
-			}
-			popupTextField.setEnabled(textboxConfig.isEnable());
-			popupTextField.setReadOnly(textboxConfig.isReadOnly());
+			}		
 			if (textboxConfig.isNullSettingAllowed()) {
 				textBoxBinder.forField(popupTextField).withNullRepresentation(textboxConfig.getNullRepresentation())
 						.bind(ComponentBinderValidatorBean::getWithNullRepresentation,
 								ComponentBinderValidatorBean::setWithNullRepresentation);
 			}
+			popupTextField.setEnabled(textboxConfig.isEnable());
+			popupTextField.setReadOnly(textboxConfig.isReadOnly());
+			popupTextBoxHorizontalComponent.setEnabled(componentConfig.isEnable());
 		}
 
 		popupTextField.addStyleName(GtnFrameworkCssConstants.SEARCHICON);
 		loadStyles(popupTextBoxHorizontalComponent, componentConfig.getComponentStyle());
+                loadStyles(popupTextField, componentConfig.getTextComponentStyle());
 		popupTextBoxHorizontalComponent.addComponent(popupTextField);
 
 		popupTextBoxHorizontalComponent.setData(componentData);
@@ -81,26 +83,26 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		popupTextField.setVisible(componentConfig.isVisible());
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
 		final String componentId = componentData.getComponentIdInMap();
-		postCreateHorizontalLayout.addLayoutClickListener(new LayoutClickListener() {
+			postCreateHorizontalLayout.addLayoutClickListener(new LayoutClickListener() {
 
-			@Override
-			public void layoutClick(LayoutClickEvent event) {
-				try {
-					if (event.getChildComponent() == popupTextField) {
-						for (GtnUIFrameWorkActionConfig popupActionConfig : componentConfig
-								.getGtnUIFrameWorkActionConfigList()) {
-							final GtnUIFrameWorkAction popupAction = popupActionConfig.getActionType()
-									.getGtnUIFrameWorkAction();
-							popupAction.configureParams(popupActionConfig);
-							popupAction.doAction(componentId, popupActionConfig);
+				@Override
+				public void layoutClick(LayoutClickEvent event) {
+					try {
+						if (event.getChildComponent() == popupTextField) {
+							for (GtnUIFrameWorkActionConfig popupActionConfig : componentConfig
+									.getGtnUIFrameWorkActionConfigList()) {
+								final GtnUIFrameWorkAction popupAction = popupActionConfig.getActionType()
+										.getGtnUIFrameWorkAction();
+								popupAction.configureParams(popupActionConfig);
+								popupAction.doAction(componentId, popupActionConfig);
+							}
 						}
-					}
 
-				} catch (GtnFrameworkGeneralException e) {
-					gtnLogger.error(e.getMessage(), e);
+					} catch (GtnFrameworkGeneralException e) {
+						gtnLogger.error(e.getMessage(), e);
+					}
 				}
-			}
-		});
+			});
 	}
 
 	@Override

@@ -103,6 +103,7 @@ public class GtnWsContractDashboardLogic {
 	private static final String STATUS5 = "status5";
 	private static final String STARTDATE5 = "startDate5";
 	private static final String ENDDATE5 = "endDate5";
+	private static final String CRITERIA_MISMATCH = "Criteria Mismatch";
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsContractDashboardLogic.class);
 	private final GtnWsContractDashboardController controller;
 	private final Map<String, String> filterAndSortingCriteriaMap = new HashMap<>();
@@ -605,7 +606,7 @@ public class GtnWsContractDashboardLogic {
 		if (tableLevel == 1) {
 			cdResponse.setSuccess(false);
 			cdResponse.setMessage("Cannot make a " + tableCategory + " as child node");
-			cdResponse.setMessageHeader("Criteria Mismatch");
+			cdResponse.setMessageHeader(CRITERIA_MISMATCH);
 			cdResponse.setMessageType(GtnFrameworkCommonStringConstants.WARNING);
 			return;
 		}
@@ -614,7 +615,7 @@ public class GtnWsContractDashboardLogic {
 			String treeCategory = cdResponse.getTreeBean().getStringPropertyByIndex(8);
 			cdResponse.setSuccess(false);
 			cdResponse.setMessage(tableCategory + " cannot be added to " + treeCategory);
-			cdResponse.setMessageHeader("Criteria Mismatch");
+			cdResponse.setMessageHeader(CRITERIA_MISMATCH);
 			cdResponse.setMessageType(GtnFrameworkCommonStringConstants.WARNING);
 			return;
 		}

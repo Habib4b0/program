@@ -187,8 +187,8 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 			List<Object> params = new ArrayList<>();
 			params.add("saveProfileViewLookUp");
 			params.add("Save View Popup");
-			params.add(null);
-			params.add(null);
+			params.add("500px");
+			params.add("260px");
 			params.add(null);
 			params.add(reportingDashboardSaveProfileLookupBean);
 

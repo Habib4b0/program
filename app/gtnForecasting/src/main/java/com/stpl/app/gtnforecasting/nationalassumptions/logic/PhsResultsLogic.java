@@ -24,6 +24,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -252,7 +253,7 @@ public class PhsResultsLogic {
         int phsParentCount = 0;
         phsList = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsParentCount", projSelDTO.getLevelNo(), 0, therapeutic);
         if (phsList != null && !phsList.isEmpty()) {
-            phsParentCount += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? String.valueOf(phsList.get(0)) : Constant.STRING_ONE);
+            phsParentCount += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(phsList.get(0))) ? Arrays.toString(phsList.get(0)) : Constant.STRING_ONE);
         }
         return phsParentCount;
     }
@@ -848,7 +849,7 @@ public class PhsResultsLogic {
         try {
             List<Object[]> medicaidIndex = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsRowIndex", 0, itemMasterSid, therapeutic);
             if (!medicaidIndex.isEmpty()) {
-                count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
+                count = Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidIndex.get(0))) ? Arrays.toString(medicaidIndex.get(0)) : Constant.DASH);
             }
         } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
@@ -879,7 +880,7 @@ public class PhsResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }

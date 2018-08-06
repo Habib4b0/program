@@ -103,7 +103,6 @@ public class ProjectionVarianceLogic {
     private static final String P = "P";
     private static final String CURRENT = "Current";
     private final CommonLogic commonLogic = new CommonLogic();
-    private final com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();
@@ -1496,8 +1495,6 @@ public class ProjectionVarianceLogic {
                 pcommonColumn = getCommonColumn(frequencyDivision, pcommonColumn);
                 if (periodList.contains(pcommonColumn)) {
                     periodList.remove(pcommonColumn);
-                    List<String> columnList = new ArrayList<>(pvsdto.getColumns());
-                    columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
                     ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
                     projDTO.setGroup(commonHeader);
                     projDTO.setDfLevelNumber(commonHeader);
@@ -1977,7 +1974,7 @@ public class ProjectionVarianceLogic {
      */
     public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
         boolean actualBasis = (StringConstantsUtil.ACTUALS1).equals(pvsdto.getComparisonBasis());
-        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
         boolean isDetail = false;
         if (pvsdto.getLevel().equals(DETAIL)) {
             isDetail = true;

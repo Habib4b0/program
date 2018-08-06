@@ -95,7 +95,7 @@ public class Copycomponents extends CustomComponent {
     private final BeanItemContainer<CopyComponentDTO> contractComponentContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
-    public static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private CopyContractLogic copyContractLogic = new CopyContractLogic();
     private  QueryUtils queryUtils = new QueryUtils();
     @UiField("SearchfieldNC")
@@ -231,7 +231,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             BtnsearchNC.setEnabled(false);
             componentitems.addItem(Constants.COMPANY_FAMILY_PLAN);
@@ -1073,6 +1073,26 @@ public class Copycomponents extends CustomComponent {
         } catch (Exception e) {
             LOGGER.error("",e);
         }
+    }
+
+    public ContractMaster Cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate) throws NumberFormatException {
+        ContractMaster contractMaster;
+        contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
+        contractMaster.setContractId(contractId);
+        contractMaster.setContractNo(contractNo);
+        contractMaster.setContractName(contractName);
+        contractMaster.setContractType(contractType);
+        contractMaster.setContHoldCompanyMasterSid(contractHolder);
+        contractMaster.setProcessStatus(true);
+        contractMaster.setSource("BPI");
+        contractMaster.setContractStatus(status);
+        contractMaster.setCreatedBy(Integer.parseInt(userId));
+        contractMaster.setStartDate(startDate);
+        contractMaster.setEndDate(endDate);
+        contractMaster.setInboundStatus(Constants.A);
+        contractMaster.setCreatedDate(new Date());
+        contractMaster.setModifiedDate(new Date());
+        return contractMaster;
     }
 
     public void saveCFP(Object item) {

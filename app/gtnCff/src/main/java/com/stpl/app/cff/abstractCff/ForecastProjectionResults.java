@@ -701,18 +701,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      */
     public void graphExportLogic() {
         LOGGER.debug("graphExportLogic method starts");
-
-        List<ProjectionResultsDTO> chartiLst = new ArrayList<>();
-        if (resultBeanContainer.size() > 0) {
-            for (Object itemId : resultBeanContainer.getItemIds(0, resultBeanContainer.size())) {
-                ProjectionResultsDTO dto = (ProjectionResultsDTO) itemId;
-                if ((resultBeanContainer.areChildrenAllowed(itemId) && dto.getGroup().contains("Total Discount"))
-                        || (!resultBeanContainer.areChildrenAllowed(itemId) && !dto.getGroup().contains("Projection Total"))) {
-                    chartiLst.add(dto);
-                }
-
-            }
-        }
         if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
             projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }

@@ -16,11 +16,13 @@ import org.kie.api.task.model.TaskSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author STPL
  */
+@Service
 public class BpmProcessBean {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmProcessBean.class);
 	@Autowired
@@ -39,9 +41,6 @@ public class BpmProcessBean {
 		return bpmManagerBean;
 	}
 
-	public void setBpmManagerBean(BpmManagerBean bpmManagerBean) {
-		this.bpmManagerBean = bpmManagerBean;
-	}
 
 	public ProcessInstance startProcess(String processName, Map<String, Object> params, String moduleName) {
 		KieSession ksession = bpmManagerBean.getRuntimeEngine(moduleName).getKieSession();
@@ -110,9 +109,12 @@ public class BpmProcessBean {
 		if (list == null || list.isEmpty()) {
 			return Collections.emptyList();
 		} else {
+                    if(rolesNameList != null)
+                    {
 			for (OrganizationalEntity organizationalEntity : list) {
 				rolesNameList.add(organizationalEntity.getId());
 			}
+                    }
 			return rolesNameList;
 		}
 	}

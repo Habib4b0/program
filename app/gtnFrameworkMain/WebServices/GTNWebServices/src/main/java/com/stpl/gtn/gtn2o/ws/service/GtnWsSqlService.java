@@ -132,7 +132,7 @@ public class GtnWsSqlService {
 			}
 
 		} catch (Exception ex) {
-			GTNLOGGER.error("Exception in getQuery", ex);
+			GTNLOGGER.error("Exception in getReplacedQuery", ex);
 		}
 		return sql.toString();
 	}
@@ -223,4 +223,24 @@ public class GtnWsSqlService {
 		procedureToCall.append('}');
 		return procedureToCall.toString();
 	}
+    @SuppressWarnings("rawtypes")
+    public String getNullReplacedQuery(List input, String queryName) {
+        StringBuilder sql = new StringBuilder();
+        try {
+            sql = new StringBuilder(getQuery(queryName));
+            if (input != null) {
+                for (Object temp : input) {
+                    if (temp == null && sql.indexOf("'?'") != -1) {
+                        sql.replace(sql.indexOf("'?'"), sql.indexOf("'?'") + 3, String.valueOf(temp));
+                    } else if (sql.indexOf("?") != -1) {
+                        sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+            GTNLOGGER.error("Exception in getNullReplacedQuery", ex);
+        }
+        return sql.toString();
+    }
 }

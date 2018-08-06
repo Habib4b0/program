@@ -384,7 +384,7 @@ public class CommmonLogic {
                 where = true;
             }
         }
-        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
+        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
                 query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
@@ -855,7 +855,7 @@ public class CommmonLogic {
         }
 
         String udcValue = "1";
-        if (conSelDTO.getModuleName().equals(ADD_TRADING_PARTNER) || conSelDTO.getScreenName().equals(TAB_TRANSFER_CONTRACT.getConstant())) {
+        if (conSelDTO.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()) || conSelDTO.getScreenName().equals(TAB_TRANSFER_CONTRACT.getConstant())) {
             udcValue = "2";
         }
         query.append(" AND TEMP_TABLE.OPERATION <> '").append(udcValue).append("' ");
@@ -991,7 +991,7 @@ public class CommmonLogic {
                 where = true;
             }
         }
-        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
+        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
                 query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
@@ -2030,10 +2030,10 @@ public class CommmonLogic {
 
                 tradeClass.setCompanyTradeClass(Integer.parseInt(companyTradeList.get(i).getTradeClass()));
 
-                if (companyTradeList.get(i).getTradeStartDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeStartDate())) {
+                if (companyTradeList.get(i).getTradeStartDate() != null) {
                     tradeClass.setTradeClassStartDate(companyTradeList.get(i).getTradeStartDate());
                 }
-                if (companyTradeList.get(i).getTradeEndDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeEndDate())) {
+                if (companyTradeList.get(i).getTradeEndDate() != null) {
                     tradeClass.setTradeClassEndDate(companyTradeList.get(i).getTradeEndDate());
                 } else {
                     tradeClass.setTradeClassEndDate(null);

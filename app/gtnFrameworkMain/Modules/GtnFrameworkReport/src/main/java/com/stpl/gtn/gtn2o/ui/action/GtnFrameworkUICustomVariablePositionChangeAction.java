@@ -1,13 +1,16 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkUICustomVariablePositionChangeAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -25,6 +28,8 @@ public class GtnFrameworkUICustomVariablePositionChangeAction
 		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String variableTypeId = (String) parameterList.get(1);
 		String variableTypeGridId = (String) parameterList.get(2);
+		String variableTypeAddButtonId = (String) parameterList.get(4);
+		String variableTypeRemoveButtonId = (String) parameterList.get(5);
 		String selectedType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getV8StringFromField();
 		boolean isNeedToBeEnabled = selectedType.equals("Rows");
 
@@ -32,6 +37,25 @@ public class GtnFrameworkUICustomVariablePositionChangeAction
 				.setComponentEnable(isNeedToBeEnabled);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeGridId, componentId)
 				.setComponentEnable(isNeedToBeEnabled);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeAddButtonId, componentId)
+				.setComponentEnable(isNeedToBeEnabled);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeRemoveButtonId, componentId)
+				.setComponentEnable(isNeedToBeEnabled);
+
+		clearTreeTable(componentId, String.valueOf(parameterList.get(3)));
+	}
+
+	private void clearTreeTable(String componentId, String treeComponentId) {
+		boolean action = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentConfig()
+				.isUserOriginatedFlag();
+		if (action) {
+			TreeGrid<GtnWsRecordBean> rightGrid = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(treeComponentId, componentId).getTreeGrid();
+			Optional.ofNullable(rightGrid).ifPresent(grid -> {
+				grid.getTreeData().clear();
+				grid.getDataProvider().refreshAll();
+			});
+		}
 
 	}
 

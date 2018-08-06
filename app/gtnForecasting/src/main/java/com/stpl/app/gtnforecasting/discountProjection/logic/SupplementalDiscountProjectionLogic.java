@@ -958,14 +958,8 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public void clearTemp(final SessionDTO inputDto) {
-        Map<String, Object> input = new HashMap<>();
-        input.put("?UID", inputDto.getUserId());
-        input.put("?SID", inputDto.getSessionId());
         Date tempDate = new Date();
-        final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
         tempDate.setDate(tempDate.getDate() - NumericConstants.TWO);
-        input.put("?LD", fmt.format(tempDate));
-
         clearTempTables(tempDate);
     }
 
@@ -1792,7 +1786,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));
@@ -1823,7 +1817,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));

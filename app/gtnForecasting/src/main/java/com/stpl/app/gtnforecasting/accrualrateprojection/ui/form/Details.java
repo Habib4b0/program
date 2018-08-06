@@ -337,7 +337,10 @@ public class Details extends CustomComponent {
         LOGGER.debug("Inside Generate Click Listener");
         try {
             boolean isNotValidFilter = accrualRateProjectionLogic.checkInvalidFromToPeriods(fromDdlb.getValue(), toDdlb.getValue(), accrualRateSelectionDTO);
-            AccrualRateUtils.getCurrentCheckValue(accrualRateSelectionDTO.getVariableList(), customMenuItem, AccrualRateUtils.SALES);
+            List<String> selectedVariableList=new ArrayList<>();
+            AccrualRateUtils.getCurrentCheckValue(selectedVariableList, customMenuItem, AccrualRateUtils.SALES);
+            accrualRateSelectionDTO.setVariableList(selectedVariableList);
+            
             if (isNotValidFilter) {
                 AbstractNotificationUtils.getErrorNotification("Time Period conflict", alertMsg.getString("ACR_MSG_ID_06"));
             } else if (accrualRateSelectionDTO.getVariableList().isEmpty()) {
@@ -573,7 +576,10 @@ public class Details extends CustomComponent {
             }
 
         }
-        AccrualRateUtils.getCurrentCheckValue(accrualRateSelectionDTO.getVariableList(), customMenuItem, AccrualRateUtils.SALES);
+        
+        List<String> selectedVariableList=new ArrayList<>();
+        AccrualRateUtils.getCurrentCheckValue(selectedVariableList, customMenuItem, AccrualRateUtils.SALES);
+        accrualRateSelectionDTO.setVariableList(selectedVariableList);
     }
 
     public void callDetailsProcedure() {

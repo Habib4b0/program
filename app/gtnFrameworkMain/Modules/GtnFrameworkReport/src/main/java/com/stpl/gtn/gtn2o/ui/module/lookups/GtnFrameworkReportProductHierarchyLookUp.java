@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -35,6 +36,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		productHierarchyView.setViewName("Product Hierarchy LookUp");
 		productHierarchyView.setViewId("reportLandingScreen_productHierarchyLookup");
 		productHierarchyView.setDefaultView(false);
+		productHierarchyView.setResetAllowed(true);
 		addReportProductHierarchyLookUpComponentList(productHierarchyView, namespace);
 		return productHierarchyView;
 	}
@@ -97,6 +99,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		reportProductHierarchyLookUpSearchCriteriaPanel.setMargin(true);
 		reportProductHierarchyLookUpSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportProductHierarchyLookUpSearchCriteriaPanel.setAddToParent(true);
+		reportProductHierarchyLookUpSearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportProductHierarchyLookUpSearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportProductHierarchyLookUpSearchCriteriaPanel);
 		reportProductHierarchyLookUpSearchCriteriaLayout(componentList, namespace);
 	}
@@ -157,6 +161,20 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 	}
 
 	private void addHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
+		
+		GtnUIFrameworkComponentConfig addReportProductHierarchyNameTextBoxLayout = new GtnUIFrameworkComponentConfig();
+		addReportProductHierarchyNameTextBoxLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		addReportProductHierarchyNameTextBoxLayout
+		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportProductHierarchyNameTextBoxVerticalLayout");
+		addReportProductHierarchyNameTextBoxLayout.setAddToParent(true);
+		addReportProductHierarchyNameTextBoxLayout.setParentComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportLandingScreenProductHierarchyNameMainLayout = new GtnUIFrameworkLayoutConfig();
+		reportLandingScreenProductHierarchyNameMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		addReportProductHierarchyNameTextBoxLayout.setGtnLayoutConfig(reportLandingScreenProductHierarchyNameMainLayout);
+		
 		GtnUIFrameworkComponentConfig addHierarchyNameTextBox = new GtnUIFrameworkComponentConfig();
 		addHierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		addHierarchyNameTextBox.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -168,13 +186,16 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		addHierarchyNameTextBox.setAddToParent(true);
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+				+ "reportProductHierarchyNameTextBoxVerticalLayout");
 
-		GtnUIFrameworkValidationConfig productHierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
-		productHierarchyNameValidationConfig
+		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
+		hierarchyNameValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		addHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(productHierarchyNameValidationConfig);
-
+		hierarchyNameValidationConfig.setAttachRegxValidatior(true);
+		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_200_CHARACTER);
+		hierarchyNameValidationConfig.setRegxValidationMessage("Hierarchy Name Should be less than 200 Characters");
+		addHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
+		componentList.add(addReportProductHierarchyNameTextBoxLayout);
 		componentList.add(addHierarchyNameTextBox);
 	}
 
@@ -284,6 +305,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		resultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		resultPanel.setAddToParent(true);
+		resultPanel.addComponentStyle("stpl-margin-left-10");
+		resultPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(resultPanel);
 		addProductHierarchyPagedTableComponent(componentList, namespace);
 
