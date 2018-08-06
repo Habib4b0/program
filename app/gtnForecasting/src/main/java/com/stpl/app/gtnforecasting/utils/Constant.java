@@ -2142,6 +2142,8 @@ public class Constant {
     public static final String CUSTOM_VIEW_DECLARATION = "customViewDeclaration";
     public static final String FUNCTION_PRC_VIEWS_CALL_UOM = "FUNCTION_PRC_VIEWS_CALL_UOM";
     public static final String VARIANCE_SCREEN = "Variance";
+    public static final String UNIT_OF_MEASURE = "UnitOfMeasure";
+    public static final String CONVERSION_FACTOR_DDLB = "ConversionFactor";
 
     /**
      * Enum for Frequency constants
