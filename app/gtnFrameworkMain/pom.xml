@@ -127,7 +127,6 @@
                 </property>
             </activation>
             <properties>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
             <build>
                 <defaultGoal>
@@ -138,7 +137,6 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <skipTests>${skipTests}</skipTests>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -157,12 +155,46 @@
                 </property>
             </activation>
             <properties>
-                <maven.test.skip>true</maven.test.skip>
+                <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+                <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+                <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+                <sonar.language>java</sonar.language>
             </properties>
             <build>
                 <defaultGoal>
                     clean install com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
                 </defaultGoal>
+                <plugins>
+	
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.1.0</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.7.6.201602180812</version>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                            <append>true</append>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>post-unit-test</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
 
@@ -241,7 +273,10 @@
                 </property>
             </activation>
             <properties>
-                <maven.test.skip>true</maven.test.skip>
+                <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+                <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+                <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+                <sonar.language>java</sonar.language>
             </properties>
             <build>
                 <defaultGoal>
@@ -252,8 +287,30 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <skipTests>${skipTests}</skipTests>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.7.6.201602180812</version>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                            <append>true</append>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>post-unit-test</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
