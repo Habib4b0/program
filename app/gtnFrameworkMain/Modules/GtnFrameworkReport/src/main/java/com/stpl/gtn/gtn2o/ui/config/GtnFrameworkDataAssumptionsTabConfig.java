@@ -134,7 +134,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private void addDataAssumptionsPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentId) {
-
 		GtnUIFrameworkComponentConfig dataAssumptionsPagedTableComponent = configProvider.getUIFrameworkComponentConfig(
 				"dataAssumptionsPagedTableComponent"+parentId, true, parentId, GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsPagedTableComponent.setAuthorizationIncluded(true);
@@ -165,6 +164,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		
 		String[] dataAssumptionsPropertyIDs = GtnFrameworkReportStringConstants
 				.getReportDataAssumptionsFilterPropertyId();
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dataAssumptionsFilterConfigMap = new HashMap<>(
@@ -174,7 +174,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
 				GtnUIFrameworkComponentType.CALENDAR_FIELD };
-
 		String[] dataAssumptionsComboboxIds = { "" };
 		String[] dataAssumptionsComboBoxType = { "" };
 		int comboboxStartIndex = 0;

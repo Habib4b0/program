@@ -508,8 +508,8 @@ public class CommonUtils {
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             String formattedUN= user.getLastName()+", "+user.getFirstName();
-            getUserMap().put(Long.valueOf(user.getUserId()).intValue(),formattedUN);
-            userIdMap.put(formattedUN,Long.valueOf(user.getUserId()).intValue());
+            getUserMap().put(Integer.valueOf(String.valueOf(user.getUserId())),formattedUN);
+            userIdMap.put(formattedUN,Integer.valueOf(String.valueOf(user.getUserId())));
         }
         LOGGER.debug("End of getUserName method");
         return getUserMap();

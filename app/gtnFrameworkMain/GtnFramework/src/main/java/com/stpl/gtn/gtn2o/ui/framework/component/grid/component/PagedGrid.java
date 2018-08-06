@@ -70,6 +70,7 @@ public class PagedGrid {
 
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
+		
 		grid = new Grid<>();
 		int i = 0;
 

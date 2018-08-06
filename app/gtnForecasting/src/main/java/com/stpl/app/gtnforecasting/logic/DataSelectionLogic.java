@@ -2992,7 +2992,9 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     }
     
     public void loadCustomViewDeductionValues(ComboBox customDeductionRelationDdlb, Map<String, String> dataDeductionMap,boolean isDataSelection) {
-        if (dataDeductionMap.get(CUSTOMER_SID_LITERAL) != null && dataDeductionMap.get(CUSTVER) != null && dataDeductionMap.size()>3) {
+    	
+    	int compareSizeValue = 3;
+        if (dataDeductionMap.get(CUSTOMER_SID_LITERAL) != null && dataDeductionMap.get(CUSTVER) != null && dataDeductionMap.size()>compareSizeValue) {
             String discountSqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
             discountSqlQuery = discountSqlQuery.replace(CUSTOMER_SID_VARIABLE, dataDeductionMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataDeductionMap.get(PROD_SID_LITERAL))
                     .replace(CUSTVER_VARIABLE, dataDeductionMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataDeductionMap.get(PRODVER));
