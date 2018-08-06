@@ -1401,7 +1401,8 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     public void refreshContractSelectionTable() {
         LOGGER.debug("Contract Selection Refreshed");
-        ContractTableLogic.setCurrentPage(ContractTableLogic.getCurrentPage());
+        int currentPage = ContractTableLogic.getCurrentPage();
+        ContractTableLogic.setCurrentPage(currentPage);
     }
 
     public boolean isSummaryRefreshed() {
@@ -1919,8 +1920,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void submition(boolean isNextButtonClicked) {
         LOGGER.debug("Inside Submition");
         summaryRefreshed = true;
+        int currentPage = ContractTableLogic.getCurrentPage();
         contractSelectionLogic.updateSubmitFlag(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
-        ContractTableLogic.setCurrentPage(ContractTableLogic.getCurrentPage());
+        ContractTableLogic.setCurrentPage(currentPage);
         if (!isNextButtonClicked) {
             AbstractNotificationUtils.getAlertNotification("Submit Details", "Selected Contract Holder has been submitted successfully.");
         }

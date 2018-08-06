@@ -656,7 +656,6 @@ public class CommonUtil {
             select.removeAllItems();
             select.addItem(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             select.setValidationVisible(true);
-            select.setImmediate(true);
             select.setNullSelectionAllowed(true);
             select.setNullSelectionItemId(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             List<HelperDTO> helperList = new ArrayList<>();
@@ -803,6 +802,22 @@ public class CommonUtil {
             if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
                 waitForSeconds();
                 isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
+            } else {
+                return ;
+            }
+        }
+        return ;
+    }
+      public void isProcedureCompletedForSubmit(String screenName, String viewName, SessionDTO session) {
+        List paramList = new ArrayList();
+        paramList.add(screenName);
+        paramList.add(viewName);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(paramList, "getProcedureStatus"), session.getCurrentTableNames()));
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            if (!"6".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
+                isProcedureCompletedForSubmit(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
             } else {
                 return ;
             }

@@ -150,8 +150,8 @@ public class DiscountQueryBuilder {
             }
 
             String rsQuery = levelType.equals(Constants.PROGRAM) ? " RS.RS_NAME " : " DPM.PRICE_GROUP_TYPE ";
-            for (String discountName : periodsMap.keySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(periodsMap.get(discountName).get("P"), false);
+            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(discountName.getValue().get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
                 selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
 
@@ -164,9 +164,9 @@ public class DiscountQueryBuilder {
                     discountProjectionTableUpdateQuery += " AND DP.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ";
                 }
 
-                discountName = discountName.contains("~") ? discountName.split("~")[0] : discountName ;
+                String discountNameValue = discountName.getKey().contains("~") ? discountName.getKey().split("~")[0] : discountName.getKey() ;
                 discountProjectionTableUpdateQuery += "WHERE  DPM.CHECK_RECORD = 1\n"
-                        + "       AND "+rsQuery+" = '" + discountName + "'\n"
+                        + "       AND "+rsQuery+" = '" + discountNameValue + "'\n"
                         + "       AND DP.PERIOD_SID IN(SELECT PERIOD_SID from \"PERIOD\" PR WHERE " + period + " IN (" + selectedPeriodsToUpdate + ")) ";
 
 
@@ -249,7 +249,8 @@ public class DiscountQueryBuilder {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), customViewDetails.get(NumericConstants.NINE), hierarchyNo, customSql,session);
             } else {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, hierarchyNo, customSql,session);
-            }
+            } 
+            customSql += " AND FILTER_CCP = 1";
             return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         } catch (Exception e) {
@@ -481,7 +482,7 @@ public class DiscountQueryBuilder {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
+            int startFreqNo = Integer.parseInt(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";

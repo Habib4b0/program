@@ -951,7 +951,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
+            int startFreqNo = Integer.parseInt(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
@@ -1108,9 +1108,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void setSelectedVariablesValue(Map<Object, Object> map)  {
         Object mapValue;
         mapValue = map.get(Constant.HISTORY);
-        historyDdlb.select(Integer.parseInt(String.valueOf((mapValue == null || StringUtils.isBlank(mapValue.toString())
+        historyDdlb.select((mapValue == null || StringUtils.isBlank(mapValue.toString())
                 || mapValue.toString().equalsIgnoreCase(ANULL)) ? 0
-                : map.get(Constant.HISTORY))));
+                : map.get(Constant.HISTORY));
         mapValue = map.get(Constant.PROJECTION_PERIOD_ORDER_LABEL);
         periodOrder.select(mapValue);
         mapValue = map.get(Constant.ACTUALS_PROJECTIONS);
@@ -1257,9 +1257,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * To refresh the table Data
      */
     public void refreshTableData(Set<String> finalHirarechyNo) {
+        int currentPage = tableLogic.getCurrentPage();
         tableLogic.setRefreshHierarchyNo(getHierarchyNoForCheckedRecord(finalHirarechyNo));
         tableLogic.forRefresh(finalHirarechyNo);
-        tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+        tableLogic.setCurrentPage(currentPage);
 
     }
 

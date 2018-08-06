@@ -1743,7 +1743,7 @@ public class NMProjectionResultsLogic {
         List<ProjectionResultsDTO> projRPUDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projDisPerExfacDTOList = new ArrayList<>();
-        List<String> newList = new ArrayList<String>();
+        List<String> newList = new ArrayList<>();
         Iterator<String> iterator = projSelDTO.getDiscountNameList().iterator();
         Iterator<String> iterator1 = projSelDTO.getDiscountNoList().iterator();
         boolean ppaFlag = false;

@@ -52,24 +52,34 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     /** The content. */
     private PopupButton content;
 
-    /** The to field. */
-    private InlineDateField fromField, toField;
+    /** The From field. */
+    private InlineDateField fromField;
     
-    /** The to value. */
-    private LocalDate fromValue, toValue;
+     /** The to field. */
+    private InlineDateField toField;
+    
+    
+    /** The From value. */
+    private LocalDate fromValue;
+    
+     /** The to value. */
+    private LocalDate toValue;
     
     /** The cancel reset. */
     private boolean cancelReset;
     
-    DateResolution resolution;
+    /** The Set. */
+    private Button set;
+    
     /** The clear. */
-    private Button set, clear;
+    private Button clear;
+    
     
     /** The date format pattern. */
     private String dateFormatPattern="MM/dd/yy";
     
     
-    private String SHOW_ALL="Show all";
+    private String SHOWALL="Show all";
 
     /** The Constant DEFAULT_FROM_CAPTION. */
     private static final String DEFAULT_FROM_CAPTION = "From";
@@ -106,25 +116,14 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     }
 
     /**
-     * Sets the value.
-     *
-     * @param newFieldValue the new value
-     */
-    @Override
-    public void setValue(DateInterval newFieldValue)
-          {
-        super.setValue(newFieldValue);
-    }
-
-    /**
      * Builds the popup.
      */
     private void buildPopup() {
-        VerticalLayout content = new VerticalLayout();
-        content.setStyleName("datefilterpopupcontent");
-        content.setSpacing(true);
-        content.setMargin(true);
-        content.setSizeUndefined();
+        VerticalLayout contentLayout = new VerticalLayout();
+        contentLayout.setStyleName("datefilterpopupcontent");
+        contentLayout.setSpacing(true);
+        contentLayout.setMargin(true);
+        contentLayout.setSizeUndefined();
         fromField = new InlineDateField();
         toField = new InlineDateField();
 
@@ -152,11 +151,11 @@ public class DateFilterPopup extends CustomField<DateInterval> {
         row.addComponent(fromField);
         row.addComponent(toField);
 
-        content.addComponent(row);
-        content.addComponent(buttonBar);
-        content.setComponentAlignment(buttonBar, Alignment.BOTTOM_RIGHT);
+        contentLayout.addComponent(row);
+        contentLayout.addComponent(buttonBar);
+        contentLayout.setComponentAlignment(buttonBar, Alignment.BOTTOM_RIGHT);
 
-        this.content.setContent(content);
+        this.content.setContent(contentLayout);
     }
 
     /**
@@ -196,7 +195,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     private void updateCaption(boolean nullTheCaption) {
         if (nullTheCaption) {
           
-                content.setCaption(SHOW_ALL);
+                content.setCaption(SHOWALL);
             
         } else {
             content.setCaption((fromField.getValue() == null ? "" : DateTimeFormatter.ofPattern(dateFormatPattern).format(fromField.getValue()))
@@ -216,11 +215,6 @@ public class DateFilterPopup extends CustomField<DateInterval> {
             toField.setValue(null);
         } else {
             cancelReset = true;
-        }
-        /* Truncate the from and to dates */
-        DateResolution res =  resolution;
-        if (res == null) {
-            res = resolution;
         }
         fromValue = fromField.getValue();
         toValue = toField.getValue();
@@ -254,7 +248,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
         if (content == null) {
             content = new PopupButton(null);
             content.setWidth(100, Unit.PERCENTAGE);
-            content.setCaption(SHOW_ALL);
+            content.setCaption(SHOWALL);
             buildPopup();
             setStyleName("datefilterpopup");
             updateCaption(true);
@@ -296,12 +290,13 @@ public class DateFilterPopup extends CustomField<DateInterval> {
 
     @Override
     protected void doSetValue(DateInterval newFieldValue) {
-         if (newFieldValue == null) {
-            newFieldValue = new DateInterval(null, null);
+        DateInterval tempFieldValue = newFieldValue;
+         if (tempFieldValue == null) {
+            tempFieldValue = new DateInterval(null, null);
         }
-        fromField.setValue(newFieldValue.getFrom());
-        toField.setValue(newFieldValue.getTo());
-        updateCaption(newFieldValue.isNull());
+        fromField.setValue(tempFieldValue.getFrom());
+        toField.setValue(tempFieldValue.getTo());
+        updateCaption(tempFieldValue.isNull());
     }
 
     @Override

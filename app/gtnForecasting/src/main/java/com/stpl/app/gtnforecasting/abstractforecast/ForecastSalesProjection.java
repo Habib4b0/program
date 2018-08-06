@@ -2990,11 +2990,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public int getCalculationBased() {
 
         boolean tempSalesvalue = false;
-        boolean tempUnitValue = false;
+        boolean tempUnitValue =  false;
 
            for (Map.Entry<Object, String> key : radioMap.entrySet()) {
             String value = key.getValue();
-            if (checkBoxMap.get(key)) {
+            if (checkBoxMap.get(key.getKey())) {
                 if ((value != null) && (value.contains(Constant.ACTUALSALES))) {
                     tempSalesvalue = true;
                 }
@@ -3430,6 +3430,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             String salesInclusionMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionMenuItemValue);
+            value = map.get(Constant.UNIT_OF_MEASURE);
+            if (value != null) {
+                unitOfMeasureDdlb.setValue(map.get(Constant.UNIT_OF_MEASURE));
+            }
+            value = map.get(Constant.CONVERSION_FACTOR_DDLB);
+            if (value != null) {
+                conversionFactorDdlb.setValue(map.get(Constant.CONVERSION_FACTOR_DDLB));
+            }
         }
     }
 

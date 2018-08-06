@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -213,6 +214,8 @@ public class GtnWsReportWebsevice {
 	}
 
 	private List<String> getInputList(Map<String, String> criteriaMap) {
+		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()){
 		List<String> inputList = new ArrayList<>();
 		boolean isProjectionStatus = false;
 		if (criteriaMap.get("workflowStatus").equals("Saved")) {
@@ -233,6 +236,7 @@ public class GtnWsReportWebsevice {
                	String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
 		inputList.add(workflowJoinQuery);
 		inputList.add(customViewMasterSid);
+                inputList.add(connection.getCatalog());
 		inputList.add(whereCondition);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
@@ -245,19 +249,62 @@ public class GtnWsReportWebsevice {
                 inputList.add("'" + createdDate + "'");
                 inputList.add("'" + createdBy + "'");
 		return inputList;
+		} catch (SQLException e) {
+			gtnLogger.error(e+"");
+			return Collections.emptyList();
+		}
+	}
+	
+	private List<String> getCffInputList(Map<String, String> criteriaMap){
+		List<String> cffInputList = new ArrayList<>();
+
+		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()){
+		String workFlowStatus = criteriaMap.get("workflowStatus");
+		if(workFlowStatus.equals("Submitted")) {
+			workFlowStatus = "Pending";
+		}
+		String customViewMasterSid = criteriaMap.get("customViewName");
+		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
+		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
+		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
+		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
+		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
+		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		
+		cffInputList.add("'"+workFlowStatus+"'");
+		cffInputList.add("'"+customViewMasterSid+"'");
+		cffInputList.add("'"+contract+"'");
+		cffInputList.add("'"+marketType+"'");
+		cffInputList.add("'"+contractHolder+"'");
+		cffInputList.add("'"+ndcName+"'");
+		cffInputList.add("'"+comparisonNDC+"'");
+		cffInputList.add("'"+comparisonBrand+"'");
+		cffInputList.add(connection.getCatalog());
+		return cffInputList;
+		} catch (SQLException e) {
+			gtnLogger.error(e + " ");
+			return cffInputList;
+		}
+		
 	}
 
 	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
 			throws GtnFrameworkGeneralException {
-		List<String> inputList = getInputList(criteriaMap);
+		
+		List<String> inputList = getCffInputList(criteriaMap);
+		if(!inputList.isEmpty()) {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
 		return resultList;
+		}
+		return Collections.emptyList();
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
 		switch (searchCriteria.getFieldId()) {
-		case "privateViewName":
+		
+case "privateViewName":
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "publicViewName":
 			return searchCriteria.getFilterValue1().replace("*", "%");
@@ -546,7 +593,7 @@ public class GtnWsReportWebsevice {
 		dbColumnIdMap.put("viewNameFilter", "VIEW_NAME");
 		dbColumnIdMap.put("createdDateFilter", "CREATED_DATE");
 		dbColumnIdMap.put("modifiedDateFilter", "MODIFIED_DATE");
-		dbColumnIdMap.put("createdByFilter", "FIRSTNAME+LASTNAME");
+		dbColumnIdMap.put("createdByFilter", "LASTNAME+', '+FIRSTNAME");
 		return dbColumnIdMap;
 	}
 

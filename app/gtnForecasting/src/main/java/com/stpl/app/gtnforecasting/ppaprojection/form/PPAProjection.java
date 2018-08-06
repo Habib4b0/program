@@ -853,7 +853,8 @@ public class PPAProjection extends CustomComponent implements View {
         endQuater = session.getForecastDTO().getProjectionEndMonth() / NumericConstants.THREE;
         endYear = session.getForecastDTO().getProjectionEndYear();
         selection.setTpLevel(Utility.getTradingPartnerLevelNo(projectionId,session));
-        selection.setRelationshipBuilderSid(selection.getRelationshipBuilderSid());
+        String relationshipBuilderSid =selection.getRelationshipBuilderSid();
+        selection.setRelationshipBuilderSid(relationshipBuilderSid);
         boolean isAdd = true;
         if (!Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
             isAdd = false;
@@ -2077,7 +2078,7 @@ public class PPAProjection extends CustomComponent implements View {
                 if (tempId == null) {
                     tempId = tableLogic.getExpandedTreeValues(hierarchyNo);
                 }
-                    if ((tempId != null) && (tempId instanceof PPAProjectionDTO)) {
+                    if (tempId instanceof PPAProjectionDTO) {
                         PPAProjectionDTO dto = (PPAProjectionDTO) tempId;
                         if (!Constant.TRADING_PARTNER.equals(dto.getHirarechyName())) {
 
@@ -2088,16 +2089,17 @@ public class PPAProjection extends CustomComponent implements View {
         }
 
         if (!hierarchies.isEmpty()) {
+            int currentPage = tableLogic.getCurrentPage();
             tableLogic.forRefresh(hierarchies);
-            tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+            tableLogic.setCurrentPage(currentPage);
         }
 
         valueChangeAllowed = BooleanConstant.getTrueFlag();
 
     }
 
-    public static void setValueChangeAllowed(boolean valueChangeAllowed) {
-        valueChangeAllowed = valueChangeAllowed;
+    public void setValueChangeAllowed(boolean valueChangeAllowed) {
+        this.valueChangeAllowed = valueChangeAllowed;
     }
 
     private void updateUncheckedRecords(boolean value, Object item) {

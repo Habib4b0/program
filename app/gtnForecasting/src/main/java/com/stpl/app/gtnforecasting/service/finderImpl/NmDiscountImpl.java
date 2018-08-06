@@ -1259,8 +1259,8 @@ public class NmDiscountImpl {
                 period = "CAST(PR.\"YEAR\" AS char(4))";
             }
 
-            for (String discountName : periodsMap.keySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(periodsMap.get(discountName).get("P"), false);
+            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+                String selectedPeriodsToUpdate = CommonUtils.CollectionToString(discountName.getValue().get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
                 selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
 
@@ -1282,9 +1282,9 @@ public class NmDiscountImpl {
                         + " AND DPM.SESSION_ID = " + sessionId + "";
 
                 if (levelType.equals(Constants.PROGRAM)) {
-                    discountProjectionTableUpdateQuery += " AND RS.RS_NAME = '" + discountName + "'";
+                    discountProjectionTableUpdateQuery += " AND RS.RS_NAME = '" + discountName.getKey() + "'";
                 } else if (levelType.equals(Constants.PROGRAM_CATEGORY)) {
-                    discountProjectionTableUpdateQuery += " AND DPM.PRICE_GROUP_TYPE = '" + discountName + "'";
+                    discountProjectionTableUpdateQuery += " AND DPM.PRICE_GROUP_TYPE = '" +  discountName.getKey() + "'";
                 }
 
                 discountProjectionTableUpdateQuery += " AND PPR.PERIOD_SID in(SELECT PERIOD_SID from \"PERIOD\" PR WHERE " + period + " IN (" + selectedPeriodsToUpdate + ")) "

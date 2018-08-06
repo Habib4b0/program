@@ -276,7 +276,18 @@ public class GtnWsCustomViewService {
 		int masterId = masterSid == 0 ? customViewMasterSid : cvRequest.getCvSysId();
 		try (Session session = getSessionFactory().openSession()) {
 			tx = session.getTransaction();
-			if (masterSid != 0) {
+			if (cvRequest.getCustomViewType().startsWith(REPORT)) {
+				if (cvRequest.getCvSysId() != 0) {
+					Object[] param = { cvRequest.getCvSysId() };
+					GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER };
+					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+							gtnWsSqlService.getQuery("getCustomCCPDetailsDeleteQuery"), param, type);
+
+					List<CustViewDetails> details = session.createCriteria(CustViewDetails.class)
+							.add(Restrictions.eq(CUSTOM_VIEW_MASTER_SID_DB_PROPERTY, cvRequest.getCvSysId())).list();
+					customViewDetailsAndVariablesDeletion(details, session);
+				}
+			} else if (masterSid != 0) {
 				String hql = "delete from CustViewDetails where customViewMasterSid= :classId";
 				session.createQuery(hql).setString("classId", String.valueOf(masterSid)).executeUpdate();
 			}
@@ -495,7 +506,7 @@ public class GtnWsCustomViewService {
 			List<CustViewDetails> gtnListOfData = selectCriteria.list();
 			for (CustViewDetails detailsData : gtnListOfData) {
 				response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
-				response.addItemValueList(detailsData.getLevelNo() + " - "
+				response.addItemValueList("Level " + detailsData.getLevelNo() + " - "
 						+ GtnFrameworkCommonStringConstants.STRING_EMPTY + detailsData.getLevelName());
 			}
 		} catch (Exception ex) {

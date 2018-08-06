@@ -108,7 +108,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MSupplementalDiscountProjection.class);
     
     
     /**
@@ -1364,9 +1364,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 }
                             }
                         }.getConfirmationMessage("Submit Confirmation", "In Ndc:" + notifyContent + " are not having any prior values.Do you wish to continue.?");
-                        String emptyNull;
-                        emptyNull = notifyContent;
-                        notifyContent.replaceAll(emptyNull, StringUtils.EMPTY);
                     }
 
                     selectedValue = String.valueOf(valueLookUp.getValue());
@@ -1431,8 +1428,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     }
 
     public void refreshTableData(Set<String> finalHirarechyNo) {
+        int currentPage = tableLogic.getCurrentPage();
         tableLogic.setHierarchyToRefresh(finalHirarechyNo);
-        tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+        tableLogic.setCurrentPage(currentPage);
     }
 
     public void allowMethod(final String selectedValue) {
