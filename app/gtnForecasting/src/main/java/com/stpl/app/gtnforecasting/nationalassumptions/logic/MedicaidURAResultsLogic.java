@@ -32,6 +32,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +146,7 @@ public class MedicaidURAResultsLogic {
                 int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
                 List<Object[]> medicaidList = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidParentCount", ndc9Level, therapeuticSid);
                 if (!medicaidList.isEmpty()) {
-                    count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidList.get(0))) ? String.valueOf(medicaidList.get(0)) : Constant.STRING_ONE);
+                    count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidList.get(0))) ? Arrays.toString(medicaidList.get(0)) : Constant.STRING_ONE);
                 }
             }
         }
@@ -1007,7 +1008,7 @@ public class MedicaidURAResultsLogic {
             try {
                 List<Object[]> medicaidIndex = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidRowIndex", ndc9Level, therapeutic);
                 if (!medicaidIndex.isEmpty()) {
-                    count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
+                    count = Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidIndex.get(0))) ? Arrays.toString(medicaidIndex.get(0)) : Constant.DASH);
                 }
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());

@@ -970,11 +970,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 boolean productFlag = (generateProductToBeLoaded.containsAll(pvSelectionDTO.getProductLevelFilter())
                         && generateProductToBeLoaded.size() == pvSelectionDTO.getProductLevelFilter().size());
 
-                if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
                     LOGGER.info("generateBtn :Inside Filter Option");
                     dsLogic.nmPvViewsPopulationProcedure(session);
                     CommonLogic.procedureCompletionCheck(session, Constant.VARIANCE_SCREEN, String.valueOf(view.getValue()));
-                }
 
                 if (excelFlag) {
                     configureExcelTable();

@@ -700,7 +700,7 @@ public class MedicaidUraWorkSheet extends Window {
                                 if (valueTAChange) {
                                     try {
 
-                                        SimpleDateFormat dateTimeFormat = new SimpleDateFormat(" MM/dd/YYYY, HH.mm.ss");
+                                        SimpleDateFormat dateTimeFormat = new SimpleDateFormat(" MM/dd/yyyy, HH.mm.ss");
                                         String formattedValue = String.valueOf(((TextArea) event.getComponent()).getValue()) + dateTimeFormat.format(new Date()) + " ,<" + CommonUtils.getUserNameById( sessionDTO.getUserId()) + ">";
                                         description = formattedValue;
                                         if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || tableDto.getGroup().startsWith(Constant.OVERRIDE_AMP)) {
@@ -853,7 +853,7 @@ public class MedicaidUraWorkSheet extends Window {
 
                                 if (valueTAChange) {
                                     try {
-                                        SimpleDateFormat dateTimeFormat = new SimpleDateFormat(" MM/dd/YYYY, HH.mm.ss");
+                                        SimpleDateFormat dateTimeFormat = new SimpleDateFormat(" MM/dd/yyyy, HH.mm.ss");
                                         String formattedValue = String.valueOf(((TextArea) event.getComponent()).getValue()) + dateTimeFormat.format(new Date()) + " ,<" + CommonUtils.getUserNameById( sessionDTO.getUserId()) + ">";
                                         description = formattedValue;
                                         if (tableDto.getGroup().startsWith(Constant.AMP)) {
