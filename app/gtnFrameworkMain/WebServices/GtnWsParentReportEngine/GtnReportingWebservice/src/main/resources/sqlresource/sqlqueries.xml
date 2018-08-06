@@ -408,7 +408,7 @@
 						)
 						AND(
 							C.CONTRACT_NO LIKE ?
-							or C.CONTRACT_NO is null
+							AND C.CONTRACT_NO is  not null
 						)
 						AND(
 							IM.ITEM_NAME LIKE ?
@@ -424,8 +424,22 @@
 						)
 						AND(
 							PM.PROJECTION_DESCRIPTION LIKE ?
-							or PM.PROJECTION_DESCRIPTION is null
-						)
+							AND PM.PROJECTION_DESCRIPTION is not null
+						) 
+                                                AND(						
+							CONVERT (date,PM.CREATED_DATE) LIKE ?
+							or CONVERT (date,PM.CREATED_DATE) is null
+						)  
+                                                 AND ISNULL(
+                                                USR.lastName,
+                                                ''
+                                        ) + ' ' + ISNULL(
+                                                USR.middleName,
+                                                ''
+                                        ) + ISNULL(
+                                                USR.firstName,
+                                                ''
+                                        ) like ?                                      
 					group by
 						pm.projection_name,
 						pm.projection_description,

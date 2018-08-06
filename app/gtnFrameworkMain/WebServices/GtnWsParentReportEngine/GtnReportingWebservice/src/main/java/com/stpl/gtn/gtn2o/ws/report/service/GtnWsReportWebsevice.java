@@ -221,15 +221,16 @@ public class GtnWsReportWebsevice {
 		String workflowJoinQuery = isProjectionStatus ? "" : (sqlService.getQuery("workflowJoinQuery"));
 		String customViewMasterSid = criteriaMap.get("customViewName");
 		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
-		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		String comparisonBrand = criteriaMap.get("brand") == null ? "%" : criteriaMap.get("brand");
 		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
 		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
 		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
 		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
 		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
-		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
-				: criteriaMap.get("projectionDescription");
-		String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
+		String projectionDescription = criteriaMap.get("description") == null ? "%" : criteriaMap.get("description");
+                String createdDate = criteriaMap.get("createdDate") == null ||  criteriaMap.get("createdDate").equals("null") ? "%" : criteriaMap.get("createdDate");
+                String createdBy = criteriaMap.get("createdBy") == null ? "%" : criteriaMap.get("createdBy");
+               	String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
 		inputList.add(workflowJoinQuery);
 		inputList.add(customViewMasterSid);
 		inputList.add(whereCondition);
@@ -240,7 +241,9 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + ndcName + "'");
 		inputList.add("'" + comparisonNDC + "'");
 		inputList.add("'" + contractHolder + "'");
-		inputList.add("'" + projectionDescription + "'");
+		inputList.add("'" + projectionDescription + "'"); 
+                inputList.add("'" + createdDate + "'");
+                inputList.add("'" + createdBy + "'");
 		return inputList;
 	}
 
@@ -270,13 +273,13 @@ public class GtnWsReportWebsevice {
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "marketType":
 			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "comparisonBrand":
+		case "brand":
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "contractHolder":
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "comparisonNDC":
 			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "projectionDescription":
+		case "description":
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "contract":
 			return searchCriteria.getFilterValue1().replace("*", "%");
@@ -292,6 +295,10 @@ public class GtnWsReportWebsevice {
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "reportProfileLookup_viewType":
 			return searchCriteria.getFilterValue1();
+                case "createdDate":
+			return searchCriteria.getFilterValue1().replace("*", "%");     
+                case "createdBy":
+			return searchCriteria.getFilterValue1().replace("*", "%"); 
 		default:
 			return null;
 		}
