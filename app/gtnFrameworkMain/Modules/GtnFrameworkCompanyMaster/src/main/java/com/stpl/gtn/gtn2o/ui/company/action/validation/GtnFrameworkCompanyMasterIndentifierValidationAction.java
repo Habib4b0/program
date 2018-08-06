@@ -130,7 +130,7 @@ public class GtnFrameworkCompanyMasterIndentifierValidationAction implements Gtn
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnFrameworkCompanyMasterIndentifierValidationAction();
+		return this;
 	}
 
 }

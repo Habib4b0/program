@@ -299,7 +299,8 @@ public final class HierarchyOutboundLookUp extends Window {
             resultTable.addStyleName("TableCheckBox");
             resultTable.setColumnCheckBox(CHECK, true);
             resultTable.getFilterField(CHECK).setVisible(false);
-            resultTable.setCurrentPage(resultTable.getCurrentPage());
+            int currentPage = resultTable.getCurrentPage();
+            resultTable.setCurrentPage(currentPage);
             resultTable.markAsDirtyRecursive();
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());

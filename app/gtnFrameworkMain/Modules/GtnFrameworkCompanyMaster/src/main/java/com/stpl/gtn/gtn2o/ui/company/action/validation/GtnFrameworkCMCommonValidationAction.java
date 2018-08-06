@@ -76,7 +76,7 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnFrameworkCMCommonValidationAction();
+		return this;
 	}
 
 	private void checkDateConditionsEqualOrGreater(Date startDate, Date endDate, String componentId, String equalMsg,
