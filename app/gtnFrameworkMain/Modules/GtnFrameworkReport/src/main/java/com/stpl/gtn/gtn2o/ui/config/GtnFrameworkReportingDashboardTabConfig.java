@@ -1427,9 +1427,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
 		reportingDashboardResultTableComponentConfig
 				.setComponentId("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+		
 		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
+		reportingDashboardResultTableComponentConfig.addComponentStyle("v-margin-bottom1");
 		reportingDashboardResultTableComponentConfig.setAddToParent(true);
 		reportingDashboardResultTableComponentConfig.setComponentWidth("100%");
+		reportingDashboardResultTableComponentConfig.setComponentHight("450px");
 		reportingDashboardResultTableComponentConfig
 				.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
 		reportingDashboardResultTableComponentConfig.setParentComponentId(parentId);
