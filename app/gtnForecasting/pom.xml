@@ -122,12 +122,6 @@
 			<version>2.6.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>com.liferay.portal</groupId> <artifactId>com.liferay.util.java</artifactId> 
-			<version>2.3.0</version> <scope>provided</scope> </dependency> -->
-		<!-- <dependency> <groupId>com.stpl.portal</groupId> <artifactId>portal-service</artifactId> 
-			<version>${com.stpl.portal.version}</version> <scope>compile</scope> </dependency> -->
-		<!-- <dependency> <groupId>com.stpl.portal</groupId> <artifactId>util-java</artifactId> 
-			<version>${com.stpl.portal.version}</version> <scope>compile</scope> </dependency> -->
 		<dependency>
 			<groupId>com.stpl.app</groupId>
 			<artifactId>util-service</artifactId>
