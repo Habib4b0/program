@@ -656,7 +656,6 @@ public class CommonUtil {
             select.removeAllItems();
             select.addItem(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             select.setValidationVisible(true);
-            select.setImmediate(true);
             select.setNullSelectionAllowed(true);
             select.setNullSelectionItemId(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             List<HelperDTO> helperList = new ArrayList<>();

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -268,7 +269,7 @@ public class NotesTabLogic {
                 query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
                 query = query.replace("?MASTER_TABLE_NAME","'" + moduleName + "'");
                 try {
-                    query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
+                    query = query.replace("?FILE_DATA", "'" + Arrays.toString(readBytesFromFile(uploadDetails.getDocumentFullPath()))+ "'" );
                 } catch (IOException e) {
                 	LOGGER.error("Error While Fetching");
                 }

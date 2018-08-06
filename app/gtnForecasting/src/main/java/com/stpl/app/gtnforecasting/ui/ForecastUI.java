@@ -9,8 +9,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
@@ -142,49 +140,49 @@ public class ForecastUI extends UI {
         String productHierSid = StringUtils.EMPTY;
                 if (pageParameters != null) {
 
-            String[] parameters = pageParameters.split("&");
-
-            HashMap<String, String> hm = new HashMap<>();
-
-            for (String para : parameters) {
-                String[] paraStr = para.split(Constant.EQUAL);
-                hm.put(paraStr[0], paraStr[1]);
-            }
-
-            projectionId = hm.get("projectionIdFromWorkflow");
-            workflowId = hm.get("workflowId");
-            workflowStatus = hm.get("workflowStatus");
-            userType = hm.get("userType");
-            noOfApprovals = hm.get("noOfApprovals");
-            approvalLevels = hm.get("approvalLevel");     
-            if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
-                screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
-                CommonLogic.setScreenName(screenName);
-            } else if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
-                screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
-                customerHierSid = hm.get("customerHierSid");
-                customerHierarchyLevel = hm.get("customerHierarchyLevel");
-                custRelationshipBuilderSid = hm.get("custRelationshipBuilderSid");
-                productHierarchyLevel = hm.get("productHierarchyLevel");
-                prodRelationshipBuilderSid = hm.get("prodRelationshipBuilderSid");
-                productHierSid = hm.get("productHierSid");
-            } else if (getAccrualConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
-                screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
-            }
-            sessionDto = SessionUtil.createSession();
-            List list = WorkflowPersistance.selectWFInstanceInfo(Integer.parseInt(projectionId));
-            Long processId = 0L;
-            if (list != null && !list.isEmpty()) {
-                processId = Long.valueOf(list.get(0).toString());
-            }
-
-            sessionDto.setProcessId(processId);
-            sessionDto.setProjectionId(Integer.parseInt(projectionId));
-            RelationShipFilterLogic logic = RelationShipFilterLogic.getInstance();
-            ProjectionMaster temp = null;
-            String projectionName = StringUtils.EMPTY;
             try {
-                temp = dataSelectionDao.getProjectionMaster(Integer.parseInt(projectionId));
+                
+                String[] parameters = pageParameters.split("&");
+                
+                HashMap<String, String> hm = new HashMap<>();
+                
+                for (String para : parameters) {
+                    String[] paraStr = para.split(Constant.EQUAL);
+                    hm.put(paraStr[0], paraStr[1]);
+                }
+                
+                projectionId = hm.get("projectionIdFromWorkflow");
+                workflowId = hm.get("workflowId");
+                workflowStatus = hm.get("workflowStatus");
+                userType = hm.get("userType");
+                noOfApprovals = hm.get("noOfApprovals");
+                approvalLevels = hm.get("approvalLevel");
+                if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
+                    screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
+                    CommonLogic.setScreenName(screenName);
+                } else if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
+                    screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
+                    customerHierSid = hm.get("customerHierSid");
+                    customerHierarchyLevel = hm.get("customerHierarchyLevel");
+                    custRelationshipBuilderSid = hm.get("custRelationshipBuilderSid");
+                    productHierarchyLevel = hm.get("productHierarchyLevel");
+                    prodRelationshipBuilderSid = hm.get("prodRelationshipBuilderSid");
+                    productHierSid = hm.get("productHierSid");
+                } else if (getAccrualConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
+                    screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
+                }
+                sessionDto = SessionUtil.createSession();
+                List list = WorkflowPersistance.selectWFInstanceInfo(Integer.parseInt(projectionId));
+                Long processId = 0L;
+                if (list != null && !list.isEmpty()) {
+                    processId = Long.valueOf(list.get(0).toString());
+                }
+                
+                sessionDto.setProcessId(processId);
+                sessionDto.setProjectionId(Integer.parseInt(projectionId));
+                RelationShipFilterLogic logic = RelationShipFilterLogic.getInstance();
+                ProjectionMaster temp = dataSelectionDao.getProjectionMaster(Integer.parseInt(projectionId));
+                String projectionName = StringUtils.EMPTY;
                 if (!getReturnsConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                     int hierarchySid = Integer.parseInt(temp.getCustomerHierarchySid());
                     sessionDto.setCustomerDescription(
@@ -196,123 +194,121 @@ public class ForecastUI extends UI {
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
                 projectionName = temp.getProjectionName();
-            } catch (PortalException | SystemException | NumberFormatException ex) {
-                LOGGER.error(ex.getMessage());
-            }
-            sessionDto.setWorkflowId(Integer.parseInt(workflowId));
-            sessionDto.setWorkflowStatus(workflowStatus);
-            sessionDto.setWorkflowUserType(userType);
-            sessionDto.setUserId(userId);
-            sessionDto.setNoOfApproval(Integer.parseInt(noOfApprovals));
-            sessionDto.setApprovalLevel(Integer.parseInt(approvalLevels));
-            try {
-                if (!WorkflowConstants.getWithdrawnStatus().equals(workflowStatus)
-                        && !WorkflowConstants.getRejectedStatus().equals(workflowStatus)) {
-                    sessionDto.setAction(Constant.VIEW);
-                } else {
-                    sessionDto.setAction(Constant.EDIT_SMALL);
-                }
-                if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-                    if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-                        DataSelectionLogic dsLogic = new DataSelectionLogic();
-                        DataSelectionDTO dto = new DataSelectionDTO();
-                        Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(projectionId), TAB_DISCOUNT_PROJECTION.getConstant());
-                        Object mapValue = map.get("frequency");
-                        Object deductionValue = map.get("DeductionLevel");
-                        dto.setCustomerHierSid(customerHierSid);
-                        dto.setCustomerHierarchyLevel(customerHierarchyLevel);
-                        dto.setCustRelationshipBuilderSid(custRelationshipBuilderSid);
-                        dto.setProductHierarchyLevel(productHierarchyLevel);
-                        dto.setProdRelationshipBuilderSid(prodRelationshipBuilderSid);
-                        dto.setProdHierSid(productHierSid);
-                        dto.setProjectionId(Integer.parseInt(projectionId));
-                        dto.setDeductionLevel(StringUtils.EMPTY);
-                        dto.setCustomerHierVersionNo(temp.getCustomerHierVersionNo());
-                        dto.setProductHierVersionNo(temp.getProductHierVersionNo());
-                        dto.setProductRelationShipVersionNo(temp.getProjectionProdVersionNo());
-                        dto.setCustomerRelationShipVersionNo(temp.getProjectionCustVersionNo());
-                        sessionDto.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
-                        sessionDto.setProductHierarchyVersion(dto.getProductHierVersionNo());
-                        sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
-                        sessionDto.setDataSelectionDeductionLevel(String.valueOf(dto.getDataSelectionDeductionLevelSid()));
-                        sessionDto.setDataSelectionDeductionLevelCaption(getDeductionCaptionWithSid(deductionValue,sessionDto));
-                        sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
-                        sessionDto.setScreenName(screenName);
-                        sessionDto.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
-                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());   
-                        sessionDto.setFunctionMode("E");
-                        sessionDto.setCustomRelationShipSid(dto.getCustomRelationShipSid());
-                        sessionDto.setDsFrequency(mapValue.toString());
-                        QueryUtils.createTempTables(sessionDto);
-
-                        Map<String, String> tempCustomerDescriptionMap;
-                        Map<String, String> tempProductDescriptionMap;
-                                                int custHierarchyVersionNo = temp!=null ? temp.getCustomerHierVersionNo() : 0;
-                        tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
-                                Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
-                                dto.getCustomerRelationShipVersionNo());
-                                                int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;   
-                        tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
-                                Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
-                                dto.getProductRelationShipVersionNo());
-                        int customerSelectedLevel = Integer.parseInt(customerHierarchyLevel);
-                        int productSelectedLeve = Integer.parseInt(productHierarchyLevel);
-                        List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-                                BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
-                        List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-                                BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
-                        relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds,
-								productItemIds, dto);
-                        sessionDto.setCustomerLevelDetails(
-                                dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
-                        sessionDto.setProductLevelDetails(
-                                dsLogic.getLevelValueDetails(sessionDto, dto.getProdRelationshipBuilderSid(), false));
-                        Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
-                        sessionDto.setDedRelationshipBuilderSid(obj[0].toString());
+                sessionDto.setWorkflowId(Integer.parseInt(workflowId));
+                sessionDto.setWorkflowStatus(workflowStatus);
+                sessionDto.setWorkflowUserType(userType);
+                sessionDto.setUserId(userId);
+                sessionDto.setNoOfApproval(Integer.parseInt(noOfApprovals));
+                sessionDto.setApprovalLevel(Integer.parseInt(approvalLevels));
+                    if (!WorkflowConstants.getWithdrawnStatus().equals(workflowStatus)
+                            && !WorkflowConstants.getRejectedStatus().equals(workflowStatus)) {
+                        sessionDto.setAction(Constant.VIEW);
+                    } else {
+                        sessionDto.setAction(Constant.EDIT_SMALL);
                     }
-                    editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
-                } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-                    DSLogic dSLogic = new DSLogic();
-                    Object[] obj = DataSelectionLogic.getAccrualSelection(Integer.parseInt(projectionId)).get(0);
-                    sessionDto.setDeductionLevel(String.valueOf(obj[0]));
-                    sessionDto.setDeductionValue(String.valueOf(obj[1]));
-                    if (sessionDto.getCurrentTableNames().isEmpty()
-                            && !sessionDto.getAction().equalsIgnoreCase(Constant.VIEW)) {
-                        sessionDto.setScreenName(screenName);
-                        QueryUtils.createTempTables(sessionDto);
-                    }
-                    if (Constant.EDIT_SMALL.equalsIgnoreCase(sessionDto.getAction())) {
-                        sessionDto.setIsFileNotChanged(DSLogic.getFileStatus(sessionDto.getProjectionId()));
-                        if (!sessionDto.isFileNotChanged()) {
-                            MessageBox.showPlain(Icon.QUESTION, "Alert",
-                                    "A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
-                                    new MessageBoxListener() {
-                                @SuppressWarnings("PMD")
-                                @Override
-                                public void buttonClicked(final ButtonId buttonId) {
-                                    if (buttonId.name().equals(Constant.YES)) {
-                                        sessionDto.setIsNewFileCalculationNeeded(true);
-                                    } else {
-                                        sessionDto.setIsNewFileCalculationNeeded(false);
-                                    }
-                                }
-                            }, ButtonId.YES, ButtonId.NO);
+                    if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
+                        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                            DataSelectionLogic dsLogic = new DataSelectionLogic();
+                            DataSelectionDTO dto = new DataSelectionDTO();
+                            Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(projectionId), TAB_DISCOUNT_PROJECTION.getConstant());
+                            Object mapValue = map.get("frequency");
+                            Object deductionValue = map.get("DeductionLevel");
+                            dto.setCustomerHierSid(customerHierSid);
+                            dto.setCustomerHierarchyLevel(customerHierarchyLevel);
+                            dto.setCustRelationshipBuilderSid(custRelationshipBuilderSid);
+                            dto.setProductHierarchyLevel(productHierarchyLevel);
+                            dto.setProdRelationshipBuilderSid(prodRelationshipBuilderSid);
+                            dto.setProdHierSid(productHierSid);
+                            dto.setProjectionId(Integer.parseInt(projectionId));
+                            dto.setDeductionLevel(StringUtils.EMPTY);
+                            dto.setCustomerHierVersionNo(temp.getCustomerHierVersionNo());
+                            dto.setProductHierVersionNo(temp.getProductHierVersionNo());
+                            dto.setProductRelationShipVersionNo(temp.getProjectionProdVersionNo());
+                            dto.setCustomerRelationShipVersionNo(temp.getProjectionCustVersionNo());
+                            sessionDto.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
+                            sessionDto.setProductHierarchyVersion(dto.getProductHierVersionNo());
+                            sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
+                            sessionDto.setDataSelectionDeductionLevel(String.valueOf(dto.getDataSelectionDeductionLevelSid()));
+                            sessionDto.setDataSelectionDeductionLevelCaption(getDeductionCaptionWithSid(deductionValue,sessionDto));
+                            sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
+                            sessionDto.setScreenName(screenName);
+                            sessionDto.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
+                            sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());
+                            sessionDto.setFunctionMode("E");
+                            sessionDto.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+                            sessionDto.setDsFrequency(mapValue.toString());
+                            QueryUtils.createTempTables(sessionDto);
+                            
+                            Map<String, String> tempCustomerDescriptionMap;
+                            Map<String, String> tempProductDescriptionMap;
+                            int custHierarchyVersionNo = temp!=null ? temp.getCustomerHierVersionNo() : 0;
+                            tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
+                                    Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
+                                    dto.getCustomerRelationShipVersionNo());
+                            int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;
+                            tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
+                                    Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
+                                    dto.getProductRelationShipVersionNo());
+                            int customerSelectedLevel = Integer.parseInt(customerHierarchyLevel);
+                            int productSelectedLeve = Integer.parseInt(productHierarchyLevel);
+                            List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
+                                    BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
+                            List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
+                                    BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
+                            relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds,
+                                    productItemIds, dto);
+                            sessionDto.setCustomerLevelDetails(
+                                    dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
+                            sessionDto.setProductLevelDetails(
+                                    dsLogic.getLevelValueDetails(sessionDto, dto.getProdRelationshipBuilderSid(), false));
+                            Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
+                            sessionDto.setDedRelationshipBuilderSid(obj[0].toString());
+                        }
+                        editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
+                    } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
+                        DSLogic dSLogic = new DSLogic();
+                        Object[] obj = DataSelectionLogic.getAccrualSelection(Integer.parseInt(projectionId)).get(0);
+                        sessionDto.setDeductionLevel(String.valueOf(obj[0]));
+                        sessionDto.setDeductionValue(String.valueOf(obj[1]));
+                        if (sessionDto.getCurrentTableNames().isEmpty()
+                                && !sessionDto.getAction().equalsIgnoreCase(Constant.VIEW)) {
+                            sessionDto.setScreenName(screenName);
+                            QueryUtils.createTempTables(sessionDto);
+                        }
+                        if (Constant.EDIT_SMALL.equalsIgnoreCase(sessionDto.getAction())) {
+                            sessionDto.setIsFileNotChanged(DSLogic.getFileStatus(sessionDto.getProjectionId()));
+                            if (!sessionDto.isFileNotChanged()) {
+                                MessageBox.showPlain(Icon.QUESTION, "Alert",
+                                        "A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
+                                        new MessageBoxListener() {
+                                            @SuppressWarnings("PMD")
+                                            @Override
+                                            public void buttonClicked(final ButtonId buttonId) {
+                                                if (buttonId.name().equals(Constant.YES)) {
+                                                    sessionDto.setIsNewFileCalculationNeeded(true);
+                                                } else {
+                                                    sessionDto.setIsNewFileCalculationNeeded(false);
+                                                }
+                                            }
+                                        }, ButtonId.YES, ButtonId.NO);
+                            } else {
+                                sessionDto.setIsNewFileCalculationNeeded(false);
+                            }
                         } else {
+                            sessionDto.setIsFileNotChanged(true);
                             sessionDto.setIsNewFileCalculationNeeded(false);
                         }
-                    } else {
-                        sessionDto.setIsFileNotChanged(true);
-                        sessionDto.setIsNewFileCalculationNeeded(false);
+                        if (!Constant.VIEW.equalsIgnoreCase(sessionDto.getAction())) {
+                            dSLogic.insertAccrualProjTemp(sessionDto);
+                            dSLogic.insertAccrualTemp(sessionDto);
+                        }
+                        arpView = new AccrualRateProjectionView(projectionId, sessionDto, screenName, null, true);
+                        
                     }
-                    if (!Constant.VIEW.equalsIgnoreCase(sessionDto.getAction())) {
-                        dSLogic.insertAccrualProjTemp(sessionDto);
-                        dSLogic.insertAccrualTemp(sessionDto);
-                    }
-                    arpView = new AccrualRateProjectionView(projectionId, sessionDto, screenName, null, true);
-
-                }
+            } catch (PortalException | SystemException ex) {
+                LOGGER.error(ex.getMessage());
             } catch (Exception ex) {
-                LoggerFactory.getLogger(ForecastUI.class.getName()).error(StringUtils.EMPTY, ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 
@@ -326,7 +322,6 @@ public class ForecastUI extends UI {
             if (arpView != null) {
                 navigator.addView(AccrualRateProjectionView.ARP_VIEW, arpView);
             }
-            ExecutorService serviec = Executors.newSingleThreadExecutor();
             if (projectionId != null
                     && !CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 				getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);

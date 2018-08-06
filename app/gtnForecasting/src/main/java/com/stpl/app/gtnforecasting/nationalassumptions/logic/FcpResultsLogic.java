@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +127,7 @@ public class FcpResultsLogic {
             int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
             List<Object[]> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
             if (fcpList != null && !fcpList.isEmpty()) {
-                count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? String.valueOf(fcpList.get(0)) : Constant.STRING_ONE);
+                count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(fcpList.get(0))) ? Arrays.toString(fcpList.get(0)) : Constant.STRING_ONE);
             }
 
         }
@@ -671,7 +672,7 @@ public class FcpResultsLogic {
         int brandMasterSid = projSelDTO.getBrandMasterId();
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
         List<Object[]> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandMasterSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
-        count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? String.valueOf(fcpList.get(0)) : Constant.STRING_ONE);
+        count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(fcpList.get(0))) ? Arrays.toString(fcpList.get(0)) : Constant.STRING_ONE);
         return count;
     }
 
@@ -987,7 +988,7 @@ public class FcpResultsLogic {
         try {
             List<Object[]> medicaidIndex = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpRowIndex", 0, itemMasterSid, therapeuticSid);
             if (!medicaidIndex.isEmpty()) {
-                count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
+                count = Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidIndex.get(0))) ? Arrays.toString(medicaidIndex.get(0)) : Constant.DASH);
             }
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.stpl.app.adminconsole.archive.ui.form.ArchiveIndex;
 import com.stpl.app.adminconsole.discount.dto.DiscountSearchDTO;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
@@ -71,7 +70,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountSearchIndex.class);
     /**
      * The error msg.
      */

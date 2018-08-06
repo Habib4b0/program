@@ -77,6 +77,12 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getCaptionFromV8ComboBox();
 		dashBoardBean.setComparisonBasis(comparisonBasis);
 
+		String[] selectedVariable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
+				.getStringFromMultiselectComboBox();
+
+		dashBoardBean.setSelectedVariableType(selectedVariable);
+
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();
