@@ -125,7 +125,7 @@ public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAct
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkCompanyMasterResetAction();
+		return this;
 	}
 
 	public void setValueToComponents(GtnCMasterBean bean, int position, String componentId) {
