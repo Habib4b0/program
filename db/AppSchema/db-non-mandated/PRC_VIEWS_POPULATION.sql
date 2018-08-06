@@ -2580,11 +2580,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -2707,11 +2707,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -2825,11 +2825,11 @@ SELECT C.ROWID
               PERIOD_SID,
               RS_MODEL_SID,
              -- SUM(CASE 
-            --               WHEN QUANTITY_INCLUSION = '' Y ''
+            --               WHEN QUANTITY_INCLUSION = ''Y''
              --                     THEN SALES
              --              END) SALES,
              -- SUM(CASE 
-             --              WHEN QUANTITY_INCLUSION = '' Y ''
+             --              WHEN QUANTITY_INCLUSION = ''Y''
              --                     THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -2952,11 +2952,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3083,11 +3083,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3206,11 +3206,11 @@ GROUP BY c.PROD_HIERARCHY_NO,
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
                --                   THEN SALES
                --            END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
                --            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3338,11 +3338,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3450,11 +3450,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3590,11 +3590,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3701,11 +3701,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3831,11 +3831,11 @@ INSERT INTO ', @CUSTOM_TABLE_DISCOUNT, '(HIERARCHY_NO
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN SALES
               --             END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3941,11 +3941,11 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN SALES
               --             END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4135,11 +4135,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4325,11 +4325,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4506,11 +4506,11 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN SALES
               --             END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -6227,11 +6227,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -6365,11 +6365,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
