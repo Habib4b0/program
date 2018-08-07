@@ -53,7 +53,7 @@ public class ChannelSPRChart1 {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SPRChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChannelSPRChart1.class);
     protected ProjectionSelectionDTO projSelDTO;
 
     /**

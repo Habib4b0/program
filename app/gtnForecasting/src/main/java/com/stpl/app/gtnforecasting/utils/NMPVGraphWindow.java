@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMPVGraphWindow extends StplWindow {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NmPPAGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMPVGraphWindow.class);
 
     public NMPVGraphWindow(final Component component, final String title) {
         super(title);

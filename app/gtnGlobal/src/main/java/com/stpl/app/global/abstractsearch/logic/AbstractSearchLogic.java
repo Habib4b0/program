@@ -14,8 +14,6 @@ import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
-import static com.stpl.app.util.ConstantsUtils.QUOTE;
-import static com.stpl.app.util.ConstantsUtils.TAB;
 import com.stpl.app.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.vaadin.v7.data.Container;
@@ -175,8 +173,7 @@ public class AbstractSearchLogic {
             
             if(methodNameArray!=null && methodNameArray.length!=0){
                     lastIndex=methodNameArray.length-1;
-             }
-            
+             
             for(int i =0; i<methodNameArray.length;i++){
                 String methodName=methodNameArray[i];
                 String methodStringValue;
@@ -199,6 +196,7 @@ public class AbstractSearchLogic {
                     builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"' ).append( ',');
                 }
             }
+         }
                                    
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
            LOGGER.error(ex.getMessage());

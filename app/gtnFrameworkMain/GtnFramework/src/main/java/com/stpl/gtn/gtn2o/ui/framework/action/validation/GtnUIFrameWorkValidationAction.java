@@ -28,75 +28,75 @@ public class GtnUIFrameWorkValidationAction implements GtnUIFrameWorkAction {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void doAction(final String validationComponentId, GtnUIFrameWorkActionConfig validationGtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		configureParams(gtnUIFrameWorkActionConfig);
+		configureParams(validationGtnUIFrameWorkActionConfig);
 
-		List<String> vaadinVieldValueList = gtnUIFrameWorkActionConfig.getFieldValues();
-		GtnUIFrameworkValidationType validationType = (GtnUIFrameworkValidationType) gtnUIFrameWorkActionConfig
+		List<String> validationVaadinVieldValueList = validationGtnUIFrameWorkActionConfig.getFieldValues();
+		GtnUIFrameworkValidationType validationActionType = (GtnUIFrameworkValidationType) validationGtnUIFrameWorkActionConfig
 				.getActionParameterList().get(0);
-		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = null;
-		if (gtnUIFrameWorkActionConfig.getActionParameterList().size() > 2) {
-			onSucessActionConfigList = (List<GtnUIFrameWorkActionConfig>) gtnUIFrameWorkActionConfig
+		List<GtnUIFrameWorkActionConfig> validationOnSucessActionConfigList = null;
+		if (validationGtnUIFrameWorkActionConfig.getActionParameterList().size() > 2) {
+			validationOnSucessActionConfigList = (List<GtnUIFrameWorkActionConfig>) validationGtnUIFrameWorkActionConfig
 					.getActionParameterList().get(2);
 		}
 
-		for (int i = 0; i < vaadinVieldValueList.size(); i++) {
-			String fieldId = vaadinVieldValueList.get(i);
+		for (int i = 0; i < validationVaadinVieldValueList.size(); i++) {
+			String validationFieldId = validationVaadinVieldValueList.get(i);
 			try {
 
-				for (GtnUIFrameworkSupportedValidationType currentvalidationType : supportedValidationList) {
+				for (GtnUIFrameworkSupportedValidationType validationCurrentvalidationType : supportedValidationList) {
 
-					GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = getValidationConfig(fieldId,
-							componentId);
+					GtnUIFrameworkValidationConfig validationGtnUIFrameworkValidationConfig = getValidationConfig(validationFieldId,
+							validationComponentId);
 
-					GtnUIFrameworkValidator validator = currentvalidationType.getGtnUIFrameWorkAction();
-					validator.validate(componentId, fieldId, gtnUIFrameworkValidationConfig);
+					GtnUIFrameworkValidator validator = validationCurrentvalidationType.getGtnUIFrameWorkAction();
+					validator.validate(validationComponentId, validationFieldId, validationGtnUIFrameworkValidationConfig);
 
 				}
 
-				if (GtnUIFrameworkValidationType.OR == validationType) {
+				if (GtnUIFrameworkValidationType.OR == validationActionType) {
 					break;
 				}
 			} catch (GtnFrameworkGeneralException exception) {
-				List<GtnUIFrameWorkActionConfig> onFailureActionConfigList = (List<GtnUIFrameWorkActionConfig>) gtnUIFrameWorkActionConfig
+				List<GtnUIFrameWorkActionConfig> onFailureActionConfigList = (List<GtnUIFrameWorkActionConfig>) validationGtnUIFrameWorkActionConfig
 						.getActionParameterList().get(1);
-				if (GtnUIFrameworkValidationType.AND == validationType || (i == vaadinVieldValueList.size() - 1)) {
-					onFailure(fieldId, onFailureActionConfigList, exception);
+				if (GtnUIFrameworkValidationType.AND == validationActionType || (i == validationVaadinVieldValueList.size() - 1)) {
+					onFailure(validationFieldId, onFailureActionConfigList, exception);
 				}
 
 			}
 
 		}
-		onSucess(componentId, onSucessActionConfigList);
+		onSucess(validationComponentId, validationOnSucessActionConfigList);
 
 	}
 
-	public void onSucess(final String componetId, List<GtnUIFrameWorkActionConfig> onSucessActionConfigList)
+	public void onSucess(final String onSuccessComponetId, List<GtnUIFrameWorkActionConfig> onSucessActionConfigList)
 			throws GtnFrameworkGeneralException {
 		if (onSucessActionConfigList != null) {
-			for (GtnUIFrameWorkActionConfig actionConfig : onSucessActionConfigList) {
-				final GtnUIFrameWorkAction action = actionConfig.getActionType().getGtnUIFrameWorkAction();
-				action.doAction(componetId, actionConfig);
+			for (GtnUIFrameWorkActionConfig validationActionConfig : onSucessActionConfigList) {
+				final GtnUIFrameWorkAction action = validationActionConfig.getActionType().getGtnUIFrameWorkAction();
+				action.doAction(onSuccessComponetId, validationActionConfig);
 			}
 		}
 	}
 
-	public void onFailure(final String componetId, List<GtnUIFrameWorkActionConfig> onFailureActionConfigList,
+	public void onFailure(final String componetId, List<GtnUIFrameWorkActionConfig> validationOnFailureActionConfigList,
 			GtnFrameworkGeneralException exception) throws GtnFrameworkGeneralException {
 
-		if (onFailureActionConfigList != null) {
-			for (GtnUIFrameWorkActionConfig actionConfig : onFailureActionConfigList) {
-				final GtnUIFrameWorkAction action = actionConfig.getActionType().getGtnUIFrameWorkAction();
-				action.doAction(componetId, actionConfig);
+		if (validationOnFailureActionConfigList != null) {
+			for (GtnUIFrameWorkActionConfig actionConfig : validationOnFailureActionConfigList) {
+				final GtnUIFrameWorkAction validationAction = actionConfig.getActionType().getGtnUIFrameWorkAction();
+				validationAction.doAction(componetId, actionConfig);
 			}
 		}
 		throw exception;
 	}
 
 	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void configureParams(GtnUIFrameWorkActionConfig gtnValidationUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		return;
 

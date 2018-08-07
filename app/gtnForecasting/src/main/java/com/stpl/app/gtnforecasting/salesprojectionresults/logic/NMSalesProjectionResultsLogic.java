@@ -1321,8 +1321,10 @@ public class NMSalesProjectionResultsLogic {
 		projUnitDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
 
 		projUnitDTO.setLevelValue(UNIT_VOL.getConstant());
-		exSalesDTO.setLevelNo(exSalesDTO.getLevelNo());
-		exSalesDTO.setTreeLevelNo(exSalesDTO.getTreeLevelNo());
+                Integer exSalesDtoLevelNo = exSalesDTO.getLevelNo();
+                Integer exSalesDtoTreeLevelNo = exSalesDTO.getTreeLevelNo();
+		exSalesDTO.setLevelNo(exSalesDtoLevelNo);
+		exSalesDTO.setTreeLevelNo(exSalesDtoTreeLevelNo);
 		exSalesDTO.setLevelValue(SALES_PERC_OF_EX_FACTORY_SALES.getConstant());
 		projSalesDTO.setParent(0);
 		projUnitDTO.setParent(0);

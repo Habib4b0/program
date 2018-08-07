@@ -2331,7 +2331,8 @@ public class MMDPRLogic {
                 } else {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         if (map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)) == null) {
-                            projSelDTO.setPivotValue(projSelDTO.getPivotValue());
+                            String pivotValueDiscount = projSelDTO.getPivotValue();
+                            projSelDTO.setPivotValue(pivotValueDiscount);
                         } else {
                             String monValue = projSelDTO.getPivotValue().replace(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE), map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)));
                             projSelDTO.setPivotValue(monValue);
@@ -2359,7 +2360,8 @@ public class MMDPRLogic {
                         if (map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)) != null) {
                             projSelDTO.setPivotValue(projSelDTO.getPivotValue().replace(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE), map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE))));
                         } else {
-                            projSelDTO.setPivotValue(projSelDTO.getPivotValue());
+                            String pivotValueSupplemental = projSelDTO.getPivotValue();
+                            projSelDTO.setPivotValue(pivotValueSupplemental);
                         }
                     } else {
                         projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));

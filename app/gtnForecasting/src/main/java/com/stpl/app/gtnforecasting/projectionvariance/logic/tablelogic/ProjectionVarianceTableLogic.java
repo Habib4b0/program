@@ -67,9 +67,11 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 list = mProjectionVarianceLogic.getConfiguredProjectionVariance(getLastParent(), projSelDTO, start, offset);
             }
             int i = start;
-            for (ProjectionVarianceDTO dto : list) {
-                map.put(i, dto);
-                i++;
+            if (list != null) {
+                for (ProjectionVarianceDTO dto : list) {
+                    map.put(i, dto);
+                    i++;
+                }
             }
             projSelDTO.clearNonFetchableIndex();
         }
@@ -359,7 +361,6 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
      * @throws Exception
      */
     private void customizeResult(List<Leveldto> levelList, int count, String treeLevel, int expandLevelNo, boolean flag,String hierarchyIndicator, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo) {
-        LOGGER.debug("Inside customizeResult with levelList size=== = = = {} ",levelList.size());
         int size = levelList != null ? levelList.size() : 0;
         int index = count - size+1;
         for (int j = 0; j < size; j++) {
@@ -404,4 +405,4 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         this.screenName = screenName;
     }
 
-}
+    }

@@ -463,6 +463,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         variables.addItem(Constant.ACCOUNT_GROWTH);
         variables.select(Constant.SALES_SMALL);
         unitOfMeasureDdlb.select("EACH");
+        conversionFactorDdlb.select(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
         loadDisplayFormatDdlb();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(true);
@@ -915,6 +916,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
             map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues), CommonUtil.COMMA));
+            map.put(Constant.UNIT_OF_MEASURE, String.valueOf(unitOfMeasureDdlb.getValue()));
+            map.put(Constant.CONVERSION_FACTOR_DDLB, String.valueOf(conversionFactorDdlb.getValue()));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());

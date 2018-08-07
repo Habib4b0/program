@@ -456,22 +456,22 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 		return count;
 	}
 
-	public Object getFormattedValue(Object value, String propertyId, ExtCustomTable resultTable) {
+	public Object getFormattedValue(Object uiFormatedValue, String propertyId, ExtCustomTable resultTable) {
 		if (resultTable != null) {
 			Converter<String, Object> converter = resultTable.getConverter(propertyId);
 			if (converter != null) {
-				return converter.convertToPresentation(value, String.class, resultTable.getLocale());
+				return converter.convertToPresentation(uiFormatedValue, String.class, resultTable.getLocale());
 			}
 		}
 
-		return value;
+		return uiFormatedValue;
 
 	}
 
-	private String checkPropertyNullvalue(Object value) {
-		String stringValue = String.valueOf(value);
-		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(stringValue)
-				? GtnFrameworkCommonStringConstants.STRING_EMPTY : stringValue;
+	private String checkPropertyNullvalue(Object CheckPropvalue) {
+		String checkPropsStringValue = String.valueOf(CheckPropvalue);
+		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(checkPropsStringValue)
+				? GtnFrameworkCommonStringConstants.STRING_EMPTY : checkPropsStringValue;
 	}
 
 	private CellStyle setAllBordersThin(CellStyle cellStyle) {
@@ -526,35 +526,35 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 		return defaultTitleStyle;
 	}
 
-	private List<GtnWsRecordBean> setFilters(List<GtnWsRecordBean> exportList, GtnUIFrameworkComponentData customData) {
-		List<GtnWsRecordBean> localExportList = new ArrayList<>(exportList);
-		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
-		Set<Container.Filter> filters = tableLogic.getFilters();
-		tableLogic.clearFilters();
-		int count = tableLogic.getCount();
-		if (count > 0) {
-			localExportList = tableLogic.loadData(0, count);
+	private List<GtnWsRecordBean> setFilters(List<GtnWsRecordBean> exportListUi, GtnUIFrameworkComponentData customDataUi) {
+		List<GtnWsRecordBean> localExportListUi = new ArrayList<>(exportListUi);
+		GtnUIFrameworkPagedTableLogic tableLogicUi = customDataUi.getCurrentPageTableLogic();
+		Set<Container.Filter> filters = tableLogicUi.getFilters();
+		tableLogicUi.clearFilters();
+		int countUiFramework = tableLogicUi.getCount();
+		if (countUiFramework > 0) {
+			localExportListUi = tableLogicUi.loadData(0, countUiFramework);
 		}
-		tableLogic.setFilters(filters);
-		return localExportList;
+		tableLogicUi.setFilters(filters);
+		return localExportListUi;
 	}
 
-	private void excludeColumnList(GtnUIFrameworkExcelButtonConfig inputBean, List<Object> propertyIds,
+	private void excludeColumnList(GtnUIFrameworkExcelButtonConfig inputBeanUi, List<Object> propertyIdsUi,
 			List<String> headers) {
-		List<String> excludeColumnsList = inputBean.getExcludeColumnsList();
-		if (excludeColumnsList != null && !excludeColumnsList.isEmpty()) {
-			for (int i = 0; i < excludeColumnsList.size(); i++) {
-				int index = propertyIds.indexOf(excludeColumnsList.get(i));
+		List<String> excludeColumnsListUi = inputBeanUi.getExcludeColumnsList();
+		if (excludeColumnsListUi != null && !excludeColumnsListUi.isEmpty()) {
+			for (int i = 0; i < excludeColumnsListUi.size(); i++) {
+				int index = propertyIdsUi.indexOf(excludeColumnsListUi.get(i));
 				if (index >= 0) {
-					propertyIds.remove(index);
+					propertyIdsUi.remove(index);
 					headers.remove(index);
 				}
 			}
 		}
 	}
 
-	private Object getComboBoxValue(String componenetIdCaption) {
-		return componenetIdCaption.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
-				? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaption;
+	private Object getComboBoxValue(String componenetIdCaptionUi) {
+		return componenetIdCaptionUi.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
+				? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaptionUi;
 	}
 }

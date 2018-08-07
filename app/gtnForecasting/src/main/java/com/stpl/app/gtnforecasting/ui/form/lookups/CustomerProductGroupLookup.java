@@ -77,7 +77,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	 * Container for results table.
 	 */
 	private final BeanItemContainer<GroupDTO> resultBean = new BeanItemContainer<>(GroupDTO.class);
-        private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeBuild.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(CustomerProductGroupLookup.class);
 
 
 	public CustomerProductGroupLookup(final String indicator, final String windowName, final TextField groupLookup,
