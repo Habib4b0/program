@@ -1,11 +1,12 @@
-package com.stpl.gtn.gtn2o.queryengine;
+package com.stpl.dependency.queryengine;
 
 public enum GtnWsQueryType {
-	SELECT("select"), COUNT("count");
-	
+	SELECT("select"), COUNT("count"), SELECTWITHPARAMS("selectWithParams"), INSERTORUPDATE("insertOrUpdate"), PROCEDURE(
+			"procedure"), INSERTORUPDATEWITHPARAMS("insertOrUpdateWithParams");
+
 	private final String type;
-	
-	private GtnWsQueryType(String type){
+
+	private GtnWsQueryType(String type) {
 		this.type = type;
 	}
 
@@ -13,7 +14,7 @@ public enum GtnWsQueryType {
 	public String toString() {
 		return type;
 	}
-	
+
 	public static GtnWsQueryType fromString(String type) {
 		for (GtnWsQueryType queryType : values()) {
 			if (queryType.type.equals(type)) {
