@@ -261,14 +261,14 @@ public class Converters {
     
     private static Integer getDiscountSid(Object[] objects) {
     	String twentyOne =  objects[NumericConstants.TWENTY_ONE].toString();
-    	String final_String = objects[NumericConstants.TWENTY_ONE] == null ? DASH : twentyOne;
-    	return Integer.valueOf(final_String);
+    	String finalString = objects[NumericConstants.TWENTY_ONE] == null ? DASH : twentyOne;
+    	return Integer.valueOf(finalString);
     }
     
     private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
     	String thirtyTwo = objects[NumericConstants.THIRTY_TWO].toString();
-    	String to_be_parsed_String = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirtyTwo;
-    	return Integer.valueOf(to_be_parsed_String);
+    	String tobeparsedString = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirtyTwo;
+    	return Integer.valueOf(tobeparsedString);
     }
     
     private static Integer getCustomRelationShipSid(Object[] objects) {
