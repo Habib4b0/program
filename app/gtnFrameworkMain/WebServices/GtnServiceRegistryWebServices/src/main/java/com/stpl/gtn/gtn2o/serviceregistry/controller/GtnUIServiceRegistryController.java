@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
-import com.stpl.gtn.gtn2o.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
+import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnWsServiceRegistrySqlService;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -34,10 +34,16 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 	@Autowired
 	private GtnUIServiceRegistryService gtnUIServiceRegistryService;
 
+	@Autowired
+	private GtnWsServiceRegistrySqlService gtnWsServiceRegistrySqlService;
+	
 	@RequestMapping(value = "/registerWebservices", method = RequestMethod.POST)
-	public void registerWebServices(GtnUIFrameworkWebserviceRequest request) {
+	public String registerWebServices(GtnUIFrameworkWebserviceRequest request) {
+		
 		String registerQuery = GtnWsServiceRegistryConstants.INSERT_QUERY;
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl("url", request,getGsnWsSecurityToken(request.getGtnWsGeneralRequest().getUserId(),request.getGtnWsGeneralRequest().getSessionId()));
+		System.out.println("registerQuery"+registerQuery);
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl("/executeSelectQuery", request,getGsnWsSecurityToken(request.getGtnWsGeneralRequest().getUserId(),request.getGtnWsGeneralRequest().getSessionId()));
+		return registerQuery;
 	}
 	
 
