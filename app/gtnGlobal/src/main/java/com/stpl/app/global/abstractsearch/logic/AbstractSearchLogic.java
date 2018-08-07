@@ -173,8 +173,7 @@ public class AbstractSearchLogic {
             
             if(methodNameArray!=null && methodNameArray.length!=0){
                     lastIndex=methodNameArray.length-1;
-             }
-            
+             
             for(int i =0; i<methodNameArray.length;i++){
                 String methodName=methodNameArray[i];
                 String methodStringValue;
@@ -197,6 +196,7 @@ public class AbstractSearchLogic {
                     builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"' ).append( ',');
                 }
             }
+         }
                                    
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
            LOGGER.error(ex.getMessage());

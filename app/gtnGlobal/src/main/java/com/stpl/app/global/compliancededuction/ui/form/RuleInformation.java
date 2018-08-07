@@ -479,7 +479,6 @@ public class RuleInformation extends CustomComponent {
         if (resultsContainer != null) {
             resultsContainer.removeAllItems();
             resultsTable.removeAllItems();
-        }
         List<CDRDto> ruleDetails = new ArrayList<>();
         for (Object[] objects : list) {
             CDRDto ruleDetailsDto = new CDRDto();
@@ -508,6 +507,7 @@ public class RuleInformation extends CustomComponent {
             ruleDetails.add(ruleDetailsDto);
         }
         resultsContainer.addAll(ruleDetails);
+        }
     }
 
     /**
