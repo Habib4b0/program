@@ -16,6 +16,8 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Search page view class
@@ -28,11 +30,11 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      * The Constant NAME.
      */
     public static final String NAME = StringUtils.EMPTY;
-    private ConsolidatedFinancialForecastForm mainForm;
     /**
      * The SessionDTO
      */
     private final SessionDTO sessionDTO = new SessionDTO();
+     private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastView.class);
 
     /**
      * Constructor
@@ -45,7 +47,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
         addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         sessionDTO.setUserId((String) VaadinSession.getCurrent().getAttribute(CommonUtils.USERID_SESSION));
         sessionDTO.setSessionId((String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.SESSION_ID));
-        mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
+        ConsolidatedFinancialForecastForm mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
         addComponent(mainForm);
     }
 
@@ -56,7 +58,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
+         LOGGER.debug("Inside Overriden method: do nothing");
     }
     
 }
