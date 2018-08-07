@@ -95,9 +95,10 @@ public class SupplementalDiscountProjectionLogic {
             }
         } else {
             if (projSelDTO.isIsFilter()) {
+                Integer supplementalLevelNo = projSelDTO.getSupplementalLevelNo();
                 projSelDTO.setLevelNo(projSelDTO.getFilterLevelNo());
                 projSelDTO.setHierarchyIndicator(projSelDTO.getFilterHierarchyNo());
-                projSelDTO.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo());
+                projSelDTO.setSupplementalLevelNo(supplementalLevelNo);
                 projSelDTO.setSupplementalLevelName(getSupplementalLevelName(projSelDTO.getSupplementalLevelNo()));
             } else {
                 projSelDTO.setSupplementalLevelNo(0);
@@ -153,7 +154,8 @@ public class SupplementalDiscountProjectionLogic {
             }
         } else {
             if (projSelDTO.isIsFilter()) {
-                projSelDTO.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo());
+                Integer supplementalLevel = projSelDTO.getSupplementalLevelNo();
+                projSelDTO.setSupplementalLevelNo(supplementalLevel);
                 projSelDTO.setSupplementalLevelName(getSupplementalLevelName(projSelDTO.getSupplementalLevelNo()));
             } else {
                 projSelDTO.setSupplementalLevelNo(0);

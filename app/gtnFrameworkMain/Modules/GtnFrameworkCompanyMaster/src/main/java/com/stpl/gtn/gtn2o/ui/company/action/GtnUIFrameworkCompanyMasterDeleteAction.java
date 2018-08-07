@@ -79,7 +79,7 @@ public class GtnUIFrameworkCompanyMasterDeleteAction implements GtnUIFrameWorkAc
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkCompanyMasterDeleteAction();
+		return this;
 	}
 
 }

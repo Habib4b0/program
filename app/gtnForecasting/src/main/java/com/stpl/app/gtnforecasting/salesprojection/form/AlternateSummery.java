@@ -1243,8 +1243,9 @@ public class AlternateSummery extends CustomComponent {
      * @param finalHirarechyNo
      */
     public void refreshTableData(Set<String> finalHirarechyNo) {
+        int currentPage = mSalesProjectionTableLogic.getCurrentPage();
         mSalesProjectionTableLogic.forRefresh(finalHirarechyNo);
-        mSalesProjectionTableLogic.setCurrentPage(mSalesProjectionTableLogic.getCurrentPage());
+        mSalesProjectionTableLogic.setCurrentPage(currentPage);
     }
 
     /**

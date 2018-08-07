@@ -14,8 +14,6 @@ import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
-import static com.stpl.app.util.ConstantsUtils.QUOTE;
-import static com.stpl.app.util.ConstantsUtils.TAB;
 import com.stpl.app.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.vaadin.v7.data.Container;

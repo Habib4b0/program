@@ -133,7 +133,7 @@ public class GtnUIFrameworkCompanyMasterAddResetAction implements GtnUIFrameWork
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkCompanyMasterAddResetAction();
+		return this;
 	}
 
 	private void handleIdentifierTableColumn(GtnUIFrameworkBaseComponent resultTableidentifier) {

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.serviceregistry.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,35 +12,50 @@ import com.stpl.gtn.gtn2o.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryAuthorizationService;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnValidateWsServiceRegistryService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.GtnServiceRegistryWSResponse;
+import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
 
 @RestController
 @RequestMapping(value = "/gtnValidateServiceRegistry")
-public class GtnValidateWsServiceRegistryController  extends GtnServiceRegistryImplClass {
+public class GtnValidateWsServiceRegistryController extends GtnServiceRegistryImplClass {
 
-	
-	GtnServiceRegistryImplClass abstr = new GtnUIServiceRegistryController();
-	GtnFrameworkDependencyLogger logger = abstr.logInformation(GtnUIServiceRegistryController.class);
+	GtnFrameworkDependencyLogger logger;
+
+	public GtnValidateWsServiceRegistryController() {
+		super();
+
+	}
+
+	@Autowired
+	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
+
+	@Autowired
+	private GtnServiceRegistryAuthorizationService gtnServiceRegistryAuthorizationService;
+
+	@Autowired
+	private GtnValidateWsServiceRegistryService gtnValidateWsServiceRegistryService;
 
 	@RequestMapping(value = "/serviceRegistryControllerToValidateWs", method = RequestMethod.POST)
-	public GtnServiceRegistryWSResponse serviceRegistryControllerToValidateWs(@RequestBody GtnUIFrameworkWebserviceRequest request) {
+	public GtnServiceRegistryWSResponse serviceRegistryControllerToValidateWs(
+			@RequestBody GtnUIFrameworkWebserviceRequest request) {
+		GtnFrameworkDependencyLogger logger = gtnValidateWsServiceRegistryController
+				.logInformation(GtnValidateWsServiceRegistryController.class);
 		logger.debug("inside serviceRegistryUIControllerMappingWs");
 
 		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = new GtnServiceRegistryWSResponse();
 		GtnWsServiceRegistryBean gtnWsServiceRegistryBean = new GtnWsServiceRegistryBean();
-		
-		GtnServiceRegistryAuthorizationService gtnServiceRegistryAuthorizationService = new GtnServiceRegistryAuthorizationService();
-		boolean authorizaionCheck = gtnServiceRegistryAuthorizationService.serviceRegistryServiceToAuthorizeWs(gtnWsServiceRegistryBean);
-		
-		GtnValidateWsServiceRegistryService gtnValidateWsServiceRegistryService = new GtnValidateWsServiceRegistryService();
-		boolean serviceRegistryCheck = gtnValidateWsServiceRegistryService.serviceRegistryServiceToValidateWsIsRegistered(gtnWsServiceRegistryBean);
-		
+
+		boolean authorizaionCheck = gtnServiceRegistryAuthorizationService
+				.serviceRegistryServiceToAuthorizeWs(gtnWsServiceRegistryBean);
+
+		boolean serviceRegistryCheck = gtnValidateWsServiceRegistryService
+				.serviceRegistryServiceToValidateWsIsRegistered(gtnWsServiceRegistryBean);
+
 		gtnWsServiceRegistryBean.setAuthorizaionService(authorizaionCheck);
 		gtnWsServiceRegistryBean.setRegisteredService(serviceRegistryCheck);
-		
+
 		gtnServiceRegistryWSResponse.setGtnWsServiceRegistryBean(gtnWsServiceRegistryBean);
 		return gtnServiceRegistryWSResponse;
-		
+
 	}
-	
+
 }

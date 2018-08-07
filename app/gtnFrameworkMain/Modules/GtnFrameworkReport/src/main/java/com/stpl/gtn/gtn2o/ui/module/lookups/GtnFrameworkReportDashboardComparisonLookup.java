@@ -295,7 +295,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		reportDashboardBrand.setAddToParent(true);
 		reportDashboardBrand.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
-		reportDashboardBrand.setComponentWsFieldId("comparisonBrand");
+		reportDashboardBrand.setComponentWsFieldId("brand");
 		componentList.add(reportDashboardBrand);
 	}
 
@@ -399,7 +399,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		projectionDescription.setAddToParent(true);
 		projectionDescription.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
-		projectionDescription.setComponentWsFieldId("projectionDescription");
+		projectionDescription.setComponentWsFieldId("description");
 
 		componentList.add(projectionDescription);
 
@@ -609,11 +609,11 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
-		GtnUIFrameworkComponentConfig resetBtnConfig = configProvider.getUIFrameworkComponentConfig(
+		GtnUIFrameworkComponentConfig resetButtonConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "resetButtonConfig", true,
 				GtnFrameworkCommonConstants.CONTROL_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
-		resetBtnConfig.setComponentName("RESET");
-		resetBtnConfig.setAuthorizationIncluded(true);
+		resetButtonConfig.setComponentName("RESET");
+		resetButtonConfig.setAuthorizationIncluded(true);
 		
 		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
@@ -622,8 +622,8 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
 		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
-		params.add(Arrays.asList("comparisonLookup_projectionType","comparisonLookup_workflowStatus","comparisonLookup_reportComparisonLookupMarketType","comparisonLookup_reportComparisonLookupBrand","comparisonLookup_projectionName","comparisonLookup_reportComparisonLookupContractHolder",
-				"comparisonLookup_ndcConfig","comparisonLookup_projectionDescription","comparisonLookup_reportComparisonContract","comparisonLookup_reportComparisonNdcName"));
+		params.add(Arrays.asList("dashboardComparisonLookup_projectionType","dashboardComparisonLookup_workflowStatus","dashboardComparisonLookup_reportComparisonLookupMarketType","dashboardComparisonLookup_reportComparisonLookupBrand","dashboardComparisonLookup_projectionName","dashboardComparisonLookup_reportComparisonLookupContractHolder",
+				"dashboardComparisonLookup_ndcConfig","dashboardComparisonLookup_projectionDescription","dashboardComparisonLookup_reportComparisonContract","dashboardComparisonLookup_reportComparisonNdcName"));
 		params.add(Arrays.asList(new Object[] { 0 , 0 ,GtnFrameworkCommonStringConstants.STRING_EMPTY,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
@@ -631,9 +631,9 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				GtnFrameworkCommonStringConstants.STRING_EMPTY }));
 		resetActionConfig.setActionParameterList(params);
 		resetActionConfigList.add(resetActionConfig);
-		resetBtnConfig.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+		resetButtonConfig.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
 		
-		componentList.add(resetBtnConfig);
+		componentList.add(resetButtonConfig);
 	}
 
 	private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {

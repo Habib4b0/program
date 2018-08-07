@@ -3430,6 +3430,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             String salesInclusionMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionMenuItemValue);
+            value = map.get(Constant.UNIT_OF_MEASURE);
+            if (value != null) {
+                unitOfMeasureDdlb.setValue(map.get(Constant.UNIT_OF_MEASURE));
+            }
+            value = map.get(Constant.CONVERSION_FACTOR_DDLB);
+            if (value != null) {
+                conversionFactorDdlb.setValue(map.get(Constant.CONVERSION_FACTOR_DDLB));
+            }
         }
     }
 

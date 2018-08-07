@@ -446,7 +446,8 @@ public class GtnReportingVariableBreakdownGridLoadAction
 				vaadinComponentLabel = componentLabel.buildVaadinComponent(componentConfig);
 				Label vaadinLabel = (Label) vaadinComponentLabel;
 				vaadinLabel.setValue(variableBreakdownLookupBean.getProjectionName());
-				grid.getColumn(variableBreakdownLookupBean.getProperty()).setWidth(400);
+				grid.getColumn(variableBreakdownLookupBean.getProperty()).setMinimumWidthFromContent(true);
+				grid.getColumn(variableBreakdownLookupBean.getProperty()).setResizable(false);
 				return vaadinLabel;
 			}
 			GtnUIFrameworkBaseComponent base = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(
@@ -465,7 +466,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			vaadinCombobox.setId(
 					variableBreakdownLookupBean.getProperty() + String.valueOf(variableBreakdownLookupBean.getRowId()));
 			vaadinCombobox.addStyleName("stpl-comboBox-Inside-Grid-CustomStyle");
-			
+			vaadinCombobox.setSelectedItem(1);
 			if (variableBreakdownLookupBean.getProperty()
 					.equalsIgnoreCase(variableBreakdownLookupBean.getCurrentDateField())) {
 
@@ -479,6 +480,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			if (!isDisableColumns) {
 				grid.getHeaderRow(0).getCell(variableBreakdownLookupBean.getProperty()).getComponent()
 						.setEnabled(false);
+				vaadinCombobox.setSelectedItem(2);
 				vaadinCombobox.setReadOnly(true);
 			}
 

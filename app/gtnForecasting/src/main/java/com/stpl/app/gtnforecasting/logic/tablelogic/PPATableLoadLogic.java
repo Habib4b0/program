@@ -50,7 +50,7 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
     protected ProjectionSelectionDTO selection;
     protected int pageNumber = 1;
     protected boolean isRefresh;
-    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPATableLoadLogic.class);
 
     public boolean isIsRefresh() {
         return isRefresh;
