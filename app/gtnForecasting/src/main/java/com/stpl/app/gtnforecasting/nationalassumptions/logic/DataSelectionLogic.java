@@ -405,10 +405,9 @@ public class DataSelectionLogic {
         return date;
     }
      public List getAvailableProducts(Object companyValue, Object therapeuticClassValue, Object businessUnit) {
-        StringBuilder sql = null;
           try{
             if (availableProductCheck(companyValue, therapeuticClassValue, businessUnit)) {
-                sql = new StringBuilder(SQlUtil.getQuery(getClass(),"loadAvailableProducts"));
+                StringBuilder sql = new StringBuilder(SQlUtil.getQuery(getClass(),"loadAvailableProducts"));
                 if (isBusinessUnit(businessUnit)) {
                     sql = sql.append(" WHERE  IM.ORGANIZATION_KEY like '%' ");
                 } else {
@@ -421,17 +420,14 @@ public class DataSelectionLogic {
                     sql = sql.append("AND  IM.THERAPEUTIC_CLASS = '").append(String.valueOf(therapeuticClassValue)).append('\'');
                 }
                 sql = sql.append(" AND HT.DESCRIPTION ='NDC-11'");
+                List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+                return list;
             }
-              
-            
-              List list=HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
-            return list;
-        } catch (Exception e) {            
-            LOGGER.error(e.getMessage());
-            LOGGER.error(sql == null ? "" : sql.toString());
-            return Collections.emptyList();
-        } finally {
-}
+         } catch (Exception e) {
+             LOGGER.error(e.getMessage());
+             return Collections.emptyList();
+         }
+         return Collections.emptyList();
     }   
 
     private static boolean isTherapeuticClass(Object therapeuticClassValue) {
