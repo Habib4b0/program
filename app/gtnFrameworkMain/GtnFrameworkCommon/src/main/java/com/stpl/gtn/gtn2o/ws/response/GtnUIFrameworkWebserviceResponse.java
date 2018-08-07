@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.response.processmonitor.GtnWsProcessMonitorResponse
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
+import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 
@@ -97,6 +98,8 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsReportResponse gtnReportResponse;
     private GtnWsPagedTableResponse gtnWsPagedTableResponse;
 
+    private GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse;
+    
     public GtnWsPagedTableResponse getGtnWsPagedTableResponse() {
         return gtnWsPagedTableResponse;
     }
@@ -483,5 +486,13 @@ public class GtnUIFrameworkWebserviceResponse {
     public void setGtnWsARMResponse(GtnWsARMResponse gtnWsARMResponse) {
         this.gtnWsARMResponse = gtnWsARMResponse;
     }
+
+	public GtnServiceRegistryWSResponse getGtnServiceRegistryWSResponse() {
+		return gtnServiceRegistryWSResponse;
+	}
+
+	public void setGtnServiceRegistryWSResponse(GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse) {
+		this.gtnServiceRegistryWSResponse = gtnServiceRegistryWSResponse;
+	}
 
 }
