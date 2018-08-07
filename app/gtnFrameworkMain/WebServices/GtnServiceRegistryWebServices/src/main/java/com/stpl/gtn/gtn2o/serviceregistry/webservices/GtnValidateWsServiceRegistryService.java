@@ -8,10 +8,10 @@ public class GtnValidateWsServiceRegistryService {
 
 	public boolean serviceRegistryServiceToValidateWsIsRegistered(GtnWsServiceRegistryBean gtnWsServiceRegistryBean){
 		
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl("url", request,getGsnWsSecurityToken(request.getGtnWsGeneralRequest().getUserId(),request.getGtnWsGeneralRequest().getSessionId()));
-		if(response.getGtnServiceRegistryWSResponse().getGtnWsServiceRegistryBean()gtnWsServiceRegistryBean <=0){
-			return false;
-		}
+//		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl("url", request,getGsnWsSecurityToken(request.getGtnWsGeneralRequest().getUserId(),request.getGtnWsGeneralRequest().getSessionId()));
+//		if(response.getGtnServiceRegistryWSResponse().getGtnWsServiceRegistryBean()gtnWsServiceRegistryBean <=0){
+//			return false;
+//		}
 		return true;
 	}
 }
