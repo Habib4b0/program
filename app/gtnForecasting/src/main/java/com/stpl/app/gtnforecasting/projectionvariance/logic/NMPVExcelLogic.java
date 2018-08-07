@@ -1970,7 +1970,6 @@ public class NMPVExcelLogic {
             }
         }
 
-        LOGGER.info("Ending getCustomisedProjectionResultsTotalDiscount with dataList list size  = = {}" , dataList.size());
     }
 
     private void commonCustomizationForTotalDiscount(String group, List<Object> dataList, PVSelectionDTO projSelDTO, boolean isDetail, int indexValue, boolean isPer, boolean isConversionNeeded) {
