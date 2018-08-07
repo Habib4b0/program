@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GtnWsReportDashboardFilterBean {
 
+   
 	private int customerLevelNo;
 	private int productLevelNo;
 	private int deductionLevelNo;
