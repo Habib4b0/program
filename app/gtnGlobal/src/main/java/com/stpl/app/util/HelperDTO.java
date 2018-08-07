@@ -28,7 +28,7 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
     private String description = HelperUtils.EMPTY;
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeneralCommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelperDTO.class);
     
     /**
      * Empty Constructor

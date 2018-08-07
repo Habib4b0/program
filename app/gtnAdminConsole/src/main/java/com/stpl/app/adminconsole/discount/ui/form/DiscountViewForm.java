@@ -33,7 +33,7 @@ public class DiscountViewForm extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountAddForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountViewForm.class);
     /**
      * The error msg.
      */

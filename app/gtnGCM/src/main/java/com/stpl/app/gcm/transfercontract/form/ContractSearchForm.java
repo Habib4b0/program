@@ -123,7 +123,7 @@ public class ContractSearchForm extends VerticalLayout {
 
     private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     private final ContractSearchLogic logic = new ContractSearchLogic();
-    public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchForm.class);
     
     private final CommonUtil commonUtil=CommonUtil.getInstance();
     /**
