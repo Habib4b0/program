@@ -81,7 +81,7 @@ public class RelationShipFilterLogic {
 			throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, dedLevel, dedValue, relationVersionNo,
-				forecastEligibleDate, Boolean.FALSE);
+				forecastEligibleDate, false);
 		String query = getLoadDataQuery(inputBean);
 		return customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false);
 	}
