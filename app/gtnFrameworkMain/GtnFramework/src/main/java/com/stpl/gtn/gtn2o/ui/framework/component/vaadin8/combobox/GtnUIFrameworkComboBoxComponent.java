@@ -129,7 +129,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromView(GtnUIFrameworkActionType action, String dependentComponentId,
+	public void reloadComponentFromView(String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromView(dependentComponentId,
@@ -139,7 +139,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromChild(GtnUIFrameworkActionType action, String dependentComponentId,
+	public void reloadComponentFromChild(String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromChild(dependentComponentId,
@@ -149,7 +149,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromParent(GtnUIFrameworkActionType action, String dependentComponentId,
+	public void reloadComponentFromParent(String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromParent(dependentComponentId,
