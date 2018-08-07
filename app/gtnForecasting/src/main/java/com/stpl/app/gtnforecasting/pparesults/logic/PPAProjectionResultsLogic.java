@@ -845,8 +845,7 @@ public class PPAProjectionResultsLogic {
         query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
         query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
-        if (filter != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
-            if (!filter.isEmpty()) {
+        if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter))) && !StringUtils.EMPTY.equals(filter) ) {
                 switch (ddlbType) {
                     case Constant.CONTRACT:
                         searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
@@ -862,8 +861,6 @@ public class PPAProjectionResultsLogic {
                         break;
                     default:
                         break;
-
-                }
             }
         } else {
             switch (ddlbType) {
@@ -911,8 +908,7 @@ public class PPAProjectionResultsLogic {
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
-        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
-            if (!filterText.isEmpty()) {
+        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText))) && !StringUtils.EMPTY.equals(filterText)) {
                 switch (ddlbtype) {
                     case Constant.ITEM_NO:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
@@ -928,7 +924,6 @@ public class PPAProjectionResultsLogic {
                         break;
 
                 }
-            }
         } else {
             switch (ddlbtype) {
                 case Constant.ITEM_NO:
@@ -973,8 +968,7 @@ public class PPAProjectionResultsLogic {
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
-        if (filterText != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
-            if (!filterText.isEmpty()) {
+        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText))) && !StringUtils.EMPTY.equals(filterText)) {
                 switch (ddlbtype) {
                     case Constant.ITEM_NO:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
@@ -989,7 +983,6 @@ public class PPAProjectionResultsLogic {
                     default:
                         break;
                 }
-            }
         } else {
             switch (ddlbtype) {
                 case Constant.ITEM_NO:
@@ -1083,7 +1076,6 @@ public class PPAProjectionResultsLogic {
         SimpleDateFormat myFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
         if (list != null && !list.isEmpty()) {
             load_Wac_Tables(String.valueOf(list.get(0)[NumericConstants.THIRTY_ONE]), sessionDTO);
-        }
         for (Object[] object : list) {
             try {
                 PPADetailsDTO detailsDTO = new PPADetailsDTO();
@@ -1134,6 +1126,7 @@ public class PPAProjectionResultsLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
+    }
         wacTableList=null;
         wacPriceTableList=null;
 

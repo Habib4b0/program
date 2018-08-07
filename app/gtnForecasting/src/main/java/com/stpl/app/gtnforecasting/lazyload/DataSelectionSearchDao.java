@@ -19,10 +19,8 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public class DataSelectionSearchDao implements BeanDAO<DataSelectionDTO> {
 
-    private final DataSelectionDTO dataSelectionDTO;
-
-    public DataSelectionSearchDao(DataSelectionDTO dataSelectionDTO) {
-        this.dataSelectionDTO = dataSelectionDTO;
+    public DataSelectionSearchDao() {
+        // Empty Constructor
     }
 
     @Override

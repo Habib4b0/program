@@ -67,9 +67,11 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 list = mProjectionVarianceLogic.getConfiguredProjectionVariance(getLastParent(), projSelDTO, start, offset);
             }
             int i = start;
-            for (ProjectionVarianceDTO dto : list) {
-                map.put(i, dto);
-                i++;
+            if (list != null) {
+                for (ProjectionVarianceDTO dto : list) {
+                    map.put(i, dto);
+                    i++;
+                }
             }
             projSelDTO.clearNonFetchableIndex();
         }
@@ -403,4 +405,4 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         this.screenName = screenName;
     }
 
-}
+    }

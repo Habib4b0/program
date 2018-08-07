@@ -173,17 +173,13 @@ public class AbstractSearchLogic {
             
             if(methodNameArray!=null && methodNameArray.length!=0){
                     lastIndex=methodNameArray.length-1;
-             }
-            
+             
             for(int i =0; i<methodNameArray.length;i++){
                 String methodName=methodNameArray[i];
                 String methodStringValue;
                 Object methodValue=obj.getClass().getMethod("get"+methodName,null).invoke(obj, null);
                 
-                if(methodValue!=null && ("TradeStartDate".equals(methodName)||"TradeEndDate".equals(methodName)
-                        ||"CompanyFamilyPlanStartDate".equals(methodName)||ConstantsUtils.CFP_END_DATE.equals(methodName)||"CfpmodifiedDate".equals(methodName)
-                        ||"CfpcreatedDate".equals(methodName)||"IfpcreatedDate".equals(methodName)||"PriceScheduleStartDate".equals(methodName)
-                        ||"PriceScheduleEndDate".equals(methodName)||"CdrCreatedDate".equals(methodName)||"CdrModifiedDate".equals(methodName))){
+                if( checkModuleName(methodValue, methodName)){
                     methodStringValue = dateFormat.format(methodValue);
                 } else if(methodValue!=null && StringUtils.isNotBlank(String.valueOf(methodValue)) && !ConstantUtil.SELECT_ONE.equals(String.valueOf(methodValue)) ) {
                     methodStringValue = String.valueOf(methodValue);
@@ -191,20 +187,31 @@ public class AbstractSearchLogic {
                     methodStringValue = StringUtils.EMPTY;
                 }
                 
-                if(lastIndex==i){
-                    builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"');
-                }else{
-                    builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"' ).append( ',');
-                }
+                    checklastIndex(lastIndex, i, builder, methodStringValue);
             }
+         }
                                    
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
            LOGGER.error(ex.getMessage());
         }
        return builder.toString();
     }
+
+    public static boolean checkModuleName(Object methodValue, String methodName) {
+        return methodValue != null && ("TradeStartDate".equals(methodName) || "TradeEndDate".equals(methodName)
+                || "CompanyFamilyPlanStartDate".equals(methodName) || ConstantsUtils.CFP_END_DATE.equals(methodName) || "CfpmodifiedDate".equals(methodName)
+                || "CfpcreatedDate".equals(methodName) || "IfpcreatedDate".equals(methodName) || "PriceScheduleStartDate".equals(methodName)
+                || "PriceScheduleEndDate".equals(methodName) || "CdrCreatedDate".equals(methodName) || "CdrModifiedDate".equals(methodName));
+    }
+
+    public void checklastIndex(int lastIndex, int i, StringBuilder builder, String methodStringValue) {
+        if (lastIndex == i) {
+            builder.append('"').append('\t').append(methodStringValue).append('"');
+        } else {
+            builder.append('"').append('\t').append(methodStringValue).append('"').append(',');
+        }
+    }
     
-     
     /**
      * Prints each line in the CSV file
      * @param printableDto - List of rows we are going to print in the CSV file
