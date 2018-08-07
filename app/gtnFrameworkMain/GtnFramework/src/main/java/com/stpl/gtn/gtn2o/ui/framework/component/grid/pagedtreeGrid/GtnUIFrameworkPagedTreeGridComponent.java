@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 
@@ -47,10 +48,12 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig)
 			throws GtnFrameworkGeneralException {
 		VerticalLayout resultLayout = new VerticalLayout();
+		loadStyles(resultLayout, componentConfig.getComponentStyle());
 		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
-
+		
 		configureTableHeaders(tableConfig, componentConfig.getSourceViewId());
 		PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
+		
 		resultLayout.setSizeFull();
 		resultLayout.addComponent(pagedTreeGrid.getGrid());
 		pagedTreeGrid.getGrid().setWidth(componentConfig.getComponentWidth());
@@ -79,6 +82,19 @@ public class GtnUIFrameworkPagedTreeGridComponent
 			throw new GtnFrameworkGeneralException("Exception while loading the table logic", exception);
 		}
 		return resultLayout;
+	}
+	
+	private void loadStyles(final Component component, final List<String> styles) {
+
+		if (styles != null) {
+
+			for (String style : styles) {
+
+				component.addStyleName(style);
+
+			}
+		}
+
 	}
 
 	/**

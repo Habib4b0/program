@@ -79,13 +79,13 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 		return this;
 	}
 
-	private void checkDateConditionsEqualOrGreater(Date startDate, Date endDate, String componentId, String equalMsg,
+	private void checkDateConditionsEqualOrGreater(Date start, Date end, String componentId, String equalMsg,
 			String lessThanMsg) throws GtnFrameworkGeneralException {
-		if (endDate != null) {
-			if (startDate.equals(endDate)) {
+		if (end != null) {
+			if (start.equals(end)) {
 				throw new GtnFrameworkValidationFailedException(equalMsg, componentId);
 			}
-			if (startDate.after(endDate)) {
+			if (start.after(end)) {
 				throw new GtnFrameworkValidationFailedException(lessThanMsg, componentId);
 			}
 		}
