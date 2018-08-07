@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class GtnReportVariableBreakdownLookupBean {
 
+    public GtnReportVariableBreakdownLookupBean() {
+    }
+
 	private int masterSid;
 	private int period;
 	private int year;
