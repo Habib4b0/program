@@ -19,6 +19,7 @@
 		<module>GtnMethodologyCalculation</module>
 		<module>GtnWsParentReportEngine</module>
 		<module>GtnServiceRegistryWebServices</module>
+		<module>GtnWsQueryEngineWebService</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
