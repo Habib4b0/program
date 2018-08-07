@@ -24,7 +24,7 @@ public class PMPYTradingPartnerHistoryChart {
     /**
      * The dto.
      */
-    private final List<PMPYRowDto> dto;
+    private List<PMPYRowDto> dto;
 
     /**
      * The Constant LOGGER.
@@ -60,4 +60,27 @@ public class PMPYTradingPartnerHistoryChart {
         return lay;
     }
 
+    public List<PMPYRowDto> getDto() {
+        return dto;
+    }
+
+    public void setDto(List<PMPYRowDto> dto) {
+        this.dto = dto;
+    }
+
+    public String getTpName() {
+        return tpName;
+    }
+
+    public void setTpName(String tpName) {
+        this.tpName = tpName;
+    }
+
+    public List<Object> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(List<Object> headers) {
+        this.headers = headers;
+    }
 }
