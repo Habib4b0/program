@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 public class FileSelectionTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSelectionTableLogic.class);
     private final CFFLogic logic=new CFFLogic();
-    private List<FileSelectionDTO> list;
     private boolean iscount=false;
     private SessionDTO sessionDTO;
     private String businessUnit;
@@ -42,7 +41,7 @@ public class FileSelectionTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        list=(List<FileSelectionDTO>)logic.getFileName(false,sessionDTO, getFilters(),businessUnit);
+        List<FileSelectionDTO> list = (List<FileSelectionDTO>) logic.getFileName(false, sessionDTO, getFilters(), businessUnit);
         LOGGER.debug("getCount= {}", list.size());
         return Collections.unmodifiableList(list);
     }

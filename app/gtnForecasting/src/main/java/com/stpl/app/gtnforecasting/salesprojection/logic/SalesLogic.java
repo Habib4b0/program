@@ -2389,11 +2389,9 @@ public class SalesLogic {
     public boolean callManualEntry(final ProjectionSelectionDTO projectionSelectionDTO, String changedProperty) {
         boolean status = false;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
         SessionDTO session = projectionSelectionDTO.getSessionDTO();
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callManualEntryProcedure  ::::");
             if (connection != null) {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
@@ -2425,7 +2423,6 @@ public class SalesLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -2930,10 +2927,8 @@ public class SalesLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             if (connection != null) {
                 LOGGER.info("PRC_SALES_ADJUSTMENT_TEMP");
@@ -2980,7 +2975,6 @@ public class SalesLogic {
             if (statement != null) {
                 statement.close();
             }
-            connection.close();
         }
         return status;
     }
@@ -3199,10 +3193,8 @@ public class SalesLogic {
     public void callAlternateHistoryProcedure(SessionDTO sessionDTO, ContractBrandDTO contractBrandDTO) throws SQLException {
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_M_ALTERNATE_ACTUALS (?,?,?,?,?,?,?)}");
                 statement.setObject(1, contractBrandDTO.getContractHierarchyNo());
@@ -3220,16 +3212,13 @@ public class SalesLogic {
             if (statement != null) {
                 statement.close();
             }
-            connection.close();
         }
     }
 
     public void callAlternateHistoryProcedure(final Object[] inputs) throws SystemException, SQLException {
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callAlternateHistoryProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_NM_ALTERNATE_ACTUALS (?,?,?,?,?,?,?)}");
@@ -3257,7 +3246,6 @@ public class SalesLogic {
             if (statement != null) {
                 statement.close();
             }
-            connection.close();
         }
     }
 
@@ -3759,10 +3747,8 @@ public class SalesLogic {
         LOGGER.debug("SessionId------->= {} " , sessionId);
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+       try (Connection connection = dataSourceConnection.getConnection()) {
 
             if (connection != null) {
 
@@ -3785,7 +3771,6 @@ public class SalesLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
