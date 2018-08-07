@@ -180,7 +180,7 @@ WHERE  rn = 1
                               FROM   (SELECT Isnull(C.PROJECTION_SALES, 0)                           AS PROJECTED_CONTRACT_SALES_DOLLARS,
                                              Isnull(C.PROJECTION_UNITS, 0)                           AS PROJECTED_CONTRACT_SALES_UNITS,
                                              Isnull(D.DISCOUNT_AMOUNT, 0)                            AS PROJECTED_DISCOUNT_DOLLARS,
-                                             Isnull(PPA.PROJECTION_SALES, 0)                         AS PROJECTED_PPA_SALES,
+                                             PROJECTED_PPA_SALES=0,
                                              Isnull(U.ITEM_PRICE, 0) * Isnull(C.PROJECTION_UNITS, 0) AS COGS_VALUE,
                                              P.YEAR,
                                              P.QUARTER,
@@ -189,9 +189,9 @@ WHERE  rn = 1
                                                ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                              JOIN NM_SALES_PROJECTION C
                                                ON A.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
-                                             JOIN NM_PPA_PROJECTION PPA
-                                               ON PPA.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
-                                                  AND PPA.PERIOD_SID = C.PERIOD_SID
+                                             --JOIN NM_PPA_PROJECTION PPA
+                                              -- ON PPA.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
+                                              --    AND PPA.PERIOD_SID = C.PERIOD_SID
                                              JOIN PERIOD P
                                                ON P.PERIOD_SID = C.PERIOD_SID
                                              JOIN CCP_DETAILS CCP
@@ -386,7 +386,7 @@ IF @CURR_FOR_TYPE = 'Non Mandated'
               FROM   (SELECT Isnull(C.PROJECTION_SALES, 0)                           AS PROJECTED_CONTRACT_SALES_DOLLARS,
                              Isnull(C.PROJECTION_UNITS, 0)                           AS PROJECTED_CONTRACT_SALES_UNITS,
                              Isnull(D.DISCOUNT_AMOUNT, 0)                            AS PROJECTED_DISCOUNT_DOLLARS,
-                             Isnull(PPA.PROJECTION_SALES, 0)                         AS PROJECTED_PPA_SALES,
+                             PROJECTED_PPA_SALES=0,
                              Isnull(U.ITEM_PRICE, 0) * Isnull(C.PROJECTION_UNITS, 0) AS COGS_VALUE,
                              P.YEAR,
                              P.QUARTER,
@@ -398,11 +398,11 @@ IF @CURR_FOR_TYPE = 'Non Mandated'
                                ON A.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
                                   AND C.USER_ID = A.USER_ID
                                   AND C.SESSION_ID = A.SESSION_ID
-                             LEFT JOIN ST_NM_PPA_PROJECTION PPA
-                                    ON PPA.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
-                                       AND PPA.PERIOD_SID = C.PERIOD_SID
-                                       AND C.USER_ID = A.USER_ID
-                                       AND C.SESSION_ID = A.SESSION_ID
+                             --LEFT JOIN ST_NM_PPA_PROJECTION PPA
+                             --       ON PPA.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
+                              --         AND PPA.PERIOD_SID = C.PERIOD_SID
+                              --         AND C.USER_ID = A.USER_ID
+                                --       AND C.SESSION_ID = A.SESSION_ID
                              JOIN PERIOD P
                                ON P.PERIOD_SID = C.PERIOD_SID
                              JOIN CCP_DETAILS CCP
