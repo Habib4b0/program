@@ -12,7 +12,6 @@ import com.stpl.app.service.ProjectionNameConfigLocalServiceUtil;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +91,7 @@ public class ProjNameConfigLogic {
     public List<ProjectionNameDTO> getAvailableNameTemplate(final String businessProcess)throws SystemException  {
         LOGGER.debug("getAvailableNameTemplate method started ");
         final DynamicQuery nameDynamicQuery = ProjectionNameConfigLocalServiceUtil.dynamicQuery();
-         final Map userInfoMap = (HashMap) CommonUtil.getCreatedByUser();
+         final HashMap userInfoMap = (HashMap) CommonUtil.getCreatedByUser();
          final List<ProjectionNameDTO> nameDTOs = new ArrayList<>();
          nameDynamicQuery.add(RestrictionsFactoryUtil.ilike("businessProcessType", businessProcess));
          List<ProjectionNameConfig> nameConfigs=ProjectionNameConfigLocalServiceUtil.dynamicQuery(nameDynamicQuery);

@@ -723,7 +723,8 @@ public class DPRLogic {
                 count = count + configureLevelsCount;
             }
         } else if (!mdFlag && !projSelDTO.isIsFilter()) {
-            projSelDTO.setLevelNo(projSelDTO.getLevelNo());
+            int levelNo = projSelDTO.getLevelNo();
+            projSelDTO.setLevelNo(levelNo);
             configureLevelsCount = configureLevelsCount(projSelDTO);
             configureLevelsCountMethodCalled = true;
             count = count + configureLevelsCount;

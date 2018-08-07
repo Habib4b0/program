@@ -2404,7 +2404,7 @@ public class DataSelectionLogic {
 		StringBuilder queryString = new StringBuilder();
 		String query2 = SQlUtil.getQuery(getClass(),"get-lower-levels-based-on-hierarchy-no-with-projId-Select");
 		if (PROJECTION_PROD_HIERARCHY.equals(parameters.get(Constant.TABLE_NAME))) {
-			List<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
+			ArrayList<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
 			StringBuilder hierarchyInclusion = new StringBuilder();
 
 			for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
@@ -2440,7 +2440,7 @@ public class DataSelectionLogic {
 			queryString.append(query);
 		} else {
 			if (parameters.get(RL_SIDS) != null) {
-				List<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
+				ArrayList<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
 				if (rlSids != null && !rlSids.isEmpty()) {
 					String qry = "   SELECT distinct " + String.valueOf(parameters.get(Constant.PROJECTION_ID))
 							+ ",RLD.RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD ";
