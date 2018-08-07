@@ -305,8 +305,6 @@ public class ForecastUI extends UI {
                         arpView = new AccrualRateProjectionView(projectionId, sessionDto, screenName, null, true);
                         
                     }
-            } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex.getMessage());
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
