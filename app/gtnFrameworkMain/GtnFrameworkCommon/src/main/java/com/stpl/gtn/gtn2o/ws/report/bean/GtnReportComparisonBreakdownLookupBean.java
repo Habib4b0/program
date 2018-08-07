@@ -9,9 +9,7 @@ import java.util.List;
 
 public class GtnReportComparisonBreakdownLookupBean implements Serializable {
 
-    public GtnReportComparisonBreakdownLookupBean() {
-    }
-
+   
 	/**
 	 * 
 	 */

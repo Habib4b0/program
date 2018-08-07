@@ -60,7 +60,6 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
 		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
 				.getActionParameterList().get(0);
-		List<GtnWsRecordBean> exportList = new ArrayList<>();
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(inputBean.getExportTableId(), componentId);
 		PagedTreeGrid treeGrid = (PagedTreeGrid) componentData.getCustomData();
