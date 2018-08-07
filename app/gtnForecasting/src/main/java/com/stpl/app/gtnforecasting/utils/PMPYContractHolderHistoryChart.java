@@ -24,7 +24,7 @@ public class PMPYContractHolderHistoryChart {
     /**
      * The dto.
      */
-    private final List<PMPYRowDto> dto;
+    private List<PMPYRowDto> dto;
     /**
      * The Constant LOGGER.
      */
@@ -62,4 +62,27 @@ public class PMPYContractHolderHistoryChart {
         return lay;
     }
 
+    public List<PMPYRowDto> getDto() {
+        return dto;
+    }
+
+    public void setDto(List<PMPYRowDto> dto) {
+        this.dto = dto;
+    }
+
+    public String getContractName() {
+        return contractName;
+    }
+
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
+    }
+
+    public List<Object> getHeaderes() {
+        return headeres;
+    }
+
+    public void setHeaderes(List<Object> headeres) {
+        this.headeres = headeres;
+    }
 }

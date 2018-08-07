@@ -28,7 +28,6 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      * The Constant NAME.
      */
     public static final String NAME = StringUtils.EMPTY;
-    private ConsolidatedFinancialForecastForm mainForm;
     /**
      * The SessionDTO
      */
@@ -45,7 +44,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
         addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         sessionDTO.setUserId((String) VaadinSession.getCurrent().getAttribute(CommonUtils.USERID_SESSION));
         sessionDTO.setSessionId((String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.SESSION_ID));
-        mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
+        ConsolidatedFinancialForecastForm mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
         addComponent(mainForm);
     }
 
@@ -56,7 +55,6 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
     }
     
 }

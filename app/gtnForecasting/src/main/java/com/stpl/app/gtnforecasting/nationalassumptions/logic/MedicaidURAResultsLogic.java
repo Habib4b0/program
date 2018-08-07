@@ -75,8 +75,6 @@ public class MedicaidURAResultsLogic {
     public static final String MEDICAID_URA_CPI_URA = "MEDICAID_URA_CPI_URA";
     public static final String MEDICAID_URA_CPI_U = "MEDICAID_URA_CPI_U";
     public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
-
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String ADJUSTMENT_CPI = "Adjustment CPI";
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String CPI_U = "CPI-U";
@@ -890,7 +888,7 @@ public class MedicaidURAResultsLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(Constant.DATASOURCE_CONTEXT);
         } catch (NamingException namEx)
         {
             LOGGER.debug("Inside medicaidProcSetupDataCook= {} " , namEx);
@@ -1022,7 +1020,7 @@ public class MedicaidURAResultsLogic {
         boolean status;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(Constant.DATASOURCE_CONTEXT);
         } catch (NamingException namingExcep)
         {
             LOGGER.debug("workSheetSetupCook= {} ", namingExcep);
