@@ -18,6 +18,7 @@
 		<module>GtnWsBpmWebService</module>
 		<module>GtnMethodologyCalculation</module>
 		<module>GtnWsParentReportEngine</module>
+		<module>GtnServiceRegistryWebServices</module>
 		<module>GtnWsQueryEngineWebService</module>
 	</modules>
 	<properties>

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.serviceregistry.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,46 +8,75 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
+import com.stpl.gtn.gtn2o.serviceregistry.bean.GtnWsServiceRegistryBean;
+import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.GtnServiceRegistryWSResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
 
 @RestController
 @RequestMapping(value = "/gtnServiceRegistry")
 public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass {
 
-	GtnServiceRegistryImplClass abstr = new GtnUIServiceRegistryController();
-	GtnFrameworkDependencyLogger logger = abstr.logInformation(GtnUIServiceRegistryController.class);
+	public GtnUIServiceRegistryController() {
+		super();
+	}
 
-	public void init(){
-		
+	@Autowired
+	private GtnUIServiceRegistryController gtnUIServiceRegistryController;
+
+	@Autowired
+	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
+	
+	@Autowired
+	private GtnUIServiceRegistryService gtnUIServiceRegistryService;
+
+	@RequestMapping(value = "/registerWebservices", method = RequestMethod.POST)
+	public void registerWebServices(GtnUIFrameworkWebserviceRequest request) {
+		String registerQuery = GtnWsServiceRegistryConstants.INSERT_QUERY;
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl("url", request,getGsnWsSecurityToken(request.getGtnWsGeneralRequest().getUserId(),request.getGtnWsGeneralRequest().getSessionId()));
 	}
 	
+
 	@RequestMapping(value = "/serviceRegistryUIControllerMappingWs", method = RequestMethod.POST)
-	public GtnServiceRegistryWSResponse serviceRegistryUIControllerMappingWs(
+	public GtnUIFrameworkWebserviceResponse serviceRegistryUIControllerMappingWs(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) {
+		GtnFrameworkDependencyLogger logger = gtnUIServiceRegistryController
+				.logInformation(GtnUIServiceRegistryController.class);
 		logger.debug("inside serviceRegistryUIControllerMappingWs");
 
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = new GtnServiceRegistryWSResponse();
 
-		GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController = new GtnValidateWsServiceRegistryController();
 		gtnServiceRegistryWSResponse = gtnValidateWsServiceRegistryController
 				.serviceRegistryControllerToValidateWs(request);
 
-		return gtnServiceRegistryWSResponse;
+		response.setGtnServiceRegistryWSResponse(gtnServiceRegistryWSResponse);
+
+		return response;
 	}
 
 	@RequestMapping(value = "/serviceRegistryUIControllerCallingWs", method = RequestMethod.POST)
-	public GtnServiceRegistryWSResponse serviceRegistryUIControllerCallingWs(
+	public GtnUIFrameworkWebserviceResponse serviceRegistryUIControllerCallingWs(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) {
+		GtnFrameworkDependencyLogger logger = gtnUIServiceRegistryController
+				.logInformation(GtnUIServiceRegistryController.class);
 		logger.debug("inside serviceRegistryUIControllerCallingWs");
 
-		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = new GtnServiceRegistryWSResponse();
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 
-		GtnUIServiceRegistryService gtnUIServiceRegistryService = new GtnUIServiceRegistryService();
-		gtnServiceRegistryWSResponse = gtnUIServiceRegistryService.serviceRegistryUIServiceCallingWs(request);
+		response = gtnUIServiceRegistryService.serviceRegistryUIServiceCallingWs(request);
 
-		return gtnServiceRegistryWSResponse;
+		return response;
 	}
 
+	private GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
+		GtnWsSecurityToken wsToken = new GtnWsSecurityToken();
+		wsToken.setUserId(userId);
+		wsToken.setSessionId(sessionId);
+		return wsToken;
+	}
 }

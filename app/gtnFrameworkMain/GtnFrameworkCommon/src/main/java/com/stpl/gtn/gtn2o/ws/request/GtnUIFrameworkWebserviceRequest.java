@@ -38,6 +38,7 @@ import com.stpl.gtn.gtn2o.ws.request.rebateplan.GtnWsRebatePlanGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.request.udc.GtnWsUdcRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
@@ -142,6 +143,8 @@ public class GtnUIFrameworkWebserviceRequest {
 
     private GtnWsAdjusmentDetailsRequest gtnWsAdjusmentDetailsRequest;
 
+    private GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest;
+    
     public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
         return gtnWshirarchyInsertRequest;
     }
@@ -516,5 +519,13 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsAdjustmentDetailsSaveViewMasterRequest(GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest) {
         this.gtnWsAdjustmentDetailsSaveViewMasterRequest = gtnWsAdjustmentDetailsSaveViewMasterRequest;
     }
+
+	public GtnServiceRegistryWsRequest getGtnServiceRegistryWsRequest() {
+		return gtnServiceRegistryWsRequest;
+	}
+
+	public void setGtnServiceRegistryWsRequest(GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest) {
+		this.gtnServiceRegistryWsRequest = gtnServiceRegistryWsRequest;
+	}
 
 }
