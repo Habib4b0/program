@@ -19,6 +19,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -67,9 +68,11 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 list = mProjectionVarianceLogic.getConfiguredProjectionVariance(getLastParent(), projSelDTO, start, offset);
             }
             int i = start;
-            for (ProjectionVarianceDTO dto : list) {
-                map.put(i, dto);
-                i++;
+            if (list != null) {
+                for (ProjectionVarianceDTO dto : list) {
+                    map.put(i, dto);
+                    i++;
+                }
             }
             projSelDTO.clearNonFetchableIndex();
         }
@@ -403,4 +406,4 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         this.screenName = screenName;
     }
 
-}
+    }

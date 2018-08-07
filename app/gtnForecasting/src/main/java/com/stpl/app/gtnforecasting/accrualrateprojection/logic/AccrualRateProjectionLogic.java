@@ -589,10 +589,8 @@ public final class AccrualRateProjectionLogic {
     public void callARPProcedure(final Object[] parameters, final String procedureName) {
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+         try (Connection connection = dataSourceConnection.getConnection()) {
             if (connection != null) {
                 StringBuilder arguments = new StringBuilder("(");
                 for (int i = 0; i < parameters.length; i++) {
@@ -616,7 +614,6 @@ public final class AccrualRateProjectionLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
