@@ -550,4 +550,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		fillComboBox(componentConfig, componentConfig.getGtnComboboxConfig(), null, componentConfig.getSourceViewId(),
 				(ComboBox) component, null);
 	}
+
+    public void reloadComponentFromParent(GtnUIFrameworkActionType gtnUIFrameworkActionType, String reportingDashboard_displaySelectionTabCom, String componentId, List<String> asList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

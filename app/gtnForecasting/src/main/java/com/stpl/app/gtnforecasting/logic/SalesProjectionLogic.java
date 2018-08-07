@@ -101,10 +101,8 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             LOGGER.debug("Entering callAdjustmentProcedure  ::::");
             if (connection != null) {
@@ -127,11 +125,6 @@ public class SalesProjectionLogic {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -168,10 +161,8 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             LOGGER.debug("Entering callCalculationProcedure  ::::");
             if (connection != null) {
@@ -195,11 +186,6 @@ public class SalesProjectionLogic {
                 }
             } catch (SQLException e) {
                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
             }
         }
 
@@ -292,10 +278,8 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             LOGGER.debug("Entering callAlternateHistoryProcedure  ::::");
 
@@ -330,7 +314,6 @@ public class SalesProjectionLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -344,11 +327,9 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
-
+        
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callSalesInsertProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_NM_SALES_INSERT (?,?,?)}");
@@ -368,11 +349,6 @@ public class SalesProjectionLogic {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -1008,11 +984,9 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
-
+        
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callManualEntryProcedure  ::::");
 
             if (connection != null) {
@@ -1036,11 +1010,6 @@ public class SalesProjectionLogic {
                 if(statement != null) {
                     statement.close();
                 }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }

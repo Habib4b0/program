@@ -80,22 +80,6 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 		return resultLayout;
 	}
 
-	private void configureLeftTablHeader(GtnUIFrameworkPagedTableConfig tableConfig, String sourceViewId)
-			throws GtnFrameworkGeneralException {
-
-		String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
-		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
-				tableConfig.getGtnUIFrameWorkActionConfig(), sourceViewId);
-
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
-				tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnWsPagedTableResponse tableHeadersResponse = response.getGtnWsPagedTableResponse();
-
-		tableConfig.setTableColumnMappingId(tableHeadersResponse.getSingleColumns().toArray());
-		tableConfig.setColumnHeaders(tableHeadersResponse.getSingleHeaders());
-	}
 
 	private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
 			String sourceViewId) throws GtnFrameworkGeneralException {

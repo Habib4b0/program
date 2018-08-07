@@ -69,7 +69,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		excludeColumnList(inputBean, propertyIds, headers);
 
 		gtnLogger.info(propertyIds.size() + "");
-		XSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers, treeGrid);
+		XSSFWorkbook workBook = writeInExcel(inputBean, propertyIds, headers, treeGrid);
 		sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 
 	}
@@ -79,7 +79,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		return this;
 	}
 
-	private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
+	private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean,
 			List<Object> visibleColumns, List<String> headers, PagedTreeGrid resultTable) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
@@ -163,25 +163,25 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
 	@SuppressWarnings("deprecation")
 	public void sendTheExcelToUser(String excelGridExportFileName, XSSFWorkbook excelGridWorkBook) {
-		String GridExportFile = excelGridExportFileName;
+		String gridExportFile = excelGridExportFileName;
 		File excelGridTempFile = null;
 		try {
 			excelGridTempFile = File.createTempFile(GtnFrameworkCommonStringConstants.TMP,
 					GtnFrameworkCommonStringConstants.DOT_XLS);
 		} catch (IOException e) {
-			gtnLogger.error(GridExportFile, e);
+			gtnLogger.error(gridExportFile, e);
 		}
 		TemporaryFileDownloadResource excelGridResource;
 		try (FileOutputStream fileOut = new FileOutputStream(excelGridTempFile);) {
 			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				GridExportFile = GridExportFile.replace(' ', '_');
+				gridExportFile = gridExportFile.replace(' ', '_');
 			}
 			excelGridWorkBook.write(fileOut);
-			excelGridResource = new TemporaryFileDownloadResource(null, GridExportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
+			excelGridResource = new TemporaryFileDownloadResource(null, gridExportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
 					EXCEL_MIME_TYPE, excelGridTempFile);
 			UI.getCurrent().getPage().open(excelGridResource, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
 		} catch (final IOException e) {
-			gtnLogger.error(GridExportFile, e);
+			gtnLogger.error(gridExportFile, e);
 		} finally {
 			if (excelGridTempFile != null) {
 				excelGridTempFile.deleteOnExit();

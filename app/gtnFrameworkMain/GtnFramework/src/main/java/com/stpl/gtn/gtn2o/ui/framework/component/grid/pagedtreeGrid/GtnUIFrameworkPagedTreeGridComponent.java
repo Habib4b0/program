@@ -68,7 +68,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		componentData.setCurrentGtnComponent(this);
 		try {
 
-			initializeResultTable(pagedTreeGrid, tableConfig);
+			initializeResultTable(pagedTreeGrid);
 			pagedTreeGrid.setPageLength(tableConfig.getPageLength());
 			resultLayout.setSizeFull();
 			VerticalLayout controls = new VerticalLayout();
@@ -103,7 +103,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	 * @param resultsTable
 	 * @param tableConfig
 	 */
-	protected void initializeResultTable(PagedTreeGrid resultsTable, GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+	protected void initializeResultTable(PagedTreeGrid resultsTable) {
 		resultsTable.getGrid().markAsDirty();
 		resultsTable.getGrid().setSelectionMode(Grid.SelectionMode.NONE);
 		resultsTable.getGrid().removeAllColumns();
@@ -163,18 +163,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	}
 
-	private GtnUIFrameworkPagedTreeTableLogic getPagedTableLogicClass(GtnUIFrameworkComponentConfig componentConfig,
-			GtnUIFrameworkComponentData componentData) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkPagedTreeTableLogic tableLogic;
-		if (componentConfig.getPagedTableLogicClassName() == null) {
-			tableLogic = new GtnUIFrameworkPagedTreeTableLogic(componentData);
-		} else {
-			GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-			tableLogic = (GtnUIFrameworkPagedTreeTableLogic) classLoader
-					.loadDynamicClass(componentConfig.getPagedTableLogicClassName());
-		}
-		return tableLogic;
-	}
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
@@ -274,8 +262,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
 			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
-		initializeResultTable(pagedTreeGrid, tableConfig);
-
+		initializeResultTable(pagedTreeGrid);
 	}
 
 	@Override

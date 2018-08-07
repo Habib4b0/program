@@ -3,6 +3,8 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 import java.util.List;
 
 public class GtnWsCustomTreeData {
+    public GtnWsCustomTreeData() {
+    }
 	private String levelName;
 	private int levelNo;
 	private int currentTreeLevelNo;
@@ -10,6 +12,8 @@ public class GtnWsCustomTreeData {
 	private int hierarchySid;
 	private List<GtnWsReportVariablesType> variableList;
 	private GtnWsCustomTreeData child;
+
+    
 
 	public String getLevelName() {
 		return levelName;
