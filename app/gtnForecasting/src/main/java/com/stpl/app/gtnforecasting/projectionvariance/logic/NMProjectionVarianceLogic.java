@@ -315,7 +315,7 @@ public class NMProjectionVarianceLogic {
 		return finalList;
 	}
 
-	public Boolean isProjecionId(List<ComparisonLookupDTO> finalList, ComparisonLookupDTO comparisonLookupDTO) {
+	public boolean isProjecionId(List<ComparisonLookupDTO> finalList, ComparisonLookupDTO comparisonLookupDTO) {
 		for (ComparisonLookupDTO comparisonLookupDTO1 : finalList) {
 			if (comparisonLookupDTO1.getProjectionId() == comparisonLookupDTO.getProjectionId()) {
 				return true;
