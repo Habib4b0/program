@@ -129,7 +129,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromView(String dependentComponentId,
+	public void reloadComponentFromView(GtnUIFrameworkActionType action, String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromView(dependentComponentId,
@@ -139,7 +139,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromChild(String dependentComponentId,
+	public void reloadComponentFromChild(GtnUIFrameworkActionType action, String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromChild(dependentComponentId,
@@ -149,7 +149,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromParent(String dependentComponentId,
+	public void reloadComponentFromParent(GtnUIFrameworkActionType action, String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromParent(dependentComponentId,
@@ -550,4 +550,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		fillComboBox(componentConfig, componentConfig.getGtnComboboxConfig(), null, componentConfig.getSourceViewId(),
 				(ComboBox) component, null);
 	}
+
+    public void reloadComponentFromParent(GtnUIFrameworkActionType gtnUIFrameworkActionType, String reportingDashboard_displaySelectionTabCom, String componentId, List<String> asList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

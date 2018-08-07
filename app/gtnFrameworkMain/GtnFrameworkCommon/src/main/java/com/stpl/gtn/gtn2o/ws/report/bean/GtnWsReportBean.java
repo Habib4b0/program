@@ -1,6 +1,10 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
 public class GtnWsReportBean {
+
+    public GtnWsReportBean() {
+    }
+    
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 	private GtnWsReportCustomViewBean customViewBean;
 	private GtnReportHierarchyLookupBean hierarchyLookupBean;
