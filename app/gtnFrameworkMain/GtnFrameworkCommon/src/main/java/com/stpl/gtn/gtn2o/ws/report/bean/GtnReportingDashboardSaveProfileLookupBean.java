@@ -6,9 +6,6 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
 public class GtnReportingDashboardSaveProfileLookupBean {
 
-    public GtnReportingDashboardSaveProfileLookupBean() {
-    }
-
 	private List<Object> displaySelectionTabVariable;
 	private String displaySelectionTabPeriodRangeFrom;
 	private String displaySelectionTabPeriodRangeTo;
