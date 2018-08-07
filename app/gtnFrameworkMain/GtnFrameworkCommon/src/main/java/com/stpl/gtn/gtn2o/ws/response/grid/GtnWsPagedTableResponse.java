@@ -21,95 +21,95 @@ public class GtnWsPagedTableResponse {
         super();
     }
 
-    private GtnWsForecastResponse gtnWsForecastResponse;
+    private GtnWsForecastResponse gtnWsForecastResponsePagedTable;
 
-    private List<GtnWsRecordBean> gtnWsRecordBeanList;
+    private List<GtnWsRecordBean> gtnWsRecordBeanListPagedTable;
 
-    private GtnForecastBean gtnForecastBean;
+    private GtnForecastBean gtnForecastBeanPagedTree;
 
-    private List<GtnWsRecordBean> forecastPagedTableBeanList;
+    private List<GtnWsRecordBean> forecastPagedTableBeanListPagedTree;
 
-    private List<String> results;
+    private List<String> resultsPagedTree;
 
-    private List<String> editableFields;
+    private List<String> editableFieldsPagedTree;
 
-    private List<String> editablePeriods;
+    private List<String> editablePeriodsPagedTree;
 
-    private DataSelectionBean dataSelectionBean;
+    private DataSelectionBean dataSelectionBeanPagedTree;
 
-    private boolean checkAll;
+    private boolean checkAllPagedTree;
 
     /**
      * The properties.
      */
     @SuppressWarnings("rawtypes")
-    private Map<Object, Class> properties = new HashMap<>();
+    private Map<Object, Class> propertiesPagedTree = new HashMap<>();
     /**
      * The single column.
      */
-    private List<Object> singleColumn = new ArrayList<>();
+    private List<Object> singleColumnPagedTree = new ArrayList<>();
 
     /**
      * The single header.
      */
-    private List<String> singleHeader = new ArrayList<>();
+    private List<String> singleHeaderPagedTree = new ArrayList<>();
 
     /**
      * The double column.
      */
-    private List<Object> doubleColumn = new ArrayList<>();
+    private List<Object> doubleColumnPagedTree = new ArrayList<>();
     /**
      * The double header.
      */
-    private List<String> doubleHeader = new ArrayList<>();
+    private List<String> doubleHeaderPagedTree = new ArrayList<>();
 
     /**
      * Triple Column
      */
-    private List<Object> tripleColumn = new ArrayList<>();
+    private List<Object> tripleColumnPagedTree = new ArrayList<>();
     /**
      * Triple Header
      */
-    private List<String> tripleHeader = new ArrayList<>();
+    private List<String> tripleHeaderPagedTree = new ArrayList<>();
 
     /**
      * The double header map.
      */
-    private Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
+    private Map<Object, Object[]> doubleHeaderMapPagedTree = new HashMap<>();
         /**
      * The Triple header map.
      */
-    private Map<Object, Object[]> tripleHeaderMap = new HashMap<>();
+    private Map<Object, Object[]> tripleHeaderMapPagedTree = new HashMap<>();
 
-    private int tableCount;
+    private int tableCountPagedTree;
 
-    private Map<String, Integer> countMap;
+    private Map<String, Integer> countMapPagedTree;
 
     public GtnForecastBean getGtnForecastBean() {
-        return gtnForecastBean;
+        return gtnForecastBeanPagedTree;
     }
 
     public void setGtnForecastBean(GtnForecastBean gtnForecastBean) {
-        this.gtnForecastBean = gtnForecastBean;
+        this.gtnForecastBeanPagedTree = gtnForecastBean;
     }
 
     public List<GtnWsRecordBean> getForecastPagedTableBeanList() {
-        return forecastPagedTableBeanList != null ? new ArrayList<>(forecastPagedTableBeanList)
-                : forecastPagedTableBeanList;
+        return forecastPagedTableBeanListPagedTree != null ? new ArrayList<>(forecastPagedTableBeanListPagedTree)
+                : forecastPagedTableBeanListPagedTree;
     }
 
     public void setForecastPagedTableBeanList(List<GtnWsRecordBean> forecastPagedTableBeanList) {
-        this.forecastPagedTableBeanList = forecastPagedTableBeanList != null
+        this.forecastPagedTableBeanListPagedTree = forecastPagedTableBeanList != null
                 ? new ArrayList<>(forecastPagedTableBeanList)
                 : forecastPagedTableBeanList;
     }
 
     public int getTableCount() {
-        return tableCount;
+        return tableCountPagedTree;
     }
 
     public void setTableCount(int tableCount) {
-        this.tableCount = tableCount;
+        this.tableCountPagedTree = tableCount;
     }
 
     /**
@@ -120,8 +120,8 @@ public class GtnWsPagedTableResponse {
      * @param clazz the clazz
      */
     public void addSingleColumn(Object column, String header, Class<?> clazz) {
-        this.singleColumn.add(column.toString());
-        this.singleHeader.add(header);
+        this.singleColumnPagedTree.add(column.toString());
+        this.singleHeaderPagedTree.add(header);
         addProperty(column, clazz);
     }
 
@@ -132,7 +132,7 @@ public class GtnWsPagedTableResponse {
      * @param clazz the clazz
      */
     public void addProperty(Object column, Class<?> clazz) {
-        this.properties.put(column, clazz);
+        this.propertiesPagedTree.put(column, clazz);
     }
 
     /**
@@ -142,8 +142,8 @@ public class GtnWsPagedTableResponse {
      * @param header the header
      */
     public void addDoubleColumn(Object column, String header) {
-        this.doubleColumn.add(column);
-        this.doubleHeader.add(header);
+        this.doubleColumnPagedTree.add(column);
+        this.doubleHeaderPagedTree.add(header);
     }
 
     /**
@@ -153,7 +153,7 @@ public class GtnWsPagedTableResponse {
      * @param singleHeader the single header
      */
     public void addDoubleHeaderMap(Object doubleHeader, Object[] singleHeader) {
-        this.doubleHeaderMap.put(doubleHeader, singleHeader);
+        this.doubleHeaderMapPagedTree.put(doubleHeader, singleHeader);
     }
 
     /**
@@ -163,7 +163,7 @@ public class GtnWsPagedTableResponse {
      */
     @SuppressWarnings("rawtypes")
     public Map<Object, Class> getProperties() {
-        return properties;
+        return propertiesPagedTree;
     }
 
     /**
@@ -172,7 +172,7 @@ public class GtnWsPagedTableResponse {
      * @return the single columns
      */
     public List<Object> getSingleColumns() {
-        return singleColumn;
+        return singleColumnPagedTree;
     }
 
     /**
@@ -181,7 +181,7 @@ public class GtnWsPagedTableResponse {
      * @return the single headers
      */
     public List<String> getSingleHeaders() {
-        return singleHeader;
+        return singleHeaderPagedTree;
     }
 
     /**
@@ -190,7 +190,7 @@ public class GtnWsPagedTableResponse {
      * @return the double columns
      */
     public List<Object> getDoubleColumns() {
-        return doubleColumn;
+        return doubleColumnPagedTree;
     }
 
     /**
@@ -199,7 +199,7 @@ public class GtnWsPagedTableResponse {
      * @return the double headers
      */
     public List<String> getDoubleHeaders() {
-        return doubleHeader;
+        return doubleHeaderPagedTree;
     }
 
     /**
@@ -208,71 +208,71 @@ public class GtnWsPagedTableResponse {
      * @return the double header maps
      */
     public Map<Object, Object[]> getDoubleHeaderMaps() {
-        return doubleHeaderMap;
+        return doubleHeaderMapPagedTree;
     }
 
     public List<String> getResults() {
-        return results != null ? Collections.unmodifiableList(results) : results;
+        return resultsPagedTree != null ? Collections.unmodifiableList(resultsPagedTree) : resultsPagedTree;
     }
 
     public void setResults(List<String> results) {
-        this.results = results != null ? Collections.unmodifiableList(results) : results;
+        this.resultsPagedTree = results != null ? Collections.unmodifiableList(results) : results;
     }
 
     public List<String> getEditableFields() {
-        return editableFields != null ? new ArrayList<>(editableFields) : editableFields;
+        return editableFieldsPagedTree != null ? new ArrayList<>(editableFieldsPagedTree) : editableFieldsPagedTree;
     }
 
     public void setEditableFields(List<String> editableFields) {
-        this.editableFields = editableFields != null ? new ArrayList<>(editableFields) : editableFields;
+        this.editableFieldsPagedTree = editableFields != null ? new ArrayList<>(editableFields) : editableFields;
     }
 
     public List<String> getEditablePeriods() {
-        return editablePeriods;
+        return editablePeriodsPagedTree;
     }
 
     public void setEditablePeriods(List<String> editablePeriods) {
-        this.editablePeriods = editablePeriods;
+        this.editablePeriodsPagedTree = editablePeriods;
     }
 
     public Map<String, Integer> getCountMap() {
-        return countMap;
+        return countMapPagedTree;
     }
 
     public void setCountMap(Map<String, Integer> countMap) {
-        this.countMap = countMap;
+        this.countMapPagedTree = countMap;
     }
 
     public DataSelectionBean getDataSelectionBean() {
-        return dataSelectionBean;
+        return dataSelectionBeanPagedTree;
     }
 
     public void setDataSelectionBean(DataSelectionBean dataSelectionBean) {
-        this.dataSelectionBean = dataSelectionBean;
+        this.dataSelectionBeanPagedTree = dataSelectionBean;
     }
 
     public GtnWsForecastResponse getGtnWsForecastResponse() {
-        return gtnWsForecastResponse;
+        return gtnWsForecastResponsePagedTable;
     }
 
     public void setGtnWsForecastResponse(GtnWsForecastResponse gtnWsForecastResponse) {
-        this.gtnWsForecastResponse = gtnWsForecastResponse;
+        this.gtnWsForecastResponsePagedTable = gtnWsForecastResponse;
     }
 
     public List<GtnWsRecordBean> getGtnWsRecordBeanList() {
-        return gtnWsRecordBeanList;
+        return gtnWsRecordBeanListPagedTable;
     }
 
     public void setGtnWsRecordBeanList(List<GtnWsRecordBean> gtnWsRecordBeanList) {
-        this.gtnWsRecordBeanList = gtnWsRecordBeanList;
+        this.gtnWsRecordBeanListPagedTable = gtnWsRecordBeanList;
     }
 
     public boolean isCheckAll() {
-        return checkAll;
+        return checkAllPagedTree;
     }
 
     public void setCheckAll(boolean checkAll) {
-        this.checkAll = checkAll;
+        this.checkAllPagedTree = checkAll;
     }
 /**
      * Adds the Triple column.
@@ -281,8 +281,8 @@ public class GtnWsPagedTableResponse {
      * @param header the header
      */
     public void addTripleColumn(Object column, String header) {
-        this.tripleColumn.add(column);
-        this.tripleHeader.add(header);
+        this.tripleColumnPagedTree.add(column);
+        this.tripleHeaderPagedTree.add(header);
     }
 
     /**
@@ -292,19 +292,19 @@ public class GtnWsPagedTableResponse {
      * @param doubleHeader the single header
      */
     public void addTripleHeaderMap(Object tripleHeader, Object[] doubleHeader) {
-        this.tripleHeaderMap.put(tripleHeader, doubleHeader);
+        this.tripleHeaderMapPagedTree.put(tripleHeader, doubleHeader);
     }
 
     public List<Object> getTripleColumn() {
-        return tripleColumn;
+        return tripleColumnPagedTree;
     }
 
     public List<String> getTripleHeader() {
-        return tripleHeader;
+        return tripleHeaderPagedTree;
     }
 
     public Map<Object, Object[]> getTripleHeaderMap() {
-        return tripleHeaderMap;
+        return tripleHeaderMapPagedTree;
     }
 
 }

@@ -810,12 +810,12 @@ public class PagedTreeGrid {
 		if(getTotalPageCount()<newPageNumberValue) {
 			return;
 		}
-		if (newPageNumberValue < 0) {
+		if (newPageNumber < 0) {
 			columnPageNumber = 0;
-			newPageNumber = 0;
+			newPageNumberValue = 0;
 		}
 		columnPageNoField.setValue(Integer.toString(columnPageNumber + 1));
-		columnPageNumber = newPageNumber;
+		columnPageNumber = newPageNumberValue;
 		int start = columnPageNumber == 0 ? 0 : (getColumnsPerPage() * columnPageNumber) + 1;
 		int end = start + getColumnsPerPage() - 1;
 		HeaderUtils.configureGridColumns(start, end <= 0 ? 10 : end, this);

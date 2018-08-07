@@ -16,7 +16,6 @@ import com.stpl.app.model.RsModel;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

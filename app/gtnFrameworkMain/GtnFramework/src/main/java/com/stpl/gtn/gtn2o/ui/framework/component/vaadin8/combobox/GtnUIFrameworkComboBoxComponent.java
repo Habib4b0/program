@@ -69,6 +69,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				addValueChangeListener(componentConfig, vaadinComboBox);
 
 				setDefaultFocus(vaadinComboBox, componentConfig);
+				vaadinComboBox.setPopupWidth(null);
 				return vaadinComboBox;
 			}
 		} catch (Exception exception) {
