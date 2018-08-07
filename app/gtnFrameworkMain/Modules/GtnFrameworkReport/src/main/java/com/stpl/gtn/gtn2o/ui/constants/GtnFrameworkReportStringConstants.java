@@ -15,8 +15,9 @@ public final class GtnFrameworkReportStringConstants {
 	private GtnFrameworkReportStringConstants() {
 
 	}
-        public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
-        
+
+	public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+
 	public static final String LEVEL_VALUE = "levelValue";
 
 	public static final String VALUE = "value";
@@ -425,6 +426,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String NO_LEVEL_SELECTED_CAPTION = "No level Selected";
 
+	public static final String SELECT_A_ROW_CAPTION = "Select a row";
+
 	public static final String NO_LEVEL_SELECTED_MSG = "Please select a row to move.";
 
 	public static final String VARIABLE_POSITION_OPTION_GROUP = "custom_Variable_OptionGroup";
@@ -483,8 +486,12 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
 
-        public static final String CONFIRMATION = "Confirmation";
-	
+	public static final String CONFIRMATION = "Confirmation";
+        
+        public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
+        
+	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
+
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
 

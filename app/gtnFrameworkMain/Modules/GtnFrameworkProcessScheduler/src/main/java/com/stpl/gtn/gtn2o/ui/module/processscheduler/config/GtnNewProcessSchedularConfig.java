@@ -621,7 +621,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComponentConfig minutes = new GtnUIFrameworkComponentConfig();
 		minutes.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		minutes.setComponentId("minutes");
+		minutes.setComponentId(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID);
 		minutes.setParentComponentId(minutesComboBoxLayout.getComponentId());
 		minutes.setAddToParent(true);
 		componentList.add(minutes);
@@ -701,7 +701,7 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComponentConfig minutes = new GtnUIFrameworkComponentConfig();
 		minutes.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		minutes.setComponentId("minutes3");
+		minutes.setComponentId(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID);
 		minutes.setParentComponentId(minutes3ComboBoxLayout.getComponentId());
 		minutes.setAddToParent(true);
 		componentList.add(minutes);
@@ -717,7 +717,7 @@ public class GtnNewProcessSchedularConfig {
 	private void addUpdateButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
 		GtnUIFrameworkComponentConfig updateButtonConfig = new GtnUIFrameworkComponentConfig();
 		updateButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		updateButtonConfig.setComponentId("scheduledProcessEditorUpdateButton");
+		updateButtonConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID);
 		updateButtonConfig.setComponentName("UPDATE");
 		updateButtonConfig.setParentComponentId(parentComponentId);
 		updateButtonConfig.setAddToParent(true);
@@ -748,14 +748,14 @@ public class GtnNewProcessSchedularConfig {
 		validationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
 		
-		GtnUIFrameWorkActionConfig updateAction = new GtnUIFrameWorkActionConfig();
+		/*GtnUIFrameWorkActionConfig updateAction = new GtnUIFrameWorkActionConfig();
 		updateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		updateAction.addActionParameter(GtnFrameworkUpdateProcessAction.class.getName());
+		updateAction.addActionParameter(GtnFrameworkUpdateProcessAction.class.getName());*/
 
 		updateActionList.add(checkManadatoryFieldAction);
 		updateActionList.add(validationActionConfig);
 		updateActionList.add(startEndDateValidationCustomAction);
-		updateActionList.add(updateAction);
+	//	updateActionList.add(updateAction);
 		updateButtonConfig.setGtnUIFrameWorkActionConfigList(updateActionList);
 
 	}
@@ -798,7 +798,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig run2 = new GtnUIFrameworkComponentConfig();
 		run2.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		run2.setComponentName("Run 2:");
-		run2.setComponentId("run2");
+		run2.setComponentId(GtnFrameworkProcessSchedulerStringContants.RUN2_ID);
 		run2.setParentComponentId(run2Layout.getComponentId());
 		run2.setAddToParent(true);
 		componentList.add(run2);
@@ -820,7 +820,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig run3 = new GtnUIFrameworkComponentConfig();
 		run3.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		run3.setComponentName("Run 3:");
-		run3.setComponentId("run3");
+		run3.setComponentId(GtnFrameworkProcessSchedulerStringContants.RUN3_ID);
 		run3.setParentComponentId(run3Layout.getComponentId());
 		run3.setAddToParent(true);
 		componentList.add(run3);
@@ -842,7 +842,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig minutes1 = new GtnUIFrameworkComponentConfig();
 		minutes1.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		// minutes1.setComponentName("Minutes:");
-		minutes1.setComponentId("minutes1");
+		minutes1.setComponentId(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID);
 		minutes1.setParentComponentId(minutes1Layout.getComponentId());
 		minutes1.setAddToParent(true);
 		componentList.add(minutes1);

@@ -460,7 +460,7 @@ public class CommonUIUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

@@ -99,8 +99,6 @@ public class DataSelection extends AbstractDataSelection {
 	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	private static final Map<String, String> relationLevelValues = new HashMap<>();
-	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final List<Integer> customerBeanList = new ArrayList<>();
 	private final List<Integer> productBeanList = new ArrayList<>();
 	private final SessionDTO sessionDTO;
@@ -269,7 +267,7 @@ public class DataSelection extends AbstractDataSelection {
 			customerInnerLevelContainer.removeAllItems();
 			selectedCustomer.removeAllItems();
 			selectedCustomerContainer.removeAllItems();
-			customerBeanList.removeAll(customerBeanList);
+			customerBeanList.clear();
 			for (int i = 1; i <= forecastLevel; i++) {
 				String levelName = innerCustLevels.get(i - 1).getLevel();
 				customerInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
@@ -284,7 +282,7 @@ public class DataSelection extends AbstractDataSelection {
 			selectedCustomer.removeAllItems();
 			selectedCustomerContainer.removeAllItems();
 			setCustomerLevelNullSelection();
-			customerBeanList.removeAll(customerBeanList);
+			customerBeanList.clear();
 		}
 	}
 
@@ -2237,7 +2235,7 @@ public class DataSelection extends AbstractDataSelection {
 				selectedCustomerContainer.removeItem(DataSelectionUtil.getBeanFromId(selectedItem));
 				selectedCustomer.removeItem(selectedItem);
 				customerBeanList.remove(DataSelectionUtil.getBeanFromId(selectedItem).getRelationshipLevelSid());
-				customerBeanList.removeAll(customerBeanList);
+				customerBeanList.clear();
 				List<Leveldto> selectedValueItem = selectedCustomerContainer.getItemIds();
 				for (Leveldto dto : selectedValueItem) {
 					customerBeanList.add(dto.getRelationshipLevelSid());
@@ -2282,7 +2280,7 @@ public class DataSelection extends AbstractDataSelection {
 					triggerProdGrpOnView(dataSelectionDTO.getProdGrpSid(), false);
 					dismantleProductSelection = false;
 				}
-				productBeanList.removeAll(productBeanList);
+				productBeanList.clear();
 				List<Leveldto> productListValue = selectedProductContainer.getItemIds();
 				for (Leveldto dto : productListValue) {
 					productBeanList.add(dto.getRelationshipLevelSid());
@@ -2858,7 +2856,6 @@ public class DataSelection extends AbstractDataSelection {
 
 			loadCustomerLevel(viewDTO.getCustomerHierarchySid(), viewDTO.getCustomerLevel(),
 					viewDTO.getCustHierarchyVersion());
-			relationLevelValues.putAll(dataLogic.getLevelValueMap(viewDTO.getCustRelationshipBuilderSid()));
                         int relationVersionNo = Integer.parseInt(
 						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 			int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
@@ -2887,7 +2884,6 @@ public class DataSelection extends AbstractDataSelection {
 				&& !StringUtils.EMPTY.equals(viewDTO.getProductHierarchySid())) {
 			loadProductLevel(viewDTO.getProductHierarchySid(), viewDTO.getProductLevel(),
 					viewDTO.getProdHierarchyVersion());
-			relationLevelValues.putAll(dataLogic.getLevelValueMap(viewDTO.getProdRelationshipBuilderSid()));
 			initializeProductHierarchy(UiUtils.parseStringToInteger(viewDTO.getProjectionId()),
 					viewDTO.getProductLevel());
 			loadInnerProductLevel(Integer.parseInt(viewDTO.getProductLevel()),

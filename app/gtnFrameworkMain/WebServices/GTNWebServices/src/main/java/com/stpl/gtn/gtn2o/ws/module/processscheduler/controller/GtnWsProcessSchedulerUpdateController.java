@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsProcessSchedulerUpdateService;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsUpdateWorkFlowProfileService;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;;
 
 /**
  *
@@ -39,8 +42,9 @@ public class GtnWsProcessSchedulerUpdateController {
 
 	@Autowired
 	private GtnWsProcessSchedulerUpdateService pcSaveWebservice;
+	
 	@Autowired
-	private GtnWsProcessSchedularServiceUtil gtnWsPSServiceUtil;
+	private GtnWsUpdateWorkFlowProfileService gtnWsUpdateWorkFlowProfileService;
 
 	@PostMapping(value = GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE_DATA)
 	public GtnUIFrameworkWebserviceResponse runProcessScheduler(
@@ -49,10 +53,9 @@ public class GtnWsProcessSchedulerUpdateController {
 		String scriptName=gtnWsRequest.getProcessSchedulerRequest().getProcessSchedulerBean().getPsSchemaName();
 		Integer processSid = gtnWsRequest.getProcessSchedulerRequest().getProcessSchedulerBean().getProcessSchedulerSid();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object> inputList = new ArrayList<>();
-		inputList.add(gtnWsPSServiceUtil.getSysSchemaCatalog());
+		
 		try {
-			pcSaveWebservice.runProcessScheduler(scriptName,processSid,inputList);
+			pcSaveWebservice.runProcessScheduler(scriptName,processSid);
 			return response;
 		} catch (Exception e) {
 			response.getGtnWsGeneralResponse().setSucess(false);
@@ -62,5 +65,18 @@ public class GtnWsProcessSchedulerUpdateController {
 		} finally {
 			logger.info("Exit runProcessScheduler");
 		}
+	}
+	
+	@PostMapping(value = GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE)
+	public GtnUIFrameworkWebserviceResponse updateProcessScheduler(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		logger.info("Executing update ProcessScheduler");
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsProcessSchedulerBean gtnWsProcessSchedulerBean= gtnWsRequest.getProcessSchedulerRequest().getProcessSchedulerBean();
+		gtnWsUpdateWorkFlowProfileService.updateWorkFlowProfile(gtnWsProcessSchedulerBean);
+		//WorkflowProfile workflowProfile =  new WorkflowProfile();
+		//gtnWsRequest.getProcessSchedulerRequest().getProcessSchedulerBean().;
+		
+		return response;
 	}
 }

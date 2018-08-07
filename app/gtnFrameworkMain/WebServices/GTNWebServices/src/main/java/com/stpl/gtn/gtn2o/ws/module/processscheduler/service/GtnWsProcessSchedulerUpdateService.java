@@ -5,16 +5,15 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.processscheduler.service;
 
-import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
+import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
@@ -48,14 +47,14 @@ public class GtnWsProcessSchedulerUpdateService {
 		return sessionFactory;
 	}
 
-	public void runProcessScheduler(String scriptName,Integer ProcessSid, List<Object> inputList) {
-		logger.info("----------------Starting run  Process Scheduler ");
+	public void runProcessScheduler(String scriptName,Integer processSid) {
+		logger.info("----------------Starting run  Process Scheduler with process sid: "+processSid);
 		gtnWsProcessSchedularServiceUtil.runJob(GtnWsProcessSchedularServiceUtil.getFtpBundleValue(), scriptName);
 		logger.info("----------------ending run  Process Scheduler ");
-		updateLastRun(ProcessSid, false,inputList);
+		updateLastRun(processSid, false);
 	}
 
-	public static final String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
+	/*public static final String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
 
 	public static java.util.Properties getPropertyFile(String bpiPropLoc) {
 		java.util.Properties prop = new java.util.Properties();
@@ -90,41 +89,34 @@ public class GtnWsProcessSchedulerUpdateService {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-	}
+	}*/
 	
-	public void updateLastRun(Integer processId, boolean schedulerFlag, List<Object> inputList) {
+	public void updateLastRun(Integer processId, boolean schedulerFlag) {
 		logger.debug("Entering updateLastRun");
-		Date curManualDate = new Date();
+		/*Date curManualDate = new Date();
 	    SimpleDateFormat format = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
-	    String currentLastManualStringDate = format.format(curManualDate);
+	    String currentLastManualStringDate = format.format(curManualDate);*/
 		if (processId != 0) {
 
-			try {
-				logger.info("get current date: "+currentLastManualStringDate);
-				String query=gtnWsSqlService.getQuery(inputList,"updateProcessForLastManualRunUpdate");
-				logger.info(":::::::::::: query  "+query);
-				query=query.replace("@PROCESS_SID", processId.toString());
-				logger.info(":----------- query  after replace process sid"+query);
-				query=query.replace("@LAST_MANUAL_RUN_DATETIME", currentLastManualStringDate);
-				logger.info(":----------- query  after replace last manual run "+query);
-				
-				
-				@SuppressWarnings("unchecked")
-				List<Object> manualLastRun = gtnWsProcessSchedularServiceUtil.executeQuery(query);
-				logger.info(" ============== result record"+manualLastRun.get(0));
-				
-				
-				/*if (!schedulerFlag) {
-					profile.setManualLastRun(new Date());
-				} else {
-					profile.setScheduleLastRun(new Date());
+			try (Session updateLastRunSession = getSessionFactory().openSession()) {
+				Transaction updateLastRunTransaction = updateLastRunSession.beginTransaction();
+				updateLastRunTransaction.begin();
+				WorkflowProfile workflowProfile = updateLastRunSession.load(WorkflowProfile.class,processId);
+				logger.info("ProcessName-> " + workflowProfile.getProcessName() + "Processsid-> " + workflowProfile.getProcessSid());		
+				if(!schedulerFlag) {
+					workflowProfile.setManualLastRun(new Date());
 				}
-				WorkflowProfileLocalServiceUtil.updateWorkflowProfile(profile);*/
-
+				else {
+					workflowProfile.setScheduleLastRun(new Date());
+				}
+				updateLastRunSession.update(workflowProfile);
+				updateLastRunTransaction.commit();
+				
+				
 			} catch(Exception exp) {
 				logger.info("exception : "+exp);
 			}
-			logger.debug("ends updateLastRun");
+			logger.info("ends updateLastRun");
 		}
 	}
 

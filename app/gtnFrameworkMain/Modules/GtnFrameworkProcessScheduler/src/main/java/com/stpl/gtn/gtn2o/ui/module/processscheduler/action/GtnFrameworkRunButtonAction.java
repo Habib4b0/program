@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -45,11 +46,10 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 
 		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.MANUAL_RESULT_TABLE)
 				.getValueFromPagedDataTable();
-		List<Object> string =gtnWsRecordBean.getProperties();
 		
-		List abc =gtnWsRecordBean.getRecordHeader();
-		gtnLogger.info("---------------> properties: "+string);
-		gtnLogger.info("---------------> RecordHeader: "+abc);
+		
+		gtnLogger.info("---------------> properties: "+gtnWsRecordBean.getProperties());
+		gtnLogger.info("---------------> RecordHeader: "+gtnWsRecordBean.getRecordHeader());
 		
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsProcessSchedulerRequest psrequest = new GtnWsProcessSchedulerRequest();
@@ -84,13 +84,14 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 			notificationAction.addActionParameter("");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationAction);
 			
-			processSchedularRunResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+			/*processSchedularRunResponse =*/ new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 							+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE_DATA,
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			notificationAction.addActionParameter( schemaName + " Manual process completed successfully");
 		}
 		
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.MANUAL_RESULT_TABLE).getLogicFromPagedDataTable().startSearchProcess(true);;
 	}
 
 	@Override

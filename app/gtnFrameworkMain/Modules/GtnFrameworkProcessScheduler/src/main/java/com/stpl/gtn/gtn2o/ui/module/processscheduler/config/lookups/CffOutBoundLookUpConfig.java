@@ -118,7 +118,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCffOutBoundSearchPanelLayout()");
 		GtnUIFrameworkComponentConfig cffOutBoundSearchPanelLayout = configProvider.getVerticalLayoutConfig("CffOutBound_searchPanelLayout", true, parentComponentId);
 		cffOutBoundSearchPanelLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		//scheduledProcessEditorPanelLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		cffOutBoundSearchPanelLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(cffOutBoundSearchPanelLayout);
 		
 		addCffProjIdCustCompanyNoLayout(componentList,cffOutBoundSearchPanelLayout.getComponentId());
@@ -659,12 +659,12 @@ public class CffOutBoundLookUpConfig {
 		GtnUIFrameworkComponentConfig searchResultConfig = new GtnUIFrameworkComponentConfig();
 		searchResultConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
 		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		//searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
-		searchResultConfig.setComponentId("schedulerResultTable");
+		searchResultConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
 		searchResultConfig.setComponentName("Results");
 		searchResultConfig.setParentComponentId(parentComponentId);
 		searchResultConfig.setAddToParent(true);
 		searchResultConfig.setResetToDefaultAllowed(false);
+		
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add(GtnFrameworkCssConstants.FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
@@ -676,28 +676,28 @@ public class CffOutBoundLookUpConfig {
 
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
 		searchResults.setSelectable(true);
-		searchResults.setPageLength(10);
-		searchResults.setItemPerPage(10);
-		searchResults.setFilterBar(true);
+		searchResults.setPageLength(5);
+		searchResults.setItemPerPage(5);
 		searchResults.setSinkItemPerPageWithPageLength(false);
-		
-		searchResults.setTableColumnDataType(new Class[] { String.class, String.class,
-				Date.class, Date.class, String.class, Date.class,
-				Date.class, String.class });
-		searchResults.setTableVisibleHeader(
-				new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT, "Status", "Start Date", "End Date",
-						GtnFrameworkCommonConstants.FREQUENCY, "Last Run Date", "Modified Date", "Modified By" });
+
+		searchResults.setTableColumnDataType(new Class[] { String.class });
+		searchResults.setTableVisibleHeader(new String[] {"Name" });
 		searchResults.setTableColumnMappingId(
-				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.STATUS_COMPONENT,
-						GtnFrameworkCommonConstants.START_DATE, GtnFrameworkCommonConstants.END_DATE,
-						GtnFrameworkCommonConstants.FREQUENCY, "lastRunDate", "modifiedDate", "modifiedBy" });
-		searchResults.setExtraColumn(new Object[] { "scriptname" });
+				new Object[] { "name" });
 		
-		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
+		searchResults.setModuleName("scheduledProcessing");
+		searchResults.setQueryName("SearchQuery");
+		searchResultConfig.setGtnPagedTableConfig(searchResults);
+		
+		//searchResults.setExtraColumn(new Object[] { "processSid","scriptName","startHour","startMinute" ,"startHour1","startHour2","startHour3" ,"startMinute1","startMinute2","startMinute3"});
+
+		/*searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
 		gtnLogger.info(searchResults.getCountUrl());
 		searchResults.setResultSetUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
+				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);*/
+
+		
 
 		/*searchResults.setTableColumnDataType(new Class[] { String.class, String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
@@ -734,15 +734,12 @@ public class CffOutBoundLookUpConfig {
 		searchResults.setResultSetUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);*/
 		
-		/*searchResults.setModuleName("scheduledProcessing");
-		searchResults.setQueryName("SearchQuery");*/
+		
 		/*GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(searchResultConfig.getComponentId());
 		searchResults.addPostCreationActionConfig(loadDataTableActionConfig);
 		searchResults.setDoubleClickEnable(true);*/
-		searchResultConfig.setGtnPagedTableConfig(searchResults);
-		
 	}
 
 	private void addGenerateOutBoundButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,

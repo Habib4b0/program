@@ -30,7 +30,6 @@ import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -51,7 +50,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class PagedGrid {
 
     private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
-    GtnUIFrameworkPagedTableConfig tableConfig;
+    private GtnUIFrameworkPagedTableConfig tableConfig;
 
     private GtnUIFrameworkComponentConfig componentConfig;
     private int count;
@@ -60,10 +59,10 @@ public class PagedGrid {
     private DataSet dataSet;
     
     private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
-    Grid<GtnWsRecordBean> grid;
+    private Grid<GtnWsRecordBean> grid;
     private HorizontalLayout controlLayout;
     private TextField pageNoField;
-    GtnUIFrameworkPagedGridLogic pagedTableLogic;
+    private GtnUIFrameworkPagedGridLogic pagedTableLogic;
     
     private static final String SHOW_ALL = "Show all";
 
@@ -342,7 +341,7 @@ public class PagedGrid {
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter.append(condition).append(" ").append(key).append("  like '%").append(value).append("%'");
+            filter.append(condition).append(' ').append(key).append("  like '%").append(value).append("%'");
         }
 
         return query.replace("@filter", filter.toString());
@@ -369,7 +368,7 @@ public class PagedGrid {
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
             	return getComboboxFilterComponent(property, filterConfig);
             }  if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                 return getCalendarFieldFilterComponent(property,filterConfig);
+                 return getCalendarFieldFilterComponent(property);
             }
 
         } catch (GtnFrameworkGeneralException exception) {
@@ -379,32 +378,25 @@ public class PagedGrid {
         return null;
     }
 
-	private Component getCalendarFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
-		HorizontalLayout hl = new HorizontalLayout();
-                hl.setMargin(false);
-		hl.setWidth("105%");
-                TextField textField = new TextField();
-		textField.setWidth("118%");
-                textField.setId(property);
-                 List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
-                if(!(componentStyle.isEmpty() || componentStyle == null)){
-                    textField.setStyleName(componentStyle.get(0));
-                }
-                hl.addComponent(textField);
-		Window window = getDateFilterPopup(hl, property);
-		 hl.addLayoutClickListener(new LayoutClickListener() {
+	private Component getCalendarFieldFilterComponent(String property) {
+                DateFilterPopup filter=new DateFilterPopup(property);
+                filter.addStyleName("v-textfield-custom-report");
+                filter.addStyleName("filters-wrap");
+                filter.setWidth("130%");
+                filter.addValueChangeListener(new ValueChangeListener<DateInterval>() {
                     @Override
-                    public void layoutClick(LayoutClickEvent event) {
-                        if(event.getChildComponent() == textField){
-                    window.setPosition(event.getClientX(), event.getClientY());
-		        UI.getCurrent().addWindow(window);                       
+                    public void valueChange(ValueChangeEvent<DateInterval> event) {
+                        if (!String.valueOf(event.getValue().getFrom()).equals("null")) {
+                            tableConfig.getFilterValueMap().put(property, event.getValue().getFrom());
+                        } else if (!String.valueOf(event.getValue().getTo()).equals("null")) {
+                            tableConfig.getFilterValueMap().put(property, event.getValue().getTo());
+                        } else {
+                            tableConfig.getFilterValueMap().put(property, event.getValue().getFrom() + " - " + event.getValue().getTo());
+                        }
+                        refreshGrid();
                     }
-                    }
-		});
-                 
-                 
-
-		return hl;
+                });
+		return filter;
 	}
 
 	private Component getComboboxFilterComponent(String property,
@@ -483,7 +475,7 @@ public class PagedGrid {
 		textField.setWidth("118%");
 		textField.setId(property);
                 List<String> componentStyle=filterConfig.getGtnComponentConfig().getComponentStyle();  
-                if(!(componentStyle.isEmpty() || componentStyle == null)){
+                if(!(componentStyle.isEmpty())){
                     textField.setStyleName(componentStyle.get(0));
                 }
 		textField.addValueChangeListener(this::onFilterTextChange);
@@ -586,11 +578,7 @@ public class PagedGrid {
 
             @Override
             public void valueChange(ValueChangeEvent<LocalDate> event) {
-                if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
                     inlineDateField.setData(event.getValue());
-                } else {
-                    inlineDateField.setData(event.getValue());
-                }
             }
         });
     }

@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.FtpProperties;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service()
 @Scope(value = "singleton")
@@ -31,6 +32,9 @@ public class GtnWsProcessSchedularServiceUtil {
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
+	
+	@Autowired
+	private GtnWsSqlService gtnWsSqlService;
 
 	public List<Object> getSearchInput(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
@@ -92,6 +96,7 @@ public class GtnWsProcessSchedularServiceUtil {
 			logger.info("jbossHome===================>" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
+				logger.info("prop location: "+prop.getProperty("EtlConfiguration.properties"));
 				java.util.Properties prop1 = getPropertyFile(
 						jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
 				ftpProperties.setScripts(prop1.getProperty("scripts"));
@@ -104,7 +109,7 @@ public class GtnWsProcessSchedularServiceUtil {
 		return ftpProperties;
 	}
 
-	public static java.util.Properties getPropertyFile(String bpiPropLoc) throws GtnFrameworkGeneralException {
+	public static java.util.Properties getPropertyFile(String bpiPropLoc) {
 		logger.info("getPropertyFile===================>starts");
 		java.util.Properties prop = new java.util.Properties();
 		FileInputStream fileIS = null;
@@ -134,6 +139,7 @@ public class GtnWsProcessSchedularServiceUtil {
 			logger.info("jboss Home= {}" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
+				
 				java.util.Properties prop1 = getPropertyFile(
 						jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
 				String etlInterfaceUri = buildUrl(scriptName, prop1);
@@ -166,5 +172,21 @@ public class GtnWsProcessSchedularServiceUtil {
 		logger.info("Entering runShellScript ");
 		GtnWsCallEtlService etlService=new GtnWsCallEtlService();
 		etlService.runShellScript(scriptUrl);
+	}
+
+	public void deleteUnsavedProjections(String deleteQuery) throws GtnFrameworkGeneralException {
+		List<Object> inputList = new ArrayList<>();
+		inputList.add(getSysSchemaCatalog());
+		try {
+			String query = gtnWsSqlService.getQuery(inputList, deleteQuery);
+			@SuppressWarnings("unchecked")
+			List<Object[]> result = executeQuery(query);
+			logger.info("records deleted = "+result.size());
+			
+		} catch (Exception ex) {
+			logger.info("Intial Session Delete QUERY ERROR=  " + deleteQuery);
+			logger.error(ex.getMessage());
+		}
+		
 	}
 }

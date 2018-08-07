@@ -6,6 +6,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
@@ -59,6 +60,17 @@ public class GtnUIFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkA
 			/*if(visibility) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("runEvery").loadV8ComboBoxComponentValue("");
 			}*/
+		}
+		if("Time".equals(value)) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		}else {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
 		}
 	}
 

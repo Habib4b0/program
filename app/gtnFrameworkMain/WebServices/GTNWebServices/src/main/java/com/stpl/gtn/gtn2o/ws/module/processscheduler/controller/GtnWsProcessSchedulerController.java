@@ -155,7 +155,7 @@ public class GtnWsProcessSchedulerController {
 		
 		GtnUIFrameworkWebserviceResponse processRunResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		//GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
+		
 		List<String> validationCriteria = new ArrayList<>();
 		String schemaName=processSchedulerRequest.getProcessSchedulerRequest().getProcessSchedulerBean().getPsSchemaName();
 		String processName = processSchedulerRequest.getProcessSchedulerRequest().getProcessSchedulerBean().getPsProcessName();

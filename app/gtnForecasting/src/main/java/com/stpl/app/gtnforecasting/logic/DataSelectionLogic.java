@@ -2644,7 +2644,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(dedCaptionUdc)
                                 .append('\'');
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());
+                                LOGGER.info("Query callViewInsertProcedureForPV: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2710,7 +2710,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(deductionCaptionUdc)
                                 .append('\'');
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());
+                                LOGGER.info("Query callViewInsertProcedureForUOM: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

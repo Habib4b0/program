@@ -656,7 +656,6 @@ public class PmpyLogic {
         }
         if (!list.isEmpty()) {
             Object[] obj = (Object[]) list.get(0);
-            String.valueOf(obj[0]);
             int companyMasterSid = Integer.parseInt(String.valueOf(obj[0]));
 
             int contractMasterSid = Integer.parseInt(String.valueOf(obj[1]));

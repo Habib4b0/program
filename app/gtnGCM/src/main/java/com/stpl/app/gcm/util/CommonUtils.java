@@ -96,7 +96,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;
@@ -110,16 +110,14 @@ public class CommonUtils {
      */
     public static int convertToInteger(String s) {
         try {
-            Integer.parseInt(s);
+            return Integer.parseInt(s);
         } catch (NumberFormatException e) {
             try {
-                Double.valueOf(s).intValue();
+                return Double.valueOf(s).intValue();
             } catch (Exception ex) {
                 return 0;
             }
-            return Double.valueOf(s).intValue();
         }
-        return Integer.parseInt(s);
     }
 
     /**

@@ -13,6 +13,7 @@ import java.util.Date;
  * @author deepika.krishnakumar
  */
 public class GtnFrameworkCommonConstants {
+
 	private GtnFrameworkCommonConstants() {
 		/**
 		 * empty constructor
@@ -732,7 +733,6 @@ public class GtnFrameworkCommonConstants {
 	/**
 	 * PRICE SCHEDULE CONSTANTS
 	 */
-
 	public static final String SUGGESTED_PRICE = "suggestedPrice";
 	public static final String PS_PRICE = "psPrice";
 	public static final String PS_BASE_PRICE_ENTRY = "psBasePriceEntry";
@@ -1103,7 +1103,6 @@ public class GtnFrameworkCommonConstants {
 	 * Udc Configuration
 	 *
 	 */
-	
 	public static final String UDC_CATEGORYLAYOUT = "udcCategoryLayout";
 	public static final String UDC_CATEGORY_BRANDLAYOUT = "udcCategoryBrandLayout";
 	public static final String UDC_CATEGORY = "udcCategory";
@@ -1141,7 +1140,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String REBATE_SCHEDULE_ID = "rebateScheduleId1";
         
 	// Hierarchy Route Builder
-
 	public static final String HIERARCHY_SITUATION_TABLE_ID = "hierarchySitutationTableSid";
         public static final String CUSTOM_VIEW_DESCRIPTION = "customerViewDescription";
         public static final String CUSTOM_VIEW_SCREEN_NAME = "customerViewScreenName";
@@ -1156,12 +1154,131 @@ public class GtnFrameworkCommonConstants {
         public static final String TRANSACTION_LEVEL = "transactionLevel";
         public static final String DEDUCTION_LEVEL = "deductionLevel";
         public static final String DEDUCTION_VALUE = "deductionValue";
-        public static final String GL_DATE = "Gl Date";
+    public static final String GL_DATE = "glDate";
         public static final String ORIGINAL_BATCH_ID = "originalBatchIdLayout";
         public static final String REDEMPTION_PERIOD = "redemptionPeriod";
+    public static final String REDEMPTION_PERIOD_END_DATE = "redemptionPeriodEndDate";
         public static final String ACCOUNT = "account";
         public static final String POSTING_INDICATOR = "postingIndicator";
         public static final String ACCOUNT_CATEGORY = "accountCategory";
         public static final String ACCOUNT_TYPE = "accountType";
         public static final String ADJUSTMENT_LEVEL = "adjustmentLevel";
+    public static final String FROM_DATE = "fromDate";
+    public static final String TO_DATE = "toDate";
+
+    public static final String ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE = "adjustmentDetailssearchResultTable";
+    public static final String ADJUSTMENT_DETAILS_VIEW_SEARCH_RESULT_TABLE = "adjustmentDetailsViewSearchResultTable";
+
+    public static final String RESERVE_DETAILS_COMPANY = GL_COMPANY;
+    public static final String RESERVE_GTN_DETAILS_DIVISION = "division";
+    public static final String RESERVE_GTN_DETAILS_COST_CENTER = "costCenter";
+    public static final String RESERVE_GTN_DETAILS_ACCOUNT = "account";
+    public static final String RESERVE_DETAILS_BRAND = BRAND_NAME;
+    public static final String RESERVE_GTN_DETAILS_PROJECT = "project";
+    public static final String RESERVE_GTN_DETAILS_FUTURE_1 = "future1";
+    public static final String RESERVE_GTN_DETAILS_FUTURE_2 = "future2";
+    public static final String RESERVE_DETAILS_DEBIT = "debit";
+    public static final String RESERVE_DETAILS_CREDIT = "credit";
+    public static final String RESERVE_DETAILS_LINE_DESCRIPTION = "lineDescription";
+    public static final String RESERVE_DETAILS_BALANCE_TYPE = "balanceType";
+    public static final String RESERVE_DETAILS_DATABASE = "database";
+    public static final String RESERVE_DETAILS_DATA_ACCESS_SET = "dataAccessSet";
+    public static final String RESERVE_DETAILS_CHART_OF_ACCOUNTS = "chartofAccounts";
+    public static final String RESERVE_DETAILS_LEDGER = "ledger";
+    public static final String RESERVE_DETAILS_CATEGORY = "category";
+    public static final String RESERVE_DETAILS_SOURCE = "source";
+    public static final String RESERVE_DETAILS_CURRENCY = "currency";
+    public static final String RESERVE_DETAILS_ACCOUNTING_DATE = "accountingDate";
+    public static final String RESERVE_DETAILS_BATCH_NAME = "batchName";
+    public static final String RESERVE_DETAILS_JOURNAL_NAME = "journalName";
+    public static final String RESERVE_DETAILS_JOURNAL_DESCRIPTION = "journalDescription";
+    public static final String RESERVE_DETAILS_REVERSE_JOURNAL = "reverseJournal";
+    public static final String RESERVE_DETAILS_REVERSAL_PERIOD_DATE = "reversalPeriodDate";
+    public static final String RESERVE_DETAILS_BUSINESS_UNIT = BUSINESS_UNIT;
+    public static final String RESERVE_GTN_DETAILS_ADJUSTMENT_TYPE = ADJUSTMENT_TYPE;
+    public static final String RESERVE_GTN_DETAILS_TRANSACTION_NAME = "transactionName";
+    public static final String RESERVE_GTN_DETAILS_ADJUSTMENT_LEVEL = "adjustmentLevel";
+    public static final String RESERVE_GTN_DETAILS_ACCOUNT_CATEGORY = "accountCategory";
+    public static final String RESERVE_GTN_DETAILS_ACCOUNT_TYPE = "accountType";
+    public static final String RESERVE_GTN_DETAILS_ACCOUNT_DESCRIPTION = "accountDescription";
+    public static final String RESERVE_GTN_DETAILS_ACCOUNT_INDICATOR = "accountIndicator";
+    public static final String RESERVE_GTN_DETAILS_UDC_1 = "udc1";
+    public static final String RESERVE_GTN_DETAILS_UDC_2 = "udc2";
+    public static final String RESERVE_GTN_DETAILS_UDC_3 = "udc3";
+    public static final String RESERVE_GTN_DETAILS_UDC_4 = "udc4";
+    public static final String RESERVE_GTN_DETAILS_UDC_5 = "udc5";
+    public static final String RESERVE_GTN_DETAILS_UDC_6 = "udc6";
+    public static final String RESERVE_GTN_DETAILS_REDEMPTION_PERIOD = "redemptionPeriod";
+    public static final String RESERVE_GTN_DETAILS_CALCULATION_PERIOD = "calculationPeriod";
+    public static final String RESERVE_GTN_DETAILS_POSTING_INDICATOR = "postingIndicator";
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_ID = WORKFLOW_ID;
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_NAME = WORKFLOW_NAME;
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_CREATED_BY = "workflowCreatedBy";
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_CREATED_DATE = CREATED_DATE;
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_BY = "workflowApprovedBy";
+    public static final String RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_DATE = "workflowApprovedDate";
+    public static final String RESERVE_GTN_DETAILS_BATCH_ID = "batchID";
+    public static final String RESERVE_GTN_DETAILS_ORIGINAL_BATCH_ID = ORIGINAL_BATCH_ID;
+    public static final String RESERVE_DETAILS_ADJUSTMENT_RESERVE_DETAIL_SID = "adjustmentReserveDetailSID";
+
+    public static final String GTN_DETAILS_DEDUCTION_TYPE = "deductionType";
+    public static final String GTN_DETAILS_GL_MONTH = "gLMonth";
+    public static final String GTN_DETAILS_GL_YEAR = "gLYear";
+    public static final String GTN_DETAILS_GL_STRING = "gLString";
+    public static final String GTN_DETAILS_GL_COMPANY_ID = "gLCompanyID";
+    public static final String GTN_DETAILS_BRAND_ID = "brandID";
+    public static final String GTN_DETAILS_ITEM_NO = "itemNo";
+    public static final String GTN_DETAILS_DEDUCTION_AMOUNT = "deductionAmount";
+    public static final String GTN_DETAILS_GL_COMPANY_NO = "glCompanyNo";
+    public static final String GTN_DETAILS_GL_DATE = GL_DATE;
+    public static final String GTN_DETAILS_GL_COMPANY_NAME = "glCompanyName";
+    public static final String GTN_DETAILS_BUSINESS_UNIT_ID = "businessUnitID";
+    public static final String GTN_DETAILS_BUSINESS_UNIT_NO = "businessUnitNo";
+    public static final String GTN_DETAILS_BUSINESS_UNIT_NAME = "businessUnitName";
+    public static final String GTN_DETAILS_CONTRACT_ID = "contractID";
+    public static final String GTN_DETAILS_CONTRACT_NO = "contractNo";
+    public static final String GTN_DETAILS_CONTRACT_NAME = "contractName";
+    public static final String GTN_DETAILS_COMPANY_ID = "companyID";
+    public static final String GTN_DETAILS_COMPANY_NO = "companyNo";
+    public static final String GTN_DETAILS_COMPANY_NAME = "companyName";
+    public static final String GTN_DETAILS_ITEM_ID = "itemID";
+    public static final String GTN_DETAILS_ITEM_NAME = "itemName";
+    public static final String GTN_DETAILS_BRAND_NAME = "brandName";
+    public static final String GTN_DETAILS_DEDUCTION_ID = "deductionID";
+    public static final String GTN_DETAILS_DEDUCTION_NO = "deductionNo";
+    public static final String GTN_DETAILS_DEDUCTION_NAME = "deductionName";
+    public static final String GTN_DETAILS_DEDUCTION_CATEGORY = "deductionCategory";
+    public static final String GTN_DETAILS_DEDUCTION_PROGRAM = "deductionProgram";
+    public static final String GTN_DETAILS_DEDUCTION_INCLUSION = "deductionInclusion";
+    public static final String GTN_DETAILS_DEDUCTION_UDC_1 = "deductionUDC1";
+    public static final String GTN_DETAILS_DEDUCTION_UDC_2 = "deductionUDC2";
+    public static final String GTN_DETAILS_DEDUCTION_UDC_3 = "deductionUDC3";
+    public static final String GTN_DETAILS_DEDUCTION_UDC_4 = "deductionUDC4";
+    public static final String GTN_DETAILS_DEDUCTION_UDC_5 = "deductionUDC5";
+    public static final String GTN_DETAILS_DEDUCTION_UDC_6 = "deductionUDC6";
+    public static final String GTN_DETAILS_DEDUCTION_RATE = "deductionRate";
+    public static final String GTN_DETAILS_ADJUSTMENT_GTN_DETAIL_SID = "adjustmentGTNDetailSID";
+
+    public static final String SAVE_VIEW_VIEW_NAME = "viewName";
+    public static final String SAVE_VIEW_VIEW_TYPE = "viewType";
+    public static final String ADJUSTMENT_DETAILS_SAVE_VIEW_LAYOUT = "saveViewLayout";
+    public static final String ADJUSTMENT_DETAILS_PUBLIC_VIEW_LAYOUT = "publicViewLayout";
+    public static final String ADJUSTMENT_DETAILS_PUBLIC_VIEW_LAYOUT1 = "publicViewLayout1";
+    public static final String ADJUSTMENT_DETAILS_REDEMPTION_PERIOD_LAYOUT = "redemptionPeriodLayout";
+    public static final String ADJUSTMENT_DETAILS_REDEMPTION_PERIOD_LAYOUT1 = "redemptionPeriodLayout1";
+    public static final String ADJUSTMENT_DETAILS_SAVE_VIEW_BUTTONLAYOUT = "saveViewButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_REDEMPTION_PERIOD_BUTTONLAYOUT = "redemptionPeriodButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_PRIVATE_PUBLIC_VIEW_BUTTONLAYOUT = "privatePublicViewButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_PRIVATE_PUBLIC_VIEW_FOOTER_BUTTONLAYOUT = "privatePublicViewFooterButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_EXCEL_REPROCESS_BUTTON_LAYOUT = "adjustmentDetailsExcelReprocessButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_REPROCESS_BUTTON_LAYOUT = "adjustmentDetailsReprocessButtonLayout";
+
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME = SAVE_VIEW_VIEW_NAME;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_TYPE = SAVE_VIEW_VIEW_TYPE;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_DATE = "viewcreatedDate";
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_BY = CREATED_BY;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_DATE = MODIFIED_DATE;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY = MODIFIED_BY;
+    public static final String ARM_VIEW_MASTER_SID = "viewMasterSId";
+
 }

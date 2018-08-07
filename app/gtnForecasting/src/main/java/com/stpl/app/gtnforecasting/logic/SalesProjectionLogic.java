@@ -845,7 +845,6 @@ public class SalesProjectionLogic {
         }
         if (!list.isEmpty()) {
             Object[] obj = (Object[]) list.get(0);
-            String.valueOf(obj[0]);
             int companyMasterSid = Integer.parseInt(String.valueOf(obj[0]));
 
             int contractMasterSid = Integer.parseInt(String.valueOf(obj[1]));
@@ -1125,8 +1124,8 @@ public class SalesProjectionLogic {
             }
         }
 
-        for (String companyKey : finalMap.keySet()) {
-            values = finalMap.get(companyKey);
+        for (Map.Entry<String, Map<Integer, Double>> companyKey : finalMap.entrySet()) {
+            values = companyKey.getValue();
             lastValue = values.get(DataTypeConverter.convertStringToInteger(year + StringUtils.EMPTY + quator));
             totalValue = totalValue.add(BigDecimal.valueOf(lastValue));
         }

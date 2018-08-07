@@ -24,7 +24,12 @@ public class GtnWsCallEtlService {
 		LOGGER.info("Entering runShellScript with");
 		try {
 			URL url = new URL(scriptUrl);
+			LOGGER.info("URL:host: "+url.getHost());
+			LOGGER.info("URL:path: "+url.getPath());
+			LOGGER.info("URL:port: "+url.getPort());
+			LOGGER.info("URL:File: "+url.getFile());
 			URLConnection urlConnection = url.openConnection();
+			LOGGER.info("urlConnection: "+urlConnection);
 			HttpURLConnection connection = null;
 			if (urlConnection instanceof HttpURLConnection) {
 				connection = (HttpURLConnection) urlConnection;
@@ -33,6 +38,7 @@ public class GtnWsCallEtlService {
 				return;
 			}
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			LOGGER.info("Buffered String : "+in.toString());
 			StringBuilder urlString = new StringBuilder();
 			String current;
 
@@ -41,7 +47,7 @@ public class GtnWsCallEtlService {
 			}
 			in.close();
 		} catch (IOException e) {
-			LOGGER.error("Exception while running script= {}", e);
+			LOGGER.error("Exception while running script= "+ e);
 		}
 	}
 	

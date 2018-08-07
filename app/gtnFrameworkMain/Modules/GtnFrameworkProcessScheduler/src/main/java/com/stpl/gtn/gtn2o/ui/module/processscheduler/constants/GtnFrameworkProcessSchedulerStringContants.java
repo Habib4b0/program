@@ -24,6 +24,7 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final String INTERVAL = "Interval";
 
 	public static final String TWENTY_FOUR = "24";
+	public static final String SIXTY = "60";
 	public static final String ROOT_LAYOUT = "rootLayout";
 	public static final String ROOT_PANEL = "rootPanel";
 	public static final String MAIN_LAYOUT = "mainLayout";
@@ -46,6 +47,7 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final String SCHEDULED_PROCESSING_PANEL_LAYOUT = "scheduledProcessingPanelLayout";
 	public static final String SCHEDULED_PROCESSING = "Scheduled Processing";
 	public static final String SCHEDULER_RESULTS_TABLE = "schedulerResultTable";
+	public static final String CFF_OUTBOUND_RESULTS_TABLE = "cffOutBoundResultTable";
 	public static final String PROCESS_NAME_ID = "processName";
 	public static final String STATUS_ID = "status";
 	public static final String RUN_EVERY_ID = "runEvery";
@@ -53,8 +55,21 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final String END_DATE_ID = "endDate";
 	public static final String FREQUENCY_ID = "frequency";
 	public static final String RUN1_ID = "run1";
+	public static final String RUN2_ID = "run2";
+	public static final String RUN3_ID = "run3";
 	public static final Object MESSAGE_MANDATORY = "Please enter all mandatory information";
 	public static final Object MESSAGE_DATE_VALIDATION = "End date should be after start date";
+	public static final String MINUTES_ID = "minutes";
+	public static final String MINUTES1_ID = "minutes1";
+	public static final String MINUTES3_ID = "minutes3";
+	public static final String UPDATE_ID = "scheduledProcessEditorUpdateButton";
+	public static final Object HOUR2_VALIDATION_MESAGE = "Please select Run 2 (Hours)";
+	public static final Object HOUR3_VALIDATION_MESAGE = "Please select Run 3 (Hours)";
+	public static final Object MINUTE1_VALIDATION_MESAGE =  "Please select Run 1 (Minutes)";
+	public static final Object MINUTE2_VALIDATION_MESAGE =  "Please select Run 2 (Minutes)";
+	public static final Object MINUTE3_VALIDATION_MESAGE =  "Please select Run 3 (Minutes)";
+	public static final Object RUN_EVERY_MINUTE_VALIDATION_MESAGE = "Please select Run Every (Minutes)";
+	public static final Object UPDATE_SUCCESSFUL_MESSAGE = "Updated successfully";
 
 	private GtnFrameworkProcessSchedulerStringContants() {
 	}

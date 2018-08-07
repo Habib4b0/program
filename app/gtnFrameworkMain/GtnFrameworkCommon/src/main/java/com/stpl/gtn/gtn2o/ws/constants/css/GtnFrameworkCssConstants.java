@@ -54,6 +54,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_PADDING_14 = "stpl-padding-14";
 	public static final String PERCENT_100 = "100%";
 	public static final String PERCENT_70 = "70%";
+	public static final String PERCENT_25 = "25%";
 	public static final String PERCENT_40 = "40%";
 	public static final String PERCENT_90 = "90%";
 	public static final String PERCENT_44 = "44%";

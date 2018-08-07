@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
-import java.util.Collections;
 
 /**
  * @author Srithar.Raju
@@ -326,11 +325,11 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	}
 
 	public List<GtnReportHierarchyLevelBean> getLevelList() {
-                return levelList == null ? levelList : Collections.unmodifiableList(levelList);
+                return levelList == null ? levelList : new ArrayList<>(levelList);
 	}
 
 	public void setLevelList(List<GtnReportHierarchyLevelBean> levelList) {
-                this.levelList = new ArrayList<>(levelList);
+                this.levelList = levelList==null? levelList : new ArrayList<>(levelList);
 	}
 
 	public boolean isForecastInsert() {

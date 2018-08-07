@@ -979,28 +979,30 @@ public class SelectionLogic {
         }
         if (searchFields != null) {
             SelectionDTO selectionDTO = getBeanFromId(searchFields.getItemDataSource());
-            Set<String> keys = criteria.keySet();
-            for (String fields : keys) {
+            Set<Map.Entry<String, String>> keys = criteria.entrySet();
+            for (Map.Entry<String, String> entry : keys) {
+                String fields = entry.getKey();
+                String value = entry.getValue();
                 if ("itemTypeDdlb".equals(fields) && selectionDTO.getItemTypeDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getItemTypeDdlb().getDescription()) && !selectionDTO.getItemTypeDdlb().getDescription().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getItemTypeDdlb().getId()).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" = '").append(selectionDTO.getItemTypeDdlb().getId()).append('\'');
                 }
                 if ("brandDdlb".equals(fields) && selectionDTO.getBrandDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getBrandDdlb().getDescription()) && !selectionDTO.getBrandDdlb().getDescription().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getBrandDdlb().getId()).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" = '").append(selectionDTO.getBrandDdlb().getId()).append('\'');
                 }
                 if ("formDdlb".equals(fields) && selectionDTO.getFormDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getFormDdlb().getDescription()) && !selectionDTO.getFormDdlb().getDescription().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getFormDdlb().getId()).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" = '").append(selectionDTO.getFormDdlb().getId()).append('\'');
                 }
                 if ("strengthDdlb".equals(fields) && selectionDTO.getStrengthDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getStrengthDdlb().getDescription()) && !selectionDTO.getStrengthDdlb().getDescription().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getStrengthDdlb().getId()).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" = '").append(selectionDTO.getStrengthDdlb().getId()).append('\'');
                 }
                 if ("therapeuticclassDdlb".equals(fields) && selectionDTO.getTherapeuticclassDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getTherapeuticclassDdlb().getDescription()) && !selectionDTO.getTherapeuticclassDdlb().getDescription().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getTherapeuticclassDdlb().getId()).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" = '").append(selectionDTO.getTherapeuticclassDdlb().getId()).append('\'');
                 }
                 if (ConstantsUtils.ITEM_DESC.equals(fields) && selectionDTO.getItemDesc() != null && !selectionDTO.getItemDesc().trim().isEmpty() &&!"*".equals(selectionDTO.getItemDesc().trim())) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItemDesc().trim())).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItemDesc().trim())).append('\'');
                 }
                 if ("item".equals(fields) && selectionDTO.getItem() != null && !selectionDTO.getItem().trim().isEmpty() &&!"*".equals(selectionDTO.getItem().trim())) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItem().trim())).append('\'');
+                        queryBuilder.append(ConstantsUtils.AND).append(value).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItem().trim())).append('\'');
                 }
             }
         } else {
