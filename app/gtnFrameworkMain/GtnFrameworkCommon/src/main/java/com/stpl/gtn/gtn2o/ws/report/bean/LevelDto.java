@@ -11,6 +11,7 @@ import java.util.Set;
  */
 public class LevelDto implements Comparable<LevelDto> {
 
+  
 	/**
 	 * The level.
 	 */

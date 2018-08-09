@@ -424,18 +424,6 @@ public class PagedTreeGrid {
 	}
 
 	// May be used later ,currently fetching childcount from additional Properties
-	private int getChildCount(GtnWsRecordBean parent) {
-		int childCount = 0;
-		if (tableConfig.getCountUrl() != null) {
-			GtnWsSearchRequest request = GridUtils.getWsRequest(0, pageLength, true, INPUT,
-					Arrays.asList(GridUtils.getLevelNo(parent) + 1, GridUtils.getHierarchyNo(parent)), tableConfig);
-			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
-					request, getComponentIdInMap());
-			childCount = result == null ? 0 : result.size();
-			parent.addAdditionalProperties(0, childCount);
-		}
-		return childCount;
-	}
 
 	public List<GtnWsRecordBean> fetchChildren(int start, int limit, GtnWsRecordBean parent) {
 
