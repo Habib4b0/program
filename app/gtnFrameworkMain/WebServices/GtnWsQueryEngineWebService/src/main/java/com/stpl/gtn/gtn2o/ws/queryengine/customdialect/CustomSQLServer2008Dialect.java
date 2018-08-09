@@ -1,4 +1,4 @@
-package CustomSQLServer2008Dialect;
+package com.stpl.gtn.gtn2o.ws.queryengine.customdialect;
 
 import org.hibernate.dialect.SQLServer2008Dialect;
 import org.hibernate.dialect.function.StandardSQLFunction;
