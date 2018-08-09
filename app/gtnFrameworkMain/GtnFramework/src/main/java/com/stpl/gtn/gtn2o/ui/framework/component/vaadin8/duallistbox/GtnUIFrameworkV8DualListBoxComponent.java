@@ -131,10 +131,10 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		moveLeft = new Button(" < ");
 		moveRight = new Button(" > ");
 		moveAllRight = new Button("ALL");
-		leftTable.setHeight(GtnFrameworkCssConstants.PIXEL_250);
-		rightTable.setHeight(GtnFrameworkCssConstants.PIXEL_250);
-		leftTable.setWidth(GtnFrameworkCssConstants.PIXEL_300);
-		rightTable.setWidth(GtnFrameworkCssConstants.PIXEL_300);
+		leftTable.setHeight(GtnFrameworkCssConstants.PIXEL_300);
+		rightTable.setHeight(GtnFrameworkCssConstants.PIXEL_300);
+		leftTable.setWidth(GtnFrameworkCssConstants.PIXEL_400);
+		rightTable.setWidth(GtnFrameworkCssConstants.PIXEL_400);
 
 		moveLeft.setId("dualListBoxMoveLeftButton");
 		moveRight.setId("dualListBoxMoveRightButton");

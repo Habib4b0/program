@@ -31,6 +31,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import java.util.Collections;
 
 public class PagedTreeGrid {
 	/**
@@ -401,7 +402,7 @@ public class PagedTreeGrid {
 			return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,
 					getComponentIdInMap());
 		}
-		return null;
+		return Collections.EMPTY_LIST;
 
 	}
 

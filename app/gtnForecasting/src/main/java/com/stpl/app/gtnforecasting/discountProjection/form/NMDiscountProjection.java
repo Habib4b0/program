@@ -301,6 +301,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private static final String LEVEL_NUMBER_HEADER = "Level Number";
     private static final String LEVEL_NAME_HEADER = "Level Name";
     private static final String GROUP_PROPERTY_ID = "group";
+    public boolean dsFlag = true;
     public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 
     private List<Object> generateDiscountToBeLoaded = new ArrayList<>();
@@ -444,7 +445,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             child.get(1).setChecked(true);
             String deductionMenuItemValue = child.get(1).getMenuItem().getCaption();
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
-        });        
+        });      
         generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
         generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
@@ -452,6 +453,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         }catch(Exception e){
         LOGGER.error(e.getMessage());
+        }
+    }
+    public void checkFrequencyChange(){
+           dsFlag = true;
+                if((!session.getDsFrequency().equals(frequencyDdlb.getValue())) && dsFlag){
+            dsFlag =false;
+            AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
         }
     }
     
@@ -591,7 +599,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 programSelectionList.clear();
             }
         });
-
+        
         final BeanItemContainer<String> yearBean = new BeanItemContainer<>(String.class);
         yearSelection.setNullSelectionAllowed(true);
         yearSelection.setNullSelectionItemId(SELECT_ONE.getConstant());
@@ -1057,7 +1065,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     /**
      * To load the previously selected values in EDIT scenario
      */
-    private boolean loadSelections(boolean isReset) {
+    public boolean loadSelections(boolean isReset) {
         LOGGER.debug(" inside load selections ");
         try {
             Map<Object, Object> map = new NMProjectionVarianceLogic()
@@ -3549,7 +3557,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     @Override
-    protected void generateBtnClickLogic(Boolean isGenerate) {
+    public void generateBtnClickLogic(Boolean isGenerate) {
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL));
         CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
         isRateUpdatedManually = false;
@@ -3564,7 +3572,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             projectionSelection.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
             projectionSelection.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
             projectionSelection.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
+            if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())
+                || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
+            if ( !projectionSelection
+                    .getDeductionLevelFilter().isEmpty()) {
             generateListView(true);
+            }
+            }
+            else{
+               generateListView(true); 
+            }
         }
     }
 
@@ -3614,8 +3631,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             hierarchyListForCheckRecord.clear();
             session.setFrequency(projectionSelection.getFrequency());
             callAdjustmentProcedure(this.session);
-            tableLogic.clearAll();
-            tableLogic.setRefresh(false);// will become true once setcurrentpage
+            if (tableLogic.getContainerDataSource() != null) {
+                tableLogic.clearAll();
+                tableLogic.setRefresh(false);
+            }
+            // will become true once setcurrentpage
             // completed
             checkBoxMap.clear();
             radioMap.clear();
@@ -3681,7 +3701,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     private void loadDataInTable() {
         LOGGER.debug("Entering loadDataInTable");
+        if (tableLogic.getContainerDataSource() != null) {
         tableLogic.clearAll();
+        }
         List<String> discountToBeLoaded;
         boolean isCustom = CommonUtil.isValueEligibleForLoading()
                 ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
