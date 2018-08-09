@@ -99,12 +99,10 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 				selectedRecordBean.setRecordHeader(dualListBoxConfig.getRightRecordHeader());
 				beanList.add(selectedRecordBean);
 			}
-			if (beanList != null) {
 				treeBuilder.buildTree(beanList);
 				treeBuilder.loadRightTreeTable(rightTable, dualListBoxConfig.getLoadingLevel());
 				rightTable.getDataProvider().refreshAll();
 				rightTable.markAsDirty();
-			}
 		}
 	}
 

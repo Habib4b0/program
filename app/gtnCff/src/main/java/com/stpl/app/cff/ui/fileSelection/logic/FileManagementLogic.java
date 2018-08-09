@@ -529,6 +529,7 @@ public class FileManagementLogic {
 			String version, String forecastName, String fileType) throws SystemException {
 		LOGGER.debug("Entering Save Forecast Details with File Name= {} and File Type= {} and Source= {} and Country= {}", forecastName, fileType.equals(ConstantsUtils.EX_FACTORY_SALES), source, country);
 		boolean flag = false;
+                String dateString = new Date().toString();
 		for (int i = 0; i < itemIds.size(); i++) {
 
 			final FileMananagementResultDTO beanItem = itemIds.get(i);
@@ -693,9 +694,9 @@ public class FileManagementLogic {
 							: buildQuery(beanItem.getUnitsWithdrawn());
 					query += buildQuery(beanItem.getAmountWithdrawn());
 					query += buildQuery(beanItem.getPrice());
-					query += ",'" + convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT,
+					query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
 							DEFAULT_SQL_DATE_FORMAT) + "'";
-					query += ",'" + convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT,
+					query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
 							DEFAULT_SQL_DATE_FORMAT) + "'";
 					query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
 							: buildQuery(beanItem.getBatchId());

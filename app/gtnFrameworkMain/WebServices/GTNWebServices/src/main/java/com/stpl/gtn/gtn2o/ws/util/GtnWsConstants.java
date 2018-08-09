@@ -45,6 +45,7 @@ public final class GtnWsConstants {
 	public static final char CHAR_ASTERISK = '*';
 	public static final String INTEGER = "Integer";
 	public static final String RETURN_RATE = "Returns Rate";
+	public static final String VARIABLES = "Variables";
 
 	private GtnWsConstants() {
 		super();

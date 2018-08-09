@@ -96,22 +96,22 @@ public class GtnReportingComparisonBreakdownSubmitAction
 
 	public static Map<String, Integer> getPeriodAndYear(String s) throws ParseException {
 		Map<String, Integer> periodAndYearMap = new HashMap<>();
-		{
-			if (Pattern.matches("[0-9]{4}", s)) {
-				periodAndYearMap.put("period", 1);
-				periodAndYearMap.put("year", Integer.valueOf(s));
-			} else if (s.startsWith("Q") || s.startsWith("S") && !s.startsWith("Sep")) {
-				periodAndYearMap.put("period", Integer.parseInt(String.valueOf(s.charAt(1))));
-				periodAndYearMap.put("year", Integer.valueOf(s.substring(3)));
-			} else {
-				Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(s.substring(0, 3));
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(date);
-				int month = cal.get(Calendar.MONTH);
-				periodAndYearMap.put("period", ++month);
-				periodAndYearMap.put("year", Integer.valueOf(s.substring(4)));
-			}
+
+		if (Pattern.matches("[0-9]{4}", s)) {
+			periodAndYearMap.put("period", 1);
+			periodAndYearMap.put("year", Integer.valueOf(s));
+		} else if (s.startsWith("Q") || s.startsWith("S") && !s.startsWith("Sep")) {
+			periodAndYearMap.put("period", Integer.parseInt(String.valueOf(s.charAt(1))));
+			periodAndYearMap.put("year", Integer.valueOf(s.substring(3)));
+		} else {
+			Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(s.substring(0, 3));
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH);
+			periodAndYearMap.put("period", ++month);
+			periodAndYearMap.put("year", Integer.valueOf(s.substring(4)));
 		}
+
 		return periodAndYearMap;
 	}
 

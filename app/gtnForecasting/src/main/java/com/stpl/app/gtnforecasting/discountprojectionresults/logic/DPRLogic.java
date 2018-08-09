@@ -410,6 +410,7 @@ public class DPRLogic {
             double annualSuppProjamt = 0.0;
             double annualSuppProjrate = 0.0;
             double annualSuppProjrpu = 0.0;
+            List<String> annualTotal = new ArrayList<>();
 
             List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
             for (int i = 0; i < list.size(); i++) {
@@ -432,7 +433,6 @@ public class DPRLogic {
                 lastValue = String.valueOf(obj[NumericConstants.TWO]);
                 int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
-                List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                     annualTotal = HeaderUtils.getCommonColumnHeader(1, year, 0, false);
@@ -929,6 +929,7 @@ public class DPRLogic {
         double annualSuppProjrpu = 0.0;
         String tempAnnualColumn = StringUtils.EMPTY;
         List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
+        List<String> annualTotal = new ArrayList<>();
 
         if (list != null && !list.isEmpty()) {
             boolean annualFlag = false;
@@ -947,7 +948,6 @@ public class DPRLogic {
                 }
                 int year = annualFlag ? Integer.parseInt(String.valueOf(obj[NumericConstants.NINE])) : Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
                 int period = annualFlag ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.NINE]));
-                List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!annualFlag) {
                     annualTotal = HeaderUtils.getCommonColumnHeader(1, year, 0, false);
@@ -1500,6 +1500,7 @@ public class DPRLogic {
         double annualSuppProjrpu = 0.0;
         String tempAnnual = StringUtils.EMPTY;
         List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
+        List<String> annualTotal = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             int frequencyDivision = projSelDTO.getFrequencyDivision();
             DiscountProjectionResultsDTO mandatedDTO = new DiscountProjectionResultsDTO();
@@ -1520,7 +1521,6 @@ public class DPRLogic {
 
                 int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
-                List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                     annualTotal = HeaderUtils.getCommonColumnHeader(1, year, 0, false);
