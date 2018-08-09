@@ -65,7 +65,6 @@ public class SupplementalDiscountProjectionLogic {
     protected Object supplemental;
     protected Object supplementalLevelName = null;
     protected static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
-    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     public int getConfiguredSupplementalDiscountCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
