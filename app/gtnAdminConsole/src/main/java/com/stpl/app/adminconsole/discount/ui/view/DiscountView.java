@@ -73,12 +73,8 @@ public class DiscountView extends VerticalLayout implements View{
                 deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
                 discountViewForm.groupInfo(deductionGroupDTO);
             }
-        } catch (SystemException ex) {
-           LOGGER.error(ex.getMessage());
-        } catch (PortalException ex) {
-           LOGGER.error(ex.getMessage());
-        } catch (Exception ex) {
+        } catch (SystemException | PortalException ex) {
            LOGGER.error(ex.getMessage());
         }
-    }
+}
 }

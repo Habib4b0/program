@@ -3124,6 +3124,7 @@ public class PromoteTPLogic {
     public List<CurrentContractDTO> getSelectedTPContractSummary(List contList) {
         List<CurrentContractDTO> contResultList = new ArrayList<>();
         CurrentContractDTO currentContractDTO = null;
+        Date date = new Date();
         try {
             int listSize = contList.size();
             if (!contList.isEmpty()) {
@@ -3141,7 +3142,7 @@ public class PromoteTPLogic {
                     currentContractDTO.setPsName(convertNullToEmpty(String.valueOf(obj[NumericConstants.EIGHT])));
                     currentContractDTO.setRsName(convertNullToEmpty(String.valueOf(obj[NumericConstants.NINE])));
                     currentContractDTO.setCompanyStartDate(formatDate(String.valueOf(obj[NumericConstants.TEN])));
-                    currentContractDTO.setCompanyEndDate(obj[NumericConstants.ELEVEN] != null ? (Date) obj[NumericConstants.ELEVEN] : new Date());
+                    currentContractDTO.setCompanyEndDate(obj[NumericConstants.ELEVEN] != null ? (Date) obj[NumericConstants.ELEVEN] : date);
                     currentContractDTO.setStatus(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWELVE])));
                     contResultList.add(currentContractDTO);
                 }
