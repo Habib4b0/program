@@ -94,6 +94,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
+    private boolean spFlag = true;
 
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
@@ -614,6 +615,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
             customerFilterGenerate(customerFlag, productFlag);
             projectionDTO.setGroup(StringUtils.EMPTY);
 
+        }
+    }
+    public void checkSpFrequency(){
+        spFlag = true;
+        if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()) && spFlag){            
+            spFlag =false;
+            AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+        
         }
     }
 
