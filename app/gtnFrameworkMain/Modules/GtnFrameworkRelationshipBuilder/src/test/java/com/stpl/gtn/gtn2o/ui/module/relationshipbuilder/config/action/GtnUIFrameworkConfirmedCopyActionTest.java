@@ -11,7 +11,10 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.vaadin.ui.TextField;
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.After;
@@ -23,6 +26,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.when;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -89,7 +96,12 @@ public class GtnUIFrameworkConfirmedCopyActionTest {
         GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
         Constructor cons= (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
         cons.setAccessible(true);
-        GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(null,null);
+        GtnUIFrameworkBaseComponent object= mock(GtnUIFrameworkBaseComponent.class);
+        GtnWsRecordBean gtnWsRecordBean =new GtnWsRecordBean();
+        gtnWsRecordBean.setRecordHeader(Arrays.asList("test"));
+        gtnWsRecordBean.setProperties(Arrays.asList("test"));
+        
+        when(object.getValueFromComponent()).thenReturn(gtnWsRecordBean);
         when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
          
         GtnUIFrameworkConfirmedCopyAction instance = new GtnUIFrameworkConfirmedCopyAction();
