@@ -710,7 +710,6 @@ public class GtnNewProcessSchedularConfig {
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutesConfig.setItemCaptionValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes.setGtnComboboxConfig(minutesConfig);
-		minutes.setGtnComboboxConfig(minutesConfig);
 		addMinutesLabel(componentList, minutes3ComboBoxLayout.getComponentId());
 	}
 
@@ -841,7 +840,6 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkComponentConfig minutes1 = new GtnUIFrameworkComponentConfig();
 		minutes1.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		// minutes1.setComponentName("Minutes:");
 		minutes1.setComponentId(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID);
 		minutes1.setParentComponentId(minutes1Layout.getComponentId());
 		minutes1.setAddToParent(true);

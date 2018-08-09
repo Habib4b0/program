@@ -156,6 +156,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCffId()");
 		GtnUIFrameworkComponentConfig cffIdLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_CffIdLayout", true, parentComponentId);
+		cffIdLayout.addComponentStyle("v-ps-cffidname-margin-left");
 		cffIdLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(cffIdLayout);
 		
@@ -174,6 +175,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addProjectionId()");
 		GtnUIFrameworkComponentConfig projectionIdLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_ProjectionIdLayout", true, parentComponentId);
+		projectionIdLayout.addComponentStyle("v-ps-projnameid-margin-left");
 		projectionIdLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(projectionIdLayout);
 		
@@ -192,6 +194,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCustomerNo()");
 		GtnUIFrameworkComponentConfig customerNoLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_customerNoLayout", true, parentComponentId);
+		customerNoLayout.addComponentStyle("v-ps-customernameno-contractname-margin-left");
 		customerNoLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(customerNoLayout);
 		
@@ -250,6 +253,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCffName()");
 		GtnUIFrameworkComponentConfig cffNameLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_CffNameLayout", true, parentComponentId);
+		cffNameLayout.addComponentStyle("v-ps-cffidname-margin-left");
 		cffNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(cffNameLayout);
 		
@@ -268,6 +272,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addProjectionName()");
 		GtnUIFrameworkComponentConfig projectionNameLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_ProjectionNameLayout", true, parentComponentId);
+		projectionNameLayout.addComponentStyle("v-ps-projnameid-margin-left");
 		projectionNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(projectionNameLayout);
 		
@@ -286,6 +291,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCustomerName()");
 		GtnUIFrameworkComponentConfig customerNameLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_customerNameLayout", true, parentComponentId);
+		customerNameLayout.addComponentStyle("v-ps-customernameno-contractname-margin-left");
 		customerNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(customerNameLayout);
 		
@@ -326,6 +332,7 @@ public class CffOutBoundLookUpConfig {
 		typeContractItemBussUnitNoLayout.setComponentWidth("100%");
 		typeContractItemBussUnitNoLayout.setAddToParent(true);
 		typeContractItemBussUnitNoLayout.setSpacing(true);
+		
 		typeContractItemBussUnitNoLayout.setParentComponentId(parentComponentId);
 		
 		GtnUIFrameworkLayoutConfig typeContractItemBussUnitNoLayoutConfig=new GtnUIFrameworkLayoutConfig();
@@ -343,6 +350,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addType()");
 		GtnUIFrameworkComponentConfig typeLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_typeLayout", true, parentComponentId);
+		typeLayout.addComponentStyle("v-ps-businessname-type-left-margin");
 		typeLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(typeLayout);
 		
@@ -372,6 +380,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addContractNo()");
 		GtnUIFrameworkComponentConfig contractNoLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_contractNoLayout", true, parentComponentId);
+		contractNoLayout.addComponentStyle("v-ps-contractno-margin-left");
 		contractNoLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(contractNoLayout);
 		
@@ -390,6 +399,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addItemNo()");
 		GtnUIFrameworkComponentConfig itemNoLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_itemNoLayout", true, parentComponentId);
+		itemNoLayout.addComponentStyle("v-ps-itemno-margin-left");
 		itemNoLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(itemNoLayout);
 		
@@ -465,6 +475,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCffCreationDateTo()");
 		GtnUIFrameworkComponentConfig cffCreationDateToLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_cffCreationDateToLayout", true, parentComponentId);
+		cffCreationDateToLayout.addComponentStyle("v-ps-cffcdt-margin-left");
 		cffCreationDateToLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(cffCreationDateToLayout);
 		
@@ -483,6 +494,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addContractName()");
 		GtnUIFrameworkComponentConfig contractNameLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_contractNameLayout", true, parentComponentId);
+		contractNameLayout.addComponentStyle("v-ps-customernameno-contractname-margin-left");
 		contractNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(contractNameLayout);
 		
@@ -501,6 +513,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addItemName()");
 		GtnUIFrameworkComponentConfig itemNameLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_itemNameLayout", true, parentComponentId);
+		itemNameLayout.addComponentStyle("v-ps-itemname-margin-left");
 		itemNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(itemNameLayout);
 		
@@ -540,6 +553,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addBuisnessUnitName()");
 		GtnUIFrameworkComponentConfig businessUnitNameLayout = configProvider
 				.getHorizontalLayoutConfig("CffOutBound_businessUnitNameLayout", true, parentComponentId);
+		businessUnitNameLayout.addComponentStyle("v-ps-businessname-type-left-margin");
 		businessUnitNameLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(businessUnitNameLayout);
 		
@@ -650,7 +664,7 @@ public class CffOutBoundLookUpConfig {
 		gtnLogger.info("Started the execution of addCffOutBoundSearchResultsLayout()");
 		GtnUIFrameworkComponentConfig cffOutBoundSearchPanelLayout = configProvider.getVerticalLayoutConfig("CffOutBound_resultsPanelLayout", true, parentComponentId);
 		cffOutBoundSearchPanelLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		
+		componentList.add(cffOutBoundSearchPanelLayout);
 		addResultsTable(componentList,cffOutBoundSearchPanelLayout.getComponentId());
 	}
 
@@ -678,28 +692,15 @@ public class CffOutBoundLookUpConfig {
 		searchResults.setSelectable(true);
 		searchResults.setPageLength(5);
 		searchResults.setItemPerPage(5);
-		searchResults.setSinkItemPerPageWithPageLength(false);
-
-		searchResults.setTableColumnDataType(new Class[] { String.class });
-		searchResults.setTableVisibleHeader(new String[] {"Name" });
-		searchResults.setTableColumnMappingId(
-				new Object[] { "name" });
-		
-		searchResults.setModuleName("scheduledProcessing");
-		searchResults.setQueryName("SearchQuery");
-		searchResultConfig.setGtnPagedTableConfig(searchResults);
-		
-		//searchResults.setExtraColumn(new Object[] { "processSid","scriptName","startHour","startMinute" ,"startHour1","startHour2","startHour3" ,"startMinute1","startMinute2","startMinute3"});
-
-		/*searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
-		gtnLogger.info(searchResults.getCountUrl());
-		searchResults.setResultSetUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);*/
+		searchResults.setSinkItemPerPageWithPageLength(true);
+		searchResults.setFilterBar(true);
+		searchResults.setEditable(false);
+		//searchResults.set
+	
 
 		
 
-		/*searchResults.setTableColumnDataType(new Class[] { String.class, String.class, String.class, String.class,
+		searchResults.setTableColumnDataType(new Class[] { Boolean.class,String.class, String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
@@ -709,7 +710,7 @@ public class CffOutBoundLookUpConfig {
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
 				String.class });
 		searchResults.setTableVisibleHeader(
-				new String[] { "Financial Forecast ID", "Financial Forecast Name", "Type",
+				new String[] { "", "Financial Forecast ID", "Financial Forecast Name", "Type",
 				        "Project ID", "Projection Name", "Year", "Month", "Contract ID", "Contract No", "Contract Name", "Contract Type", "Contract Holder ID", "Contract Holder No",
 				        "Contract Holder Name", "Customer ID", "Customer No", "Customer Name", "Item ID", "Item No", "Item Name", "Sales Dollars", "Sales Units", "Sales Inclusion",
 				        "Deduction ID", "Deduction No", "Deduction Name", "Deduction Category", "Deduction Type", "Deduction Program", "Deduction Inclusion", "Deduction Category 1",
@@ -718,21 +719,17 @@ public class CffOutBoundLookUpConfig {
 				        "Business Unit ID", "Business Unit No", "Business Unit Name", "Financial Forecast Creation Date", "Financial Forecast Approval Date" 
 				        , "Outbound Status", "Original Batch ID" });
 		searchResults.setTableColumnMappingId(
-				new Object[] { "financialForecastId", "financialForecastName", "typeDesc",
+				new Object[] {GtnFrameworkCommonConstants.CHECK_RECORD_ID, "financialForecastId", "financialForecastName", "typeDesc",
 				        "projectionId", "projectionName", "year", "month", "contractId", "contractNo", "contractName", "contractType", "contractHolderId", "contractHolderNo",
 				        "contractHolderName", "customerId", "customerNo", "customerName", "itemId", "itemNo", "itemName", "salesDollars", "salesUnits", "salesInclusion",
 				        "deductionId", "deductionNo", "deductionName", "deductionCategory", "deductionType", "deductionProgram", "deductionInclusion", "deductionCategoryOne",
 				        "deductionCategoryTwo", "deductionCategoryThree", "deductionCategoryFour", "deductionCategoryFive", "deductionCategorySix", "deductionDollars", "deductionRate",
 				        "deductionPerUnit", "netSalesDollar", "cogsAmount", "cogsPerUnit", "netProfitDollars", "netProfitPerUnit", "companyId", "companyNo", "companyName",
 				        "businessUnitId", "businessUnitNo", "businessUnitName", "financialForecastCreationDate", "financialForecastApprovalDate" 
-				        , "outboundStatus", "originalBatchId" });*/
+				        , "outboundStatus", "originalBatchId" });
+		searchResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		//searchResults.setExtraColumn(new Object[] { "scriptname" });
-		
-		/*searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
-		gtnLogger.info(searchResults.getCountUrl());
-		searchResults.setResultSetUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);*/
+		searchResultConfig.setGtnPagedTableConfig(searchResults);
 		
 		
 		/*GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();

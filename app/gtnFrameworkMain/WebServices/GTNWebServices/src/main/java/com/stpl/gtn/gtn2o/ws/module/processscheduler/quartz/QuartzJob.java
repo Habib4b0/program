@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz1;
+package com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz1.QuartzListener;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz.QuartzListener;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
