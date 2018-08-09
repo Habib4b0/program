@@ -1177,7 +1177,7 @@ public class PPAProjection extends CustomComponent implements View {
 
     private void updateRow(Object value, Object itemId, String propertyId, boolean presentFlag)  {
         if (propertyId != null) {
-            Boolean result = false;
+            boolean result = false;
             PPAProjectionDTO dto = (PPAProjectionDTO) itemId;
             if (value instanceof Boolean) {
                 result = Boolean.valueOf(value.toString());
@@ -1190,7 +1190,7 @@ public class PPAProjection extends CustomComponent implements View {
             } else if (value instanceof Integer) {
 
                 if (Integer.parseInt(value.toString()) >= dto.getCCPCount()) {
-                    result = Boolean.TRUE;
+                    result = true;
                     dto.setCheckRecordCount(dto.getCCPCount());
                 } else {
                     if (Integer.parseInt(value.toString()) < 0) {
@@ -1198,7 +1198,7 @@ public class PPAProjection extends CustomComponent implements View {
                     } else {
                         dto.setCheckRecordCount(Integer.valueOf(value.toString()));
                     }
-                    result = Boolean.FALSE;
+                    result = false;
                 }
                 updateResetRow(propertyId, itemId, result, presentFlag);
             }
