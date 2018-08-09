@@ -9,26 +9,29 @@ import java.util.List;
 
 public class GtnReportComparisonBreakdownLookupBean implements Serializable {
 
-   
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    public GtnReportComparisonBreakdownLookupBean() {
+        super();
+    }
 
-	private int masterSid;
-	private int period;
-	private int year;
-	private int selectedVariable;
-	private List<Object[]> resultList;
-	private int rowCount;
-	private String property;
-	private String componentId;
-	private String columnId;
-	private int rowId;
-	private int col;
-	private String projectionName;
-	private List comparisonBreakdownSaveActionList;
-	private List<GtnReportComparisonProjectionBean> comparisonLookupBeanList;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    private int masterSid;
+    private int period;
+    private int year;
+    private int selectedVariable;
+    private List<Object[]> resultList;
+    private int rowCount;
+    private String property;
+    private String componentId;
+    private String columnId;
+    private int rowId;
+    private int col;
+    private String projectionName;
+    private List comparisonBreakdownSaveActionList;
+    private List<GtnReportComparisonProjectionBean> comparisonLookupBeanList;
 
 	public int getRowId() {
 		return rowId;

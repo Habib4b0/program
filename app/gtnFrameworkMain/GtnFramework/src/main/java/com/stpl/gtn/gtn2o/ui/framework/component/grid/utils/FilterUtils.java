@@ -55,8 +55,7 @@ final public class FilterUtils {
                 vaadinCombobox.addValueChangeListener(e -> onFilterTextChange(pagedTreeGrid));
                 return vaadinCombobox;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                Button dateFilterPopupButton = new Button("Show all");
-                return dateFilterPopupButton;
+                return new Button("Show all");
             }
         } catch (GtnFrameworkGeneralException exception) {
             PagedTreeGrid.gtnlogger.error("Exception while creating the filter component", exception);
