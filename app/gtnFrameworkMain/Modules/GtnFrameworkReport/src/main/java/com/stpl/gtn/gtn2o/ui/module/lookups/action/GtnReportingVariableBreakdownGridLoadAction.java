@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -40,22 +39,19 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.components.grid.HeaderRow;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.TextStyle;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class GtnReportingVariableBreakdownGridLoadAction
 		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingVariableBreakdownGridLoadAction.class);
-	int check =0;
+	private int check =0;
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
