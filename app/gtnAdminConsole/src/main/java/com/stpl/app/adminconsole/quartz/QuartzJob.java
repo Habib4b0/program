@@ -48,7 +48,7 @@ public class QuartzJob implements Job {
                     SchedulerSynchronizer process = SchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
                     process.lock();
                     int i = 0;
-                    new ProcessSchedulerLogic().schedulerInsert();
+                    logic.schedulerInsert();
                     logic.runJob(getFtpBundleValue(), profile.getScriptName());
                     logic.updateLastRun(profile.getProcessSid(), true);
                     while (logic.existsQuery(ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE)) {
@@ -56,7 +56,7 @@ public class QuartzJob implements Job {
                         Thread.sleep(NumericConstants.THREE_THOUSAND);
                         i++;
                         if (i == NumericConstants.HUNDRED) {
-                            new ProcessSchedulerLogic().deleteTempCffOutbound(null, Boolean.TRUE);
+                            logic.deleteTempCffOutbound(null, Boolean.TRUE);
                         }
                     }
                     process.unlock();
@@ -67,7 +67,7 @@ public class QuartzJob implements Job {
             try {
                 ArmSchedulerSynchronizer arpProcess = ArmSchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
                 arpProcess.lock();
-                    new ProcessSchedulerLogic().schedulerInsertForArp(ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE);
+                    logic.schedulerInsertForArp(ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE);
                 logic.runJob(getFtpBundleValue(), profile.getScriptName());
                 logic.updateLastRun(profile.getProcessSid(), true);
                 arpProcess.unlock();
@@ -78,7 +78,7 @@ public class QuartzJob implements Job {
             try {
                 ArmSchedulerSynchronizer adjOutboundProcess = ArmSchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
                 adjOutboundProcess.lock();
-                    new ProcessSchedulerLogic().updateCheckRecord(profile.getProcessName(), ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE);
+                    logic.updateCheckRecord(profile.getProcessName(), ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE);
                 logic.runJob(getFtpBundleValue(), profile.getScriptName());
                 logic.updateLastRun(profile.getProcessSid(), true);
                 adjOutboundProcess.unlock();

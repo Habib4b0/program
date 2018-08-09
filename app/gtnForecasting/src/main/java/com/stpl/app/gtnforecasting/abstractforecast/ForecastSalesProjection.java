@@ -1793,9 +1793,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         }
                     });
                     doubleColumnList.removeAll(doubleHistoryAndProjectedColumnList);
+                    SalesRowDto salesRowdto=new SalesRowDto();
                     for(int start=0;start<doubleColumnList.size();start++){
                         if(String.valueOf(propertyId).contains(String.valueOf(doubleColumnList.get(start)))){
-                        	SalesRowDto salesRowdto=new SalesRowDto();
                         	salesRowdto.addStringProperties(StringUtils.EMPTY+propertyId,StringUtils.EMPTY);
         					rightTable.setDoubleHeaderColumnCheckBoxDisable(doubleColumnList.get(start),true);
         					 return null;

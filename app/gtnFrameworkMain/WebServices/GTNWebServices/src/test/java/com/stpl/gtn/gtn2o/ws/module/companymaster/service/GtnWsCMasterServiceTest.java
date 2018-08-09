@@ -23,12 +23,14 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import org.hibernate.QueryException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -119,11 +121,14 @@ public class GtnWsCMasterServiceTest {
    
         try {
            gtnWsCMasterService.getCompantMasterSearch(gtnUIFrameworkWebserviceRequest);
-        } catch (GtnFrameworkGeneralException ex) {
+        } 
+          catch (QueryException ex) {
+            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+              assertTrue(true);
+        }
+        catch (GtnFrameworkGeneralException ex) {
             Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-            ExpectedException("Expected an QueryException to be thrown");
-     
     }
     
     
@@ -249,13 +254,12 @@ public class GtnWsCMasterServiceTest {
      * Test of getOrderByClause method, of class GtnWsCMasterService.
      */
     @Test
-    public void testGetOrderByClause() {
+    public void testGetOrderByClauseIf() {
         System.out.println("getOrderByClause");
         GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
         GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
       
-        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
         try {
             testMap(gtnWebServiceSearchQueryConfig);
         
@@ -282,7 +286,40 @@ public class GtnWsCMasterServiceTest {
 		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
                   gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().setGtnWebServiceOrderByCriteriaList(Arrays
 				.asList(new GtnWebServiceOrderByCriteria[] { new GtnWebServiceOrderByCriteria("companyId", "ASC") })); 
-            
+                  
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        gtnWsCMasterService.getOrderByClause(queryGeneratorConfig, gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
+    }
+    
+    @Test
+    public void testGetOrderByClauseElse() {
+        System.out.println("getOrderByClause1");
+        GtnFrameworkQueryGeneratorBean queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
+        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+      
+        try {
+            testMap(gtnWebServiceSearchQueryConfig);
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+              Object[] columnArray = new Object[] { "companyMasterSid", "companyId", "companyNo", "companyName",
+				"companyStatus", "companyType", "companyStartDate", "companyEndDate", "companyTradeClass",
+				"tradeClassStartDate", "tradeClassEndDate", "companyGroup", "companyCategory", "organizationKey",
+				"financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate", "priorParentCompanyNo",
+				"priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "address1",
+				"address2", "zipCode", "city", "state", "country" };
+	        gtnWsSearchRequest.setSearchConfigLodaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+		gtnWsSearchRequest.setSearchQueryName("SearchQuery");
+		gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(columnArray));
+                 
+                gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(new ArrayList<GtnWebServiceSearchCriteria>());
+
+                List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
+		orderByClauseList.add(new GtnWebServiceOrderByCriteria("companyId", "ASC"));
+		gtnWebServiceSearchQueryConfig.setOrderByClause(orderByClauseList);  
+		gtnUIFrameworkWebserviceRequest.setGtnWsSearchRequest(gtnWsSearchRequest);               
         } catch (Exception ex) {
             Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -293,7 +330,7 @@ public class GtnWsCMasterServiceTest {
      * Test of getTableColumnForField method, of class GtnWsCMasterService.
      */
     @Test
-    public void testGetTableColumnForField() {
+    public void testGetTableColumnForFieldpoIf() {
         System.out.println("getTableColumnForField");
         String fieldName = "companyId";
         GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
@@ -308,12 +345,32 @@ public class GtnWsCMasterServiceTest {
         assertEquals(expResult.trim(), result.trim());
 
     }
+    
+      @Test
+    public void testGetTableColumnForFieldElse() {
+        System.out.println("getTableColumnForField1");
+        String fieldName = "companId";
+        GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
+        try {
+            testMap(gtnWebServiceSearchQueryConfig);
+            gtnWsCMasterService.getTableColumnForField(fieldName, gtnWebServiceSearchQueryConfig);
+        } 
+      catch(IllegalArgumentException ex)
+        {
+          assertTrue(true);
+        }
+        
+        catch (Exception ex) {
+            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 
     /**
      * Test of getTableColumnForWhereClause method, of class GtnWsCMasterService.
      */
     @Test
-    public void testGetTableColumnForWhereClause() {
+    public void testGetTableColumnForWhereClauseIf() {
         System.out.println("getTableColumnForWhereClause");
         String fieldName = "companyId";
         GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
@@ -329,6 +386,26 @@ public class GtnWsCMasterServiceTest {
   
     }
 
+      @Test
+    public void testGetTableColumnForWhereClauseElse() {
+        System.out.println("getTableColumnForWhereClause1");
+        String fieldName = "compayId";
+        GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
+          try {
+            testMap(searchQueryConfig);
+            gtnWsCMasterService.getTableColumnForWhereClause(fieldName, searchQueryConfig);
+        } 
+            catch(IllegalArgumentException ex)
+        {
+          assertTrue(true);
+        }
+          
+          catch (Exception ex) {
+            Logger.getLogger(GtnWsCMasterServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+    }
+    
     /**
      * Test of findTypeList method, of class GtnWsCMasterService.
      */
@@ -376,6 +453,15 @@ public class GtnWsCMasterServiceTest {
         String result = gtnWsCMasterService.getStringFromObject(str);
         assertEquals(expResult.trim(), result.trim());
     }
+    
+        @Test
+    public void testGetStringFromObjectElse() {
+        System.out.println("getStringFromObject1");
+        Object str = "";    
+        String expResult = "";
+        String result = gtnWsCMasterService.getStringFromObject(str);
+        assertEquals(expResult.trim(), result.trim());
+    }
 
     /**
      * Test of getIntegerFromObject method, of class GtnWsCMasterService.
@@ -397,10 +483,13 @@ public class GtnWsCMasterServiceTest {
     public void testGetCustomisedResult() {
         System.out.println("getCustomisedResult");
         List resultList = new ArrayList();
-        resultList.add(new Object[]{"sb"});
+        resultList.add(new Object[]{"sb",10,new Date(),"boolean"});
         GtnWsSearchQueryConfig searchQueryConfig = new GtnWsSearchQueryConfig();
         List<Object> columnName = new ArrayList<>();
         columnName.add("companyId");
+        columnName.add("parentCompanySearchcompanyType");
+        columnName.add("lastUpdatedDate");
+        columnName.add("recordLockStatus");
         try {
             testMap(searchQueryConfig);
         } catch (Exception ex) {
@@ -416,11 +505,33 @@ public class GtnWsCMasterServiceTest {
     @Test
     public void testGetOperatorType() {
         System.out.println("getOperatorType");
-        String expressionType = "BETWEEN";
-      
-        GtnFrameworkOperatorType expResult = GtnFrameworkOperatorType.BETWEEN;
-        GtnFrameworkOperatorType result = gtnWsCMasterService.getOperatorType(expressionType);
-        assertEquals(expResult, result);
+        ArrayList<String> list = new ArrayList<>();
+        String between = "BETWEEN";
+        String like = "LIKE";
+        String equal = "EQUAL_TO";
+        String greater = "GREATERTHAN";
+        String less = "LESSTHAN";
+        String in = "IN";
+        String inn = "inn";
+
+        list.add(between);
+        list.add(like);
+        list.add(equal);
+        list.add(greater);
+        list.add(less);
+        list.add(in);
+        list.add(inn);
+
+        for (String e : list) {
+            System.out.println(e);
+            GtnFrameworkOperatorType result = null;
+                result = gtnWsCMasterService.getOperatorType(e);
+                if(result!=null){
+                String s=result.toString();        
+                assertEquals(e, s);
+                }
+     
+        }
     }
 
     /**
@@ -595,10 +706,6 @@ public class GtnWsCMasterServiceTest {
 		fieldToColumnDetailsMap.put("companyStatus1",
 				configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDescription"));
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
-    }
-
-    private void ExpectedException(String expected_an_Exception_to_be_thrown) {
-        assertTrue(true);
     }
     
 }

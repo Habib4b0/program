@@ -74,7 +74,7 @@
 			<fileset dir="db" />
 		</copy>
 
-		<delete dir="${DB_Script}/AppSchema/db-accounting-close" />
+		<!--<delete dir="${DB_Script}/AppSchema/db-accounting-close" />-->
 		<move todir="${DB_Script}/App_Schema">
 			<fileset dir="${DB_Script}/AppSchema" />
 		</move>
@@ -113,6 +113,9 @@
 		</move>
 		<move todir="${DB_Script}/App_Schema/Sql_Script/10_Reporting">
 			<fileset dir="${DB_Script}/App_Schema/db-reporting" />
+		</move>
+		<move todir="${DB_Script}/App_Schema/Sql_Script/11_Arm">
+			<fileset dir="${DB_Script}/App_Schema/db-accounting-close" />
 		</move>
 		<move todir="${DB_Script}/Staging_Schema/Sql_Script/01_Staging">
 			<fileset dir="${DB_Script}/Staging_Schema/db-staging" />

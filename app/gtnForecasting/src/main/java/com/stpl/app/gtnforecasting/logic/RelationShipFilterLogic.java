@@ -243,7 +243,7 @@ public class RelationShipFilterLogic {
 			throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null,
-				Boolean.FALSE);
+				false);
 
 
 		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));

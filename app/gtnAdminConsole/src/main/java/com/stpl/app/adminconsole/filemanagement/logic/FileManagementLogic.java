@@ -109,8 +109,8 @@ public class FileManagementLogic {
 
 	public static final String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
-	private SimpleDateFormat MMDDYY_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	private SimpleDateFormat JAVA_DATE_FORMAT = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat javaDateFormat = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
         
         
 
@@ -280,7 +280,7 @@ public class FileManagementLogic {
 	 */
 	public String saveFileMgtHist(final FileMananagementResultDTO fileMgtDTO, final HelperDTO fileType,
 			final SessionDTO sessionDTO) throws SystemException {
-		final String userId = (String) sessionDTO.getUserId();
+		final String userId = sessionDTO.getUserId();
 		LOGGER.debug("saveFileMgtHist started with P1:FileMananagementResultDTO fileMgtDTO and P2:String fileType= {}",
 				fileType);
 		FileManagement fileManagement = FileManagementLocalServiceUtil.createFileManagement(0);
@@ -601,6 +601,7 @@ public class FileManagementLogic {
 		String totalDemandadj;
 		String grossAmount;
 		String netSalesPriceadj;
+                String dateString = new Date().toString();
 		try {
 			for (int i = 0; i < itemIds.size(); i++) {
 
@@ -795,7 +796,7 @@ public class FileManagementLogic {
 						InventoryWdProjMasLocalServiceUtil.addInventoryWdProjMas(inventoryWdProjMas);
 					} else if (fileType.getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 						String query = insertQueryForInventoryDetails();
-                                                String date=new Date().toString();
+                                               
 						if (beanItem.getYear() == null || ConstantsUtils.EMPTY.equals(beanItem.getYear())) {
 							query += "0";
 						} else {
@@ -819,9 +820,9 @@ public class FileManagementLogic {
 								: buildQuery(beanItem.getUnitsWithdrawn());
 						query += buildQuery(beanItem.getAmountWithdrawn());
 						query += buildQuery(beanItem.getPrice());
-						query += ",'" + convertStringToDate(date, DEFAULT_JAVA_DATE_FORMAT,
+						query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
 								DEFAULT_SQL_DATE_FORMAT) + "'";
-						query += ",'" + convertStringToDate(date, DEFAULT_JAVA_DATE_FORMAT,
+						query += ",'" + convertStringToDate(dateString, DEFAULT_JAVA_DATE_FORMAT,
 								DEFAULT_SQL_DATE_FORMAT) + "'";
 						query += StringConstantUtils.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'"
 								: buildQuery(beanItem.getBatchId());
@@ -1329,31 +1330,31 @@ public class FileManagementLogic {
 			String dateWhereCondition = StringUtils.EMPTY;
 			if (resultDTO.getFromPeriod() != null && resultDTO.getToPeriod() != null) {
 				searchQuery = searchQuery.replace(StringConstantUtils.DATEQUERY, "WHERE FT_MIN_DATE  = " + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getFromPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getFromPeriod())))
 						+ "'" + " AND FT_MAX_DATE  =" + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getToPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getToPeriod())))
 						+ "'");
 				dateWhereCondition = "WHERE FT_MIN_DATE  = " + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getFromPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getFromPeriod())))
 						+ "'" + " AND FT_MAX_DATE  =" + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getToPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getToPeriod())))
 						+ "'";
 			} else if (resultDTO.getFromPeriod() != null) {
 				searchQuery = searchQuery
 						.replace(StringConstantUtils.DATEQUERY,
 								"WHERE FT_MIN_DATE  =" + "'"
-										+ MMDDYY_DATE_FORMAT.format(
-												JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getFromPeriod())))
+										+ dateFormat.format(
+												javaDateFormat.parse(String.valueOf(resultDTO.getFromPeriod())))
 										+ "'");
 				dateWhereCondition = "WHERE FT_MIN_DATE  =" + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getFromPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getFromPeriod())))
 						+ "'";
 			} else if (resultDTO.getToPeriod() != null) {
 				searchQuery = searchQuery.replace(StringConstantUtils.DATEQUERY, "WHERE FT_MAX_DATE  =" + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getToPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getToPeriod())))
 						+ "'");
 				dateWhereCondition = "WHERE FT_MAX_DATE  =" + "'"
-						+ MMDDYY_DATE_FORMAT.format(JAVA_DATE_FORMAT.parse(String.valueOf(resultDTO.getToPeriod())))
+						+ dateFormat.format(javaDateFormat.parse(String.valueOf(resultDTO.getToPeriod())))
 						+ "'";
 			}
 
@@ -1404,13 +1405,13 @@ public class FileManagementLogic {
 						if (StringConstantUtils.FROM_DATE.equals(stringFilter.getPropertyId())) {
 							if (!dateWhereCondition.isEmpty()) {
 								dateWhereCondition = dateWhereCondition + " AND FT_MIN_DATE >= '"
-										+ MMDDYY_DATE_FORMAT.format(filterString) + "' ";
+										+ dateFormat.format(filterString) + "' ";
 							} else {
 								dateWhereCondition = dateWhereCondition + " WHERE FT_MIN_DATE >= '"
-										+ MMDDYY_DATE_FORMAT.format(filterString) + "' ";
+										+ dateFormat.format(filterString) + "' ";
 							}
 							dateWhereCondition = dateWhereCondition + " AND FT_MIN_DATE <= '"
-									+ MMDDYY_DATE_FORMAT.format(filterString1) + "' ";
+									+ dateFormat.format(filterString1) + "' ";
 						}
 						if (StringConstantUtils.TO_DATE.equals(stringFilter.getPropertyId())) {
 							if (!dateWhereCondition.isEmpty()) {
@@ -3888,7 +3889,6 @@ public class FileManagementLogic {
 			final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet,
 			boolean isCount, boolean isExcelflag) {
 		LOGGER.debug("Entering getCustomerSalesResults_Excel Details Results");
-		List list;
 		String sqlString = "";
 
 		if (isCount) {
