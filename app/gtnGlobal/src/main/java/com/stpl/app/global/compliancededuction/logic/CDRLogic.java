@@ -58,6 +58,7 @@ public class CDRLogic {
     private static final ResourceBundle CONSTANT_PROPERTIES = ResourceBundle.getBundle("properties.constants");
     private static final HashMap<String, String> CRITERIA = new HashMap<String, String>();
     private final StplSecurityDAO securityDto = new StplSecurityDAOImpl();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Gets the CDR Count for search.
@@ -238,7 +239,6 @@ public class CDRLogic {
     private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         Map<Integer, String> userMap = StplSecurity.getUsermap();
         if (filterSet != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
@@ -281,7 +281,6 @@ public class CDRLogic {
      * @param sessionDTO
      */
     public void updateRulesDetailsEditLogic(final List ruleInfoList, final SessionDTO sessionDTO) {
-         final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!ruleInfoList.isEmpty()) {
                 Object beanObj = ruleInfoList.get(1);
@@ -298,9 +297,9 @@ public class CDRLogic {
                                 append('\'').append(value).append('\'').append(',').
                                 append('\'').append(object.getComparisonDdlb() != null ? object.getComparisonDdlb().getId() : 0).append('\'').append(',')
                                 .append('\'').append(object.getLogicalOperatorDdlb() != null ? object.getLogicalOperatorDdlb().getId() : 0).append('\'').append(',')
-                                .append('\'').append(DB_DATE.format(new Date())).append('\'').append(',')
+                                .append('\'').append(dateFormat.format(new Date())).append('\'').append(',')
                                 .append('\'').append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append('\'').append(',')
-                                .append('\'').append(DB_DATE.format(new Date())).append('\'').append(',')
+                                .append('\'').append(dateFormat.format(new Date())).append('\'').append(',')
                                 .append('\'').append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append('\'')
                                 .append(')');
                     }
@@ -338,15 +337,14 @@ public class CDRLogic {
      * @return List
      */
     List getInputForModelInsert(final CDRDto binderDto, final SessionDTO sessionDTO) {
-        final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
         List queryList = new ArrayList();
         queryList.add(binderDto.getRuleTypeDto().getId());
         queryList.add(binderDto.getRuleNo());
         queryList.add(binderDto.getRuleName());
         queryList.add(binderDto.getRuleCategoryDto() != null ? binderDto.getRuleCategoryDto().getId() : 0);
-        queryList.add(DB_DATE.format(new Date()));
+        queryList.add(dateFormat.format(new Date()));
         queryList.add(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO);
-        queryList.add(DB_DATE.format(new Date()));
+        queryList.add(dateFormat.format(new Date()));
         queryList.add(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO);
         return queryList;
     }

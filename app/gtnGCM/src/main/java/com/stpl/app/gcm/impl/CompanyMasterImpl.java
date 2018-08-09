@@ -1182,6 +1182,8 @@ public class CompanyMasterImpl {
                 List list = null;
                 try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
+                    List<StringBuilder> logic = new ArrayList<>();
+                    List<String> condition = new ArrayList<>();
                     if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
                         for (Object temp : relationshipBuilderSids) {
                             Integer level;
@@ -1193,8 +1195,7 @@ public class CompanyMasterImpl {
                                     + "AND RLD.RELATIONSHIP_BUILDER_SID=" + temp + ";";
                             list = HelperTableLocalServiceUtil.executeSelectQuery(hierarchyQuery);
                             level = DataTypeConverter.convertObjectToInt(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0));
-                            List<StringBuilder> logic = new ArrayList<>();
-                            List<String> condition = new ArrayList<>();
+                            
                             StringBuilder ccpQuery = new StringBuilder("MERGE CCP_MAP AS TARGET USING ( "
                                     + "SELECT distinct ? RELATIONSHIP_LEVEL_SID ,CCP.CCP_DETAILS_SID FROM CCP_DETAILS CCP ");
                             Integer prevNo = 0;
