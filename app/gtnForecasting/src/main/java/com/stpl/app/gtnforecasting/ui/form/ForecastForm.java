@@ -535,6 +535,7 @@ public class ForecastForm extends AbstractForm {
                                     } 
                                     session.setFunctionMode("UPS");
                                     nmDiscountViewsPopulationProcedure();
+                                     discountProjection.getContent();
                                      discountUpsFlag=true;
                                 }
                                     if (nmSalesProjection.isSalesValueChange()) {
