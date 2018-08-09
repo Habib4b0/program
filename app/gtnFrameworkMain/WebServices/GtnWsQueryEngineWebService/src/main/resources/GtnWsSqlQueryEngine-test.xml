@@ -7,7 +7,7 @@
 
 	<bean id="gtnSqlQueryEngineService"
 		class="com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService">
-		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnSqlQueryEngine"> <ref bean="gtnSqlQueryEngine"/></property>
 	</bean>
 	
 	<bean id="gtnSqlQueryEngine"
@@ -21,6 +21,9 @@
         
     </bean>
     
+     <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+    </bean>
+    
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -29,12 +32,11 @@
 
 	</bean>
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url"
 			value="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA" />
 		<property name="username" value="bpigtn_db" />
 		<property name="password" value="^D$b2K5!" />
-	</bean>
+    </bean>
 </beans>
