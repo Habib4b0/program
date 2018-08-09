@@ -2186,6 +2186,7 @@ public class Constant {
     public static final String PROJ_PER_OF_BUISNESS = "Forecast % of Business";
     public static final String SHOW_ALL_GROUPS = "Show All Groups";
     public static final String DATA_SELECTION_DED_LEVEL = "Deduction Level";
+    public static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
 
     public enum ProjectionConstants {
 

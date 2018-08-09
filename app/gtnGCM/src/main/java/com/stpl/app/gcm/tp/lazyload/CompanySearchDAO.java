@@ -61,4 +61,13 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 		this.parentCompanySid = parentCompanySid;
 	}
 
+        public TradingPartnerDTO getDto() {
+            return dto;
+        }
+
+        public void setDto(TradingPartnerDTO dto) {
+            this.dto = dto;
+        }
+        
+
 }

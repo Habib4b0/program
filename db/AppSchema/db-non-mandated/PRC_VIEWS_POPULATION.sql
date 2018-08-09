@@ -5,7 +5,7 @@ IF EXISTS (SELECT 'X'
   BEGIN
       DROP PROCEDURE [DBO].[PRC_VIEWS_POPULATION]
   END
-
+  
 GO
 
 CREATE PROCEDURE [dbo].[PRC_VIEWS_POPULATION] (@PROJECTION_MASTER_SID  INT,
@@ -483,8 +483,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.CUST_HIERARCHY_NO,
              PERIOD,
              YEAR,
-             AVG(ACCOUNT_GROWTH),
-             AVG(PRODUCT_GROWTH),
+             isnull(AVG(ACCOUNT_GROWTH),0),
+             isnull(AVG(PRODUCT_GROWTH),0),
              SUM(PROJECTION_SALES),
              SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -570,8 +570,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.PROD_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -656,8 +656,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.ROWID,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
@@ -742,8 +742,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.CUST_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c.SALES_INCLUSION,
@@ -815,8 +815,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.PROD_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c.SALES_INCLUSION,
@@ -895,8 +895,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
      SELECT C.ROWID,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              SUM(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
@@ -973,8 +973,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.CUST_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c.SALES_INCLUSION,
@@ -1054,8 +1054,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.CUST_HIERARCHY_NO,
              PERIOD,
              YEAR,
-             AVG(ACCOUNT_GROWTH),
-             AVG(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              SUM(PROJECTION_SALES),
              SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -1142,8 +1142,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.PROD_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -1223,8 +1223,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.PROD_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -1314,8 +1314,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.ROWID,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
@@ -1408,8 +1408,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.ROWID,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
@@ -1563,8 +1563,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.CUST_HIERARCHY_NO,
              PERIOD,
              YEAR,
-             AVG(ACCOUNT_GROWTH),
-             AVG(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              SUM(PROJECTION_SALES),
              SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -1719,8 +1719,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.PROD_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -1873,8 +1873,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
       SELECT C.HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(Avg(ACCOUNT_GROWTH),0),
+             isnull(Avg(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c1.SALES_INCLUSION,
@@ -1939,8 +1939,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
        (SELECT C.CUST_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -1987,8 +1987,8 @@ AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')
        (SELECT C.PROD_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2035,8 +2035,8 @@ IF @FLAG = 'M'
        (SELECT C.ROWID ,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
@@ -2088,8 +2088,8 @@ IF @FLAG = 'M'
        (SELECT C.CUST_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2132,8 +2132,8 @@ IF @FLAG = 'M'
        (SELECT C.PROD_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2176,8 +2176,8 @@ IF @FLAG = 'M'
        (SELECT C.ROWID as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
@@ -2226,8 +2226,8 @@ IF @FLAG = 'M'
        (SELECT C.CUST_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2279,8 +2279,8 @@ IF @FLAG = 'M'
        (SELECT C.PROD_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS/ COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2332,8 +2332,8 @@ IF @FLAG = 'M'
        (SELECT C.ROWID as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS/ COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
@@ -2390,8 +2390,8 @@ IF @FLAG = 'M'
        (SELECT C.CUST_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2439,8 +2439,8 @@ IF @FLAG = 'M'
        (SELECT C.PROD_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
               UNITS=SUM(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
@@ -2488,8 +2488,8 @@ LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
        (SELECT C.ROWID as HIERARCHY_NO,
              PERIOD,
              YEAR,                
-               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
-               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               ACCOUNT_GROWTH=isnull(AVG(ACCOUNT_GROWTH),0),
+               PRODUCT_GROWTH=isnull(AVG(PRODUCT_GROWTH),0),
                SALES=SUM(PROJECTION_SALES),
                UNITS=SUM(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
@@ -2580,11 +2580,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -2707,11 +2707,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -2825,11 +2825,11 @@ SELECT C.ROWID
               PERIOD_SID,
               RS_MODEL_SID,
              -- SUM(CASE 
-            --               WHEN QUANTITY_INCLUSION = '' Y ''
+            --               WHEN QUANTITY_INCLUSION = ''Y''
              --                     THEN SALES
              --              END) SALES,
              -- SUM(CASE 
-             --              WHEN QUANTITY_INCLUSION = '' Y ''
+             --              WHEN QUANTITY_INCLUSION = ''Y''
              --                     THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -2952,11 +2952,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3083,11 +3083,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3206,11 +3206,11 @@ GROUP BY c.PROD_HIERARCHY_NO,
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
                --                   THEN SALES
                --            END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
                --            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3338,11 +3338,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3450,11 +3450,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3590,11 +3590,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3701,11 +3701,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3831,11 +3831,11 @@ INSERT INTO ', @CUSTOM_TABLE_DISCOUNT, '(HIERARCHY_NO
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN SALES
               --             END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -3941,11 +3941,11 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN SALES
               --             END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4135,11 +4135,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4325,11 +4325,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4506,11 +4506,11 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN SALES
               --             END) SALES,
               --SUM(CASE 
-              --             WHEN QUANTITY_INCLUSION = '' Y ''
+              --             WHEN QUANTITY_INCLUSION = ''Y''
               --                    THEN QUANTITY
               --             END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -4598,7 +4598,7 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
              PERIOD,
              YEAR,
                      ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'GROWTH' THEN 'AVG(GROWTH)'
+                                                    WHEN 'GROWTH' THEN 'isnull(AVG(GROWTH),0)'
                                                     ELSE 'SUM(PROJECTION_SALES)'
                                                   END, ' AS MASSUPDATE_FIELD, SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4661,7 +4661,7 @@ AND SPM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
              PERIOD,
              YEAR,
                      ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'GROWTH' THEN 'AVG(GROWTH)'
+                                                    WHEN 'GROWTH' THEN 'isnull(AVG(GROWTH),0)'
                                                     ELSE 'SUM(PROJECTION_SALES)'
                                                   END, ' AS MASSUPDATE_FIELD, SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4727,7 +4727,7 @@ RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
              PERIOD,
              YEAR,
                      ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'GROWTH' THEN 'AVG(GROWTH)'
+                                                    WHEN 'GROWTH' THEN 'isnull(AVG(GROWTH),0)'
                                                     ELSE 'SUM(PROJECTION_SALES)'
                                                   END, ' AS MASSUPDATE_FIELD, SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4779,7 +4779,7 @@ RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
        RI.SELECTED_LEVEL RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4826,7 +4826,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
        RI.SELECTED_LEVEL  RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4873,7 +4873,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
              --SPM.RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4925,7 +4925,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
        RI.SELECTED_LEVEL RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -4978,7 +4978,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
              RI.SELECTED_LEVEL RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -5031,7 +5031,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
              --SPM.RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -5089,7 +5089,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
        RI.SELECTED_LEVEL RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -5139,7 +5139,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID AND RI.CCP_DETA
               RI.SELECTED_LEVEL RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -5188,7 +5188,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID  AND RI.CCP_DET
              --SPM.RS_CONTRACT_SID,
              PERIOD,
              YEAR,                
-               GROWTH=AVG(GROWTH),
+               GROWTH=isnull(AVG(GROWTH),0),
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
@@ -5412,8 +5412,8 @@ WHERE
       SELECT C.CUST_HIERARCHY_NO,
                   PERIOD,
              YEAR,
-             AVG(ACCOUNT_GROWTH),
-             AVG(PRODUCT_GROWTH),
+             isnull(AVG(ACCOUNT_GROWTH),0),
+             isnull(AVG(PRODUCT_GROWTH),0),
              SUM(PROJECTION_SALES),
              SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -5519,8 +5519,8 @@ WHERE
       SELECT C.PROD_HIERARCHY_NO,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(AVG(ACCOUNT_GROWTH),0),
+             isnull(AVG(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
@@ -5634,8 +5634,8 @@ WHERE
       SELECT C.ROWID,
              period,
              YEAR,
-             Avg(ACCOUNT_GROWTH),
-             Avg(PRODUCT_GROWTH),
+             isnull(AVG(ACCOUNT_GROWTH),0),
+             isnull(AVG(PRODUCT_GROWTH),0),
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
@@ -6227,11 +6227,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -6365,11 +6365,11 @@ LEFT JOIN (
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN SALES
                            END) SALES,
               SUM(CASE 
-                           WHEN QUANTITY_INCLUSION = '' Y ''
+                           WHEN QUANTITY_INCLUSION = ''Y''
                                   THEN QUANTITY
                            END) QUANTITY,
               SUM(DISCOUNT) DISCOUNT
@@ -6912,8 +6912,7 @@ WHERE  SCREEN_NAME= ''', @SCREEN_NAME, '''
                       @ERRORLINE -- ERRORLINE
           );
       END CATCH
-  END 
-  
+  END  
 GO
 
 

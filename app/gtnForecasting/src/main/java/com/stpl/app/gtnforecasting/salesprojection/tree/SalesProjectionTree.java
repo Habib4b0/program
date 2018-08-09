@@ -9,7 +9,6 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesBaseNode;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCP;
-import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCustom;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
@@ -17,7 +16,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.util.QueryUtil;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -59,14 +57,14 @@ public class SalesProjectionTree {
     }
 
     private void buildCustomTree(ProjectionSelectionDTO projSelDTO) {
-        List<Object[]> customViewList = getAvailableHierarchiesCustom(projSelDTO);
+        List<String> customViewList = getAvailableHierarchiesCustom(projSelDTO);
         SalesBaseNode customApex = generateCPTree(customViewList);
         sortTree(customApex.getAllChildHierarchies(), projSelDTO);
         setCurrentApex(customApex);
     }
 
     private void buildForCP(ProjectionSelectionDTO projSelDTO) {
-        List<Object[]> customViewList = getAvailableHierarchiesCP(projSelDTO);
+        List<String> customViewList = getAvailableHierarchiesCP(projSelDTO);
         SalesBaseNode customApex = null;
         if (projSelDTO.isLevelFilter()) {
             customApex = generateCPForLevelFilter(UiUtils.parseStringToInteger(projSelDTO.getLevelFilterValue()), customViewList);
@@ -77,7 +75,7 @@ public class SalesProjectionTree {
         setCurrentApex(customApex);
     }
 
-    private List<Object[]> getAvailableHierarchiesCP(ProjectionSelectionDTO projSelDTO) {
+    private List<String> getAvailableHierarchiesCP(ProjectionSelectionDTO projSelDTO) {
         if (projSelDTO.getSessionDTO().getHierarchyLevelDetails().isEmpty()) {
             return Collections.EMPTY_LIST;
         } else {
@@ -93,7 +91,7 @@ public class SalesProjectionTree {
         }
     }
 
-    private List<Object[]> getAvailableHierarchiesCustom(ProjectionSelectionDTO projSelDTO) {
+    private List<String> getAvailableHierarchiesCustom(ProjectionSelectionDTO projSelDTO) {
         String query = SQlUtil.getQuery("custom-relationship-hierarchy");
         query = query.replace("@CUSTMASTERSID",String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
        
@@ -111,12 +109,12 @@ public class SalesProjectionTree {
         this.apex = apex;
     }
 
-    private SalesBaseNode generateCPTree(List<Object[]> availableHierarachies) {
+    private SalesBaseNode generateCPTree(List<String> availableHierarachies) {
         SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
         HashMap dataMap = new HashMap<>(availableHierarachies.size());
 
         if (!availableHierarachies.isEmpty()) {
-            int startLevel = StringUtils.countMatches(Arrays.toString(availableHierarachies.get(0)), ".");
+            int startLevel = StringUtils.countMatches(String.valueOf(availableHierarachies.get(0)), ".");
             apex.setApex(true);
             List<String> child = new ArrayList<>();
             int currentLevel = startLevel;
@@ -168,12 +166,12 @@ public class SalesProjectionTree {
             }
         }
     }
-    private SalesBaseNode generateCPForLevelFilter(int levelFiltered, List<Object[]> availableHierarachies) {
+    private SalesBaseNode generateCPForLevelFilter(int levelFiltered, List<String> availableHierarachies) {
         SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
         if (!availableHierarachies.isEmpty()) {
             apex.setApex(true);
             Map<String, String> childMap = new HashMap<>();
-            for (Object availableHierarachy : availableHierarachies) {
+            for (String availableHierarachy : availableHierarachies) {
                 String hierarchy = String.valueOf(availableHierarachy);
                 String hierarchyNo = hierarchy.contains(",") ? hierarchy.split(",")[0] : hierarchy;
                 String lastIndexRemoved = hierarchyNo.substring(0, hierarchyNo.length() - 1);
