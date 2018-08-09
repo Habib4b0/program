@@ -165,8 +165,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-		VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
-		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
+            // yet to implement
 	
 	}
 
