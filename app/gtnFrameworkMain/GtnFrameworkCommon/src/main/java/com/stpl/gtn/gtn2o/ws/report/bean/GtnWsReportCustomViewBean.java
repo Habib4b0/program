@@ -4,9 +4,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 
 public class GtnWsReportCustomViewBean {
 
-    public GtnWsReportCustomViewBean() {
-    }
-    
+   
 	private GtnWsHierarchyType hierarchyType;
 	private GtnUIFrameworkDataTable gridData;
 	private GtnWsReportCustomViewDataBean customViewDataBean;

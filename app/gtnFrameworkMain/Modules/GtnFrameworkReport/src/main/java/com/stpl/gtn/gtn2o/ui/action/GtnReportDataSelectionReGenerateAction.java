@@ -92,9 +92,8 @@ public class GtnReportDataSelectionReGenerateAction
 				.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId).getStringCaptionFromV8ComboBox();
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
-	
-		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged
-				|| isReportDataSourceChanged || isFromPeriodChanged) {
+		if (isCustomerChanged || isProductChanged || isCustomView || isFrequencyChanged || isReportDataSourceChanged
+				|| isFromPeriodChanged) {
 
 			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
 			List<GtnUIFrameWorkActionConfig> onFailureActionList = new ArrayList<>();
@@ -106,51 +105,41 @@ public class GtnReportDataSelectionReGenerateAction
 					"You have changed the set of CCP’s that included in this report. The report will now update to reflect these changes.");
 			alertAction.addActionParameter(onSuccessActionList);
 			alertAction.addActionParameter(onFailureActionList);
-			
+
 			GtnUIFrameWorkActionConfig callRegenerateActionSuccessConfig = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.CUSTOM_ACTION);
 
 			callRegenerateActionSuccessConfig
 					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
 			callRegenerateActionSuccessConfig.addActionParameter(dataSelectionBean);
-                        callRegenerateActionSuccessConfig.addActionParameter("OK");
+			callRegenerateActionSuccessConfig.addActionParameter("OK");
 
-                        callRegenerateActionSuccessConfig.addActionParameter(selectedCustomerList);
-                        callRegenerateActionSuccessConfig.addActionParameter(selectedProductList);
-                        callRegenerateActionSuccessConfig.addActionParameter(comparisonProjectionsList);
-                        callRegenerateActionSuccessConfig.addActionParameter(customViewName);
-                        callRegenerateActionSuccessConfig.addActionParameter(frequency);
-                        callRegenerateActionSuccessConfig.addActionParameter(variableList);
-                        callRegenerateActionSuccessConfig.addActionParameter(company);
-                        callRegenerateActionSuccessConfig.addActionParameter(businessUnit);
-                        callRegenerateActionSuccessConfig.addActionParameter(reportDataSource);
-                        callRegenerateActionSuccessConfig.addActionParameter(fromPeriod);
-                        callRegenerateActionSuccessConfig.addActionParameter(fromPeriodValue);
-                        
-                        callRegenerateActionSuccessConfig.addActionParameter(isCustomerChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isProductChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isComparisonProjectionChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isCustomView);
-                        callRegenerateActionSuccessConfig.addActionParameter(isFrequencyChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isVariablesChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isCompanyChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isBusinessUnitChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isReportDataSourceChanged);
-                        callRegenerateActionSuccessConfig.addActionParameter(isFromPeriodChanged);
-                        
-			onSuccessActionList.add(callRegenerateActionSuccessConfig);
-//			GtnUIFrameWorkActionConfig callRegenerateActionFailureConfig = new GtnUIFrameWorkActionConfig(
-//					GtnUIFrameworkActionType.CUSTOM_ACTION);
-//
-//			callRegenerateActionFailureConfig
-//					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
-//			callRegenerateActionFailureConfig.addActionParameter(dataSelectionBeanPersist);
-//			callRegenerateActionFailureConfig.addActionParameter("NO");
-//                        
-//			onFailureActionList.add(callRegenerateActionFailureConfig);
-			
+			callRegenerateActionSuccessConfig.addActionParameter(selectedCustomerList);
+			callRegenerateActionSuccessConfig.addActionParameter(selectedProductList);
+			callRegenerateActionSuccessConfig.addActionParameter(comparisonProjectionsList);
+			callRegenerateActionSuccessConfig.addActionParameter(customViewName);
+			callRegenerateActionSuccessConfig.addActionParameter(frequency);
+			callRegenerateActionSuccessConfig.addActionParameter(variableList);
+			callRegenerateActionSuccessConfig.addActionParameter(company);
+			callRegenerateActionSuccessConfig.addActionParameter(businessUnit);
+			callRegenerateActionSuccessConfig.addActionParameter(reportDataSource);
+			callRegenerateActionSuccessConfig.addActionParameter(fromPeriod);
+			callRegenerateActionSuccessConfig.addActionParameter(fromPeriodValue);
+
+			callRegenerateActionSuccessConfig.addActionParameter(isCustomerChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isProductChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isComparisonProjectionChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isCustomView);
+			callRegenerateActionSuccessConfig.addActionParameter(isFrequencyChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isVariablesChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isCompanyChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isBusinessUnitChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isReportDataSourceChanged);
+			callRegenerateActionSuccessConfig.addActionParameter(isFromPeriodChanged);
+
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, callRegenerateActionSuccessConfig);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
-			
+
 		}
 	}
 

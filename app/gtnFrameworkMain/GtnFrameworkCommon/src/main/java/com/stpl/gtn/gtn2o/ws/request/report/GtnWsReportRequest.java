@@ -15,9 +15,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportRequest {
 
-    public GtnWsReportRequest() {
-    }
-
+  
 	private List<Object[]> resultList;
 	private String query;
 	private GtnWsReportBean reportBean = new GtnWsReportBean();
