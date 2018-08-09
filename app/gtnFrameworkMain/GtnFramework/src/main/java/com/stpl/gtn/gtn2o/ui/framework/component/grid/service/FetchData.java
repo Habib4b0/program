@@ -30,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.Collections;
 
 public class FetchData {
 
@@ -50,7 +51,7 @@ public class FetchData {
 			return queryRunner.query(conn, query, resultSetHandler);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return null;
+			return Collections.EMPTY_LIST;
 		}
 
 	}
@@ -68,7 +69,7 @@ public class FetchData {
 			return result;
 		} catch (Exception e) {
 			logger.error("in callWebService Error= " + e.getMessage());
-			return null;
+			return Collections.EMPTY_LIST;
 		}
 
 	}

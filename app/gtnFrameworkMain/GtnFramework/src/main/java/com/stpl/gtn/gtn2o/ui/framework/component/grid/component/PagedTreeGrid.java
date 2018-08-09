@@ -31,6 +31,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import java.util.Collections;
 
 public class PagedTreeGrid {
 	/**
@@ -401,7 +402,7 @@ public class PagedTreeGrid {
 			return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,
 					getComponentIdInMap());
 		}
-		return null;
+		return Collections.EMPTY_LIST;
 
 	}
 
@@ -424,18 +425,6 @@ public class PagedTreeGrid {
 	}
 
 	// May be used later ,currently fetching childcount from additional Properties
-	private int getChildCount(GtnWsRecordBean parent) {
-		int childCount = 0;
-		if (tableConfig.getCountUrl() != null) {
-			GtnWsSearchRequest request = GridUtils.getWsRequest(0, pageLength, true, INPUT,
-					Arrays.asList(GridUtils.getLevelNo(parent) + 1, GridUtils.getHierarchyNo(parent)), tableConfig);
-			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
-					request, getComponentIdInMap());
-			childCount = result == null ? 0 : result.size();
-			parent.addAdditionalProperties(0, childCount);
-		}
-		return childCount;
-	}
 
 	public List<GtnWsRecordBean> fetchChildren(int start, int limit, GtnWsRecordBean parent) {
 

@@ -92,12 +92,10 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 			selectedGridList.add(selectedRecordBean);
 		}
 
-		if (selectedGridList != null) {
 			treeBuilder.buildTree(selectedGridList);
 			treeBuilder.loadRightTreeTable(rightTable, dualListBoxConfig.getLoadingLevel());
 			rightTable.getDataProvider().refreshAll();
 			rightTable.markAsDirty();
-		}
 	}
 
 	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters, boolean isProduct, List<GtnWsRecordBean> recordBeanList) {

@@ -222,7 +222,7 @@ public class RelationShipFilterLogic {
 			String dedLevel, String dedValue, int relationVersionNo, int customerRelationVersionNo,
 			Object businessUnitValue, Map<String, String> productDescMap) throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
-				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null, Boolean.FALSE);
+				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null, false);
 		inputBean.setSelectedCustomerList(
 				LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
 
