@@ -634,11 +634,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void excelBtnLogic() {
         try {
-            excelTable.setRefresh(Boolean.FALSE);
+            excelTable.setRefresh(false);
             setPvSelection(variableCategoryValue, variablesValue);
             excelForCommercial();
             long start = System.currentTimeMillis();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(true);
             long end = System.currentTimeMillis();
             LOGGER.info("Time taken to refresh table = {}", (end - start));
             start = end;

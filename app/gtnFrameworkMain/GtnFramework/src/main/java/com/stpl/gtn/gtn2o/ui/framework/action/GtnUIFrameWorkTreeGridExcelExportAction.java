@@ -60,7 +60,6 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
 		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
 				.getActionParameterList().get(0);
-		List<GtnWsRecordBean> exportList = new ArrayList<>();
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(inputBean.getExportTableId(), componentId);
 		PagedTreeGrid treeGrid = (PagedTreeGrid) componentData.getCustomData();
@@ -69,7 +68,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		excludeColumnList(inputBean, propertyIds, headers);
 
 		gtnLogger.info(propertyIds.size() + "");
-		XSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers, treeGrid);
+		XSSFWorkbook workBook = writeInExcel(inputBean, propertyIds, headers, treeGrid);
 		sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 
 	}
@@ -79,7 +78,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		return this;
 	}
 
-	private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
+	private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean,
 			List<Object> visibleColumns, List<String> headers, PagedTreeGrid resultTable) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
@@ -162,29 +161,29 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 	}
 
 	@SuppressWarnings("deprecation")
-	public void sendTheExcelToUser(String exportFileName, XSSFWorkbook workBook) {
-		String exportFile = exportFileName;
-		File tempFile = null;
+	public void sendTheExcelToUser(String excelGridExportFileName, XSSFWorkbook excelGridWorkBook) {
+		String gridExportFile = excelGridExportFileName;
+		File excelGridTempFile = null;
 		try {
-			tempFile = File.createTempFile(GtnFrameworkCommonStringConstants.TMP,
+			excelGridTempFile = File.createTempFile(GtnFrameworkCommonStringConstants.TMP,
 					GtnFrameworkCommonStringConstants.DOT_XLS);
 		} catch (IOException e) {
-			gtnLogger.error(exportFile, e);
+			gtnLogger.error(gridExportFile, e);
 		}
-		TemporaryFileDownloadResource resource;
-		try (FileOutputStream fileOut = new FileOutputStream(tempFile);) {
+		TemporaryFileDownloadResource excelGridResource;
+		try (FileOutputStream fileOut = new FileOutputStream(excelGridTempFile);) {
 			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				exportFile = exportFile.replace(' ', '_');
+				gridExportFile = gridExportFile.replace(' ', '_');
 			}
-			workBook.write(fileOut);
-			resource = new TemporaryFileDownloadResource(null, exportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
-					EXCEL_MIME_TYPE, tempFile);
-			UI.getCurrent().getPage().open(resource, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
+			excelGridWorkBook.write(fileOut);
+			excelGridResource = new TemporaryFileDownloadResource(null, gridExportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
+					EXCEL_MIME_TYPE, excelGridTempFile);
+			UI.getCurrent().getPage().open(excelGridResource, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
 		} catch (final IOException e) {
-			gtnLogger.error(exportFile, e);
+			gtnLogger.error(gridExportFile, e);
 		} finally {
-			if (tempFile != null) {
-				tempFile.deleteOnExit();
+			if (excelGridTempFile != null) {
+				excelGridTempFile.deleteOnExit();
 			}
 		}
 	}
@@ -319,29 +318,29 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		}
 	}
 
-	public Object getFormattedValue(Object value) {
+	public Object getFormattedValue(Object formattedValue) {
 
-		return value;
+		return formattedValue;
 
 	}
 
-	private String checkPropertyNullvalue(Object value) {
-		String stringValue = String.valueOf(value);
-		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(stringValue)
+	private String checkPropertyNullvalue(Object excelGridValue) {
+		String excelGridStringValue = String.valueOf(excelGridValue);
+		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(excelGridStringValue)
 				? GtnFrameworkCommonStringConstants.STRING_EMPTY
-				: stringValue;
+				: excelGridStringValue;
 	}
 
-	private CellStyle setAllBordersThin(CellStyle cellStyle) {
-		cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-		cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
-		cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-		cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-		cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-		cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-		cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-		cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-		return cellStyle;
+	private CellStyle setAllBordersThin(CellStyle excelGridCellStyle) {
+		excelGridCellStyle.setBorderRight(CellStyle.BORDER_THIN);
+		excelGridCellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
+		excelGridCellStyle.setBorderLeft(CellStyle.BORDER_THIN);
+		excelGridCellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+		excelGridCellStyle.setBorderTop(CellStyle.BORDER_THIN);
+		excelGridCellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		excelGridCellStyle.setBorderBottom(CellStyle.BORDER_THIN);
+		excelGridCellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+		return excelGridCellStyle;
 	}
 
 	protected CellStyle defaultDataCellStyle(XSSFWorkbook workBook) {
@@ -352,36 +351,36 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 	}
 
 	protected CellStyle defaultHeadersCellStyle(CellStyle defaultHeadersCellStyle, XSSFWorkbook workBook) {
-		CellStyle defaultHeadersStyle = defaultHeadersCellStyle;
+		CellStyle gridExcelDefaultHeadersStyle = defaultHeadersCellStyle;
 
-		if (defaultHeadersStyle == null) {
-			defaultHeadersStyle = workBook.createCellStyle();
+		if (gridExcelDefaultHeadersStyle == null) {
+			gridExcelDefaultHeadersStyle = workBook.createCellStyle();
 		}
-		Font font = workBook.createFont();
-		font.setColor(HSSFColor.WHITE.index);
-		defaultHeadersStyle.setFont(font);
-		defaultHeadersStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		defaultHeadersStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-		defaultHeadersStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
-		defaultHeadersStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		defaultHeadersStyle.setWrapText(true);
-		setAllBordersThin(defaultHeadersStyle);
-		return defaultHeadersStyle;
+		Font cellStyleFont = workBook.createFont();
+		cellStyleFont.setColor(HSSFColor.WHITE.index);
+		gridExcelDefaultHeadersStyle.setFont(cellStyleFont);
+		gridExcelDefaultHeadersStyle.setAlignment(CellStyle.ALIGN_CENTER);
+		gridExcelDefaultHeadersStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		gridExcelDefaultHeadersStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+		gridExcelDefaultHeadersStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		gridExcelDefaultHeadersStyle.setWrapText(true);
+		setAllBordersThin(gridExcelDefaultHeadersStyle);
+		return gridExcelDefaultHeadersStyle;
 	}
 
 	protected CellStyle defaultTitleCellStyle(CellStyle defaultTitleCellStyle, XSSFWorkbook workBook) {
-		CellStyle defaultTitleStyle = defaultTitleCellStyle;
-		if (defaultTitleStyle == null) {
-			final Font titleFont = workBook.createFont();
-			titleFont.setFontHeightInPoints((short) 18);
-			titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-			defaultTitleStyle = workBook.createCellStyle();
-			defaultTitleStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			defaultTitleStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			defaultTitleStyle.setFont(titleFont);
+		CellStyle treeGridDefaultTitleStyle = defaultTitleCellStyle;
+		if (treeGridDefaultTitleStyle == null) {
+			final Font treeTitleFont = workBook.createFont();
+			treeTitleFont.setFontHeightInPoints((short) 18);
+			treeTitleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			treeGridDefaultTitleStyle = workBook.createCellStyle();
+			treeGridDefaultTitleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+			treeGridDefaultTitleStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			treeGridDefaultTitleStyle.setFont(treeTitleFont);
 
 		}
-		return defaultTitleStyle;
+		return treeGridDefaultTitleStyle;
 	}
 
 	private void excludeColumnList(GtnUIFrameworkExcelButtonConfig inputBean, List<Object> propertyIds,

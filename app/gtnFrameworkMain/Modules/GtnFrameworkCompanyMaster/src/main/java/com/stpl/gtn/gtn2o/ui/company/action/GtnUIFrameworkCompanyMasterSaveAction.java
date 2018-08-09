@@ -378,7 +378,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkCompanyMasterSaveAction();
+		return this;
 	}
 
 	private void loadAfterSave(GtnCMasterInformationBean companyInformation, String componentId,

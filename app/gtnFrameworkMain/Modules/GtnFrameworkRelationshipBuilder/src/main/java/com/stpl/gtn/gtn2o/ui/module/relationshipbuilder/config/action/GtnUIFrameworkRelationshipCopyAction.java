@@ -7,6 +7,7 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -34,11 +35,9 @@ public class GtnUIFrameworkRelationshipCopyAction implements GtnUIFrameWorkActio
 		Object value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
 				.getValueFromComponent();
 		GtnWsRecordBean gtnWsRecordBean = (GtnWsRecordBean) value;
-		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationActionConfig.addActionParameter(parameters.get(18).toString());
-		GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION.getGtnUIFrameWorkAction();
-		navigationAction.configureParams(navigationActionConfig);
-		navigationAction.doAction(componentId, navigationActionConfig);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, navigationActionConfig);
 
 		GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 		int index = (Integer) parameters.get(2);

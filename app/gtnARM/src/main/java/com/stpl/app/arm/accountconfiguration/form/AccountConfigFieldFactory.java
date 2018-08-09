@@ -60,7 +60,7 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
     /**
      * This is value change listener used to update the value to DB tables.
      */
-    FocusListener focus = new FocusListener() {
+    private FocusListener focus = new FocusListener() {
         /**
          * Will execute,when we click an uploader.
          */

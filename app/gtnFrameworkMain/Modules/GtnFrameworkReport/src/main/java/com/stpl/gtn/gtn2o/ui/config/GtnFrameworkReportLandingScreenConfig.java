@@ -345,6 +345,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromToLayoutConfig.setComponentWidth("33%");
 		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		fromToLayoutConfig.addComponentStyle("stpl-margin-top-12");
+		fromToLayoutConfig.addComponentStyle("stpl-margin-left-30");
 		fromToLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
 		fromToLayoutConfig.setGtnLayoutConfig(fromToMainLayout);
@@ -399,6 +400,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		companyLayoutConfig.setSpacing(true);
 		companyLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
+		companyLayoutConfig.addComponentStyle("v-report-data-selection-company");
 		companyLayoutConfig.setGtnLayoutConfig(companyLayout);
 		componentList.add(companyLayoutConfig);
 
@@ -407,6 +409,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		company.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.COMPANY);
 		company.setComponentName("Company");
+		company.addComponentStyle("v-report-data-selection-company-combo");
 		company.setAddToParent(true);
 		company.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
 
@@ -429,6 +432,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 		reportDataSourceLayoutConfig.setAddToParent(true);
 		reportDataSourceLayoutConfig.setSpacing(true);
+		reportDataSourceLayoutConfig.addComponentStyle("stpl-margin-left-33");
 		reportDataSourceLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 		reportDataSourceLayoutConfig.setGtnLayoutConfig(reportDataSourceLayout);

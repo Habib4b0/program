@@ -234,8 +234,8 @@ public class HeaderUtils {
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
         boolean disc = true;
+        List<Object> dmap = new ArrayList<>();
         while (disc) {
-            List<Object> dmap = new ArrayList<>();
             if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
             cffTableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), StringConstantsUtil.ACTUALS1, String.class);
             cffExcelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), commonHeader + " " + StringConstantsUtil.ACTUALS1, String.class);
@@ -1458,9 +1458,8 @@ public class HeaderUtils {
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
-
+            List<Object> dmap = new ArrayList<>();
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
@@ -1549,6 +1548,7 @@ public class HeaderUtils {
     private static void configurePivotHeaderForNonMandated(final ProjectionSelectionDTO projSelDTO, String projections, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO) {
         projSelDTO.setDiscountNameCFF(ProjectionResultsLogic.getRSName(projSelDTO.getProjectionId()));
         List<String> discountNames = new ArrayList<>(projSelDTO.getDiscountNameCFF());
+        List<Object> dmap = new ArrayList<>();
         for (int i = 0; i < NumericConstants.TWENTY_TWO; i++) {
             String commonColumn = "";
             String oldCommonColumn = "";
@@ -1632,7 +1632,6 @@ public class HeaderUtils {
             int j = -1;
             boolean disc = true;
             while (disc) {
-                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(BOTH) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);

@@ -853,7 +853,8 @@ public class PPAProjection extends CustomComponent implements View {
         endQuater = session.getForecastDTO().getProjectionEndMonth() / NumericConstants.THREE;
         endYear = session.getForecastDTO().getProjectionEndYear();
         selection.setTpLevel(Utility.getTradingPartnerLevelNo(projectionId,session));
-        selection.setRelationshipBuilderSid(selection.getRelationshipBuilderSid());
+        String relationshipBuilderSid =selection.getRelationshipBuilderSid();
+        selection.setRelationshipBuilderSid(relationshipBuilderSid);
         boolean isAdd = true;
         if (!Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
             isAdd = false;
@@ -1176,10 +1177,10 @@ public class PPAProjection extends CustomComponent implements View {
 
     private void updateRow(Object value, Object itemId, String propertyId, boolean presentFlag)  {
         if (propertyId != null) {
-            Boolean result = false;
+            boolean result = false;
             PPAProjectionDTO dto = (PPAProjectionDTO) itemId;
             if (value instanceof Boolean) {
-                result = Boolean.valueOf(value.toString());
+                result = Boolean.parseBoolean(value.toString());
                 if (result) {
                     dto.setCheckRecordCount(dto.getCCPCount());
                 } else {
@@ -1189,7 +1190,7 @@ public class PPAProjection extends CustomComponent implements View {
             } else if (value instanceof Integer) {
 
                 if (Integer.parseInt(value.toString()) >= dto.getCCPCount()) {
-                    result = Boolean.TRUE;
+                    result = true;
                     dto.setCheckRecordCount(dto.getCCPCount());
                 } else {
                     if (Integer.parseInt(value.toString()) < 0) {
@@ -1197,7 +1198,7 @@ public class PPAProjection extends CustomComponent implements View {
                     } else {
                         dto.setCheckRecordCount(Integer.valueOf(value.toString()));
                     }
-                    result = Boolean.FALSE;
+                    result = false;
                 }
                 updateResetRow(propertyId, itemId, result, presentFlag);
             }
@@ -2088,8 +2089,9 @@ public class PPAProjection extends CustomComponent implements View {
         }
 
         if (!hierarchies.isEmpty()) {
+            int currentPage = tableLogic.getCurrentPage();
             tableLogic.forRefresh(hierarchies);
-            tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+            tableLogic.setCurrentPage(currentPage);
         }
 
         valueChangeAllowed = BooleanConstant.getTrueFlag();

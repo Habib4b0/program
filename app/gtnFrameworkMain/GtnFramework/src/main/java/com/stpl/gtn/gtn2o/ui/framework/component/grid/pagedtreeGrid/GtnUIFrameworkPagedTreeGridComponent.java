@@ -17,7 +17,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionab
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -31,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 
@@ -47,10 +47,12 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig)
 			throws GtnFrameworkGeneralException {
 		VerticalLayout resultLayout = new VerticalLayout();
+		loadStyles(resultLayout, componentConfig.getComponentStyle());
 		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
-
+		
 		configureTableHeaders(tableConfig, componentConfig.getSourceViewId());
 		PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
+		
 		resultLayout.setSizeFull();
 		resultLayout.addComponent(pagedTreeGrid.getGrid());
 		pagedTreeGrid.getGrid().setWidth(componentConfig.getComponentWidth());
@@ -65,7 +67,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		componentData.setCurrentGtnComponent(this);
 		try {
 
-			initializeResultTable(pagedTreeGrid, tableConfig);
+			initializeResultTable(pagedTreeGrid);
 			pagedTreeGrid.setPageLength(tableConfig.getPageLength());
 			resultLayout.setSizeFull();
 			VerticalLayout controls = new VerticalLayout();
@@ -80,6 +82,19 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		}
 		return resultLayout;
 	}
+	
+	private void loadStyles(final Component component, final List<String> styles) {
+
+		if (styles != null) {
+
+			for (String style : styles) {
+
+				component.addStyleName(style);
+
+			}
+		}
+
+	}
 
 	/**
 	 * Initialize Result Table.
@@ -87,7 +102,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	 * @param resultsTable
 	 * @param tableConfig
 	 */
-	protected void initializeResultTable(PagedTreeGrid resultsTable, GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+	protected void initializeResultTable(PagedTreeGrid resultsTable) {
 		resultsTable.getGrid().markAsDirty();
 		resultsTable.getGrid().setSelectionMode(Grid.SelectionMode.NONE);
 		resultsTable.getGrid().removeAllColumns();
@@ -147,18 +162,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	}
 
-	private GtnUIFrameworkPagedTreeTableLogic getPagedTableLogicClass(GtnUIFrameworkComponentConfig componentConfig,
-			GtnUIFrameworkComponentData componentData) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkPagedTreeTableLogic tableLogic;
-		if (componentConfig.getPagedTableLogicClassName() == null) {
-			tableLogic = new GtnUIFrameworkPagedTreeTableLogic(componentData);
-		} else {
-			GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-			tableLogic = (GtnUIFrameworkPagedTreeTableLogic) classLoader
-					.loadDynamicClass(componentConfig.getPagedTableLogicClassName());
-		}
-		return tableLogic;
-	}
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
@@ -258,8 +261,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
 			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
-		initializeResultTable(pagedTreeGrid, tableConfig);
-
+		initializeResultTable(pagedTreeGrid);
 	}
 
 	@Override

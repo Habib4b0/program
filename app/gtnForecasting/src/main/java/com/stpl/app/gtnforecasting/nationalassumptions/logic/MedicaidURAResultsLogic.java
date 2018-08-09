@@ -75,8 +75,6 @@ public class MedicaidURAResultsLogic {
     public static final String MEDICAID_URA_CPI_URA = "MEDICAID_URA_CPI_URA";
     public static final String MEDICAID_URA_CPI_U = "MEDICAID_URA_CPI_U";
     public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
-
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String ADJUSTMENT_CPI = "Adjustment CPI";
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String CPI_U = "CPI-U";
@@ -144,9 +142,9 @@ public class MedicaidURAResultsLogic {
                 int brandSid = projSelDTO.getBrandMasterId();
                 String ndc9Level = projSelDTO.getNdc9LevelNo();
                 int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
-                List<Object[]> medicaidList = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidParentCount", ndc9Level, therapeuticSid);
+                List<Integer> medicaidList = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidParentCount", ndc9Level, therapeuticSid);
                 if (!medicaidList.isEmpty()) {
-                    count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidList.get(0))) ? Arrays.toString(medicaidList.get(0)) : Constant.STRING_ONE);
+                    count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidList.get(0))) ? String.valueOf(medicaidList.get(0)) : Constant.STRING_ONE);
                 }
             }
         }
@@ -890,7 +888,7 @@ public class MedicaidURAResultsLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(Constant.DATASOURCE_CONTEXT);
         } catch (NamingException namEx)
         {
             LOGGER.debug("Inside medicaidProcSetupDataCook= {} " , namEx);
@@ -1006,9 +1004,9 @@ public class MedicaidURAResultsLogic {
         int count = 0;
         if (StringUtils.isNotBlank(ndc9Level)) {
             try {
-                List<Object[]> medicaidIndex = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidRowIndex", ndc9Level, therapeutic);
+                List<Integer> medicaidIndex = queryUtil.loadMedicaidResultsTable(projMasterId, brandSid, "getMedicaidRowIndex", ndc9Level, therapeutic);
                 if (!medicaidIndex.isEmpty()) {
-                    count = Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidIndex.get(0))) ? Arrays.toString(medicaidIndex.get(0)) : Constant.DASH);
+                    count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
                 }
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
@@ -1022,7 +1020,7 @@ public class MedicaidURAResultsLogic {
         boolean status;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(Constant.DATASOURCE_CONTEXT);
         } catch (NamingException namingExcep)
         {
             LOGGER.debug("workSheetSetupCook= {} ", namingExcep);

@@ -260,25 +260,25 @@ public class Converters {
     }
     
     private static Integer getDiscountSid(Object[] objects) {
-    	String Twenty_one =  objects[NumericConstants.TWENTY_ONE].toString();
-    	String final_String = objects[NumericConstants.TWENTY_ONE] == null ? DASH : Twenty_one;
-    	return Integer.valueOf(final_String);
+    	String twentyOne =  objects[NumericConstants.TWENTY_ONE].toString();
+    	String finalString = objects[NumericConstants.TWENTY_ONE] == null ? DASH : twentyOne;
+    	return Integer.valueOf(finalString);
     }
     
     private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
-    	String thirty_Two = objects[NumericConstants.THIRTY_TWO].toString();
-    	String to_be_parsed_String = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirty_Two;
-    	return Integer.valueOf(to_be_parsed_String);
+    	String thirtyTwo = objects[NumericConstants.THIRTY_TWO].toString();
+    	String tobeparsedString = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirtyTwo;
+    	return Integer.valueOf(tobeparsedString);
     }
     
     private static Integer getCustomRelationShipSid(Object[] objects) {
-    	String thirty_three_null_checked = objects[NumericConstants.THIRTY_THREE] == null ? DASH : objects[NumericConstants.THIRTY_THREE].toString();
-    	return Integer.valueOf(thirty_three_null_checked);
+    	String thirtyThreeNullChecked = objects[NumericConstants.THIRTY_THREE] == null ? DASH : objects[NumericConstants.THIRTY_THREE].toString();
+    	return Integer.valueOf(thirtyThreeNullChecked);
     }
     
     private static Integer getCustomDeductionRelationShipSid(Object[] objects) {
-    	String thirty_four_null_checked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString();
-    	return Integer.valueOf(thirty_four_null_checked);
+    	String thirtyFourNullChecked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString();
+    	return Integer.valueOf(thirtyFourNullChecked);
     }
     
     private static String getDeductionLevel(Object[] objects) {

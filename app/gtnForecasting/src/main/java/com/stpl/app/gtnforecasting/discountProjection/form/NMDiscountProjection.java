@@ -1265,9 +1265,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * To refresh the table Data
      */
     public void refreshTableData(Set<String> finalHirarechyNo) {
+        int currentPage = tableLogic.getCurrentPage();
         tableLogic.setRefreshHierarchyNo(getHierarchyNoForCheckedRecord(finalHirarechyNo));
         tableLogic.forRefresh(finalHirarechyNo);
-        tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+        tableLogic.setCurrentPage(currentPage);
 
     }
 

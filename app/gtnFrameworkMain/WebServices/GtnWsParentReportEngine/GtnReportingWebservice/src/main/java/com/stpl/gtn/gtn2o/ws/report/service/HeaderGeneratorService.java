@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -119,11 +120,12 @@ public class HeaderGeneratorService {
 		try {
 			GtnWsReportDashboardBean dashboardBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 					.getGtnWsReportDashboardBean();
-
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean();
 			GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 			boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
 			List<GtnReportComparisonProjectionBean> beanList = dashboardBean.getComparisonProjectionBeanList();
 			List<String> comparsionHeader = new ArrayList<>();
+			if(dataSelectionBean.getReportDataSource()!=3)
 			comparsionHeader.add("Current");
 			if (beanList != null) {
 				beanList.stream().forEach(bean -> comparsionHeader.add(bean.getProjectionName()));
