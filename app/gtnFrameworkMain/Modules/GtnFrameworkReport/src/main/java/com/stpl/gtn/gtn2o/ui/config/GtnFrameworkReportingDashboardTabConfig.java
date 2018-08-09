@@ -329,7 +329,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig reportingDashboardComparisonPopupConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
 		reportingDashboardComparisonPopupConfig.addActionParameter("dashboardcomparisonLookupView");
-		reportingDashboardComparisonPopupConfig.addActionParameter("Comparison Lookup");
+		reportingDashboardComparisonPopupConfig.addActionParameter("Comparison Popup");
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		reportingDashboardComparisonPopupActionList.add(reportingDashboardComparisonPopupConfig);
