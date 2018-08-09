@@ -280,9 +280,9 @@ public class PagedTreeGrid {
 	/**
 	 * expands the row
 	 */
-	public void expandRow(GtnWsRecordBean parent, int childCount, TreeData<GtnWsRecordBean> treeData,
+	public void expandRow(GtnWsRecordBean parent, int chdCount, TreeData<GtnWsRecordBean> treeData,
 			boolean moveToNextPage) {
-
+               int childCount =  chdCount;
 		if (parent != null && GridUtils.getLevelNo(parent) != 0 && GridUtils.hasChildren(parent)) {
 			childCount = GridUtils.getChildCount(parent);
 			for (int i = 0; treeData.contains(parent) && i < treeData.getChildren(parent).size(); i++) {
@@ -402,7 +402,7 @@ public class PagedTreeGrid {
 			return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,
 					getComponentIdInMap());
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 
 	}
 
@@ -507,8 +507,10 @@ public class PagedTreeGrid {
 		fetchNextNItems(0, pageLength, treeData, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY, true);
 	}
 
-	private void fetchNextNItems(int start, int itemsToFetch, TreeData<GtnWsRecordBean> treeData, int currentLevel,
+	private void fetchNextNItems(int strt, int itemsToFetch, TreeData<GtnWsRecordBean> treeData, int cLevel,
 			String hierNo, boolean isFirst) {
+            int currentLevel=cLevel;
+              int start=strt;
 		while (currentLevel >= tableConfig.getLevelNo() && itemsToFetch >= fetched) {
 			start = findStart(start, isFirst, currentLevel);
 			List<GtnWsRecordBean> rows = loadData(start, itemsToFetch, currentLevel,
@@ -521,7 +523,8 @@ public class PagedTreeGrid {
 		getTreeDataProvider().refreshAll();
 	}
 
-	private int findStart(int start, boolean isFirst, int currentLevel) {
+	private int findStart(int s, boolean isFirst, int currentLevel) {
+            int start=s;
 		if (!isFirst) {
 			if (tableConfig.getLevelNo() == GridUtils.getLevelNo(lastExpandedItem)) {
 				int childCount = GridUtils.getChildCount(lastExpandedItem);
@@ -790,8 +793,7 @@ public class PagedTreeGrid {
 	}
 
 	public int getColumnsPerPage() {
-		int columnsPerCount = GridUtils.getInt(columnsPerPage.getValue());
-		return columnsPerCount;
+		return GridUtils.getInt(columnsPerPage.getValue());
 	}
 
 	public void setColumnPageNumber(int newPageNumber) {
