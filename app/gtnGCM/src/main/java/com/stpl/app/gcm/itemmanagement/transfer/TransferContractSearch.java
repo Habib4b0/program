@@ -339,6 +339,8 @@ public class TransferContractSearch extends AbstractContractSearch {
             boolean afterDateValid = true;
             String contractName = StringUtils.EMPTY;
             String difference = StringUtils.EMPTY;
+            Calendar startCalendar = new GregorianCalendar();
+            Calendar endCalendar = new GregorianCalendar();
             if (selectingOneContract("Selecting one contract", input)) {
                 if (submitBtnCheck()) {
                     for (Object itemId : getContractSelectionTable().getItemIds()) {
@@ -363,9 +365,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                                     break;
                                 }
                                 if (startDate != null && endDate != null && startDate.after(endDate)) {
-                                    Calendar startCalendar = new GregorianCalendar();
                                     startCalendar.setTime(endDate);
-                                    Calendar endCalendar = new GregorianCalendar();
                                     endCalendar.setTime(startDate);
                                     int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
                                     int diffMonth = diffYear * NumericConstants.TWELVE + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
@@ -583,6 +583,8 @@ public class TransferContractSearch extends AbstractContractSearch {
         boolean afterDateValid = true;
         String contractName = StringUtils.EMPTY;
         String difference = StringUtils.EMPTY;
+        Calendar startCalendar = new GregorianCalendar();
+        Calendar endCalendar = new GregorianCalendar();
         for (Object itemId : getContractSelectionTable().getItemIds()) {
             final AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
             Date startDate = mainDto.getItemStartDate();
@@ -605,9 +607,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                         break;
                     }
                     if (startDate != null && endDate != null && startDate.after(endDate)) {
-                        Calendar startCalendar = new GregorianCalendar();
                         startCalendar.setTime(endDate);
-                        Calendar endCalendar = new GregorianCalendar();
                         endCalendar.setTime(startDate);
                         int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
                         int diffMonth = diffYear * NumericConstants.TWELVE + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);

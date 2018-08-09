@@ -30,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.Collections;
 
 public class FetchData {
 
@@ -42,33 +43,31 @@ public class FetchData {
 
 	public static List<Object[]> fetchResult(String query, Object... params) {
 		logger.info(" fetchResult query" + query);
-		query = replaceParameters(params, query);
 		QueryRunner queryRunner = new QueryRunner();
 		ResultSetHandler<List<Object[]>> resultSetHandler = getListResultSetHandler();
 		Connection conn = getDbConnection();
 		try {
-			return queryRunner.query(conn, query, resultSetHandler);
+			return queryRunner.query(conn, replaceParameters(params, query), resultSetHandler);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return null;
+			return Collections.emptyList();
 		}
 
 	}
 
 	public static List<GtnWsRecordBean> fetchResultAsRow(Object[] visibleColumns, String query, Object... params) {
 		logger.info(" callWebService query" + query);
-		query = replaceParameters(params, query);
 		QueryRunner queryRunner = new QueryRunner();
 		ResultSetHandler<List<GtnWsRecordBean>> resultSetHandler = getResultSetHandler(visibleColumns);
 		Connection conn = getDbConnection();
 		try {
-			List<GtnWsRecordBean> result = queryRunner.query(conn, query, resultSetHandler);
+			List<GtnWsRecordBean> result = queryRunner.query(conn, replaceParameters(params, query), resultSetHandler);
 			logger.info("result size= " + result.size());
 
 			return result;
 		} catch (Exception e) {
 			logger.error("in callWebService Error= " + e.getMessage());
-			return null;
+			return Collections.emptyList();
 		}
 
 	}
@@ -104,12 +103,13 @@ public class FetchData {
 
 	public static String replaceParameters(Object[] params, String query) {
 		logger.info("params " + Arrays.toString(params));
+                String result=query;
 		for (Object param : params) {
 			String parameter = String.valueOf(param).replaceAll("\\*", "\\%");
-			query = query.replaceFirst("\\?", parameter);
+			result = result.replaceFirst("\\?", parameter);
 
 		}
-		return query;
+		return result;
 	}
 
 	private static ResultSetHandler<List<GtnWsRecordBean>> getResultSetHandler(Object[] visibleColumns) {

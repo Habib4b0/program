@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnReportReportProfileDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportConfirmedDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
