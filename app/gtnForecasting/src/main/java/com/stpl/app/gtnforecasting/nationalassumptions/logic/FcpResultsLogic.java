@@ -125,9 +125,9 @@ public class FcpResultsLogic {
             int projMasterId = projSelDTO.getProjectionId();
             int brandSid = projSelDTO.getBrandMasterId();
             int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
-            List<Object[]> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
+            List<Integer> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
             if (fcpList != null && !fcpList.isEmpty()) {
-                count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(fcpList.get(0))) ? Arrays.toString(fcpList.get(0)) : Constant.STRING_ONE);
+                count += StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? fcpList.get(0) : Constant.ONE;
             }
 
         }
@@ -671,8 +671,8 @@ public class FcpResultsLogic {
         int projMasterId = projSelDTO.getProjectionId();
         int brandMasterSid = projSelDTO.getBrandMasterId();
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
-        List<Object[]> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandMasterSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
-        count += Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(fcpList.get(0))) ? Arrays.toString(fcpList.get(0)) : Constant.STRING_ONE);
+        List<Integer> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandMasterSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
+        count += StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? fcpList.get(0) : Constant.ONE;
         return count;
     }
 
@@ -986,9 +986,9 @@ public class FcpResultsLogic {
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
         int count = 0;
         try {
-            List<Object[]> medicaidIndex = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpRowIndex", 0, itemMasterSid, therapeuticSid);
+            List<Integer> medicaidIndex = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpRowIndex", 0, itemMasterSid, therapeuticSid);
             if (!medicaidIndex.isEmpty()) {
-                count = Integer.parseInt(StringUtils.isNotBlank(Arrays.toString(medicaidIndex.get(0))) ? Arrays.toString(medicaidIndex.get(0)) : Constant.DASH);
+                count = StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? medicaidIndex.get(0) : Constant.ZERO;
             }
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());

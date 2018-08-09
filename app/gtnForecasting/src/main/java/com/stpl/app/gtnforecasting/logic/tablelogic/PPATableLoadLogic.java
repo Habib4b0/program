@@ -111,12 +111,7 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         Map<Integer, Object> finalMap = new HashMap<>();
-        List<PPAProjectionDTO> list = null;
-        try {
-            list = logic.getPPALogicData(selection, getLastParent(), start, offset, rightDto);
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
-        }
+        List<PPAProjectionDTO> list = logic.getPPALogicData(selection, getLastParent(), start, offset, rightDto);
         int i = start;
         for (PPAProjectionDTO dto : list) {
             finalMap.put(i, dto);
