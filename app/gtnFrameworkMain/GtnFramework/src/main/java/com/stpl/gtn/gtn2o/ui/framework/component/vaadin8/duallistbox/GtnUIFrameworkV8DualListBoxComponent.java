@@ -118,7 +118,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			LOGGER.info("column---------->" + column);
 			leftTable.addColumn(row -> row.getPropertyValue(column))
 					.setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]).setId(column);
-			addFilterToGrid(dualListBoxConfig, leftTable, column);
+			addFilterToGrid(leftTable, column);
 		}
 
 		rightTable = new TreeGrid<>();
@@ -151,7 +151,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		return dualListBoxBean;
 	}
 
-	private void addFilterToGrid(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, Grid grid, String column) {
+	private void addFilterToGrid(Grid grid, String column) {
 		HeaderRow filterRow = grid.appendHeaderRow();
 		HorizontalLayout horizontalLayout = new HorizontalLayout();
 		horizontalLayout.setMargin(false);

@@ -89,7 +89,6 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 			resultTable =  customData.getPagedGrid();
 			propertyIds = new LinkedList<>(Arrays.asList(resultTable.getTableConfig().getTableColumnMappingId()));
 			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
-				resultTable = null;
 			} else {
 				headerBean = getExcelHeaders(componentId, gtnUIFrameWorkActionConfig);
 				// Call webService for table columns and Headers

@@ -149,11 +149,11 @@ public class FetchData {
 
 	public static Connection getDbConnection() {
 		Connection connection = null;
-		String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+		String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
 
 		try {
 			Context initialContext = new InitialContext();
-			DataSource datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+			DataSource datasource = (DataSource) initialContext.lookup(dataSourceContext);
 			if (datasource != null) {
 				connection = datasource.getConnection();
 			} else {
