@@ -3,7 +3,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.grid;
 public class GtnUIFrameworkGridComponentConfig {
 
     private String[] gridColumnHeadersId;
-    private String[] GridColumnHeadersName;
+    private String[] gridColumnHeadersName;
 
     public GtnUIFrameworkGridComponentConfig() {
         super();
@@ -18,11 +18,11 @@ public class GtnUIFrameworkGridComponentConfig {
 	}
 
 	public String[] getColumnHeadersName() {
-		return GridColumnHeadersName;
+		return gridColumnHeadersName;
 	}
 
 	public void setColumnHeadersName(String[] columnHeadersName) {
-		this.GridColumnHeadersName = columnHeadersName;
+		this.gridColumnHeadersName = columnHeadersName;
 	}
 
 }

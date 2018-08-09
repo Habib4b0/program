@@ -262,12 +262,10 @@ public class PagedTreeGrid {
 				}
 				return parent;
 			}).forEach((GtnWsRecordBean parent) -> {
-				int rowNo = GridUtils.getNodeIndex(parent);
-				if (expandedRowIds.contains(rowNo)) {
-					int childCount = 0;
+				if (expandedRowIds.contains(GridUtils.getNodeIndex(parent))) {
 
-					expandRow(parent, childCount, data, false);
-					if (rowNo != 0 && rowNo % pageLength != 0) {
+					expandRow(parent, 0, data, false);
+					if (GridUtils.getNodeIndex(parent) != 0 && GridUtils.getNodeIndex(parent) % pageLength != 0) {
 						grid.expand(parent);
 					}
 				}

@@ -26,10 +26,10 @@ import com.vaadin.ui.components.grid.HeaderRow;
  *
  * Instance creation not allowed ,Contains Only Static Methods
  */
-final public class FilterUtils {
+public final class FilterUtils {
 
     private FilterUtils() {
-        throw new RuntimeException("Can not create object for this class " + FilterUtils.class.getName());
+        throw new AccessDeniedException("Can not create object for this class " + FilterUtils.class.getName());
     }
 
     public static Component getCustomFilterComponent(String property, PagedTreeGrid pagedTreeGrid) {
