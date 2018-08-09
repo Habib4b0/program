@@ -2,37 +2,41 @@ package com.stpl.gtn.gtn2o.ui.framework.component.button;
 
 public class GtnUIFrameworkButtonConfig {
 
-	private GtnUiFrameworkButtonType buttonType = GtnUiFrameworkButtonType.BUTTON;
-	private boolean isButtonCaptionInUpperCase = true;
-	private String iconUrl;
+    private GtnUiFrameworkButtonType buttonType = GtnUiFrameworkButtonType.BUTTON;
+    private boolean isButtonCaptionInUpperCase = true;
+    private String iconUrl;
 
-	public GtnUiFrameworkButtonType getButtonType() {
-		return buttonType;
-	}
+    public GtnUIFrameworkButtonConfig() {
+        super();
+    }
 
-	public void setButtonType(GtnUiFrameworkButtonType buttonType) {
-		this.buttonType = buttonType;
-	}
+    public GtnUiFrameworkButtonType getButtonType() {
+        return buttonType;
+    }
 
-	public boolean isButtonCaptionInUpperCase() {
-		return isButtonCaptionInUpperCase;
-	}
+    public void setButtonType(GtnUiFrameworkButtonType buttonType) {
+        this.buttonType = buttonType;
+    }
 
-	/**
-	 * Set true If u want to display Button Caption in Upper Case
-	 * 
-	 * @param isButtonCaptionInUpperCase
-	 */
-	public void setButtonCaptionInUpperCase(boolean isButtonCaptionInUpperCase) {
-		this.isButtonCaptionInUpperCase = isButtonCaptionInUpperCase;
-	}
+    public boolean isButtonCaptionInUpperCase() {
+        return isButtonCaptionInUpperCase;
+    }
 
-	public String getIconUrl() {
-		return iconUrl;
-	}
+    /**
+     * Set true If u want to display Button Caption in Upper Case
+     *
+     * @param isButtonCaptionInUpperCase
+     */
+    public void setButtonCaptionInUpperCase(boolean isButtonCaptionInUpperCase) {
+        this.isButtonCaptionInUpperCase = isButtonCaptionInUpperCase;
+    }
 
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
-	}
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
 
 }

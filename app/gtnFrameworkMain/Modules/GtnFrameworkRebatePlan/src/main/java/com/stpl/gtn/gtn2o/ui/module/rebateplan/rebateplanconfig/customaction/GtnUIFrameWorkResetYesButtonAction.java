@@ -253,8 +253,8 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 	private void loadRuleDetailsInfo(String resultTableId, GtnWsRebatePlanInfoBean rebatePlaninfoBean, String actionType)
 			throws GtnFrameworkValidationFailedException {
-		Double tierTo = 0d;
-		Double tierFrom = 0d;
+		Double tierTo;
+		Double tierFrom;
 		List<GtnWsRecordBean> resultLiist = new ArrayList<>();
 		GtnWsRecordBean dto;
                  resetOnAddMode(resultTableId,actionType);
@@ -331,8 +331,8 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 	public void balancedParenthensies(String resultTableId, GtnWsRebatePlanInfoBean rebatePlaninfoBean, String actionType)
 			throws GtnFrameworkValidationFailedException {
-		Double tierTo = 0d;
-		Double tierFrom = 0d;
+		Double tierTo;
+		Double tierFrom;
 		List<GtnWsRecordBean> resultList = new ArrayList<>();
 		GtnWsRecordBean dto;
                 resetOnAddMode(resultTableId, actionType);
