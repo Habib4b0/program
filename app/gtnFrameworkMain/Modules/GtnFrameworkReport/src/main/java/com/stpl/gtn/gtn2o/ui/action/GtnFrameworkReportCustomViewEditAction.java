@@ -71,7 +71,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 
 	private void loadScreen(String selectedItem, String componentId,
 			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-		loadTreeGrid(selectedItem, gtnUIFrameWorkActionConfig, componentId);
+		loadTreeGrid(selectedItem, gtnUIFrameWorkActionConfig);
 
 	}
 
@@ -89,9 +89,8 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		}
 	}
 
-	private void loadTreeGrid(String selectedItem, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-			String componentId) throws GtnFrameworkGeneralException {
-
+	private void loadTreeGrid(String selectedItem, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
 		loadFields(selectedItem, gtnUIFrameWorkActionConfig);
 
 	}
