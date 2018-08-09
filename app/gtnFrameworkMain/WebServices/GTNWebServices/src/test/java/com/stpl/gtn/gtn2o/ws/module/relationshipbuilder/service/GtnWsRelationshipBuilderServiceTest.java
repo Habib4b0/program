@@ -34,7 +34,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  * @author Karthik.Raja
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsRelationshipBuilderServiceTest {
@@ -186,21 +185,21 @@ public class GtnWsRelationshipBuilderServiceTest {
 
     }
 //
-    /**
-     * Test of getHierarchyDefinition method, of class GtnWsRelationshipBuilderService.
-     */
-    @Test
-    public void testGetHierarchyDefinition_GtnWsRelationshipBuilderRequest_GtnWsRelationshipBuilderResponse() throws Exception {
-        System.out.println("getHierarchyDefinition");
-        GtnWsRelationshipBuilderRequest rbRequest = null;
-        GtnWsRelationshipBuilderResponse rbResponse = null;
-        
-        GtnWsRelationshipBuilderResponse expResult = null;
-        GtnWsRelationshipBuilderResponse result = instance.getHierarchyDefinition(rbRequest, rbResponse);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    /**
+//     * Test of getHierarchyDefinition method, of class GtnWsRelationshipBuilderService.
+//     */
+//    @Test
+//    public void testGetHierarchyDefinition_GtnWsRelationshipBuilderRequest_GtnWsRelationshipBuilderResponse() throws Exception {
+//        System.out.println("getHierarchyDefinition");
+//        GtnWsRelationshipBuilderRequest rbRequest = null;
+//        GtnWsRelationshipBuilderResponse rbResponse = null;
+//        
+//        GtnWsRelationshipBuilderResponse expResult = null;
+//        GtnWsRelationshipBuilderResponse result = instance.getHierarchyDefinition(rbRequest, rbResponse);
+//        assertEquals(expResult, result);
+////        // TODO review the generated test code and remove the default call to fail.
+////        fail("The test case is a prototype.");
+//    }
 //
 //    /**
 //     * Test of getHierarchyDefinition method, of class GtnWsRelationshipBuilderService.

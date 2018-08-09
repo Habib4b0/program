@@ -5,12 +5,10 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import java.util.ArrayList;
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,17 +19,12 @@ import org.slf4j.LoggerFactory;
  */
 public class PMPYTradingPartnerHistoryChart {
 
-    /**
-     * The dto.
-     */
-    private final List<PMPYRowDto> dto;
 
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PMPYTradingPartnerHistoryChart.class);
 
-    private String tpName = StringUtils.EMPTY;
 
     protected List<Object> headers = null;
 
@@ -39,14 +32,13 @@ public class PMPYTradingPartnerHistoryChart {
      * The Constructor.
      *
      * @param dto the dto
-     * @param frequency the frequency
+     * @param tpName
+     * @param headers
      */
     public PMPYTradingPartnerHistoryChart(final List<PMPYRowDto> dto, String tpName, List<Object> headers) {
-        LOGGER.debug("Entering PMPYTradingPartnerHistoryChart method ");
-        this.tpName = tpName;
-        this.dto = dto == null ? dto : new ArrayList<>(dto);
+        LOGGER.debug("Entering PMPYTradingPartnerHistoryChart method "+dto);
         this.headers = headers;
-        LOGGER.debug("End of PMPYTradingPartnerHistoryChart method ");
+        LOGGER.debug("End of PMPYTradingPartnerHistoryChart method "+tpName + headers);
     }
 
     /**

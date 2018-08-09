@@ -978,10 +978,10 @@ public class NMProjectionResultsXLLogic {
 
     public void discount_Customize() {
         boolean isDetail = selection.getLevel().equals(DETAIL);
-        commonCustomizationForTotalDiscount("D$",  pivotDiscountList, selection, isDetail,  Boolean.FALSE);
-        commonCustomizationForTotalDiscount("D%",  pivotDiscountList, selection, isDetail,  Boolean.TRUE);
-        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, Boolean.FALSE);
-        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, Boolean.TRUE); //change the NumericConstants
+        commonCustomizationForTotalDiscount("D$",  pivotDiscountList, selection, isDetail,  false);
+        commonCustomizationForTotalDiscount("D%",  pivotDiscountList, selection, isDetail,  true);
+        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, false);
+        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, true); //change the NumericConstants
     }
 
     public List<Object[]> getTotalPivotVariance(ProjectionSelectionDTO selection) {
