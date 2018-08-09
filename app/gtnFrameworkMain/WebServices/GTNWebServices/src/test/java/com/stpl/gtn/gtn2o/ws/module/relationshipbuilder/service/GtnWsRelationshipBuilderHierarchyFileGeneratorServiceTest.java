@@ -5,19 +5,27 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service;
 
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.querygenerator.GtnWsAllHierarchyQueryGenerator;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,13 +34,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  * @author Karthik.Raja
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/AutomaticContext.xml"})
 public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
 
     @Autowired
-    GtnWsRelationshipBuilderHierarchyFileGeneratorService instance;
+    GtnWsRelationshipBuilderHierarchyFileGeneratorService rbFileService;
 
     public GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest() {
     }
@@ -63,7 +70,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
         String sqlId = "JUNIT_SAMPLE";
 
         String expResult = "UPDATE IMTD_DEDUCTION_DETAILS SET CHECK_RECORD = ? WHERE USERS_SID = ?  AND SESSION_ID = ?";
-        String result = instance.getQuery(sqlId);
+        String result = rbFileService.getQuery(sqlId);
         assertEquals(expResult, result.trim());
     }
 
@@ -78,7 +85,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
         String queryName = "JUNIT_SAMPLE";
 
         String expResult = "UPDATE IMTD_DEDUCTION_DETAILS SET CHECK_RECORD = 1 WHERE USERS_SID = 2  AND SESSION_ID = 3";
-        String result = instance.getQueryReplaced(input, queryName);
+        String result = rbFileService.getQueryReplaced(input, queryName);
         assertEquals(expResult, result.trim());
 
     }
@@ -94,7 +101,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
         String queryName = "UPDATE IMTD_DEDUCTION_DETAILS SET CHECK_RECORD = ? WHERE USERS_SID = ?  AND SESSION_ID = ?";
 
         String expResult = "UPDATE IMTD_DEDUCTION_DETAILS SET CHECK_RECORD = 1 WHERE USERS_SID = 2  AND SESSION_ID = 3";
-        String result = instance.getFinalQueryReplaced(input, queryName);
+        String result = rbFileService.getFinalQueryReplaced(input, queryName);
         assertEquals(expResult, result);
 
     }
@@ -107,22 +114,24 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
     public void testUpdateQueryInHierarchy() throws GtnFrameworkGeneralException {
         System.out.println("updateQueryInHierarchy");
         List<Object[]> result = getSampleHierarchy();
+        List<HierarchyLevelDefinitionBean> beans = new ArrayList<>();
+        HierarchyLevelDefinitionBean hd = new HierarchyLevelDefinitionBean();
+        beans.add(hd);
         if (result != null && !result.isEmpty()) {
             int hierarchyDefSId = (int) result.get(0)[0];
             int versionNo = (int) result.get(0)[1];
-            List<Object[]> result1 = getHierarachylevelList(hierarchyDefSId, versionNo);
-
-            List<HierarchyLevelDefinitionBean> expResult = instance.gettHierarchyLevelDefinitionListMain(result1);
-            List<HierarchyLevelDefinitionBean> results = instance.getRBHierarchyLevelDefinitionBySid(hierarchyDefSId, versionNo);
-            assertEquals(expResult.size(), results.size());
+            GtnWsRelationshipBuilderHierarchyFileGeneratorService instance = Mockito.spy(rbFileService);
+            when(instance.getRBHierarchyLevelDefinitionBySid(Mockito.anyInt(), Mockito.anyInt()))
+                    .thenReturn(beans);
+            rbFileService.updateQueryInHierarchy(hierarchyDefSId, versionNo);
         }
 
     }
 
     private List<Object[]> getSampleHierarchy() throws GtnFrameworkGeneralException {
-        String query = instance.getQuery("JUNIT_RB_SAMPLE_1");
+        String query = rbFileService.getQuery("JUNIT_RB_SAMPLE_1");
         @SuppressWarnings("unchecked")
-        List<Object[]> result = instance.executeQuery(query);
+        List<Object[]> result = rbFileService.executeQuery(query);
         return result;
     }
 
@@ -131,7 +140,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
         inputlist.add(String.valueOf(hierarchyDefSId));
         inputlist.add(String.valueOf(versionNo));
         @SuppressWarnings("unchecked")
-        List<Object[]> result1 = instance.executeQuery(instance.getQueryReplaced(inputlist, "getRBHierarchyLevelDefinitionBySid"));
+        List<Object[]> result1 = rbFileService.executeQuery(rbFileService.getQueryReplaced(inputlist, "getRBHierarchyLevelDefinitionBySid"));
         return result1;
     }
 
@@ -149,7 +158,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
             List<Object[]> result1 = getHierarachylevelList(hierarchyDefSId, versionNo);
             int expResult = result1.size();
             @SuppressWarnings("unchecked")
-            List<HierarchyLevelDefinitionBean> results = instance.gettHierarchyLevelDefinitionListMain(result1);
+            List<HierarchyLevelDefinitionBean> results = rbFileService.gettHierarchyLevelDefinitionListMain(result1);
             assertEquals(expResult, results.size());
 
         }
@@ -158,28 +167,149 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
     @Test
     public void testGetHierarchyBeanByLevelNo() throws GtnFrameworkGeneralException {
         System.out.println("getHierarchyBeanByLevelNo");
-        int levelNo =1;
+        int levelNo = 1;
         List<Object[]> result = getSampleHierarchy();
         if (result != null && !result.isEmpty()) {
             int hierarchyDefSId = (int) result.get(0)[0];
             int versionNo = (int) result.get(0)[1];
             List<Object[]> result1 = getHierarachylevelList(hierarchyDefSId, versionNo);
-            
+
             @SuppressWarnings("unchecked")
-            List<HierarchyLevelDefinitionBean> hierarchyList = instance.gettHierarchyLevelDefinitionListMain(result1);
-            
-            HierarchyLevelDefinitionBean expResult=null;
+            List<HierarchyLevelDefinitionBean> hierarchyList = rbFileService.gettHierarchyLevelDefinitionListMain(result1);
+
+            HierarchyLevelDefinitionBean expResult = null;
             if (levelNo < hierarchyList.size() && hierarchyList.get(levelNo).getLevelNo() == levelNo) {
-                expResult=hierarchyList.get(levelNo);
-            }else{
-              for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
-			if (hierarchyLevelDefinitionBean.getLevelNo() == levelNo)
-				expResult= hierarchyLevelDefinitionBean;
-		}  
+                expResult = hierarchyList.get(levelNo);
+            } else {
+                for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
+                    if (hierarchyLevelDefinitionBean.getLevelNo() == levelNo) {
+                        expResult = hierarchyLevelDefinitionBean;
+                    }
+                }
             }
-            HierarchyLevelDefinitionBean res = instance.getHierarchyBeanByLevelNo(hierarchyList, levelNo);
+            HierarchyLevelDefinitionBean res = rbFileService.getHierarchyBeanByLevelNo(hierarchyList, levelNo);
             assertEquals(expResult, res);
 
         }
     }
+
+    /**
+     * Test of executeQuery method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testExecuteQuery_String() throws Exception {
+        System.out.println("executeQuery");
+        String sqlQuery = "select 1 as result";
+        int expResult = 1;
+        List result = rbFileService.executeQuery(sqlQuery);
+        assertEquals(expResult, Integer.parseInt(result.get(0).toString()));
+    }
+
+    /**
+     * Test of executeQuery method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testExecuteQuery_3args() throws Exception {
+        System.out.println("executeQuery");
+        String sqlQuery = "SELECT 1 FROM (VALUES ('Hello world')) t1 (col1) WHERE 1 = ?";
+        Object[] params = {1};
+        GtnFrameworkDataType[] type = {GtnFrameworkDataType.INTEGER};
+        int expResult = 1;
+        List result = rbFileService.executeQuery(sqlQuery, params, type);
+        assertEquals(expResult, Integer.parseInt(result.get(0).toString()));
+    }
+
+    /**
+     * Test of getSessionFactory method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testGetSessionFactory() {
+        System.out.println("getSessionFactory");
+        SessionFactory sessionFactory = Mockito.mock(SessionFactory.class);
+        GtnWsRelationshipBuilderHierarchyFileGeneratorService instance = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
+        instance.setSessionFactory(sessionFactory);
+        SessionFactory result = instance.getSessionFactory();
+        assertEquals(sessionFactory, result);
+    }
+
+    /**
+     * Test of setGtnHierarchyServiceBuilder method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testSetGtnHierarchyServiceBuilder() {
+        System.out.println("setGtnHierarchyServiceBuilder");
+        GtnFrameworkHierarchyService gtnHierarchyServiceBuilder = Mockito.mock(GtnFrameworkHierarchyService.class);
+        GtnWsRelationshipBuilderHierarchyFileGeneratorService instance = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
+        instance.setGtnHierarchyServiceBuilder(gtnHierarchyServiceBuilder);
+        GtnFrameworkHierarchyService expResult = gtnHierarchyServiceBuilder;
+        GtnFrameworkHierarchyService result = instance.getGtnHierarchyServiceBuilder();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getGtnSqlQueryEngine method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testGetGtnSqlQueryEngine() {
+        System.out.println("getGtnSqlQueryEngine");
+        GtnFrameworkSqlQueryEngine gtnSqlQueryEngine = new GtnFrameworkSqlQueryEngine();
+        GtnWsRelationshipBuilderHierarchyFileGeneratorService instance = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
+        instance.setGtnSqlQueryEngine(gtnSqlQueryEngine);
+        GtnFrameworkSqlQueryEngine expResult = gtnSqlQueryEngine;
+        GtnFrameworkSqlQueryEngine result = instance.getGtnSqlQueryEngine();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getGtnWsSqlService method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testGetGtnWsSqlService() {
+        System.out.println("getGtnWsSqlService");
+        GtnWsSqlService gtnWsSqlService = Mockito.mock(GtnWsSqlService.class);
+        GtnWsRelationshipBuilderHierarchyFileGeneratorService instance = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
+        instance.setGtnWsSqlService(gtnWsSqlService);
+        GtnWsSqlService expResult = gtnWsSqlService;
+        GtnWsSqlService result = instance.getGtnWsSqlService();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getQueryGeneratorService method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testGetQueryGeneratorService() {
+        System.out.println("getQueryGeneratorService");
+        GtnWsAllHierarchyQueryGenerator queryGeneratorService = new GtnWsAllHierarchyQueryGenerator();
+        GtnWsRelationshipBuilderHierarchyFileGeneratorService instance = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
+        instance.setQueryGeneratorService(queryGeneratorService);
+        GtnWsAllHierarchyQueryGenerator expResult = queryGeneratorService;
+        GtnWsAllHierarchyQueryGenerator result = instance.getQueryGeneratorService();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getRBHierarchyLevelDefinitionBySid method, of class
+     * GtnWsRelationshipBuilderHierarchyFileGeneratorService.
+     */
+    @Test
+    public void testGetRBHierarchyLevelDefinitionBySid() throws Exception {
+        System.out.println("getRBHierarchyLevelDefinitionBySid");
+        int hierarchyDefSid = 0;
+        int versionNo = 0;
+        GtnFrameworkSqlQueryEngine gtnSqlQueryEngine = mock(GtnFrameworkSqlQueryEngine.class);
+        when(gtnSqlQueryEngine.executeSelectQuery(Mockito.anyString(), Mockito.any(Object[].class), Mockito.any(GtnFrameworkDataType[].class)))
+                .thenReturn(Collections.EMPTY_LIST);
+
+        List<HierarchyLevelDefinitionBean> result = rbFileService.getRBHierarchyLevelDefinitionBySid(hierarchyDefSid, versionNo);
+        assertEquals(0, result.size());
+    }
+
 }

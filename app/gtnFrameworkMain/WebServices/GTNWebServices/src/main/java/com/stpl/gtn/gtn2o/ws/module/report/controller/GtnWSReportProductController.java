@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @RestController
 @RequestMapping(value = "/report")

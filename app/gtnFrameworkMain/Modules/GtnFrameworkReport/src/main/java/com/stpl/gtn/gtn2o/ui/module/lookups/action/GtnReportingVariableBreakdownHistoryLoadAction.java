@@ -79,7 +79,6 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 		case "Annual":
 			historyPeriod = (int) ChronoUnit.YEARS.between(LocalDate.parse(fromPeriod), LocalDate.parse(toPeriod));
 			historyPeriodCaptionList = getHistoryPeriodCaptionList(historyPeriod, historyPeriodCaptionList, "Year");
-
 			break;
 		default:
 			historyPeriodCaptionList = new ArrayList<>();
@@ -112,6 +111,8 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 				break;
 			case "Annual" :
 				defaultValue = historyPeriodCaptionList.get(0);
+				break;
+			default:
 				break;
 			}
 			if(actionParams.size()>4 && actionParams.get(4)!=null) {
