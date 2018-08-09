@@ -242,13 +242,21 @@ public class GtnFrameworkEmailServerTabConfig {
 		componentList.add(backButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> backActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
+		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 
-		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
-		navigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-		backActionConfigList.add(navigationActionConfig);
-
-		backButtonConfig.setGtnUIFrameWorkActionConfigList(backActionConfigList);
+		customAction.addActionParameter(GtnFrameworkEmailConfigStringContants.EMAIL_CONFIG_BACK_ACTION);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_SMTP);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_HOST_NAME);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_EMAIL_ADDRESS);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_PASS_FIELD);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_PORT_NUMBER);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_TEST_MAIL_ADDRESS);
+		customAction.addActionParameter("MailConfigViewButton");
+		customAction.addActionParameter("EmailConfigAddSaveButton");
+		customAction.addActionParameter("EmailConfigBackButton");
+		backActionConfigList.add(customAction);
+		backButtonConfig.setGtnUIFrameWorkActionConfigList(backActionConfigList);	
 
 	}
 
