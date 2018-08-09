@@ -1,4 +1,4 @@
-window.com_byteowls_vaadin_chartjs_ChartJs = function() {
+window.com_stpl_addons_vaadin_chartjs_ChartJs = function() {
     // see the javadoc of com.vaadin.ui.
     // for all functions on this.
     var e = this.getElement();
