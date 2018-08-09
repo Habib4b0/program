@@ -177,6 +177,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     public static final String EACH = "EACH";
+    private boolean pvFlag = true;
 
     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -1071,6 +1072,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             return (ProjectionVarianceDTO) targetItem.getBean();
         } else {
             return null;
+        }
+    }
+     public void checkPvFrequency(){
+        pvFlag = true;
+        if(!session.getDsFrequency().equals(frequency.getValue()) && pvFlag){            
+            pvFlag =false;
+            AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+        
         }
     }
 

@@ -535,8 +535,17 @@ public class ForecastForm extends AbstractForm {
                                     } 
                                     session.setFunctionMode("UPS");
                                     nmDiscountViewsPopulationProcedure();
-                                     discountProjection.getContent();
+                                     discountProjection.getContent();                                     
                                      discountUpsFlag=true;
+                                }
+                                if(tabPosition == NumericConstants.TWO){
+                                   nmSalesProjection.checkSpFrequency();
+                                }
+                                if(tabPosition == NumericConstants.FOUR){
+                                   discountProjection.checkFrequencyChange(); 
+                                }
+                                if(tabPosition == NumericConstants.EIGHT){
+                                   projectionVariance.checkPvFrequency(); 
                                 }
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
@@ -2765,5 +2774,5 @@ public class ForecastForm extends AbstractForm {
 			}
 		}
 	}
-        
-}
+
+    }

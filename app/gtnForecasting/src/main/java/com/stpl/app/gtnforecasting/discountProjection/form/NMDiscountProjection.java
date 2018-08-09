@@ -301,6 +301,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private static final String LEVEL_NUMBER_HEADER = "Level Number";
     private static final String LEVEL_NAME_HEADER = "Level Name";
     private static final String GROUP_PROPERTY_ID = "group";
+    public boolean dsFlag = true;
     public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 
     private List<Object> generateDiscountToBeLoaded = new ArrayList<>();
@@ -454,6 +455,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         LOGGER.error(e.getMessage());
         }
     }
+    public void checkFrequencyChange(){
+           dsFlag = true;
+                if((!session.getDsFrequency().equals(frequencyDdlb.getValue())) && dsFlag){
+            dsFlag =false;
+            AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+        }
+    }
     
     public void setFrequency(SessionDTO session)
     {
@@ -591,7 +599,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 programSelectionList.clear();
             }
         });
-
+        
         final BeanItemContainer<String> yearBean = new BeanItemContainer<>(String.class);
         yearSelection.setNullSelectionAllowed(true);
         yearSelection.setNullSelectionItemId(SELECT_ONE.getConstant());
