@@ -57,8 +57,6 @@ public class CDRLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(CDRLogic.class);
     private static final ResourceBundle CONSTANT_PROPERTIES = ResourceBundle.getBundle("properties.constants");
     private static final HashMap<String, String> CRITERIA = new HashMap<String, String>();
-    public final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
-    public static final SimpleDateFormat COMMON_DATE = new SimpleDateFormat("MM-dd-yyy");
     private final StplSecurityDAO securityDto = new StplSecurityDAOImpl();
 
     /**
@@ -283,6 +281,7 @@ public class CDRLogic {
      * @param sessionDTO
      */
     public void updateRulesDetailsEditLogic(final List ruleInfoList, final SessionDTO sessionDTO) {
+         final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!ruleInfoList.isEmpty()) {
                 Object beanObj = ruleInfoList.get(1);
@@ -339,6 +338,7 @@ public class CDRLogic {
      * @return List
      */
     List getInputForModelInsert(final CDRDto binderDto, final SessionDTO sessionDTO) {
+        final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
         List queryList = new ArrayList();
         queryList.add(binderDto.getRuleTypeDto().getId());
         queryList.add(binderDto.getRuleNo());
