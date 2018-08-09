@@ -486,10 +486,18 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
 
+	public static final String REPORT_CUSTOMER_HIERARCHY = "customerHierarchy";
+
+	public static final String REPORT_CUSTOMER_RELATION_VERSION = "customerRelationshipVersion";
+
+	public static final String REPORT_CUSTOMER_SELECTION_LEVEL = "customerSelectionLevel";
+
+	public static final String REPORT_PRODUCT_SELECTION_LEVEL_RELATION = "customerSelectionRelationship";
+
 	public static final String CONFIRMATION = "Confirmation";
-        
-        public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
-        
+
+	public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
+
 	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",

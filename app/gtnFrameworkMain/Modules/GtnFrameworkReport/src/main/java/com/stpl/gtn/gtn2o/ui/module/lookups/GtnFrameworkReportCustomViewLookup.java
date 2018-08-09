@@ -711,6 +711,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
+		saveActionConfig.addActionParameter(false);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
 
 		GtnUIFrameworkComponentConfig selectButtonConfig = new GtnUIFrameworkComponentConfig();
@@ -730,6 +731,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		selectSaveActionConfig.addActionParameter(tabName + "customTreeTable");
 		selectSaveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
+		selectSaveActionConfig.addActionParameter(true);
 
 		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
