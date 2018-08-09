@@ -30,7 +30,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -39,7 +39,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author Karthik.Raja
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(value={GtnUIFrameworkGlobalUI.class,GtnUIFrameworkActionExecutor.class,GtnUIFrameWorkAction.class,GtnUIFrameworkBaseComponent.class,GtnUIFrameworkActionExecutor.class})public class GtnUIFrameworkDeleteButtonActionTest {
+@PrepareForTest(value={GtnUIFrameworkGlobalUI.class,GtnUIFrameworkActionExecutor.class,GtnUIFrameworkBaseComponent.class,GtnUIFrameworkActionExecutor.class,GtnUIFrameworkWebServiceClient.class})
+public class GtnUIFrameworkDeleteButtonActionTest {
     
     
     
@@ -113,7 +114,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
          assertEquals(rbNewResponse.getMessageType(), result.getActionParameterList().get(0));
         assertEquals(rbNewResponse.getMessage(), result.getActionParameterList().get(1));
     }
-    /**
+//    /**
 //     * Test of doAction method, of class GtnUIFrameworkEditButtonAction.
 //     */
 //    @Test
@@ -121,11 +122,13 @@ import org.powermock.modules.junit4.PowerMockRunner;
 //        System.out.println("doAction");
 //
 //        GtnUIFrameworkWebserviceResponse response=PowerMockito.mock(GtnUIFrameworkWebserviceResponse.class);
-//        GtnUIFrameworkWebServiceClient ws=PowerMockito.mock(GtnUIFrameworkWebServiceClient.class);
-//        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
+//        GtnUIFrameworkWebServiceClient ws=Mockito.mock(GtnUIFrameworkWebServiceClient.class);
 //        String componentId = "";
 //        when(response.getGtnWsRelationshipBuilderResponse()).thenReturn(new GtnWsRelationshipBuilderResponse());
 //        when(ws.callGtnWebServiceUrl(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(response);
+//        
+//        whenNew(GtnUIFrameworkWebServiceClient.class).withAnyArguments().thenReturn(ws);
+//        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class,  GtnUIFrameworkActionExecutor.class,GtnUIFrameworkWebServiceClient.class);
 //        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
 //        Constructor cons= (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
 //        cons.setAccessible(true);
