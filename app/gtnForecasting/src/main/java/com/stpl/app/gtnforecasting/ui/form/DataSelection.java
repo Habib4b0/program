@@ -3803,7 +3803,7 @@ public class DataSelection extends ForecastDataSelection {
 			for (Leveldto dto : selectedValueItem) {
 				customerBeanList.add(dto.getRelationshipLevelSid());
 			}
-			setUpdateOnTabChange(Boolean.TRUE);
+			setUpdateOnTabChange(true);
 			if (dismantelCustomerSelection) {
 
 				triggerCustGrpOnView(selectionDTO.getCustomerGrpSid(), false);
@@ -3851,7 +3851,7 @@ public class DataSelection extends ForecastDataSelection {
 					triggerProdGrpOnView(selectionDTO.getProdGrpSid(), false);
 					dismantleProductSelection = false;
 				}
-				setUpdateOnTabChange(Boolean.TRUE);
+				setUpdateOnTabChange(true);
 				if (dismantelProductSelection) {
 					triggerProdGrpOnView(selectionDTO.getProdGrpSid(), false);
 					dismantelProductSelection = false;
