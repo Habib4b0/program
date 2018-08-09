@@ -278,9 +278,8 @@ public class PagedTreeGrid {
 	/**
 	 * expands the row
 	 */
-	public void expandRow(GtnWsRecordBean parent, int chdCount, TreeData<GtnWsRecordBean> treeData,
+	public void expandRow(GtnWsRecordBean parent, int childCount, TreeData<GtnWsRecordBean> treeData,
 			boolean moveToNextPage) {
-               int childCount =  chdCount;
 		if (parent != null && GridUtils.getLevelNo(parent) != 0 && GridUtils.hasChildren(parent)) {
 			childCount = GridUtils.getChildCount(parent);
 			for (int i = 0; treeData.contains(parent) && i < treeData.getChildren(parent).size(); i++) {
