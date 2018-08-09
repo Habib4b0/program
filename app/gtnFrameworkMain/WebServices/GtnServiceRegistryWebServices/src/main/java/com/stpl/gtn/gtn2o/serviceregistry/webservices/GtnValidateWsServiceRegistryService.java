@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.queryengine.GtnFrameworkQueryExecutorBean;
@@ -12,13 +11,9 @@ import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
-import com.stpl.gtn.gtn2o.serviceregistry.controller.GtnUIServiceRegistryController;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 
 public class GtnValidateWsServiceRegistryService {
-
-	@Autowired
-	private GtnUIServiceRegistryController gtnUIServiceRegistryController;
 	
 	public boolean serviceRegistryServiceToValidateWsIsRegistered(GtnWsServiceRegistryBean serviceRegistryBean){
 		
@@ -26,7 +21,7 @@ public class GtnValidateWsServiceRegistryService {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		
 		queryExecutorBean.setSqlQuery(GtnWsServiceRegistryConstants.SELECT_QUERY);
-		queryExecutorBean.setParams(new Object[]{"/gtnServiceRegistry"});
+		queryExecutorBean.setParams(new Object[]{serviceRegistryBean.getRegisteredWebContext()});
 		queryExecutorBean.setDataType(new GtnFrameworkDataType[]{GtnFrameworkDataType.STRING});
 		queryExecutorBean.setQueryType(GtnWsQueryType.SELECTWITHPARAMS);
 		queryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
@@ -37,13 +32,14 @@ public class GtnValidateWsServiceRegistryService {
 		List resultList = (List) response.getResult();
 		for(int i=0;i<resultList.size();i++){
 			
-			if(((List)resultList.get(i)).contains("/gtnServiceRegistry")){
+			if(((List)resultList.get(i)).contains(serviceRegistryBean.getRegisteredWebContext())){
 				return true;
 			}
 		}
 	
 		return false;
 	}
+	
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
 		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
