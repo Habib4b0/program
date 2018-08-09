@@ -392,7 +392,7 @@ public class GtnUIFrameworkBaseComponent {
 			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
 
 			if (isEmpty(multiSelect.getSelectedItems())) {
-				return null;
+				return Collections.EMPTY_LIST;
 			}
 			List<Object> selectedItemList = new ArrayList<>();
 			for (Object object : multiSelect.getSelectedItems()) {

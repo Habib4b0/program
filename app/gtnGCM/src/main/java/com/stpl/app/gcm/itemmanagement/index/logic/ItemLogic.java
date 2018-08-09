@@ -482,6 +482,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getCustomizedCFP(final List<Object[]> list) {
         List<ComponentLookUpDTO> finalResult = new ArrayList<>();
+        Date date = new Date();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -494,8 +495,8 @@ public class ItemLogic {
             dto.setPlanName(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setComponentStatus(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
             dto.setTradeClass(str[NumericConstants.NINE] == null || str[NumericConstants.NINE].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-            dto.setStartDate(str[NumericConstants.TEN] == null ? new Date() : (Date) (str[NumericConstants.TEN]));
-            dto.setEndDate(str[NumericConstants.ELEVEN] == null ? new Date() : (Date) (str[NumericConstants.ELEVEN]));
+            dto.setStartDate(str[NumericConstants.TEN] == null ? date : (Date) (str[NumericConstants.TEN]));
+            dto.setEndDate(str[NumericConstants.ELEVEN] == null ? date : (Date) (str[NumericConstants.ELEVEN]));
             finalResult.add(dto);
         }
         return finalResult;
@@ -503,6 +504,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getCustomizedIFP(final List<Object[]> list) {
         List<ComponentLookUpDTO> finalResult = new ArrayList<>();
+        Date date = new Date();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -514,8 +516,8 @@ public class ItemLogic {
             dto.setPlanId(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
             dto.setPlanName(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setComponentStatus(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setStartDate(str[NumericConstants.NINE] == null ? new Date() : (Date) (str[NumericConstants.NINE]));
-            dto.setEndDate(str[NumericConstants.TEN] == null ? new Date() : (Date) (str[NumericConstants.TEN]));
+            dto.setStartDate(str[NumericConstants.NINE] == null ? date : (Date) (str[NumericConstants.NINE]));
+            dto.setEndDate(str[NumericConstants.TEN] == null ? date : (Date) (str[NumericConstants.TEN]));
             finalResult.add(dto);
         }
         return finalResult;
@@ -523,6 +525,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getCustomizedPS(final List<Object[]> list) {
         List<ComponentLookUpDTO> finalResult = new ArrayList<>();
+        Date date = new Date();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -534,8 +537,8 @@ public class ItemLogic {
             dto.setParentPsId(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
             dto.setParentPsName(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setComponentStatus(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setStartDate(str[NumericConstants.NINE] == null ? new Date() : (Date) (str[NumericConstants.NINE]));
-            dto.setEndDate(str[NumericConstants.TEN] == null ? new Date() : (Date) (str[NumericConstants.TEN]));
+            dto.setStartDate(str[NumericConstants.NINE] == null ? date : (Date) (str[NumericConstants.NINE]));
+            dto.setEndDate(str[NumericConstants.TEN] == null ? date : (Date) (str[NumericConstants.TEN]));
             dto.setTradeClass(str[NumericConstants.ELEVEN] == null || str[NumericConstants.ELEVEN].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             finalResult.add(dto);
         }

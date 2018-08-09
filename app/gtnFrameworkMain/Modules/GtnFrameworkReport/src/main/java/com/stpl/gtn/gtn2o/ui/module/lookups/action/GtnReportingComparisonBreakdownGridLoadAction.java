@@ -73,42 +73,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
 					.getComponentData();
 
-			if(idComponentDataFromDisplaySelectionTab
-					.getCustomData()!=null)
-			comparisonLookupBeanListFromDisplaySelectionTab = (List<GtnReportComparisonProjectionBean>) idComponentDataFromDisplaySelectionTab
-					.getCustomData();
-
-			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromReportLandingScreen = new ArrayList<>() ;
-
-			GtnUIFrameworkComponentData idComponentDataFromReportingLandingScreen = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent("reportLandingScreen_reportingDashboardComparisonConfig",
-							componentId)
-					.getComponentData();
-
-			if(idComponentDataFromReportingLandingScreen
-					.getCustomData()!=null)
-			comparisonLookupBeanListFromReportLandingScreen = (List<GtnReportComparisonProjectionBean>) idComponentDataFromReportingLandingScreen
-					.getCustomData();
-
-			if ((!comparisonLookupBeanListFromDisplaySelectionTab.isEmpty())
-					&& (!comparisonLookupBeanListFromReportLandingScreen.isEmpty())) {
-				finalArrayListforGrid = new ArrayList<>(
-						comparisonLookupBeanListFromDisplaySelectionTab);
-				finalArrayListforGrid.addAll(comparisonLookupBeanListFromReportLandingScreen);
-				Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<>(
-						finalArrayListforGrid);
-				finalArrayListforGrid = new ArrayList<>(finalSet);
-
-			}
-
-			else if(comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()&&comparisonLookupBeanListFromReportLandingScreen.isEmpty()) {
-				finalArrayListforGrid = new ArrayList<>();
-			}
-			else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()) {
-				finalArrayListforGrid = comparisonLookupBeanListFromReportLandingScreen;
-			} else  {
-				finalArrayListforGrid = comparisonLookupBeanListFromDisplaySelectionTab;
-			} 
+			finalArrayListforGrid = getFinalArrayListForGrid(componentId,
+					comparisonLookupBeanListFromDisplaySelectionTab, idComponentDataFromDisplaySelectionTab); 
 
 			List<String> projectionNameListFromCustomData = new ArrayList<>();
 			projectionNameListFromCustomData.clear();
@@ -184,6 +150,49 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
+	}
+
+	private List<GtnReportComparisonProjectionBean> getFinalArrayListForGrid(String componentId,
+			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromDisplaySelectionTab,
+			GtnUIFrameworkComponentData idComponentDataFromDisplaySelectionTab) {
+		List<GtnReportComparisonProjectionBean> finalArrayListforGrid;
+		if (idComponentDataFromDisplaySelectionTab.getCustomData() != null) {
+			comparisonLookupBeanListFromDisplaySelectionTab = (List<GtnReportComparisonProjectionBean>) idComponentDataFromDisplaySelectionTab
+					.getCustomData();
+		}
+
+		List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromReportLandingScreen = new ArrayList<>() ;
+
+		GtnUIFrameworkComponentData idComponentDataFromReportingLandingScreen = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromParent("reportLandingScreen_reportingDashboardComparisonConfig",
+						componentId)
+				.getComponentData();
+
+		if (idComponentDataFromReportingLandingScreen.getCustomData() != null) {
+			comparisonLookupBeanListFromReportLandingScreen = (List<GtnReportComparisonProjectionBean>) idComponentDataFromReportingLandingScreen
+					.getCustomData();
+		}
+
+		if ((!comparisonLookupBeanListFromDisplaySelectionTab.isEmpty())
+				&& (!comparisonLookupBeanListFromReportLandingScreen.isEmpty())) {
+			finalArrayListforGrid = new ArrayList<>(
+					comparisonLookupBeanListFromDisplaySelectionTab);
+			finalArrayListforGrid.addAll(comparisonLookupBeanListFromReportLandingScreen);
+			Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<>(
+					finalArrayListforGrid);
+			finalArrayListforGrid = new ArrayList<>(finalSet);
+
+		}
+
+		else if(comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()&&comparisonLookupBeanListFromReportLandingScreen.isEmpty()) {
+			finalArrayListforGrid = new ArrayList<>();
+		}
+		else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()) {
+			finalArrayListforGrid = comparisonLookupBeanListFromReportLandingScreen;
+		} else  {
+			finalArrayListforGrid = comparisonLookupBeanListFromDisplaySelectionTab;
+		}
+		return finalArrayListforGrid;
 	}
 
 	private void setReportProfileComparisonBreakdown(GtnUIFrameworkComponentData gridComponent,

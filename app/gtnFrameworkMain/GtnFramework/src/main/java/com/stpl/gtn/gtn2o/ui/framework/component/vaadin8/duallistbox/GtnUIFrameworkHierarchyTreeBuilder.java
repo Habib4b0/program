@@ -5,20 +5,18 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox;
 
-import com.stpl.gtn.gtn2o.ws.bean.GtnWSTreeNode;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.TreeGrid;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.stpl.gtn.gtn2o.ws.bean.GtnWSTreeNode;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.vaadin.ui.TreeGrid;
 
 /**
  *
  * @author STPL
  */
 public class GtnUIFrameworkHierarchyTreeBuilder {
-
-	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUIFrameworkHierarchyTreeBuilder.class);
 
 	private GtnWSTreeNode gtnWsRootTreeNode;
 
@@ -66,53 +64,8 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 		this.gtnWsRootTreeNode.setNodeData(null);
 	}
 
-	public boolean deleteNode(GtnWSTreeNode treeRootNode) {
-		LOGGER.info("Entering  into deleteNode(TreeNode node) of TreeBuilder ");
-
-		try {
-			if (treeRootNode == null || treeRootNode.getNodeData() == null) {
-				return false;
-			}
-			List<GtnWSTreeNode> childNodeList = treeRootNode.getParent().getChildren();
-			if (childNodeList == null) {
-				return false;
-			}
-			childNodeList.remove(treeRootNode);
-
-			if (childNodeList.isEmpty()) {
-				deleteNode(treeRootNode.getParent());
-			}
-			treeRootNode.setParent(null);
-
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			return false;
-		}
-		LOGGER.info("End  into deleteNode(TreeNode node)  of TreeBuilder ");
-
-		return true;
-
-	}
-
-	public boolean deleteNode(GtnWsRecordBean gtnWsRecordBean) {
-		return deleteNode(
-				readTreeNodeRecursively(gtnWsRootTreeNode, gtnWsRecordBean.getAdditionalProperties().get(1).toString()));
-	}
-
-	private GtnWSTreeNode readTreeNodeRecursively(final GtnWSTreeNode treeRootNode, final String hierarchyNo) {
-
-		GtnWSTreeNode node = null;
-
-		if (treeRootNode.getChildren() != null) {
-			for (GtnWSTreeNode treeNode : treeRootNode.getChildren()) {
-				if (hierarchyNo.equals(treeNode.getTreeCode())) {
-					return treeNode;
-				} else {
-					node = readTreeNodeRecursively(treeNode, hierarchyNo);
-				}
-			}
-		}
-		return node;
+	public void deleteNode(GtnWsRecordBean gtnWsRecordBean) {
+		deleteTreeNodeRecursively(gtnWsRootTreeNode, gtnWsRecordBean.getProperties().get(8).toString());
 	}
 
 	public GtnWSTreeNode getRootTreeNode() {
@@ -175,6 +128,18 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 			gtnWsRootTreeNode.getChildren().clear();
 		}
 		gtnWsRootTreeNode = null;
+	}
+
+	private void deleteTreeNodeRecursively(final GtnWSTreeNode treeRootNode, final String hierarchyNo) {
+		if (treeRootNode.getChildren() != null) {
+			for (GtnWSTreeNode treeNode : treeRootNode.getChildren()) {
+				if (hierarchyNo.equals(treeNode.getTreeCode())) {
+					treeRootNode.removeChildren(treeNode);
+				} else {
+					deleteTreeNodeRecursively(treeNode, hierarchyNo);
+				}
+			}
+		}
 	}
 
 }
