@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 public class LookUpLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LookUpLogic.class);
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("MM/dd/yyyy");
     private final QueryUtils queryUtils = new QueryUtils();
     public static final char CHAR_PERCENT = '%';
     public static final char CHAR_ASTERISK = '*';

@@ -15,7 +15,6 @@ import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
@@ -135,7 +134,6 @@ public class SalesLogic {
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
     public static final DecimalFormat UNITNODECIMAL = new DecimalFormat("#,##0");
     public static final DecimalFormat UNITTWODECIMAL = new DecimalFormat("#,##0.00");
     public static final DecimalFormat PROJECTEDUNITDECIMAL = new DecimalFormat("#,##0.0");
