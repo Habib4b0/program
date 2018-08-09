@@ -22,12 +22,12 @@ import java.util.List;
  *
  * Instance creation not allowed ,Contains Only Static Methods
  */
-final public class GridUtils {
+public final class GridUtils {
 
     private static final GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GridUtils.class);
 
     private GridUtils() {
-        throw new RuntimeException("Can not create object for this class " + GridUtils.class.getName());
+        throw new AccessDeniedException("Can not create object for this class " + GridUtils.class.getName());
     }
 
     public static int getLevelIndex(GtnWsRecordBean row) {

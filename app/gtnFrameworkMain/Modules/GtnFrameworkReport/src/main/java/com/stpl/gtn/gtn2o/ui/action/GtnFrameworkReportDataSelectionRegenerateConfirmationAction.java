@@ -556,8 +556,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction impleme
 		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-		combobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
+		combobox.reloadComponentFromParent(				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
 	}
 
 	private void loadComparisonInReportingDashboard(String sourceComponentId, String componentId,

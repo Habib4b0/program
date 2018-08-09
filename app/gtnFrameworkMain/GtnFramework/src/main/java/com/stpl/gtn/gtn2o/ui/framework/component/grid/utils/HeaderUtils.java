@@ -34,7 +34,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class HeaderUtils {
 
 	private HeaderUtils() {
-		throw new RuntimeException("Can not create object for this class " + HeaderUtils.class.getName());
+		throw new AccessDeniedException("Can not create object for this class " + HeaderUtils.class.getName());
 	}
 
 	public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {
