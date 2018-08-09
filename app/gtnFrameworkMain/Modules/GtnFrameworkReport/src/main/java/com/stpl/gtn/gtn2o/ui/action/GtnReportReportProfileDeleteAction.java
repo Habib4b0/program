@@ -32,7 +32,7 @@ public class GtnReportReportProfileDeleteAction implements GtnUIFrameWorkAction,
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		gtnLogger.debug("configure Params");;
+		gtnLogger.debug("configure Params");
 	}
 
 	@Override
