@@ -202,7 +202,7 @@ public class WorkflowLogicService {
             } else {
                 customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
             }
-            Object[] queryParams = {projectionId, processInstanceId};
+            Object[] queryParams = {projectionId, Integer.valueOf(String.valueOf(processInstanceId))};
             return sqlQueryEngine.executeInsertOrUpdateQuery(customSql, queryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER}) > 0;
 
         } catch (Exception e) {
@@ -334,7 +334,7 @@ public class WorkflowLogicService {
             } else if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)) {
                 String projectionRecordsQuery = SQLUtility.getQuery("getProjectionRecords");
                 Object[] projectionRecordsQueryParams = {projectionId, userId, sessionId};
-                obj = (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery, projectionRecordsQueryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+                obj = (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery, projectionRecordsQueryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING,GtnFrameworkDataType.STRING});
             }
         } catch (Exception e) {
             LOGGER.error("Exception in selectWFInstanceInfo() method." + e);

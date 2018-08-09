@@ -41,30 +41,30 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig MultiSelectComponentConfig) {
+	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig multiSelectComponentConfig) {
 		gtnLogger.info("Enter buildVaadinComponent method");
 		ComboBoxMultiselect comboBoxVaadinMultiSelect = new ComboBoxMultiselect();
-		comboBoxVaadinMultiSelect.setCaption(MultiSelectComponentConfig.getComponentName());
+		comboBoxVaadinMultiSelect.setCaption(multiSelectComponentConfig.getComponentName());
 		comboBoxVaadinMultiSelect.showSelectAllButton(true);
 		comboBoxVaadinMultiSelect.showClearButton(true);
-		loadStyles(comboBoxVaadinMultiSelect, MultiSelectComponentConfig.getComponentStyle());
-		final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = MultiSelectComponentConfig.getGtnCheckedComboboxConfig();
+		loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComponentStyle());
+		final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = multiSelectComponentConfig.getGtnCheckedComboboxConfig();
 		comboBoxVaadinMultiSelect.setPlaceholder(checkedComboBoxConfig.getDefaultValue());
-		GtnUIFrameworkWebServiceClient MultiSelectWsClient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest MultiSelectWsRequest = new GtnUIFrameworkWebserviceRequest();
-		GtnWsGeneralRequest MultiSelectGeneralWsRequest = new GtnWsGeneralRequest();
-		MultiSelectGeneralWsRequest.setComboBoxType(checkedComboBoxConfig.getCheckedComboBoxType());
-		MultiSelectWsRequest.setGtnWsGeneralRequest(MultiSelectGeneralWsRequest);
-		addblurListener(MultiSelectComponentConfig, comboBoxVaadinMultiSelect);
+		GtnUIFrameworkWebServiceClient multiSelectWsClient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest multiSelectWsRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest multiSelectGeneralWsRequest = new GtnWsGeneralRequest();
+		multiSelectGeneralWsRequest.setComboBoxType(checkedComboBoxConfig.getCheckedComboBoxType());
+		multiSelectWsRequest.setGtnWsGeneralRequest(multiSelectGeneralWsRequest);
+		addblurListener(multiSelectComponentConfig, comboBoxVaadinMultiSelect);
 
 		if (checkedComboBoxConfig.getLoadingUrl() != null) {
-			GtnUIFrameworkWebserviceComboBoxResponse MultiSelectResponse = MultiSelectWsClient
-					.callGtnWebServiceUrl(checkedComboBoxConfig.getLoadingUrl(), MultiSelectWsRequest,
+			GtnUIFrameworkWebserviceComboBoxResponse multiSelectResponse = multiSelectWsClient
+					.callGtnWebServiceUrl(checkedComboBoxConfig.getLoadingUrl(), multiSelectWsRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
-			if (MultiSelectResponse.getItemValueList() != null) {
-				List idList = new ArrayList<>(MultiSelectResponse.getItemCodeList());
-				List<String> valueList = new ArrayList<>(MultiSelectResponse.getItemValueList());
+			if (multiSelectResponse.getItemValueList() != null) {
+				List idList = new ArrayList<>(multiSelectResponse.getItemCodeList());
+				List<String> valueList = new ArrayList<>(multiSelectResponse.getItemValueList());
 				comboBoxVaadinMultiSelect.setItems(idList);
 				comboBoxVaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
 			}

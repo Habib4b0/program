@@ -468,8 +468,8 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 
 	}
 
-	private String checkPropertyNullvalue(Object CheckPropvalue) {
-		String checkPropsStringValue = String.valueOf(CheckPropvalue);
+	private String checkPropertyNullvalue(Object checkPropvalue) {
+		String checkPropsStringValue = String.valueOf(checkPropvalue);
 		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(checkPropsStringValue)
 				? GtnFrameworkCommonStringConstants.STRING_EMPTY : checkPropsStringValue;
 	}
