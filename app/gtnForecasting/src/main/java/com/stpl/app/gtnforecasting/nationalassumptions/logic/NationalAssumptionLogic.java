@@ -59,6 +59,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -519,7 +520,7 @@ public class NationalAssumptionLogic {
     public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException, SystemException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
-        List<Object[]> qualifierList;
+        List<Long> qualifierList;
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
 

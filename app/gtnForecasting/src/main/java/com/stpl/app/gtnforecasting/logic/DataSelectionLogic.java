@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -998,7 +999,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			String tempFilterText = filterText;
 			tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
@@ -1059,7 +1060,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			String tempFilterText = filterText;
 			tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
@@ -1563,7 +1564,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.COMPANYMASTERSID,
 					UiUtils.convertStringListToIngeter(companySids)));
@@ -2403,7 +2404,7 @@ public class DataSelectionLogic {
 		StringBuilder queryString = new StringBuilder();
 		String query2 = SQlUtil.getQuery(getClass(),"get-lower-levels-based-on-hierarchy-no-with-projId-Select");
 		if (PROJECTION_PROD_HIERARCHY.equals(parameters.get(Constant.TABLE_NAME))) {
-			List<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
+			ArrayList<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
 			StringBuilder hierarchyInclusion = new StringBuilder();
 
 			for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
@@ -2439,7 +2440,7 @@ public class DataSelectionLogic {
 			queryString.append(query);
 		} else {
 			if (parameters.get(RL_SIDS) != null) {
-				List<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
+				ArrayList<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
 				if (rlSids != null && !rlSids.isEmpty()) {
 					String qry = "   SELECT distinct " + String.valueOf(parameters.get(Constant.PROJECTION_ID))
 							+ ",RLD.RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD ";
@@ -2629,7 +2630,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(' ').append(session.getProjectionId()).append(',');
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
-                                .append(",'").append("G").append('\'')
+                                .append(",'").append('G').append('\'')
                                 .append(",'").append(CommonLogic.getFrequency(freq)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
@@ -2735,7 +2736,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(startPeriod).append('\'')
                                 .append(",'").append(endPeriod).append('\'')
                                 .append(",'").append(massUpdateField).append('\'')
-                                .append(",").append(session.getCustomRelationShipSid()).append("")
+                                .append(',').append(session.getCustomRelationShipSid()).append("")
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
@@ -2768,7 +2769,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(startPeriod).append('\'')
                                 .append(",'").append(endPeriod).append('\'')
                                 .append(",'").append(massUpdateField).append('\'')
-                                .append(",").append(session.getCustomRelationShipSid()).append("")
+                                .append(',').append(session.getCustomRelationShipSid()).append("")
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
@@ -2991,7 +2992,9 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     }
     
     public void loadCustomViewDeductionValues(ComboBox customDeductionRelationDdlb, Map<String, String> dataDeductionMap,boolean isDataSelection) {
-        if (dataDeductionMap.get(CUSTOMER_SID_LITERAL) != null && dataDeductionMap.get(CUSTVER) != null && dataDeductionMap.size()>3) {
+    	
+    	int compareSizeValue = 3;
+        if (dataDeductionMap.get(CUSTOMER_SID_LITERAL) != null && dataDeductionMap.get(CUSTVER) != null && dataDeductionMap.size()>compareSizeValue) {
             String discountSqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
             discountSqlQuery = discountSqlQuery.replace(CUSTOMER_SID_VARIABLE, dataDeductionMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataDeductionMap.get(PROD_SID_LITERAL))
                     .replace(CUSTVER_VARIABLE, dataDeductionMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataDeductionMap.get(PRODVER));

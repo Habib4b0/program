@@ -7,7 +7,7 @@ package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkAddAction;
-import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSearchNotification;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
@@ -282,7 +282,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         validationActionConfig.setActionParameterList(
                 Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
         searchActionConfigList.add(validationActionConfig);
-
+        
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
@@ -294,7 +294,8 @@ public class GtnFrameworkCVLandingScreenConfig {
                       GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE));
 	searchActionConfigList.add(loadDataTableActionConfig);
         GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
-        notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+        notificationActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+	notificationActionConfig.addActionParameter(  GtnFrameworkCVSearchNotification.class.getName());
 	notificationActionConfig.addActionParameter(  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
         searchActionConfigList.add(notificationActionConfig);
         searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);

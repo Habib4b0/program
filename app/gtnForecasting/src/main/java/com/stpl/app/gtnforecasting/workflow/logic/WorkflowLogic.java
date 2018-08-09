@@ -357,12 +357,7 @@ public class WorkflowLogic {
 
         mailDynamicQuery.add(RestrictionsFactoryUtil.eq("notificationCategoryId", helperId));
 
-        List<MailNotificationMaster> resultList = null;
-        try {
-            resultList = workFlowLogicDao.getMailNotificationMaster(mailDynamicQuery);
-        } catch (SystemException e) {
-            LOGGER.error(e.getMessage());
-        }
+        List<MailNotificationMaster> resultList = workFlowLogicDao.getMailNotificationMaster(mailDynamicQuery);
         for (MailNotificationMaster object : resultList) {
 
             toEmailId = object.getToMailIds();

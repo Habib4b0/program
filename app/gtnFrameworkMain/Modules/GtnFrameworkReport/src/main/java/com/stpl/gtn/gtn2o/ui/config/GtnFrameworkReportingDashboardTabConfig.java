@@ -59,7 +59,9 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
-	private String REPORT_PROFILE_LOOKUP = "reportProfileLookup";	public void addReportingDashboardLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private String reportProfileLookup = "reportProfileLookup";
+
+	public void addReportingDashboardLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
 		addTabLayout(componentList, nameSpace);
 
@@ -135,7 +137,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelVerticalLayout = configProvider
 				.getVerticalLayoutConfig("displaySelectionTabPanelVerticalLayout", true, "displaySelectionTabPanel");
-		displaySelectionTabPanelVerticalLayout.setComponentWidth("1700px");
+		displaySelectionTabPanelVerticalLayout.setComponentWidth("1640px");
+		displaySelectionTabPanelVerticalLayout.setComponentHight("100%");
 		componentList.add(displaySelectionTabPanelVerticalLayout);
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelLayout = configProvider.getHorizontalLayoutConfig(
@@ -328,7 +331,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig reportingDashboardComparisonPopupConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
 		reportingDashboardComparisonPopupConfig.addActionParameter("dashboardcomparisonLookupView");
-		reportingDashboardComparisonPopupConfig.addActionParameter("Comparison Lookup");
+		reportingDashboardComparisonPopupConfig.addActionParameter("Comparison Popup");
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		reportingDashboardComparisonPopupActionList.add(reportingDashboardComparisonPopupConfig);
@@ -369,9 +372,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "1000px", "845px",
 				GtnFrameworkReportResetAndCloseAction.class.getName(),
-				Arrays.asList(REPORT_PROFILE_LOOKUP + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
-						REPORT_PROFILE_LOOKUP + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
-						REPORT_PROFILE_LOOKUP + GtnFrameworkReportStringConstants.UNDERSCORE
+				Arrays.asList(reportProfileLookup + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
+						reportProfileLookup + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
+						reportProfileLookup + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ "reportProfilePagedTableComponent"),Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY })));
 		list.add(conf);
 
@@ -1326,7 +1329,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, true,
 				"expandAndCollapseHorizontalConfig", GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		levelConfig.setComponentName("Level: ");
-
+		levelConfig.setVaadinComponentPlaceHolder("Select one-");
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -1426,9 +1429,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
 		reportingDashboardResultTableComponentConfig
 				.setComponentId("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+		
 		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
+		reportingDashboardResultTableComponentConfig.addComponentStyle("v-margin-bottom1");
 		reportingDashboardResultTableComponentConfig.setAddToParent(true);
 		reportingDashboardResultTableComponentConfig.setComponentWidth("100%");
+		reportingDashboardResultTableComponentConfig.setComponentHight("450px");
 		reportingDashboardResultTableComponentConfig
 				.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
 		reportingDashboardResultTableComponentConfig.setParentComponentId(parentId);

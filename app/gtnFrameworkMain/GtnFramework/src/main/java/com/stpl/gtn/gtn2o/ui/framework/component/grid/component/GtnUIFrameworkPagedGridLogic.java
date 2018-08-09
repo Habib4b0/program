@@ -6,6 +6,12 @@
 
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 
 /**
@@ -33,11 +39,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 public class GtnUIFrameworkPagedGridLogic {
 
@@ -66,19 +67,17 @@ public class GtnUIFrameworkPagedGridLogic {
 	public int getCount() {
 		gtnLogger.debug("Get count for Table " + componentConfig.getComponentId());
 		active = true;
-		if (active) {
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setCount(true);
-			gtnLogger.info("Count Query Module Name -------->" +componentConfig.getModuleName());
+			gtnLogger.info("Count Query Module Name -------->" + componentConfig.getModuleName());
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(countUrl,
 					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnSerachResponse() != null) {
-				
+
 				getCheckedRecordCount(serviceRequest, response.getGtnSerachResponse().getCount() > 0);
 				return response.getGtnSerachResponse().getCount();
 			}
-		}
 		return 0;
 	}
 
@@ -114,7 +113,7 @@ public class GtnUIFrameworkPagedGridLogic {
 	}
 
 	public void handleCheckBoxOnItem(Object propertyId, boolean value) {
-		//This method hasn't been used
+		// This method hasn't been used
 	}
 
 	// @Override
@@ -122,38 +121,37 @@ public class GtnUIFrameworkPagedGridLogic {
 		gtnLogger.debug("Get Data for Table " + componentConfig.getComponentId());
 		active = true;
 		List<GtnWsRecordBean> records = new ArrayList<>();
-		if (active) {
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
 			serviceRequest.getGtnWsSearchRequest().setTableRecordStart(start);
-			gtnLogger.info("Module Name is------->" +componentConfig.getModuleName());
+			gtnLogger.info("Module Name is------->" + componentConfig.getModuleName());
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,
 					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			if (response != null) {
-				for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
-					GtnWsRecordBean dto = new GtnWsRecordBean();
-					dto.setRecordHeader(recordHeader);
-					dto.setProperties(record.getColList());
-					records.add(dto);
-				}
-			} if(response != null && response.getGtnSerachResponse().getResultSet().getDataTable().size() == 0) {
-				if (componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
-					try{
-					GtnUIFrameworkActionExecutor.executeSingleAction(componentConfig.getComponentId(),
-							componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
-					}catch(GtnFrameworkGeneralException e){
-						gtnLogger.error(e.getMessage());
-					}
-				}
-			}
-
-		}
+			addDataAndConfig(response, records);
 
 		return records;
 	}
 
-
+	private void addDataAndConfig(GtnUIFrameworkWebserviceResponse response, List<GtnWsRecordBean> records) {
+		if (response != null) {
+			for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
+				GtnWsRecordBean dto = new GtnWsRecordBean();
+				dto.setRecordHeader(recordHeader);
+				dto.setProperties(record.getColList());
+				records.add(dto);
+			}
+		}
+		if (response != null && response.getGtnSerachResponse().getResultSet().getDataTable().size() == 0
+				&& componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
+			try {
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentConfig.getComponentId(),
+						componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+			} catch (GtnFrameworkGeneralException e) {
+				gtnLogger.error(e.getMessage());
+			}
+		}
+	}
 
 	public List<Object> getRecordHeader() {
 		return recordHeader == null ? recordHeader : Collections.unmodifiableList(recordHeader);
@@ -165,7 +163,7 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	public void startSearchProcess(final List<String> vaadinFieldValues, boolean isActive)
 			throws GtnFrameworkValidationFailedException {
-		
+
 		gtnLogger.info("*************Inside startSearchProcess");
 		this.active = isActive;
 		addCurrentSearchCriteria(vaadinFieldValues, null);
@@ -183,8 +181,6 @@ public class GtnUIFrameworkPagedGridLogic {
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
-
-
 	public void startSearchProcess(final List<String> vaadinFieldValues, final List<String> vaadinFieldDescriptionList,
 			boolean isActive) throws GtnFrameworkValidationFailedException {
 		this.active = isActive;
@@ -194,12 +190,11 @@ public class GtnUIFrameworkPagedGridLogic {
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
-
 	public void addCurrentSearchCriteria(List<String> vaadinFieldValues, List<String> vaadinFieldDescriptionList)
 			throws GtnFrameworkValidationFailedException {
-		
+
 		gtnLogger.info("*************Inside startSearchProcess");
-		
+
 		currentSearchCriteria = new ArrayList<>();
 		getFieldValues(vaadinFieldValues);
 		if (vaadinFieldDescriptionList != null) {
@@ -294,14 +289,13 @@ public class GtnUIFrameworkPagedGridLogic {
 				searchCriteria.setFieldId(property);
 				searchCriteria.setFilterValue1(String.valueOf(tableConfig.getFilterValueMap().get(property)));
 				searchCriteria.setExpression("LIKE");
-	
+
 				gtnWebServiceSearchCriteriaList.add(searchCriteria);
 			}
 		}
 
 		return gtnWebServiceSearchCriteriaList;
 	}
-
 
 	private boolean isNull(Object value) {
 		return value == null;
@@ -356,7 +350,6 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	}
 
-
 	public Object getExtraParameter() {
 		return extraParameter;
 	}
@@ -364,8 +357,6 @@ public class GtnUIFrameworkPagedGridLogic {
 	public void setExtraParameter(Object extraParameter) {
 		this.extraParameter = extraParameter;
 	}
-
-
 
 	public String loadDataForExcel(int start, int offset, List<String> headers, List<String> tableColumnFormatList) {
 
@@ -416,8 +407,6 @@ public class GtnUIFrameworkPagedGridLogic {
 	private String getExpression(String currentValue) {
 		return currentValue.contains("*") ? "LIKE" : GtnFrameworkCommonConstants.PROPERTY_EQUALS;
 	}
-
-
 
 	private void getFieldValues(List<String> vaadinFieldValues) {
 		if (vaadinFieldValues != null) {

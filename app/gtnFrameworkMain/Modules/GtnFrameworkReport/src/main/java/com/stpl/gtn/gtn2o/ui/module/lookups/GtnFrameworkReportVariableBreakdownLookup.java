@@ -34,6 +34,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownView.setViewName("Variable Breakdown");
 		variableBreakdownView.setViewId(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID);
 		variableBreakdownView.setDefaultView(false);
+		variableBreakdownView.setResetAllowed(true);
 		addComponentList(variableBreakdownView, namespace);
 		return variableBreakdownView;
 	}
@@ -208,7 +209,6 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownValueConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownValueConfig", parentId);
-		variableBreakdownValueConfig.addComponentStyle("stpl-margin-right-20");
 		variableBreakdownValueConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownValueConfig);
 
@@ -233,7 +233,6 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownValueFileorProjectionConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownValueFileorProjectionConfig", parentId);
-		variableBreakdownValueFileorProjectionConfig.addComponentStyle("stpl-margin-right-20");
 		variableBreakdownValueFileorProjectionConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownValueFileorProjectionConfig);
 
@@ -259,7 +258,6 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownStartPeriodConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownStartPeriodConfig", parentId);
-		variableBreakdownStartPeriodConfig.addComponentStyle("stpl-margin-right-20");
 		variableBreakdownStartPeriodConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownStartPeriodConfig);
 
@@ -286,7 +284,6 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownEndPeriodConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownEndPeriodConfig", parentId);
-		variableBreakdownEndPeriodConfig.addComponentStyle("stpl-margin-right-20");
 		variableBreakdownEndPeriodConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownEndPeriodConfig);
 

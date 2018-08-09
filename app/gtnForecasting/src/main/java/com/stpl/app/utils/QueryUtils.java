@@ -99,10 +99,10 @@ public class QueryUtils {
                      updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
                 }
             } else {
-                for (String discountName : periodsMap.keySet()) {
+                for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
 
-                    baselinePeriodsList = periodsMap.get(discountName).get("H");
-                    selectedPeriodsList = periodsMap.get(discountName).get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+                    baselinePeriodsList = discountName.getValue().get("H");
+                    selectedPeriodsList = discountName.getValue().get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     periodsList.clear();
                     if (baselinePeriodsList != null) {
                         periodsList.addAll(baselinePeriodsList);
@@ -120,7 +120,7 @@ public class QueryUtils {
                     if (isCustom) {
                         updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection);
                     } else {
-                        updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName, isProgram);
+                        updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName.getKey(), isProgram);
                     }
                 }
             }

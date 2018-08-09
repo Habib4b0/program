@@ -981,8 +981,8 @@ public class AlternateSummery extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 try {
                                     Double newNumber, oldNumber;
-                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
-                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
+                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
+                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
                                      Double incOrDec;
                                      if (oldNumber == 0.0) {
                                         incOrDec = Double.POSITIVE_INFINITY;
@@ -1243,8 +1243,9 @@ public class AlternateSummery extends CustomComponent {
      * @param finalHirarechyNo
      */
     public void refreshTableData(Set<String> finalHirarechyNo) {
+        int currentPage = mSalesProjectionTableLogic.getCurrentPage();
         mSalesProjectionTableLogic.forRefresh(finalHirarechyNo);
-        mSalesProjectionTableLogic.setCurrentPage(mSalesProjectionTableLogic.getCurrentPage());
+        mSalesProjectionTableLogic.setCurrentPage(currentPage);
     }
 
     /**

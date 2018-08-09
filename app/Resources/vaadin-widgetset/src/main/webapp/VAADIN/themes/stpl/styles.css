@@ -15143,3 +15143,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 	font-size: 12px;
 }
+
+.v-margin-bottom1 {
+	padding-bottom: 0px !important;
+}

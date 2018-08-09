@@ -18,7 +18,6 @@ package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
 /**
  * Simple date interval providing isBetween comparison for other Date objects.
  * 
@@ -27,48 +26,50 @@ import java.time.LocalDate;
  */
 @SuppressWarnings("serial")
 public class DateInterval implements Serializable {
-    
-    /** The from. */
-    private final LocalDate from;
-    
-    /** The to. */
-    private final LocalDate to;
 
-    /**
-     * Instantiates a new ext date interval.
-     *
-     * @param from the from
-     * @param to the to
-     */
-    public DateInterval(LocalDate from, LocalDate to) {
-        this.from = from;
-        this.to = to;
-    }
+	/** The from. */
+	private transient LocalDate from;
 
-    /**
-     * Gets the from.
-     *
-     * @return the from
-     */
-    public LocalDate getFrom() {
-        return from;
-    }
+	/** The to. */
+	private transient LocalDate to;
 
-    /**
-     * Gets the to.
-     *
-     * @return the to
-     */
-    public LocalDate getTo() {
-        return to;
-    }
+	/**
+	 * Instantiates a new ext date interval.
+	 *
+	 * @param from
+	 *            the from
+	 * @param to
+	 *            the to
+	 */
+	public DateInterval(LocalDate from, LocalDate to) {
+		this.from = from;
+		this.to = to;
+	}
 
-    /**
-     * Checks if is null.
-     *
-     * @return true, if is null
-     */
-    public boolean isNull() {
-        return from == null && to == null;
-    }
+	/**
+	 * Gets the from.
+	 *
+	 * @return the from
+	 */
+	public LocalDate getFrom() {
+		return from;
+	}
+
+	/**
+	 * Gets the to.
+	 *
+	 * @return the to
+	 */
+	public LocalDate getTo() {
+		return to;
+	}
+
+	/**
+	 * Checks if is null.
+	 *
+	 * @return true, if is null
+	 */
+	public boolean isNull() {
+		return from == null && to == null;
+	}
 }

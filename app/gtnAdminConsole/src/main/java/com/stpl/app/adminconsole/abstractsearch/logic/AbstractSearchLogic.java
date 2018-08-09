@@ -36,16 +36,16 @@ public class AbstractSearchLogic {
     public boolean checkSearchCriteria(final ErrorfulFieldGroup binder) {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
-            if (object != null && object instanceof TextField && ((TextField) object).isVisible()) {
+            if (object instanceof TextField && ((TextField) object).isVisible()) {
                 if (StringUtils.isNotBlank(((TextField) object).getValue())) {
                     isvalid = true;
                     break;
                 }
-            } else if (object != null && object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) {
+            } else if (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) {
                     isvalid = true;
                     break;
                 }
-            else if (object != null && object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue()))) {
+            else if (object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue()))) {
                     isvalid = true;
                     break;
                 }

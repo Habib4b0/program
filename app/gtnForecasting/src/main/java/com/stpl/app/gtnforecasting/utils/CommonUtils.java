@@ -93,7 +93,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletSession;
@@ -314,8 +313,6 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_INDICATOR_MANDATED = "M";
     public static final String BUSINESS_PROCESS_INDICATOR_CHANNELS = "C";
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$0");
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
-    public static final SimpleDateFormat DateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
     public static final DecimalFormat UNITNODECIMAL = new DecimalFormat(DASH);
 
     public static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0");
@@ -527,8 +524,7 @@ public class CommonUtils {
     public static boolean isInteger(String str) {
         try {
             if ((str != null) && (!"null".equals(str)) && (!"".equals(str)) && (!"All".equals(str))) { // For GAL-9221,GAL-9219,GAL-9197 server log issues	
-                Integer.parseInt(str);
-                return true;
+                 return str.matches("^\\d+$");
             }
         } catch (NumberFormatException e) {
             return false;

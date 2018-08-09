@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class GtnReportComparisonProjectionBean implements Comparator<GtnReportComparisonProjectionBean> {
 
+   
 	private String projectionName;
 	private String projectionDescription;
 	private String marketType;
@@ -152,6 +153,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 		if (getClass() != obj.getClass())
 			return false;
 		GtnReportComparisonProjectionBean other = (GtnReportComparisonProjectionBean) obj;
+		return equalsChecking(other);
+	}
+
+	private boolean equalsChecking(GtnReportComparisonProjectionBean other) {
 		if (brand == null) {
 			if (other.brand != null)
 				return false;
@@ -169,6 +174,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 			return false;
 		if (createdBy != other.createdBy)
 			return false;
+		return equalsValidationOne(other);
+	}
+
+	private boolean equalsValidationOne(GtnReportComparisonProjectionBean other) {
 		if (createdDate == null) {
 			if (other.createdDate != null)
 				return false;
@@ -184,6 +193,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 				return false;
 		} else if (!itemNo.equals(other.itemNo))
 			return false;
+		return equalsValidationTwo(other);
+	}
+
+	private boolean equalsValidationTwo(GtnReportComparisonProjectionBean other) {
 		if (marketType == null) {
 			if (other.marketType != null)
 				return false;
@@ -194,6 +207,10 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 				return false;
 		} else if (!projectionDescription.equals(other.projectionDescription))
 			return false;
+		return equalsValidationThree(other);
+	}
+
+	private boolean equalsValidationThree(GtnReportComparisonProjectionBean other) {
 		if (projectionMasterSid != other.projectionMasterSid)
 			return false;
 		if (projectionName == null) {

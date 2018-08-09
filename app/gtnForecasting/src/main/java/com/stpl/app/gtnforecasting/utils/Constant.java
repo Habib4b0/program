@@ -2142,6 +2142,8 @@ public class Constant {
     public static final String CUSTOM_VIEW_DECLARATION = "customViewDeclaration";
     public static final String FUNCTION_PRC_VIEWS_CALL_UOM = "FUNCTION_PRC_VIEWS_CALL_UOM";
     public static final String VARIANCE_SCREEN = "Variance";
+    public static final String UNIT_OF_MEASURE = "UnitOfMeasure";
+    public static final String CONVERSION_FACTOR_DDLB = "ConversionFactor";
 
     /**
      * Enum for Frequency constants
@@ -2184,6 +2186,7 @@ public class Constant {
     public static final String PROJ_PER_OF_BUISNESS = "Forecast % of Business";
     public static final String SHOW_ALL_GROUPS = "Show All Groups";
     public static final String DATA_SELECTION_DED_LEVEL = "Deduction Level";
+    public static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
 
     public enum ProjectionConstants {
 

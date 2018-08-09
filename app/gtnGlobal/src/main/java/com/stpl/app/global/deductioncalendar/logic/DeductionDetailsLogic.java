@@ -72,7 +72,7 @@ public class DeductionDetailsLogic {
         LOGGER.debug("Inside getDeductionDetailsCount");
         try {
             int count = 0;
-            if (getParent != null && getParent instanceof TableDTO) {
+            if (getParent instanceof TableDTO) {
                 tableDTO = (TableDTO) getParent;
                 deductionDTO.setLevelNo(tableDTO.getLevelNo() + 1);
             } else {
@@ -104,7 +104,7 @@ public class DeductionDetailsLogic {
      */
     public List<TableDTO> getDeductionDetailsData(Object getParent, DeductionDetailsDTO deductionDTO, TableDTO tableDTO, int start, int offset,SessionDTO sessionDTO) {
         LOGGER.debug("Inside getDeductionDetailsData ");
-        if (getParent != null && getParent instanceof TableDTO) {
+        if (getParent instanceof TableDTO) {
             tableDTO = (TableDTO) getParent;
             deductionDTO.setLevelNo(tableDTO.getLevelNo() + 1);
         } else {

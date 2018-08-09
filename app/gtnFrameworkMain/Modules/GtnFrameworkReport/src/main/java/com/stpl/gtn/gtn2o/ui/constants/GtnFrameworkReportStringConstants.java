@@ -491,6 +491,22 @@ public final class GtnFrameworkReportStringConstants {
         public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
         
 	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
+	
+	public static final String MARGIN_LEFT_9 = "stpl-margin-left-9px";
+	
+	public static final String COMPARISON_OPTIONS = "comparisonOptions";
+	
+	public static final String MARGIN_TOP_11 = "stpl-margin-top-11";
+	
+	public static final String MARGIN_LEFT_10 = "stpl-margin-left-10";
+	
+	public static final String MARGIN_CUSTOM_STYLE_10 = "v-margin-custom-style-10";
+	
+	public static final String CUSTOM_VARIABLE_TYPE_OPTIONGROUP = "_custom_Variable_Type_OptionGroup";
+	
+	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
+	
+	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");

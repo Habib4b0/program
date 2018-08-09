@@ -93,14 +93,6 @@ public class GtnReportingDashboardReportProfileLoadAction
 										: 0);
 		
 		
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString(), viewId)
-				.loadV8ComboBoxComponentValue(
-						Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabCustomViewCombobox())
-								.isPresent() == true
-										? reportProfileSaveLookupBean.getDisplaySelectionTabCustomViewCombobox()
-										: "-Select one-");
-		
-		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(8).toString(), viewId).updateSelection(
 				Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()).isPresent() == true
 						? reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()

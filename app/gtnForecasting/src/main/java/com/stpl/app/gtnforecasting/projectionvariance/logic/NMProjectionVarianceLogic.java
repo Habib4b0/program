@@ -315,7 +315,7 @@ public class NMProjectionVarianceLogic {
 		return finalList;
 	}
 
-	public Boolean isProjecionId(List<ComparisonLookupDTO> finalList, ComparisonLookupDTO comparisonLookupDTO) {
+	public boolean isProjecionId(List<ComparisonLookupDTO> finalList, ComparisonLookupDTO comparisonLookupDTO) {
 		for (ComparisonLookupDTO comparisonLookupDTO1 : finalList) {
 			if (comparisonLookupDTO1.getProjectionId() == comparisonLookupDTO.getProjectionId()) {
 				return true;
@@ -3007,8 +3007,7 @@ public class NMProjectionVarianceLogic {
 	}
 
 	private String getProgramCategoryForCurrentHierarchy(PVSelectionDTO projSelDTO) {
-		boolean viewFlag = false;
-		String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
+		String tableName = "ST_";
 		String discountNoList = StringUtils.EMPTY;
 		String indicatorValue = StringUtils.EMPTY;
 		discountNoList = D.equals(projSelDTO.getHierarchyIndicator()) && projSelDTO.getLevelNo() == NumericConstants.TEN
@@ -3030,13 +3029,8 @@ public class NMProjectionVarianceLogic {
 				+ "                        REBATE_PROGRAM_TYPE\n" + "        FROM   RS_CONTRACT RS\n"
 				+ "               INNER JOIN " + tableName + "NM_DISCOUNT_PROJ_MASTER DM\n"
 				+ "                       ON RS.RS_CONTRACT_SID = DM.RS_CONTRACT_SID\n";
-		if (viewFlag) {
-			query += " INNER JOIN PROJECTION_DETAILS PD\n"
-					+ "  ON PD.PROJECTION_DETAILS_SID = DM.PROJECTION_DETAILS_SID\n";
-		} else {
 			query += "               INNER JOIN #SELECTED_HIERARCHY_NO PD\n"
 					+ "                       ON PD.CCP_DETAILS_SID = DM.CCP_DETAILS_SID\n";
-		}
 		query += "               JOIN CCP_DETAILS CCP\n"
 				+ "                 ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
 				+ "                    AND RS.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
@@ -3048,9 +3042,6 @@ public class NMProjectionVarianceLogic {
 				+ "                                WHEN HT.DESCRIPTION = 'OI' THEN 'OFF INVOICE'\n"
 				+ "                                ELSE HT.DESCRIPTION\n"
 				+ "                              END = DM.PRICE_GROUP_TYPE\n";
-		if (viewFlag) {
-			query += "WHERE  PD.PROJECTION_MASTER_SID =" + projSelDTO.getProjectionId() + " AND";
-		}
 		if (!discountNoList.equals(Constant.SPACE)) {
 			query += "        WHERE  DM.RS_CONTRACT_SID\n" + "                    IN (" + discountNoList + " )\n"
 					+ "               AND RS.INBOUND_STATUS <> 'D'\n";
@@ -3069,8 +3060,7 @@ public class NMProjectionVarianceLogic {
 	}
 
 	private String getPPACount(PVSelectionDTO projSelDTO, Boolean isprogram, Boolean isTotal) {
-		boolean viewFlag = false;
-		String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
+		String tableName = "ST_";
 		String query = " SELECT ";
 		if (isprogram) {
 			query += " COUNT(DISTINCT TEMP.RS_CONTRACT_SID) ";
@@ -3082,40 +3072,10 @@ public class NMProjectionVarianceLogic {
 		if (!isTotal) {
 			query += " JOIN   @CCP CCP ON TEMP.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n";
 		}
-		if (viewFlag) {
-			query += "JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = TEMP.PROJECTION_DETAILS_SID  \n";
-		}
 		if (!isTotal) {
 			query += "JOIN RS_CONTRACT RS ON RS.RS_CONTRACT_SID = TEMP.RS_CONTRACT_SID \n";
 		}
-		if (viewFlag) {
-			query += "WHERE PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
-		}
 		return query;
-	}
-
-	private int getPPACountValue(PVSelectionDTO projSelDTO) {
-		projSelDTO.setTreeLevelNo(1);
-		boolean viewFlag = false;
-		String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
-		int count = 0;
-		try {
-			String query = CommonLogic.getCCPQuery(projSelDTO, Boolean.TRUE) + " SELECT COUNT(DISTINCT RS.RS_NAME) "
-					+ "FROM " + tableName + "NM_PPA_PROJECTION_MASTER TEMP \n"
-					+ "JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = TEMP.PROJECTION_DETAILS_SID  \n"
-					+ " JOIN   @CCP CCP ON pd.ccp_details_sid = ccp.CCP_DETAILS_SID\n"
-					+ "JOIN RS_CONTRACT RS ON RS.RS_CONTRACT_SID = TEMP.RS_CONTRACT_SID \n"
-					+ "WHERE PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
-			List list = (List<Object>) CommonLogic.executeSelectQuery(
-					QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
-			if (list != null && !list.isEmpty()) {
-				Object ob = list.get(0);
-				count = count + Integer.parseInt(String.valueOf(ob));
-			}
-		} catch (NumberFormatException e) {
-			LOGGER.error(e.getMessage());
-		}
-		return count;
 	}
 
 	public ProjectionVarianceDTO calculateDetailTotal(String varaibleName, String varibaleCat, int index,

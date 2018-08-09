@@ -1827,7 +1827,7 @@ public class NewDiscountTab extends CustomComponent {
             } else {
                 final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(tableBeanId);
                 if (collection == null) {
-                    Object ob = (ContractsDetailsDto) dashboardTreeTable.getValue();
+                    ContractsDetailsDto ob = (ContractsDetailsDto) dashboardTreeTable.getValue();
                     ContractsDetailsDto treeBean = getBeanFromID(dashboardTreeTable.getValue());
                     if (treeBean.getInternalId() == 0) {
                         dashBoardTreeContainer.removeItem(ob);
@@ -1864,7 +1864,7 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     public void addDiscountSaveLogic() {
-
+        String searchSessionId=  session.getSearchSessionId();
         boolean check = false;
         final Collection idList = dashBoardTreeContainer.getItemIds();
         String[] level = {Constants.IndicatorConstants.CONTRACT.toString(),
@@ -1872,7 +1872,7 @@ public class NewDiscountTab extends CustomComponent {
             Constants.IndicatorConstants.IFP.toString(),
             Constants.IndicatorConstants.PS_VALUE.toString(),
             Constants.IndicatorConstants.RS_VALUE.toString()};
-        session.setSearchSessionId(session.getSearchSessionId());
+        session.setSearchSessionId(searchSessionId);
         check = checkForAllLevels(dashboardTreeTable.rootItemIds(), level, 0);
         if (check) {
             MessageBox.showPlain(Icon.QUESTION, "Create", "Are you sure you want to save the contract ?", new MessageBoxListener() {
