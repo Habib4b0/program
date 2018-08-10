@@ -189,7 +189,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			ListDataProvider<GtnWsRecordBean> dataprovider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
 			dataprovider.setFilter(s -> {
 				String value = s.getPropertyValue("levelValue").toString().toLowerCase(Locale.ENGLISH);
-				return value.contains(filterText.toLowerCase());
+				return value.contains(filterText.toLowerCase(Locale.ENGLISH));
 			});
 		});
 		filterRow.getCell(String.valueOf(column)).setComponent(horizontalLayout);
