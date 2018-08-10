@@ -15096,6 +15096,16 @@ div.v-layout.v-horizontal.v-widget {
 	margin-top: 3px !important;
 }
 
+.stpl .v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+.stpl .v-treegrid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+	border: 3px solid transparent;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
