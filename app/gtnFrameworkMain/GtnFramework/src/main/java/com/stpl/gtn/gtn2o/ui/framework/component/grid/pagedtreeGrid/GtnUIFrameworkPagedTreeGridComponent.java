@@ -257,8 +257,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		return resultTableComponentData.getCustomPagedTreeTableRequest();
 	}
 
-	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
+	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid) {
 		initializeResultTable(pagedTreeGrid);
 	}
 

@@ -1,20 +1,20 @@
-package com.stpl.dependency.queryengine;
+package com.stpl.dependency.queryengine.bean;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 
 public class GtnFrameworkQueryExecutorBean {
 
-	private GtnWsQueryType queryType;
+	private String queryType;
 	private String sqlQuery;
 	private Object[] params;
 	private GtnFrameworkDataType[] dataType;
 	private String procedureName;
 
-	public GtnWsQueryType getQueryType() {
+	public String getQueryType() {
 		return queryType;
 	}
 
-	public void setQueryType(GtnWsQueryType queryType) {
+	public void setQueryType(String queryType) {
 		this.queryType = queryType;
 	}
 

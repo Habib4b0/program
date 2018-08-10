@@ -256,20 +256,37 @@ position: fixed!important;
 margin-left: -50px !important;
 }
 .v-report-reportoptions-hseq{
-    margin-left: -104px !important;
+    margin-left: -34px !important;
 }
 .v-report-reportoptions-hseq-combo{
-   margin-left: 238px !important;
-   margin-top: -42px !important;
-   padding-left: 30px !important;
+   margin-left: 75px !important;
+ 
 }
 .v-report-reportoptions-comparison{
-    margin-left: 109px !important;
+    margin-left: 1px !important;
+    margin-top:  3px !important;
 }
 .v-report-reportoptions-vseq{
-    width: 40% !important;
+    margin-left: 5px !important;
 }
 .v-report-excel-button{
     margin-left: -30px ! important;
+}
+.v-report-options-vb{
+    margin-top: 3px !important;
+}
+.v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+.v-treegrid-scroller::-webkit-scrollbar-thumb {
+border-radius: 0px !important;
+border: 3px solid transparent;
+}
+.v-report-comparisonOption-width{
+	min-width: 170px !important;
+}
+.v-report-comparisonOption-combowidth{
+	width: 170px !important;
 }
 }

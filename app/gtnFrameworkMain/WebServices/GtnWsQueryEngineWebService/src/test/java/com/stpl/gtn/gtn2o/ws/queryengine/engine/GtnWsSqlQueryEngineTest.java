@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.queryengine.engine;
 
+import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
-import com.stpl.dependency.queryengine.GtnFrameworkQueryExecutorBean;
-import com.stpl.dependency.queryengine.GtnWsQueryType;
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService;
 
@@ -23,16 +25,45 @@ public class GtnWsSqlQueryEngineTest {
 
 	@Autowired
 	private GtnFrameworkWsSqlQueryEngineService gtnSqlQueryEngineService;
-
+	
 	@Test
 	public void executeQuery() throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setQueryType(GtnWsQueryType.COUNT);
+		queryExecutorBean.setQueryType("Count");
 		String sqlQuery = "select count(*) from company_master";
 		queryExecutorBean.setSqlQuery(sqlQuery);
 		int count = (int) gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
 		System.out.println("Result is----->" + count);
 		gtnLogger.info("Result is----->" + count);
+	}
+	
+	@Ignore
+	@Test
+	public void executeSelectQuery() throws GtnFrameworkGeneralException{
+		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+		queryExecutorBean.setQueryType("Select");
+		String sqlQuery = "select * from company_master";
+		queryExecutorBean.setSqlQuery(sqlQuery);
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
+		for(Object[] object : resultList){
+			System.out.println("object" +object);
+		}
+	}
+	
+	@Test
+	public void executeSelectParamsQuery() throws GtnFrameworkGeneralException{
+		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+		queryExecutorBean.setQueryType("SELECTWITHPARAMS");
+		String sqlQuery = "select * from company_master where company_master_sid = ?";
+		Object[] params = { 74775};
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER};
+		queryExecutorBean.setSqlQuery(sqlQuery);
+		queryExecutorBean.setParams(params);
+		queryExecutorBean.setDataType(type);
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
+		for(Object[] object : resultList){
+			System.out.println("object" +object);
+		}
 	}
 
 }

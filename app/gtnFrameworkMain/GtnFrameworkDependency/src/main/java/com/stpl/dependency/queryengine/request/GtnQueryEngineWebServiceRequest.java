@@ -1,6 +1,6 @@
 package com.stpl.dependency.queryengine.request;
 
-import com.stpl.dependency.queryengine.GtnFrameworkQueryExecutorBean;
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 
 public class GtnQueryEngineWebServiceRequest {
 

@@ -15072,25 +15072,46 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .stpl .v-report-reportoptions-hseq {
-	margin-left: -104px !important;
+	margin-left: -34px !important;
 }
 
 .stpl .v-report-reportoptions-hseq-combo {
-	margin-left: 238px !important;
-	margin-top: -42px !important;
-	padding-left: 30px !important;
+	margin-left: 75px !important;
 }
 
 .stpl .v-report-reportoptions-comparison {
-	margin-left: 109px !important;
+	margin-left: 1px !important;
+	margin-top: 3px !important;
 }
 
 .stpl .v-report-reportoptions-vseq {
-	width: 40% !important;
+	margin-left: 5px !important;
 }
 
 .stpl .v-report-excel-button {
 	margin-left: -30px !important;
+}
+
+.stpl .v-report-options-vb {
+	margin-top: 3px !important;
+}
+
+.stpl .v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+.stpl .v-treegrid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+	border: 3px solid transparent;
+}
+
+.stpl .v-report-comparisonOption-width {
+	min-width: 170px !important;
+}
+
+.stpl .v-report-comparisonOption-combowidth {
+	width: 170px !important;
 }
 
 .v-slot, .v-spacing {

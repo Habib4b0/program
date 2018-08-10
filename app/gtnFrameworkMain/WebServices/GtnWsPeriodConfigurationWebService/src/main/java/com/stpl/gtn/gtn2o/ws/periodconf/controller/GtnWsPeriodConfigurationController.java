@@ -21,10 +21,10 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 @RestController
 @RequestMapping(value = "/gtnPeriodConfigurationController")
 public class GtnWsPeriodConfigurationController{
-
+	
 	@Autowired
 	private GtnWsPeriodConfigurationService gtnWsPeriodConfigurationService;
-	
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public boolean test() {
 		return true;
@@ -54,6 +54,7 @@ public class GtnWsPeriodConfigurationController{
 		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		List<Object[]> resultList = gtnWsPeriodConfigurationService.loadDate(generalRequest);
+
 		
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
 		comboBoxResponse.setComboBoxList(resultList);
