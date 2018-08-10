@@ -27,6 +27,19 @@
 			<version>${gtnFrameworkComponentRepository.version}</version>
 			<scope>provided</scope>
 		</dependency>
+                
+                <dependency>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <version>4.12</version>
+	  <scope>test</scope>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.hamcrest</groupId>
+	  <artifactId>hamcrest-core</artifactId>
+	  <version>1.3</version>
+	  <scope>test</scope>
+	 </dependency>
 
 	</dependencies>
 	<build>
@@ -44,6 +57,29 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+                   <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.6.201602180812</version>
+                <configuration>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <append>true</append>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             </plugins>
 	</build>
