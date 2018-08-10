@@ -55,4 +55,4 @@ public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearch
 		return searchQueryConfigMap;
 	}
         
-	}
+    }
