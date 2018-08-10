@@ -365,7 +365,7 @@ public class GtnWsCustomViewService {
 				}
 
 			}
-			levelCount = saveVariableData(customViewMasterSid, session, levelCount, variablesList,
+			saveVariableData(customViewMasterSid, session, levelCount, variablesList,
 					lastCustomViewMasterSid);
 
 		} catch (HibernateException e) {
