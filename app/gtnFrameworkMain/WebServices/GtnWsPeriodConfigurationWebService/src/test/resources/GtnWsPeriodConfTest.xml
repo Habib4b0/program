@@ -8,7 +8,6 @@
         
     <bean id="periodConfSqlService"
     		class= "com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService">
-    	<property name="sqlPropertyBean"> <ref bean="sqlPropertyBean"/></property>
     </bean>
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">

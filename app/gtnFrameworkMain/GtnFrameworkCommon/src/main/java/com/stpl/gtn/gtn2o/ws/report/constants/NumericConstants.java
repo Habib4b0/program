@@ -1,7 +1,11 @@
 package com.stpl.gtn.gtn2o.ws.report.constants;
 
-public class NumericConstants {
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 
+public class NumericConstants {
+    private NumericConstants() {
+        throw new AccessDeniedException("Can not create object for this class " + NumericConstants.class.getName());
+    }
     public static final int REPORT_ONE = 1;
     public static final int REPORT_TWO = 2;
     public static final int REPORT_THREE = 3;

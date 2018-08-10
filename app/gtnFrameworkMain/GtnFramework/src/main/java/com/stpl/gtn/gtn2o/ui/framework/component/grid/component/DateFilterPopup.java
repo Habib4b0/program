@@ -79,7 +79,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     private String dateFormatPattern="MM/dd/yy";
     
     
-    private String SHOWALL="Show all";
+    private String showAll="Show all";
 
     /** The Constant DEFAULT_FROM_CAPTION. */
     private static final String DEFAULT_FROM_CAPTION = "From";
@@ -195,7 +195,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
     private void updateCaption(boolean nullTheCaption) {
         if (nullTheCaption) {
           
-                content.setCaption(SHOWALL);
+                content.setCaption(showAll);
             
         } else {
             content.setCaption((fromField.getValue() == null ? "" : DateTimeFormatter.ofPattern(dateFormatPattern).format(fromField.getValue()))
@@ -248,7 +248,7 @@ public class DateFilterPopup extends CustomField<DateInterval> {
         if (content == null) {
             content = new PopupButton(null);
             content.setWidth(100, Unit.PERCENTAGE);
-            content.setCaption(SHOWALL);
+            content.setCaption(showAll);
             buildPopup();
             setStyleName("datefilterpopup");
             updateCaption(true);

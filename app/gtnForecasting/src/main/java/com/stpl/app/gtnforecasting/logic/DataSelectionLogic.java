@@ -323,7 +323,6 @@ public class DataSelectionLogic {
 			int levelNo, String deductionID, String deductionLevel, final Object companySID,
 			final Object businessUnitSID) throws SystemException {
 		List<Leveldto> values = new ArrayList<>();
-		List result;
 		Map<String, Object> parameters = new HashMap<>();
 		Leveldto dto;
 		if (isNdc) {
@@ -350,8 +349,8 @@ public class DataSelectionLogic {
 		parameters.put(Constant.SCREEN_NAME, screenName);
 		parameters.put("deductionValue", StringUtils.EMPTY + deductionID);
 		parameters.put("deductionLevel", deductionLevel);
-		result = dataSelectionDao.getInnerLevel(parameters);
-		if (!result.isEmpty() && result != null) {
+            List result = dataSelectionDao.getInnerLevel(parameters);
+            if (!result.isEmpty()) {
 			for (int i = 0; i < result.size(); i++) {
 				dto = new Leveldto();
 				Object[] obj = (Object[]) result.get(i);
@@ -446,21 +445,6 @@ public class DataSelectionLogic {
 		final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.COMPANYMASTERSID, sids));
 		return dataSelectionDao.getCompanyMasterList(dynamicQuery);
-	}
-
-	public List<ItemMaster> getItemsFromSids(final List<String> itemSids) throws SystemException {
-
-		List<Integer> sids = new ArrayList<>();
-		List<ItemMaster> items = null;
-		for (String sid : itemSids) {
-			sids.add(DataTypeConverter.convertStringToInteger(sid));
-		}
-		if (itemSids != null && !itemSids.isEmpty()) {
-			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
-			dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, sids));
-			items = dataSelectionDao.getItemMaster(dynamicQuery);
-		}
-		return items;
 	}
 
 	/**
