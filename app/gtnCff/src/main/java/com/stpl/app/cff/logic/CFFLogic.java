@@ -94,6 +94,8 @@ public class CFFLogic {
     private final DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     public static final String LATEST_ESTIMATE_PROPERTY = "latestEstimate"; 
     public static final String UPDATE_CYCLE_PROPERTY = "updateCycle";
+    public static final String RBSID = "?RBSID";
+    public static final String RBVERSION = "?RBVERSION";
     public static final String EACH = "EACH";
     ExecutorService service = ThreadPool.getInstance().getService();;
     public static final String STRING_COMMA = ",";
@@ -1554,6 +1556,56 @@ public class CFFLogic {
         }
         return resultMap;
     }
+    
+    public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new LinkedHashMap<>();
+
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesCP", sessionDTO);
+		tempList.clear();
+                String customCCPQuery = SQlUtil.getQuery("getRelationshipCustomCCP").replace("?RBSID", relationshipBuilderSid).replace("@CUSTOMSID", relationshipBuilderSid);
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(customCCPQuery + bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List<Object> detailsList = new ArrayList<>();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+		        detailsList.add(object[object.length-1]);											// Actual System Id
+			 // HIERARCHY
+			updateRelationShipLevelList(object, detailsList, 1);
+                        
+			resultMap.put(String.valueOf(object[0]), detailsList);
+
+			if (j == tempList.size() - 1) {
+				if (detailsList.get(detailsList.size() - 1).equals("C")) {
+					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				} else {
+					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				}
+			}
+
+		}
+		return resultMap;
+	}
+    
+    private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
+		if (object.length >= 5) {
+			List<Object> displayFormat = new ArrayList<>();
+			for (int i = 5; i < object.length - extraColumnIndex; i++) {
+				displayFormat.add(object[i]);
+			}
+			detailsList.add(displayFormat);
+		}
+	}
+    
+    
 
     /**
      * To get the selected cust and prod values. Used in edit mode. For add mode
@@ -1580,6 +1632,35 @@ public class CFFLogic {
         }
         return resultList;
     }
+    
+    public static Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeductionCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new HashMap<>();
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesDed", sessionDTO);
+		tempList.clear();
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List detailsList = new ArrayList();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+															// Actual System Id
+			detailsList.add("D"); // HIERARCHY INDICATOR
+			updateRelationShipLevelList(object, detailsList, 0);
+			resultMap.put(String.valueOf(object[0]), detailsList);
+		}
+		return resultMap;
+	}
+    
+    
 
     /**
      * Used to check which level is top in selected customer hierarchy either
@@ -1643,9 +1724,19 @@ public class CFFLogic {
         
     }
   
-    public void loadDiscountTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
-        
+    public void loadDiscountCustomTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
         service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOM");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"U", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
+                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+    }
+    
+    public void loadDiscountTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
+    service.submit(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOMER");
@@ -1663,18 +1754,6 @@ public class CFFLogic {
             }
         });
         
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOM");
-                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"U", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
-                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
-            }
-        });
-       
-        
     }
-    
-    
 }
 

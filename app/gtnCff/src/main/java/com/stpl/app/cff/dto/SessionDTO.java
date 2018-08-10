@@ -68,6 +68,8 @@ public class SessionDTO implements Cloneable {
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
     private String dedRelationshipBuilderSid = StringUtils.EMPTY;
     private Map<String, String> customerDescription = new HashMap<>();
+    private Map<String, List> customDescription = new HashMap<>();
+    private Map<String, List> deductionLevelDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
     private Map<String, String> deductionDescription = new HashMap<>();
     private int customerHierarchyId;
@@ -1034,5 +1036,21 @@ public class SessionDTO implements Cloneable {
     public void setLevelHierarchyNo(String levelHierarchyNo) {
         this.levelHierarchyNo = levelHierarchyNo;
     }
-        
+
+    public Map<String, List> getCustomDescription() {
+        return customDescription;
+    }
+
+    public void setCustomDescription(Map<String, List> customDescription) {
+        this.customDescription = customDescription;
+    }
+    
+    public Map<String, List> getDeductionLevelDescription() {
+        return deductionLevelDescription;
+    }
+
+    public void setDeductionLevelDescription(Map<String, List> deductionLevelDescription) {
+        this.deductionLevelDescription = deductionLevelDescription;
+    }
+
 }

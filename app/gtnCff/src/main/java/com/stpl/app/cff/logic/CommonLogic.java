@@ -2995,15 +2995,15 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
     }
     
-    public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+    public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,ProjectionSelectionDTO projSelDTO) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException("Invalid Level No:" + levelNo);
         }
 
-        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
+        Map<String, List> relationshipLevelDetailsMap = projSelDTO.isIsCustomHierarchy() ? sessionDTO.getHierarchyLevelDetails() : sessionDTO.getCustomDescription();
         StringBuilder stringBuilder = new StringBuilder();
-
+        String hierarchyForLevel=StringUtils.EMPTY;
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
         int i=1;
@@ -3015,6 +3015,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getValue().get(3));
+                hierarchyForLevel=hierarchyForLevel.concat(entry.getValue().get(3).toString()).concat(Constants.COMMA);
                 stringBuilder.append("', ");
                 stringBuilder.append(i++);
                 stringBuilder.append( " )");
@@ -3026,6 +3027,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
+        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA));
+        sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         return stringBuilder.toString();
     }
     

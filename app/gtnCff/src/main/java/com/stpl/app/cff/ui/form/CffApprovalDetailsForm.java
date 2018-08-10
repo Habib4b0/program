@@ -265,14 +265,16 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         try {
                             Future future = new CommonLogic().callThreadForProcedureFileInsert(sessionDTO);
                             future.get();
-                           cffLogic.loadDiscountTempTableInThread(sessionDTO,true);
+                            if(previousTabPostion==NumericConstants.ONE){
+                           cffLogic.loadDiscountCustomTempTableInThread(sessionDTO,true);
+                        }
                         } catch (InterruptedException | ExecutionException ex) {
                            LOGGER.error(ex.getMessage());
                         }
                     }
                     if(tabPosition == NumericConstants.FOUR){
                         try {
-//                          new CommonLogic().checkForCompletion(sessionDTO,Constants.DISCOUNT, "CUSTOMER");
+                          new CommonLogic().checkForCompletion(sessionDTO,Constants.DISCOUNT, "CUSTOMER");
                         } catch (Exception ex) {
                            LOGGER.error(ex.getMessage());
                         }

@@ -501,6 +501,7 @@ public class DataSelection extends AbstractDataSelection {
 						cffLogic.getLevelValueDetails(sessionDTO, customerRelation.getValue(), true));
 				sessionDTO.setProductLevelDetails(
 						cffLogic.getLevelValueDetails(sessionDTO, productRelation.getValue(), false));
+                                
 				if (sessionDTO.getFuture() != null) {
 					sessionDTO.getFuture().get();
 					cffLogic.callDeductionCCPHierarchyInsertion(sessionDTO, sessionDTO.getCurrentTableNames(),
@@ -517,7 +518,10 @@ public class DataSelection extends AbstractDataSelection {
                                 
                                 sessionDTO.setDeductionName(deductionDdlb.getItemCaption(deductionDdlb.getValue()));
                                 sessionDTO.setDeductionNo(Integer.parseInt(String.valueOf(deductionDdlb.getValue())));
+                                sessionDTO.setCustomDescription(cffLogic.getRelationshipDetailsCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
+                                sessionDTO.setDeductionLevelDescription(cffLogic.getRelationshipDetailsDeductionCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
                                 cffLogic.loadSalesTempTableInThread(sessionDTO,true);
+                                cffLogic.loadDiscountTempTableInThread(sessionDTO, true);
 
 			}
 

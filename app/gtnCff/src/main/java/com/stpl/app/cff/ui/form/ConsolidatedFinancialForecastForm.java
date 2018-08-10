@@ -533,6 +533,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         inputList.add(sessionDto.getProjectionId());
                                         final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
                                         sessionDto.setFrequency(loadFrequency.get(0));
+                                        final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
+                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
@@ -576,7 +578,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
 							dataSelectionDto);
-
 					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
 					sessionDto.setProductLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
@@ -589,8 +590,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
 								BooleanConstant.getFalseFlag());
 					}
-                                        sessionDTO.setStatusName("E");
-                                        cffLogic.loadSalesTempTableInThread(sessionDTO,false);
+                                        sessionDto.setStatusName("E");
+                                        cffLogic.loadSalesTempTableInThread(sessionDto,false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);

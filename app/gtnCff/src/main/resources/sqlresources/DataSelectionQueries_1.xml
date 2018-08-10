@@ -965,7 +965,16 @@ WHERE (
         <query>
     		<![CDATA[
                 
- SELECT FIELD_VALUES FROM CFF_SELECTION WHERE SCREEN_NAME='Projection Results' and CFF_MASTER_SID= ? and FIELD_NAME='Frequency'
+ SELECT distinct FIELD_VALUES FROM CFF_SELECTION WHERE SCREEN_NAME='Projection Variance' and CFF_MASTER_SID= ? and FIELD_NAME='Frequency'
+         
+		]]>
+        </query>
+    </entity> 
+            <entity id="loadEditDeduction">
+        <query>
+    		<![CDATA[
+                
+ SELECT distinct FIELD_VALUES FROM CFF_SELECTION WHERE SCREEN_NAME='Projection Variance' and CFF_MASTER_SID= ? and FIELD_NAME='DeductionLevel'
          
 		]]>
         </query>
