@@ -332,7 +332,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(fromPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
-		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		fromPeriod.setComponentId(nameSpace + "_" + "from");
 		fromPeriod.setComponentName("From ");
 		fromPeriod.setAddToParent(Boolean.TRUE);
@@ -361,7 +361,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(toPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
-		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		toPeriod.setComponentId(nameSpace + "_" + "to");
 		toPeriod.setComponentName("To ");
 		toPeriod.setAddToParent(Boolean.TRUE);

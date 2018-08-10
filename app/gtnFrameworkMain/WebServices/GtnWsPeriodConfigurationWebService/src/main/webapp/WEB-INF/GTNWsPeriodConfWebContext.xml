@@ -9,7 +9,10 @@
          
      <bean id="periodConfigurationController" class="com.stpl.gtn.gtn2o.ws.periodconf.controller.GtnWsPeriodConfigurationController"
      init-method="init">
-    </bean>
+     </bean>
+     <bean id="gtnWsPeriodConfigurationService" class="com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService"/>
+          <bean id="gtnWsPeriodConfSqlService" class="com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService"/>
+     
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />

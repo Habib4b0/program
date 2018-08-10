@@ -29,11 +29,13 @@ public class GtnValidateWsServiceRegistryService {
 		RestTemplate restTemplate = new RestTemplate();
 		GtnQueryEngineWebServiceResponse response = restTemplate.postForObject(getWebServiceEndpointBasedOnModule("/executeQuery","queryEngine"), queryEngineWebServiceRequest,
 				GtnQueryEngineWebServiceResponse.class);
-		List resultList = (List) response.getResult();
+		List<Object[]> resultList = response.getQueryEngineWebServiceBean().getResultList();
 		for(int i=0;i<resultList.size();i++){
-			
-			if(((List)resultList.get(i)).contains(serviceRegistryBean.getRegisteredWebContext())){
-				return true;
+			Object[] obj = resultList.get(i);
+			for(int j=0;j<obj.length;j++){
+				if(obj[j].equals(serviceRegistryBean.getRegisteredWebContext())){
+					return true;
+				}
 			}
 		}
 	
