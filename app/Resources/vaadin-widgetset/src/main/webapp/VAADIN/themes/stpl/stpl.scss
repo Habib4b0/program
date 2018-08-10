@@ -282,5 +282,11 @@ margin-left: -50px !important;
 .v-treegrid-scroller::-webkit-scrollbar-thumb {
 border-radius: 0px !important;
 border: 3px solid transparent;
+
+.v-report-comparisonOption-width{
+	min-width: 170px !important;
+}
+.v-report-comparisonOption-combowidth{
+	width: 170px !important;
 }
 }
