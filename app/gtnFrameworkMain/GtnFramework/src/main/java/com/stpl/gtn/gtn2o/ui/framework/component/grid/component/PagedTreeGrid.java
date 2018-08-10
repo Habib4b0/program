@@ -216,8 +216,7 @@ public class PagedTreeGrid {
 				GtnWsRecordBean parent = event.getExpandedItem();
 				if (event.isUserOriginated()) {
 					TreeData<GtnWsRecordBean> treeData = getTreeDataProvider().getTreeData();
-					int childCount = 0;
-					expandRow(parent, childCount, treeData, true);
+					expandRow(parent, treeData, true);
 				}
 			} catch (Exception ex) {
 				gtnlogger.error(ex.getMessage(), ex);
@@ -262,12 +261,10 @@ public class PagedTreeGrid {
 				}
 				return parent;
 			}).forEach((GtnWsRecordBean parent) -> {
-				int rowNo = GridUtils.getNodeIndex(parent);
-				if (expandedRowIds.contains(rowNo)) {
-					int childCount = 0;
+				if (expandedRowIds.contains(GridUtils.getNodeIndex(parent))) {
 
-					expandRow(parent, childCount, data, false);
-					if (rowNo != 0 && rowNo % pageLength != 0) {
+					expandRow(parent, data, false);
+					if (GridUtils.getNodeIndex(parent) != 0 && GridUtils.getNodeIndex(parent) % pageLength != 0) {
 						grid.expand(parent);
 					}
 				}
@@ -280,11 +277,10 @@ public class PagedTreeGrid {
 	/**
 	 * expands the row
 	 */
-	public void expandRow(GtnWsRecordBean parent, int chdCount, TreeData<GtnWsRecordBean> treeData,
+	public void expandRow(GtnWsRecordBean parent, TreeData<GtnWsRecordBean> treeData,
 			boolean moveToNextPage) {
-               int childCount =  chdCount;
 		if (parent != null && GridUtils.getLevelNo(parent) != 0 && GridUtils.hasChildren(parent)) {
-			childCount = GridUtils.getChildCount(parent);
+			int childCount = GridUtils.getChildCount(parent);
 			for (int i = 0; treeData.contains(parent) && i < treeData.getChildren(parent).size(); i++) {
 				treeData.removeItem(treeData.getChildren(parent).get(i));
 			}
@@ -513,9 +509,9 @@ public class PagedTreeGrid {
               int start=strt;
 		while (currentLevel >= tableConfig.getLevelNo() && itemsToFetch >= fetched) {
 			start = findStart(start, isFirst, currentLevel);
+                        String hierarchyNo=hierNo.isEmpty() ? hierNo : hierNo.substring(0, hierNo.lastIndexOf('.'));
 			List<GtnWsRecordBean> rows = loadData(start, itemsToFetch, currentLevel,
-					currentLevel == tableConfig.getLevelNo() ? GtnFrameworkCommonStringConstants.STRING_EMPTY
-							: hierNo.isEmpty() ? hierNo : hierNo.substring(0, hierNo.lastIndexOf('.'))).getRows();
+					currentLevel == tableConfig.getLevelNo() ? GtnFrameworkCommonStringConstants.STRING_EMPTY:hierarchyNo).getRows();
 			currentLevel--;
 			fetchRowsRecursively(null, rows, treeData, itemsToFetch);
 		}
@@ -722,9 +718,7 @@ public class PagedTreeGrid {
 		if ((pageNumber - 1) >= 0) {
 
 			setPageNoFieldValue(--pageNumber);
-			if (pageNumber != 0) {
-
-			} else {
+			if (pageNumber == 0) {
 				clearTempVariables();
 			}
 			paintCurrentPage();

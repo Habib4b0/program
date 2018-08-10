@@ -11,7 +11,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelConfig
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -22,7 +21,6 @@ import java.util.List;
  * @author gokulkumar.murugesan
  */
 public class GtnUIFrameworkV8LabelComponent implements GtnUIFrameworkComponent {
-    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8LabelComponent.class);
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig)

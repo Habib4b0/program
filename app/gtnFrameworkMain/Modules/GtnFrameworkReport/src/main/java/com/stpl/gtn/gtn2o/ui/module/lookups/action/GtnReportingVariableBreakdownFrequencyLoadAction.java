@@ -111,8 +111,7 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
                     GtnUIFrameworkComponentConfig componentConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId).getComponentConfig();
                     componentConfig.setGtnUIFrameWorkActionConfigList(frequencyActionConfigList);
                     GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-                    combobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                            actionParameterList.get(2).toString(), componentId,
+                    combobox.reloadComponentFromView(                            actionParameterList.get(2).toString(), componentId,
                             Arrays.asList(""));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId)
 				.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));

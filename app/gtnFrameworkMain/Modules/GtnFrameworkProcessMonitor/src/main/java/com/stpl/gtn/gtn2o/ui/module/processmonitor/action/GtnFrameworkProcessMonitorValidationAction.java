@@ -167,8 +167,10 @@ public class GtnFrameworkProcessMonitorValidationAction
 		String hours1Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNONEHOURDDLB).getCaptionFromComboBox();
 		String hours2Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNTWOHOURDDLB).getCaptionFromComboBox();
 		String hours3Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNTHREEHOURDDLB).getCaptionFromComboBox();
-	
-		if (alertForOneHour(processType, run1Ddlb, hours1Ddlb, run2Ddlb, hours2Ddlb, run3Ddlb, hours3Ddlb, componentId)) return;
+	        String[] run={run1Ddlb,run2Ddlb,run3Ddlb};
+	        String[] hour={hours1Ddlb,hours2Ddlb,hours3Ddlb};
+                
+		if (alertForOneHour(processType,run,hour, componentId)) return;
                 
 		if (alertForHourAndMinute(processType, run1Ddlb, hours1Ddlb, componentId)) return;
                 
@@ -227,12 +229,12 @@ public class GtnFrameworkProcessMonitorValidationAction
         return false;
     }
 
-    private boolean alertForOneHour(String processType, String run1Ddlb, String hours1Ddlb, String run2Ddlb, String hours2Ddlb, String run3Ddlb, String hours3Ddlb, String componentId) throws GtnFrameworkGeneralException {
-        if (((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC))||
-                (processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
-                && (run1Ddlb.isEmpty()&& hours1Ddlb.isEmpty())
-                && (run2Ddlb.isEmpty()&& hours2Ddlb.isEmpty())
-                && (run3Ddlb.isEmpty() && hours3Ddlb.isEmpty())) {
+    private boolean alertForOneHour(String processType, String[] run, String[] hours, String componentId) throws GtnFrameworkGeneralException {
+        if (((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC))
+                || (processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
+                && (run[0].isEmpty() && hours[0].isEmpty())
+                && (run[1].isEmpty() && hours[1].isEmpty())
+                && (run[2].isEmpty() && hours[2].isEmpty())) {
             callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME,
                     componentId);
             return true;

@@ -14,7 +14,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.constants.GtnFrameworkEmailConfigStringContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkEmailServerTabConfig {
@@ -235,7 +234,7 @@ public class GtnFrameworkEmailServerTabConfig {
 		componentList.add(mailConfigBackButtonLayout);
 
 		GtnUIFrameworkComponentConfig backButtonConfig = componentConfig.getUIFrameworkComponentConfig(
-				"EmailConfigBackButton", true, "MailConfigBackButtonLayout", GtnUIFrameworkComponentType.BUTTON);
+				GtnFrameworkCommonConstants.EMAIL_CONFIG_BACK_BTN, true, "MailConfigBackButtonLayout", GtnUIFrameworkComponentType.BUTTON);
 		backButtonConfig.setAuthorizationIncluded(true);
 		backButtonConfig.setComponentName("Back");
 		backButtonConfig.setVisible(false);
@@ -252,13 +251,14 @@ public class GtnFrameworkEmailServerTabConfig {
 		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_PASS_FIELD);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_PORT_NUMBER);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_TEST_MAIL_ADDRESS);
-		customAction.addActionParameter("MailConfigViewButton");
-		customAction.addActionParameter("EmailConfigAddSaveButton");
-		customAction.addActionParameter("EmailConfigBackButton");
+		customAction.addActionParameter(GtnFrameworkCommonConstants.MAIL_CONFIG_VIEW_BUTTON);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_ADD_SAVE_BUTTON);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_BACK_BTN);
 		backActionConfigList.add(customAction);
 		backButtonConfig.setGtnUIFrameWorkActionConfigList(backActionConfigList);	
 
 	}
+    
 
 	private void addSaveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
@@ -266,8 +266,7 @@ public class GtnFrameworkEmailServerTabConfig {
 				"EmailConfigAddSaveButtonlayout", true, GtnFrameworkCommonConstants.MAIL_CONFIGSAVE_BUTTONLAYOUT);
 		componentList.add(emailConfigAddSaveButtonLayout);
 
-		GtnUIFrameworkComponentConfig emailConfigAddSaveButton = componentConfig.getUIFrameworkComponentConfig(
-				"EmailConfigAddSaveButton", true, "EmailConfigAddSaveButtonlayout", GtnUIFrameworkComponentType.BUTTON);
+		GtnUIFrameworkComponentConfig emailConfigAddSaveButton = componentConfig.getUIFrameworkComponentConfig(GtnFrameworkCommonConstants.EMAIL_CONFIG_ADD_SAVE_BUTTON, true, "EmailConfigAddSaveButtonlayout", GtnUIFrameworkComponentType.BUTTON);
 		emailConfigAddSaveButton.setAuthorizationIncluded(true);
 		emailConfigAddSaveButton.setComponentName("Save");
 		componentList.add(emailConfigAddSaveButton);
@@ -292,8 +291,7 @@ public class GtnFrameworkEmailServerTabConfig {
 				"MailConfigViewButtonlayout", true, GtnFrameworkCommonConstants.MAIL_CONFIGSAVE_BUTTONLAYOUT);
 		componentList.add(mailConfigViewButtonLayout);
 
-		GtnUIFrameworkComponentConfig viewButtonConfig = componentConfig.getUIFrameworkComponentConfig(
-				"MailConfigViewButton", true, "MailConfigViewButtonlayout", GtnUIFrameworkComponentType.BUTTON);
+		GtnUIFrameworkComponentConfig viewButtonConfig = componentConfig.getUIFrameworkComponentConfig(GtnFrameworkCommonConstants.MAIL_CONFIG_VIEW_BUTTON, true, "MailConfigViewButtonlayout", GtnUIFrameworkComponentType.BUTTON);
 		viewButtonConfig.setAuthorizationIncluded(true);
 		viewButtonConfig.setComponentName("View");
 		componentList.add(viewButtonConfig);
@@ -309,12 +307,13 @@ public class GtnFrameworkEmailServerTabConfig {
 		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_PASS_FIELD);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_PORT_NUMBER);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_TAB_TEST_MAIL_ADDRESS);
-		customAction.addActionParameter("MailConfigViewButton");
-		customAction.addActionParameter("EmailConfigAddSaveButton");
-		customAction.addActionParameter("EmailConfigBackButton");
+		customAction.addActionParameter(GtnFrameworkCommonConstants.MAIL_CONFIG_VIEW_BUTTON);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_ADD_SAVE_BUTTON);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.EMAIL_CONFIG_BACK_BTN);
 		viewActionConfigList.add(customAction);
 		viewButtonConfig.setGtnUIFrameWorkActionConfigList(viewActionConfigList);
 
 	}
+    
 
 }

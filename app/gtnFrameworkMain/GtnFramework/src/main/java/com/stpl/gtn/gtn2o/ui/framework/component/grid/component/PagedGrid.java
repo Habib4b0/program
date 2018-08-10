@@ -67,7 +67,7 @@ public class PagedGrid {
 	private static final String SPECIAL_CHAR = " - ";
 
 	private static final String EMPTY = "";
-
+      
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
 		

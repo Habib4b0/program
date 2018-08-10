@@ -24,7 +24,7 @@ public class GtnWsWorkflowQueryContants {
     public static final String GTN_WF_CONTRACT_SEARCH_QUERY = " FROM WORKFLOW_MASTER WM JOIN dbo.HELPER_TABLE HT_STATUS on HT_STATUS.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID JOIN CONTRACT_MASTER CM on WM.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID ";
     public static final String GTN_WF_CONTRACT_SEARCH_QUERY_WHERE_CLAUSE = " WM.WORKFLOW_ID like 'CM%' ";
 
-    public static final String GTN_WF_FORECASTING_COUNT = GtnFrameworkWebserviceConstant.SELECT_COUNT;
+    public static final String GTN_WF_FORECASTING_COUNT =" SELECT count (DISTINCT WM.WORKFLOW_MASTER_SID) ";
     public static final String GTN_WF_FORECASTING_COUNT_QUERY = GtnFrameworkWebserviceConstant.FROM_WORKFLOW_MASTER_WM_JOIN_DBO_HELPER_T;
     public static final String GTN_WF_FORECASTING_SEARCH_QUERY = GtnFrameworkWebserviceConstant.FROM_WORKFLOW_MASTER_WM_JOIN_DBO_HELPER_T;
     public static final String GTN_WF_FORECASTING_SEARCH_QUERY_WHERE_CLAUSE = "  WM.WORKFLOW_ID like '_F%' ";

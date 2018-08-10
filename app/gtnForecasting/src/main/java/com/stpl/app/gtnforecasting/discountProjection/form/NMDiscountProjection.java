@@ -301,7 +301,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private static final String LEVEL_NUMBER_HEADER = "Level Number";
     private static final String LEVEL_NAME_HEADER = "Level Name";
     private static final String GROUP_PROPERTY_ID = "group";
-    public boolean dsFlag = true;
+    private boolean dsFlag = true;
     public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 
     private List<Object> generateDiscountToBeLoaded = new ArrayList<>();
@@ -3568,10 +3568,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             AbstractNotificationUtils.getErrorNotification("No variables were selected",
                     "No variables were selected. Please select at least one variable and try again.");
         } else {
-            projectionSelection.setCustomerLevelFilter((List) (generateCustomerToBeLoaded != null ? generateCustomerToBeLoaded : new ArrayList<>()));
-            projectionSelection.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
-            projectionSelection.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
-            projectionSelection.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
+            setFilterValues();
             if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())
                 || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             if ( !projectionSelection
@@ -3585,6 +3582,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
     }
 
+    public void setFilterValues() {
+        projectionSelection.setCustomerLevelFilter((List) (generateCustomerToBeLoaded != null ? generateCustomerToBeLoaded : new ArrayList<>()));
+        projectionSelection.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
+        projectionSelection.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
+        projectionSelection.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
+    }
     /**
      * To generate the list view
      *

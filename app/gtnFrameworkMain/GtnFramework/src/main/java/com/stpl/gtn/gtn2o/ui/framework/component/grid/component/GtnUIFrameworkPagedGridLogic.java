@@ -43,13 +43,13 @@ import com.vaadin.ui.AbstractComponent;
 public class GtnUIFrameworkPagedGridLogic {
 
 	private List<Object> recordHeader = null;
-	private List<Integer> dateColumn = null;
-	private boolean active = false;
-	private String countUrl = null;
-	private String resultSetUrl = null;
-	private GtnUIFrameworkComponentConfig componentConfig = null;
-	private List<GtnWebServiceSearchCriteria> currentSearchCriteria = null;
-	private List<GtnWebServiceSearchCriteria> additioanlSearchCriteriaList = null;
+	private List<Integer> dateColumnPagedGrid = null;
+	private boolean activePagedGrid = false;
+	private String countUrlPagedGrid = null;
+	private String resultSetUrlPagedGrid = null;
+	private GtnUIFrameworkComponentConfig componentConfigPagedGrid = null;
+	private List<GtnWebServiceSearchCriteria> currentSearchCriteriaPaged = null;
+	private List<GtnWebServiceSearchCriteria> additioanlSearchCriteriaListPaged = null;
 	private GtnWsRecordTypeBean gtnWsRecordTypeBean = null;
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedGridLogic.class);
 	private Object extraParameter = null;
@@ -58,21 +58,21 @@ public class GtnUIFrameworkPagedGridLogic {
 	GtnUIFrameworkPagedGridLogic(GtnUIFrameworkPagedTableConfig tableConfig,
 			GtnUIFrameworkComponentConfig gridComponentConfig) {
 		recordHeader = Arrays.asList(tableConfig.getTableColumnMappingId());
-		countUrl = tableConfig.getCountUrl();
-		resultSetUrl = tableConfig.getResultSetUrl();
-		componentConfig = gridComponentConfig;
+		countUrlPagedGrid = tableConfig.getCountUrl();
+		resultSetUrlPagedGrid = tableConfig.getResultSetUrl();
+		componentConfigPagedGrid = gridComponentConfig;
 		this.tableConfig = tableConfig;
 	}
 
 	public int getCount() {
-		gtnLogger.debug("Get count for Table " + componentConfig.getComponentId());
-		active = true;
+		gtnLogger.debug("Get count for Table " + componentConfigPagedGrid.getComponentId());
+		activePagedGrid = true;
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setCount(true);
-			gtnLogger.info("Count Query Module Name -------->" + componentConfig.getModuleName());
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(countUrl,
-					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			gtnLogger.info("Count Query Module Name -------->" + componentConfigPagedGrid.getModuleName());
+			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(countUrlPagedGrid,
+					componentConfigPagedGrid.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnSerachResponse() != null) {
 
 				getCheckedRecordCount(serviceRequest, response.getGtnSerachResponse().getCount() > 0);
@@ -82,13 +82,12 @@ public class GtnUIFrameworkPagedGridLogic {
 	}
 
 	private void getCheckedRecordCount(GtnUIFrameworkWebserviceRequest serviceRequest, boolean isTogetCount) {
-		if (isTogetCount && !componentConfig.getGtnPagedTableConfig().getColumnCheckBoxId().trim().isEmpty()) {
+		if (isTogetCount && !componentConfigPagedGrid.getGtnPagedTableConfig().getColumnCheckBoxId().trim().isEmpty()) {
 			List<GtnWebServiceSearchCriteria> searchCriteriaList = new ArrayList<>();
 			if (serviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList() != null) {
 				searchCriteriaList.addAll(serviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
 			}
-			GtnWebServiceSearchCriteria searchCriteria = generateSearchCriteriaListForColumnCheckBoxId(
-					componentConfig.getGtnPagedTableConfig().getColumnCheckBoxId());
+			GtnWebServiceSearchCriteria searchCriteria = generateSearchCriteriaListForColumnCheckBoxId(componentConfigPagedGrid.getGtnPagedTableConfig().getColumnCheckBoxId());
 			searchCriteriaList.add(searchCriteria);
 			serviceRequest.getGtnWsSearchRequest().setGtnWebServiceSearchCriteriaList(searchCriteriaList);
 		}
@@ -112,41 +111,41 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	}
 
-	public void handleCheckBoxOnItem(Object propertyId, boolean value) {
+	public void handleCheckBoxOnItem(Object propertyIdHandleCheck, boolean valueHandleCheck) {
 		// This method hasn't been used
 	}
 
 	// @Override
-	public List<GtnWsRecordBean> loadData(int start, int offset) {
-		gtnLogger.debug("Get Data for Table " + componentConfig.getComponentId());
-		active = true;
-		List<GtnWsRecordBean> records = new ArrayList<>();
-			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
-			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
-			serviceRequest.getGtnWsSearchRequest().setTableRecordStart(start);
-			gtnLogger.info("Module Name is------->" + componentConfig.getModuleName());
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,
-					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			addDataAndConfig(response, records);
+	public List<GtnWsRecordBean> loadData(int startLoadData, int offsetLoadData) {
+		gtnLogger.debug("Get Data for Table " + componentConfigPagedGrid.getComponentId());
+		activePagedGrid = true;
+		List<GtnWsRecordBean> recordsLoadData = new ArrayList<>();
+			GtnUIFrameworkWebServiceClient wsclientLoadData = new GtnUIFrameworkWebServiceClient();
+			GtnUIFrameworkWebserviceRequest serviceRequestLoadData = getWSRequest();
+			serviceRequestLoadData.getGtnWsSearchRequest().setTableRecordOffset(offsetLoadData);
+			serviceRequestLoadData.getGtnWsSearchRequest().setTableRecordStart(startLoadData);
+			gtnLogger.info("Module Name is------->" + componentConfigPagedGrid.getModuleName());
+			GtnUIFrameworkWebserviceResponse responseLoadData = wsclientLoadData.callGtnWebServiceUrl(resultSetUrlPagedGrid,
+					componentConfigPagedGrid.getModuleName(), serviceRequestLoadData, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			addDataAndConfig(responseLoadData, recordsLoadData);
 
-		return records;
+		return recordsLoadData;
 	}
 
-	private void addDataAndConfig(GtnUIFrameworkWebserviceResponse response, List<GtnWsRecordBean> records) {
-		if (response != null) {
-			for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
-				GtnWsRecordBean dto = new GtnWsRecordBean();
-				dto.setRecordHeader(recordHeader);
-				dto.setProperties(record.getColList());
-				records.add(dto);
+	private void addDataAndConfig(GtnUIFrameworkWebserviceResponse responseAddData, List<GtnWsRecordBean> recordsAddData) {
+		if (responseAddData != null) {
+			for (GtnUIFrameworkDataRow recordAddData : responseAddData.getGtnSerachResponse().getResultSet().getDataTable()) {
+				GtnWsRecordBean dtoAddData = new GtnWsRecordBean();
+				dtoAddData.setRecordHeader(recordHeader);
+				dtoAddData.setProperties(recordAddData.getColList());
+				recordsAddData.add(dtoAddData);
 			}
 		}
-		if (response != null && response.getGtnSerachResponse().getResultSet().getDataTable().size() == 0
-				&& componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
+		if (responseAddData != null && responseAddData.getGtnSerachResponse().getResultSet().getDataTable().size() == 0
+				&& componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
 			try {
-				GtnUIFrameworkActionExecutor.executeSingleAction(componentConfig.getComponentId(),
-						componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentConfigPagedGrid.getComponentId(),
+						componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
 			} catch (GtnFrameworkGeneralException e) {
 				gtnLogger.error(e.getMessage());
 			}
@@ -165,118 +164,118 @@ public class GtnUIFrameworkPagedGridLogic {
 			throws GtnFrameworkValidationFailedException {
 
 		gtnLogger.info("*************Inside startSearchProcess");
-		this.active = isActive;
+		this.activePagedGrid = isActive;
 		addCurrentSearchCriteria(vaadinFieldValues, null);
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
+				.getVaadinBaseComponent(componentConfigPagedGrid.getComponentId(), componentConfigPagedGrid.getSourceViewId());
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
 	public void startSearchProcess(boolean isActive) {
-		this.active = isActive;
+		this.activePagedGrid = isActive;
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
+				.getVaadinBaseComponent(componentConfigPagedGrid.getComponentId(), componentConfigPagedGrid.getSourceViewId());
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
 	public void startSearchProcess(final List<String> vaadinFieldValues, final List<String> vaadinFieldDescriptionList,
 			boolean isActive) throws GtnFrameworkValidationFailedException {
-		this.active = isActive;
+		this.activePagedGrid = isActive;
 		addCurrentSearchCriteria(vaadinFieldValues, vaadinFieldDescriptionList);
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
+				.getVaadinBaseComponent(componentConfigPagedGrid.getComponentId(), componentConfigPagedGrid.getSourceViewId());
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
-	public void addCurrentSearchCriteria(List<String> vaadinFieldValues, List<String> vaadinFieldDescriptionList)
+	public void addCurrentSearchCriteria(List<String> vaadinFieldValuesCurrentSearch, List<String> vaadinFieldDescriptionListCurrentSearch)
 			throws GtnFrameworkValidationFailedException {
 
 		gtnLogger.info("*************Inside startSearchProcess");
 
-		currentSearchCriteria = new ArrayList<>();
-		getFieldValues(vaadinFieldValues);
-		if (vaadinFieldDescriptionList != null) {
-			for (String description : vaadinFieldDescriptionList) {
-				GtnWebServiceSearchCriteria searchCriteria = new GtnWebServiceSearchCriteria();
-				GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(description,
-						componentConfig.getSourceViewId());
-				GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfig = baseComponent.getComponentConfig();
+		currentSearchCriteriaPaged = new ArrayList<>();
+		getFieldValues(vaadinFieldValuesCurrentSearch);
+		if (vaadinFieldDescriptionListCurrentSearch != null) {
+			for (String description : vaadinFieldDescriptionListCurrentSearch) {
+				GtnWebServiceSearchCriteria searchCriteriaCurrentSearch = new GtnWebServiceSearchCriteria();
+				GtnUIFrameworkBaseComponent baseComponentCurrentSearch = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(description,
+						componentConfigPagedGrid.getSourceViewId());
+				GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfig = baseComponentCurrentSearch.getComponentConfig();
 
-				String currentValue = baseComponent.getCaptionFromComboBox();
-				if (currentValue != null && !"".equals(currentValue)) {
+				String currentValueCurrentSearch = baseComponentCurrentSearch.getCaptionFromComboBox();
+				if (currentValueCurrentSearch != null && !"".equals(currentValueCurrentSearch)) {
 
 					if (gtnUIFrameworkComponentConfig.getComponentWsFieldId() == null) {
-						searchCriteria.setFieldId(description);
+						searchCriteriaCurrentSearch.setFieldId(description);
 					} else {
-						searchCriteria.setFieldId(gtnUIFrameworkComponentConfig.getComponentWsFieldId());
+						searchCriteriaCurrentSearch.setFieldId(gtnUIFrameworkComponentConfig.getComponentWsFieldId());
 					}
 
-					searchCriteria.setFilterValue1(currentValue);
-					setExpressionType(gtnUIFrameworkComponentConfig, searchCriteria, currentValue);
-					currentSearchCriteria.add(searchCriteria);
+					searchCriteriaCurrentSearch.setFilterValue1(currentValueCurrentSearch);
+					setExpressionType(gtnUIFrameworkComponentConfig, searchCriteriaCurrentSearch, currentValueCurrentSearch);
+					currentSearchCriteriaPaged.add(searchCriteriaCurrentSearch);
 				}
 			}
 		}
-		addAdditionalSearchCriteria();
+		addAdditionalSearchCriteriaPagedGrid();
 
 	}
 
-	private void addAdditionalSearchCriteria() {
-		if (additioanlSearchCriteriaList != null) {
-			for (GtnWebServiceSearchCriteria searchCriteria : additioanlSearchCriteriaList) {
-				currentSearchCriteria.add(searchCriteria);
+	private void addAdditionalSearchCriteriaPagedGrid() {
+		if (additioanlSearchCriteriaListPaged != null) {
+			for (GtnWebServiceSearchCriteria searchCriteriaPagedGrid : additioanlSearchCriteriaListPaged) {
+				currentSearchCriteriaPaged.add(searchCriteriaPagedGrid);
 			}
 		}
 	}
 
 	public boolean isActive() {
-		return active;
+		return activePagedGrid;
 	}
 
 	public void setActive(boolean active) {
-		this.active = active;
+		this.activePagedGrid = active;
 	}
 
 	public String getCountUrl() {
-		return countUrl;
+		return countUrlPagedGrid;
 	}
 
 	public void setCountUrl(String countUrl) {
-		this.countUrl = countUrl;
+		this.countUrlPagedGrid = countUrl;
 	}
 
 	public String getResultSetUrl() {
-		return resultSetUrl;
+		return resultSetUrlPagedGrid;
 	}
 
 	public void setResultSetUrl(String resultSetUrl) {
-		this.resultSetUrl = resultSetUrl;
+		this.resultSetUrlPagedGrid = resultSetUrl;
 	}
 
 	public List<Integer> getDateColumn() {
-		return dateColumn == null ? dateColumn : Collections.unmodifiableList(dateColumn);
+		return dateColumnPagedGrid == null ? dateColumnPagedGrid : Collections.unmodifiableList(dateColumnPagedGrid);
 	}
 
 	public void setDateColumn(List<Integer> dateColumn) {
-		this.dateColumn = new ArrayList<>(dateColumn);
+		this.dateColumnPagedGrid = new ArrayList<>(dateColumn);
 	}
 
 	public GtnUIFrameworkComponentConfig getComponentConfig() {
-		return componentConfig;
+		return componentConfigPagedGrid;
 	}
 
 	public void setComponentConfig(GtnUIFrameworkComponentConfig componentConfig) {
-		this.componentConfig = componentConfig;
+		this.componentConfigPagedGrid = componentConfig;
 	}
 
 	public List<GtnWebServiceSearchCriteria> getSearchCriteriaList() {
 		List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
 		GtnWebServiceSearchCriteria searchCriteria = null;
 
-		if (currentSearchCriteria != null) {
-			for (GtnWebServiceSearchCriteria current : currentSearchCriteria) {
+		if (currentSearchCriteriaPaged != null) {
+			for (GtnWebServiceSearchCriteria current : currentSearchCriteriaPaged) {
 				gtnWebServiceSearchCriteriaList.add(current);
 			}
 		}
@@ -297,41 +296,41 @@ public class GtnUIFrameworkPagedGridLogic {
 		return gtnWebServiceSearchCriteriaList;
 	}
 
-	private boolean isNull(Object value) {
-		return value == null;
+	private boolean isNull(Object valueIsNull) {
+		return valueIsNull == null;
 	}
 
-	private String getString(Object value) {
-		if (isNull(value)) {
+	private String getString(Object valueGetString) {
+		if (isNull(valueGetString)) {
 			return "";
-		} else if (value instanceof Date) {
-			java.sql.Date date = new java.sql.Date(((Date) value).getTime());
+		} else if (valueGetString instanceof Date) {
+			java.sql.Date date = new java.sql.Date(((Date) valueGetString).getTime());
 			return String.valueOf(date);
 		}
-		return String.valueOf(value);
+		return String.valueOf(valueGetString);
 	}
 
 	public List<GtnWebServiceSearchCriteria> getCurrentSearchCriteria() {
-		return currentSearchCriteria == null ? currentSearchCriteria
-				: Collections.unmodifiableList(currentSearchCriteria);
+		return currentSearchCriteriaPaged == null ? currentSearchCriteriaPaged
+				: Collections.unmodifiableList(currentSearchCriteriaPaged);
 	}
 
 	public void addCurrentSearchCriteria(GtnWebServiceSearchCriteria searchCriteria) {
-		currentSearchCriteria.add(searchCriteria);
+		currentSearchCriteriaPaged.add(searchCriteria);
 	}
 
 	public void setCurrentSearchCriteria(List<GtnWebServiceSearchCriteria> currentSearchCriteria) {
-		this.currentSearchCriteria = currentSearchCriteria == null ? currentSearchCriteria
+		this.currentSearchCriteriaPaged = currentSearchCriteria == null ? currentSearchCriteria
 				: new ArrayList<>(currentSearchCriteria);
 	}
 
 	public List<GtnWebServiceSearchCriteria> getAdditioanlSearchCriteriaList() {
-		return additioanlSearchCriteriaList == null ? additioanlSearchCriteriaList
-				: Collections.unmodifiableList(additioanlSearchCriteriaList);
+		return additioanlSearchCriteriaListPaged == null ? additioanlSearchCriteriaListPaged
+				: Collections.unmodifiableList(additioanlSearchCriteriaListPaged);
 	}
 
 	public void setAdditioanlSearchCriteriaList(List<GtnWebServiceSearchCriteria> additioanlSearchCriteriaList) {
-		this.additioanlSearchCriteriaList = additioanlSearchCriteriaList == null ? additioanlSearchCriteriaList
+		this.additioanlSearchCriteriaListPaged = additioanlSearchCriteriaList == null ? additioanlSearchCriteriaList
 				: new ArrayList<>(additioanlSearchCriteriaList);
 	}
 
@@ -345,8 +344,8 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	public void resetSearchCriteriaList() {
 
-		currentSearchCriteria = new ArrayList<>();
-		additioanlSearchCriteriaList = new ArrayList<>();
+		currentSearchCriteriaPaged = new ArrayList<>();
+		additioanlSearchCriteriaListPaged = new ArrayList<>();
 
 	}
 
@@ -367,41 +366,41 @@ public class GtnUIFrameworkPagedGridLogic {
 		serviceRequest.getGtnWsGeneralRequest().setExcel(true);
 		serviceRequest.getGtnWsGeneralRequest().setExtraParameter(headers);
 		serviceRequest.getGtnWsGeneralRequest().setTableColumnFormatList(tableColumnFormatList);
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,
-				componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse responseExcel = wsclient.callGtnWebServiceUrl(resultSetUrlPagedGrid,
+				componentConfigPagedGrid.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-		return response.getExportFilePath();
+		return responseExcel.getExportFilePath();
 	}
 
 	private GtnUIFrameworkWebserviceRequest getWSRequest() {
 
-		GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-		GtnWsSearchRequest request = new GtnWsSearchRequest();
-		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		generalWSRequest.setExtraParameter(getExtraParameter());
+		GtnUIFrameworkWebserviceRequest serviceRequestService = new GtnUIFrameworkWebserviceRequest();
+		GtnWsSearchRequest serviceRequest = new GtnWsSearchRequest();
+		GtnWsGeneralRequest generalWSRequestService = new GtnWsGeneralRequest();
+		generalWSRequestService.setExtraParameter(getExtraParameter());
 
-		request.setSearchModuleName(componentConfig.getGtnPagedTableConfig().getModuleName());
-		request.setSearchQueryName(componentConfig.getGtnPagedTableConfig().getQueryName());
+		serviceRequest.setSearchModuleName(componentConfigPagedGrid.getGtnPagedTableConfig().getModuleName());
+		serviceRequest.setSearchQueryName(componentConfigPagedGrid.getGtnPagedTableConfig().getQueryName());
 
-		request.setSearchConfigLodaderType(componentConfig.getGtnPagedTableConfig().getSearchQueryConfigLoaderType());
+		serviceRequest.setSearchConfigLodaderType(componentConfigPagedGrid.getGtnPagedTableConfig().getSearchQueryConfigLoaderType());
 
 		List<Object> requestRecordHeader = new ArrayList<>(recordHeader);
-		if (componentConfig.getGtnPagedTableConfig().getExtraColumn() != null
-				&& componentConfig.getGtnPagedTableConfig().getExtraColumnDataType() == null) {
-			requestRecordHeader.addAll(Arrays.asList(componentConfig.getGtnPagedTableConfig().getExtraColumn()));
+		if (componentConfigPagedGrid.getGtnPagedTableConfig().getExtraColumn() != null
+				&& componentConfigPagedGrid.getGtnPagedTableConfig().getExtraColumnDataType() == null) {
+			requestRecordHeader.addAll(Arrays.asList(componentConfigPagedGrid.getGtnPagedTableConfig().getExtraColumn()));
 		}
 
-		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		generalWSRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		serviceRequest.setGtnWsGeneralRequest(generalWSRequest);
-		request.setSearchColumnNameList(requestRecordHeader);
-		request.setGtnWebServiceSearchCriteriaList(getSearchCriteriaList());
-		request.setQueryInputList(componentConfig.getQueryInputs());
+		generalWSRequestService.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		generalWSRequestService.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+		serviceRequestService.setGtnWsGeneralRequest(generalWSRequestService);
+		serviceRequest.setSearchColumnNameList(requestRecordHeader);
+		serviceRequest.setGtnWebServiceSearchCriteriaList(getSearchCriteriaList());
+		serviceRequest.setQueryInputList(componentConfigPagedGrid.getQueryInputs());
 		setRecordTypeBean();
-		request.setGtnWsRecordTypeBean(gtnWsRecordTypeBean);
-		serviceRequest.setGtnWsSearchRequest(request);
+		serviceRequest.setGtnWsRecordTypeBean(gtnWsRecordTypeBean);
+		serviceRequestService.setGtnWsSearchRequest(serviceRequest);
 
-		return serviceRequest;
+		return serviceRequestService;
 	}
 
 	private String getExpression(String currentValue) {
@@ -413,17 +412,17 @@ public class GtnUIFrameworkPagedGridLogic {
 			for (String componentId : vaadinFieldValues) {
 				GtnWebServiceSearchCriteria searchCriteria = new GtnWebServiceSearchCriteria();
 				HasValue<?> vaadinField = (HasValue<?>) GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(componentId, componentConfig.getSourceViewId()).getComponent();
+						.getVaadinBaseComponent(componentId, componentConfigPagedGrid.getSourceViewId()).getComponent();
 				AbstractComponent vaadinAbstractComponent = (AbstractComponent) vaadinField;
 				GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfig = ((GtnUIFrameworkComponentData) vaadinAbstractComponent
 						.getData()).getCurrentComponentConfig();
 				if (!vaadinField.isReadOnly()) {
-					String currentValue = getString(vaadinField.getValue());
-					if (isNullOrEmpty(currentValue)) {
+					String currentValueField = getString(vaadinField.getValue());
+					if (isNullOrEmpty(currentValueField)) {
 						setFieldIdToCriteria(gtnUIFrameworkComponentConfig, searchCriteria, componentId);
-						searchCriteria.setFilterValue1(getFilterValue(currentValue));
-						setExpressionType(gtnUIFrameworkComponentConfig, searchCriteria, currentValue);
-						currentSearchCriteria.add(searchCriteria);
+						searchCriteria.setFilterValue1(getFilterValue(currentValueField));
+						setExpressionType(gtnUIFrameworkComponentConfig, searchCriteria, currentValueField);
+						currentSearchCriteriaPaged.add(searchCriteria);
 
 					}
 				}
@@ -431,43 +430,43 @@ public class GtnUIFrameworkPagedGridLogic {
 		}
 	}
 
-	private void setExpressionType(GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfig,
-			GtnWebServiceSearchCriteria searchCriteria, String currentValue) {
-		if (gtnUIFrameworkComponentConfig.getExpressionType() == null) {
-			searchCriteria.setExpression(getExpression(currentValue));
+	private void setExpressionType(GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfigExpression,
+			GtnWebServiceSearchCriteria searchCriteriaExpression, String currentValueExpression) {
+		if (gtnUIFrameworkComponentConfigExpression.getExpressionType() == null) {
+			searchCriteriaExpression.setExpression(getExpression(currentValueExpression));
 		} else {
-			searchCriteria.setExpression(gtnUIFrameworkComponentConfig.getExpressionType());
+			searchCriteriaExpression.setExpression(gtnUIFrameworkComponentConfigExpression.getExpressionType());
 		}
 	}
 
-	private String getFilterValue(String currentValue) {
-		return currentValue.contains("'") ? currentValue.replaceAll("'", "''") : currentValue;
+	private String getFilterValue(String currentValueExpression) {
+		return currentValueExpression.contains("'") ? currentValueExpression.replaceAll("'", "''") : currentValueExpression;
 	}
 
-	private boolean isNullOrEmpty(String currentValue) {
-		return currentValue != null && !"".equals(currentValue);
+	private boolean isNullOrEmpty(String currentValueNull) {
+		return currentValueNull != null && !"".equals(currentValueNull);
 	}
 
-	private void setFieldIdToCriteria(GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfig,
+	private void setFieldIdToCriteria(GtnUIFrameworkComponentConfig gtnUIFrameworkComponentConfigCriteria,
 			GtnWebServiceSearchCriteria searchCriteria, String componentId) {
-		if (gtnUIFrameworkComponentConfig.getComponentWsFieldId() == null) {
+		if (gtnUIFrameworkComponentConfigCriteria.getComponentWsFieldId() == null) {
 			searchCriteria.setFieldId(componentId);
 		} else {
-			searchCriteria.setFieldId(gtnUIFrameworkComponentConfig.getComponentWsFieldId());
+			searchCriteria.setFieldId(gtnUIFrameworkComponentConfigCriteria.getComponentWsFieldId());
 		}
 	}
 
 	private void setRecordTypeBean() {
-		if (componentConfig.getGtnPagedTableConfig().getRecordTypeComponentId() != null) {
-			String recordTypeValue = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(componentConfig.getGtnPagedTableConfig().getRecordTypeComponentId())
+		if (componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeComponentId() != null) {
+			String recordTypeValueBean = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeComponentId())
 					.getStringFromField();
 			gtnWsRecordTypeBean = new GtnWsRecordTypeBean();
-			gtnWsRecordTypeBean.setCurrent(recordTypeValue.contains("Current"));
-			gtnWsRecordTypeBean.setHistory(recordTypeValue.contains("History"));
-			gtnWsRecordTypeBean.setFuture(recordTypeValue.contains("Future"));
-			gtnWsRecordTypeBean.setStartDateColumn(componentConfig.getGtnPagedTableConfig().getRecordTypeStartDate());
-			gtnWsRecordTypeBean.setEndDateColumn(componentConfig.getGtnPagedTableConfig().getRecordTypeEndDate());
+			gtnWsRecordTypeBean.setCurrent(recordTypeValueBean.contains("Current"));
+			gtnWsRecordTypeBean.setHistory(recordTypeValueBean.contains("History"));
+			gtnWsRecordTypeBean.setFuture(recordTypeValueBean.contains("Future"));
+			gtnWsRecordTypeBean.setStartDateColumn(componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeStartDate());
+			gtnWsRecordTypeBean.setEndDateColumn(componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeEndDate());
 		}
 	}
 }
