@@ -53,6 +53,7 @@ public class Converters {
     public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException, SystemException {
         final List<ViewDTO> results = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedViews method with list size= {}  " , list.size());
+        NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
             final ViewDTO result = new ViewDTO();
@@ -95,7 +96,7 @@ public class Converters {
             result.setCustRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FIVE])));
             result.setProdRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SIX])));
             resultBasedOnFlagValue(flagValue, obj, result);
-            Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
+            Map<Object, Object> map = logic.getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
             if (map != null && !map.isEmpty()) {
                 result.setDataSelectionFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
                 result.setDataSelectionDedLevel(Integer.valueOf(String.valueOf(map.get(Constant.DATA_SELECTION_DED_LEVEL))));

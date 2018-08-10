@@ -321,7 +321,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 				vaadinComponentLabel = componentLabelForGrid.buildVaadinComponent(comparisonBreakdownComponentConfig);
 				Label vaadinLabel = (Label) vaadinComponentLabel;
 				vaadinLabel.setValue(comparisonLookUpBean.getProjectionName());
-				comparisonProjectiongrid.getColumn(comparisonLookUpBean.getProperty()).setWidth(400);
+				comparisonProjectiongrid.getColumn(comparisonLookUpBean.getProperty()).setMinimumWidthFromContent(true);
+				comparisonProjectiongrid.getColumn(comparisonLookUpBean.getProperty()).setResizable(false);
 				return vaadinLabel;
 			}
 			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI

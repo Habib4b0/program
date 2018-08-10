@@ -42,6 +42,10 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 		if (componentConfig.getComponentHight() != null) {
 			textField.setHeight(componentConfig.getComponentHight());
 		}
+		if (componentConfig.getComponentWidth() != null) {
+			textField.setWidth(componentConfig.getComponentWidth());
+		}
+		
 		String value = "";
 		if (componentConfig.getComponentValue() != null) {
 			value = String.valueOf(componentConfig.getComponentValue());
@@ -126,6 +130,12 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 				.getVaadinComponent(componentId);
 		abstractTextField.setVisible(componentConfig.isVisible());
 		abstractTextField.setEnabled(componentConfig.isEnable());
+		if (componentConfig.getComponentWidth() != null) {
+			abstractTextField.setWidth(componentConfig.getComponentWidth());
+		}
+		if (componentConfig.getComponentHight() != null) {
+			abstractTextField.setHeight(componentConfig.getComponentHight());
+		}
 		String textValue = "";
 		if (componentConfig.getComponentValue() != null) {
 			textValue = String.valueOf(componentConfig.getComponentValue());
