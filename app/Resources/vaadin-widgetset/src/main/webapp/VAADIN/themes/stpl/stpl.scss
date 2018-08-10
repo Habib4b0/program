@@ -275,6 +275,14 @@ margin-left: -50px !important;
 .v-report-options-vb{
     margin-top: 3px !important;
 }
+.v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+.v-treegrid-scroller::-webkit-scrollbar-thumb {
+border-radius: 0px !important;
+border: 3px solid transparent;
+}
 .v-report-comparisonOption-width{
 	min-width: 170px !important;
 }

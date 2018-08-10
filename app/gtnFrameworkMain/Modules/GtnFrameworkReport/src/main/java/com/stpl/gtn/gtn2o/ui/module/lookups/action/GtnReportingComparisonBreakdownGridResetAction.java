@@ -34,20 +34,23 @@ public class GtnReportingComparisonBreakdownGridResetAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+		resetComparisonBreakdownComboboxComponents(actionParameters, componentId);
 		AbstractComponent vaadinAbstractComponent = GtnUIFrameworkGlobalUI
 				.getVaadinComponent(actionParameters.get(1).toString(), componentId);
 		GtnUIFrameworkComponentData gridComponentData = (GtnUIFrameworkComponentData) vaadinAbstractComponent.getData();
 		PagedGrid pagedGridInComparisonBreakdown = gridComponentData.getPagedGrid();
-		Grid<GtnWsRecordBean> gridInComparisonBreakdown = (Grid<GtnWsRecordBean>) pagedGridInComparisonBreakdown
-				.getGrid();
-		List<Object[]> gtnReportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponentData.getCustomData();
-
+		Grid<GtnWsRecordBean> gridInComparisonBreakdown = pagedGridInComparisonBreakdown.getGrid();
+		List<Object[]> gtnReportComparisonBreakdownLookupBeanList = null;
+		try {
+			gtnReportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponentData.getCustomData();
+		} catch(ClassCastException ex) {
+			logger.info("Exception occured during paged grid reset: " + ex.getMessage());
+			return;
+		}
 		int comparisonBreakdownLookupBeanCount = gtnReportComparisonBreakdownLookupBeanList.size();
 		int rowCount = gridInComparisonBreakdown.getHeaderRowCount();
 		resetComparisonBreakdownGridComponent(comparisonBreakdownLookupBeanCount, rowCount, gridInComparisonBreakdown,
 				gtnReportComparisonBreakdownLookupBeanList);
-
-		resetComparisonBreakdownComboboxComponents(actionParameters, componentId);
 	}
 
 	private void resetComparisonBreakdownGridComponent(int comparisonBreakdownLookupBeanCount, int rowCount,
