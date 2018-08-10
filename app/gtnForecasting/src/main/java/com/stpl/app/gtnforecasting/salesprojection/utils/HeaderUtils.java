@@ -1079,6 +1079,8 @@ public class HeaderUtils {
         }
         int squr = 1;
         int syear = pastYear;
+        List<Object> doubleHeaderMap = new ArrayList<>();
+        List<Object> tripleHeaderMap = new ArrayList<>();
 
         for (int i = 0; i < frequencyRange; i++) {
 
@@ -1087,8 +1089,6 @@ public class HeaderUtils {
                 isExcelExport = false;
             }
 
-            List<Object> doubleHeaderMap = new ArrayList<>();
-            List<Object> tripleHeaderMap = new ArrayList<>();
             String commonColumn = StringUtils.EMPTY;
             String commonHeader = StringUtils.EMPTY;
             if (frequency.contains(QUARTERLY)) {
