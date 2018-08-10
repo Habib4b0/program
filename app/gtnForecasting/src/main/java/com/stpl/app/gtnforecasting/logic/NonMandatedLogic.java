@@ -596,12 +596,8 @@ public class NonMandatedLogic {
 	 */
 	public void manualEntrysalesCalculation(final int projectionId, final String salesOrUnit) throws SystemException {
 		final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-		Connection connection = null;
-
 		CallableStatement statement = null;
-		try {
-			connection = dataSourceConnection.getConnection();
-
+		try (Connection connection = dataSourceConnection.getConnection()){
 			LOGGER.debug("Entering manualEntrysalesCalculation  ::::");
 
 			if (connection != null) {
@@ -622,11 +618,6 @@ public class NonMandatedLogic {
                             if (statement != null) {
 				statement.close();
                             }
-			} catch (SQLException e) {
-				LOGGER.error(e.getMessage());
-			}
-			try {
-				connection.close();
 			} catch (SQLException e) {
 				LOGGER.error(e.getMessage());
 			}

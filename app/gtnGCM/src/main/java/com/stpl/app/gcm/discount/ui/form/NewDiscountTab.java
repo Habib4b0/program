@@ -1827,7 +1827,7 @@ public class NewDiscountTab extends CustomComponent {
             } else {
                 final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(tableBeanId);
                 if (collection == null) {
-                    Object ob = (ContractsDetailsDto) dashboardTreeTable.getValue();
+                    ContractsDetailsDto ob = (ContractsDetailsDto) dashboardTreeTable.getValue();
                     ContractsDetailsDto treeBean = getBeanFromID(dashboardTreeTable.getValue());
                     if (treeBean.getInternalId() == 0) {
                         dashBoardTreeContainer.removeItem(ob);

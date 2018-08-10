@@ -52,7 +52,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		boolean isInvalid = (Boolean) actionParamList.get(8);
 		String tableName = (String) actionParamList.get(2);
-		List<Object> componentList = new ArrayList<>();;
+		List<Object> componentList = new ArrayList<>();
 		String wsViewName = tableName;
 		String demandTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		String demandTypeColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;

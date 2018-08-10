@@ -1008,9 +1008,9 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * Save button click.
      *
+     * @return 
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
     protected List<Integer> saveButtonClick() throws SystemException, PortalException {
         List<Integer> idList = new ArrayList<>();
@@ -1021,7 +1021,7 @@ public class DiscountAddForm extends CustomComponent implements View {
             idList = discountLogic.saveDiscount(discountBinder, selectedRebates, version, sessionDTO);
             LOGGER.debug(" saveButtonClick method Ended");
             return idList;
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
         }
         return idList;

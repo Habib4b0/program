@@ -1180,7 +1180,7 @@ public class PPAProjection extends CustomComponent implements View {
             boolean result = false;
             PPAProjectionDTO dto = (PPAProjectionDTO) itemId;
             if (value instanceof Boolean) {
-                result = Boolean.valueOf(value.toString());
+                result = Boolean.parseBoolean(value.toString());
                 if (result) {
                     dto.setCheckRecordCount(dto.getCCPCount());
                 } else {
