@@ -53,8 +53,7 @@ public class GtnFrameworkSelectedTblLoadService {
 	
 	public List<Object[]> getResultForSelectedCustomer(StringBuilder inputQuery, List<Object> inputValuesList) throws GtnFrameworkGeneralException {
 		String query = getQuery(inputQuery.toString(), inputValuesList);
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
-		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
 	}
 	
 	public static String getQuery( String query,List input) {
@@ -116,15 +115,13 @@ public class GtnFrameworkSelectedTblLoadService {
 	
 	public List<Object[]> getResultForSelectedProduct(StringBuilder inputQuery, List<Object> inputValuesList) throws GtnFrameworkGeneralException {
 		String query = getQuery(inputQuery.toString(), inputValuesList);
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
-		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
 	}
 	
 	public List<Object[]> getChildLevelQueryForCustomer(List<Object> inputsForRelationQuery)
 			throws GtnFrameworkGeneralException {
 		String query = gtnWsSqlService.getQuery("childLevelsHierarchyNo");
 		String replacedQuery = getQuery(query, inputsForRelationQuery);
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(replacedQuery);
-		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(replacedQuery);
 	}
 }

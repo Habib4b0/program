@@ -89,7 +89,6 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 			resultTable =  customData.getPagedGrid();
 			propertyIds = new LinkedList<>(Arrays.asList(resultTable.getTableConfig().getTableColumnMappingId()));
 			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
-				resultTable = null;
 			} else {
 				headerBean = getExcelHeaders(componentId, gtnUIFrameWorkActionConfig);
 				// Call webService for table columns and Headers
@@ -103,7 +102,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 
 		if (propertyIds.size() < 255) {
 			// Write Result List in Excel
-			HSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers, resultTable);
+			HSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers);
 			sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 		} else {
 			// Write Result List in Excel
@@ -146,7 +145,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	}
 
 	private HSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
-			List<Object> visibleColumns, List<String> headers, PagedGrid resultTable) {
+			List<Object> visibleColumns, List<String> headers) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
