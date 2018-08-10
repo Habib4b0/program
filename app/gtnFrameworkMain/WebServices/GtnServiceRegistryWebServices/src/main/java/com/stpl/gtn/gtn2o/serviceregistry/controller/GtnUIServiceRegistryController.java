@@ -14,7 +14,6 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnWsServiceRegistrySqlService;
@@ -22,6 +21,7 @@ import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @RestController
 @RequestMapping(value = "/gtnServiceRegistry")
@@ -47,7 +47,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 	public void registerWebServices(@RequestBody GtnUIFrameworkWebserviceRequest request) {
 
 		GtnQueryEngineWebServiceRequest queryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-		GtnFrameworkQueryExecutorBean queryExecutorBean = queryEngineWebServiceRequest.getQueryExecutorBean();
+		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 
 		GtnWsServiceRegistryBean serviceRegistryBean = request.getGtnServiceRegistryWsRequest()
 				.getGtnWsServiceRegistryBean();

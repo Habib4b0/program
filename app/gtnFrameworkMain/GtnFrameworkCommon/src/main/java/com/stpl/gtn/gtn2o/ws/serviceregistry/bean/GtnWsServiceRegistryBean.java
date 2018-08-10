@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.serviceregistry.bean;
+package com.stpl.gtn.gtn2o.ws.serviceregistry.bean;
 
 public class GtnWsServiceRegistryBean {
 

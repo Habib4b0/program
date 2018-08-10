@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
@@ -343,6 +344,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		fromPeriodConfig.setComboBoxType("TimePeriodFromDate");
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 		componentList.add(fromPeriod);
+		
 	}
 
 	private void addToPeriod(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
@@ -368,9 +370,23 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		GtnUIFrameworkComboBoxConfig toPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 		toPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		toPeriodConfig.setComboBoxType("TimePeriodToDate");
+		toPeriodConfig.setComboBoxType("BusinessUnitGLcomp");
 		toPeriod.setGtnComboboxConfig(toPeriodConfig);
+		
+
+		GtnUIFrameWorkActionConfig fromAndToPeriodAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		fromAndToPeriodAction.addActionParameter(GtnLandingScreenFromAndToPeriodLoadAction.class.getName());
+		fromAndToPeriodAction.addActionParameter("/GtnWsPeriodConfigurationWebService");
+		fromAndToPeriodAction.addActionParameter("/gtnPeriodConfigurationController/loadDate");
+		fromAndToPeriodAction.addActionParameter("periodConfiguration");
+		fromAndToPeriodAction.addActionParameter(nameSpace + "_" + "from");
+		fromAndToPeriodAction.addActionParameter(nameSpace + "_" + "to");
+		
+		toPeriod.addGtnUIFrameWorkActionConfig(fromAndToPeriodAction);
+		
 		componentList.add(toPeriod);
+		
+
 	}
 
 	private void addCustomerSelectionPanel(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {

@@ -28,8 +28,8 @@ public abstract class GtnCommonWebServiceImplClass {
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
-			updateRequestWithSecurityToken(request, securityToken);
-			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(getEndPointUrl(url),
+			//updateRequestWithSecurityToken(request, securityToken);
+			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(getWebServiceEndpointBasedOnModule(url,"queryEngine"),
 					request, GtnQueryEngineWebServiceResponse.class);
 			return webServiceResponse;
 		} catch (Exception e) {
@@ -50,5 +50,12 @@ public abstract class GtnCommonWebServiceImplClass {
 	private String getEndPointUrl(String url) {
 		return GtnFrameworkPropertyManager.getProperty("gtn.queryengine.endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.queryengine.endPointServiceName") + url;
+	}
+	
+	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
+		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
+				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
+				+ url;
+
 	}
 }
