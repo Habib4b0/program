@@ -15093,6 +15093,14 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: -30px !important;
 }
 
+.stpl .v-report-comparisonOption-width {
+	min-width: 170px !important;
+}
+
+.stpl .v-report-comparisonOption-combowidth {
+	width: 170px !important;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
