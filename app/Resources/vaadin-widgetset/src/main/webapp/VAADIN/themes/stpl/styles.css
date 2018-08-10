@@ -15096,12 +15096,23 @@ div.v-layout.v-horizontal.v-widget {
 	margin-top: 3px !important;
 }
 
+
+.stpl .v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+.stpl .v-treegrid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+	border: 3px solid transparent;
+
 .stpl .v-report-comparisonOption-width {
 	min-width: 170px !important;
 }
 
 .stpl .v-report-comparisonOption-combowidth {
 	width: 170px !important;
+
 }
 
 .v-slot, .v-spacing {
@@ -15125,4 +15136,5 @@ div.v-layout.v-horizontal.v-widget {
 
 .v-margin-bottom1 {
 	padding-bottom: 0px !important;
+}
 }
