@@ -60,7 +60,6 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
 		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
 				.getActionParameterList().get(0);
-		List<GtnWsRecordBean> exportList = new ArrayList<>();
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(inputBean.getExportTableId(), componentId);
 		PagedTreeGrid treeGrid = (PagedTreeGrid) componentData.getCustomData();
@@ -69,7 +68,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		excludeColumnList(inputBean, propertyIds, headers);
 
 		gtnLogger.info(propertyIds.size() + "");
-		XSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers, treeGrid);
+		XSSFWorkbook workBook = writeInExcel(inputBean, propertyIds, headers, treeGrid);
 		sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 
 	}
@@ -79,7 +78,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		return this;
 	}
 
-	private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
+	private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean,
 			List<Object> visibleColumns, List<String> headers, PagedTreeGrid resultTable) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
@@ -163,25 +162,25 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
 	@SuppressWarnings("deprecation")
 	public void sendTheExcelToUser(String excelGridExportFileName, XSSFWorkbook excelGridWorkBook) {
-		String GridExportFile = excelGridExportFileName;
+		String gridExportFile = excelGridExportFileName;
 		File excelGridTempFile = null;
 		try {
 			excelGridTempFile = File.createTempFile(GtnFrameworkCommonStringConstants.TMP,
 					GtnFrameworkCommonStringConstants.DOT_XLS);
 		} catch (IOException e) {
-			gtnLogger.error(GridExportFile, e);
+			gtnLogger.error(gridExportFile, e);
 		}
 		TemporaryFileDownloadResource excelGridResource;
 		try (FileOutputStream fileOut = new FileOutputStream(excelGridTempFile);) {
 			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				GridExportFile = GridExportFile.replace(' ', '_');
+				gridExportFile = gridExportFile.replace(' ', '_');
 			}
 			excelGridWorkBook.write(fileOut);
-			excelGridResource = new TemporaryFileDownloadResource(null, GridExportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
+			excelGridResource = new TemporaryFileDownloadResource(null, gridExportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
 					EXCEL_MIME_TYPE, excelGridTempFile);
 			UI.getCurrent().getPage().open(excelGridResource, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
 		} catch (final IOException e) {
-			gtnLogger.error(GridExportFile, e);
+			gtnLogger.error(gridExportFile, e);
 		} finally {
 			if (excelGridTempFile != null) {
 				excelGridTempFile.deleteOnExit();
@@ -221,8 +220,9 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
 	private int addDoubleHeader(GtnUIFrameworkPagedTreeTableConfig config, XSSFSheet sheet, int count,
 			CellStyle defaultHeadersCellStyle, XSSFWorkbook workBook) {
+            int rowCount=count;
 		if (config.isDoubleHeaderVisible()) {
-			Row doubleHeader = sheet.createRow(count++);
+			Row doubleHeader = sheet.createRow(rowCount++);
 			int rightStart = 1;
 			int i = 0;
 			for (Object column : config.getRightTableDoubleHeaderVisibleColumns()) {
@@ -238,13 +238,14 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 				rightStart += size;
 			}
 		}
-		return count;
+		return rowCount;
 	}
 
 	private int addTripleHeader(GtnUIFrameworkPagedTreeTableConfig config, XSSFSheet sheet, int count,
 			CellStyle defaultHeadersCellStyle, XSSFWorkbook workBook) {
+            int rowCount=count;
 		if (config.isTripleHeaderVisible()) {
-			Row tripleHeader = sheet.createRow(count++);
+			Row tripleHeader = sheet.createRow(rowCount++);
 
 			int rightStart = 1;
 			int i = 0;
@@ -266,7 +267,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 				rightStart += size;
 			}
 		}
-		return count;
+		return rowCount;
 	}
 
 	private int createDataRows(XSSFSheet sheet, List<Object> propertyIds, XSSFWorkbook workBook,
@@ -278,7 +279,6 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		List<GtnWsRecordBean> tree = new ArrayList<>(resultList.size());
 		excelRowCount = headerCount;
 		buildTree(resultList, child, tree);
-		resultList = null;// not needed anymore
 		Integer count = headerCount;
 
 		CellStyle defaultDataCellStyle = defaultDataCellStyle(workBook);
@@ -305,14 +305,14 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 			if (GridUtils.hasChildren(bean)) {
 				int levelNo = GridUtils.getLevelNo(bean);
 				String hierNo = GridUtils.getHierarchyNo(bean);
-				child = input.stream().filter(row -> GridUtils.getLevelNo(row) == levelNo + 1
+				List<GtnWsRecordBean> children = input.stream().filter(row -> GridUtils.getLevelNo(row) == levelNo + 1
 						&& GridUtils.getHierarchyNo(row).startsWith(hierNo)).collect(Collectors.toList());
 				long totalChildCount = input.stream().filter(row -> GridUtils.getHierarchyNo(row).startsWith(hierNo))
 						.count();
 				bean.addAdditionalProperties(3, excelRowCount);
 				bean.addAdditionalProperties(4, excelRowCount + totalChildCount - 2);
 				bean.addAdditionalProperties(5, Boolean.TRUE);
-				buildTree(input, child, output);
+				buildTree(input, children, output);
 			} else {
 				bean.addAdditionalProperties(5, Boolean.FALSE);
 			}

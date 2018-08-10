@@ -1,6 +1,4 @@
-window.com_byteowls_vaadin_chartjs_ChartJs = function() {
-    // see the javadoc of com.vaadin.ui.
-    // for all functions on this.
+window.com_stpl_addons_vaadin_chartjs_ChartJs = function() {
     var e = this.getElement();
     // Please note that in JavaScript, this is not necessarily defined inside callback functions and it might therefore be necessary to assign the reference to a separate variable
     var self = this;

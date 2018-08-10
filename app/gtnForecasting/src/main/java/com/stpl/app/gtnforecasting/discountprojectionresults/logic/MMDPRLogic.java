@@ -25,7 +25,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,7 +67,6 @@ public class MMDPRLogic {
     private String pivotGroupName = StringUtils.EMPTY;
     private String pivotBrandName = StringUtils.EMPTY;
     private String nmSupp_Level = StringUtils.EMPTY;
-    public static final SimpleDateFormat FORMATDATE = new SimpleDateFormat(Constant.DATE_FORMAT);
     private final HashMap<String, String> map = new HashMap<>();
     private boolean viewFlag = false;
 

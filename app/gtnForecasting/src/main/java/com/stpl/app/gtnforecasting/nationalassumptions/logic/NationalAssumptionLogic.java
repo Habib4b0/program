@@ -520,7 +520,7 @@ public class NationalAssumptionLogic {
     public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException, SystemException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
-        List<Object[]> qualifierList;
+        List<Long> qualifierList;
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
 
@@ -533,7 +533,7 @@ public class NationalAssumptionLogic {
         brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
         brandQuery.setProjection(ProjectionFactoryUtil.countDistinct(BRAND_NAME.getConstant()));
         qualifierList = DAO.getBrandList(brandQuery);
-        count = Integer.parseInt(Arrays.toString(qualifierList.get(0)));
+        count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
 
         return count;
     }

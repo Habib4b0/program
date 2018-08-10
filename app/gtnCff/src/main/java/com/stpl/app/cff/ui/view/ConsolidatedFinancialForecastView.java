@@ -16,6 +16,8 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Search page view class
@@ -32,6 +34,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      * The SessionDTO
      */
     private final SessionDTO sessionDTO = new SessionDTO();
+     private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastView.class);
 
     /**
      * Constructor
@@ -55,6 +58,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+         LOGGER.debug("Inside Overriden method: do nothing");
     }
     
 }

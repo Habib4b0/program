@@ -5,6 +5,11 @@ import java.util.Date;
 
 public class GtnReportComparisonProjectionBean implements Comparator<GtnReportComparisonProjectionBean> {
 
+    public GtnReportComparisonProjectionBean() {
+    super();
+    }
+
+   
 	private String projectionName;
 	private String projectionDescription;
 	private String marketType;

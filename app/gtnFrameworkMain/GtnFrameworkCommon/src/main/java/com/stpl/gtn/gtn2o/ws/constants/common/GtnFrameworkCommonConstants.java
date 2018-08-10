@@ -681,6 +681,9 @@ public class GtnFrameworkCommonConstants {
     public static final String MAIL_CONFIGSAVE_BUTTONLAYOUT = "MailConfigsaveButtonlayout";
     public static final String EMAIL_CONFIGURATION_TAB_LAYOUT = "emailConfigurationTabLayout";
     public static final String EMAIL_CONFIG_PORT_NUMBER = "EmailConfigPortNumber";
+    public static final String EMAIL_CONFIG_BACK_BTN = "EmailConfigBackButton";
+    public static final String MAIL_CONFIG_VIEW_BUTTON = "MailConfigViewButton";
+    public static final String EMAIL_CONFIG_ADD_SAVE_BUTTON = "EmailConfigAddSaveButton";
 
     /**
      *

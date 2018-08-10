@@ -2,6 +2,11 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 
 public class GtnWsReportCustomViewDataBean {
 
+       public GtnWsReportCustomViewDataBean() {
+       super(); 
+       }
+
+   
 	private GtnWsCustomTreeData customTreeData;
 	private String customViewName;
 
