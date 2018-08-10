@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import static com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid.gtnlogger;
 
 import java.util.ArrayList;
