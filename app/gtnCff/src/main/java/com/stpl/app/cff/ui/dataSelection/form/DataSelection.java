@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractDataSelection;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
@@ -50,6 +51,8 @@ import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
 import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
+import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionVariance.form.ComparisonLookup;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
@@ -68,6 +71,7 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.TabSheet;
@@ -77,6 +81,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.customtextfield.CustomTextField;
 
 /**
  *
@@ -86,6 +91,8 @@ public class DataSelection extends AbstractDataSelection {
 
 	private static final long serialVersionUID = 1905122041950251207L;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
+        public static final String STRING_COMMA = ",";
+        private final Map<String,String> customViewInput=new HashMap<>();
         
 	/**
 	 * The data selection binder.
@@ -378,7 +385,10 @@ public class DataSelection extends AbstractDataSelection {
 				setRelationshipBuilderSids(String.valueOf(customerRelation.getValue()));
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationVersionComboBox.getValue(),
 						customerHierarchyDto.getHierarchyId());
-
+                                customViewInput.put(ConstantsUtil.CUSTVER, String.valueOf(customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue())));
+                                customViewInput.put(ConstantsUtil.CUSTOMER_SID_LITERAL, String.valueOf(customerRelation.getValue()));
+                                comparison.setEnabled(false);
+                                loadCustomViewDropDown(customViewDdlb);
 			} catch (Exception ex) {
 				LOGGER.error(" in customerRelation value change= {}", ex);
 			}
@@ -417,6 +427,10 @@ public class DataSelection extends AbstractDataSelection {
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
 				productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 						productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
+                                customViewInput.put(ConstantsUtil.PRODVER, String.valueOf(relationVersionNo));
+                                customViewInput.put(ConstantsUtil.PROD_SID_LITERAL, String.valueOf(productRelation.getValue()));
+                                comparison.setEnabled(false);
+                                loadCustomViewDropDown(customViewDdlb);
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}", ex);
 			}
@@ -451,7 +465,7 @@ public class DataSelection extends AbstractDataSelection {
 			VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
 			dataSelectionDTO.setProjectionId(projectionIdValue);
 			if (projectionIdValue != 0) {
-
+                                sessionDTO.setStatusName("G");
 				sessionDTO.setProjectionId(projectionIdValue);
 				sessionDTO.setProductLevelNumber(String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 				sessionDTO.setCustomerLevelNumber(String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
@@ -467,6 +481,7 @@ public class DataSelection extends AbstractDataSelection {
 				sessionDTO.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
 				sessionDTO.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 				sessionDTO.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
+                                sessionDTO.setFrequency(String.valueOf(frequencyDataSelection.getValue()));
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
                                 List versionNoList = cffLogic.getDeductionVersionNoList(sessionDTO.getDedRelationshipBuilderSid());
@@ -491,6 +506,18 @@ public class DataSelection extends AbstractDataSelection {
 					cffLogic.callDeductionCCPHierarchyInsertion(sessionDTO, sessionDTO.getCurrentTableNames(),
 							BooleanConstant.getFalseFlag());
 				}
+                            StringBuilder br = new StringBuilder();
+                            
+                                if (sessionDTO.getComparisonLookupData() != null) {
+                                    for (ComparisonLookupDTO checkedSalesValue : ((ComparisonLookupDTO) sessionDTO.getComparisonLookupData()).getSelected()) {
+                                        br.append(checkedSalesValue.getProjectionId()).append(Constants.COMMA);
+                                }
+                                sessionDTO.setPriorProjectionId(br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString());
+                                }
+                                
+                                sessionDTO.setDeductionName(deductionDdlb.getItemCaption(deductionDdlb.getValue()));
+                                sessionDTO.setDeductionNo(Integer.parseInt(String.valueOf(deductionDdlb.getValue())));
+                                cffLogic.loadSalesTempTableInThread(sessionDTO,true);
 
 			}
 
@@ -502,6 +529,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 
 	}
+   
 
 	@Override
 	protected void loadPublicView() {
@@ -3371,6 +3399,7 @@ public class DataSelection extends AbstractDataSelection {
 			dataSelectionDTO.setDiscountSid(0);
 		}
                 sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
+                dataSelectionDTO.setCustomViewMasterSid(Integer.parseInt(String.valueOf(customViewDdlb.getValue())));
 		return dataSelectionDTO;
 	}
 
@@ -3804,7 +3833,43 @@ public class DataSelection extends AbstractDataSelection {
                     levelValueChangeListener(dataSelectionDTO.getSelectedCustomerLevelNo());
                 }
             });
+             loadDdlbForDeduction(deductionDdlb);
+            
+             comparison.addClickListener(new CustomTextField.ClickListener() {
+                @Override
+                public void click(CustomTextField.ClickEvent event) {
+                    comparisonLookupLogic();
+                }
+            });
+              comparison.setEnabled(false);
         }
+
+        
+         protected void comparisonLookupLogic() {
+        LOGGER.debug("Comparision lookup started");
+        
+        final ComparisonLookup comparisonLookupWindow = new ComparisonLookup(comparison, sessionDTO, new ArrayList<>(),true);
+        UI.getCurrent().addWindow(comparisonLookupWindow);
+        comparisonLookupWindow.addCloseListener(new Window.CloseListener() {
+            /**
+             * Default method.
+             */
+            @Override
+            public void windowClose(final Window.CloseEvent event) {
+                sessionDTO.setComparisonLookupName(comparison.getValue());
+                sessionDTO.setComparisonLookupData(comparison.getData());
+                if (comparisonLookupWindow.getSelectedProjection().getItemIds().isEmpty()) {
+                    comparison.setReadOnly(false);
+                    comparison.setValue(Constants.SELECT_ONE_LABEL);
+                    comparison.setData(null);
+                    comparison.setReadOnly(true);
+                }
+            }
+        });
+
+        LOGGER.debug("Comparision lookup ends");
+    }                 
+                  
 
 	/**
 	 * Used to check which level is top in selected customer hierarchy either
@@ -3903,7 +3968,7 @@ public class DataSelection extends AbstractDataSelection {
 			final StplSecurity stplSecurity = new StplSecurity();
 			final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));
 			Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId,
-					"Consolidated Financial Forecast" + "," + "Data Selection");
+					"Consolidated Financial Forecast" + STRING_COMMA + "Data Selection");
 			if (functionHM.get("generateBtn") != null
 					&& !((AppPermission) functionHM.get("generateBtn")).isFunctionFlag()) {
 				generateBtn.setVisible(false);
@@ -3955,5 +4020,37 @@ public class DataSelection extends AbstractDataSelection {
 		customerExecutorService.shutdown();
 		return future;
 	}
-
+        
+         public void loadDdlbForDeduction(ComboBox ddlb) {
+             ddlb.setNullSelectionAllowed(false);
+           List<String[]> currentHierarchy= CommonLogic.getDeductionLevelForDataSelection();
+            if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
+                for (int i = 0; i < currentHierarchy.size(); i++) {
+                    Object[] levelValues = currentHierarchy.get(i);
+                    ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
+                    ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
+                }
+                ddlb.select(1);
+            }
+    }
+         
+         private void loadCustomViewDropDown(ComboBox customViewDdlb) {
+            setNullSelectionCustomDdlb(customViewDdlb);
+            logic.loadCustomViewValues(customViewDdlb,customViewInput,true);
+            customViewDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
+                    if(event.getProperty().getValue()!=null){
+                    sessionDTO.setCustomViewMasterSid(Integer.parseInt(String.valueOf(event.getProperty().getValue())));
+                    }
+                    comparison.setEnabled(event.getProperty().getValue()!=null);
+                }
+            });
+         }
+         
+        public void setNullSelectionCustomDdlb(ComboBox customViewDdlb) {
+            customViewDdlb.removeAllItems();
+            customViewDdlb.setNullSelectionAllowed(false);
+            customViewDdlb.setInputPrompt(SELECT_ONE);
+        }
 }

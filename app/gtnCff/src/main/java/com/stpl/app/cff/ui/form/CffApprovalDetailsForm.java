@@ -17,6 +17,7 @@ import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.dataSelection.form.DataSelection;
 import com.stpl.app.cff.ui.fileSelection.form.FileSelection;
+import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.form.ProjectionVariance;
 import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
@@ -40,9 +41,11 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
@@ -192,6 +195,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     private void configureFields() {
         try {
+            
             LOGGER.debug("Enters CffApprovalDetailsForm Configure Field method");
             approveBtnLogic();
             tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
@@ -255,15 +259,30 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         if ("add".equals(mode)) {
                             fileSelection.getSelectedFile();
                         }
-                        String projId = String.valueOf(sessionDTO.getProjectionId());
-                        Object[] obj = {projId};
-                        CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
+                        new CommonLogic().callThreadForProcedureFileInsert(sessionDTO);
                     }
-
+                    if (tabPosition == NumericConstants.TWO) {
+                        try {
+                            Future future = new CommonLogic().callThreadForProcedureFileInsert(sessionDTO);
+                            future.get();
+                           cffLogic.loadDiscountTempTableInThread(sessionDTO,true);
+                        } catch (InterruptedException | ExecutionException ex) {
+                           LOGGER.error(ex.getMessage());
+                        }
+                    }
+                    if(tabPosition == NumericConstants.FOUR){
+                        try {
+//                          new CommonLogic().checkForCompletion(sessionDTO,Constants.DISCOUNT, "CUSTOMER");
+                        } catch (Exception ex) {
+                           LOGGER.error(ex.getMessage());
+                        }
+                    }
                     if (tabPosition == NumericConstants.THREE || (!tabSheet.getTab(NumericConstants.THREE).isVisible() && tabPosition == NumericConstants.FOUR)) {
-                        String projId = String.valueOf(sessionDTO.getProjectionId());
-                        Object[] obj = {projId};
-                        CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
+                        projectionVariance.getComparison().setReadOnly(false);
+                        projectionVariance.getComparison().setValue(sessionDTO.getComparisonLookupName());
+                        projectionVariance.getComparison().setReadOnly(true);
+                        projectionVariance.getComparison().setData(((ComparisonLookupDTO)sessionDTO.getComparisonLookupData()));
+                        projectionVariance.loadSelectionForLookup(projectionVariance.getComparison());
                         projectionVariance.uomLoadingTabChange();
                     }
 

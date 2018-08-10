@@ -529,6 +529,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         sessionDto.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
 					sessionDto.setScreenName("CCP_HIERARCHY");
 					CFFQueryUtils.createTempTables(sessionDto);
+                                        List inputList=new ArrayList();
+                                        inputList.add(sessionDto.getProjectionId());
+                                        final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
+                                        sessionDto.setFrequency(loadFrequency.get(0));
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
@@ -585,6 +589,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
 								BooleanConstant.getFalseFlag());
 					}
+                                        sessionDTO.setStatusName("E");
+                                        cffLogic.loadSalesTempTableInThread(sessionDTO,false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);

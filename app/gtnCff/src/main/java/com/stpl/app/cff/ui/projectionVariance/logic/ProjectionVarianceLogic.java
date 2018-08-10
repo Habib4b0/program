@@ -318,12 +318,12 @@ public class ProjectionVarianceLogic {
         return finalList;
     }
 
-    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup) throws PortalException, SystemException {
+    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) throws PortalException, SystemException {
         char asterik = '*';
         char percent = '%';
         String andOperator;
-        List inputList = getComparisonInput(comparisonLookup);
-        StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonLoadData");
+        List inputList = getComparisonInput(comparisonLookup,isDataSelection,session);
+        StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, isDataSelection?"comparisonLoadDataDataSelection":"comparisonLoadData");
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
             query.append(" CONTRACT LIKE ").append('\'').append(comparisonLookup.getContract().replace(asterik, percent)).append('\'');
@@ -471,12 +471,12 @@ public class ProjectionVarianceLogic {
         return null;
     }
 
-    public Integer getComparisonCount(ComparisonLookupDTO comparisonLookup) {
+    public Integer getComparisonCount(ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) {
         char asterik = '*';
         char percent = '%';
         String andOperator;
-        List inputList = getComparisonInput(comparisonLookup);
-        StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonSearchCount");
+        List inputList = getComparisonInput(comparisonLookup,isDataSelection,session);
+        StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, isDataSelection?"comparisonSearchCountDataSelection":"comparisonSearchCount");
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
             query.append(" CONTRACT LIKE  ").append('\'').append(comparisonLookup.getContract().replace(asterik, percent)).append('\'');
@@ -1446,7 +1446,7 @@ public class ProjectionVarianceLogic {
             pvsdto.setCcpIds(ccps);
             pvsdto.getSession().getSalesInclusion();
         }
-        Object[] orderedArg = {projectionId, frequency, "VARIANCE", null, null, ccps ,rsIds,uomCode,salesInclusion,deductionInclusion};
+        Object[] orderedArg = {projectionId,pvsdto.getSessionDTO().getLevelHierarchyNo(), frequency,null,null, pvsdto.getSessionDTO().getUserId() ,pvsdto.getSessionDTO().getSessionId() ,pvsdto.getView(), pvsdto.getSessionDTO().getCustomViewMasterSid(),salesInclusion,deductionInclusion};
 
         List< Object[]> gtsResult = CommonLogic.callProcedure(PRC_CFF_RESULTS, orderedArg);
         pivotTotalList.addAll(gtsResult);
@@ -2816,10 +2816,13 @@ public class ProjectionVarianceLogic {
         return QueryUtil.replaceTableNames(ccpQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
     }
 
-    private List getComparisonInput(final ComparisonLookupDTO comparisonLookup) {
+    private List getComparisonInput(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) {
         char asterik = '*';
         char percent = '%';
         List inputList = new ArrayList();
+        if (isDataSelection) {
+            return getInputsForQuery(comparisonLookup, percent,session);
+        }
         if (comparisonLookup.getWorkflowStatus() != null && !comparisonLookup.getWorkflowStatus().equals(Constants.SELECT_ONE_LABEL)) { //Added for GAL-9231
             if (!comparisonLookup.getWorkflowStatus().equals("Saved")) {
                 inputList.add(comparisonLookup.getWorkflowStatus());
@@ -2840,6 +2843,26 @@ public class ProjectionVarianceLogic {
         } else {
             inputList.add(percent);
         }
+        getFromAndTo(comparisonLookup, inputList);
+        
+        inputList.add(comparisonLookup.getCurrentProjId());
+        
+        getFilterWhereCondition(comparisonLookup, inputList);
+
+        return inputList;
+    }
+
+    private void getFilterWhereCondition(final ComparisonLookupDTO comparisonLookup, List inputList) {
+        StringBuilder filter = AbstractFilterLogic.getInstance().filterQueryGenerator(comparisonLookup.getFilter(), getFilerMap());
+        
+        if (filter != null) {
+            inputList.add(filter.toString());
+        } else {
+            inputList.add(" ");
+        }
+    }
+
+    private void getFromAndTo(final ComparisonLookupDTO comparisonLookup, List inputList) {
         if (comparisonLookup.getCreatedDateFrom() != null) {
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
             Date startValue = (Date) comparisonLookup.getCreatedDateFrom();
@@ -2857,16 +2880,6 @@ public class ProjectionVarianceLogic {
         } else {
             inputList.add(" ");
         }
-        inputList.add(comparisonLookup.getCurrentProjId());
-        StringBuilder filter = AbstractFilterLogic.getInstance().filterQueryGenerator(comparisonLookup.getFilter(), getFilerMap());
-
-        if (filter != null) {
-            inputList.add(filter.toString());
-        } else {
-            inputList.add(" ");
-        }
-
-        return inputList;
     }
 
     private Map<String, String> getFilerMap() {
@@ -3024,7 +3037,7 @@ public class ProjectionVarianceLogic {
 
         if ("C".equals(hierarchyIndicator) || "P".equals(hierarchyIndicator)) {
             String query = SQlUtil.getQuery("hiearchy-no-count-query");
-            query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+            query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),projSelDTO));
             query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
             query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
             query += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO());
@@ -3053,10 +3066,10 @@ public class ProjectionVarianceLogic {
             int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
             switch (String.valueOf(currentHierarchyIndicator)) {
                 case "C":
-                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo,projSelDTO));
                     break;
                 case "P":
-                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo,projSelDTO));
                     break;
                 case "D":
                         sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
@@ -3065,7 +3078,7 @@ public class ProjectionVarianceLogic {
                     LOGGER.warn("Invalid Hierarchy Indicator: {}", currentHierarchyIndicator);
             }
         } else {
-            sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+            sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),projSelDTO));
         }
         sql = sql.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         LOGGER.debug("Group Filter Value: {}", projSelDTO.getGroupFilter());
@@ -3218,7 +3231,7 @@ public class ProjectionVarianceLogic {
         public List getHiearchyNoAsList(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
         String query = SQlUtil.getQuery("hiearchy-no-query");
-        query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+        query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),projSelDTO));
         query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
         query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
         query += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO());
@@ -3250,24 +3263,28 @@ public class ProjectionVarianceLogic {
         return "";
     }
     
-    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,ProjectionSelectionDTO projSelDTO) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException("Invalid Level No:" + levelNo);
         }
+        String hierarchyForLevel;
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
-        hierachyQueryIndicator(hierarchyNo, relationshipLevelDetailsMap, levelNo, hierarchyIndicator, stringBuilder);
+        hierarchyForLevel=hierachyQueryIndicator(hierarchyNo, relationshipLevelDetailsMap, levelNo, hierarchyIndicator, stringBuilder);
         if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
+        sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
+        projSelDTO.setSessionDTO(sessionDTO);
         return stringBuilder.toString();
     }
 
-    private void hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder) throws NumberFormatException {
+    private String hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder) throws NumberFormatException {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
+        String hierarchyForLevel=StringUtils.EMPTY;
         boolean isHierarchyNoNotAvailable = checkHierarchyAvailability(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
@@ -3276,17 +3293,19 @@ public class ProjectionVarianceLogic {
                     if (isNotFirstElement) {
                         stringBuilder.append(",\n");
                     }
-                    queryGenerate(stringBuilder, entry, i);
+                    hierarchyForLevel= queryGenerate(stringBuilder, entry, i);
                     isNotFirstElement = true;
                 }
             } else if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
                 if (isNotFirstHierarchy) {
                     stringBuilder.append(",\n");
                 }
+                hierarchyForLevel=hierarchyForLevel.concat(entry.getKey()).concat(",");
                 stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(hierarchyNo)).split("\\,"))));
                 isNotFirstHierarchy = true;
             }
         }
+        return hierarchyForLevel;
     }
 
     private static boolean checkHierarchyNo(String hierarchyNo) {
@@ -3297,13 +3316,33 @@ public class ProjectionVarianceLogic {
         return StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
     }
 
-    private void queryGenerate(StringBuilder stringBuilder, Map.Entry<String, List> entry, int i) {
+    private String queryGenerate(StringBuilder stringBuilder, Map.Entry<String, List> entry, int i) {
+        String hierarchyForLevel=StringUtils.EMPTY;
         stringBuilder.append("('");
+        hierarchyForLevel = hierarchyForLevel.concat(entry.getKey()).concat(",");
         stringBuilder.append(entry.getKey());
         stringBuilder.append("',").append(i++).append(')');
+        return hierarchyForLevel;
     }
 
     private static boolean hierarchyValidation(Map.Entry<String, List> entry, int levelNo, String hierarchyIndicator, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
         return (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
+    }
+
+    private List getInputsForQuery(ComparisonLookupDTO comparisonLookup,char percent,SessionDTO session) {
+         List inputList = new ArrayList();
+         if (comparisonLookup.getWorkflowStatus() != null && !comparisonLookup.getWorkflowStatus().equals(Constants.SELECT_ONE_LABEL)) { //Added for GAL-9231
+            if (!comparisonLookup.getWorkflowStatus().equals("Saved")) {
+                inputList.add(comparisonLookup.getWorkflowStatus());
+            } else {
+                inputList.add(percent);
+            }
+        } else {
+            inputList.add(percent);
+        } 
+             getFromAndTo(comparisonLookup, inputList);
+             inputList.add(session.getCustomViewMasterSid());
+             getFilterWhereCondition(comparisonLookup, inputList);
+         return inputList;
     }
 }
