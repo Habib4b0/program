@@ -118,8 +118,7 @@ public class GtnReportCCPTableLoadAction
 		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
+		combobox.reloadComponentFromChild(				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)

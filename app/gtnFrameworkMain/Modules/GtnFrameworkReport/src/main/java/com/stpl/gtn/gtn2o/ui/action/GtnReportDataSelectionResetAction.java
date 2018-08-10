@@ -51,7 +51,7 @@ public class GtnReportDataSelectionResetAction
 		fromPeriodConfig.setDefaultDesc("next");
 		
 		GtnUIFrameworkComboBoxComponent fromPeriod = new GtnUIFrameworkComboBoxComponent();
-		fromPeriod.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, "reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
+		fromPeriod.reloadComponentFromParent("reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(6).toString(),componentId).setV8PopupFieldValue("");
 		String value = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(7).toString(),componentId).getCaptionFromV8ComboBox();

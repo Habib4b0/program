@@ -101,8 +101,7 @@ public class GtnReportDataSelectionLoadViewAction
 		relationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_RELATIONSHIP);
 		GtnUIFrameworkComboBoxComponent customerRelationshipCombobox = new GtnUIFrameworkComboBoxComponent();
 
-		customerRelationshipCombobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				relationshipId, componentId, Arrays.asList(hierarchyDefinitionSid));
+		customerRelationshipCombobox.reloadComponentFromParent(				relationshipId, componentId, Arrays.asList(hierarchyDefinitionSid));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(relationshipId, componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerRelationshipBuilderSid());
 
@@ -148,8 +147,7 @@ public class GtnReportDataSelectionLoadViewAction
 		productRelationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_RELATIONSHIP);
 
 		GtnUIFrameworkComboBoxComponent productRelationshipCombobox = new GtnUIFrameworkComboBoxComponent();
-		productRelationshipCombobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				productRelationshipId, componentId, Arrays.asList(productHierarchyDefinitionSid));
+		productRelationshipCombobox.reloadComponentFromParent(				productRelationshipId, componentId, Arrays.asList(productHierarchyDefinitionSid));
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(productRelationshipId, componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getProductRelationshipBuilderSid());
