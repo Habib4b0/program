@@ -812,7 +812,6 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 
 		GtnUIFrameWorkActionConfig comparisonPopupCloseAction = new GtnUIFrameWorkActionConfig();
 		comparisonPopupCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		comparisonPopupCloseAction.addActionParameter("dashboardcomparisonLookupView");
 		submitActionList.add(comparisonPopupCloseAction);
 		submitBtn.setGtnUIFrameWorkActionConfigList(submitActionList);
 	}
