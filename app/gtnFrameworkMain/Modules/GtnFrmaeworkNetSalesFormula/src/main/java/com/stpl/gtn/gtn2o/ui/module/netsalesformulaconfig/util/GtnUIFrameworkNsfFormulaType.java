@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
+
 public class GtnUIFrameworkNsfFormulaType {
 
     private String formulaTypeValue = null;
@@ -9,7 +11,10 @@ public class GtnUIFrameworkNsfFormulaType {
 
     }
 
-    static class INNER {
+    private static final class INNER {
+        private INNER(){
+            throw new AccessDeniedException("Utility class");
+        }
         private static final GtnUIFrameworkNsfFormulaType INSTANCE = new GtnUIFrameworkNsfFormulaType();
     }
 
