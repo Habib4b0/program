@@ -628,13 +628,11 @@ public class PhsResults extends CustomComponent implements View {
         edate.setTime(endDate);
         Calendar sdate = Calendar.getInstance();
         sdate.setTime(startDate);
-        if (startDate != null && endDate != null) {
             projectionDTO.setEndYear(edate.get(Calendar.YEAR));
             projectionDTO.setEndMonth(edate.get(Calendar.MONTH) + 1);
             projectionDTO.setHistProjYear(sdate.get(Calendar.YEAR));
             projectionDTO.setHistProjMonth(sdate.get(Calendar.MONTH) + 1);
             projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
-        }
         tablePanel.setCaption(view.getValue().toString() + SPACE.getConstant() + PIVOT_VIEW.getConstant());
     }
 
