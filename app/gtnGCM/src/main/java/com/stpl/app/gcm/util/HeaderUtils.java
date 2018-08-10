@@ -44,8 +44,8 @@ public class HeaderUtils {
         List<String> periodList = new ArrayList<>();
         Map<String, String> periodListMap = new HashMap<>();
         prepareCommonColumnHeaders(periodList, periodListMap, frequency);
+        List<Object> dmap = new ArrayList<>();
         for (int i = 0; i < periodList.size(); i++) {
-            List<Object> dmap = new ArrayList<>();
             String commonColumn = periodList.get(i);
             String commonHeader = periodListMap.get(commonColumn);
             Object singleColumn = commonColumn + SALES.getConstant();
@@ -130,8 +130,8 @@ public class HeaderUtils {
         List<String> periodList = new ArrayList<>();
         Map<String, String> periodListMap = new HashMap<>();
         prepareCommonColumnHeaders(periodList, periodListMap, frequency);
+        List<Object> dmap = new ArrayList<>();
         for (int i = 0; i < periodList.size(); i++) {
-            List<Object> dmap = new ArrayList<>();
             String commonColumn = periodList.get(i);
             String commonHeader = periodListMap.get(commonColumn);
             Object singleColumn = commonColumn + AMOUNT.getConstant();

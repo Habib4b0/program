@@ -49,7 +49,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.BrowserWindowOpener;
@@ -78,7 +77,6 @@ import java.util.HashMap;
 
 public class GtnUIFrameworkBaseComponent {
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkBaseComponent.class);
 
 	private final AbstractComponent component;
 
@@ -392,7 +390,7 @@ public class GtnUIFrameworkBaseComponent {
 			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
 
 			if (isEmpty(multiSelect.getSelectedItems())) {
-				return null;
+				return Collections.emptyList();
 			}
 			List<Object> selectedItemList = new ArrayList<>();
 			for (Object object : multiSelect.getSelectedItems()) {

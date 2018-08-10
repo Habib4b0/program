@@ -65,6 +65,10 @@ public class GtnWSTreeNode implements Serializable {
 		return treeNode;
 	}
 
+	public void removeChildren(GtnWSTreeNode childNode) {
+		this.children.remove(childNode);
+	}
+
 	public String getTreeCode() {
 		return treeCode;
 	}

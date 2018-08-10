@@ -104,8 +104,7 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		comparisonBasisConfig.setItemValues(finalProjectionList);
 
 		GtnUIFrameworkComboBoxComponent comparisonBasisMassUpdateComboBox = new GtnUIFrameworkComboBoxComponent();
-		comparisonBasisMassUpdateComboBox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportOptionsTabComparisonOptions_comparison", componentId, Arrays.asList(""));
+		comparisonBasisMassUpdateComboBox.reloadComponentFromView(				"reportOptionsTabComparisonOptions_comparison", componentId, Arrays.asList(""));
 
 	}
 
@@ -135,8 +134,7 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		config.setItemValues(valueList);
 
 		GtnUIFrameworkComboBoxComponent valueComboBox = new GtnUIFrameworkComboBoxComponent();
-		valueComboBox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportOptionsTabComparisonOptions_value", componentId, Arrays.asList(""));
+		valueComboBox.reloadComponentFromView(				"reportOptionsTabComparisonOptions_value", componentId, Arrays.asList(""));
 	}
 
 	private void populateValueListBasedOnFrequency(String frequency, List<String> valueList) {
