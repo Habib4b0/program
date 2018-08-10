@@ -34,9 +34,6 @@ public class CommonUtils {
 	private static PortletConfig portletConfig;
     public final static String COMPANY_NAME = "companyName";
     public final static String QUOTES = "'";
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    public static final SimpleDateFormat commonDate = new SimpleDateFormat("MM-dd-yyy");
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     public static final String MMDDYYYY = "MM/dd/yyyy";
     /**
      * The Constant CHAR_ASTERISK.

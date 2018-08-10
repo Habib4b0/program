@@ -101,8 +101,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			comparisonBasisComboBoxConfig.setItemCaptionValues(projectionList);
 
 			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-			combobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportOptionsTabComparisonOptions_comparison", componentId, Arrays.asList(""));
+			combobox.reloadComponentFromView(					"reportOptionsTabComparisonOptions_comparison", componentId, Arrays.asList(""));
 
 			int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
 
@@ -238,8 +237,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		startPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
 
 		GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
-		startPeriodCombobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportOptionsTabComparisonOptions_startPeriod", componentId, Arrays.asList(""));
+		startPeriodCombobox.reloadComponentFromView(				"reportOptionsTabComparisonOptions_startPeriod", componentId, Arrays.asList(""));
 
 		GtnUIFrameworkComboBoxConfig endPeriodComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_endPeriod", componentId)
@@ -248,8 +246,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		endPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
 
 		GtnUIFrameworkComboBoxComponent endPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
-		endPeriodCombobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportOptionsTabComparisonOptions_endPeriod", componentId, Arrays.asList(""));
+		endPeriodCombobox.reloadComponentFromView(				"reportOptionsTabComparisonOptions_endPeriod", componentId, Arrays.asList(""));
 
 	}
 

@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.emailconfig.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
+import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigBackAction;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigDefaultDataLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigSaveAction;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigSaveValueChange;
@@ -25,6 +26,9 @@ public class GtnUIFrameworkEmailConfigDynamicClassFiller implements GtnUIDynamic
 				new GtnFrameworkEmailConfigurationValidation());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkEmailConfigViewAction.class.getName(),
 				new GtnFrameworkEmailConfigViewAction());
+		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkEmailConfigBackAction.class.getName(),
+				new GtnFrameworkEmailConfigBackAction());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkEmailNotificationSaveAction.class.getName(),
 				new GtnFrameworkEmailNotificationSaveAction());

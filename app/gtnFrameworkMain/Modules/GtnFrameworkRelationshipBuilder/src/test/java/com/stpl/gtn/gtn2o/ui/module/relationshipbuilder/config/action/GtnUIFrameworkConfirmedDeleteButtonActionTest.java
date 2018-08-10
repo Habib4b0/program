@@ -104,27 +104,27 @@ import org.powermock.modules.junit4.PowerMockRunner;
         GtnUIFrameWorkActionConfig result = instance.getRbDeleteInfoAction(parameters);
         assertEquals(2, result.getActionParameterList().size());
     }
-//      /**
-//     * Test of doAction method, of class GtnUIFrameworkEditButtonAction.
-//     */
-//    @Test
-//    public void testDoAction() throws Exception {
-//        System.out.println("doAction");
-//
-//       
-//        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
-//        String componentId = "";
-//        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-//        Constructor cons= (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
-//        cons.setAccessible(true);
-//        GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(null,null);
-//        when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
-//        GtnUIFrameworkConfirmedDeleteButtonAction instance = new GtnUIFrameworkConfirmedDeleteButtonAction();
-//        
-//        List<Object> parameters=IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList());
-//        parameters.set(1, new GtnWsRecordBean());
-//        gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
-//        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
-//    }
+      /**
+     * Test of doAction method, of class GtnUIFrameworkEditButtonAction.
+     */
+    @Test
+    public void testDoAction() throws Exception {
+        System.out.println("doAction");
+
+       
+        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
+        String componentId = "";
+        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+        Constructor cons= (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
+        cons.setAccessible(true);
+        GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(null,null);
+        when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
+        GtnUIFrameworkConfirmedDeleteButtonAction instance = new GtnUIFrameworkConfirmedDeleteButtonAction();
+        
+        List<Object> parameters=IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList());
+        parameters.set(1, new GtnWsRecordBean());
+        gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
+        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+    }
     
 }

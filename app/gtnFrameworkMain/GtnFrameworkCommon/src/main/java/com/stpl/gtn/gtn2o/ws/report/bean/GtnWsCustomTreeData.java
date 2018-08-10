@@ -11,6 +11,10 @@ public class GtnWsCustomTreeData {
 	private List<GtnWsReportVariablesType> variableList;
 	private GtnWsCustomTreeData child;
 
+        public GtnWsCustomTreeData() {
+        super();
+        }
+
     
 
 	public String getLevelName() {

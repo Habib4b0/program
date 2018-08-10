@@ -94,12 +94,11 @@ public class CommonUtil {
         tableHeaderDTO.addSingleColumn(singleCol[NumericConstants.FOUR], "Version", String.class);
         tableHeaderDTO.addDoubleColumn(singleCol[NumericConstants.FOUR], " ");
         tableHeaderDTO.addDoubleHeaderMap(singleCol[NumericConstants.FOUR], version);
+        List<Object> dmap = new ArrayList<>();
 
         for (int i = 1; i <= totalLevel; i++) {
             String commonHeader = "Level " + i; 
             String commonColumn = "level" + i; 
-
-            List<Object> dmap = new ArrayList<>();
 
             Object singleColumn = commonColumn + "LevelName";
             dmap.add(singleColumn);

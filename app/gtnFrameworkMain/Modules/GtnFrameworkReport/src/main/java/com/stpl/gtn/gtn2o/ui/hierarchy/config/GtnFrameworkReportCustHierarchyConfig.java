@@ -139,8 +139,10 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionHierarchy = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy", true,
-				customerSelectionHierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY,
+				true, customerSelectionHierarchyLayout.getComponentId(),
+				GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		customerSelectionHierarchy.setComponentName("Hierarchy: ");
 
 		GtnUIFrameWorkActionConfig customerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
@@ -163,8 +165,10 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionRelationship = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship", true,
-				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_SELECTION_LEVEL_RELATION,
+				true, customerSelectionRelationshipLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionRelationship.setComponentName("Relationship: ");
 		customerSelectionRelationship
 				.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
@@ -184,21 +188,21 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		relationshipValueChangeAction.addActionParameter(GtnRelationshipVersionLoadAction.class.getName());
-		relationshipValueChangeAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship");
-		relationshipValueChangeAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion");
+		relationshipValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_SELECTION_LEVEL_RELATION);
+		relationshipValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_RELATION_VERSION);
 		actionConfigList.add(relationshipValueChangeAction);
 
 		GtnUIFrameWorkActionConfig loadForecastLavelAction = new GtnUIFrameWorkActionConfig();
 		loadForecastLavelAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadForecastLavelAction.addActionParameter(GtnReportForecastLevelLoadAction.class.getName());
-		loadForecastLavelAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion");
-		loadForecastLavelAction
-				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy");
-		loadForecastLavelAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
+		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_RELATION_VERSION);
+		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY);
+		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_SELECTION_LEVEL);
 		actionConfigList.add(loadForecastLavelAction);
 
 		GtnUIFrameWorkActionConfig resetDualListBoxActiion = new GtnUIFrameWorkActionConfig();
@@ -215,10 +219,12 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionRelationshipVersionLayout.setVisible(false);
 
 		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion", true,
-				customerSelectionRelationshipVersionLayout.getComponentId(),
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_RELATION_VERSION,
+				true, customerSelectionRelationshipVersionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		customerRelationshipVersion.setComponentName("CustomerRelationshipVersion");
+		customerRelationshipVersion
+				.setComponentName(GtnFrameworkReportStringConstants.REPORT_CUSTOMER_RELATION_VERSION);
 
 		GtnUIFrameworkComboBoxConfig customerRelationshipVersionConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
@@ -232,8 +238,9 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				"customerSelectionLevelLayout", true, customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionLevel = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel", true,
-				customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_SELECTION_LEVEL,
+				true, customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionLevel.setComponentName("Level: ");
 		customerSelectionLevel.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 		GtnUIFrameworkComboBoxConfig customerSelectionLevelLoadConfig = configProvider.getComboBoxConfig(
@@ -253,23 +260,23 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		refreshDualListBoxActiion.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RESET_ACTION);
 		refreshDualListBoxActiion.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.CUSTOMER_DUALLISTBOX);
-		refreshDualListBoxActiion.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
-		refreshDualListBoxActiion.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship");
+		refreshDualListBoxActiion.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_SELECTION_LEVEL);
+		refreshDualListBoxActiion.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_SELECTION_LEVEL_RELATION);
 		levelactionConfigList.add(refreshDualListBoxActiion);
 
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
 		levelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		levelValueChangeAction.addActionParameter(GtnCustomerAvailableTableLoadAction.class.getName());
-		levelValueChangeAction
-				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy");
-		levelValueChangeAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship");
-		levelValueChangeAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion");
-		levelValueChangeAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
+		levelValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY);
+		levelValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_SELECTION_LEVEL_RELATION);
+		levelValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_RELATION_VERSION);
+		levelValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_SELECTION_LEVEL);
 		levelValueChangeAction.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate");
 		levelValueChangeAction
@@ -299,7 +306,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 						GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
 		customerSelectionForecastEligibilityDate.addComponentStyle("datefieldcentered");
-                customerSelectionForecastEligibilityDate.setComponentHight("20px");
+		customerSelectionForecastEligibilityDate.setComponentHight("20px");
 		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);
 		componentList.add(customerSelectionRelationshipLayout);

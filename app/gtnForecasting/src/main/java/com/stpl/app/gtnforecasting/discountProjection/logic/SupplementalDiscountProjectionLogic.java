@@ -65,7 +65,6 @@ public class SupplementalDiscountProjectionLogic {
     protected Object supplemental;
     protected Object supplementalLevelName = null;
     protected static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
-    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     public int getConfiguredSupplementalDiscountCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
@@ -730,11 +729,10 @@ public class SupplementalDiscountProjectionLogic {
 
     public void insertInParity(List<LookUpDTO> finalDtoList, int projId) {
         try {
-
-            for (int i = 0; i < finalDtoList.size(); i++) {
-                LookUpDTO dto = finalDtoList.get(i);
                 StringBuilder queryBuilder1 = new StringBuilder();
                 SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+            for (int i = 0; i < finalDtoList.size(); i++) {
+                LookUpDTO dto = finalDtoList.get(i);
                 if (projId != 0 && !StringUtils.EMPTY.equals(dto.getMethodology()) && !StringUtils.EMPTY.equals(dto.getContract()) && dto.getContractMasterSid() != 0 && dto.getItemMasterSid() != 0 && !StringUtils.EMPTY.equals(dto.getQuarterValue()) && !StringUtils.EMPTY.equals(dto.getYearValue()) && !StringUtils.EMPTY.equals(dto.getDiscount1()) && !StringUtils.EMPTY.equals(dto.getDiscount2())) {
                     queryBuilder1.append("INSERT INTO M_PARITY_LOOKUP (CONTRACT_MASTER_SID,ITEM_MASTER_SID,QUARTER,\"YEAR\",METHODOLOGY, \n");
                     queryBuilder1.append("CONTRACT_PRICE,DISCOUNT_RATE_1,DISCOUNT_RATE_2,CCP_DETAILS_SID) \n");
