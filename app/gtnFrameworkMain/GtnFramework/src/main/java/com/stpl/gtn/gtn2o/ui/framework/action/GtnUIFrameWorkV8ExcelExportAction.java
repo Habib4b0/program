@@ -89,7 +89,6 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 			resultTable =  customData.getPagedGrid();
 			propertyIds = new LinkedList<>(Arrays.asList(resultTable.getTableConfig().getTableColumnMappingId()));
 			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
-				resultTable = null;
 			} else {
 				headerBean = getExcelHeaders(componentId, gtnUIFrameWorkActionConfig);
 				// Call webService for table columns and Headers
@@ -103,11 +102,11 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 
 		if (propertyIds.size() < 255) {
 			// Write Result List in Excel
-			HSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers, resultTable);
+			HSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers);
 			sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 		} else {
 			// Write Result List in Excel
-			HSSFWorkbook workBook = writeSplitWorksheetExcel(inputBean, exportList, propertyIds, headers, resultTable,
+			HSSFWorkbook workBook = writeSplitWorksheetExcel(inputBean, exportList, propertyIds, headers,
 					headerBean);
 			sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 		}
@@ -146,7 +145,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	}
 
 	private HSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
-			List<Object> visibleColumns, List<String> headers, PagedGrid resultTable) {
+			List<Object> visibleColumns, List<String> headers) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
@@ -162,7 +161,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 					workBook);
 		}
 		rowCount = createHeaderRow(sheet, headers, rowCount, defaultHeadersCellStyle, workBook);
-		createDataRows(sheet, resultList, visibleColumns, rowCount, workBook, resultTable, inputBean);
+		createDataRows(sheet, resultList, visibleColumns, rowCount, workBook, inputBean);
 		handleAutoWidth(sheet, headers, true);
 		// Grouping Rows needed for Tree Table
 		if (inputBean.isIsTreeTable()) {
@@ -188,7 +187,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 
 	private HSSFWorkbook writeSplitWorksheetExcel(GtnUIFrameworkExcelButtonConfig inputBean,
 			List<GtnWsRecordBean> resultList, List<Object> visibleColumns, List<String> headers,
-			PagedGrid resultTable, GtnWsExcelHeaderBean headerBean) {
+			 GtnWsExcelHeaderBean headerBean) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
@@ -217,7 +216,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 			rowCount += createSplitHeaderRow(sheet, headers, rowCount, defaultHeadersCellStyle, workBook, headerBean,
 					splitIndex);
 			List<Object> inputList = Arrays.asList(resultList, visibleColumns, splitIndex);
-			createSplitDataRows(sheet, inputList, rowCount, workBook, resultTable, inputBean, headerBean);
+			createSplitDataRows(sheet, inputList, rowCount, workBook, inputBean, headerBean);
 			// Grouping Rows needed for Tree Table
 			if (inputBean.isIsTreeTable()) {
 				groupRowsForTreeTable(sheet, resultList, inputBean.isNeedTobeCollapsed());
@@ -379,7 +378,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	}
 
 	private int createDataRows(HSSFSheet sheet, List<GtnWsRecordBean> resultList, List<Object> propertyIds,
-			int rowCount, HSSFWorkbook workBook, PagedGrid resultTable,
+			int rowCount, HSSFWorkbook workBook,
 			GtnUIFrameworkExcelButtonConfig inputBean) {
 		int count = rowCount;
 		List<String> componentMappedPropertyIdList = inputBean.getHelperTableMapedPropertyIdList();
@@ -407,7 +406,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 
 	@SuppressWarnings("unchecked")
 	private int createSplitDataRows(HSSFSheet sheet, List<Object> inputList, int rowCount, HSSFWorkbook workBook,
-			PagedGrid resultTable, GtnUIFrameworkExcelButtonConfig inputBean, GtnWsExcelHeaderBean headerBean) {
+			 GtnUIFrameworkExcelButtonConfig inputBean, GtnWsExcelHeaderBean headerBean) {
 		int count = rowCount;
 		List<GtnWsRecordBean> resultList = (List<GtnWsRecordBean>) inputList.get(0);
 		List<Object> propertyIds = (List<Object>) inputList.get(1);

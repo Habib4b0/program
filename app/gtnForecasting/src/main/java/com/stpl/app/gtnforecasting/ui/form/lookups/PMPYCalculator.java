@@ -1459,7 +1459,6 @@ public class PMPYCalculator extends Window {
      */
     public boolean isNumeric(final String str) {
         LOGGER.debug("Entering of isNumeric method with str= {}" , str);
-        str.replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY);
         LOGGER.debug("End of isNumeric method");
         return true;
     }

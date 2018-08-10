@@ -60,7 +60,7 @@ public class SessionDTO implements Serializable {
     private Boolean assumptionDiscount;
     private Boolean assumptionPPA;
     private GtnSmallHashMap projectionPeriod = new GtnSmallHashMap();
-    private transient Map<String, List> FrequencyAndQuater = new HashMap<>();
+    private transient Map<String, List> frequencyAndQuater = new HashMap<>();
     private Map<String, Date> HistoryAndStartDate = new HashMap<>();
     private transient ForecastDTO forecastDTO;
     private Date currentDate;
@@ -404,15 +404,15 @@ public class SessionDTO implements Serializable {
     }
 
     public Map<String, List> getFrequencyAndQuater() {
-        return FrequencyAndQuater;
+        return frequencyAndQuater;
     }
 
-    public void setFrequencyAndQuater(Map<String, List> FrequencyAndQuater) {
-        this.FrequencyAndQuater = FrequencyAndQuater;
+    public void setFrequencyAndQuater(Map<String, List> frequencyAndQuater) {
+        this.frequencyAndQuater = frequencyAndQuater;
     }
 
     public void addFrequencyAndQuater(String frequency, List HistoryCount) {
-        this.FrequencyAndQuater.put(frequency, HistoryCount);
+        this.frequencyAndQuater.put(frequency, HistoryCount);
     }
 
     public Map<String, Date> getHistoryAndStartDate() {
@@ -432,7 +432,7 @@ public class SessionDTO implements Serializable {
     }
 
     public List getFrequencyAndQuaterValue(String frequency) {
-        return FrequencyAndQuater.get(frequency);
+        return frequencyAndQuater.get(frequency);
     }
     private String sessionDate;
     private String vaadinSessionId;

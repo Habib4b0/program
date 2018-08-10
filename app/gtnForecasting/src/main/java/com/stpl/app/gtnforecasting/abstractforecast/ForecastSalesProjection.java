@@ -1793,9 +1793,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         }
                     });
                     doubleColumnList.removeAll(doubleHistoryAndProjectedColumnList);
+                    SalesRowDto salesRowdto=new SalesRowDto();
                     for(int start=0;start<doubleColumnList.size();start++){
                         if(String.valueOf(propertyId).contains(String.valueOf(doubleColumnList.get(start)))){
-                        	SalesRowDto salesRowdto=new SalesRowDto();
                         	salesRowdto.addStringProperties(StringUtils.EMPTY+propertyId,StringUtils.EMPTY);
         					rightTable.setDoubleHeaderColumnCheckBoxDisable(doubleColumnList.get(start),true);
         					 return null;
@@ -3430,6 +3430,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             String salesInclusionMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionMenuItemValue);
+            value = map.get(Constant.UNIT_OF_MEASURE);
+            if (value != null) {
+                unitOfMeasureDdlb.setValue(map.get(Constant.UNIT_OF_MEASURE));
+            }
+            value = map.get(Constant.CONVERSION_FACTOR_DDLB);
+            if (value != null) {
+                conversionFactorDdlb.setValue(map.get(Constant.CONVERSION_FACTOR_DDLB));
+            }
         }
     }
 

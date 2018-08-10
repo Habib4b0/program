@@ -1613,7 +1613,7 @@ public class HeaderUtils {
      */
     public static boolean isInteger(String str) {
         try {
-             return str.matches("^\\d+$");
+             return str != null && !"null".equals(str)&& str.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }

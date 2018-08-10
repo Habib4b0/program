@@ -308,7 +308,7 @@ public class CommonUtils {
             List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
             int companyTypeId = 0;
             if (!companyTypeIds.isEmpty()) {
-                companyTypeId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+                companyTypeId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
             }
         DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 
@@ -508,8 +508,8 @@ public class CommonUtils {
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             String formattedUN= user.getLastName()+", "+user.getFirstName();
-            getUserMap().put(Long.valueOf(user.getUserId()).intValue(),formattedUN);
-            userIdMap.put(formattedUN,Long.valueOf(user.getUserId()).intValue());
+            getUserMap().put(Integer.valueOf(String.valueOf(user.getUserId())),formattedUN);
+            userIdMap.put(formattedUN,Integer.valueOf(String.valueOf(user.getUserId())));
         }
         LOGGER.debug("End of getUserName method");
         return getUserMap();

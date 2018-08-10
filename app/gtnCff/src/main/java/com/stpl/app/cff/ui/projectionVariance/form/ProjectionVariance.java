@@ -1387,7 +1387,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void generateLogic() {
-        sessionDTO.setProjectionId(sessionDTO.getProjectionId());
+        int projectionId = sessionDTO.getProjectionId();
+        sessionDTO.setProjectionId(projectionId);
         levelFilter.removeValueChangeListener(levelFilterChangeOption);
         loadLevelAndFilterValue();
         pvSelectionDTO.setIslevelFiler(false);

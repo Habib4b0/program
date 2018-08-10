@@ -333,7 +333,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public static boolean customViewDetailsSaveLogic(int customId, List levelList) throws SystemException  {
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
-            int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+            int create = (int) CounterLocalServiceUtil.increment();
             CffCustomViewDetails customViewDetails = CffCustomViewDetailsLocalServiceUtil.createCffCustomViewDetails(create);
             customViewDetails.setCffCustomViewMasterSid(customId);
             customViewDetails.setHierarchyId(dto.getHierarchyId());

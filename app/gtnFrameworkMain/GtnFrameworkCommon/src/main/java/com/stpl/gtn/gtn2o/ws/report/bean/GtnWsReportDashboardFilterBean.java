@@ -5,6 +5,11 @@ import java.util.List;
 
 public class GtnWsReportDashboardFilterBean {
 
+        public GtnWsReportDashboardFilterBean() {
+        super();
+        }
+
+        
 	private int customerLevelNo;
 	private int productLevelNo;
 	private int deductionLevelNo;

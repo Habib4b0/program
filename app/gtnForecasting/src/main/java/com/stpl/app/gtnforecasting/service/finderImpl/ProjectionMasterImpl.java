@@ -120,7 +120,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             if (!"Returns".equals(parameters.get(Constant.MODULE_NAME))) {
                 if (parameters.get("selectedCustomerRelationSid") != null) {
                     String replaceMe = "JOINPROJECTIONCUSTHIERARCHY";
-                    List<String> selectedCustomerRelationSid = (ArrayList<String>) parameters.get("selectedCustomerRelationSid");
+                    ArrayList<String> selectedCustomerRelationSid = (ArrayList<String>) parameters.get("selectedCustomerRelationSid");
                     if (!selectedCustomerRelationSid.isEmpty()) {
                         queryString.replace(queryString.indexOf(replaceMe), queryString.indexOf(replaceMe) + replaceMe.length(), " JOIN PROJECTION_CUST_HIERARCHY PCH ON PCH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID ");
                         queryString.append(" AND PCH.RELATIONSHIP_LEVEL_SID in (");
@@ -146,7 +146,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
             if (parameters.get("selectedProductRelationSid") != null) {
                 String replaceMe = "JOINPROJECTIONPRODHIERARCHY";
-                List<String> selectedProductRelationSid = (ArrayList<String>) parameters.get("selectedProductRelationSid");
+                ArrayList<String> selectedProductRelationSid = (ArrayList<String>) parameters.get("selectedProductRelationSid");
                 if (!selectedProductRelationSid.isEmpty()) {
                     queryString.replace(queryString.indexOf(replaceMe), queryString.indexOf(replaceMe) + replaceMe.length(), " JOIN PROJECTION_PROD_HIERARCHY PPH ON PPH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID ");
                     queryString.append(" AND PPH.RELATIONSHIP_LEVEL_SID in (");
@@ -500,7 +500,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     queryString.append('\'');
                 }
                 if (parameters.get("companySids") != null) {
-                    List<String> companySids = (ArrayList<String>) (parameters.get("companySids"));
+                    ArrayList<String> companySids = (ArrayList<String>) (parameters.get("companySids"));
                     StringBuilder companiesList = new StringBuilder();
                     if (companySids != null && !companySids.isEmpty()) {
                         for (int loop = 0, limit = companySids.size(); loop < limit; loop++) {
@@ -535,7 +535,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
 
                 if (parameters.get("itemSids") != null) {
-                    List<String> itemSids = (ArrayList<String>) (parameters.get("itemSids"));
+                    ArrayList<String> itemSids = (ArrayList<String>) (parameters.get("itemSids"));
                     if (itemSids != null) {
                         StringBuilder itemsList = new StringBuilder();
                         if (itemSids != null && !itemSids.isEmpty()) {
@@ -725,7 +725,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.CHILD_LEVEL_RL_SID.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
 
             if ("PROJECTION_PROD_HIERARCHY".equals(parameters.get(Constant.TABLE_NAME))) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
+                ArrayList<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
                 StringBuilder hierarchyInclusion = new StringBuilder();
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                     hierarchyInclusion.append(Constant.HIERARCHY_NO_LIKE);
@@ -751,7 +751,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
                 queryString.append(query);
             } else if (parameters.get(Constant.RL_SIDS) != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
+                ArrayList<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery(getClass(),"getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
@@ -779,7 +779,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
             }
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
+            ArrayList<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
                 queryString.append(SQlUtil.getQuery(getClass(), Constant.CHILD_LEVEL_RL));
                 queryString.append(" and (");
@@ -794,7 +794,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonUtils.stringListToString(rlSids));
                 if (parameters.get(Constant.AVAILABLE_HIER_NO) != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get(Constant.AVAILABLE_HIER_NO);
+                    ArrayList<String> availableHierNo = (ArrayList<String>) parameters.get(Constant.AVAILABLE_HIER_NO);
                     queryString.append(", ");
                     queryString.append(CommonUtils.stringListToString(availableHierNo));
                 }
@@ -852,7 +852,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append(SQlUtil.getQuery(getClass(),"getItemsFromBrand"));
         try {
-            List<Integer> itemMasterSids = (ArrayList<Integer>) parameters.get("itemMasterSids");
+            ArrayList<Integer> itemMasterSids = (ArrayList<Integer>) parameters.get("itemMasterSids");
             if (itemMasterSids != null && !itemMasterSids.isEmpty()) {
                 queryBuilder.append(" and IM.itemMasterSid in (");
                 for (int loop = 0, limit = itemMasterSids.size(); loop < limit; loop++) {
@@ -1078,6 +1078,8 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 List list = null;
                 try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
+                    List<StringBuilder> logic = new ArrayList<>();
+                    List<String> condition = new ArrayList<>();
                     if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
                         for (Object temp : relationshipBuilderSids) {
                             Integer level;
@@ -1090,8 +1092,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
                             list = HelperTableLocalServiceUtil.executeSelectQuery(hierarchyQuery);
                             level = DataTypeConverter.convertObjectToInt(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0));
-                            List<StringBuilder> logic = new ArrayList<StringBuilder>();
-                            List<String> condition = new ArrayList<String>();
+                            
                             StringBuilder ccpQuery = new StringBuilder("MERGE CCP_MAP AS TARGET USING ( "
                                     + "SELECT distinct ? RELATIONSHIP_LEVEL_SID ,CCP.CCP_DETAILS_SID FROM CCP_DETAILS CCP ");
                             Integer prevNo = 0;
@@ -1398,7 +1399,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.CHILD_LEVEL_RL_SID.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             if (parameters.get(Constant.RL_SIDS) != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
+                ArrayList<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery(getClass(),"getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
@@ -1421,7 +1422,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
             }
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
+            ArrayList<String> rlSids = (ArrayList<String>) parameters.get(Constant.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
                 queryString.append(SQlUtil.getQuery(getClass(), Constant.CHILD_LEVEL_RL));
                 queryString.append(" and (");
@@ -1436,7 +1437,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonUtils.stringListToString(rlSids));
                 if (parameters.get(Constant.AVAILABLE_HIER_NO) != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get(Constant.AVAILABLE_HIER_NO);
+                    ArrayList<String> availableHierNo = (ArrayList<String>) parameters.get(Constant.AVAILABLE_HIER_NO);
                     queryString.append(", ");
                     queryString.append(CommonUtils.stringListToString(availableHierNo));
                 }

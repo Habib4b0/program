@@ -15,12 +15,18 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Satheesh.Nagendran
  */
+@Service
 public class GtnWsReturnBpmDbService {
+
+        public GtnWsReturnBpmDbService() {
+            super();
+        }
  	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsReturnsDatabaseService.class);
 	@Autowired
 	private SessionFactory bpmSessionFactory;

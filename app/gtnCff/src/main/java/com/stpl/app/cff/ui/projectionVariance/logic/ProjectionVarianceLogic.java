@@ -1484,6 +1484,7 @@ public class ProjectionVarianceLogic {
         Map<String, String> periodListMap = new HashMap<>(pvsdto.getPeriodListMap());
         List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
         int frequencyDivision = pvsdto.getFrequencyDivision();
+        Set<String> noOfDiscount = new HashSet<>();
         if (results != null && !results.isEmpty()) {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);
@@ -1850,7 +1851,7 @@ public class ProjectionVarianceLogic {
                     if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
 
                         // Individual discount level
-                        Set<String> noOfDiscount = new HashSet<>();
+                        
                         for (Object discountsName : totalDiscount) {
                             final Object[] disc = (Object[]) discountsName;
                             if (disc[NumericConstants.TWO] != null) {

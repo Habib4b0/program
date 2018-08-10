@@ -33,28 +33,28 @@ public class GtnUIFrameworkRPDeleteConfirmationAction
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig();
-		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		List<Object> alertParams = new ArrayList<>();
-		alertParams.add(" Delete Confirmation ");
-		alertParams.add(" Are you sure you want to delete record  " + GtnUIFrameworkGlobalUI
+		GtnUIFrameWorkActionConfig confirmationActionConfigRp = new GtnUIFrameWorkActionConfig();
+		confirmationActionConfigRp.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		List<Object> alertParamsRp = new ArrayList<>();
+		alertParamsRp.add(" Delete Confirmation ");
+		alertParamsRp.add(" Are you sure you want to delete record  " + GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("rebatePlanInformationTabRebatePlanName").getStringFromField() + "?");
 
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig editActionConfig = new GtnUIFrameWorkActionConfig();
-		editActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		GtnUIFrameWorkActionConfig editActionConfigRp = new GtnUIFrameWorkActionConfig();
+		editActionConfigRp.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(GtnFrameworkRPConstants.REBATE_PLAN_DELETE_ACTION);
-		parameters.add("/" + GtnWsCDRContants.RP_SERVICE + GtnWsCDRContants.REMOVE_RP_REC);
-		parameters.add(GtnFrameworkCommonConstants.RP_SEARCH_RESULT_TABLE);
-		parameters.add("");
-		parameters.add(Boolean.TRUE);
-		parameters.add(14);
+		List<Object> parametersList = new ArrayList<>();
+		parametersList.add(GtnFrameworkRPConstants.REBATE_PLAN_DELETE_ACTION);
+		parametersList.add("/" + GtnWsCDRContants.RP_SERVICE + GtnWsCDRContants.REMOVE_RP_REC);
+		parametersList.add(GtnFrameworkCommonConstants.RP_SEARCH_RESULT_TABLE);
+		parametersList.add("");
+		parametersList.add(Boolean.TRUE);
+		parametersList.add(14);
 
-		editActionConfig.setActionParameterList(parameters);
-		onSucessActionConfigList.add(editActionConfig);
+		editActionConfigRp.setActionParameterList(parametersList);
+		onSucessActionConfigList.add(editActionConfigRp);
 
 		GtnUIFrameWorkActionConfig rsNotificationAction = new GtnUIFrameWorkActionConfig();
 		rsNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
@@ -92,12 +92,12 @@ public class GtnUIFrameworkRPDeleteConfirmationAction
 		defaultAction.setActionParameterList(selectResetParams);
 		onSucessActionConfigList.add(defaultAction);
 
-		alertParams.add(onSucessActionConfigList);
-		confirmationActionConfig.setActionParameterList(alertParams);
-		GtnUIFrameWorkAction action = confirmationActionConfig.getActionType().getGtnUIFrameWorkAction();
-		action.configureParams(confirmationActionConfig);
+		alertParamsRp.add(onSucessActionConfigList);
+		confirmationActionConfigRp.setActionParameterList(alertParamsRp);
+		GtnUIFrameWorkAction action = confirmationActionConfigRp.getActionType().getGtnUIFrameWorkAction();
+		action.configureParams(confirmationActionConfigRp);
 
-		action.doAction(componentId, confirmationActionConfig);
+		action.doAction(componentId, confirmationActionConfigRp);
 
 	}
 

@@ -424,7 +424,7 @@ public class PPAProjectionLogic {
         try {
             int levelNo;
             selection.setIsCount(BooleanConstant.getFalseFlag());
-            if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
+            if (lastParent instanceof PPAProjectionDTO) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();
                 selection.setLevelNo(levelNo + 1);
@@ -454,7 +454,7 @@ public class PPAProjectionLogic {
                     count = configureLevelsCount(selection.getLevelNo(), selection);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
-                    selection.setLevelNo(dto == null ? null : dto.getLevelNo() + 1);
+                    selection.setLevelNo(dto == null ? 0 : dto.getLevelNo() + 1);
                     count = configureLevelsCount(selection.getLevelNo(), selection);
 
                 }

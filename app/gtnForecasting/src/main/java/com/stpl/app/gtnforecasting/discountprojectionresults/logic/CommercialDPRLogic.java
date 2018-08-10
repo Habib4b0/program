@@ -14,7 +14,6 @@ import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;
@@ -367,7 +366,8 @@ public class CommercialDPRLogic {
                 projSelDTO.setIsTotal(false);
                 if (projSelDTO.isIsCustomHierarchy()) {
                     projSelDTO.setTreeLevelNo(0);
-                    projSelDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
+                    String hierarchyIndicator = projSelDTO.getHierarchyIndicator();
+                    projSelDTO.setHierarchyIndicator(hierarchyIndicator);
                 } else if (INDICATOR_VIEW_CUSTOMER.getConstant().equals(projSelDTO.getHierarchyIndicator())) {
                     projSelDTO.setLevelNo(projSelDTO.getCustomerLevelNo() - 1);
                     projSelDTO.setTreeLevelNo(projSelDTO.getCustomerLevelNo() - 1);

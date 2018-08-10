@@ -33,7 +33,6 @@ import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -62,7 +61,6 @@ public class QuartzListener implements ServletContextListener {
 	}
 
 	public static synchronized void createQuartzScheduler() {
-		List<WorkflowProfile> list = null;
 		try {
 			if (scheduler == null) {
 				scheduler = new StdSchedulerFactory().getScheduler();
@@ -74,12 +72,8 @@ public class QuartzListener implements ServletContextListener {
 			}
 
 			DynamicQuery query = WorkflowProfileLocalServiceUtil.dynamicQuery();
-			try {
-				list = WorkflowProfileLocalServiceUtil.dynamicQuery(query);
+			List<WorkflowProfile> list = WorkflowProfileLocalServiceUtil.dynamicQuery(query);
 
-			} catch (SystemException ex) {
-				LOGGER.error(ex.getMessage());
-			}
 			// Setup the Job class and the Job group
 
 			for (WorkflowProfile profile : list) {

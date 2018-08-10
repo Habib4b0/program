@@ -243,6 +243,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.ADD_VARIABLES_BTN);
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.REMOVE_VARIABLES_BTN);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 
 		variablePositionOptionGroup.addGtnUIFrameWorkActionConfig(valuChangeConfig);
 		componentList.add(variablePositionOptionGroup);
@@ -703,6 +711,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
+		saveActionConfig.addActionParameter(false);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
 
 		GtnUIFrameworkComponentConfig selectButtonConfig = new GtnUIFrameworkComponentConfig();
@@ -722,7 +731,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		selectSaveActionConfig.addActionParameter(tabName + "customTreeTable");
 		selectSaveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
-
+		selectSaveActionConfig.addActionParameter(true);
 		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 

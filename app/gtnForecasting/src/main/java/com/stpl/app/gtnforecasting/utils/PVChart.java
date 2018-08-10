@@ -55,7 +55,7 @@ public class PVChart extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PPAChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVChart.class);
     /**
      * projSelDTO;
      */

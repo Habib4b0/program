@@ -67,7 +67,6 @@ public class GtnUIFrameworkPagedGridLogic {
 	public int getCount() {
 		gtnLogger.debug("Get count for Table " + componentConfig.getComponentId());
 		active = true;
-		if (active) {
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setCount(true);
@@ -79,7 +78,6 @@ public class GtnUIFrameworkPagedGridLogic {
 				getCheckedRecordCount(serviceRequest, response.getGtnSerachResponse().getCount() > 0);
 				return response.getGtnSerachResponse().getCount();
 			}
-		}
 		return 0;
 	}
 
@@ -123,7 +121,6 @@ public class GtnUIFrameworkPagedGridLogic {
 		gtnLogger.debug("Get Data for Table " + componentConfig.getComponentId());
 		active = true;
 		List<GtnWsRecordBean> records = new ArrayList<>();
-		if (active) {
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
@@ -132,7 +129,6 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,
 					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			addDataAndConfig(response, records);
-		}
 
 		return records;
 	}

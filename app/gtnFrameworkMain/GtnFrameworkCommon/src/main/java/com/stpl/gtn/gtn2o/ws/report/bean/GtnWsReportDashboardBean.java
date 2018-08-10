@@ -16,6 +16,11 @@ import java.util.Set;
  */
 public class GtnWsReportDashboardBean {
 
+        public GtnWsReportDashboardBean() {
+        super();
+        }
+
+
 	private String[] input;
 	private Object[] values;
 	private String customViewName;
