@@ -15152,6 +15152,7 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-publicViewTextField {
 	margin-left: 75px;
 	margin-top: -25px;
+	width: 118px !important;
 }
 
 .stpl .v-bu {
