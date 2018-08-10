@@ -40,6 +40,7 @@ public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearch
 		GtnWebServiceReturnWorkflowSearchConfig.addWorkflowSearchQueryConfig(fieldToColumnDetailsMap);
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWebServiceWorkflowSearchConfig.addWfDateColumnsInMap(configProvider, fieldToColumnDetailsMap);
+		GtnWebServiceArpWorkflowSearchConfig.addDetailsSearchFieldArpWorkflowInbox(fieldToColumnDetailsMap);
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
@@ -53,5 +54,5 @@ public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearch
 
 		return searchQueryConfigMap;
 	}
-
-}
+        
+    }

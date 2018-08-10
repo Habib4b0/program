@@ -71,6 +71,7 @@ public class GtnFrameworkUICustomTreeAddAction
 			GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded, boolean isStatic, String componentId)
 			throws GtnFrameworkGeneralException {
 		checkValidations(grid, beanTobeAdded, parentBean, isStatic, componentId);
+		setLevelNumber(parentBean, beanTobeAdded);
 		grid.getTreeData().addItem(parentBean, beanTobeAdded);
 		grid.select(beanTobeAdded);
 		leftGrid.removeItemsFromGrid(beanTobeAdded);
@@ -78,6 +79,14 @@ public class GtnFrameworkUICustomTreeAddAction
 		grid.expand(grid.getTreeData().getParent(beanTobeAdded));
 		grid.getDataProvider().refreshAll();
 		grid.markAsDirty();
+	}
+
+	private void setLevelNumber(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded) {
+		if (parentBean == null) {
+			beanTobeAdded.addAdditionalProperty(1);
+		} else {
+			beanTobeAdded.addAdditionalProperty(parentBean.getAdditionalIntegerPropertyByIndex(0) + 1);
+		}
 	}
 
 	private void checkValidations(TreeGrid<GtnWsRecordBean> grid, GtnWsRecordBean beanTobeAdded,
