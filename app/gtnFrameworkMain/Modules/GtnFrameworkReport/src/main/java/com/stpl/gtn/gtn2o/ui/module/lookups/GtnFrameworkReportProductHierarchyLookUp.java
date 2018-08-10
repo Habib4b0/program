@@ -222,8 +222,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		productHierarchySearchButton.setComponentName("SEARCH");
 		productHierarchySearchButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
-		productHierarchySearchButton.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");	
-		productHierarchySearchButton.setCustomReference("doNotAddButtonCustomStyle");
+		productHierarchySearchButton.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);	
+		productHierarchySearchButton.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		
 		productHierarchySearchButton.setAddToParent(true);
 
@@ -435,8 +435,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		selectButton.setAddToParent(true);
 		selectButton.addDependentComponent("reportLandingScreen_relationship");
 		selectButton.setEnable(false);
-		selectButton.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		selectButton.setCustomReference("doNotAddButtonCustomStyle");
+		selectButton.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		selectButton.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
@@ -467,8 +467,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		cancelButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		cancelButton.setAddToParent(true);
-		cancelButton.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		cancelButton.setCustomReference("doNotAddButtonCustomStyle");
+		cancelButton.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		cancelButton.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		cancelButton.addGtnUIFrameWorkActionConfig(reportProductHierarchyClosepopup);
 		componentList.add(cancelButton);
 

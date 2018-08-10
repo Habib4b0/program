@@ -6,30 +6,34 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
 public class GtnReportingDashboardSaveProfileLookupBean {
 
-	private List<Object> displaySelectionTabVariable;
-	private String displaySelectionTabPeriodRangeFrom;
-	private String displaySelectionTabPeriodRangeTo;
-	private String displaySelectionTabFrequency;
-	private String displaySelectionTabComparisonBasis;
-	private String displaySelectionTabCustomViewCombobox;
-	private List<Object> displaySelectionTabVariableCategory;
-	private String displaySelectionTabAnnualTotals;
+    public GtnReportingDashboardSaveProfileLookupBean() {
+        super();
+    }
 
-	private String filterOptionsTabCustomerLevel;
-	private List<Object> filterOptionsTabCustomerFilter;
-	private String filterOptionsTabProductLevel;
-	private List<Object> filterOptionsTabProductFilter;
-	private String filterOptionsTabDeductionLevel;
-	private List<Object> filterOptionsTabDeductionFilter;
-	private List<Object> filterOptionsTabSalesInclusion;
-	private List<Object> filterOptionsTabDeductionInclusion;
+    private List<Object> displaySelectionTabVariable;
+    private String displaySelectionTabPeriodRangeFrom;
+    private String displaySelectionTabPeriodRangeTo;
+    private String displaySelectionTabFrequency;
+    private String displaySelectionTabComparisonBasis;
+    private String displaySelectionTabCustomViewCombobox;
+    private List<Object> displaySelectionTabVariableCategory;
+    private String displaySelectionTabAnnualTotals;
 
-	private String reportOptionsVariableAndVarianceSequencing;
-	private String reportOptionsHeaderSequencing;
-	private String reportOptionsViewOptions;
-	private List<Object> reportOptionsDisplayFormat;
-	private String reportOptionsUnitsOfMeasure;
-	private String reportOptionsCurrencyDisplay;
+    private String filterOptionsTabCustomerLevel;
+    private List<Object> filterOptionsTabCustomerFilter;
+    private String filterOptionsTabProductLevel;
+    private List<Object> filterOptionsTabProductFilter;
+    private String filterOptionsTabDeductionLevel;
+    private List<Object> filterOptionsTabDeductionFilter;
+    private List<Object> filterOptionsTabSalesInclusion;
+    private List<Object> filterOptionsTabDeductionInclusion;
+
+    private String reportOptionsVariableAndVarianceSequencing;
+    private String reportOptionsHeaderSequencing;
+    private String reportOptionsViewOptions;
+    private List<Object> reportOptionsDisplayFormat;
+    private String reportOptionsUnitsOfMeasure;
+    private String reportOptionsCurrencyDisplay;
 
 	private List<GtnReportComparisonProjectionBean> displaySelectionComparisonLookupBeanList;
 	private List<GtnReportVariableBreakdownLookupBean> variableBreakdownLookupBeanSaveList;
