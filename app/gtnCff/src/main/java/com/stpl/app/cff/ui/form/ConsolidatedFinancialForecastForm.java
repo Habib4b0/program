@@ -534,7 +534,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
                                         sessionDto.setFrequency(loadFrequency.get(0));
                                         final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
-                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
+                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
@@ -592,6 +592,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					}
                                         sessionDto.setStatusName("E");
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
+                                        cffLogic.loadDiscountTempTableInThread(sessionDto,false);
+                                        cffLogic.loadDiscountCustomTempTableInThread(sessionDto,false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);

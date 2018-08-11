@@ -282,6 +282,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected String screenName;
     protected int customIdToSelect = 0;
     protected boolean generated = false;
+    protected boolean isAlreadyLoaded = false;
     protected int customId = 0;
     /**
      * Logger for ForecastProjectionVariance
@@ -689,13 +690,13 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         LOGGER.debug("projection variance loadCustomDDLB initiated ");
         customDdlb.setEnabled(true);
         editViewBtn.setEnabled(false);
-        if (!generated) {
+        if (!isAlreadyLoaded) {
             customDdlb.removeAllItems();
             customDdlb.addItem(SELECT_ONE);
             customDdlb.setNullSelectionItemId(SELECT_ONE);
             new CFFLogic().loadCustomViewValues(customDdlb,customViewInput,false);
             customDdlb.select(sessionDTO.getCustomViewMasterSid());
-
+            isAlreadyLoaded=true;
         }
         LOGGER.debug("projection variance  loadCustomDDLB ends ");
     }

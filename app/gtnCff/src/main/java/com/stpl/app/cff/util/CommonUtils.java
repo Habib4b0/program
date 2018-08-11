@@ -1512,12 +1512,15 @@ public class CommonUtils {
         if (stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constants.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
+            if(String.valueOf(value).isEmpty()){
+            return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
+            }
             if (needZeroForNull && nullCheck(value)) {
                 return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
-            return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
+             return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
         if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
