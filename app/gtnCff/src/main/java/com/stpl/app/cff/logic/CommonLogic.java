@@ -706,6 +706,15 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
     }
     
+    public void checkForCompletionALL(SessionDTO session, String ScreenName) {
+        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + ScreenName + "' AND VIEW_NAME in ('CUSTOM','CUSTOMER','PRODUCT') and FLAG='R'";
+        List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(selectStatus, session.getCurrentTableNames()));
+        if (list.get(0) != null && list.get(0)>=1) {
+            waitForSeconds();
+            checkForCompletionALL(session, ScreenName);
+        }
+    }
+    
     public void waitForSeconds() {
         try {
             TimeUnit.SECONDS.sleep(3);

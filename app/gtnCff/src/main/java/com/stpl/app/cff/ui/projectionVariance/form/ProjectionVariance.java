@@ -75,6 +75,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -103,6 +104,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String ANNUAL = "Annual";
     public static final String QUARTER = "Quarter";
     public static final String SEMI_ANNUAL = "SemiAnnual";
+    public static final String GENERATE_FLAG = "G";
+    public static final String FILTER_FLAG = "F";
     /**
      * The excel export image.
      */
@@ -147,6 +150,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SELECT_LEVEL = "-Select Level-";
     public static final String TEN_STRING_VALUE = "10";
     private List<String[]> deductionLevel = new ArrayList<>();
+    private List<String> tempdeductionLevel = new ArrayList<>();
+    private List<String> tempCustomerLevel = new ArrayList<>();
+    private List<String> tempProductLevel = new ArrayList<>();
     public static final String SID = "SID";
     public static final String GROUP_PROPERTY = "group";
     public static final String DF_LEVEL_NAME = "dfLevelName";
@@ -175,7 +181,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
             pvSelectionDTO.setDeductionLevelFilter((List) CommonLogic.getFilterValues(deductionFilterValues).get(SID));
             pvSelectionDTO.setDeductionLevelCaptions((List) CommonLogic.getFilterValues(deductionFilterValues).get("CAPTION"));
-            pvSelectionDTO.setIsdeductionFirst(!pvSelectionDTO.getDeductionLevelFilter().isEmpty());
+            pvSelectionDTO.setIsdeductionFirst(pvSelectionDTO.getDeductionLevelFilter().isEmpty());
             loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(customerlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
 
@@ -187,7 +193,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             String productMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
             pvSelectionDTO.setProductLevelFilter((List) CommonLogic.getFilterValues(productFilterValues).get(SID));
-            pvSelectionDTO.setIsproductFirst(!pvSelectionDTO.getProductLevelFilter().isEmpty());
+            pvSelectionDTO.setIsproductFirst(pvSelectionDTO.getProductLevelFilter().isEmpty());
             loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(customerlevelDdlb.getValue()));
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
         }
@@ -199,7 +205,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             String customerMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
             pvSelectionDTO.setCustomerLevelFilter((List) CommonLogic.getFilterValues(customerFilterValues).get(SID));
-            pvSelectionDTO.setIscustomerFirst(!pvSelectionDTO.getCustomerLevelFilter().isEmpty());
+            pvSelectionDTO.setIscustomerFirst(pvSelectionDTO.getCustomerLevelFilter().isEmpty());
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
         }
@@ -693,38 +699,18 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     if (checkedValues.size() == 1) {
                         sessionDTO.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
                     }
-                    sessionDTO.setDiscountUom(uomDdlb.getValue() != null ? String.valueOf(uomDdlb.getValue()) : "EACH");
-                    if (deductionlevelDdlb.getValue() != null) {
-                        sessionDTO.setSelectedDeductionLevelNo(Integer.parseInt(String.valueOf(deductionlevelDdlb.getValue())));
-                    }
-
-                    pvSelectionDTO.setDeductionLevelValues(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
-                    StringBuilder br=new StringBuilder();
-                    if(sessionDTO.getComparisonLookupData()!=null){
-                        for (Integer checkedSalesValue : pvSelectionDTO.getProjIdList()) {
-                            br.append(checkedSalesValue).append(Constants.COMMA);
-                        }
-                    }
-                     String tempComaprision=br.lastIndexOf(Constants.COMMA)!= -1 ?
-                                    br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString():StringUtils.EMPTY;
-                        LOGGER.info("sessionDTO.getDeductionName()"+sessionDTO.getDeductionName());
-                        LOGGER.info("deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())"+deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
-                        LOGGER.info("sessionDTO.getFrequency()"+sessionDTO.getFrequency());
-                        LOGGER.info("String.valueOf(frequency.getValue())"+String.valueOf(frequency.getValue()));
-                        LOGGER.info("sessionDTO.getPriorProjectionId()"+sessionDTO.getPriorProjectionId());
-                        LOGGER.info("sb.toString()"+tempComaprision);
-                    if(!sessionDTO.getDeductionName().equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) || 
-                            !sessionDTO.getFrequency().equals(String.valueOf(frequency.getValue())) ||
-                            !sessionDTO.getPriorProjectionId().equals(tempComaprision) || isUomChanged){
-                    sessionDTO.setPriorProjectionId(tempComaprision);
-                    sessionDTO.setDeductionName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
-                    sessionDTO.setFrequency(String.valueOf(frequency.getValue()));
-                    sessionDTO.setStatusName(isUomChanged ? "UOM" : "G");
-                    CommonLogic.truncateTempTable(sessionDTO);
-                    cffLogicForTempTable.loadSalesTempTableInThread(sessionDTO,false);
-                    cffLogicForTempTable.loadDiscountTempTableInThread(sessionDTO,false);
-                    }
-//                    commonLogic.checkForCompletion(sessionDTO, "DISCOUNT", "CUSTOMER");
+                    String tempComaprision= deductionAndComparionCheck();
+                    
+                    tempTableProcedureCalling(tempComaprision, cffLogicForTempTable);
+                    
+                    commonLogic.checkForCompletionALL(sessionDTO, Constants.SALES);
+                    commonLogic.checkForCompletionALL(sessionDTO,  Constants.DISCOUNT);
+                    
+                    Object[] sortedList=sortingTempAndCurrentFilterValues();
+                    
+                    comparingFilterValuesForProcedure(cffLogicForTempTable,sortedList);
+                    
+                    commonLogic.checkForCompletion(sessionDTO,  Constants.DISCOUNT, String.valueOf(view.getValue()).toUpperCase());
                     generateLogic();
                 }
                 generated = false;
@@ -732,6 +718,73 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
+    }
+
+    public String deductionAndComparionCheck() throws NumberFormatException {
+        sessionDTO.setDiscountUom(uomDdlb.getValue() != null ? String.valueOf(uomDdlb.getValue()) : "EACH");
+        if (deductionlevelDdlb.getValue() != null) {
+            sessionDTO.setSelectedDeductionLevelNo(Integer.parseInt(String.valueOf(deductionlevelDdlb.getValue())));
+        }
+        pvSelectionDTO.setDeductionLevelValues(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
+        StringBuilder br=new StringBuilder();
+        if(sessionDTO.getComparisonLookupData()!=null){
+            for (Integer checkedSalesValue : pvSelectionDTO.getProjIdList()) {
+                br.append(checkedSalesValue).append(Constants.COMMA);
+            }
+        }
+        String tempComaprision = br.lastIndexOf(Constants.COMMA)!= -1 ?
+                br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString():StringUtils.EMPTY;
+        return tempComaprision;
+    }
+
+    public void tempTableProcedureCalling(String tempComaprision, CFFLogic cffLogicForTempTable) {
+        if(!sessionDTO.getDeductionName().equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) ||
+                !sessionDTO.getFrequency().equals(String.valueOf(frequency.getValue())) ||
+                !sessionDTO.getPriorProjectionId().equals(tempComaprision) || isUomChanged){
+            sessionDTO.setPriorProjectionId(tempComaprision);
+            sessionDTO.setDeductionName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
+            sessionDTO.setFrequency(String.valueOf(frequency.getValue()));
+            sessionDTO.setStatusName(isUomChanged ? "UOM" : GENERATE_FLAG);
+            if(!isUomChanged){
+                CommonLogic.truncateTempTable(sessionDTO);
+            }
+            tempTablePopulationInThread(cffLogicForTempTable);
+        }
+    }
+
+    public void tempTablePopulationInThread(CFFLogic cffLogicForTempTable) {
+        cffLogicForTempTable.loadSalesTempTableInThread(sessionDTO,false);
+        cffLogicForTempTable.loadDiscountTempTableInThread(sessionDTO,false);
+        cffLogicForTempTable.loadDiscountCustomTempTableInThread(sessionDTO,false);
+    }
+
+    public void comparingFilterValuesForProcedure(CFFLogic cffLogicForTempTable,Object[] sortedListArray) {
+        LOGGER.info("Deduction"+sortedListArray[0]);
+        LOGGER.info("Deduction  "+tempdeductionLevel.equals(sortedListArray[0]));
+        LOGGER.info("tempProductLevel"+sortedListArray[1]);
+        LOGGER.info("tempProductLevel  "+tempProductLevel.equals(sortedListArray[1]));
+        LOGGER.info("tempCustomerLevel"+sortedListArray[2]);
+        LOGGER.info("tempCustomerLevel  "+tempCustomerLevel.equals(sortedListArray[2]));
+        if(!tempdeductionLevel.equals(sortedListArray[0])
+                || !tempCustomerLevel.equals(sortedListArray[2])
+                || !tempProductLevel.equals(sortedListArray[1])){
+            tempdeductionLevel = new ArrayList<>(pvSelectionDTO.getDeductionLevelFilter());
+            tempCustomerLevel = new ArrayList<>(pvSelectionDTO.getCustomerLevelFilter());
+            tempProductLevel = new ArrayList<>(pvSelectionDTO.getProductLevelFilter());
+            sessionDTO.setStatusName(FILTER_FLAG);
+            tempTablePopulationInThread(cffLogicForTempTable);
+        }
+    }
+
+    public Object[] sortingTempAndCurrentFilterValues() {
+        Object[] obj=new Object[3];
+        Collections.sort(tempdeductionLevel);
+        Collections.sort(tempCustomerLevel);
+        Collections.sort(tempProductLevel);
+        obj[0]=new ArrayList<>(pvSelectionDTO.getDeductionLevelFilter()).stream().sorted().collect(Collectors.toList());
+        obj[1]=new ArrayList<>(pvSelectionDTO.getCustomerLevelFilter()).stream().sorted().collect(Collectors.toList());
+        obj[2]=new ArrayList<>(pvSelectionDTO.getProductLevelFilter()).stream().sorted().collect(Collectors.toList());
+        return obj;
     }
 
     public void loadVariables() {
@@ -967,7 +1020,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         sessionDTO.setCustomId(customId);
         CommonLogic.loadCustomHierarchyList(sessionDTO);
         if (CommonUtils.isValueEligibleForLoading()) {
-            sessionDTO.setDeductionLevelDetails(new CFFLogic().getRelationshipDetailsDeduction(sessionDTO));
+            sessionDTO.setCustomDescription(new CFFLogic().getRelationshipDetailsDeductionCustom(sessionDTO,String.valueOf(sessionDTO.getCustomId())));
         }
         if (customId != 0) {
             callGenerateLogic();

@@ -1633,7 +1633,7 @@ public class CFFLogic {
         return resultList;
     }
     
-    public static Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+    public Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeductionCustom");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));

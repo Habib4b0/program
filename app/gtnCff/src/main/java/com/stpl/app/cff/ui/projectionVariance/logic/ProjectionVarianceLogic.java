@@ -824,18 +824,14 @@ public class ProjectionVarianceLogic {
             projectionIdList.add(String.valueOf(projId));
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        String ccps = null;
-        String rsIds = null;
-        String uomCode = projSelDTO.getSessionDTO().getDiscountUom();
         String salesInclusion = projSelDTO.getSessionDTO().getSalesInclusion();
         String deductionInclusion = projSelDTO.getSessionDTO().getDeductionInclusion();
         if (projSelDTO.getLevel().equals(DETAIL)) {
-            ccps = getCCPIds(projSelDTO);
-            rsIds = getRSIds(projSelDTO);
+            getCCPIds(projSelDTO);
+            getRSIds(projSelDTO);
         }
-        String discountLevel = !projSelDTO.getDeductionLevelFilter().isEmpty() ? CommonUtils.CollectionToString(projSelDTO.getDeductionLevelFilter(),false) : null;
         String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
-        String viewName=projSelDTO.getView().equalsIgnoreCase("Custom")?"D":projSelDTO.getView();
+        String viewName = projSelDTO.getView().equalsIgnoreCase("Custom") ? D_INDICATOR : projSelDTO.getView();
         Object[] orderedArg = {projectionId, frequency, null, null,discountLevelName,salesInclusion, deductionInclusion, null ,  projSelDTO.getSessionDTO().getCustomViewMasterSid()
                 ,projSelDTO.getSessionDTO().getSessionId(),projSelDTO.getSessionDTO().getUserId(),viewName,projSelDTO.getSessionDTO().getLevelHierarchyNo() };
         List<Object[]> discountsList = CommonLogic.callProcedure("Prc_cff_projection_results_discount", orderedArg);
