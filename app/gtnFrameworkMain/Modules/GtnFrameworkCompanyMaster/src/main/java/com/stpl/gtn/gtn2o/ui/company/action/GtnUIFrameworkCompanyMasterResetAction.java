@@ -51,7 +51,10 @@ public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAct
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		return;
+		gtnLogger.debug("Entering inside configureParams");
+                /**
+                 * An EmptyMethod
+                 */
 	}
 
 	@Override

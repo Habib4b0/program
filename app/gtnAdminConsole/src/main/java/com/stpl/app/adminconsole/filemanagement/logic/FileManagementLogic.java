@@ -3139,8 +3139,8 @@ public class FileManagementLogic {
 		List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		for (Object[] object : list) {
 			if (object != null && !String.valueOf(object).isEmpty()) {
-				businessUnit.addItem((int) object[0]);
-				businessUnit.setItemCaption((int) object[0], String.valueOf(object[1]));
+				businessUnit.addItem((Integer) object[0]);
+				businessUnit.setItemCaption((Integer) object[0], String.valueOf(object[1]));
 			}
 		}
 	}

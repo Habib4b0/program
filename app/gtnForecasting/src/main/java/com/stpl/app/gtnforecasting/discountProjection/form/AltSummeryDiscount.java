@@ -1062,7 +1062,7 @@ public class AltSummeryDiscount extends CustomComponent {
      */
     public void generateListView(boolean isGenerate) {
         LOGGER.debug("Inside generateListView ");
-        List<String> discountToBeLoaded;
+        List<String> discountToBeLoaded =  new ArrayList<>();
 
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;
@@ -1070,7 +1070,7 @@ public class AltSummeryDiscount extends CustomComponent {
             discountToBeLoaded = discountProgramsList;
         }
         discountToBeLoaded.add(Constant.REBATE_SCHEDULE_ID_15);
-        if (discountToBeLoaded == null || discountToBeLoaded.isEmpty()) {
+        if (discountToBeLoaded.isEmpty()) {
             NotificationUtils.getErrorNotification("No Discounts selected", "Please select some discounts from program selection lookup");
         } else if (frequencyDdlb.getValue() == null || frequencyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
             NotificationUtils.getErrorNotification("No Frequency selected", "Please select any frequency");

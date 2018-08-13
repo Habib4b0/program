@@ -561,13 +561,11 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
                 ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(customExcelTableResult), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
-                } else {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(customExcelTableResult), sheetName);
                 }
-                if (i == exportAt) {
-                    exp.exportMultipleTabs(true);
-                } else {
-                    exp.exportMultipleTabs(false);
+                 if (i != 0 && exp != null) {
+                    exp.setNextTableHolder(new ExtCustomTableHolder(customExcelTableResult), sheetName);
+                    boolean export = i == exportAt;
+                    exp.exportMultipleTabs(export);
                 }
             }
         } else {

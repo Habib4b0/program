@@ -668,7 +668,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 		GtnUIFrameworkComponentConfig reportDataSelectionNavigationButtonConfig = layoutConfig
 				.getHorizontalLayoutConfig("navigationButtonLayout", parentId);
-		reportDataSelectionNavigationButtonConfig.addComponentStyle("stpl-margin-left-66");
+		reportDataSelectionNavigationButtonConfig.addComponentStyle("stpl-margin-left-10");
 		reportDataSelectionNavigationButtonConfig.addComponentStyle("stpl-margin-bottom-13");
 		componentList.add(reportDataSelectionNavigationButtonConfig);
 
