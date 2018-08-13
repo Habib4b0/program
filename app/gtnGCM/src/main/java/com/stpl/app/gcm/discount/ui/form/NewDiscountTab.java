@@ -717,15 +717,16 @@ public class NewDiscountTab extends CustomComponent {
             @Override
             public void itemClick(final ItemClickEvent event) {
                 tableBeanId = event.getItemId();
-                BeanItem<?> targetItem;
+                BeanItem<?> targetItem = null;
                 if (tableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tableBeanId;
                 } else if (tableBeanId instanceof ContractsDetailsDto) {
                     targetItem = new BeanItem<>((ContractsDetailsDto) tableBeanId);
-                } else {
-                    targetItem = NULL_OBJECT;
-                }
+                } 
+                if(targetItem != null)
+                {
                 tableBean = (ContractsDetailsDto) targetItem.getBean();
+                }
                 levelVal = tableBean.getLevel();
             }
         });
@@ -1674,14 +1675,12 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     private ContractsDetailsDto getBeanFromID(final Object tableID) {
-        BeanItem<?> targetItem;
+        BeanItem<?> targetItem = new BeanItem<>(tableID);
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractsDetailsDto) {
             targetItem = new BeanItem<>((ContractsDetailsDto) tableID);
-        } else {
-            targetItem = NULL_OBJECT;
-        }
+        } 
         return (ContractsDetailsDto) targetItem.getBean();
     }
 
