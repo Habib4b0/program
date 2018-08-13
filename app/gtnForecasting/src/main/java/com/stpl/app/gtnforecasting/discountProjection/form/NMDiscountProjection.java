@@ -301,7 +301,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private static final String LEVEL_NUMBER_HEADER = "Level Number";
     private static final String LEVEL_NAME_HEADER = "Level Name";
     private static final String GROUP_PROPERTY_ID = "group";
-    public boolean dsFlag = true;
+    private boolean dsFlag = true;
     public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 
     private List<Object> generateDiscountToBeLoaded = new ArrayList<>();
@@ -2099,7 +2099,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         final String valueText = value.getValue();
         final String valueDdlbValue = String.valueOf(valueDdlb.getValue());
         try {
-            LOGGER.debug("fieldDdlb.getValue()-->>> = {}", selectedField);
             if (!valueText.matches("([0-9|\\.|])*")
                     && (valueText.length() - valueText.replace(".", StringUtils.EMPTY).length() > 1)) {
                 AbstractNotificationUtils.getErrorNotification(Constant.FIELD_ERROR, "Only Numbers are allowed");
@@ -2122,7 +2121,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } else {
                         checkedDiscountNames.addAll(projectionSelection.getDeductionLevelFilter());
                     }
-                    if (((valueDdlb != null && valueDdlb.getValue() != null && !valueDdlbValue.isEmpty()) 
+                    if (((valueDdlb != null && valueDdlb.getValue() != null && valueDdlbValue != null && !valueDdlbValue.isEmpty()) 
                             && selectedField.equals(Constant.GROUPFCAPS))
                             || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_RATE_LABEL))
                             || (!valueText.isEmpty() && selectedField.equals("RPU"))
@@ -3568,10 +3567,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             AbstractNotificationUtils.getErrorNotification("No variables were selected",
                     "No variables were selected. Please select at least one variable and try again.");
         } else {
-            projectionSelection.setCustomerLevelFilter((List) (generateCustomerToBeLoaded != null ? generateCustomerToBeLoaded : new ArrayList<>()));
-            projectionSelection.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
-            projectionSelection.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
-            projectionSelection.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
+            setFilterValues();
             if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())
                 || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             if ( !projectionSelection
@@ -3585,6 +3581,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
     }
 
+    public void setFilterValues() {
+        projectionSelection.setCustomerLevelFilter((List) (generateCustomerToBeLoaded != null ? generateCustomerToBeLoaded : new ArrayList<>()));
+        projectionSelection.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
+        projectionSelection.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
+        projectionSelection.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
+    }
     /**
      * To generate the list view
      *
@@ -5884,13 +5886,11 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
-                    } else {
-                        excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
-                    if (i == exportAt) {
-                        excel.exportMultipleTabs(true);
-                    } else {
-                        excel.exportMultipleTabs(false);
+                    if (i != 0 && excel != null) {
+                        excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        boolean export = i == exportAt;
+                        excel.exportMultipleTabs(export);
                     }
                 }
             } else {

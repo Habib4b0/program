@@ -229,13 +229,11 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
-                } else {
+                } 
+                if (i != 0 && exp != null) {
                     exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
-                }
-                if (i == exportAt) {
-                    exp.exportMultipleTabs(true);
-                } else {
-                    exp.exportMultipleTabs(false);
+                    boolean export = i == exportAt;
+                    exp.exportMultipleTabs(export);
                 }
             }
         } else {

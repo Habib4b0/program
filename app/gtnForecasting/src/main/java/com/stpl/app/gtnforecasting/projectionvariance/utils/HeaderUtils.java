@@ -164,7 +164,7 @@ public class HeaderUtils {
             int count=0;
             List<Object> yearwiseColumns;
             List<Object> visibleColumns = new ArrayList<>();
-            List<Object> columnHeaders = null;
+            List<Object> columnHeaders = new ArrayList<>();
             List<Object> doubleVisibleColumns = null;
             List<Object> doubleColumnHeaders = null;
             Map<Object, Object[]> doubleHeaderMapExcel = null;

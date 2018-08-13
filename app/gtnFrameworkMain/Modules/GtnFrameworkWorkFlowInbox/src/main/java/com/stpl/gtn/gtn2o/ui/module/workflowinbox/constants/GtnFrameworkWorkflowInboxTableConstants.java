@@ -305,7 +305,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
         GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
         GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "contractId", "contractNo", "companyNo", "companyName",
         "businessUnitId", "businessUnitNo", GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, "contractName", "itemNo", "itemName",
-        "forecastdeductionValue", "forecastdeductionLevel", "contractType", "companyID", "itemId"};
+        "forecastdeductionValue", "contractType", "companyID", "itemId"};
 
     private static final String[] GTN_WORKFLOW_INBOX_ARP_SEARCH_FIELDVALUES = new String[]{
         GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
