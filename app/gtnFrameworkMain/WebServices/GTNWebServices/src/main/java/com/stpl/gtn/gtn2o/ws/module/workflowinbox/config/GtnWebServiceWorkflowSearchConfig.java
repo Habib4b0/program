@@ -97,4 +97,4 @@ public class GtnWebServiceWorkflowSearchConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnIntegerConfig("PROJECTION_MASTER_SID", "WM"));
 	}
 
-}
+	}

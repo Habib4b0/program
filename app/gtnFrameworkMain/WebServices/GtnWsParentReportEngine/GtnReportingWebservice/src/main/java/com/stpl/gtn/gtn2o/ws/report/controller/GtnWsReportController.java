@@ -404,6 +404,17 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
 	}
+        
+        @RequestMapping(value = "/reportDeleteValidation", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteValidation(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		int userId = Integer.parseInt(generalRequest.getUserId());
+		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
+		return gtnWsReportWebsevice.deleteValidation(dataSelectionBean, userId);
+	}
+
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadComparisonAvailableTable(

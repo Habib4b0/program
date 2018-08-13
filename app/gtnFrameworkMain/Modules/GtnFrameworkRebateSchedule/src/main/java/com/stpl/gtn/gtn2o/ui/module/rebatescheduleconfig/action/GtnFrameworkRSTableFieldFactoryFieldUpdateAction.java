@@ -262,7 +262,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 			int sysId = Integer.parseInt(String.valueOf(newValue));
 			String name;
 			String tempProperty;
-			if (propertyId.endsWith("RuleName")) {
+			if (propertyId.endsWith("RuleName") || propertyId.equals(GtnFrameworkCommonConstants.FORMULA_NAME)) {
 				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
@@ -284,11 +284,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
 				txtField.setValue(formulaName);
-			} else if (propertyId.equals(GtnFrameworkCommonConstants.FORMULA_NAME)) {
-				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
-				updateField(tempProperty, sysId, Integer
-						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
-			}
+			} 
                         else if (GtnFrameworkCommonConstants.DEDUCTION_NO_CAL.equals(propertyId)) {
 				name = dto.getPropertyValue(GtnFrameworkCommonConstants.DEDUCTION_NO_CAL).toString();
 				String rpname = dto.getPropertyValue(GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO).toString();

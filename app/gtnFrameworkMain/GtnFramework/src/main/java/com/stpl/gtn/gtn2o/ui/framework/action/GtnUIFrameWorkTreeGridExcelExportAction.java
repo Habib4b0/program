@@ -67,7 +67,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 		List<String> headers = new LinkedList<>(treeGrid.getTableConfig().getColumnHeaders());
 		excludeColumnList(inputBean, propertyIds, headers);
 
-		gtnLogger.info(propertyIds.size() + "");
+		gtnLogger.info("Inside Do action");
 		XSSFWorkbook workBook = writeInExcel(inputBean, propertyIds, headers, treeGrid);
 		sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 

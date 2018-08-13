@@ -55,7 +55,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
                 lastLevelNo = 0;
             }
         } else {
-            lastLevelNo = currentHierarchy.size();
+            lastLevelNo = currentHierarchy == null ? 0 : currentHierarchy.size();
         }
         setCurrentPage(1);
     }

@@ -238,20 +238,11 @@ public class PVExcelLogic {
     }
 
     public void getTotalRawData() {
-        String frequency = selection.getFrequency();
         List<Integer> projectionIdList = new ArrayList();
         PROCRAWLIST_TOTAL_PERIOD.clear();
         PRIOR_LIST.clear();
         pivotDiscountList.clear();
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = StringConstantsUtil.QUARTERLY_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
-            frequency = StringConstantsUtil.SEMI_ANNUAL_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
-            frequency = StringConstantsUtil.MONTHLY_LABEL;
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
+        String frequency = checkFrequency(selection.getFrequency());
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
@@ -261,21 +252,30 @@ public class PVExcelLogic {
         rawList.clear();
     }
 
+    public String checkFrequency(String frequency) {
+        switch (frequency) {
+            case StringConstantsUtil.QUARTERLY_FREQ:
+                frequency = StringConstantsUtil.QUARTERLY_LABEL;
+                break;
+            case StringConstantsUtil.SEMI_ANNUALLY_FREQ:
+                frequency = StringConstantsUtil.SEMI_ANNUAL_LABEL;
+                break;
+            case StringConstantsUtil.MONTHLY_FREQ:
+                frequency = StringConstantsUtil.MONTHLY_LABEL;
+                break;
+            default:
+                frequency = StringConstantsUtil.ANNUAL_LABEL;
+                break;
+        }
+        return frequency;
+    }
+
     public void getTotalRawDataPivot() {
-        String frequency = selection.getFrequency();
         List<Integer> projectionIdList = new ArrayList();
         PROCRAWLIST_TOTAL_PERIOD.clear();
         PRIOR_LIST.clear();
         pivotDiscountList.clear();
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = StringConstantsUtil.QUARTERLY_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
-            frequency = StringConstantsUtil.SEMI_ANNUAL_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
-            frequency = StringConstantsUtil.MONTHLY_LABEL;
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
+        String frequency = checkFrequency(selection.getFrequency());
 
         projectionIdList.add(selection.getCurrentProjId());
         for (Integer projId : selection.getProjIdList()) {
@@ -1313,18 +1313,9 @@ public class PVExcelLogic {
      */
     void getTotalDiscount(PVSelectionDTO projSelDTO) {
         pivotDiscountList.clear();
-        String frequency = projSelDTO.getFrequency();
         List<String> projectionIdList = new ArrayList<>();
         pivotDiscountList = new ArrayList<>();
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = StringConstantsUtil.QUARTERLY_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
-            frequency = StringConstantsUtil.SEMI_ANNUAL_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
-            frequency = StringConstantsUtil.MONTHLY_LABEL;
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
+        String frequency = checkFrequency(selection.getFrequency());
         projectionIdList.add(String.valueOf(projSelDTO.getCurrentProjId()));
         for (Integer projId : projSelDTO.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));

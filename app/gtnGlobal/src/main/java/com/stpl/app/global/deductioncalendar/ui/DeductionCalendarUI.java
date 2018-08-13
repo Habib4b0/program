@@ -88,7 +88,7 @@ public class DeductionCalendarUI extends UI {
                             LOGGER.error(t.getMessage());
                         }
                     }
-                    LOGGER.error("",cause);
+                    LOGGER.error("cause {}",cause);
                 }
             });
             LOGGER.info("Ending DeductionCalendar UI");
