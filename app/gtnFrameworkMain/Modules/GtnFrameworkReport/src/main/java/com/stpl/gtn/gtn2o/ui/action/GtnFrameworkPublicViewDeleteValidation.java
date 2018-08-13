@@ -32,32 +32,32 @@ public class GtnFrameworkPublicViewDeleteValidation implements GtnUIFrameWorkAct
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+		GtnWsRecordBean wsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(1).toString()).getComponentData().getCustomData();
-		if (recordBean == null) {
-			recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+		if (wsRecordBean == null) {
+			wsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamList.get(2).toString()).getComponentData().getCustomData();
 		}
-		Integer viewId = (Integer) recordBean.getPropertyValueByIndex(4);
-		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-		dataSelectionBean.setViewId(viewId);
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		reportRequest.setDataSelectionBean(dataSelectionBean);
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsGeneralRequest(generalRequest);
-		request.setGtnWsReportRequest(reportRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		Integer getViewId = (Integer) wsRecordBean.getPropertyValueByIndex(4);
+		GtnWsReportDataSelectionBean reportDataSelectionBean = new GtnWsReportDataSelectionBean();
+		reportDataSelectionBean.setViewId(getViewId);
+		GtnWsReportRequest reportRqst = new GtnWsReportRequest();
+		GtnWsGeneralRequest generalRqst = new GtnWsGeneralRequest();
+		reportRqst.setDataSelectionBean(reportDataSelectionBean);
+		generalRqst.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
+		wsRequest.setGtnWsGeneralRequest(generalRqst);
+		wsRequest.setGtnWsReportRequest(reportRqst);
+		GtnUIFrameworkWebserviceResponse getresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_DELETE_VALIDATION_SERVICE, "report",
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-		if (!response.getGtnWsGeneralResponse().isSucess()) {
-                    GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
-			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			alertAction.addActionParameter("Delete View Confirmation");
-			alertAction.addActionParameter("You do not have permission to delete this projection.It can only be deleted by the creator");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+		if (!getresponse.getGtnWsGeneralResponse().isSucess()) {
+                    GtnUIFrameWorkActionConfig alert = new GtnUIFrameWorkActionConfig();
+			alert.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alert.addActionParameter("Delete View Confirmation");
+			alert.addActionParameter("You do not have permission to delete this projection.It can only be deleted by the creator");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alert);
 			return;
 		}
     }
