@@ -210,9 +210,6 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 	private void setSelectedCheckboxGroup(String variableBreakdownValues, Grid<GtnWsRecordBean> grid,
 			ArrayList<String> gridColumnIdSubList, String currentDateToDisableField, HeaderRow gridHeaderRow, int i) {
 		for (int k = 0; k < gridColumnIdSubList.size(); k++) {
-			if (gridColumnIdSubList.get(k).equals(currentDateToDisableField)) {
-				break;
-			}
 			CheckBoxGroup headerCheckboxGroup = (CheckBoxGroup) gridHeaderRow.getCell(gridColumnIdSubList.get(k))
 					.getComponent();
 			Set<String> headerCheckboxSelectedSet = headerCheckboxGroup.getSelectedItems();
