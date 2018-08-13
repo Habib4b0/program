@@ -107,6 +107,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		vaadinComboBox.setReadOnly(comboboxConfig.isReadOnly());
 		vaadinComboBox.setRequiredIndicatorVisible(comboboxConfig.isRequired());
 		vaadinComboBox.setEmptySelectionAllowed(false);
+		if (comboboxConfig.isFocus()) {
+			vaadinComboBox.focus();
+		}
 	}
 
 	@Override

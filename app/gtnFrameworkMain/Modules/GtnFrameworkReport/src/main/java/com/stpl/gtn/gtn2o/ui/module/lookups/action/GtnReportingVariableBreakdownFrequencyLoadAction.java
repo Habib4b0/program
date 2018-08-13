@@ -137,7 +137,8 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
-                    
+                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportLandingScreen" + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE);
+  
                  
                     
                     GtnUIFrameWorkActionConfig variableBreakDownHistoryLoadConfig = new GtnUIFrameWorkActionConfig(
