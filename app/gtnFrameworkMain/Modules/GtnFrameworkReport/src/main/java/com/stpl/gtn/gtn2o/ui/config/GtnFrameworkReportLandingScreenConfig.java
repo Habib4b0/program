@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkPublicViewDeleteValidation;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
@@ -906,6 +907,16 @@ public class GtnFrameworkReportLandingScreenConfig {
 		confirmDeleteAction.addActionParameter("Are you sure you want to delete the view?");
 		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
 		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+                
+                GtnUIFrameWorkActionConfig deleteValidationAction = new GtnUIFrameWorkActionConfig();
+		deleteValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteValidationAction.addActionParameter(GtnFrameworkPublicViewDeleteValidation.class.getName());
+		deleteValidationAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
+		deleteValidationAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
+		deleteValidationAction.addActionParameter(namespace);
+		onSuccessDeleteActionConfigList.add(deleteValidationAction);
 
 		GtnUIFrameWorkActionConfig deleteViewAction = new GtnUIFrameWorkActionConfig();
 		deleteViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
