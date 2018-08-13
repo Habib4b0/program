@@ -67,19 +67,23 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 
 	private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
 
-	private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
+    private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
 
-	private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
+    private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
 
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
+    private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
 
-	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+    private GtnWsReportDashboardBean gtnWsReportDashboardBean;
 
-	private GtnReportDataRefreshBean gtnReportDataRefreshBean = null;
+    private GtnReportDataRefreshBean gtnReportDataRefreshBean = null;
 
-	public boolean isTripleHeaderVisible() {
-		return tripleHeaderVisible;
-	}
+    public GtnUIFrameworkPagedTreeTableConfig() {
+        super();
+    }
+
+    public boolean isTripleHeaderVisible() {
+        return tripleHeaderVisible;
+    }
 
 	public void setTripleHeaderVisible(boolean tripleHeaderVisible) {
 		this.tripleHeaderVisible = tripleHeaderVisible;

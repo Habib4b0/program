@@ -8,8 +8,6 @@ package com.stpl.gtn.gtn2o.ws.contractdashboard.beans;
 import java.util.SortedSet;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import java.util.Collections;
-import java.util.TreeSet;
 
 /**
  *

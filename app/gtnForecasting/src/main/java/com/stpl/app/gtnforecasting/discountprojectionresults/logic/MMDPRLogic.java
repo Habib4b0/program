@@ -593,7 +593,7 @@ public class MMDPRLogic {
                 if (projSelDTO.getNmSuppLevel().equals("NMLevel")) {
                     List list = dqLogic.getNonMandateTotalValue(projSelDTO.getProjectionId(), projSelDTO.getFrequency(), projSelDTO);
                     String checkYear = StringUtils.EMPTY;
-                    if (list.size() != 0) {
+                    if (!list.isEmpty()) {
                         DiscountProjectionResultsDTO dto = null;
                         for (int i = 0; i < list.size(); i++) {
 
@@ -1989,7 +1989,7 @@ public class MMDPRLogic {
     }
 
     private void customizePCDisc(List<Object[]> list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
-        if (!list.isEmpty() && list != null) {
+        if (!list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
@@ -2054,7 +2054,7 @@ public class MMDPRLogic {
 
     private void customizeManSupp(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
 
-        if (!checkYear.isEmpty() && checkYear != null) {
+        if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
 
@@ -2110,7 +2110,7 @@ public class MMDPRLogic {
     }
 
     private void customizeNonMandat(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
-        if (!checkYear.isEmpty() && checkYear != null) {
+        if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
@@ -2159,7 +2159,7 @@ public class MMDPRLogic {
     }
 
     private void customizeNonMandat_Brand(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
-        if (!checkYear.isEmpty() && checkYear != null) {
+        if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();

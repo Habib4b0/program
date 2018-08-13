@@ -15072,25 +15072,118 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .stpl .v-report-reportoptions-hseq {
-	margin-left: -104px !important;
+	margin-left: -34px !important;
 }
 
 .stpl .v-report-reportoptions-hseq-combo {
-	margin-left: 238px !important;
-	margin-top: -42px !important;
-	padding-left: 30px !important;
+	margin-left: 75px !important;
 }
 
 .stpl .v-report-reportoptions-comparison {
-	margin-left: 109px !important;
+	margin-left: 1px !important;
+	margin-top: 3px !important;
 }
 
 .stpl .v-report-reportoptions-vseq {
-	width: 40% !important;
+	margin-left: 5px !important;
 }
 
 .stpl .v-report-excel-button {
 	margin-left: -30px !important;
+}
+
+.stpl .v-report-options-vb {
+	margin-top: 3px !important;
+}
+
+.stpl .v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+.stpl .v-treegrid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+	border: 3px solid transparent;
+}
+
+.stpl .v-report-comparisonOption-width {
+	min-width: 170px !important;
+}
+
+.stpl .v-report-comparisonOption-combowidth {
+	width: 170px !important;
+}
+
+.stpl .v-reportLandingScreen-PrivateView {
+	margin-left: 78px;
+	margin-top: -26px;
+	width: 118px !important;
+}
+
+.stpl .v-reportLandingScreen-companyLayout {
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
+.stpl .v-reportLandingScreen-company {
+	min-width: 86px !important;
+	width: 99px !important;
+	margin-left: 82px;
+	margin-top: -25px;
+}
+
+.stpl .v-reportLandingScreen-dataSourceLayout {
+	margin-left: 10px;
+	margin-top: -41px;
+	margin-left: 410px;
+}
+
+.stpl .v-reportLandingScreen-dataSource {
+	min-width: 100px !important;
+	width: 85px !important;
+	margin-left: 115px;
+	margin-top: -25px;
+}
+
+.stpl .v-reportLandingScreen-reportSelectionLayout1 {
+	margin-top: -21px;
+}
+
+.stpl .v-publicViewTextField {
+	margin-left: 75px;
+	margin-top: -25px;
+	width: 118px !important;
+}
+
+.stpl .v-bu {
+	margin-left: 86px;
+	margin-top: -28px;
+	width: 35% !important;
+	min-width: 98px !important;
+}
+
+.stpl .v-BU-layout {
+	margin-left: 3px;
+}
+
+.stpl .v-fromToMainLayout {
+	margin-left: -5px;
+	margin-top: 4px;
+}
+
+.stpl .v-reportLandingScreen-fromPeriodLayout {
+	margin-left: -60px;
+	margin-top: 23px;
+}
+
+.stpl .v-reportLandingScreen-fromPeriod {
+	margin-left: 110px;
+	margin-top: -45px;
+}
+
+.stpl .v-reportLandingScreen-toPeriodComboBox {
+	margin-left: 110px;
+	margin-top: -45px;
 }
 
 .v-slot, .v-spacing {

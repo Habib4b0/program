@@ -57,7 +57,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
 			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Edit");
 			GtnUIFrameworkGlobalUI.addSessionProperty("customSid", selectedItem);
-			loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
+			loadScreen(selectedItem, gtnUIFrameWorkActionConfig);
 			GtnUIFrameworkBaseComponent deleteButton = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(screenName + "customViewDelete");
 			deleteButton.setEnable(true);
@@ -69,9 +69,9 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		}
 	}
 
-	private void loadScreen(String selectedItem, String componentId,
-			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-		loadTreeGrid(selectedItem, gtnUIFrameWorkActionConfig, componentId);
+	private void loadScreen(String selectedItem, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		loadTreeGrid(selectedItem, gtnUIFrameWorkActionConfig);
 
 	}
 
@@ -89,9 +89,8 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		}
 	}
 
-	private void loadTreeGrid(String selectedItem, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-			String componentId) throws GtnFrameworkGeneralException {
-
+	private void loadTreeGrid(String selectedItem, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
 		loadFields(selectedItem, gtnUIFrameWorkActionConfig);
 
 	}
@@ -171,9 +170,11 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 
 		TreeData<GtnWsRecordBean> treeData = new TreeData<>();
 		treeGrid.setTreeData(treeData);
-		customizeData(cvResponse, treeGrid);
-		loadViewName(cvResponse.getCustomViewName());
-		loadVariableType(cvResponse.getCustomViewType());
+		if (cvResponse != null) {
+			customizeData(cvResponse, treeGrid);
+			loadViewName(cvResponse.getCustomViewName());
+			loadVariableType(cvResponse.getCustomViewType());
+		}
 
 	}
 

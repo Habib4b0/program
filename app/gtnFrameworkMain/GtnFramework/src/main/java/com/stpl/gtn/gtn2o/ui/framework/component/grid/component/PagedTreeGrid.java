@@ -31,6 +31,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import java.util.Collections;
 
 public class PagedTreeGrid {
 	/**
@@ -215,8 +216,7 @@ public class PagedTreeGrid {
 				GtnWsRecordBean parent = event.getExpandedItem();
 				if (event.isUserOriginated()) {
 					TreeData<GtnWsRecordBean> treeData = getTreeDataProvider().getTreeData();
-					int childCount = 0;
-					expandRow(parent, childCount, treeData, true);
+					expandRow(parent, treeData, true);
 				}
 			} catch (Exception ex) {
 				gtnlogger.error(ex.getMessage(), ex);
@@ -261,12 +261,10 @@ public class PagedTreeGrid {
 				}
 				return parent;
 			}).forEach((GtnWsRecordBean parent) -> {
-				int rowNo = GridUtils.getNodeIndex(parent);
-				if (expandedRowIds.contains(rowNo)) {
-					int childCount = 0;
+				if (expandedRowIds.contains(GridUtils.getNodeIndex(parent))) {
 
-					expandRow(parent, childCount, data, false);
-					if (rowNo != 0 && rowNo % pageLength != 0) {
+					expandRow(parent, data, false);
+					if (GridUtils.getNodeIndex(parent) != 0 && GridUtils.getNodeIndex(parent) % pageLength != 0) {
 						grid.expand(parent);
 					}
 				}
@@ -279,11 +277,10 @@ public class PagedTreeGrid {
 	/**
 	 * expands the row
 	 */
-	public void expandRow(GtnWsRecordBean parent, int childCount, TreeData<GtnWsRecordBean> treeData,
+	public void expandRow(GtnWsRecordBean parent, TreeData<GtnWsRecordBean> treeData,
 			boolean moveToNextPage) {
-
 		if (parent != null && GridUtils.getLevelNo(parent) != 0 && GridUtils.hasChildren(parent)) {
-			childCount = GridUtils.getChildCount(parent);
+			int childCount = GridUtils.getChildCount(parent);
 			for (int i = 0; treeData.contains(parent) && i < treeData.getChildren(parent).size(); i++) {
 				treeData.removeItem(treeData.getChildren(parent).get(i));
 			}
@@ -401,7 +398,7 @@ public class PagedTreeGrid {
 			return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,
 					getComponentIdInMap());
 		}
-		return null;
+		return Collections.emptyList();
 
 	}
 
@@ -506,13 +503,15 @@ public class PagedTreeGrid {
 		fetchNextNItems(0, pageLength, treeData, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY, true);
 	}
 
-	private void fetchNextNItems(int start, int itemsToFetch, TreeData<GtnWsRecordBean> treeData, int currentLevel,
+	private void fetchNextNItems(int strt, int itemsToFetch, TreeData<GtnWsRecordBean> treeData, int cLevel,
 			String hierNo, boolean isFirst) {
+            int currentLevel=cLevel;
+              int start=strt;
 		while (currentLevel >= tableConfig.getLevelNo() && itemsToFetch >= fetched) {
 			start = findStart(start, isFirst, currentLevel);
+                        String hierarchyNo=hierNo.isEmpty() ? hierNo : hierNo.substring(0, hierNo.lastIndexOf('.'));
 			List<GtnWsRecordBean> rows = loadData(start, itemsToFetch, currentLevel,
-					currentLevel == tableConfig.getLevelNo() ? GtnFrameworkCommonStringConstants.STRING_EMPTY
-							: hierNo.isEmpty() ? hierNo : hierNo.substring(0, hierNo.lastIndexOf('.'))).getRows();
+					currentLevel == tableConfig.getLevelNo() ? GtnFrameworkCommonStringConstants.STRING_EMPTY:hierarchyNo).getRows();
 			currentLevel--;
 			fetchRowsRecursively(null, rows, treeData, itemsToFetch);
 		}
@@ -520,7 +519,8 @@ public class PagedTreeGrid {
 		getTreeDataProvider().refreshAll();
 	}
 
-	private int findStart(int start, boolean isFirst, int currentLevel) {
+	private int findStart(int s, boolean isFirst, int currentLevel) {
+            int start=s;
 		if (!isFirst) {
 			if (tableConfig.getLevelNo() == GridUtils.getLevelNo(lastExpandedItem)) {
 				int childCount = GridUtils.getChildCount(lastExpandedItem);
@@ -718,9 +718,7 @@ public class PagedTreeGrid {
 		if ((pageNumber - 1) >= 0) {
 
 			setPageNoFieldValue(--pageNumber);
-			if (pageNumber != 0) {
-
-			} else {
+			if (pageNumber == 0) {
 				clearTempVariables();
 			}
 			paintCurrentPage();
@@ -789,8 +787,7 @@ public class PagedTreeGrid {
 	}
 
 	public int getColumnsPerPage() {
-		int columnsPerCount = GridUtils.getInt(columnsPerPage.getValue());
-		return columnsPerCount;
+		return GridUtils.getInt(columnsPerPage.getValue());
 	}
 
 	public void setColumnPageNumber(int newPageNumber) {

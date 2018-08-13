@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import static com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid.gtnlogger;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class HeaderUtils {
 
 	private HeaderUtils() {
-		throw new RuntimeException("Can not create object for this class " + HeaderUtils.class.getName());
+		throw new AccessDeniedException("Can not create object for this class " + HeaderUtils.class.getName());
 	}
 
 	public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {

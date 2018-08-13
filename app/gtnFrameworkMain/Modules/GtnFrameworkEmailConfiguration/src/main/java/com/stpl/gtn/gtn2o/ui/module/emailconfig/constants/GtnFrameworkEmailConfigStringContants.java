@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.emailconfig.constants;
 
+import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigBackAction;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigDefaultDataLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigSaveAction;
 import com.stpl.gtn.gtn2o.ui.module.emailconfig.action.GtnFrameworkEmailConfigViewAction;
@@ -34,6 +35,9 @@ public final class GtnFrameworkEmailConfigStringContants {
 	public static final String DATA_LOAD_ACTION = GtnFrameworkEmailConfigDefaultDataLoadAction.class.getName();
 	public static final String EMAIL_CONFIG_SAVE_ACTION = GtnFrameworkEmailConfigSaveAction.class.getName();
 	public static final String EMAIL_CONFIG_VIEW_ACTION = GtnFrameworkEmailConfigViewAction.class.getName();
+	
+	public static final String EMAIL_CONFIG_BACK_ACTION = GtnFrameworkEmailConfigBackAction.class.getName();
+
 	public static final String EMAIL_NOTIFICATION_SAVE_ACTION = GtnFrameworkEmailNotificationSaveAction.class.getName();
 	public static final String EMAIL_CONFIGURATION_VALIDATION = GtnFrameworkEmailConfigurationValidation.class
 			.getName();

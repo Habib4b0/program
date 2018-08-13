@@ -45,56 +45,71 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
 		try {
 			// reportCustomViewLookupcustomViewSave
-			final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-			final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 			List<Object> paramList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-			GtnWsCustomViewRequest reportCvRequest = buildWsRequest(paramList, request);
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-					GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
-
-			if (cvResponse.isSuccess()) {
-				GtnUIFrameWorkActionConfig notification = new GtnUIFrameWorkActionConfig(
-						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-				notification.addActionParameter(reportCvRequest.getCustomViewName() + " has been successfully saved");
-				notification.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notification);
-				String parentViewId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
-				if (parentViewId.contains("reportLandingScreen")) {
-
-					String id = GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW;
-					GtnUIFrameworkBaseComponent customView = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);
-					reloadAndSetvalue(id, componentId, customView, cvResponse);
-				} else {
-					String[] idsToReload = new String[] { "reportingDashboardTab_displaySelectionTabCustomView",
-							"dataSelectionTab_displaySelectionTabCustomView" };
-					for (String component : idsToReload) {
-						String id = component;
-						GtnUIFrameworkBaseComponent customView = GtnUIFrameworkGlobalUI
-								.getVaadinBaseComponentFromParent(id, componentId);
-						if (customView != null && customView.getComponent() != null) {
-							reloadAndSetvalue(id, componentId, customView, cvResponse);
-						}
-					}
+			if (paramList.size() == 1) {
+				int customViewSid = 0;
+				Object sid = GtnUIFrameworkGlobalUI.getSessionProperty("customSid");
+				if (sid != null) {
+					customViewSid = Integer.parseInt(String.valueOf(sid));
 				}
+				reloadComponent(componentId, customViewSid);
+			} else {
+				final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+				final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
+				GtnWsCustomViewRequest reportCvRequest = buildWsRequest(paramList, request);
+				GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
+						GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
+								+ GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC,
+						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
+
+				if (cvResponse.isSuccess()) {
+					GtnUIFrameWorkActionConfig notification = new GtnUIFrameWorkActionConfig(
+							GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+					notification
+							.addActionParameter(reportCvRequest.getCustomViewName() + " has been successfully saved");
+					notification.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notification);
+					reloadComponent(componentId, cvResponse.getCvSysId());
+				}
 			}
 		} catch (GtnFrameworkGeneralException ex) {
 			logger.error(ex.getErrorMessage(), ex);
 		}
 	}
 
+	private void reloadComponent(String componentId, int customViewSid) {
+		String parentViewId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
+		if (parentViewId.contains("reportLandingScreen")) {
+
+			String id = GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW;
+			GtnUIFrameworkBaseComponent customView = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);
+			reloadAndSetvalue(id, componentId, customView, customViewSid);
+		} else {
+			String[] idsToReload = new String[] { "reportingDashboardTab_displaySelectionTabCustomView",
+					"dataSelectionTab_displaySelectionTabCustomView" };
+			for (String component : idsToReload) {
+				String id = component;
+				GtnUIFrameworkBaseComponent customView = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(id,
+						componentId);
+				if (customView != null && customView.getComponent() != null) {
+					reloadAndSetvalue(id, componentId, customView, customViewSid);
+				}
+			}
+		}
+	}
+
 	private void reloadAndSetvalue(String id, String componentId, GtnUIFrameworkBaseComponent customView,
-			GtnWsCustomViewResponse cvResponse) {
+			int customViewSid) {
 		try {
-			new GtnUIFrameworkComboBoxComponent().reloadComponentFromParent(
-					GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, id, componentId, Arrays.asList(""));
+			new GtnUIFrameworkComboBoxComponent().reloadComponentFromParent(id, componentId, Arrays.asList(""));
 			GtnUIFrameworkComponentData data = (GtnUIFrameworkComponentData) Optional
 					.ofNullable(customView.getComponent().getData()).orElse(new GtnUIFrameworkComponentData());
-			data.setCustomData(cvResponse.getCvSysId());
-			customView.loadV8ComboBoxComponentValue(String.valueOf(cvResponse.getCvSysId()));
+			data.setCustomData(customViewSid);
+			GtnUIFrameworkGlobalUI.addSessionProperty("customSid", customViewSid);
+			customView.loadV8ComboBoxComponentValue(String.valueOf(customViewSid));
 			customView.getComponent().setData(data);
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error(e.getErrorMessage(), e);

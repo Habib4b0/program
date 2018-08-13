@@ -111,7 +111,7 @@ public class HeaderUtils {
         fullHeaderDTO.setEndPeriod(endPeriod);
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
-
+        List<Object> dmap = new ArrayList<>();
         if (pivotView.contains(Constant.DISCOUNT_SMALL)) {
             for (int i = 0; i < NumericConstants.THREE; i++) {
                 String commonColumn;
@@ -124,7 +124,7 @@ public class HeaderUtils {
                     commonHeader = Constant.SUPPLEMENTAL_DISCOUNT_LABEL;
                 }
                 commonColumn = commonHeader.replace(" ", StringUtils.EMPTY);
-                List<Object> dmap = new ArrayList<>();
+                dmap = new ArrayList<>();
                 if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                     dmap.add(singleColumn1);
@@ -270,7 +270,7 @@ public class HeaderUtils {
                     doubleHeaderForExcel.add(StringUtils.EMPTY);
                     doubleHeaderMap.put(StringUtils.EMPTY, new Object[]{leftColumn});
                     if (!ANNUALLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
-                        List<Object> dmap = new ArrayList<>();
+                        dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(1, yr, 0, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -364,7 +364,7 @@ public class HeaderUtils {
                         lastPr = yr;
                     }
                     for (int pr = startPr; pr <= lastPr; pr++) {
-                        List<Object> dmap = new ArrayList<>();
+                        dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -457,7 +457,7 @@ public class HeaderUtils {
                 for (int i = 0; i < projectionColumnList.size(); i++) {
                     String commonColumn = projectionColumnList.get(i);
                     String commonHeader = projectionHeaderList.get(i);
-                    List<Object> dmap = new ArrayList<>();
+                    dmap = new ArrayList<>();
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
                     tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
                             : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
@@ -584,7 +584,7 @@ public class HeaderUtils {
                         k = tempYear;
                     }
 
-                    List<Object> dmap = new ArrayList<>();
+                    dmap = new ArrayList<>();
                     Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
@@ -649,7 +649,7 @@ public class HeaderUtils {
                     doubleHeaderForExcel.add(StringUtils.EMPTY);
                     doubleHeaderMap.put(StringUtils.EMPTY, new Object[]{leftColumn});
                     if (!ANNUALLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
-                        List<Object> dmap = new ArrayList<>();
+                        dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(1, yr, 0, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -744,7 +744,7 @@ public class HeaderUtils {
                         lastPr = yr;
                     }
                     for (int pr = startPr; pr <= lastPr; pr++) {
-                        List<Object> dmap = new ArrayList<>();
+                        dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -840,7 +840,7 @@ public class HeaderUtils {
                 for (int i = 0; i < projectionColumnList.size(); i++) {
                     String commonColumn = projectionColumnList.get(i);
                     String commonHeader = projectionHeaderList.get(i);
-                    List<Object> dmap = new ArrayList<>();
+                    dmap = new ArrayList<>();
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
                     tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
                             : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
@@ -964,7 +964,7 @@ public class HeaderUtils {
                             doubleHeaderMap.put(StringUtils.EMPTY, new Object[]{leftColumn});
                             k = tempYear;
                         }
-                        List<Object> dmap = new ArrayList<>();
+                        dmap = new ArrayList<>();
                         
                         Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                         dmap.add(singleColumn4);
@@ -1061,6 +1061,7 @@ public class HeaderUtils {
     }
 
     private static void getPCHeaders(List<Object> pcNameList, String projections, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO, String mandOrSupp) {
+        List<Object> dmap = new ArrayList<>();
         if (pcNameList != null && !pcNameList.isEmpty()) {
             for (int i = 0; i < pcNameList.size(); i++) {
                 String commonColumn;
@@ -1070,7 +1071,6 @@ public class HeaderUtils {
                 commonColumn = StringUtils.isNotBlank(pcName) ? pcName : StringUtils.EMPTY;
                 commonHeader = commonColumn;
                 commonColumn = commonHeader + mandOrSupp;
-                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                     dmap.add(singleColumn1);
@@ -1181,13 +1181,14 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO, true);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
+        List<Object> dmap = new ArrayList<>();
         if (pivotView.contains(DISCOUNT.getConstant())) {
             if (!discountNames.isEmpty()) {
                 for (int i = 0; i < discountNames.size(); i++) {
                     String commonColumn =discountNo.get(i);
                     String commonHeader =discountNames.get(i);
                     commonHeader = commonHeader.replace(" ", StringUtils.EMPTY);
-                    List<Object> dmap = new ArrayList<>();
+                    dmap = new ArrayList<>();
                     if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                         Object singleColumn;
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
@@ -1278,7 +1279,7 @@ public class HeaderUtils {
             int j = 0;
             int k = 0;
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<>();
+                dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
@@ -1682,12 +1683,12 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO, false);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
-
+        List<Object> dmap = new ArrayList<>();
         if (pivotView.contains(Constant.DISCOUNT_SMALL)) {
             String commonColumn;
             String commonHeader = "Total Discount";
             commonColumn = commonHeader.replace(" ", StringUtils.EMPTY);
-            List<Object> dmap = new ArrayList<>();
+            dmap = new ArrayList<>();
             if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(Constant.ACTUALS)) {
                 Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                 dmap.add(singleColumn1);
@@ -1781,7 +1782,7 @@ public class HeaderUtils {
             int j = 0;
             int k = 0;
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<>();
+                dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
