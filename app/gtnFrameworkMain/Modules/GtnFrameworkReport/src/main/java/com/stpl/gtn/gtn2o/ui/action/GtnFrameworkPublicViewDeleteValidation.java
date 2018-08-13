@@ -56,7 +56,7 @@ public class GtnFrameworkPublicViewDeleteValidation implements GtnUIFrameWorkAct
                     GtnUIFrameWorkActionConfig alert = new GtnUIFrameWorkActionConfig();
 			alert.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			alert.addActionParameter("Delete View Confirmation");
-			alert.addActionParameter("You do not have permission to delete this projection.It can only be deleted by the creator");
+			alert.addActionParameter("You cannot delete a view that you did not create");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alert);
 			return;
 		}
