@@ -155,7 +155,7 @@ public class CommonUtil {
             try (Connection connection = datasource.getConnection();
                     CallableStatement statement = connection.prepareCall(procedureToCall.toString())) {
                 for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.info("",orderedArgs[i]);
+                    LOGGER.info("orderedArgs[i] {}",orderedArgs[i]);
 
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
