@@ -128,12 +128,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 		landingScreenVariableBreakdownFrequencyConfig.setAddToParent(true);
 		landingScreenVariableBreakdownFrequencyConfig
 				.setParentComponentId(landingScreenVariableBreakdownFrequencyLayoutConfig.getComponentId());
-
+                
 		GtnUIFrameworkComboBoxConfig landingScreenVariableBreakdownLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		landingScreenVariableBreakdownLoadConfig
-				.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
+                landingScreenVariableBreakdownLoadConfig.setHasDefaultValue(true);
+		landingScreenVariableBreakdownLoadConfig.setDefaultDesc(GtnFrameworkReportStringConstants.QUARTER);
+                landingScreenVariableBreakdownLoadConfig
+				.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);    
 		landingScreenVariableBreakdownLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX); 
 		landingScreenVariableBreakdownFrequencyConfig.setGtnComboboxConfig(landingScreenVariableBreakdownLoadConfig);
 
 		componentList.add(landingScreenVariableBreakdownFrequencyLayoutConfig);
@@ -569,7 +571,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		businessUnit.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.BUSINESS_UNIT);
-		businessUnit.setComponentName("Business Unit");
+		businessUnit.setComponentName("Business Unit:");
 		businessUnit.addComboComponentStyle("v-bu");
 		businessUnit.setAddToParent(true);
 		businessUnit
