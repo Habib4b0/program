@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkPublicViewDeleteValidation;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportConfirmedCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewConfirmDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
@@ -302,6 +303,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkGridToBarChartAction.class.getName(),
 				new GtnFrameworkGridToBarChartAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPublicViewDeleteValidation.class.getName(),
+				new GtnFrameworkPublicViewDeleteValidation());
 
 	}
 
