@@ -1510,7 +1510,7 @@ public class NmDiscountImpl {
                     + Constant.DECLARE_END_YEAR_INT + yearToSave + "\n";
 
             String ccpDetails = "";
-            if (isCustomHierarchy && customViewDetails != null && !customViewDetails.isEmpty()) {
+            if (isCustomHierarchy && !customViewDetails.isEmpty()) {
 
                 String customId = customViewDetails.get(0);
                 String customerLevelNo = customViewDetails.get(1);
