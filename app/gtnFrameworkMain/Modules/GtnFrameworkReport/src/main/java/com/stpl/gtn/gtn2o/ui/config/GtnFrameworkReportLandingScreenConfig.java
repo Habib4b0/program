@@ -414,7 +414,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		privateView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		privateView.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
-		privateView.setComponentName("Private Views");
+		privateView.setComponentName("Private Views:");
 		privateView.setAddToParent(true);
 		privateView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "privateViewLayout");
@@ -451,7 +451,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		company.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.COMPANY);
-		company.setComponentName("Company");
+		company.setComponentName("Company:");
 		company.setAddToParent(true);
 		company.addComboComponentStyle("v-reportLandingScreen-company");
 		company.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
@@ -485,7 +485,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportDataSource.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSource.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE);
-		reportDataSource.setComponentName("Report Data Source");
+		reportDataSource.setComponentName("Report Data Source:");
 		reportDataSource.setAddToParent(true);
 		reportDataSource.addComboComponentStyle("v-reportLandingScreen-dataSource");
 		reportDataSource.setParentComponentId(
@@ -523,7 +523,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		publicView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		publicView.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
-		publicView.setComponentName("Public Views");
+		publicView.setComponentName("Public Views:");
 		publicView.setAddToParent(true);
 		publicView.addTextComponentStyle("v-publicViewTextField");
 		publicView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -629,7 +629,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		fromPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
-		fromPeriod.setComponentName("From ");
+		fromPeriod.setComponentName("From: ");
 		fromPeriod.setAddToParent(true);
 		fromPeriod.addComboComponentStyle("v-reportLandingScreen-fromPeriod");
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
@@ -665,7 +665,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		toPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.STATUS);
-		toPeriod.setComponentName("To ");
+		toPeriod.setComponentName("To: ");
 		toPeriod.setAddToParent(true);
 		toPeriod.setEnable(false);
 		toPeriod.addComboComponentStyle("v-reportLandingScreen-toPeriodComboBox");
