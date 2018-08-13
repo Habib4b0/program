@@ -661,6 +661,25 @@ case "privateViewName":
 		}
 		return response;
 	}
+        
+        public GtnUIFrameworkWebserviceResponse deleteValidation(GtnWsReportDataSelectionBean dataSelectionBean, int userId) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		String query = sqlService.getQuery("deleteValidation");
+		Object[] params = { dataSelectionBean.getViewId(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		try {
+			List<Object> count = (List<Object>)gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);			
+			if(count.get(0).equals(0)) {
+				response.getGtnWsGeneralResponse().setSucess(false);
+			}
+                        else{
+                            response.getGtnWsGeneralResponse().setSucess(true);
+                        }
+		} catch (GtnFrameworkGeneralException e) {
+			response.getGtnWsGeneralResponse().setSucess(false);
+		}
+		return response;
+	}
 
 	public List<Object[]> getUOMDDLBValues(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {

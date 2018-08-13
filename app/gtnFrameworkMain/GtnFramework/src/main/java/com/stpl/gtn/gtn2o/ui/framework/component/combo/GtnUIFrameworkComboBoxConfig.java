@@ -32,8 +32,17 @@ public class GtnUIFrameworkComboBoxConfig {
 	private boolean isReadOnly = false;
 	private String moduleName="";
 	private boolean isLoadAtStart = false;
+	private boolean isFocus = false;
+	
+    public boolean isFocus() {
+		return isFocus;
+	}
 
-    public boolean isIsLoadAtStart() {
+	public void setFocus(boolean isFocus) {
+		this.isFocus = isFocus;
+	}
+
+	public boolean isIsLoadAtStart() {
         return isLoadAtStart;
     }
 

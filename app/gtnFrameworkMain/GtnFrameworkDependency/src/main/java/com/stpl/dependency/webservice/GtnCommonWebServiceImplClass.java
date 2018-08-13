@@ -28,9 +28,27 @@ public abstract class GtnCommonWebServiceImplClass {
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
-			//updateRequestWithSecurityToken(request, securityToken);
-			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(getWebServiceEndpointBasedOnModule(url,"queryEngine"),
-					request, GtnQueryEngineWebServiceResponse.class);
+			// updateRequestWithSecurityToken(request, securityToken);
+			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(
+					getWebServiceEndpointBasedOnModule(url, "queryEngine"), request,
+					GtnQueryEngineWebServiceResponse.class);
+			return webServiceResponse;
+		} catch (Exception e) {
+			gtnLogger.error("Exception in web service call", e);
+			return null;
+		}
+
+	}
+
+	public GtnQueryEngineWebServiceResponse callQueryEngineWithoutSecurityToken(String url,
+			GtnQueryEngineWebServiceRequest request) {
+		GtnFrameworkDependencyLogger gtnLogger = logInformation(GtnCommonWebServiceImplClass.class);
+		try {
+
+			RestTemplate restTemplate = new RestTemplate();
+			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(
+					getWebServiceEndpointBasedOnModule(url, "queryEngine"), request,
+					GtnQueryEngineWebServiceResponse.class);
 			return webServiceResponse;
 		} catch (Exception e) {
 			gtnLogger.error("Exception in web service call", e);
@@ -51,7 +69,7 @@ public abstract class GtnCommonWebServiceImplClass {
 		return GtnFrameworkPropertyManager.getProperty("gtn.queryengine.endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.queryengine.endPointServiceName") + url;
 	}
-	
+
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
 		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
