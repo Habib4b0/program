@@ -307,16 +307,16 @@ public class CompanyAddForm extends VerticalLayout {
             @Override
             public void itemClick(final ItemClickEvent event) {
                 identifierTableBeanId = event.getItemId();
-                BeanItem<?> targetItem;
+                BeanItem<?> targetItem = null;
                 if (identifierTableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) identifierTableBeanId;
                 } else if (identifierTableBeanId instanceof CompanyCrtIdentifierDTO) {
                     targetItem = new BeanItem<>((CompanyCrtIdentifierDTO) identifierTableBeanId);
-                } else {
-                    targetItem = null;
-                }
+                } 
+                if(targetItem != null)
+                {
                 identifierTableBeanId = (CompanyCrtIdentifierDTO) targetItem.getBean();
-
+                }
             }
         });
     }
@@ -341,16 +341,16 @@ public class CompanyAddForm extends VerticalLayout {
             @Override
             public void itemClick(final ItemClickEvent event) {
                 tradeTableBeanId = event.getItemId();
-                BeanItem<?> targetItem;
+                BeanItem<?> targetItem = null;
                 if (tradeTableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tradeTableBeanId;
                 } else if (tradeTableBeanId instanceof CompanyCrtIdentifierDTO) {
                     targetItem = new BeanItem<>((CompanyCrtIdentifierDTO) tradeTableBeanId);
-                } else {
-                    targetItem = null;
-                }
+                } 
+                if(targetItem != null)
+                {
                 tradeTableBeanId = (CompanyCrtIdentifierDTO) targetItem.getBean();
-
+                }
             }
         });
 
