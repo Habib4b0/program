@@ -1072,6 +1072,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableAndVarianceSequencingLoadConfig
 				.setItemCaptionValues(Arrays.asList(GtnFrameworkReportStringConstants.VARIABLE_VARIANCE,
 						GtnFrameworkReportStringConstants.VARIABLES_VARIANCES));
+		variableAndVarianceSequencingLoadConfig.setDefaultValue("Variable, Variance");
 		variableAndVarianceSequencingConfig.setGtnComboboxConfig(variableAndVarianceSequencingLoadConfig);
 	}
 
@@ -1158,6 +1159,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						GtnFrameworkReportStringConstants.COMPARISON_VARIABLE_TIME,
 						GtnFrameworkReportStringConstants.COMPARISON_TIME_VARIABLE,
 						GtnFrameworkReportStringConstants.VARIABLE_COMPARISON_TIME));
+		headerSequencingLoadConfig.setDefaultValue("Comparison/Variable/Time");
 		headerSequencingConfig.setGtnComboboxConfig(headerSequencingLoadConfig);
 	}
 
@@ -1181,8 +1183,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		displayFormatLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		displayFormatLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.DISPLAY_FORMAT);
-		displayFormatLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
+		displayFormatLoadConfig.setDefaultValue("Name");
+		displayFormatLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.DISPLAY_FORMAT);		
 		displayFormatConfig.setGtnCheckedComboboxConfig(displayFormatLoadConfig);
 	}
 
@@ -1200,7 +1202,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		currencyDisplayConfig.setComponentName("Currency Display: ");
 		currencyDisplayConfig.setAuthorizationIncluded(true);
-
 		componentList.add(currencyDisplayConfig);
 
 		GtnUIFrameworkComboBoxConfig currencyDisplayLoadConfig = configProvider.getComboBoxConfig(
