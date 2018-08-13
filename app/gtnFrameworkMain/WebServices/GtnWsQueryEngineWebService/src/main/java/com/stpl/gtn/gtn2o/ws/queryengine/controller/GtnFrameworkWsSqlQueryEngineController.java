@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryResponseBean;
 import com.stpl.dependency.queryengine.bean.GtnQueryEngineWebServiceBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
@@ -32,9 +33,9 @@ public class GtnFrameworkWsSqlQueryEngineController {
 			@RequestBody GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
 			throws GtnFrameworkGeneralException {
 		GtnQueryEngineWebServiceResponse gtnQueryEngineWebServiceResponse = new GtnQueryEngineWebServiceResponse();
-		GtnQueryEngineWebServiceBean queryEngineWebServiceBean  = gtnFrameworkWsSqlQueryEngineService
+		GtnFrameworkQueryResponseBean queryResponseBean  = (GtnFrameworkQueryResponseBean) gtnFrameworkWsSqlQueryEngineService
 				.executeQuery(gtnQueryEngineWebServiceRequest.getQueryExecutorBean());
-		gtnQueryEngineWebServiceResponse.setQueryEngineWebServiceBean(queryEngineWebServiceBean);
+		gtnQueryEngineWebServiceResponse.setQueryResponseBean(queryResponseBean);
 		return gtnQueryEngineWebServiceResponse;
 	}
 

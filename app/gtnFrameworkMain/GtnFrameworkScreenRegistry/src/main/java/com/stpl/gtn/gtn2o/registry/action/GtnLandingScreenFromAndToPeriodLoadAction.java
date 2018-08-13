@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -44,7 +45,21 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
             
             GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
             
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(1).toString());
+            List<String> fromPeriodItemValueList = new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
+            List<String> fromPeriodItemCodeList = new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
+            
+            List<String> toPeriodItemValueList = new ArrayList<>();
+            toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size()-1));
+           
+            List<String> toPeriodItemCodeList = new ArrayList<>();
+            toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size()-1));
+            
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString()).addAllItemsToComboBox(fromPeriodItemValueList,fromPeriodItemCodeList);
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString()).addAllItemsToComboBox(toPeriodItemValueList,toPeriodItemCodeList);
+            
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString()).loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString()).loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(0));
+
 	}
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

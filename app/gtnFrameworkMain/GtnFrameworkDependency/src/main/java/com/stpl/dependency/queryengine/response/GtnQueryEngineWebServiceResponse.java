@@ -1,5 +1,6 @@
 package com.stpl.dependency.queryengine.response;
 
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryResponseBean;
 import com.stpl.dependency.queryengine.bean.GtnQueryEngineWebServiceBean;
 
 public class GtnQueryEngineWebServiceResponse {
@@ -7,6 +8,7 @@ public class GtnQueryEngineWebServiceResponse {
 	private Object result;
 
 	private GtnQueryEngineWebServiceBean queryEngineWebServiceBean;
+	private GtnFrameworkQueryResponseBean queryResponseBean;
 	public Object getResult() {
 		return result;
 	}
@@ -21,6 +23,14 @@ public class GtnQueryEngineWebServiceResponse {
 
 	public void setQueryEngineWebServiceBean(GtnQueryEngineWebServiceBean queryEngineWebServiceBean) {
 		this.queryEngineWebServiceBean = queryEngineWebServiceBean;
+	}
+
+	public GtnFrameworkQueryResponseBean getQueryResponseBean() {
+		return queryResponseBean;
+	}
+
+	public void setQueryResponseBean(GtnFrameworkQueryResponseBean queryResponseBean) {
+		this.queryResponseBean = queryResponseBean;
 	}
 
 }

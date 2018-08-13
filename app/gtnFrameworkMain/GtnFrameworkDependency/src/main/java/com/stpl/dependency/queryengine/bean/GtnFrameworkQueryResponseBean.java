@@ -6,7 +6,7 @@ public class GtnFrameworkQueryResponseBean {
 
 	private String resultString;
 	private int resultInteger;
-	private List<?> resultList;
+	private List<Object[]> resultList;
 
 	public String getResultString() {
 		return resultString;
@@ -24,11 +24,11 @@ public class GtnFrameworkQueryResponseBean {
 		this.resultInteger = resultInteger;
 	}
 
-	public List<?> getResultList() {
+	public List<Object[]> getResultList() {
 		return resultList;
 	}
 
-	public void setResultList(List<?> resultList) {
+	public void setResultList(List<Object[]> resultList) {
 		this.resultList = resultList;
 	}
 

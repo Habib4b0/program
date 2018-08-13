@@ -43,7 +43,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsPeriodConfigurationService();
 		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngine("/executeQuery",
 				gtnQueryEngineWebServiceRequest, getGtnSecurityToken(gtnWsGeneralRequest));
-		List<Object[]> resultList =response.getQueryEngineWebServiceBean().getResultList();
+		List<Object[]> resultList =response.getQueryResponseBean().getResultList();
 
 		return resultList;
 	}

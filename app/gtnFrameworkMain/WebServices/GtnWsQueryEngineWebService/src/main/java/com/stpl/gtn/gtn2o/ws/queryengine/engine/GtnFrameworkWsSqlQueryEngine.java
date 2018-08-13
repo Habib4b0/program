@@ -58,9 +58,9 @@ public class GtnFrameworkWsSqlQueryEngine {
 		this.queryLogger = queryLogger;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery) throws GtnFrameworkGeneralException {
+	public List<Object[]> executeSelectQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
-		List<?> list = null;
+		List<Object[]> list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
@@ -92,11 +92,11 @@ public class GtnFrameworkWsSqlQueryEngine {
 		return list;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
+	public List<Object[]> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
 			throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		Session session = getSessionFactory().openSession();
-		List<?> queyValuelist = null;
+		List<Object[]> queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);

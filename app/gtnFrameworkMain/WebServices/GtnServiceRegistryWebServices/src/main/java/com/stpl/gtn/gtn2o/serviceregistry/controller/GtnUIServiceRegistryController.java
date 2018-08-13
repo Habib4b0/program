@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
-import com.stpl.dependency.queryengine.GtnFrameworkQueryExecutorBean;
-import com.stpl.dependency.queryengine.GtnWsQueryType;
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
@@ -52,12 +51,13 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		GtnWsServiceRegistryBean serviceRegistryBean = request.getGtnServiceRegistryWsRequest()
 				.getGtnWsServiceRegistryBean();
 
-		Object[] params = new Object[3];
-		params[0] = serviceRegistryBean.getHostName();
-		params[1] = serviceRegistryBean.getPort();
-		params[2] = serviceRegistryBean.getRegisteredWebContext();
+		Object[] params = new Object[4];
+		params[0] = serviceRegistryBean.getRegisteredWebContext();
+		params[1] = serviceRegistryBean.getHostName();
+		params[2] = serviceRegistryBean.getPort();
+		params[3] = serviceRegistryBean.getRegisteredWebContext();
 
-		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
 
 		String registerQuery = GtnWsServiceRegistryConstants.INSERT_QUERY;
@@ -65,7 +65,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		queryExecutorBean.setParams(params);
 		queryExecutorBean.setDataType(dataType);
 		queryExecutorBean.setSqlQuery(registerQuery);
-		queryExecutorBean.setQueryType(GtnWsQueryType.INSERTORUPDATEWITHPARAMS);
+		queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
 
 		queryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 

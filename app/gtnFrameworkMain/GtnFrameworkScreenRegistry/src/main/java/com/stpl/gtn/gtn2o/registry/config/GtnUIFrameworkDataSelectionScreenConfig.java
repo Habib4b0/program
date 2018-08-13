@@ -339,9 +339,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		fromPeriod.setParentComponentId(nameSpace + "_" + "fromPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		fromPeriodConfig.setComboBoxType("TimePeriodFromDate");
+		fromPeriodConfig.setItemCaptionValues(new ArrayList<>());
+		fromPeriodConfig.setItemValues(new ArrayList<>());
+		fromPeriodConfig.setHasDefaultValue(true);
+		fromPeriodConfig.setDefaultDesc("next");
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 		componentList.add(fromPeriod);
 		
@@ -368,9 +369,10 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		toPeriod.setParentComponentId(nameSpace + "_" + "toPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig toPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-		toPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		toPeriodConfig.setComboBoxType("BusinessUnitGLcomp");
+		toPeriodConfig.setItemCaptionValues(new ArrayList<>());
+		toPeriodConfig.setItemValues(new ArrayList<>());
+		toPeriodConfig.setHasDefaultValue(true);
+		toPeriodConfig.setDefaultDesc("next");
 		toPeriod.setGtnComboboxConfig(toPeriodConfig);
 		
 
@@ -382,8 +384,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		fromAndToPeriodAction.addActionParameter(nameSpace + "_" + "from");
 		fromAndToPeriodAction.addActionParameter(nameSpace + "_" + "to");
 		
-		toPeriod.addGtnUIFrameWorkActionConfig(fromAndToPeriodAction);
-		
+		toPeriod.setReloadActionConfig(fromAndToPeriodAction);
+		toPeriod.setReloadLogicActionClassName(GtnLandingScreenFromAndToPeriodLoadAction.class.getName());
+				
 		componentList.add(toPeriod);
 		
 
