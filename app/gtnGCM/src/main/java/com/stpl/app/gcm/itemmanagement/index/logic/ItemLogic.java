@@ -785,9 +785,11 @@ public class ItemLogic {
             for (Object list1 : list) {
                 obj = (Object[]) list1;
             }
+            if(obj != null)
+            {
             projectionID = Integer.parseInt(String.valueOf(obj[0]));
             forecastingType = String.valueOf(obj[NumericConstants.THREE]);
-        }
+        }}
 
         projIdList.add(projectionID);
         SelectionDTO.setSummaryProjectionId(projectionID);

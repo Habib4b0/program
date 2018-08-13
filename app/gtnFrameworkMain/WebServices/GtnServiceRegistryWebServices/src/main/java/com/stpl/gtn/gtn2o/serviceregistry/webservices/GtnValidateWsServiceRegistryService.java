@@ -2,17 +2,16 @@ package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
 import java.util.List;
 
-import org.springframework.web.client.RestTemplate;
-
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
 import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
+import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
-public class GtnValidateWsServiceRegistryService {
+public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImplClass{
 	
 	public boolean serviceRegistryServiceToValidateWsIsRegistered(GtnWsServiceRegistryBean serviceRegistryBean){
 		
@@ -24,10 +23,9 @@ public class GtnValidateWsServiceRegistryService {
 		queryExecutorBean.setDataType(new GtnFrameworkDataType[]{GtnFrameworkDataType.STRING});
 		queryExecutorBean.setQueryType("SELECTWITHPARAMS");
 		queryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-		
-		RestTemplate restTemplate = new RestTemplate();
-		GtnQueryEngineWebServiceResponse response = restTemplate.postForObject(getWebServiceEndpointBasedOnModule("/executeQuery","queryEngine"), queryEngineWebServiceRequest,
-				GtnQueryEngineWebServiceResponse.class);
+				
+		GtnCommonWebServiceImplClass gtnCommonWebServiceImplClass = new GtnValidateWsServiceRegistryService();
+		GtnQueryEngineWebServiceResponse response = gtnCommonWebServiceImplClass.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
 		List<Object[]> resultList = response.getQueryResponseBean().getResultList();
 		for(int i=0;i<resultList.size();i++){
 			Object[] obj = resultList.get(i);
@@ -46,6 +44,11 @@ public class GtnValidateWsServiceRegistryService {
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
 				+ url;
 
+	}
+
+	@Override
+	public void registerWs() {
+		
 	}
 	
 }
