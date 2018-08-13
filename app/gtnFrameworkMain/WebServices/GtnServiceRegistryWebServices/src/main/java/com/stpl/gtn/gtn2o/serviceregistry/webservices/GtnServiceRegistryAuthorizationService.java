@@ -1,6 +1,6 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
-import com.stpl.gtn.gtn2o.serviceregistry.bean.GtnWsServiceRegistryBean;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnServiceRegistryAuthorizationService {
 	

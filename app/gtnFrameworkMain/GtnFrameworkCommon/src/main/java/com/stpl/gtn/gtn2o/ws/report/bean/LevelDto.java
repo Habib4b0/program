@@ -456,10 +456,7 @@ public class LevelDto implements Comparable<LevelDto> {
             return false;
         }
         final LevelDto other = (LevelDto) obj;
-        if (!Objects.equals(this.levelNo, other.levelNo)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.levelNo, other.getLevelNo());
     }
 
     public static List<Object> getBeanByLevelNo(List<LevelDto> selectedCustomerContractList, int i) {
