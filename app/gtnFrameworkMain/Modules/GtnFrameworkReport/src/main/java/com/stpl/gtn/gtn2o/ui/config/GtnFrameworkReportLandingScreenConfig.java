@@ -461,6 +461,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		companyTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
+		companyTypeConfig.setFocus(true);
 		company.setGtnComboboxConfig(companyTypeConfig);
 
 		GtnUIFrameworkValidationConfig companyTypeValidationConfig = new GtnUIFrameworkValidationConfig();
