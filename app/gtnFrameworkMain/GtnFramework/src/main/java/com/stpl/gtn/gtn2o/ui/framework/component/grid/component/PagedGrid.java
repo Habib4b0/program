@@ -127,7 +127,16 @@ public class PagedGrid {
 		ListDataProvider<GtnWsRecordBean> dataProvider = (ListDataProvider) grid.getDataProvider();
 		@SuppressWarnings("unchecked")
 		List<GtnWsRecordBean> items = new ArrayList<>(dataProvider.getItems());
-		items.add(item);
+		boolean isAlreadyAdded = false;
+		for (GtnWsRecordBean recordBean : items) {
+			if (item.getStringPropertyByIndex(11).equals(recordBean.getStringPropertyByIndex(11))) {
+				isAlreadyAdded = true;
+			}
+		}
+
+		if (items.isEmpty() || !isAlreadyAdded) {
+			items.add(item);
+		}
 		grid.setItems(items);
 	}
 
