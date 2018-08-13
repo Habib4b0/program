@@ -41,18 +41,19 @@ public class GtnReportingVariableBreakdownGridResetAction implements GtnUIFramew
         
         List<Object> actionParam = gtnUIFrameWorkActionConfig.getActionParameterList();
         AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParam.get(1).toString(),componentId);
-        GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-        PagedGrid pagedGrid = gridComponent.getPagedGrid();
-        Grid<GtnWsRecordBean> grid =  pagedGrid.getGrid();
-        List<Object[]> gtnReportVariableBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
-
-        int variableBreakdownLookupBeanCount = gtnReportVariableBreakdownLookupBeanList.size();
+        GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();        
+        List<Object[]> gtnReportVariableBreakdownLookupBeanList;
+        if(gridComponent.getCustomData()== null){
+            PagedGrid pagedGrid = gridComponent.getPagedGrid();
+             Grid<GtnWsRecordBean> grid =  pagedGrid.getGrid();
+            gtnReportVariableBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
+            int variableBreakdownLookupBeanCount = gtnReportVariableBreakdownLookupBeanList.size();
         int rowCount =grid.getHeaderRowCount();
         resetVariableBreakdownGridComponent(variableBreakdownLookupBeanCount, rowCount, grid, gtnReportVariableBreakdownLookupBeanList);
-
-        resetVariableBreakdownComboboxComponents(actionParam, componentId);
+        }  else{    
+        resetVariableBreakdownComboboxComponents(actionParam, componentId); 
+        }   
     }
-
     private void resetVariableBreakdownGridComponent(int variableBreakdownLookupBeanCount, int rowCount, Grid<GtnWsRecordBean> grid, List<Object[]> gtnReportVariableBreakdownLookupBeanList) {
         for(int i=0;i<variableBreakdownLookupBeanCount;i++){
             for(int j=1;j<rowCount;j++){
