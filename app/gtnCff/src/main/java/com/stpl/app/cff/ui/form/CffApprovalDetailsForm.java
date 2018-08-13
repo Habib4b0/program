@@ -21,6 +21,7 @@ import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.form.ProjectionVariance;
 import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.ChangeMenuBarValueUtil;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
@@ -41,13 +42,13 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.CustomWindowConstant;
 import org.slf4j.Logger;
@@ -290,6 +291,12 @@ public class CffApprovalDetailsForm extends CustomWindow {
 
                     if (tabPosition == NumericConstants.FOUR && Constants.ADD.equals(sessionDTO.getAction()) && !filterOptionLoaded) {
                         projectionVariance.loadAllDdbls();
+                        CustomMenuItem item=projectionVariance.getDeductionFilterValues().getChildren().get(1);
+                        if (item != null) {
+                            item.setChecked(true);
+                            projectionVariance.loadSelectedDeduction(item.getMenuItem());
+                        }
+                        
                         filterOptionLoaded=true;
                     }
 

@@ -785,7 +785,7 @@ public class ProjectionVarianceLogic {
                     tobeAddedList.addAll(allList);
                 }
                 setChartList(tobeAddedList);
-                for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
+                 for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
                     projDTOList.add(tobeAddedList.get(i));
 
                 }
@@ -833,6 +833,8 @@ public class ProjectionVarianceLogic {
             getRSIds(projSelDTO);
         }
         String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
+        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
+        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM") ? "SCHEDULE ID" : discountLevelName;
         String viewName=projSelDTO.getView().equalsIgnoreCase("Custom")?"D":projSelDTO.getView();
         Object[] orderedArg = {projectionId, frequency, null, null,discountLevelName,salesInclusion, deductionInclusion, null , 
                       projSelDTO.getSessionDTO().getCustomViewMasterSid()
@@ -1875,14 +1877,12 @@ public class ProjectionVarianceLogic {
                         @SuppressWarnings("unchecked")
                         Map<Object, List<Object[]>> groupedDiscResult = totalDiscount.stream().map(o -> (Object[]) o)
                                 .collect(Collectors.groupingBy(x -> {
-                                    return new ArrayList<>(Arrays.asList(x[2], x[3]));
+                                    return new ArrayList<>(Arrays.asList(x[1], x[2]));
                                 }));
-                        int dis = 0;
                          for (Map.Entry<Object, List<Object[]>> discount : groupedDiscResult.entrySet()) {
                              
-//                            Object[] discountRow = (Object[]) totalDiscount.get(dis);
                              List<Object[]> discountRow = discount.getValue();
-                             final Object[] disobj = row.get(0);
+                             final Object[] disobj = discountRow.get(0);
                             int dyear = Integer.parseInt(String.valueOf(disobj[1]));
                             int dperiod = Integer.parseInt(String.valueOf(disobj[2]));
                             List<String> dcommon = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, dyear, dperiod);
@@ -1892,7 +1892,7 @@ public class ProjectionVarianceLogic {
                             List<String> dedNames = !pvsdto.getDeductionLevelFilter().isEmpty() ? pvsdto.getDeductionLevelCaptions() : discountNames;
                             if (pcommonColumn.equals(dcommonColumn)) {
                                 for (int disc = 0; disc < noOfDiscount.size(); disc++) {
-                                    String disName = String.valueOf(disobj[NumericConstants.TWO]);
+                                    String disName = String.valueOf(disobj[disobj.length - 2]);
 
                                     String head = disName.replace(" ", StringUtils.EMPTY) + dedNames.indexOf(disName);
 
@@ -2773,7 +2773,7 @@ public class ProjectionVarianceLogic {
 
         Map<Object, List<Object[]>> groupedResult = dataList.stream().map(obj -> (Object[]) obj)
                 .collect(Collectors.groupingBy(x -> {
-                    return new ArrayList<>(Arrays.asList(x[2], x[3]));
+                    return new ArrayList<>(Arrays.asList(x[1], x[2]));
                 }));
         int i=0;
         for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
@@ -2782,6 +2782,7 @@ public class ProjectionVarianceLogic {
             final Object[] obj = list.get(0);
             final Object[] proj;
             final Object[] actual;
+            if(list.size()>1){
             if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                 actual = list.get(0);
                 proj = list.get(1);
@@ -2789,31 +2790,41 @@ public class ProjectionVarianceLogic {
                 actual = list.get(1);
                 proj = list.get(0);
             }
-                if (obj[NumericConstants.TWO] != null && !"".equals(lastValue) && !"null".equals(lastValue) 
-                        && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+            }else{
+                Integer[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+             if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                actual = list.get(0);
+                proj = emptyArray;
+            } else {
+                actual = emptyArray;
+                proj = list.get(0);
+            }
+            }
+                if (obj[obj.length - 2] != null && !"".equals(lastValue) && !"null".equals(lastValue) 
+                        && !lastValue.equals(String.valueOf(obj[obj.length - 2]))) {
                     pvDTO.setGroup(lastValue);
                     resultDto.add(pvDTO);
                     pvDTO = new ProjectionVarianceDTO();
                 }
-                lastValue = String.valueOf(obj[NumericConstants.TWO]);
+                lastValue = String.valueOf(obj[obj.length - 2]);
                 pvDTO.setGroup(lastValue);
                 String commonColumn = StringUtils.EMPTY;
                 if (frequencyDivision == NumericConstants.FOUR) {
-                    commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
+                    commonColumn = "Q" + obj[NumericConstants.TWO] + StringUtils.EMPTY + obj[1];
                 } else if (frequencyDivision == NumericConstants.TWO) {
-                    commonColumn = "S" + obj[1] + StringUtils.EMPTY + obj[0];
+                    commonColumn = "S" + obj[NumericConstants.TWO] + StringUtils.EMPTY + obj[1];
                 } else if (frequencyDivision == 1) {
-                    commonColumn = StringUtils.EMPTY + obj[0];
+                    commonColumn = StringUtils.EMPTY + obj[1];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
-                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
+                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
 
                 PVCommonLogic.customizePeriodV2(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, actual,proj, isPer);
                 for (int j = 0; j < priorList.size(); j++) {
                     PVCommonLogic.getPriorCommonCustomizationV2(projSelDTO.getVarIndicator(), projSelDTO, list, pvDTO, commonColumn, index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
                 }
-                if (i++ == dataList.size() - 1) {
+                if (i++ == groupedResult.entrySet().size() - 1) {
                     resultDto.add(pvDTO);
                 }
         }
@@ -3066,12 +3077,23 @@ public class ProjectionVarianceLogic {
             Object[] obj=list.get(0);
             final Object[] proj;
             final Object[] actual;
-            if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
-                actual = list.get(0);
-                proj = list.get(1);
+            if (list.size() > 1) {
+                if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                    actual = list.get(0);
+                    proj = list.get(1);
+                } else {
+                    actual = list.get(1);
+                    proj = list.get(0);
+                }
             } else {
-                actual = list.get(1);
-                proj = list.get(0);
+                Integer[] arr=Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+                if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                    actual = list.get(0);
+                    proj = arr;
+                } else {
+                    actual = arr;
+                    proj = list.get(0);
+                }
             }
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
             PVCommonLogic.customizePeriodV2(variableValue, variableCategory, pvsdto, projDTO, format, index,actual, proj, format.equals(RATE));
@@ -3093,7 +3115,7 @@ public class ProjectionVarianceLogic {
 		}
 		String countQuery = SQlUtil.getQuery("customViewDeclaration");
 		countQuery = countQuery.replace("[$CUSTOM_VIEW_MASTER_SID]", String.valueOf(projSelDTO.getCustomId()));
-		countQuery += insertAvailableHierarchyNo(projSelDTO);
+		countQuery += insertAvailableHierarchyNoForCount(projSelDTO);
 	       countQuery += SQlUtil.getQuery("custom-view-count-condition-query-forPV");
         List list = HelperTableLocalServiceUtil.executeSelectQuery(
                 QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -3162,6 +3184,25 @@ public class ProjectionVarianceLogic {
         sql = sql.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         LOGGER.debug("Group Filter Value: {}", projSelDTO.getGroupFilter());
         return sql;
+
+    }
+    public String insertAvailableHierarchyNoForCount(ProjectionSelectionDTO projSelDTO) {
+        String sql;
+		sql = !projSelDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-for-custom")
+				: SQlUtil.getQuery("selected-hierarchy-no-for-customer-pv");
+		if (projSelDTO.isIsCustomHierarchy()) {
+			sql = sql.replace("[?HIERARCHY_NO_VALUES]",
+					getSelectedHierarchyCustom(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(),
+							commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), projSelDTO.getTreeLevelNo(),
+							false));
+		} else {
+			sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(projSelDTO.getSessionDTO(),
+					projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+		}
+		sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(projSelDTO));
+
+		LOGGER.debug("Group Filter Value = {} ", projSelDTO.getGroupFilter());
+		return sql;
 
     }
     
@@ -3425,4 +3466,82 @@ public class ProjectionVarianceLogic {
              getFilterWhereCondition(comparisonLookup, inputList);
          return inputList;
     }
+    
+    
+    public String getSelectedHierarchyCustom(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator,
+			int levelNo, boolean isCount) {
+
+		if (levelNo == 0) {
+			throw new IllegalArgumentException("Invalid Level No:" + levelNo);
+		}
+
+		Map<String, List> relationshipLevelDetailsMap = sessionDTO.getCustomDescription();
+		StringBuilder stringBuilder = new StringBuilder();
+
+		boolean isNotFirstElement = false;
+		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
+		int i = 1;
+		for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+			if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo
+					&& hierarchyIndicator.equals(entry.getValue().get(4).toString()))
+					&& (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+
+				if (isNotFirstElement) {
+					stringBuilder.append(",\n");
+				}
+				stringBuilder.append("('");
+				stringBuilder.append(entry.getKey());
+				stringBuilder.append(isCount ? "')" : "'," + i++ + ")");
+
+				isNotFirstElement = true;
+			}
+		}
+		if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+			stringBuilder.append("('");
+			stringBuilder.append("')");
+		}
+		return stringBuilder.toString();
+	}
+    
+    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator,
+			int levelNo) {
+
+		if (levelNo == 0) {
+			throw new IllegalArgumentException("INVALID_LEVEL_NO" + levelNo);
+		}
+		Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean isNotFirstElement = false;
+		boolean isNotFirstHierarchy = false;
+		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
+		int i = 1;
+		for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+			if (!hierarchyNo.contains(",")) {
+				if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo
+						&& hierarchyIndicator.equals(entry.getValue().get(4).toString()))
+						&& (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+					if (isNotFirstElement) {
+						stringBuilder.append(",\n");
+					}
+					stringBuilder.append("('");
+					stringBuilder.append(entry.getKey());
+					stringBuilder.append("',").append(i++).append(')');
+					isNotFirstElement = true;
+				}
+			} else if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo
+					&& hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
+				if (isNotFirstHierarchy) {
+					stringBuilder.append(",\n");
+				}
+				stringBuilder
+						.append(getString(entry.getKey(), Arrays.asList((String.valueOf(hierarchyNo)).split("\\,"))));
+				isNotFirstHierarchy = true;
+			}
+		}
+		if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+			stringBuilder.append("('");
+			stringBuilder.append("')");
+		}
+		return stringBuilder.toString();
+	}
 }

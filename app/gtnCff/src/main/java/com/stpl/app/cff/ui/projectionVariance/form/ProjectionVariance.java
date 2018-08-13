@@ -738,11 +738,13 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void tempTableProcedureCalling(String tempComaprision, CFFLogic cffLogicForTempTable) {
-        if(!sessionDTO.getDeductionName().equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) ||
+        if(!sessionDTO.getDeductionName().equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) || pvSelectionDTO.getDeductionLevelFilter().isEmpty() ||
                 !sessionDTO.getFrequency().equals(String.valueOf(frequency.getValue())) ||
                 !sessionDTO.getPriorProjectionId().equals(tempComaprision) || isUomChanged){
             sessionDTO.setPriorProjectionId(tempComaprision);
-            sessionDTO.setDeductionName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
+            String levelNameOfDeduction=discountLevel.getValue().toString().equals("Program Category")?"PROGRAM TYPE":"SCHEDULE ID";
+            String dedcutionName=!pvSelectionDTO.getDeductionLevelFilter().isEmpty()?deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()):levelNameOfDeduction;
+            sessionDTO.setDeductionName(dedcutionName);
             sessionDTO.setFrequency(String.valueOf(frequency.getValue()));
             sessionDTO.setStatusName(isUomChanged ? "UOM" : GENERATE_FLAG);
             if(!isUomChanged){
@@ -2440,6 +2442,17 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 string.setChecked(false);
             }
         }
+    }
+    public CustomMenuBar.CustomMenuItem getDeductionFilterValues() {
+        return deductionFilterValues;
+    }
+    
+    public void loadSelectedDeduction(MenuItemDTO value){
+    ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, value.getCaption());
+    List<String> valuesList = new ArrayList<>();
+    valuesList.add(String.valueOf(value.getWindow()));
+    pvSelectionDTO.setDeductionLevelFilter(valuesList);
+    tempdeductionLevel= valuesList;
     }
 
 }

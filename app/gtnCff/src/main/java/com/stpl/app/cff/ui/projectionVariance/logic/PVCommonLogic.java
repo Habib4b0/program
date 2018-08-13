@@ -54,14 +54,14 @@ public class PVCommonLogic {
      public static void customizePeriodV2(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, 
              DecimalFormat format, int index, Object[] actual,Object[] proj, boolean isPer) {
         try {
-            String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[actual.length - 2])));
+            String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[actual.length - 3])));
             String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
             String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
 
             addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, index, accrualValue);
 
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("{}",e);
         }
     }
 
