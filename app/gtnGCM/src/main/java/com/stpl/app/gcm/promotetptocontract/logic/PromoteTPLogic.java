@@ -301,7 +301,7 @@ public class PromoteTPLogic {
      * @return
      */
     public int getSearchCount(CurrentContractDTO binderDto) {
-        List<Object[]> list = null;
+        List<Object[]> list = new ArrayList<>();
         try {
             list = ItemQueries.getItemData(getSearchSelection(binderDto), "searchPromoteTpToChContractCount", null);
         } catch (Exception ex) {

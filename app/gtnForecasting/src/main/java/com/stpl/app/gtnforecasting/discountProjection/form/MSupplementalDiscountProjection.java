@@ -620,9 +620,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 supplementalDiscountProjectionLogic.updateCheckedRecord(itemDto, projectionDTO, check.getValue() ? 1 : 0);
                                 boolean checkCustomerFlag = false;
                                 boolean checkBrandFlag = false;
-                                List<Object> queryList = null;
                                 Map<String, Object> mapList = tableLogic.getExpandedTreeLevelList();
-                                queryList = supplementalDiscountProjectionLogic.getUpdateRecord(itemDto.getParentCcpDetailIdList(), session.getUserId(), session.getSessionId());
+                                List<Object> queryList = supplementalDiscountProjectionLogic.getUpdateRecord(itemDto.getParentCcpDetailIdList(), session.getUserId(), session.getSessionId());
                                 checkCustomerFlag = queryList.size() == itemDto.getParentCcpDetailIdList().size();
                                 int[] levelNo = new int[2];
                                 if (itemDto.getSupplementalLevelNo() == 5) {
@@ -1519,14 +1518,13 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             ForecastUI.setEXCEL_CLOSE(true);
             if (i == 0) {
                 exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SUPPLEMENTAL_DISCOUNT, "Supplemental_Discount_Projection.xls", false);
-            } else {
+            }
+            if (i != 0 && exp != null) {
                 exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+                boolean export = i == exportAt;
+                exp.exportMultipleTabs(export);
             }
-            if (i == exportAt) {
-                exp.exportMultipleTabs(true);
-            } else {
-                exp.exportMultipleTabs(false);
-            }
+            
         }
         resultsTableLayout.removeComponent(exportPeriodViewTable);
     }
