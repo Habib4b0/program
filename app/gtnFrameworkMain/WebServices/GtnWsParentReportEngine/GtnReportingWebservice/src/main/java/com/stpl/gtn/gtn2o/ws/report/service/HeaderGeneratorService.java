@@ -126,7 +126,7 @@ public class HeaderGeneratorService {
 			List<GtnReportComparisonProjectionBean> beanList = dashboardBean.getComparisonProjectionBeanList();
 			List<String> comparsionHeader = new ArrayList<>();
 			if(dataSelectionBean.getReportDataSource()!=3)
-			comparsionHeader.add("Current");
+			comparsionHeader.add("Current Projection");
 			if (beanList != null) {
 				beanList.stream().forEach(bean -> comparsionHeader.add(bean.getProjectionName()));
 			}

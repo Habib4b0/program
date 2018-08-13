@@ -105,6 +105,7 @@ public class TransferTPForm extends CustomWindow {
                     }
 
                     if(customerSelectionTab != null && lastTabName.equals(TAB_CUSTOMER_SELECTION.getConstant()) && customerSelectionTab.tabChangeCheck()){
+
                         customerSelectionTab.tabChangeLogic();
                     }
 
