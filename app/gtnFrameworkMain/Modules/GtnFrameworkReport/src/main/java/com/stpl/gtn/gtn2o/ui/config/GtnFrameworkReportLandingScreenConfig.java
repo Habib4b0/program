@@ -569,7 +569,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		businessUnit.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.BUSINESS_UNIT);
-		businessUnit.setComponentName("Business Unit");
+		businessUnit.setComponentName("Business Unit:");
 		businessUnit.addComboComponentStyle("v-bu");
 		businessUnit.setAddToParent(true);
 		businessUnit
