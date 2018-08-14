@@ -10,6 +10,7 @@ import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.salesprojectionresults.tree.node.SalesPRCP;
 import com.stpl.app.gtnforecasting.salesprojectionresults.tree.node.SalesPRCustom;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
@@ -116,10 +117,9 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
 
     private void loadVariableStaticData(SalesProjectionResultsDTO staticRow, int position) {
         SPRStaticData[] basicStatic = {SPRStaticData.EXFACTORY_SALES, SPRStaticData.DEMAND_SALES, SPRStaticData.INVENTORY_WITHDRAW};
-        String[] commonColumn = new String[]{"efs", "dms", "iws"};
         for (int i = 0; i < basicStatic.length; i++) {
-            loadActualData(basicStatic[i].getStaticData(), staticRow, position, commonColumn[i]);
-            loadProjectionData(basicStatic[i].getStaticData(), staticRow, position, commonColumn[i]);
+            loadActualData(basicStatic[i].getStaticData(), staticRow, position, CommonUtils.COMMON_COLUMN[i]);
+            loadProjectionData(basicStatic[i].getStaticData(), staticRow, position, CommonUtils.COMMON_COLUMN[i]);
         }
 
         loadExfactoryStaticrow(staticRow, position); 

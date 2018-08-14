@@ -12,6 +12,7 @@ import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.ProjectionMaster;
@@ -268,9 +269,7 @@ public class DSLogic {
      */
     public void saveAccrualTab(SessionDTO session, final CountDownLatch latch) {
 
-        String[] queryIds = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
-
-        for (String queryId : queryIds) {
+        for (String queryId : CommonUtils.QUERYIDS) {
             Thread thread = new Thread(createRunnable(session, queryId, latch));
             thread.start();
         }
@@ -310,7 +309,7 @@ public class DSLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
         //To insert the merge table in trigger
-        for (String queryName : new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"}) {
+        for (String queryName : CommonUtils.ACCURAL_TEMP) {
             triggerThreadForMainTotempInsert(sessionDto, queryName);
         }
     }

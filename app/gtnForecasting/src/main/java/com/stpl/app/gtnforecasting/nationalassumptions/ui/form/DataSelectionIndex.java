@@ -910,7 +910,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         UI.getCurrent().setFocusedComponent(UI.getCurrent());
                         nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
                     }
-                } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.equals(modeOption.getValue())) {
+                } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
                     if (projectionId.getValue() == null || StringUtils.EMPTY.equals(projectionId.getValue())) {
                     } else {
                         msg = projectionId.getValue();
@@ -950,7 +950,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 therapeuticClass.setImmediate(true);
                 resultTable.removeAllItems();
 
-            } else if (Constants.LabelConstants.MODE_SEARCH.equals(modeOption.getValue())) {
+            } else if (Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
                 generateBtn.setEnabled(false);
                 searchBtn.setEnabled(true);
                 company.setImmediate(true);
@@ -1062,7 +1062,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     LOGGER.error(ex.getMessage());
                 }
             } else if (modeOption.getValue() != null
-                    && Constants.LabelConstants.MODE_SEARCH.equals(modeOption.getValue())) {
+                    && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
                 if (projectionId.getValue() == null
                         || StringUtils.EMPTY.equals(projectionId.getValue())) {
                     return true;
