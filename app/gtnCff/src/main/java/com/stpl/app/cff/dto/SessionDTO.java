@@ -1050,7 +1050,7 @@ public class SessionDTO implements Cloneable {
     }
 
     public void setDeductionLevelDescription(Map<String, List> deductionLevelDescription) {
-        this.deductionLevelDescription = deductionLevelDescription;
+        this.customDescription.putAll(deductionLevelDescription);
     }
 
 }

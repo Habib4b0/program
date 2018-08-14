@@ -1013,6 +1013,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     @Override
     protected void customDdlbChangeOption() {
+        CFFLogic logic=new CFFLogic();
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
         customId = Integer.parseInt(String.valueOf(customDdlb.getValue()));
         pvSelectionDTO.setCustomId(customId);
@@ -1022,7 +1023,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         sessionDTO.setCustomId(customId);
         CommonLogic.loadCustomHierarchyList(sessionDTO);
         if (CommonUtils.isValueEligibleForLoading()) {
-            sessionDTO.setCustomDescription(new CFFLogic().getRelationshipDetailsDeductionCustom(sessionDTO,String.valueOf(sessionDTO.getCustomId())));
+            sessionDTO.setCustomDescription(logic.getRelationshipDetailsCustom(sessionDTO,String.valueOf(sessionDTO.getCustomId())));
+            sessionDTO.setDeductionLevelDescription(logic.getRelationshipDetailsDeductionCustom(sessionDTO, String.valueOf(sessionDTO.getCustomId())));
         }
         if (customId != 0) {
             callGenerateLogic();

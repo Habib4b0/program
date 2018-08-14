@@ -117,7 +117,13 @@ EXEC( @SQL )
             ]]>
         </query>
     </entity>
-
+ <entity id="discount-join">
+        <query>
+            <![CDATA[
+                JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID ?DEDJOIN
+            ]]>
+        </query>
+    </entity>
     <entity id="PARENT-VALIDATE">
         <query>
             <![CDATA[
@@ -216,7 +222,7 @@ FROM #SELECTED_HIERARCHY_NO A
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,INSTR,
                 CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RLD1.RELATIONSHIP_LEVEL_VALUES
+                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RLD1.RELATIONSHIP_LEVEL_VALES
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)                
                 [?SELECTED_HIERARCHY_JOIN]
             ]]>
@@ -616,4 +622,28 @@ order  BY Level_No
             ]]>
 		</query>
 	</entity>
+        
+        <entity id="custom-view-count-condition-query-forPVLoad">
+        <query>
+            <![CDATA[  
+              SELECT DISTINCT HIERARCHY_NO,INSTR  
+FROM #SELECTED_HIERARCHY_NO A
+ORDER BY INSTR
+                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;   
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id = "customViewDeclaration">
+        <query>
+            <![CDATA[
+            DECLARE @LEVEL_NO INT
+
+            SELECT @LEVEL_NO = Max(LEVEL_NO)
+            FROM   CUST_VIEW_DETAILS
+            WHERE  CUSTOM_VIEW_MASTER_SID = [$CUSTOM_VIEW_MASTER_SID] 
+
+            ]]>
+        </query>
+    </entity>
 </sql>
