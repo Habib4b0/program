@@ -49,7 +49,7 @@ public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAct
 			confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 			confirmationActionConfig.addActionParameter("Confirm Change");
 			confirmationActionConfig.addActionParameter(
-					"You have selected a new Forecast Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
+					"You have selected a new Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
 			List<GtnUIFrameWorkActionConfig> onSuccessActionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
 			resetActionConfig.setActionType(GtnUIFrameworkActionType.V8CONFIRMED_DUALLISTBOX_RESET_ACTION);

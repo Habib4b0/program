@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.periodconf.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
+import com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -15,6 +19,9 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @RequestMapping(value = "/gtnPeriodConfigurationController")
 public class GtnWsPeriodConfigurationController{
 
+	@Autowired
+	private GtnWsPeriodConfigurationService periodConfigurationService;
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public boolean test() {
 		return true;
@@ -41,4 +48,10 @@ public class GtnWsPeriodConfigurationController{
 
 	}
 	
+	@RequestMapping(value = "/loadRefreshDate", method = RequestMethod.POST)
+	public void loadRefreshDate(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		List<Object[]> resultList = periodConfigurationService
+				.loadDate(gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest());
+		singletonObjectBean.setPeriodConfigResultList(resultList);
+	}
 }

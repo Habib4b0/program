@@ -367,7 +367,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				.getVerticalLayoutConfig(tabName + "customerBtn", mainCustomerCssLayout.getComponentId());
 		customerBtnVerLayout.setSpacing(true);
 		customerBtnVerLayout.addComponentStyle("stpl-margin-top-100");
-		customerBtnVerLayout.addComponentStyle("stpl-margin-left-40");
+		customerBtnVerLayout.addComponentStyle("stpl-margin-left-10");
 		componentList.add(customerBtnVerLayout);
 
 		GtnUIFrameworkComponentConfig addCustomerButton = new GtnUIFrameworkComponentConfig();
@@ -442,7 +442,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				tabName + GtnFrameworkReportStringConstants.PRODUCT_BTN, mainCssLayoutForProduct.getComponentId());
 		productBtnVerticalLayout.setSpacing(true);
 		productBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
-		productBtnVerticalLayout.addComponentStyle("stpl-margin-left-40");
+		productBtnVerticalLayout.addComponentStyle("stpl-margin-left-10");
 		componentList.add(productBtnVerticalLayout);
 
 		GtnUIFrameworkComponentConfig addProductButton = new GtnUIFrameworkComponentConfig();
@@ -516,7 +516,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				tabName + GtnFrameworkReportStringConstants.DEDUCTION_BTN, mainCssLayoutForProduct.getComponentId());
 		deductionBtnVerticalLayout.setSpacing(true);
 		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
-		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-left-40");
+		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-left-10");
 
 		componentList.add(deductionBtnVerticalLayout);
 
@@ -597,7 +597,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				tabName + GtnFrameworkReportStringConstants.VARIABLES_BTN, mainCssLayoutForProduct.getComponentId());
 		variablesBtnVerticalLayout.setSpacing(true);
 		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
-		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-left-40");
+		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-left-10");
 
 		componentList.add(variablesBtnVerticalLayout);
 
