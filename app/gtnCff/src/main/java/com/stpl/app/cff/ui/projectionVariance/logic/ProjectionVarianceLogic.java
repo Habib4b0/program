@@ -321,7 +321,7 @@ public class ProjectionVarianceLogic {
         return finalList;
     }
 
-    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) {
+    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) throws Exception{
         char asterik = '*';
         char percent = '%';
         String andOperator;
