@@ -5,7 +5,6 @@
  */
 package com.stpl.app.adminconsole.processscheduler.util;
 
-import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.QueryReader;
 import com.stpl.app.adminconsole.util.SysDataSourceConnection;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -21,6 +20,12 @@ import org.apache.commons.lang.StringUtils;
  * @author Jayaram
  */
 public class CommonUtil {
+    private static final Object[] SINGLE_COLUMN = {"hierarchyName", "hierarchyType", "hierarchyCategory", "nooflevels", "version"};
+    private static final Object[] HIERARCHY_NAME_ARY = {"hierarchyName"};
+    private static final Object[] HIERARCHY_TYPE_ARY = {"hierarchyType"};
+    private static final Object[] HIERARCHY_CATEGORY = {"hierarchyCategory"};
+    private static final Object[] NO_OF_LEVELS = {"nooflevels"};
+    private static final Object[] VERSION = {"version"};
     
     public static String workFlowQuery(int start, int offset,boolean count, boolean scheduler,String orderByColumn,boolean orderBy) throws SQLException {
         String query;
@@ -71,24 +76,24 @@ public class CommonUtil {
      * @return 
      */
        public static CustomTableHeaderDTO getHdOutboundCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, int totalLevel) {
-        tableHeaderDTO.addSingleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[0], "Hierarchy Name", String.class);
-        tableHeaderDTO.addDoubleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN, " ");
-        tableHeaderDTO.addDoubleHeaderMap(ConstantsUtils.getInstance().SINGLE_COLUMN, ConstantsUtils.getInstance().HIERARCHY_NAME_ARY);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[0], "Hierarchy Name", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN, " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN, HIERARCHY_NAME_ARY);
 
-        tableHeaderDTO.addSingleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[1], "Hierarchy Type", String.class);
-        tableHeaderDTO.addDoubleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[1], " ");
-        tableHeaderDTO.addDoubleHeaderMap(ConstantsUtils.getInstance().SINGLE_COLUMN[1], ConstantsUtils.getInstance().HIERARCHY_TYPE_ARY);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[1], "Hierarchy Type", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[1], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[1], HIERARCHY_TYPE_ARY);
 
-        tableHeaderDTO.addSingleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.TWO], "Hierarchy Category", String.class);
-        tableHeaderDTO.addDoubleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.TWO], " ");
-        tableHeaderDTO.addDoubleHeaderMap(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.TWO], ConstantsUtils.getInstance().HIERARCHY_CATEGORY);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[NumericConstants.TWO], "Hierarchy Category", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[NumericConstants.TWO], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[NumericConstants.TWO], HIERARCHY_CATEGORY);
 
-        tableHeaderDTO.addSingleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.THREE], "No of levels", String.class);
-        tableHeaderDTO.addDoubleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.THREE], " ");
-        tableHeaderDTO.addDoubleHeaderMap(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.THREE], ConstantsUtils.getInstance().NO_OF_LEVELS);
-        tableHeaderDTO.addSingleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.FOUR], "Version", String.class);
-        tableHeaderDTO.addDoubleColumn(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.FOUR], " ");
-        tableHeaderDTO.addDoubleHeaderMap(ConstantsUtils.getInstance().SINGLE_COLUMN[NumericConstants.FOUR], ConstantsUtils.getInstance().VERSION);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[NumericConstants.THREE], "No of levels", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[NumericConstants.THREE], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[NumericConstants.THREE], NO_OF_LEVELS);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[NumericConstants.FOUR], "Version", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[NumericConstants.FOUR], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[NumericConstants.FOUR], VERSION);
         List<Object> dmap = new ArrayList<>();
 
         for (int i = 1; i <= totalLevel; i++) {

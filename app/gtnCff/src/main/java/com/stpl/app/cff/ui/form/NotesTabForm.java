@@ -13,7 +13,6 @@ import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -81,8 +80,8 @@ public class NotesTabForm extends AbstractNotesTab {
 	private CffApprovalDetailsForm approvalWindow;
 	private final Button close = new Button("Close");
 	private static final String MODULE_NAME = "Consolidated Financial Forecast";
-        private final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
-        private  final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
+        private static final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
+        private static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
 	
 	
 

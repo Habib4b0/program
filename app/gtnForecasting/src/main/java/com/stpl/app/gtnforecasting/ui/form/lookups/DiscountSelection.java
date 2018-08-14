@@ -9,7 +9,6 @@ import com.stpl.app.gtnforecasting.dto.DiscountSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -97,10 +96,10 @@ public class DiscountSelection extends Window {
 	 */
 	private final List<String> selectedDiscountsNoList = new ArrayList<>();
         
-        private final Object[] PROGRAM_VISIBILE_COLS = new Object[]{Constant.CHECKRECORD, "discountNo", "discountName"};
-        private final String[] PROGRAM_VISIBILE_HEADER = new String[]{StringUtils.EMPTY, "Discount #", "Discount Name"};
-        private final Object[] PROGRAM_CATEGORY_VISIBILE_COLS = new Object[]{Constant.CHECKRECORD, "discountName"};
-        private final String[] PROGRAM_CATEGORY_VISIBILE_HEADER = new String[]{StringUtils.EMPTY, "Discount Type"};
+        private static final Object[] PROGRAM_VISIBILE_COLS = new Object[]{Constant.CHECKRECORD, "discountNo", "discountName"};
+        private static final String[] PROGRAM_VISIBILE_HEADER = new String[]{StringUtils.EMPTY, "Discount #", "Discount Name"};
+        private static final Object[] PROGRAM_CATEGORY_VISIBILE_COLS = new Object[]{Constant.CHECKRECORD, "discountName"};
+        private static final String[] PROGRAM_CATEGORY_VISIBILE_HEADER = new String[]{StringUtils.EMPTY, "Discount Type"};
         
 	/**
 	 * The Constructor.

@@ -92,7 +92,7 @@ public class NMDPRLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(NMDPRLogic.class);
     public static final String PROJECTION_CUST_HIERARCHY = "PROJECTION_CUST_HIERARCHY";
     public static final String PROJECTION_PROD_HIERARCHY = "PROJECTION_PROD_HIERARCHY";
-    private final String[] ARRAY_ALL_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private static final String[] ARRAY_ALL_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     public NMDPRLogic() {
         periodValueMap();
