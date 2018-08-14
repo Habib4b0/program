@@ -1100,7 +1100,7 @@ public class Constants {
 
     public static final String TRANSFER_ERROR_LABEL = "Transfer Error";
 
-    public static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    public final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", "componentNo", "componentName", "componentStatus", "componentType"};
     
     /**

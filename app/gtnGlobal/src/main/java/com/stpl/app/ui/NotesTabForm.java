@@ -78,6 +78,8 @@ public class NotesTabForm extends AbstractNotesTab {
 	protected final boolean isViewMode;
 	private final CommonUIUtils commonUiUtil = new CommonUIUtils();
 	private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+        private final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
+        private final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
 
 	public NotesTabForm(ErrorfulFieldGroup binder, String moduleName, String dbModuleName, String masterTableSid,
 			String mode) throws SystemException, PortalException {
@@ -108,8 +110,8 @@ public class NotesTabForm extends AbstractNotesTab {
 				fieldNotesTableHM, mode.equals("Copy") ? "Edit" : mode);
 		table.setContainerDataSource(attachmentsListBean);
 		if ("Compliance Deduction Rules".equals(this.moduleName)) {
-			table.setVisibleColumns(ConstantsUtils.NOTES_COLUMN);
-			table.setColumnHeaders(ConstantsUtils.NOTES_HEADERS);
+			table.setVisibleColumns(NOTES_COLUMN);
+			table.setColumnHeaders(NOTES_HEADERS);
 		} else {
 			if (tableResultCustom.getObjResult().length > 0) {
 				table.setVisibleColumns(tableResultCustom.getObjResult());
