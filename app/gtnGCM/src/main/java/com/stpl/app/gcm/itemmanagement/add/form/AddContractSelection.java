@@ -1628,8 +1628,8 @@ public class AddContractSelection extends CustomComponent {
             priceType.setNullSelectionAllowed(false);
         }
         for (Object[] objects : list) {
-            priceType.addItem((int) objects[0]);
-            priceType.setItemCaption((int) objects[0], objects[1].toString());
+            priceType.addItem((Integer) objects[0]);
+            priceType.setItemCaption((Integer) objects[0], objects[1].toString());
         }
     }
 
