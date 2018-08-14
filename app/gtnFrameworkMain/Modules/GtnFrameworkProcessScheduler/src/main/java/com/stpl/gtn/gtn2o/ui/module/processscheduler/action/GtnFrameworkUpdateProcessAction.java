@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.action;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +20,6 @@ import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -46,21 +44,6 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 		gtnLogger.info("status    " + status);
 
 		GtnWsProcessSchedulerBean processSchedulerBean = new GtnWsProcessSchedulerBean();
-
-		/*
-		 * LocalDate startLocalDate =
-		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").
-		 * getV8DateFromDateField(); Date startDate =
-		 * Date.from(startLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		 */
-		/*
-		 * LocalDate endLocalDate =
-		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").
-		 * getV8DateFromDateField(); Date endDate =
-		 * Date.from(endLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		 * gtnLogger.info("-------------start date: " + startDate + "  end date   " +
-		 * endDate);
-		 */
 
 		Integer processSid = (Integer) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("scheduledProcessEditorUpdateButton").getComponentData().getCustomData();
@@ -89,51 +72,51 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 
 			psrequest.setProcessSchedulerBean(processSchedulerBean);
 			request.setProcessSchedulerRequest(psrequest);
-			/* GtnUIFrameworkWebserviceResponse processSchedularRunResponse =*/ new GtnUIFrameworkWebServiceClient()
-			.callGtnWebServiceUrl(
+			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 							+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE,
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			
+
 			GtnUIFrameWorkActionConfig updateSuccessNotificationAction = new GtnUIFrameWorkActionConfig();
 			updateSuccessNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			updateSuccessNotificationAction.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
+			updateSuccessNotificationAction
+					.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
 			updateSuccessNotificationAction.addActionParameter("");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateSuccessNotificationAction);
-			
-			
-			resetFieldValues();
-			
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).setEnable(false);
 
-			
+			resetFieldValues();
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID)
+					.setEnable(false);
+
 		} else if (check() && hourAndMinValidation()) {
-			
-				getFieldValuesForActive(processSchedulerBean);
-				
-				psrequest.setProcessSchedulerBean(processSchedulerBean);
-				request.setProcessSchedulerRequest(psrequest);
-				/* GtnUIFrameworkWebserviceResponse processSchedularRunResponse =*/ new GtnUIFrameworkWebServiceClient()
-				.callGtnWebServiceUrl(
-						GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-								+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-				
-				GtnUIFrameWorkActionConfig updateSuccessNotificationAction = new GtnUIFrameWorkActionConfig();
-				updateSuccessNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-				updateSuccessNotificationAction.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
-				updateSuccessNotificationAction.addActionParameter("");
-				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateSuccessNotificationAction);
-				
-				
-				resetFieldValues();
-				
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).setEnable(false);
+
+			getFieldValuesForActive(processSchedulerBean);
+
+			psrequest.setProcessSchedulerBean(processSchedulerBean);
+			request.setProcessSchedulerRequest(psrequest);
+			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+					GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
+							+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE,
+					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+			GtnUIFrameWorkActionConfig updateSuccessNotificationAction = new GtnUIFrameWorkActionConfig();
+			updateSuccessNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+			updateSuccessNotificationAction
+					.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
+			updateSuccessNotificationAction.addActionParameter("");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateSuccessNotificationAction);
+
+			resetFieldValues();
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID)
+					.setEnable(false);
 		}
-		
+
 	}
 
-	private void getFieldValuesForActive(GtnWsProcessSchedulerBean processSchedulerBean) throws GtnFrameworkValidationFailedException {
+	private void getFieldValuesForActive(GtnWsProcessSchedulerBean processSchedulerBean)
+			throws GtnFrameworkValidationFailedException {
 		gtnLogger.info("executing getFieldValueForActive");
 		processSchedulerBean.setPsProcessName((String) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.PROCESS_NAME_ID)
@@ -143,76 +126,90 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 		processSchedulerBean.setPsProcessFrequency(frequency);
 		processSchedulerBean
 				.setPsStatus((String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField());
-		processSchedulerBean
-		.setPsStartDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
+		processSchedulerBean.setPsStartDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
 				.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant())));
-		processSchedulerBean
-		.setPsEndDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate")
+		processSchedulerBean.setPsEndDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate")
 				.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant())));
-		
+
 		getFrequencyBasedInfo(processSchedulerBean);
 	}
 
 	private boolean hourAndMinValidation() throws GtnFrameworkGeneralException {
-		
+
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
 
 		List<Object> alertParamsList = new ArrayList<>();
 		alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.ERROR);
-				
+
 		if ("Time".equals(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.FREQUENCY_ID)
 						.getStringFromField())) {
-			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID)
-					.getV8StringFromField() == null) {
-				alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.HOUR2_VALIDATION_MESAGE);
-				alertActionConfig.setActionParameterList(alertParamsList);
-				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(), alertActionConfig);
-				return false;
-			}
-			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID)
-					.getV8StringFromField() == null) {
-				alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.HOUR3_VALIDATION_MESAGE);
-				alertActionConfig.setActionParameterList(alertParamsList);
-				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(), alertActionConfig);
-				return false;
-			}
-			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID)
-					.getV8StringFromField() == null) {
-				alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MINUTE1_VALIDATION_MESAGE);
-				alertActionConfig.setActionParameterList(alertParamsList);
-				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(), alertActionConfig);
-				return false;
-			}
+			return hourValidationForTime(alertActionConfig, alertParamsList);
+		} else {
 			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
 					.getV8StringFromField() == null) {
-				alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MINUTE2_VALIDATION_MESAGE);
-				alertActionConfig.setActionParameterList(alertParamsList);
-				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(), alertActionConfig);
-				return false;
-			}
-			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID)
-					.getV8StringFromField() == null) {
-				alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MINUTE3_VALIDATION_MESAGE);
-				alertActionConfig.setActionParameterList(alertParamsList);
-				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(), alertActionConfig);
-				return false;
-			}else {
-				return true;
-			}
-		}
-		else {
-			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).getV8StringFromField() == null) {
 				alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_MINUTE_VALIDATION_MESAGE);
 				alertActionConfig.setActionParameterList(alertParamsList);
-				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(), alertActionConfig);
+				GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(),
+						alertActionConfig);
 				return false;
+			} else {
+				return true;
 			}
-				else {
-					return true;
-				}
-		
+
+		}
+	}
+
+	private boolean hourValidationForTime(GtnUIFrameWorkActionConfig alertActionConfig, List<Object> alertParamsList)
+			throws GtnFrameworkGeneralException {
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID)
+				.getV8StringFromField() == null) {
+			alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.HOUR2_VALIDATION_MESAGE);
+			alertActionConfig.setActionParameterList(alertParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(),
+					alertActionConfig);
+			return false;
+		}
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID)
+				.getV8StringFromField() == null) {
+			alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.HOUR3_VALIDATION_MESAGE);
+			alertActionConfig.setActionParameterList(alertParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(),
+					alertActionConfig);
+			return false;
+		}
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID)
+				.getV8StringFromField() == null) {
+			alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MINUTE1_VALIDATION_MESAGE);
+			alertActionConfig.setActionParameterList(alertParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(),
+					alertActionConfig);
+			return false;
+		}
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
+				.getV8StringFromField() == null) {
+			alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MINUTE2_VALIDATION_MESAGE);
+			alertActionConfig.setActionParameterList(alertParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(),
+					alertActionConfig);
+			return false;
+		}
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID)
+				.getV8StringFromField() == null) {
+			alertParamsList.add(GtnFrameworkProcessSchedulerStringContants.MINUTE3_VALIDATION_MESAGE);
+			alertActionConfig.setActionParameterList(alertParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID).getComponentId(),
+					alertActionConfig);
+			return false;
+		} else {
+			return true;
 		}
 	}
 
@@ -224,18 +221,16 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 				.getV8StringFromField();
 		String status = (String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField();
 
-		if ("Time".equals(frequency) && "".equals(status) || "".equals(processName)
+		if (("Time".equals(frequency) && "".equals(status) || "".equals(processName)
 				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getV8DateFromDateField() == null
-				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").getV8DateFromDateField() == null) {
+				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").getV8DateFromDateField() == null)
+				|| ("Interval".equals(frequency) && "".equals(status) || "".equals(processName)
+						|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getV8DateFromDateField() == null
+						|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
+								.getV8DateFromDateField() == null))
 			return false;
 
-		}
-		if ("Interval".equals(frequency) && "".equals(status) || "".equals(processName)
-				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getV8DateFromDateField() == null
-				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").getV8DateFromDateField() == null) {
-
-			return false;
-		} else
+		else
 			return true;
 
 	}
@@ -257,28 +252,10 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 
 	private void getFrequencyBasedInfo(GtnWsProcessSchedulerBean processSchedulerBean) {
 		if ("Interval".equals(processSchedulerBean.getPsProcessFrequency())) {
-			String startHour = (String) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID)
-					.getV8StringFromField();
-			processSchedulerBean.setStartHour(
-					startHour == null ? (GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR) : startHour);
-			gtnLogger.info("start hour: "+processSchedulerBean.getStartHour());
-			String startMinute = (String) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
-					.getV8StringFromField();
-			processSchedulerBean.setStartMinute(
-					startMinute == null ? (GtnFrameworkProcessSchedulerStringContants.SIXTY) : startMinute);
-			gtnLogger.info("start minute: "+processSchedulerBean.getStartMinute());
-			processSchedulerBean.setPsHours1(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
-			processSchedulerBean.setPsHours2(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
-			processSchedulerBean.setPsHours3(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
-			processSchedulerBean.setPsMinutes1(GtnFrameworkProcessSchedulerStringContants.SIXTY);
-			processSchedulerBean.setPsMinutes2(GtnFrameworkProcessSchedulerStringContants.SIXTY);
-			processSchedulerBean.setPsMinutes3(GtnFrameworkProcessSchedulerStringContants.SIXTY);
-			gtnLogger.info(" if for interval  " + processSchedulerBean.getStartMinute());
+			setValuesForInterval(processSchedulerBean);
 		} else {
 			processSchedulerBean.setStartHour(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
-			gtnLogger.info("in inactive run every : "+processSchedulerBean.getStartHour());
+			gtnLogger.info("in inactive run every : " + processSchedulerBean.getStartHour());
 			processSchedulerBean.setStartMinute(GtnFrameworkProcessSchedulerStringContants.SIXTY);
 			String hour1 = (String) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID).getV8StringFromField();
@@ -310,23 +287,57 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 					.setPsMinutes3(minute3 == null ? GtnFrameworkProcessSchedulerStringContants.SIXTY : minute3);
 			gtnLogger.info(" else for time " + processSchedulerBean.getPsMinutes1());
 		}
-	}	
+	}
 
-	private void resetFieldValues() throws  GtnFrameworkValidationFailedException {
+	private void setValuesForInterval(GtnWsProcessSchedulerBean processSchedulerBean) {
+		String startHour = (String) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID).getV8StringFromField();
+		processSchedulerBean
+				.setStartHour(startHour == null ? (GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR) : startHour);
+		gtnLogger.info("start hour: " + processSchedulerBean.getStartHour());
+		String startMinute = (String) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).getV8StringFromField();
+		processSchedulerBean
+				.setStartMinute(startMinute == null ? (GtnFrameworkProcessSchedulerStringContants.SIXTY) : startMinute);
+		gtnLogger.info("start minute: " + processSchedulerBean.getStartMinute());
+		processSchedulerBean.setPsHours1(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
+		processSchedulerBean.setPsHours2(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
+		processSchedulerBean.setPsHours3(GtnFrameworkProcessSchedulerStringContants.TWENTY_FOUR);
+		processSchedulerBean.setPsMinutes1(GtnFrameworkProcessSchedulerStringContants.SIXTY);
+		processSchedulerBean.setPsMinutes2(GtnFrameworkProcessSchedulerStringContants.SIXTY);
+		processSchedulerBean.setPsMinutes3(GtnFrameworkProcessSchedulerStringContants.SIXTY);
+		gtnLogger.info(" if for interval  " + processSchedulerBean.getStartMinute());
+	}
+
+	private void resetFieldValues() throws GtnFrameworkValidationFailedException {
 		gtnLogger.info(" resetting field values:");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.PROCESS_NAME_ID).loadV8FieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.START_DATE_ID).loadV8DateValue(null);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID).loadV8DateValue(null);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.STATUS_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.SCHEDULER_RESULTS_TABLE).getLogicFromPagedDataTable().startSearchProcess(true);;
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.PROCESS_NAME_ID)
+				.loadV8FieldValue("");
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.START_DATE_ID)
+				.loadV8DateValue(null);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID)
+				.loadV8DateValue(null);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.STATUS_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID)
+				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.SCHEDULER_RESULTS_TABLE)
+				.getLogicFromPagedDataTable().startSearchProcess(true);
+
 	}
 
 	@Override

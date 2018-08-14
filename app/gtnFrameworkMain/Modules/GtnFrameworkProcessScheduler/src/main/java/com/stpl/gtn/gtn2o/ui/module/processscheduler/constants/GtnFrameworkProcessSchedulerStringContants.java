@@ -70,6 +70,29 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final Object MINUTE3_VALIDATION_MESAGE =  "Please select Run 3 (Minutes)";
 	public static final Object RUN_EVERY_MINUTE_VALIDATION_MESAGE = "Please select Run Every (Minutes)";
 	public static final Object UPDATE_SUCCESSFUL_MESSAGE = "Updated successfully";
+	
+	// Constants for CFF_OUTBOUND_LOOKUP
+	public static final String CFF_ID = "CffOutBound_CffId";
+	public static final String PROJECTION_ID = "CffOutBound_ProjectionId";
+	public static final String CUSTOMER_NO_ID = "CffOutBound_CustomerNo";
+	public static final String COMPANY_NO_ID = "CffOutBound_CompanyNo";
+	public static final String CFF_NAME_ID = "CffOutBound_CffName";
+	public static final String PROJECTION_NAME_ID = "CffOutBound_ProjectionName";
+	public static final String CUSTOMER_NAME_ID = "CffOutBound_CustomerName";
+	public static final String COMPANY_NAME_ID = "CffOutBound_CompanyName";
+	public static final String TYPE_ID = "CffOutBound_type";
+	public static final String CONTRACT_NO_ID = "CffOutBound_contractNo";
+	public static final String ITEM_NO_ID = "CffOutBound_itemNo";
+	public static final String BUSINESS_UNIT_NO_ID = "CffOutBound_businessUnitNo";
+	public static final String CFF_CREATION_DATE_FROM_ID = "CffOutBound_cffCreationDateFrom";
+	public static final String CFF_CREATION_DATE_TO_ID = "CffOutBound_cffCreationDateTo";
+	public static final String CONTRACT_NAME_ID = "CffOutBound_contractName";
+	public static final String ITEM_NAME_ID = "CffOutBound_itemName";
+	public static final String BUSINESS_UNIT_NAME_ID = "CffOutBound_businessUnitName";
+	public static final String CFF_APPROVAL_DATE_FROM_ID = "CffOutBound_cffApprovalDateFrom";
+	public static final String CFF_APPROVAL_DATE_TO_ID = "CffOutBound_cffApprovalDateTo";
+	public static final Object GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria ?";
+	public static final Object GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER = "Reset Confirmation";
 
 	private GtnFrameworkProcessSchedulerStringContants() {
 	}

@@ -30,9 +30,8 @@ public class GtnFrameworkProcessScheduler extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		gtnLogger.info("Process Schedular -----new");
-		//gtnLogger.info(GtnUIFrameworkGlobalUI.getCurrentUser()+"  User Id.................." + request.getRemoteUser());
-		//gtnLogger.info("Session id..............."+GtnUIFrameworkGlobalUI.getSessionProperty(GtnUIFrameworkGlobalUI.getCurrentUser()));
-		//gtnLogger.info("Seesion id(GtnFrameworkSession bean)---> "+GtnUIFrameworkGlobalUI.getCurrentSessionBean().getSessionId());
+		gtnLogger.info("  User Id.................." + request.getRemoteUser());
+		
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP);
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP_BB);
 		final Navigator navigator = new Navigator(this, this);

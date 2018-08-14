@@ -5,15 +5,12 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.action;
 
-import java.util.List;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -59,7 +56,7 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 		gtnLogger.info("================= schema Name: " + schemaName);
 		gtnLogger.info("================= process sid: " + gtnWsRecordBean.getPropertyValueByIndex(3));
 
-		if ("CFF OUTBOUND INTERFACE".equalsIgnoreCase((String)processName)) {
+		if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase((String)processName)) {
 			GtnUIFrameWorkActionConfig popUpActionConfig = new GtnUIFrameWorkActionConfig();
 			popUpActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			popUpActionConfig.addActionParameter("V002");
@@ -92,11 +89,9 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 			} else {
 				gtnLogger.info("================= processcurrently not running");
 
-				notificationAction.addActionParameter(schemaName + " Manual process can be executed.");
-				notificationAction.addActionParameter("");
 				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationAction);
 
-				/* processSchedularRunResponse = */ new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				 new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 						GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 								+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE_DATA,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

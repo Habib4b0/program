@@ -23,7 +23,6 @@ import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkMandator
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkRunButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkScheduledProcessTableDoubleClickAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkStartEndDateValidationCustomAction;
-import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkUpdateProcessAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnUIFrameworkFrequencyValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;

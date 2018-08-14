@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -32,15 +31,14 @@ public class GtnFrameworkStartEndDateValidationCustomAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		/*if ("Inactive".equals(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField())) {*/
+		
 			logger.info("inside GtnFrameworkUpdateButtonAction do action");
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").getV8DateFromDateField();
 			LocalDate endDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getV8DateFromDateField();
 			String startDateString = startDate.format(dateFormatter);
-			// String startDateString=simpleDateFormat.format(startDate);
-			// String endDateString=simpleDateFormat.format(endDate);
+			
 			String endDateString = endDate.format(dateFormatter);
 			logger.info("start date: " + startDate + "     end date: " + endDate);
 			logger.info("start string date: " + startDateString + "     end string date: " + endDateString);
@@ -69,7 +67,7 @@ public class GtnFrameworkStartEndDateValidationCustomAction
 				logger.info("exception due parsing date" + exp);
 			}
 
-		//}
+		
 
 		
 	}
