@@ -6,7 +6,9 @@ package com.stpl.app.cff.abstractCff;
 
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
 import com.stpl.app.cff.util.Constants;
+import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
@@ -23,6 +25,7 @@ import com.stpl.ifs.ui.util.converters.TextFieldConverter;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
@@ -225,8 +228,18 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        
+	@UiField("comparison")
+        protected CustomTextField comparison;
+        
+	@UiField("customViewDdlb")
+	protected ComboBox customViewDdlb;
 
 	private ComboBox businessUnit = new ComboBox();
+        
+	protected ComboBox frequencyDataSelection = new ComboBox();
+        
+	protected ComboBox deductionDdlb = new ComboBox();
 
         @UiField("cffEligibleDate")
 	protected PopupDateField cffEligibleDate;
@@ -402,7 +415,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	private final IndexedContainer defaultCustomerForecastLevelContainer = new IndexedContainer();
 	private String screenName = StringUtils.EMPTY;
 
-	private final CFFLogic logic = new CFFLogic();
+	protected final CFFLogic logic = new CFFLogic();
 
 	public AbstractDataSelection(CustomFieldGroup dataSelectionBinder, String screenName) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/cff/tabs/dataSelection.xml"), this));
@@ -482,7 +495,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			company.setNullSelectionItemId(0);
 			company.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
 			company.markAsDirty();
-
+                        
 			List<Object[]> companyList = logic.getCompanies(0);
 			if (companyList != null && !companyList.isEmpty()) {
 				for (Object[] object : companyList) {
@@ -492,7 +505,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				}
 			}
 			company.select(0);
-
+                        loadFrequencyDataSelection();
+                        comparison.addStyleName(ConstantsUtils.SEARCH_ICON);
+                        comparison.setValue(SELECT_ONE);
 			addValidations();
 
 		} catch (UnsupportedOperationException e) {
@@ -942,6 +957,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	private void addComponent() {
 		Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+                Label abstractLabel;
 		empty.setWidth("15px");
 		GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
 		layoutG2.setMargin(BooleanConstant.getFalseFlag());
@@ -989,10 +1005,28 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 		});
 
 		layoutG2.addComponent(getBusinessUnit());
-		layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
+                layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
+                HorizontalLayout layoutForDeduction=new HorizontalLayout();
+                layoutForDeduction.setMargin(new MarginInfo(1));
+                abstractLabel=new Label("Frequency:");
+                loadLabelStyle(abstractLabel);
+		layoutForDeduction.addComponent(abstractLabel);
+                layoutForDeduction.addComponent(frequencyDataSelection);
+                empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+                empty.setWidth("30px");
+                layoutForDeduction.addComponent(empty);
+                abstractLabel=new Label("Deduction Level:");
+                loadLabelStyle(abstractLabel);
+		layoutForDeduction.addComponent(abstractLabel);
+                layoutForDeduction.addComponent(deductionDdlb);
 		verticalLayout.addComponent(layoutG2);
+		verticalLayout.addComponent(layoutForDeduction);
 	}
-
+        public void loadLabelStyle(Label label) {
+                label.setWidth(StringConstantsUtil.HUNDRED_PX);
+                label.setContentMode(ContentMode.HTML);
+                label.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
+        }
 	private void configureCustomerSelection() {
 		availableCustomer.setFilterBarVisible(true);
 		availableCustomer.setStyleName(Constants.FILTER_TABLE);
@@ -1217,4 +1251,24 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	public void setBusinessUnit(ComboBox businessUnit) {
 		this.businessUnit = businessUnit;
 	}
+
+    private void loadFrequencyDataSelection() {
+        frequencyDataSelection.setPageLength(NumericConstants.SEVEN);
+        frequencyDataSelection.addItem(ConstantsUtil.SELECT_ONE);
+	frequencyDataSelection.setNullSelectionAllowed(true);
+	frequencyDataSelection.setNullSelectionItemId(ConstantsUtil.SELECT_ONE);
+	frequencyDataSelection.setInputPrompt(ConstantsUtil.SELECT_ONE);
+	frequencyDataSelection.markAsDirty();
+        loadFrequencyValues();
+        
+    }
+
+    private void loadFrequencyValues() {
+        
+        frequencyDataSelection.addItem(ConstantsUtil.ANNUALLY);
+        frequencyDataSelection.addItem(ConstantsUtil.SEMI_ANNUALLY);
+        frequencyDataSelection.addItem(ConstantsUtil.QUARTERLY);
+        frequencyDataSelection.addItem(ConstantsUtil.MONTHLY);
+        frequencyDataSelection.setValue(ConstantsUtil.QUARTERLY);
+    }
 }

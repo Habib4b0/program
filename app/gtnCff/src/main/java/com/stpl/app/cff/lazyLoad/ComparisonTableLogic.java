@@ -7,6 +7,7 @@ package com.stpl.app.cff.lazyLoad;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
 import com.stpl.ifs.util.constants.BooleanConstant;
@@ -28,7 +29,9 @@ public class ComparisonTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonTableLogic.class);
     
     private boolean loadData = false;
+    private boolean isDataSelection = false;
     private ComparisonLookupDTO comparisonLookup;
+    private SessionDTO session;
     private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
     public ComparisonTableLogic() {
@@ -42,7 +45,7 @@ public class ComparisonTableLogic extends PageTableLogic {
             try {
                 comparisonLookup.setFilter(getFilters());
                 comparisonLookup.setCount(Boolean.TRUE);
-                count = projectionVarianceLogic.getComparisonCount(comparisonLookup);
+                count = projectionVarianceLogic.getComparisonCount(comparisonLookup,isDataSelection,session);
                 LOGGER.debug("Count= {}", count);
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
@@ -60,8 +63,8 @@ public class ComparisonTableLogic extends PageTableLogic {
            comparisonLookup.setCount(Boolean.FALSE);
            comparisonLookup.setFilter(getFilters());
            comparisonLookup.setSortColumns(getSortByColumns());
-            resultList = projectionVarianceLogic.getComparisonResults(comparisonLookup);
-        } catch (PortalException | SystemException ex) {
+            resultList = projectionVarianceLogic.getComparisonResults(comparisonLookup,isDataSelection,session);
+        } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
         return resultList;
@@ -74,8 +77,10 @@ public class ComparisonTableLogic extends PageTableLogic {
         return dto;
     }
 
-    public boolean fireSetData(final ComparisonLookupDTO comparisonLookup, boolean isReset) {
+    public boolean fireSetData(final ComparisonLookupDTO comparisonLookup, boolean isReset,boolean isDataSelection,SessionDTO session) {
         this.comparisonLookup = comparisonLookup;
+        this.isDataSelection = isDataSelection;
+        this.session = session;
         clearAll();
         setRequiredCount(true);
         loadData = !isReset;
