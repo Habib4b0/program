@@ -181,19 +181,19 @@ public class SPRCommonLogic {
      * @return
      */
     public static Leveldto getCustomizedView(Object[] obj, boolean isHierarchy) {
-        Leveldto dto = new Leveldto();
-        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
-        dto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-        dto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
-        dto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
+        Leveldto dtoCustomizedDto = new Leveldto();
+        dtoCustomizedDto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
+        dtoCustomizedDto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+        dtoCustomizedDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
+        dtoCustomizedDto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
         if (isHierarchy) {
-            dto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
+            dtoCustomizedDto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
         } else {
-            dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
-            dto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
-            dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
+            dtoCustomizedDto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
+            dtoCustomizedDto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
+            dtoCustomizedDto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
         }
-        return dto;
+        return dtoCustomizedDto;
     }
 
     public static Leveldto getCustomizedHierarchyView(Object[] obj, boolean isHierarchy) {

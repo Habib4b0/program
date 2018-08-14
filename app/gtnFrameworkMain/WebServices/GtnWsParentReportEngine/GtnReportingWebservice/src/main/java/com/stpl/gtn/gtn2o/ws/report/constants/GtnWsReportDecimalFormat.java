@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 
 public enum GtnWsReportDecimalFormat {
 
-	DOLLAR(new DecimalFormat("$###0.00")), PERCENT(new DecimalFormat("###0.00")), UNITS(new DecimalFormat("###0.00"));
+	DOLLAR(new DecimalFormat("$###0.00")), PERCENT(new DecimalFormat("###0.00")), UNITS(new DecimalFormat("###0.00")),
+	DOLLAR_NO_CONVERSION(new DecimalFormat("$###0")), UNITS_NO_CONVERSION(new DecimalFormat("$###0"));
 
 	private final DecimalFormat format;
 
