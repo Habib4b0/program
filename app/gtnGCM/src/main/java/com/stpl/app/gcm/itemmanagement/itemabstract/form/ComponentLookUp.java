@@ -120,7 +120,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(Constants.CFP_SEARCH_COLUMNS);
+        resultsTable.setVisibleColumns(Constants.getInstance().CFP_SEARCH_COLUMNS);
         resultsTable.setColumnHeaders(CFP_SEARCH_HEADERS);
         resultsTable.addStyleName("filterbar");
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);

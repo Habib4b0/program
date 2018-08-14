@@ -682,13 +682,13 @@ public final class ConstantsUtils {
     public static final String SYS_SCHEMA = "sys.schema.jndi.name";
     public static final String DED_CONDITION = "%Deduction%";
     public static final String PR = "PR";
-    public static final Object[] PRICE_DOLLARS = new Object[]{ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS};
-    public static final Object[] SINGLE_COLUMN = {"hierarchyName", "hierarchyType", "hierarchyCategory", "nooflevels", "version"};
-    public static final Object[] HIERARCHY_NAME_ARY = {"hierarchyName"};
-    public static final Object[] HIERARCHY_TYPE_ARY = {"hierarchyType"};
-    public static final Object[] HIERARCHY_CATEGORY = {"hierarchyCategory"};
-    public static final Object[] NO_OF_LEVELS = {"nooflevels"};
-    public static final Object[] VERSION = {"version"};
+    public final Object[] PRICE_DOLLARS = new Object[]{ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS};
+    public final Object[] SINGLE_COLUMN = {"hierarchyName", "hierarchyType", "hierarchyCategory", "nooflevels", "version"};
+    public final Object[] HIERARCHY_NAME_ARY = {"hierarchyName"};
+    public final Object[] HIERARCHY_TYPE_ARY = {"hierarchyType"};
+    public final Object[] HIERARCHY_CATEGORY = {"hierarchyCategory"};
+    public final Object[] NO_OF_LEVELS = {"nooflevels"};
+    public final Object[] VERSION = {"version"};
     
     public enum IndicatorConstants {
 

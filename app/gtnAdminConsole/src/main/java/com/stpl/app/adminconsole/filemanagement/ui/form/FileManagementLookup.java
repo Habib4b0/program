@@ -2793,8 +2793,8 @@ public class FileManagementLookup extends Window {
 			}
 		});
 
-		for (int i = 0; i < ConstantsUtils.PRICE_DOLLARS.length; i++) {
-			detailsFilterTable.setColumnAlignment(ConstantsUtils.PRICE_DOLLARS[i], ExtFilterTable.Align.RIGHT);
+		for (int i = 0; i < ConstantsUtils.getInstance().PRICE_DOLLARS.length; i++) {
+			detailsFilterTable.setColumnAlignment(ConstantsUtils.getInstance().PRICE_DOLLARS[i], ExtFilterTable.Align.RIGHT);
 		}
 
 	}

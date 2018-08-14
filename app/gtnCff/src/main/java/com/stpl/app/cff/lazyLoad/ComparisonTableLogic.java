@@ -5,8 +5,6 @@
  */
 package com.stpl.app.cff.lazyLoad;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
