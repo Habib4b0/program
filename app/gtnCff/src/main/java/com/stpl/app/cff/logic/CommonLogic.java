@@ -67,6 +67,7 @@ import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -86,12 +87,19 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class CommonLogic {
 
     
     private static final CommonDAO commonDao = new CommonDAOImpl();
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    public static final String PRC_CFF_FILES_DATA_INSERT = "PRC_CFF_FILES_DATA_INSERT";
+    public static final String FILES_INSERT = "FILES_INSERT";
+    private ExecutorService service = ThreadPool.getInstance().getService();
+    public static final String RUNNING_STATUS = "R";
     /**
      * The Constant LOGGER.
      */
@@ -211,7 +219,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         String value = String.valueOf(customDdlb.getValue());
         if (!"null".equals(value) && !SELECT_ONE.equals(value)) {
             int selectedId = Integer.parseInt(value);
-            editBtn.setEnabled(true);
             level.setEnabled(true);
             return selectedId;
         }
@@ -250,64 +257,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return false;
     }
 
-    public static int customViewSaveLogic(SessionDTO session, int customId, String viewName, List levelList) {
-
-        String userId1 = session.getUserId();
-        int userId = 0;
-        if (CommonUtils.isInteger(userId1)) {
-            userId = Integer.parseInt(userId1);
-        }
-
-        if (userId != 0) {
-            Date date = new Date();
-            if (customId == 0) {
-                try {
-                    int create = (int) CounterLocalServiceUtil.increment();
-                    CffCustomViewMaster customViewMaster = CffCustomViewMasterLocalServiceUtil.createCffCustomViewMaster(create);
-                    customViewMaster.setCffMasterSid(session.getProjectionId());
-                    customViewMaster.setViewName(viewName);
-                    customViewMaster.setCreatedBy(userId);
-                    customViewMaster.setCreatedDate(date);
-                    customViewMaster = commonDao.addCustomView(customViewMaster);
-                    if (customViewMaster != null) {
-                        customId = customViewMaster.getCffCustomViewMasterSid();
-                        customViewDetailsSaveLogic(customId, levelList);
-                    }
-                } catch (SystemException ex) {
-                    LOGGER.error(ex.getMessage());
-                }
-
-            } else {
-
-                try {
-                    CffCustomViewMaster customViewMaster = getCustomView(customId);
-					if (customViewMaster != null) {
-						customViewMaster.setCffMasterSid(session.getProjectionId());
-						customViewMaster.setViewName(viewName);
-						customViewMaster.setModifiedBy(userId);
-						customViewMaster.setModifiedDate(date);
-						customViewMaster = commonDao.updateCustomView(customViewMaster);
-						if (customViewMaster != null) {
-							customId = customViewMaster.getCffCustomViewMasterSid();
-							List<CffCustomViewDetails> detailsList = getCustomViewDetails(customId);
-							for (CffCustomViewDetails customDetails : detailsList) {
-								try {
-									commonDao.deleteCustomViewDetails(customDetails);
-								} catch (SystemException ex) {
-									LOGGER.error(ex.getMessage());
-								}
-							}
-
-							customViewDetailsSaveLogic(customId, levelList);
-						}
-					}
-                } catch (SystemException ex) {
-                    LOGGER.error(ex.getMessage());
-                }
-            }
-        }
-        return customId;
-    }
 
     public static int cffCustomViewSaveLogic(SessionDTO session, int customId, String viewName, List levelList) {
         String userId1 = session.getUserId();
@@ -419,47 +368,17 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      * @param customId
      * @return list
      */
-    public static List<CffCustomViewDetails> getCustomViewDetails(int customId) {
-        List<CffCustomViewDetails> list = null;
+    public static List<Object[]> getCustomViewDetails(int customId) {
+        List<Object[]> list = null;
         try {
-            DynamicQuery query = CffCustomViewDetailsLocalServiceUtil.dynamicQuery();
-            query.add(RestrictionsFactoryUtil.eq("cffCustomViewMasterSid", customId));
-            query.addOrder(OrderFactoryUtil.asc(StringConstantsUtil.LEVEL_NO));
-            list = commonDao.getCustomViewDetailsList(query);
+          String query="Select * from CUST_VIEW_MASTER WHERE CUST_VIEW_MASTER_SID="+customId;
+            list = (List<Object[]> )commonDao.executeSelectQuery(query);
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return list;
     }
 
-    /**
-     * Get the Custom Tree
-     *
-     * @param customId
-     * @return
-     */
-    public static List<Leveldto> getCustomTree(int customId) {
-        List<Leveldto> listValue = new ArrayList<>();
-        if (customId != 0) {
-            List<CffCustomViewDetails> customDetailsList = getCustomViewDetails(customId);
-            for (CffCustomViewDetails ob : customDetailsList) {
-                List list = getRelationshipLevels(ob.getHierarchyId());
-                if (list != null && !list.isEmpty()) {
-                    Object[] obj = (Object[]) list.get(0);
-                    if (obj.length > 1) {
-                        Leveldto dto = new Leveldto();
-                        dto.setHierarchyId(ob.getHierarchyId());
-                        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-                        dto.setLevel(String.valueOf(obj[0]));
-                        dto.setTreeLevelNo(ob.getLevelNo());
-                        dto.setHierarchyIndicator(ob.getHierarchyIndicator());
-                        listValue.add(dto);
-                    }
-                }
-            }
-        }
-        return listValue;
-    }
 
     public static CffCustomViewMaster getCustomView(int customViewMasterSid) {
         CffCustomViewMaster cvm = null;
@@ -625,7 +544,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      * @return
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name= {} ", procedureName);
+        LOGGER.info("Procedure Name= {} ", procedureName);
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -654,6 +573,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
+                     LOGGER.info("Arguments {}", orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 rs = statement.executeQuery();
@@ -689,7 +609,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return objectList;
     }
     public static  void callProcedureUpdate(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name= {} ", procedureName);
+        LOGGER.info("Procedure Name= {} ", procedureName);
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -718,6 +638,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
+                    LOGGER.info(""+orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -748,7 +669,66 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
        
     }
-
+    
+    public Future callThreadForProcedureFileInsert(SessionDTO sessionDTO){
+        Future future=service.submit(new Runnable() {
+            @Override
+            public void run() {
+                updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "PRODUCT");
+                Object[] productInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 0};
+                callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, productInput);
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                 updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "CUSTOMER");
+                Object[] customerInput = {sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(), 1};
+                callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, customerInput);
+            }
+        });
+        
+        return future;
+    }
+    
+    public static void updateStatusForProcedure(String status,SessionDTO session,String screenName,String viewName){
+    String updateStatus="UPDATE ST_STATUS_TABLE SET FLAG='"+status+"'  WHERE SCREEN_NAME='"+screenName+"' AND VIEW_NAME='"+viewName+"'";
+    HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateStatus, session.getCurrentTableNames()));
+    
+    }
+    
+    public void checkForCompletion(SessionDTO session, String screenName, String viewName) {
+        String updateStatus = "Select FLAG from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME='" + viewName + "'";
+        List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(updateStatus, session.getCurrentTableNames()));
+        if (list.get(0) != null && !list.get(0).trim().equalsIgnoreCase("C")) {
+            waitForSeconds();
+            checkForCompletion(session, screenName, viewName);
+        }
+    }
+    
+    public void checkForCompletionALL(SessionDTO session, String screenName) {
+        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME in ('CUSTOM','CUSTOMER','PRODUCT') and FLAG='R'";
+        List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(selectStatus, session.getCurrentTableNames()));
+        if (list.get(0) != null && list.get(0)>=1) {
+            waitForSeconds();
+            checkForCompletionALL(session, screenName);
+        }
+    }
+    
+    public void waitForSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            LOGGER.error( "Interrupted!", ex);
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    public static void truncateTempTable(SessionDTO session){
+    String truncateStatus=SQlUtil.getQuery("TableTruncationCFF");
+    HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(truncateStatus, session.getCurrentTableNames()));
+    
+    }
     /**
      * To convert the given Result Set into List of Objects
      *
@@ -2277,7 +2257,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
         int customId = session.getCustomId();
         if (!session.getCustomHierarchyMap().containsKey(customId)) {
-            List<CffCustomViewDetails> customDetailsList = null;
+            List<Object[]> customDetailsList = null;
             List<Leveldto> listValue = new ArrayList<>();
             if (customId != 0) {
                 if (session.getCustomDetailMap().get(customId) != null) {
@@ -2288,9 +2268,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 }
                 if (customDetailsList != null && !customDetailsList.isEmpty()) {
                     StringBuilder relationShipLevelQry = new StringBuilder();
-                    relationShipLevelQry.append("select DISTINCT LEVEL_NAME,LEVEL_NO,HIERARCHY_LEVEL_DEFINITION_SID from dbo.RELATIONSHIP_LEVEL_DEFINITION where HIERARCHY_LEVEL_DEFINITION_SID in (");
+                    relationShipLevelQry.append("select DISTINCT LEVEL_NAME,LEVEL_NO,HIERARCHY_ID,HIERARCHY_INDICATOR from dbo.CUST_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID in (");
                     for (int i = 0; i < customDetailsList.size(); i++) {
-                        relationShipLevelQry.append(customDetailsList.get(i).getHierarchyId());
+                        relationShipLevelQry.append(customDetailsList.get(i)[0]);
                         if (i != customDetailsList.size() - 1) {
                             relationShipLevelQry.append(',');
                         }
@@ -2301,19 +2281,17 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     /**
                      * assign null to Object , To be destroyed By JVM *
                      */
-                    for (CffCustomViewDetails ob : customDetailsList) {
                         for (Object[] obj : list) {
-                            if (obj.length > 1 && String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim())) {
+                            if (obj.length > 1 && String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(obj[2]))) {
                                     Leveldto dto = new Leveldto();
-                                    dto.setHierarchyId(ob.getHierarchyId());
+                                    dto.setHierarchyId(Integer.valueOf(String.valueOf(obj[2])));
                                     dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
                                     dto.setLevel(String.valueOf(obj[0]));
-                                    dto.setTreeLevelNo(ob.getLevelNo());
-                                    dto.setHierarchyIndicator(ob.getHierarchyIndicator());
+                                    dto.setTreeLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
+                                    dto.setHierarchyIndicator(String.valueOf(obj[3]));
                                     listValue.add(dto);
                             }
                         }
-                    }
                 }
             }
             hierarchy.put(customId, listValue);
@@ -3024,15 +3002,15 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
     }
     
-    public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+    public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,ProjectionSelectionDTO projSelDTO) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException("Invalid Level No:" + levelNo);
-        }
+        } 
 
-        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
+        Map<String, List> relationshipLevelDetailsMap = !projSelDTO.isIsCustomHierarchy() ? sessionDTO.getHierarchyLevelDetails() : sessionDTO.getCustomDescription();
         StringBuilder stringBuilder = new StringBuilder();
-
+        String hierarchyForLevel=StringUtils.EMPTY;
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
         int i=1;
@@ -3044,6 +3022,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getValue().get(3));
+                hierarchyForLevel=hierarchyForLevel.concat(entry.getValue().get(3).toString()).concat(Constants.COMMA);
                 stringBuilder.append("', ");
                 stringBuilder.append(i++);
                 stringBuilder.append( " )");
@@ -3055,6 +3034,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
+        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA));
+        sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         return stringBuilder.toString();
     }
     
@@ -3171,6 +3152,18 @@ public static Date fromDateIsNull(Date fromDate) {
           return calendatToPeriod.getTime();
         }
         return toDate;
+    }
+    
+    public static List<String[]> getDeductionLevelForDataSelection() {
+        List<String[]> deductionList = new ArrayList<>();
+        try {
+            String levelQuery = SQlUtil.getQuery("deduction-loading-DataSelection");
+            deductionList = (List<String[]>) HelperTableLocalServiceUtil.executeSelectQuery(levelQuery);
+        } catch (SystemException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        deductionList.add(0, new String[]{"0",ConstantsUtils.SELECT_ONE});
+        return deductionList;
     }
 		}
     

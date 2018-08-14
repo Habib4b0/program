@@ -529,7 +529,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		ComboBox vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		vaadinComboBox.setItems(Collections.emptyList());
-		generateComboBox(componentConfig, vaadinComboBox);
 		postCreateComponent(vaadinComboBox, componentConfig);
 		vaadinComboBox.getDataProvider().refreshAll();
 		vaadinComboBox.markAsDirty();

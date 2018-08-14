@@ -14,10 +14,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-/**
- *
- * @author Manikanda.Prabu
- */
+
 public class GtnUIFrameWorkCompTypeValueChangeAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 

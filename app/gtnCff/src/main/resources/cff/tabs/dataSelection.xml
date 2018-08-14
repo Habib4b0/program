@@ -100,9 +100,13 @@ and open the template in the editor.
                 <Panel>
                     <VerticalLayout margin = "true" spacing = "true" >
                         <HorizontalLayout id="hLayout3" spacing="true" margin="false" >
-                            <GridLayout  spacing="false" margin="false" immediate="true" columns="2" rows="1">
+                            <GridLayout  spacing="true" margin="false" immediate="true" columns="6" rows="1">
                                 <Label caption="Level:" contentMode="HTML" width="50px" ></Label>
                                 <ComboBox id="productlevelDdlb" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                                <Label caption="Custom View:" contentMode="HTML" width="50px" ></Label>
+                                <ComboBox id="customViewDdlb" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                                <Label caption="Comparison:" contentMode="HTML" width="50px" ></Label>
+                                <b:CustomTextField id="comparison"  inputPrompt="" />
                             </GridLayout>
                         </HorizontalLayout>
                         <HorizontalLayout >

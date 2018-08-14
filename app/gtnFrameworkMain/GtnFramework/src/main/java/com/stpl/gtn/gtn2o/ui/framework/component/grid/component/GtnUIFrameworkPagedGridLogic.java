@@ -144,8 +144,17 @@ public class GtnUIFrameworkPagedGridLogic {
 		if (responseAddData != null && responseAddData.getGtnSerachResponse().getResultSet().getDataTable().size() == 0
 				&& componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
 			try {
-				GtnUIFrameworkActionExecutor.executeSingleAction(componentConfigPagedGrid.getComponentId(),
-						componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+				boolean isFilter = false;
+				List<GtnWebServiceSearchCriteria> searchCriteriaList = getSearchCriteriaList();
+				for (GtnWebServiceSearchCriteria searchCriteria : searchCriteriaList) {
+					if (searchCriteria.isFilter()) {
+						isFilter = true;
+					}
+				}
+				if (!isFilter) {
+					GtnUIFrameworkActionExecutor.executeSingleAction(componentConfigPagedGrid.getComponentId(),
+							componentConfigPagedGrid.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+				}
 			} catch (GtnFrameworkGeneralException e) {
 				gtnLogger.error(e.getMessage());
 			}
