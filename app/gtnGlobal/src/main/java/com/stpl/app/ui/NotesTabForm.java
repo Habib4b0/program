@@ -106,7 +106,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(vUserId,
 				moduleName + "," + ConstantsUtils.NOTES, false);
 		List<Object> resultList = commonUiUtil.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
-		TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, ConstantsUtils.NOTES_COLUMN,
+		TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, NOTES_COLUMN,
 				fieldNotesTableHM, mode.equals("Copy") ? "Edit" : mode);
 		table.setContainerDataSource(attachmentsListBean);
 		if ("Compliance Deduction Rules".equals(this.moduleName)) {
