@@ -3008,9 +3008,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
         if (levelNo == 0) {
             throw new IllegalArgumentException("Invalid Level No:" + levelNo);
-        }
+        } 
 
-        Map<String, List> relationshipLevelDetailsMap = projSelDTO.isIsCustomHierarchy() ? sessionDTO.getHierarchyLevelDetails() : sessionDTO.getCustomDescription();
+        Map<String, List> relationshipLevelDetailsMap = !projSelDTO.isIsCustomHierarchy() ? sessionDTO.getHierarchyLevelDetails() : sessionDTO.getCustomDescription();
         StringBuilder stringBuilder = new StringBuilder();
         String hierarchyForLevel=StringUtils.EMPTY;
         boolean isNotFirstElement = false;
