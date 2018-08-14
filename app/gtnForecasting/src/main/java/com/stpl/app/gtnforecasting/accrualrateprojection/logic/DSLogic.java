@@ -12,7 +12,6 @@ import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.ProjectionMaster;
@@ -42,8 +41,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DSLogic {
     
-    private final String[] QUERYIDS = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
-    private final String[] ACCURAL_TEMP = new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"};
+    private static final String[] QUERYIDS = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
+    private static final String[] ACCURAL_TEMP = new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"};
 
     public void updateRebateValue(AccrualDataSelectionDTO dtoValue) {
         try {

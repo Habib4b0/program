@@ -2941,8 +2941,6 @@ public final class ConstantsUtils {
     public static final String IM_NEW_FORMULATION_START_DATE_LESSER_THAN = " AND IM.new_Formulation_Start_Date <= '";
     public static final String IM_BASE_CPI_PERIOD = " AND IM.BASE_CPI_PERIOD >= '";
     public static final String IM_BASE_CPI_PERIOD_LESSER_THAN = " AND IM.BASE_CPI_PERIOD <= '";
-    public static final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
-    public static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
     
     /**
      * Constructor

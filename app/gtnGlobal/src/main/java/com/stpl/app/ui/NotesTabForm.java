@@ -78,9 +78,9 @@ public class NotesTabForm extends AbstractNotesTab {
 	protected final boolean isViewMode;
 	private final CommonUIUtils commonUiUtil = new CommonUIUtils();
 	private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-        private final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
-        private final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
-
+        private static final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
+        private static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
+        
 	public NotesTabForm(ErrorfulFieldGroup binder, String moduleName, String dbModuleName, String masterTableSid,
 			String mode) throws SystemException, PortalException {
 		super(binder, moduleName);
