@@ -8,3595 +8,630 @@ IF EXISTS (SELECT 'X'
 
 GO
 
-CREATE PROCEDURE [dbo].[PRC_CFF_DISCOUNT_EXCEL_EXPORT](@CFF_MASTER_SID         VARCHAR(500),
-                                                       @PROJ_FREQUENCY         VARCHAR(20),
-                                                       @SCREEN_NAME            VARCHAR(50),
-                                                       @VIEW                   VARCHAR(50) = NULL,
-                                                       @DISCOUNT_VIEW          VARCHAR(50) = NULL,
-                                                       @DISCOUNT_LEVEL         VARCHAR(50),
-                                                       @CP_INDICATOR           CHAR(1),
-                                                       @HIERARCHY_NO           VARCHAR(500) = NULL,
-                                                       @LEVEL_NO               INT = NULL,
-                                                       @CUSTOM_VIEW_MASTER_SID INT = NULL,
-                                                       @START_DATE             DATETIME = NULL,
-                                                       @USER_ID                INT,
-                                                       @SESSION_ID             VARCHAR(50) ,
-													   @UOM_CODE VARCHAR(10) = NULL ,
-													   @SALES_INCLUSION BIT = NULL ,
-													   @DEDUCTION_INCLUSION BIT = NULL,
-													   @FILTER_UDCS VARCHAR(MAX)=NULL)
-AS
- BEGIN
-      BEGIN TRY
-          SET NOCOUNT ON
-/**********************************************************************************************************
-** FILE NAME		:	PRC_CFF_DISCOUNT_EXCEL_EXPORT.SQL
-** PROCEDURE NAME	:	PRC_CFF_DISCOUNT_EXCEL_EXPORT
-** DESCRIPTION		:	  aggregation of projections attached to the particualr cff with hierarchy level showing as output for both cff_results screen and cff_varicnace screen
-** INPUT PARAMETERS	:	@CFF_MASTER_SID	         - passing input as cff_master_sid
-						@PROJ_FREQUENCY          - based on frequency it will display the data  monthly,quarterly semi annualy and annulaly
-                        @SCREEN_NAME             - based on screen name if we pass assumptions it will display aggregation of actuals, projections attached to the first cff
-						             	                    screen_name<> assumptions it will display rest of cffs  display aggregation of projections attached to each cff as pivot view
-                        @DISCOUNTVIEW            - if we pass view  as program means it wil dispaly based on rs_ame else price protection
-						@DISCOUNT_LEVEL          - if we pass level  as program means it wil dispaly based on rs_ame else price protection
-						@CP_INDICATOR            - if we pass indicator as c it will dispaly information about CUSTOMER_HIERARCHY_LEVEL  and pass p means display information about PRODUCT_HIERARCHY_LEVEL
-						@HIERARCHY_NO            - based on the hierarchy number it will display the information 
-						@LEVEL_NO                - based on level name chossen by user it will display the information
-                        @START_DATE              - From the @start_date only it will generate output
-				        @CUSTOM_VIEW_MASTER_SID  - for each cff one customeview master will be present so we pass we pass customeviewmastersid for paricular cff it will displau information
-** OUTPUT PARAMETERS:	na
-** AUTHOR NAME		:	@pradeep thanga, @leela venkatesh
-** CREATION DATE	:	28/03/2016 - 
-** CALLED BY		:   from application side they click on projection  results screen the inside that proecure will call dispaly information 
-**********************************************************************************************************
-** CHANGE HISTORY
-**********************************************************************************************************
-** VER   DATE      TICKET NO              AUTHOR              DESCRIPTION 
-** ---   --------  ---------             -------------        -----------------------------
-** 1    09/23/2016 GAL-3722/GALUAT-377   @LEELA VENKATESH    sales inclusion & deduction inclusion logic id salesinclustion is 0 then we need to display as null else we need display values
-** 2    11/02/2016 GAL-7472/GALUAT-543   @LEELA VENKATESH    removing returns part and what ever flavour choosen by user that should appear in the screen
-*********************************************************************************************************/
+CREATE PROCEDURE [dbo].[PRC_CFF_DISCOUNT_EXCEL_EXPORT]       ( @CFF_MASTER_SID VARCHAR(500),
+                                                               @PROJ_FREQUENCY VARCHAR(20),
+															   @PROGRAM VARCHAR(50),
+															   @SALES_INCLUSION BIT,
+															   @DEDUCTION_INCLUSION BIT,
+															   @DISCOUNT NVARCHAR(MAX),
+															   @CUSTOM_VIEW_MASTER_SID INT,
+															   @SESSION_ID VARCHAR(50),
+															   @USER_ID INT,
+															   @INDICATOR CHAR(1),
+															   @LEVEL_NO SMALLINT)
 
+AS	                                                        
+BEGIN 
+SET NOCOUNT ON 
 
--------------declaring variables--------------------------
-           DECLARE @SP INT
-	,@SP_PROJ_SID INT
-	,@TEMP_PROJ_SID VARCHAR(500)
-	,@CUST_RELATIONSHIP_BUILDER_SID INT
-DECLARE @FIRST_PROJ_SID INT
-	,@PROD_RELATIONSHIP_BUILDER_SID INT
-	,@MIN_LEVEL INT
-	,@PIVOT_START_PERIOD_SID INT
-	,@DED_RELATIONSHIP_BUILDER_SID INT
-DECLARE @ITEMID [DBO].[UDT_ITEM]
+BEGIN TRY 
 
------------------PASSING MULTIPLE CFF AS INPUT CONVERTING INTO COMMA SEPERATED VALUES --------------------------
-IF Object_id('TEMPDB..#CFF_PROJECTION_MASTER') IS NOT NULL
-	TRUNCATE TABLE #CFF_PROJECTION_MASTER
-ELSE
-	CREATE TABLE #CFF_PROJECTION_MASTER (
-		ID INT IDENTITY(1, 1)
-		,CFF_PROJECTION_MASTER_SID INT
-		)
+  DECLARE @CFF_PRODUCT           VARCHAR(200) = Concat ('ST_CFF_PRODUCT_LEVEL_FILES_DATA_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),----Product Level data
+        @CFF_COMP_PROD         VARCHAR(200) = Concat ('ST_CFF_COMP_PRD_LEVEL_FILES_DATA_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),  ---- Comp+Prod data
+		@CCP_HIERARCHY         VARCHAR(200) = Concat ('ST_CCP_HIERARCHY_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')), ---- ccp deatils information
+		@CUSTOMER_CFF_SALES VARCHAR(200) = Concat('ST_CUSTOMER_CFF_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+		@PRODUCT_CFF_SALES VARCHAR(200) = Concat('ST_PRODUCT_CFF_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+		@CUSTOM_CFF_SALES VARCHAR(200) = Concat('ST_CUSTOM_CFF_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+		@CUSTOMER_CFF_DISCOUNT VARCHAR(200) = Concat('ST_CUSTOMER_CFF_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+		@PRODUCT_CFF_DISCOUNT VARCHAR(200) = Concat('ST_PRODUCT_CFF_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+		@CUSTOM_CFF_DISCOUNT VARCHAR(200) = Concat('ST_CUSTOM_CFF_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+		@CUSTOM_CCP_SALES VARCHAR(200) = CONCAT ('CUSTOM_CCP_SALES_',@CUSTOM_VIEW_MASTER_SID),
+		@sales_table            VARCHAR(MAX),
+        @discount_table         VARCHAR(200),
+		@ROW_ID INT   
+DECLARE @DEDUCTION_TABLE  VARCHAR(200)= CONCAT('ST_CCP_DEDUCTION_HIERARCHY_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
 
-SET @TEMP_PROJ_SID = Replace(@CFF_MASTER_SID + ',', ',,', ',')
+ DECLARE @ACTUAL_START_DATE DATETIME = CAST(YEAR(GETDATE()) - 3 AS VARCHAR(4)) + '-01-01',
+         @PROJ_END_PERIOD_DATE DATETIME	
 
-WHILE Patindex('%,%', @TEMP_PROJ_SID) <> 0
-BEGIN
-	SELECT @SP = Patindex('%,%', @TEMP_PROJ_SID)
-
-	SELECT @SP_PROJ_SID = LEFT(@TEMP_PROJ_SID, @SP - 1)
-
-	SELECT @TEMP_PROJ_SID = Stuff(@TEMP_PROJ_SID, 1, @SP, '')
-
-	INSERT INTO #CFF_PROJECTION_MASTER (CFF_PROJECTION_MASTER_SID)
-	SELECT @SP_PROJ_SID
-END
-
-DECLARE @CCP_TABLE VARCHAR(200) = CONCAT (
-		'ST_CCP_HIERARCHY_'
-		,@USER_ID
-		,'_'
-		,@SESSION_ID
-		,'_'
-		,Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
-		)
-DECLARE @CCP_DEDUCTION VARCHAR(100) = CONCAT (
-		'ST_CCP_DEDUCTION_HIERARCHY_'
-		,@USER_ID
-		,'_'
-		,@SESSION_ID
-		,'_'
-		,REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')
-		)
--------------------------------GALUAT_29 CHANGES----------------------------
-------PULLING ACTUAL START_DATE , ACTUAL_END_DATE,ROJ_START_PERIOD_DATE,PROJ_END_PERIOD_DATE BASED ON DESCRIPTION FROM HELPER_TABLE -----------
-DECLARE @ACTUAL_START_DATE DATETIME = Cast(Year(Getdate()) - 3 AS VARCHAR(4)) + '-01-01'
-	,@ACTUAL_END_DATE DATETIME = Dateadd(MM, - 3, Dateadd(QQ, Datediff(QQ, 0, Getdate()), 0))
-	,@PROJ_START_PERIOD_DATE DATETIME
-	,@PROJ_END_PERIOD_DATE DATETIME
-
-SELECT TOP 1 @PROJ_START_PERIOD_DATE = Dateadd(DD, 1, Eomonth(FROM_DATE, - 1))
-	,@PROJ_END_PERIOD_DATE = Dateadd(DD, 1, Eomonth(TO_DATE, - 1))
+SELECT TOP 1 @PROJ_END_PERIOD_DATE = DATEADD(DD, 1, EOMONTH(TO_DATE, - 1))
 FROM FORECAST_CONFIG FA
 LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FA.BUSINESS_PROCESS_TYPE
 WHERE [DESCRIPTION] = 'CONSOLIDATED FINANCIAL FORECAST'
 ORDER BY VERSION_NO DESC
 
-DECLARE @ACT_START_PERIOD_SID INT = (
+DECLARE @FROM_PERIOD_SID INT,@END_PERIOD_SID INT
+
+ set @FROM_PERIOD_SID  = (
 		SELECT PERIOD_SID
 		FROM PERIOD
 		WHERE PERIOD_DATE = @ACTUAL_START_DATE
 		)
-DECLARE @ACT_END_PERIOD_SID INT = (
-		SELECT PERIOD_SID
-		FROM PERIOD
-		WHERE PERIOD_DATE = @ACTUAL_END_DATE
-		)
-DECLARE @PROJ_START_PERIOD_SID INT = (
-		SELECT PERIOD_SID
-		FROM PERIOD
-		WHERE PERIOD_DATE = @PROJ_START_PERIOD_DATE
-		)
-DECLARE @PROJ_END_PERIOD_SID INT = (
+		
+set @END_PERIOD_SID  = (
 		SELECT PERIOD_SID
 		FROM PERIOD
 		WHERE PERIOD_DATE = @PROJ_END_PERIOD_DATE
-		)
-
---SELECT @ACT_START_PERIOD_SID = Max(IIF(F.ACTUAL_START_DATE = PERIOD_DATE, PERIOD_SID, NULL)),
---       @ACT_END_PERIOD_SID = Max(IIF(F.ACTUAL_END_DATE = PERIOD_DATE, PERIOD_SID, NULL)),
---       @PROJ_START_PERIOD_SID = Max(IIF(Cast(F.PROJECTION_START_DATE AS DATE) = PERIOD_DATE, PERIOD_SID, NULL)),
---       @PROJ_END_PERIOD_SID = Max(IIF(Dateadd(DD, 1, EOMONTH(F.PROJECTION_END_DATE, -1)) = PERIOD_DATE, PERIOD_SID, NULL))
---FROM   [DBO].[UDF_NA_PROJ_DATES]('Consolidated Financial Forecast') F
---       INNER JOIN PERIOD P
---               ON P.PERIOD_DATE IN ( F.ACTUAL_END_DATE, F.ACTUAL_START_DATE, Dateadd(DD, 1, EOMONTH(F.PROJECTION_END_DATE, -1)), Cast(F.PROJECTION_START_DATE AS DATE) );
-SELECT @FIRST_PROJ_SID = PM.CFF_PROJECTION_MASTER_SID
-FROM #CFF_PROJECTION_MASTER PM
-WHERE ID = 1
-
-SELECT @PIVOT_START_PERIOD_SID = PERIOD_SID
-FROM PERIOD
-WHERE PERIOD_DATE = @START_DATE
-
-	
-IF OBJECT_ID('TEMPDB.DBO.#CFF_DETAILS_CURRENT', 'U') IS NOT NULL
-	DROP TABLE #CFF_DETAILS_CURRENT;
-	SELECT distinct CD.*,PD.PROJECTION_DETAILS_SID,item_master_sid INTO #CFF_DETAILS_CURRENT
-	FROM CFF_DETAILS CD JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_MASTER_SID =CD.PROJECTION_MASTER_SID
-	AND CD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
-	join CCP_DETAILS cd1 on cd.CCP_DETAILS_SID=cd1.CCP_DETAILS_SID
-	WHERE CFF_MASTER_SID=@FIRST_PROJ_SID
----------------------------BASED ON FREQUENCY CALUCLATIONS SHOLUD HAPPEN---------------------------
+		)	
+		-----------------PERIOD CONVERISON--------------------
 IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
 	DROP TABLE #PERIOD;
 
-SELECT PERIOD_SID
-	,PERIOD_DATE
-	,MONTH
-	,QUARTER
-	,SEMI_ANNUAL
-	,YEAR
-	,CASE 
+SELECT PERIOD_SID,
+	YEAR,
+	CASE 
 		WHEN LEFT(@PROJ_FREQUENCY, 1) = 'M'
 			THEN MONTH
 		WHEN LEFT(@PROJ_FREQUENCY, 1) = 'Q'
 			THEN QUARTER
 		WHEN LEFT(@PROJ_FREQUENCY, 1) = 'S'
 			THEN SEMI_ANNUAL
-		ELSE YEAR
+		ELSE 1
 		END AS PERIOD
 INTO #PERIOD
-FROM PERIOD WHERE PERIOD_SID BETWEEN @ACT_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
-
-DECLARE @PROJECTION_CUST_VERSION	INT
-,@PROJECTION_PROD_VERSION	INT
-,@PROJECTION_DED_VERSION	INT,@VERSION_NO INT
-
-----------------------------------PULLING   CUSTOMER_HIERARCHY_LEVEL and   PRODUCT_HIERARCHY_LEVEL  FOR PARICULAR Cff-------------
-SELECT TOP 1 @CUST_RELATIONSHIP_BUILDER_SID = CUST_RELATIONSHIP_BUILDER_SID
-	,@PROD_RELATIONSHIP_BUILDER_SID = PROD_RELATIONSHIP_BUILDER_SID
-	,@MIN_LEVEL = CASE @CP_INDICATOR
-		WHEN 'C'
-			THEN CUSTOMER_HIERARCHY_LEVEL
-		WHEN 'P'
-			THEN PRODUCT_HIERARCHY_LEVEL
-		END
-	,@DED_RELATIONSHIP_BUILDER_SID = DED_RELATIONSHIP_BULDER_SID
-,@PROJECTION_DED_VERSION		=PROJECTION_DED_VERSION
-,@PROJECTION_CUST_VERSION		=PROJECTION_CUST_VERSION
-,@PROJECTION_PROD_VERSION		=PROJECTION_PROD_VERSION
-FROM CFF_MASTER
-WHERE CFF_MASTER_SID = @FIRST_PROJ_SID
-ORDER BY CFF_MASTER_SID
-
-----------------------------------PULLING CCP and HIERARCHY_NO   FOR PARICULAR Cff-------------
-IF OBJECT_ID('TEMPDB..#CCP') IS NOT NULL
-	DROP TABLE #CCP
-
-CREATE TABLE #CCP (
-	CCP_DETAILS_SID INT
-	,HIERARCHY_NO VARCHAR(8000)
-	,LEVEL_NAME VARCHAR(100)
-	,PARENT_HIERARCHY_NO VARCHAR(8000)
-	,LEVEL_NO INT
-	)
-
-IF @CP_INDICATOR IN (
-		'C'
-		,'P'
-		)
-BEGIN
-	DECLARE @SQL1 NVARCHAR(MAX)
-
-	DECLARE @VAR1 VARCHAR(100) = (
-			CASE 
-				WHEN @CP_INDICATOR = 'C'
-					THEN 'CUST_HIERARCHY_NO'
-				WHEN @CP_INDICATOR = 'P'
-					THEN 'PROD_HIERARCHY_NO'
-				END
-			)
-SET @VERSION_NO = CASE @CP_INDICATOR WHEN 'C' THEN @PROJECTION_CUST_VERSION ELSE @PROJECTION_PROD_VERSION END
-
-	SET @SQL1 = CONCAT (
-			'SELECT DISTINCT CCPMAP.CCP_DETAILS_SID,
-               CCPMAP.HIERARCHY_NO,
-              
-               LEVEL_NAME
-        FROM   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES,
-                       RLD.HIERARCHY_NO,
-                       CCP.CCP_DETAILS_SID,
-					   RLD.LEVEL_NAME
-                FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                       JOIN '
-			,@CCP_TABLE
-			,' CCP
-                         ON  CCP.'
-			,@VAR1
-			,' LIKE RLD.HIERARCHY_NO + ''%''
-                      		 JOIN CFF_DETAILS CD ON CD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
-                            AND CD.CFF_MASTER_SID = '
-			,@FIRST_PROJ_SID
-			,'  AND RLD.RELATIONSHIP_BUILDER_SID = '
-			,CASE 
-				WHEN @CP_INDICATOR = 'C'
-					THEN @CUST_RELATIONSHIP_BUILDER_SID
-				WHEN @CP_INDICATOR = 'P'
-					THEN @PROD_RELATIONSHIP_BUILDER_SID
-				END
-			,'
-AND  RLD.VERSION_NO= ',@VERSION_NO,' 
-AND  RLD.LEVEL_NO >= '
-			,@MIN_LEVEL
-			,'
-                       ) CCPMAP'
-			)
-
-	INSERT INTO #CCP (
-		CCP_DETAILS_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		)
-	EXEC (@SQL1)
-
-END
-ELSE
-BEGIN
-	----------------------------------PULLING CCP S FOR PARICULAR Cff-------------
-		IF OBJECT_ID('TEMPDB..#PARENT_HIERARCHY') IS NOT NULL
-			DROP TABLE #PARENT_HIERARCHY
-
-		CREATE TABLE #PARENT_HIERARCHY (
-			CCP_DETAILS_SID           INT,
-                 HIERARCHY_NO              VARCHAR(8000),
-                 LEVEL_NAME                VARCHAR(75),
-                 LEVEL_NO                  SMALLINT,
-                 RELATIONSHIP_LEVEL_VALUES VARCHAR(50),
-			      DEDUCTION_HIRARCHY_NO VARCHAR(8000),
-			      RS_CONTRACT_SID INT
-			     ,INDICATOR CHAR(1)
-			)
-
-		SET @SQL1 = CONCAT (
-				' 
-        			INSERT INTO #PARENT_HIERARCHY
-        	(
-        	 CCP_DETAILS_SID,			
-			 HIERARCHY_NO,				
-			 LEVEL_NAME,				
-			 LEVEL_NO	,
-			 DEDUCTION_HIRARCHY_NO,
-			 RS_CONTRACT_SID,
-			 INDICATOR 
-					)
-SELECT  CCP_DETAILS_SID,			
-			 HIERARCHY_NO,				
-			 LEVEL_NAME,				
-			 LEVEL_NO	,
-			 PARENT_HIERARCHY_NO,
-			 RS_CONTRACT_SID,
-			 INDICATOR  FROM (SELECT DISTINCT CH.CCP_DETAILS_SID,
-       RLD.HIERARCHY_NO,
-       RLD.LEVEL_NAME,
-	   C.LEVEL_NO,
-	    RLD.PARENT_HIERARCHY_NO,
-	RS_CONTRACT_SID,HIERARCHY_INDICATOR AS INDICATOR
-FROM   CFF_CUSTOM_VIEW_DETAILS C
-       JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-         ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-            AND RELATIONSHIP_BUILDER_SID = @CUST_RELATIONSHIP_BUILDER_SID AND RLD.VERSION_NO = ',@PROJECTION_CUST_VERSION,'
-       JOIN ', @CCP_TABLE, ' CH
-         ON CH.CUST_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + ''%''
-             OR CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + ''%''
-	   JOIN #CFF_DETAILS_CURRENT CF ON CF.CCP_DETAILS_SID=CH.CCP_DETAILS_SID AND CF.CFF_MASTER_SID= ',@FIRST_PROJ_SID,'
-       JOIN ', @CCP_DEDUCTION ,' DM ON DM.CCP_DETAILS_SID=CH.CCP_DETAILS_SID  
-	   AND FILTER_CCPD=1               
-                WHERE   CFF_CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID
-
-UNION ALL
-SELECT DISTINCT CH.CCP_DETAILS_SID,
-       RLD.HIERARCHY_NO,
-       RLD.LEVEL_NAME,
-	   C.LEVEL_NO,
-	    RLD.PARENT_HIERARCHY_NO,
-	RS_CONTRACT_SID,HIERARCHY_INDICATOR AS INDICATOR
-FROM   CFF_CUSTOM_VIEW_DETAILS C
-       JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-         ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-            AND RELATIONSHIP_BUILDER_SID = @PROD_RELATIONSHIP_BUILDER_SID AND RLD.VERSION_NO =',@PROJECTION_PROD_VERSION ,'
-       JOIN ', @CCP_TABLE, ' CH
-         ON CH.CUST_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + ''%''
-             OR CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + ''%''
-	   JOIN #CFF_DETAILS_CURRENT CF ON CF.CCP_DETAILS_SID=CH.CCP_DETAILS_SID AND CF.CFF_MASTER_SID= ',@FIRST_PROJ_SID,'
-       JOIN ', @CCP_DEDUCTION ,' DM ON DM.CCP_DETAILS_SID=CH.CCP_DETAILS_SID  
-	   AND FILTER_CCPD=1               
-                WHERE   CFF_CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID)A
-				GROUP BY  CCP_DETAILS_SID,			
-			 HIERARCHY_NO,				
-			 LEVEL_NAME,				
-			 LEVEL_NO	,
-			 PARENT_HIERARCHY_NO,
-			 RS_CONTRACT_SID,
-			 INDICATOR ')
-			 
-            EXEC Sp_executesql
-              @SQL1,
-              N'@CUST_RELATIONSHIP_BUILDER_SID INT, @PROD_RELATIONSHIP_BUILDER_SID  INT,@CUSTOM_VIEW_MASTER_SID INT',
-              @CUST_RELATIONSHIP_BUILDER_SID = @CUST_RELATIONSHIP_BUILDER_SID,
-              @PROD_RELATIONSHIP_BUILDER_SID = @PROD_RELATIONSHIP_BUILDER_SID,
-              @CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID
-
-SET @SQL1 = CONCAT (
-		'INSERT INTO #PARENT_HIERARCHY (
-	CCP_DETAILS_SID,
-	HIERARCHY_NO,
-	LEVEL_NAME,
-	LEVEL_NO,
-	DEDUCTION_HIRARCHY_NO,
-	RS_CONTRACT_SID,
-	INDICATOR
-	)
-
-SELECT DISTINCT CH.CCP_DETAILS_SID,
-	RLD.RELATIONSHIP_LEVEL_VALUES,
-	RLD.LEVEL_NAME,
-	C.LEVEL_NO,
-	RLD.PARENT_HIERARCHY_NO,
-	RS_CONTRACT_SID,
-	HIERARCHY_INDICATOR
-FROM CFF_CUSTOM_VIEW_DETAILS C
-INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-	ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-		AND RELATIONSHIP_BUILDER_SID IN (@DED_RELATIONSHIP_BUILDER_SID)
-INNER JOIN ',
-		@CCP_DEDUCTION,
-		' DM
-	ON DM.DEDUCTION_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + ''%''
-INNER JOIN ',
-		@CCP_TABLE,
-		' CH
-	ON DM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
-	 AND FILTER_CCPD=1
-WHERE CFF_CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID
-AND RLD.VERSION_NO =',@PROJECTION_DED_VERSION,'
-'
-		)
+FROM PERIOD
+WHERE PERIOD_SID BETWEEN @FROM_PERIOD_SID
+		AND @END_PERIOD_SID 
 		
-EXEC Sp_executesql @SQL1,
-	N'@DED_RELATIONSHIP_BUILDER_SID  INT,@CUSTOM_VIEW_MASTER_SID INT',
-	@DED_RELATIONSHIP_BUILDER_SID = @DED_RELATIONSHIP_BUILDER_SID,
-	@CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID
-	
-	   INSERT INTO #CCP (
-			CCP_DETAILS_SID,
-			HIERARCHY_NO,
-			LEVEL_NAME,
-			PARENT_HIERARCHY_NO,
-			level_no
-			)
-		SELECT distinct ccp_details_sid,
-			HIERARCHY_NO,
-			level_name,
-			REPLACE(REPLACE(IIF(a.level_no=1,NULL,CONCAT(replace(LEFT(parent_hierarchy_no, Len(parent_hierarchy_no) - 1),'~','.~'),'.')),'..','.'),' ',''),
-			a.level_no
-		FROM #PARENT_HIERARCHY  a
-		CROSS APPLY (
-			SELECT HIERARCHY_NO +'~'
-			FROM  #PARENT_HIERARCHY  b
-			WHERE a.ccp_details_sid = b.ccp_details_sid AND a.level_no > b.level_no
-			and  a.rs_contract_sid =b.rs_contract_sid
-			ORDER BY level_no
-			FOR XML path('')
-			) cs(parent_hierarchy_no)
-			ORDER BY level_no
-END
+  DECLARE @SP INT
+	,@SP_PROJ_SID INT
+	,@TEMP_PROJ_SID VARCHAR(500)
+	,@FIRST_PROJ_SID INT
+
+ IF OBJECT_ID('TEMPDB..#CFF_PROJECTION_MASTER') IS NOT NULL 
+            DROP TABLE #CFF_PROJECTION_MASTER 
 
 
-----------------------------------PULLING CCP S FOR PARICULAR CFF-------------
-IF OBJECT_ID('TEMPDB..#TEMP_CCP') IS NOT NULL
-	DROP TABLE #TEMP_CCP
-
-SELECT CCP.CCP_DETAILS_SID
-	,CCP.COMPANY_MASTER_SID
-	,CCP.CONTRACT_MASTER_SID
-	,CCP.ITEM_MASTER_SID
-	,CD.PROJECTION_DETAILS_SID
-	,cd.projection_master_sid
-	,CD.CFF_MASTER_SID
-	,C.HIERARCHY_NO
-	,C.LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	,CASE 
-		WHEN SALES_INCLUSION = 'YES'
-			THEN 1
-		ELSE 0
-		END AS SALES_INCLUSION
-	,CD.CFF_DETAILS_SID
-INTO #TEMP_CCP
-FROM #CFF_DETAILS_CURRENT CD 
-JOIN #CCP C ON C.CCP_DETAILS_SID = CD.CCP_DETAILS_SID 
-JOIN CCP_DETAILS CCP ON C.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
-
-------------------FOR HIERARCHY_NO,LEVEL_NAME FINDING START TO END DATES-------------------------------------
-IF OBJECT_ID('TEMPDB..#DATA_TABLE') IS NOT NULL
-	DROP TABLE #DATA_TABLE
-	/*
-SELECT C.HIERARCHY_NO
-	,C.LEVEL_NAME
-	,PERIOD
-	,YEAR
-	,C.PARENT_HIERARCHY_NO
-	,PERIOD_SID
-	,PROJECTION_DETAILS_SID
-	,CFF_MASTER_SID
-	,SALES_INCLUSION
-	,CFF_DETAILS_SID
-INTO #DATA_TABLE
-FROM (
-	SELECT DISTINCT PROJECTION_DETAILS_SID
-		,CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		,SALES_INCLUSION
-		,CFF_DETAILS_SID
-	FROM #TEMP_CCP
-	) C
-CROSS JOIN (
-	SELECT DISTINCT PERIOD
-		,YEAR
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P
-	*/
---DECLARE @COUNT_1 INT,
---        @COUNT_2 INT,
---        @COUNT_3 INT
---SELECT @COUNT_1 = Count(DISTINCT PROJECTION_MASTER_SID)
---FROM   #TEMP_CCP
---SELECT @COUNT_2 = Count(DISTINCT PM.PROJECTION_MASTER_SID)
---FROM   #TEMP_CCP TC
---       INNER JOIN PROJECTION_MASTER PM
---               ON TC.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
---WHERE  FORECASTING_TYPE = 'Non Mandated'
---SELECT @COUNT_3 = Count(DISTINCT PM.PROJECTION_MASTER_SID)
---FROM   #TEMP_CCP TC
---       INNER JOIN PROJECTION_MASTER PM
---               ON TC.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
---WHERE  FORECASTING_TYPE = 'Mandated'
---IF Object_id('TEMPDB..#DISCOUNT_INFO') IS NOT NULL
---  DROP TABLE #DISCOUNT_INFO
---CREATE TABLE #DISCOUNT_INFO
---  (
---     TOKEN    VARCHAR(100),
---     DISCOUNT VARCHAR(100)
---  )
---INSERT INTO #DISCOUNT_INFO
---            (TOKEN,
---             DISCOUNT)
---SELECT DISTINCT CASE
---                  WHEN @DISCOUNT_LEVEL = 'PROGRAM' THEN Cast(R.RS_MODEL_SID AS VARCHAR(50))
---                  ELSE PRICE_GROUP_TYPE
---                END AS TOKEN,
---                CASE
---                  WHEN @DISCOUNT_LEVEL = 'PROGRAM' THEN RS_NAME
---                  ELSE PRICE_GROUP_TYPE
---                END AS DISCOUNT
---FROM   NM_DISCOUNT_PROJ_MASTER S
---       JOIN RS_MODEL R
---         ON R.RS_MODEL_SID = S.RS_MODEL_SID
---       JOIN #TEMP_CCP TC
---         ON TC.PROJECTION_DETAILS_SID = S.PROJECTION_DETAILS_SID
---    union all               
---                    SELECT DISTINCT CASE 
---                     WHEN @DISCOUNT_LEVEL = 'PROGRAM'
---                           THEN CAST(RM.RS_MODEL_SID AS VARCHAR(50))
---                     ELSE 'PRICE PROTECTION'
---                     END AS TOKEN
---              ,CASE 
---                     WHEN @DISCOUNT_LEVEL = 'PROGRAM'
---                           THEN RS_NAME
---                     ELSE 'PRICE PROTECTION'
---                     END AS DISCOUNT
---   from 
---   NM_PPA_PROJECTION_MASTER NMDP 
---       INNER JOIN RS_MODEL RM ON RM.RS_MODEL_SID = NMDP.RS_MODEL_SID
---       JOIN #TEMP_CCP TC
---       ON TC.PROJECTION_DETAILS_SID = NMDP.PROJECTION_DETAILS_SID
------finding items attached to particular cff---------------------------        
-INSERT INTO @ITEMID
-/*SELECT IM.ITEM_MASTER_SID
-FROM ITEM_MASTER IM
-WHERE EXISTS (
-		SELECT 1
-		FROM #TEMP_CCP A
-		WHERE CFF_MASTER_SID = @FIRST_PROJ_SID
-			AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID
-		)*/
-SELECT DISTINCT ITEM_MASTER_SID
-		FROM #TEMP_CCP A
--------------------------------------------------------------RETURNS-------------------------------------------------------------------------------
---IF Object_id('TEMPDB..#TEMP_CCPD') IS NOT NULL
---   DROP TABLE #TEMP_CCPD
--- CREATE TABLE #TEMP_CCPD
---   (
---      COMPANY_MASTER_SID     INT,
---      CONTRACT_MASTER_SID    INT,
---      ITEM_MASTER_SID        INT,
---      PROJECTION_DETAILS_SID INT,
---      CFF_MASTER_SID         INT,
---RS_NAME VARCHAR(100)
---   )
--- INSERT INTO #TEMP_CCPD
---             (COMPANY_MASTER_SID,
---              CONTRACT_MASTER_SID,
---              ITEM_MASTER_SID,
---              PROJECTION_DETAILS_SID,
---              CFF_MASTER_SID,
---  RS_NAME)
--- SELECT DISTINCT COMPANY_MASTER_SID,
---                 CONTRACT_MASTER_SID,
---                 ITEM_MASTER_SID,
---                 PROJECTION_DETAILS_SID,
---                 CFF_MASTER_SID,
---  RS_NAME
--- FROM   (SELECT t_ccp.COMPANY_MASTER_SID,
---                T_CCP.CONTRACT_MASTER_SID,
---                T_CCP.ITEM_MASTER_SID,
---                PROJECTION_DETAILS_SID,
---                CFF_MASTER_SID,
---                RS_ID,
---                RS_TYPE,
--- RS_NAME=	   CASE
---				WHEN @DISCOUNT_VIEW = 'PROGRAM'
---				 OR @DISCOUNT_VIEW IS NULL THEN RS_NAME
---				ELSE HR.DESCRIPTION 
---				END
---         FROM   #TEMP_CCP T_CCP
---                INNER JOIN RS_CONTRACT RS
---                        ON T_CCP.CONTRACT_MASTER_SID = RS.CONTRACT_MASTER_SID
---                INNER JOIN RS_CONTRACT_DETAILS RSC
---                        ON RS.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID
---                           AND T_CCP.ITEM_MASTER_SID = RSC.ITEM_MASTER_SID
---                JOIN projection_master pm
---                  ON pm.PROJECTION_MASTER_SID = T_CCP.PROJECTION_master_SID
---                     AND PM.FORECASTING_TYPE = 'NON MANDATED'
---            INNER JOIN HELPER_TABLE HR
---                ON RS.REBATE_PROGRAM_TYPE = HR.HELPER_TABLE_SID
--- AND HR.LIST_NAME='REBATE_PROGRAM_TYPE'
---   WHERE  EXISTS (SELECT 1
---                        FROM   CFP_CONTRACT CF
---                               INNER JOIN CFP_CONTRACT_DETAILS CFD
---                                       ON CF.CFP_CONTRACT_SID = CFD.CFP_CONTRACT_SID
---                                          AND T_CCP.COMPANY_MASTER_SID = CFD.COMPANY_MASTER_SID
---                                          AND RS.CFP_CONTRACT_SID = CF.CFP_CONTRACT_SID
---                                          AND CF.CONTRACT_MASTER_SID = T_CCP.CONTRACT_MASTER_SID)
--- ) R
---        INNER JOIN HELPER_TABLE HT
---                ON R.RS_TYPE = HT.HELPER_TABLE_SID
--- WHERE  HT.DESCRIPTION = 'RETURNS'
---IF Object_id('TEMPDB..#TEMP_RETURNS') IS NOT NULL
---  DROP TABLE #TEMP_RETURNS
---CREATE TABLE #TEMP_RETURNS
---  (
---     ITEM_MASTER_SID     INT,
---     RS_NAME             VARCHAR(100),
---     RETURNS_DETAILS_SID INT,
---     PERIOD_SID          INT,
---     ACTUAL_RATE         NUMERIC(22, 6),
---     PROJECTED_RATE      NUMERIC(22, 6),
---     PRIMARY KEY(ITEM_MASTER_SID, PERIOD_SID)
---  );
---WITH ITEM_PROJ_DETAILS
---     AS (SELECT Row_number()
---                  OVER (
---                    PARTITION BY RD.ITEM_MASTER_SID, TD.RS_NAME
---                    ORDER BY LASTEST_DATE DESC ) RN,
---                RD.ITEM_MASTER_SID,
---                PM.PROJECTION_MASTER_SID,
---                RETURNS_DETAILS_SID,
---                TD.RS_NAME
---         FROM   RETURNS_DETAILS RD
---                INNER JOIN PROJECTION_MASTER PM
---                        ON RD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
---                CROSS APPLY ( VALUES (MODIFIED_DATE),
---                                     (CREATED_DATE) ) CS(LASTEST_DATE)
---                INNER JOIN PROJECTION_DETAILS PD
---                        ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
---                INNER JOIN #TEMP_CCPD TD
---                        ON TD.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
---                           AND RD.ITEM_MASTER_SID = TD.ITEM_MASTER_SID
---         WHERE  SAVE_FLAG = 1
---                AND RD.ITEM_MASTER_SID IN (SELECT ITEM_MASTER_SID
---                                           FROM   @ITEMID))
---INSERT INTO #TEMP_RETURNS
---            (ITEM_MASTER_SID,
---             RS_NAME,
---             RETURNS_DETAILS_SID,
---             PERIOD_SID,
---             ACTUAL_RATE,
---             PROJECTED_RATE)
---SELECT COALESCE(R_ACTUALS.ITEM_MASTER_SID, R_PROJ.ITEM_MASTER_SID),
---       COALESCE(R_ACTUALS.RS_NAME, R_PROJ.RS_NAME),
---       COALESCE(R_ACTUALS.RETURNS_DETAILS_SID, R_PROJ.RETURNS_DETAILS_SID) AS RETURNS_DETAILS_SID,
---       COALESCE(R_ACTUALS.PERIOD_SID, R_PROJ.PERIOD_SID)                   AS PERIOD_SID,
---       R_ACTUALS.ACTUAL_RETURN_PERCENT,
---       R_PROJ.PROJECTED_RETURN_PERCENT
---FROM   (SELECT IMPD.RETURNS_DETAILS_SID,
---               ITEM_MASTER_SID,
---               RS_NAME,
---               PERIOD_SID,
---               ACTUAL_RETURN_PERCENT
---        FROM   RETURNS_ACTUALS NAP
---               JOIN ITEM_PROJ_DETAILS IMPD
---                 ON IMPD.RETURNS_DETAILS_SID = NAP.RETURNS_DETAILS_SID
---        WHERE  IMPD.RN = 1) R_ACTUALS
---       FULL JOIN (SELECT NPP.RETURNS_DETAILS_SID,
---                         ITEM_MASTER_SID,
---                         RS_NAME,
---                         PERIOD_SID,
---                         PROJECTED_RETURN_PERCENT
---                  FROM   RETURNS_PROJ_DETAILS NPP
---                         JOIN ITEM_PROJ_DETAILS IMPD
---                           ON IMPD.RETURNS_DETAILS_SID = NPP.RETURNS_DETAILS_SID
---                  WHERE  IMPD.RN = 1) R_PROJ
---              ON R_ACTUALS.RETURNS_DETAILS_SID = R_PROJ.RETURNS_DETAILS_SID
---                 AND R_ACTUALS.PERIOD_SID = R_PROJ.PERIOD_SID
---IF NOT EXISTS (SELECT 1
---               FROM   #TEMP_RETURNS)
---  BEGIN
---      INSERT INTO #TEMP_RETURNS
---                  (ITEM_MASTER_SID,
---                   RS_NAME,
---                   RETURNS_DETAILS_SID,
---                   PERIOD_SID,
---                   ACTUAL_RATE,
---                   PROJECTED_RATE)
---      SELECT ITEM_MASTER_SID,
---             RS_NAME,
---             RETURNS_DETAILS_SID=NULL,
---             PERIOD_SID,
---             ACTUAL_RATE=0,
---             PROJECTED_RATE=0
---      FROM   #TEMP_CCPD
---             CROSS JOIN #PERIOD P
---      WHERE  P.PERIOD_SID BETWEEN @ACT_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
---  END
---------------------------------------------------PULLING PRICE FOR CFF ITEMS------------
-IF Object_id('TEMPDB..#ITEM_PRICING') IS NOT NULL
-	DROP TABLE #ITEM_PRICING
-
-CREATE TABLE #ITEM_PRICING (
-	ITEM_MASTER_SID INT
-	,PERIOD_SID INT
-	,ITEM_PRICE NUMERIC(22, 6)
-	,PRIMARY KEY (
-		ITEM_MASTER_SID
-		,PERIOD_SID
+	CREATE TABLE #CFF_PROJECTION_MASTER (
+		ID INT IDENTITY(1, 1),
+		CFF_MASTER_SID INT
 		)
-	)
 
-INSERT INTO #ITEM_PRICING (
-	ITEM_MASTER_SID
-	,PERIOD_SID
-	,ITEM_PRICE
-	)
-SELECT ITEM_MASTER_SID
-	,PERIOD_SID
-	,ITEM_PRICE
-FROM [DBO].[Udf_item_pricing](@ITEMID, 'COGS', COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID), @PROJ_END_PERIOD_SID, 'EACH')
+SET @TEMP_PROJ_SID = REPLACE(@CFF_MASTER_SID + ',', ',,', ',')
 
-------------------------------------------------------------------------------
-IF OBJECT_ID('TEMPDB..#ITEM_UOM_DETAILS') IS NOT NULL
-	DROP TABLE #ITEM_UOM_DETAILS
-
-CREATE TABLE #ITEM_UOM_DETAILS (
-	ITEM_MASTER_SID INT
-	,UOM_VALUE NUMERIC(22, 6)
-	,UOM_CODE VARCHAR(50)
-	)
-
-INSERT INTO #ITEM_UOM_DETAILS (
-	ITEM_MASTER_SID
-	,UOM_VALUE
-	,UOM_CODE
-	)
-SELECT IU.ITEM_MASTER_SID
-	,SECONDARY_UOM_CONVERSION_FACTOR AS UOM_VALUE
-	,HT.DESCRIPTION AS UOM_CODE
-FROM ITEM_UOM IU
-JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = IU.SECONDARY_UOM_CODE
-WHERE EXISTS (
-		SELECT 1
-		FROM #TEMP_CCP TC
-		WHERE IU.ITEM_MASTER_SID = TC.ITEM_MASTER_SID
-		)
-	AND HT.DESCRIPTION = @UOM_CODE
-
-IF OBJECT_ID('TEMPDB..#MULTISELECT_DISCOUNTS') IS NOT NULL
-	DROP TABLE #MULTISELECT_DISCOUNTS;
-
-CREATE TABLE #MULTISELECT_DISCOUNTS (
-	PROJECTION_DETAILS_SID INT
-	,RS_CONTRACT_SID INT
-	,PRICE_GROUP_TYPE VARCHAR(50)
-	,CHECK_RECORD BIT
-	,SELECTED_LEVEL VARCHAR(50)
-	,RS_MODEL_SID INT
-	,CCP_DETAILS_SID INT
-	)
-
-INSERT INTO #MULTISELECT_DISCOUNTS (
-	PROJECTION_DETAILS_SID
-	,RS_CONTRACT_SID
-	,PRICE_GROUP_TYPE
-	,CHECK_RECORD
-	,RS_MODEL_SID
-	,CCP_DETAILS_SID
-	)
-SELECT A.PROJECTION_DETAILS_SID
-	,RS_CONTRACT_SID
-	,PRICE_GROUP_TYPE
-	,CHECK_RECORD
-	,RS_MODEL_SID
-	,pd.CCP_DETAILS_SID
-FROM NM_DISCOUNT_PROJ_MASTER A
---JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
-JOIN #TEMP_CCP PD ON PD.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
-group by A.PROJECTION_DETAILS_SID
-	,RS_CONTRACT_SID
-	,PRICE_GROUP_TYPE
-	,CHECK_RECORD
-	,RS_MODEL_SID
-	,pd.CCP_DETAILS_SID
---WHERE EXISTS (
---		SELECT 1
---		FROM #TEMP_CCP B
---		WHERE A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
---		)
-
-IF OBJECT_ID('TEMPDB..#HELPER_TABLE') IS NOT NULL
-	DROP TABLE #HELPER_TABLE;
-
-CREATE TABLE #HELPER_TABLE (
-	HELPER_TABLE_SID INT
-	,DESCRIPTION VARCHAR(100)
-	)
-
-INSERT INTO #HELPER_TABLE
-(HELPER_TABLE_SID 
-	,DESCRIPTION)
-	select HELPER_TABLE_SID 
-	,DESCRIPTION
-FROM HELPER_TABLE HT
-WHERE ( EXISTS (
-		SELECT 1
-		FROM UDF_SPLITSTRING(@FILTER_UDCS, ',') A
-		WHERE A.TOKEN = CONVERT(VARCHAR(100),HT.HELPER_TABLE_SID)
-		)
-	OR @FILTER_UDCS IS  NULL)
-AND @DISCOUNT_VIEW <> 'PROGRAM' AND  @DISCOUNT_VIEW <> 'SCHEDULE ID'
-
-IF (@DISCOUNT_VIEW LIKE '%UDC%')
+WHILE PATINDEX('%,%', @TEMP_PROJ_SID) <> 0
 BEGIN
-	UPDATE A
-	SET A.SELECTED_LEVEL = HT.DESCRIPTION
-	FROM #MULTISELECT_DISCOUNTS A
-	JOIN UDCS B ON B.MASTER_TYPE = 'RS_CONTRACT'
-		AND A.RS_CONTRACT_SID = B.MASTER_SID
-	JOIN #HELPER_TABLE HT ON HT.HELPER_TABLE_SID = CASE @DISCOUNT_LEVEL
-			WHEN 'UDC 1'
-				THEN UDC1
-			WHEN 'UDC 2'
-				THEN UDC2
-			WHEN 'UDC 3'
-				THEN UDC3
-			WHEN 'UDC 4'
-				THEN UDC4
-			WHEN 'UDC 5'
-				THEN UDC5
-			WHEN 'UDC 6'
-				THEN UDC6
-			END
-	
+	SELECT @SP = PATINDEX('%,%', @TEMP_PROJ_SID)
+
+	SELECT @SP_PROJ_SID = LEFT(@TEMP_PROJ_SID, @SP - 1)
+
+	SELECT @TEMP_PROJ_SID = STUFF(@TEMP_PROJ_SID, 1, @SP, '')
+
+	INSERT INTO #CFF_PROJECTION_MASTER (CFF_MASTER_SID)
+	SELECT @SP_PROJ_SID
 END
-ELSE IF (@DISCOUNT_VIEW = 'PROGRAM' OR @DISCOUNT_VIEW = 'SCHEDULE ID')
-BEGIN
-	UPDATE A
-	SET A.SELECTED_LEVEL = IIF(@DISCOUNT_VIEW = 'PROGRAM',RS_NAME,RS_ID)
-	FROM #MULTISELECT_DISCOUNTS A
-	JOIN RS_CONTRACT B ON A.RS_CONTRACT_SID = B.RS_CONTRACT_SID
-	where ( EXISTS (
-		SELECT 1
-		FROM UDF_SPLITSTRING(@FILTER_UDCS, ',') A
-		WHERE A.TOKEN = CONVERT(VARCHAR(100),B.RS_CONTRACT_SID)
-		)
-	OR @FILTER_UDCS IS  NULL)
-END
+
+SELECT @FIRST_PROJ_SID = PM.CFF_MASTER_SID
+FROM #CFF_PROJECTION_MASTER PM
+WHERE ID = 1
+
+--------------------TAKING TABLES BASED ON VIEW STARTS HERE
+ IF @indicator = 'c'
+            BEGIN
+                SET @sales_table=@CUSTOMER_CFF_SALES
+                SET @discount_table=@CUSTOMER_CFF_DISCOUNT
+            END
+          ELSE IF @indicator = 'P'
+            BEGIN
+                SET @sales_table=@PRODUCT_CFF_SALES
+                SET @discount_table=@PRODUCT_CFF_DISCOUNT
+            END
+          ELSE IF @indicator NOT IN ( 'c', 'p' )
+            BEGIN
+                SET @sales_table=@CUSTOM_CFF_SALES
+                SET @discount_table=@CUSTOM_CFF_DISCOUNT
+            END
+
+             
+         DECLARE @SQL NVARCHAR(MAX)			 
+			
+		    IF Object_id('TEMPDB..#RS_INFO') IS NOT NULL
+            DROP TABLE #RS_INFO
+
+          CREATE TABLE #RS_INFO
+            (
+		   [DESCRIPTION] varchar(200),
+           SELECTED_LEVEL  INT 
+            )
+
+          SET @SQL=Concat('SELECT distinct  CASE @PROGRAM
+              WHEN ''SCHEDULE ID'' THEN R.RS_ID
+              WHEN ''PROGRAM'' THEN R.RS_ID
+              WHEN ''SCHEDULE TYPE'' THEN R_TYPE.DESCRIPTION
+              WHEN ''PROGRAM CATEGORY'' THEN RPT.DESCRIPTION
+              WHEN ''PROGRAM TYPE'' THEN RPT.DESCRIPTION
+              WHEN ''SCHEDULE CATEGORY'' THEN RC.DESCRIPTION 
+              WHEN ''UDC1'' THEN UD1.UDC1
+              WHEN ''UDC2'' THEN UD1.UDC2
+              WHEN ''UDC3'' THEN UD1.UDC3
+              WHEN ''UDC4'' THEN UD1.UDC4
+              WHEN ''UDC5'' THEN UD1.UDC5
+              WHEN ''UDC6'' THEN UD1.UDC6
+            END as [DESCRIPTION],
+            CASE @PROGRAM
+              WHEN ''SCHEDULE ID'' THEN R.RS_CONTRACT_SID
+              WHEN ''PROGRAM'' THEN R.RS_CONTRACT_SID                               
+              WHEN ''SCHEDULE TYPE'' THEN RS_TYPE
+              WHEN ''PROGRAM CATEGORY'' THEN REBATE_PROGRAM_TYPE
+              WHEN ''PROGRAM TYPE'' THEN REBATE_PROGRAM_TYPE
+              WHEN ''SCHEDULE CATEGORY'' THEN RS_CATEGORY
+              WHEN ''UDC1'' THEN UD.UDC1
+              WHEN ''UDC2'' THEN UD.UDC2
+              WHEN ''UDC3'' THEN UD.UDC3
+              WHEN ''UDC4'' THEN UD.UDC4
+              WHEN ''UDC5'' THEN UD.UDC5
+              WHEN ''UDC6'' THEN UD.UDC6
+            END SELECTED_LEVEL
+     FROM   RS_CONTRACT R
+            LEFT JOIN HELPER_TABLE R_TYPE
+                   ON R_TYPE.HELPER_TABLE_SID = R.RS_TYPE
+            LEFT JOIN HELPER_TABLE RPT
+                   ON RPT.HELPER_TABLE_SID = R.REBATE_PROGRAM_TYPE
+            LEFT JOIN HELPER_TABLE RC
+                   ON RC.HELPER_TABLE_SID = R.RS_CATEGORY
+            LEFT JOIN (SELECT U.MASTER_SID,
+                              U1.DESCRIPTION AS UDC1,
+                              U2.DESCRIPTION AS UDC2,
+                              U3.DESCRIPTION AS UDC3,
+                              U4.DESCRIPTION AS UDC4,
+                              U5.DESCRIPTION AS UDC5,
+                              U6.DESCRIPTION UDC6
+                       FROM   UDCS U
+                              LEFT JOIN HELPER_TABLE U1
+                                     ON U1.HELPER_TABLE_SID = U.UDC1
+                              LEFT JOIN HELPER_TABLE U2
+                                    ON U2.HELPER_TABLE_SID = U.UDC2
+                              LEFT JOIN HELPER_TABLE U3
+                                     ON U3.HELPER_TABLE_SID = U.UDC3
+                              LEFT JOIN HELPER_TABLE U4
+                                     ON U4.HELPER_TABLE_SID = U.UDC4
+                              LEFT JOIN HELPER_TABLE U5
+                                     ON U5.HELPER_TABLE_SID = U.UDC5
+                              LEFT JOIN HELPER_TABLE U6
+                                     ON U6.HELPER_TABLE_SID = U.UDC6
+                       WHERE  MASTER_TYPE = ''RS_CONTRACT'') UD1
+					   ON UD1.MASTER_SID=R.RS_CONTRACT_SID
+
+                                                INNER JOIN ', @DEDUCTION_TABLE, ' D
+                    ON  R.RS_CONTRACT_SID = D.RS_CONTRACT_SID 
+                                                LEFT JOIN UDCS UD
+                   ON UD.MASTER_SID = R.RS_CONTRACT_SID
+                                                                   and MASTER_TYPE = ''RS_CONTRACT''    
+                                                WHERE exists (select 1 from [UDF_SPLITSTRING](@DISCOUNT, '','') hd where hd.token=R.RS_CONTRACT_SID
+                                                ) or nullif(@DISCOUNT,'''') is null')
+												
+
+   
+	  INSERT INTO #RS_INFO
+          EXEC Sp_executesql
+            @sql,
+            N'@DISCOUNT varchar(max),@PROGRAM varcHar(100)',
+            @DISCOUNT=@DISCOUNT,
+            @PROGRAM=@PROGRAM 
+			
+ DECLARE @SQL_C NVARCHAR(MAX) , @SQL_PRO NVARCHAR(MAX)	
+ IF OBJECT_ID('TEMPDB..#HIERARCHY_NO','U') IS NOT NULL
+    DROP TABLE #HIERARCHY_NO
+CREATE TABLE #HIERARCHY_NO
+(
+HIERARCHY_NO VARCHAR(1000)
+)
+
+set @SQL_C=concat('
+INSERT INTO #HIERARCHY_NO
+
+SELECT HIERARCHY_NO FROM ' ,@CCP_HIERARCHY,' CCP JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+ ON ',case when @INDICATOR='c' then 'ccp.CUST_HIERARCHY_NO' when  @INDICATOR='p' then 'ccp.prod_HIERARCHY_NO' end,' like rld.hierarchy_no and rld.level_no>=',@level_no
+ ,' JOIN CFF_MASTER CFF ON CFF.CFF_MASTER_SID=',@CFF_MASTER_SID,' AND RLD.RELATIONSHIP_BUILDER_SID=',case when @INDICATOR='c' then 'CFF.CUST_RELATIONSHIP_BUILDER_SID ' when  @INDICATOR='p' then 'CFF.PROD_RELATIONSHIP_BUILDER_SID ' end
+ ,' JOIN RELATIONSHIP_BUILDER RB ON RB.RELATIONSHIP_BUILDER_SID=RLD.RELATIONSHIP_BUILDER_SID AND RB.VERSION_NO=RLD.VERSION_NO'
+ )
+
+
+ set @SQL_PRO=concat('
+INSERT INTO #HIERARCHY_NO
+
+SELECT HIERARCHY_NO FROM ' ,@CUSTOM_CCP_SALES)
+
+
+
+IF @INDICATOR IN('C','P')
+
+EXEC(@SQL_C)
 ELSE
-BEGIN
-	UPDATE A
-	SET A.SELECTED_LEVEL = IIF(@DISCOUNT_VIEW= 'PROGRAM CATEGORY',PRICE_GROUP_TYPE ,HT.DESCRIPTION) 
-	FROM #MULTISELECT_DISCOUNTS A
-	JOIN RS_CONTRACT B ON A.RS_CONTRACT_SID = B.RS_CONTRACT_SID
-	JOIN #HELPER_TABLE HT ON HT.HELPER_TABLE_SID = CASE @DISCOUNT_VIEW
-			WHEN 'SCHEDULE CATEGORY'
-				THEN RS_CATEGORY
-			WHEN 'SCHEDULE TYPE'
-				THEN RS_TYPE
-			WHEN 'PROGRAM CATEGORY'
-				THEN REBATE_PROGRAM_TYPE
-			WHEN 'PROGRAM TYPE'
-				THEN REBATE_PROGRAM_TYPE
-			END
+EXEC(@SQL_PRO) 
+		 
+IF Object_id('TEMPDB..#CUSTOMER_DETAILS_TEMP') IS NOT NULL 
+ DROP TABLE #CUSTOMER_DETAILS_TEMP
+
+CREATE TABLE #CUSTOMER_DETAILS_TEMP
+( 
+ITEM_MASTER_SID     INT,
+HIERARCHY_NO        VARCHAR(8000)
+,ROW_ID int
+)
+
+
+IF @indicator IN ( 'c', 'p' )
+            BEGIN
+SET @SQL_C = CONCAT('INSERT INTO #CUSTOMER_DETAILS_TEMP (
+	ITEM_MASTER_SID
+	 ,HIERARCHY_NO
+	)
+SELECT DISTINCT 
+	 ITEM_MASTER_SID,
+	HR.HIERARCHY_NO  AS HIERARCHY_NO
+FROM ', @CCP_HIERARCHY, ' CH
+JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+JOIN #HIERARCHY_NO HR ON ', case when @INDICATOR='c' then 'CH.CUST_HIERARCHY_NO' when  @INDICATOR='p' then 'CH.prod_HIERARCHY_NO' end , '
+ = HR.HIERARCHY_NO')
+
+        
+		EXEC Sp_executesql @SQL_C
+
+	END
+
+
+ IF @indicator NOT IN ( 'c', 'p' )
+            BEGIN
+                SET @SQL_C = Concat('INSERT INTO #CUSTOMER_DETAILS_TEMP (
+	ITEM_MASTER_SID,
+     HIERARCHY_NO,row_id
+	)
+SELECT DISTINCT 
+	ITEM_MASTER_SID
+	 ,HR.HIERARCHY_NO
+	,rowid 
+FROM ',@CUSTOM_CCP_SALES,' C
+                  join ', @CCP_HIERARCHY, ' ch
+                     on  ch.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+JOIN #HIERARCHY_NO HR ON HR.HIERARCHY_NO=C.HIERARCHY_NO
+AND  C.CUST_VIEW_MASTER_SID= @CUSTOM_VIEW_MASTER_SID  
+                       
+ ')
+
+EXEC Sp_executesql @SQL_C,
+		N'@CUSTOM_VIEW_MASTER_SID INT',
+		@CUSTOM_VIEW_MASTER_SID=@CUSTOM_VIEW_MASTER_SID
+	
+
 END
 
-DELETE FROM #MULTISELECT_DISCOUNTS WHERE  SELECTED_LEVEL IS NULL
---------------------------------------------------STROING OUTPUT IN RESULT TABLE ------------
-IF Object_id('TEMPDB.DBO.#RESULT', 'U') IS NOT NULL
-	DROP TABLE #RESULT;
 
-CREATE TABLE #RESULT (
-	CFF_PROJECTION_MASTER_SID INT
-	,HIERARCHY_NO VARCHAR(8000)
-	,LEVEL_NAME VARCHAR(100)
-	,YEAR INT
-	,PERIOD INT
-	,RS_NAME VARCHAR(100)
-	,PARENT_HIERARCHY_NO VARCHAR(8000)
-	,TOTAL_DISCOUNT NUMERIC(22, 6)
-	,TOTAL_DISCOUNT_PROJECTED NUMERIC(22, 6)
-	,TOTAL_DISCOUNT_PERCENTAGE NUMERIC(22, 6)
-	,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE NUMERIC(22, 6)
-	,TOTAL_RPU NUMERIC(22, 6)
-	,TOTAL_PROJECTED_RPU NUMERIC(22, 6)
-	,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT NUMERIC(22, 6)
-	,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT NUMERIC(22, 6)
-	,TOTAL_DISCOUNT_ACCRUAL NUMERIC(22, 6)
-	,TOTAL_DISCOUNT_ACCRUAL_PERCENTAGE NUMERIC(22, 6)
-	,TOTAL_RPU_ACCRUAL NUMERIC(22, 6)
-	,DISCOUNT_OF_EX_FACTORY_ACCRUAL NUMERIC(22, 6)
-	)
+          
+-----------------Taking file Values including Prior CFF'S
 
----------------------pulling rs_name information for first cff----------------------
-DECLARE @VAR INT
+IF OBJECT_ID('TEMPDB..#PRODUCT_FILE_DATA') IS NOT NULL
+DROP TABLE #PRODUCT_FILE_DATA
+CREATE TABLE #PRODUCT_FILE_DATA
+(
+CFF_MASTER_SID INT,
+HIERARCHY_NO VARCHAR(8000),
+ROW_ID INT,
+YEAR INT,
+PERIOD SMALLINT,
+EX_FACTORY_SALES NUMERIC(22,6),
+--DEMAND_SALES NUMERIC(22,6),
+--ADJUSTED_DEMAND  NUMERIC(22,6),
+--IW_MASTER NUMERIC(22,6),
+INDICATOR BIT
+)
 
-SET @VAR = CASE 
-		WHEN @DISCOUNT_VIEW = 'PROGRAM'
-			OR @DISCOUNT_VIEW IS NULL
-			THEN 1
-		ELSE 0
-		END
+SET @SQL_PRO=CONCAT('
+INSERT INTO #PRODUCT_FILE_DATA (CFF_MASTER_SID,HIERARCHY_NO,ROW_ID,YEAR,PERIOD,EX_FACTORY_SALES,INDICATOR)
+SELECT      
+            CF.CFF_MASTER_SID
+			,PRO.HIERARCHY_NO
+			,PRO.ROW_ID
+            ,YEAR
+			,PERIOD
+			,SUM(EX_FACTORY_SALES_ACTUALS) AS EX_FACTORY_SALES
+			,0 AS INDICATOR
+		FROM  #CFF_PROJECTION_MASTER CFM 
+	    CROSS JOIN  #CUSTOMER_DETAILS_TEMP PRO
+		CROSS JOIN #PERIOD P 
+		LEFT JOIN ', @CFF_PRODUCT ,' CF ON CF.CFF_MASTER_SID=CFM.CFF_MASTER_SID AND CF.CFF_MASTER_SID = @FIRST_PROJ_SID
+		AND P.PERIOD_SID = CF.PERIOD_SID AND CF.ITEM_MASTER_SID=PRO.ITEM_MASTER_SID
+		GROUP BY YEAR
+			,PERIOD
+			,cf.CFF_MASTER_SID
+			,PRO.HIERARCHY_NO
+			,PRO.ROW_ID
+  UNION ALL
 
-IF Object_id('TEMPDB..#PRIOR_RS_DATA') IS NOT NULL
-	DROP TABLE #PRIOR_RS_DATA
+  SELECT    CF.CFF_MASTER_SID
+            ,PRO.HIERARCHY_NO
+			,PRO.ROW_ID
+            ,YEAR
+			,PERIOD
+			,SUM(EX_FACTORY_SALES_PROJ) AS EX_FACTORY_SALES
+			, 1 AS INDICATOR
+		FROM #CFF_PROJECTION_MASTER CFM 
+	    CROSS JOIN (SELECT DISTINCT ITEM_MASTER_SID,HIERARCHY_NO,ROW_ID FROM #CUSTOMER_DETAILS_TEMP) PRO
+		CROSS JOIN #PERIOD P 
+		LEFT JOIN ', @CFF_PRODUCT ,' CF ON CF.CFF_MASTER_SID=CFM.CFF_MASTER_SID AND P.PERIOD_SID = CF.PERIOD_SID 
+		AND CF.ITEM_MASTER_SID=PRO.ITEM_MASTER_SID
+		GROUP BY YEAR
+			,PERIOD
+			,CF.CFF_MASTER_SID
+			,PRO.HIERARCHY_NO
+			,PRO.ROW_ID')
 
-SELECT DISTINCT  DISCOUNT
-	,NM_PPA_IND
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,coalesce(PARENT_HIERARCHY_NO,HIERARCHY_NO) PARENT_HIERARCHY_NO
-	,CCP_DETAILS_SID
-INTO #PRIOR_RS_DATA
-FROM (
-	SELECT CASE 
-			WHEN @DISCOUNT_VIEW = 'PROGRAM'
-				THEN CONVERT(VARCHAR(100), NMDP.RS_CONTRACT_SID)
-			ELSE SELECTED_LEVEL
-			END AS discount
-		,'NM' AS NM_PPA_IND
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		,PD.CCP_DETAILS_SID
-	FROM /*CFF_DETAILS CFF
-	JOIN PROJECTION_DETAILS PD ON CFF.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
-		AND CFF.CCP_DETAILS_SID = PD.CCP_DETAILS_SID*/
-		#CFF_DETAILS_CURRENT  PD
-	JOIN #MULTISELECT_DISCOUNTS NMDP ON NMDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-	JOIN RS_CONTRACT RM ON RM.RS_CONTRACT_SID = NMDP.RS_CONTRACT_SID
-	INNER JOIN #CCP C ON C.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	--WHERE CFF.CFF_MASTER_SID = @FIRST_PROJ_SID
-	/*
+			EXEC Sp_executesql @SQL_PRO,
+			N'@FIRST_PROJ_SID int',
+			@FIRST_PROJ_SID=@FIRST_PROJ_SID
+
+IF @INDICATOR IN ('C','P')
+BEGIN
+DECLARE @SQL_OUT NVARCHAR(MAX)
+--product_cff_discount
+SET @SQL_OUT=CONCAT('
+	SELECT S.CFF_MASTER_SID,
+	S.HIERARCHY_NO,
+	S.YEAR,
+	S.PERIOD,
+	SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0) AS TOTAL_DISCOUNT,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.SALES), 0)) * 100 AS TOTAL_DISCOUNT_PERCENTAGE,
+	SUM(MD.DISCOUNT) AS MANDATED_DISCOUNT,
+	SUM(SPD.DISCOUNT) AS SUPPLEMENTAL_DISCOUNT,
+	(SUM(MD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS MANDATED_DISCOUNT_PERCENTAGE,
+	(SUM(SPD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS SUPPLEMENTAL_DISCOUNT_PERCENTAGE,
+	SUM(ND.DISCOUNT) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_DISCOUNT_RPU,
+	(SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_RPU,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
+	SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
+	0 AS INDICATOR,
+	md.DESCRIPTION
+
+	FROM (select  HR.HIERARCHY_NO,A.PERIOD,A.YEAR,sum(A.SALES) SALES ,sum(A.UNITS) UNITS,
+	A.CFF_MASTER_SID  from #HIERARCHY_NO HR INNER JOIN ', @sales_table ,' A 
+	ON   a.HIERARCHY_NO like hr.HIERARCHY_NO+''%'' AND A.INDICATOR=0 AND A.FILTER_CCP=1
+	AND (SALES_INCLUSION = @SALES_INCLUSION  OR @SALES_INCLUSION IS NULL) AND A.FILTER_CCP = 1
+	JOIN #PERIOD P ON P.PERIOD=A.PERIOD AND P.YEAR=A.YEAR
+	group by A.PERIOD,A.YEAR,A.CFF_MASTER_SID,HR.HIERARCHY_NO
+	) S
+
+	INNER JOIN #CFF_PROJECTION_MASTER CFM ON S.CFF_MASTER_SID=CFM.CFF_MASTER_SID AND S.CFF_MASTER_SID = @FIRST_PROJ_SID 
+	LEFT JOIN #PRODUCT_FILE_DATA PFD 
+	ON PFD.PERIOD = S.PERIOD AND S.YEAR = PFD.YEAR AND S.CFF_MASTER_SID = PFD.CFF_MASTER_SID 
+	AND S.HIERARCHY_NO = PFD.HIERARCHY_NO  AND PFD.INDICATOR=0
+
+	LEFT JOIN ( SELECT  HR.HIERARCHY_NO,ND.PERIOD,ND.YEAR,SUM(ND.SALES) SALES,SUM(ND.UNITS) AS UNITS,DESCRIPTION,
+	ND.CFF_MASTER_SID,SUM(ND.ACCRUALS) AS ACCRUALS,SUM(ND.DISCOUNT) DISCOUNT FROM #HIERARCHY_NO HR join  ' , @discount_table ,' ND
+	on ND.HIERARCHY_NO like HR.HIERARCHY_NO+''%'' AND ND.INDICATOR=0 AND ND.DISCOUNT_TYPE=0 
+	AND (ND.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL)  AND ND.FILTER_CCP = 1
+    LEFT join #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL
+	 GROUP BY ND.PERIOD,ND.YEAR,ND.CFF_MASTER_SID,DESCRIPTION,HR.HIERARCHY_NO) ND
+
+	ON ND.PERIOD = S.PERIOD AND S.YEAR = ND.YEAR AND S.CFF_MASTER_SID = ND.CFF_MASTER_SID AND S.HIERARCHY_NO=ND.HIERARCHY_NO 
+	LEFT JOIN (SELECT HR.HIERARCHY_NO,MD.PERIOD,MD.YEAR,SUM(MD.SALES) SALES,SUM(MD.UNITS) AS UNITS,DESCRIPTION,
+	MD.CFF_MASTER_SID,SUM(MD.ACCRUALS) AS ACCRUALS,SUM(MD.DISCOUNT) DISCOUNT FROM #HIERARCHY_NO HR join  ' , @discount_table ,' MD 
+	ON MD.HIERARCHY_NO like HR.HIERARCHY_NO+''%'' AND MD.INDICATOR=0 AND MD.DISCOUNT_TYPE=1
+	 AND (MD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND MD.FILTER_CCP = 1
+	LEFT join #RS_INFO B ON md.RS_CONTRACT_SID=B.SELECTED_LEVEL
+	 GROUP BY MD.PERIOD,MD.YEAR,MD.CFF_MASTER_SID,DESCRIPTION,HR.HIERARCHY_NO ) MD
+
+	ON MD.PERIOD = S.PERIOD AND S.YEAR = MD.YEAR AND S.CFF_MASTER_SID = MD.CFF_MASTER_SID AND S.HIERARCHY_NO = MD.HIERARCHY_NO 
+	LEFT JOIN (SELECT HR.HIERARCHY_NO,SPD.PERIOD,SPD.YEAR,SUM(SPD.SALES) SALES,SUM(SPD.UNITS) AS UNITS,DESCRIPTION,
+	SPD.CFF_MASTER_SID,SUM(SPD.ACCRUALS) AS ACCRUALS,SUM(SPD.DISCOUNT) DISCOUNT FROM #HIERARCHY_NO HR join  ' , @discount_table ,' SPD 
+	ON SPD.HIERARCHY_NO like HR.HIERARCHY_NO+''%'' AND SPD.INDICATOR=0 AND SPD.DISCOUNT_TYPE=2
+	 AND (SPD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND SPD.FILTER_CCP = 1
+	LEFT join #RS_INFO B ON spd.RS_CONTRACT_SID=B.SELECTED_LEVEL
+	 GROUP BY SPD.PERIOD,SPD.YEAR,SPD.CFF_MASTER_SID,DESCRIPTION,HR.HIERARCHY_NO ) SPD
+
+	ON SPD.PERIOD = S.PERIOD AND S.YEAR = SPD.YEAR AND S.CFF_MASTER_SID = SPD.CFF_MASTER_SID AND S.HIERARCHY_NO = SPD.HIERARCHY_NO
+
+	GROUP BY S.CFF_MASTER_SID,
+	         S.YEAR,
+			 S.PERIOD,md.DESCRIPTION,S.HIERARCHY_NO
+
 	UNION ALL
 	
-	SELECT CASE 
-			WHEN @DISCOUNT_VIEW = 'PROGRAM'
-				OR @DISCOUNT_VIEW IS NULL
-				THEN CONVERT(VARCHAR(100), RM.RS_CONTRACT_SID)
-			ELSE 'Price Protection'
-			END AS PPA_DISCOUNT
-		,'PPA' AS NM_PPA_IND
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		,PD.CCP_DETAILS_SID
-	FROM CFF_DETAILS CFF
-	JOIN PROJECTION_DETAILS PD ON CFF.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
-		AND CFF.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	JOIN NM_PPA_PROJECTION_MASTER PPA ON PPA.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-	JOIN RS_CONTRACT RM ON RM.RS_MODEL_SID = PPA.RS_MODEL_SID
-		AND RM.RS_CONTRACT_SID = PPA.RS_CONTRACT_SID
-	INNER JOIN #CCP C ON C.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	WHERE CFF.CFF_MASTER_SID = @FIRST_PROJ_SID*/
-	) A
+	SELECT S.CFF_MASTER_SID,
+	S.HIERARCHY_NO,
+	S.YEAR,
+	S.PERIOD,
+	SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0) AS TOTAL_DISCOUNT,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.SALES), 0)) * 100 AS TOTAL_DISCOUNT_PERCENTAGE,
+	SUM(MD.DISCOUNT) AS MANDATED_DISCOUNT,
+	SUM(SPD.DISCOUNT) AS SUPPLEMENTAL_DISCOUNT,
+	(SUM(MD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS MANDATED_DISCOUNT_PERCENTAGE,
+	(SUM(SPD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS SUPPLEMENTAL_DISCOUNT_PERCENTAGE,
+	SUM(ND.DISCOUNT) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_DISCOUNT_RPU,
+	(SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_RPU,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
+	SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
+	1 AS INDICATOR,
+	md.DESCRIPTION
+	FROM (select  HR.HIERARCHY_NO,A.PERIOD,A.YEAR,sum(A.SALES) SALES ,sum(A.UNITS) UNITS,
+	A.CFF_MASTER_SID from #HIERARCHY_NO HR INNER JOIN ', @sales_table ,' A 
+	ON   a.HIERARCHY_NO like hr.HIERARCHY_NO+''%''
+	AND A.INDICATOR=1
+	AND (SALES_INCLUSION = @SALES_INCLUSION  OR @SALES_INCLUSION IS NULL) AND A.FILTER_CCP = 1
+	JOIN #PERIOD P ON P.PERIOD=A.PERIOD AND P.YEAR=A.YEAR
+	group by A.PERIOD,A.YEAR,A.CFF_MASTER_SID,HR.HIERARCHY_NO
+	) S
+
+	INNER JOIN #CFF_PROJECTION_MASTER CFM ON S.CFF_MASTER_SID=CFM.CFF_MASTER_SID 
+	LEFT JOIN #PRODUCT_FILE_DATA PFD 
+	ON PFD.PERIOD = S.PERIOD AND S.YEAR = PFD.YEAR AND S.CFF_MASTER_SID = PFD.CFF_MASTER_SID 
+	AND S.HIERARCHY_NO = PFD.HIERARCHY_NO  AND PFD.INDICATOR=1
+
+	LEFT JOIN ( SELECT HR.HIERARCHY_NO,ND.PERIOD,ND.YEAR,SUM(ND.SALES) SALES,SUM(ND.UNITS) AS UNITS,DESCRIPTION,
+	ND.CFF_MASTER_SID,SUM(ND.ACCRUALS) AS ACCRUALS,SUM(ND.DISCOUNT) DISCOUNT FROM #HIERARCHY_NO HR join   ' , @discount_table ,' ND 
+	ON ND.HIERARCHY_NO like hr.HIERARCHY_NO+''%'' AND ND.INDICATOR=1 AND ND.DISCOUNT_TYPE=0
+	 AND (ND.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND ND.FILTER_CCP = 1
+	LEFT join #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL
 	
-IF OBJECT_ID('TEMPDB.DBO.#CURRENT_RS_DATA_PERIOD', 'U') IS NOT NULL
-	DROP TABLE #CURRENT_RS_DATA_PERIOD;
+	 GROUP BY ND.PERIOD,ND.YEAR,ND.CFF_MASTER_SID,DESCRIPTION,HR.HIERARCHY_NO ) ND
 
-SELECT DISCOUNT
-	--,YEAR
-	--,PERIOD
-	,pd.CFF_MASTER_SID
-	,pd.PROJECTION_DETAILS_SID
-	,NM_PPA_IND
-	--,PERIOD_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	,IIF(SALES_INCLUSION = 'YES', 1, 0) SALES_INCLUSION
-	,IIF(DEDUCTION_INCLUSION = 'YES', 1, 0) DEDUCTION_INCLUSION
-INTO #CURRENT_RS_DATA_PERIOD
-FROM #PRIOR_RS_DATA PR
-CROSS JOIN (
-	SELECT CFF_PROJECTION_MASTER_SID AS CFF_MASTER_SID
-	FROM #CFF_PROJECTION_MASTER
-	WHERE ID = 1
-	) F
-	JOIN #CFF_DETAILS_CURRENT PD ON PR.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-/*JOIN CFF_DETAILS CD ON PR.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
-	AND F.CFF_MASTER_SID = CD.CFF_MASTER_SID
-JOIN PROJECTION_DETAILS PD ON PR.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	AND CD.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID*/
-LEFT JOIN #MULTISELECT_DISCOUNTS RS ON RS.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-	AND IIF(@VAR = 1, CONVERT(VARCHAR(100), RS.RS_CONTRACT_SID), SELECTED_LEVEL) = DISCOUNT
-JOIN CFF_DEDUCTION_INCLUSION CDI ON CDI.CFF_DETAILS_SID = pd.CFF_DETAILS_SID
-	AND CDI.RS_MODEL_SID = RS.RS_MODEL_SID
---CROSS JOIN (
---	SELECT DISTINCT YEAR
---		,PERIOD
---		,PERIOD_SID
---	FROM #PERIOD
---	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
---			AND @PROJ_END_PERIOD_SID
---	) P
-group by DISCOUNT
-	--,YEAR
-	--,PERIOD
-	,pd.CFF_MASTER_SID
-	,pd.PROJECTION_DETAILS_SID
-	,NM_PPA_IND
-	--,PERIOD_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	,IIF(SALES_INCLUSION = 'YES', 1, 0) 
-	,IIF(DEDUCTION_INCLUSION = 'YES', 1, 0) 
+	ON ND.PERIOD = S.PERIOD AND S.YEAR = ND.YEAR AND S.CFF_MASTER_SID = ND.CFF_MASTER_SID AND S.HIERARCHY_NO=ND.HIERARCHY_NO 
+	LEFT JOIN (SELECT  HR.HIERARCHY_NO,MD.PERIOD,MD.YEAR,SUM(MD.SALES) SALES,SUM(MD.UNITS) AS UNITS,DESCRIPTION,
+	MD.CFF_MASTER_SID,SUM(MD.ACCRUALS) AS ACCRUALS,SUM(MD.DISCOUNT) DISCOUNT  FROM #HIERARCHY_NO HR  JOIN ' , @discount_table ,' MD 
+	ON MD.HIERARCHY_NO like hr.HIERARCHY_NO+''%'' AND MD.INDICATOR=1 AND MD.DISCOUNT_TYPE=1
+	 AND (MD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND MD.FILTER_CCP = 1
+	LEFT join #RS_INFO B ON md.RS_CONTRACT_SID=B.SELECTED_LEVEL
+	 GROUP BY MD.PERIOD,MD.YEAR,MD.CFF_MASTER_SID,DESCRIPTION,HR.HIERARCHY_NO ) MD
 
-------------------finding actual start period and end period for each RS_NAME,HIERARCHY_NO------------------------------
---  IF Object_id('TEMPDB.DBO.#RS_DATA_PERIOD', 'U') IS NOT NULL
---    DROP TABLE #RS_DATA_PERIOD;
---  SELECT RS_CONTRACT_SID,
---         RS_NAME,
---         HIERARCHY_NO,
---         LEVEL_NAME,
---         YEAR,
---         PERIOD,
---NM_PPA_IND
---  INTO   #RS_DATA_PERIOD
---  FROM   #RS_DATA A
---         CROSS JOIN (SELECT DISTINCT year,
---                                     period
---                     FROM   #PERIOD
---                     WHERE  PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID) AND @PROJ_END_PERIOD_SID) P
---SELECT DISTINCT NMDP.RS_MODEL_SID,
---                               case when @DISCOUNT_VIEW = 'program' or @DISCOUNT_VIEW is null then 
---                            RS_NAME    else PRICE_GROUP_TYPE end as discount
---               FROM   #CFF_DETAILS CFF
--------------PULLING CCP LEVEL + HIERARCHY_NO,LEVEL_NAME INFORMATION FOR ONE PROJECTION---------------------
-IF OBJECT_ID('TEMPDB.DBO.#CCP_INFO', 'U') IS NOT NULL
-	DROP TABLE #CCP_INFO;
+	ON MD.PERIOD = S.PERIOD AND S.YEAR = MD.YEAR AND S.CFF_MASTER_SID = MD.CFF_MASTER_SID AND S.HIERARCHY_NO = MD.HIERARCHY_NO 
+	LEFT JOIN (SELECT  HR.HIERARCHY_NO,SPD.PERIOD,SPD.YEAR,SUM(SPD.SALES) SALES,SUM(SPD.UNITS) AS UNITS,DESCRIPTION,
+	SPD.CFF_MASTER_SID,SUM(SPD.ACCRUALS) AS ACCRUALS,SUM(SPD.DISCOUNT) DISCOUNT FROM #HIERARCHY_NO HR  JOIN ' , @discount_table ,' SPD 
+	ON SPD.HIERARCHY_NO like hr.HIERARCHY_NO+''%'' AND SPD.INDICATOR=1 AND SPD.DISCOUNT_TYPE=2
+	 AND (SPD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND SPD.FILTER_CCP = 1
+	LEFT join #RS_INFO B ON spd.RS_CONTRACT_SID=B.SELECTED_LEVEL
+	 GROUP BY SPD.PERIOD,SPD.YEAR,SPD.CFF_MASTER_SID,DESCRIPTION,HR.HIERARCHY_NO ) SPD
 
-SELECT distinct pd.CFF_MASTER_SID
-	--,PD.PROJECTION_MASTER_SID
-	--,PD.PROJECTION_DETAILS_SID
-	--,PD.CCP_DETAILS_SID
-	--,HIERARCHY_NO
-	--,LEVEL_NAME
-	,FORECASTING_TYPE
-	--,PARENT_HIERARCHY_NO
-INTO #CCP_INFO
-FROM /*PROJECTION_DETAILS PD
-JOIN CFF_DETAILS CD ON CD.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
-	AND CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID*/
-#CFF_DETAILS_CURRENT pd
-JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
---JOIN #CCP C ON C.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
---WHERE CFF_MASTER_SID = @FIRST_PROJ_SID
+	ON SPD.PERIOD = S.PERIOD AND S.YEAR = SPD.YEAR AND S.CFF_MASTER_SID = SPD.CFF_MASTER_SID AND S.HIERARCHY_NO = SPD.HIERARCHY_NO
 
----------------------------------------------------------------------------------
-IF OBJECT_ID('TEMPDB..#ACCRUAL_DISCOUNT') IS NOT NULL
-	DROP TABLE #ACCRUAL_DISCOUNT;
+	GROUP BY S.CFF_MASTER_SID,
+	         S.YEAR,
+			 S.PERIOD
+			,md.DESCRIPTION
+			,S.HIERARCHY_NO
+')
 
-WITH CTE
-AS (
-	SELECT A.CCP_DETAILS_SID
-		,A.COMPANY_MASTER_SID
-		,A.CONTRACT_MASTER_SID
-		,A.ITEM_MASTER_SID
-		,A.PROJECTION_DETAILS_SID
-		,A.CFF_MASTER_SID
-		,A.HIERARCHY_NO
-		,A.LEVEL_NAME
-		,A.PROJECTION_MASTER_SID
-		,A.PARENT_HIERARCHY_NO
-		,p.PERIOD_SID
-		,PERIOD_DATE
-		,NMDP.RS_CONTRACT_SID
-		,SELECTED_LEVEL AS DISCOUNT
-	FROM #TEMP_CCP A
-	JOIN #MULTISELECT_DISCOUNTS NMDP  ON NMDP.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
-	JOIN #PERIOD P ON P.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	)
-SELECT CFF_MASTER_SID
-	,PROJECTION_DETAILS_SID
-	,PERIOD_SID
-	,RC.RS_CONTRACT_SID
-	,DISCOUNT
-	,SUM(DEDUCTION_AMOUNT) / (DATEDIFF(MM, A1.ACCRUAL_PERIOD_START_DATE, A1.ACCRUAL_PERIOD_END_DATE) + 1) DISCOUNT_AMOUNT
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	,a2.CCP_DETAILS_SID
-INTO #ACCRUAL_DISCOUNT
-FROM ACCRUAL_MASTER A1
-JOIN RS_CONTRACT RC ON RC.RS_MODEL_SID = A1.RS_MODEL_SID
-	AND RC.CONTRACT_MASTER_SID = A1.CONTRACT_MASTER_SID
-JOIN CTE A2 ON A2.PERIOD_DATE BETWEEN CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, 0))))
-		AND CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_END_DATE, 0))))
-	AND A1.CONTRACT_MASTER_SID = A2.CONTRACT_MASTER_SID
-	AND A1.COMPANY_MASTER_SID = A2.COMPANY_MASTER_SID
-	AND A1.ITEM_MASTER_SID = A2.ITEM_MASTER_SID
-	AND A2.RS_CONTRACT_SID = RC.RS_CONTRACT_SID
-	AND DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, - 1)) >= @ACTUAL_START_DATE
-	AND A1.ACCRUAL_PERIOD_END_DATE <= @PROJ_END_PERIOD_DATE
-GROUP BY CFF_MASTER_SID
-	,PROJECTION_DETAILS_SID
-	,PERIOD_SID
-	,RC.RS_CONTRACT_SID
-	,DISCOUNT
-	,ACCRUAL_PERIOD_START_DATE
-	,ACCRUAL_PERIOD_END_DATE
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	,A2.CCP_DETAILS_SID
 
----------------------------------------finding indicator foreach hierarchy(for salesinformation)---------------------------		
---IF Object_id('TEMPDB..#TEMP_HIER_SALES') IS NOT NULL
---	DROP TABLE #TEMP_HIER_SALES
---CREATE TABLE #TEMP_HIER_SALES (
---	HIERARCHY_NO VARCHAR(50)
---	,INDICATOR BIT
---	,PRIMARY KEY (HIERARCHY_NO)
---	)
---INSERT INTO #TEMP_HIER_SALES (
---	HIERARCHY_NO
---	,INDICATOR
---	)
---SELECT DISTINCT HIERARCHY_NO
---	,1
---FROM #CCP A
---JOIN #SALES_INFORMATION B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
----------------------------------------finding indicator foreach hierarchy(for discount information)---------------------------
---IF Object_id('TEMPDB..#TEMP_HIER_DISC') IS NOT NULL
---	DROP TABLE #TEMP_HIER_DISC
---CREATE TABLE #TEMP_HIER_DISC (
---	HIERARCHY_NO VARCHAR(50)
---	,INDICATOR BIT
---	,PRIMARY KEY (HIERARCHY_NO)
---	)
---INSERT INTO #TEMP_HIER_DISC (
---	HIERARCHY_NO
---	,INDICATOR
---	)
---SELECT DISTINCT HIERARCHY_NO
---	,1
---FROM #CCP A
---JOIN #DISCOUNT_INFORMATION B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-------------------------------------------------------------------- Newly added ends here
---------------------------------------------------------- pulling Discount projected information----------------------
-IF OBJECT_ID('TEMPDB..#NM_DISCOUNT_PROJECTION') IS NOT NULL
-	DROP TABLE #NM_DISCOUNT_PROJECTION --NM
+	EXEC Sp_executesql @SQL_OUT,
+	N'@SALES_INCLUSION int,@FIRST_PROJ_SID int,@DEDUCTION_INCLUSION int'
+	,@SALES_INCLUSION=@SALES_INCLUSION,
+	@FIRST_PROJ_SID =@FIRST_PROJ_SID ,
+	@DEDUCTION_INCLUSION=@DEDUCTION_INCLUSION
 
-SELECT ISNULL(SUM(IIF((DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL), NSP.PROJECTION_SALES, NULL)), 0) AS PROJECTION_SALES
-	,SUM(AD.DISCOUNT_AMOUNT) AS ACCRUAL_AMOUNT_PROJECTION
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,PRD.HIERARCHY_NO
-	,PRD.LEVEL_NAME
-	,PRD.PARENT_HIERARCHY_NO
-INTO #NM_DISCOUNT_PROJECTION
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN #MULTISELECT_DISCOUNTS NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	AND IIF(@VAR=1,CONVERT(VARCHAR(100),NMDP.RS_CONTRACT_SID),NMDP.SELECTED_LEVEL)= PRD.DISCOUNT
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN NM_DISCOUNT_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND NMDP.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-LEFT JOIN #ACCRUAL_DISCOUNT AD ON PRD.CFF_MASTER_SID = AD.CFF_MASTER_SID
-	AND NSP.PROJECTION_DETAILS_SID = AD.PROJECTION_DETAILS_SID
-	AND NSP.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
-	AND PRD.DISCOUNT = AD.DISCOUNT
-	AND NSP.PERIOD_SID = AD.PERIOD_SID
-	AND PRD.HIERARCHY_NO = AD.HIERARCHY_NO
-	AND PRD.LEVEL_NAME = AD.LEVEL_NAME
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,PRD.HIERARCHY_NO
-	,PRD.LEVEL_NAME
-	,PRD.PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling Discount actual information----------------------
-IF Object_id('TEMPDB..#NM_ACTUAL_DISCOUNT') IS NOT NULL
-	DROP TABLE #NM_ACTUAL_DISCOUNT
-
-SELECT ISNULL(Sum(IIF((DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL), NSP.ACTUAL_SALES, NULL)), 0) AS ACTUAL_SALES
-	,SUM(AD.DISCOUNT_AMOUNT) AS ACCRUAL_AMOUNT_ACTUAL
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,PRD.HIERARCHY_NO
-	,PRD.LEVEL_NAME
-	,PRD.PARENT_HIERARCHY_NO
-INTO #NM_ACTUAL_DISCOUNT
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN #MULTISELECT_DISCOUNTS NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	AND IIF(@VAR=1,CONVERT(VARCHAR(100),NMDP.RS_CONTRACT_SID),NMDP.SELECTED_LEVEL)= PRD.DISCOUNT
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID
-	) P on 1=1
-JOIN NM_ACTUAL_DISCOUNT NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND NMDP.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-	/*AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		AND @ACT_END_PERIOD_SID*/
-LEFT JOIN #ACCRUAL_DISCOUNT AD ON PRD.CFF_MASTER_SID = AD.CFF_MASTER_SID
-	AND NSP.PROJECTION_DETAILS_SID = AD.PROJECTION_DETAILS_SID
-	AND NSP.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
-	AND PRD.DISCOUNT = AD.DISCOUNT
-	AND NSP.PERIOD_SID = AD.PERIOD_SID
-	AND prd.HIERARCHY_NO = AD.HIERARCHY_NO
-	AND PRD.LEVEL_NAME = AD.LEVEL_NAME
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,PRD.HIERARCHY_NO
-	,PRD.LEVEL_NAME
-	,PRD.PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling PPA projeted information---------------------- 
-IF Object_id('TEMPDB..#NM_PPA_PROJECTION') IS NOT NULL
-	DROP TABLE #NM_PPA_PROJECTION
-/*
-SELECT ISNULL(SUM(NSP.PROJECTION_DISCOUNT_DOLLAR), 0) PROJECTION_DISCOUNT_DOLLAR
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #NM_PPA_PROJECTION
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN NM_PPA_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	AND CASE 
-		WHEN @VAR = 1
-			THEN CONVERT(VARCHAR(100), NMDP.RS_CONTRACT_SID)
-		ELSE 'Price Protection'
-		END = PRD.DISCOUNT
-JOIN NM_PPA_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND NMDP.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-	AND PRD.PERIOD_SID = NSP.PERIOD_SID
-	AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		AND @PROJ_END_PERIOD_SID
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	*/
---------------------------------------------------------- pulling PPA actual information----------------------   		
-IF Object_id('TEMPDB..#NM_ACTUAL_PPA') IS NOT NULL
-	DROP TABLE #NM_ACTUAL_PPA
-	/*
-SELECT ISNULL(Sum(NSP.ACTUAL_DISCOUNT_DOLLAR), 0) ACTUAL_DISCOUNT_DOLLAR
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #NM_ACTUAL_PPA
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN NM_PPA_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	AND CASE 
-		WHEN @VAR = 1
-			THEN CONVERT(VARCHAR(100), NMDP.RS_CONTRACT_SID)
-		ELSE 'Price Protection'
-		END = PRD.DISCOUNT
-JOIN NM_ACTUAL_PPA NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND NMDP.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-	AND PRD.PERIOD_SID = NSP.PERIOD_SID
-	AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		AND @ACT_END_PERIOD_SID
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-	*/
---------------------------------------------------------- pulling Supplemental projection  information-------------------
-IF Object_id('TEMPDB..#M_SUPPLEMENTAL_DISC_PROJ') IS NOT NULL
-	DROP TABLE #M_SUPPLEMENTAL_DISC_PROJ
-
-SELECT ISNULL(Sum(NSP.PROJECTION_SALES), 0) PROJECTION_SALES
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #M_SUPPLEMENTAL_DISC_PROJ
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID--COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN M_SUPPLEMENTAL_DISC_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN M_SUPPLEMENTAL_DISC_PROJ NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-	/*AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		AND @PROJ_END_PERIOD_SID*/
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling Supplemental actual  information-------------------
-IF Object_id('TEMPDB..#M_SUPPLEMENTAL_DISC_ACTUALS') IS NOT NULL
-	DROP TABLE #M_SUPPLEMENTAL_DISC_ACTUALS
-
-SELECT Sum(NSP.ACTUAL_SALES) ACTUAL_SALES
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #M_SUPPLEMENTAL_DISC_ACTUALS
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID --@PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN M_SUPPLEMENTAL_DISC_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN M_SUPPLEMENTAL_DISC_ACTUALS NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND P.PERIOD_SID = NSP.PERIOD_SID
-	/*AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		AND @ACT_END_PERIOD_SID*/
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling mandated discount projection  information-------------------
-IF Object_id('TEMPDB..#M_DISCOUNT_PROJECTION') IS NOT NULL
-	DROP TABLE #M_DISCOUNT_PROJECTION
-
-SELECT Sum(NMDP.PROJECTION_SALES) PROJECTION_SALES
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #M_DISCOUNT_PROJECTION
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID-- COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN M_DISCOUNT_PROJECTION NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	AND P.PERIOD_SID = NMDP.PERIOD_SID
-	AND SAVE_FLAG = 1
-/*	AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		AND @PROJ_END_PERIOD_SID*/
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling mandated discount actual  information-------------------   		
-IF Object_id('TEMPDB..#M_ACTUAL_DISCOUNT') IS NOT NULL
-	DROP TABLE #M_ACTUAL_DISCOUNT
-
-SELECT Sum(NMDP.ACTUAL_SALES) ACTUAL_SALES
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #M_ACTUAL_DISCOUNT
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID---@PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN M_ACTUAL_DISCOUNT NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	AND p.PERIOD_SID = NMDP.PERIOD_SID
-	AND SAVE_FLAG = 1
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling non mandated sales projection  information-------------------  
-IF Object_id('TEMPDB..#NM_SALES_PROJECTION') IS NOT NULL
-	DROP TABLE #NM_SALES_PROJECTION
-
-SELECT Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), PROJECTION_SALES, NULL)) PROJECTION_SALES
-	,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), PROJECTION_UNITS, NULL) * COALESCE(NULLIF(UOM.UOM_VALUE, 0),1)) PROJECTION_UNITS
-	,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), PROJECTION_SALES, NULL) * U.ITEM_PRICE) AS NM_COGS_PROJECTED
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #NM_SALES_PROJECTION
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN NM_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN NM_SALES_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-	--AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-	--	AND @PROJ_END_PERIOD_SID
-/*JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID*/
-JOIN (SELECT DISTINCT ITEM_MASTER_SID,PROJECTION_DETAILS_SID FROM #TEMP_CCP) PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-LEFT JOIN #ITEM_PRICING U ON PD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-	AND p.PERIOD_SID = U.PERIOD_SID
-LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling non mandated  actual  information-------------------				
-IF Object_id('TEMPDB..#NM_ACTUAL_SALES') IS NOT NULL
-	DROP TABLE #NM_ACTUAL_SALES
-
-SELECT Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), ACTUAL_SALES, NULL)) ACTUAL_SALES
-	,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), ACTUAL_UNITS, NULL) * COALESCE(NULLIF(UOM.UOM_VALUE, 0),1)) ACTUAL_UNITS
-	,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), ACTUAL_SALES, NULL) * U.ITEM_PRICE) AS NM_COGS_ACTUAL
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #NM_ACTUAL_SALES
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID--@PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN NM_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN NM_ACTUAL_SALES NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-/*JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID*/
-JOIN (SELECT DISTINCT ITEM_MASTER_SID,PROJECTION_DETAILS_SID FROM #TEMP_CCP) cd ON cd.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-LEFT JOIN #ITEM_PRICING U ON CD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-	AND p.PERIOD_SID = U.PERIOD_SID
-LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling  mandated  projection  information-------------------   
-IF Object_id('TEMPDB..#M_SALES_PROJECTION') IS NOT NULL
-	DROP TABLE #M_SALES_PROJECTION
-
-SELECT Sum(PROJECTION_SALES) PROJECTION_SALES
-	,Sum(PROJECTION_UNITS) PROJECTION_UNITS
-	,Sum(PROJECTION_SALES * U.ITEM_PRICE) AS M_COGS_PROJECTED
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #M_SALES_PROJECTION
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN M_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN M_SALES_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-	--AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-	--	AND @ACT_END_PERIOD_SID
-/*JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID*/
-JOIN (SELECT DISTINCT ITEM_MASTER_SID,PROJECTION_DETAILS_SID FROM #TEMP_CCP) cd ON cd.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-LEFT JOIN #ITEM_PRICING U ON CD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-	AND p.PERIOD_SID = U.PERIOD_SID
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- pulling  mandated  actual  information-------------------  				 
-IF Object_id('TEMPDB..#M_ACTUAL_SALES') IS NOT NULL
-	DROP TABLE #M_ACTUAL_SALES
-
-SELECT SUM(ACTUAL_SALES) ACTUAL_SALES
-	,SUM(ACTUAL_UNITS) ACTUAL_UNITS
-	,SUM(ACTUAL_SALES * U.ITEM_PRICE) AS M_COGS_ACTUAL
-	,PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-INTO #M_ACTUAL_SALES
-FROM #CURRENT_RS_DATA_PERIOD PRD
-JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID---@PROJ_END_PERIOD_SID
-	) P on 1=1
-JOIN M_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN M_ACTUAL_SALES NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-	AND p.PERIOD_SID = NSP.PERIOD_SID
-	--AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-	--	AND @PROJ_END_PERIOD_SID
-/*JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID*/
-JOIN (SELECT DISTINCT ITEM_MASTER_SID,PROJECTION_DETAILS_SID FROM #TEMP_CCP) cd ON cd.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-LEFT JOIN #ITEM_PRICING U ON CD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-	AND p.PERIOD_SID = U.PERIOD_SID
-GROUP BY PERIOD
-	,YEAR
-	,PRD.DISCOUNT
-	,PRD.CFF_MASTER_SID
-	,HIERARCHY_NO
-	,LEVEL_NAME
-	,PARENT_HIERARCHY_NO
-
---------------------------------------------------------- Returnsgaluat-543--------------------------
---SELECT HIERARCHY_NO,
---             LEVEL_NAME,
---             YEAR,
---             PERIOD,
---             AVG(TR.ACTUAL_RATE)    ACTUAL_RATE,
---             AVG(TR.PROJECTED_RATE) PROJECTED_RATE
---      INTO   #RETURNS
---      FROM   #TEMP_RETURNS TR
---      JOIN   CCP_DETAILS CC ON TR.ITEM_MASTER_SID = CC.ITEM_MASTER_SID
---      JOIN   #CCP_INFO C ON C.CCP_DETAILS_SID = CC.CCP_DETAILS_SID
---      JOIN   #PERIOD P ON P.PERIOD_SID = TR.PERIOD_SID
---      GROUP  BY HIERARCHY_NO,
---                LEVEL_NAME,
---                YEAR,
---                PERIOD
---IF Object_id('TEMPDB..#RETURNS') IS NOT NULL
---  DROP TABLE #RETURNS
---SELECT HIERARCHY_NO,
---       LEVEL_NAME,
---       YEAR,
---       PERIOD,
---       Isnull(Sum(( Isnull(NSP.projection_sales, 0)
---                    + Isnull(MSP.projection_sales, 0) ) * TR.PROJECTED_RATE), 0)AS Returns_Projected,
---       Isnull(Sum(( Isnull(NAS.actual_sales, 0)
---                    + Isnull(MAS.actual_sales, 0) ) * TR.ACTUAL_RATE), 0)       AS Returns_actuals,
---       RS_NAME
---INTO   #RETURNS
---FROM   #TEMP_RETURNS TR
---       JOIN CCP_DETAILS CC
---         ON TR.ITEM_MASTER_SID = CC.ITEM_MASTER_SID
---       JOIN #CCP_INFO C
---         ON C.CCP_DETAILS_SID = CC.CCP_DETAILS_SID
---       JOIN #PERIOD P
---         ON P.PERIOD_SID = TR.PERIOD_SID
---       LEFT OUTER JOIN NM_SALES_PROJECTION NSP
---                    ON NSP.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
---                       AND p.PERIOD_SID = NSP.PERIOD_SID
---                       AND NSP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
---       LEFT OUTER JOIN M_SALES_PROJECTION MSP
---                    ON MSP.PROJECTION_DETAILS_SID = c.PROJECTION_DETAILS_SID
---                       AND p.PERIOD_SID = MSP.PERIOD_SID
---                       AND MSP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
---       LEFT OUTER JOIN NM_ACTUAL_SALES NAS
---                    ON NAS.PROJECTION_DETAILS_SID = c.PROJECTION_DETAILS_SID
---                       AND p.PERIOD_SID = NAS.PERIOD_SID
---                       AND NAS.PERIOD_SID BETWEEN @ACT_START_PERIOD_SID AND @ACT_END_PERIOD_SID
---       LEFT OUTER JOIN M_ACTUAL_SALES MAS
---                    ON MAS.PROJECTION_DETAILS_SID = c.PROJECTION_DETAILS_SID
---                       AND p.PERIOD_SID = MAS.PERIOD_SID
---                       AND MAS.PERIOD_SID BETWEEN @ACT_START_PERIOD_SID AND @ACT_END_PERIOD_SID
---GROUP  BY HIERARCHY_NO,
---          LEVEL_NAME,
---          YEAR,
---          PERIOD,
---          RS_NAME
--------------------------------------------------aggregating  sales information ------------------------------
-IF Object_id('TEMPDB..#SALES') IS NOT NULL
-	DROP TABLE #SALES
-
-SELECT distinct p.YEAR
-	,p.PERIOD
-	,FD.CFF_MASTER_SID
-	,FD.DISCOUNT
-	,FD.HIERARCHY_NO
-	,FD.LEVEL_NAME
-	,FD.PARENT_HIERARCHY_NO
-	,COALESCE((NSP.PROJECTION_SALES), 0) + COALESCE((MSP.PROJECTION_SALES), 0) AS PROJECTION_SALES
-	,COALESCE((NSP.PROJECTION_UNITS), 0) + COALESCE((MSP.PROJECTION_UNITS), 0) AS PROJECTION_UNITS
-	,COALESCE((NAS.ACTUAL_SALES), 0) + COALESCE((MAS.ACTUAL_SALES), 0) AS ACTUAL_SALES
-	,COALESCE((NAS.ACTUAL_UNITS), 0) + COALESCE((MAS.ACTUAL_UNITS), 0) AS ACTUAL_UNITS
-	,COALESCE((MSP.M_COGS_PROJECTED), 0) + COALESCE((NSP.NM_COGS_PROJECTED), 0) AS COGS_PROJECTED
-	,COALESCE((MAS.M_COGS_ACTUAL), 0) + COALESCE((NAS.NM_COGS_ACTUAL), 0) AS COGS_ACTUAL
-	,COALESCE((NAS.ACTUAL_SALES), 0) AS NM_ACTUAL_SALES
-	,COALESCE((NSP.PROJECTION_SALES), 0) AS NM_PROJECTED_SALES
-	,COALESCE((NAS.ACTUAL_units), 0) AS NM_ACTUAL_units
-	,COALESCE((NSP.PROJECTION_units), 0) AS NM_PROJECTED_units
-	,COALESCE((MAS.ACTUAL_SALES), 0) AS M_ACTUAL_SALES
-	,COALESCE((MSP.PROJECTION_SALES), 0) AS M_PROJECTED_SALES
-	,COALESCE((MAS.ACTUAL_UNITS), 0) AS M_ACTUAL_UNITS
-	,COALESCE((MSP.PROJECTION_UNITS), 0) AS M_PROJECTED_UNITS
----RS_NAME
-INTO #SALES
-FROM (
-	SELECT CFF_MASTER_SID
-		,DISCOUNT
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	FROM #CURRENT_RS_DATA_PERIOD
-	group by CFF_MASTER_SID
-		,DISCOUNT
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	) FD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-LEFT JOIN #NM_SALES_PROJECTION NSP ON NSP.YEAR = P.YEAR
-	AND NSP.PERIOD = P.PERIOD
-	AND NSP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND NSP.DISCOUNT = FD.DISCOUNT
-	AND NSP.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND NSP.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(NSP.PARENT_HIERARCHY_NO, NSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #M_SALES_PROJECTION MSP ON MSP.YEAR = P.YEAR
-	AND MSP.PERIOD = P.PERIOD
-	AND MSP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND MSP.DISCOUNT = FD.DISCOUNT
-	AND MSP.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND MSP.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(MSP.PARENT_HIERARCHY_NO, MSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #NM_ACTUAL_SALES NAS ON NAS.YEAR = P.YEAR
-	AND NAS.PERIOD = P.PERIOD
-	AND NAS.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND NAS.DISCOUNT = FD.DISCOUNT
-	AND NAS.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND NAS.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(NAS.PARENT_HIERARCHY_NO, NAS.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #M_ACTUAL_SALES MAS ON MAS.YEAR = P.YEAR
-	AND MAS.PERIOD = P.PERIOD
-	AND MAS.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND MAS.DISCOUNT = FD.DISCOUNT
-	AND MAS.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND MAS.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(MAS.PARENT_HIERARCHY_NO, MAS.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-
--------------------------------------------------aggregating  discount information ------------------------------ 						
-IF Object_id('TEMPDB..#DISCOUNT') IS NOT NULL
-	DROP TABLE #DISCOUNT
-
-SELECT distinct p.YEAR
-	,p.PERIOD
-	,COALESCE((NSP.PROJECTION_SALES), 0) AS PROJECTION_SALES
-	,COALESCE((NAD.ACTUAL_SALES), 0) AS ACTUAL_SALES
-	,FD.CFF_MASTER_SID
-	,FD.DISCOUNT AS RS_NAME
-	,FD.LEVEL_NAME
-	,FD.HIERARCHY_NO
-	,FD.PARENT_HIERARCHY_NO
-	,ACCRUAL_AMOUNT_PROJECTION
-	,ACCRUAL_AMOUNT_ACTUAL
-INTO #DISCOUNT
-FROM (
-	SELECT CFF_MASTER_SID
-		,DISCOUNT
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	FROM #CURRENT_RS_DATA_PERIOD
-	group by CFF_MASTER_SID
-		,DISCOUNT
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	) FD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-LEFT JOIN #NM_DISCOUNT_PROJECTION NSP ON NSP.YEAR = p.YEAR
-	AND NSP.PERIOD = p.PERIOD
-	AND NSP.DISCOUNT = FD.DISCOUNT
-	AND FD.CFF_MASTER_SID = NSP.CFF_MASTER_SID
-	AND NSP.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND NSP.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(NSP.PARENT_HIERARCHY_NO, NSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #NM_ACTUAL_DISCOUNT NAD ON NAD.YEAR = p.YEAR
-	AND NAD.PERIOD = p.PERIOD
-	AND FD.CFF_MASTER_SID = NAD.CFF_MASTER_SID
-	AND NAD.DISCOUNT = FD.DISCOUNT
-	AND NAD.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND NAD.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(NAD.PARENT_HIERARCHY_NO, NAD.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-
--------------------------------------------------aggregating  ppa  information ------------------------------  
-IF Object_id('TEMPDB..#PPA') IS NOT NULL
-	DROP TABLE #PPA
-	/*
-SELECT FD.YEAR
-	,FD.PERIOD
-	,FD.DISCOUNT
-	,FD.CFF_MASTER_SID
-	,COALESCE((NSP.PROJECTION_DISCOUNT_DOLLAR), 0) AS PPA_DISCOUNT_PROJECTED
-	,COALESCE((NAS.ACTUAL_DISCOUNT_DOLLAR), 0) AS PPA_ACTUAL_SALES
-	,FD.LEVEL_NAME
-	,FD.HIERARCHY_NO
-	,FD.PARENT_HIERARCHY_NO
-INTO #PPA
-FROM (
-	SELECT DISTINCT CFF_MASTER_SID
-		,YEAR
-		,PERIOD
-		,DISCOUNT
-		,NM_PPA_IND
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	FROM #CURRENT_RS_DATA_PERIOD
-	) FD
-LEFT JOIN #NM_PPA_PROJECTION NSP ON NSP.YEAR = FD.YEAR
-	AND NSP.PERIOD = FD.PERIOD
-	AND NSP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND NSP.DISCOUNT = FD.DISCOUNT
-	AND NSP.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND NSP.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(NSP.PARENT_HIERARCHY_NO, NSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #NM_ACTUAL_PPA NAS ON NAS.YEAR = FD.YEAR
-	AND NAS.PERIOD = FD.PERIOD
-	AND NAS.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND NAS.DISCOUNT = FD.DISCOUNT
-	AND NAS.HIERARCHY_NO = FD.HIERARCHY_NO
-	AND NAS.LEVEL_NAME = FD.LEVEL_NAME
-	AND COALESCE(NAS.PARENT_HIERARCHY_NO, NAS.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-WHERE FD.NM_PPA_IND = 'PPA'
-*/
--------------------------------------------------aggregating    supplemental information ------------------------------  
-IF Object_id('TEMPDB..#PPA_SUPP_MANDATED') IS NOT NULL
-	DROP TABLE #PPA_SUPP_MANDATED
-
-SELECT distinct p.YEAR
-	,p.PERIOD
-	,COALESCE((SDP.PROJECTION_SALES), 0) AS SUPPLEMENTAL_DISCOUNT_PROJECTED
-	,COALESCE((MDP.PROJECTION_SALES), 0) AS MANDATED_DISCOUNT_PROJECTED
-	,COALESCE((SDA.ACTUAL_SALES), 0) AS SUPPLEMENTAL_DISCOUNT_ACTUALS
-	,COALESCE((MAD.ACTUAL_SALES), 0) AS MANDATED_DISCOUNT_ACTUALS
-	,FD.CFF_MASTER_SID
-	,FD.HIERARCHY_NO
-	,FD.LEVEL_NAME
-	,FD.DISCOUNT
-	,FD.PARENT_HIERARCHY_NO
-INTO #PPA_SUPP_MANDATED
-FROM (
-	SELECT CFF_MASTER_SID
-		,DISCOUNT
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	FROM #CURRENT_RS_DATA_PERIOD
-	group by CFF_MASTER_SID
-		,DISCOUNT
-		,LEVEL_NAME
-		,HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-	) FD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-LEFT JOIN #M_SUPPLEMENTAL_DISC_PROJ SDP ON SDP.YEAR = P.YEAR
-	AND SDP.PERIOD = P.PERIOD
-	AND SDP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND SDP.DISCOUNT = FD.DISCOUNT
-	AND SDP.HIERARCHY_NO = fd.HIERARCHY_NO
-	AND SDP.LEVEL_NAME = fd.LEVEL_NAME
-	AND COALESCE(SDP.PARENT_HIERARCHY_NO, SDP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #M_SUPPLEMENTAL_DISC_ACTUALS SDA ON SDA.YEAR = P.YEAR
-	AND SDA.PERIOD = P.PERIOD
-	AND SDA.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND SDA.DISCOUNT = FD.DISCOUNT
-	AND SDA.HIERARCHY_NO = fd.HIERARCHY_NO
-	AND SDA.LEVEL_NAME = fd.LEVEL_NAME
-	AND COALESCE(SDA.PARENT_HIERARCHY_NO, SDA.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #M_DISCOUNT_PROJECTION MDP ON MDP.YEAR = P.YEAR
-	AND MDP.PERIOD = P.PERIOD
-	AND MDP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND MDP.DISCOUNT = FD.DISCOUNT
-	AND MDP.HIERARCHY_NO = fd.HIERARCHY_NO
-	AND MDP.LEVEL_NAME = fd.LEVEL_NAME
-	AND COALESCE(MDP.PARENT_HIERARCHY_NO, MDP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-LEFT JOIN #M_ACTUAL_DISCOUNT MAD ON MAD.YEAR = P.YEAR
-	AND MAD.PERIOD = P.PERIOD
-	AND MAD.CFF_MASTER_SID = FD.CFF_MASTER_SID
-	AND MAD.DISCOUNT = FD.DISCOUNT
-	AND MAD.HIERARCHY_NO = fd.HIERARCHY_NO
-	AND MAD.LEVEL_NAME = fd.LEVEL_NAME
-	AND COALESCE(MAD.PARENT_HIERARCHY_NO, MAD.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-
-IF Object_id('TEMPDB..#PRODUCT_FILE_DATA') IS NOT NULL
-	DROP TABLE #PRODUCT_FILE_DATA
-
-SELECT distinct P.YEAR
-	,P.PERIOD
-	,SUM(EX_FACTORY_SALES_ACTUALS) AS EX_FACTORY_SALES_ACTUALS
-	,SUM(EX_FACTORY_SALES_PROJ) AS EX_FACTORY_SALES_PROJ
-	,SUM(DEMAND_SALES_ACTUALS) AS DEMAND_SALES_ACTUALS
-	,SUM(DEMAND_SALES_PROJ) AS DEMAND_SALES_PROJ
-	,SUM(ADJUSTED_DEMAND_ACTUALS) AS ADJUSTED_DEMAND_ACTUALS
-	,SUM(ADJUSTED_DEMAND_PROJ) AS ADJUSTED_DEMAND_PROJ
-	,SUM(IW_MASTER_ACTUALS) AS IW_MASTER_ACTUALS
-	,SUM(IW_MASTER_PROJ) AS IW_MASTER_PROJ
-	,CF.CFF_MASTER_SID AS CFF_MASTER_SID
-	,b.DISCOUNT
-INTO #PRODUCT_FILE_DATA
-FROM CFF_PRODUCT_LEVEL_FILES_DATA CF
-JOIN (
-	SELECT a.CFF_MASTER_SID
-		,ITEM_MASTER_SID
-		,DISCOUNT
-	FROM #TEMP_CCP A
-	JOIN #CURRENT_RS_DATA_PERIOD B ON A.CFF_MASTER_SID = B.CFF_MASTER_SID
-		AND a.projection_details_sid = b.projection_details_sid
-		AND A.HIERARCHY_NO = B.HIERARCHY_NO
-		AND A.LEVEL_NAME = B.LEVEL_NAME
-		AND COALESCE(A.PARENT_HIERARCHY_NO, A.HIERARCHY_NO) = COALESCE(B.PARENT_HIERARCHY_NO, B.HIERARCHY_NO)
-		group by a.CFF_MASTER_SID
-		,ITEM_MASTER_SID
-		,DISCOUNT
-	) B ON CF.CFF_MASTER_SID = B.CFF_MASTER_SID
-	AND CF.ITEM_MASTER_SID = B.ITEM_MASTER_SID
-INNER JOIN #PERIOD P ON P.PERIOD_SID = CF.PERIOD_SID
-GROUP BY P.YEAR
-	,P.PERIOD
-	,CF.CFF_MASTER_SID
-	,B.DISCOUNT
-
--------------------------based on the forecasting_type result will be stored in result---------------------------
-IF EXISTS (
-		SELECT 1
-		FROM #CCP_INFO
-		WHERE forecasting_type = 'non mandated'
-		)
-BEGIN
-	IF @var = 1
-	BEGIN
-		INSERT INTO #RESULT (
-			CFF_PROJECTION_MASTER_SID
-			,HIERARCHY_NO
-			,LEVEL_NAME
-			,YEAR
-			,PERIOD
-			,RS_NAME
-			,PARENT_HIERARCHY_NO
-			,TOTAL_DISCOUNT
-			,TOTAL_DISCOUNT_PROJECTED
-			,TOTAL_DISCOUNT_PERCENTAGE
-			,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-			,TOTAL_RPU
-			,TOTAL_PROJECTED_RPU
-			,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-			,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-			,TOTAL_DISCOUNT_ACCRUAL
-			)
-		SELECT distinct @FIRST_PROJ_SID
-			,RD.HIERARCHY_NO
-			,RD.LEVEL_NAME
-			,ND.YEAR
-			,ND.PERIOD
-			,rc.RS_NAME
-			,ND.PARENT_HIERARCHY_NO
-			,ISNULL(ND.ACTUAL_SALES,0)
-			,ISNULL(ND.PROJECTION_SALES,0)
-			,COALESCE(ND.ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_SALES, 0), 0) * 100
-			,COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100
-			,COALESCE(ND.ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_UNITS, 0), 0)
-			,COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0)
-			,COALESCE(Isnull(ND.ACTUAL_SALES, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-			,COALESCE(Isnull(ND.PROJECTION_SALES, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-			,COALESCE(ACCRUAL_AMOUNT_PROJECTION, ACCRUAL_AMOUNT_ACTUAL) AS TOTAL_DISCOUNT_ACCRUAL
-		FROM #DISCOUNT ND
-		JOIN #SALES RD ON RD.YEAR = ND.YEAR
-			AND RD.PERIOD = ND.PERIOD
-			AND RD.DISCOUNT = ND.RS_NAME
-			AND RD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-			AND RD.HIERARCHY_NO = ND.HIERARCHY_NO
-			AND RD.LEVEL_NAME = ND.LEVEL_NAME
-			AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(ND.PARENT_HIERARCHY_NO, ND.HIERARCHY_NO)
-		JOIN #PRODUCT_FILE_DATA PFD ON PFD.YEAR = ND.YEAR
-			AND PFD.PERIOD = ND.PERIOD
-			AND PFD.DISCOUNT = ND.RS_NAME
-			AND PFD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-		JOIN RS_CONTRACT RC ON RS_CONTRACT_SID = ND.RS_NAME
-	/*	
-		UNION ALL
-		
-		SELECT @FIRST_PROJ_SID
-			,RD.HIERARCHY_NO
-			,RD.LEVEL_NAME
-			,PD.YEAR
-			,PD.PERIOD
-			,RC.RS_NAME
-			,pd.PARENT_HIERARCHY_NO
-			,ISNULL(PD.PPA_ACTUAL_SALES,0)
-			,ISNULL(PD.PPA_DISCOUNT_PROJECTED,0)
-			,COALESCE(PD.PPA_ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_SALES, 0), 0) * 100
-			,COALESCE(PD.PPA_DISCOUNT_PROJECTED / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100
-			,COALESCE(PD.PPA_ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_UNITS, 0), 0)
-			,COALESCE(PD.PPA_DISCOUNT_PROJECTED / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0)
-			,COALESCE(Isnull(pd.PPA_ACTUAL_SALES, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-			,COALESCE(Isnull(pd.PPA_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-			,NULL AS TOTAL_DISCOUNT_ACCRUAL
-		FROM #PPA PD
-		JOIN #SALES RD ON RD.YEAR = PD.YEAR
-			AND RD.PERIOD = PD.PERIOD
-			AND RD.DISCOUNT = PD.DISCOUNT
-			AND RD.CFF_MASTER_SID = PD.CFF_MASTER_SID
-			AND RD.HIERARCHY_NO = PD.HIERARCHY_NO
-			AND RD.LEVEL_NAME = PD.LEVEL_NAME
-			AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(PD.PARENT_HIERARCHY_NO, PD.HIERARCHY_NO)
-		JOIN #PRODUCT_FILE_DATA PFD ON PFD.YEAR = RD.YEAR
-			AND PFD.PERIOD = RD.PERIOD
-			AND PFD.DISCOUNT = RD.DISCOUNT
-			AND PFD.CFF_MASTER_SID = RD.CFF_MASTER_SID
-		JOIN RS_CONTRACT RC ON RS_CONTRACT_SID = PD.DISCOUNT*/
 	END
-	ELSE
-	BEGIN
-		INSERT INTO #RESULT (
-			CFF_PROJECTION_MASTER_SID
-			,HIERARCHY_NO
-			,LEVEL_NAME
-			,YEAR
-			,PERIOD
-			,RS_NAME
-			,PARENT_HIERARCHY_NO
-			,TOTAL_DISCOUNT
-			,TOTAL_DISCOUNT_PROJECTED
-			,TOTAL_DISCOUNT_PERCENTAGE
-			,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-			,TOTAL_RPU
-			,TOTAL_PROJECTED_RPU
-			,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-			,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-			,TOTAL_DISCOUNT_ACCRUAL
-			)
-		SELECT @FIRST_PROJ_SID
-			,RD.HIERARCHY_NO
-			,RD.LEVEL_NAME
-			,ND.YEAR
-			,ND.PERIOD
-			,nd.RS_NAME
-			,nd.PARENT_HIERARCHY_NO
-			,ISNULL(ND.ACTUAL_SALES,0)
-			,ISNULL(ND.PROJECTION_SALES,0)
-			,COALESCE(ND.ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_SALES, 0), 0) * 100
-			,COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100
-			,COALESCE(ND.ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_UNITS, 0), 0)
-			,COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0)
-			,COALESCE(Isnull(ND.ACTUAL_SALES, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-			,COALESCE(Isnull(ND.PROJECTION_SALES, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-			,COALESCE(ACCRUAL_AMOUNT_PROJECTION, ACCRUAL_AMOUNT_ACTUAL) AS TOTAL_DISCOUNT_ACCRUAL
-		FROM #DISCOUNT ND
-		JOIN #SALES RD ON RD.YEAR = ND.YEAR
-			AND RD.PERIOD = ND.PERIOD
-			AND RD.DISCOUNT = ND.RS_NAME
-			AND RD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-			AND RD.HIERARCHY_NO = ND.HIERARCHY_NO
-			AND RD.LEVEL_NAME = ND.LEVEL_NAME
-			AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(ND.PARENT_HIERARCHY_NO, ND.HIERARCHY_NO)
-		JOIN #PRODUCT_FILE_DATA PFD ON PFD.YEAR = ND.YEAR
-			AND PFD.PERIOD = ND.PERIOD
-			AND PFD.DISCOUNT = ND.RS_NAME
-			AND PFD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-		/*
-		UNION ALL
-		
-		SELECT @FIRST_PROJ_SID
-			,RD.HIERARCHY_NO
-			,RD.LEVEL_NAME
-			,PD.YEAR
-			,PD.PERIOD
-			,PD.discount RS_NAME
-			,pd.PARENT_HIERARCHY_NO
-			,PD.PPA_ACTUAL_SALES
-			,PD.PPA_DISCOUNT_PROJECTED
-			,COALESCE(PD.PPA_ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_SALES, 0), 0) * 100
-			,COALESCE(PD.PPA_DISCOUNT_PROJECTED / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100
-			,COALESCE(PD.PPA_ACTUAL_SALES / NULLIF(RD.NM_ACTUAL_UNITS, 0), 0)
-			,COALESCE(PD.PPA_DISCOUNT_PROJECTED / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0)
-			,COALESCE(Isnull(pd.PPA_ACTUAL_SALES, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-			,COALESCE(Isnull(pd.PPA_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-			,NULL AS TOTAL_DISCOUNT_ACCRUAL
-		FROM #PPA PD
-		JOIN #SALES RD ON RD.YEAR = PD.YEAR
-			AND RD.PERIOD = PD.PERIOD
-			AND RD.DISCOUNT = PD.DISCOUNT
-			AND RD.CFF_MASTER_SID = PD.CFF_MASTER_SID
-			AND RD.HIERARCHY_NO = PD.HIERARCHY_NO
-			AND RD.LEVEL_NAME = PD.LEVEL_NAME
-			AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(PD.PARENT_HIERARCHY_NO, PD.HIERARCHY_NO)
-		JOIN #PRODUCT_FILE_DATA PFD ON PFD.YEAR = RD.YEAR
-			AND PFD.PERIOD = RD.PERIOD
-			AND PFD.DISCOUNT = RD.DISCOUNT
-			AND PFD.CFF_MASTER_SID = RD.CFF_MASTER_SID*/
-	END
-END
-
--------------------------based on the forecasting_type result will be stored in result---------------------------
-IF EXISTS (
-		SELECT 1
-		FROM #CCP_INFO
-		WHERE forecasting_type = 'mandated'
-		)
+	
+ELSE
 BEGIN
-	INSERT INTO #RESULT (
-		CFF_PROJECTION_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,YEAR
-		,PERIOD
-		,RS_NAME
-		,PARENT_HIERARCHY_NO
-		,TOTAL_DISCOUNT
-		,TOTAL_DISCOUNT_PROJECTED
-		,TOTAL_DISCOUNT_PERCENTAGE
-		,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-		,TOTAL_RPU
-		,TOTAL_PROJECTED_RPU
-		,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-		,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-		)
-	SELECT @FIRST_PROJ_SID
-		,RD.HIERARCHY_NO
-		,RD.LEVEL_NAME
-		,MD.YEAR
-		,MD.PERIOD
-		,'MANDATED'
-		,md.PARENT_HIERARCHY_NO
-		,Isnull(MD.MANDATED_DISCOUNT_ACTUALS, 0)
-		,Isnull(MD.MANDATED_DISCOUNT_PROJECTED, 0)
-		,COALESCE(MD.MANDATED_DISCOUNT_ACTUALS / NULLIF(RD.M_ACTUAL_SALES, 0), 0) * 100
-		,COALESCE(MD.MANDATED_DISCOUNT_PROJECTED / NULLIF(RD.M_PROJECTED_SALES, 0), 0) * 100
-		,COALESCE(MD.MANDATED_DISCOUNT_ACTUALS / NULLIF(RD.M_ACTUAL_UNITS, 0), 0)
-		,COALESCE(MD.MANDATED_DISCOUNT_PROJECTED / NULLIF(RD.M_PROJECTED_UNITS, 0), 0)
-		,COALESCE(Isnull(md.MANDATED_DISCOUNT_ACTUALS, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-		,COALESCE(Isnull(md.MANDATED_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-	FROM #PPA_SUPP_MANDATED MD
-	JOIN #sales RD ON RD.YEAR = MD.YEAR
-		AND RD.PERIOD = MD.PERIOD
-		AND RD.DISCOUNT = md.DISCOUNT
-		AND RD.HIERARCHY_NO = MD.HIERARCHY_NO
-		AND RD.LEVEL_NAME = MD.LEVEL_NAME
-		AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(MD.PARENT_HIERARCHY_NO, MD.HIERARCHY_NO)
-	JOIN #PRODUCT_FILE_DATA PFD ON PFD.YEAR = md.YEAR
-		AND PFD.PERIOD = md.PERIOD
-		AND PFD.DISCOUNT = md.DISCOUNT
+DECLARE @SQL_OUT_C NVARCHAR(MAX)
+--product_cff_discount
+SET @SQL_OUT_C=CONCAT('
+
+	      
+	    SELECT S.CFF_MASTER_SID,
+		CCP.HIERARCHY_NO,
+	S.YEAR,
+	S.PERIOD,
+	SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0) AS TOTAL_DISCOUNT,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.SALES), 0)) * 100 AS TOTAL_DISCOUNT_PERCENTAGE,
+	SUM(MD.DISCOUNT) AS MANDATED_DISCOUNT,
+	SUM(SPD.DISCOUNT) AS SUPPLEMENTAL_DISCOUNT,
+	(SUM(MD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS MANDATED_DISCOUNT_PERCENTAGE,
+	(SUM(SPD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS SUPPLEMENTAL_DISCOUNT_PERCENTAGE,
+	SUM(ND.DISCOUNT) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_DISCOUNT_RPU,
+	(SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_RPU,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
+	SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
+	0 AS INDICATOR,
+	md.DESCRIPTION
+
+	FROM  ',@sales_table,' S  
+	INNER JOIN #CFF_PROJECTION_MASTER CFM ON S.CFF_MASTER_SID=CFM.CFF_MASTER_SID AND S.INDICATOR=0
+	AND (SALES_INCLUSION = @SALES_INCLUSION  OR @SALES_INCLUSION IS NULL) AND S.FILTER_CCP = 1 AND S.CFF_MASTER_SID = @FIRST_PROJ_SID 
+	INNER JOIN  ',@CUSTOM_CCP_SALES,' CCP ON CCP.ROWID=S.HIERARCHY_NO
+	LEFT JOIN #PRODUCT_FILE_DATA PFD 
+	ON PFD.PERIOD = S.PERIOD AND S.YEAR = PFD.YEAR AND S.CFF_MASTER_SID = PFD.CFF_MASTER_SID AND S.HIERARCHY_NO = PFD.ROW_ID 
+	AND PFD.INDICATOR=0
+	LEFT JOIN (SELECT ND.*,DESCRIPTION FROM ' , @DISCOUNT_TABLE ,' ND LEFT JOIN #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL)ND
+	ON ND.PERIOD = S.PERIOD AND S.YEAR = ND.YEAR AND S.CFF_MASTER_SID = ND.CFF_MASTER_SID AND S.HIERARCHY_NO = ND.HIERARCHY_NO 
+	AND ND.INDICATOR=0 AND (ND.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND ND.DISCOUNT_TYPE=0 AND ND.FILTER_CCP = 1
+	LEFT JOIN (SELECT ND.*,DESCRIPTION FROM ' , @DISCOUNT_TABLE ,' ND LEFT JOIN #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL) MD 
+	ON MD.PERIOD = S.PERIOD AND S.YEAR = MD.YEAR AND S.CFF_MASTER_SID = MD.CFF_MASTER_SID AND S.HIERARCHY_NO = MD.HIERARCHY_NO 
+	AND MD.INDICATOR=0 AND (MD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND MD.DISCOUNT_TYPE=1 AND MD.FILTER_CCP = 1
+    LEFT JOIN (select nd.*,DESCRIPTION from ' , @discount_table ,' ND LEFT join #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL) SPD
+	ON SPD.PERIOD = S.PERIOD AND S.YEAR = SPD.YEAR AND S.CFF_MASTER_SID = SPD.CFF_MASTER_SID AND S.HIERARCHY_NO = SPD.HIERARCHY_NO 
+	AND SPD.INDICATOR=0 AND (SPD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND SPD.DISCOUNT_TYPE=2 AND  SPD.FILTER_CCP = 1
+	GROUP BY S.CFF_MASTER_SID,
+	         CCP.HIERARCHY_NO,
+	         S.YEAR,
+			 S.PERIOD,md.DESCRIPTION
+
 	
 	UNION ALL
 	
-	SELECT @FIRST_PROJ_SID
-		,RD.HIERARCHY_NO
-		,RD.LEVEL_NAME
-		,SD.YEAR
-		,SD.PERIOD
-		,'SUPPLEMENTAL'
-		,sd.PARENT_HIERARCHY_NO
-		,Isnull(SD.SUPPLEMENTAL_DISCOUNT_ACTUALS, 0)
-		,Isnull(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED, 0)
-		,ISNULL(COALESCE(SD.SUPPLEMENTAL_DISCOUNT_ACTUALS / NULLIF(RD.M_ACTUAL_SALES, 0), 0) * 100, 0)
-		,ISNULL(COALESCE(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED / NULLIF(RD.M_PROJECTED_SALES, 0), 0), 0) * 100
-		,ISNULL(COALESCE(SD.SUPPLEMENTAL_DISCOUNT_ACTUALS / NULLIF(RD.M_ACTUAL_UNITS, 0), 0), 0)
-		,ISNULL(COALESCE(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED / NULLIF(RD.M_PROJECTED_UNITS, 0), 0), 0)
-		,COALESCE(Isnull(sd.SUPPLEMENTAL_DISCOUNT_ACTUALS, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-		,COALESCE(Isnull(sd.SUPPLEMENTAL_DISCOUNT_ACTUALS, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-	FROM #PPA_SUPP_MANDATED sd
-	JOIN #SALES RD ON RD.YEAR = sd.YEAR
-		AND RD.PERIOD = sd.PERIOD
-		AND RD.DISCOUNT = sd.DISCOUNT
-		AND RD.CFF_MASTER_SID = sd.CFF_MASTER_SID
-		AND RD.HIERARCHY_NO = sd.HIERARCHY_NO
-		AND RD.LEVEL_NAME = sd.LEVEL_NAME
-		AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(sd.PARENT_HIERARCHY_NO, sd.HIERARCHY_NO)
-	JOIN #PRODUCT_FILE_DATA PFD ON PFD.YEAR = sd.YEAR
-		AND PFD.PERIOD = sd.PERIOD
-		AND PFD.DISCOUNT = sd.DISCOUNT
+	SELECT S.CFF_MASTER_SID,
+	CCP.HIERARCHY_NO,
+	S.YEAR,
+	S.PERIOD,
+	SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0) AS TOTAL_DISCOUNT,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.SALES), 0)) * 100 AS TOTAL_DISCOUNT_PERCENTAGE,
+	SUM(MD.DISCOUNT) AS MANDATED_DISCOUNT,
+	SUM(SPD.DISCOUNT) AS SUPPLEMENTAL_DISCOUNT,
+	(SUM(MD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS MANDATED_DISCOUNT_PERCENTAGE,
+	(SUM(SPD.DISCOUNT) / NULLIF(SUM(S.SALES), 0)) * 100 AS SUPPLEMENTAL_DISCOUNT_PERCENTAGE,
+	SUM(ND.DISCOUNT) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_DISCOUNT_RPU,
+	(SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(S.UNITS), 0) AS TOTAL_RPU,
+	((SUM(ND.DISCOUNT) + isnull(SUM(MD.DISCOUNT),0) + isnull(SUM(SPD.DISCOUNT),0)) / NULLIF(SUM(pfd.EX_FACTORY_SALES), 0)) * 100 AS DISCOUNT_OF_EX_FACTORY,
+	SUM(ND.ACCRUALS) TOTAL_DISCOUNT_ACCRUAL,
+	1 AS INDICATOR,
+	md.DESCRIPTION
+
+	FROM  ',@sales_table,' S  
+	INNER JOIN #CFF_PROJECTION_MASTER CFM ON S.CFF_MASTER_SID=CFM.CFF_MASTER_SID AND S.INDICATOR=1
+	AND (SALES_INCLUSION = @SALES_INCLUSION  OR @SALES_INCLUSION IS NULL) AND S.FILTER_CCP = 1
+	INNER JOIN  ',@CUSTOM_CCP_SALES,' CCP ON CCP.ROWID=S.HIERARCHY_NO
+	LEFT JOIN #PRODUCT_FILE_DATA PFD 
+	ON PFD.PERIOD = S.PERIOD AND S.YEAR = PFD.YEAR AND S.CFF_MASTER_SID = PFD.CFF_MASTER_SID AND S.HIERARCHY_NO = PFD.ROW_ID 
+	AND PFD.INDICATOR=1
+	LEFT JOIN (SELECT ND.*,DESCRIPTION FROM ' , @DISCOUNT_TABLE ,' ND LEFT JOIN #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL)ND
+	ON ND.PERIOD = S.PERIOD AND S.YEAR = ND.YEAR AND S.CFF_MASTER_SID = ND.CFF_MASTER_SID AND S.HIERARCHY_NO = ND.HIERARCHY_NO 
+	AND ND.INDICATOR=1 AND (ND.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND ND.DISCOUNT_TYPE=0 AND ND.FILTER_CCP = 1
+	LEFT JOIN (SELECT ND.*,DESCRIPTION FROM ' , @DISCOUNT_TABLE ,' ND LEFT JOIN #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL) MD 
+	ON MD.PERIOD = S.PERIOD AND S.YEAR = MD.YEAR AND S.CFF_MASTER_SID = MD.CFF_MASTER_SID AND S.HIERARCHY_NO = MD.HIERARCHY_NO 
+	AND MD.INDICATOR=1 AND (MD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND MD.DISCOUNT_TYPE=1 AND MD.FILTER_CCP = 1
+    LEFT JOIN (select nd.*,DESCRIPTION from ' , @discount_table ,' ND LEFT join #RS_INFO B ON ND.RS_CONTRACT_SID=B.SELECTED_LEVEL) SPD
+	ON SPD.PERIOD = S.PERIOD AND S.YEAR = SPD.YEAR AND S.CFF_MASTER_SID = SPD.CFF_MASTER_SID AND S.HIERARCHY_NO = SPD.HIERARCHY_NO 
+	AND SPD.INDICATOR=1 AND (SPD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND SPD.DISCOUNT_TYPE=2 AND SPD.FILTER_CCP = 1
+	GROUP BY S.CFF_MASTER_SID,
+	         CCP.HIERARCHY_NO,
+	         S.YEAR,
+			 S.PERIOD,md.DESCRIPTION ')
+
+	EXEC Sp_executesql @SQL_OUT_C,
+	N'@SALES_INCLUSION int,@FIRST_PROJ_SID int,@DEDUCTION_INCLUSION int'
+	,@SALES_INCLUSION=@SALES_INCLUSION,
+	@FIRST_PROJ_SID =@FIRST_PROJ_SID ,
+	@DEDUCTION_INCLUSION=@DEDUCTION_INCLUSION
+	
 END
 
--------------	 INSERTING INTO RESULT TABLE  BASED ON FORMULAS FOR EACH COLUMN----------------------------- 
-IF @SCREEN_NAME = 'ASSUMPTIONS'
-BEGIN
-	SELECT CFF_PROJECTION_MASTER_SID
-		,r.HIERARCHY_NO
-		,LEVEL_NAME
-		,YEAR
-		,PERIOD
-		,RS_NAME
-		,TOTAL_DISCOUNT
-		,TOTAL_DISCOUNT_PROJECTED
-		,TOTAL_DISCOUNT_PERCENTAGE
-		,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-		,TOTAL_RPU
-		,TOTAL_PROJECTED_RPU
-		,PARENT_HIERARCHY_NO
-		,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-		,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-	FROM #RESULT R
-	ORDER BY HIERARCHY_NO
-		,PARENT_HIERARCHY_NO
-		,CASE 
-			WHEN @VIEW = 'PIVOT'
-				THEN YEAR
-			END
-		,CASE 
-			WHEN @VIEW = 'PIVOT'
-				THEN PERIOD
-			END
-		,CASE 
-			WHEN @VIEW = 'PIVOT'
-				THEN RS_NAME
-			END
-		,CASE 
-			WHEN @VIEW <> 'PIVOT'
-				THEN RS_NAME
-			END
-		,CASE 
-			WHEN @VIEW <> 'PIVOT'
-				THEN YEAR
-			END
-		,CASE 
-			WHEN @VIEW <> 'PIVOT'
-				THEN PERIOD
-			END
-END
+ END TRY 
 
-------------------BASED ON THE SCREEN NAME <>ASSUMPTIONS starts here ---------------------
-------PULLING CFFDETAILS ALL CFF PASSING as  INPUT----------------------------------
-IF @SCREEN_NAME <> 'ASSUMPTIONS'
-BEGIN
-	IF OBJECT_ID('TEMPDB..#CFF_DETAILS') IS NOT NULL
-		DROP TABLE #CFF_DETAILS
+      BEGIN CATCH 
+          DECLARE @ERRORMESSAGE NVARCHAR(4000); 
+          DECLARE @ERRORSEVERITY INT; 
+          DECLARE @ERRORSTATE INT; 
+          DECLARE @ERRORNUMBER INT; 
+          DECLARE @ERRORPROCEDURE VARCHAR(200); 
+          DECLARE @ERRORLINE INT; 
 
-	SELECT A.CFF_DETAILS_SID
-		,A.CFF_MASTER_SID
-		,A.PROJECTION_MASTER_SID
-		,A.CCP_DETAILS_SID
-		,A.INBOUND_STATUS
-		,A.SALES_INCLUSION
-		,PD.PROJECTION_DETAILS_SID
-		,CD.ITEM_MASTER_SID
-	INTO #CFF_DETAILS
-	FROM CFF_DETAILS A 
-	JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=A.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=A.PROJECTION_MASTER_SID
-	JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
-	WHERE EXISTS (
-			SELECT CFF_PROJECTION_MASTER_SID
-			FROM #CFF_PROJECTION_MASTER B
-			WHERE A.CFF_MASTER_SID = B.CFF_PROJECTION_MASTER_SID AND B.ID<>1
-			)
-			AND EXISTS(SELECT 1 FROM #CFF_DETAILS_CURRENT H WHERE A.CCP_DETAILS_SID=H.CCP_DETAILS_SID)
+          EXEC USPERRORCOLLECTOR 
 
-	IF OBJECT_ID('TEMPDB..#PRIOR_TEMP_CCP') IS NOT NULL
-		DROP TABLE #PRIOR_TEMP_CCP
-	SELECT distinct A.HIERARCHY_NO,
-       A.LEVEL_NAME,
-       A.PARENT_HIERARCHY_NO,
-       A.CCP_DETAILS_SID,
-       A.CONTRACT_MASTER_SID,
-       A.COMPANY_MASTER_SID,
-       A.ITEM_MASTER_SID,
-       A.PROJECTION_DETAILS_SID,
-       CD.CFF_MASTER_SID,
-       CASE
-         WHEN CD.SALES_INCLUSION = 'YES' THEN 1
-         ELSE 0
-       END SALES_INCLUSION,CD.CFF_DETAILS_SID	 
-	   into #PRIOR_TEMP_CCP
-FROM   (SELECT DISTINCT HIERARCHY_NO,
-                        LEVEL_NAME,
-                        PARENT_HIERARCHY_NO,
-                        CCP_DETAILS_SID,
-                        CONTRACT_MASTER_SID,
-                        COMPANY_MASTER_SID,
-                        ITEM_MASTER_SID,
-                        PROJECTION_DETAILS_SID
-        FROM   #TEMP_CCP)A
-       JOIN #CFF_DETAILS CD
-         ON CD.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+          SELECT @ERRORMESSAGE = ERROR_MESSAGE(), 
+                 @ERRORSEVERITY = ERROR_SEVERITY(), 
+                 @ERRORSTATE = ERROR_STATE(), 
+                 @ERRORPROCEDURE = ERROR_PROCEDURE(), 
+                 @ERRORLINE = ERROR_LINE(), 
+                 @ERRORNUMBER = ERROR_NUMBER() 
 
-	--WHERE  CFF_MASTER_SID IN(SELECT CFF_PROJECTION_MASTER_SID
-	--                         FROM   #CFF_PROJECTION_MASTER)
-	---------------------------------pulling rs_name information based on @DISCOUNT_VIEW ------------------------------------
-	------FINDING HIERARCHY_NO,LEVEL_NAME ACTUAL START DATE PROJ END DATE  ----------------------------------
-	IF OBJECT_ID('TEMPDB.DBO.#PRIOR_RS_DATA_PERIOD', 'U') IS NOT NULL
-		DROP TABLE #PRIOR_RS_DATA_PERIOD;
+          RAISERROR ( @ERRORMESSAGE,-- MESSAGE TEXT. 
+                      @ERRORSEVERITY,-- SEVERITY. 
+                      @ERRORSTATE,-- STATE. 
+                      @ERRORPROCEDURE,-- PROCEDURE_NAME. 
+                      @ERRORNUMBER,-- ERRORNUMBER 
+                      @ERRORLINE -- ERRORLINE 
+          ) 
+      END CATCH 
+  END 
+GO
 
-	SELECT DISTINCT DISCOUNT
-		--,YEAR
-		--,PERIOD
-		,F.CFF_MASTER_SID
-		,cd.PROJECTION_DETAILS_SID
-		,NM_PPA_IND
-		--,PERIOD_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		,IIF(SALES_INCLUSION='YES',1,0)  SALES_INCLUSION
-		,IIF(DEDUCTION_INCLUSION='YES',1,0) DEDUCTION_INCLUSION
-		,CD.CCP_DETAILS_SID,cd.ITEM_MASTER_SID
-	INTO #PRIOR_RS_DATA_PERIOD
-	FROM #PRIOR_RS_DATA PR
-	CROSS JOIN (
-		SELECT CFF_PROJECTION_MASTER_SID AS CFF_MASTER_SID
-		FROM #CFF_PROJECTION_MASTER
-		WHERE ID <> 1
-		) F
-	JOIN #CFF_DETAILS CD ON PR.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
-		AND F.CFF_MASTER_SID = CD.CFF_MASTER_SID
-	LEFT JOIN  #MULTISELECT_DISCOUNTS NMDP ON NMDP.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
-	 AND IIF(@VAR = 1, CONVERT(VARCHAR(100), RS_CONTRACT_SID), SELECTED_LEVEL) = DISCOUNT
-	LEFT JOIN CFF_DEDUCTION_INCLUSION CDI ON CDI.CFF_DETAILS_SID = CD.CFF_DETAILS_SID
-		AND CDI.RS_MODEL_SID = NMDP.RS_MODEL_SID
-	--CROSS JOIN (
-	--	SELECT DISTINCT YEAR
-	--		,PERIOD
-	--		,PERIOD_SID
-	--	FROM #PERIOD
-	--	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-	--			AND @PROJ_END_PERIOD_SID
-	--	) P
-
-
-	------finding HIERARCHY_NO,LEVEL_NAME_ccp  other than first cff ----------------------------------
-	IF OBJECT_ID('TEMPDB.DBO.#PRIOR_CPP_INFO', 'U') IS NOT NULL
-		DROP TABLE #PRIOR_CPP_INFO;
-
-	SELECT distinct pd.CFF_MASTER_SID
-		--,PD.PROJECTION_MASTER_SID
-		--,PD.PROJECTION_DETAILS_SID
-		--,PD.CCP_DETAILS_SID
-		--,HIERARCHY_NO
-		--,LEVEL_NAME
-		,FORECASTING_TYPE
-	INTO #PRIOR_CPP_INFO
-	FROM --PROJECTION_DETAILS PD
-	--JOIN CFF_DETAILS CD ON CD.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
-	#CFF_DETAILS pd
-	JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
-	--JOIN #CCP C ON C.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	--WHERE EXISTS (
-	--		SELECT CFF_PROJECTION_MASTER_SID
-	--		FROM #CFF_PROJECTION_MASTER CFF
-	--		WHERE ID <> 1
-	--			AND CD.CFF_MASTER_SID = CFF.CFF_PROJECTION_MASTER_SID
-	--		)
-
-	--------finding INDICATOR(SALES_INCLUSION)   other than first cff ----------------------------------
-	--IF Object_id('TEMPDB..#TEMP_PRIOR_HIER_SALES') IS NOT NULL
-	--	DROP TABLE #TEMP_PRIOR_HIER_SALES
-	--CREATE TABLE #TEMP_PRIOR_HIER_SALES (
-	--	HIERARCHY_NO VARCHAR(50)
-	--	,CFF_MASTER_SID INT
-	--	,INDICATOR BIT
-	--	,PRIMARY KEY (CFF_MASTER_SID,HIERARCHY_NO)
-	--	)
-	--INSERT INTO #TEMP_PRIOR_HIER_SALES (
-	--	HIERARCHY_NO
-	--	,CFF_MASTER_SID
-	--	,INDICATOR
-	--	)
-	--SELECT DISTINCT A.HIERARCHY_NO
-	--	,A.CFF_MASTER_SID
-	--	,1
-	--FROM #PRIOR_CPP_INFO A
-	--JOIN #PRIOR_SALES_INFORMATION B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-	--	AND A.CFF_MASTER_SID = B.CFF_MASTER_SID
-	--------finding INDICATOR(DEDUCTION_INCLUSION)   other than first cff ----------------------------------
-	--IF Object_id('TEMPDB..#TEMP_PRIOR_HIER_DISC') IS NOT NULL
-	--	DROP TABLE #TEMP_PRIOR_HIER_DISC
-	--CREATE TABLE #TEMP_PRIOR_HIER_DISC (
-	--	HIERARCHY_NO VARCHAR(50)
-	--	,CFF_MASTER_SID INT
-	--	,INDICATOR BIT
-	--	,PRIMARY KEY (CFF_MASTER_SID,HIERARCHY_NO)
-	--	)
-	--INSERT INTO #TEMP_PRIOR_HIER_DISC (
-	--	HIERARCHY_NO
-	--	,CFF_MASTER_SID
-	--	,INDICATOR
-	--	)
-	--SELECT DISTINCT A.HIERARCHY_NO
-	--	,A.CFF_MASTER_SID
-	--	,1
-	--FROM #PRIOR_CPP_INFO A
-	--JOIN #PRIOR_DISC_INFORMATION B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-	--	AND A.CFF_MASTER_SID = B.CFF_MASTER_SID
+	      
 	
-------------------------------------------------------------------------------------
-	IF OBJECT_ID('TEMPDB..#PRIOR_ACCRUAL_DISCOUNT') IS NOT NULL
-		DROP TABLE #PRIOR_ACCRUAL_DISCOUNT;
-		SELECT
-		 P.CFF_MASTER_SID
-		,P.PROJECTION_DETAILS_SID
-		,A.PERIOD_SID
-		,A.RS_CONTRACT_SID
-		,A.DISCOUNT_AMOUNT
-		,P.HIERARCHY_NO
-		,P.LEVEL_NAME
-		,A.CCP_DETAILS_SID
-		INTO #PRIOR_ACCRUAL_DISCOUNT
-		 FROM #ACCRUAL_DISCOUNT A JOIN #PRIOR_TEMP_CCP P ON P.CCP_DETAILS_SID=A.CCP_DETAILS_SID
-		 WHERE EXISTS(SELECT 1 FROM #PRIOR_RS_DATA RS WHERE RS.CCP_DETAILS_SID=A.CCP_DETAILS_SID
-		 AND RS.DISCOUNT=A.DISCOUNT)
-/*
-	WITH CTE
-	AS (
-		SELECT A.CCP_DETAILS_SID
-			,A.COMPANY_MASTER_SID
-			,A.CONTRACT_MASTER_SID
-			,A.ITEM_MASTER_SID
-			,A.PROJECTION_DETAILS_SID
-			,A.CFF_MASTER_SID
-			,A.HIERARCHY_NO
-			,A.LEVEL_NAME
-			,A.PROJECTION_MASTER_SID
-			,A.PARENT_HIERARCHY_NO
-			,p.PERIOD_SID
-			,PERIOD_DATE
-			,NMDP.RS_CONTRACT_SID
-			,SELECTED_LEVEL DISCOUNT
-		FROM #PRIOR_TEMP_CCP A
-		JOIN #PRIOR_RS_DATA RS ON RS.CCP_DETAILS_SID = A.CCP_DETAILS_SID
-		JOIN #PERIOD P ON P.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-				AND @PROJ_END_PERIOD_SID
-		JOIN  #MULTISELECT_DISCOUNTS NMDP ON NMDP.CCP_DETAILS_SID = RS.CCP_DETAILS_SID
-	 AND IIF(@VAR = 1, CONVERT(VARCHAR(100), RS_CONTRACT_SID), SELECTED_LEVEL) = DISCOUNT
-		)
-	SELECT CFF_MASTER_SID
-		,PROJECTION_DETAILS_SID
-		,PERIOD_SID
-		,RC.RS_CONTRACT_SID
-		,DISCOUNT
-		,SUM(DEDUCTION_AMOUNT) / (DATEDIFF(MM, A1.ACCRUAL_PERIOD_START_DATE, A1.ACCRUAL_PERIOD_END_DATE) + 1) DISCOUNT_AMOUNT
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_ACCRUAL_DISCOUNT
-	FROM ACCRUAL_MASTER A1
-	JOIN RS_CONTRACT RC ON RC.RS_MODEL_SID = A1.RS_MODEL_SID
-		AND RC.CONTRACT_MASTER_SID = A1.CONTRACT_MASTER_SID
-	JOIN CTE A2 ON A2.PERIOD_DATE BETWEEN CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, 0))))
-			AND CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_END_DATE, 0))))
-		AND A1.CONTRACT_MASTER_SID = A2.CONTRACT_MASTER_SID
-		AND A1.COMPANY_MASTER_SID = A2.COMPANY_MASTER_SID
-		AND A1.ITEM_MASTER_SID = A2.ITEM_MASTER_SID
-		AND A2.RS_CONTRACT_SID = RC.RS_CONTRACT_SID
-		AND DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, - 1)) >= @ACTUAL_START_DATE
-		AND A1.ACCRUAL_PERIOD_END_DATE <= @PROJ_END_PERIOD_DATE
-	GROUP BY CFF_MASTER_SID
-		,PROJECTION_DETAILS_SID
-		,PERIOD_SID
-		,RC.RS_CONTRACT_SID
-		,DISCOUNT
-		,ACCRUAL_PERIOD_START_DATE
-		,ACCRUAL_PERIOD_END_DATE
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	*/
-	------------------------------------------------------------------- Newly added ends here
-	----------------------------PULLING DISCOUNT OF PROJECTED  LEVEL INFORMATION OTHER THAN FIRST CFF------------------------
-	IF OBJECT_ID('TEMPDB..#PRIOR_NM_DISCOUNT_PROJECTION') IS NOT NULL
-		DROP TABLE #PRIOR_NM_DISCOUNT_PROJECTION
-
-	SELECT ISNULL(SUM(NSP.PROJECTION_SALES), 0) AS PROJECTION_SALES
-		,SUM(AD.DISCOUNT_AMOUNT) AS ACCRUAL_AMOUNT_PROJECTION
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,prd.HIERARCHY_NO
-		,prd.LEVEL_NAME
-		,prd.PARENT_HIERARCHY_NO
-	INTO #PRIOR_NM_DISCOUNT_PROJECTION
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID--COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	--INNER JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID=PRD.PROJECTION_DETAILS_SID
-	INNER JOIN #MULTISELECT_DISCOUNTS MD ON MD.CCP_DETAILS_SID=PRD.CCP_DETAILS_SID
-	AND PRD.DISCOUNT=IIF(@VAR = 1,CONVERT(VARCHAR(100), MD.RS_CONTRACT_SID),MD.SELECTED_LEVEL)
-	LEFT JOIN NM_DISCOUNT_PROJECTION NSP ON PRD.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND MD.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND prd.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		--AND @PROJ_END_PERIOD_SID
-	LEFT JOIN #PRIOR_ACCRUAL_DISCOUNT AD ON PRD.CFF_MASTER_SID = AD.CFF_MASTER_SID
-		AND PRD.PROJECTION_DETAILS_SID = AD.PROJECTION_DETAILS_SID
-		AND MD.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
-		--AND PRD.DISCOUNT = AD.DISCOUNT
-		AND p.PERIOD_SID = AD.PERIOD_SID
-		AND PRD.HIERARCHY_NO = AD.HIERARCHY_NO
-		AND PRD.LEVEL_NAME = AD.LEVEL_NAME
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,PRD.HIERARCHY_NO
-		,PRD.LEVEL_NAME
-		,PRD.PARENT_HIERARCHY_NO
- 
-	----------------------------PULLING DISCOUNT OF ACTULS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_NM_ACTUAL_DISCOUNT') IS NOT NULL
-		DROP TABLE #PRIOR_NM_ACTUAL_DISCOUNT
-
-	SELECT ISNULL(Sum(IIF((DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL), NSP.ACTUAL_SALES, NULL)), 0) AS ACTUAL_SALES
-		,SUM(AD.DISCOUNT_AMOUNT) AS ACCRUAL_AMOUNT_ACTUAL
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,prd.HIERARCHY_NO
-		,prd.LEVEL_NAME
-		,prd.PARENT_HIERARCHY_NO
-	INTO #PRIOR_NM_ACTUAL_DISCOUNT
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID--@PROJ_END_PERIOD_SID
-	) P on 1=1
-	--INNER JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID=PRD.PROJECTION_DETAILS_SID
-	INNER JOIN #MULTISELECT_DISCOUNTS MD ON MD.CCP_DETAILS_SID=PRD.CCP_DETAILS_SID
-	AND PRD.DISCOUNT=IIF(@VAR = 1,CONVERT(VARCHAR(100), MD.RS_CONTRACT_SID),MD.SELECTED_LEVEL)
-	left JOIN NM_ACTUAL_DISCOUNT NSP ON PRD.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND MD.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-	LEFT JOIN #PRIOR_ACCRUAL_DISCOUNT AD ON PRD.CFF_MASTER_SID = AD.CFF_MASTER_SID
-		AND PRD.PROJECTION_DETAILS_SID = AD.PROJECTION_DETAILS_SID
-		AND MD.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
-		---AND PRD.DISCOUNT = AD.DISCOUNT
-		AND p.PERIOD_SID = AD.PERIOD_SID
-		AND PRD.HIERARCHY_NO = AD.HIERARCHY_NO
-		AND PRD.LEVEL_NAME = AD.LEVEL_NAME
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,prd.HIERARCHY_NO
-		,prd.LEVEL_NAME
-		,prd.PARENT_HIERARCHY_NO
-	
-	----------------------------PULLING   PPA PROJECTIONS VALUES    INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_NM_PPA_PROJECTION') IS NOT NULL
-		DROP TABLE #PRIOR_NM_PPA_PROJECTION
-		/*
-	SELECT ISNULL(SUM(NSP.PROJECTION_DISCOUNT_DOLLAR), 0) PROJECTION_DISCOUNT_DOLLAR
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_NM_PPA_PROJECTION
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN NM_PPA_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-		AND CASE 
-			WHEN @VAR = 1
-				THEN CONVERT(VARCHAR(100), NMDP.RS_CONTRACT_SID)
-			ELSE 'Price Protection'
-			END = PRD.DISCOUNT
-	JOIN NM_PPA_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND NMDP.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-		AND PRD.PERIOD_SID = NSP.PERIOD_SID
-		AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-			AND @PROJ_END_PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		*/
-	----------------------------PULLING   PPA ACTUALS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_NM_ACTUAL_PPA') IS NOT NULL
-		DROP TABLE #PRIOR_NM_ACTUAL_PPA
-		/*
-	SELECT ISNULL(Sum(NSP.ACTUAL_DISCOUNT_DOLLAR), 0) ACTUAL_DISCOUNT_DOLLAR
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_NM_ACTUAL_PPA
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN NM_PPA_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-		AND CASE 
-			WHEN @VAR = 1
-				THEN CONVERT(VARCHAR(100), NMDP.RS_CONTRACT_SID)
-			ELSE 'Price Protection'
-			END = PRD.DISCOUNT
-	JOIN NM_ACTUAL_PPA NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND NMDP.RS_CONTRACT_SID = NSP.RS_CONTRACT_SID
-		AND PRD.PERIOD_SID = NSP.PERIOD_SID
-		AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		*/
-	-----------------------PULLING   SUPLEMTNAL PROJ   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_M_SUPPLEMENTAL_DISC_PROJ') IS NOT NULL
-		DROP TABLE #PRIOR_M_SUPPLEMENTAL_DISC_PROJ
-
-	SELECT ISNULL(Sum(NSP.PROJECTION_SALES), 0) PROJECTION_SALES
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_M_SUPPLEMENTAL_DISC_PROJ
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID--COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	JOIN M_SUPPLEMENTAL_DISC_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN M_SUPPLEMENTAL_DISC_PROJ NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		--	AND @PROJ_END_PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		 
-
-	-----------------------PULLING   SUPLEMTNAL ACTUALS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_M_SUPPLEMENTAL_DISC_ACTUALS') IS NOT NULL
-		DROP TABLE #PRIOR_M_SUPPLEMENTAL_DISC_ACTUALS
-
-	SELECT Sum(NSP.ACTUAL_SALES) ACTUAL_SALES
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_M_SUPPLEMENTAL_DISC_ACTUALS
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID--@PROJ_END_PERIOD_SID
-	) P on 1=1
-	JOIN M_SUPPLEMENTAL_DISC_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN M_SUPPLEMENTAL_DISC_ACTUALS NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		--	AND @ACT_END_PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		 
-	-----------------------PULLING   MANDTED DISCOUNT PROJECTIONS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_M_DISCOUNT_PROJECTION') IS NOT NULL
-		DROP TABLE #PRIOR_M_DISCOUNT_PROJECTION
-
-	SELECT Sum(NMDP.PROJECTION_SALES) PROJECTION_SALES
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_M_DISCOUNT_PROJECTION
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID--COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	JOIN M_DISCOUNT_PROJECTION NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NMDP.PERIOD_SID
-		AND SAVE_FLAG = 1
-		--AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		--	AND @PROJ_END_PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-
-	-----------------------PULLING   MANDTED DISCOUNT ACTUALS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_M_ACTUAL_DISCOUNT') IS NOT NULL
-		DROP TABLE #PRIOR_M_ACTUAL_DISCOUNT
-
-	SELECT distinct Sum(NMDP.ACTUAL_SALES) ACTUAL_SALES
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_M_ACTUAL_DISCOUNT
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-		JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID
-	) P on 1=1
-	JOIN M_ACTUAL_DISCOUNT NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-		AND P.PERIOD_SID = NMDP.PERIOD_SID
-		AND SAVE_FLAG = 1
-		--AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		--	AND @ACT_END_PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-
-	-----------------------PULLING  NON  MANDTED SALES PROJECTIONS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_NM_SALES_PROJECTION') IS NOT NULL
-		DROP TABLE #PRIOR_NM_SALES_PROJECTION
-
-	SELECT distinct Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), PROJECTION_SALES, NULL)) PROJECTION_SALES
-		,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), PROJECTION_UNITS, NULL) * COALESCE(NULLIF(UOM.UOM_VALUE, 0),1)) PROJECTION_UNITS
-		,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), PROJECTION_SALES, NULL) * U.ITEM_PRICE) AS NM_COGS_PROJECTED
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_NM_SALES_PROJECTION
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	JOIN NM_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN NM_SALES_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		--	AND @PROJ_END_PERIOD_SID
-	--JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	--JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	LEFT JOIN #ITEM_PRICING U ON PRD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-		AND p.PERIOD_SID = U.PERIOD_SID
-	LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID = PRD.ITEM_MASTER_SID
-	WHERE EXISTS (SELECT 1 FROM #MULTISELECT_DISCOUNTS MD WHERE  MD.CCP_DETAILS_SID=PRD.CCP_DETAILS_SID
-	AND PRD.DISCOUNT=IIF(@VAR = 1,CONVERT(VARCHAR(100), MD.RS_CONTRACT_SID),MD.SELECTED_LEVEL))
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-
-	-----------------------PULLING  NON  MANDTED SALES ACTUALS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_NM_ACTUAL_SALES') IS NOT NULL
-		DROP TABLE #PRIOR_NM_ACTUAL_SALES
-
-	SELECT distinct Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), ACTUAL_SALES, NULL)) ACTUAL_SALES
-		,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), ACTUAL_UNITS, NULL) * COALESCE(NULLIF(UOM.UOM_VALUE, 0),1)) ACTUAL_UNITS
-		,Sum(IIF((SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL), ACTUAL_SALES, NULL) * U.ITEM_PRICE) AS NM_COGS_ACTUAL
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_NM_ACTUAL_SALES
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID
-	) P on 1=1
-	JOIN NM_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN NM_ACTUAL_SALES NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		--	AND @ACT_END_PERIOD_SID
-	--JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	--JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	LEFT JOIN #ITEM_PRICING U ON PRD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-		AND p.PERIOD_SID = U.PERIOD_SID
-	LEFT JOIN ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID = PRD.ITEM_MASTER_SID
-	WHERE EXISTS (SELECT 1 FROM #MULTISELECT_DISCOUNTS MD WHERE  MD.CCP_DETAILS_SID=PRD.CCP_DETAILS_SID
-	AND PRD.DISCOUNT=IIF(@VAR = 1,CONVERT(VARCHAR(100), MD.RS_CONTRACT_SID),MD.SELECTED_LEVEL))
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		 
-	--------------------------------------------------------- Returns---GALUAT-543--------------------------------
-	--SELECT YEAR,
-	--       PERIOD,
-	--       AVG(TR.ACTUAL_RATE)    ACTUAL_RATE,
-	--       AVG(TR.PROJECTED_RATE) PROJECTED_RATE,
-	--       CFF_MASTER_SID,
-	--       HIERARCHY_NO,
-	--       LEVEL_NAME
-	--INTO   #PRIOR_RETURNS
-	--FROM   #TEMP_RETURNS TR
-	--JOIN   CCP_DETAILS CC ON TR.ITEM_MASTER_SID = CC.ITEM_MASTER_SID
-	--JOIN   #PRIOR_CPP_INFO C ON C.CCP_DETAILS_SID = CC.CCP_DETAILS_SID
-	--JOIN   #PERIOD P ON P.PERIOD_SID = TR.PERIOD_SID
-	--GROUP  BY YEAR,
-	--          PERIOD,
-	--          CFF_MASTER_SID,
-	--          HIERARCHY_NO,
-	----          LEVEL_NAME  
-	--IF Object_id('TEMPDB..#PRIOR_RETURNS') IS NOT NULL
-	--  DROP TABLE #PRIOR_RETURNS
-	--SELECT YEAR,
-	--       PERIOD,
-	--       Isnull(Sum(( Isnull(NSP.projection_sales, 0)
-	--                    + Isnull(MSP.projection_sales, 0) ) * TR.PROJECTED_RATE), 0) AS Returns_Projected,
-	--       Isnull(Sum(( Isnull(NAS.actual_sales, 0)
-	--                    + Isnull(MAS.actual_sales, 0) ) * TR.ACTUAL_RATE), 0)        AS Returns_actuals,
-	--       CFF_MASTER_SID,
-	--       HIERARCHY_NO,
-	--       LEVEL_NAME,
-	--       RS_NAME
-	--INTO   #PRIOR_RETURNS
-	--FROM   #TEMP_RETURNS TR
-	--       JOIN CCP_DETAILS CC
-	--         ON TR.ITEM_MASTER_SID = CC.ITEM_MASTER_SID
-	--       JOIN #PRIOR_CPP_INFO C
-	--         ON C.CCP_DETAILS_SID = CC.CCP_DETAILS_SID
-	--       JOIN #PERIOD P
-	--         ON P.PERIOD_SID = TR.PERIOD_SID
-	--       LEFT OUTER JOIN NM_SALES_PROJECTION NSP
-	--                    ON NSP.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
-	--                       AND p.PERIOD_SID = NSP.PERIOD_SID
-	--                       AND NSP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
-	--       LEFT OUTER JOIN M_SALES_PROJECTION MSP
-	--                    ON MSP.PROJECTION_DETAILS_SID = c.PROJECTION_DETAILS_SID
-	--                       AND p.PERIOD_SID = MSP.PERIOD_SID
-	--                       AND MSP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
-	--       LEFT OUTER JOIN NM_ACTUAL_SALES NAS
-	--                    ON NAS.PROJECTION_DETAILS_SID = c.PROJECTION_DETAILS_SID
-	--                       AND p.PERIOD_SID = NAS.PERIOD_SID
-	--                       AND NAS.PERIOD_SID BETWEEN @ACT_START_PERIOD_SID AND @ACT_END_PERIOD_SID
-	--       LEFT OUTER JOIN M_ACTUAL_SALES MAS
-	--                    ON MAS.PROJECTION_DETAILS_SID = c.PROJECTION_DETAILS_SID
-	--                       AND p.PERIOD_SID = MAS.PERIOD_SID
-	--                       AND MAS.PERIOD_SID BETWEEN @ACT_START_PERIOD_SID AND @ACT_END_PERIOD_SID
-	--GROUP  BY YEAR,
-	--          PERIOD,
-	--          CFF_MASTER_SID,
-	--          HIERARCHY_NO,
-	--          LEVEL_NAME,
-	--          RS_NAME
-	-----------------------PULLING   MANDTED SALES PROJETIONS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_M_SALES_PROJECTION') IS NOT NULL
-		DROP TABLE #PRIOR_M_SALES_PROJECTION
-
-	SELECT distinct Sum(PROJECTION_SALES) PROJECTION_SALES
-		,Sum(PROJECTION_UNITS) PROJECTION_UNITS
-		,Sum(PROJECTION_SALES * U.ITEM_PRICE) AS M_COGS_PROJECTED
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_M_SALES_PROJECTION
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @ACT_END_PERIOD_SID
-	) P on 1=1
-	JOIN M_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN M_SALES_PROJECTION NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND PRD.PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-		--	AND @ACT_END_PERIOD_SID
-	JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	LEFT JOIN #ITEM_PRICING U ON CD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-		AND p.PERIOD_SID = U.PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-
-	-----------------------PULLING    MANDTED SALES ACTUALS   INFORMATION OTHER THAN FIRST CFF------------------------
-	IF OBJECT_ID('TEMPDB..#PRIOR_M_ACTUAL_SALES') IS NOT NULL
-		DROP TABLE #PRIOR_M_ACTUAL_SALES
-
-	SELECT  distinct SUM(ACTUAL_SALES) ACTUAL_SALES
-		,SUM(ACTUAL_UNITS) ACTUAL_UNITS
-		,SUM(ACTUAL_SALES * U.ITEM_PRICE) AS M_COGS_ACTUAL
-		,PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-	INTO #PRIOR_M_ACTUAL_SALES
-	FROM #PRIOR_RS_DATA_PERIOD PRD
-	JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	JOIN M_SALES_PROJECTION_MASTER NMDP ON NMDP.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	JOIN M_ACTUAL_SALES NSP ON NMDP.PROJECTION_DETAILS_SID = NSP.PROJECTION_DETAILS_SID
-		AND p.PERIOD_SID = NSP.PERIOD_SID
-		--AND PRD.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
-		--	AND @PROJ_END_PERIOD_SID
-	--JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = PRD.PROJECTION_DETAILS_SID
-	--JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-	LEFT JOIN #ITEM_PRICING U ON PRD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-		AND p.PERIOD_SID = U.PERIOD_SID
-	GROUP BY PERIOD
-		,YEAR
-		,PRD.DISCOUNT
-		,PRD.CFF_MASTER_SID
-		,HIERARCHY_NO
-		,LEVEL_NAME
-		,PARENT_HIERARCHY_NO
-		 
-	-----------------------AGGREGATING     MANDATED&NON MANDATED SALES OF BOTH ACTUALS AND PROJECTIONS INFORMATION OTHER THAN FIRST CFF------------------------
-	IF OBJECT_ID('TEMPDB..#PRIOR_SALES') IS NOT NULL
-		DROP TABLE #PRIOR_SALES
-
-	SELECT distinct P.YEAR
-		,P.PERIOD
-		,FD.CFF_MASTER_SID
-		,FD.DISCOUNT
-		,FD.HIERARCHY_NO
-		,FD.LEVEL_NAME
-		,FD.PARENT_HIERARCHY_NO
-		,COALESCE((NSP.PROJECTION_SALES), 0) + COALESCE((MSP.PROJECTION_SALES), 0) AS PROJECTION_SALES
-		,COALESCE((NSP.PROJECTION_UNITS), 0) + COALESCE((MSP.PROJECTION_UNITS), 0) AS PROJECTION_UNITS
-		,COALESCE((NAS.ACTUAL_SALES), 0) + COALESCE((MAS.ACTUAL_SALES), 0) AS ACTUAL_SALES
-		,COALESCE((NAS.ACTUAL_UNITS), 0) + COALESCE((MAS.ACTUAL_UNITS), 0) AS ACTUAL_UNITS
-		,COALESCE((MSP.M_COGS_PROJECTED), 0) + COALESCE((NSP.NM_COGS_PROJECTED), 0) AS COGS_PROJECTED
-		,COALESCE((MAS.M_COGS_ACTUAL), 0) + COALESCE((NAS.NM_COGS_ACTUAL), 0) AS COGS_ACTUAL
-		,COALESCE((NAS.ACTUAL_SALES), 0) AS NM_ACTUAL_SALES
-		,COALESCE((NSP.PROJECTION_SALES), 0) AS NM_PROJECTED_SALES
-		,COALESCE((NAS.ACTUAL_UNITS), 0) AS NM_ACTUAL_UNITS
-		,COALESCE((NSP.PROJECTION_UNITS), 0) AS NM_PROJECTED_UNITS
-		,COALESCE((MAS.ACTUAL_SALES), 0) AS M_ACTUAL_SALES
-		,COALESCE((MSP.PROJECTION_SALES), 0) AS M_PROJECTED_SALES
-		,COALESCE((MAS.ACTUAL_UNITS), 0) AS M_ACTUAL_UNITS
-		,COALESCE((MSP.PROJECTION_UNITS), 0) AS M_PROJECTED_UNITS
-	INTO #PRIOR_SALES
-	FROM (
-		SELECT DISTINCT CFF_MASTER_SID
-			,DISCOUNT
-			,LEVEL_NAME
-			,HIERARCHY_NO
-			,PARENT_HIERARCHY_NO
-		FROM #PRIOR_RS_DATA_PERIOD
-		) FD
-		JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	LEFT JOIN #PRIOR_NM_SALES_PROJECTION NSP ON NSP.YEAR = P.YEAR
-		AND NSP.PERIOD = P.PERIOD
-		AND NSP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND NSP.DISCOUNT = FD.DISCOUNT
-		AND NSP.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND NSP.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(NSP.PARENT_HIERARCHY_NO, NSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_M_SALES_PROJECTION MSP ON MSP.YEAR = P.YEAR
-		AND MSP.PERIOD = P.PERIOD
-		AND MSP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND MSP.DISCOUNT = FD.DISCOUNT
-		AND MSP.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND MSP.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(MSP.PARENT_HIERARCHY_NO, MSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_NM_ACTUAL_SALES NAS ON NAS.YEAR = P.YEAR
-		AND NAS.PERIOD = P.PERIOD
-		AND NAS.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND NAS.DISCOUNT = FD.DISCOUNT
-		AND NAS.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND NAS.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(NAS.PARENT_HIERARCHY_NO, NAS.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_M_ACTUAL_SALES MAS ON MAS.YEAR = P.YEAR
-		AND MAS.PERIOD = P.PERIOD
-		AND MAS.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND MAS.DISCOUNT = FD.DISCOUNT
-		AND MAS.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND MAS.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(MAS.PARENT_HIERARCHY_NO, MAS.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-
-	-----------------------AGGREGATING     NON MANDATED DISCOUNT OF BOTH ACTUALS AND PROJECTIONS INFORMATION OTHER THAN FIRST CFF------------------------
-	IF OBJECT_ID('TEMPDB..#PRIOR_DISCOUNT') IS NOT NULL
-		DROP TABLE #PRIOR_DISCOUNT
-
-	SELECT P.YEAR
-		,P.PERIOD
-		,COALESCE((NSP.PROJECTION_SALES), 0) AS PROJECTION_SALES
-		,COALESCE((NAD.ACTUAL_SALES), 0) AS ACTUAL_SALES
-		,FD.CFF_MASTER_SID
-		,FD.DISCOUNT AS RS_NAME
-		,FD.LEVEL_NAME
-		,FD.HIERARCHY_NO
-		,FD.PARENT_HIERARCHY_NO
-		,ACCRUAL_AMOUNT_PROJECTION
-		,ACCRUAL_AMOUNT_ACTUAL
-	INTO #PRIOR_DISCOUNT
-	FROM (
-		SELECT DISTINCT CFF_MASTER_SID			
-			,DISCOUNT
-			,NM_PPA_IND
-			,LEVEL_NAME
-			,HIERARCHY_NO
-			,PARENT_HIERARCHY_NO
-		FROM #PRIOR_RS_DATA_PERIOD
-		) FD
-		JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	LEFT JOIN #PRIOR_NM_DISCOUNT_PROJECTION NSP ON NSP.YEAR = P.YEAR
-		AND NSP.PERIOD = P.PERIOD
-		AND NSP.DISCOUNT = FD.DISCOUNT
-		AND FD.CFF_MASTER_SID = NSP.CFF_MASTER_SID
-		AND NSP.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND NSP.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(NSP.PARENT_HIERARCHY_NO, NSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_NM_ACTUAL_DISCOUNT NAD ON NAD.YEAR = P.YEAR
-		AND NAD.PERIOD = P.PERIOD
-		AND FD.CFF_MASTER_SID = NAD.CFF_MASTER_SID
-		AND NAD.DISCOUNT = FD.DISCOUNT
-		AND NAD.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND NAD.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(NAD.PARENT_HIERARCHY_NO, NAD.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-		AND FD.NM_PPA_IND = 'NM'
-
-	-----------------------AGGREGATING    PPA AND SUPPLEMENTAL OF BOTH ACTUALS AND PROJECTIONS INFORMATION OTHER THAN FIRST CFF------------------------
-	IF OBJECT_ID('TEMPDB..#PRIOR_PPA') IS NOT NULL
-		DROP TABLE #PRIOR_PPA
-		/*
-	SELECT P.YEAR
-		,P.PERIOD
-		,FD.DISCOUNT
-		,FD.CFF_MASTER_SID
-		,COALESCE((NSP.PROJECTION_DISCOUNT_DOLLAR), 0) AS PPA_DISCOUNT_PROJECTED
-		,COALESCE((NAS.ACTUAL_DISCOUNT_DOLLAR), 0) AS PPA_ACTUAL_SALES
-		,FD.LEVEL_NAME
-		,FD.HIERARCHY_NO
-		,FD.PARENT_HIERARCHY_NO
-	INTO #PRIOR_PPA
-	FROM (
-		SELECT DISTINCT CFF_MASTER_SID
-			,YEAR
-			,PERIOD
-			,DISCOUNT
-			,NM_PPA_IND
-			,LEVEL_NAME
-			,HIERARCHY_NO
-			,PARENT_HIERARCHY_NO
-		FROM #PRIOR_RS_DATA_PERIOD
-		) FD
-	LEFT JOIN #PRIOR_NM_PPA_PROJECTION NSP ON NSP.YEAR = P.YEAR
-		AND NSP.PERIOD = P.PERIOD
-		AND NSP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND NSP.DISCOUNT = FD.DISCOUNT
-		AND NSP.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND NSP.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(NSP.PARENT_HIERARCHY_NO, NSP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_NM_ACTUAL_PPA NAS ON NAS.YEAR = P.YEAR
-		AND NAS.PERIOD = P.PERIOD
-		AND NAS.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND NAS.DISCOUNT = FD.DISCOUNT
-		AND NAS.HIERARCHY_NO = FD.HIERARCHY_NO
-		AND NAS.LEVEL_NAME = FD.LEVEL_NAME
-		AND COALESCE(NAS.PARENT_HIERARCHY_NO, NAS.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	WHERE FD.NM_PPA_IND = 'PPA'
-	*/
-	-----------------------AGGREGATING     madated SUPPLEMENTAL OF BOTH ACTUALS AND PROJECTIONS INFORMATION OTHER THAN FIRST CFF------------------------
-	IF Object_id('TEMPDB..#PRIOR_PPA_SUPP_MANDATED') IS NOT NULL
-		DROP TABLE #PRIOR_PPA_SUPP_MANDATED
-
-	SELECT P.YEAR
-		,P.PERIOD
-		,COALESCE((SDP.PROJECTION_SALES), 0) AS SUPPLEMENTAL_DISCOUNT_PROJECTED
-		,COALESCE((MDP.PROJECTION_SALES), 0) AS MANDATED_DISCOUNT_PROJECTED
-		,COALESCE((SDA.ACTUAL_SALES), 0) AS SUPPLEMENTAL_DISCOUNT_ACTUALS
-		,COALESCE((MAD.ACTUAL_SALES), 0) AS MANDATED_DISCOUNT_ACTUALS
-		,FD.CFF_MASTER_SID
-		,FD.HIERARCHY_NO
-		,FD.LEVEL_NAME
-		,FD.DISCOUNT
-		,FD.PARENT_HIERARCHY_NO
-	INTO #PRIOR_PPA_SUPP_MANDATED
-	FROM (
-		SELECT DISTINCT CFF_MASTER_SID	
-			,DISCOUNT
-			,LEVEL_NAME
-			,HIERARCHY_NO
-			,PARENT_HIERARCHY_NO
-		FROM #PRIOR_RS_DATA_PERIOD
-		) FD
-		JOIN (
-	SELECT YEAR
-		,PERIOD
-		,PERIOD_SID
-	FROM #PERIOD
-	WHERE PERIOD_SID BETWEEN COALESCE(@PIVOT_START_PERIOD_SID, @ACT_START_PERIOD_SID)
-			AND @PROJ_END_PERIOD_SID
-	) P on 1=1
-	LEFT JOIN #PRIOR_M_SUPPLEMENTAL_DISC_PROJ SDP ON SDP.YEAR = P.YEAR
-		AND SDP.PERIOD = P.PERIOD
-		AND SDP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND SDP.DISCOUNT = FD.DISCOUNT
-		AND SDP.HIERARCHY_NO = fd.HIERARCHY_NO
-		AND SDP.LEVEL_NAME = fd.LEVEL_NAME
-		AND COALESCE(SDP.PARENT_HIERARCHY_NO, SDP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_M_SUPPLEMENTAL_DISC_ACTUALS SDA ON SDA.YEAR = P.YEAR
-		AND SDA.PERIOD = P.PERIOD
-		AND SDA.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND SDA.DISCOUNT = FD.DISCOUNT
-		AND SDA.HIERARCHY_NO = fd.HIERARCHY_NO
-		AND SDA.LEVEL_NAME = fd.LEVEL_NAME
-		AND COALESCE(SDA.PARENT_HIERARCHY_NO, SDA.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_M_DISCOUNT_PROJECTION MDP ON MDP.YEAR = P.YEAR
-		AND MDP.PERIOD = P.PERIOD
-		AND MDP.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND MDP.DISCOUNT = FD.DISCOUNT
-		AND MDP.HIERARCHY_NO = fd.HIERARCHY_NO
-		AND MDP.LEVEL_NAME = fd.LEVEL_NAME
-		AND COALESCE(MDP.PARENT_HIERARCHY_NO, MDP.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-	LEFT JOIN #PRIOR_M_ACTUAL_DISCOUNT MAD ON MAD.YEAR = P.YEAR
-		AND MAD.PERIOD = P.PERIOD
-		AND MAD.CFF_MASTER_SID = FD.CFF_MASTER_SID
-		AND MAD.DISCOUNT = FD.DISCOUNT
-		AND MAD.HIERARCHY_NO = fd.HIERARCHY_NO
-		AND MAD.LEVEL_NAME = fd.LEVEL_NAME
-		AND COALESCE(MAD.PARENT_HIERARCHY_NO, MAD.HIERARCHY_NO) = COALESCE(FD.PARENT_HIERARCHY_NO, FD.HIERARCHY_NO)
-
-	IF Object_id('TEMPDB..#PRIOR_PRODUCT_FILE_DATA') IS NOT NULL
-	DROP TABLE #PRIOR_PRODUCT_FILE_DATA
-
-SELECT P.YEAR
-	,P.PERIOD
-	,SUM(EX_FACTORY_SALES_ACTUALS) AS EX_FACTORY_SALES_ACTUALS
-	,SUM(EX_FACTORY_SALES_PROJ) AS EX_FACTORY_SALES_PROJ
-	,SUM(DEMAND_SALES_ACTUALS) AS DEMAND_SALES_ACTUALS
-	,SUM(DEMAND_SALES_PROJ) AS DEMAND_SALES_PROJ
-	,SUM(ADJUSTED_DEMAND_ACTUALS) AS ADJUSTED_DEMAND_ACTUALS
-	,SUM(ADJUSTED_DEMAND_PROJ) AS ADJUSTED_DEMAND_PROJ
-	,SUM(IW_MASTER_ACTUALS) AS IW_MASTER_ACTUALS
-	,SUM(IW_MASTER_PROJ) AS IW_MASTER_PROJ
-	,CF.CFF_MASTER_SID AS CFF_MASTER_SID
-	,B.DISCOUNT
-	,B.HIERARCHY_NO
-	,B.LEVEL_NAME
-	,B.PARENT_HIERARCHY_NO
-INTO #PRIOR_PRODUCT_FILE_DATA
-FROM CFF_PRODUCT_LEVEL_FILES_DATA CF
-JOIN (
-	SELECT DISTINCT A.CFF_MASTER_SID
-		,b.ITEM_MASTER_SID
-		,A.HIERARCHY_NO
-		,A.LEVEL_NAME
-		,A.PARENT_HIERARCHY_NO
-		,DISCOUNT
-	FROM #PRIOR_TEMP_CCP A
-	JOIN #PRIOR_RS_DATA_PERIOD B ON A.CFF_MASTER_SID = B.CFF_MASTER_SID
-		AND A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
-		AND A.HIERARCHY_NO = B.HIERARCHY_NO
-		AND A.LEVEL_NAME = B.LEVEL_NAME
-		AND COALESCE(A.PARENT_HIERARCHY_NO, A.HIERARCHY_NO) = COALESCE(B.PARENT_HIERARCHY_NO, B.HIERARCHY_NO)
-	) B ON CF.CFF_MASTER_SID = B.CFF_MASTER_SID
-	AND CF.ITEM_MASTER_SID = B.ITEM_MASTER_SID
-INNER JOIN #PERIOD P ON P.PERIOD_SID = CF.PERIOD_SID
-GROUP BY P.YEAR
-	,P.PERIOD
-	,CF.CFF_MASTER_SID
-	,B.DISCOUNT
-	,B.HIERARCHY_NO
-	,B.LEVEL_NAME
-	,B.PARENT_HIERARCHY_NO
-	
-
-	------------based on forecasting type it will insert into result-------------------------------------------------
-	IF EXISTS (
-			SELECT 1
-			FROM #PRIOR_CPP_INFO
-			WHERE FORECASTING_TYPE = 'NON MANDATED'
-			)
-	BEGIN
-		IF @VAR = 1
-		BEGIN
-			INSERT INTO #RESULT (
-				CFF_PROJECTION_MASTER_SID
-				,YEAR
-				,PERIOD
-				,RS_NAME
-				,PARENT_HIERARCHY_NO
-				,TOTAL_DISCOUNT
-				,TOTAL_DISCOUNT_PROJECTED
-				,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-				,TOTAL_PROJECTED_RPU
-				,HIERARCHY_NO
-				,LEVEL_NAME
-				,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-				,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-				,TOTAL_DISCOUNT_ACCRUAL
-				)
-			SELECT ND.CFF_MASTER_SID
-				,ND.YEAR
-				,ND.PERIOD
-				,RC.RS_NAME AS RS_NAME
-				,ND.PARENT_HIERARCHY_NO
-				,Isnull(ND.ACTUAL_SALES, 0)
-				,Isnull(ND.PROJECTION_SALES, 0)
-				,Isnull(COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100, 0)
-				,Isnull(COALESCE(ND.PROJECTION_SALES/ NULLIF(RD.NM_PROJECTED_UNITS, 0), 0), 0)
-				,RD.HIERARCHY_NO
-				,RD.LEVEL_NAME
-				,COALESCE(ND.ACTUAL_SALES / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-				,COALESCE(ND.PROJECTION_SALES / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-				,COALESCE(ACCRUAL_AMOUNT_PROJECTION, ACCRUAL_AMOUNT_ACTUAL) AS TOTAL_DISCOUNT_ACCRUAL
-			FROM #PRIOR_DISCOUNT ND
-			JOIN #PRIOR_SALES RD ON RD.YEAR = ND.YEAR
-				AND RD.PERIOD = ND.PERIOD
-				AND RD.DISCOUNT = ND.RS_NAME
-				AND RD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-				AND RD.HIERARCHY_NO = ND.HIERARCHY_NO
-				AND RD.LEVEL_NAME = ND.LEVEL_NAME
-				AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(ND.PARENT_HIERARCHY_NO, ND.HIERARCHY_NO)
-			JOIN #PRIOR_PRODUCT_FILE_DATA PFD ON  PFD.YEAR = ND.YEAR
-                                    AND PFD.PERIOD = ND.PERIOD
-                                    AND PFD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-                                    AND PFD.HIERARCHY_NO = ND.HIERARCHY_NO
-                                    AND PFD.LEVEL_NAME = ND.LEVEL_NAME
-                                    AND COALESCE(PFD.PARENT_HIERARCHY_NO, PFD.HIERARCHY_NO) = COALESCE(ND.PARENT_HIERARCHY_NO, ND.HIERARCHY_NO)
-                                    AND PFD.DISCOUNT = ND.RS_NAME
-			JOIN RS_CONTRACT RC ON RS_CONTRACT_SID = ND.RS_NAME
-			/*
-			UNION ALL
-			
-			SELECT PD.CFF_MASTER_SID
-				,PD.YEAR
-				,PD.PERIOD
-				,RC.RS_NAME AS RS_NAME
-				,PD.PARENT_HIERARCHY_NO
-				,Isnull(PD.PPA_ACTUAL_SALES, 0)
-				,Isnull(PD.PPA_DISCOUNT_PROJECTED, 0)
-				,COALESCE(PD.PPA_DISCOUNT_PROJECTED / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100
-				,COALESCE(PD.PPA_DISCOUNT_PROJECTED / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0)
-				,RD.HIERARCHY_NO
-				,RD.LEVEL_NAME
-				,COALESCE(Isnull(PD.PPA_ACTUAL_SALES, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-				,COALESCE(Isnull(PD.PPA_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-				,NULL AS TOTAL_DISCOUNT_ACCRUAL
-			FROM #PRIOR_PPA PD
-			JOIN #PRIOR_SALES RD ON RD.YEAR = PD.YEAR
-				AND RD.PERIOD = PD.PERIOD
-				AND RD.DISCOUNT = PD.DISCOUNT
-				AND RD.CFF_MASTER_SID = PD.CFF_MASTER_SID
-				AND RD.HIERARCHY_NO = PD.HIERARCHY_NO
-				AND RD.LEVEL_NAME = PD.LEVEL_NAME
-				AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(PD.PARENT_HIERARCHY_NO, PD.HIERARCHY_NO)
-			JOIN #PRIOR_PRODUCT_FILE_DATA PFD 
-                                 ON PFD.YEAR = RD.YEAR
-                                    AND PFD.PERIOD = RD.PERIOD
-                                    AND PFD.DISCOUNT = PD.DISCOUNT
-                                    AND PFD.CFF_MASTER_SID = RD.CFF_MASTER_SID
-                                    AND PFD.HIERARCHY_NO = PD.HIERARCHY_NO
-                                    AND PFD.LEVEL_NAME = PD.LEVEL_NAME
-                                    AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(PD.PARENT_HIERARCHY_NO, PD.HIERARCHY_NO)
-			JOIN RS_CONTRACT RC ON RS_CONTRACT_SID = PD.DISCOUNT*/
-		END
-		ELSE
-		BEGIN
-			INSERT INTO #RESULT (
-				CFF_PROJECTION_MASTER_SID
-				,YEAR
-				,PERIOD
-				,RS_NAME
-				,PARENT_HIERARCHY_NO
-				,TOTAL_DISCOUNT
-				,TOTAL_DISCOUNT_PROJECTED
-				,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-				,TOTAL_PROJECTED_RPU
-				,HIERARCHY_NO
-				,LEVEL_NAME
-				,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-				,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-				,TOTAL_DISCOUNT_ACCRUAL
-				)
-			SELECT ND.CFF_MASTER_SID
-				,ND.YEAR
-				,ND.PERIOD
-				,nd.RS_NAME
-				,ND.PARENT_HIERARCHY_NO
-				,Isnull(ND.ACTUAL_SALES, 0)
-				,Isnull(ND.PROJECTION_SALES, 0)
-				,Isnull(COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100, 0)
-				,Isnull(COALESCE(ND.PROJECTION_SALES / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0), 0)
-				,RD.HIERARCHY_NO
-				,RD.LEVEL_NAME
-				,COALESCE(ND.ACTUAL_SALES / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-				,COALESCE(ND.PROJECTION_SALES / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-				,COALESCE(ACCRUAL_AMOUNT_PROJECTION, ACCRUAL_AMOUNT_ACTUAL) AS TOTAL_DISCOUNT_ACCRUAL
-			FROM #PRIOR_DISCOUNT ND
-			JOIN #PRIOR_SALES RD ON RD.YEAR = ND.YEAR
-				AND RD.PERIOD = ND.PERIOD
-				AND RD.DISCOUNT = ND.RS_NAME
-				AND RD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-				AND RD.HIERARCHY_NO = ND.HIERARCHY_NO
-				AND RD.LEVEL_NAME = ND.LEVEL_NAME
-				AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(ND.PARENT_HIERARCHY_NO, ND.HIERARCHY_NO)
-			JOIN #PRIOR_PRODUCT_FILE_DATA PFD 
-                                 ON PFD.YEAR = ND.YEAR
-                                    AND PFD.PERIOD = ND.PERIOD
-                                    AND PFD.DISCOUNT = ND.RS_NAME
-                                    AND PFD.CFF_MASTER_SID = ND.CFF_MASTER_SID
-                                    AND PFD.HIERARCHY_NO = ND.HIERARCHY_NO
-                                    AND PFD.LEVEL_NAME = ND.LEVEL_NAME
-                                    AND COALESCE(PFD.PARENT_HIERARCHY_NO, PFD.HIERARCHY_NO) = COALESCE(ND.PARENT_HIERARCHY_NO, ND.HIERARCHY_NO)
-			
-			/*UNION ALL
-			
-			SELECT PD.CFF_MASTER_SID
-				,PD.YEAR
-				,PD.PERIOD
-				,pd.discount AS rs_name
-				,PD.PARENT_HIERARCHY_NO
-				,Isnull(PD.PPA_ACTUAL_SALES, 0)
-				,Isnull(PD.PPA_DISCOUNT_PROJECTED, 0)
-				,Isnull(COALESCE(Isnull(PD.PPA_DISCOUNT_PROJECTED, 0) / NULLIF(RD.NM_PROJECTED_SALES, 0), 0) * 100, 0)
-				,Isnull(COALESCE(Isnull(PD.PPA_DISCOUNT_PROJECTED, 0) / NULLIF(RD.NM_PROJECTED_UNITS, 0), 0), 0)
-				,RD.HIERARCHY_NO
-				,RD.LEVEL_NAME
-				,COALESCE(Isnull(PD.PPA_ACTUAL_SALES, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-				,COALESCE(Isnull(PD.PPA_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-				,NULL AS TOTAL_DISCOUNT_ACCRUAL
-			FROM #PRIOR_PPA PD
-			JOIN #PRIOR_SALES RD ON RD.YEAR = PD.YEAR
-				AND RD.PERIOD = PD.PERIOD
-				AND RD.DISCOUNT = PD.DISCOUNT
-				AND RD.CFF_MASTER_SID = PD.CFF_MASTER_SID
-				AND RD.HIERARCHY_NO = PD.HIERARCHY_NO
-				AND RD.LEVEL_NAME = PD.LEVEL_NAME
-				AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(PD.PARENT_HIERARCHY_NO, PD.HIERARCHY_NO)
-			JOIN #PRIOR_PRODUCT_FILE_DATA PFD ON   PFD.YEAR = RD.YEAR
-                                    AND PFD.PERIOD = RD.PERIOD
-                                    AND PFD.DISCOUNT = PD.DISCOUNT
-                                    AND PFD.CFF_MASTER_SID = RD.CFF_MASTER_SID
-                                    AND PFD.HIERARCHY_NO = PD.HIERARCHY_NO
-                                    AND PFD.LEVEL_NAME = PD.LEVEL_NAME
-                                    AND COALESCE(PFD.PARENT_HIERARCHY_NO, PFD.HIERARCHY_NO) = COALESCE(PD.PARENT_HIERARCHY_NO, PD.HIERARCHY_NO)
-		*/END
-	END
-
-	------------based on forecasting type it will insert into result-------------------------------------------------
-	IF EXISTS (
-			SELECT 1
-			FROM #PRIOR_CPP_INFO
-			WHERE FORECASTING_TYPE = 'MANDATED'
-			)
-	BEGIN
-		INSERT INTO #RESULT (
-			CFF_PROJECTION_MASTER_SID
-			,YEAR
-			,PERIOD
-			,RS_NAME
-			,PARENT_HIERARCHY_NO
-			,TOTAL_DISCOUNT_PROJECTED
-			,TOTAL_DISCOUNT_PROJECTED_PERCENTAGE
-			,TOTAL_PROJECTED_RPU
-			,HIERARCHY_NO
-			,LEVEL_NAME
-			,DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT
-			,DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT
-			)
-		SELECT MD.CFF_MASTER_SID
-			,MD.YEAR
-			,MD.PERIOD
-			,'MANDATED'
-			,MD.PARENT_HIERARCHY_NO
-			,ISNULL(MD.MANDATED_DISCOUNT_PROJECTED, 0)
-			,ISNULL(COALESCE(ISNULL(MD.MANDATED_DISCOUNT_PROJECTED, 0) / NULLIF(RD.M_PROJECTED_SALES, 0), 0) * 100, 0)
-			,ISNULL(COALESCE(ISNULL(MD.MANDATED_DISCOUNT_PROJECTED, 0) / NULLIF(RD.M_PROJECTED_UNITS, 0), 0), 0)
-			,RD.HIERARCHY_NO
-			,RD.LEVEL_NAME
-			,COALESCE(ISNULL(MD.MANDATED_DISCOUNT_ACTUALS, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-			,COALESCE(ISNULL(MD.MANDATED_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-		FROM #PRIOR_PPA_SUPP_MANDATED MD
-		JOIN #PRIOR_SALES RD ON RD.YEAR = MD.YEAR
-			AND RD.PERIOD = MD.PERIOD
-			AND MD.DISCOUNT = RD.DISCOUNT
-			AND RD.CFF_MASTER_SID = MD.CFF_MASTER_SID
-			AND RD.HIERARCHY_NO = MD.HIERARCHY_NO
-			AND RD.LEVEL_NAME = MD.LEVEL_NAME
-			AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(MD.PARENT_HIERARCHY_NO, MD.HIERARCHY_NO)
-		JOIN #PRIOR_PRODUCT_FILE_DATA PFD ON  PFD.YEAR = MD.YEAR
-                              AND PFD.PERIOD = MD.PERIOD
-							  AND PFD.DISCOUNT = MD.DISCOUNT------------------CEL-462(2)
-							  AND PFD.CFF_MASTER_SID = MD.CFF_MASTER_SID------------------CEL-462(2)
-                              AND PFD.HIERARCHY_NO = MD.HIERARCHY_NO
-                              AND PFD.LEVEL_NAME = MD.LEVEL_NAME
-                              AND COALESCE(PFD.PARENT_HIERARCHY_NO, PFD.HIERARCHY_NO) = COALESCE(MD.PARENT_HIERARCHY_NO, MD.HIERARCHY_NO)
-		
-		UNION ALL
-		
-		SELECT SD.CFF_MASTER_SID
-			,SD.YEAR
-			,SD.PERIOD
-			,'SUPPLEMENTAL'
-			,SD.PARENT_HIERARCHY_NO
-			,ISNULL(ISNULL(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED, 0), 0) SUPPLEMENTAL_DISCOUNT_PROJECTED
-			,ISNULL(COALESCE(ISNULL(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED, 0) / NULLIF(RD.M_PROJECTED_SALES, 0), 0) * 100, 0)
-			,ISNULL(COALESCE(ISNULL(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED, 0) / NULLIF(RD.M_PROJECTED_UNITS, 0), 0), 0)
-			,RD.HIERARCHY_NO
-			,RD.LEVEL_NAME
-			,COALESCE(ISNULL(SD.SUPPLEMENTAL_DISCOUNT_ACTUALS, 0) / NULLIF(EX_FACTORY_SALES_ACTUALS, 0), 0) * 100
-			,COALESCE(ISNULL(SD.SUPPLEMENTAL_DISCOUNT_PROJECTED, 0) / NULLIF(EX_FACTORY_SALES_PROJ, 0), 0) * 100
-		FROM #PRIOR_PPA_SUPP_MANDATED SD
-		JOIN #PRIOR_SALES RD ON RD.YEAR = SD.YEAR
-			AND RD.PERIOD = SD.PERIOD
-			AND RD.CFF_MASTER_SID = SD.CFF_MASTER_SID
-			AND RD.HIERARCHY_NO = SD.HIERARCHY_NO
-			AND RD.LEVEL_NAME = SD.LEVEL_NAME
-			AND SD.DISCOUNT = RD.DISCOUNT
-			AND COALESCE(RD.PARENT_HIERARCHY_NO, RD.HIERARCHY_NO) = COALESCE(sd.PARENT_HIERARCHY_NO, sd.HIERARCHY_NO)
-		JOIN #PRIOR_PRODUCT_FILE_DATA PFD ON  PFD.YEAR = RD.YEAR
-                AND PFD.PERIOD = RD.PERIOD
-				AND PFD.DISCOUNT = RD.DISCOUNT------------------CEL-462(2)
-				AND PFD.CFF_MASTER_SID = RD.CFF_MASTER_SID------------------CEL-462(2)                              
-                AND PFD.HIERARCHY_NO = SD.HIERARCHY_NO
-                AND PFD.LEVEL_NAME = SD.LEVEL_NAME
-                AND COALESCE(PFD.PARENT_HIERARCHY_NO, PFD.HIERARCHY_NO) = COALESCE(sd.PARENT_HIERARCHY_NO, SD.HIERARCHY_NO)
-	END
-
-	------------- PIVOTING STARThere 
-	DECLARE @SQL NVARCHAR(MAX)
-		,@LOOP_CNTR INT
-		,@MAX_CCP INT
-
-	SET @SQL = 'SELECT pr.HIERARCHY_NO,
-                                         LEVEL_NAME,[YEAR],PERIOD,RS_NAME, '
-	SET @LOOP_CNTR = 1
-	SET @MAX_CCP = (
-			SELECT Max(ID)
-			FROM #CFF_PROJECTION_MASTER
-			)
-
-	WHILE @LOOP_CNTR <= @MAX_CCP
-	BEGIN
-		SET @SQL += 'TOTAL_DISCOUNT_ACCRUAL_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + 'THEN IIF(TOTAL_DISCOUNT_ACCRUAL=0,NULL,TOTAL_DISCOUNT_ACCRUAL) END), 
-						   TOTAL_DISCOUNT_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN TOTAL_DISCOUNT END),
-TOTAL_DISCOUNT_PROJECTED_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN TOTAL_DISCOUNT_PROJECTED END),
-TOTAL_DISCOUNT_ACCRUAL_PERCENTAGE_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + 'THEN TOTAL_DISCOUNT_ACCRUAL_PERCENTAGE END),
-								  TOTAL_DISCOUNT_PERCENTAGE_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN TOTAL_DISCOUNT_PERCENTAGE END),
-
-TOTAL_DISCOUNT_PROJECTED_PERCENTAGE_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN TOTAL_DISCOUNT_PROJECTED_PERCENTAGE END),
-TOTAL_RPU_ACCRUAL_' + Cast(@LOOP_CNTR AS 
-				VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + 'THEN TOTAL_RPU_ACCRUAL END),
-                                   TOTAL_RPU_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN TOTAL_RPU END),  
-TOTAL_PROJECTED_RPU_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN TOTAL_PROJECTED_RPU END),
-DISCOUNT_OF_EX_FACTORY_ACCRUAL_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + 'THEN DISCOUNT_OF_EX_FACTORY_ACCRUAL END),
-                                   DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN DISCOUNT_OF_EX_FACTORY_ACTUALS_PERCENT END), 
-DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT_' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' = MAX(CASE WHEN ID = ' + Cast(@LOOP_CNTR AS VARCHAR(10)) + ' THEN DISCOUNT_OF_EX_FACTORY_PROJECTED_PERCENT END), '
-		SET @LOOP_CNTR += 1
-	END
-
-	SET @SQL = LEFT(@SQL, LEN(@SQL) - 1)
-	SET @SQL += ' ,C.PARENT_HIERARCHY_NO FROM   #RESULT PR
-      					INNER JOIN #CFF_PROJECTION_MASTER PM
-      					ON PR.CFF_PROJECTION_MASTER_SID = PM.CFF_PROJECTION_MASTER_SID
-						JOIN (SELECT DISTINCT HIERARCHY_NO,PARENT_HIERARCHY_NO,LEVEL_NO FROM #CCP) C ON C.HIERARCHY_NO=PR.HIERARCHY_NO
-						AND  COALESCE(C.PARENT_HIERARCHY_NO,C.HIERARCHY_NO) = COALESCE(PR.PARENT_HIERARCHY_NO,PR.HIERARCHY_NO)---------------CEL-462(2)
-      					GROUP  BY C.LEVEL_NO,PR.HIERARCHY_NO,C.PARENT_HIERARCHY_NO,
-						 PR.LEVEL_NAME,[YEAR],PERIOD,RS_NAME
-      					ORDER BY C.LEVEL_NO,PR.HIERARCHY_NO,C.PARENT_HIERARCHY_NO,' + CASE 
-			WHEN @VIEW = 'PERIOD'
-				THEN 'RS_NAME,YEAR,PERIOD'
-			ELSE 'YEAR,PERIOD,RS_NAME'
-			END
-END
-
---PRINT @SQL
-
-EXEC sp_executesql @SQL
- END TRY
-
-      BEGIN CATCH
-          DECLARE @ERRORMESSAGE NVARCHAR(4000);
-          DECLARE @ERRORSEVERITY INT;
-          DECLARE @ERRORSTATE INT;
-          DECLARE @ERRORNUMBER INT;
-          DECLARE @ERRORPROCEDURE VARCHAR(200);
-          DECLARE @ERRORLINE INT;
-
-          EXEC Usperrorcollector
-
-          SELECT @ERRORMESSAGE = Error_message(),
-                 @ERRORSEVERITY = Error_severity(),
-                 @ERRORSTATE = Error_state(),
-                 @ERRORPROCEDURE = Error_procedure(),
-                 @ERRORLINE = Error_line(),
-                 @ERRORNUMBER = Error_number()
-
-          RAISERROR ( @ERRORMESSAGE,-- MESSAGE TEXT.
-                      @ERRORSEVERITY,-- SEVERITY.
-                      @ERRORSTATE,-- STATE.
-                      @ERRORPROCEDURE,-- PROCEDURE_NAME.
-                      @ERRORNUMBER,-- ERRORNUMBER
-                      @ERRORLINE -- ERRORLINE
-          );
-      END CATCH
-  END
-
-GO 
