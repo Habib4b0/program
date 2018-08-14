@@ -11,12 +11,12 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
+import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.periodconf.sqlservice.GtnWsPeriodConfSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWebServiceRegisterBean;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 @Service
@@ -28,16 +28,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void init() {
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-		GtnWsServiceRegistryBean webServiceRegisterBean = new GtnWsServiceRegistryBean();
-
-		webServiceRegisterBean.setHostName("http://localhost");
-		webServiceRegisterBean.setPort("8092");
-		webServiceRegisterBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
-		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegisterBean);
-
-		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+		GtnUIFrameworkWebserviceRequest request = registerWs();
 
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(
@@ -49,13 +40,22 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	}
 
 	@Override
-	public void registerWs() {
+	public GtnUIFrameworkWebserviceRequest registerWs() {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
-		GtnWebServiceRegisterBean webServiceRegisterBean = new GtnWebServiceRegisterBean();
-		webServiceRegisterBean.setServiceUrl("http://localhost:8085");
-		webServiceRegisterBean.setServiceName("/GtnWsPeriodConfigurationWebService");
+
+		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
+		getEndPointUrl(webServiceRegistryBean);
+		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
+		return request;
+	}
+
+	private void getEndPointUrl(GtnWsServiceRegistryBean webServiceRegistryBean) {
+		webServiceRegistryBean.setWebserviceEndPointUrl(
+				GtnFrameworkPropertyManager.getProperty("gtn.webservices.periodConfiguration.endPointUrl"));
+		webServiceRegistryBean.setRegisteredWebContext("/GtnWsPeriodConfigurationWebService");
+
 	}
 
 	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {

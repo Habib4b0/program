@@ -46,7 +46,7 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 	}
 
 	@Override
-	public void registerWs() {
-		
+	public GtnUIFrameworkWebserviceRequest registerWs() {
+		return null;
 	}
 }

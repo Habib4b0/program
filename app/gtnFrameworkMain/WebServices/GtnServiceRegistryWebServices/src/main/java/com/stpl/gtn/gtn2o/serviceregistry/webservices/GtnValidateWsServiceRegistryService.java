@@ -9,6 +9,7 @@ import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImplClass{
@@ -47,8 +48,8 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 	}
 
 	@Override
-	public void registerWs() {
-		
+	public GtnUIFrameworkWebserviceRequest registerWs() {
+		return null;
 	}
 	
 }
