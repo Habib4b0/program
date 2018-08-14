@@ -13,6 +13,7 @@ import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -94,11 +95,10 @@ public class NotesTabForm extends AbstractNotesTab {
 
 		final String vUserId = String.valueOf(
 				VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));
-		Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
-		String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
+		
 		table.setContainerDataSource(attachmentsListBean);
-		table.setVisibleColumns(obj);
-		table.setColumnHeaders(objHeaders);
+		table.setVisibleColumns(Constants.NOTES_COLUMN);
+		table.setColumnHeaders(Constants.NOTES_HEADERS);
 		vlayout.setSpacing(true);
 		vlayout.setMargin(true);
 		configureFields();

@@ -563,7 +563,7 @@ public class CommonUtils {
     public List<CFFSearchDTO> getCustomizedSearchResults(List<Object[]> resultList) {
         List<CFFSearchDTO> cffSearchDTOs = new ArrayList<>();
         CFFSearchDTO cffSearchDTOLoop;
-        SimpleDateFormat form = new SimpleDateFormat("MM/dd/YYYY");
+        SimpleDateFormat form = new SimpleDateFormat("MM/dd/yyyy");
         Map<Integer, String> userInfo = StplSecurity.getUserMap();
         for (Object[] obj : resultList) {
             cffSearchDTOLoop = new CFFSearchDTO();

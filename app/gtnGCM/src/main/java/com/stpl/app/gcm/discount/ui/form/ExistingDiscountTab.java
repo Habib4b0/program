@@ -888,7 +888,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                         final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
                         if (treeBean.getInternalId() != 0) {
-                            psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getModelSysId())));
+                            psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, treeBean.getModelSysId()));
                         } else {
                             psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getPsSid())));
                         }
