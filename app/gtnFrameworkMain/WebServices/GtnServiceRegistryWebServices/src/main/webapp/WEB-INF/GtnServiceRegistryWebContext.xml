@@ -11,7 +11,7 @@
      <bean id="gtnServiceRegistryAuthorizationService" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryAuthorizationService"/> 
      <bean id="gtnValidateWsServiceRegistryService" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnValidateWsServiceRegistryService"/>
 	<bean id="gtnUIServiceRegistryService" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService" />
-	<bean id="gtnWsServiceRegistrySqlService" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnWsServiceRegistrySqlService" />
+	<bean id="gtnServiceRegistryRegisterWs" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs"/>
 	<!-- <bean id="sqlPropertyBean" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations" value="classpath:/sqlresource/sqlQueries.xml" />
 	</bean> -->

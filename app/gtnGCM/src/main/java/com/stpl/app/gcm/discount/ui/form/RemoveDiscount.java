@@ -414,16 +414,16 @@ public class RemoveDiscount extends CustomComponent {
                 @Override
                 public void itemClick(final ItemClickEvent event) {
                     tableBeanId = event.getItemId();
-                    BeanItem<?> targetItem;
+                    BeanItem<?> targetItem = null;
                     if (tableBeanId instanceof BeanItem<?>) {
                         targetItem = (BeanItem<?>) tableBeanId;
                     } else if (tableBeanId instanceof ContractsDetailsDto) {
                         targetItem = new BeanItem<>((ContractsDetailsDto) tableBeanId);
-                    } else {
-                        targetItem = NULL_OBJECT;
-                    }
+                    } 
+                    if (targetItem != null)
+                    {
                     tableBean = (ContractsDetailsDto) targetItem.getBean();
-                }
+                }}
             });
         } catch (Exception e) {
             LOGGER.error("",e);
