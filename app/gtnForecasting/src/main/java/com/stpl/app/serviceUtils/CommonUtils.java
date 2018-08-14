@@ -166,7 +166,7 @@ public class CommonUtils {
     public static final String SELECT_ONE  = "Select One";
     public static final String INDICATOR_PERCENT = "%";
     public static final String INDICATOR_DOLLAR = "$";
-    public static final String[] MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private static final String[] MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     /**
      * Null representation of HelperDTO (Select one item)
      */
