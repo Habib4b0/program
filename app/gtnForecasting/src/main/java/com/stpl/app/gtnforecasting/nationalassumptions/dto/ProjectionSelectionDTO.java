@@ -703,7 +703,7 @@ public class ProjectionSelectionDTO {
     }
 
     public void setNonFetchableIndex(List<String> nonFetchableIndex) {
-        Collections.sort(nonFetchableIndex);
+        Collections.sort(nonFetchableIndex == null ? new ArrayList<>() : nonFetchableIndex);
         this.nonFetchableIndex = nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 

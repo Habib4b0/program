@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
@@ -26,10 +27,10 @@ import com.vaadin.ui.components.grid.HeaderRow;
  *
  * Instance creation not allowed ,Contains Only Static Methods
  */
-final public class FilterUtils {
+public final class FilterUtils {
 
     private FilterUtils() {
-        throw new RuntimeException("Can not create object for this class " + FilterUtils.class.getName());
+        throw new AccessDeniedException("Can not create object for this class " + FilterUtils.class.getName());
     }
 
     public static Component getCustomFilterComponent(String property, PagedTreeGrid pagedTreeGrid) {
@@ -55,8 +56,7 @@ final public class FilterUtils {
                 vaadinCombobox.addValueChangeListener(e -> onFilterTextChange(pagedTreeGrid));
                 return vaadinCombobox;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                Button dateFilterPopupButton = new Button("Show all");
-                return dateFilterPopupButton;
+                return new Button("Show all");
             }
         } catch (GtnFrameworkGeneralException exception) {
             PagedTreeGrid.gtnlogger.error("Exception while creating the filter component", exception);

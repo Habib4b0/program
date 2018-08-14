@@ -324,16 +324,16 @@ public class ExistingDiscountTab extends CustomComponent {
             @Override
             public void itemClick(final ItemClickEvent event) {
                 treeBeanId = event.getItemId();
-                BeanItem<?> targetItem;
+                BeanItem<?> targetItem = null;
                 if (treeBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) treeBeanId;
                 } else if (treeBeanId instanceof ContractsDetailsDto) {
                     targetItem = new BeanItem<>((ContractsDetailsDto) treeBeanId);
-                } else {
-                    targetItem = NULL_OBJECT;
-                }
+                } 
+                if(targetItem != null)
+                {
                 tableBean = (ContractsDetailsDto) targetItem.getBean();
-
+                }
             }
         });
         LOGGER.debug("End of getProcessedTree method");
@@ -769,7 +769,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         ifpList.add(srcTableBean);
                         ifpListforMap.add(srcTableBean);
                     }
-                } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
+                } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant()) && treeBean != null) {
                     List list = logic.cfpDuplicateCheck(srcTableBean, treeBean.getInternalId());
                     if (list.isEmpty()) {
                         if (addToTreeMethod(srcTableBean)) {
@@ -939,16 +939,14 @@ public class ExistingDiscountTab extends CustomComponent {
 
     
     private ContractsDetailsDto getBeanFromID(final Object tableID) {
-        BeanItem<?> targetItem;
+        BeanItem<?> targetItem = new BeanItem<>(tableID);
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractsDetailsDto) {
             targetItem = new BeanItem<>((ContractsDetailsDto) tableID);
-        } else {
-            targetItem = NULL_OBJECT;
-        }
+        } 
         return (ContractsDetailsDto) targetItem.getBean();
-    }
+        }
 
     private void setTreeNode(final ContractsDetailsDto bean, final VerticalDropLocation location, final Object targetItemId) {
 
@@ -1160,7 +1158,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
 
                 final Collection childlist = dashboardTreeTable.getChildren(idValue);
-                if (childlist != null || !childlist.isEmpty()) {
+                if (childlist != null && !childlist.isEmpty()) {
                     saveTree(childlist);
                 }
             }

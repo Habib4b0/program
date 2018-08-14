@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid;
+package com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreegrid;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -165,8 +165,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-		VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
-		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
+            // yet to implement
 	
 	}
 
@@ -258,8 +257,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		return resultTableComponentData.getCustomPagedTreeTableRequest();
 	}
 
-	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
+	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid) {
 		initializeResultTable(pagedTreeGrid);
 	}
 

@@ -2,10 +2,12 @@ package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -13,7 +15,6 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastAlertMsgConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.vaadin.ui.TreeGrid;
-import java.util.Set;
 
 public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements GtnUIFrameWorkAction {
 
@@ -41,6 +42,7 @@ public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements Gt
 	public void loadLeftTableOnButtonClick(GtnFrameworkV8DualListBoxBean dualListBoxBean, String componentId)
 			throws GtnFrameworkGeneralException {
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
 		if (!rightTable.getSelectedItems().iterator().hasNext()) {
 			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
 			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -52,13 +54,15 @@ public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements Gt
 			return;
 		}
 		Set<GtnWsRecordBean> deleteNode = rightTable.getSelectedItems();
-                if(deleteNode!=null){
-                    deleteNode.stream().forEach(child -> {
-                        rightTable.deselect(child);
-                        rightTable.getTreeData().removeItem(child);
-                    });
-                }		
+		if (deleteNode != null) {
+			deleteNode.stream().forEach(child -> {
+				rightTable.deselect(child);
+				rightTable.getTreeData().removeItem(child);
+				treeBuilder.deleteNode(child);
+			});
+		}
 		rightTable.getDataProvider().refreshAll();
 		rightTable.markAsDirty();
+
 	}
 }

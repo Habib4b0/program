@@ -115,7 +115,7 @@ public class ComplianceDeductionUI extends UI implements VaadinPortletSession.Po
                            LOGGER.error(t.getMessage());
                         }
                     }
-                    LOGGER.error("",cause);
+                    LOGGER.error("cause {}",cause);
                 }
             });
         } catch (SystemException ex) {

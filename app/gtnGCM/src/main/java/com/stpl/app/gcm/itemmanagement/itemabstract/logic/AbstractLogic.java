@@ -1719,15 +1719,14 @@ public class AbstractLogic {
                  LOGGER.error("",e);
             }
             try {
-                statement.close();
-            } catch (Exception e) {
-                 LOGGER.error("",e);
-            }
-            try {
-                connection.close();
-
-            } catch (Exception ex) {
-                LOGGER.error("",ex);
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
             }
            
         }

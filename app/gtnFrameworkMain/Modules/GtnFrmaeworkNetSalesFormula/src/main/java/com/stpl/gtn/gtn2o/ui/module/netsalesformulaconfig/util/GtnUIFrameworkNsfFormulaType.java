@@ -1,36 +1,41 @@
 package com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
+
 public class GtnUIFrameworkNsfFormulaType {
-	private String formulaTypeValue = null;
-	private boolean changeAllowed = true;
 
-	private static GtnUIFrameworkNsfFormulaType instance = null;
+    private String formulaTypeValue = null;
+    private boolean changeAllowed = true;
 
-	private GtnUIFrameworkNsfFormulaType() {
+    private GtnUIFrameworkNsfFormulaType() {
 
-	}
+    }
 
-	public static GtnUIFrameworkNsfFormulaType getInstance() {
-		if (instance == null) {
-			instance = new GtnUIFrameworkNsfFormulaType();
-		}
-		return instance;
-	}
+    private static final class INNER {
+        private INNER(){
+            throw new AccessDeniedException("Utility class");
+        }
+        private static final GtnUIFrameworkNsfFormulaType INSTANCE = new GtnUIFrameworkNsfFormulaType();
+    }
 
-	public String getFormulaTypeValue() {
-		return formulaTypeValue;
-	}
+    public static GtnUIFrameworkNsfFormulaType getInstance() {
+        return INNER.INSTANCE;
+    }
 
-	public void setFormulaTypeValue(String formulaTypeValue) {
-		this.formulaTypeValue = formulaTypeValue;
-	}
+    public String getFormulaTypeValue() {
+        return formulaTypeValue;
+    }
 
-	public boolean isChangeAllowed() {
-		return changeAllowed;
-	}
+    public void setFormulaTypeValue(String formulaTypeValue) {
+        this.formulaTypeValue = formulaTypeValue;
+    }
 
-	public void setChangeAllowed(boolean changeAllowed) {
-		this.changeAllowed = changeAllowed;
-	}
-	
+    public boolean isChangeAllowed() {
+        return changeAllowed;
+    }
+
+    public void setChangeAllowed(boolean changeAllowed) {
+        this.changeAllowed = changeAllowed;
+    }
+
 }

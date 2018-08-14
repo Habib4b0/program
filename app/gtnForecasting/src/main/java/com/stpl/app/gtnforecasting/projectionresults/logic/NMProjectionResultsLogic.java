@@ -1762,7 +1762,7 @@ public class NMProjectionResultsLogic {
         }
         String oldDiscountName;
         String newDiscountName = "oldDiscountName";
-        if (list != null && !list.isEmpty()) {
+        if (!list.isEmpty()) {
             ProjectionResultsDTO projDolDTO = new ProjectionResultsDTO();
             ProjectionResultsDTO projRPUDTO = new ProjectionResultsDTO();
             ProjectionResultsDTO projPerDTO = new ProjectionResultsDTO();

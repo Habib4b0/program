@@ -250,7 +250,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
             int count = 0;
             List<Leveldto> levelList = null;
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(getScreenName())) {
-                count = new NMProjectionVarianceLogic().getConfiguredProjectionVarianceCount(parentId, projSelDTO, baseVariables, true);
+                count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(parentId, projSelDTO, baseVariables, true);
                 LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
                 addlevelMap(treeLevel, levelMap);
                 String productHierarchyNo = projSelDTO.getProductHierarchyNo();
@@ -295,7 +295,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getDiscountHierarchyLevelDetails();
-                            List<String> list = new NMProjectionVarianceLogic().getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list = nmProjectionVarianceLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();
                             int index = count - size + 1;
@@ -307,14 +307,14 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(levelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
-                                ProjectionVarianceDTO dto = new NMProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(list.get(j)));
+                                ProjectionVarianceDTO dto = nmProjectionVarianceLogic.configureDetailsInDTO(projSelDTO, list.get(j), hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
                                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                             }
 
                         } else {
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list =  new NMProjectionVarianceLogic().getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list =  nmProjectionVarianceLogic.getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {
@@ -324,7 +324,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(levelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
-                                ProjectionVarianceDTO dto = new NMProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
+                                ProjectionVarianceDTO dto = nmProjectionVarianceLogic.configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
                                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                             }

@@ -16,8 +16,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadActionBasedOnHistory;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -387,19 +387,11 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		GtnUIFrameWorkActionConfig variableBreakdownResetButtonAction = new GtnUIFrameWorkActionConfig();
 		variableBreakdownResetButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableBreakdownResetButtonAction
-				.addActionParameter(GtnReportingVariableBreakdownGridResetAction.class.getName());
-		variableBreakdownResetButtonAction.addActionParameter(
-				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
-		variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownValue");
-		variableBreakdownResetButtonAction.addActionParameter(
-				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
-		variableBreakdownResetButtonAction.addActionParameter(
-				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
-		variableBreakdownResetButtonAction.addActionParameter(
-				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
-		variableBreakdownResetButtonAction.addActionParameter(
-				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
-		variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
+				.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
+		variableBreakdownResetButtonAction
+				.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
+		variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+		variableBreakdownResetButtonAction.addActionParameter("reportingLandingScreen");
 
 		actionConfigListForReset.add(variableBreakdownResetButtonAction);
 		actionParamForReset.add(actionConfigListForReset);
