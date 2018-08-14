@@ -97,7 +97,7 @@ public class CFFLogic {
     public static final String RBSID = "?RBSID";
     public static final String RBVERSION = "?RBVERSION";
     public static final String EACH = "EACH";
-    ExecutorService service = ThreadPool.getInstance().getService();;
+    private ExecutorService service = ThreadPool.getInstance().getService();
     public static final String STRING_COMMA = ",";
     /**
      * Gets latest approved CCP Projection

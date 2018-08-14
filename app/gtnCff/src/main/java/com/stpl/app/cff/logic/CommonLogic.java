@@ -691,27 +691,27 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return future;
     }
     
-    public static void updateStatusForProcedure(String Status,SessionDTO session,String ScreenName,String viewName){
-    String updateStatus="UPDATE ST_STATUS_TABLE SET FLAG='"+Status+"'  WHERE SCREEN_NAME='"+ScreenName+"' AND VIEW_NAME='"+viewName+"'";
+    public static void updateStatusForProcedure(String status,SessionDTO session,String screenName,String viewName){
+    String updateStatus="UPDATE ST_STATUS_TABLE SET FLAG='"+status+"'  WHERE SCREEN_NAME='"+screenName+"' AND VIEW_NAME='"+viewName+"'";
     HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateStatus, session.getCurrentTableNames()));
     
     }
     
-    public void checkForCompletion(SessionDTO session, String ScreenName, String viewName) {
-        String updateStatus = "Select FLAG from ST_STATUS_TABLE WHERE SCREEN_NAME='" + ScreenName + "' AND VIEW_NAME='" + viewName + "'";
+    public void checkForCompletion(SessionDTO session, String screenName, String viewName) {
+        String updateStatus = "Select FLAG from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME='" + viewName + "'";
         List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(updateStatus, session.getCurrentTableNames()));
         if (list.get(0) != null && !list.get(0).trim().equalsIgnoreCase("C")) {
             waitForSeconds();
-            checkForCompletion(session, ScreenName, viewName);
+            checkForCompletion(session, screenName, viewName);
         }
     }
     
-    public void checkForCompletionALL(SessionDTO session, String ScreenName) {
-        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + ScreenName + "' AND VIEW_NAME in ('CUSTOM','CUSTOMER','PRODUCT') and FLAG='R'";
+    public void checkForCompletionALL(SessionDTO session, String screenName) {
+        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME in ('CUSTOM','CUSTOMER','PRODUCT') and FLAG='R'";
         List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(selectStatus, session.getCurrentTableNames()));
         if (list.get(0) != null && list.get(0)>=1) {
             waitForSeconds();
-            checkForCompletionALL(session, ScreenName);
+            checkForCompletionALL(session, screenName);
         }
     }
     
@@ -2281,7 +2281,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     /**
                      * assign null to Object , To be destroyed By JVM *
                      */
-                    for (Object[] ob : customDetailsList) {
                         for (Object[] obj : list) {
                             if (obj.length > 1 && String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(obj[2]))) {
                                     Leveldto dto = new Leveldto();
@@ -2293,7 +2292,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                                     listValue.add(dto);
                             }
                         }
-                    }
                 }
             }
             hierarchy.put(customId, listValue);

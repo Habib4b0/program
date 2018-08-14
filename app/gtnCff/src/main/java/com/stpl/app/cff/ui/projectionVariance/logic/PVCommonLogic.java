@@ -45,7 +45,7 @@ public class PVCommonLogic {
             String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index - 1])));
             String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
 
-            addPeriodProperties(variableCategory, currentValue, format,commonColumn, pvsdto, pvDTO, isPer, actualValue, index, accrualValue);
+            addPeriodProperties(variableCategory, currentValue, format,commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
 
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
@@ -58,7 +58,7 @@ public class PVCommonLogic {
             String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
             String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
 
-            addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, index, accrualValue);
+            addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
 
         } catch (Exception e) {
             LOGGER.error("{}",e);
@@ -66,7 +66,7 @@ public class PVCommonLogic {
     }
 
     private static void addPeriodProperties(String variableCategory, String currentValue, DecimalFormat format,
-            String commonColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, boolean isPer, String actualValue,int index, String accrualValue) {
+            String commonColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, boolean isPer, String actualValue, String accrualValue) {
         variableValueCustomization(variableCategory, currentValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
         variableValueCustomization(variableCategory, actualValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
         if (!nullCheck(StringUtils.EMPTY + accrualValue)) {
@@ -120,7 +120,7 @@ public class PVCommonLogic {
     }
     
     static void getPriorCommonCustomizationV2(String variableCategory, PVSelectionDTO pvsdto, final List<Object[]> rows, ProjectionVarianceDTO projDTO,
-            String commonColumn, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
+            String commonColumn, int index, int priorIndex, final Boolean isPer, DecimalFormat format) {
         LOGGER.debug("Inside getPivotCommonCustomization");
         int currentProjectionId = pvsdto.getCurrentProjId();
 

@@ -957,6 +957,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	private void addComponent() {
 		Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+                Label abstractLabel;
 		empty.setWidth("15px");
 		GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
 		layoutG2.setMargin(BooleanConstant.getFalseFlag());
@@ -1007,29 +1008,25 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
                 layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
                 HorizontalLayout layoutForDeduction=new HorizontalLayout();
                 layoutForDeduction.setMargin(new MarginInfo(1));
-		layoutForDeduction.addComponent(new Label("Frequency:") {
-			{
-				setWidth(StringConstantsUtil.HUNDRED_PX);
-				setContentMode(ContentMode.HTML);
-				setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-			}
-		});
+                abstractLabel=new Label("Frequency:");
+                loadLabelStyle(abstractLabel);
+		layoutForDeduction.addComponent(abstractLabel);
                 layoutForDeduction.addComponent(frequencyDataSelection);
                 empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
                 empty.setWidth("30px");
                 layoutForDeduction.addComponent(empty);
-		layoutForDeduction.addComponent(new Label("Deduction Level:") {
-			{
-				setWidth(StringConstantsUtil.HUNDRED_PX);
-				setContentMode(ContentMode.HTML);
-				setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-			}
-		});
+                abstractLabel=new Label("Deduction Level:");
+                loadLabelStyle(abstractLabel);
+		layoutForDeduction.addComponent(abstractLabel);
                 layoutForDeduction.addComponent(deductionDdlb);
 		verticalLayout.addComponent(layoutG2);
 		verticalLayout.addComponent(layoutForDeduction);
 	}
-
+        public void loadLabelStyle(Label label) {
+                label.setWidth(StringConstantsUtil.HUNDRED_PX);
+                label.setContentMode(ContentMode.HTML);
+                label.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
+        }
 	private void configureCustomerSelection() {
 		availableCustomer.setFilterBarVisible(true);
 		availableCustomer.setStyleName(Constants.FILTER_TABLE);

@@ -21,7 +21,6 @@ import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.form.ProjectionVariance;
 import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
-import com.stpl.app.cff.util.ChangeMenuBarValueUtil;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;

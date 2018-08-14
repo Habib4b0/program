@@ -152,7 +152,7 @@ public class RelationshipLevelValuesMasterBean {
 		customSql = customSql.replace("?RLDV",
 				isCustomer() ? sessionDTO.getCustomerRelationVersion() + StringUtils.EMPTY
 						: sessionDTO.getProductRelationVersion() + StringUtils.EMPTY);
-		customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
+		customSql = customSql.replace(DISPLAYFORMATCOLUMN,
 				getDisplayFormatColumn(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[0]), bean));
 		bean.setQuery(customSql);
 		return bean;
@@ -196,7 +196,7 @@ public class RelationshipLevelValuesMasterBean {
 					isHelperTableJoin ? ConstantsUtil.HT_DESCRIPTION : "RS.RS_ID");
 			customSql = customSql.replace("?DEDGROUPBY", isHelperTableJoin ? ConstantsUtil.HT_DESCRIPTION : "RS.RS_ID");
 		}
-		customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
+		customSql = customSql.replace(DISPLAYFORMATCOLUMN,
 				getDisplayFormatColumnRS(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[1]), bean));
 		customSql = customSql.replace("?DEFGRPBY", bean.getDefaultGroupBy());
 		bean.setQuery(customSql);

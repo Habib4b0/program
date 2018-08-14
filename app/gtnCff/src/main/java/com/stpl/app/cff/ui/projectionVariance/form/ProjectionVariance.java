@@ -720,7 +720,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
     }
 
-    public String deductionAndComparionCheck() throws NumberFormatException {
+    public String deductionAndComparionCheck()  {
         sessionDTO.setDiscountUom(uomDdlb.getValue() != null ? String.valueOf(uomDdlb.getValue()) : "EACH");
         if (deductionlevelDdlb.getValue() != null) {
             sessionDTO.setSelectedDeductionLevelNo(Integer.parseInt(String.valueOf(deductionlevelDdlb.getValue())));
@@ -732,9 +732,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 br.append(checkedSalesValue).append(Constants.COMMA);
             }
         }
-        String tempComaprision = br.lastIndexOf(Constants.COMMA)!= -1 ?
+        return br.lastIndexOf(Constants.COMMA)!= -1 ?
                 br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString():StringUtils.EMPTY;
-        return tempComaprision;
+        
     }
 
     public void tempTableProcedureCalling(String tempComaprision, CFFLogic cffLogicForTempTable) {
