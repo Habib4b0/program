@@ -198,8 +198,8 @@ public class HeaderUtils {
 
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
+            List<Object> dmap = new ArrayList<>();
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
@@ -742,6 +742,7 @@ public class HeaderUtils {
         List<String> discountNos=new  ArrayList<>(projSelDTO.getDiscountNoList()); 
         //PPA
         CommonLogic.getPPADiscountListPR(projSelDTO, discountNos, discountNames);
+        List<Object> dmap = new ArrayList<>();
 
         for (int i = 0; i < NumericConstants.SIXTEEN; i++) {
             String commonColumn = StringUtils.EMPTY;
@@ -809,7 +810,6 @@ public class HeaderUtils {
             int j = -1;
             boolean disc = true;
             while (disc) {
-                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);
@@ -859,6 +859,7 @@ public class HeaderUtils {
      */
     private static void configurePivotHeaderForMandated(final ProjectionSelectionDTO projSelDTO, String projections, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO) {
         List<String> discountNames = projSelDTO.getDiscountProgramsList();
+        List<Object> dmap = new ArrayList<>();
         for (int i = 0; i < NumericConstants.TWENTY; i++) {
             String commonColumn = StringUtils.EMPTY;
             String oldCommonColumn;
@@ -928,7 +929,6 @@ public class HeaderUtils {
             int j = -1;
             boolean disc = true;
             while (disc) {
-                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);
@@ -976,6 +976,7 @@ public class HeaderUtils {
      * @param fullHeaderDTO
      */
     private static void configurePivotHeaderForChannels(final ProjectionSelectionDTO projSelDTO, String projections, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO) {
+        List<Object> dmap = new ArrayList<>();
         for (int i = 0; i < NumericConstants.SIX; i++) {
 
             String commonColumn = StringUtils.EMPTY;
@@ -1010,7 +1011,6 @@ public class HeaderUtils {
 
             boolean disc = true;
             while (disc) {
-                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);

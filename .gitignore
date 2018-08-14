@@ -130,3 +130,4 @@ GtnVaadinWidgetSet/
 .scannerwork/
 app/Resources/stpl-theme/.sass-cache/
 *.jar
+/app/Resources/stpl-theme/nbproject/private/

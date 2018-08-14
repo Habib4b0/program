@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
+package com.stpl.gtn.gtn2o.ws.exception;
 
 /**
  *
@@ -13,7 +13,7 @@ public class AccessDeniedException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    AccessDeniedException(String cause) {
+   public  AccessDeniedException(String cause) {
         super(cause);
     }
 }

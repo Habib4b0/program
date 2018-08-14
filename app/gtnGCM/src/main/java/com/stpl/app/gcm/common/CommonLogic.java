@@ -77,6 +77,7 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
+import java.sql.SQLException;
 
 /**
  *
@@ -2017,14 +2018,14 @@ public class CommonLogic {
 			LOGGER.error(ex.getMessage());
         } finally {
             try {
-                statement.close();
-            } catch (Exception e) {
-				LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
-            } catch (Exception e) {
-				LOGGER.error(e.getMessage());
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
             }
         }
         LOGGER.debug("Exiting callTableInsert");
