@@ -329,7 +329,16 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
     public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
-
+    
+    public static final String[] QUERYIDS = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
+    public static final String[] ACCURAL_TEMP = new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"};
+    public static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    public static final String[] COMMON_COLUMN = new String[]{"efs", "dms", "iws"};
+    public static final Object[] PROGRAM_VISIBILE_COLS = new Object[] { Constant.CHECKRECORD, "discountNo", "discountName" };
+    public static final String[] PROGRAM_VISIBILE_HEADER= new String[] { StringUtils.EMPTY, "Discount #", "Discount Name" };
+    public static final Object[] PROGRAM_CATEGORY_VISIBILE_COLS = new Object[] { Constant.CHECKRECORD, "discountName"  };
+    public static final String[] PROGRAM_CATEGORY_VISIBILE_HEADER= new String[] { StringUtils.EMPTY, "Discount Type" };
+    
     /**
      * Gets the current calendar.
      *
@@ -1108,41 +1117,38 @@ public class CommonUtils {
     }
 
     public static int getIntegerForMonth(String month) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return Arrays.asList(array).indexOf(month) + 1;
+        return Arrays.asList(ARRAY_MONTH).indexOf(month) + 1;
 
     }
 
     public static String replaceIntegerForMonth(String periods) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return periods.replace(array[0], Constant.STRING_ONE)
-                .replace(array[1], "2")
-                .replace(array[NumericConstants.TWO], "3")
-                .replace(array[NumericConstants.THREE], "4")
-                .replace(array[NumericConstants.FOUR], "5")
-                .replace(array[NumericConstants.FIVE], "6")
-                .replace(array[NumericConstants.SIX], "7")
-                .replace(array[NumericConstants.SEVEN], "8")
-                .replace(array[NumericConstants.EIGHT], "9")
-                .replace(array[NumericConstants.NINE], "10")
-                .replace(array[NumericConstants.TEN], "11")
-                .replace(array[NumericConstants.ELEVEN], "12");
+        return periods.replace(ARRAY_MONTH[0], Constant.STRING_ONE)
+                .replace(ARRAY_MONTH[1], "2")
+                .replace(ARRAY_MONTH[NumericConstants.TWO], "3")
+                .replace(ARRAY_MONTH[NumericConstants.THREE], "4")
+                .replace(ARRAY_MONTH[NumericConstants.FOUR], "5")
+                .replace(ARRAY_MONTH[NumericConstants.FIVE], "6")
+                .replace(ARRAY_MONTH[NumericConstants.SIX], "7")
+                .replace(ARRAY_MONTH[NumericConstants.SEVEN], "8")
+                .replace(ARRAY_MONTH[NumericConstants.EIGHT], "9")
+                .replace(ARRAY_MONTH[NumericConstants.NINE], "10")
+                .replace(ARRAY_MONTH[NumericConstants.TEN], "11")
+                .replace(ARRAY_MONTH[NumericConstants.ELEVEN], "12");
     }
 
     public static String replaceShortMonthForMonth(String periods) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return periods.replace(array[0], "M1")
-                .replace(array[1], "M2")
-                .replace(array[NumericConstants.TWO], "M3")
-                .replace(array[NumericConstants.THREE], "M4")
-                .replace(array[NumericConstants.FOUR], "M5")
-                .replace(array[NumericConstants.FIVE], "M6")
-                .replace(array[NumericConstants.SIX], "M7")
-                .replace(array[NumericConstants.SEVEN], "M8")
-                .replace(array[NumericConstants.EIGHT], "M9")
-                .replace(array[NumericConstants.NINE], "M10")
-                .replace(array[NumericConstants.TEN], "M11")
-                .replace(array[NumericConstants.ELEVEN], "M12");
+        return periods.replace(ARRAY_MONTH[0], "M1")
+                .replace(ARRAY_MONTH[1], "M2")
+                .replace(ARRAY_MONTH[NumericConstants.TWO], "M3")
+                .replace(ARRAY_MONTH[NumericConstants.THREE], "M4")
+                .replace(ARRAY_MONTH[NumericConstants.FOUR], "M5")
+                .replace(ARRAY_MONTH[NumericConstants.FIVE], "M6")
+                .replace(ARRAY_MONTH[NumericConstants.SIX], "M7")
+                .replace(ARRAY_MONTH[NumericConstants.SEVEN], "M8")
+                .replace(ARRAY_MONTH[NumericConstants.EIGHT], "M9")
+                .replace(ARRAY_MONTH[NumericConstants.NINE], "M10")
+                .replace(ARRAY_MONTH[NumericConstants.TEN], "M11")
+                .replace(ARRAY_MONTH[NumericConstants.ELEVEN], "M12");
     }
 
     public static List getHistoryDdlbList(int endValue, String period) {

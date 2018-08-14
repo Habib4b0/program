@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.dto.DiscountSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -172,13 +173,13 @@ public class DiscountSelection extends Window {
 		Object[] visibleCols;
 		String[] colHeader;
 
-		if (isProgram) {
-			visibleCols = new Object[] { Constant.CHECKRECORD, "discountNo", "discountName" };
-			colHeader = new String[] { StringUtils.EMPTY, "Discount #", "Discount Name" };
-		} else {
-			visibleCols = new Object[] { Constant.CHECKRECORD, "discountName" };
-			colHeader = new String[] { StringUtils.EMPTY, "Discount Type" };
-		}
+            if (isProgram) {
+                visibleCols = CommonUtils.PROGRAM_VISIBILE_COLS;
+                colHeader = CommonUtils.PROGRAM_VISIBILE_HEADER;
+            } else {
+                visibleCols = CommonUtils.PROGRAM_CATEGORY_VISIBILE_COLS;
+                colHeader = CommonUtils.PROGRAM_CATEGORY_VISIBILE_HEADER;
+            }
 		table.setColumnWidth(visibleCols[0], NumericConstants.FIFTY);
 		table.setCaption("Discount Selection");
 		table.setWidth("100%");
