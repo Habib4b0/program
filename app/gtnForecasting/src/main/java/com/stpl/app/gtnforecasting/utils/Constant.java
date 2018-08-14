@@ -2145,12 +2145,12 @@ public class Constant {
     public static final String UNIT_OF_MEASURE = "UnitOfMeasure";
     public static final String CONVERSION_FACTOR_DDLB = "ConversionFactor";
     
-    public static final String[] FROZEN_VALUES = new String[]{Constant.GROUPFCAPS,
+    private static final String[] FROZEN_VALUES = new String[]{Constant.GROUPFCAPS,
         Constant.PRICE_PROTECTION_STATUS,
         Constant.PRICE_PROTECTION_START_DATE,
         Constant.PRICE_PROTECTION_END_DATE};
 
-    public static final String[] DDLB_VALUES = new String[]{Constant.PPAVariables.PRICE_PROTECTION_PRICE_TYPE.toString(),
+    private static final String[] DDLB_VALUES = new String[]{Constant.PPAVariables.PRICE_PROTECTION_PRICE_TYPE.toString(),
         Constant.PPAVariables.BASE_PRICE_PRICE_TYPE.toString(),
         Constant.PPAVariables.RESET_PRICE_TYPE.toString(),
         Constant.PPAVariables.SUBSEQUENT_PERIOD_PRICE_TYPE.toString(),
@@ -2167,18 +2167,18 @@ public class Constant {
         Constant.PPAVariables.NET_RESET_PRICE_TYPE.toString(),
         Constant.PPAVariables.BASE_PRICE_TYPE.toString()};
 
-    public static final String[] TEXT_VALUES = new String[]{Constant.PPAVariables.NEP.toString(),
+    private static final String[] TEXT_VALUES = new String[]{Constant.PPAVariables.NEP.toString(),
         Constant.PPAVariables.BASE_PRICE_MANUAL.toString(),
         Constant.PPAVariables.PRICE_TOLERANCE.toString(),
         Constant.PPAVariables.MAX_INCREMENTAL_CHANGE.toString()};
 
-    public static final String[] LOOKUP_VALUES = new String[]{Constant.PPAVariables.NEP_FORMULA.toString(),
+    private static final String[] LOOKUP_VALUES = new String[]{Constant.PPAVariables.NEP_FORMULA.toString(),
         Constant.PPAVariables.NET_BASE_PRICE_FORMULA.toString(),
         Constant.PPAVariables.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA.toString(),
         Constant.PPAVariables.NET_RESET_PRICE_FORMULA.toString(),
         Constant.PPAVariables.NET_PRICE_TYPE_FORMULA.toString()};
 
-    public static final String[] DATE_VALUES = new String[]{Constant.PPAVariables.BASE_PRICE_DATE.toString(),
+    private static final String[] DATE_VALUES = new String[]{Constant.PPAVariables.BASE_PRICE_DATE.toString(),
         Constant.PPAVariables.RESET_DATE.toString(),
         Constant.PPAVariables.ATTACHED_DATE.toString()};
 
