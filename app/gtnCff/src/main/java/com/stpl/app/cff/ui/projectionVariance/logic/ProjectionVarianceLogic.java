@@ -1441,9 +1441,10 @@ public class ProjectionVarianceLogic {
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         String salesInclusion = pvsdto.getSessionDTO().getSalesInclusion();
         String deductionInclusion = pvsdto.getSessionDTO().getDeductionInclusion();
+        String ccps = null;
         if (isDetail) {
-            getCCPIds(pvsdto);
-             pvsdto.setCcpIds(StringUtils.EMPTY);
+             ccps =getCCPIds(pvsdto);
+             pvsdto.setCcpIds(ccps);
             pvsdto.getSession().getSalesInclusion();
         }
           String viewName=pvsdto.getView().equalsIgnoreCase("Custom")?D_INDICATOR:pvsdto.getView();
