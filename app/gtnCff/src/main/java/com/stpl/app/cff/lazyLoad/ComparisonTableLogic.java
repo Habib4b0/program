@@ -64,7 +64,7 @@ public class ComparisonTableLogic extends PageTableLogic {
            comparisonLookup.setFilter(getFilters());
            comparisonLookup.setSortColumns(getSortByColumns());
             resultList = projectionVarianceLogic.getComparisonResults(comparisonLookup,isDataSelection,session);
-        } catch (PortalException | SystemException ex) {
+        } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
         return resultList;
