@@ -30,7 +30,7 @@ WHERE SYS.REFERENCED_OBJECT_ID = OBJECT_ID('RELATIONSHIP_LEVEL_DEFINITION')
 	AND COL_NAME(SYS1.PARENT_OBJECT_ID, PARENT_COLUMN_ID) = 'RELATIONSHIP_LEVEL_SID'
 --AND OBJECT_NAME(SYS.PARENT_OBJECT_ID) NOT LIKE 'ST%'
 ORDER BY OBJECT_NAME(SYS.PARENT_OBJECT_ID)
-
+GO
 ---------------dropping FKS------------------
 DECLARE @SQL VARCHAR(max)
 
@@ -58,7 +58,7 @@ SET @SQL = (
 		exec(@SQL)
 
 
-
+GO
 
 -------------dropping existing PK--------------
 IF  EXISTS (
@@ -269,6 +269,7 @@ BEGIN
 
 	SET @ROW = @ROW + 1
 END
+GO
 ---------------------------------------------------------
 
 

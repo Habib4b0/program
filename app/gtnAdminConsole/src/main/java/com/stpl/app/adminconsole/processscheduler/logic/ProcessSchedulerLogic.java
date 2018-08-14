@@ -135,7 +135,6 @@ public class ProcessSchedulerLogic {
 	}
 
 	private List getCustomizedSchedulerProcessing(List list) throws SystemException {
-		LOGGER.debug("Entering getCustomizedSchedulerProcessing= {}" , list.size());
 		List<ProcessSchedulerDTO> returnList = new ArrayList<>();
 		SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		SimpleDateFormat date1 = new SimpleDateFormat("MM/dd/yyyy");

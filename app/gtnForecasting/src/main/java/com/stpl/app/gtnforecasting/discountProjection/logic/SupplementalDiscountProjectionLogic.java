@@ -1469,6 +1469,7 @@ public class SupplementalDiscountProjectionLogic {
 
         String[] selectedLevelDetails = saveDto.getLevelDetails().split(",");
         int count = saveDto.getSupplementalLevelNo() == 1 ? selectedLevelDetails.length : 1;
+        List<Object> finalList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             try {
                 StringBuilder query = new StringBuilder();
@@ -1496,7 +1497,6 @@ public class SupplementalDiscountProjectionLogic {
                         List<Object> formulaList = getDataList(HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.THREE].toString())), Integer.parseInt(ob[NumericConstants.FIVE].toString()),
                                 HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.FOUR].toString())), Integer.parseInt(ob[NumericConstants.SIX].toString()), false);
                         List<Object> selectionList = getDataList(saveDto.getStartPeriod(), saveDto.getStartYear(), saveDto.getEndPeriod(), saveDto.getEndYear(), false);
-                        List<Object> finalList = new ArrayList<>();
                         for (Object object1 : formulaList) {
                             for (Object object2 : selectionList) {
                                 if (object1.toString().equalsIgnoreCase(object2.toString())) {

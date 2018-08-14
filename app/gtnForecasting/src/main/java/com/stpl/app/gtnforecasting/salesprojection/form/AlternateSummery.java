@@ -27,7 +27,6 @@ import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.ANNUAL;
 import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
-import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
@@ -712,39 +711,33 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setIsCustomHierarchy(false);
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
             projectionDTO.setView(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-            newBtn.setEnabled(true);
-            editBtn.setEnabled(false);
-            viewDdlb.setEnabled(false);
-            viewDdlb.setValue(SELECT_ONE);
-            loadLevelFilterValue(String.valueOf(view.getValue()));
-            loadLevelAndFilterValue();
-            level.setValue(SELECT_ONE);
-            level.setEnabled(true);
-            levelFilter.setValue(SELECT_ONE);
-            levelFilter.setEnabled(true);
-            projectionDTO.setCustomFlag(false);
-            mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+            loadValues();
         } else {
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             projectionDTO.setIsCustomHierarchy(false);
             projectionDTO.setView(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-            newBtn.setEnabled(true);
-            editBtn.setEnabled(false);
-            viewDdlb.setEnabled(false);
-            viewDdlb.setValue(SELECT_ONE);
-            loadLevelFilterValue(String.valueOf(view.getValue()));
-            loadLevelAndFilterValue();
-            level.setValue(SELECT_ONE);
-            level.setEnabled(true);
-            levelFilter.setValue(SELECT_ONE);
-            levelFilter.setEnabled(true);
-            projectionDTO.setCustomFlag(false);
-            mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+            loadValues();
+         
         }
         mSalesProjectionTableLogic.setRefresh(true);
         LOGGER.debug("viewOptionGroup value change listener ends");
     }
 
+    public void loadValues() {
+        newBtn.setEnabled(true);
+        editBtn.setEnabled(false);
+        viewDdlb.setEnabled(false);
+        viewDdlb.setValue(SELECT_ONE);
+        loadLevelFilterValue(String.valueOf(view.getValue()));
+        loadLevelAndFilterValue();
+        level.setValue(SELECT_ONE);
+        level.setEnabled(true);
+        levelFilter.setValue(SELECT_ONE);
+        levelFilter.setEnabled(true);
+        projectionDTO.setCustomFlag(false);
+        mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+    }
+    
     /**
      * Loads the previously created Custom Hierarchy for a particular projection
      * in the Custom DDLB.

@@ -23,6 +23,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GtnWsReturnBpmDbService {
+
+        public GtnWsReturnBpmDbService() {
+            super();
+        }
  	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsReturnsDatabaseService.class);
 	@Autowired
 	private SessionFactory bpmSessionFactory;

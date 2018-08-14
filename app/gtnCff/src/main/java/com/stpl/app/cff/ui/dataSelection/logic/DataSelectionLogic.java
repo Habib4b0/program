@@ -356,21 +356,6 @@ public class DataSelectionLogic {
 		return companies;
 	}
 
-	public List<ItemMaster> getItemsFromSids(final List<String> itemSids) throws SystemException {
-
-		final List<Integer> sids = new ArrayList<>();
-		List<ItemMaster> items = null;
-		for (final String sid : itemSids) {
-			sids.add(DataTypeConverter.convertStringToInteger(sid));
-		}
-		if (itemSids != null && !itemSids.isEmpty()) {
-			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
-			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.ITEM_MASTER_SID, sids));
-			items = dataSelectionDaoImpl.getItemMaster(dynamicQuery);
-		}
-		return items;
-	}
-
 	/**
 	 * Delete and inserts Product hierarchy logic to update
 	 *

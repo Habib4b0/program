@@ -1101,7 +1101,7 @@ public class NMPVExcelLogic {
 
         String frequency = selection.getFrequency();
         List< Object[]> rawList = null;
-        String discountId = selection.getDeductionLevelFilter().isEmpty() ? null
+        String discountId = selection.getDeductionLevelFilter().isEmpty() ? StringUtils.EMPTY
 				: PVCommonLogic.removeBracesInList(selection.getDeductionLevelFilter());
         String hierarchyIndicator = Constant.TOTAL.equals(selection.getLevel()) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : selection.getHierarchyIndicator();
         List<Integer> projectionIdList = new ArrayList();
@@ -2193,7 +2193,7 @@ public class NMPVExcelLogic {
     public void getTotalPivotVariance(PVSelectionDTO selection) {
         String frequency = selection.getFrequency();
         List< Object[]> gtsResult = null;
-        String discountId = selection.getDeductionLevelFilter().isEmpty() ? null
+        String discountId = selection.getDeductionLevelFilter().isEmpty() ? StringUtils.EMPTY
 				: PVCommonLogic.removeBracesInList(selection.getDeductionLevelFilter());
         String hierarchyIndicator = Constant.TOTAL.equals(selection.getLevel()) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : selection.getHierarchyIndicator();
         List<String> projectionIdList = new ArrayList<>();

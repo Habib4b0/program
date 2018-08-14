@@ -45,7 +45,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -256,13 +255,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
-                    } else {
+                    } 
+                    if (i != 0 && exp != null) {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
-                }
-                    if (i == exportAt) {
-                        exp.exportMultipleTabs(true);
-            } else {
-                        exp.exportMultipleTabs(false);
+                        boolean export = i == exportAt;
+                        exp.exportMultipleTabs(export);
                     }
                 }
             } else {
@@ -277,7 +274,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                   Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
                     if (displayFormatIndex.length == 1) {
                         for (int k = 0; k < displayFormatIndex.length; k++) {
-                            LOGGER.info("obj--------------=====" , k);
+                            LOGGER.info("obj--------------===== {}" , k);
                             int index = (Integer) displayFormatIndex[k];
                             if (index == 0) {
                                 visibleColumns.remove(Constant.DF_LEVEL_NAME);
@@ -1188,13 +1185,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
-                    } else {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
-                    if (i == exportAt) {
-                        exp.exportMultipleTabs(true);
-                    } else {
-                        exp.exportMultipleTabs(false);
+                    if (i != 0 && exp != null) {
+                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        boolean export = i == exportAt;
+                        exp.exportMultipleTabs(export);
                     }
                 }
             } else {

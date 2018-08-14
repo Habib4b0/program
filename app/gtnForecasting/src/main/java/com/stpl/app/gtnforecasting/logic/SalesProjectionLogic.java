@@ -118,7 +118,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callAdjustmentProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callAdjustmentProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callAdjustmentProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
@@ -176,7 +176,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callCalculationProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callCalculationProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callCalculationProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
 
         } finally {
@@ -307,7 +307,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callAlternateHistoryProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callAlternateHistoryProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callAlternateHistoryProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
@@ -342,7 +342,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callAlternateHistoryProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callAlternateHistoryProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
@@ -581,7 +581,7 @@ public class SalesProjectionLogic {
                 list = calculateResultSet(statement);
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
         } catch (NumberFormatException | SQLException | NamingException ex) {
-                 LOGGER.error("Error from callPMPYProcedure: ", ex.getMessage());
+                 LOGGER.error("Error from callPMPYProcedure: {}", ex.getMessage());
 
         } 
         return list;

@@ -95,8 +95,9 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		reportCustomViewRequest.setCustomerRelationshipSid(customerRelationSid);
 		reportCustomViewRequest.setProductRelationshipSid(productRelationSid);
 		reportCustomViewRequest.setCustomViewType(customViewType);
-
-		if (String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")) {
+		boolean isSelectButton = (boolean) paramList.get(4);
+		if (String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")
+				&& !isSelectButton) {
 			reportCustomViewRequest.setCvSysId(
 					Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("customSid"))));
 		}
@@ -109,6 +110,8 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
 		if (cvResponse.isSuccess()) {
 			saveCustomView(componentId, customViewName, reportCustomViewRequest, paramList);
+		} else if (isSelectButton) {
+			selectButtonAction(componentId, (GtnUIFrameWorkActionConfig) paramList.get(5));
 		} else {
 			GtnUIFrameWorkActionConfig cvSaveAlertAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.ALERT_ACTION);
@@ -184,14 +187,23 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		saveActionConfig.addActionParameter(cvRequest);
 		saveActionConfig.addActionParameter((String) paramList.get(3));
 		successActionConfigList.add(saveActionConfig);
-		if (paramList.size() > 4) {
-			for (int i = 4; i < paramList.size(); i++) {
+		if (paramList.size() > 5) {
+			for (int i = 5; i < paramList.size(); i++) {
 				GtnUIFrameWorkActionConfig actionConfig = (GtnUIFrameWorkActionConfig) paramList.get(i);
 				successActionConfigList.add(actionConfig);
 			}
 		}
 		confirmActionConfig.addActionParameter(successActionConfigList);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmActionConfig);
+	}
+
+	private void selectButtonAction(String componentId, GtnUIFrameWorkActionConfig closeActionConfig)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig selectActionConfig = new GtnUIFrameWorkActionConfig();
+		selectActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		selectActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, selectActionConfig);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closeActionConfig);
 	}
 
 	@Override

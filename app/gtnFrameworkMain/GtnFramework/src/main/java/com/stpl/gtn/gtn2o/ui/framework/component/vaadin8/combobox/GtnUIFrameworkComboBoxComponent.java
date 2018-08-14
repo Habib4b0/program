@@ -107,6 +107,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		vaadinComboBox.setReadOnly(comboboxConfig.isReadOnly());
 		vaadinComboBox.setRequiredIndicatorVisible(comboboxConfig.isRequired());
 		vaadinComboBox.setEmptySelectionAllowed(false);
+		if (comboboxConfig.isFocus()) {
+			vaadinComboBox.focus();
+		}
 	}
 
 	@Override
@@ -129,8 +132,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromView(GtnUIFrameworkActionType action, String dependentComponentId,
-			String componentId, Object reloadInput) {
+	public void reloadComponentFromView(String dependentComponentId, String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromView(dependentComponentId,
 				componentId);
@@ -139,8 +141,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromChild(GtnUIFrameworkActionType action, String dependentComponentId,
-			String componentId, Object reloadInput) {
+	public void reloadComponentFromChild(String dependentComponentId, String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromChild(dependentComponentId,
 				componentId);
@@ -149,8 +150,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromParent(GtnUIFrameworkActionType action, String dependentComponentId,
-			String componentId, Object reloadInput) {
+	public void reloadComponentFromParent(String dependentComponentId, String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromParent(dependentComponentId,
 				componentId);
@@ -389,7 +389,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				comboBoxWhereClauseParamList, sourceViewId);
 		try {
 			if (componentConfig.getReloadLogicActionClassName() != null) {
-				try {
 					GtnUIFrameworkClassLoader fillComboBoxClassLoader = new GtnUIFrameworkClassLoader();
 					GtnUIFrameWorkAction fillComboBoxCustomAction = (GtnUIFrameWorkAction) fillComboBoxClassLoader
 							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
@@ -400,9 +399,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 					fillComboBoxActionConfig.addActionParameter(reloadInput);
 					fillComboBoxCustomAction.doAction(sourceViewId + "_" + componentConfig.getComponentId(),
 							fillComboBoxActionConfig);
-				} catch (GtnFrameworkGeneralException ex) {
-					gtnLogger.error(componentConfig.getComponentId(), ex);
-				}
 				return vaadinCombobox;
 			}
 			if (comboboxConfig.getItemValues() != null) {
@@ -551,7 +547,4 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				(ComboBox) component, null);
 	}
 
-    public void reloadComponentFromParent(GtnUIFrameworkActionType gtnUIFrameworkActionType, String reportingDashboarddisplaySelectionTabCom, String componentId, List<String> asList) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
