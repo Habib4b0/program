@@ -5378,7 +5378,7 @@ public class CommonLogic {
         return deductionList;
     }
     public static void updateFlagStatusToR(SessionDTO session, String screenName, String view) {
-        LOGGER.info("updateFlagStatusToR---------------------------------------------------{}" + view);
+        LOGGER.info("updateFlagStatusToR---------------------------------------------------{} " , view);
 
         switch (view) {
             case Constants.CUSTOMER:
