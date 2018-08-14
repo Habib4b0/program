@@ -3,6 +3,7 @@ package com.stpl.app.cff.ui.projectionVariance.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractComparisonLookup;
+import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
@@ -35,7 +36,9 @@ import org.slf4j.LoggerFactory;
 public class ComparisonLookup extends AbstractComparisonLookup {
 
     private boolean recordSelectedFlag = false;
+    private boolean isDataSelection = false;
     private final int currentProjId;
+    private SessionDTO sessionDto;
     private final List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
@@ -53,9 +56,11 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      * Channels
      * @param comparisonLookup Textfield which opens this lookup
      */
-    public ComparisonLookup(final CustomTextField comparisonLookup,final int currentProjId, List<ComparisonLookupDTO> selectedList) {
+    public ComparisonLookup(final CustomTextField comparisonLookup,final SessionDTO sessionDto, List<ComparisonLookupDTO> selectedList,boolean isDataSelection) {
         super(comparisonLookup);
-        this.currentProjId= currentProjId;
+        this.currentProjId= sessionDto.getProjectionId();
+        this.sessionDto= sessionDto;
+        this.isDataSelection= isDataSelection;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.screenName = screenName;
         configureFields();
@@ -121,7 +126,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
                 comparisonLookup.setCurrentProjId(notSearchProjId.toString());
                 comparisonLookup.setCreatedDateFrom(fromDate.getValue());
                 comparisonLookup.setCreatedDateTo(toDate.getValue());
-                tableLogic.fireSetData(comparisonLookup, false);
+                tableLogic.fireSetData(comparisonLookup, false,isDataSelection,sessionDto);
                 if (resultsTable.size()==0) {
                     MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);

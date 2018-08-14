@@ -13,10 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-/**
- *
- * @author Manikanda.Prabu
- */
+
 public class GtnFrameWorkCMEditCustomAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
 
     private final GtnWSLogger logger = GtnWSLogger
