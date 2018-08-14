@@ -160,11 +160,7 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 				case 'D':
 					leftGrid = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(String.valueOf(parameterList.get(6)), componentId).getGrid();
-					break;
-				case 'V':
-					leftGrid = GtnUIFrameworkGlobalUI
-							.getVaadinBaseComponent(String.valueOf(parameterList.get(7)), componentId).getGrid();
-					break;
+					break;			
 				default:
 					break;
 				}
