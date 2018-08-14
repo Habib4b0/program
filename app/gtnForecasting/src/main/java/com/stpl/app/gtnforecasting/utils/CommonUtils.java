@@ -330,15 +330,8 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
     public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
     
-    public static final String[] QUERYIDS = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
-    public static final String[] ACCURAL_TEMP = new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"};
-    public static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    public static final String[] COMMON_COLUMN = new String[]{"efs", "dms", "iws"};
-    public static final Object[] PROGRAM_VISIBILE_COLS = new Object[] { Constant.CHECKRECORD, "discountNo", "discountName" };
-    public static final String[] PROGRAM_VISIBILE_HEADER= new String[] { StringUtils.EMPTY, "Discount #", "Discount Name" };
-    public static final Object[] PROGRAM_CATEGORY_VISIBILE_COLS = new Object[] { Constant.CHECKRECORD, "discountName"  };
-    public static final String[] PROGRAM_CATEGORY_VISIBILE_HEADER= new String[] { StringUtils.EMPTY, "Discount Type" };
-    
+    private static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+   
     /**
      * Gets the current calendar.
      *
