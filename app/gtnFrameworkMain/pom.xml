@@ -80,8 +80,11 @@
             <module>GtnFrameworkCommon</module>
             <module>GtnFramework</module>
             <module>GtnFrameworkComponentRepository</module>
+           	<module>GtnFramworkQueryGenerator</module>
+           	<module>WebServices/GtnWsHibernateHbm</module>
+           	<module>WebServices/GtnQueryEngine</module>
             <module>GtnFrameworkHierarchyRouteBuilder</module>
-            <module>GtnFramworkQueryGenerator</module>
+            
             <module>Modules</module>
             <!--<module>WebServices</module>--> 
             <module>GtnFrameworkScreenRegistry</module>

@@ -3,19 +3,20 @@ package com.stpl.gtn.gtn2o.ws.serviceregistry.bean;
 public class GtnWsServiceRegistryBean {
 
 	private boolean authorizaionService = false;
-	
+
 	private boolean registeredService = false;
 
 	private String hostName;
-	
+
 	private String port;
-	
+
 	private String registeredWebContext;
-	
+
 	private String url;
-	
+
 	private String moduleName;
-	
+	private String webserviceEndPointUrl;
+
 	public boolean isAuthorizaionService() {
 		return authorizaionService;
 	}
@@ -71,5 +72,13 @@ public class GtnWsServiceRegistryBean {
 	public void setModuleName(String moduleName) {
 		this.moduleName = moduleName;
 	}
-	
+
+	public String getWebserviceEndPointUrl() {
+		return webserviceEndPointUrl;
+	}
+
+	public void setWebserviceEndPointUrl(String webserviceEndPointUrl) {
+		this.webserviceEndPointUrl = webserviceEndPointUrl;
+	}
+
 }

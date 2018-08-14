@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 @RestController
 @RequestMapping(value = "/gtnPeriodConfigurationController")
-public class GtnWsPeriodConfigurationController{
+public class GtnWsPeriodConfigurationController {
 
 	@Autowired
 	private GtnWsPeriodConfigurationService periodConfigurationService;
@@ -28,18 +28,17 @@ public class GtnWsPeriodConfigurationController{
 	}
 
 	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
-	
+
 	@RequestMapping(value = "/loadDate", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadDate(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();		
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
 		comboBoxResponse.setComboBoxList(singletonObjectBean.getPeriodConfigResultList());
 		gtnUIFrameworkWebserviceResponse.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 
 		return gtnUIFrameworkWebserviceResponse;
 	}
-
 
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
 		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")

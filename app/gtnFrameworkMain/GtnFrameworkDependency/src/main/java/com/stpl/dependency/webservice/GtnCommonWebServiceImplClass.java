@@ -8,6 +8,7 @@ import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 public abstract class GtnCommonWebServiceImplClass {
 
@@ -20,7 +21,7 @@ public abstract class GtnCommonWebServiceImplClass {
 		return gtnLogger;
 	}
 
-	public abstract void registerWs();
+	public abstract GtnUIFrameworkWebserviceRequest registerWs();
 
 	public GtnQueryEngineWebServiceResponse callQueryEngine(String url, GtnQueryEngineWebServiceRequest request,
 			GtnWsSecurityToken securityToken) {
