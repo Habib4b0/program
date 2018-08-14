@@ -21,14 +21,12 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 		GtnWsServiceRegistryBean serviceRegistryBean = request.getGtnServiceRegistryWsRequest()
 				.getGtnWsServiceRegistryBean();
 
-		Object[] params = new Object[4];
+		Object[] params = new Object[3];
 		params[0] = serviceRegistryBean.getRegisteredWebContext();
-		params[1] = serviceRegistryBean.getHostName();
-		params[2] = serviceRegistryBean.getPort();
-		params[3] = serviceRegistryBean.getRegisteredWebContext();
+		params[1] = serviceRegistryBean.getWebserviceEndPointUrl();
+		params[2] = serviceRegistryBean.getRegisteredWebContext();
 
-		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING };
+		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
 
 		String registerQuery = GtnWsServiceRegistryConstants.INSERT_QUERY;
 
