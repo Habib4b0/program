@@ -35,9 +35,9 @@ public class HeaderUtil {
         "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     public final Object[] componentDetailsCompanyColumn  = {"tradingPartnerNo", "tradingPartnerName", "tpContractNo", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
     public final String[] componentDetailsCompanyHeader  = {"Trading Partner No", "Trading Partner Name", "TP Contract No", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
-    public final String MATCH_PROPERTY = "match";
+    public static final String MATCH_PROPERTY = "match";
     public final Object[] cfpDetailsColumn  = {Constants.CHECK, "id", Constants.NUMBER_PROPERTY, "name", MATCH_PROPERTY, "add", "remove"};
-    public final String MATCH_LABEL = "Match";
+    public static final String MATCH_LABEL = "Match";
     public final String[] cfpDetailsHeader  = {"", "ID", Constants.NUMBER_LABEL, "Name", MATCH_LABEL, "Add", "Remove Sales"};
     public final Object[] ifpDetailsColumn  = {Constants.CHECK, "id", Constants.NUMBER_PROPERTY, "name", MATCH_PROPERTY, "add"};
     public final String[] ifpDetailsHeader  = {"", "ID", Constants.NUMBER_LABEL, "Name", MATCH_LABEL, "Add"};

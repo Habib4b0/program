@@ -467,7 +467,7 @@ public class ApprovalTab extends CustomComponent {
             approvalDetailsTable.setConverter("approvedDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY, HH/mm/ss");
+                    return new SimpleDateFormat("MM/dd/yyyy, HH/mm/ss");
                 }
             });
             if ((status.getValue().equalsIgnoreCase(Constants.PENDING)) || (status.getValue().equalsIgnoreCase(Constants.CANCELLED))
@@ -499,13 +499,13 @@ public class ApprovalTab extends CustomComponent {
             resultTable.setConverter("createdDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY");
+                    return new SimpleDateFormat("MM/dd/yyyy");
                 }
             });
             resultTable.setConverter("approvalDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY");
+                    return new SimpleDateFormat("MM/dd/yyyy");
                 }
             });
             loadResultTable();
@@ -900,7 +900,7 @@ public class ApprovalTab extends CustomComponent {
             valueMap.put("latestEstimateName", latestEstimateName.getValue());
             valueMap.put(StringConstantsUtil.UPDATE_CYCLE, updateCycle.getValue());
             valueMap.put(StringConstantsUtil.UPDATE_CYCLE_NAME, updateCycleName.getValue());
-            valueMap.put("cffEligiblDate", new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(sessionDTO.getCffEligibleDate()));
+            valueMap.put("cffEligiblDate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(sessionDTO.getCffEligibleDate()));
             try {
                 final String result = cffLogic.saveCffInformation(cffMasterSystemId, userId, valueMap, sessionDTO);
                 notestab.saveAdditionalInformation(Integer.parseInt(String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"))), userId, sessionDTO);

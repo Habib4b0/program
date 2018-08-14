@@ -113,8 +113,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
 
     public final void configureFields() {
         componentId.focus();
-        Object[] CFP_SEARCH_COLUMNS = new Object[]{
-            "componentId", "componentNo", "componentName", "componentStatus", "componentType"};
         String[] CFP_SEARCH_HEADERS = new String[]{
             component + " ID", component + " No", component + " Name", component + " Status", component + " Type"};
         addTableLayout();
@@ -122,7 +120,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(CFP_SEARCH_COLUMNS);
+        resultsTable.setVisibleColumns(Constants.CFP_SEARCH_COLUMNS);
         resultsTable.setColumnHeaders(CFP_SEARCH_HEADERS);
         resultsTable.addStyleName("filterbar");
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);

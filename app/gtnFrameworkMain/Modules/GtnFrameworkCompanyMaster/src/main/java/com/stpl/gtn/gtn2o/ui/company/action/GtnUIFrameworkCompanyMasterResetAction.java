@@ -40,10 +40,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.cmrequest.GtnCMasterRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-/**
- *
- * @author Mersal Manikanda.Prabu
- */
 public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkCompanyMasterResetAction.class);

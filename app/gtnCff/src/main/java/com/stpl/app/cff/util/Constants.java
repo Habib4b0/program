@@ -78,6 +78,9 @@ public class Constants {
     public static final String DED_JOIN = "?DEDJOIN";
     public static final String DATE_FORMAT= "yyyy-MM-dd";
     public static final String MULTIPLE= "Multiple";
+    public static final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
+    public static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
+    public static final Object[] PRICE_DOLLARS = new Object[]{ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS};
 
     
     
@@ -85,6 +88,10 @@ public class Constants {
              * The fail.
              */
     public static final String FAIL = "fail";
+    public static final String RUNNING_STATUS = "R";
+    public static final String SALES = "SALES";
+    public static final String DISCOUNT = "DISCOUNT";
+    public static final String PRC_CFF_VIEW_POPULATION = "PRC_CFF_VIEWS_POPULATION";
 
     /**
      * Enum for label constants

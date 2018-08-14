@@ -214,7 +214,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             pvSelectionDTO.setIscustomerFirst(!generateCustomerToBeLoaded.isEmpty());
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
-            LOGGER.info("ded value-------------------------"+String.valueOf(deductionlevelDdlb.getValue()));
+            LOGGER.info("ded value-------------------------{} ", String.valueOf(deductionlevelDdlb.getValue()));
             pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
         }
     };

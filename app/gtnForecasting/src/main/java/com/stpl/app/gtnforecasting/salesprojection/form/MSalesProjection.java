@@ -170,7 +170,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void massUpdateLogic() {
-        if ((Constant.LabelConstants.DISABLE).equals(massUpdate.getValue())) {
+        if ((Constant.LabelConstants.DISABLE.getConstant()).equals(massUpdate.getValue())) {
             fieldDdlb.setValue(Constant.SELECT_ONE);
             fieldDdlb.setEnabled(false);
             valueDdlb.setEnabled(false);
