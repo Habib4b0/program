@@ -20,8 +20,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 public class GtnWsPeriodConfigurationController {
 
 	@Autowired
-	private GtnWsPeriodConfigurationService gtnWsPeriodConfigurationService;
-
+	private GtnWsPeriodConfigurationService periodConfigurationService;
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public boolean test() {
 		return true;
@@ -46,12 +46,11 @@ public class GtnWsPeriodConfigurationController {
 				+ url;
 
 	}
-
+	
 	@RequestMapping(value = "/loadRefreshDate", method = RequestMethod.POST)
 	public void loadRefreshDate(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		List<Object[]> resultList = gtnWsPeriodConfigurationService
+		List<Object[]> resultList = periodConfigurationService
 				.loadDate(gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest());
 		singletonObjectBean.setPeriodConfigResultList(resultList);
 	}
-
 }

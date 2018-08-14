@@ -8,6 +8,8 @@ public class GtnFrameworkSingletonObjectBean {
 	
 	private List<Object[]> periodConfigResultList;
 	
+	private List<Object[]> validateServiceRegistryRegisteredWsResultList;
+	
 	private GtnFrameworkSingletonObjectBean(){
 		
 	}
@@ -25,6 +27,15 @@ public class GtnFrameworkSingletonObjectBean {
 
 	public void setPeriodConfigResultList(List<Object[]> periodConfigResultList) {
 		this.periodConfigResultList = periodConfigResultList;
+	}
+
+	public List<Object[]> getValidateServiceRegistryRegisteredWsResultList() {
+		return validateServiceRegistryRegisteredWsResultList;
+	}
+
+	public void setValidateServiceRegistryRegisteredWsResultList(
+			List<Object[]> validateServiceRegistryRegisteredWsResultList) {
+		this.validateServiceRegistryRegisteredWsResultList = validateServiceRegistryRegisteredWsResultList;
 	}
 	
 }

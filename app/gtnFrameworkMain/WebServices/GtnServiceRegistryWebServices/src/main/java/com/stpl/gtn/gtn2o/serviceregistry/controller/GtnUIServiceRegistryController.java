@@ -31,9 +31,6 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 
 	@Autowired
 	private GtnUIServiceRegistryService gtnUIServiceRegistryService;
-
-	@Autowired
-	private GtnServiceRegistryRegisterWs gtnWsServiceRegistrySqlService;
 	
 	@Autowired
 	private GtnServiceRegistryRegisterWs gtnServiceRegistryRegisterWs;
