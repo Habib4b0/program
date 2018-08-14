@@ -736,8 +736,8 @@ public class CommonLogic {
         List<Object> levelHierarchy = getLevelNoAndHierarchyNo(value);
 
         int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
-        String hierarchyNum = String.valueOf(levelHierarchy.get(1));
-        List<String> hierarchyList = getAllHierarchyNo(hierarchyNum);
+        String hierarchyNumber = String.valueOf(levelHierarchy.get(1));
+        List<String> hierarchyList = getAllHierarchyNo(hierarchyNumber);
         Collections.reverse(hierarchyList);
         for (String hierarchyNum : hierarchyList) {
             levelHierarchy = new ArrayList<>();
