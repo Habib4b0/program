@@ -490,7 +490,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 			deductionValue.setValue(
 					helperListUtil.getHelperDTOByID(StringUtils.isNumeric(String.valueOf(viewDTO.getDeductionValueId()))
-							? Integer.valueOf(viewDTO.getDeductionValueId()) : 0));
+							? viewDTO.getDeductionValueId() : 0));
 		}
 
 		RelationshipDdlbDto selectedCustomerRelationshipDdlbDto = null;

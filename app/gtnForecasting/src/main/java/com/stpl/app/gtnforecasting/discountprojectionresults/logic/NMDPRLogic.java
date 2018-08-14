@@ -528,8 +528,7 @@ public class NMDPRLogic {
     }
 
     public int getIntegerForMonth(String month) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return Arrays.asList(array).indexOf(month) + 1;
+        return Arrays.asList(CommonUtils.ARRAY_MONTH).indexOf(month) + 1;
     }
 
     /**

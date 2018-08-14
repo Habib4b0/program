@@ -656,7 +656,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        LOGGER.info("Excel Query-------------------------------------------------"+aaa);
+        LOGGER.info("Excel Query-------------------------------------------------{} ", aaa);
         return list;
         }
 
