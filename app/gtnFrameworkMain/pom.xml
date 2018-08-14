@@ -79,9 +79,11 @@
             <module>GtnFrameWorkPropertyManager</module>
             <module>GtnFrameworkCommon</module>
             <module>GtnFramework</module>
-            <module>GtnFrameworkComponentRepository</module>
+            <module>GtnFrameworkComponentRepository</module>          	
+           	<module>GtnFramworkQueryGenerator</module>
+            <module>WebServices/GtnWsHibernateHbm</module>
+            <module>WebServices/GtnQueryEngine</module>
             <module>GtnFrameworkHierarchyRouteBuilder</module>
-            <module>GtnFramworkQueryGenerator</module>
             <module>Modules</module>
             <!--<module>WebServices</module>--> 
             <module>GtnFrameworkScreenRegistry</module>
@@ -162,7 +164,11 @@
 		<profile>
 			<id>Release-Ws-Build</id>
 			<modules>
-				<module>WebServices</module>
+				<module>WebServices/GTNWebServices</module>
+                <module>WebServices/GtnForecastWebServices</module>
+                <module>WebServices/GtnWsBpmWebService</module>
+                <module>WebServices/GtnMethodologyCalculation</module>
+                <module>WebServices/GtnWsParentReportEngine</module>
 			</modules>
 			<activation>
 				<property>
