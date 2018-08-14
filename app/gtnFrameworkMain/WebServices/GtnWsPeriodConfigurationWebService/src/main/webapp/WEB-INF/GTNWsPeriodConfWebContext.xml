@@ -8,7 +8,7 @@
         
       <context:annotation-config /> 
          
-     <bean id="periodConfigurationController" class="com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService"
+     <bean id="periodConfigurationService" class="com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService"
      init-method="init">
      </bean>
 <!--      <bean id="gtnWsPeriodConfigurationService" class="com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService"/>
