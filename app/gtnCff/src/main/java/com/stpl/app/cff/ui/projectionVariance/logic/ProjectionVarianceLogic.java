@@ -830,7 +830,6 @@ public class ProjectionVarianceLogic {
         String deductionInclusion = projSelDTO.getSessionDTO().getDeductionInclusion();
         if (projSelDTO.getLevel().equals(DETAIL)) {
             getCCPIds(projSelDTO);
-            getRSIds(projSelDTO);
         }
         String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
         discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
@@ -1440,15 +1439,10 @@ public class ProjectionVarianceLogic {
             pivotPriorProjIdList.add(projId);
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        String ccps = null;
-        String rsIds = null;
-        String uomCode = pvsdto.getSessionDTO().getDiscountUom();
         String salesInclusion = pvsdto.getSessionDTO().getSalesInclusion();
         String deductionInclusion = pvsdto.getSessionDTO().getDeductionInclusion();
         if (isDetail) {
-            ccps = getCCPIds(pvsdto);
-            rsIds = getRSIds(pvsdto);
-            pvsdto.setCcpIds(ccps);
+            getCCPIds(pvsdto);
             pvsdto.getSession().getSalesInclusion();
         }
           String viewName=pvsdto.getView().equalsIgnoreCase("Custom")?D_INDICATOR:pvsdto.getView();
@@ -2867,7 +2861,7 @@ public class ProjectionVarianceLogic {
 
     String getCCPIds(PVSelectionDTO projSelDTO) {
         String query = getCCPQueryForCff(projSelDTO);
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        List list = projSelDTO.isIsCustomHierarchy() ? Collections.emptyList() : HelperTableLocalServiceUtil.executeSelectQuery(query);
         String ccps = StringUtils.EMPTY;
         boolean flag = true;
         if (list != null) {
