@@ -1443,6 +1443,7 @@ public class ProjectionVarianceLogic {
         String deductionInclusion = pvsdto.getSessionDTO().getDeductionInclusion();
         if (isDetail) {
             getCCPIds(pvsdto);
+             pvsdto.setCcpIds(StringUtils.EMPTY);
             pvsdto.getSession().getSalesInclusion();
         }
           String viewName=pvsdto.getView().equalsIgnoreCase("Custom")?D_INDICATOR:pvsdto.getView();
