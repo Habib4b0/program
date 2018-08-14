@@ -986,7 +986,7 @@ public class Constants {
     public final String[] copycontractIfpItemResultsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER
     };
-    public final String THERAPEUTIC_CLASS_PROPERTY = "therapeuticClass";
+    public static final String THERAPEUTIC_CLASS_PROPERTY = "therapeuticClass";
     public final Object[] copycontractIfpItemResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPEUTIC_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
     public final String[] copycontractPsItemResultsHeaders = new String[]{
@@ -1028,7 +1028,7 @@ public class Constants {
         "Id", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, "IFP", "Type", CATEGORY_LABEL, "Designation"};
     public final Object[] adComponentDetailsColumnsCfp = new Object[]{
         "tpNo", "tpName", "tpContractNo", Constants.START_DATE, Constants.END_DATE, STATUS_S, TRADE_CLASS_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final String TP_CONTRACT_NO_LABEL = "TP Contract No";
+    public static final String TP_CONTRACT_NO_LABEL = "TP Contract No";
     public static final String TRADING_PARTNER_NAME_LABEL = "Trading Partner Name";
     public final String[] adComponentDetailsHeadersCfp = new String[]{
         "Trading Partner No", TRADING_PARTNER_NAME_LABEL, TP_CONTRACT_NO_LABEL, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, Constants.TRADECLASS, ATTACHED_DATE_FIELD};
@@ -1100,6 +1100,9 @@ public class Constants {
 
     public static final String TRANSFER_ERROR_LABEL = "Transfer Error";
 
+    public static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+        "componentId", "componentNo", "componentName", "componentStatus", "componentType"};
+    
     /**
      * Enum for Message constants
      */

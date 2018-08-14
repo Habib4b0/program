@@ -2181,9 +2181,8 @@ public class FileManagementLookup extends Window {
 				}
 			});
 
-			final Object[] obj = new Object[] { ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS };
-			for (int i = 0; i < obj.length; i++) {
-				detailsFilterTable.setColumnAlignment(obj[i], ExtFilterTable.Align.RIGHT);
+			for (int i = 0; i < Constants.PRICE_DOLLARS.length; i++) {
+				detailsFilterTable.setColumnAlignment(Constants.PRICE_DOLLARS[i], ExtFilterTable.Align.RIGHT);
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());

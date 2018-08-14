@@ -2758,7 +2758,7 @@ public class FileManagementLookup extends Window {
 
 		final ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
 			/**
-			 * 
+			 * `
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -2793,9 +2793,8 @@ public class FileManagementLookup extends Window {
 			}
 		});
 
-		final Object[] obj = new Object[] { ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS };
-		for (int i = 0; i < obj.length; i++) {
-			detailsFilterTable.setColumnAlignment(obj[i], ExtFilterTable.Align.RIGHT);
+		for (int i = 0; i < ConstantsUtils.PRICE_DOLLARS.length; i++) {
+			detailsFilterTable.setColumnAlignment(ConstantsUtils.PRICE_DOLLARS[i], ExtFilterTable.Align.RIGHT);
 		}
 
 	}

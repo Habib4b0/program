@@ -101,7 +101,6 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      */
     public PromoteTPToChForm(ErrorfulFieldGroup promoteTpToChBinder, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/PromoteTPToChForm.xml"), this));
-        this.promoteTpBinder = promoteTpBinder;
         this.resultTable = resultTable;
         this.promoteWindow = editWindow;
         this.session = session;

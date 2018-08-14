@@ -78,6 +78,9 @@ public class Constants {
     public static final String DED_JOIN = "?DEDJOIN";
     public static final String DATE_FORMAT= "yyyy-MM-dd";
     public static final String MULTIPLE= "Multiple";
+    public static final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
+    public static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
+    public static final Object[] PRICE_DOLLARS = new Object[]{ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS};
 
     
     
