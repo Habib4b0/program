@@ -52,9 +52,9 @@ import com.vaadin.ui.Component;
  * @author Mahesh.James
  */
 public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+    
 	
 	
-
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -290,9 +290,10 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableID)
 				.setTableColumnHeaders(getPriceProtectionHeaderArray(isEditable));
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableID);
-		if (isEditable)
-			tableBaseComponent.setFilterFieldVisible(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0], false);
+		if (isEditable){
+		tableBaseComponent.setFilterFieldVisible(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0], false);
 		tableBaseComponent.setFilterFieldVisible(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12],false);
+                }
 	}
 
 	private Class<?>[] getPricingTableDataTypeArray(boolean isEditable) {
