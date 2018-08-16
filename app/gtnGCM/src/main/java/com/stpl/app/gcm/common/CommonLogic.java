@@ -671,8 +671,11 @@ public class CommonLogic {
 
         final List<ContractsDetailsDto> ifpList = new ArrayList<>();
 		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
+                if(parent1 != null)
+                {
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
                 parent1.getSystemId()));
+                }
         ifpDynamicQuery.add(RestrictionsFactoryUtil
                 .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -740,8 +743,11 @@ public class CommonLogic {
 
         final List<ContractsDetailsDto> psList = new ArrayList<>();
 		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
+                if(parent1 != null)
+                {
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
                 parent1.getSystemId()));
+                }
         psDynamicQuery.add(RestrictionsFactoryUtil
                 .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -837,8 +843,11 @@ public class CommonLogic {
 
         final List<ContractsDetailsDto> rsList = new ArrayList<>();
 		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
+                if(parent1 != null)
+                {
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
                 parent1.getSystemId()));
+                }
         rsDynamicQuery.add(RestrictionsFactoryUtil
                 .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
