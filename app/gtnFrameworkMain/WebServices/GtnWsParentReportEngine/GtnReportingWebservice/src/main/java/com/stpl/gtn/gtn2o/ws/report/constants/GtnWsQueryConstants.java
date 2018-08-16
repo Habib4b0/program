@@ -6,14 +6,14 @@ public class GtnWsQueryConstants {
 		throw new IllegalStateException("Constant class");
 	}
 
-        public static final String DATA_ASSUMPTIONS_COUNT_QUERY="SELECT COUNT(*) FROM (select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD , TO_PERIOD ,	case when File_management.TO_PERIOD is null then 'Yes' else 'No' end ACTIVE_FILE 	"
+        public static final String DATA_ASSUMPTIONS_COUNT_QUERY="SELECT COUNT(*) FROM (select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss'), TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss') ,	case when File_management.TO_PERIOD is null then 'Yes' else 'No' end ACTIVE_FILE 	"
                 + "from	FILE_MANAGEMENT	"
                 + "inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY "
                 + "inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID= BUSINESS_UNIT	"
                 + "inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID=FILE_TYPE ) A "
                 + "where TO_PERIOD is null @filter";            
 	
-        public static final String DATA_ASSUMPTIONS_RESULT_QUERY ="SELECT * FROM (select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD , TO_PERIOD ,	case when File_management.TO_PERIOD is null then 'Yes' else 'No' end ACTIVE_FILE 	"
+        public static final String DATA_ASSUMPTIONS_RESULT_QUERY ="SELECT * FROM (select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss') , TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss'),	case when File_management.TO_PERIOD is null then 'Yes' else 'No' end ACTIVE_FILE 	"
                 + "from	FILE_MANAGEMENT	"
                 + "inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY "
                 + "inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID= BUSINESS_UNIT	"
@@ -53,12 +53,12 @@ public class GtnWsQueryConstants {
 
 	public static final String YEAR_FREQUENCY = "[0-9]+";
 
-	public static final String DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS =  "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD , TO_PERIOD ,case\n" +
+	public static final String DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS =  "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss'), TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss'),case\n" +
 "				when FT.TO_PERIOD is null then 'Yes'\n" +
 "				else 'No'\n" +
 "			end ACTIVE_FILE from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid'";
 
-	public static final String DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD , TO_PERIOD ,case\n" +
+	public static final String DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss') , TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss') ,case\n" +
 "				when FT.TO_PERIOD is null then 'Yes'\n" +
 "				else 'No'\n" +
 "			end ACTIVE_FILE from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid' ";
