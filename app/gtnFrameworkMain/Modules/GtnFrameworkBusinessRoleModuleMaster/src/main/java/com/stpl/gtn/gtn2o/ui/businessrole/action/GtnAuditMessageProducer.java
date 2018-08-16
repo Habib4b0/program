@@ -1,4 +1,4 @@
-package com.stpl.app.audit;
+package com.stpl.gtn.gtn2o.ui.businessrole.action;
 
 import com.liferay.portal.kernel.audit.AuditException;
 import com.liferay.portal.kernel.audit.AuditMessage;
@@ -24,7 +24,7 @@ public class GtnAuditMessageProducer {
 
         UserLocalService userLocalService = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
                 .getService(userReference);
-                
+
         ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
         String user = "Ghost (No user information Available) ";
         if (null != serviceContext) {
