@@ -231,6 +231,8 @@ public class GtnWsReportWebsevice {
 		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
 		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
 		String projectionDescription = criteriaMap.get("description") == null ? "%" : criteriaMap.get("description");
+		String fromPeriod = criteriaMap.get("fromPeriod") == null ? "" : criteriaMap.get("fromPeriod");
+		String toPeriod = criteriaMap.get("toPeriod") == null ? "" : criteriaMap.get("toPeriod");
                 String createdDate = criteriaMap.get("createdDate") == null ||  criteriaMap.get("createdDate").equals("null") ? "%" : criteriaMap.get("createdDate");
                 String createdBy = criteriaMap.get("createdBy") == null ? "%" : criteriaMap.get("createdBy");
                	String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
@@ -246,12 +248,37 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + comparisonNDC + "'");
 		inputList.add("'" + contractHolder + "'");
 		inputList.add("'" + projectionDescription + "'"); 
-                inputList.add("'" + createdDate + "'");
-                inputList.add("'" + createdBy + "'");
+        inputList.add("'" + createdDate + "'");
+		getFromAndToPeriod(inputList, fromPeriod, toPeriod);
+		inputList.add("'" + createdBy + "'");
 		return inputList;
 		} catch (SQLException e) {
 			gtnLogger.error(e+"");
 			return Collections.emptyList();
+		}
+	}
+
+	private void getFromAndToPeriod(List<String> inputList, String fromPeriod, String toPeriod) {
+		if (!fromPeriod.isEmpty() && !toPeriod.isEmpty()) {
+			inputList.add("'" + fromPeriod + "'"); 
+			inputList.add("'" + toPeriod + "'"); 
+			inputList.add(null);
+			inputList.add(null);
+		} else if (fromPeriod.isEmpty() && !toPeriod.isEmpty()) {
+			inputList.add(null); 
+			inputList.add(null); 
+			inputList.add(null);
+			inputList.add("'" + toPeriod + "'"); 
+		} else if (!fromPeriod.isEmpty() && toPeriod.isEmpty()) {
+			inputList.add(null); 
+			inputList.add(null); 
+			inputList.add("'" + fromPeriod + "'"); 
+			inputList.add(null); 
+		} else {
+			inputList.add("''"); 
+			inputList.add("''"); 
+			inputList.add("''"); 
+			inputList.add("''"); 
 		}
 	}
 	
@@ -264,23 +291,31 @@ public class GtnWsReportWebsevice {
 		if(workFlowStatus.equals("Submitted")) {
 			workFlowStatus = "Pending";
 		}
+		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
+		String projectionDescription = criteriaMap.get("description") == null ? "%" : criteriaMap.get("description");
+		String fromPeriod = criteriaMap.get("fromPeriod") == null ? "" : criteriaMap.get("fromPeriod");
+		String toPeriod = criteriaMap.get("toPeriod") == null ? "" : criteriaMap.get("toPeriod");
 		String customViewMasterSid = criteriaMap.get("customViewName");
 		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
 		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
 		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
 		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
 		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
-		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		String comparisonBrand = criteriaMap.get("brand") == null ? "%" : criteriaMap.get("brand");
 		
+			
 		cffInputList.add("'"+workFlowStatus+"'");
+		cffInputList.add("'"+projectionName+"'");
+		cffInputList.add("'"+projectionDescription+"'");
+		getFromAndToPeriod(cffInputList, fromPeriod, toPeriod);
 		cffInputList.add("'"+customViewMasterSid+"'");
 		cffInputList.add("'"+contract+"'");
-		cffInputList.add("'"+marketType+"'");
-		cffInputList.add("'"+contractHolder+"'");
 		cffInputList.add("'"+ndcName+"'");
 		cffInputList.add("'"+comparisonNDC+"'");
-		cffInputList.add("'"+comparisonBrand+"'");
 		cffInputList.add(connection.getCatalog());
+		cffInputList.add("'"+marketType+"'");
+		cffInputList.add("'"+contractHolder+"'");
+		cffInputList.add("'"+comparisonBrand+"'");
 		return cffInputList;
 		} catch (SQLException e) {
 			gtnLogger.error(e + " ");
