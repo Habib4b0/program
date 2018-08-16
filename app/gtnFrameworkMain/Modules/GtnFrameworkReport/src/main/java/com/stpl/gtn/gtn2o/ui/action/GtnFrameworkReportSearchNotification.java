@@ -56,12 +56,5 @@ public class GtnFrameworkReportSearchNotification implements GtnUIFrameWorkActio
         }
     }
 
-    private Position getNotifPosition(List<Object> params) {
-        if (params.size() > 2 && params.get(2) != null) {
-            int value = Integer.parseInt(String.valueOf(params.get(2)));
-            Position position = value < 0 ? Position.BOTTOM_CENTER : Position.MIDDLE_CENTER;
-            return value > 0 ? Position.TOP_CENTER : position;
-        }
-        return Position.TOP_CENTER;
-    }
+   
 }
