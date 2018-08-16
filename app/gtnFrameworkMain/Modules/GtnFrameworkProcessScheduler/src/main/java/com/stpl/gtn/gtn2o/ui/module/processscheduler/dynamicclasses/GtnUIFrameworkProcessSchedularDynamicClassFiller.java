@@ -4,6 +4,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkGenerateCffOutBoundAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkMandatoryFieldSettingAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkRunButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkScheduledProcessTableDoubleClickAction;
@@ -32,6 +34,10 @@ public class GtnUIFrameworkProcessSchedularDynamicClassFiller implements GtnUIDy
 				new GtnFrameworkCffResultTableResetAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAdditionalSearchCriteriaAction.class.getName(),
 				new GtnFrameworkAdditionalSearchCriteriaAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDateFromToValidationAction.class.getName(),
+				new GtnFrameworkDateFromToValidationAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkGenerateCffOutBoundAction.class.getName(),
+				new GtnFrameworkGenerateCffOutBoundAction());
 
 	}
 

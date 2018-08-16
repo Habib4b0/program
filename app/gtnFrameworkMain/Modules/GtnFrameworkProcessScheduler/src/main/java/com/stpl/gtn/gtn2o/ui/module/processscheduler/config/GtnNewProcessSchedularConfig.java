@@ -129,25 +129,7 @@ public class GtnNewProcessSchedularConfig {
 
 		addManualProcessingPanel(componentList, processSchedularMainLayout.getComponentId());
 		addRunButton(componentList, processSchedularMainLayout.getComponentId());
-		//addCffOutBoundButton(componentList, processSchedularMainLayout.getComponentId());
-	}
-
-	private void addCffOutBoundButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
-		GtnUIFrameworkComponentConfig addButtonConfig = new GtnUIFrameworkComponentConfig();
-		addButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		addButtonConfig.setComponentId("CffOutBoundButton");
-		addButtonConfig.setComponentName("CFF_OUTBOUND");
-		addButtonConfig.setParentComponentId(parentComponentId);
-		addButtonConfig.setAddToParent(true);
-		componentList.add(addButtonConfig);
-
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<GtnUIFrameWorkActionConfig>();
-
-		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
-		navigationActionConfig.addActionParameter("V002");
-		actionConfigList.add(navigationActionConfig);
-		addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 	}
 
 	private void addManualProcessingPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {

@@ -20,6 +20,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkGenerateCffOutBoundAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -458,11 +460,10 @@ public class CffOutBoundLookUpConfig {
 		typeComboBoxConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.TYPE));
 		typeConfig.setGtnComboboxConfig(typeComboBoxConfig);
 
-		
-		  GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig(); 
-		  valConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		  typeConfig.setGtnUIFrameworkValidationConfig(valConfig);
-		  typeConfig.setGtnComboboxConfig(typeComboBoxConfig);
+		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
+		valConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		typeConfig.setGtnUIFrameworkValidationConfig(valConfig);
+		typeConfig.setGtnComboboxConfig(typeComboBoxConfig);
 
 	}
 
@@ -585,11 +586,11 @@ public class CffOutBoundLookUpConfig {
 		cffCreationDateFromConfig.setComponentWidth("100%");
 		cffCreationDateFromConfig.setParentComponentId(cffCreationDateFromLayout.getComponentId());
 		cffCreationDateFromConfig.setAddToParent(true);
-		
+
 		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
 		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		cffCreationDateFromConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
-		
+
 		componentList.add(cffCreationDateFromConfig);
 
 	}
@@ -736,11 +737,11 @@ public class CffOutBoundLookUpConfig {
 		cffApprovalDateFromConfig.setComponentWidth("100%");
 		cffApprovalDateFromConfig.setParentComponentId(cffApprovalDateFromLayout.getComponentId());
 		cffApprovalDateFromConfig.setAddToParent(true);
-		
+
 		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
 		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		cffApprovalDateFromConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
-		
+
 		componentList.add(cffApprovalDateFromConfig);
 
 	}
@@ -759,12 +760,12 @@ public class CffOutBoundLookUpConfig {
 		cffApprovalDateToConfig.setComponentWidth("100%");
 		cffApprovalDateToConfig.setParentComponentId(cffApprovalDateToLayout.getComponentId());
 		cffApprovalDateToConfig.setAddToParent(true);
-		
+
 		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
 		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		cffApprovalDateToConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
 		componentList.add(cffApprovalDateToConfig);
-		
+
 	}
 
 	private void addSearchResetButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
@@ -783,7 +784,7 @@ public class CffOutBoundLookUpConfig {
 		searchResetButtonLayout.setGtnLayoutConfig(searchResetButtonLayoutConfig);
 		componentList.add(searchResetButtonLayout);
 
-		//addSearchButton(componentList, searchResetButtonLayout.getComponentId());
+		// addSearchButton(componentList, searchResetButtonLayout.getComponentId());
 		addSearchButton(componentList, searchResetButtonLayout.getComponentId());
 		addResetButton(componentList, searchResetButtonLayout.getComponentId());
 	}
@@ -795,8 +796,7 @@ public class CffOutBoundLookUpConfig {
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig
 				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
-		loadDataTableActionConfig.setFieldValues(Arrays.asList(
-				GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
 				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
 				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
@@ -815,26 +815,27 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID,
 				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
 				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID
-				
-				/*GtnFrameworkProcessSchedulerStringContants.CFF_ID,
-				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
-				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
-				
-				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID*//*,
-				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
-				,
-				
-				*/));
+
+		/*
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
+		 * 
+		 * GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID
+		 *//*
+			 * , GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID, ,
+			 * 
+			 */));
 
 		validationActionSuccessConfigList.add(loadDataTableActionConfig);
 
@@ -884,13 +885,12 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
 				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID,
 				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID	
-				));
+				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID));
 
 		addValidationFailureActionConfigForSearchButton(validationActionFailureConfigList);
 		addValidationSuccessActionConfigForSearchButton(validationActionSuccessConfigList);
-		validationActionConfig.setActionParameterList(
-				Arrays.asList(GtnUIFrameworkValidationType.OR, validationActionFailureConfigList, validationActionSuccessConfigList));
+		validationActionConfig.setActionParameterList(Arrays.asList(GtnUIFrameworkValidationType.OR,
+				validationActionFailureConfigList, validationActionSuccessConfigList));
 
 		searchButtonActionConfigList.add(validationActionConfig);
 
@@ -909,12 +909,17 @@ public class CffOutBoundLookUpConfig {
 
 		List<GtnUIFrameWorkActionConfig> searchButtonActionConfigList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig dateValidationAction = new GtnUIFrameWorkActionConfig();
+		dateValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		dateValidationAction.addActionParameter(GtnFrameworkDateFromToValidationAction.class.getName());
+
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
 		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		actionConfig.addActionParameter(GtnFrameworkAdditionalSearchCriteriaAction.class.getName());
-		
-		searchButtonActionConfigList.add(actionConfig);
-		addValidationForSearchButon(searchButtonActionConfigList);
+
+		searchButtonActionConfigList.add(dateValidationAction);
+		// searchButtonActionConfigList.add(actionConfig);
+		// addValidationForSearchButon(searchButtonActionConfigList);
 
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchButtonActionConfigList);
 	}
@@ -956,8 +961,7 @@ public class CffOutBoundLookUpConfig {
 
 		GtnUIFrameWorkActionConfig tableLoadActionConfig = new GtnUIFrameWorkActionConfig();
 		tableLoadActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
-		tableLoadActionConfig
-				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
+		tableLoadActionConfig.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
 		tableLoadActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
 				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
 				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
@@ -966,17 +970,22 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
 				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
-				//GtnFrameworkProcessSchedulerStringContants.TYPE_ID,
+				GtnFrameworkProcessSchedulerStringContants.TYPE_ID,
 				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID/*,
-				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID*/));
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID/*
+																		 * , GtnFrameworkProcessSchedulerStringContants.
+																		 * CFF_APPROVAL_DATE_FROM_ID,
+																		 * GtnFrameworkProcessSchedulerStringContants.
+																		 * CFF_APPROVAL_DATE_TO_ID,
+																		 * GtnFrameworkProcessSchedulerStringContants.
+																		 * CFF_CREATION_DATE_FROM_ID,
+																		 * GtnFrameworkProcessSchedulerStringContants.
+																		 * CFF_CREATION_DATE_TO_ID
+																		 */));
 
 		GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
 		notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
@@ -1132,40 +1141,41 @@ public class CffOutBoundLookUpConfig {
 		searchResults.setEditable(false);
 		// searchResults.set
 
-		searchResults.setTableColumnDataType(new Class[] { Boolean.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, Date.class, Date.class,
-				String.class, String.class });
-		searchResults.setTableVisibleHeader(new String[] { "", "Financial Forecast ID", "Financial Forecast Name",
-				"Type", "Project ID", "Projection Name", "Year", "Month", "Contract ID", "Contract No", "Contract Name",
-				"Contract Type", "Contract Holder ID", "Contract Holder No", "Contract Holder Name", "Customer ID",
-				"Customer No", "Customer Name", "Item ID", "Item No", "Item Name", "Sales Dollars", "Sales Units",
-				"Sales Inclusion", "Deduction ID", "Deduction No", "Deduction Name", "Deduction Category",
-				"Deduction Type", "Deduction Program", "Deduction Inclusion", "Deduction Category 1",
-				"Deduction Category 2", "Deduction Category 3", "Deduction Category 4", "Deduction Category 5",
-				"Deduction Category 6", "Deduction Dollars", "Deduction Rate", "Deduction Per Unit", "Net Sales Dollar",
-				"COGS Amount", "COGS Per Unit", "Net Profit Dollars", "Net Profit Per Unit", "Company ID", "Company No",
-				"Company Name", "Business Unit ID", "Business Unit No", "Business Unit Name",
-				"Financial Forecast Creation Date", "Financial Forecast Approval Date", "Outbound Status",
-				"Original Batch ID" });
-		searchResults.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
-				"financialForecastId", "financialForecastName", "typeDesc", "projectionId", "projectionName", "year",
-				"month", "contractId", "contractNo", "contractName", "contractType", "contractHolderId",
-				"contractHolderNo", "contractHolderName", "customerId", "customerNo", "customerName", "itemId",
-				"itemNo", "itemName", "salesDollars", "salesUnits", "salesInclusion", "deductionId", "deductionNo",
-				"deductionName", "deductionCategory", "deductionType", "deductionProgram", "deductionInclusion",
-				"deductionCategoryOne", "deductionCategoryTwo", "deductionCategoryThree", "deductionCategoryFour",
-				"deductionCategoryFive", "deductionCategorySix", "deductionDollars", "deductionRate",
-				"deductionPerUnit", "netSalesDollar", "cogsAmount", "cogsPerUnit", "netProfitDollars",
-				"netProfitPerUnit", "companyId", "companyNo", "companyName", "businessUnitId", "businessUnitNo",
-				"businessUnitName", "financialForecastCreationDate", "financialForecastApprovalDate", "outboundStatus",
-				"originalBatchId" });
-		searchResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+		searchResults.setTableColumnDataType(new Class[] {/*Boolean.class,*/ String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, 
+				 String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				 String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class,Date.class, Date.class, String.class, String.class });
+		searchResults.setTableVisibleHeader(new String[] {/*"",*/ "Financial Forecast ID", "Financial Forecast Name", "Type",
+				"Projection ID", "Projection Name", "Year", "Month", "Contract ID", "Contract No", "Contract Name", "Contract Type", "Contract Holder ID",
+				 "Contract Holder No", "Contract Holder Name", "Customer ID", "Customer No", "Customer Name", "Item ID",
+				 "Item No", "Item Name", "Sales Dollars", "Sales Units", "Sales Inclusion", "Deduction ID", "Deduction No", "Deduction Name",
+				 "Deduction Category", "Deduction Type", "Deduction Program", "Deduction Inclusion", "Deduction Category 1", "Deduction Category 2",
+				 "Deduction Category 3", "Deduction Category 4", "Deduction Category 5", "Deduction Category 6", "Deduction Dollars", "Deduction Rate",
+				 "Deduction Per Unit", "Net Sales Dollar", "COGS Amount", "COGS Per Unit", "Net Profit Dollars", "Net Profit Per Unit",
+				 "Company ID", "Company No", "Company Name", "Business Unit ID", "Business Unit No", "Business Unit Name",
+				"Financial Forecast Creation Date", "Financial Forecast Approval Date", "Outbound Status", "Original Batch ID" });
+		searchResults.setTableColumnMappingId(new Object[] {/*GtnFrameworkCommonConstants.CHECK_RECORD_ID,*/ GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.TYPE_ID, GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID, "year", "month", "contractId", 
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
+				 GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
+				"contractType", "contractHolderId", "contractHolderNo", "contractHolderName", "customerId",
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
+				 GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID, "itemId",
+				 GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID, GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
+				 "salesDollars", "salesUnits", "salesInclusion", "deductionId", "deductionNo", "deductionName", "deductionCategory",
+				 "deductionType", "deductionProgram", "deductionInclusion", "deductionCategoryOne", "deductionCategoryTwo",
+				 "deductionCategoryThree", "deductionCategoryFour", "deductionCategoryFive", "deductionCategorySix", "deductionDollars",
+				 "deductionRate", "deductionPerUnit", "netSalesDollar", "cogsAmount", "cogsPerUnit", "netProfitDollars",
+				 "netProfitPerUnit", "companyId", GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID, GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
+				 "businessUnitId", GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID, GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
+				"financialForecastCreationDate", "financialForecastApprovalDate", "outboundStatus", "originalBatchId"});
+
+		
+		// searchResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		searchResults.setCountUrl(
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
 		searchResults.setResultSetUrl(
@@ -1239,6 +1249,13 @@ public class CffOutBoundLookUpConfig {
 		generateOutBoundButtonConfig.setParentComponentId(parentComponentId);
 		generateOutBoundButtonConfig.setAddToParent(true);
 		componentList.add(generateOutBoundButtonConfig);
+		
+		List<GtnUIFrameWorkActionConfig> generateActionList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig generateCffAction = new GtnUIFrameWorkActionConfig();
+		generateCffAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		generateCffAction.addActionParameter(GtnFrameworkGenerateCffOutBoundAction.class.getName());
+		generateActionList.add(generateCffAction);
+		generateOutBoundButtonConfig.setGtnUIFrameWorkActionConfigList(generateActionList);
 	}
 }

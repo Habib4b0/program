@@ -5,12 +5,16 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -57,6 +61,12 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 		gtnLogger.info("================= process sid: " + gtnWsRecordBean.getPropertyValueByIndex(3));
 
 		if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase((String)processName) || "CFF OUTBOUND INTERFACE".equalsIgnoreCase((String)processName)) {
+			List<Object> customDataList = new ArrayList<>();
+			customDataList.add(processSid);
+			customDataList.add(processName);
+			customDataList.add(schemaName);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MANUAL_RUN_ID).setCustomData(customDataList);
+			
 			GtnUIFrameWorkActionConfig popUpActionConfig = new GtnUIFrameWorkActionConfig();
 			popUpActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			popUpActionConfig.addActionParameter("V002");

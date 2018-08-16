@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.constants;
 
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 
 public class GtnFrameworkProcessSchedulerStringContants {
@@ -93,7 +94,10 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final String CFF_APPROVAL_DATE_TO_ID = "CffOutBound_cffApprovalDateTo";
 	public static final Object GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria ?";
 	public static final Object GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER = "Reset Confirmation";
-
+	public static final Object CFF_CREATION_DATE_VALIDATION_MESSAGE = "CFF Creation To date cannot be after CFF Creation From date";
+	public static final Object CFF_APPROVAL_DATE_VALIDATION_MESSAGE = "CFF Approval To date cannot be after CFF Approval From date";
+	
+	
 	private GtnFrameworkProcessSchedulerStringContants() {
 	}
 }
