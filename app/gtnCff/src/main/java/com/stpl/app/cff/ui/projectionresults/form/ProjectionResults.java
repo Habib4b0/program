@@ -202,7 +202,7 @@ public class ProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setDiscountList(new ArrayList<>(discountlist));
             projectionSelectionDTO.setCustomerLevelNo(NumericConstants.TWO);
             projectionSelectionDTO.setProductLevelNo(NumericConstants.TWO);
-            configureProjectionDTO();
+            configureProjectionResultsDTO();
             viewChange(false);
             groupChange(false);
         }
@@ -477,7 +477,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         tableVerticalLayout.removeComponent(exceltable);
     }
 
-    private void configureProjectionDTO() {
+    private void configureProjectionResultsDTO() {
 
         projectionSelectionDTO.setScreenName(screenName);
         projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());

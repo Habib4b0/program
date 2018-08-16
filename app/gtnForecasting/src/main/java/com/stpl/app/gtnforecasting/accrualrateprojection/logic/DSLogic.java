@@ -40,6 +40,9 @@ import org.apache.commons.lang.StringUtils;
  * @author gopinath
  */
 public class DSLogic {
+    
+    private static final String[] QUERYIDS = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
+    private static final String[] ACCURAL_TEMP = new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"};
 
     public void updateRebateValue(AccrualDataSelectionDTO dtoValue) {
         try {
@@ -268,9 +271,7 @@ public class DSLogic {
      */
     public void saveAccrualTab(SessionDTO session, final CountDownLatch latch) {
 
-        String[] queryIds = {"save-accrual-sales-actuals", "save-accrual-sales-details", "save-accrual-rate-actuals", "save-accrual-rate-details", "save-accrual-details-actuals", "save-accrual-details-info", "save-accrual-exclusion-details"};
-
-        for (String queryId : queryIds) {
+        for (String queryId : QUERYIDS) {
             Thread thread = new Thread(createRunnable(session, queryId, latch));
             thread.start();
         }
@@ -310,7 +311,7 @@ public class DSLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
         //To insert the merge table in trigger
-        for (String queryName : new String[]{"InsertAccrualTempExclusion", "InsertAccrualTempRateActuals", "InsertAccrualTempRateDetails", "InsertAccrualTempDetails"}) {
+        for (String queryName : ACCURAL_TEMP) {
             triggerThreadForMainTotempInsert(sessionDto, queryName);
         }
     }

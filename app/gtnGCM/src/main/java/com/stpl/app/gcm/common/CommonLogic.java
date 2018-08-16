@@ -1989,15 +1989,13 @@ public class CommonLogic {
     public void callDiscountTableInsert(final Object[] inputs, String procedureName) {
         LOGGER.debug("Entering callTableInsert");
 
-        Connection connection = null;
         CallableStatement statement = null;
-        DataSource datasource;
-        try {
+        DataSource datasource = null;
+        
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATA_POOL);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
 
             if (connection != null) {
                 LOGGER.debug(" Executing {} procedure ", procedureName);
@@ -2021,13 +2019,11 @@ public class CommonLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
         }
+    }
         LOGGER.debug("Exiting callTableInsert");
     }
 

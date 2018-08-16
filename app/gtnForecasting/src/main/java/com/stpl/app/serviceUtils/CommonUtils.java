@@ -166,6 +166,7 @@ public class CommonUtils {
     public static final String SELECT_ONE  = "Select One";
     public static final String INDICATOR_PERCENT = "%";
     public static final String INDICATOR_DOLLAR = "$";
+    private static final String[] MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     /**
      * Null representation of HelperDTO (Select one item)
      */
@@ -347,34 +348,32 @@ public class CommonUtils {
     }
     
         public static String replaceShortMonthForMonth(String periods) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return periods.replace(array[0], "M1")
-                .replace(array[1], "M2")
-                .replace(array[2], "M3")
-                .replace(array[3], "M4")
-                .replace(array[4], "M5")
-                .replace(array[5], "M6")
-                .replace(array[6], "M7")
-                .replace(array[7], "M8")
-                .replace(array[8], "M9")
-                .replace(array[9], "M10")
-                .replace(array[10], "M11")
-                .replace(array[11], "M12");
+        return periods.replace(MONTH[0], "M1")
+                .replace(MONTH[1], "M2")
+                .replace(MONTH[2], "M3")
+                .replace(MONTH[3], "M4")
+                .replace(MONTH[4], "M5")
+                .replace(MONTH[5], "M6")
+                .replace(MONTH[6], "M7")
+                .replace(MONTH[7], "M8")
+                .replace(MONTH[8], "M9")
+                .replace(MONTH[9], "M10")
+                .replace(MONTH[10], "M11")
+                .replace(MONTH[11], "M12");
     }
     public static String replaceIntegerForMonth(String periods) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return periods.replace(array[0], "1")
-                .replace(array[1], "2")
-                .replace(array[2], "3")
-                .replace(array[3], "4")
-                .replace(array[4], "5")
-                .replace(array[5], "6")
-                .replace(array[6], "7")
-                .replace(array[7], "8")
-                .replace(array[8], "9")
-                .replace(array[9], "10")
-                .replace(array[10], "11")
-                .replace(array[11], "12");
+        return periods.replace(MONTH[0], "1")
+                .replace(MONTH[1], "2")
+                .replace(MONTH[2], "3")
+                .replace(MONTH[3], "4")
+                .replace(MONTH[4], "5")
+                .replace(MONTH[5], "6")
+                .replace(MONTH[6], "7")
+                .replace(MONTH[7], "8")
+                .replace(MONTH[8], "9")
+                .replace(MONTH[9], "10")
+                .replace(MONTH[10], "11")
+                .replace(MONTH[11], "12");
     }
     
        public static String stringListToString(List<String> stringList) {

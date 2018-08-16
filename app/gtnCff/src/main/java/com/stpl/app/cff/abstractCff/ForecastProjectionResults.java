@@ -433,12 +433,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         levelFilterDdlb.setValue(SELECT_ONE);
         List<Leveldto> hierarchy = null;
         projectionSelectionDTO.getLevelDdlbMap().clear();
-        if (projectionSelectionDTO.isIsCustomHierarchy()) {
-           LOGGER.debug("Customer Hierarchy Selection");
-            levelDdlb.setEnabled(customId != 0);
-            levelFilterDdlb.setEnabled(false);
-            hierarchy = CommonLogic.getCustomTree(customId);
-        } else if ("C".equals(projectionSelectionDTO.getHierarchyIndicator())) {
+         if ("C".equals(projectionSelectionDTO.getHierarchyIndicator())) {
              LOGGER.debug("Customer C Hierarchy Selection");
             hierarchy = CommonLogic.getCustomerHierarchy(projectionId, projectionSelectionDTO.getCustomerLevelNo(),sessionDTO.getCustomerRelationVersion());
         } else if ("P".equals(projectionSelectionDTO.getHierarchyIndicator())) {
