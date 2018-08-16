@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableA
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportOptionsViewOptionsAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
@@ -503,6 +504,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		annualTotalsConfig.setComponentName("Annual Totals: ");
+                annualTotalsConfig.setEnable(false);
 		annualTotalsConfig.setAuthorizationIncluded(true);
 
 		componentList.add(annualTotalsConfig);
@@ -1063,17 +1065,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_AND_VARIANCE_SEQUENCING_LAYOUT,
 						GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableAndVarianceSequencingConfig.setComponentName("Variable & Variance Sequencing: ");
-		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);
+		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);                
                 variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-reportoptions-vseq");
-                variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-width-200");
 		componentList.add(variableAndVarianceSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		variableAndVarianceSequencingLoadConfig.setItemValues(Arrays.asList(1, 2));
+		variableAndVarianceSequencingLoadConfig.setItemValues(Arrays.asList(0, 1));
 		variableAndVarianceSequencingLoadConfig
 				.setItemCaptionValues(Arrays.asList(GtnFrameworkReportStringConstants.VARIABLE_VARIANCE,
 						GtnFrameworkReportStringConstants.VARIABLES_VARIANCES));
-		variableAndVarianceSequencingLoadConfig.setDefaultValue("Variable, Variance");
+		variableAndVarianceSequencingLoadConfig.setHasDefaultValue(true);
+		variableAndVarianceSequencingLoadConfig.setDefaultDesc(GtnFrameworkReportStringConstants.VARIABLE_VARIANCE);
 		variableAndVarianceSequencingConfig.setGtnComboboxConfig(variableAndVarianceSequencingLoadConfig);
 	}
 
@@ -1092,7 +1094,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		viewOptionsConfig.setComponentName("View Options: ");
 		viewOptionsConfig.setAuthorizationIncluded(true);
-		viewOptionsConfig.addComboComponentStyle("v-report-width-170");
+
 		componentList.add(viewOptionsConfig);
 
 		GtnUIFrameworkComboBoxConfig viewOptionsLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1150,17 +1152,18 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		headerSequencingConfig.setComponentName("Header Sequencing:     ");
                 headerSequencingConfig.addComponentStyle("v-report-reportoptions-hseq-combo");
 		headerSequencingConfig.setAuthorizationIncluded(true);
-		headerSequencingConfig.addComboComponentStyle("v-report-width-200");
+
 		componentList.add(headerSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig headerSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		headerSequencingLoadConfig.setItemValues(Arrays.asList(1, 2, 3, 4));
+		headerSequencingLoadConfig.setItemValues(Arrays.asList(0, 1, 2, 3));
 		headerSequencingLoadConfig
 				.setItemCaptionValues(Arrays.asList(GtnFrameworkReportStringConstants.TIME_VARIABLE_COMPARISON,
 						GtnFrameworkReportStringConstants.COMPARISON_VARIABLE_TIME,
 						GtnFrameworkReportStringConstants.COMPARISON_TIME_VARIABLE,
 						GtnFrameworkReportStringConstants.VARIABLE_COMPARISON_TIME));
-		headerSequencingLoadConfig.setDefaultValue("Comparison/Variable/Time");
+		headerSequencingLoadConfig.setHasDefaultValue(true);
+		headerSequencingLoadConfig.setDefaultDesc(GtnFrameworkReportStringConstants.COMPARISON_VARIABLE_TIME);
 		headerSequencingConfig.setGtnComboboxConfig(headerSequencingLoadConfig);
 	}
 
@@ -1178,7 +1181,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		displayFormatConfig.setComponentName("Display Format: ");
 		displayFormatConfig.setAuthorizationIncluded(true);
-		displayFormatConfig.addComboComponentStyle("v-report-width-170");
 
 		componentList.add(displayFormatConfig);
 
@@ -1271,6 +1273,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_AND_VARIANCE_SEQUENCING);
 		actionConfigList.add(tableLoadAction);
 
+		GtnUIFrameWorkActionConfig expandCollapseAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		expandCollapseAction.addActionParameter(GtnFrameworkReportOptionsViewOptionsAction.class.getName());
+		expandCollapseAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+		expandCollapseAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VIEW_OPTIONS);
+		actionConfigList.add(expandCollapseAction);
+		
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
@@ -1284,7 +1294,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig dashboardValuesResetAction = new GtnUIFrameWorkActionConfig();
 		dashboardValuesResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
-		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.REP_DASH_RESET_CONFIRMATION_MESSAGE);
+		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
 		List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig valuesResetAction = new GtnUIFrameWorkActionConfig();

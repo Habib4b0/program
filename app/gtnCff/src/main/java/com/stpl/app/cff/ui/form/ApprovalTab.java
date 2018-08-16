@@ -650,9 +650,11 @@ public class ApprovalTab extends CustomComponent {
              * @param buttonId The buttonId of the pressed button.
              */
             public void yesMethod() {
+                if (isFirst = false) {
                     submitLogic();
                     isFirst = true;
                     setIsFirst(isFirst);
+                }
             }
         }.getConfirmationMessage("Submit Confirmation",
                 "Are you sure you want to Submit the Forecast Workflow?");

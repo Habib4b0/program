@@ -40,7 +40,6 @@ public class GtnReportDataSelectionResetAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent("reportLandingScreen_publicViews",componentId).setV8PopupFieldValue("");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(1).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
-		 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(2).toString(),componentId)
 				.loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(3).toString(),componentId)
@@ -54,9 +53,9 @@ public class GtnReportDataSelectionResetAction
 		fromPeriodConfig.setHasDefaultValue(true);
 		fromPeriodConfig.setDefaultDesc("next");
 		
-		GtnUIFrameworkComboBoxComponent comboBoxComponent = new GtnUIFrameworkComboBoxComponent();
-		comboBoxComponent.reloadComponentFromParent("reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
-		
+		GtnUIFrameworkComboBoxComponent fromPeriod = new GtnUIFrameworkComboBoxComponent();
+		fromPeriod.reloadComponentFromParent("reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
+
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(6).toString(),componentId).setV8PopupFieldValue("");
 		String value = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(7).toString(),componentId).getCaptionFromV8ComboBox();
 		String value3 = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(8).toString(),componentId).getCaptionFromV8ComboBox();
@@ -124,9 +123,9 @@ public class GtnReportDataSelectionResetAction
 				.loadV8ComboBoxComponentValue("0");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(18).toString(),componentId).loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(19).toString(),componentId).setV8PopupFieldValue(" ");
-		comboBoxComponent.reloadComponentFromParent(actionParamsList.get(20).toString(), componentId, Arrays.asList(""));
-		comboBoxComponent.setFocusInComponent(GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(1).toString(),componentId).getComponent());
-		
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(20).toString(),componentId)
+				.loadV8ComboBoxComponentValue(0);
+
 	}
 
 	@Override

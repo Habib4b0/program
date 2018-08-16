@@ -53,13 +53,12 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 	private void managePpTableRecordType(GtnWsRecordBean record, GtnUIFrameworkBaseComponent tableBaseComponent)
 			throws GtnFrameworkValidationFailedException {
 		try {
-                        String mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
 			List<Object> psPriceProtectionRecordHeader = tableBaseComponent.getTableRecordHeader();
 			for (int i = 0; i < psPriceProtectionRecordHeader.size(); i++) {
 				Object psPriceProtectionPropertyId = psPriceProtectionRecordHeader.get(i);
 				Object psPriceProtectionValue = record.getPropertyValueByIndex(i);
 				if (GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12]
-						.equals(psPriceProtectionPropertyId) && mode.equalsIgnoreCase("Edit")) {
+						.equals(psPriceProtectionPropertyId)) {
 					psPriceProtectionValue = getFieldValue(record);
 				}
 				if (GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21]

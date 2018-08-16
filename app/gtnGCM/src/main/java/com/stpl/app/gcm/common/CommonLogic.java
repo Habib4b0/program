@@ -671,11 +671,8 @@ public class CommonLogic {
 
         final List<ContractsDetailsDto> ifpList = new ArrayList<>();
 		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
-                if(parent1 != null)
-                {
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
                 parent1.getSystemId()));
-                }
         ifpDynamicQuery.add(RestrictionsFactoryUtil
                 .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -743,11 +740,8 @@ public class CommonLogic {
 
         final List<ContractsDetailsDto> psList = new ArrayList<>();
 		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
-                if(parent1 != null)
-                {
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
                 parent1.getSystemId()));
-                }
         psDynamicQuery.add(RestrictionsFactoryUtil
                 .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -843,11 +837,8 @@ public class CommonLogic {
 
         final List<ContractsDetailsDto> rsList = new ArrayList<>();
 		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
-                if(parent1 != null)
-                {
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
                 parent1.getSystemId()));
-                }
         rsDynamicQuery.add(RestrictionsFactoryUtil
                 .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -1999,21 +1990,29 @@ public class CommonLogic {
         LOGGER.debug("Entering callTableInsert");
 
         CallableStatement statement = null;
+        DataSource datasource = null;
         
-          try (Connection connection = ((DataSource)new InitialContext().lookup(DATA_POOL)).getConnection()){
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATA_POOL);
+
+            if (connection != null) {
                 LOGGER.debug(" Executing {} procedure ", procedureName);
                 StringBuilder statementBuilder = new StringBuilder("{call ");
                 statementBuilder.append(procedureName).append("(?,?,?,?)}");
                 statement = connection.prepareCall(statementBuilder.toString());
+
                 statement.setObject(1, inputs[0]);
                 statement.setObject(NumericConstants.TWO, inputs[1]);
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
                 statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
                 statement.execute();
+            }
 
             LOGGER.debug("Ending {} Procedure", procedureName);
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
         } finally {
             try {
@@ -2024,9 +2023,10 @@ public class CommonLogic {
                 LOGGER.error(e.getMessage());
             }
         }
-          LOGGER.debug("Exiting callTableInsert");
     }
-        
+        LOGGER.debug("Exiting callTableInsert");
+    }
+
     public void mandatedTempToMainSave(String userId, String sessionId, int newProjectionID) {
         LOGGER.debug("Entering mandatedTempToMainSave");
         List input = new ArrayList();

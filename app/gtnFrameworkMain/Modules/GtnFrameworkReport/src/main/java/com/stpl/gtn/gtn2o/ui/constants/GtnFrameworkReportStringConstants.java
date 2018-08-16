@@ -67,8 +67,6 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
-        
-	public static final String REP_DASH_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Reporting Dashboard Selection section to the previous values?";
 
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
@@ -543,7 +541,7 @@ public final class GtnFrameworkReportStringConstants {
 			"createdDate", "modifiedDate" };
 
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
-			"businessUnit", "type", "version", "activeFrom", "toPeriod" ,"activeFile" };
+			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
 
 	private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList(
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",

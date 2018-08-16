@@ -729,7 +729,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         StringBuilder br=new StringBuilder();
         if(sessionDTO.getComparisonLookupData()!=null){
             for (Integer checkedSalesValue : pvSelectionDTO.getProjIdList()) {
-                br.append(checkedSalesValue).append(Constants.COMMA_CHAR);
+                br.append(checkedSalesValue).append(Constants.COMMA);
             }
         }
         return br.lastIndexOf(Constants.COMMA)!= -1 ?
@@ -761,6 +761,12 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void comparingFilterValuesForProcedure(CFFLogic cffLogicForTempTable,Object[] sortedListArray) {
+        LOGGER.info("Deduction"+sortedListArray[0]);
+        LOGGER.info("Deduction  "+tempdeductionLevel.equals(sortedListArray[0]));
+        LOGGER.info("tempProductLevel"+sortedListArray[1]);
+        LOGGER.info("tempProductLevel  "+tempProductLevel.equals(sortedListArray[1]));
+        LOGGER.info("tempCustomerLevel"+sortedListArray[2]);
+        LOGGER.info("tempCustomerLevel  "+tempCustomerLevel.equals(sortedListArray[2]));
         if(!tempdeductionLevel.equals(sortedListArray[0])
                 || !tempCustomerLevel.equals(sortedListArray[2])
                 || !tempProductLevel.equals(sortedListArray[1])){

@@ -1616,7 +1616,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             List<Object[]> list = ItemQueries.getItemData(getSessionInput(selection), "latestAndGreatestProjection", null);
             if (!list.isEmpty()) {
                 Object[] obj = list.get(0);
-                projectionId = obj[0] == null ? (Integer) 0 : (Integer) obj[0];
+                projectionId = obj[0] == null ? 0 : (Integer) obj[0];
                 forecastingType = obj[1] == null ? StringUtils.EMPTY : (String) obj[1];
             }
             List salesInput = new ArrayList();
