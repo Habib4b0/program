@@ -701,7 +701,6 @@ public class DataSelectionQueryUtils {
                      + session.getProjectionId();
          }
         }
-
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
@@ -714,14 +713,12 @@ public class DataSelectionQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
         DAO.executeBulkUpdateQuery(customSql);
         return "Success";
     }
 
     public List getNdcList(SessionDTO session) throws PortalException, SystemException {
         String sql = SQlUtil.getQuery(getClass(),"getNdcList");
-
 
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }

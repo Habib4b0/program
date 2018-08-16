@@ -86,7 +86,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -348,6 +347,7 @@ public class FileManagementLookup extends Window {
 	private Object itemId;
 	private String businessUnit;
 	public static final String UNIQUE_COMBINATION_ERROR = "Unique combination error";
+        private static final Object[] PRICE_DOLLARS = new Object[]{ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS};
 
 	public FileManagementLookup() {
 
@@ -2181,9 +2181,8 @@ public class FileManagementLookup extends Window {
 				}
 			});
 
-			final Object[] obj = new Object[] { ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS };
-			for (int i = 0; i < obj.length; i++) {
-				detailsFilterTable.setColumnAlignment(obj[i], ExtFilterTable.Align.RIGHT);
+			for (int i = 0; i < PRICE_DOLLARS.length; i++) {
+				detailsFilterTable.setColumnAlignment(PRICE_DOLLARS[i], ExtFilterTable.Align.RIGHT);
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
