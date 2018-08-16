@@ -56,7 +56,7 @@ public class GtnWebServiceArpWorkflowSearchConfig implements GtnWsSearchQueryCon
         return searchQueryConfigMap;
     }
 
-    private void addDetailsSearchFieldArpWorkflowInbox(Map<String, GtnWsColumnDetailsConfig> columnDetailsConfig) {
+    public static void addDetailsSearchFieldArpWorkflowInbox(Map<String, GtnWsColumnDetailsConfig> columnDetailsConfig) {
         GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
         columnDetailsConfig.put("contractId", configProvider.getColumnStringConfig("CONTRACT_ID", GtnWsWorkflowQueryContants.CNM));
         columnDetailsConfig.put("contractNo", configProvider.getColumnStringConfig("CONTRACT_NO", GtnWsWorkflowQueryContants.CNM));

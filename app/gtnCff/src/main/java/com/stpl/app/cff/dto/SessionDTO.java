@@ -6,7 +6,6 @@
 package com.stpl.app.cff.dto;
 
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
-import com.stpl.app.parttwo.model.CffCustomViewDetails;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import java.util.Collections;
@@ -68,6 +67,8 @@ public class SessionDTO implements Cloneable {
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
     private String dedRelationshipBuilderSid = StringUtils.EMPTY;
     private Map<String, String> customerDescription = new HashMap<>();
+    private Map<String, List> customDescription = new HashMap<>();
+    private Map<String, List> deductionLevelDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
     private Map<String, String> deductionDescription = new HashMap<>();
     private int customerHierarchyId;
@@ -105,7 +106,7 @@ public class SessionDTO implements Cloneable {
     private final Map<String, List> hierarchyLevelDetails = new LinkedHashMap<>();
     private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
     private int customId;
-    private Map<Integer, List<CffCustomViewDetails>> customDetailMap = new HashMap<>();
+    private Map<Integer, List<Object[]>> customDetailMap = new HashMap<>();
     private Future future;
     private boolean isDeductionCustom = false;
     private String salesInclusion = StringUtils.EMPTY;
@@ -119,7 +120,15 @@ public class SessionDTO implements Cloneable {
     private int customerRelationVersion = 0;
     private int productRelationVersion = 0;
     private int deductionRelationVersion = 0;
+    private int customViewMasterSid = 0;
+    private String comparisonLookupName = StringUtils.EMPTY;
+    private Object comparisonLookupData;
     private Date cffEligibleDate;
+    private String statusName= StringUtils.EMPTY;
+    private String priorProjectionId= StringUtils.EMPTY;
+    private String deductionName= StringUtils.EMPTY;
+    private int deductionNo;
+    private String levelHierarchyNo= StringUtils.EMPTY;
 
     public SessionDTO() {
         super();
@@ -837,11 +846,11 @@ public class SessionDTO implements Cloneable {
         this.customId = customId;
     }
 
-    public Map<Integer, List<CffCustomViewDetails>> getCustomDetailMap() {
+    public Map<Integer, List<Object[]>> getCustomDetailMap() {
         return customDetailMap;
     }
 
-    public void setCustomDetailMap(Map<Integer, List<CffCustomViewDetails>> customDetailMap) {
+    public void setCustomDetailMap(Map<Integer, List<Object[]>> customDetailMap) {
         this.customDetailMap = customDetailMap;
     }
 
@@ -963,5 +972,84 @@ public class SessionDTO implements Cloneable {
     public void setDeductionRelationVersion(int deductionRelationVersion) {
         this.deductionRelationVersion = deductionRelationVersion;
     }
-        
+
+    public int getCustomViewMasterSid() {
+        return customViewMasterSid;
+    }
+
+    public void setCustomViewMasterSid(int customViewMasterSid) {
+        this.customViewMasterSid = customViewMasterSid;
+    }
+
+    public String getComparisonLookupName() {
+        return comparisonLookupName;
+    }
+
+    public void setComparisonLookupName(String comparisonLookupdata) {
+        this.comparisonLookupName = comparisonLookupdata;
+    }
+    public Object getComparisonLookupData() {
+        return comparisonLookupData;
+    }
+
+    public void setComparisonLookupData(Object comparisonLookupData) {
+        this.comparisonLookupData = comparisonLookupData;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getPriorProjectionId() {
+        return priorProjectionId;
+    }
+
+    public void setPriorProjectionId(String priorProjectionId) {
+        this.priorProjectionId = priorProjectionId;
+    }
+
+    public String getDeductionName() {
+        return deductionName;
+    }
+
+    public void setDeductionName(String deductionName) {
+        this.deductionName = deductionName;
+    }
+
+    public int getDeductionNo() {
+        return deductionNo;
+    }
+
+    public void setDeductionNo(int deductionNo) {
+        this.deductionNo = deductionNo;
+    }
+
+    public String getLevelHierarchyNo() {
+        return levelHierarchyNo;
+    }
+
+    public void setLevelHierarchyNo(String levelHierarchyNo) {
+        this.levelHierarchyNo = levelHierarchyNo;
+    }
+
+    public Map<String, List> getCustomDescription() {
+        return customDescription;
+    }
+
+    public void setCustomDescription(Map<String, List> customDescription) {
+        this.customDescription = customDescription;
+    }
+    
+    public Map<String, List> getDeductionLevelDescription() {
+        return deductionLevelDescription;
+    }
+
+    public void setDeductionLevelDescription(Map<String, List> deductionLevelDescription) {
+        this.customDescription.putAll(deductionLevelDescription);
+    }
+
 }

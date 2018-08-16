@@ -149,7 +149,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     
     
     
-	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
+	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: {}";
     
     private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
 	/**

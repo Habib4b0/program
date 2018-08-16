@@ -2099,7 +2099,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         final String valueText = value.getValue();
         final String valueDdlbValue = String.valueOf(valueDdlb.getValue());
         try {
-            LOGGER.debug("fieldDdlb.getValue()-->>> = {}", selectedField);
             if (!valueText.matches("([0-9|\\.|])*")
                     && (valueText.length() - valueText.replace(".", StringUtils.EMPTY).length() > 1)) {
                 AbstractNotificationUtils.getErrorNotification(Constant.FIELD_ERROR, "Only Numbers are allowed");
@@ -2122,7 +2121,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } else {
                         checkedDiscountNames.addAll(projectionSelection.getDeductionLevelFilter());
                     }
-                    if (((valueDdlb != null && valueDdlb.getValue() != null && !valueDdlbValue.isEmpty()) 
+                    if (((valueDdlb != null && valueDdlb.getValue() != null && valueDdlbValue != null && !valueDdlbValue.isEmpty()) 
                             && selectedField.equals(Constant.GROUPFCAPS))
                             || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_RATE_LABEL))
                             || (!valueText.isEmpty() && selectedField.equals("RPU"))
@@ -5887,13 +5886,11 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
-                    } else {
-                        excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
-                    if (i == exportAt) {
-                        excel.exportMultipleTabs(true);
-                    } else {
-                        excel.exportMultipleTabs(false);
+                    if (i != 0 && excel != null) {
+                        excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        boolean export = i == exportAt;
+                        excel.exportMultipleTabs(export);
                     }
                 }
             } else {

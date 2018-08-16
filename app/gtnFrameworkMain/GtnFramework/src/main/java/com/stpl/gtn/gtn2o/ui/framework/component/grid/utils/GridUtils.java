@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;

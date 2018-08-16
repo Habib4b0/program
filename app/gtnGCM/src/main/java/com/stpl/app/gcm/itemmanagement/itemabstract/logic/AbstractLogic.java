@@ -1672,17 +1672,15 @@ public class AbstractLogic {
     }
 
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        Connection connection = null;
-        DataSource datasource;
+        DataSource datasource = null;
         CallableStatement statement = null;
         ResultSet rs = null;
         List<Object[]> objectList = new ArrayList<>();
-        try {
+        
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
             if (connection != null) {
                 StringBuilder procedureToCall = new StringBuilder("{call ");
                 procedureToCall.append(procedureName);
@@ -1719,21 +1717,18 @@ public class AbstractLogic {
                  LOGGER.error("",e);
             }
             try {
-                statement.close();
-            } catch (Exception e) {
-                 LOGGER.error("",e);
-            }
-            try {
-                connection.close();
-
-            } catch (Exception ex) {
-                LOGGER.error("",ex);
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
             }
            
         }
+        }
         return objectList;
     }
-
+        
     private static List<Object[]> convertResultSetToList(ResultSet rs) {
         List<Object[]> objList = new ArrayList<>();
 

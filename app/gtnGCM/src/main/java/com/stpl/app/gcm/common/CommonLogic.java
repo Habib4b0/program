@@ -77,6 +77,7 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
+import java.sql.SQLException;
 
 /**
  *
@@ -1988,15 +1989,13 @@ public class CommonLogic {
     public void callDiscountTableInsert(final Object[] inputs, String procedureName) {
         LOGGER.debug("Entering callTableInsert");
 
-        Connection connection = null;
         CallableStatement statement = null;
-        DataSource datasource;
-        try {
+        DataSource datasource = null;
+        
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATA_POOL);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
 
             if (connection != null) {
                 LOGGER.debug(" Executing {} procedure ", procedureName);
@@ -2017,16 +2016,14 @@ public class CommonLogic {
 			LOGGER.error(ex.getMessage());
         } finally {
             try {
-                statement.close();
-            } catch (Exception e) {
-				LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
-            } catch (Exception e) {
-				LOGGER.error(e.getMessage());
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
             }
         }
+    }
         LOGGER.debug("Exiting callTableInsert");
     }
 

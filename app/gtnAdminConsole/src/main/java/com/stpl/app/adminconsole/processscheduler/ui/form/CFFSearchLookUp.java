@@ -327,10 +327,10 @@ public class CFFSearchLookUp extends Window {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if ((boolean) checkbox.getValue()) {
-                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (boolean) checkbox.getValue());
+                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (Boolean) checkbox.getValue());
                                     processSchedulerDTO.setCheckRecord(true);
                                 } else if (!processSchedulerDTO.getCheckRecord()) {
-                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (boolean) checkbox.getValue());
+                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (Boolean) checkbox.getValue());
                                     processSchedulerDTO.setCheckRecord(false);
                                 }
                             }

@@ -144,7 +144,11 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		List<String> projectionNameListFromCustomData = new ArrayList<>(comparisonLookupBeanList.size() + 2);
 		projectionNameListFromCustomData.clear();
 		projectionNameListFromCustomData.add("Ex-Factory Sales");
-		projectionNameListFromCustomData.add("Latest Approved");
+		
+		String reportdata = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(8).toString()).getCaptionFromV8ComboBox();
+		if(!"3".equals(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(8).toString()).getCaptionFromV8ComboBox())){
+			projectionNameListFromCustomData.add("Latest Approved");
+		}
 
 		for (int count = 0; count < finalArrayListforGrid.size(); count++) {
 			projectionNameListFromCustomData.add(finalArrayListforGrid.get(count).getProjectionName());

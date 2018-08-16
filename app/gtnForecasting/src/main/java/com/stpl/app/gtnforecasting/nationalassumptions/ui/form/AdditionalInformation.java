@@ -225,6 +225,7 @@ public class AdditionalInformation extends CustomComponent {
      */
     private final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
 
+    private static final String[] ADD_ATTACHMENT_FORMAT = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
     /**
      * Instantiates a new additional information.
      */
@@ -310,10 +311,7 @@ public class AdditionalInformation extends CustomComponent {
             public void uploadStarted(Upload.StartedEvent event) {
                 LOGGER.debug("uploadStarted method in addStartedListener started");
                 String fileName = event.getFilename();
-
-                String[] format = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
-                List<String> formatList = Arrays.asList(format);
-
+                List<String> formatList = Arrays.asList(ADD_ATTACHMENT_FORMAT);
                 if (StringUtils.isBlank(event.getFilename()) || StringUtils.isBlank(uploader.getValue())) {
                     AbstractNotificationUtils.getErrorNotification("Add attachment", "There is no file to add. Please locate a file to upload.");
                     uploadReceiver.setUpload(false);
@@ -337,8 +335,7 @@ public class AdditionalInformation extends CustomComponent {
                 try {
                     LOGGER.debug("uploadSucceeded method in addSucceededListener started , the user id is= {} " , userId);
                     String fileName = event.getFilename();
-                    String[] format = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
-                    List<String> formatList = Arrays.asList(format);
+                    List<String> formatList = Arrays.asList(ADD_ATTACHMENT_FORMAT);
                     if (StringUtils.isNotBlank(event.getFilename()) && StringUtils.isNotBlank(uploader.getValue()) && formatList.contains(fileName.substring(fileName.lastIndexOf('.') + 1))) {
                         Object[] items = attachmentsListBean.getItemIds().toArray();
                         for (Object item : items) {

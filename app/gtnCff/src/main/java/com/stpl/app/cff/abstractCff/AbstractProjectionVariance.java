@@ -9,6 +9,7 @@ import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
+import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
@@ -18,6 +19,7 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.LabelConstants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOM;
+import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -280,6 +282,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected String screenName;
     protected int customIdToSelect = 0;
     protected boolean generated = false;
+    protected boolean isAlreadyLoaded = false;
     protected int customId = 0;
     /**
      * Logger for ForecastProjectionVariance
@@ -679,36 +682,21 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     }
 
     protected void loadCustomDDLB() {
+        Map<String,String> customViewInput=new HashMap<>();
+        customViewInput.put(ConstantsUtil.CUSTOMER_SID_LITERAL,sessionDTO.getCustRelationshipBuilderSid());
+        customViewInput.put(ConstantsUtil.CUSTVER,String.valueOf(sessionDTO.getCustomerRelationVersion()));
+        customViewInput.put(ConstantsUtil.PROD_SID_LITERAL,sessionDTO.getProdRelationshipBuilderSid());
+        customViewInput.put(ConstantsUtil.PRODVER,String.valueOf(sessionDTO.getProductRelationVersion()));
         LOGGER.debug("projection variance loadCustomDDLB initiated ");
         customDdlb.setEnabled(true);
         editViewBtn.setEnabled(false);
-        addViewBtn.setEnabled(true);
-        if (!generated) {
+        if (!isAlreadyLoaded) {
             customDdlb.removeAllItems();
             customDdlb.addItem(SELECT_ONE);
             customDdlb.setNullSelectionItemId(SELECT_ONE);
-            customViewList = CommonLogic.getCustomViewList(sessionDTO.getProjectionId());
-            if (customViewList != null) {
-
-                Object select = null;
-                for (CffCustomViewMaster obj : customViewList) {
-                    int customSid = obj.getCffCustomViewMasterSid();
-                    Object itemId = customSid;
-                    if (customIdToSelect == customSid) {
-                        select = itemId;
-                    }
-                    customDdlb.addItem(itemId);
-                    customDdlb.setItemCaption(itemId, obj.getViewName());
-                }
-                if (select == null) {
-                    levelDdlb.setEnabled(false);
-                    customDdlb.setValue(SELECT_ONE);
-                } else {
-                    levelDdlb.setEnabled(true);
-                    customDdlb.select(customIdToSelect);
-                }
-            }
-
+            new CFFLogic().loadCustomViewValues(customDdlb,customViewInput,false);
+            customDdlb.select(sessionDTO.getCustomViewMasterSid());
+            isAlreadyLoaded=true;
         }
         LOGGER.debug("projection variance  loadCustomDDLB ends ");
     }
@@ -738,7 +726,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
             if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
                 customDdlb.setEnabled(false);
                 editViewBtn.setEnabled(false);
-                addViewBtn.setEnabled(false);
             }
         } else {
             levelDdlb.setEnabled(true);
@@ -748,7 +735,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
             view.setEnabled(true);
             if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
                 customDdlb.setEnabled(true);
-                addViewBtn.setEnabled(true);
             }
         }
     }
@@ -803,5 +789,9 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
                 variablesList.add(str.split("\\.")[1]);
             }
         return variablesList;
+    }
+
+    public CustomTextField getComparison() {
+        return comparison;
     }
 }

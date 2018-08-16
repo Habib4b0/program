@@ -33,6 +33,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
+        
+        public static final String QUARTER = "Quarter";
 
 	public static final String SELECT_ONE_PLACE_HOLDER = "-Select One-";
 
@@ -65,6 +67,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
+        
+	public static final String REP_DASH_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Reporting Dashboard Selection section to the previous values?";
 
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
