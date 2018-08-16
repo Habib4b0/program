@@ -933,14 +933,14 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
     @Override
     public void expandButtonLogic() {
-        if (level.getValue() != null && !SELECT_ONE.equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
+        if (level.getValue() != null && !SELECT_ONE.getConstant().equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
             expandCollapseLevelOption(true, level.getValue());
         }
     }
 
     @Override
     public void collapseButtonLogic() {
-        if (level.getValue() != null && !SELECT_ONE.equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
+        if (level.getValue() != null && !SELECT_ONE.getConstant().equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
             expandCollapseLevelOption(false, level.getValue());
         }
     }

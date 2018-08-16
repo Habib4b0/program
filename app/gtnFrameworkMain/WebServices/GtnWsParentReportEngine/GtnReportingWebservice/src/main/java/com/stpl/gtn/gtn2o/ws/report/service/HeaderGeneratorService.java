@@ -155,7 +155,7 @@ public class HeaderGeneratorService {
 			generateColumn(variablesHeader, variablesColumn);
 			generateColumn(variableCategoryHeader, variableCategoryColumn);
 
-			int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
+			int headerSequence = dashboardBean.getHeaderSequence();
 			boolean isVariableOnly_Allowed = comparisonBasisHeader.length > 1
 					&& Arrays.asList(variablesHeader).contains("Deduction % of Ex-Factory")
 					&& Arrays.asList(variableCategoryHeader).contains("Variance");
@@ -179,21 +179,21 @@ public class HeaderGeneratorService {
 			}
 
 			switch (headerSequence) {
-			case 1:// 1. Time/Variable/Comparison
+			case 0:// 0. Time/Variable/Comparison
 				createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
 						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO,
 						headerSequence);
 				break;
-			case 2:// 2. Comparison/Variable/Time
+			case 1:// 1. Comparison/Variable/Time
 				createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
 						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence);
 				break;
-			case 3:// 3. Comparison/Time/Variable
+			case 2:// 2. Comparison/Time/Variable
 				createTableHeader(combinedVariableCategoryColumn, periodColumn, comparisonBasisColumn,
 						combinedVariableCategoryHeader, periodHeader, comparisonBasisHeader, tableHeaderDTO,
 						headerSequence);
 				break;
-			case 4:// 4. Variable/Comparison/Time
+			case 3:// 3. Variable/Comparison/Time
 				createTableHeader(periodColumn, comparisonBasisColumn, combinedVariableCategoryColumn, periodHeader,
 						comparisonBasisHeader, combinedVariableCategoryHeader, tableHeaderDTO, headerSequence);
 				break;
@@ -461,25 +461,25 @@ public class HeaderGeneratorService {
 			int headerSequence) {
 		StringBuilder singleColumnValue = new StringBuilder();
 		switch (headerSequence) {
-		case 1:// 1. Time/Variable/Comparison
+		case 0:// 0. Time/Variable/Comparison
 			singleColumnValue.append(tripleColumn);
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(singleColumn);
 			break;
-		case 2:// 2. Comparison/Variable/Time
+		case 1:// 1. Comparison/Variable/Time
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
-		case 3:// 3. Comparison/Time/Variable
+		case 2:// 2. Comparison/Time/Variable
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
-		case 4:// 4. Variable/Comparison/Time
+		case 3:// 3. Variable/Comparison/Time
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append(tripleColumn);
 			singleColumnValue.append("_");

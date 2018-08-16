@@ -656,7 +656,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        LOGGER.info("Excel Query-------------------------------------------------"+aaa);
+        LOGGER.info("Excel Query-------------------------------------------------{} ", aaa);
         return list;
         }
 
@@ -4519,19 +4519,19 @@ public class SalesLogic {
     }
 
     public Leveldto getCustomizedView(Object[] obj, boolean isHierarchy) {
-        Leveldto dto = new Leveldto();
-        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
-        dto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-        dto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
-        dto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
+        Leveldto customViewDto = new Leveldto();
+        customViewDto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
+        customViewDto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+        customViewDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
+        customViewDto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
         if (isHierarchy) {
-            dto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
+            customViewDto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
         } else {
-            dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
-            dto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
-            dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
+            customViewDto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
+            customViewDto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
+            customViewDto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
         }
-        return dto;
+        return customViewDto;
     }
 
     public int getLevelListCount(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, SessionDTO session) {

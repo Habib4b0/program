@@ -1533,7 +1533,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     protected void levelFilterValueChangeLogic(Property.ValueChangeEvent event) {
         LOGGER.debug("levelFilterDdlbChangeOption inititated= {} " , levelFilterDdlb.getValue());
         tableLogic.setRefresh(false);
-        if (SELECT_ONE.equals(levelFilterDdlb.getValue()) || levelFilterDdlb.getValue() == null) {
+        if (SELECT_ONE.getConstant().equals(levelFilterDdlb.getValue()) || levelFilterDdlb.getValue() == null) {
             projectionDTO.setIsFilter(false);
             projectionDTO.setCustomFlag(true);
             tableLogic.clearAll();
@@ -1622,7 +1622,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     @Override
     protected void massCheckValueChangeLogic(Property.ValueChangeEvent event) {
         LOGGER.debug(" massUpdate ValueChangeEvent initiated ");
-        if (Constant.LabelConstants.DISABLE.equals(massCheck.getValue())) {
+        if (Constant.LabelConstants.DISABLE.getConstant().equals(massCheck.getValue())) {
             enableOrDisable(false);
         } else {
             enableOrDisable(true);

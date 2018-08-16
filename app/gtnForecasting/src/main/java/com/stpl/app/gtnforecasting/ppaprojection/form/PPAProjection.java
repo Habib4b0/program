@@ -1431,7 +1431,7 @@ public class PPAProjection extends CustomComponent implements View {
     @UiHandler("massUpdate")
     public void massUpdate(Property.ValueChangeEvent event) {
         LOGGER.debug("massupdate click listener starts");
-        if ((Constant.LabelConstants.DISABLE).equals(massUpdate.getValue())) {
+        if ((Constant.LabelConstants.DISABLE.getConstant()).equals(massUpdate.getValue())) {
 
             fieldDdlb.setEnabled(BooleanConstant.getFalseFlag());
             valueDdlb.setEnabled(BooleanConstant.getFalseFlag());

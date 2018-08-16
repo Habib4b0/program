@@ -80,6 +80,8 @@ public class NotesTabForm extends AbstractNotesTab {
 	private CffApprovalDetailsForm approvalWindow;
 	private final Button close = new Button("Close");
 	private static final String MODULE_NAME = "Consolidated Financial Forecast";
+        private static final Object[] NOTES_COLUMN = new Object[] { "documentName", "dateAdded", "userName" };
+        private static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
 	
 	
 
@@ -94,11 +96,10 @@ public class NotesTabForm extends AbstractNotesTab {
 
 		final String vUserId = String.valueOf(
 				VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));
-		Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
-		String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
+		
 		table.setContainerDataSource(attachmentsListBean);
-		table.setVisibleColumns(obj);
-		table.setColumnHeaders(objHeaders);
+		table.setVisibleColumns(NOTES_COLUMN);
+		table.setColumnHeaders(NOTES_HEADERS);
 		vlayout.setSpacing(true);
 		vlayout.setMargin(true);
 		configureFields();

@@ -682,6 +682,7 @@ public final class ConstantsUtils {
     public static final String SYS_SCHEMA = "sys.schema.jndi.name";
     public static final String DED_CONDITION = "%Deduction%";
     public static final String PR = "PR";
+  
     
     public enum IndicatorConstants {
 

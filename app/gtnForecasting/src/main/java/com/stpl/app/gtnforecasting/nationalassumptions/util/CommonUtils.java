@@ -110,7 +110,7 @@ public class CommonUtils {
     private static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String TWENTYNINEPX = "29px";
-
+    private static final String[] MONTH_ARRAY = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     
     /**
      * Creates the clara.
@@ -338,8 +338,7 @@ public class CommonUtils {
     }
 
     public static int getIntegerForMonth(String month) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return Arrays.asList(array).indexOf(month) + 1;
+        return Arrays.asList(MONTH_ARRAY).indexOf(month) + 1;
     }
     
      public static String[] objectListToStringArray(List<Object> objectList) {
