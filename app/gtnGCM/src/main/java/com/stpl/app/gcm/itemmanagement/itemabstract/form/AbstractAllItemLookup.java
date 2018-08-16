@@ -44,7 +44,7 @@ public class AbstractAllItemLookup extends CustomWindow {
     private final Button export = new Button(StringUtils.EMPTY);
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private ExtCustomTable exportPeriodViewTable;
-    private static final String excelName = "All Item Information";
+    private static final String EXCEL_NAME = "All Item Information";
     private BeanItemContainer<ItemIndexDto> excelResultBean = new BeanItemContainer<>(ItemIndexDto.class);
 
     public AbstractAllItemLookup() {
@@ -108,7 +108,7 @@ public class AbstractAllItemLookup extends CustomWindow {
     public void itemInfoExport() {
         configureExcelResultTable();
         excelResultBean.addAll(selecteditemList);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), EXCEL_NAME, EXCEL_NAME, EXCEL_NAME.replace(' ', '_') + ".xls", false);
         excel.export();
         layout.removeComponent(exportPeriodViewTable);
     }

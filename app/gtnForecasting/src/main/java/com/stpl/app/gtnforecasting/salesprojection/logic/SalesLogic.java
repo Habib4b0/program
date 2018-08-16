@@ -599,7 +599,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        
+        LOGGER.info("UI Query-------------------------------------------------"+aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
     
@@ -616,6 +616,7 @@ public class SalesLogic {
         sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #ST_NM_SALES_PROJECTION_MASTER ");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
+        LOGGER.info("Excel Query-------------------------------------------------"+query);
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
     }
@@ -4519,19 +4520,19 @@ public class SalesLogic {
     }
 
     public Leveldto getCustomizedView(Object[] obj, boolean isHierarchy) {
-        Leveldto dto = new Leveldto();
-        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
-        dto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-        dto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
-        dto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
+        Leveldto customViewDto = new Leveldto();
+        customViewDto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
+        customViewDto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+        customViewDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
+        customViewDto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
         if (isHierarchy) {
-            dto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
+            customViewDto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
         } else {
-            dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
-            dto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
-            dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
+            customViewDto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
+            customViewDto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
+            customViewDto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
         }
-        return dto;
+        return customViewDto;
     }
 
     public int getLevelListCount(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, SessionDTO session) {

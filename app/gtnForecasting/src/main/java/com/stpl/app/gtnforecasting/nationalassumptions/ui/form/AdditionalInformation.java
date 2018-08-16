@@ -225,7 +225,7 @@ public class AdditionalInformation extends CustomComponent {
      */
     private final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
 
-    private final String[] ADD_ATTACHMENT_FORMAT = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
+    private static final String[] ADD_ATTACHMENT_FORMAT = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
     /**
      * Instantiates a new additional information.
      */

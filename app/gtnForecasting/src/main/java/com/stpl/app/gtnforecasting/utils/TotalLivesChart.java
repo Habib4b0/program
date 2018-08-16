@@ -5,11 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
