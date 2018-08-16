@@ -29,7 +29,7 @@ import java.util.TimeZone;
 import org.asi.calendarfield.client.CalendarFieldState;
 import org.asi.calendarfield.client.CalenderFieldUtil;
 import org.asi.calendarfield.client.CalenderFieldUtil.CalendarDate;
-
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -38,7 +38,6 @@ import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
 import com.vaadin.shared.Registration;
-import com.vaadin.shared.ui.datefield.DateFieldConstants;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.LegacyComponent;
 
@@ -55,7 +54,8 @@ public class CalendarField extends AbstractField<List>
 	private static final long serialVersionUID = 1L;
 
 	public CalendarField() {
-		setValue(new ArrayList());//check now, ok, but if you dont pass false here , then it will take false 
+		setValue(new ArrayList());// check now, ok, but if you dont pass false
+									// here , then it will take false
 	}
 
 	public CalendarField(String caption) {
@@ -130,12 +130,12 @@ public class CalendarField extends AbstractField<List>
 	}
 
 	public List<Date> getDisabledDates() {
-		
+
 		return disableDates;
 	}
 
 	public void setDisableDates(Date... dates) {
-		
+
 		List<Date> disableDatesList = new LinkedList<>(Arrays.asList(dates));
 		this.disableDates = disableDatesList;
 		markAsDirty();
@@ -185,21 +185,22 @@ public class CalendarField extends AbstractField<List>
 	public void setSelectedWeekDays(WeekDay... days) {
 
 		List<WeekDay> removedWeekDays = new ArrayList<>(this.selectedWeekDays);
-		
+
 		this.selectedWeekDays = new ArrayList<>(Arrays.asList(days));
-		
+
 		updateDateValue = true;
 		if (isUpdateDateValue() || updateDateValue) {
 			boolean update = updateSelectedDays(removedWeekDays, new ArrayList<Integer>());
 			if (update) {
-		
+
 				updateValue();
 			}
 		}
 	}
-	public void clearSelectedWeekDays(){
+
+	public void clearSelectedWeekDays() {
 		if (selectedWeekDays != null) {
-			selectedWeekDays.clear(); 
+			selectedWeekDays.clear();
 		}
 	}
 
@@ -215,11 +216,12 @@ public class CalendarField extends AbstractField<List>
 		}
 		super.setValue(new ArrayList(), false);
 	}
+
 	public void clearSelectedValue() {
 		if (disableDates != null) {
 			disableDates.clear();
 		}
-		
+
 		super.setValue(new ArrayList(), false);
 	}
 
@@ -277,10 +279,36 @@ public class CalendarField extends AbstractField<List>
 		if ((!selectedWeekDays.isEmpty() || !selectedMonthlyDays.isEmpty() || !removeWeekDays.isEmpty()
 				|| !removeMonthlyDays.isEmpty()) && getState(false).rangeStart != null
 				&& getState(false).rangeEnd != null) {
-			CalendarDate startDate = CalenderFieldUtil.getCalendarDate(getState(false).rangeStart);
-			CalendarDate endDate = CalenderFieldUtil.getCalendarDate(getState(false).rangeEnd);
-			CalendarDate dt = (CalendarDate) startDate.clone();
-			while (dt.before(endDate) || dt.toString().equals(endDate.toString())) {
+
+			// Modified for Upgrading to vaadin 8.5.1 ---Start---
+
+			CalendarDate startDate1 = null;
+			CalendarDate endDate1 = null;
+
+			try {
+				String rangeStart1 = getState(false).rangeStart;
+				String rangeEnd1 = getState(false).rangeEnd;
+
+				DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+				Date rangeStartDate = dateTimeFormat.parse(rangeStart1);
+				Date rangeEndDate = dateTimeFormat.parse(rangeEnd1);
+
+				startDate1 = CalenderFieldUtil.getCalendarDate(rangeStartDate);
+				endDate1 = CalenderFieldUtil.getCalendarDate(rangeEndDate);
+
+			} catch (Exception e) {
+				System.out.println("Error in Parsing: " + e);
+			}
+
+			// CalendarDate startDate =
+			// CalenderFieldUtil.getCalendarDate(getState(false).rangeStart);
+			// CalendarDate endDate =
+			// CalenderFieldUtil.getCalendarDate(getState(false).rangeEnd);
+
+			// -------------------End--------------------------
+
+			CalendarDate dt = (CalendarDate) startDate1.clone();
+			while (dt.before(endDate1) || dt.toString().equals(endDate1)) {
 				boolean pass = false;
 				if (isAcceptedRemovedWeekDays(dt.getDay(), removeWeekDays)
 						|| isAcceptedRemovedMonthlyDays(dt.getDate(), removeMonthlyDays)) {
@@ -354,7 +382,7 @@ public class CalendarField extends AbstractField<List>
 			target.addAttribute("strict", true);
 		}
 
-		target.addAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS, isShowISOWeekNumbers());
+		target.addAttribute("wn", isShowISOWeekNumbers());
 		if (focusYear != null) {
 			target.addAttribute("focusYear", focusYear);
 		}
@@ -427,10 +455,28 @@ public class CalendarField extends AbstractField<List>
 	 *            - the allowed range's start date
 	 */
 	public void setRangeStart(Date startDate) {
-		if (startDate != null && getState().rangeEnd != null && startDate.after(getState().rangeEnd)) {
+
+		// Modified for Upgrading to vaadin 8.5.1 ---Start---
+		Date rangeEndDate1 = null;
+
+		try {
+			String rangeEnd1 = getState().rangeEnd;
+
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+			rangeEndDate1 = dateTimeFormat.parse(rangeEnd1);
+
+		} catch (Exception e) {
+			System.out.println("Error in Parsing: " + e);
+		}
+
+		//if (startDate != null && getState().rangeEnd != null && startDate.after(getState().rangeEnd)) {
+		if (startDate != null && getState().rangeEnd != null && startDate.after(rangeEndDate1)) {
 			throw new IllegalStateException("startDate cannot be later than endDate");
 		}
-		getState().rangeStart = startDate;
+		//getState().rangeStart = startDate;
+		getState().rangeStart = startDate.toString();
+		
+		// -------------------End--------------------------
 	}
 
 	/**
@@ -444,10 +490,24 @@ public class CalendarField extends AbstractField<List>
 	 *            current resolution)
 	 */
 	public void setRangeEnd(Date endDate) {
-		if (endDate != null && getState().rangeStart != null && getState().rangeStart.after(endDate)) {
+		
+		Date rangeStartDate1 = null;
+
+		try {
+			String rangeStart1 = getState().rangeStart;
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+			rangeStartDate1 = dateTimeFormat.parse(rangeStart1);
+
+		} catch (Exception e) {
+			System.out.println("Error in Parsing: " + e);
+		}
+		
+		//if (endDate != null && getState().rangeStart != null && getState().rangeStart.after(endDate)) {
+		if (endDate != null && getState().rangeStart != null && rangeStartDate1.after(endDate)) {
 			throw new IllegalStateException("endDate cannot be earlier than startDate");
 		}
-		getState().rangeEnd = endDate;
+//		getState().rangeEnd = endDate;
+		getState().rangeEnd = endDate.toString();
 	}
 
 	/**
@@ -457,7 +517,7 @@ public class CalendarField extends AbstractField<List>
 	 *
 	 */
 
-	public Date getRangeStart() {
+	public String getRangeStart() {
 		return getState(false).rangeStart;
 	}
 
@@ -466,7 +526,7 @@ public class CalendarField extends AbstractField<List>
 	 *
 	 * @param startDate
 	 */
-	public Date getRangeEnd() {
+	public String getRangeEnd() {
 		return getState(false).rangeEnd;
 	}
 
@@ -520,7 +580,7 @@ public class CalendarField extends AbstractField<List>
 		 * 
 		 * 
 		 */
-		
+
 		if (newValue == null) {
 			newValue = new ArrayList();
 		}

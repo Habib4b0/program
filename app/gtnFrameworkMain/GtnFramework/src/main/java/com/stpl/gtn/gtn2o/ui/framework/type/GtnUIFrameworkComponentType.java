@@ -13,7 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcel
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkTreeGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid.GtnUIFrameworkPagedGridComponent;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreegrid.GtnUIFrameworkPagedTreeGridComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid.GtnUIFrameworkPagedTreeGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.inlinedate.GtnFrameworkInlineDateComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.error.GtnUIFrameworkErrorBannerComponent;

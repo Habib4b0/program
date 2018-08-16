@@ -416,7 +416,6 @@ public class ParityLookup extends Window {
             errorMsg.addStyleName("red");
             errorMsg.addStyleName("align-left");
             errorMsg.setVisible(true);
-            errorMsg.setImmediate(true);     
         }
         brandName.setValidationVisible(true);
         ndc.setValidationVisible(true);
