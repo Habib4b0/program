@@ -18,10 +18,12 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -183,7 +185,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(cffIdLayout);
 
 		GtnUIFrameworkComponentConfig cffIdConfig = new GtnUIFrameworkComponentConfig();
-		cffIdConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		cffIdConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		cffIdConfig.setComponentName("CFF ID ");
 		cffIdConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_ID);
 		cffIdConfig.setComponentWidth("100%");
@@ -194,8 +196,8 @@ public class CffOutBoundLookUpConfig {
 		GtnUIFrameworkValidationConfig cffIdValidationConfig = new GtnUIFrameworkValidationConfig();
 		cffIdValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		cffIdValidationConfig.setAttachRegxValidatior(true);
-		cffIdValidationConfig.setRegxValidationMessage("CFF ID Should be within 50 Characters");
-		cffIdValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MAX_50_CHARACTER);
+		cffIdValidationConfig.setRegxValidationMessage("CFF ID Should be within 50 Numeric Characters");
+		cffIdValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MAX_50_NUMERIC_CHARACTER);
 		cffIdConfig.setGtnUIFrameworkValidationConfig(cffIdValidationConfig);
 
 	}
@@ -209,7 +211,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(projectionIdLayout);
 
 		GtnUIFrameworkComponentConfig projectionIdConfig = new GtnUIFrameworkComponentConfig();
-		projectionIdConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		projectionIdConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		projectionIdConfig.setComponentName("Projection ID ");
 		projectionIdConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID);
 		projectionIdConfig.setComponentWidth("100%");
@@ -220,8 +222,8 @@ public class CffOutBoundLookUpConfig {
 		GtnUIFrameworkValidationConfig projIdValidationConfig = new GtnUIFrameworkValidationConfig();
 		projIdValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		projIdValidationConfig.setAttachRegxValidatior(true);
-		projIdValidationConfig.setRegxValidationMessage("Projection ID Should be within 50 Characters");
-		projIdValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MAX_50_CHARACTER);
+		projIdValidationConfig.setRegxValidationMessage("Projection ID Should be within 50 Numeric Characters");
+		projIdValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MAX_50_NUMERIC_CHARACTER);
 		projectionIdConfig.setGtnUIFrameworkValidationConfig(projIdValidationConfig);
 
 	}
@@ -235,7 +237,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(customerNoLayout);
 
 		GtnUIFrameworkComponentConfig customerNoConfig = new GtnUIFrameworkComponentConfig();
-		customerNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		customerNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		customerNoConfig.setComponentName("Customer No ");
 		customerNoConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID);
 		customerNoConfig.setComponentWidth("100%");
@@ -260,7 +262,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(companyNoLayout);
 
 		GtnUIFrameworkComponentConfig companyNoConfig = new GtnUIFrameworkComponentConfig();
-		companyNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		companyNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		companyNoConfig.setComponentName("Company No ");
 		companyNoConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID);
 		companyNoConfig.setComponentWidth("100%");
@@ -314,7 +316,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(cffNameLayout);
 
 		GtnUIFrameworkComponentConfig cffNameConfig = new GtnUIFrameworkComponentConfig();
-		cffNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		cffNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		cffNameConfig.setComponentName("CFF Name ");
 		cffNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID);
 		cffNameConfig.setComponentWidth("100%");
@@ -340,7 +342,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(projectionNameLayout);
 
 		GtnUIFrameworkComponentConfig projectionNameConfig = new GtnUIFrameworkComponentConfig();
-		projectionNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		projectionNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		projectionNameConfig.setComponentName("Projection Name ");
 		projectionNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID);
 		projectionNameConfig.setComponentWidth("100%");
@@ -365,7 +367,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(customerNameLayout);
 
 		GtnUIFrameworkComponentConfig customerNameConfig = new GtnUIFrameworkComponentConfig();
-		customerNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		customerNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		customerNameConfig.setComponentName("Customer Name ");
 		customerNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID);
 		customerNameConfig.setComponentWidth("100%");
@@ -389,7 +391,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(companyNameLayout);
 
 		GtnUIFrameworkComponentConfig companyNameConfig = new GtnUIFrameworkComponentConfig();
-		companyNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		companyNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		companyNameConfig.setComponentName("Company Name ");
 		companyNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID);
 		companyNameConfig.setComponentWidth("100%");
@@ -444,7 +446,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(typeLayout);
 
 		GtnUIFrameworkComponentConfig typeConfig = new GtnUIFrameworkComponentConfig();
-		typeConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		typeConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 		typeConfig.setComponentName("Type ");
 		typeConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.TYPE_ID);
 		typeConfig.setComponentWidth("100%");
@@ -456,13 +458,11 @@ public class CffOutBoundLookUpConfig {
 		typeComboBoxConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.TYPE));
 		typeConfig.setGtnComboboxConfig(typeComboBoxConfig);
 
-		/*
-		 * GtnUIFrameworkValidationConfig valConfig = new
-		 * GtnUIFrameworkValidationConfig(); valConfig.setConditionList(Arrays.asList(
-		 * GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		 * typeConfig.setGtnUIFrameworkValidationConfig(valConfig);
-		 * typeConfig.setGtnComboboxConfig(typeComboBoxConfig);
-		 */
+		
+		  GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig(); 
+		  valConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		  typeConfig.setGtnUIFrameworkValidationConfig(valConfig);
+		  typeConfig.setGtnComboboxConfig(typeComboBoxConfig);
 
 	}
 
@@ -475,7 +475,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(contractNoLayout);
 
 		GtnUIFrameworkComponentConfig contractNoConfig = new GtnUIFrameworkComponentConfig();
-		contractNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		contractNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		contractNoConfig.setComponentName("Contract No ");
 		contractNoConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID);
 		contractNoConfig.setComponentWidth("100%");
@@ -500,7 +500,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(itemNoLayout);
 
 		GtnUIFrameworkComponentConfig itemNoConfig = new GtnUIFrameworkComponentConfig();
-		itemNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		itemNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		itemNoConfig.setComponentName("Item No ");
 		itemNoConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID);
 		itemNoConfig.setComponentWidth("100%");
@@ -524,7 +524,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(businessUnitNoLayout);
 
 		GtnUIFrameworkComponentConfig businessUnitNoConfig = new GtnUIFrameworkComponentConfig();
-		businessUnitNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		businessUnitNoConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		businessUnitNoConfig.setComponentName("Business Unit No ");
 		businessUnitNoConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID);
 		businessUnitNoConfig.setComponentWidth("100%");
@@ -579,12 +579,17 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(cffCreationDateFromLayout);
 
 		GtnUIFrameworkComponentConfig cffCreationDateFromConfig = new GtnUIFrameworkComponentConfig();
-		cffCreationDateFromConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
+		cffCreationDateFromConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
 		cffCreationDateFromConfig.setComponentName("CFF Creation Date From ");
 		cffCreationDateFromConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID);
 		cffCreationDateFromConfig.setComponentWidth("100%");
 		cffCreationDateFromConfig.setParentComponentId(cffCreationDateFromLayout.getComponentId());
 		cffCreationDateFromConfig.setAddToParent(true);
+		
+		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
+		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		cffCreationDateFromConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
+		
 		componentList.add(cffCreationDateFromConfig);
 
 	}
@@ -598,13 +603,16 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(cffCreationDateToLayout);
 
 		GtnUIFrameworkComponentConfig cffCreationDateToConfig = new GtnUIFrameworkComponentConfig();
-		cffCreationDateToConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
+		cffCreationDateToConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
 		cffCreationDateToConfig.setComponentName("CFF Creation Date To ");
 		cffCreationDateToConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID);
 		cffCreationDateToConfig.addComponentStyle("datefieldcentered");
 		// cffCreationDateToConfig.setComponentWidth("100%");
 		cffCreationDateToConfig.setParentComponentId(cffCreationDateToLayout.getComponentId());
 		cffCreationDateToConfig.setAddToParent(true);
+		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
+		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		cffCreationDateToConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
 		componentList.add(cffCreationDateToConfig);
 
 	}
@@ -618,7 +626,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(contractNameLayout);
 
 		GtnUIFrameworkComponentConfig contractNameConfig = new GtnUIFrameworkComponentConfig();
-		contractNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		contractNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		contractNameConfig.setComponentName("Contract Name ");
 		contractNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID);
 		contractNameConfig.setComponentWidth("100%");
@@ -643,7 +651,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(itemNameLayout);
 
 		GtnUIFrameworkComponentConfig itemNameConfig = new GtnUIFrameworkComponentConfig();
-		itemNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		itemNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		itemNameConfig.setComponentName("Item Name ");
 		itemNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID);
 		itemNameConfig.setComponentWidth("100%");
@@ -698,7 +706,7 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(businessUnitNameLayout);
 
 		GtnUIFrameworkComponentConfig businessUnitNameConfig = new GtnUIFrameworkComponentConfig();
-		businessUnitNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
+		businessUnitNameConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
 		businessUnitNameConfig.setComponentName("Business Name ");
 		businessUnitNameConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID);
 		businessUnitNameConfig.setComponentWidth("100%");
@@ -722,12 +730,17 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(cffApprovalDateFromLayout);
 
 		GtnUIFrameworkComponentConfig cffApprovalDateFromConfig = new GtnUIFrameworkComponentConfig();
-		cffApprovalDateFromConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
+		cffApprovalDateFromConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
 		cffApprovalDateFromConfig.setComponentName("CFF Approval Date From ");
 		cffApprovalDateFromConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID);
 		cffApprovalDateFromConfig.setComponentWidth("100%");
 		cffApprovalDateFromConfig.setParentComponentId(cffApprovalDateFromLayout.getComponentId());
 		cffApprovalDateFromConfig.setAddToParent(true);
+		
+		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
+		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		cffApprovalDateFromConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
+		
 		componentList.add(cffApprovalDateFromConfig);
 
 	}
@@ -740,13 +753,18 @@ public class CffOutBoundLookUpConfig {
 		componentList.add(cffApprovalDateToLayout);
 
 		GtnUIFrameworkComponentConfig cffApprovalDateToConfig = new GtnUIFrameworkComponentConfig();
-		cffApprovalDateToConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
+		cffApprovalDateToConfig.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
 		cffApprovalDateToConfig.setComponentName("CFF Approval Date To ");
 		cffApprovalDateToConfig.setComponentId(GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID);
 		cffApprovalDateToConfig.setComponentWidth("100%");
 		cffApprovalDateToConfig.setParentComponentId(cffApprovalDateToLayout.getComponentId());
 		cffApprovalDateToConfig.setAddToParent(true);
+		
+		GtnUIFrameworkValidationConfig approvalDateValidationConfig = new GtnUIFrameworkValidationConfig();
+		approvalDateValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		cffApprovalDateToConfig.setGtnUIFrameworkValidationConfig(approvalDateValidationConfig);
 		componentList.add(cffApprovalDateToConfig);
+		
 	}
 
 	private void addSearchResetButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
@@ -765,8 +783,117 @@ public class CffOutBoundLookUpConfig {
 		searchResetButtonLayout.setGtnLayoutConfig(searchResetButtonLayoutConfig);
 		componentList.add(searchResetButtonLayout);
 
+		//addSearchButton(componentList, searchResetButtonLayout.getComponentId());
 		addSearchButton(componentList, searchResetButtonLayout.getComponentId());
 		addResetButton(componentList, searchResetButtonLayout.getComponentId());
+	}
+
+	private void addValidationSuccessActionConfigForSearchButton(
+			List<GtnUIFrameWorkActionConfig> validationActionSuccessConfigList) {
+
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+		loadDataTableActionConfig
+				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(
+				GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.TYPE_ID,
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID
+				
+				/*GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
+				
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID*//*,
+				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
+				,
+				
+				*/));
+
+		validationActionSuccessConfigList.add(loadDataTableActionConfig);
+
+		GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
+		notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+		notificationActionConfig
+				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
+		validationActionSuccessConfigList.add(notificationActionConfig);
+	}
+
+	private void addValidationFailureActionConfigForSearchButton(
+			List<GtnUIFrameWorkActionConfig> validationActionFailureConfigList) {
+
+		GtnUIFrameWorkActionConfig onFailureAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		onFailureAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add("Search Criteria ");
+		alertParamsList.add("Please enter Search Criteria");
+		onFailureAlertActionConfig.setActionParameterList(alertParamsList);
+
+		validationActionFailureConfigList.add(onFailureAlertActionConfig);
+	}
+
+	private void addValidationForSearchButon(List<GtnUIFrameWorkActionConfig> searchButtonActionConfigList) {
+
+		List<GtnUIFrameWorkActionConfig> validationActionSuccessConfigList = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> validationActionFailureConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
+		validationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
+
+		validationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.TYPE_ID,
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
+				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID	
+				));
+
+		addValidationFailureActionConfigForSearchButton(validationActionFailureConfigList);
+		addValidationSuccessActionConfigForSearchButton(validationActionSuccessConfigList);
+		validationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.OR, validationActionFailureConfigList, validationActionSuccessConfigList));
+
+		searchButtonActionConfigList.add(validationActionConfig);
+
 	}
 
 	private void addSearchButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
@@ -780,12 +907,32 @@ public class CffOutBoundLookUpConfig {
 
 		componentList.add(searchButtonConfig);
 
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> searchButtonActionConfigList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
-		validationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
+		GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnFrameworkAdditionalSearchCriteriaAction.class.getName());
+		
+		searchButtonActionConfigList.add(actionConfig);
+		addValidationForSearchButon(searchButtonActionConfigList);
 
-		validationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+		searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchButtonActionConfigList);
+	}
+
+	private void addSearchButton2(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
+		gtnLogger.info("Started the execution of addSearchButton()");
+		GtnUIFrameworkComponentConfig searchButtonConfig = new GtnUIFrameworkComponentConfig();
+		searchButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		searchButtonConfig.setComponentId("CffOutBound_searchButton");
+		searchButtonConfig.setComponentName("SEARCH");
+		searchButtonConfig.setParentComponentId(parentComponentId);
+		searchButtonConfig.setAddToParent(true);
+
+		componentList.add(searchButtonConfig);
+
+		GtnUIFrameWorkActionConfig ccValidationActionConfig = new GtnUIFrameWorkActionConfig();
+		ccValidationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
+		ccValidationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
 				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
 				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
@@ -800,83 +947,18 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
 				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID));
+		ccValidationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
 
-		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-		alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		GtnUIFrameWorkActionConfig ccFailureActionConfig = new GtnUIFrameWorkActionConfig();
+		ccFailureActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		ccFailureActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		ccFailureActionConfig.addActionParameter("Please enter/select search criteria");
 
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("Search Criteria ");
-		alertParamsList.add("Please enter Search Criteria");
-
-		alertActionConfig.setActionParameterList(alertParamsList);
-		validationActionConfig.setActionParameterList(
-				Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
-		actionConfigList.add(validationActionConfig);
-
-		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
-		loadDataTableActionConfig
+		GtnUIFrameWorkActionConfig tableLoadActionConfig = new GtnUIFrameWorkActionConfig();
+		tableLoadActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+		tableLoadActionConfig
 				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
-		loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
-				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
-				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.TYPE_ID,
-				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID));
-
-		GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
-		notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
-		notificationActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
-		actionConfigList.add(notificationActionConfig);
-
-		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
-	}
-
-	private void addResetButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
-		GtnUIFrameworkComponentConfig resetButtonConfig = new GtnUIFrameworkComponentConfig();
-		resetButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		resetButtonConfig.setComponentId("CffOutBound_resetButton");
-		resetButtonConfig.setComponentName("RESET");
-		resetButtonConfig.setParentComponentId(parentComponentId);
-		resetButtonConfig.setAddToParent(true);
-		componentList.add(resetButtonConfig);
-		
-		GtnUIFrameWorkActionConfig confirmResetAction = new GtnUIFrameWorkActionConfig();
-		confirmResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		confirmResetAction.addActionParameter(GtnFrameworkProcessSchedulerStringContants.GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER);
-		confirmResetAction.addActionParameter(GtnFrameworkProcessSchedulerStringContants.GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET);
-		
-		List<GtnUIFrameWorkActionConfig> onSuccessActionConfigList = new ArrayList<>();
-		confirmResetAction.addActionParameter(onSuccessActionConfigList);
-		
-		GtnUIFrameWorkActionConfig resetTableActionConfig = new GtnUIFrameWorkActionConfig();
-		resetTableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		resetTableActionConfig.addActionParameter(GtnFrameworkCffResultTableResetAction.class.getName());
-		
-		onSuccessActionConfigList.add(resetTableActionConfig);
-
-		/*List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
-		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
-
-	//	List<Object> resetParameterList = new ArrayList<>();
-		resetActionConfig.addActionParameter(GtnFrameworkProcessSchedulerStringContants.GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER);
-		resetActionConfig.addActionParameter(GtnFrameworkProcessSchedulerStringContants.GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET);
-
-		resetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+		tableLoadActionConfig.setFieldValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CFF_ID,
 				GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
 				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
@@ -890,28 +972,108 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
-				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID,
+				GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID/*,
 				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
 				GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID,
 				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
-				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID
-				));
-		resetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, //GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-				null, null, null));
-		
+				GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID*/));
+
+		GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
+		notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+		notificationActionConfig
+				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
+
+		ccValidationActionConfig.addActionParameter(Arrays.asList(ccFailureActionConfig));
+		ccValidationActionConfig.addActionParameter(Arrays.asList(tableLoadActionConfig, notificationActionConfig));
+
+		searchButtonConfig.addGtnUIFrameWorkActionConfig(ccValidationActionConfig);
+	}
+
+	private void addResetButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
+		GtnUIFrameworkComponentConfig resetButtonConfig = new GtnUIFrameworkComponentConfig();
+		resetButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		resetButtonConfig.setComponentId("CffOutBound_resetButton");
+		resetButtonConfig.setComponentName("RESET");
+		resetButtonConfig.setParentComponentId(parentComponentId);
+		resetButtonConfig.setAddToParent(true);
+		componentList.add(resetButtonConfig);
+
+		GtnUIFrameWorkActionConfig confirmResetAction = new GtnUIFrameWorkActionConfig();
+		confirmResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmResetAction.addActionParameter(
+				GtnFrameworkProcessSchedulerStringContants.GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER);
+		confirmResetAction
+				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET);
+
+		List<GtnUIFrameWorkActionConfig> onSuccessActionConfigList = new ArrayList<>();
+		confirmResetAction.addActionParameter(onSuccessActionConfigList);
+
 		GtnUIFrameWorkActionConfig resetTableActionConfig = new GtnUIFrameWorkActionConfig();
 		resetTableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		resetTableActionConfig.addActionParameter(GtnFrameworkCffResultTableResetAction.class.getName());
 
-		actionConfigList.add(resetActionConfig);
-		actionConfigList.add(resetTableActionConfig);*/
+		onSuccessActionConfigList.add(resetTableActionConfig);
+
+		/*
+		 * List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		 * GtnUIFrameWorkActionConfig resetActionConfig = new
+		 * GtnUIFrameWorkActionConfig();
+		 * resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+		 * 
+		 * // List<Object> resetParameterList = new ArrayList<>();
+		 * resetActionConfig.addActionParameter(
+		 * GtnFrameworkProcessSchedulerStringContants.
+		 * GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER);
+		 * resetActionConfig.addActionParameter(
+		 * GtnFrameworkProcessSchedulerStringContants.
+		 * GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET);
+		 * 
+		 * resetActionConfig.addActionParameter(Arrays.asList(
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID,
+		 * //GtnFrameworkProcessSchedulerStringContants.TYPE_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID,
+		 * GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID ));
+		 * resetActionConfig.addActionParameter(Arrays.asList(
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * //GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY,
+		 * GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null, null));
+		 * 
+		 * GtnUIFrameWorkActionConfig resetTableActionConfig = new
+		 * GtnUIFrameWorkActionConfig();
+		 * resetTableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		 * resetTableActionConfig.addActionParameter(
+		 * GtnFrameworkCffResultTableResetAction.class.getName());
+		 * 
+		 * actionConfigList.add(resetActionConfig);
+		 * actionConfigList.add(resetTableActionConfig);
+		 */
 		resetButtonConfig.addGtnUIFrameWorkActionConfig(confirmResetAction);
 
 	}
@@ -1008,45 +1170,45 @@ public class CffOutBoundLookUpConfig {
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
 		searchResults.setResultSetUrl(
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
-		
+		searchResults.setModuleName("cffOutBoundInterface");
+		searchResults.setQueryName("cffOutBoundSearchQuery");
+
 		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.PROCESS_SCHEDULER);
-		
+
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 
-		/*
-		 * GtnUIFrameWorkActionConfig loadDataTableActionConfig = new
-		 * GtnUIFrameWorkActionConfig();
-		 * loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.
-		 * LOAD_DATA_TABLE_ACTION);
-		 * loadDataTableActionConfig.addActionParameter(searchResultConfig.
-		 * getComponentId());
-		 * searchResults.addPostCreationActionConfig(loadDataTableActionConfig);
-		 * searchResults.setDoubleClickEnable(true);
-		 */
-	}/*
-	
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getIfpCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> ifpCustomFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkIfpStringContants.getIfpCustomPropertyIds();
-		String[] listNameArray = GtnFrameworkIfpStringContants.getIfpListNameArray();
-		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig ifpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			ifpCustomFilterConfig.setPropertId(propertyIds[i]);
-			ifpCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
-			GtnUIFrameworkComponentConfig ifpCustomFilterComponentConfig = new GtnUIFrameworkComponentConfig();
-			ifpCustomFilterComponentConfig.setComponentId("customFilterComboBox");
-			ifpCustomFilterComponentConfig.setComponentName("customFilterComboBox");
-			ifpCustomFilterComponentConfig.setGtnComboboxConfig(configProvider.getComboBoxConfig(listNameArray[i],
-					GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-							+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX));
-			ifpCustomFilterComponentConfig.getGtnComboboxConfig()
-					.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
-			ifpCustomFilterConfig.setGtnComponentConfig(ifpCustomFilterComponentConfig);
-			ifpCustomFilterConfigMap.put(ifpCustomFilterConfig.getPropertId(), ifpCustomFilterConfig);
+		searchResults.setDoubleClickEnable(true);
 
-		}
-		return ifpCustomFilterConfigMap;
-	}*/
+	}
+
+	/*
+	 * private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig>
+	 * getIfpCustomFilterConfig() { Map<String,
+	 * GtnUIFrameworkPagedTableCustomFilterConfig> ifpCustomFilterConfigMap = new
+	 * HashMap<>(); String[] propertyIds =
+	 * GtnFrameworkIfpStringContants.getIfpCustomPropertyIds(); String[]
+	 * listNameArray = GtnFrameworkIfpStringContants.getIfpListNameArray(); for (int
+	 * i = 0; i < propertyIds.length; i++) {
+	 * GtnUIFrameworkPagedTableCustomFilterConfig ifpCustomFilterConfig = new
+	 * GtnUIFrameworkPagedTableCustomFilterConfig();
+	 * ifpCustomFilterConfig.setPropertId(propertyIds[i]);
+	 * ifpCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.
+	 * COMBOBOX); GtnUIFrameworkComponentConfig ifpCustomFilterComponentConfig = new
+	 * GtnUIFrameworkComponentConfig();
+	 * ifpCustomFilterComponentConfig.setComponentId("customFilterComboBox");
+	 * ifpCustomFilterComponentConfig.setComponentName("customFilterComboBox");
+	 * ifpCustomFilterComponentConfig.setGtnComboboxConfig(configProvider.
+	 * getComboBoxConfig(listNameArray[i],
+	 * GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE +
+	 * GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX));
+	 * ifpCustomFilterComponentConfig.getGtnComboboxConfig()
+	 * .setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
+	 * ifpCustomFilterConfig.setGtnComponentConfig(ifpCustomFilterComponentConfig);
+	 * ifpCustomFilterConfigMap.put(ifpCustomFilterConfig.getPropertId(),
+	 * ifpCustomFilterConfig);
+	 * 
+	 * } return ifpCustomFilterConfigMap; }
+	 */
 
 	private void addGenerateOutBoundButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId) {

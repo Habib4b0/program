@@ -29,43 +29,43 @@ public class GtnFrameworkCffResultTableResetAction implements GtnUIFrameWorkActi
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
 		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID)
-		.loadV8DateValue(null);
+		.loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_TO_ID)
-		.loadV8DateValue(null);
+		.loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_FROM_ID)
-		.loadV8DateValue(null);
+		.loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID)
-		.loadV8DateValue(null);
+		.loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.TYPE_ID)
-		.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		.loadComboBoxComponentValue(Integer.parseInt("0"));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.PROJECTION_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.PROJECTION_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NO_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CUSTOMER_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.COMPANY_NO_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.COMPANY_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CONTRACT_NO_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CONTRACT_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.ITEM_NAME_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.ITEM_NO_ID)
-		.loadV8FieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);		
+		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);		
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.processscheduler.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkMandatoryFieldSettingAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkRunButtonAction;
@@ -29,6 +30,8 @@ public class GtnUIFrameworkProcessSchedularDynamicClassFiller implements GtnUIDy
 				new GtnFrameworkUpdateProcessAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCffResultTableResetAction.class.getName(),
 				new GtnFrameworkCffResultTableResetAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAdditionalSearchCriteriaAction.class.getName(),
+				new GtnFrameworkAdditionalSearchCriteriaAction());
 
 	}
 

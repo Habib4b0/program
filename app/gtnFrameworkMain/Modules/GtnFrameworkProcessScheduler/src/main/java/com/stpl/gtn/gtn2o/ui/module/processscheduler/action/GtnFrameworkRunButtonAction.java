@@ -56,7 +56,7 @@ public class GtnFrameworkRunButtonAction implements GtnUIFrameWorkAction, GtnUIF
 		gtnLogger.info("================= schema Name: " + schemaName);
 		gtnLogger.info("================= process sid: " + gtnWsRecordBean.getPropertyValueByIndex(3));
 
-		if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase((String)processName)) {
+		if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase((String)processName) || "CFF OUTBOUND INTERFACE".equalsIgnoreCase((String)processName)) {
 			GtnUIFrameWorkActionConfig popUpActionConfig = new GtnUIFrameWorkActionConfig();
 			popUpActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			popUpActionConfig.addActionParameter("V002");

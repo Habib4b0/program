@@ -42,6 +42,7 @@ public class GtnFrameworkRegexStringConstants {
     public static final String ACCEPT_MIN_1_MAX_200_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)|\\:|\\~|\\=|\\`|\\||\\?|\\;]{0,200}?$";
     
     public static final String ACCEPT_MAX_50_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)|\\:|\\~|\\=|\\`|\\||\\?|\\;]{0,50}?$";
+    public static final String ACCEPT_MAX_50_NUMERIC_CHARACTER = "^[0-9|\\*]{0,50}?$";
 
 	public static final String ACCEPT_NEGATIVE_AND_ZERO = "^\\-[1-9]*|0$";
         

@@ -129,7 +129,7 @@ public class GtnNewProcessSchedularConfig {
 
 		addManualProcessingPanel(componentList, processSchedularMainLayout.getComponentId());
 		addRunButton(componentList, processSchedularMainLayout.getComponentId());
-		addCffOutBoundButton(componentList, processSchedularMainLayout.getComponentId());
+		//addCffOutBoundButton(componentList, processSchedularMainLayout.getComponentId());
 	}
 
 	private void addCffOutBoundButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
