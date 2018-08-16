@@ -661,7 +661,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 		List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {
-			if (getBeanFromId(item) != null && !selectedProductContainer.hasChildren(item)) {
+			if (getBeanFromId(item) != null  && !selectedProductContainer.hasChildren(item)) {
 				productHierarchyEndLevelsHierNo.add(getBeanFromId(item).getHierarchyNo());
 			}
 		}
@@ -867,17 +867,13 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	public static Leveldto getBeanFromId(Object obj) {
 
-		BeanItem<?> targetItemFromBean = null;
+		BeanItem<?> targetItemFromBean = new BeanItem<>(obj);
 		if (obj instanceof BeanItem<?>) {
 			targetItemFromBean = (BeanItem<?>) obj;
 		} else if (obj instanceof Leveldto) {
 			targetItemFromBean = new BeanItem<>((Leveldto) obj);
 		}
-                if (targetItemFromBean != null) {
                     return (Leveldto) targetItemFromBean.getBean();
-                } else {
-                    return null;
-                }
 	}
 
 	public ViewDTO getViewDTO() {
@@ -958,56 +954,44 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	private void addComponent() {
 		Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
                 Label abstractLabel;
-		empty.setWidth("15px");
-		GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
-		layoutG2.setMargin(BooleanConstant.getFalseFlag());
-		layoutG2.addComponent(new Label("Private Views:") {
-			{
-				setWidth(StringConstantsUtil.HUNDRED_PX);
-				setContentMode(ContentMode.HTML);
-				setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-			}
-		});
-		privateView.setStyleName("searchText");
-		layoutG2.addComponent(privateView);
-		layoutG2.addComponent(empty);
-		layoutG2.addComponent(new Label("Public Views:") {
-			{
-				setWidth(StringConstantsUtil.HUNDRED_PX);
-				setContentMode(ContentMode.HTML);
-				setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-			}
-		});
-
-		publicView.setStyleName("searchText");
-		layoutG2.addComponent(publicView);
-		empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
-		empty.setWidth("15px");
-		layoutG2.addComponent(empty);
-		layoutG2.addComponent(new Label("Company:") {
-			{
-				setWidth(StringConstantsUtil.HUNDRED_PX);
-				setContentMode(ContentMode.HTML);
-				setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-			}
-		});
-
-		layoutG2.addComponent(company);
-		empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
-		empty.setWidth("15px");
-		layoutG2.addComponent(empty);
-		layoutG2.addComponent(new Label("Business Unit:") {
-			{
-				setWidth(StringConstantsUtil.HUNDRED_PX);
-				setContentMode(ContentMode.HTML);
-				setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-			}
-		});
-
-		layoutG2.addComponent(getBusinessUnit());
-                layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
-                HorizontalLayout layoutForDeduction=new HorizontalLayout();
-                layoutForDeduction.setMargin(new MarginInfo(1));
+		          empty.setWidth("15px");
+            GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
+            layoutG2.setMargin(BooleanConstant.getFalseFlag());
+            Label privateViewLabel = new Label("Private Views:");
+            privateViewLabel.setWidth(StringConstantsUtil.HUNDRED_PX);
+            privateViewLabel.setContentMode(ContentMode.HTML);
+            privateViewLabel.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
+            layoutG2.addComponent(privateViewLabel);
+            privateView.setStyleName("searchText");
+            layoutG2.addComponent(privateView);
+            layoutG2.addComponent(empty);
+            Label publicViewLabel = new Label("Public Views:");
+            publicViewLabel.setWidth(StringConstantsUtil.HUNDRED_PX);
+            publicViewLabel.setContentMode(ContentMode.HTML);
+            publicViewLabel.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
+            layoutG2.addComponent(publicViewLabel);
+            publicView.setStyleName("searchText");
+            layoutG2.addComponent(publicView);
+            empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+            empty.setWidth("15px");
+            layoutG2.addComponent(empty);
+            Label companyLabel = new Label("Company:");
+            companyLabel.setWidth(StringConstantsUtil.HUNDRED_PX);
+            companyLabel.setContentMode(ContentMode.HTML);
+            companyLabel.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
+            layoutG2.addComponent(companyLabel);
+            layoutG2.addComponent(company);
+            empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+            empty.setWidth("15px");
+            layoutG2.addComponent(empty);
+            Label bussinessUnit = new Label("Business Unit:");
+            bussinessUnit.setWidth(StringConstantsUtil.HUNDRED_PX);
+            bussinessUnit.setContentMode(ContentMode.HTML);
+            bussinessUnit.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
+            layoutG2.addComponent(getBusinessUnit());
+            layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
+            HorizontalLayout layoutForDeduction = new HorizontalLayout();
+            layoutForDeduction.setMargin(new MarginInfo(1));
                 abstractLabel=new Label("Frequency:");
                 loadLabelStyle(abstractLabel);
 		layoutForDeduction.addComponent(abstractLabel);

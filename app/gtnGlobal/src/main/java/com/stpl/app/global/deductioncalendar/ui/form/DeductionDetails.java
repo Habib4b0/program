@@ -1056,7 +1056,7 @@ public class DeductionDetails extends CustomComponent {
                             }
                             int periodSize = periodList.size();
                             for (int i = 0; i < periodSize; i++) {
-                                Object[] arr = String.valueOf(periodList.get(i)).split("~");
+                                String[] arr = String.valueOf(periodList.get(i)).split("~");
 
                                 if (i == 0) {
                                     lastValue.append('m' ).append( String.valueOf(arr[1]) ).append( ' ' ).append( String.valueOf(arr[NumericConstants.TWO]));
