@@ -1063,8 +1063,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_AND_VARIANCE_SEQUENCING_LAYOUT,
 						GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableAndVarianceSequencingConfig.setComponentName("Variable & Variance Sequencing: ");
-		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);                
+		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);
                 variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-reportoptions-vseq");
+                variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-width-200");
 		componentList.add(variableAndVarianceSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1090,7 +1091,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		viewOptionsConfig.setComponentName("View Options: ");
 		viewOptionsConfig.setAuthorizationIncluded(true);
-
+		viewOptionsConfig.addComboComponentStyle("v-report-width-170");
 		componentList.add(viewOptionsConfig);
 
 		GtnUIFrameworkComboBoxConfig viewOptionsLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1148,7 +1149,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		headerSequencingConfig.setComponentName("Header Sequencing:     ");
                 headerSequencingConfig.addComponentStyle("v-report-reportoptions-hseq-combo");
 		headerSequencingConfig.setAuthorizationIncluded(true);
-
+		headerSequencingConfig.addComboComponentStyle("v-report-width-200");
 		componentList.add(headerSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig headerSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1175,6 +1176,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		displayFormatConfig.setComponentName("Display Format: ");
 		displayFormatConfig.setAuthorizationIncluded(true);
+		displayFormatConfig.addComboComponentStyle("v-report-width-170");
 
 		componentList.add(displayFormatConfig);
 
