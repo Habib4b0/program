@@ -122,7 +122,7 @@ public class NationalAssumptionsUI extends UI {
                     {
                         causeBuilder.append(t.getClass().getName());
                     }
-
+        
                 }
                 cause = causeBuilder.toString();
                 LOGGER.error(cause);
