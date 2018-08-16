@@ -344,10 +344,22 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(0);
 		String levelName = setDisplayFormat(bean.getData(), displayFormat);
 		recordBean.addProperties("levelValue", levelName);
-		if (dataForHierarchy != null) {
+		
+		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getCurrencyConversion();
+		
+		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream().forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(
 					data -> dataConvertors(recordBean, entry.getKey(), data, bean.getData()[5].toString(), levelName)));
 		}
+		
+		// When currency display is set to no conversion in report options
+		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
+			dataForHierarchy.entrySet().stream()
+					.forEach(entry -> Optional.ofNullable(entry.getValue())
+							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
+									bean.getData()[5].toString(), levelName)));
+		}
+		
 		return recordBean;
 	}
 
@@ -553,6 +565,20 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
 		}
 
+	}
+	
+	// Method to format values to non-decimal if user has selected Currency Display = No Conversion
+	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey, Double dataValue,
+			String variableIndicator, String levelName) {
+		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+				|| mapKey.contains("PER") || mapKey.contains("RATE")) {
+			gtnWsRecordBean.addProperties(mapKey,
+					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+		} else if ("V".equals(variableIndicator) && levelName.contains("Unit")) {
+			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+		} else {
+			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
+		}
 	}
 
 	public static Double extractDouble(Object value) {

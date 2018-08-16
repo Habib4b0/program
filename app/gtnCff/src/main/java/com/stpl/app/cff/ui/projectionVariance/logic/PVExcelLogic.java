@@ -337,14 +337,14 @@ public class PVExcelLogic {
     public void executeProcedurePRCPVSELECTIONPIVOT() {
         PROCRAWLIST_DETAIL.clear();
         PROCRAWLIST_DETAIL_DISCOUNT.clear();
-        List<Integer> projectionIdList = new ArrayList();
-        projectionIdList.add(selection.getCurrentProjId());
-        projectionIdList.addAll(selection.getProjIdList());
-        String frequency = selection.getFrequency();
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        String indicator = selection.getHierarchyIndicator();
-        List<Object[]> rawList;
-        List<Object[]> rawListDiscount;
+        List<Integer> projectionIdPivotList = new ArrayList();
+        projectionIdPivotList.add(selection.getCurrentProjId());
+        projectionIdPivotList.addAll(selection.getProjIdList());
+        String frequencyPivot = selection.getFrequency();
+        String projId = CommonUtils.CollectionToString(projectionIdPivotList, false);
+        String indicatorPivot = selection.getHierarchyIndicator();
+        List<Object[]> rawPVList;
+        List<Object[]> rawDiscountList;
         String order;
         String projectionOrder = selection.getProjectionPeriodOrder();
         if (projectionOrder.equals("Ascending")) {
@@ -352,34 +352,34 @@ public class PVExcelLogic {
         } else {
             order = "D";
         }
-        if (indicator.equals(StringUtils.EMPTY)) {
-            indicator = "N";
+        if (indicatorPivot.equals(StringUtils.EMPTY)) {
+            indicatorPivot = "N";
             int custId = selection.getCustomId();
 
-            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, indicator,
+            Object[] orderedArg = {projId, frequencyPivot, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, indicatorPivot,
                 null, selection.getExcelFilterLevelNo(), custId, null, order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
-            rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
+            rawPVList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         } else {
-            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getHierarchyIndicator(),
+            Object[] orderedArg = {projId, frequencyPivot, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getHierarchyIndicator(),
                 null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
-            rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
+            rawPVList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         }
-        PROCRAWLIST_DETAIL.addAll(rawList);
+        PROCRAWLIST_DETAIL.addAll(rawPVList);
         if (discountFlag) {
-            indicator = selection.getHierarchyIndicator();
-            if (indicator.equals(StringUtils.EMPTY)) {
-                indicator = "N";
+            indicatorPivot = selection.getHierarchyIndicator();
+            if (indicatorPivot.equals(StringUtils.EMPTY)) {
+                indicatorPivot = "N";
                 int custId = selection.getCustomId();
-                Object[] orderedArgDiscount = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getDiscountLevel(), selection.getDiscountLevel(), indicator,
+                Object[] argDiscountPivot = {projId, frequencyPivot, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getDiscountLevel(), selection.getDiscountLevel(), indicatorPivot,
                     null, selection.getExcelFilterLevelNo(), custId, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
-                rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
+                rawDiscountList = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, argDiscountPivot);
             } else {
 
-                Object[] orderedArgDiscount = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getDiscountLevel(), selection.getDiscountLevel(), selection.getHierarchyIndicator(),
+                Object[] argDiscountPivot = {projId, frequencyPivot, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getDiscountLevel(), selection.getDiscountLevel(), selection.getHierarchyIndicator(),
                     null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
-                rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
+                rawDiscountList = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, argDiscountPivot);
             }
-            PROCRAWLIST_DETAIL_DISCOUNT.addAll(rawListDiscount);
+            PROCRAWLIST_DETAIL_DISCOUNT.addAll(rawDiscountList);
 
         }
     }

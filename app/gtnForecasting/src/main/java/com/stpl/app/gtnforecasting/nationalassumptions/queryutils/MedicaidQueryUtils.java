@@ -65,7 +65,6 @@ public class MedicaidQueryUtils {
             for (Map.Entry<String, Object> key : input.entrySet()) {
                 customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
-            LOGGER.info("loadMedicaidResultsTable Query: " + customSql);
             medicaidList = (List) DAO.executeSelectQuery(customSql);
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -101,7 +100,6 @@ public class MedicaidQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }	
-        LOGGER.info("loadMedicaidResultsChild Query: " + QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         medicaidList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return medicaidList;
@@ -116,8 +114,8 @@ public class MedicaidQueryUtils {
                 queryBuilder1 = new StringBuilder();
 
                 String formatedValue = values.getValue();
-
-                String tempValue[] = formatedValue.split("~");
+                String formatedKey = values.getKey();
+                String tempValue[] = formatedKey.split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -171,7 +169,6 @@ public class MedicaidQueryUtils {
                 queryList.add(queryBuilder1);
 
             }
-            LOGGER.info("saveNotes Query: " + String.valueOf(queryBuilder1));
             DAO.executeUpdateQuery(queryList);
             queryList.clear();
         }
@@ -204,7 +201,6 @@ public class MedicaidQueryUtils {
 
         String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
         queryBuilder1 = new StringBuilder(replacedQuery);
-        LOGGER.info("getTextValue Query: " + String.valueOf(queryBuilder1));
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
         String notesText[] = new String[NumericConstants.TWO];
         if (list.isEmpty()) {
@@ -270,7 +266,6 @@ public class MedicaidQueryUtils {
                 queryList.add(queryBuilder1);
 
             }
-            LOGGER.info("saveBaseYearNotes Query: " + String.valueOf(queryBuilder1));
             DAO.executeUpdateQuery(queryList);
             queryList.clear();
         }
@@ -294,7 +289,6 @@ public class MedicaidQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-        LOGGER.info("loadMedicaidWorksheet Query: " + QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsWSList;
@@ -306,7 +300,6 @@ public class MedicaidQueryUtils {
 
         String customSql = SQlUtil.getQuery("Medicaid_Ura_Worsheet_Helper_table");
         customSql = customSql.replace("SCREEN_NAME", screenName);
-        LOGGER.info("getPriceTypeNameDynamic Query: " + String.valueOf(customSql));
         phsWSList = (List<Object[]>) DAO.executeSelectQuery(customSql);
         for (int i = 0; i < phsWSList.size(); i++) {
             Object[] obj = phsWSList.get(i);
@@ -351,7 +344,6 @@ public class MedicaidQueryUtils {
         }
 
         medicaidList = (List) DAO.executeSelectQuery(customSql);
-         LOGGER.info("loadMedicaidParent query: " + customSql);
         return medicaidList;
     }
 
@@ -365,7 +357,6 @@ public class MedicaidQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-        LOGGER.info("updateAdjustment Query: " + QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
@@ -390,7 +381,6 @@ public class MedicaidQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-        LOGGER.info("loadMedicaidDdlb Query: " + customSql);
         medicaidList = (List) DAO.executeSelectQuery(customSql);
         return medicaidList;
     }
@@ -440,7 +430,6 @@ public class MedicaidQueryUtils {
                 queryList.add(queryBuilder1);
 
             }
-            LOGGER.info("saveBaseYear Query: " + String.valueOf(queryBuilder1));
             DAO.executeUpdateQuery(queryList);
             queryList.clear();
         }
@@ -451,7 +440,6 @@ public class MedicaidQueryUtils {
     public void removeOverrideOnClose(SessionDTO session) throws PortalException, SystemException {
         String customSql = "UPDATE ST_MEDICAID_URA_PROJ SET ADJUSTMENT = null";
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        LOGGER.info("removeOverrideOnClose Query: " + customSql);
     }
 
 }

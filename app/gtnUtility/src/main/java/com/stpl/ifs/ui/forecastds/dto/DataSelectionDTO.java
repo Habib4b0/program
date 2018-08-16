@@ -219,6 +219,7 @@ public class DataSelectionDTO implements Serializable {
 	private int customDeductionRelationShipSid;
         private Date forecastEligibleDate;
         private int dataSelectionDeductionLevelSid;
+        private int customViewMasterSid;
 
 	public Integer getFileEndMonth() {
 		return fileEndMonth;
@@ -1117,5 +1118,12 @@ public class DataSelectionDTO implements Serializable {
 
     public void setDataSelectionDeductionLevelSid(int dataSelectionDeductionLevelSid) {
         this.dataSelectionDeductionLevelSid = dataSelectionDeductionLevelSid;
+    }
+    public int getCustomViewMasterSid() {
+        return customViewMasterSid;
+    }
+
+    public void setCustomViewMasterSid(int customViewMasterSid) {
+        this.customViewMasterSid = customViewMasterSid;
     }
 }

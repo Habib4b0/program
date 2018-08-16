@@ -27,6 +27,7 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
 
 	private Object[] dataLevel;
 	private Object[] showData;
+        private static final String[] COMMON_COLUMN = new String[]{"efs", "dms", "iws"};
 
 	public SalesProjectionResultsVariableTree(){
 		super();
@@ -116,10 +117,9 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
 
     private void loadVariableStaticData(SalesProjectionResultsDTO staticRow, int position) {
         SPRStaticData[] basicStatic = {SPRStaticData.EXFACTORY_SALES, SPRStaticData.DEMAND_SALES, SPRStaticData.INVENTORY_WITHDRAW};
-        String[] commonColumn = new String[]{"efs", "dms", "iws"};
         for (int i = 0; i < basicStatic.length; i++) {
-            loadActualData(basicStatic[i].getStaticData(), staticRow, position, commonColumn[i]);
-            loadProjectionData(basicStatic[i].getStaticData(), staticRow, position, commonColumn[i]);
+            loadActualData(basicStatic[i].getStaticData(), staticRow, position, COMMON_COLUMN[i]);
+            loadProjectionData(basicStatic[i].getStaticData(), staticRow, position, COMMON_COLUMN[i]);
         }
 
         loadExfactoryStaticrow(staticRow, position); 

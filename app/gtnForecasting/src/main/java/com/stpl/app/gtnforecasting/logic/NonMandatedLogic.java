@@ -1493,7 +1493,7 @@ public class NonMandatedLogic {
             customSql = customSql.replace("@CUSTSID", String.valueOf(dataSelectionDTO.getCustomRelationShipSid()));
             customSql = customSql.replace("@CUSTDEDSID", String.valueOf(dataSelectionDTO.getCustomDeductionRelationShipSid()));
         }
-        LOGGER.info("Projection Master Query------------" + customSql);
+        LOGGER.info("Projection Master Query------------{} " , customSql);
         HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
 
         String cffQuery = "select IDENT_CURRENT( 'PROJECTION_MASTER' )";

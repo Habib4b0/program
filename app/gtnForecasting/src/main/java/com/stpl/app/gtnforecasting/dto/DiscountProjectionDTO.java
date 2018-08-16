@@ -1,6 +1,5 @@
 package com.stpl.app.gtnforecasting.dto;
 
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 
 import java.util.ArrayList;
@@ -56,8 +55,6 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     private String deductionInclusion = StringUtils.EMPTY;
 
     private Integer ccpCount = 0;
-
-    private Integer relationLevelSid = new Integer(Constant.DASH);
 
     /**
      * The tree level No
@@ -192,14 +189,6 @@ public class DiscountProjectionDTO extends ExtMapDTO {
 
     public void setCcpCount(Integer ccpCount) {
         this.ccpCount = ccpCount;
-    }
-
-    public Integer getRelationLevelSid() {
-        return relationLevelSid;
-    }
-
-    public void setRelationLevelSid(Integer relationLevelSid) {
-        this.relationLevelSid = relationLevelSid;
     }
 
     public String getHierarchyLevel() {
