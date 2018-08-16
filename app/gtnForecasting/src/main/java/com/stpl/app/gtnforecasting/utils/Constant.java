@@ -2144,6 +2144,43 @@ public class Constant {
     public static final String VARIANCE_SCREEN = "Variance";
     public static final String UNIT_OF_MEASURE = "UnitOfMeasure";
     public static final String CONVERSION_FACTOR_DDLB = "ConversionFactor";
+    
+    private static final String[] FROZEN_VALUES = new String[]{Constant.GROUPFCAPS,
+        Constant.PRICE_PROTECTION_STATUS,
+        Constant.PRICE_PROTECTION_START_DATE,
+        Constant.PRICE_PROTECTION_END_DATE};
+
+    private static final String[] DDLB_VALUES = new String[]{Constant.PPAVariables.PRICE_PROTECTION_PRICE_TYPE.toString(),
+        Constant.PPAVariables.BASE_PRICE_PRICE_TYPE.toString(),
+        Constant.PPAVariables.RESET_PRICE_TYPE.toString(),
+        Constant.PPAVariables.SUBSEQUENT_PERIOD_PRICE_TYPE.toString(),
+        Constant.PPAVariables.PRICE_TOLERANCE_INTERVAL.toString(),
+        Constant.PPAVariables.PRICE_TOLERANCE_FREQUENCY.toString(),
+        Constant.PPAVariables.PRICE_TOLERANCE_TYPE.toString(),
+        Constant.PPAVariables.RESET_TYPE.toString(),
+        Constant.PPAVariables.RESET_FREQUENCY.toString(),
+        Constant.PPAVariables.RESET_INTERVAL.toString(),
+        Constant.PPAVariables.NET_BASE_PRICE.toString(),
+        Constant.PPAVariables.NET_SUBSEQUENT_PERIOD_PRICE.toString(),
+        Constant.PPAVariables.NET_PRICE_TYPE.toString(),
+        Constant.PPAVariables.RESET_ELIGIBLE.toString(),
+        Constant.PPAVariables.NET_RESET_PRICE_TYPE.toString(),
+        Constant.PPAVariables.BASE_PRICE_TYPE.toString()};
+
+    private static final String[] TEXT_VALUES = new String[]{Constant.PPAVariables.NEP.toString(),
+        Constant.PPAVariables.BASE_PRICE_MANUAL.toString(),
+        Constant.PPAVariables.PRICE_TOLERANCE.toString(),
+        Constant.PPAVariables.MAX_INCREMENTAL_CHANGE.toString()};
+
+    private static final String[] LOOKUP_VALUES = new String[]{Constant.PPAVariables.NEP_FORMULA.toString(),
+        Constant.PPAVariables.NET_BASE_PRICE_FORMULA.toString(),
+        Constant.PPAVariables.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA.toString(),
+        Constant.PPAVariables.NET_RESET_PRICE_FORMULA.toString(),
+        Constant.PPAVariables.NET_PRICE_TYPE_FORMULA.toString()};
+
+    private static final String[] DATE_VALUES = new String[]{Constant.PPAVariables.BASE_PRICE_DATE.toString(),
+        Constant.PPAVariables.RESET_DATE.toString(),
+        Constant.PPAVariables.ATTACHED_DATE.toString()};
 
     /**
      * Enum for Frequency constants
@@ -2760,43 +2797,11 @@ public class Constant {
     }
 
     public static Map<String, List<String>> getPopulateIdentifier() {
-        String[] frozenValues = new String[]{Constant.GROUPFCAPS,
-            Constant.PRICE_PROTECTION_STATUS,
-            Constant.PRICE_PROTECTION_START_DATE,
-            Constant.PRICE_PROTECTION_END_DATE};
-        PPA_POPULATE_FIELD_FINDER.put(Constant.FROZEN_FIELDS, Arrays.asList(frozenValues));
-        String[] ddlbValues = new String[]{Constant.PPAVariables.PRICE_PROTECTION_PRICE_TYPE.toString(),
-            Constant.PPAVariables.BASE_PRICE_PRICE_TYPE.toString(),
-            Constant.PPAVariables.RESET_PRICE_TYPE.toString(),
-            Constant.PPAVariables.SUBSEQUENT_PERIOD_PRICE_TYPE.toString(),
-            Constant.PPAVariables.PRICE_TOLERANCE_INTERVAL.toString(),
-            Constant.PPAVariables.PRICE_TOLERANCE_FREQUENCY.toString(),
-            Constant.PPAVariables.PRICE_TOLERANCE_TYPE.toString(),
-            Constant.PPAVariables.RESET_TYPE.toString(),
-            Constant.PPAVariables.RESET_FREQUENCY.toString(),
-            Constant.PPAVariables.RESET_INTERVAL.toString(),
-            Constant.PPAVariables.NET_BASE_PRICE.toString(),
-            Constant.PPAVariables.NET_SUBSEQUENT_PERIOD_PRICE.toString(),
-            Constant.PPAVariables.NET_PRICE_TYPE.toString(),
-            Constant.PPAVariables.RESET_ELIGIBLE.toString(),
-            Constant.PPAVariables.NET_RESET_PRICE_TYPE.toString(),
-            Constant.PPAVariables.BASE_PRICE_TYPE.toString()};
-        PPA_POPULATE_FIELD_FINDER.put(Constant.DDLB_FIELD, Arrays.asList(ddlbValues));
-        String[] txtValues = new String[]{Constant.PPAVariables.NEP.toString(),
-            Constant.PPAVariables.BASE_PRICE_MANUAL.toString(),
-            Constant.PPAVariables.PRICE_TOLERANCE.toString(),
-            Constant.PPAVariables.MAX_INCREMENTAL_CHANGE.toString()};
-        PPA_POPULATE_FIELD_FINDER.put(Constant.TEXT_FIELD, Arrays.asList(txtValues));
-        String[] lookUpValues = new String[]{Constant.PPAVariables.NEP_FORMULA.toString(),
-            Constant.PPAVariables.NET_BASE_PRICE_FORMULA.toString(),
-            Constant.PPAVariables.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA.toString(),
-            Constant.PPAVariables.NET_RESET_PRICE_FORMULA.toString(),
-            Constant.PPAVariables.NET_PRICE_TYPE_FORMULA.toString()};
-        PPA_POPULATE_FIELD_FINDER.put(Constant.LOOKUP_FIELD, Arrays.asList(lookUpValues));
-        String[] dateValues = new String[]{Constant.PPAVariables.BASE_PRICE_DATE.toString(),
-            Constant.PPAVariables.RESET_DATE.toString(),
-            Constant.PPAVariables.ATTACHED_DATE.toString()};
-        PPA_POPULATE_FIELD_FINDER.put(Constant.DATE_FEILD, Arrays.asList(dateValues));
+        PPA_POPULATE_FIELD_FINDER.put(Constant.FROZEN_FIELDS, Arrays.asList(FROZEN_VALUES));
+        PPA_POPULATE_FIELD_FINDER.put(Constant.DDLB_FIELD, Arrays.asList(DDLB_VALUES));
+        PPA_POPULATE_FIELD_FINDER.put(Constant.TEXT_FIELD, Arrays.asList(TEXT_VALUES));
+        PPA_POPULATE_FIELD_FINDER.put(Constant.LOOKUP_FIELD, Arrays.asList(LOOKUP_VALUES));
+        PPA_POPULATE_FIELD_FINDER.put(Constant.DATE_FEILD, Arrays.asList(DATE_VALUES));
         return PPA_POPULATE_FIELD_FINDER;
     }
 

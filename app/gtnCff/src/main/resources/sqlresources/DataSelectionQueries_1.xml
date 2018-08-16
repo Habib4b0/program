@@ -293,6 +293,10 @@ INSERT
 			AND level_no = 10
 		JOIN relationship_builder RB ON
 			RB.relationship_builder_sid = RLM.relationship_builder_sid
+                        
+       UPDATE A SET A.DEDUCTION_INCLUSION=(CASE WHEN HT.DESCRIPTION='YES' THEN 1 ELSE 0 END) FROM ST_CCP_DEDUCTION_HIERARCHY A
+       INNER JOIN RS_CONTRACT RS ON A.RS_CONTRACT_SID=RS.RS_CONTRACT_SID   
+       JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=RS.DEDUCTION_INCLUSION
 
                          ]]>
 		</query>
@@ -943,4 +947,36 @@ WHERE (
  ]]>
             </query>
         </entity>
+            <entity id="TableTruncationCFF">
+        <query>
+    		<![CDATA[
+                
+  TRUNCATE TABLE ST_CUSTOMER_CFF_SALES;
+  TRUNCATE TABLE ST_PRODUCT_CFF_SALES;
+  TRUNCATE TABLE ST_CUSTOM_CFF_SALES;
+  TRUNCATE TABLE ST_CUSTOMER_CFF_DISCOUNT;
+  TRUNCATE TABLE ST_PRODUCT_CFF_DISCOUNT;
+  TRUNCATE TABLE ST_CUSTOM_CFF_DISCOUNT;
+         
+		]]>
+        </query>
+    </entity> 
+            <entity id="loadEditFrequency">
+        <query>
+    		<![CDATA[
+                
+ SELECT distinct FIELD_VALUES FROM CFF_SELECTION WHERE SCREEN_NAME='Projection Variance' and CFF_MASTER_SID= ? and FIELD_NAME='Frequency'
+         
+		]]>
+        </query>
+    </entity> 
+            <entity id="loadEditDeduction">
+        <query>
+    		<![CDATA[
+                
+ SELECT distinct FIELD_VALUES FROM CFF_SELECTION WHERE SCREEN_NAME='Projection Variance' and CFF_MASTER_SID= ? and FIELD_NAME='DeductionLevel'
+         
+		]]>
+        </query>
+    </entity> 
 </sql>

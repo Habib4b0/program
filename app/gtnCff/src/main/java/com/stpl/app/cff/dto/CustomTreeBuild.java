@@ -235,28 +235,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected int customTreeSaveLogic(String viewName) {
         LOGGER.debug("customTreeSaveLogic started");
-        try {
-            int returnBack = 0;
-            if (viewName != null && viewName.trim().length() > 0) {
-                if (isValidViewName(session.getProjectionId(), viewName, customId)) {
-                    if (customId > 0) {
-                        relationBuildLogic.executeDelete(String.valueOf(customId));
-                    }
-                    returnBack = CommonLogic.customViewSaveLogic(session, customId, viewName, treecontainer.getItemIds());
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("Error", "That view name is taken. Please enter a new View name.");
-                }
-
-            } else {
-                AbstractNotificationUtils.getErrorNotification("Empty view name", "Please enter a view name");
-            }
-            customId = returnBack;
-            LOGGER.debug("customTreeSaveLogic ended= {}", returnBack);
-            return returnBack;
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
             return 0;
-        }
 
     }
 
@@ -269,16 +248,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             treecontainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
         }
         treecontainer.removeAllItems();
-        List<Leveldto> customList = CommonLogic.getCustomTree(customId);
-        Leveldto parent = null;
-        for (Leveldto lvlDTO : customList) {
-            treecontainer.addItem(lvlDTO);
-            if (parent != null) {
-                treecontainer.setParent(lvlDTO, parent);
-                treeTable.setCollapsed(parent, false);
-            }
-            parent = lvlDTO;
-        }
     }
 
     /* (non-Javadoc)

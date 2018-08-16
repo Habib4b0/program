@@ -996,7 +996,7 @@ public class NewComponents extends CustomComponent implements View {
                         }
                         itemInfoDTO.setBrand((obje[NumericConstants.FIVE] != null) ? String.valueOf(obje[NumericConstants.FIVE]) : Constants.EMPTY);
                         if (obje[NumericConstants.SIX] != null) {
-                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((int) obje[NumericConstants.SIX]) == null || iDHelperDTOMap.get((int) obje[NumericConstants.SIX]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((int) obje[NumericConstants.SIX]));
+                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((Integer) obje[NumericConstants.SIX]) == null || iDHelperDTOMap.get((Integer) obje[NumericConstants.SIX]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((Integer) obje[NumericConstants.SIX]));
                         }
                         if (obje[NumericConstants.SEVEN] != null) {
                             String date = df.format(obje[NumericConstants.SEVEN]);
@@ -1047,7 +1047,7 @@ public class NewComponents extends CustomComponent implements View {
                         itemInfoDTO.setForm((obje[NumericConstants.SIX] != null) ? String.valueOf(obje[NumericConstants.SIX]) : Constants.EMPTY);
                         itemInfoDTO.setStrength((obje[NumericConstants.SEVEN] != null) ? String.valueOf(obje[NumericConstants.SEVEN]) : Constants.EMPTY);
                         if (obje[NumericConstants.EIGHT] != null) {
-                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]) == null || iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]));
+                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((Integer) obje[NumericConstants.EIGHT]) == null || iDHelperDTOMap.get((Integer) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((Integer) obje[NumericConstants.EIGHT]));
                         }
                         if (obje[NumericConstants.NINE] != null) {
                             String date = df.format(obje[NumericConstants.NINE]);
@@ -1098,7 +1098,7 @@ public class NewComponents extends CustomComponent implements View {
                         itemInfoDTO.setForm((obje[NumericConstants.SIX] != null) ? String.valueOf(obje[NumericConstants.SIX]) : Constants.EMPTY);
                         itemInfoDTO.setStrength((obje[NumericConstants.SEVEN] != null) ? String.valueOf(obje[NumericConstants.SEVEN]) : Constants.EMPTY);
                         if (obje[NumericConstants.EIGHT] != null) {
-                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]) == null || iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]));
+                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((Integer) obje[NumericConstants.EIGHT]) == null || iDHelperDTOMap.get((Integer) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((Integer) obje[NumericConstants.EIGHT]));
                         }
                         if (obje[NumericConstants.NINE] != null) {
                             String date = df.format(obje[NumericConstants.NINE]);

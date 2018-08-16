@@ -543,7 +543,11 @@ public class PagedGrid {
 	}
 
 	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
-		return "%" + event.getValue() + "%";
+		String value = event.getValue();
+		if (!value.isEmpty()) {
+			return "%" + value + "%";
+		}
+		return "";
 	}
 
 	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {

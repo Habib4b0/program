@@ -134,7 +134,7 @@ public class LoadTabLogic {
 
     public List<Object> getLevelListQuery(TabSelectionDTO tabSelectionDTO) {
         LOGGER.debug("Entering getLevelListQuery");
-        String query = new String();
+        String query = " ";
         List input = new ArrayList(NumericConstants.TWENTY_FIVE);
         if (VARIANCE.equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getContract";
@@ -377,7 +377,7 @@ public class LoadTabLogic {
 
     public List<Object> getCountQuery(TabSelectionDTO tabSelectionDTO) {
         LOGGER.debug("getCountQuery");
-        String query = new String();
+        String query =" ";
         List input = new ArrayList();
         if (VARIANCE.equals(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "contractCount";
