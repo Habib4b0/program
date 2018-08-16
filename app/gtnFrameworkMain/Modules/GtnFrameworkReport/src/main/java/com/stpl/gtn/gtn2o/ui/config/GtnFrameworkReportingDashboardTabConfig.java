@@ -503,7 +503,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		annualTotalsConfig.setComponentName("Annual Totals: ");
-                annualTotalsConfig.setEnable(false);
 		annualTotalsConfig.setAuthorizationIncluded(true);
 
 		componentList.add(annualTotalsConfig);

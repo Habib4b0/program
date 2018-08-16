@@ -124,9 +124,9 @@ public class GtnReportDataSelectionResetAction
 				.loadV8ComboBoxComponentValue("0");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(18).toString(),componentId).loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(19).toString(),componentId).setV8PopupFieldValue(" ");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(20).toString(),componentId)
-				.loadV8ComboBoxComponentValue(0);
+		comboBoxComponent.reloadComponentFromParent(actionParamsList.get(20).toString(), componentId, Arrays.asList(""));
 		comboBoxComponent.setFocusInComponent(GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(1).toString(),componentId).getComponent());
+		
 	}
 
 	@Override
