@@ -90,7 +90,7 @@ public class SearchForm extends CustomComponent {
         this.tableResult = tableResult;
         this.userId = userId;
 
-        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/searchForm.xml"), this));
+        setCompositionRoot(Clara.create(SearchForm.class.getResourceAsStream("/searchForm.xml"), this));
         addStyleName("bootstrap");
         init();
     }

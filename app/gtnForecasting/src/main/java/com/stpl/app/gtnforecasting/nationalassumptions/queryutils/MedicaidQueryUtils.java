@@ -99,8 +99,7 @@ public class MedicaidQueryUtils {
         }
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
-        }
-
+        }	
         medicaidList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return medicaidList;
@@ -115,8 +114,8 @@ public class MedicaidQueryUtils {
                 queryBuilder1 = new StringBuilder();
 
                 String formatedValue = values.getValue();
-
-                String tempValue[] = formatedValue.split("~");
+                String formatedKey = values.getKey();
+                String tempValue[] = formatedKey.split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -202,7 +201,6 @@ public class MedicaidQueryUtils {
 
         String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
         queryBuilder1 = new StringBuilder(replacedQuery);
-
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
         String notesText[] = new String[NumericConstants.TWO];
         if (list.isEmpty()) {
@@ -291,7 +289,6 @@ public class MedicaidQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
         phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsWSList;
@@ -384,7 +381,6 @@ public class MedicaidQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
         medicaidList = (List) DAO.executeSelectQuery(customSql);
         return medicaidList;
     }

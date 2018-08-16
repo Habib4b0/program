@@ -608,8 +608,8 @@ case "privateViewName":
 		dbColumnIdMap.put("type", "ht.DESCRIPTION");
 		dbColumnIdMap.put("version", "VERSION");
 		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");
-		dbColumnIdMap.put("fromPeriod", "FROM_PERIOD");
 		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
+		dbColumnIdMap.put("activeFile", "ACTIVE_FILE");
 		return dbColumnIdMap;
 	}
 
@@ -640,8 +640,8 @@ case "privateViewName":
 		dbColumnDataTypeMap.put("type", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("version", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("activeFrom", GtnWsQueryConstants.CONSTANT_DATE);
-		dbColumnDataTypeMap.put("fromPeriod", GtnWsQueryConstants.CONSTANT_DATE);
 		dbColumnDataTypeMap.put("toPeriod", GtnWsQueryConstants.CONSTANT_DATE);
+		dbColumnDataTypeMap.put("activeFile", GtnWsQueryConstants.CONSTANT_STRING);
 		return dbColumnDataTypeMap;
 	}
 
@@ -691,6 +691,25 @@ case "privateViewName":
 			if(id==0) {
 				response.getGtnWsGeneralResponse().setSucess(false);
 			}
+		} catch (GtnFrameworkGeneralException e) {
+			response.getGtnWsGeneralResponse().setSucess(false);
+		}
+		return response;
+	}
+        
+        public GtnUIFrameworkWebserviceResponse deleteValidation(GtnWsReportDataSelectionBean dataSelectionBean, int userId) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		String query = sqlService.getQuery("deleteValidation");
+		Object[] params = { dataSelectionBean.getViewId(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		try {
+			List<Object> count = (List<Object>)gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);			
+			if(count.get(0).equals(0)) {
+				response.getGtnWsGeneralResponse().setSucess(false);
+			}
+                        else{
+                            response.getGtnWsGeneralResponse().setSucess(true);
+                        }
 		} catch (GtnFrameworkGeneralException e) {
 			response.getGtnWsGeneralResponse().setSucess(false);
 		}

@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -333,6 +332,7 @@ public class FileManagementLookup extends Window {
 	private boolean isDetails;
 	private String fmbusinessUnit;
 	private int nonRecordLock = 0;
+        private static final Object[] PRICE_DOLLARS = new Object[]{ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS};
 	/**
 	 * Instantiates a new file management lookup.
 	 *
@@ -2758,7 +2758,7 @@ public class FileManagementLookup extends Window {
 
 		final ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
 			/**
-			 * 
+			 * `
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -2793,9 +2793,8 @@ public class FileManagementLookup extends Window {
 			}
 		});
 
-		final Object[] obj = new Object[] { ConstantsUtils.PRICE, ConstantsUtils.UNITS, ConstantsUtils.DOLLARS };
-		for (int i = 0; i < obj.length; i++) {
-			detailsFilterTable.setColumnAlignment(obj[i], ExtFilterTable.Align.RIGHT);
+		for (int i = 0; i < PRICE_DOLLARS.length; i++) {
+			detailsFilterTable.setColumnAlignment(PRICE_DOLLARS[i], ExtFilterTable.Align.RIGHT);
 		}
 
 	}

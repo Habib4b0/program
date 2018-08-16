@@ -77,6 +77,7 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
+import java.sql.SQLException;
 
 /**
  *
@@ -1988,48 +1989,35 @@ public class CommonLogic {
     public void callDiscountTableInsert(final Object[] inputs, String procedureName) {
         LOGGER.debug("Entering callTableInsert");
 
-        Connection connection = null;
         CallableStatement statement = null;
-        DataSource datasource;
-        try {
-            Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATA_POOL);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-
-            if (connection != null) {
+        
+          try (Connection connection = ((DataSource)new InitialContext().lookup(DATA_POOL)).getConnection()){
                 LOGGER.debug(" Executing {} procedure ", procedureName);
                 StringBuilder statementBuilder = new StringBuilder("{call ");
                 statementBuilder.append(procedureName).append("(?,?,?,?)}");
                 statement = connection.prepareCall(statementBuilder.toString());
-
                 statement.setObject(1, inputs[0]);
                 statement.setObject(NumericConstants.TWO, inputs[1]);
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
                 statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
                 statement.execute();
-            }
 
             LOGGER.debug("Ending {} Procedure", procedureName);
 
-        } catch (Exception ex) {
+        }catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
         } finally {
             try {
-                statement.close();
-            } catch (Exception e) {
-				LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
-            } catch (Exception e) {
-				LOGGER.error(e.getMessage());
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
             }
         }
-        LOGGER.debug("Exiting callTableInsert");
+          LOGGER.debug("Exiting callTableInsert");
     }
-
+        
     public void mandatedTempToMainSave(String userId, String sessionId, int newProjectionID) {
         LOGGER.debug("Entering mandatedTempToMainSave");
         List input = new ArrayList();

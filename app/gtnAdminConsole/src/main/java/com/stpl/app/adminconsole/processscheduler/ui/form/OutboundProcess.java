@@ -48,8 +48,8 @@ public class OutboundProcess {
     private FtpProperties ftpProperties = getFtpBundleValue();
     private String filePath = ftpProperties.getScripts();
 
-    private SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
-    private SimpleDateFormat format_time = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss");
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     private String processName;
 
     public OutboundProcess() {

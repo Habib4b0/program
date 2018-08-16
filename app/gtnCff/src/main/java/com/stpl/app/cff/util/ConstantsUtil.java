@@ -150,6 +150,10 @@ public class ConstantsUtil {
     public static final String HT_DESCRIPTION = "HT.DESCRIPTION";
     public static final String UNION_ALL = " UNION ALL ";
     public static final String RS_ID_REPLACE = "?RBSID";
+    public static final String CUSTOMER_SID_LITERAL = "custSid";
+    public static final String CUSTVER = "custVer";
+    public static final String PROD_SID_LITERAL = "prodSid";
+       public static final String PRODVER = "prodVer";
     
 
     public enum PVVariables {

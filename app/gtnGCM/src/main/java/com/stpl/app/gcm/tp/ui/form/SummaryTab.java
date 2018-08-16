@@ -405,9 +405,10 @@ public class SummaryTab extends VerticalLayout {
                                             } else {
                                                 companies = CommmonLogic.generateCustomerMappings(session.getCompanyMasterSids(), session.getPhCompanyMasterSids());
                                             }
+                                             if (ttpForm != null) {
                                             CommonLogic.insertInputsBeforeTranfer(fromProjectionId, copyFromProjectionId, toProjectionId, copyToProjectionId, sourceContract,
                                                     destinationContract, companies, fromCustomerEndDate, toCustomerStartDate, ttpForm.isSalesRemoveFlag(), session.getSessionId(), transferSalesFlag);
-
+                                             }
                                             if (session.getModuleName().equalsIgnoreCase(TRANSFER_TRADING_PARTNER.getConstant())) {
                                                 CommonLogic.callPrcFeSalesTransfer(session.getSessionId());
                                             } else {

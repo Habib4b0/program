@@ -45,77 +45,145 @@ public class PVCommonLogic {
             String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index - 1])));
             String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
 
-            variableValueCustomization(variableCategory, currentValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-            variableValueCustomization(variableCategory, actualValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-            if (!nullCheck(StringUtils.EMPTY + obj[index - 2])) {
-                variableValueCustomization(variableCategory, accrualValue, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-            } else {
-                pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), ACCRUAL_DASH);
-            }
-
-            switch (pvsdto.getComparisonBasis()) {
-
-                case StringConstantsUtil.ACTUALS1:
-                        comparisonBasisCustomization(variableCategory, currentValue, actualValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-                        comparisonBasisCustomization(variableCategory, accrualValue, actualValue, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-                    break;
-                case StringConstantsUtil.ACCRUALS:
-                    if (!nullCheck(StringUtils.EMPTY + obj[index - 2])) {
-                        comparisonBasisCustomization(variableCategory, currentValue, accrualValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-                        comparisonBasisCustomization(variableCategory, actualValue, accrualValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-                    }
-                    break;
-                case COMPARISON_CURRENT:
-                    comparisonBasisCustomization(variableCategory, actualValue, currentValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-                    comparisonBasisCustomization(variableCategory, accrualValue, currentValue, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
-                    break;
-                default:
-                    break;
-            }
+            addPeriodProperties(variableCategory, currentValue, format,commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
 
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
     }
+     public static void customizePeriodV2(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, 
+             DecimalFormat format, int index, Object[] actual,Object[] proj, boolean isPer) {
+        try {
+            String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[actual.length - 3])));
+            String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
+            String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
 
-    static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String commonColumn, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
+            addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
+
+        } catch (Exception e) {
+            LOGGER.error("{}",e);
+        }
+    }
+
+    private static void addPeriodProperties(String variableCategory, String currentValue, DecimalFormat format,
+            String commonColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, boolean isPer, String actualValue, String accrualValue) {
+        variableValueCustomization(variableCategory, currentValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+        variableValueCustomization(variableCategory, actualValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+        if (!nullCheck(StringUtils.EMPTY + accrualValue)) {
+            variableValueCustomization(variableCategory, accrualValue, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+        } else {
+            pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), ACCRUAL_DASH);
+        }
+        
+        switch (pvsdto.getComparisonBasis()) {
+            
+            case StringConstantsUtil.ACTUALS1:
+                comparisonBasisCustomization(variableCategory, currentValue, actualValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+                comparisonBasisCustomization(variableCategory, accrualValue, actualValue, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+                break;
+            case StringConstantsUtil.ACCRUALS:
+                if (!nullCheck(StringUtils.EMPTY +accrualValue)) {
+                    comparisonBasisCustomization(variableCategory, currentValue, accrualValue, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+                    comparisonBasisCustomization(variableCategory, actualValue, accrualValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+                }
+                break;
+            case COMPARISON_CURRENT:
+                comparisonBasisCustomization(variableCategory, actualValue, currentValue, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+                comparisonBasisCustomization(variableCategory, accrualValue, currentValue, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, pvDTO, isPer);
+                break;
+            default:
+                break;
+        }
+    }
+
+    static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO,
+            String commonColumn, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
         LOGGER.debug("Inside getPivotCommonCustomization");
         List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
         String visibleColumn = commonColumn + priorList.get(priorIndex);
         String comparisonPriorVal = StringUtils.EMPTY;
         String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index + ((priorIndex + 1) * columnCountTotal)])));
-        boolean comparisonBasis = !StringConstantsUtil.ACTUALS1.equalsIgnoreCase(pvsdto.getComparisonBasis()) && !StringConstantsUtil.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis()) && !COMPARISON_CURRENT.equalsIgnoreCase(pvsdto.getComparisonBasis());
+        boolean comparisonBasis = !StringConstantsUtil.ACTUALS1.equalsIgnoreCase(pvsdto.getComparisonBasis())
+                && !StringConstantsUtil.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis()) && !COMPARISON_CURRENT.equalsIgnoreCase(pvsdto.getComparisonBasis());
         String actValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index - 1])));
         String accrValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index - 2])));
         String currValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index])));
 
         if (comparisonBasis) {
-            comparisonPriorVal = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[index + ((Integer.parseInt(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
+            comparisonPriorVal = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + 
+                    row[index + ((Integer.parseInt(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
             priorComparison = visibleColumn.equals(commonColumn + pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis())));
         }
-        variableValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto, projDTO, isPer);
-            switch (pvsdto.getComparisonBasis()) {
-
-                case StringConstantsUtil.ACTUALS1:
-                    comparisonBasisCustomization(variableCategory, priorVal, actValue, format, visibleColumn, pvsdto, projDTO, isPer);
-                    break;
-                case StringConstantsUtil.ACCRUALS:
-                    comparisonBasisCustomization(variableCategory, priorVal, accrValue, format, visibleColumn, pvsdto, projDTO, isPer);
-                    break;
-                case COMPARISON_CURRENT:
-                    comparisonBasisCustomization(variableCategory, priorVal, currValue, format, visibleColumn, pvsdto, projDTO, isPer);
-                    break;
-                default:
-                    if (!priorComparison) {
-                    comparisonBasisCustomization(variableCategory, priorVal, comparisonPriorVal, format, visibleColumn, pvsdto, projDTO, isPer);
-                     }
-                    comparisonBasisCustomization(variableCategory, currValue, comparisonPriorVal, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
-                    comparisonBasisCustomization(variableCategory, actValue, comparisonPriorVal, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
-                    comparisonBasisCustomization(variableCategory, accrValue, comparisonPriorVal, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
-                    break;
-           
-        }
+        priorVraibleValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto, 
+                projDTO, isPer, actValue, accrValue, currValue, comparisonPriorVal, commonColumn);
         LOGGER.debug("Ending getPivotCommonCustomization");
+    }
+    
+    static void getPriorCommonCustomizationV2(String variableCategory, PVSelectionDTO pvsdto, final List<Object[]> rows, ProjectionVarianceDTO projDTO,
+            String commonColumn, int index, int priorIndex, final Boolean isPer, DecimalFormat format) {
+        LOGGER.debug("Inside getPivotCommonCustomization");
+        int currentProjectionId = pvsdto.getCurrentProjId();
+
+        List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
+        int priorProjId = priorList.get(priorIndex);
+        int comparisonprojId = 0;
+
+        String visibleColumn = commonColumn + priorProjId;
+        String comparisonPriorVal = StringUtils.EMPTY;
+        String priorVal = StringUtils.EMPTY;
+        boolean comparisonBasis = !StringConstantsUtil.ACTUALS1.equalsIgnoreCase(pvsdto.getComparisonBasis())
+                && !StringConstantsUtil.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis()) && !COMPARISON_CURRENT.equalsIgnoreCase(pvsdto.getComparisonBasis());
+        
+        if(comparisonBasis ){
+           comparisonprojId =  pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis()));
+        }
+        String actValue = StringUtils.EMPTY;
+        String accrValue = StringUtils.EMPTY;
+        String currValue = StringUtils.EMPTY;
+        for (Object[] row : rows) {
+            int projectionId = Integer.parseInt(String.valueOf(row[0]));
+            boolean isActual = Integer.parseInt(String.valueOf(row[row.length - 1])) == 0;
+            if (projectionId == currentProjectionId) {
+                if (isActual) {
+                    actValue = getDoubleValue(row[index]);
+                } else {
+                    currValue = getDoubleValue(row[index]);
+                }
+            } else if (projectionId == priorProjId && !isActual) {
+                priorVal = getDoubleValue(row[index]);
+            } else if (projectionId == comparisonprojId && comparisonBasis && !isActual) {
+                comparisonPriorVal = getDoubleValue(row[index]);
+                priorComparison = visibleColumn.equals(commonColumn + comparisonprojId);
+            }
+        }
+        priorVraibleValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto,
+                projDTO, isPer, actValue, accrValue, currValue, comparisonPriorVal, commonColumn);
+        LOGGER.debug("Ending getPivotCommonCustomization");
+    }
+    
+    private static void priorVraibleValueCustomization(String variableCategory, String priorVal, DecimalFormat format, String visibleColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, final Boolean isPer, String actValue, String accrValue, String currValue, String comparisonPriorVal, String commonColumn) {
+        variableValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto, projDTO, isPer);
+        switch (pvsdto.getComparisonBasis()) {
+            
+            case StringConstantsUtil.ACTUALS1:
+                comparisonBasisCustomization(variableCategory, priorVal, actValue, format, visibleColumn, pvsdto, projDTO, isPer);
+                break;
+            case StringConstantsUtil.ACCRUALS:
+                comparisonBasisCustomization(variableCategory, priorVal, accrValue, format, visibleColumn, pvsdto, projDTO, isPer);
+                break;
+            case COMPARISON_CURRENT:
+                comparisonBasisCustomization(variableCategory, priorVal, currValue, format, visibleColumn, pvsdto, projDTO, isPer);
+                break;
+            default:
+                if (!priorComparison) {
+                    comparisonBasisCustomization(variableCategory, priorVal, comparisonPriorVal, format, visibleColumn, pvsdto, projDTO, isPer);
+                }
+                comparisonBasisCustomization(variableCategory, currValue, comparisonPriorVal, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
+                comparisonBasisCustomization(variableCategory, actValue, comparisonPriorVal, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
+                comparisonBasisCustomization(variableCategory, accrValue, comparisonPriorVal, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
+                break;
+                
+        }
     }
 
     public static String isNull(String value) {
@@ -123,6 +191,13 @@ public class PVCommonLogic {
             value = ZERO;
         }
         return value;
+    }
+    public static String getDoubleValue(Object value) {
+        String result=String.valueOf(value);
+        if (value==null || result.isEmpty()) {
+            result = ZERO;
+        }
+        return  Double.toString(Double.valueOf(result));
     }
 
     public static Boolean nullCheck(String value) {
@@ -184,7 +259,7 @@ public class PVCommonLogic {
     }
 
     public static String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains(NULL.getConstant())) {
+        if (value.contains(NULL.getConstant())|| value.isEmpty()) {
             value = ZERO;
         } else {
             value = format.format(Double.valueOf(value));

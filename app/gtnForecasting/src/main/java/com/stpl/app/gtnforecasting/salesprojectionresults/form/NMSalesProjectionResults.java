@@ -853,13 +853,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
-                } else {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
                 }
-                if (i == exportAt) {
-                    exp.exportMultipleTabs(true);
-                } else {
-                    exp.exportMultipleTabs(false);
+                if (i != 0 && exp != null) {
+                    exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+                    boolean export = i == exportAt;
+                    exp.exportMultipleTabs(export);
                 }
             }
         } else {
@@ -935,14 +933,14 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
     @Override
     public void expandButtonLogic() {
-        if (level.getValue() != null && !SELECT_ONE.equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
+        if (level.getValue() != null && !SELECT_ONE.getConstant().equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
             expandCollapseLevelOption(true, level.getValue());
         }
     }
 
     @Override
     public void collapseButtonLogic() {
-        if (level.getValue() != null && !SELECT_ONE.equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
+        if (level.getValue() != null && !SELECT_ONE.getConstant().equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
             expandCollapseLevelOption(false, level.getValue());
         }
     }

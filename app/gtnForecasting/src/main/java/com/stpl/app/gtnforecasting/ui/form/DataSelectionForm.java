@@ -490,7 +490,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 			deductionValue.setValue(
 					helperListUtil.getHelperDTOByID(StringUtils.isNumeric(String.valueOf(viewDTO.getDeductionValueId()))
-							? Integer.valueOf(viewDTO.getDeductionValueId()) : 0));
+							? viewDTO.getDeductionValueId() : 0));
 		}
 
 		RelationshipDdlbDto selectedCustomerRelationshipDdlbDto = null;
@@ -3316,7 +3316,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							resultTable, scrName, this, dto);
 					UI.getCurrent().addWindow(forecastWindow);
                                         long endTime = System.currentTimeMillis();
-                                        LOGGER.info("DataSelection  ---- :{}" , (endTime - startTime)/1000 , "-----------: {}" , (endTime - startTime)/1000);
+                                        LOGGER.info("DataSelection  ---- :{}" , (endTime - startTime)/1000);
                                         
 				} else if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
 					ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), tempSession,

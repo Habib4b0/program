@@ -620,9 +620,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 supplementalDiscountProjectionLogic.updateCheckedRecord(itemDto, projectionDTO, check.getValue() ? 1 : 0);
                                 boolean checkCustomerFlag = false;
                                 boolean checkBrandFlag = false;
-                                List<Object> queryList = null;
                                 Map<String, Object> mapList = tableLogic.getExpandedTreeLevelList();
-                                queryList = supplementalDiscountProjectionLogic.getUpdateRecord(itemDto.getParentCcpDetailIdList(), session.getUserId(), session.getSessionId());
+                                List<Object> queryList = supplementalDiscountProjectionLogic.getUpdateRecord(itemDto.getParentCcpDetailIdList(), session.getUserId(), session.getSessionId());
                                 checkCustomerFlag = queryList.size() == itemDto.getParentCcpDetailIdList().size();
                                 int[] levelNo = new int[2];
                                 if (itemDto.getSupplementalLevelNo() == 5) {
@@ -1519,14 +1518,13 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             ForecastUI.setEXCEL_CLOSE(true);
             if (i == 0) {
                 exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SUPPLEMENTAL_DISCOUNT, "Supplemental_Discount_Projection.xls", false);
-            } else {
+            }
+            if (i != 0 && exp != null) {
                 exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+                boolean export = i == exportAt;
+                exp.exportMultipleTabs(export);
             }
-            if (i == exportAt) {
-                exp.exportMultipleTabs(true);
-            } else {
-                exp.exportMultipleTabs(false);
-            }
+            
         }
         resultsTableLayout.removeComponent(exportPeriodViewTable);
     }
@@ -1535,7 +1533,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     protected void levelFilterValueChangeLogic(Property.ValueChangeEvent event) {
         LOGGER.debug("levelFilterDdlbChangeOption inititated= {} " , levelFilterDdlb.getValue());
         tableLogic.setRefresh(false);
-        if (SELECT_ONE.equals(levelFilterDdlb.getValue()) || levelFilterDdlb.getValue() == null) {
+        if (SELECT_ONE.getConstant().equals(levelFilterDdlb.getValue()) || levelFilterDdlb.getValue() == null) {
             projectionDTO.setIsFilter(false);
             projectionDTO.setCustomFlag(true);
             tableLogic.clearAll();
@@ -1624,7 +1622,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     @Override
     protected void massCheckValueChangeLogic(Property.ValueChangeEvent event) {
         LOGGER.debug(" massUpdate ValueChangeEvent initiated ");
-        if (Constant.LabelConstants.DISABLE.equals(massCheck.getValue())) {
+        if (Constant.LabelConstants.DISABLE.getConstant().equals(massCheck.getValue())) {
             enableOrDisable(false);
         } else {
             enableOrDisable(true);

@@ -98,7 +98,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         ConfigureTable();
         getBinder();
         loadAllDdlb();
-        configureAllitems();
+        configureAllitemsTransferContract();
     }
 
     /**
@@ -164,7 +164,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         UI.getCurrent().addWindow(ps);
     }
 
-    private void configureAllitems() {
+    private void configureAllitemsTransferContract() {
         allItems.addItems("YES", "NO");
         allItems.select("YES");
     }

@@ -306,6 +306,12 @@
 			DELETE FROM REPORTING_VIEW_MASTER WHERE VIEW_ID = ? AND CREATED_BY = ?
 		]]>
 	</entry>
+        
+        <entry key="deleteValidation">
+		<![CDATA[
+			SELECT COUNT(*) FROM REPORTING_VIEW_MASTER WHERE VIEW_ID = ? AND CREATED_BY = ?
+		]]>
+	</entry>
 	
 	<entry key="loadProjectionComparisonResults">
 		<![CDATA[
