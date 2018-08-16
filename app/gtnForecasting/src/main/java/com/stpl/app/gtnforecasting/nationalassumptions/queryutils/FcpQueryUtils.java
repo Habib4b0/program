@@ -67,6 +67,7 @@ public class FcpQueryUtils {
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
         }
         try {
+        	LOGGER.info("loadFcpResultsTable query: " + customSql);
             fcpList = (List) DAO.executeSelectQuery(customSql);
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -102,6 +103,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
+        LOGGER.info("loadFcpResultsChild query: " + QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return fcpList;
@@ -131,7 +133,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
+        LOGGER.info("getNonFamp query: " + QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         return fcpList;
     }
@@ -204,6 +206,7 @@ public class FcpQueryUtils {
                 queryList.add(queryBuilder1);
 
             }
+            LOGGER.info("saveNotes in FCP query: " + String.valueOf(queryBuilder1));
             DAO.executeUpdateQuery(queryList);
             queryList.clear();
         }
@@ -271,7 +274,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
+        LOGGER.info("loadFCPWorksheet Query: " + customSql);
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return fcpList;
@@ -309,7 +312,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
+        LOGGER.info("loadFcpParent Query: " + customSql);
         fcpList = (List) DAO.executeSelectQuery(customSql);
         return fcpList;
     }
@@ -324,7 +327,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-
+        LOGGER.info("updateAdjustment FCP Query: " + customSql);
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
     }
 
@@ -347,5 +350,6 @@ public class FcpQueryUtils {
     public void updateBeforeAdjustment(String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
         String customSql = SQlUtil.getQuery(getClass(),queryName);
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
+        LOGGER.info("updateBeforeAdjustment FCP Query: " + customSql);
     }
 }
