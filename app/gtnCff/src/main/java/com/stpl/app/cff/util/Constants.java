@@ -59,6 +59,7 @@ public class Constants {
     public static final String DEDUCTION_HIERARCHY_INDICATOR = "D";
     public static final String DISPLAY_FORMAT_SAVE="DisplayFormat";
     public static final String COMMA=",";
+    public static final char COMMA_CHAR=',';
     public static final String CUSTOMER_LEVEL_DDLB="CustomerLevel";
     public static final String CUSTOMER_LEVEL_VALUE="CustomerLevelValue";
     public static final String PRODUCT_LEVEL_DDLB="ProductLevel";
@@ -1068,16 +1069,18 @@ public class Constants {
         }
 
         public String getViewType(final String indicator) {
-            if (indicator != null && !indicator.isEmpty()) {
-                if (indicator.equals(LabelConstants.PRIVATE_VIEW.getConstant())) {
-                    constant = LabelConstants.PRIVATE.getConstant();
-                } else if (indicator.equals(LabelConstants.PUBLIC_VIEW.getConstant())) {
-                    constant = LabelConstants.PUBLIC.getConstant();
+            synchronized (LogicConstants.class) {
+                if (indicator != null && !indicator.isEmpty()) {
+                    if (indicator.equals(LabelConstants.PRIVATE_VIEW.getConstant())) {
+                        constant = LabelConstants.PRIVATE.getConstant();
+                    } else if (indicator.equals(LabelConstants.PUBLIC_VIEW.getConstant())) {
+                        constant = LabelConstants.PUBLIC.getConstant();
+                    } else {
+                        constant = StringUtils.EMPTY;
+                    }
                 } else {
                     constant = StringUtils.EMPTY;
                 }
-            } else {
-                constant = StringUtils.EMPTY;
             }
             return constant;
         }

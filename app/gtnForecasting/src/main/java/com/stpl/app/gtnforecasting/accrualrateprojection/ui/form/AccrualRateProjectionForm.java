@@ -566,6 +566,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                 latch.await();
             } catch (InterruptedException ex) {
                 LOGGER.error(ex.getMessage());
+                Thread.currentThread().interrupt();
             }
             getSales().saveTabSelection();
             rates.saveTabSelection();

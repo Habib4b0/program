@@ -56,8 +56,6 @@ public class PVQueryUtils {
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
         char quotes = '\'';
-        String asterik = "*";
-        String percent = Constant.PERCENT;
         String marketTypeVal;
         String brandVal;
         String projNameVal;
@@ -198,8 +196,6 @@ public class PVQueryUtils {
     public String getComparisionSearchResults(final ComparisonLookupDTO comparisonLookupDTO, final String screenName, final Map<String, Object> parameters, final List<SortByColumn> sortColumns, final int start, final int offset, boolean isCount) {
         try {
             String quotes = "'";
-            String asterik = "*";
-            String percent = Constant.PERCENT;
             String marketTypeVal;
             String brandVal;
             String projNameVal;

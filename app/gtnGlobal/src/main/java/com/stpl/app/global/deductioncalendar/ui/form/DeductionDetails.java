@@ -807,7 +807,7 @@ public class DeductionDetails extends CustomComponent {
                         int endMonth = CommonUtil.getMonth(end[0]);
                         if (Integer.parseInt(start[1]) > Integer.parseInt(end[1])) {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
-                        } else if (Integer.valueOf(start[1]) == Integer.valueOf(end[1]) && (startMonth > endMonth)) {
+                        } else if (Integer.valueOf(start[1]).equals(Integer.valueOf(end[1])) && (startMonth > endMonth)) {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
                         } else if (refreshSet.isEmpty()) {
                             String updateValue = value.getValue();
@@ -1056,7 +1056,7 @@ public class DeductionDetails extends CustomComponent {
                             }
                             int periodSize = periodList.size();
                             for (int i = 0; i < periodSize; i++) {
-                                Object[] arr = String.valueOf(periodList.get(i)).split("~");
+                                String[] arr = String.valueOf(periodList.get(i)).split("~");
 
                                 if (i == 0) {
                                     lastValue.append('m' ).append( String.valueOf(arr[1]) ).append( ' ' ).append( String.valueOf(arr[NumericConstants.TWO]));

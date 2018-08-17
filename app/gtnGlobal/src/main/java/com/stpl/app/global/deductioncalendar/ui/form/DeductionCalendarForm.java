@@ -338,9 +338,6 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                     boolean flag = false;
                     StringBuilder errorMessage = new StringBuilder("Information for the following Mandatory fields need to be provided:" + ConstantsUtils.BREAK);
                     if (binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NO).getValue().toString().trim().isEmpty()) {
-                        if (flag) {
-                            errorMessage.append(',');
-                        }
                         errorMessage.append("DEDUCTION CALENDAR NO");
                         flag = true;
                     }

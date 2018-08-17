@@ -6,10 +6,20 @@ public class GtnWsQueryConstants {
 		throw new IllegalStateException("Constant class");
 	}
 
-	public static final String DATA_ASSUMPTIONS_COUNT_QUERY = "select count(*) from(select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD as ACTIVE_FROM,	FROM_PERIOD,	TO_PERIOD		from	FILE_MANAGEMENT	inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID= BUSINESS_UNIT	inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID=FILE_TYPE where	TO_PERIOD is null @filter) A";
-
-	public static final String DATA_ASSUMPTIONS_RESULT_QUERY = "select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD as ACTIVE_FROM,	FROM_PERIOD,	TO_PERIOD		from	FILE_MANAGEMENT	inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID= BUSINESS_UNIT	inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID=FILE_TYPE where	TO_PERIOD is null @filter";
-
+	public static final String DATA_ASSUMPTIONS_COUNT_QUERY="SELECT COUNT(*) FROM (select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss'), TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss') ,	case when File_management.TO_PERIOD is null then 'Yes' else 'No' end ACTIVE_FILE 	"
+                + "from	FILE_MANAGEMENT	"
+                + "inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY "
+                + "inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID= BUSINESS_UNIT	"
+                + "inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID=FILE_TYPE ) A "
+                + "where TO_PERIOD is null @filter";            
+	
+        public static final String DATA_ASSUMPTIONS_RESULT_QUERY ="SELECT * FROM (select	FORECAST_NAME as FORECAST_NAME,	company.COMPANY_NAME as COMPANY_NAME ,	businessunit.COMPANY_NAME as BUSINESS_UNIT,	ht.DESCRIPTION as FILE_TYPE,	VERSION,	FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss') , TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss'),	case when File_management.TO_PERIOD is null then 'Yes' else 'No' end ACTIVE_FILE 	"
+                + "from	FILE_MANAGEMENT	"
+                + "inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY "
+                + "inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID= BUSINESS_UNIT	"
+                + "inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID=FILE_TYPE ) A "
+                + "where TO_PERIOD is null @filter";      
+	
 	public static final String HIERARCHY_SID_AND_LEVEL_DEFINITION_SID = "SELECT distinct LEVEL_NO, LEVEL_VALUE_REFERENCE, TABLE_NAME, FIELD_NAME, LEVEL_NAME, HLD.HIERARCHY_LEVEL_DEFINITION_SID, HLD.HIERARCHY_DEFINITION_SID, HT.DESCRIPTION from HIERARCHY_LEVEL_DEFINITION HLD JOIN dbo.HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID JOIN dbo.HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where hld.HIERARCHY_DEFINITION_SID =@HIERARCHY_DEFINITION_SID and HLD.VERSION_NO =@VERSION_NO ";
 
 	public static final String MAIN_QUERY_REPORT_FROM_AND_TO_DATE = ";WITH cte AS "
@@ -43,10 +53,14 @@ public class GtnWsQueryConstants {
 
 	public static final String YEAR_FREQUENCY = "[0-9]+";
 
-	public static final String DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid' union ( select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FILE_TYPE where TO_PERIOD is null) ";
-
-	public static final String DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid'";
-	
+        public static final String DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS =  "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss'), TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss'),case\n" +
+        "				when FT.TO_PERIOD is null then 'Yes'\n" +
+        "				else 'No'\n" +
+        "			end ACTIVE_FILE from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid'";
+        public static final String DATA_ASSUMPTIONS_NO_SOURCE_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD = FORMAT(FROM_PERIOD , 'MM/dd/yyyy HH:mm:ss') , TO_PERIOD = FORMAT(TO_PERIOD , 'MM/dd/yyyy HH:mm:ss') ,case\n" +
+        "				when FT.TO_PERIOD is null then 'Yes'\n" +
+        "				else 'No'\n" +
+        "			end ACTIVE_FILE from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid' ";	
 	public static final String PRC_CUSTOM_CCPDV_POPULATION = " PRC_CUSTOM_CCPDV_POPULATION ? , ? , ? ";
 
 	public static final String PRC_REPORT_DATA_POPULATION = " PRC_REPORTING_DASHBOARD ? , ? , ? , ? , ? , ? , ? , ? ";

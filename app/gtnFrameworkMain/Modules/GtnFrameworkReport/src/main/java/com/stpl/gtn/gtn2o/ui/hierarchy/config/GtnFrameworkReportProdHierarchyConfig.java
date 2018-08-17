@@ -240,6 +240,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				true, levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		levelLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		level.setComponentName("Level: ");
+		level.addComboComponentStyle("v-report-width-200");
 		level.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
@@ -407,6 +408,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 		customViewComboboxConfig.setComponentWsFieldId("customViewName");
 		customViewComboboxConfig.setVaadinComponentPlaceHolder("-Select one-");
+		customViewComboboxConfig.addComboComponentStyle("v-report-width-170");	
 		componentList.add(customViewComboboxConfig);
 
 		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig("REPORT_CUSTOM_VIEW",

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportSearchNotification;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -181,6 +182,12 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "viewName" ,namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "viewType"}));
 		actionConfigList.add(loadDataTableActionConfig);
+                
+                GtnUIFrameWorkActionConfig searchAction = new GtnUIFrameWorkActionConfig();
+		searchAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+                searchAction.addActionParameter(GtnFrameworkReportSearchNotification.class.getName());
+                searchAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent");
+                actionConfigList.add(searchAction);
 		reportProfileSearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		
 		GtnUIFrameworkComponentConfig reportProfileResetButton = new GtnUIFrameworkComponentConfig();
@@ -261,11 +268,6 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemsPerPageAlignCentre(false);
 		
 
-		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
-		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-		alertAction.addActionParameter("No Results Found");
-		alertAction.addActionParameter("No Report Profiles match your search criteria.");
-
 		reportProfilePagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE);
 		reportProfilePagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
@@ -283,7 +285,6 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setTableColumnMappingId(
 				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		reportProfilePagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-		reportProfilePagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		reportProfilePagedTableComponent.setGtnPagedTableConfig(reportProfilePagedTableConfig);
 	}
