@@ -49,7 +49,7 @@ public class GtnFrameworkRSCommonLogic {
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentRebateScheduleID", componentId)
 				.loadFieldValue(rebateScheduleInfoBean.getParentRebateScheduleID());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rsTransactionRefId", componentId)
-				.loadFieldValue(rebateScheduleInfoBean.getRsTransactionRefName());
+				.loadFieldValue(rebateScheduleInfoBean.getRsTransactionRefId());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("evaluationRuleAssociation", componentId)
 				.loadFieldValue(rebateScheduleInfoBean.getEvaluationRuleAssociation());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebateScheduleStatus1", componentId)

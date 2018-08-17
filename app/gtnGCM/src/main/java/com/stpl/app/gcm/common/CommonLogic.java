@@ -2024,9 +2024,9 @@ public class CommonLogic {
                 LOGGER.error(e.getMessage());
             }
         }
-          LOGGER.debug("Exiting callTableInsert");
+        LOGGER.debug("Exiting callTableInsert");
     }
-        
+
     public void mandatedTempToMainSave(String userId, String sessionId, int newProjectionID) {
         LOGGER.debug("Entering mandatedTempToMainSave");
         List input = new ArrayList();

@@ -181,7 +181,7 @@ public class GtnFrameworkReportProfileLookUp {
 		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] { namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "viewName" ,namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "viewType"}));
-		actionConfigList.add(loadDataTableActionConfig);                
+		actionConfigList.add(loadDataTableActionConfig);
                 
                 GtnUIFrameWorkActionConfig searchAction = new GtnUIFrameWorkActionConfig();
 		searchAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -268,7 +268,6 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemsPerPageAlignCentre(false);
 		
 
-		
 		reportProfilePagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE);
 		reportProfilePagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE

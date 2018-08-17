@@ -229,16 +229,27 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
-                } 
-                if (i != 0 && exp != null) {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
-                    boolean export = i == exportAt;
-                    exp.exportMultipleTabs(export);
+                } else {
+                    excelNextTableHolder(exp, sheetName);
                 }
+                exportMultipleTabs(exp, i, exportAt);
             }
         } else {
              exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.DISCOUNT_PROJECTION_RESULTS, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
             exp.export();
+        }
+    }
+
+    public void excelNextTableHolder(ExcelExport exp, String sheetName) {
+        if (exp != null) {
+            exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+        }
+    }
+
+    public void exportMultipleTabs(ExcelExport exp, int i, int exportAt) {
+        if (exp != null) {
+            boolean export = i == exportAt;
+            exp.exportMultipleTabs(export);
         }
     }
  

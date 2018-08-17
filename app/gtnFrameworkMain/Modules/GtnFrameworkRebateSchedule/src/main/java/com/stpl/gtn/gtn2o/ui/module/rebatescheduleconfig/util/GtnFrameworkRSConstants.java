@@ -124,7 +124,7 @@ public class GtnFrameworkRSConstants {
 	public static final String EVALUATION_RULE = "Evaluation Rule";
 	public static final String RS_STATUS1 = "RS Status";
 	public static final String ATTACHED_DATE = "Attached Date";
-	private static final String ITEM_NO = "Item No";
+	private static final String ITEM_NO = "Item NO";
 	public static final String RS_END_DATE = "RS End Date";
 	public static final String CALCULATION_RULE1 = "Calculation Rule";
 	public static final String RS_START_DATE1 = "RS Start Date";

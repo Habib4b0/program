@@ -2337,7 +2337,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         parameterDto.setLevelNo("0");
         //Level Filte Level No Value
         parameterDto.setViewName("DETAIL_TOTAL_DISCOUNT");
-        int customMasterSid = Integer.valueOf(customDdlb.getValue() == null ? "0" : customDdlb.getValue().toString());
+        int customMasterSid = Integer.parseInt(customDdlb.getValue() == null ? "0" : customDdlb.getValue().toString());
         parameterDto.setCustomViewMasterSid(customMasterSid);
         // setting pirror projection ids
         parameterDto.setPirorProjectionIds(pvSelectionDTO.getProjIdList());

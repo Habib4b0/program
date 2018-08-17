@@ -3033,7 +3033,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
-        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(','));
+         hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(','));
         sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         return stringBuilder.toString();
     }

@@ -255,12 +255,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
-                    } 
-                    if (i != 0 && exp != null) {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    } else {
+                        if (exp != null) {
+                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
+                    }
+                    if (exp != null) {
                         boolean export = i == exportAt;
                         exp.exportMultipleTabs(export);
                     }
+                    
                 }
             } else {
                 List<String> columnHeader = new ArrayList<>();
@@ -1185,9 +1189,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
+                    } else {
+                        if (exp != null) {
+                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
                     }
-                    if (i != 0 && exp != null) {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    if (exp != null) {
                         boolean export = i == exportAt;
                         exp.exportMultipleTabs(export);
                     }

@@ -2558,7 +2558,7 @@ public class DataSelection extends AbstractDataSelection {
                 logic.saveDeductionLogic(new HashSet(dataSelectionDTO.getRsContractSidList()), projectionIdValue);
 
                 sessionDTO.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
-                sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
+                sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
                 logic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO);
                 (new QueryUtils()).ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);

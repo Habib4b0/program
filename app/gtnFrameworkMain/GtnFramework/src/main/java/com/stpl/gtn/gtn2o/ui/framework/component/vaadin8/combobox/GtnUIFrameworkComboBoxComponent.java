@@ -53,7 +53,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
 			}
 			loadStyles(vaadinComboBox, componentConfig.getComponentStyle());
-                        if(!(componentConfig.getComboBoxComponentStyle().isEmpty())){
+                        if(!componentConfig.getComboBoxComponentStyle().isEmpty()){
                         loadStyles(vaadinComboBox, componentConfig.getComboBoxComponentStyle());
                         }
 
@@ -546,4 +546,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				(ComboBox) component, null);
 	}
 
+	public void setFocusInComponent(AbstractComponent abstractComponent) {
+		ComboBox comboBox = (ComboBox)abstractComponent;
+		comboBox.focus();
+	}
+	
 }
