@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkRunButto
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkScheduledProcessTableDoubleClickAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkStartEndDateValidationCustomAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkUpdateProcessAction;
-import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnUIFrameworkFrequencyValueChangeAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkFrequencyValueChangeAction;
 
 public class GtnUIFrameworkProcessSchedularDynamicClassFiller implements GtnUIDynamicObjectFiller {
 
@@ -21,8 +21,8 @@ public class GtnUIFrameworkProcessSchedularDynamicClassFiller implements GtnUIDy
 				new GtnFrameworkRunButtonAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkStartEndDateValidationCustomAction.class.getName(),
 				new GtnFrameworkStartEndDateValidationCustomAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkFrequencyValueChangeAction.class.getName(),
-				new GtnUIFrameworkFrequencyValueChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkFrequencyValueChangeAction.class.getName(),
+				new GtnFrameworkFrequencyValueChangeAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkScheduledProcessTableDoubleClickAction.class.getName(),
 				new GtnFrameworkScheduledProcessTableDoubleClickAction());

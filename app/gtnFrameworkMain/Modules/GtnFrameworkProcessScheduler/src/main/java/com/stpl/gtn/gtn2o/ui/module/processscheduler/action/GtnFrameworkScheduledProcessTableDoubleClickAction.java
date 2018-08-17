@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
@@ -117,10 +118,10 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 		}
 
 		if ("60".equals(startMinute)) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes")
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
 					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
 		} else {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes")
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
 					.loadV8ComboBoxComponentValue(String.valueOf(startMinute));
 		}
 
@@ -128,46 +129,25 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 
 	private void setComponentValueForTime(GtnWsRecordBean gtnWsRecordBean)
 			throws GtnFrameworkValidationFailedException {
+		
+		getValueForHours(gtnWsRecordBean);
 		gtnLogger.info("       " + gtnWsRecordBean.getPropertyValueByIndex(12));
-		Object startHour1 = gtnWsRecordBean.getPropertyValueByIndex(12);
-		Object startHour2 = gtnWsRecordBean.getPropertyValueByIndex(13);
-		Object startHour3 = gtnWsRecordBean.getPropertyValueByIndex(14);
+		
 		Object startMinute1 = gtnWsRecordBean.getPropertyValueByIndex(15);
 		Object startMinute2 = gtnWsRecordBean.getPropertyValueByIndex(16);
 		Object startMinute3 = gtnWsRecordBean.getPropertyValueByIndex(17);
 		gtnLogger.info("object loaded");
-		startHour1 = startHour1 == null ? "0" : String.valueOf(startHour1);
-		startHour2 = startHour2 == null ? "0" : String.valueOf(startHour2);
-		startHour3 = startHour3 == null ? "0" : String.valueOf(startHour3);
+		
 		startMinute1 = startMinute1 == null ? "0" : String.valueOf(startMinute1);
 		startMinute2 = startMinute2 == null ? "0" : String.valueOf(startMinute2);
 		startMinute3 = startMinute3 == null ? "0" : String.valueOf(startMinute3);
 
-		gtnLogger.info("....startHour1..." + startHour1);
-		gtnLogger.info("....startHour2..." + startHour2);
-		gtnLogger.info("....startHour3..." + startHour3);
+		
 		gtnLogger.info("....startMinute1..." + startMinute1);
 		gtnLogger.info("....startMinute2..." + startMinute2);
 		gtnLogger.info("....startMinute3..." + startMinute3);
 
-		if (startHour1.equals("24")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		} else {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue((String) startHour1);
-		}
-
-		if (startHour2.equals("24")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		} else {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue((String) startHour2);
-		}
-
-		if (startHour3.equals("24")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-		} else {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue((String) startHour3);
-		}
-
+		
 		if ("60".equals(startMinute1)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes1")
 					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
@@ -190,6 +170,39 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes3")
 					.loadV8ComboBoxComponentValue((String) startMinute3);
+		}
+
+	}
+
+	private void getValueForHours(GtnWsRecordBean gtnWsRecordBean) throws GtnFrameworkValidationFailedException {
+		Object startHour1 = gtnWsRecordBean.getPropertyValueByIndex(12);
+		Object startHour2 = gtnWsRecordBean.getPropertyValueByIndex(13);
+		Object startHour3 = gtnWsRecordBean.getPropertyValueByIndex(14);
+		
+		startHour1 = startHour1 == null ? "0" : String.valueOf(startHour1);
+		startHour2 = startHour2 == null ? "0" : String.valueOf(startHour2);
+		startHour3 = startHour3 == null ? "0" : String.valueOf(startHour3);
+		
+		gtnLogger.info("....startHour1..." + startHour1);
+		gtnLogger.info("....startHour2..." + startHour2);
+		gtnLogger.info("....startHour3..." + startHour3);
+		
+		if (startHour1.equals("24")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		} else {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue((String) startHour1);
+		}
+
+		if (startHour2.equals("24")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		} else {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue((String) startHour2);
+		}
+
+		if (startHour3.equals("24")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+		} else {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue((String) startHour3);
 		}
 
 	}

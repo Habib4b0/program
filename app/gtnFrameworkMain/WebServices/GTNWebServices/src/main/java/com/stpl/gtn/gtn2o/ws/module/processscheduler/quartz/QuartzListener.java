@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.DateBuilder;
+import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -17,7 +18,6 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
-import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,12 @@ import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerCo
 @Scope(value = "singleton")
 public class QuartzListener {
 
+	public QuartzListener() {
+		/*
+		 * no need to implement
+		 */
+	}
+
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(QuartzListener.class);
 
 	@Autowired
@@ -52,7 +58,6 @@ public class QuartzListener {
 	public static final String JOB = "job";
 	public static final String TRIGGER = "trigger";
 
-	@SuppressWarnings("unchecked")
 	public synchronized void createQuartzScheduler() {
 		logger.info(" executing createQuartzScheduler() ");
 		List<WorkflowProfile> workFlowProfileList = null;
@@ -66,30 +71,40 @@ public class QuartzListener {
 				scheduler.start();
 			}
 
-			try (Session quartzJobSchedularSession = getSessionFactory().openSession()) {
-				Transaction quartzJobSchedularTransaction = quartzJobSchedularSession.beginTransaction();
-				quartzJobSchedularTransaction.begin();
-				Criteria criteria = quartzJobSchedularSession.createCriteria(WorkflowProfile.class);
-				workFlowProfileList = criteria.list();
-				quartzJobSchedularTransaction.commit();
-				logger.info("no of records: " + workFlowProfileList.size());
-
-			} catch (Exception ex) {
-				logger.error(ex.getMessage());
-			}
+			workFlowProfileList = getWorkFlowProfileData();
 			// Setup the Job class and the Job group
+			if (workFlowProfileList != null) {
+				for (WorkflowProfile profile : workFlowProfileList) {
+					createJob(profile);
+				}
 
-			for (WorkflowProfile profile : workFlowProfileList) {
-				createJob(profile);
+				deleteSchedule();
+
+				printJobList();
 			}
-
-			DeleteSchedule();
-
-			printJobList();
-
+			else {
+				logger.info("no workflowprofile data found");
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<WorkflowProfile> getWorkFlowProfileData() {
+		List<WorkflowProfile> workFlowProfileList = new ArrayList<>();
+		try (Session quartzJobSchedularSession = getSessionFactory().openSession()) {
+			Transaction quartzJobSchedularTransaction = quartzJobSchedularSession.beginTransaction();
+			quartzJobSchedularTransaction.begin();
+			Criteria criteria = quartzJobSchedularSession.createCriteria(WorkflowProfile.class);
+			workFlowProfileList = criteria.list();
+			quartzJobSchedularTransaction.commit();
+			logger.info("no of records: " + workFlowProfileList.size());
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+		return workFlowProfileList;
 	}
 
 	public void createJob(WorkflowProfile profile) {
@@ -118,24 +133,9 @@ public class QuartzListener {
 			for (String cronString : cronStringList) {
 
 				if (i == 0) {
-					try {
-						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
-								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
-						logger.info("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
-						scheduler.scheduleJob(job, trigger);
-						i++;
-					} catch (Exception e) {
-						logger.info("'" + e);
-					}
+					i = getTriggeredIf(profile, job, i, cronString);
 				} else {
-					try {
-						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
-								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
-						logger.info("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
-						scheduler.scheduleJob(trigger);
-					} catch (Exception e) {
-						logger.info("" + e);
-					}
+					getTriggeredElse(profile, i, cronString);
 					i++;
 				}
 
@@ -149,6 +149,31 @@ public class QuartzListener {
 			logger.error(e.getMessage());
 		}
 
+	}
+
+	private void getTriggeredElse(WorkflowProfile profile, int i, String cronString) {
+		try {
+			Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
+					.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
+			logger.info("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
+			scheduler.scheduleJob(trigger);
+		} catch (Exception e) {
+			logger.info("" + e);
+		}
+	}
+
+	private int getTriggeredIf(WorkflowProfile profile, JobDetail job, int i, String cronString) {
+		int j=i;
+		try {
+			Trigger trigger = getTriggerBuilderWithDate(profile, j + 1)
+					.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
+			logger.info("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
+			scheduler.scheduleJob(job, trigger);
+			j++;
+		} catch (Exception e) {
+			logger.info("'" + e);
+		}
+		return j;
 	}
 
 	public static String generateJobName(WorkflowProfile profile) {
@@ -289,7 +314,7 @@ public class QuartzListener {
 
 	}
 
-	public void DeleteSchedule() {
+	public void deleteSchedule() {
 		try {
 			String time = "5hrs26";
 			logger.info("time= " + time);
@@ -360,9 +385,9 @@ public class QuartzListener {
 
 						for (Trigger trigger : triggers) {
 							Date nextFireTime = trigger.getNextFireTime();
-							System.out.println("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - "
-									+ nextFireTime + " - First Fire time -" + trigger.getStartTime()
-									+ " -Final Fire Time- " + trigger.getEndTime());
+							logger.info("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - " + nextFireTime
+									+ " - First Fire time -" + trigger.getStartTime() + " -Final Fire Time- "
+									+ trigger.getEndTime());
 						}
 					}
 

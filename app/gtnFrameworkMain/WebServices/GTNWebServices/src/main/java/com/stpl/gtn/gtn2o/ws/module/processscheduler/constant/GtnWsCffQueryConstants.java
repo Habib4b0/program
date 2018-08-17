@@ -7,8 +7,7 @@ public class GtnWsCffQueryConstants {
 	}
 	
 	public static final String GTN_CFF_SEARCH_QUERY_SELECT = "Select Count(*) ";
-	public static final String GTN_IFP_SEARCH_QUERY_COUNT = "";
-	public static final String GTN_IFP_SEARCH_QUERY = "FROM ST_CFF_OUTBOUND_MASTER ST "
+	public static final String GTN_CFF_SEARCH_QUERY = "FROM ST_CFF_OUTBOUND_MASTER ST "
 			+ "JOIN CFF_OUTBOUND_MASTER CFFOM ON ST.CFF_DETAILS_SID = CFFOM.CFF_DETAILS_SID " 
 			+ "AND ST.RS_MODEL_SID = CFFOM.RS_MODEL_SID AND ST.PERIOD_SID = CFFOM.PERIOD_SID "
 			+ "LEFT JOIN HELPER_TABLE CFT ON CFT.HELPER_TABLE_SID = CFFOM.TYPE "
@@ -25,4 +24,6 @@ public class GtnWsCffQueryConstants {
 			+ "LEFT JOIN HELPER_TABLE HT11 ON HT11.HELPER_TABLE_sid = CFFOM.DEDUCTION_CATEGORY6 ";
 	
 	public static final String CFFOM = "CFFOM";
+	public static final String ST = "ST";
+
 }

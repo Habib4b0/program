@@ -35,8 +35,8 @@ public class GtnWebServiceCffOutBoundSearchConfig implements GtnWsSearchQueryCon
 		GtnWsSearchQueryConfig gtnWsSearchQueryConfig = new GtnWsSearchQueryConfig();
 		try {
 			gtnWsSearchQueryConfig.setCountQuerySelectClause(GtnWsCffQueryConstants.GTN_CFF_SEARCH_QUERY_SELECT);
-			gtnWsSearchQueryConfig.setCountQuery(GtnWsCffQueryConstants.GTN_IFP_SEARCH_QUERY);
-			gtnWsSearchQueryConfig.setSearchQuery(GtnWsCffQueryConstants.GTN_IFP_SEARCH_QUERY);
+			gtnWsSearchQueryConfig.setCountQuery(GtnWsCffQueryConstants.GTN_CFF_SEARCH_QUERY);
+			gtnWsSearchQueryConfig.setSearchQuery(GtnWsCffQueryConstants.GTN_CFF_SEARCH_QUERY);
 			
 			Map<String, GtnWsColumnDetailsConfig> cffColumnDetailsMap = new HashMap<>(70);
 			GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
@@ -127,9 +127,11 @@ public class GtnWebServiceCffOutBoundSearchConfig implements GtnWsSearchQueryCon
 			cffColumnDetailsMap.put("financialForecastApprovalDate", configProvider.getColumnDateConfig("FINANCIAL_FORECAST_APPROVAL_DATE", ""));
 			cffColumnDetailsMap.put("outboundStatus", configProvider.getColumnStringConfig("OUTBOUND_STATUS", ""));
 			cffColumnDetailsMap.put("originalBatchId", configProvider.getColumnStringConfig("ORIGINAL_BATCH_ID", ""));
+			
+			cffColumnDetailsMap.put("checkRecordId", configProvider.getColumnBooleanConfig("CHECK_RECORD", GtnWsCffQueryConstants.ST));
 						
-			cffColumnDetailsMap.put("sessionId", configProvider.getColumnStringConfig("SESSION_ID", "ST"));
-			cffColumnDetailsMap.put("userId", configProvider.getColumnStringConfig("USER_ID", "ST"));
+			cffColumnDetailsMap.put("sessionId", configProvider.getColumnStringConfig("SESSION_ID", GtnWsCffQueryConstants.ST));
+			cffColumnDetailsMap.put("userId", configProvider.getColumnStringConfig("USER_ID", GtnWsCffQueryConstants.ST));
 			
 			cffOutboundSearchQueryConfigMap.put("cffOutBoundSearchQuery", gtnWsSearchQueryConfig);
 			gtnWsSearchQueryConfig.setFieldToColumnDetailsMap(cffColumnDetailsMap);
@@ -139,7 +141,6 @@ public class GtnWebServiceCffOutBoundSearchConfig implements GtnWsSearchQueryCon
 			List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
 			orderByClauseList.add(new GtnWebServiceOrderByCriteria("CFFOM.FINANCIAL_FORECAST_ID", "ASC"));
 			gtnWsSearchQueryConfig.setOrderByClause(orderByClauseList);
-			//gtnWsSearchQueryConfig.setWhereClauseList(Arrays.asList(" CFFOM.FINANCIAL_FORECAST_ID LIKE '%' "));
 			return cffOutboundSearchQueryConfigMap;
 		
 		}

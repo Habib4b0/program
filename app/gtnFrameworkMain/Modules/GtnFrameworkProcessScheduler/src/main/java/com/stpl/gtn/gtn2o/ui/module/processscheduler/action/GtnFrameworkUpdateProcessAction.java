@@ -37,10 +37,7 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("starting execution of GtnFrameworkUpdateProcessAction..........");
 
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnWsProcessSchedulerRequest psrequest = new GtnWsProcessSchedulerRequest();
-
-		String status = (String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField();
+		String status = (String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.STATUS_ID).getV8StringFromField();
 		gtnLogger.info("status    " + status);
 
 		GtnWsProcessSchedulerBean processSchedulerBean = new GtnWsProcessSchedulerBean();
@@ -54,65 +51,56 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 		if ("Inactive".equals(status)) {
 			gtnLogger.info("executing inactive frequency");
 			processSchedulerBean
-					.setPsStartDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
+					.setPsStartDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.START_DATE_ID)
 							.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant()) == null
 									? new Date()
-									: Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
+									: Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.START_DATE_ID)
 											.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault())
 											.toInstant())));
 
-			processSchedulerBean.setPsEndDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate")
+			processSchedulerBean.setPsEndDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID)
 					.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant()) == null ? new Date()
-							: Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate")
+							: Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID)
 									.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant())));
 
 			gtnLogger.info("-------------start date: " + processSchedulerBean.getPsStartDate() + "  end date   "
 					+ processSchedulerBean.getPsEndDate());
 			getFieldValueForInactive(processSchedulerBean);
 
-			psrequest.setProcessSchedulerBean(processSchedulerBean);
-			request.setProcessSchedulerRequest(psrequest);
-			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-							+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			callWebService(processSchedulerBean, componentId);
 
-			GtnUIFrameWorkActionConfig updateSuccessNotificationAction = new GtnUIFrameWorkActionConfig();
-			updateSuccessNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			updateSuccessNotificationAction
-					.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
-			updateSuccessNotificationAction.addActionParameter("");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateSuccessNotificationAction);
-
-			resetFieldValues();
-
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID)
-					.setEnable(false);
-
-		} else if (check() && hourAndMinValidation()) {
-
+		} else if (/*check() &&*/ hourAndMinValidation()) {
+			
 			getFieldValuesForActive(processSchedulerBean);
 
-			psrequest.setProcessSchedulerBean(processSchedulerBean);
-			request.setProcessSchedulerRequest(psrequest);
-			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-					GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
-							+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE,
-					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
-			GtnUIFrameWorkActionConfig updateSuccessNotificationAction = new GtnUIFrameWorkActionConfig();
-			updateSuccessNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			updateSuccessNotificationAction
-					.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
-			updateSuccessNotificationAction.addActionParameter("");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateSuccessNotificationAction);
-
-			resetFieldValues();
-
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID)
-					.setEnable(false);
+			callWebService(processSchedulerBean, componentId);
 		}
 
+	}
+
+	private void callWebService(GtnWsProcessSchedulerBean processSchedulerBean, String componentId) throws GtnFrameworkGeneralException {
+		gtnLogger.info("-  calling webservice URL");
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsProcessSchedulerRequest psrequest = new GtnWsProcessSchedulerRequest();
+		psrequest.setProcessSchedulerBean(processSchedulerBean);
+		request.setProcessSchedulerRequest(psrequest);
+		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
+						+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+		GtnUIFrameWorkActionConfig updateSuccessNotificationAction = new GtnUIFrameWorkActionConfig();
+		updateSuccessNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+		updateSuccessNotificationAction
+				.addActionParameter(GtnFrameworkProcessSchedulerStringContants.UPDATE_SUCCESSFUL_MESSAGE);
+		updateSuccessNotificationAction.addActionParameter("");
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateSuccessNotificationAction);
+
+		resetFieldValues();
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.UPDATE_ID)
+				.setEnable(false);
+		
 	}
 
 	private void getFieldValuesForActive(GtnWsProcessSchedulerBean processSchedulerBean)
@@ -125,10 +113,10 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.FREQUENCY_ID).getStringFromField();
 		processSchedulerBean.setPsProcessFrequency(frequency);
 		processSchedulerBean
-				.setPsStatus((String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField());
-		processSchedulerBean.setPsStartDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
+				.setPsStatus((String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.STATUS_ID).getV8StringFromField());
+		processSchedulerBean.setPsStartDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.START_DATE_ID)
 				.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant())));
-		processSchedulerBean.setPsEndDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate")
+		processSchedulerBean.setPsEndDate((Date) (Date.from(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID)
 				.getV8DateFromDateField().atStartOfDay(ZoneId.systemDefault()).toInstant())));
 
 		getFrequencyBasedInfo(processSchedulerBean);
@@ -213,28 +201,6 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 		}
 	}
 
-	private boolean check() throws GtnFrameworkValidationFailedException {
-		String frequency = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.FREQUENCY_ID).getStringFromField();
-		String processName = (String) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.PROCESS_NAME_ID)
-				.getV8StringFromField();
-		String status = (String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField();
-
-		if (("Time".equals(frequency) && "".equals(status) || "".equals(processName)
-				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getV8DateFromDateField() == null
-				|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").getV8DateFromDateField() == null)
-				|| ("Interval".equals(frequency) && "".equals(status) || "".equals(processName)
-						|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getV8DateFromDateField() == null
-						|| GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate")
-								.getV8DateFromDateField() == null))
-			return false;
-
-		else
-			return true;
-
-	}
-
 	private void getFieldValueForInactive(GtnWsProcessSchedulerBean processSchedulerBean)
 			throws GtnFrameworkValidationFailedException {
 		gtnLogger.info("executing getFieldValueForInactive");
@@ -245,7 +211,7 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.FREQUENCY_ID).getStringFromField();
 		processSchedulerBean.setPsProcessFrequency(frequency);
 		processSchedulerBean
-				.setPsStatus((String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").getV8StringFromField());
+				.setPsStatus((String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.STATUS_ID).getV8StringFromField());
 
 		getFrequencyBasedInfo(processSchedulerBean);
 	}

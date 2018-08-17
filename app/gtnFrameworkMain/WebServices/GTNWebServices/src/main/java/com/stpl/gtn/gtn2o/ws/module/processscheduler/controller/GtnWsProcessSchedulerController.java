@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.logic.GtnWsSearchQueryGenerationLogic;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsProcessSchedulerRunValidationService;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
 
 /**
 *
@@ -43,12 +42,6 @@ public class GtnWsProcessSchedulerController {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerController.class);
 
-	/*@Autowired
-	private org.hibernate.SessionFactory sysSessionFactory;
-
-	@Autowired
-	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-	*/
 	@Autowired
 	private GtnWsProcessSchedulerRunValidationService processSchedularRunServiceValidator;
 
@@ -176,47 +169,4 @@ public class GtnWsProcessSchedulerController {
 		return processRunResponse;
 	}
 	
-	/*private List<Object> getSearchInput(GtnUIFrameworkWebserviceRequest gtnWsRequest)
-			throws GtnFrameworkGeneralException {
-		List<Object> list = new ArrayList<>();
-
-		try {
-
-			list.add(getSysSchemaCatalog());
-
-			if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				list.addAll(getSortedInputs());
-				list.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart());
-				list.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
-			}
-		} catch (Exception ex) {
-			logger.error("Exception in executig query-", ex);
-			throw new GtnFrameworkGeneralException("Error in executing query : ", ex);
-
-		}
-		return list;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
-		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
-	}
-
-	public String getSysSchemaCatalog() throws GtnFrameworkGeneralException {
-		String catalog = "";
-		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
-				.getService(ConnectionProvider.class).getConnection()) {
-			catalog = connection.getCatalog();
-		} catch (Exception ex) {
-			logger.error(ex.getMessage());
-			throw new GtnFrameworkGeneralException("Exception in getSysSchemaCatalog", ex);
-		}
-		return catalog;
-	}
-
-	private List<Object> getSortedInputs() {
-		List<Object> list = new ArrayList<>();
-		list.add("WP.PROCESS_NAME" + " DESC");
-		return list;
-	}*/
 }

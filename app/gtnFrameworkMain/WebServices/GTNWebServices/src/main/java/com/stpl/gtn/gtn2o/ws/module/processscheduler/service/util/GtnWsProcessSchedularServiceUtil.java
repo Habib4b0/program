@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.FtpProperties;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -25,6 +26,13 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Service()
 @Scope(value = "singleton")
 public class GtnWsProcessSchedularServiceUtil {
+	
+	public GtnWsProcessSchedularServiceUtil() {
+		/*
+		 * no need to implement
+		 */
+	}
+	
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedularServiceUtil.class);
 
 	@Autowired
@@ -96,11 +104,11 @@ public class GtnWsProcessSchedularServiceUtil {
 			logger.info("jbossHome===================>" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
-				logger.info("prop location: "+prop.getProperty("EtlConfiguration.properties"));
+				logger.info("prop location: "+prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY));
 				java.util.Properties prop1 = getPropertyFile(
-						jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
-				ftpProperties.setScripts(prop1.getProperty("scripts"));
-				logger.info("setted the ftp pro scripts:" + prop1.getProperty("scripts"));
+						jbossHome.concat("/../").concat(prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
+				ftpProperties.setScripts(prop1.getProperty(ProcessSchedulerConstant.SCRIPTS));
+				logger.info("setted the ftp pro scripts:" + prop1.getProperty(ProcessSchedulerConstant.SCRIPTS));
 			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
@@ -141,7 +149,7 @@ public class GtnWsProcessSchedularServiceUtil {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
 				
 				java.util.Properties prop1 = getPropertyFile(
-						jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
+						jbossHome.concat("/../").concat(prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
 				String etlInterfaceUri = buildUrl(scriptName, prop1);
 				ftpProperties.setScripts(prop1.getProperty("scripts"));
 				runShellScript(etlInterfaceUri);
@@ -153,14 +161,14 @@ public class GtnWsProcessSchedularServiceUtil {
 		logger.info("runJob ends");
 	}
 
-	public String buildUrl(String scriptName, Properties prop) throws GtnFrameworkGeneralException {
+	public String buildUrl(String scriptName, Properties prop) {
 		String interfaceUri = getInterFaceUri(scriptName);
 		String portNo = prop.getProperty("ETL_PORT_NO");
 		logger.info("http://localhost:" + portNo + "/" + interfaceUri);
 		return "http://localhost:" + portNo + "/" + interfaceUri;
 	}
 
-	private String getInterFaceUri(String scriptName) throws GtnFrameworkGeneralException {
+	private String getInterFaceUri(String scriptName) {
 		String jbossHome = getJbossHome();
 		java.util.Properties interfaceUriProperties = getPropertyFile(getPropertyPath());
 		java.util.Properties interfacename = getPropertyFile(

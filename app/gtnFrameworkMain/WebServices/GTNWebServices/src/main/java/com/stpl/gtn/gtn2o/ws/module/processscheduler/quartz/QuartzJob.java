@@ -11,6 +11,12 @@ import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsProcessSchedul
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
 
 public class QuartzJob implements Job {
+	
+	public QuartzJob() {
+		/*
+		 * no need to implement
+		 */
+	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(QuartzJob.class);
 
@@ -19,7 +25,8 @@ public class QuartzJob implements Job {
 	@Autowired
 	private GtnWsProcessSchedularServiceUtil gtnWsProcessSchedularServiceUtil;
 	
-	@Autowired GtnWsProcessSchedulerUpdateService gtnWsProcessSchedulerUpdateService;
+	@Autowired 
+	private GtnWsProcessSchedulerUpdateService gtnWsProcessSchedulerUpdateService;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

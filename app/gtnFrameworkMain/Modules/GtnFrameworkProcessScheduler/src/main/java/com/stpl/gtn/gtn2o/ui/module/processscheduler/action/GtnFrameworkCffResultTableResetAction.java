@@ -26,7 +26,9 @@ public class GtnFrameworkCffResultTableResetAction implements GtnUIFrameWorkActi
 		gtnLogger.info("Started execution of GtnFrameworkCffResultTableResetAction");
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
-		tableBaseComponent.getComponentData().setDataTableRecordList(null);
+		
+		tableBaseComponent.getComponentConfig().getComponentType().getGtnComponent().resetToDefault(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE,
+				tableBaseComponent.getComponentConfig());
 		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_APPROVAL_DATE_FROM_ID)
 		.loadDateValue(null);

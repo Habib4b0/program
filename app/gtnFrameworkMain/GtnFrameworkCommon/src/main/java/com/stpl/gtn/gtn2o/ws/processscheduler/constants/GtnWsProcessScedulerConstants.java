@@ -38,4 +38,8 @@ public class GtnWsProcessScedulerConstants {
 
 	public static final String GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE = "/validateAndRunService";
 
+	public static final String GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN = "/processschedulerCffOutbound";
+
+	public static final String GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA = "/cffGenerateService";
+
 }

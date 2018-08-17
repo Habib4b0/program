@@ -10,9 +10,9 @@ import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProce
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-public class GtnUIFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkFrequencyValueChangeAction.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkFrequencyValueChangeAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -24,7 +24,7 @@ public class GtnUIFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkA
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		
+		gtnLogger.debug("inside GtnUIFrameworkFrequencyValueChangeAction");
 		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getStringFromField();
 		if (!value.isEmpty()) {

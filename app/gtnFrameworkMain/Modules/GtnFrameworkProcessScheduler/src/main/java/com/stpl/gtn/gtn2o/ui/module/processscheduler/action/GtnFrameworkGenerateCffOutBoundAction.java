@@ -10,6 +10,9 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerRequest;
 
 public class GtnFrameworkGenerateCffOutBoundAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
 	
@@ -37,6 +40,18 @@ public class GtnFrameworkGenerateCffOutBoundAction implements GtnUIFrameWorkActi
 		gtnLogger.info("processSid: "+customDataList.get(0));
 		gtnLogger.info("processName: "+customDataList.get(1));
 		gtnLogger.info("schemaName: "+customDataList.get(2));
+		
+		GtnWsProcessSchedulerBean processSchedulerBean = new GtnWsProcessSchedulerBean();
+		processSchedulerBean.setPsSchemaName((String) schemaName);
+		processSchedulerBean.setPsProcessName((String) processName);
+		processSchedulerBean.setProcessSchedulerSid((Integer) processSid);
+		
+		GtnUIFrameworkWebserviceRequest webServiceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsProcessSchedulerRequest cffRrequest = new GtnWsProcessSchedulerRequest();
+		cffRrequest.setProcessSchedulerBean(processSchedulerBean);
+		webServiceRequest.setProcessSchedulerRequest(cffRrequest);
+		
+	
 	}
 
 	@Override
