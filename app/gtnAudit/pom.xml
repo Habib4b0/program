@@ -9,7 +9,12 @@
 	<artifactId>gtnAuditProcessor</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
-
+	<parent>
+		<groupId>com.stpl.app</groupId>
+		<artifactId>global-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
 	<properties>
 	<maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
