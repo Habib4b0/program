@@ -470,6 +470,7 @@ public class CommonUtil {
                 }
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }
