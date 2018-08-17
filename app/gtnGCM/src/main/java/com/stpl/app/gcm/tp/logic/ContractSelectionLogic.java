@@ -50,10 +50,9 @@ public class ContractSelectionLogic {
     public List getComponentInformation(String componentSelectionValue, String[] id, int start, int end, Set<Container.Filter> filters) {
         List<Object[]> componentInformationList = getComponentInformationData(componentSelectionValue, id, true, false, start, end, filters);
         List<ComponentInformationDTO> componentInfoList = new ArrayList<>();
-        if (componentInformationList != null && !componentInformationList.isEmpty()) {
+        if (!componentInformationList.isEmpty()) {                                                                        
 
             ComponentInformationDTO dto;
-            if (componentInformationList != null && !componentInformationList.isEmpty()) {
                 for (Object[] componentInformationList1 : componentInformationList) {
                     try {
                         final Object[] obj = (Object[]) componentInformationList1;
@@ -125,7 +124,6 @@ public class ContractSelectionLogic {
                         LOGGER.error("",ex);
                     }
                 }
-            }
 
         }
         return componentInfoList;

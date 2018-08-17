@@ -1575,7 +1575,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL) && resultsList != null) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] objForIWDD = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();

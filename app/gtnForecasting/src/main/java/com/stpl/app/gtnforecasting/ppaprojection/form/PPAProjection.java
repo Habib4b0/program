@@ -1930,6 +1930,7 @@ public class PPAProjection extends CustomComponent implements View {
                     }
                 } catch (InterruptedException e) {
                     LOGGER.error(e.getMessage());
+                    Thread.currentThread().interrupt();
                 }
             }
         }

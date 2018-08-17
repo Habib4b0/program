@@ -2492,7 +2492,7 @@ public class PromoteTPLogic {
                         + " from dbo.ITEM_MASTER IM join BRAND_MASTER BM ON IM.BRAND_MASTER_SID=BM.BRAND_MASTER_SID\n"
                         + "JOIN HELPER_TABLE HT ON IM.ITEM_STATUS=HT.HELPER_TABLE_SID";
                 query = query + " AND IM." + composedValue1 + " like'" + composedValue + "'";
-                query = query += "ORDER BY IM.ITEM_MASTER_SID OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT  " + compInfoDto.getEndIndex() + " ROWS ONLY ";
+                query = query + "ORDER BY IM.ITEM_MASTER_SID OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT  " + compInfoDto.getEndIndex() + " ROWS ONLY ";
             }
 
             List results = new ArrayList();
@@ -2519,7 +2519,7 @@ public class PromoteTPLogic {
                         + "ON PSD.PRICE_TOLERANCE_INTERVAL=HT3.HELPER_TABLE_SID LEFT JOIN dbo.HELPER_TABLE HT4 ON PSD.PRICE_TOLERANCE_FREQUENCY=HT4.HELPER_TABLE_SID\n"
                         + "LEFT JOIN dbo.HELPER_TABLE HT5 ON PSD.PRICE_TOLERANCE=HT5.HELPER_TABLE_SID LEFT JOIN dbo.HELPER_TABLE HT6 ON PSD.RESET_TYPE=HT6.HELPER_TABLE_SID\n"
                         + "LEFT JOIN dbo.HELPER_TABLE HT7 ON PSD.RESET_FREQUENCY=HT7.HELPER_TABLE_SID WHERE IM." + composedValue1 + LIKE_QUOTE + composedValue + "'";
-                query1 = query1 += "ORDER BY PM.PS_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
+                query1 = query1 + "ORDER BY PM.PS_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
                 List results = new ArrayList();
                 try {
                     results = promoteTpDAO.getItems(query1);
@@ -2562,7 +2562,7 @@ public class PromoteTPLogic {
                                 "        ON ST.HELPER_TABLE_SID = IM.ITEM_STATUS LEFT JOIN FORMULA_DETAILS_MASTER FORMULA\n" +
                                 "        ON FORMULA.FORMULA_ID = RS_D.FORMULA_ID LEFT JOIN REBATE_PLAN_MASTER RL\n" +
                                 "        ON RL.REBATE_PLAN_MASTER_SID = RS_D.REBATE_PLAN_MASTER_SID WHERE IM." + composedValue1 + LIKE_QUOTE + composedValue + "'";
-                query1 = query1 += " ORDER BY IFP_M.IFP_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
+                query1 = query1 + " ORDER BY IFP_M.IFP_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
                 List results = new ArrayList();
                 try {
                     results = promoteTpDAO.getItems(query1);

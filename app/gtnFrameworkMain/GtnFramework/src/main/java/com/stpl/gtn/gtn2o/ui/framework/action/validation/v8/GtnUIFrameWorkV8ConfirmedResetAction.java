@@ -84,17 +84,22 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 					sourceComponentId);
 			if (baseComponent.getComponent() instanceof TextField) {
 				baseComponent.loadV8FieldValue(value);
-			} else if (baseComponent.getComponent() instanceof RadioButtonGroup) {
+			}
+			else if (baseComponent.getComponent() instanceof RadioButtonGroup) {
 				baseComponent.loadV8FieldValue(value);
-			} else if (baseComponent.getComponent() instanceof VerticalLayout) {
+			}
+			else if (baseComponent.getComponent() instanceof VerticalLayout) {
 				resetFilterComponents(componentId, baseComponent);
 				baseComponent.setV8GridItems(new ArrayList<>());
-			} else if (baseComponent.getComponent() instanceof ComboBoxMultiselect) {
+			}
+			else if(baseComponent.getComponent() instanceof ComboBoxMultiselect){
 				baseComponent.loadV8MultiSelectValue();
-			} else if (baseComponent.getComponent() instanceof ComboBox) {
-				if (baseComponent.getComponentConfig().getCustomReference().equals("integerId")) {
-					baseComponent.loadV8ComboBoxComponentValue((Integer) value);
-				} else {
+			}
+			else if(baseComponent.getComponent() instanceof ComboBox){
+				if(baseComponent.getComponentConfig().getCustomReference().equals("integerId")){
+				baseComponent.loadV8ComboBoxComponentValue((Integer)value);
+				}
+				else{
 					baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
 				}
 			} else if (baseComponent.getComponent() instanceof DateField) {
@@ -107,7 +112,7 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 	}
 
 	private void resetFilterComponents(String componentId, GtnUIFrameworkBaseComponent baseComponent) {
-
+		
 		gtnLogger.debug("componentId" + componentId);
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> filterMap = baseComponent.getComponentConfig()
 				.getGtnPagedTableConfig().getCustomFilterConfigMap();
@@ -115,16 +120,17 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 		VerticalLayout verticalLayout = (VerticalLayout) baseComponent.getComponent();
 		Grid grid = (Grid) verticalLayout.getComponent(0);
 		for (String s : fliterComponents) {
-
+			
 			Component component = grid.getHeaderRow(1).getCell(s).getComponent();
 			HorizontalLayout horizontalLayout = (HorizontalLayout) component;
-
+			
 			if (horizontalLayout.getComponent(0) instanceof TextField) {
-
-				TextField textField = (TextField) horizontalLayout.getComponent(0);
+				
+				TextField textField=(TextField) horizontalLayout.getComponent(0);
 				textField.setValue("");
 				textField.setPlaceholder("Show all");
-			} else if (horizontalLayout.getComponent(0) instanceof DateField) {
+			}
+			else if (horizontalLayout.getComponent(0) instanceof DateField) {
 				DateField dateField = (DateField) horizontalLayout.getComponent(0);
 				dateField.setValue(null);
 				dateField.setPlaceholder("Show all");

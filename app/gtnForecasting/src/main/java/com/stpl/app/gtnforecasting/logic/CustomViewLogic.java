@@ -173,7 +173,7 @@ public class CustomViewLogic {
                 levelValue_map.put(LEVEL_ID, LEVEL_VALUE);
 
             } else {
-                int LEVEL_ID = Integer.valueOf(obj[NumericConstants.THREE] == null ? "0" : obj[NumericConstants.THREE].toString());//Changed from "" to "0" for GAL-5444
+                int LEVEL_ID = Integer.parseInt(obj[NumericConstants.THREE] == null ? "0" : obj[NumericConstants.THREE].toString());//Changed from "" to "0" for GAL-5444
                 String table = obj[0] == null ? "" : obj[0].toString();
                 String column = obj[1] == null ? "" : obj[1].toString();
                 String[] strArray = {table, column, ""};

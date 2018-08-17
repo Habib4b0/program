@@ -457,7 +457,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
     public void checkFrequencyChange(){
            dsFlag = true;
-                if((!session.getDsFrequency().equals(frequencyDdlb.getValue())) && dsFlag){
+                if(dsFlag && (!session.getDsFrequency().equals(frequencyDdlb.getValue()))){
             dsFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
         }
