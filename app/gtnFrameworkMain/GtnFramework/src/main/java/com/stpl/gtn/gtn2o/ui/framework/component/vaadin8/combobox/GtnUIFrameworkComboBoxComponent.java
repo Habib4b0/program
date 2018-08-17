@@ -546,4 +546,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				(ComboBox) component, null);
 	}
 
+	public void setFocusInComponent(AbstractComponent abstractComponent) {
+		ComboBox comboBox = (ComboBox)abstractComponent;
+		comboBox.focus();
+	}
+	
 }

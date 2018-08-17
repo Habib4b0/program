@@ -15186,6 +15186,17 @@ div.v-layout.v-horizontal.v-widget {
 	margin-top: -45px;
 }
 
+
+
+.stpl .v-report-width-200 {
+	width: 200px !important;
+}
+
+.stpl .v-report-width-170 {
+	width: 170px !important;
+}
+
+
 .stpl .v-report-data-assumption-excel {
 	margin-left: 16px !important;
 	margin-top: -35px !important;

@@ -241,11 +241,11 @@ public class ForecastUI extends UI {
                             
                             Map<String, String> tempCustomerDescriptionMap;
                             Map<String, String> tempProductDescriptionMap;
-                            int custHierarchyVersionNo = temp!=null ? temp.getCustomerHierVersionNo() : 0;
+                            int custHierarchyVersionNo = temp.getCustomerHierVersionNo();
                             tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
                                     Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
                                     dto.getCustomerRelationShipVersionNo());
-                            int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;
+                            int prodHierarchyVersionNo = temp.getProductHierVersionNo();
                             tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
                                     Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
                                     dto.getProductRelationShipVersionNo());

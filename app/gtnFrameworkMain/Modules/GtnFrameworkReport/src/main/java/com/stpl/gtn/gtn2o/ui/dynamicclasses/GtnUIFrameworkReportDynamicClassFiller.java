@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderReques
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDataSelectionRegenerateConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportOptionsViewOptionsAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportSearchNotification;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardConfirmUpdateProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
@@ -310,6 +311,9 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportOptionsViewOptionsAction.class.getName(),
 				new GtnFrameworkReportOptionsViewOptionsAction());
+                
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportSearchNotification.class.getName(),
+				new GtnFrameworkReportSearchNotification());
                 
                 GtnUIFrameworkGlobalUI.addDynamicClassObjects(ForecastEligibilityDateValueChangeAction.class.getName(),
 				new ForecastEligibilityDateValueChangeAction());

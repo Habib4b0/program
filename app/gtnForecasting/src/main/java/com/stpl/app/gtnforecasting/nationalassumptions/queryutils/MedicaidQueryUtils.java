@@ -115,8 +115,8 @@ public class MedicaidQueryUtils {
                 queryBuilder1 = new StringBuilder();
 
                 String formatedValue = values.getValue();
-
-                String tempValue[] = formatedValue.split("~");
+                String formatedKey = values.getKey();
+                String tempValue[] = formatedKey.split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
