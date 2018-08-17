@@ -150,7 +150,7 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
 			String rangeStart = getState().rangeStart;
 			String rangeEnd = getState().rangeEnd;
 
-			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
 			Date rangeStartDate = dateTimeFormat.parse(rangeStart);
 			Date rangeEndDate = dateTimeFormat.parse(rangeEnd);
 

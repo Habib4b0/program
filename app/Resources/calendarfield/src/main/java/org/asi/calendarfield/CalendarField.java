@@ -289,7 +289,7 @@ public class CalendarField extends AbstractField<List>
 				String rangeStart1 = getState(false).rangeStart;
 				String rangeEnd1 = getState(false).rangeEnd;
 
-				DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+				DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
 				Date rangeStartDate = dateTimeFormat.parse(rangeStart1);
 				Date rangeEndDate = dateTimeFormat.parse(rangeEnd1);
 
@@ -462,7 +462,7 @@ public class CalendarField extends AbstractField<List>
 		try {
 			String rangeEnd1 = getState().rangeEnd;
 
-			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
 			rangeEndDate1 = dateTimeFormat.parse(rangeEnd1);
 
 		} catch (Exception e) {
@@ -495,7 +495,7 @@ public class CalendarField extends AbstractField<List>
 
 		try {
 			String rangeStart1 = getState().rangeStart;
-			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
 			rangeStartDate1 = dateTimeFormat.parse(rangeStart1);
 
 		} catch (Exception e) {
