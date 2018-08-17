@@ -625,7 +625,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 checkCustomerFlag = queryList.size() == itemDto.getParentCcpDetailIdList().size();
                                 int[] levelNo = new int[2];
                                 if (itemDto.getSupplementalLevelNo() == 5) {
-                                    if (queryList != null && !queryList.isEmpty()) {
+                                    if (!queryList.isEmpty()) {
                                         int ndcCount = 0;
                                         for (Object queryList1 : queryList) {
                                             Object[] ob = (Object[]) queryList1;
@@ -1518,9 +1518,12 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             ForecastUI.setEXCEL_CLOSE(true);
             if (i == 0) {
                 exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SUPPLEMENTAL_DISCOUNT, "Supplemental_Discount_Projection.xls", false);
+            } else {
+                if (exp != null) {
+                    exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+                }
             }
-            if (i != 0 && exp != null) {
-                exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+            if (exp != null) {
                 boolean export = i == exportAt;
                 exp.exportMultipleTabs(export);
             }
