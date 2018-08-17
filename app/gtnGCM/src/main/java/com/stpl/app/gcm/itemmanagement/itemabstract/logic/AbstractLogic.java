@@ -619,7 +619,7 @@ public class AbstractLogic {
             dto.setFormulaId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
             dto.setFormulaNo(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
             dto.setFormulaName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-            dto.setFormulaSid(str[NumericConstants.THREE] == null ? (Integer) 0 : (Integer) (str[NumericConstants.THREE]));
+            dto.setFormulaSid(str[NumericConstants.THREE] == null ? 0 : (Integer) (str[NumericConstants.THREE]));
             finalResult.add(dto);
         }
         return finalResult;
@@ -1899,7 +1899,7 @@ public class AbstractLogic {
             dto.setFormulaId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
             dto.setFormulaNo(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
             dto.setFormulaName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-            dto.setFormulaSid(str[NumericConstants.THREE] == null ? (Integer) 0 : (Integer) (str[NumericConstants.THREE]));
+            dto.setFormulaSid(str[NumericConstants.THREE] == null ? 0 : (Integer) (str[NumericConstants.THREE]));
             dto.setNetSalesformulaType(str[NumericConstants.FOUR] == null || Constants.NULL.equals(str[NumericConstants.FOUR]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FOUR]))));
             finalList.add(dto);
         }

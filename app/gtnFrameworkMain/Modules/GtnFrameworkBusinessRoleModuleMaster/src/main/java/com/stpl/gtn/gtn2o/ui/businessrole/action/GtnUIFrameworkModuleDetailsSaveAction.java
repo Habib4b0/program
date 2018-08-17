@@ -3,7 +3,6 @@ package com.stpl.gtn.gtn2o.ui.businessrole.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -51,10 +50,6 @@ public class GtnUIFrameworkModuleDetailsSaveAction implements GtnUIFrameWorkActi
 		gtnSecurityGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		serviceRequest.setGtnWsGeneralRequest(gtnSecurityGeneralRequest);
 		serviceRequest.setGtnWsModuleAuthorizationGeneralRequest(gtnWsModuleSecurityGeneralRequest);
-
-		new GtnAuditMessageProducer().logAuditMessage(PortalUtil.getDefaultCompanyId(), subModulebeanList + " Saved",
-				this.getClass().getName());
-
 		wsclient.callGtnWebServiceUrl(
 				"/" + GtnWsModuleAuthorizationConstants.GTN_SECURITY_SERVICE_URI + "/"
 						+ GtnWsModuleAuthorizationConstants.UPDATE_MODULE_SUBMODULE_UPDATE_FLAG,

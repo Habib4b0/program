@@ -343,7 +343,7 @@ public class DeductionDetailsLogic {
      * @return
      */
     public int getItemCount(String value,SessionDTO sessionDTO) {
-        String[] obj = value.split("~");
+        Object[] obj = value.split("~");
         String query = queryUtils.getItemCount(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])), Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])));
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         return  (list == null || list.isEmpty()) ? 0 : Integer.parseInt(String.valueOf(list.get(0)));
@@ -358,7 +358,7 @@ public class DeductionDetailsLogic {
      */
     public void updateTempTable(DeductionDetailsDTO deductionDTO, String value, String getData, TableDTO dto,SessionDTO sessionDTO) {
         try {
-            String[] obj = getData.split("~");
+            Object[] obj = getData.split("~");
             String query = StringUtils.EMPTY;
             if (deductionDTO.getDataView().equals(ConstantsUtils.CUSTOMER)) {
                 query = queryUtils.getLineUpdateQueryForCustomer(deductionDTO, value, obj,dto);
