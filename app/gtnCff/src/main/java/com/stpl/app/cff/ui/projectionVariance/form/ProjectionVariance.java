@@ -440,8 +440,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setComparisonBasis(String.valueOf(comparisonBasis.getValue()));
             pvSelectionDTO.setDisplayFormat(CommonUtils.getDisplayFormatSelectedValues(displayFormatValues));
             pvSelectionDTO.setConversionFactor(conversionFactorDdlb.getValue());
+            pvSelectionDTO.setGroupFilter(StringUtils.EMPTY);
             viewChange(false);
-            groupChange(false);
             setCurrentHierarchy(new ArrayList<Leveldto>(viewChangeHierarchy));
             LOGGER.debug("After loading DTo");
         } catch (NumberFormatException e) {
@@ -451,15 +451,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     public void setCurrentHierarchy(List<Leveldto> currentHierarchy) {
         this.currentHierarchy = currentHierarchy == null ? currentHierarchy : Collections.unmodifiableList(currentHierarchy);
-    }
-
-    public void groupChange(boolean groupChange) {
-        if (group.getValue() != null && (pvSelectionDTO.isIsCustomHierarchy() || !pvSelectionDTO.getHierarchyIndicator().equals("P"))) {
-            pvSelectionDTO.setGroupFilter(String.valueOf(group.getValue()));
-        }
-        if (groupChange && firstGenerated && !generated && (pvSelectionDTO.isIsCustomHierarchy() || !pvSelectionDTO.getHierarchyIndicator().equals("P"))) {
-            tableLogic.groupChange();
-        }
     }
 
     /**

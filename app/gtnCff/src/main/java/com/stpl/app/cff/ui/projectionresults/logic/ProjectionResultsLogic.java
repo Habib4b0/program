@@ -1285,7 +1285,7 @@ public class ProjectionResultsLogic {
                             }
                             mayBeAdded++;
                         }
-                        if ((salesUnits.equals(BOTH) && started < NumericConstants.FOUR) || started < NumericConstants.FOUR) {
+                        if ((salesUnits.equals(BOTH) && started < NumericConstants.FOUR)) {
                             contractSalesDto = resultList.get(0);
                             unitVolDto = resultList.get(1);
                         }
@@ -1300,8 +1300,9 @@ public class ProjectionResultsLogic {
                             mayBeAdded++;
                         }
                         if (neededRecord > 0) {
-                            if ((isExFactoryNeededInProductLevel && (started == NumericConstants.TWO || started == NumericConstants.ONE))
-                                    || (started == NumericConstants.ONE || started == NumericConstants.ZERO)) {
+                            if ((isExFactoryNeededInProductLevel
+                                    && (started == NumericConstants.TWO || started == NumericConstants.ONE))
+                                    || started == NumericConstants.ZERO) {
                                 if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO percentageExfactoryProduct = resultList.get(NumericConstants.EIGHT);
                                     projDTOList.add(percentageExfactoryProduct);
