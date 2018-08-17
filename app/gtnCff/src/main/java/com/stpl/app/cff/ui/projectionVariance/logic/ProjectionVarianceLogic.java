@@ -1324,8 +1324,8 @@ public class ProjectionVarianceLogic {
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         dataMap.put("format", projSelDTO.getDisplayFormat());
         dataMap.put("isExcel", Boolean.FALSE);
-        Map<String, List> LevelNamelist = projSelDTO.isIsCustomHierarchy() ? projSelDTO.getSessionDTO().getCustomDescription() : projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, LevelNamelist, projSelDTO.getSessionDTO(),dataMap ));
+        Map<String, List> levelNameList = projSelDTO.isIsCustomHierarchy() ? projSelDTO.getSessionDTO().getCustomDescription() : projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, levelNameList, projSelDTO.getSessionDTO(),dataMap ));
         dto.setLevelValue(detailsList.get(0).toString());
         dto.setHierarchyNo(hierarchyNo);
         dto.setHierarchyIndicator(hierarchyIndicator);

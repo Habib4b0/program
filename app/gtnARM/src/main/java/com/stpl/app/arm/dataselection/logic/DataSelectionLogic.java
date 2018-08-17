@@ -508,6 +508,8 @@ public class DataSelectionLogic {
                     dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
                     dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
                     dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
+                    dto.setRelationShipVersionNo((int) objects[NumericConstants.TEN]);
+                   
                     if (descriptionMap != null) {
                         dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
                     }

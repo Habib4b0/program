@@ -9,7 +9,6 @@ import com.stpl.app.gtnforecasting.dto.DiscountSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -96,7 +95,12 @@ public class DiscountSelection extends Window {
 	 * Discount Names list
 	 */
 	private final List<String> selectedDiscountsNoList = new ArrayList<>();
-
+        
+        private static final Object[] PROGRAM_VISIBILE_COLS = new Object[]{Constant.CHECKRECORD, "discountNo", "discountName"};
+        private static final String[] PROGRAM_VISIBILE_HEADER = new String[]{StringUtils.EMPTY, "Discount #", "Discount Name"};
+        private static final Object[] PROGRAM_CATEGORY_VISIBILE_COLS = new Object[]{Constant.CHECKRECORD, "discountName"};
+        private static final String[] PROGRAM_CATEGORY_VISIBILE_HEADER = new String[]{StringUtils.EMPTY, "Discount Type"};
+        
 	/**
 	 * The Constructor.
      * @param session
@@ -174,11 +178,11 @@ public class DiscountSelection extends Window {
 		String[] colHeader;
 
             if (isProgram) {
-                visibleCols = CommonUtils.PROGRAM_VISIBILE_COLS;
-                colHeader = CommonUtils.PROGRAM_VISIBILE_HEADER;
+                visibleCols = PROGRAM_VISIBILE_COLS;
+                colHeader = PROGRAM_VISIBILE_HEADER;
             } else {
-                visibleCols = CommonUtils.PROGRAM_CATEGORY_VISIBILE_COLS;
-                colHeader = CommonUtils.PROGRAM_CATEGORY_VISIBILE_HEADER;
+                visibleCols = PROGRAM_CATEGORY_VISIBILE_COLS;
+                colHeader = PROGRAM_CATEGORY_VISIBILE_HEADER;
             }
 		table.setColumnWidth(visibleCols[0], NumericConstants.FIFTY);
 		table.setCaption("Discount Selection");
