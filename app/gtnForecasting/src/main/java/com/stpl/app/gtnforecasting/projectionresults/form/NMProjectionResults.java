@@ -517,7 +517,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         //Level Filte Level No Value
         parameterDto.setViewName("DETAIL_TOTAL_DISCOUNT");
 
-        int customMasterSid = Integer.valueOf(customDdlb.getValue() == null || !projectionSelectionDTO.isIsCustomHierarchy() ? "0" : customDdlb.getValue().toString());
+        int customMasterSid = Integer.parseInt(customDdlb.getValue() == null || !projectionSelectionDTO.isIsCustomHierarchy() ? "0" : customDdlb.getValue().toString());
         parameterDto.setCustomViewMasterSid(customMasterSid);
     }
 

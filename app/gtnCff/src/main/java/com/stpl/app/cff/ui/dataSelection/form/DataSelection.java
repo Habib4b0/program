@@ -511,7 +511,7 @@ public class DataSelection extends AbstractDataSelection {
                             
                                 if (sessionDTO.getComparisonLookupData() != null) {
                                     for (ComparisonLookupDTO checkedSalesValue : ((ComparisonLookupDTO) sessionDTO.getComparisonLookupData()).getSelected()) {
-                                        br.append(checkedSalesValue.getProjectionId()).append(Constants.COMMA);
+                                        br.append(checkedSalesValue.getProjectionId()).append(Constants.COMMA_CHAR);
                                 }
                                 sessionDTO.setPriorProjectionId(br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString());
                                 }

@@ -307,7 +307,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupBrand.setAddToParent(true);
 		reportComparisonLookupBrand.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
-		reportComparisonLookupBrand.setComponentWsFieldId("comparisonBrand");
+		reportComparisonLookupBrand.setComponentWsFieldId("brand");
 		componentList.add(reportComparisonLookupBrand);
 	}
 
@@ -409,7 +409,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		description.setAddToParent(true);
 		description.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
-		description.setComponentWsFieldId("projectionDescription");
+		description.setComponentWsFieldId("description");
 
 		componentList.add(description);
 

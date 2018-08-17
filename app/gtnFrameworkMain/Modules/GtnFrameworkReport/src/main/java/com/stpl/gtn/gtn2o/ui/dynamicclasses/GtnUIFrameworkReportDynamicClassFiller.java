@@ -307,11 +307,12 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkGridToBarChartAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPublicViewDeleteValidation.class.getName(),
 				new GtnFrameworkPublicViewDeleteValidation());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportSearchNotification.class.getName(),
-				new GtnFrameworkReportSearchNotification());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportOptionsViewOptionsAction.class.getName(),
 				new GtnFrameworkReportOptionsViewOptionsAction());
+                
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportSearchNotification.class.getName(),
+				new GtnFrameworkReportSearchNotification());
 
 	}
 

@@ -526,11 +526,22 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     int start = 0;
                     int end = 0;
                     if (StringConstantsUtil.DESCENDING1.equalsIgnoreCase(String.valueOf(projectionPeriodOrder.getValue()))) {
-                        start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
-                        end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
+                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                        } else {
+                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        }
                     } else {
-                        start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
-                        end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
+
+                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                        } else {
+                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        }
                     }
                     for (int i = start; i <= end; i++) {
                         pivotList.add(periodList.get(i));
@@ -729,7 +740,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         StringBuilder br=new StringBuilder();
         if(sessionDTO.getComparisonLookupData()!=null){
             for (Integer checkedSalesValue : pvSelectionDTO.getProjIdList()) {
-                br.append(checkedSalesValue).append(Constants.COMMA);
+                br.append(checkedSalesValue).append(Constants.COMMA_CHAR);
             }
         }
         return br.lastIndexOf(Constants.COMMA)!= -1 ?
@@ -761,12 +772,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void comparingFilterValuesForProcedure(CFFLogic cffLogicForTempTable,Object[] sortedListArray) {
-        LOGGER.info("Deduction"+sortedListArray[0]);
-        LOGGER.info("Deduction  "+tempdeductionLevel.equals(sortedListArray[0]));
-        LOGGER.info("tempProductLevel"+sortedListArray[1]);
-        LOGGER.info("tempProductLevel  "+tempProductLevel.equals(sortedListArray[1]));
-        LOGGER.info("tempCustomerLevel"+sortedListArray[2]);
-        LOGGER.info("tempCustomerLevel  "+tempCustomerLevel.equals(sortedListArray[2]));
         if(!tempdeductionLevel.equals(sortedListArray[0])
                 || !tempCustomerLevel.equals(sortedListArray[2])
                 || !tempProductLevel.equals(sortedListArray[1])){

@@ -508,7 +508,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		annualTotalsConfig.setComponentName("Annual Totals: ");
-		annualTotalsConfig.setEnable(false);
 		annualTotalsConfig.setAuthorizationIncluded(true);
 
 		componentList.add(annualTotalsConfig);
@@ -1072,6 +1071,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableAndVarianceSequencingConfig.setComponentName("Variable & Variance Sequencing: ");
 		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);
 		variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-reportoptions-vseq");
+        variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-width-200");
 		componentList.add(variableAndVarianceSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1097,6 +1097,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VIEW_OPTIONS,
 				true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VIEW_OPTIONS_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		viewOptionsConfig.addComboComponentStyle("v-report-width-170");
 		viewOptionsConfig.setComponentName("View Options: ");
 		viewOptionsConfig.setAuthorizationIncluded(true);
 
@@ -1154,6 +1155,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_HEADER_SEQUENCING,
 				true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_HEADER_SEQUENCING_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		headerSequencingConfig.addComboComponentStyle("v-report-width-200");
 		headerSequencingConfig.setComponentName("Header Sequencing:     ");
 		headerSequencingConfig.addComponentStyle("v-report-reportoptions-hseq-combo");
 		headerSequencingConfig.setAuthorizationIncluded(true);
@@ -1186,7 +1188,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		displayFormatConfig.setComponentName("Display Format: ");
 		displayFormatConfig.setAuthorizationIncluded(true);
-
+		displayFormatConfig.addComboComponentStyle("v-report-width-170");
 		componentList.add(displayFormatConfig);
 
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
@@ -1299,7 +1301,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig dashboardValuesResetAction = new GtnUIFrameWorkActionConfig();
 		dashboardValuesResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
-		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RP_DASH_RESET_CONFIRMATION_MESSAGE);
 		List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig valuesResetAction = new GtnUIFrameWorkActionConfig();

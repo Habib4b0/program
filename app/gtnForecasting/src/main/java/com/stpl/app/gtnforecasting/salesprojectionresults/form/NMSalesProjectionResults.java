@@ -853,9 +853,12 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
+                } else {
+                    if (exp != null) {
+                        exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+                    }
                 }
-                if (i != 0 && exp != null) {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+                if (exp != null) {
                     boolean export = i == exportAt;
                     exp.exportMultipleTabs(export);
                 }
