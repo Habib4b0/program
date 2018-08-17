@@ -64,7 +64,7 @@
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
 				<module>app/gtnARM</module>
-				<module>app/gtnBpmSSOLoginHook</module>
+				<module>app/gtnAudit</module>
 			</modules>
 			<activation>
 				<property>
