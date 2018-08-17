@@ -545,7 +545,7 @@ public final class GtnFrameworkReportStringConstants {
 			"createdDate", "modifiedDate" };
 
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
-			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
+			"businessUnit", "type", "version", "activeFrom", "toPeriod" ,"activeFile" };
 
 	private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList(
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
