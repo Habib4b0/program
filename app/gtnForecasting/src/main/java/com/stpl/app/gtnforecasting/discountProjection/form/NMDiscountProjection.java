@@ -2112,7 +2112,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             if (discountProjectionLogic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
                     isCustomHierarchy)) {
 
-                if (fieldDdlb != null && !Constant.NULL.equals(selectedField) && !selectedField.isEmpty()) {
+                if (!Constant.NULL.equals(selectedField) && !selectedField.isEmpty()) {
                     List<String> checkedDiscountNames = new ArrayList<>();
                     if (!isCustomHierarchy) {
                         for (Object discountPropertyId : checkedDiscountsPropertyIds) {
@@ -2121,7 +2121,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } else {
                         checkedDiscountNames.addAll(projectionSelection.getDeductionLevelFilter());
                     }
-                    if (((valueDdlb != null && valueDdlb.getValue() != null && valueDdlbValue != null && !valueDdlbValue.isEmpty()) 
+                    if (((valueDdlbValue != null && !valueDdlbValue.isEmpty()) 
                             && selectedField.equals(Constant.GROUPFCAPS))
                             || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_RATE_LABEL))
                             || (!valueText.isEmpty() && selectedField.equals("RPU"))
@@ -5885,10 +5885,13 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter, isRate, isRPU, projectionSelection.isIsCustomHierarchy());
+                    } else {
+                        if (excel != null) {
+                            excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
                     }
-                    if (i != 0 && excel != null) {
-                        excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    if (excel != null) {
                         boolean export = i == exportAt;
                         excel.exportMultipleTabs(export);
                     }

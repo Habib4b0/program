@@ -63,6 +63,7 @@ public class DiscountProjectionResultsLogic {
     private static final String ZERO_SYMBOL = "0";
     private final Map<String, String> monthMap = new HashMap<>();
     private final Map<String, String> valueMap = new HashMap<>();
+    private static final String[] ALL_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     public DiscountProjectionResultsLogic() {
         periodValueMap();
@@ -2958,8 +2959,7 @@ public class DiscountProjectionResultsLogic {
     }
 
     public int getIntegerForMonth(String month) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return Arrays.asList(array).indexOf(month) + 1;
+        return Arrays.asList(ALL_MONTH).indexOf(month) + 1;
     }
 
     public List<DiscountProjectionResultsDTO> getLevelFilterSum(DiscountProjectionResultsDTO dto, Map selection, SessionDTO session) throws SystemException {

@@ -35,6 +35,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -290,9 +291,8 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
                 List list = logic.getContractResults(CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, false));
                 recordCount = list.size();
             }
-            Object[] headers = resultTable.getColumnHeaders();
-            headers = ArrayUtils.removeElement(headers, StringUtils.EMPTY);
-            ExcelExportforBB.createWorkSheet((String[]) headers, recordCount, this, UI.getCurrent(), moduleName);
+            String[] headers =  Arrays.stream(resultTable.getColumnHeaders()).filter(e -> !e.isEmpty()).toArray(String[]::new);
+            ExcelExportforBB.createWorkSheet(headers, recordCount, this, UI.getCurrent(), moduleName);
         } catch (Exception e) {
             LOGGER.error("",e);
         }
