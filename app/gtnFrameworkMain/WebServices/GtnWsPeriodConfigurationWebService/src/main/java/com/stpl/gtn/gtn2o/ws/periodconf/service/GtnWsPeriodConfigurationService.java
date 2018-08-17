@@ -2,6 +2,8 @@ package com.stpl.gtn.gtn2o.ws.periodconf.service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,15 +27,27 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	@Autowired
 	private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
 
+	private GtnWsPeriodConfigurationService() {
+		super();
+	}
+
+	@PostConstruct
+	private void initializeLogger() {
+		super.logInformation(GtnWsPeriodConfigurationService.class);
+	}
+
 	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void init() {
+		initializeLogger();
+		logger.info("Entering into init method");
 		GtnUIFrameworkWebserviceRequest request = registerWs();
 
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(
 				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
 				request, GtnUIFrameworkWebserviceResponse.class);
+		logger.info("Webservice Registered");
 		List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
 
 		singletonObjectBean.setPeriodConfigResultList(resultList);
@@ -41,11 +55,13 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
 	@Override
 	public GtnUIFrameworkWebserviceRequest registerWs() {
+		logger.info("Building request to register Webservice in Service Registry");
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest = new GtnServiceRegistryWsRequest();
 
 		GtnWsServiceRegistryBean webServiceRegistryBean = new GtnWsServiceRegistryBean();
 		getEndPointUrl(webServiceRegistryBean);
+		logger.info("Webservice to Register:" + webServiceRegistryBean.getRegisteredWebContext());
 		gtnServiceRegistryWsRequest.setGtnWsServiceRegistryBean(webServiceRegistryBean);
 		request.setGtnServiceRegistryWsRequest(gtnServiceRegistryWsRequest);
 		return request;
@@ -61,6 +77,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
 
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
+		logger.info("LoadDate Query:" + loadDateQuery);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(loadDateQuery);
 		queryExecutorBean.setQueryType("SELECT");
@@ -70,6 +87,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
 				gtnQueryEngineWebServiceRequest);
 		List<Object[]> resultList = response.getQueryResponseBean().getResultList();
+		logger.info("Returning Resultlist:" + resultList.listIterator().next());
 
 		return resultList;
 	}

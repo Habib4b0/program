@@ -2,23 +2,32 @@ package com.stpl.gtn.gtn2o.ws.queryengine.service;
 
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
+import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.queryengine.engine.GtnFrameworkWsSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.queryengine.querytype.GtnWsQueryType;
 import com.stpl.gtn.gtn2o.ws.queryengine.querytype.GtnWsQueryTypeInterface;
 
 @Service
-public class GtnFrameworkWsSqlQueryEngineService {
+public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplClass {
 
 	@Autowired
 	private GtnFrameworkWsSqlQueryEngine gtnSqlQueryEngine;
 
 	public GtnFrameworkWsSqlQueryEngineService() {
 		super();
+		initializeLogger();
+	}
+
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnFrameworkWsSqlQueryEngineService.class);
 	}
 
 	public GtnFrameworkWsSqlQueryEngine getGtnSqlQueryEngine() {
@@ -32,8 +41,10 @@ public class GtnFrameworkWsSqlQueryEngineService {
 	public Object executeQuery(GtnFrameworkQueryExecutorBean queryExecutorBean) throws GtnFrameworkGeneralException {
 		GtnWsQueryType queryType = Enum.valueOf(GtnWsQueryType.class,
 				queryExecutorBean.getQueryType().toUpperCase(Locale.ENGLISH));
+		logger.trace("Executing Query Type" + queryType);
 		GtnWsQueryTypeInterface execute = queryType.getGtnWsQueryTypeInterface();
 		Object result = execute.executeQuery(queryExecutorBean, gtnSqlQueryEngine);
+		logger.trace("Returning Result of Type" + result.getClass());
 		return result;
 	}
 

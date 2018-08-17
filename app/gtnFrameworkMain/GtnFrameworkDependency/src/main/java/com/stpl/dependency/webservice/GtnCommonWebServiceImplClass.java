@@ -12,20 +12,20 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 public abstract class GtnCommonWebServiceImplClass {
 
+	public GtnFrameworkDependencyLogger logger;
+	
 	public String readPropertyFile(String propertyFile) {
 		return "readPropertyFile:" + propertyFile;
 	}
 
-	public GtnFrameworkDependencyLogger logInformation(Class<?> className) {
-		GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger.getGTNLogger(className);
-		return gtnLogger;
+	public void logInformation(Class<?> className){
+		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
 	}
 
 	public abstract GtnUIFrameworkWebserviceRequest registerWs();
 
 	public GtnQueryEngineWebServiceResponse callQueryEngine(String url, GtnQueryEngineWebServiceRequest request,
 			GtnWsSecurityToken securityToken) {
-		GtnFrameworkDependencyLogger gtnLogger = logInformation(GtnCommonWebServiceImplClass.class);
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
@@ -35,7 +35,7 @@ public abstract class GtnCommonWebServiceImplClass {
 					GtnQueryEngineWebServiceResponse.class);
 			return webServiceResponse;
 		} catch (Exception e) {
-			gtnLogger.error("Exception in web service call", e);
+			logger.error("Exception in web service call", e);
 			return null;
 		}
 
@@ -43,7 +43,6 @@ public abstract class GtnCommonWebServiceImplClass {
 
 	public GtnQueryEngineWebServiceResponse callQueryEngineWithoutSecurityToken(String url,
 			GtnQueryEngineWebServiceRequest request) {
-		GtnFrameworkDependencyLogger gtnLogger = logInformation(GtnCommonWebServiceImplClass.class);
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
@@ -52,7 +51,7 @@ public abstract class GtnCommonWebServiceImplClass {
 					GtnQueryEngineWebServiceResponse.class);
 			return webServiceResponse;
 		} catch (Exception e) {
-			gtnLogger.error("Exception in web service call", e);
+			logger.error("Exception in web service call", e);
 			return null;
 		}
 

@@ -154,7 +154,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 		int businessProcess = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString())
 				.getIntegerFromField();
 		String businessProcessName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString())
-				.getStringFromField();
+				.getCaptionFromComboBox();
 
 		String mode = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(9).toString()).getStringFromField();
 
