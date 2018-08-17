@@ -216,7 +216,7 @@ border: 3px solid transparent;
     margin-left: 4px !important;
 }
 .v-report-display-selection-from{
-    margin-left: -65px !important;
+    margin-left: -29px !important;
     margin-top: 7px !important;
 }
 .v-report-data-selection-from-combo{
@@ -224,7 +224,7 @@ border: 3px solid transparent;
     margin-top: -42px !important;
 }
 .v-report-display-selection-to{
-    margin-left: 36px !important;
+    margin-left: -18px !important;
     margin-top: 7px !important;
 }
 .v-report-data-selection-to-combo{
@@ -235,7 +235,7 @@ border: 3px solid transparent;
     margin-left: -25px !important;
 }
 .v-report-data-selection-public{
-    margin-left: -31px !important;
+    margin-left: -29px !important;
 }
 .v-report-data-selection-company{
     margin-left: -26px !important;   
@@ -365,5 +365,11 @@ border: 3px solid transparent;
 }
 .v-report-overflow-auto{
 	overflow : auto!important;
+	}
+.v-report-margin--2{
+	margin-left :-2px!important;
+	}
+.v-report-margin--5{
+	margin-right :-15px!important;
 	}
 }
