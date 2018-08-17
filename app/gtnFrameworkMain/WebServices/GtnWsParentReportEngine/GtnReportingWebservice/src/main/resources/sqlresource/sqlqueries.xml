@@ -435,6 +435,11 @@
                                                 AND(						
 							CONVERT (date,PM.CREATED_DATE) LIKE ?
 							or CONVERT (date,PM.CREATED_DATE) is null
+						)   AND (
+								  CONVERT(date,PM.CREATED_DATE) BETWEEN ? AND ?
+                                 or CONVERT(date,PM.CREATED_DATE) >= ?
+                                 or CONVERT(date,PM.CREATED_DATE) <= ?
+                                 or CONVERT(date,PM.CREATED_DATE) is null
 						)  
                                                  AND ISNULL(
                                                 USR.lastName,
@@ -511,6 +516,14 @@ FROM
 	CFF_MASTER PM
 INNER JOIN CFF_DETAILS PD ON
 		PD.CFF_MASTER_SID = PM.CFF_MASTER_SID 
+		AND ( PM.CFF_NAME LIKE ?
+		or PM.CFF_NAME is NULL )
+		AND ( PM.CFF_NAME LIKE ?
+		or PM.CFF_NAME is NULL )
+		AND ( CONVERT( date, PM.CREATED_DATE ) BETWEEN ? AND ?
+		or CONVERT( date, PM.CREATED_DATE ) >= ?
+		or CONVERT( date, PM.CREATED_DATE ) <= ?
+		or CONVERT( date, PM.CREATED_DATE ) is null )
 	JOIN #CFF_APPROVAL_DETAILS CAD ON
 			CAD.CFF_MASTER_SID = PM.CFF_MASTER_SID
 		JOIN CUSTOM_CCP_DETAILS CCD ON
@@ -529,23 +542,24 @@ INNER JOIN CFF_DETAILS PD ON
 						PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
 						)
 				LEFT JOIN HELPER_TABLE HT ON
-						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
-						AND ( HT.LIST_NAME = 'CONTRACT_TYPE'
-						AND HT.DESCRIPTION LIKE ? )
+						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID						
 					LEFT JOIN COMPANY_MASTER CM ON
-							C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
-							AND ( CM.COMPANY_NO LIKE ?
-							OR CM.COMPANY_NO IS NULL )
-						JOIN ITEM_MASTER IM ON
+							C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID						
+							JOIN ITEM_MASTER IM ON
 								CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
 								AND IM.ITEM_NAME LIKE ?
 								AND IM.ITEM_NO LIKE ?
 							LEFT JOIN BRAND_MASTER BM ON
 									BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
-									AND ( BM.BRAND_NAME LIKE ?
-									OR BM.BRAND_NAME IS NULL )
 									JOIN ?.dbo.User_ USR ON
 					USR.userId = PM.CREATED_BY
+					where
+						( HT.LIST_NAME = 'CONTRACT_TYPE'
+						  AND HT.DESCRIPTION LIKE ? )
+						  AND ( CM.COMPANY_NO LIKE ?
+						  OR CM.COMPANY_NO IS NULL )
+						  AND ( BM.BRAND_NAME LIKE ?
+						  OR BM.BRAND_NAME IS NULL )
 								GROUP BY
 									PM.CFF_NAME, PM.CFF_MASTER_SID, PM.CREATED_DATE, PM.CREATED_BY ,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' )) SELECT
 	*

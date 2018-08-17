@@ -378,7 +378,7 @@ public class PagedGrid {
 				return getTextFieldFilterComponent(property, filterConfig);
 			}
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
-				return getDateFieldFilterComponent(property);
+				return getDateFieldFilterComponent(property,filterConfig);
 			}
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
 				return getComboboxFilterComponent(property, filterConfig);
@@ -446,7 +446,7 @@ public class PagedGrid {
 		return h3;
 	}
 
-	private Component getDateFieldFilterComponent(String property) {
+	private Component getDateFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
 		HorizontalLayout h2 = new HorizontalLayout();
 		h2.setMargin(false);
 		h2.setWidth("118%");
@@ -455,6 +455,10 @@ public class PagedGrid {
 		dateField.setWidth("114%");
 		dateField.setSizeFull();
 		dateField.setId(property);
+                List<String> componentStyle = filterConfig.getGtnComponentConfig().getDateFieldStyle();
+		if (!(componentStyle.isEmpty())) {
+			dateField.setStyleName(componentStyle.get(0));
+		}
 		dateField.addValueChangeListener(this::onFilterDateChange);
 		h2.addComponent(dateField);
 		h2.addLayoutClickListener(new LayoutClickListener() {
@@ -539,7 +543,11 @@ public class PagedGrid {
 	}
 
 	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
-		return "%" + event.getValue() + "%";
+		String value = event.getValue();
+		if (!value.isEmpty()) {
+			return "%" + value + "%";
+		}
+		return "";
 	}
 
 	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {

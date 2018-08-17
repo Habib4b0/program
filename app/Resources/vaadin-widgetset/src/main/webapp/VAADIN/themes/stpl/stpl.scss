@@ -290,55 +290,56 @@ border: 3px solid transparent;
 	width: 170px !important;
 }
 .v-reportLandingScreen-PrivateView{
-	margin-left: 85px;
-	margin-top: -26px;
-	width: 118px!important;
+	margin-left: 100px;
+	margin-top: -25px;
+	min-width: 150px!important;
+	width: 150px!important;
 }
 .v-reportLandingScreen-companyLayout{
-	margin-left: 5px;
+	margin-left: 10px;
 	margin-top: 10px;
 }
 .v-reportLandingScreen-company{
-	min-width: 86px !important;
-	width:99px!important;
-	margin-left:82px;
+	margin-left:90px;
 	margin-top:-25px;
+	min-width: 150px!important;
+	width: 150px!important;
 }
 .v-reportLandingScreen-dataSourceLayout{
 	margin-left:10px;
-	margin-top:-41px;
-	margin-left:410px;
+	margin-top: 10px;
 }
 .v-reportLandingScreen-dataSource{
-	min-width:95px!important;
-	width:85px!important;
-	margin-left:120px;
+	margin-left:130px;
 	margin-top:-25px;
+	min-width: 150px!important;
+	width: 150px!important;
 }
 .v-reportLandingScreen-reportSelectionLayout1{
 	margin-top:-21px;
 }
 .v-publicViewTextField{
-	margin-left:85px;
+	margin-left:100px;
 	margin-top: -25px;
-	width: 118px !important;	
+	min-width: 150px!important;
+	width: 150px!important;
 }
 .v-bu{
-	margin-left:86px;
-	margin-top:-28px;
-	width:35%!important;
-	min-width:98px!important;
+	margin-left:90px;
+	margin-top:-25px;
+	min-width: 150px!important;
+	width: 150px!important;
 }
 .v-BU-layout{
-	margin-left:3px;
+	margin-left:10px;
 }
 .v-fromToMainLayout{
 	margin-left:-5px;
 	margin-top:4px;
 }
 .v-reportLandingScreen-fromPeriodLayout{
-	margin-left:-60px;
-	margin-top: 23px;
+	margin-left:-35px;
+	margin-top: 10px;
 }
 .v-reportLandingScreen-fromPeriod{
 	margin-left:110px;
@@ -348,4 +349,24 @@ border: 3px solid transparent;
 	margin-left:110px;
 	margin-top:-45px;
 }
+
+
+.v-report-width-200{
+	width : 200px!important;
+	}
+.v-report-width-170 {
+	width : 170px !important;
+	}
+
+.v-report-data-assumption-excel{
+    margin-left: 16px !important;
+    margin-top: -35px ! important;
+    
+}
+.v-report-data-assumption-date-field{ 
+    margin-top: -5px !important;
+}
+.v-report-overflow-auto{
+	overflow : auto!important;
+	}
 }
