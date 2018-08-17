@@ -1299,7 +1299,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig dashboardValuesResetAction = new GtnUIFrameWorkActionConfig();
 		dashboardValuesResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
-		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RP_DASH_RESET_CONFIRMATION_MESSAGE);
 		List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig valuesResetAction = new GtnUIFrameWorkActionConfig();
