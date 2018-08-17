@@ -1076,7 +1076,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
      public void checkPvFrequency(){
         pvFlag = true;
-        if(!session.getDsFrequency().equals(frequency.getValue()) && pvFlag){            
+        if(pvFlag && (!session.getDsFrequency().equals(frequency.getValue()))){            
             pvFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
         

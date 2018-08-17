@@ -620,7 +620,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
     public void checkSpFrequency(){
         spFlag = true;
-        if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()) && spFlag){            
+        if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
         
