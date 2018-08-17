@@ -349,56 +349,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		modeSelectionCsslayout
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
 		componentList.add(modeSelectionCsslayout);
-
-		/*GtnUIFrameworkLayoutConfig fromToMainLayout = new GtnUIFrameworkLayoutConfig();
-		fromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-
-		GtnUIFrameworkComponentConfig fromToLayoutConfig = new GtnUIFrameworkComponentConfig();
-		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		fromToLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
-		fromToLayoutConfig.setAddToParent(true);
-		fromToLayoutConfig.setSpacing(true);
-		fromToLayoutConfig.setComponentWidth("33%");
-		fromToLayoutConfig.addComponentStyle("v-fromToMainLayout");
-		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
-		fromToLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
-		fromToLayoutConfig.setGtnLayoutConfig(fromToMainLayout);
-		componentList.add(fromToLayoutConfig);*/
-
-		/*GtnUIFrameworkLayoutConfig privateViewCompanyReportNameLayoutConfig = new GtnUIFrameworkLayoutConfig();
-		privateViewCompanyReportNameLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig privateViewCompanyReportNameLayout = new GtnUIFrameworkComponentConfig();
-		privateViewCompanyReportNameLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewCompanyReportNameLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
-		privateViewCompanyReportNameLayout.setComponentWidth("100%");
-		privateViewCompanyReportNameLayout.setAddToParent(true);
-		privateViewCompanyReportNameLayout.addComponentStyle("v-reportLandingScreen-reportSelectionLayout1");
-		privateViewCompanyReportNameLayout.setGtnLayoutConfig(privateViewCompanyReportNameLayoutConfig);
-		privateViewCompanyReportNameLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
-		componentList.add(privateViewCompanyReportNameLayout);*/
-
-		/*GtnUIFrameworkLayoutConfig privateViewCompanyReportNameCsslayoutConfig = new GtnUIFrameworkLayoutConfig();
-		privateViewCompanyReportNameCsslayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		GtnUIFrameworkComponentConfig privateViewCompanyReportNameCsslayoutComponentConfig = new GtnUIFrameworkComponentConfig();
-		privateViewCompanyReportNameCsslayoutComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewCompanyReportNameCsslayoutComponentConfig.setComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewCompanyReportNameCssLayout");
-		privateViewCompanyReportNameCsslayoutComponentConfig.setAddToParent(true);
-		privateViewCompanyReportNameCsslayoutComponentConfig.setComponentWidth("100%");
-		privateViewCompanyReportNameCsslayoutComponentConfig
-				.setGtnLayoutConfig(privateViewCompanyReportNameCsslayoutConfig);
-		privateViewCompanyReportNameCsslayoutComponentConfig
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
-		privateViewCompanyReportNameCsslayoutComponentConfig
-				.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-
-		componentList.add(privateViewCompanyReportNameCsslayoutComponentConfig);*/
-
 	}
 
 	private void addPrivateViewCompanyName(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
