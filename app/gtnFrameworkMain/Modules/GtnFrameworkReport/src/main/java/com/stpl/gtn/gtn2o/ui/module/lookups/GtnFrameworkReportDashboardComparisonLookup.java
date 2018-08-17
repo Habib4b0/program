@@ -831,7 +831,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		rdGridReloadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		rdGridReloadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
 		rdGridReloadAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
-		rdGridReloadAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
+		// rdGridReloadAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
 		resetActionConfigList.add(rdGridReloadAction);
 		reportRDResetButton.addGtnUIFrameWorkActionConfig(reportRDLowerConfirmResetAction);
 		componentList.add(reportRDResetButton);

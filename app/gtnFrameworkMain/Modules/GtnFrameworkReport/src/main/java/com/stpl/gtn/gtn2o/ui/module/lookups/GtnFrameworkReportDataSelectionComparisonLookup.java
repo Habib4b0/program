@@ -840,7 +840,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		gridReloadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		gridReloadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
 		gridReloadAction.addActionParameter("dataSelectionComparisonResultsGrid");
-		gridReloadAction.addActionParameter("dataSelectionTab_comparisonLookup");
+		// gridReloadAction.addActionParameter("dataSelectionTab_comparisonLookup");
 		resetActionConfigList.add(gridReloadAction);
 		reportDSResetButton.addGtnUIFrameWorkActionConfig(reportDSLowerConfirmResetAction);
 		componentList.add(reportDSResetButton);
