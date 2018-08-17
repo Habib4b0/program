@@ -638,7 +638,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.info("callProcedureUpdate",orderedArgs[i]);
+                    LOGGER.info(""+orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -3034,7 +3034,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
-        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(','));
+        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA));
         sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         return stringBuilder.toString();
     }

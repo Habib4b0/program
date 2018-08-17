@@ -1990,21 +1990,29 @@ public class CommonLogic {
         LOGGER.debug("Entering callTableInsert");
 
         CallableStatement statement = null;
+        DataSource datasource = null;
         
-          try (Connection connection = ((DataSource)new InitialContext().lookup(DATA_POOL)).getConnection()){
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATA_POOL);
+
+            if (connection != null) {
                 LOGGER.debug(" Executing {} procedure ", procedureName);
                 StringBuilder statementBuilder = new StringBuilder("{call ");
                 statementBuilder.append(procedureName).append("(?,?,?,?)}");
                 statement = connection.prepareCall(statementBuilder.toString());
+
                 statement.setObject(1, inputs[0]);
                 statement.setObject(NumericConstants.TWO, inputs[1]);
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
                 statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
                 statement.execute();
+            }
 
             LOGGER.debug("Ending {} Procedure", procedureName);
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
         } finally {
             try {
@@ -2015,9 +2023,10 @@ public class CommonLogic {
                 LOGGER.error(e.getMessage());
             }
         }
-          LOGGER.debug("Exiting callTableInsert");
     }
-        
+        LOGGER.debug("Exiting callTableInsert");
+    }
+
     public void mandatedTempToMainSave(String userId, String sessionId, int newProjectionID) {
         LOGGER.debug("Entering mandatedTempToMainSave");
         List input = new ArrayList();

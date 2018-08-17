@@ -3,7 +3,6 @@ package com.stpl.gtn.gtn2o.ui.businessrole.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -53,10 +52,6 @@ public class GtnFrameworkBusinessRoleMasterSave implements GtnUIFrameWorkAction,
 		gtnWsModuleSecurityGeneralRequest.setGtnWsModuleSecuritySaveBeanList(saveList);
 		serviceRequest.setGtnWsGeneralRequest(gtnSecurityGeneralRequest);
 		serviceRequest.setGtnWsModuleAuthorizationGeneralRequest(gtnWsModuleSecurityGeneralRequest);
-
-		new GtnAuditMessageProducer().logAuditMessage(PortalUtil.getDefaultCompanyId(), saveList + " Saved",
-				this.getClass().getName());
-				
 		wsclient.callGtnWebServiceUrl(
 				"/" + GtnWsModuleAuthorizationConstants.GTN_SECURITY_SERVICE_URI + "/"
 						+ GtnWsModuleAuthorizationConstants.GTN_SECURITY_SAVE_SERVICE_URI,

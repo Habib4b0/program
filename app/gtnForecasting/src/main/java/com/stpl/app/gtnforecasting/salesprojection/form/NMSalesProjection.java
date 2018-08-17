@@ -256,11 +256,15 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } 
-                    if (i != 0 && exp != null) {
+                    else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
-                        boolean export = i == exportAt;
-                        exp.exportMultipleTabs(export);
+                }
+                    if (i == exportAt) {
+                        exp.exportMultipleTabs(true);
+            } else {
+                        exp.exportMultipleTabs(false);
                     }
+                
                 }
             } else {
                 List<String> columnHeader = new ArrayList<>();

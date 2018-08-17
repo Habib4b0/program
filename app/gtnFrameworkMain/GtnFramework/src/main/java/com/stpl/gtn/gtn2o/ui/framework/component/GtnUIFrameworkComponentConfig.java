@@ -56,7 +56,7 @@ public class GtnUIFrameworkComponentConfig {
 
 	private List<String> componentStyle = new ArrayList<>();
         private List<String> textComponentStyle = new ArrayList<>();
-        private List<String> comboBoxComponentStyle = new ArrayList<>();
+        private List<String> comboBoxComponentStyle = new ArrayList<>();    
         private List<String> dateFieldStyle = new ArrayList<>();
 	private List<Object> queryInputs = new ArrayList<>();
 	private GtnUIFrameworkComboBoxConfig gtnComboboxConfig;
@@ -295,7 +295,7 @@ public class GtnUIFrameworkComponentConfig {
 		}
 		this.textComponentStyle.add(textComponentStyle);
 	}
-        
+
         public List<String> getDateFieldStyle() {
         return dateFieldStyle  == null ? dateFieldStyle : Collections.unmodifiableList(dateFieldStyle);
         }

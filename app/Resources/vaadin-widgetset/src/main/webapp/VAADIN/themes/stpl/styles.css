@@ -15186,15 +15186,6 @@ div.v-layout.v-horizontal.v-widget {
 	margin-top: -45px;
 }
 
-.stpl .v-report-data-assumption-excel:active {
-	margin-left: 16px !important;
-	margin-top: -35px !important;
-}
-
-.stpl .v-report-data-assumption-date-field {
-	margin-top: -5px !important;
-}
-
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
