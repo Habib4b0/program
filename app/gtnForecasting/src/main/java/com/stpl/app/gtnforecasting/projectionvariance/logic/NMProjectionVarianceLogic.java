@@ -884,8 +884,7 @@ public class NMProjectionVarianceLogic {
 	}
 
 	private String getDiscountId(String rsIdsFinal, String hierarchyIndicator, String hierarchyNumber, int levelNo) {
-		return (D.equals(hierarchyIndicator)
-				&& levelNo == NumericConstants.TEN) ? hierarchyNumber : rsIdsFinal;
+		return (D.equals(hierarchyIndicator) && levelNo == NumericConstants.TEN) ? hierarchyNumber : rsIdsFinal;
 	}
 
 	public List<Object[]> getParameters(PVSelectionDTO projSelDTO, String projectionId, String frequency,
