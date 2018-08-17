@@ -526,11 +526,22 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     int start = 0;
                     int end = 0;
                     if (StringConstantsUtil.DESCENDING1.equalsIgnoreCase(String.valueOf(projectionPeriodOrder.getValue()))) {
-                        start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
-                        end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
+                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                        } else {
+                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        }
                     } else {
-                        start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
-                        end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
+
+                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                        } else {
+                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
+                        }
                     }
                     for (int i = start; i <= end; i++) {
                         pivotList.add(periodList.get(i));
