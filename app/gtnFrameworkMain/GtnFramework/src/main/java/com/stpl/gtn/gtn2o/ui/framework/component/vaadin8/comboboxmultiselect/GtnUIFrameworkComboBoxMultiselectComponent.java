@@ -15,16 +15,10 @@ import org.vaadin.addons.ComboBoxMultiselect;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
-import com.vaadin.ui.AbstractComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUiFrameworkComboBoxSourceType;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
@@ -32,7 +26,13 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
 public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFrameworkComponent {
@@ -49,7 +49,11 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		comboBoxVaadinMultiSelect.setPopupWidth(null);
 		comboBoxVaadinMultiSelect.showClearButton(true);
 		loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComponentStyle());
-		final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = multiSelectComponentConfig.getGtnCheckedComboboxConfig();
+		if (!multiSelectComponentConfig.getComboBoxComponentStyle().isEmpty()) {
+			loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComboBoxComponentStyle());
+		}
+		final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = multiSelectComponentConfig
+				.getGtnCheckedComboboxConfig();
 		comboBoxVaadinMultiSelect.setPlaceholder(checkedComboBoxConfig.getDefaultValue());
 		GtnUIFrameworkWebServiceClient multiSelectWsClient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest multiSelectWsRequest = new GtnUIFrameworkWebserviceRequest();
@@ -63,7 +67,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 					.callGtnWebServiceUrl(checkedComboBoxConfig.getLoadingUrl(), multiSelectWsRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
-			if (multiSelectResponse.getItemValueList() != null) {
+			if (multiSelectResponse != null && multiSelectResponse.getItemValueList() != null) {
 				List idList = new ArrayList<>(multiSelectResponse.getItemCodeList());
 				List<String> valueList = new ArrayList<>(multiSelectResponse.getItemValueList());
 				comboBoxVaadinMultiSelect.setItems(idList);
@@ -86,21 +90,23 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 	}
 
 	@Override
-	public void reloadComponent(GtnUIFrameworkActionType reloadActionType, String reloadDependentComponentId, String reloadComponentId,
-			Object componentReloadInput) {
+	public void reloadComponent(GtnUIFrameworkActionType reloadActionType, String reloadDependentComponentId,
+			String reloadComponentId, Object componentReloadInput) {
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfig(reloadDependentComponentId,
 				reloadComponentId);
-		reloadComboBoxComponent(reloadDependentComponentId, reloadComponentId, componentReloadInput, comboComponentConfig.getSourceViewId(),
-				comboComponentConfig);
+		reloadComboBoxComponent(reloadDependentComponentId, reloadComponentId, componentReloadInput,
+				comboComponentConfig.getSourceViewId(), comboComponentConfig);
 	}
 
-	public void reloadComponent(GtnUIFrameworkActionType multiSelectAction, String multiSelectDependentComponentId, String multiSelectComponentId,
-			String multiSelectSourceViewId, Object multiSelectReloadInput) {
+	public void reloadComponent(GtnUIFrameworkActionType multiSelectAction, String multiSelectDependentComponentId,
+			String multiSelectComponentId, String multiSelectSourceViewId, Object multiSelectReloadInput) {
 
-		gtnLogger.info("Triggered reload with reload input " + multiSelectReloadInput + "--Action--" + multiSelectAction);
+		gtnLogger.info(
+				"Triggered reload with reload input " + multiSelectReloadInput + "--Action--" + multiSelectAction);
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfig(multiSelectDependentComponentId,
 				multiSelectComponentId);
-		reloadComboBoxComponent(multiSelectDependentComponentId, multiSelectComponentId, multiSelectReloadInput, multiSelectSourceViewId, comboComponentConfig);
+		reloadComboBoxComponent(multiSelectDependentComponentId, multiSelectComponentId, multiSelectReloadInput,
+				multiSelectSourceViewId, comboComponentConfig);
 
 	}
 

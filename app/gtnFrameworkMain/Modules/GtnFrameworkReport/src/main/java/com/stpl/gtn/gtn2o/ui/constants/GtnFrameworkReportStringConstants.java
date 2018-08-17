@@ -33,8 +33,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
-        
-        public static final String QUARTER = "Quarter";
+
+	public static final String QUARTER = "Quarter";
 
 	public static final String SELECT_ONE_PLACE_HOLDER = "-Select One-";
 
@@ -68,7 +68,7 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
         
-	public static final String REP_DASH_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Reporting Dashboard Selection section to the previous values?";
+	public static final String RP_DASH_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Reporting Dashboard Selection section to the previous values?";
 
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
@@ -503,22 +503,26 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
 
 	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
-	
+
 	public static final String MARGIN_LEFT_9 = "stpl-margin-left-9px";
-	
+
 	public static final String COMPARISON_OPTIONS = "comparisonOptions";
-	
+
 	public static final String MARGIN_TOP_11 = "stpl-margin-top-11";
-	
+
 	public static final String MARGIN_LEFT_10 = "stpl-margin-left-10";
-	
+
 	public static final String MARGIN_CUSTOM_STYLE_10 = "v-margin-custom-style-10";
-	
+
 	public static final String CUSTOM_VARIABLE_TYPE_OPTIONGROUP = "_custom_Variable_Type_OptionGroup";
-	
+
 	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
-	
+
 	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
+
+	public static final String COMPARISON_SEARCH_PANEL_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset?";
+
+	public static final String COMPARISON_LOWER_PANEL_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the contents of the ‘Projections’ list view?";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");

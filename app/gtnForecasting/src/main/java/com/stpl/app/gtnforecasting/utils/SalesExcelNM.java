@@ -126,7 +126,7 @@ public class SalesExcelNM extends ExcelExport{
 
     private Double getCellValue(Object propId, Double d, Double cellValue) {
     	
-    	Double getCellValue = cellValue;
+    	Double getCellValue = (double) 0;
     	
         if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
         	getCellValue = cellValue / NumericConstants.HUNDRED;
@@ -358,9 +358,9 @@ public class SalesExcelNM extends ExcelExport{
              string = string.replaceFirst(",", "");
              
              if(isappend){
-                 formula = "SUM("+string+")";
+                 formula = "AVERAGE("+string+")";
              }else{
-                 formula += "+SUM("+string+")";
+                 formula += "+AVERAGE("+string+")";
              }
              isappend= false;
          }

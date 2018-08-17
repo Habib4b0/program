@@ -701,7 +701,7 @@ public class DataSelectionQueryUtils {
                      + session.getProjectionId();
          }
         }
-     	LOGGER.info("getPriceTypesList query: " + sql);
+
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
@@ -714,7 +714,7 @@ public class DataSelectionQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
-        LOGGER.info("deleteResultsTable query: " + customSql);
+
         DAO.executeBulkUpdateQuery(customSql);
         return "Success";
     }
@@ -722,7 +722,7 @@ public class DataSelectionQueryUtils {
     public List getNdcList(SessionDTO session) throws PortalException, SystemException {
         String sql = SQlUtil.getQuery(getClass(),"getNdcList");
 
-        LOGGER.info("getNdcList query: " + QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
+
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
