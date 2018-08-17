@@ -59,6 +59,7 @@ public class Constants {
     public static final String DEDUCTION_HIERARCHY_INDICATOR = "D";
     public static final String DISPLAY_FORMAT_SAVE="DisplayFormat";
     public static final String COMMA=",";
+    public static final char COMMA_CHAR=',';
     public static final String CUSTOMER_LEVEL_DDLB="CustomerLevel";
     public static final String CUSTOMER_LEVEL_VALUE="CustomerLevelValue";
     public static final String PRODUCT_LEVEL_DDLB="ProductLevel";
