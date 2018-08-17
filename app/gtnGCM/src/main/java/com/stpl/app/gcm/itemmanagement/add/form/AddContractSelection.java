@@ -204,7 +204,7 @@ public class AddContractSelection extends CustomComponent {
     private final AddItemTableDTO binderDto = new AddItemTableDTO();
     private static final String CONFIRMATION_HEADER = "Confirmation";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    private SelectionDTO selection;
+    private SelectionDTO selection = new SelectionDTO();
     private final BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
     private final AbstractComponentInfo component = new AbstractComponentInfo(Constants.RS, selection);
