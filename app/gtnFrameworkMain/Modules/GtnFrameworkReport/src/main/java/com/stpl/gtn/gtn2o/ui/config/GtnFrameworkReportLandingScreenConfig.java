@@ -74,7 +74,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				customerSelection.getCustomerSelectionLayoutComponents(namespace, "reportCustomerHierarchyLookup"));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace , "landingScreen"));
+		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace, "landingScreen"));
 
 		addReportingNecessaryFields(componentList, namespace);
 		addControlButtonLayout(componentList, namespace);
@@ -128,14 +128,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 		landingScreenVariableBreakdownFrequencyConfig.setAddToParent(true);
 		landingScreenVariableBreakdownFrequencyConfig
 				.setParentComponentId(landingScreenVariableBreakdownFrequencyLayoutConfig.getComponentId());
-                
+
 		GtnUIFrameworkComboBoxConfig landingScreenVariableBreakdownLoadConfig = new GtnUIFrameworkComboBoxConfig();
-                landingScreenVariableBreakdownLoadConfig.setHasDefaultValue(true);
+		landingScreenVariableBreakdownLoadConfig.setHasDefaultValue(true);
 		landingScreenVariableBreakdownLoadConfig.setDefaultDesc(GtnFrameworkReportStringConstants.QUARTER);
-                landingScreenVariableBreakdownLoadConfig
-				.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);    
+		landingScreenVariableBreakdownLoadConfig
+				.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
 		landingScreenVariableBreakdownLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX); 
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		landingScreenVariableBreakdownFrequencyConfig.setGtnComboboxConfig(landingScreenVariableBreakdownLoadConfig);
 
 		componentList.add(landingScreenVariableBreakdownFrequencyLayoutConfig);
@@ -173,13 +173,17 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportingDashboardComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		landingScreenVariableComparisonPopupActionList.add(reportingDashboardComparisonPopupConfig);
-		
+
 		GtnUIFrameWorkActionConfig landingScreenComparisonLookupGridLoadAction = new GtnUIFrameWorkActionConfig();
 		landingScreenComparisonLookupGridLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		landingScreenComparisonLookupGridLoadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
-		landingScreenComparisonLookupGridLoadAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		landingScreenComparisonLookupGridLoadAction
+				.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
+		landingScreenComparisonLookupGridLoadAction
+				.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		landingScreenComparisonLookupGridLoadAction
+				.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
 		landingScreenVariableComparisonPopupActionList.add(landingScreenComparisonLookupGridLoadAction);
-		
+
 		landingScreenVariableComparisonConfig
 				.setGtnUIFrameWorkActionConfigList(landingScreenVariableComparisonPopupActionList);
 
@@ -286,7 +290,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportOptionsPanel.setComponentName("Report Options");
 		reportOptionsPanel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptions");
 		reportOptionsPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
-        reportOptionsPanel.setComponentHight("185px");
+		reportOptionsPanel.setComponentHight("185px");
 		reportOptionsPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DATA_SELECTION_MAIN_LAYOUT);
 		reportOptionsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
@@ -335,7 +339,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
 		componentList.add(modeLayoutConfig);
 
-		
 		GtnUIFrameworkLayoutConfig modeSelectionCsslayoutConfig = new GtnUIFrameworkLayoutConfig();
 		modeSelectionCsslayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig modeSelectionCsslayout = new GtnUIFrameworkComponentConfig();
@@ -344,16 +347,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
 		modeSelectionCsslayout.setAddToParent(true);
 		modeSelectionCsslayout.setGtnLayoutConfig(modeSelectionCsslayoutConfig);
-		modeSelectionCsslayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "modeSelectionLayout");
+		modeSelectionCsslayout
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
 		modeSelectionCsslayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(modeSelectionCsslayout);
-		
-		
-		
+
 		GtnUIFrameworkLayoutConfig fromToMainLayout = new GtnUIFrameworkLayoutConfig();
 		fromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-		
+
 		GtnUIFrameworkComponentConfig fromToLayoutConfig = new GtnUIFrameworkComponentConfig();
 		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromToLayoutConfig
@@ -381,18 +382,21 @@ public class GtnFrameworkReportLandingScreenConfig {
 		privateViewCompanyReportNameLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
 		componentList.add(privateViewCompanyReportNameLayout);
-		
+
 		GtnUIFrameworkLayoutConfig privateViewCompanyReportNameCsslayoutConfig = new GtnUIFrameworkLayoutConfig();
 		privateViewCompanyReportNameCsslayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig privateViewCompanyReportNameCsslayoutComponentConfig = new GtnUIFrameworkComponentConfig();
 		privateViewCompanyReportNameCsslayoutComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewCompanyReportNameCsslayoutComponentConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewCompanyReportNameCssLayout");
+		privateViewCompanyReportNameCsslayoutComponentConfig.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewCompanyReportNameCssLayout");
 		privateViewCompanyReportNameCsslayoutComponentConfig.setAddToParent(true);
-		privateViewCompanyReportNameCsslayoutComponentConfig.setGtnLayoutConfig(privateViewCompanyReportNameCsslayoutConfig);
-		privateViewCompanyReportNameCsslayoutComponentConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
-		privateViewCompanyReportNameCsslayoutComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		privateViewCompanyReportNameCsslayoutComponentConfig
+				.setGtnLayoutConfig(privateViewCompanyReportNameCsslayoutConfig);
+		privateViewCompanyReportNameCsslayoutComponentConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
+		privateViewCompanyReportNameCsslayoutComponentConfig
+				.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
 		componentList.add(privateViewCompanyReportNameCsslayoutComponentConfig);
 
@@ -403,27 +407,27 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkLayoutConfig privateViewLayout = new GtnUIFrameworkLayoutConfig();
 		GtnUIFrameworkComponentConfig privateViewLayoutConfig = new GtnUIFrameworkComponentConfig();
 		privateViewLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
+		privateViewLayoutConfig
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
 		privateViewLayoutConfig.setAddToParent(true);
 		privateViewLayoutConfig.setSpacing(true);
-		privateViewLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "modeSelectionCssLayout");
+		privateViewLayoutConfig.setParentComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
 		privateViewLayoutConfig.addComponentStyle("stpl-margin-top-10");
 		privateViewLayoutConfig.setGtnLayoutConfig(privateViewLayout);
 		componentList.add(privateViewLayoutConfig);
-		
-		
+
 		GtnUIFrameworkComponentConfig privateView = new GtnUIFrameworkComponentConfig();
 		privateView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		privateView.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
 		privateView.setComponentName("Private Views:");
 		privateView.setAddToParent(true);
-		privateView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "privateViewLayout");
+		privateView
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
 		privateView.addTextComponentStyle("v-reportLandingScreen-PrivateView");
 		privateView.setComponentWsFieldId(GtnFrameworkCommonConstants.PRIVATE_VIEWS);
-		
+
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		Object privateViewLookup = "Private View";
 		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
@@ -444,8 +448,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		companyLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
 		companyLayoutConfig.setAddToParent(true);
 		companyLayoutConfig.setSpacing(true);
-		companyLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "modeSelectionCssLayout");
+		companyLayoutConfig.setParentComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
 		companyLayoutConfig.addComponentStyle("v-reportLandingScreen-companyLayout");
 		companyLayoutConfig.setGtnLayoutConfig(companyLayout);
 		componentList.add(companyLayoutConfig);
@@ -480,8 +484,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 		reportDataSourceLayoutConfig.setAddToParent(true);
 		reportDataSourceLayoutConfig.addComponentStyle("v-reportLandingScreen-dataSourceLayout");
-		reportDataSourceLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "modeSelectionCssLayout");
+		reportDataSourceLayoutConfig.setParentComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
 		reportDataSourceLayoutConfig.setGtnLayoutConfig(reportDataSourceLayout);
 		componentList.add(reportDataSourceLayoutConfig);
 
@@ -514,15 +518,15 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkLayoutConfig publicViewLayout = new GtnUIFrameworkLayoutConfig();
 		GtnUIFrameworkComponentConfig publicViewLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		publicViewLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLayout");
+		publicViewLayoutConfig
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLayout");
 		publicViewLayoutConfig.setAddToParent(true);
 		publicViewLayoutConfig.setSpacing(true);
-		publicViewLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "privateViewCompanyReportNameCssLayout");
+		publicViewLayoutConfig.setParentComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewCompanyReportNameCssLayout");
 		publicViewLayoutConfig.setGtnLayoutConfig(publicViewLayout);
 		componentList.add(publicViewLayoutConfig);
-		
-		
+
 		GtnUIFrameworkComponentConfig publicView = new GtnUIFrameworkComponentConfig();
 		publicView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		publicView.setComponentId(
@@ -530,8 +534,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		publicView.setComponentName("Public Views:");
 		publicView.setAddToParent(true);
 		publicView.addTextComponentStyle("v-publicViewTextField");
-		publicView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "publicViewLayout");
+		publicView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLayout");
 
 		List<GtnUIFrameWorkActionConfig> publicViewActionConfigList = new ArrayList<>();
 		Object publicViewLookup = "Public View";
@@ -562,8 +565,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		businessUnitLayoutConfig.setAddToParent(true);
 		businessUnitLayoutConfig.setSpacing(true);
 		businessUnitLayoutConfig.addComponentStyle("v-BU-layout");
-		businessUnitLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "privateViewCompanyReportNameCssLayout");
+		businessUnitLayoutConfig.setParentComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewCompanyReportNameCssLayout");
 		businessUnitLayoutConfig.setGtnLayoutConfig(businessUnitLayout);
 		componentList.add(businessUnitLayoutConfig);
 
@@ -910,8 +913,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		confirmDeleteAction.addActionParameter("Are you sure you want to delete the view?");
 		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
 		confirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
-                
-                GtnUIFrameWorkActionConfig deleteValidationAction = new GtnUIFrameWorkActionConfig();
+
+		GtnUIFrameWorkActionConfig deleteValidationAction = new GtnUIFrameWorkActionConfig();
 		deleteValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		deleteValidationAction.addActionParameter(GtnFrameworkPublicViewDeleteValidation.class.getName());
 		deleteValidationAction.addActionParameter(

@@ -4,12 +4,13 @@ import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 
 public abstract class GtnServiceRegistryImplClass {
 
+	public GtnFrameworkDependencyLogger logger;
+	
 	public String readPropertyFile(String propertyFile){
 		return "readPropertyFile:"+propertyFile;
 	}
 	
-	public GtnFrameworkDependencyLogger logInformation(Class<?> className){
-		GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger.getGTNLogger(className);
-		return gtnLogger;
+	public void logInformation(Class<?> className){
+		logger = GtnFrameworkDependencyLogger.getGTNLogger(className);
 	}
 }

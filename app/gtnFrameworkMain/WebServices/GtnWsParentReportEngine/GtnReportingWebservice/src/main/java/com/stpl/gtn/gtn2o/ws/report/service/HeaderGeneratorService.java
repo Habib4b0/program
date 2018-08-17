@@ -155,10 +155,10 @@ public class HeaderGeneratorService {
 			generateColumn(variablesHeader, variablesColumn);
 			generateColumn(variableCategoryHeader, variableCategoryColumn);
 
-			int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
+			int headerSequence = dashboardBean.getHeaderSequence();
 			boolean isVariableOnly_Allowed = comparisonBasisHeader.length > 1
 					&& Arrays.asList(variablesHeader).contains("Deduction % of Ex-Factory")
-					&& (Arrays.asList(variableCategoryHeader).contains("Variance") || Arrays.asList(variableCategoryHeader).contains("Value") ||Arrays.asList(variableCategoryHeader).contains("Accruals") ||Arrays.asList(variableCategoryHeader).contains("Actuals") ||Arrays.asList(variableCategoryHeader).contains("% Change") );
+					&& Arrays.asList(variableCategoryHeader).contains("Variance");
 
 			boolean annualTotals = !dashboardBean.getSelectFreqString().equalsIgnoreCase("Annual");
 			// System.out.println("annualTotals = " + annualTotals);
@@ -179,21 +179,21 @@ public class HeaderGeneratorService {
 			}
 
 			switch (headerSequence) {
-			case 1:// 1. Time/Variable/Comparison
+			case 0:// 0. Time/Variable/Comparison
 				createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
 						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO,
 						headerSequence);
 				break;
-			case 2:// 2. Comparison/Variable/Time
+			case 1:// 1. Comparison/Variable/Time
 				createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
 						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence);
 				break;
-			case 3:// 3. Comparison/Time/Variable
+			case 2:// 2. Comparison/Time/Variable
 				createTableHeader(combinedVariableCategoryColumn, periodColumn, comparisonBasisColumn,
 						combinedVariableCategoryHeader, periodHeader, comparisonBasisHeader, tableHeaderDTO,
 						headerSequence);
 				break;
-			case 4:// 4. Variable/Comparison/Time
+			case 3:// 3. Variable/Comparison/Time
 				createTableHeader(periodColumn, comparisonBasisColumn, combinedVariableCategoryColumn, periodHeader,
 						comparisonBasisHeader, combinedVariableCategoryHeader, tableHeaderDTO, headerSequence);
 				break;
@@ -461,25 +461,25 @@ public class HeaderGeneratorService {
 			int headerSequence) {
 		StringBuilder singleColumnValue = new StringBuilder();
 		switch (headerSequence) {
-		case 1:// 1. Time/Variable/Comparison
+		case 0:// 0. Time/Variable/Comparison
 			singleColumnValue.append(tripleColumn);
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(singleColumn);
 			break;
-		case 2:// 2. Comparison/Variable/Time
+		case 1:// 1. Comparison/Variable/Time
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
-		case 3:// 3. Comparison/Time/Variable
+		case 2:// 2. Comparison/Time/Variable
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
-		case 4:// 4. Variable/Comparison/Time
+		case 3:// 3. Variable/Comparison/Time
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append(tripleColumn);
 			singleColumnValue.append("_");
@@ -509,8 +509,14 @@ public class HeaderGeneratorService {
 		String[] variableOnlyHeader = categoryWhichWillNotBeUnitedList
 				.toArray(new String[categoryWhichWillNotBeUnitedList.size()]);
 
-		
-		
+		int combinedArraySize = (firstHeader.length * variableCategoryHeaderCombinationColumOnly.length)
+				+ variableOnlyHeader.length;
+		if (!isVariableOnly_Allowed) {
+			combinedArraySize = (firstHeader.length * variableCategoryHeaderCombinationColumOnly.length);
+		}
+		Object[] combinedVariableCategoryColumn = new Object[combinedArraySize];
+		Object[] combinedVariableCategoryHeader = new Object[combinedArraySize];
+
 		Map<String, String> variableMap = getVariableMap();
 		Map<String, String> variableCategoryMap = getVariableCategorymap();
 		handleVariableBasedOnComparisionBasis(comparisonBasis, variableCategoryMap);
@@ -526,8 +532,6 @@ public class HeaderGeneratorService {
 			variablesHeader = variableCategoryHeaderCombinationColumOnly;
 			variancesHeader = firstHeader;
 		}
-                Object[] combinedVariableCategoryColumn = new Object[variablesHeader.length];
-		Object[] combinedVariableCategoryHeader = new Object[variablesHeader.length];
 
 		for (int i = 0; i < variablesHeader.length; i++) {
 			for (int j = 0; j < variancesHeader.length; j++) {
@@ -544,21 +548,33 @@ public class HeaderGeneratorService {
 					combinedVariableCategoryHeader[index] = isColumn ? variancesHeader[j] + " " + variablesHeader[i]
 							: variablesHeader[i];
 				}
-                                j=j+1;
 				index++;
 			}
 		}
-		if (!isVariableOnly_Allowed) {
+		if (isVariableOnly_Allowed) {
 			for (int k = 0; k < variableOnlyHeader.length; k++) {
-				combinedVariableCategoryColumn[k] = variableCategoryMap.get(variableOnlyHeader[k]);
-				combinedVariableCategoryHeader[k] = variableOnlyHeader[k];
+				combinedVariableCategoryColumn[index] = variableCategoryMap.get(variableOnlyHeader[k]);
+				combinedVariableCategoryHeader[index] = variableOnlyHeader[k];
+				index++;
 			}
 		}
-                        combinedVariableCategory.add(combinedVariableCategoryColumn);
-                        combinedVariableCategory.add(combinedVariableCategoryHeader);
+		combinedVariableCategory.add(removeDuplicatesFromColumnProperty(combinedVariableCategoryColumn));
+		combinedVariableCategory.add(removeDuplicatesFromColumnProperty(combinedVariableCategoryHeader));
 		return combinedVariableCategory;
 	}
-
+        
+        private Object[] removeDuplicatesFromColumnProperty(Object[] combinedVariableCategoryColumn){
+            ArrayList<Object> columnProperty = new ArrayList<>();
+            for (int i = 0; i < combinedVariableCategoryColumn.length-1; i++) {
+                if(combinedVariableCategoryColumn[i]!=combinedVariableCategoryColumn[i+1]){
+                    columnProperty.add(combinedVariableCategoryColumn[i]);
+                }
+            }
+            columnProperty.add(combinedVariableCategoryColumn[combinedVariableCategoryColumn.length-1]);
+            columnProperty.trimToSize();
+            return columnProperty.toArray();
+        }
+        
 	private void handleVariableBasedOnComparisionBasis(String comparisonBasis, Map<String, String> variableMap) {
 		if (comparisonBasis.equals("Actuals")) {
 			variableMap.put("Variance", "PROJ_VARIANCE");

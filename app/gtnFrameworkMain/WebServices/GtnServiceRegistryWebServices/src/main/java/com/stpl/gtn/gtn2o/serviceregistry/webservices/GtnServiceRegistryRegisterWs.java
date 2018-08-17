@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Component;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
@@ -13,8 +15,18 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 @Component
 public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 
-	public void serviceRegistryRegisterWebServices(GtnUIFrameworkWebserviceRequest request){
-		
+	private GtnServiceRegistryRegisterWs() {
+		super();
+		initializeLogger();
+	}
+
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnServiceRegistryRegisterWs.class);
+	}
+
+	public void serviceRegistryRegisterWebServices(GtnUIFrameworkWebserviceRequest request) {
+		logger.info("Registering Webservices in Service Registry");
 		GtnQueryEngineWebServiceRequest queryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 
@@ -26,7 +38,8 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 		params[1] = serviceRegistryBean.getWebserviceEndPointUrl();
 		params[2] = serviceRegistryBean.getRegisteredWebContext();
 
-		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
+		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
 
 		String registerQuery = GtnWsServiceRegistryConstants.INSERT_QUERY;
 
@@ -38,7 +51,7 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 		queryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 
 		GtnCommonWebServiceImplClass gtnCommonWebServiceImplClass = new GtnServiceRegistryRegisterWs();
-		
+
 		gtnCommonWebServiceImplClass.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
 
 	}

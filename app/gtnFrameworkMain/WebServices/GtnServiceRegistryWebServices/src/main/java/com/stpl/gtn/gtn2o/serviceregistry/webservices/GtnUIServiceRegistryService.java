@@ -1,23 +1,42 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
+import javax.annotation.PostConstruct;
+
+import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
-public class GtnUIServiceRegistryService {
+public class GtnUIServiceRegistryService extends GtnServiceRegistryImplClass {
+	
+	private GtnUIServiceRegistryService(){
+		super();
+		initializeLogger();
+	}
 
-	public GtnUIFrameworkWebserviceResponse serviceRegistryUIServiceCallingWs(GtnUIFrameworkWebserviceRequest request){
-		
-		GtnWsServiceRegistryBean serviceRegistryBean = request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean();
-		
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(serviceRegistryBean.getUrl(), serviceRegistryBean.getModuleName(), request, getGsnWsSecurityToken(
-				request.getGtnWsGeneralRequest().getUserId(),request.getGtnWsGeneralRequest().getSessionId()));
-		
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnUIServiceRegistryService.class);
+	}
+
+	public GtnUIFrameworkWebserviceResponse serviceRegistryUIServiceCallingWs(GtnUIFrameworkWebserviceRequest request) {
+		logger.info("Entering into Calling Webservice");
+		GtnWsServiceRegistryBean serviceRegistryBean = request.getGtnServiceRegistryWsRequest()
+				.getGtnWsServiceRegistryBean();
+
+		logger.info("Webservice Url:" + serviceRegistryBean.getUrl());
+		logger.info("ModuleName:" + serviceRegistryBean.getModuleName());
+		logger.trace("UserId:" + request.getGtnWsGeneralRequest().getUserId());
+		logger.trace("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				serviceRegistryBean.getUrl(), serviceRegistryBean.getModuleName(), request, getGsnWsSecurityToken(
+						request.getGtnWsGeneralRequest().getUserId(), request.getGtnWsGeneralRequest().getSessionId()));
+
 		return response;
 	}
-	
+
 	private GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
 		GtnWsSecurityToken wsToken = new GtnWsSecurityToken();
 		wsToken.setUserId(userId);

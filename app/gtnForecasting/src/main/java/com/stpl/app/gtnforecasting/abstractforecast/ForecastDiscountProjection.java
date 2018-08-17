@@ -902,8 +902,8 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         }
     }
     private void generateBtnLogic() {
-        LOGGER.info("session.getDsFrequency() {}" + session.getDsFrequency() + "frequencyDdlb.getValue()------" + frequencyDdlb.getValue());
-        LOGGER.info("session.getDeductionLevel()-{}" + session.getDataSelectionDeductionLevel() + "deductionlevelDdlb.getValue()-----" + deductionlevelDdlb.getValue());
+        LOGGER.info("session.getDsFrequency() {} frequencyDdlb.getValue()------ {} " , session.getDsFrequency() , frequencyDdlb.getValue());
+        LOGGER.info("session.getDeductionLevel()-{} deductionlevelDdlb.getValue()----- {} " , session.getDataSelectionDeductionLevel() ,deductionlevelDdlb.getValue());
         if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
             session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
             session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));

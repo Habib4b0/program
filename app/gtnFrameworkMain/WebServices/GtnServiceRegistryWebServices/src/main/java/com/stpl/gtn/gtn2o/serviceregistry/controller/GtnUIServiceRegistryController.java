@@ -1,12 +1,13 @@
 package com.stpl.gtn.gtn2o.serviceregistry.controller;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
@@ -21,38 +22,43 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 
 	public GtnUIServiceRegistryController() {
 		super();
+		initializeLogger();
 	}
-
-	@Autowired
-	private GtnUIServiceRegistryController gtnUIServiceRegistryController;
 
 	@Autowired
 	private GtnValidateWsServiceRegistryController gtnValidateWsServiceRegistryController;
 
 	@Autowired
 	private GtnUIServiceRegistryService gtnUIServiceRegistryService;
-	
+
 	@Autowired
 	private GtnServiceRegistryRegisterWs gtnServiceRegistryRegisterWs;
+
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnUIServiceRegistryController.class);
+	}
 
 	@RequestMapping(value = "/registerWebservices", method = RequestMethod.POST)
 	public void registerWebServices(@RequestBody GtnUIFrameworkWebserviceRequest request) {
 
-		GtnFrameworkDependencyLogger logger = gtnUIServiceRegistryController
-				.logInformation(GtnUIServiceRegistryController.class);
 		logger.debug("inside registerWebservices");
-		
+		logger.info("Webservice Url:"
+				+ request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getWebserviceEndPointUrl());
+		logger.info("Webservice Registered Context:"
+				+ request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getRegisteredWebContext());
+
 		gtnServiceRegistryRegisterWs.serviceRegistryRegisterWebServices(request);
-		
+
 		logger.error("webservices registered");
 	}
 
 	@RequestMapping(value = "/serviceRegistryUIControllerMappingWs", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse serviceRegistryUIControllerMappingWs(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) {
-		GtnFrameworkDependencyLogger logger = gtnUIServiceRegistryController
-				.logInformation(GtnUIServiceRegistryController.class);
 		logger.debug("inside serviceRegistryUIControllerMappingWs");
+		logger.trace("UserId:" + request.getGtnWsGeneralRequest().getUserId());
+		logger.trace("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = new GtnServiceRegistryWSResponse();
@@ -60,6 +66,10 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		gtnServiceRegistryWSResponse = gtnValidateWsServiceRegistryController
 				.serviceRegistryControllerToValidateWs(request);
 
+		logger.debug("Is Webservice Registered:"
+				+ gtnServiceRegistryWSResponse.getGtnWsServiceRegistryBean().isRegisteredService());
+		logger.debug("Is Webservice Authorized:"
+				+ gtnServiceRegistryWSResponse.getGtnWsServiceRegistryBean().isAuthorizaionService());
 		if (gtnServiceRegistryWSResponse.getGtnWsServiceRegistryBean().isAuthorizaionService()
 				&& gtnServiceRegistryWSResponse.getGtnWsServiceRegistryBean().isRegisteredService()) {
 			response = gtnUIServiceRegistryService.serviceRegistryUIServiceCallingWs(request);

@@ -93,7 +93,6 @@ public class AddDiscountForm extends CustomComponent implements View {
 
     public AddDiscountForm(AddDiscountWindow editWindow, List<RemoveDiscountDto> removeList, SessionDTO session) {
         this.editWindow = editWindow;
-        this.resultTable = resultTable;
         this.removeList = removeList == null ? removeList : new ArrayList<>(removeList);
         this.session = session;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/addDiscountForm.xml"), this));
