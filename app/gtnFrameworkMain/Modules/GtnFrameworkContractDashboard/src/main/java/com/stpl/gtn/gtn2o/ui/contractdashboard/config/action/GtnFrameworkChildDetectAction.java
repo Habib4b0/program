@@ -38,7 +38,7 @@ public class GtnFrameworkChildDetectAction implements GtnUIFrameWorkAction ,GtnU
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnFrameworkChildDetectAction();
+		return this;
 	}
 
 }
