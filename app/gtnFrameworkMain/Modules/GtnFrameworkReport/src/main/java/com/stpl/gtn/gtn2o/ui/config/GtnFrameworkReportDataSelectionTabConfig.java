@@ -103,13 +103,15 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		componentList.add(reportDataSelectionProjectionOptionPanel);
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionProjectionOptionMainLayout = new GtnUIFrameworkLayoutConfig();
-		reportDataSelectionProjectionOptionMainLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		reportDataSelectionProjectionOptionMainLayout.setComponentColumnSize(12);
+		reportDataSelectionProjectionOptionMainLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig reportDataSelectionProjectionOptionMainLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionProjectionOptionMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportDataSelectionProjectionOptionMainLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_MAIN_LAYOUT);
+		reportDataSelectionProjectionOptionMainLayoutConfig.addComponentStyle("stpl-margin-top-10");
+		reportDataSelectionProjectionOptionMainLayoutConfig.addComponentStyle("stpl-margin-bottom-10");
+
 		reportDataSelectionProjectionOptionMainLayoutConfig.setAddToParent(true);
 		reportDataSelectionProjectionOptionMainLayoutConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabProjectionOptions");
@@ -159,6 +161,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromToMainLayout");
 		reportDataSelectionFromToLayoutConfig.setAddToParent(true);
 		reportDataSelectionFromToLayoutConfig.setSpacing(true);
+		reportDataSelectionFromToLayoutConfig.addComponentStyle("v-report-margin--5");
 		reportDataSelectionFromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		reportDataSelectionFromToLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -318,6 +321,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit");
 		reportDataSelectionBusinessUnit.setComponentName("Business Unit:");
 		reportDataSelectionBusinessUnit.setAddToParent(true);
+		reportDataSelectionBusinessUnit.addComponentStyle("v-report-margin--2");
 		reportDataSelectionBusinessUnit.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabBusinessUnitLayout");
 		GtnUIFrameworkComboBoxConfig businessUnitConfig = new GtnUIFrameworkComboBoxConfig();
