@@ -1559,9 +1559,8 @@ public class UpdatedContractSelection extends VerticalLayout {
             recordCount = logic.getComponentInformationCount(excelSelectionValue, excelComponentId, null);
         }
         isComponentInformationExport = true;
-        Object[] headers = resultTable.getColumnHeaders();
-        headers = ArrayUtils.removeElement(headers, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet((String[]) headers, recordCount, this, UI.getCurrent(), fileName);
+        String[] headers =  Arrays.stream(resultTable.getColumnHeaders()).filter(e -> !e.isEmpty()).toArray(String[]::new);
+        ExcelExportforBB.createWorkSheet( headers, recordCount, this, UI.getCurrent(), fileName);
 
     }
 
