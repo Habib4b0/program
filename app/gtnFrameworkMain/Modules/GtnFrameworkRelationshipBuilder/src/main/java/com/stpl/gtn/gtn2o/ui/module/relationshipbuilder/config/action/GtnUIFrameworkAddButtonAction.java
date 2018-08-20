@@ -87,12 +87,12 @@ public class GtnUIFrameworkAddButtonAction implements GtnUIFrameWorkAction, GtnU
 	}
 
      public void executeNavigationAction(List<Object> parameters, String componentId) throws GtnFrameworkGeneralException {
-        GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-        navigationActionConfig.addActionParameter(parameters.get(15).toString());
+        GtnUIFrameWorkActionConfig addNavigationActionConfig = new GtnUIFrameWorkActionConfig();
+        addNavigationActionConfig.addActionParameter(parameters.get(15).toString());
         GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
                 .getGtnUIFrameWorkAction();
-        navigationAction.configureParams(navigationActionConfig);
-        navigationAction.doAction(componentId, navigationActionConfig);
+        navigationAction.configureParams(addNavigationActionConfig);
+        navigationAction.doAction(componentId, addNavigationActionConfig);
     }
 
 	@Override
