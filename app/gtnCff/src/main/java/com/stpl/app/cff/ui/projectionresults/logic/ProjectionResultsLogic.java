@@ -1285,7 +1285,7 @@ public class ProjectionResultsLogic {
                             }
                             mayBeAdded++;
                         }
-                        if ((salesUnits.equals(BOTH) && started < NumericConstants.FOUR)) {
+                        if (started < NumericConstants.FOUR && salesUnits.equals(BOTH)) {
                             contractSalesDto = resultList.get(0);
                             unitVolDto = resultList.get(1);
                         }
