@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 
 /**
  *
@@ -27,11 +28,3 @@ public class GtnFrameworkValueChangeManager {
 
 }
 
-class AccessDeniedException extends RuntimeException {
-
-    private static final long serialVersionUID = 1L;
-
-    AccessDeniedException(String cause) {
-        super(cause);
-    }
-}

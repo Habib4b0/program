@@ -144,6 +144,8 @@ public class GtnFrameworkAutoBuildActionTest {
 
     }
 
+    
+
     /**
      * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
      *
@@ -395,4 +397,5 @@ public class GtnFrameworkAutoBuildActionTest {
         fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
 
     }
+   
 }
