@@ -94,8 +94,6 @@
                     <ComboBox id="levelDdlb" nullSelectionAllowed="true" styleName="comboxsize"/>
                     <Button id="expandBtn" caption="EXPAND" enabled="true" immediate="true">  </Button>
                     <Button id="collapseBtn" caption="COLLAPSE" enabled="true" immediate="true" ></Button>
-                   <Label id="groupLabel" caption="Group:" contentMode="HTML" />
-                   <ComboBox id="group" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" />
                     <Label caption="Level Filter: " contentMode="HTML" width = "100px"/>
                     <ComboBox id="levelFilter" nullSelectionAllowed="true"
                       immediate="true" styleName="comboxsize"/>

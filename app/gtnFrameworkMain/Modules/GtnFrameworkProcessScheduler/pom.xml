@@ -29,6 +29,13 @@
 			<version>${gtnFramework.version}</version>
 			<scope>provided</scope>
 		</dependency>
+			<dependency>
+				<groupId>com.stpl.gtn.gtn2o</groupId>
+			 <artifactId>GtnFrameworkComponentRepository</artifactId>
+  
+			<version>${gtnFramework.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

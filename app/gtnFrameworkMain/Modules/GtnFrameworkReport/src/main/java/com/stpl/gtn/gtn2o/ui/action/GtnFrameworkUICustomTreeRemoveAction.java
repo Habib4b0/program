@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -48,6 +49,8 @@ public class GtnFrameworkUICustomTreeRemoveAction
 
 	private void addToLeftGrid(Grid<GtnWsRecordBean> leftGrid, GtnWsRecordBean removedBean) {
 		((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems().add(removedBean);
+		sortLeftTableData(
+				(List<GtnWsRecordBean>) ((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems());
 		leftGrid.getDataProvider().refreshAll();
 	}
 
@@ -116,6 +119,11 @@ public class GtnFrameworkUICustomTreeRemoveAction
 			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
 
+	}
+
+	private void sortLeftTableData(List<GtnWsRecordBean> items) {
+		Collections.sort(items, (comparatorObj1, comparatorObj2) -> comparatorObj1.getIntegerPropertyByIndex(2)
+				- comparatorObj2.getIntegerPropertyByIndex(2));
 	}
 
 	@Override

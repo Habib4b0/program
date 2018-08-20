@@ -10,6 +10,8 @@ public class GtnFrameworkSingletonObjectBean {
 	
 	private List<Object[]> validateServiceRegistryRegisteredWsResultList;
 	
+	private List<Object[]> relationshipLevelValuesResultList;
+	
 	private GtnFrameworkSingletonObjectBean(){
 		
 	}
@@ -36,6 +38,14 @@ public class GtnFrameworkSingletonObjectBean {
 	public void setValidateServiceRegistryRegisteredWsResultList(
 			List<Object[]> validateServiceRegistryRegisteredWsResultList) {
 		this.validateServiceRegistryRegisteredWsResultList = validateServiceRegistryRegisteredWsResultList;
+	}
+
+	public List<Object[]> getRelationshipLevelValuesResultList() {
+		return relationshipLevelValuesResultList;
+	}
+
+	public void setRelationshipLevelValuesResultList(List<Object[]> relationshipLevelValuesResultList) {
+		this.relationshipLevelValuesResultList = relationshipLevelValuesResultList;
 	}
 	
 }

@@ -8,6 +8,8 @@
         
       <context:annotation-config /> 
          
+	<bean id="gtnWsHierarchyAndRelationshipSqlService" class="com.stpl.gtn.gtn2o.ws.hierarchyandrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService"/>
+         
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />

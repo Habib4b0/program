@@ -8,6 +8,10 @@
      
      <bean id="gtnValidateWsServiceRegistryServiceTest" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnValidateWsServiceRegistryService">
      </bean>
+     
+       <bean id="gtnServiceRegistryRegisterWs" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs">
+     </bean>
+     
 <!--  	 <bean id="gtnUIServiceRegistryController" class="com.stpl.gtn.gtn2o.serviceregistry.controller.GtnUIServiceRegistryController"/>  
  -->	
 </beans>   

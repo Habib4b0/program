@@ -210,7 +210,7 @@ public class PPAProjectionLogic {
                             }
                         }
                         if ((flag) && (isColumn(visibleColumn, quater, year, Constant.RESET_SMALL))) {
-                            int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
+                            int value = Integer.parseInt((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
                             dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
 
                         }
@@ -256,7 +256,7 @@ public class PPAProjectionLogic {
                 }
             }
             if (isColumn(visibleColumn, quater, year, Constant.RESET_SMALL)) {
-                int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
+                int value = Integer.parseInt((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
                 dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
             }
         }
@@ -565,6 +565,7 @@ public class PPAProjectionLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
