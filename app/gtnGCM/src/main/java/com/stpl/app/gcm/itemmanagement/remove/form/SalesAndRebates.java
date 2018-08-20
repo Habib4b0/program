@@ -24,8 +24,8 @@ public class SalesAndRebates extends VerticalLayout {
 
     private final VerticalLayout tradingPartnerSalesTableLayout = new VerticalLayout();
     private final VerticalLayout tradingPartnerRebatesTableLayout = new VerticalLayout();
-    private SelectionDTO session;
-    private List<ItemIndexDto> itemList;
+    private SelectionDTO session = new SelectionDTO();
+    private List<ItemIndexDto> itemList = new ArrayList<>();
     private final SalesSummary sales = new SalesSummary(itemList, session);
     private final RebateSummary rebate = new RebateSummary(itemList, session);
     /**

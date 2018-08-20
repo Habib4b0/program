@@ -4,7 +4,7 @@
 <liferay-portlet-app>
 
 	<portlet>
-		<portlet-name>ProcessScheduler</portlet-name>
+		<portlet-name>ProcessSchedulerNew</portlet-name>
 		<instanceable>false</instanceable>
 		<ajaxable>false</ajaxable>
 	</portlet>

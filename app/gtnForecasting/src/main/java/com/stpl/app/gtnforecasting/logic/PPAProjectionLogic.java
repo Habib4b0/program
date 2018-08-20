@@ -565,6 +565,7 @@ public class PPAProjectionLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }

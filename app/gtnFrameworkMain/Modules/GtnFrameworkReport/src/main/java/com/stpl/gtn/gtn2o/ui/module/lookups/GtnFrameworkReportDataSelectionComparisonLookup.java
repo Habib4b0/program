@@ -840,7 +840,6 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		gridReloadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		gridReloadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
 		gridReloadAction.addActionParameter("dataSelectionComparisonResultsGrid");
-		gridReloadAction.addActionParameter("dataSelectionTab_comparisonLookup");
 		resetActionConfigList.add(gridReloadAction);
 		reportDSResetButton.addGtnUIFrameWorkActionConfig(reportDSLowerConfirmResetAction);
 		componentList.add(reportDSResetButton);
@@ -884,22 +883,26 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		GtnUIFrameWorkActionConfig dsResetActionConfig = new GtnUIFrameWorkActionConfig();
 		dsResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
 		List<Object> params = new ArrayList<>();
-		List<Object> resetComponentId = new ArrayList<>(Arrays.asList("comparisonLookup_projectionType",
-				"comparisonLookup_workflowStatus", "comparisonLookup_reportComparisonLookupMarketType",
-				"comparisonLookup_reportComparisonLookupBrand", "comparisonLookup_projectionName",
-				"comparisonLookup_reportComparisonLookupContractHolder", "comparisonLookup_ndcConfig",
-				"comparisonLookup_projectionDescription", "comparisonLookup_reportComparisonContract",
-				"comparisonLookup_reportComparisonNdcName"));
-		List<Object> resetComponentValue = new ArrayList<>(Arrays.asList(0, 0,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY));
+		List<Object> resetComponentId = new ArrayList<>();
+		List<Object> resetComponentValue = new ArrayList<>();
 		if (gridResetNeeded) {
 			resetComponentId.add("dataSelectionComparisonSearchResultsGrid");
 			resetComponentId.add("dataSelectionComparisonResultsGrid");
 			resetComponentValue.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			resetComponentValue.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		} else {
+			resetComponentId.addAll(Arrays.asList("dsComparisonLookup_projectionType",
+					"dsComparisonLookup_workflowStatus", "dsComparisonLookup_reportComparisonLookupMarketType",
+					"dsComparisonLookup_reportComparisonLookupBrand", "dsComparisonLookup_projectionName",
+					"dsComparisonLookup_reportComparisonLookupContractHolder", "dsComparisonLookup_ndcConfig",
+					"dsComparisonLookup_projectionDescription", "dsComparisonLookup_reportComparisonContract",
+					"dsComparisonLookup_reportComparisonNdcName", "dsComparisonLookup_fromPeriod",
+					"dsComparisonLookup_toPeriod"));
+			resetComponentValue.addAll(Arrays.asList(0, 0, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null));
 		}
 		params.add(resetComponentId);
 		params.add(resetComponentValue);

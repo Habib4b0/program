@@ -44,7 +44,8 @@ public enum GtnWsSearchQueryConfigLoaderType {
             "com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceAttachmentWorkflowSearchConfig"), UDC_CONFIGURATION(
             "com.stpl.gtn.gtn2o.ws.module.udc.config.GtnWsUdcConfig"),
     CUSTOM_SEARCH_CONFIG("com.stpl.gtn.gtn2o.ws.module.customview.config.GtnWebServiceCustomSearchConfig"),
-    ADJUSTMENT_DETAILS("com.stpl.gtn.gtn2o.ws.module.adjustmentdetails.config.GtnWsAdjustmentDetailsPublicViewConfig");
+    ADJUSTMENT_DETAILS("com.stpl.gtn.gtn2o.ws.module.adjustmentdetails.config.GtnWsAdjustmentDetailsPublicViewConfig"),
+    PROCESS_SCHEDULER("com.stpl.gtn.gtn2o.ws.module.processscheduler.config.GtnWebServiceCffOutBoundSearchConfig");
     private String className;
     private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsSearchQueryConfigLoaderType.class);
 

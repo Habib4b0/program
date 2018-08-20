@@ -197,8 +197,8 @@ public class GtnWsSearchQueryGenerationLogic {
 			Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap, StringBuilder whereSqlBuilder) {
 		try {
 			String uiColumn = gtnWebServiceSearchCriteria.getFieldId();
-			
-			GtnWsColumnDetailsConfig gtnWebServiceColumnDetailsConfig = fieldToColumnDetailsMap.get(uiColumn);
+
+			GtnWsColumnDetailsConfig gtnWebServiceColumnDetailsConfig = fieldToColumnDetailsMap.get(uiColumn);			
 			String dbName = gtnWebServiceColumnDetailsConfig.getColumnNameForWhereAndOrderByClause();
 			dbName = castDateInQuery(gtnWebServiceColumnDetailsConfig, dbName);
 			generateSqlBasedOnExpression(gtnWebServiceSearchCriteria, whereSqlBuilder, dbName);
