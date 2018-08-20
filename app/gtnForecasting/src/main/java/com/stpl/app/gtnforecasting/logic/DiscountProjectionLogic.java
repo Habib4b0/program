@@ -477,7 +477,7 @@ public class DiscountProjectionLogic {
             final String adjustmentBasis, final String adjustmentValue, final String actualOrSalesUnits, List<String> historyPeriods) {
         List<String> inputList = new ArrayList<>();
         inputList.add(session.getFrequency());
-        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? selectedPeriods : session.getActualAdjustmentPeriods());
+        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? StringUtils.join(historyPeriods.iterator(), ",") : session.getActualAdjustmentPeriods());
         inputList.add(adjustmentBasis);
         inputList.add(adjustmentValue);
         inputList.add(adjustmentType);
