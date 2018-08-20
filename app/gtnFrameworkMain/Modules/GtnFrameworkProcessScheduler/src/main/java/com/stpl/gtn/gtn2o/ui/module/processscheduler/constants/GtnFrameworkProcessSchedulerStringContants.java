@@ -13,6 +13,11 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	
 	public static final String TIME = "Time";
 
+	public static final int ZERO = 0;
+	
+	public static final boolean TRUE= true;
+	public static final boolean FALSE= false;
+	
 	public static final String INTERVAL = "Interval";
 
 	public static final String TWENTY_FOUR = "24";

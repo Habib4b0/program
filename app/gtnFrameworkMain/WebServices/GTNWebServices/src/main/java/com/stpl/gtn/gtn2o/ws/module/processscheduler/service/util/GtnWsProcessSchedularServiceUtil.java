@@ -15,12 +15,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.FtpProperties;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service()
@@ -123,7 +124,7 @@ public class GtnWsProcessSchedularServiceUtil {
 		FileInputStream fileIS = null;
 		logger.info("pbiPropertyFile Location: " + bpiPropLoc);
 		try {
-			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
+			fileIS = GtnFileNameUtils.getFileInputStream(bpiPropLoc);
 		} catch (FileNotFoundException exp) {
 			logger.error("File not found"+exp);
 		}

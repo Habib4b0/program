@@ -122,6 +122,11 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_MARGIN_TOP_100 = "stpl-margin-top-100";
 	public static final String STPL_LEFT_CAPTION_100 = "stpl-left-caption-100";
 	public static final String STPL_TEXT_ALIGN_LEFT = "stpl-text-align--left";
+	public static final String STPL_PADDING_LEFT_25 = "stpl-padding-left-25";
+	public static final String REPORT_FILTER_OPTIONS_COMBO_WIDTH = "v-report-filter-option-combo-width";
+	public static final String REPORT_CUSTOMER_FILTER_MARGIN_LEFT = "v-report-filter-option-customer-filter";
+	public static final String STPL_MARGIN_LEFT_30 = "stpl-margin-left-30";
+	public static final String STPL_MARGIN_LEFT_25 = "stpl-margin-left-25";
 
 	private GtnFrameworkCssConstants() {
 		super();

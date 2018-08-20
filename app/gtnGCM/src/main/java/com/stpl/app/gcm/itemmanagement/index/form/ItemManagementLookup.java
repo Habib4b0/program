@@ -716,6 +716,7 @@ public class ItemManagementLookup extends CustomWindow {
                         saveThread.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                         Thread.currentThread().interrupt();
                     }
                 }
             }
