@@ -881,6 +881,7 @@ public class GtnFrameworkCommonConstants {
     public static final String FREQUENCY = "Frequency";
     public static final String LAST_RUN = "lastRun";
     public static final String STATUS_COMPONENT = "status";
+    public static final String LAST_RUN_COMPONENT = "Last Run";
     public static final String PROCESS_NAME_COMPONENT = "Process Name";
     public static final String MANUAL_RESULT_TABLE = "manualResultTable";
     public static final String RUN_TINES_HORIZONTAL3LAYOUT = "runTinesHorizontal3layout";
@@ -1282,5 +1283,6 @@ public class GtnFrameworkCommonConstants {
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_DATE = MODIFIED_DATE;
     public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY = MODIFIED_BY;
     public static final String ARM_VIEW_MASTER_SID = "viewMasterSId";
+	
 
 }

@@ -38,246 +38,246 @@ public class FilterLogic {
         return instance;
     }
 
-    public StringBuilder filterQueryGenerator(java.util.Set<Container.Filter> containerFilterSet, Map<String, String> filterQueryMap) {
-        StringBuilder strObj = new StringBuilder("AND ( * LIKE '?' OR * IS NULL )");
-        StringBuilder sqlQuery = new StringBuilder();
-        if (containerFilterSet != null && !containerFilterSet.isEmpty()) {
-            for (Container.Filter containerFilter : containerFilterSet) {
-                if (containerFilter instanceof SimpleStringFilter) {
-                    SimpleStringFilter stringFilterVal = (SimpleStringFilter) containerFilter;
-                    if (filterQueryMap.get(stringFilterVal.getPropertyId().toString()) != null && !filterQueryMap.get(stringFilterVal.getPropertyId().toString()).isEmpty()) {
-                        if (sqlQuery.length() == 0) {
-                            StringBuilder initialValue = new StringBuilder("where ( ( * LIKE '?' )");
-                            StringBuilder tempValue = new StringBuilder(initialValue);
-                            tempValue.replace(tempValue.indexOf("*"), tempValue.indexOf("*") + 1, filterQueryMap.get(stringFilterVal.getPropertyId().toString()));
-                            tempValue.replace(tempValue.indexOf("?"), tempValue.indexOf("?") + 1, CommonUtil.buildFilterCriteria(stringFilterVal.getFilterString()));
-                            sqlQuery.append(tempValue);
+    public StringBuilder filterQueryGenerator(java.util.Set<Container.Filter> filterSet, Map<String, String> queryMap) {
+        StringBuilder str = new StringBuilder("AND ( * LIKE '?' OR * IS NULL )");
+        StringBuilder sql = new StringBuilder();
+        if (filterSet != null && !filterSet.isEmpty()) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    if (queryMap.get(stringFilter.getPropertyId().toString()) != null && !queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
+                        if (sql.length() == 0) {
+                            StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
+                            StringBuilder temp = new StringBuilder(initial);
+                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, CommonUtil.buildFilterCriteria(stringFilter.getFilterString()));
+                            sql.append(temp);
 
                         } else {
-                            StringBuilder tempValue = new StringBuilder(strObj);
-                            tempValue.replace(tempValue.indexOf("*"), tempValue.indexOf("*") + 1, filterQueryMap.get(stringFilterVal.getPropertyId().toString()));
-                            tempValue.replace(tempValue.indexOf("*"), tempValue.indexOf("*") + 1, filterQueryMap.get(stringFilterVal.getPropertyId().toString()));
-                            tempValue.replace(tempValue.indexOf("?"), tempValue.indexOf("?") + 1, CommonUtil.buildFilterCriteria(stringFilterVal.getFilterString()));
-                            sqlQuery.append(tempValue);
+                            StringBuilder temp = new StringBuilder(str);
+                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, CommonUtil.buildFilterCriteria(stringFilter.getFilterString()));
+                            sql.append(temp);
                         }
                     }
                 }
-                if (containerFilter instanceof Between) {
-                    Between betweenFilterValue = (Between) containerFilter;
-                    StringBuilder dateStartStr = new StringBuilder("AND ( * >='?')");
-                    StringBuilder dateEndStr = new StringBuilder("AND ( * <='?')");
-                    if (!filterQueryMap.get(betweenFilterValue.getPropertyId().toString()).isEmpty()) {
-                        Date startDateValue = (Date) betweenFilterValue.getStartValue();
-                        Date endDateValue = (Date) betweenFilterValue.getEndValue();
-                        StringBuilder initialStartVal = new StringBuilder("where ( ( * >= '?' )");
-                        StringBuilder initialEndVal = new StringBuilder("where ( ( * <= '?' )");
-                        if (!betweenFilterValue.getStartValue().toString().isEmpty()) {
-                            StringBuilder tempStartVal;
-                            if (sqlQuery.length() == 0) {
-                                tempStartVal = new StringBuilder(initialStartVal);
+                if (filter instanceof Between) {
+                    Between betweenFilter = (Between) filter;
+                    StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
+                    StringBuilder dateEndstr = new StringBuilder("AND ( * <='?')");
+                    if (!queryMap.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
+                        Date startValue = (Date) betweenFilter.getStartValue();
+                        Date endValue = (Date) betweenFilter.getEndValue();
+                        StringBuilder initialStart = new StringBuilder("where ( ( * >= '?' )");
+                        StringBuilder initialEnd = new StringBuilder("where ( ( * <= '?' )");
+                        if (!betweenFilter.getStartValue().toString().isEmpty()) {
+                            StringBuilder tempStart;
+                            if (sql.length() == 0) {
+                                tempStart = new StringBuilder(initialStart);
                             } else {
-                                tempStartVal = new StringBuilder(dateStartStr);
+                                tempStart = new StringBuilder(dateStartstr);
                             }
-                            tempStartVal.replace(tempStartVal.indexOf("*"), tempStartVal.indexOf("*") + 1, filterQueryMap.get(betweenFilterValue.getPropertyId().toString()));
-                            tempStartVal.replace(tempStartVal.indexOf("?"), tempStartVal.indexOf("?") + 1, DBDate.format(startDateValue));
-                            sqlQuery.append(tempStartVal);
+                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
+                            sql.append(tempStart);
                         }
-                        if (!betweenFilterValue.getEndValue().toString().isEmpty()) {
-                            StringBuilder tempValueEnd;
-                            if (sqlQuery.length() == 0) {
-                                tempValueEnd = new StringBuilder(initialEndVal);
+                        if (!betweenFilter.getEndValue().toString().isEmpty()) {
+                            StringBuilder tempEnd;
+                            if (sql.length() == 0) {
+                                tempEnd = new StringBuilder(initialEnd);
                             } else {
-                                tempValueEnd = new StringBuilder(dateEndStr);
+                                tempEnd = new StringBuilder(dateEndstr);
                             }
 
-                            tempValueEnd.replace(tempValueEnd.indexOf("*"), tempValueEnd.indexOf("*") + 1, filterQueryMap.get(betweenFilterValue.getPropertyId().toString()));
-                            tempValueEnd.replace(tempValueEnd.indexOf("?"), tempValueEnd.indexOf("?") + 1, DBDate.format(endDateValue));
-                            sqlQuery.append(tempValueEnd);
+                            tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
+                            sql.append(tempEnd);
                         }
                     }
-                } else if (containerFilter instanceof Compare) {
-                    Compare stringFilterValue = (Compare) containerFilter;
-                    if (!filterQueryMap.get(stringFilterValue.getPropertyId().toString()).isEmpty()) {
-                        Compare.Operation operationData = stringFilterValue.getOperation();
-                        if (Compare.Operation.EQUAL.toString().equals(operationData.name())) {
-                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
-                            StringBuilder intStartStr = new StringBuilder("where ( ( * = '?' )");
-                            StringBuilder tempStartValue;
-                            String tmpValue;
-                            if (((Integer) stringFilterValue.getValue()) == 0) {
-                                tmpValue = String.valueOf(stringFilterValue.getValue());
+                } else if (filter instanceof Compare) {
+                    Compare stringFilter = (Compare) filter;
+                    if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
+                        Compare.Operation operation = stringFilter.getOperation();
+                        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
+                            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
+                            StringBuilder tempStart;
+                            String value;
+                            if (((Integer) stringFilter.getValue()) == 0) {
+                                value = String.valueOf(stringFilter.getValue());
                             } else {
-                                int val = (Integer) stringFilterValue.getValue();
-                                tmpValue = String.valueOf(val);
+                                int val = (Integer) stringFilter.getValue();
+                                value = String.valueOf(val);
                             }
-                            if (!tmpValue.isEmpty()) {
-                                if (sqlQuery.length() == 0) {
-                                    tempStartValue = new StringBuilder(intStartStr);
+                            if (!value.isEmpty()) {
+                                if (sql.length() == 0) {
+                                    tempStart = new StringBuilder(intStartstr);
                                 } else {
-                                    tempStartValue = new StringBuilder(startStr);
+                                    tempStart = new StringBuilder(Startstr);
                                 }
-                                tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                                tempStartValue.replace(tempStartValue.indexOf("?"), tempStartValue.indexOf("?") + 1, tmpValue);
-                                sqlQuery.append(tempStartValue);
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                sql.append(tempStart);
                             }
                         }
-                        if (Compare.Operation.GREATER.toString().equals(operationData.name())) {
-                            StringBuilder tempStartData;
-                            int idVal = (Integer) stringFilterValue.getValue();
-                            String strValue=String.valueOf(idVal);
-                            if (idVal < 0) {
-                                if (sqlQuery.length() == 0) {
-                                  tempStartData = new StringBuilder("where ( ( * > '?' or * = '0')");
+                        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
+                            StringBuilder tempStart;
+                            int val = (Integer) stringFilter.getValue();
+                            String value=String.valueOf(val);
+                            if (val < 0) {
+                                if (sql.length() == 0) {
+                                  tempStart = new StringBuilder("where ( ( * > '?' or * = '0')");
                                 } else {
-                                  tempStartData = new StringBuilder("AND ( * >'?' or * = '0')");
+                                  tempStart = new StringBuilder("AND ( * >'?' or * = '0')");
                                 }
-                                tempStartData.replace(tempStartData.indexOf("*"), tempStartData.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                                tempStartData.replace(tempStartData.indexOf("?"), tempStartData.indexOf("?") + 1, strValue);
-                                sqlQuery.append(tempStartData);
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                sql.append(tempStart);
                             } else {
-                                if (sqlQuery.length() == 0) {
-                                    tempStartData = new StringBuilder("where ( ( * > '?')");
+                                if (sql.length() == 0) {
+                                    tempStart = new StringBuilder("where ( ( * > '?')");
                                 } else {
-                                    tempStartData = new StringBuilder("AND ( * >'?')");
+                                    tempStart = new StringBuilder("AND ( * >'?')");
                                 }
-                                tempStartData.replace(tempStartData.indexOf("*"), tempStartData.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                                tempStartData.replace(tempStartData.indexOf("?"), tempStartData.indexOf("?") + 1, strValue);
-                                sqlQuery.append(tempStartData);
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                sql.append(tempStart);
                             }
                         }
-                        if (Compare.Operation.LESS.toString().equals(operationData.name())) {
-                            int idValue = (Integer) stringFilterValue.getValue();
-                            StringBuilder tempStartData;
-                            String tmpValue=String.valueOf(idValue);
-                            if (idValue > 0) {
-                                if (sqlQuery.length() == 0) {
-                                    tempStartData = new StringBuilder("where ( ( * < '?' or * = '0')");
+                        if (Compare.Operation.LESS.toString().equals(operation.name())) {
+                            int val = (Integer) stringFilter.getValue();
+                            StringBuilder tempStart;
+                            String value=String.valueOf(val);
+                            if (val > 0) {
+                                if (sql.length() == 0) {
+                                    tempStart = new StringBuilder("where ( ( * < '?' or * = '0')");
                                 } else {
-                                    tempStartData = new StringBuilder("AND ( * <'?' or * = '0')");
+                                    tempStart = new StringBuilder("AND ( * <'?' or * = '0')");
                                 }
-                                tempStartData.replace(tempStartData.indexOf("*"), tempStartData.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                                tempStartData.replace(tempStartData.indexOf("?"), tempStartData.indexOf("?") + 1, tmpValue);
-                                sqlQuery.append(tempStartData);
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                sql.append(tempStart);
                             } else {
-                                if (sqlQuery.length() == 0) {
-                                  tempStartData = new StringBuilder("where ( ( * < '?')");
+                                if (sql.length() == 0) {
+                                  tempStart = new StringBuilder("where ( ( * < '?')");
                                 } else {
-                                  tempStartData = new StringBuilder("AND ( * <'?')");
+                                  tempStart = new StringBuilder("AND ( * <'?')");
                                 }
-                                tempStartData.replace(tempStartData.indexOf("*"), tempStartData.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                                tempStartData.replace(tempStartData.indexOf("*"), tempStartData.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                                tempStartData.replace(tempStartData.indexOf("?"), tempStartData.indexOf("?") + 1, tmpValue);
-                                sqlQuery.append(tempStartData);
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
+                                sql.append(tempStart);
                             }
                         }
-                        if (stringFilterValue.getValue() instanceof Date) {
-                            Date dateValue = (Date) stringFilterValue.getValue();
-                            StringBuilder tempStartValue;
-                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operationData.name())) {
-                                if (sqlQuery.length() == 0) {
-                                    tempStartValue = new StringBuilder("where ( ( * >= '?')");
+                        if (stringFilter.getValue() instanceof Date) {
+                            Date value = (Date) stringFilter.getValue();
+                            StringBuilder tempStart;
+                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                                if (sql.length() == 0) {
+                                    tempStart = new StringBuilder("where ( ( * >= '?')");
                                 } else {
-                                    tempStartValue = new StringBuilder("AND ( * >='?')");
+                                    tempStart = new StringBuilder("AND ( * >='?')");
                                 }
                             } else {
-                                if (sqlQuery.length() == 0) {
-                                    tempStartValue = new StringBuilder("where ( ( * <='?')");
+                                if (sql.length() == 0) {
+                                    tempStart = new StringBuilder("where ( ( * <='?')");
                                 } else {
-                                    tempStartValue = new StringBuilder("AND ( * <='?' )");
+                                    tempStart = new StringBuilder("AND ( * <='?' )");
                                 }
                             }
-                            tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, filterQueryMap.get(stringFilterValue.getPropertyId().toString()));
-                            tempStartValue.replace(tempStartValue.indexOf("?"), tempStartValue.indexOf("?") + 1, DBDate.format(dateValue));
-                            sqlQuery.append(tempStartValue);
+                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(value));
+                            sql.append(tempStart);
                         }
                     }
-                } else if (containerFilter instanceof And) {
-                    And stringFilter = (And) containerFilter;
-                    Collection<Container.Filter> filterValue = stringFilter.getFilters();
-                    for (Container.Filter filters : filterValue) {
+                } else if (filter instanceof And) {
+                    And stringFilter = (And) filter;
+                    Collection<Container.Filter> value = stringFilter.getFilters();
+                    for (Container.Filter filter1 : value) {
                         Object propertyId;
-                        if (filters instanceof Compare.Less) {
+                        if (filter1 instanceof Compare.Less) {
 
-                            Compare.Less lessCompare = (Compare.Less) filters;
-                            propertyId = lessCompare.getPropertyId();
+                            Compare.Less less = (Compare.Less) filter1;
+                            propertyId = less.getPropertyId();
 
-                            StringBuilder tempStartValue;
-                            String lessValue = String.valueOf(lessCompare.getValue());
+                            StringBuilder tempStart;
+                            String lessValue = String.valueOf(less.getValue());
 
-                            if (sqlQuery.length() == 0) {
-                                tempStartValue = new StringBuilder("where ( ( * < '?')");
+                            if (sql.length() == 0) {
+                                tempStart = new StringBuilder("where ( ( * < '?')");
                             } else {
-                                tempStartValue = new StringBuilder("AND ( * <'?')");
+                                tempStart = new StringBuilder("AND ( * <'?')");
                             }
-                            tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, filterQueryMap.get(String.valueOf(propertyId)));
-                            tempStartValue.replace(tempStartValue.indexOf("?"), tempStartValue.indexOf("?") + 1, lessValue);
-                            sqlQuery.append(tempStartValue);
+                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(String.valueOf(propertyId)));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, lessValue);
+                            sql.append(tempStart);
 
                         }
-                        if (filters instanceof Compare.Greater) {
-                            Compare.Greater greaterCompare = (Compare.Greater) filters;
-                            propertyId = greaterCompare.getPropertyId();
+                        if (filter1 instanceof Compare.Greater) {
+                            Compare.Greater greater = (Compare.Greater) filter1;
+                            propertyId = greater.getPropertyId();
 
-                            StringBuilder tempStartValue;
-                            String greaterValue = String.valueOf(greaterCompare.getValue());
+                            StringBuilder tempStart;
+                            String greaterValue = String.valueOf(greater.getValue());
 
-                            if (sqlQuery.length() == 0) {
-                                tempStartValue = new StringBuilder("where ( ( * > '?')");
+                            if (sql.length() == 0) {
+                                tempStart = new StringBuilder("where ( ( * > '?')");
                             } else {
-                                tempStartValue = new StringBuilder("AND ( * >'?')");
+                                tempStart = new StringBuilder("AND ( * >'?')");
                             }
-                            tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, filterQueryMap.get(String.valueOf(propertyId)));
-                            tempStartValue.replace(tempStartValue.indexOf("?"), tempStartValue.indexOf("?") + 1, greaterValue);
-                            sqlQuery.append(tempStartValue);
+                            tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(String.valueOf(propertyId)));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, greaterValue);
+                            sql.append(tempStart);
                         }
                     }
                 }
             }
-            if (sqlQuery.length() != 0) {
-                sqlQuery.append(')');
+            if (sql.length() != 0) {
+                sql.append(')');
             }
         }
-        return sqlQuery;
+        return sql;
     }
 
     public StringBuilder orderByQueryGenerator(List<SortByColumn> sortByColumns, Map<String, String> queryMap) {
-        boolean isAsc = false;
-        StringBuilder tempStartValue = new StringBuilder("ORDER BY * ?");
+        boolean asc = false;
+        StringBuilder tempStart = new StringBuilder("ORDER BY * ?");
         if (sortByColumns != null && !sortByColumns.isEmpty()) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn sortByColumn = (SortByColumn) iterator.next();
                 String columnName = sortByColumn.getName();
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
-                    isAsc = false;
-                    tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, queryMap.get(columnName));
+                    asc = false;
+                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(columnName));
                 } else {
-                    isAsc = true;
-                    tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, queryMap.get(columnName));
+                    asc = true;
+                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(columnName));
                 }
             }
         } else {
-            for (Map.Entry<String, String> entrySet : queryMap.entrySet()) {
-                final String key = entrySet.getKey();
+            for (Map.Entry<String, String> entry : queryMap.entrySet()) {
+                final String key = entry.getKey();
                 if (key.contains("sid")) {
                     String value = queryMap.get(key);
-                    tempStartValue.replace(tempStartValue.indexOf("*"), tempStartValue.indexOf("*") + 1, value);
+                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, value);
                 }
             }
         }
-        tempStartValue.replace(tempStartValue.indexOf("?"), tempStartValue.indexOf("?") + 1, !isAsc ? "ASC" : "DESC");
-        return tempStartValue;
+        tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, !asc ? "ASC" : "DESC");
+        return tempStart;
     }
 
     /**
      * method for filter using normal Collections
      *
-     * @param containerfilterSet
+     * @param filterSet
      * @return
      */
-    public void filterQueryForContainer(java.util.Set<Container.Filter> containerfilterSet, Container.Filterable container) {
+    public void filterQueryForContainer(java.util.Set<Container.Filter> filterSet, Container.Filterable container) {
         container.removeAllContainerFilters();
-        if (containerfilterSet != null && !containerfilterSet.isEmpty()) {
-            for (Container.Filter filter : containerfilterSet) {
+        if (filterSet != null && !filterSet.isEmpty()) {
+            for (Container.Filter filter : filterSet) {
                 container.addContainerFilter(filter);
 }
         }
@@ -287,24 +287,24 @@ public class FilterLogic {
      * Method to sort the collections from the container.
      *
      * @param sortByColumns
-     * @param orderByContainer
+     * @param container
      */
-    public void orderByQueryForContainer(List<SortByColumn> sortByColumns, Container.Sortable orderByContainer) {
+    public void orderByQueryForContainer(List<SortByColumn> sortByColumns, Container.Sortable container) {
         if (sortByColumns != null && !sortByColumns.isEmpty()) {
-            Object[] propertyIds = new Object[sortByColumns.size()];
-            boolean[] sortByvalue = new boolean[sortByColumns.size()];
+            Object[] propIds = new Object[sortByColumns.size()];
+            boolean[] value = new boolean[sortByColumns.size()];
             int i = 0;
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn sortByColumn = (SortByColumn) iterator.next();
                 String columnName = sortByColumn.getName();
-                propertyIds[i] = columnName;
+                propIds[i] = columnName;
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
-                    sortByvalue[i] = true;
+                    value[i] = true;
                 } else {
-                    sortByvalue[i] = false;
+                    value[i] = false;
                 }
             }
-            orderByContainer.sort(propertyIds, sortByvalue);
+            container.sort(propIds, value);
         }
     }
 }

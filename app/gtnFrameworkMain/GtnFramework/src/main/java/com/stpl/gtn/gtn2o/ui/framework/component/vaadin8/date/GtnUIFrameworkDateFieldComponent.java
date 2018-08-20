@@ -29,7 +29,7 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 		gtnLogger.info("inside Date Component Vaadin8");
 		DateField dateField = new DateField(componentConfig.getComponentName());
 		Binder<ComponentBinderValidatorBean> dateFieldBinder = new Binder<>();
-		loadStyles(dateField, componentConfig.getComponentStyle());                
+		loadStyles(dateField, componentConfig.getComponentStyle());
                 dateField.setHeight(componentConfig.getComponentHight());
 		dateField.setVisible(componentConfig.isVisible());
 		dateField.setId(componentConfig.getComponentId());

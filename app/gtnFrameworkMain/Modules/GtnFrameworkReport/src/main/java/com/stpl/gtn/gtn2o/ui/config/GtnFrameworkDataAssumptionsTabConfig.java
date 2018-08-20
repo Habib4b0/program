@@ -156,7 +156,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVAUTIL_DATE,
-				GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING});
+				GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 		dataAssumptionsPagedTableConfig.setCountUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setResultSetUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setRefreshAtStart(true);
@@ -176,7 +176,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.DATEFIELDVAADIN8,GtnUIFrameworkComponentType.DATEFIELDVAADIN8,
-                                GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+                                GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
 		String[] dataAssumptionsComboboxIds = { "" };
 		String[] dataAssumptionsComboBoxType = { "" };
 		int comboboxStartIndex = 0;
@@ -186,7 +186,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]); 
                         GtnUIFrameworkComponentConfig componentList = new GtnUIFrameworkComponentConfig();
                         componentList.addComponentStyle("v-textfield-custom-report");
-                        componentList.addDateFieldStyle("v-report-data-assumption-date-field");
+                         componentList.addDateFieldStyle("v-report-data-assumption-date-field");
                         dataAssumptionsTableFilterConfig.setGtnComponentConfig(componentList);
 			if ((comboboxStartIndex < dataAssumptionsComboboxIds.length)
 					&& dataAssumptionsPropertyIDs[i].equals(dataAssumptionsComboboxIds[comboboxStartIndex])) {

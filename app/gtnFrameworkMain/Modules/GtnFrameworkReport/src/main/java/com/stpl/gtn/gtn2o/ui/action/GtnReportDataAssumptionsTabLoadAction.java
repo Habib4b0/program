@@ -147,7 +147,7 @@ public class GtnReportDataAssumptionsTabLoadAction
 			GtnWsRecordBean dto = new GtnWsRecordBean();
 			dto.setProperties(record.getColList());
 			dto.setRecordHeader(Arrays.asList(new Object[] { "file", "company", "businessUnit", "type", "version",
-					"activeFrom", "toPeriod" ,"activeFile"}));
+					"activeFrom", "toPeriod" ,"activeFile" }));
 			records.add(dto);
 		}
 		return records;

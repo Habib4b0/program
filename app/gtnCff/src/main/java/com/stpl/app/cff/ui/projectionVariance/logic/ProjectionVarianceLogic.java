@@ -1495,7 +1495,7 @@ public class ProjectionVarianceLogic {
                     return new ArrayList<>(Arrays.asList(x[2], x[3]));
                 }));
       
-        if (results != null && !results.isEmpty()) {
+        if (!results.isEmpty()) {
           for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
                  List<Object[]> row = entry.getValue();
                  final Object[] obj = row.get(0);
@@ -3081,7 +3081,7 @@ public class ProjectionVarianceLogic {
                     proj = list.get(0);
                 }
             } else {
-                Object[] arr=Collections.nCopies(obj.length, 0).toArray(new Object[0]);
+                Object[] arr=Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
                 if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                     actual = list.get(0);
                     proj = arr;

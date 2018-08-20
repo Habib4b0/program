@@ -248,16 +248,16 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + comparisonNDC + "'");
 		inputList.add("'" + contractHolder + "'");
 		inputList.add("'" + projectionDescription + "'"); 
-        inputList.add("'" + createdDate + "'");
-		getFromAndToPeriod(inputList, fromPeriod, toPeriod);
-		inputList.add("'" + createdBy + "'");
+                inputList.add("'" + createdDate + "'");
+                getFromAndToPeriod(inputList, fromPeriod, toPeriod);
+                inputList.add("'" + createdBy + "'");
 		return inputList;
 		} catch (SQLException e) {
 			gtnLogger.error(e+"");
 			return Collections.emptyList();
 		}
 	}
-
+	
 	private void getFromAndToPeriod(List<String> inputList, String fromPeriod, String toPeriod) {
 		if (!fromPeriod.isEmpty() && !toPeriod.isEmpty()) {
 			inputList.add("'" + fromPeriod + "'"); 
@@ -303,7 +303,6 @@ public class GtnWsReportWebsevice {
 		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
 		String comparisonBrand = criteriaMap.get("brand") == null ? "%" : criteriaMap.get("brand");
 		
-			
 		cffInputList.add("'"+workFlowStatus+"'");
 		cffInputList.add("'"+projectionName+"'");
 		cffInputList.add("'"+projectionDescription+"'");
@@ -607,9 +606,9 @@ case "privateViewName":
 		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
 		dbColumnIdMap.put("type", "ht.DESCRIPTION");
 		dbColumnIdMap.put("version", "VERSION");
-		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");
+		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");		
 		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
-		dbColumnIdMap.put("activeFile", "ACTIVE_FILE");
+                dbColumnIdMap.put("activeFile", "ACTIVE_FILE");
 		return dbColumnIdMap;
 	}
 

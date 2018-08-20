@@ -661,7 +661,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 		List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {
-			if (getBeanFromId(item) != null  && !selectedProductContainer.hasChildren(item)) {
+			if (getBeanFromId(item) != null && !selectedProductContainer.hasChildren(item)) {
 				productHierarchyEndLevelsHierNo.add(getBeanFromId(item).getHierarchyNo());
 			}
 		}
@@ -874,7 +874,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			targetItemFromBean = new BeanItem<>((Leveldto) obj);
 		}
                     return (Leveldto) targetItemFromBean.getBean();
-	}
+                }
 
 	public ViewDTO getViewDTO() {
 		return viewDTO;
@@ -952,9 +952,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	}
 
 	private void addComponent() {
-		Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
-                Label abstractLabel;
-		          empty.setWidth("15px");
+		          Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+            Label abstractLabel;
+            empty.setWidth("15px");
             GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
             layoutG2.setMargin(BooleanConstant.getFalseFlag());
             Label privateViewLabel = new Label("Private Views:");
@@ -992,19 +992,19 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
             layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
             HorizontalLayout layoutForDeduction = new HorizontalLayout();
             layoutForDeduction.setMargin(new MarginInfo(1));
-                abstractLabel=new Label("Frequency:");
-                loadLabelStyle(abstractLabel);
-		layoutForDeduction.addComponent(abstractLabel);
-                layoutForDeduction.addComponent(frequencyDataSelection);
-                empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
-                empty.setWidth("30px");
-                layoutForDeduction.addComponent(empty);
-                abstractLabel=new Label("Deduction Level:");
-                loadLabelStyle(abstractLabel);
-		layoutForDeduction.addComponent(abstractLabel);
-                layoutForDeduction.addComponent(deductionDdlb);
-		verticalLayout.addComponent(layoutG2);
-		verticalLayout.addComponent(layoutForDeduction);
+            abstractLabel = new Label("Frequency:");
+            loadLabelStyle(abstractLabel);
+            layoutForDeduction.addComponent(abstractLabel);
+            layoutForDeduction.addComponent(frequencyDataSelection);
+            empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
+            empty.setWidth("30px");
+            layoutForDeduction.addComponent(empty);
+            abstractLabel = new Label("Deduction Level:");
+            loadLabelStyle(abstractLabel);
+            layoutForDeduction.addComponent(abstractLabel);
+            layoutForDeduction.addComponent(deductionDdlb);
+            verticalLayout.addComponent(layoutG2);
+            verticalLayout.addComponent(layoutForDeduction);
 	}
         public void loadLabelStyle(Label label) {
                 label.setWidth(StringConstantsUtil.HUNDRED_PX);

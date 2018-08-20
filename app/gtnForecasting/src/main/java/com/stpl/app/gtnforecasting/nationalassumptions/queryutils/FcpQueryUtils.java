@@ -131,6 +131,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
+
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         return fcpList;
     }
@@ -144,7 +145,7 @@ public class FcpQueryUtils {
 
                 String formatedValue = values.getValue();
 
-                String tempValue[] = values.getValue().split("~");
+                String tempValue[] = values.getKey().split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -270,6 +271,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
+
         fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return fcpList;
@@ -307,6 +309,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
+
         fcpList = (List) DAO.executeSelectQuery(customSql);
         return fcpList;
     }
@@ -321,6 +324,7 @@ public class FcpQueryUtils {
         for (Map.Entry<String, Object> key : input.entrySet()) {
             customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
+
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
     }
 
