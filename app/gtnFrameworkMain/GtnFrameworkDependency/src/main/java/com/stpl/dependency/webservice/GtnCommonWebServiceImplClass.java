@@ -7,7 +7,6 @@ import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
 import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
-import com.stpl.gtn.gtn2o.ws.manager.GtnWsSecurityManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 public abstract class GtnCommonWebServiceImplClass {
@@ -29,7 +28,6 @@ public abstract class GtnCommonWebServiceImplClass {
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
-			// updateRequestWithSecurityToken(request, securityToken);
 			GtnQueryEngineWebServiceResponse webServiceResponse = restTemplate.postForObject(
 					getWebServiceEndpointBasedOnModule(url, "queryEngine"), request,
 					GtnQueryEngineWebServiceResponse.class);
@@ -55,19 +53,6 @@ public abstract class GtnCommonWebServiceImplClass {
 			return null;
 		}
 
-	}
-
-	private void updateRequestWithSecurityToken(GtnQueryEngineWebServiceRequest request,
-			GtnWsSecurityToken securityToken) {
-		GtnWsSecurityManager gtnWsSecurityManager = new GtnWsSecurityManager();
-		request.setUserId(securityToken.getUserId());
-		request.setSessionId(securityToken.getSessionId());
-		request.setToken(gtnWsSecurityManager.createToken(request.getUserId(), request.getSessionId()));
-	}
-
-	private String getEndPointUrl(String url) {
-		return GtnFrameworkPropertyManager.getProperty("gtn.queryengine.endPointUrl")
-				+ GtnFrameworkPropertyManager.getProperty("gtn.queryengine.endPointServiceName") + url;
 	}
 
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
