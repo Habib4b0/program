@@ -124,7 +124,7 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 	 */
 	public Panel buildHistoryLookup(final ExtFilterTable contractResults, final ExtFilterTable brandResults,
 			final NativeSelect customerNativeSelect) {
-		initializeComponents();
+		initializeComponentsLookup();
 		Panel mainPanel = UiUtils.addCommonPanel(StringUtils.EMPTY);
 		VerticalLayout mainLayout = (VerticalLayout) UiUtils.getLayout(new VerticalLayout());
 		mainLayout.addStyleName(Constant.WIDTH_AUTO);
@@ -189,7 +189,7 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 	/**
 	 * Initializes the components
 	 */
-	private void initializeComponents() {
+	private void initializeComponentsLookup() {
 
 		setBrandSearch(UiUtils.addTextField());
 		setContractName(UiUtils.addTextField());
