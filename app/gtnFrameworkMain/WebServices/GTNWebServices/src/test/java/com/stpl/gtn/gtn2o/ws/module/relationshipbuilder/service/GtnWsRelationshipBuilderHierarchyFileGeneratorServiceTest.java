@@ -15,16 +15,8 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.internal.InFlightMetadataCollectorImpl;
-import org.hibernate.boot.internal.SessionFactoryBuilderImpl;
-import org.hibernate.boot.internal.SessionFactoryOptionsImpl;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.engine.spi.SessionFactoryDelegatingImpl;
-import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.type.TypeResolver;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -319,20 +311,5 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorServiceTest {
         List<HierarchyLevelDefinitionBean> result = rbFileService.getRBHierarchyLevelDefinitionBySid(hierarchyDefSid, versionNo);
         assertEquals(0, result.size());
     }
-           @Test
-	public void testGtnWsRelationshipBuilderHierarchyFileGeneratorService_1()
-		throws Exception {
 
-		GtnWsRelationshipBuilderHierarchyFileGeneratorService result = new GtnWsRelationshipBuilderHierarchyFileGeneratorService();
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(null, result.getSessionFactory());
-		assertEquals(null, result.getGtnHierarchyServiceBuilder());
-		assertEquals(null, result.getQueryGeneratorService());
-		assertEquals(null, result.getGtnSqlQueryEngine());
-		assertEquals(null, result.getGtnWsSqlService());
-	}
-
-	
 }

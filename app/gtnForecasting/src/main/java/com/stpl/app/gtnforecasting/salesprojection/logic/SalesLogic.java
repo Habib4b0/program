@@ -599,7 +599,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        LOGGER.info("UI Query-------------------------------------------------"+aaa);
+        
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
     
@@ -616,7 +616,6 @@ public class SalesLogic {
         sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #ST_NM_SALES_PROJECTION_MASTER ");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
-        LOGGER.info("Excel Query-------------------------------------------------"+query);
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
     }
@@ -1357,7 +1356,7 @@ public class SalesLogic {
                 salesRowDto.setHierarchyIndicator(String.valueOf(object[NumericConstants.TEN]));
                 salesRowDto.setCheckRecordCount(String.valueOf(object[NumericConstants.SEVEN]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.SEVEN])) ? Constant.DASH : String.valueOf(object[NumericConstants.SEVEN]));
                 salesRowDto.setCcpCount(String.valueOf(object[NumericConstants.EIGHT]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.EIGHT])) ? Constant.DASH : String.valueOf(object[NumericConstants.EIGHT]));
-                int value = Integer.valueOf((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
+                int value = Integer.parseInt((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
                 salesRowDto.addBooleanProperties(Constant.CHECK, value >= Integer.parseInt(salesRowDto.getCcpCount()));
             }
             hierarchyNo = String.valueOf(object[NumericConstants.THREE]);
@@ -4568,7 +4567,7 @@ public class SalesLogic {
     }
 
     public Set availableHierarchy(List currentHierarchy, ProjectionSelectionDTO projectionSelectionDTO, int start, int end, int expandLevelNo) {
-        int forecastlevel = Integer.valueOf(projectionSelectionDTO.getHierarchyIndicator().equals("C") ? projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber() : projectionSelectionDTO.getSessionDTO().getProductLevelNumber());
+        int forecastlevel = Integer.parseInt(projectionSelectionDTO.getHierarchyIndicator().equals("C") ? projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber() : projectionSelectionDTO.getSessionDTO().getProductLevelNumber());
         Set hierachies = new LinkedHashSet();
         for (int i = start; i < end && i < currentHierarchy.size(); i++) {
             String hierarachy = String.valueOf(currentHierarchy.get(i));

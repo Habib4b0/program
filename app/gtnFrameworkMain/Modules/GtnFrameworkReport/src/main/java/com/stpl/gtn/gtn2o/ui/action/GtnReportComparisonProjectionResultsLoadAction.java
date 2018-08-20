@@ -38,22 +38,30 @@ public class GtnReportComparisonProjectionResultsLoadAction
 
 		gtnLogger.info("------------GtnReportingComparisonBreakdownGridLoadAction----------------");
 
-		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		String landingScreenComponentId = gtnUIFrameWorkActionConfig.getActionParameterList().size() > 2
+				? gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString()
+				: componentId;
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(landingScreenComponentId)
+				.getViewId();
 		gtnLogger.info("component Id = = = " + componentId);
 		gtnLogger.info("sourceComponentId = = =" + sourceComponentId);
-		
 		List<GtnReportComparisonProjectionBean> comparisonProjectionsList = null;
-		
-		if("reportLandingScreen_V001".equals(sourceComponentId)) {
-			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId, sourceComponentId);
+		if ("reportLandingScreen_V001".equals(sourceComponentId)) {
+			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(landingScreenComponentId, sourceComponentId);
 			comparisonProjectionsList = (List<GtnReportComparisonProjectionBean>) componentData.getCustomData();
 		} else {
 			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-			comparisonProjectionsList = dataSelectionBean
-					.getComparisonProjectionBeanList();
+			if (dataSelectionBean == null) {
+				sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(sourceComponentId)
+						.getParentViewId();
+				dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			}
+			comparisonProjectionsList = dataSelectionBean.getComparisonProjectionBeanList();
 		}
-		
+
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString());
 		PagedGrid pagedGrid = (PagedGrid) selectedGrid.getComponentData().getCustomData();
@@ -63,7 +71,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 			for (GtnReportComparisonProjectionBean comparisonBean : e) {
 				GtnWsRecordBean recordBean = new GtnWsRecordBean();
 				recordBean.setRecordHeader(Arrays.asList("projectionName", "description", "marketType",
-						"contractHolder", "contract", "brand" , "createdDate" , "createdBy"));
+						"contractHolder", "contract", "brand", "createdDate", "createdBy"));
 				recordBean.addProperties(comparisonBean.getProjectionName());
 				recordBean.addProperties(comparisonBean.getProjectionDescription());
 				recordBean.addProperties(comparisonBean.getMarketType());
@@ -80,7 +88,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBeanList.add(recordBean);
 			}
 		});
-			
+
 		grid.setItems(recordBeanList);
 	}
 

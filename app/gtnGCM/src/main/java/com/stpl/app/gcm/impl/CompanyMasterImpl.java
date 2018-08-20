@@ -1361,7 +1361,7 @@ public class CompanyMasterImpl {
                                     condition.add("CCP.ITEM_MASTER_SID=ITEM.ITEM_MASTER_SID");
                                 }
                                 prevNo = currNo;
-                                if (level == currNo || !nextHierarchyNo.contains(String.valueOf(tempRow[4])) || list.size() == i + 1) {
+                                if (level.equals(currNo) || !nextHierarchyNo.contains(String.valueOf(tempRow[4])) || list.size() == i + 1) {
                                     ccpQuery.replace(ccpQuery.indexOf("?"), ccpQuery.indexOf("?") + 1, String.valueOf(tempRow[0]));
                                     for (int j = logic.size() - 1; j >= 0; j--) {
                                         ccpQuery.append(logic.get(j));

@@ -2495,7 +2495,6 @@ public class DataSelectionLogic {
 
     public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
-    	
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
@@ -2506,7 +2505,7 @@ public class DataSelectionLogic {
             query.append(",'");
             query.append(session.getSessionId());
             if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
-            	
+
                 query.append("','");
                 query.append(screenName);
             }

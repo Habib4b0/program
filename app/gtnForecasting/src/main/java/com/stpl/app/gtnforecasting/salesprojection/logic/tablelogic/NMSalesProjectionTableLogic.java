@@ -67,7 +67,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
         int count = 0;
         if (firstGenerated) {
             tree = new SalesProjectionTree();
-            int forecastlevel = Integer.valueOf(projSelDTO.getHierarchyIndicator().equals("C") ? projSelDTO.getSessionDTO().getCustomerLevelNumber() : projSelDTO.getSessionDTO().getProductLevelNumber());
+            int forecastlevel = Integer.parseInt(projSelDTO.getHierarchyIndicator().equals("C") ? projSelDTO.getSessionDTO().getCustomerLevelNumber() : projSelDTO.getSessionDTO().getProductLevelNumber());
             projSelDTO.setTreeLevelNo(forecastlevel);
             projSelDTO.setHierarchyNo(null);
             tree.buildtree(projSelDTO);

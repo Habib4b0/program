@@ -7,6 +7,7 @@ IF EXISTS (SELECT 'X'
   END
 
 GO
+
 CREATE PROCEDURE [dbo].[PRC_TEMP_TABLE_CREATION] (@TABLE_LIST TABLE_LIST READONLY,
                                                   @USER_ID    INT,
                                                   @SESSION_ID VARCHAR(50))
@@ -389,7 +390,9 @@ AS
 
           SET @PRIMARY_SCRIPT = (SELECT DISTINCT 'ALTER TABLE [' + C.TEMP_TABLE_NAME
                                                  + '] ADD CONSTRAINT ['
-                                                 + Replace(C.CONSTRAINT_NAME, C.ORG_TABLE_NAME, C.TEMP_TABLE_NAME)
+                                                 + case when C.TEMP_TABLE_NAME like 'ST_CUSTOM_CFF_DISCOUNT%' then replace(Replace(C.CONSTRAINT_NAME, C.ORG_TABLE_NAME, C.TEMP_TABLE_NAME),'ST_CUSTOM_CFF_DISCOUNT','S_CFF_Disc')
+												 else Replace(C.CONSTRAINT_NAME, C.ORG_TABLE_NAME, C.TEMP_TABLE_NAME)
+												 end 
                                                  + '] PRIMARY KEY ('
                                                  + LEFT(CS.COL_LIST, Len(CS.COL_LIST) - 1)
                                                  + '); '
@@ -616,3 +619,6 @@ AS
           );
       END CATCH
   END 
+GO
+
+

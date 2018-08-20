@@ -10,6 +10,8 @@ import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
  */
 public class WorkflowProfile implements java.io.Serializable {
 
+	
+
 	private int processSid;
 	private HelperTable helperTable;
 	private String processName;
@@ -399,6 +401,25 @@ public class WorkflowProfile implements java.io.Serializable {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+	
+	@Override
+	public String toString() {
+		return "WorkflowProfile [processSid=" + processSid + ", helperTable=" + helperTable + ", processName="
+				+ processName + ", startDate=" + startDate + ", endDate=" + endDate + ", activeFlag=" + activeFlag
+				+ ", processDisplayName=" + processDisplayName + ", startHour=" + startHour + ", startMinutes="
+				+ startMinutes + ", startHour1=" + startHour1 + ", startHour2=" + startHour2 + ", startHour3="
+				+ startHour3 + ", startMinutes1=" + startMinutes1 + ", startMinutes2=" + startMinutes2
+				+ ", startMinutes3=" + startMinutes3 + ", frequency=" + frequency + ", manualLastRun=" + manualLastRun
+				+ ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + ", validation=" + validation
+				+ ", emailNotificationFailureCc=" + emailNotificationFailureCc + ", successMailSubject="
+				+ successMailSubject + ", successMailBody=" + successMailBody + ", failureMailSubject="
+				+ failureMailSubject + ", failureMailBody=" + failureMailBody + ", scheduleLastRun=" + scheduleLastRun
+				+ ", emailNotificationSuccessCc=" + emailNotificationSuccessCc + ", emailNotificationSuccessTo="
+				+ emailNotificationSuccessTo + ", emailNotificationFailureTo=" + emailNotificationFailureTo
+				+ ", scriptName=" + scriptName + ", schemaName=" + schemaName + ", slaCalendarMasterSid="
+				+ slaCalendarMasterSid + ", userSid=" + userSid + ", inboundStatus=" + inboundStatus + ", createdBy="
+				+ createdBy + ", createdDate=" + createdDate + "]";
 	}
 
 }
