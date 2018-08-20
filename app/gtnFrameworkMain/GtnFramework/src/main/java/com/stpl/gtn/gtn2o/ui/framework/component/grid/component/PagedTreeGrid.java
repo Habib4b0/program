@@ -264,7 +264,7 @@ public class PagedTreeGrid {
 				if (expandedRowIds.contains(GridUtils.getNodeIndex(parent))) {
 
 					expandRow(parent, data, false);
-					if (GridUtils.getNodeIndex(parent) != 0 && GridUtils.getNodeIndex(parent) % pageLength != 0) {
+					if (GridUtils.getNodeIndex(parent) % pageLength != 0 && GridUtils.getNodeIndex(parent) != 0 ) {
 						grid.expand(parent);
 					}
 				}
