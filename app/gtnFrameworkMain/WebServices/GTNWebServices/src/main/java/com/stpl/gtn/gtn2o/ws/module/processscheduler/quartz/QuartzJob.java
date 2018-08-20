@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsProcessSchedulerUpdateService;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.SchedulerSynchronizer;
 
 public class QuartzJob implements Job {
-	
+
 	public QuartzJob() {
 		/*
 		 * no need to implement
@@ -21,11 +23,11 @@ public class QuartzJob implements Job {
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(QuartzJob.class);
 
 	public static final String AUTOMATIC_SCHEDULER = " Automatic Scheduler ";
-	
+
 	@Autowired
 	private GtnWsProcessSchedularServiceUtil gtnWsProcessSchedularServiceUtil;
-	
-	@Autowired 
+
+	@Autowired
 	private GtnWsProcessSchedulerUpdateService gtnWsProcessSchedulerUpdateService;
 
 	@Override
@@ -33,22 +35,44 @@ public class QuartzJob implements Job {
 
 		logger.info("Executing Quartz Job " + context.getJobDetail().getKey().getName());
 		Object profileObj = context.getJobDetail().getJobDataMap().get(QuartzListener.ACTION_JOB_DATA_MAP_KEY);
-		
+
 		if (profileObj instanceof WorkflowProfile) {
 			WorkflowProfile profile = (WorkflowProfile) profileObj;
-			
+			if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase(profile.getProcessName())) {
 				try {
+					SchedulerSynchronizer process = SchedulerSynchronizer.getInstance();
+					process.lock();
+					int i = 0;
+					gtnWsProcessSchedularServiceUtil.schedulerInsert();
 					gtnWsProcessSchedularServiceUtil.runJob(GtnWsProcessSchedularServiceUtil.getFtpBundleValue(), profile.getScriptName());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
+					gtnWsProcessSchedulerUpdateService.updateLastRun(profile.getProcessSid(), true);
+					while (gtnWsProcessSchedularServiceUtil.existsQuery(ProcessSchedulerConstant.NUMBER_ONE,
+							ProcessSchedulerConstant.NUMBER_ONE)) {
+						// Waiting block for ETL to end
+						Thread.sleep(ProcessSchedulerConstant.THREE_THOUSAND);
+						i++;
+						if (i == ProcessSchedulerConstant.HUNDRED) {
+							//logic.deleteTempCffOutbound(null, Boolean.TRUE);
+						}
+					}
+					process.unlock();
+				} catch (Exception ex) {
+					logger.error(ex.getMessage());
 				}
-			
-			try {
-				gtnWsProcessSchedulerUpdateService.updateLastRun(profile.getProcessSid(), true);
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-			}
+			} else {
+				try {
+					gtnWsProcessSchedularServiceUtil.runJob(GtnWsProcessSchedularServiceUtil.getFtpBundleValue(),
+							profile.getScriptName());
+				} catch (Exception e) {
+					logger.error("error while running job  "+e.getMessage());
+				}
 
+				try {
+					gtnWsProcessSchedulerUpdateService.updateLastRun(profile.getProcessSid(), true);
+				} catch (Exception e) {
+					logger.error("error while updating last run "+e.getMessage());
+				}
+			}
 		} else {
 			logger.info("Entering delete Job");
 			try {

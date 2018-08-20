@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
-import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.CffOutBoundTablefieldFactoryAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffOutBoundTablefieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
@@ -840,7 +840,7 @@ public class CffOutBoundLookUpConfig {
 			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig checkRecordAction = new GtnUIFrameWorkActionConfig();
 			checkRecordAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-			checkRecordAction.addActionParameter(CffOutBoundTablefieldFactoryAction.class.getName());
+			checkRecordAction.addActionParameter(GtnFrameworkCffOutBoundTablefieldFactoryAction.class.getName());
 			actionConfigList.add(checkRecordAction);
 			fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
 			

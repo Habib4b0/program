@@ -2,7 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.processscheduler.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
-import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.CffOutBoundTablefieldFactoryAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffOutBoundTablefieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
@@ -39,8 +39,8 @@ public class GtnUIFrameworkProcessSchedularDynamicClassFiller implements GtnUIDy
 				new GtnFrameworkDateFromToValidationAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkGenerateCffOutBoundAction.class.getName(),
 				new GtnFrameworkGenerateCffOutBoundAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(CffOutBoundTablefieldFactoryAction.class.getName(),
-				new CffOutBoundTablefieldFactoryAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCffOutBoundTablefieldFactoryAction.class.getName(),
+				new GtnFrameworkCffOutBoundTablefieldFactoryAction());
 
 	}
 

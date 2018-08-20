@@ -23,9 +23,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-public class CffOutBoundTablefieldFactoryAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkCffOutBoundTablefieldFactoryAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 	
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(CffOutBoundTablefieldFactoryAction.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkCffOutBoundTablefieldFactoryAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -69,41 +69,7 @@ public class CffOutBoundTablefieldFactoryAction implements GtnUIFrameWorkAction,
 						wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		gtnLogger.info(""+response.getGtnWsGeneralResponse().isSucess());
 		
-//		String typeString = GtnFrameworkIfpStringContants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())
-//				? Boolean.class.getName()
-//				: Integer.class.getName();
-//		String dataType = GtnFrameworkIfpStringContants.getDateFieldPropertiesList()
-//				.contains(actionParam.getPropertyId()) ? Date.class.getName() : typeString;
-//				
-//		if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())) {
-//			checkBoxValueChangeLogic();
-//		}
-		
-	}
 
-
-	private void checkBoxValueChangeLogic() throws GtnFrameworkValidationFailedException {
-		ExtCustomTable extCustomTable=GtnUIFrameworkGlobalUI
-		.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE).getExtCustomTable(); 
-		
-		List<GtnWsRecordBean> gtnWsRecordBean = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE).getItemsFromDataTable();
-		gtnLogger.info("---------------> properties: " + gtnWsRecordBean.size());
-//		gtnLogger.info("---------------> RecordHeader: " + gtnWsRecordBean.getRecordHeader());
-		/*String sessionId=GtnUIFrameworkGlobalUI.getCurrentSessionBean().getSessionId();
-		String userId = GtnUIFrameworkGlobalUI.getCurrentSessionBean().getUserId();
-		gtnLogger.info("userId: "+GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.USER_ID) );
-		gtnLogger.info("sessionId: "+GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID) );
-		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
-		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
-		
-		
-		gtnWsGeneralRequest.setUserId(userId);
-		gtnWsGeneralRequest.setSessionId(sessionId);
-		gtnWsGeneralRequest.setUserId("1");
-		gtnWsGeneralRequest.setSessionId("1");
-		wsRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);*/
-		
 		
 	}
 

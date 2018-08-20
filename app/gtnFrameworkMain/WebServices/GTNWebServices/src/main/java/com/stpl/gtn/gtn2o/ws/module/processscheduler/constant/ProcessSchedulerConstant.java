@@ -13,4 +13,7 @@ public class ProcessSchedulerConstant {
 	
 	public static final String ETL_CONFIGURATION_PROPERTY= "EtlConfiguration.properties";
 	public static final String SCRIPTS = "scripts";
+	public static final int THREE_THOUSAND = 3000;
+	public static final String NUMBER_ONE = "1";
+	public static final int HUNDRED = 100;
 }

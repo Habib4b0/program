@@ -89,6 +89,8 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final String CFF_APPROVAL_DATE_VALIDATION_MESSAGE = "CFF Approval To date cannot be after CFF Approval From date";
 	public static final String RS_MODEL_SID = "rsModelSid";
 	public static final String PERIOD_SID = "periodSid";
+	public static final String CFF_OUTBOUND_MANUAL_SUCCESS_MESSAGE = "Manual Process initiated successfully";
+	public static final String CFF_OUTBOUND_MANUAL_FAILURE_MESSAGE = "Manual Processing not Completed Successfully";
 	
 	
 	private GtnFrameworkProcessSchedulerStringContants() {

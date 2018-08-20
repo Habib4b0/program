@@ -1,7 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.module.processscheduler.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsPSCffOutBoundService;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -27,15 +26,18 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	
+	@Autowired
+	private GtnWsPSCffOutBoundService gtnWsPSCffOutBoundService;
 
 	@RequestMapping(value = GtnWsProcessScedulerConstants.UPDATE_CHECK_RECORD, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse getProcesMonitorTableData(
-			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerRequest) {
+	public GtnUIFrameworkWebserviceResponse updateCheckedRecordData(
+			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
 		logger.info("entered in update check record controller");
 
-		GtnCffOutBoundBean gtnCffOutBoundBean = processSchedulerRequest.getProcessSchedulerRequest()
+		GtnCffOutBoundBean gtnCffOutBoundBean = processSchedulerCffRequest.getProcessSchedulerRequest()
 				.getCffOutBoundBean();
-		GtnWsGeneralRequest gtnWsGeneralRequest = processSchedulerRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralRequest gtnWsGeneralRequest = processSchedulerCffRequest.getGtnWsGeneralRequest();
 
 		int booleanBit = gtnCffOutBoundBean.isCheckedRecord() ? 1 : 0;
 
@@ -58,5 +60,15 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 		processSchedulerResponse.setGtnWsGeneralResponse(generalResponse);
 		return processSchedulerResponse;
 
+	}
+	
+	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA)
+	public GtnUIFrameworkWebserviceResponse generateCffOutBound(@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
+		boolean isSuccess = gtnWsPSCffOutBoundService.cffOutBoundService(processSchedulerCffRequest);
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		GtnUIFrameworkWebserviceResponse processSchedulerResponse = new GtnUIFrameworkWebserviceResponse();
+		generalResponse.setSucess(isSuccess);
+		processSchedulerResponse.setGtnWsGeneralResponse(generalResponse);
+		return processSchedulerResponse;
 	}
 }
