@@ -3852,9 +3852,9 @@ public class SalesLogic {
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
-        if (amountA == 0.0 && amountB == 0.0) {
+        if (amountA == 0.0d && amountB == 0.0d) {
             amount = 0.0;
-        } else if (amountA != 0.0 && amountB != 0.0) {
+        } else if (amountA != 0.0d && amountB != 0.0d) {
             amount = (amountA / amountB) * amount;
         }
         return amount;
