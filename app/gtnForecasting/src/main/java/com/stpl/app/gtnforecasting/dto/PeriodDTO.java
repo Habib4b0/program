@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 public class PeriodDTO {
 
     private Integer projectionId = 0;
-    private Integer rowId = new Integer(0);
+    private Integer rowId = 0;
     private Integer ccpId = new Integer(0);
     private String level = StringUtils.EMPTY;
     private String LevelName = StringUtils.EMPTY;
@@ -36,7 +36,7 @@ public class PeriodDTO {
     private String year = StringUtils.EMPTY;
     private String semiYear = StringUtils.EMPTY;
     private String quator = StringUtils.EMPTY;
-    private Integer month = new Integer(Constant.DASH);
+    private Integer month = Integer.valueOf(Constant.DASH);
     private String sales = "0.0";
     private String units = "0.0";
     private Integer salesId = new Integer(Constant.DASH);

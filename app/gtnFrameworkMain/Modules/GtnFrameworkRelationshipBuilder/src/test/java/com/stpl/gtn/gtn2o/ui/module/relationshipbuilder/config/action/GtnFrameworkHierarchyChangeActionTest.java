@@ -65,6 +65,35 @@ public class GtnFrameworkHierarchyChangeActionTest {
         assertEquals(result,instance);
     }
 
+//    /**
+//     * Test of doAction method, of class GtnFrameworkHierarchyChangeAction.
+//     */
+//    @Test
+//    public void testDoAction() throws Exception {
+//        System.out.println("doAction");
+//        String componentId = "";
+//        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
+//        GtnFrameworkHierarchyChangeAction instance = new GtnFrameworkHierarchyChangeAction();
+//        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of getVersion method, of class GtnFrameworkHierarchyChangeAction.
+//     */
+//    @Test
+//    public void testGetVersion() {
+//        System.out.println("getVersion");
+//        int hierarchySid = 0;
+//        GtnFrameworkHierarchyChangeAction instance = new GtnFrameworkHierarchyChangeAction();
+//        List<Integer> expResult = null;
+//        List<Integer> result = instance.getVersion(hierarchySid);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+
 
   
     

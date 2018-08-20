@@ -69,7 +69,7 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 
 			callWebService(processSchedulerBean, componentId);
 
-		} else if (/*check() &&*/ hourAndMinValidation()) {
+		} else if (hourAndMinValidation()) {
 			
 			getFieldValuesForActive(processSchedulerBean);
 
@@ -284,21 +284,21 @@ public class GtnFrameworkUpdateProcessAction implements GtnUIFrameWorkAction, Gt
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.END_DATE_ID)
 				.loadV8DateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.STATUS_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID)
-				.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+				.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.SCHEDULER_RESULTS_TABLE)
