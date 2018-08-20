@@ -209,14 +209,14 @@ public class GtnFrameworkContractDashboardProcessConfig {
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		List<GtnUIFrameworkTabConfig> tabConfigList = new ArrayList<>();
-		addProcessTab(namspacePrefix, tabConfigList);
+		addProcessTab(tabConfigList, namspacePrefix);
 
 		componentConfig.setGtnTabSheetConfigList(tabConfigList);
 
 		componentList.add(componentConfig);
 	}
 
-	private void addProcessTab(String namspacePrefix, List<GtnUIFrameworkTabConfig> tabConfigList) {
+	private void addProcessTab(List<GtnUIFrameworkTabConfig> tabConfigList,String namspacePrefix) {
 		tabConfigList.add(new GtnFrameworkContractDashboardInfomationTabConfig().getTabConfig(namspacePrefix));
 		tabConfigList.add(new GtnFrameworkContractDashboardAliasTabConfig().getTabConfig(namspacePrefix));
 		tabConfigList.add(new GtnFrameworkContractDashboardCompanyAdditionTabConfig().getTabConfig(namspacePrefix));

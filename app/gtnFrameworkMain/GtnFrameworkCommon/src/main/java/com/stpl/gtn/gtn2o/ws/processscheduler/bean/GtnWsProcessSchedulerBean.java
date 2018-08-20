@@ -15,7 +15,7 @@ public class GtnWsProcessSchedulerBean implements Serializable {
 	}
 
 	private String psProcessName;
-	private String psProcessType;
+	private String psProcessFrequency;
 	private String psCalender;
 	private Date psStartDate;
 	private Date psEndDate;
@@ -29,6 +29,42 @@ public class GtnWsProcessSchedulerBean implements Serializable {
 	private String psMinutes3;
 	private int processSchedulerSid;
 	private String psSchemaName;
+	private String startHour;
+	private String startMinute;
+	private boolean isActiveFlag;
+	private String psStatus;
+
+	public String getPsStatus() {
+		return psStatus;
+	}
+
+	public void setPsStatus(String psStatus) {
+		this.psStatus = psStatus;
+	}
+
+	public String getStartHour() {
+		return startHour;
+	}
+
+	public void setStartHour(String startHour) {
+		this.startHour = startHour;
+	}
+
+	public String getStartMinute() {
+		return startMinute;
+	}
+
+	public void setStartMinute(String startMinute) {
+		this.startMinute = startMinute;
+	}
+
+	public boolean isActiveFlag() {
+		return isActiveFlag;
+	}
+
+	public void setActiveFlag(boolean isActiveFlag) {
+		this.isActiveFlag = isActiveFlag;
+	}
 
 	public String getPsProcessName() {
 		return psProcessName;
@@ -38,12 +74,12 @@ public class GtnWsProcessSchedulerBean implements Serializable {
 		this.psProcessName = psProcessName;
 	}
 
-	public String getPsProcessType() {
-		return psProcessType;
+	public String getPsProcessFrequency() {
+		return psProcessFrequency;
 	}
 
-	public void setPsProcessType(String psProcessType) {
-		this.psProcessType = psProcessType;
+	public void setPsProcessFrequency(String psProcessFrequency) {
+		this.psProcessFrequency = psProcessFrequency;
 	}
 
 	public String getPsCalender() {

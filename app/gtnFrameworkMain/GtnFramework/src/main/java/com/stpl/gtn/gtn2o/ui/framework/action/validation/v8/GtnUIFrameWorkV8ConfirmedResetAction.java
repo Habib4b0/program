@@ -102,6 +102,8 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 				else{
 					baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
 				}
+			} else if (baseComponent.getComponent() instanceof DateField) {
+				baseComponent.loadV8DateValue(value);
 			}
 
 		} catch (Exception typeException) {
