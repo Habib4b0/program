@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.hierarchyandrelationship.service;
+package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service;
 
 import java.util.List;
 
@@ -13,18 +13,18 @@ import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse
 import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.ws.hierarchyandrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService;
+import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
-public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImplClass {
+public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplClass {
 
 	@Autowired
 	private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
 
 	@PostConstruct
 	private void initializeLogger() {
-		super.logInformation(GtnWsHierarchyAndRelationshipService.class);
+		super.logInformation(GtnWsRelationshipLevelValueService.class);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		GtnQueryEngineWebServiceRequest queryEngineRequest = new GtnQueryEngineWebServiceRequest();
 		queryEngineRequest.setQueryExecutorBean(queryExecutorBean);
 
-		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsHierarchyAndRelationshipService();
+		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
 
 		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
 				queryEngineRequest);

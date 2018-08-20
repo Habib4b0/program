@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.hierarchyandrelationship.sqlservice;
+package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice;
 
 import java.io.IOException;
 import java.util.Optional;
