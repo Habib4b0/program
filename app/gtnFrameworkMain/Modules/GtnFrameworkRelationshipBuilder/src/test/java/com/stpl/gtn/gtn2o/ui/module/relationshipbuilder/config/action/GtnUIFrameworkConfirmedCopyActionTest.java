@@ -12,7 +12,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.vaadin.ui.TextField;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -27,10 +26,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.when;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -106,6 +101,11 @@ public class GtnUIFrameworkConfirmedCopyActionTest {
          
         GtnUIFrameworkConfirmedCopyAction instance = new GtnUIFrameworkConfirmedCopyAction();
         gtnUIFrameWorkActionConfig.setActionParameterList(IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList()));
+        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+        
+        //case 2
+        when(object.getValueFromComponent()).thenReturn(null);
+        when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
         instance.doAction(componentId, gtnUIFrameWorkActionConfig);
     }
 }

@@ -63,7 +63,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		GtnUIFrameworkComponentConfig processSchedularRootLayout = new GtnUIFrameworkComponentConfig();
 		processSchedularRootLayout.setComponentId(GtnFrameworkProcessSchedulerStringContants.ROOT_LAYOUT);
 		processSchedularRootLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		processSchedularRootLayout.setAddToParent(false);
+		processSchedularRootLayout.setAddToParent(GtnFrameworkProcessSchedulerStringContants.FALSE);
 		processSchedularRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		processSchedularRootLayout.setSpacing(true);
 		processSchedularRootLayout.setMargin(true);
@@ -419,13 +419,12 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		frequencyOptionGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
 		frequencyOptionGroup.setComponentId(GtnFrameworkProcessSchedulerStringContants.FREQUENCY_ID);
 		frequencyOptionGroup.setComponentName("Frequency:");
-		frequencyOptionGroup.setAddToParent(Boolean.TRUE);
+		frequencyOptionGroup.setAddToParent(true);
 		frequencyOptionGroup.setParentComponentId(fequencyLayout.getComponentId());
 
 		GtnUIFrameworkOptionGroupConfig frequencyOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		frequencyOptionGroupConfig.setItemValues(Arrays.asList("Interval", "Time"));
-		frequencyOptionGroupConfig.setValuesFromService(Boolean.FALSE);
-		frequencyOptionGroupConfig.setEnable(Boolean.TRUE);
+		frequencyOptionGroupConfig.setValuesFromService(false);
 		frequencyOptionGroupConfig.setIsMultiSelect(false);
 		frequencyOptionGroupConfig.setDefaultSelection("Interval");
 		frequencyOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE,

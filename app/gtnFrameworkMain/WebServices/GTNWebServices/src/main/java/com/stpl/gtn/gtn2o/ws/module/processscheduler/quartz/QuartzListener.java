@@ -79,8 +79,8 @@ public class QuartzListener {
 				}
 
 				deleteSchedule();
-
 				printJobList();
+				
 			}
 			else {
 				logger.info("no workflowprofile data found");
@@ -107,7 +107,7 @@ public class QuartzListener {
 		return workFlowProfileList;
 	}
 
-	public void createJob(WorkflowProfile profile) {
+	public synchronized void createJob(WorkflowProfile profile) {
 		logger.info(" executing create job method---------");
 		try {
 			if (!"Y".equals(String.valueOf(profile.getActiveFlag()))) {
@@ -151,7 +151,7 @@ public class QuartzListener {
 
 	}
 
-	private void getTriggeredElse(WorkflowProfile profile, int i, String cronString) {
+	private synchronized void getTriggeredElse(WorkflowProfile profile, int i, String cronString) {
 		try {
 			Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
 					.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
@@ -162,7 +162,7 @@ public class QuartzListener {
 		}
 	}
 
-	private int getTriggeredIf(WorkflowProfile profile, JobDetail job, int i, String cronString) {
+	private synchronized int getTriggeredIf(WorkflowProfile profile, JobDetail job, int i, String cronString) {
 		int j=i;
 		try {
 			Trigger trigger = getTriggerBuilderWithDate(profile, j + 1)
@@ -307,14 +307,14 @@ public class QuartzListener {
 
 	public static Date getStartDate(Date inputDate) {
 		Date current = new Date();
-		if (inputDate.after(current) || inputDate.equals(current)) {
+		if (inputDate.compareTo( current ) >= 0) {
 			return inputDate;
 		}
 		return DateBuilder.futureDate(1, IntervalUnit.MINUTE);
 
 	}
 
-	public void deleteSchedule() {
+	public synchronized void deleteSchedule() {
 		try {
 			String time = "5hrs26";
 			logger.info("time= " + time);
@@ -335,8 +335,8 @@ public class QuartzListener {
 			logger.error(e.getMessage());
 		}
 	}
-
-	public void printJobList() {
+	
+	public synchronized void printJobList() {
 		StringBuilder printStr = new StringBuilder("--Start Printing Jobs--\n");
 
 		try {

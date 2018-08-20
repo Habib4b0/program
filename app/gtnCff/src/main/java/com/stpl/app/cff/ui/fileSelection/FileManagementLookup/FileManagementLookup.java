@@ -3902,7 +3902,7 @@ public class FileManagementLookup extends Window {
 	 * To configure Excel Details Results Table
 	 */
 	private String[] configureExcelDetailsTableBCP() {
-		String[] bcpHeader;
+		String[] bcpHeader = new String[1];
 		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 			bcpHeader = CommonUIUtil.getFileMgmtLookupDetailsHeaderExcelList();
 		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
@@ -3916,7 +3916,7 @@ public class FileManagementLookup extends Window {
 		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
 			bcpHeader = CommonUIUtil.getFileMgmtLookupCusHeaderList();
 		} else {
-			bcpHeader = new String[1];
+			return bcpHeader;
 		}
 		return bcpHeader;
 	}
