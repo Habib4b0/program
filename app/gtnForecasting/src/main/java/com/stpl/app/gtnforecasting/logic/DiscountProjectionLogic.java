@@ -82,8 +82,7 @@ public class DiscountProjectionLogic {
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private final QueryUtils utils = new QueryUtils();
     private String baselinePeriods = "";
-    private String selectedPeriods = "";
-
+    
     /**
      * To load Discount Programs in discount selection lookup
      *
@@ -508,7 +507,8 @@ public class DiscountProjectionLogic {
     public boolean adjustmentDataUpdate(String frequency, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
         List<String> baselinePeriodsList;
         List<String> selectedPeriodsList;
-        String baselineIndicator = "";
+        String baselineIndicator;
+        String selectedPeriods;
 
         if ("Historical % of Business".equals(allocationMethodology)) {
             baselineIndicator = "H";
