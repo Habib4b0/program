@@ -15187,8 +15187,6 @@ div.v-layout.v-horizontal.v-widget {
 	margin-top: -45px;
 }
 
-
-
 .stpl .v-report-width-200 {
 	width: 200px !important;
 }
@@ -15196,7 +15194,6 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-report-width-170 {
 	width: 170px !important;
 }
-
 
 .stpl .v-report-data-assumption-excel {
 	margin-left: 16px !important;
@@ -15217,6 +15214,14 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-report-margin--5 {
 	margin-right: -15px !important;
+}
+
+.stpl .v-report-filter-option-combo-width {
+	width: 150px !important;
+}
+
+.stpl .v-report-filter-option-customer-filter {
+	margin-left: 26px !important;
 }
 
 .v-slot, .v-spacing {
@@ -15240,36 +15245,4 @@ div.v-layout.v-horizontal.v-widget {
 
 .v-margin-bottom1 {
 	padding-bottom: 0px !important;
-}
-
-.stpl .v-ps-businessname-type-left-margin {
-	margin-left: 43px !important;
-}
-
-.stpl .v-ps-contractno-margin-left {
-	margin-left: 46px !important;
-}
-
-.stpl .v-ps-itemname-margin-left {
-	margin-left: 3px !important;
-}
-
-.stpl .v-ps-itemno-margin-left {
-	margin-left: 27px !important;
-}
-
-.stpl .v-ps-cffidname-margin-left {
-	margin-left: 42px !important;
-}
-
-.stpl .v-ps-projnameid-margin-left {
-	margin-left: 44px !important;
-}
-
-.stpl .v-ps-cffcdt-margin-left {
-	margin-left: 20px !important;
-}
-
-.stpl .v-ps-customernameno-contractname-margin-left {
-	margin-left: 28px;
 }
