@@ -37,7 +37,7 @@ public class SalesRowDto extends ExtMapDTO {
     private String hierarchyType=EMPTY_STRING;
     
     private String parentHierarchyType=EMPTY_STRING;
-    private Integer uncheckCount=new Integer("0");
+    private Integer uncheckCount= Integer.valueOf("0");
     private Integer parent = 0;
     private String parentLevelIndicator = StringUtils.EMPTY;
     private String levelIndicator = StringUtils.EMPTY;
