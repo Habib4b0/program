@@ -16,14 +16,14 @@ public class PeriodDTO {
 
     private Integer projectionId = 0;
     private Integer rowId = 0;
-    private Integer ccpId = new Integer(0);
+    private Integer ccpId = 0;
     private String level = StringUtils.EMPTY;
     private String LevelName = StringUtils.EMPTY;
-    private Integer levelNo = new Integer(0);
+    private Integer levelNo = 0;
     private String key = StringUtils.EMPTY;
     private String LevelValues = StringUtils.EMPTY;
     private String HierarchyLevel = StringUtils.EMPTY;
-    private Integer actualsOrProj = new Integer(0);
+    private Integer actualsOrProj = 0;
     private String accountGrowth = "0.0";
     private String productGrowth = "0.0";
     private String actualSales = "0.0";
@@ -39,20 +39,20 @@ public class PeriodDTO {
     private Integer month = Integer.valueOf(Constant.DASH);
     private String sales = "0.0";
     private String units = "0.0";
-    private Integer salesId = new Integer(Constant.DASH);
+    private Integer salesId = Integer.valueOf(Constant.DASH);
     private String customer = StringUtils.EMPTY;
     private String product = StringUtils.EMPTY;
     private String contract = StringUtils.EMPTY;
-    private Integer rowCount = new Integer(Constant.DASH);
+    private Integer rowCount = Integer.valueOf(Constant.DASH);
     private String BaseLine = StringUtils.EMPTY;
     private String userGroup = StringUtils.EMPTY;
     private String methodologyUsed = StringUtils.EMPTY;
     private String hierarchyNo = Constant.PERCENT;
-    private Integer checkUncheckRec = new Integer(0);
+    private Integer checkUncheckRec = 0;
     private Double lives = 0.0;
-    private Integer relationshipLevelSid = new Integer(0);
-    private Integer uncheckCount = new Integer(Constant.DASH);
-    private Integer ccpCount = new Integer(Constant.DASH);
+    private Integer relationshipLevelSid = 0;
+    private Integer uncheckCount = Integer.valueOf(Constant.DASH);
+    private Integer ccpCount = Integer.valueOf(Constant.DASH);
 
     public Integer getActualsOrProj() {
         return actualsOrProj;
