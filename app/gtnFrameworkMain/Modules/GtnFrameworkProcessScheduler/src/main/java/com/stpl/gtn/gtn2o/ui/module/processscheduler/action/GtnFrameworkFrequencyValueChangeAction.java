@@ -38,15 +38,15 @@ public class GtnFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkAct
 			
 		}
 		if("Time".equals(value)) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN1_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN2_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN3_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES1_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES3_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		}else {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.RUN_EVERY_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID).loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		}
 	}
 
