@@ -17,9 +17,9 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Theme("stpl")
 @Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=ProcessScheduler",
-        "javax.portlet.name=ProcessScheduler",
-        "javax.portlet.display-name=ProcessScheduler",
+        "com.liferay.portlet.display-category=ProcessSchedulerNew",
+        "javax.portlet.name=ProcessSchedulerNew",
+        "javax.portlet.display-name=ProcessSchedulerNew",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkProcessScheduler extends UI {
 
@@ -29,7 +29,9 @@ public class GtnFrameworkProcessScheduler extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		gtnLogger.info("User Id.................." + request.getRemoteUser());
+		gtnLogger.info("Process Schedular -----new");
+		gtnLogger.info("  User Id.................." + request.getRemoteUser());
+		
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP);
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP_BB);
 		final Navigator navigator = new Navigator(this, this);

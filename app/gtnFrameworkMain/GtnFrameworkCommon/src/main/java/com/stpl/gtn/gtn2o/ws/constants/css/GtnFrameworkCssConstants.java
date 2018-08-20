@@ -120,6 +120,9 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_MARGIN_LEFT_10 = "stpl-margin-left-10";
 	public static final String STPL_MARGIN_LEFT_40 = "stpl-margin-left-40";
 	public static final String STPL_MARGIN_TOP_100 = "stpl-margin-top-100";
+	public static final String STPL_LEFT_CAPTION_100 = "stpl-left-caption-100";
+	public static final String STPL_TEXT_ALIGN_LEFT = "stpl-text-align--left";
+
 	private GtnFrameworkCssConstants() {
 		super();
 	}

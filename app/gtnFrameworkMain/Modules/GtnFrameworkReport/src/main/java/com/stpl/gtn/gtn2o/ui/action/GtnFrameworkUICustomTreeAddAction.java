@@ -85,7 +85,11 @@ public class GtnFrameworkUICustomTreeAddAction
 		if (parentBean == null) {
 			beanTobeAdded.addAdditionalProperty(1);
 		} else {
-			beanTobeAdded.addAdditionalProperty(parentBean.getAdditionalIntegerPropertyByIndex(0) + 1);
+			if (beanTobeAdded.getAdditionalProperties() == null || beanTobeAdded.getAdditionalProperties().isEmpty()) {
+				beanTobeAdded.addAdditionalProperty(parentBean.getAdditionalIntegerPropertyByIndex(0) + 1);
+				return;
+			}
+			beanTobeAdded.addAdditionalProperties(0, parentBean.getAdditionalIntegerPropertyByIndex(0) + 1);
 		}
 	}
 

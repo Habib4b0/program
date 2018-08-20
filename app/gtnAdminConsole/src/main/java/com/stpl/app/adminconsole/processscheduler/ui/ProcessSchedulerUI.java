@@ -52,7 +52,7 @@ public class ProcessSchedulerUI extends UI {
     @Override
     public void init(final VaadinRequest request) {
         try {
-            LOGGER.info("inside init company");
+            LOGGER.info("inside init company : Process schedular");
             setId("ProcessScheduler");
             addStyleName("bootstrap");
 
