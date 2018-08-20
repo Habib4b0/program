@@ -655,7 +655,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 
 		deductionFilterLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		// deductionFilterLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		deductionFilterConfig.setGtnCheckedComboboxConfig(deductionFilterLoadConfig);
 	}
 
@@ -698,7 +697,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 
 		productFilterLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		// productFilterLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		productFilterConfig.setGtnCheckedComboboxConfig(productFilterLoadConfig);
 	}
 
@@ -740,7 +738,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		customerFilterConfig.setReloadLogicActionClassName(GtnReportFilterReloadAction.class.getName());
 
 		customerFilterLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		// customerFilterLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		customerFilterConfig.setGtnCheckedComboboxConfig(customerFilterLoadConfig);
 		componentList.add(customerFilterConfig);
 
