@@ -42,4 +42,6 @@ public class GtnWsProcessScedulerConstants {
 
 	public static final String GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA = "/cffGenerateService";
 
+	public static final String UPDATE_CHECK_RECORD = "/updateCheckRecord";
+
 }

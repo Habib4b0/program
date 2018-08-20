@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.CffOutBoundTablefieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
@@ -801,6 +802,10 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID, "financialForecastCreationDate",
 				"financialForecastApprovalDate", "outboundStatus", "originalBatchId" });
+		
+		cffOutboundSearchResults.setExtraColumn(new Object[] { GtnFrameworkProcessSchedulerStringContants.RS_MODEL_SID,
+				GtnFrameworkProcessSchedulerStringContants.PERIOD_SID });
+		cffOutboundSearchResults.setExtraColumnDataType(new Class[] {String.class, String.class}  );
 
 		 cffOutboundSearchResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		 cffOutboundSearchResults.setEditableColumnList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
@@ -825,12 +830,20 @@ public class CffOutBoundLookUpConfig {
 		for (String propertyId : editableColumnList) {
 			GtnUIFrameworkComponentConfig fieldConfig = new GtnUIFrameworkComponentConfig();
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.COMBOBOX;
-			 if ("checkRecordId".equals(propertyId)) {
+			 if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(propertyId)) {
 				gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.CHECKBOX;
 				gtnLogger.info("found checked box id");
 			} 
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
 			fieldConfig.setEnable(true);
+			
+			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+			GtnUIFrameWorkActionConfig checkRecordAction = new GtnUIFrameWorkActionConfig();
+			checkRecordAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			checkRecordAction.addActionParameter(CffOutBoundTablefieldFactoryAction.class.getName());
+			actionConfigList.add(checkRecordAction);
+			fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
+			
 			editableFields.add(fieldConfig);
 		}
 		return editableFields;

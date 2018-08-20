@@ -129,6 +129,9 @@ public class GtnWebServiceCffOutBoundSearchConfig implements GtnWsSearchQueryCon
 			cffColumnDetailsMap.put("originalBatchId", configProvider.getColumnStringConfig("ORIGINAL_BATCH_ID", ""));
 			
 			cffColumnDetailsMap.put("checkRecordId", configProvider.getColumnBooleanConfig("CHECK_RECORD", GtnWsCffQueryConstants.ST));
+			
+			cffColumnDetailsMap.put("rsModelSid", configProvider.getColumnStringConfig("RS_MODEL_SID",GtnWsCffQueryConstants.ST));
+			cffColumnDetailsMap.put("periodSid", configProvider.getColumnStringConfig("PERIOD_SID", GtnWsCffQueryConstants.ST));
 						
 			cffColumnDetailsMap.put("sessionId", configProvider.getColumnStringConfig("SESSION_ID", GtnWsCffQueryConstants.ST));
 			cffColumnDetailsMap.put("userId", configProvider.getColumnStringConfig("USER_ID", GtnWsCffQueryConstants.ST));

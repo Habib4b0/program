@@ -25,5 +25,5 @@ public class GtnWsCffQueryConstants {
 	
 	public static final String CFFOM = "CFFOM";
 	public static final String ST = "ST";
-
+	
 }
