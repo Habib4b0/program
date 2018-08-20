@@ -48,18 +48,13 @@ public class GtnUIFrameworkEditButtonAction implements GtnUIFrameWorkAction, Gtn
 				return;
 			}
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
-			GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-            navigationActionConfig.addActionParameter(parameters.get(20).toString());
-			GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
-					.getGtnUIFrameWorkAction();
-			navigationAction.configureParams(navigationActionConfig);
-			navigationAction.doAction(componentId, navigationActionConfig);
+                        executeNavigationAction(parameters, componentId);
 			GtnWsRecordBean relationshipBean = (GtnWsRecordBean) value;
 			int index = (Integer) parameters.get(2);
 			int versionNo = relationshipBean.getIntegerPropertyByIndex(index + 3);
 			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(3).toString(), versionNo);
-			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(4).toString(), relationshipBean);
-            GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.EDIT));
+	 		GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(4).toString(), relationshipBean);
+                     GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.EDIT));
 			GtnUIFrameWorkAction logicAction = new GtnUIFrameworkViewButtonAction();
 			logicAction.configureParams(gtnUIFrameWorkActionConfig);
 			logicAction.doAction(componentId, gtnUIFrameWorkActionConfig);
@@ -68,6 +63,15 @@ public class GtnUIFrameworkEditButtonAction implements GtnUIFrameWorkAction, Gtn
 			gtnLogger.error("Exception in GtnUIFrameworkEditButtonAction", e);
 		}
 	}
+
+     public void executeNavigationAction(List<Object> parameters, String componentId) throws GtnFrameworkGeneralException {
+        GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
+        navigationActionConfig.addActionParameter(parameters.get(20).toString());
+        GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
+                .getGtnUIFrameWorkAction();
+        navigationAction.configureParams(navigationActionConfig);
+        navigationAction.doAction(componentId, navigationActionConfig);
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
