@@ -18,6 +18,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,8 +214,8 @@ public class HeaderGeneratorService {
 		try {
 			LocalDate startDate = parseDate(dashboardBean.getPeriodStart(), dashboardBean.getSelectFreqString());
 			LocalDate endDate = parseDate(dashboardBean.getPeriodTo(), dashboardBean.getSelectFreqString());
-			LinkedHashSet<String> dateString = new LinkedHashSet<>();
-			LinkedHashSet<String> dateheaderColumnId = new LinkedHashSet<>();
+			Set<String> dateString = new LinkedHashSet<>();
+			Set<String> dateheaderColumnId = new LinkedHashSet<>();
 			for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusMonths(1)) {
 				getFormat(dateheaderColumnId, dateString, dashboardBean.getSelectFreqString(), date);
 
@@ -228,25 +230,38 @@ public class HeaderGeneratorService {
                         }
                         
 			if (!dashboardBean.getSelectFreqString().equals("Annual")) {
-				Iterator<String> it = dateheaderColumnId.iterator();
-				String prevoius = null;
+				List<String> listForIteration = new ArrayList<>(headerId);
+				Iterator<String> it = listForIteration.iterator();
+				String frequency = dashboardBean.getSelectFreqString();
 				int added = 0;
+				String year = "";
 				for (int i = 0; i < dateheaderColumnId.size(); i++) {
-					String year = it.next().substring(1);
-					if (prevoius != null) {
-						if (!prevoius.equals(year)) {
-							int index = i + added++;
-							if (index != headerId.size()) {
-								headerId.add(index, prevoius + "Total");
-								headers.add(index, prevoius + " Total");
-							} else {
-								headerId.add(prevoius + "Total");
-								headers.add(prevoius + " Total");
-							}
+					String id = it.next();
+					year = id.substring(1);
+					Pattern p = Pattern.compile("[0-9]{6}");
+					Matcher m = p.matcher(id);
+					if (m.matches()) {
+						year = id.substring(2);
+					}
+
+					if ((frequency.startsWith("Q") && (Integer.parseInt(id.substring(0, 1))) % 4 == 0)
+							|| (frequency.startsWith("S") && (Integer.parseInt(id.substring(0, 1))) % 2 == 0)
+							|| (frequency.startsWith("M") && (id.length() == 6)
+									&& (Integer.parseInt(id.substring(0, 2))) % 12 == 0)) {
+						int index = i + ++added;
+						if (index != headerId.size()) {
+							headerId.add(index, year + "Total");
+							headers.add(index, year + " Total");
+						} else {
+							headerId.add(year + "Total");
+							headers.add(year + " Total");
 						}
 					}
-					prevoius = year;
+
 				}
+				headerId.add(year + "Total");
+				headers.add(year + " Total");
+				
 			}
 			return Arrays.asList(headers.stream().distinct().collect(Collectors.toList()),
 					headerId.stream().distinct().collect(Collectors.toList()));

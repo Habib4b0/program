@@ -11,18 +11,26 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
+import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.ComboBox;
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.doNothing;
 import org.powermock.api.mockito.PowerMockito;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.when;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -83,10 +91,14 @@ public class GtnUIFrameworkAddButtonActionTest {
         GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
         Constructor cons= (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
         cons.setAccessible(true);
-        GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(null,null);
+        GtnUIFrameworkBaseComponent object= (GtnUIFrameworkBaseComponent) cons.newInstance(new ComboBox(),null);
         when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
-        GtnUIFrameworkAddButtonAction instance = new GtnUIFrameworkAddButtonAction();
-        gtnUIFrameWorkActionConfig.setActionParameterList(IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList()));
+       
+        GtnUIFrameworkAddButtonAction instance = Mockito.spy(new GtnUIFrameworkAddButtonAction());
+        
+        List<Object> parameters=IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList());
+        gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
+         doNothing().when(instance).executeNavigationAction(parameters, componentId);
         instance.doAction(componentId, gtnUIFrameWorkActionConfig);
     }
     

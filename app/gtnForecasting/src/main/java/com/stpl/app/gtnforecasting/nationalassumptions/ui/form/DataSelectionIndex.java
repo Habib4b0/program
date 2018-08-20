@@ -369,7 +369,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
         modeOption.setImmediate(true);
         modeOption.addItem(Constant.ADD_SMALL);
-        modeOption.addItem(Constants.LabelConstants.MODE_SEARCH);
+        modeOption.addItem(Constants.LabelConstants.MODE_SEARCH.getConstant());
         modeOption.select(Constant.ADD_SMALL);
 
         resultTable.setColumnAlignment(CommonUiUtils.getVisibleSearchColumn()[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
