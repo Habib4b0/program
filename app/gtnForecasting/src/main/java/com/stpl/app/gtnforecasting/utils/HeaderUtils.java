@@ -1207,8 +1207,6 @@ public class HeaderUtils {
             List<Object> tmapExcel = new ArrayList<>();
             
                 String discountColumnName = discountProperties.get(l);
-                List<Object> tmap = new ArrayList<>();
-                List<Object> tmapExcel = new ArrayList<>();
 
 
                 for (int i = 0; i < columnsList.size(); i++) {
