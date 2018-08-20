@@ -1331,14 +1331,13 @@ public class PVExcelLogic {
     private Map<String, String> getGroupCustomViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, String> customViewMap = new HashMap<>();
-        Set keys = relationshipLevelDetailsMap.keySet();
-
-        for (Iterator i = keys.iterator(); i.hasNext();) {
-            String key = (String) i.next();
-            Map<Object, Object> dataMap = new HashMap<>();
+        Map<Object, Object> dataMap = new HashMap<>();
+        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+            String key = entry.getKey();
+            dataMap.clear();
             dataMap.put(DISPLAY_FORMAT, selection.getDisplayFormat());
             dataMap.put(EXCEL_FLAG, Boolean.TRUE);
-            String value = CommonUtils.getDisplayFormattedName(key, relationshipLevelDetailsMap.get(key).get(4).toString(), relationshipLevelDetailsMap, selection.getSessionDTO(), dataMap);
+            String value = CommonUtils.getDisplayFormattedName(key, entry.getValue().get(4).toString(), relationshipLevelDetailsMap, selection.getSessionDTO(), dataMap);
             customViewMap.put(key, value);
         }
         return customViewMap;
