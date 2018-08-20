@@ -424,7 +424,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 
 		GtnUIFrameworkOptionGroupConfig frequencyOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		frequencyOptionGroupConfig.setItemValues(Arrays.asList("Interval", "Time"));
-		frequencyOptionGroupConfig.setValuesFromService(Boolean.FALSE);
+		frequencyOptionGroupConfig.setValuesFromService(false);
 		frequencyOptionGroupConfig.setIsMultiSelect(false);
 		frequencyOptionGroupConfig.setDefaultSelection("Interval");
 		frequencyOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE,
