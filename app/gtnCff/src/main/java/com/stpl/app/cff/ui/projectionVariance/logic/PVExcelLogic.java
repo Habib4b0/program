@@ -2073,7 +2073,6 @@ public class PVExcelLogic {
             }
         }
         List<Integer> vPriorList = new ArrayList<>(pvsdto.getProjIdList());
-        if (obj != null) {
             obj = dataObj;
             String commonColumn = StringUtils.EMPTY;
             if (vFrequencyDiv == NumericConstants.FOUR) {
@@ -2090,7 +2089,6 @@ public class PVExcelLogic {
             for (int j = 0; j < vPriorList.size(); j++) {
                 PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn, totalListPostion, j, groupName.contains("%"), COLUMN_COUNT_TOTAL, format);
             }
-        }
         return pvDTO;
     }
 
