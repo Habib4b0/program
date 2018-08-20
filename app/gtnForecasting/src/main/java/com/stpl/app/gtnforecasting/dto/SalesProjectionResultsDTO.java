@@ -29,7 +29,7 @@ public class SalesProjectionResultsDTO extends ExtMapDTO implements Comparator<S
     private String customer = StringUtils.EMPTY;
     private String contract = StringUtils.EMPTY;
     private String product = StringUtils.EMPTY;
-    private Integer levelNo = new Integer(Constant.DASH);
+    private Integer levelNo = Integer.valueOf(Constant.DASH);
     private String levelValue = StringUtils.EMPTY;
     private String frequency = StringUtils.EMPTY;
     private String history = StringUtils.EMPTY;
