@@ -367,6 +367,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		toPeriod.setComponentName("To ");
 		toPeriod.setAddToParent(Boolean.TRUE);
 		toPeriod.setParentComponentId(nameSpace + "_" + "toPeriodLayout");
+		toPeriod.setEnable(false);
 
 		GtnUIFrameworkComboBoxConfig toPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 		toPeriodConfig.setItemCaptionValues(new ArrayList<>());

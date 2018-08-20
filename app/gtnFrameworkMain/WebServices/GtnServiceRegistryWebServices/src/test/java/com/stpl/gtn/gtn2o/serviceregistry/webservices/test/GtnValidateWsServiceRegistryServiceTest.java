@@ -29,7 +29,6 @@ public class GtnValidateWsServiceRegistryServiceTest {
 		serviceRegistryBean.setRegisteredWebContext("/gtnServiceRegistry");
 		
 		boolean isRegistered = gtnValidateWsServiceRegistryServiceTest.serviceRegistryServiceToValidateWsIsRegistered(serviceRegistryBean);
-		System.out.println("WebService Registered result----->" + isRegistered);
 		gtnLogger.info("WebService Registered result----->" + isRegistered);
 	}
 }

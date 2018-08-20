@@ -53,6 +53,8 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 		GtnCommonWebServiceImplClass gtnCommonWebServiceImplClass = new GtnServiceRegistryRegisterWs();
 
 		gtnCommonWebServiceImplClass.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
+		
+		logger.info("Webservices Registered in Service Registry");
 
 	}
 
