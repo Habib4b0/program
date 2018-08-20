@@ -28,7 +28,7 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
     private String contract = Constant.EMPTY_STRING;
     private String product = Constant.EMPTY_STRING;
 
-    private Integer levelNo = new Integer(Constant.DASH);
+    private Integer levelNo = Integer.valueOf(Constant.DASH);
     private Integer treeLevelNo = new Integer(Constant.DASH);
     private Integer relationLevelSid = new Integer(Constant.DASH);
     private String hierarchyNo = Constant.PERCENT;

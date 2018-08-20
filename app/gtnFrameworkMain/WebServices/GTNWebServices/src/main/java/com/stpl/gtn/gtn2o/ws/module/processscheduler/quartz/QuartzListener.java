@@ -79,8 +79,6 @@ public class QuartzListener {
 				}
 
 				deleteSchedule();
-
-				printJobList();
 			}
 			else {
 				logger.info("no workflowprofile data found");
@@ -307,7 +305,7 @@ public class QuartzListener {
 
 	public static Date getStartDate(Date inputDate) {
 		Date current = new Date();
-		if (inputDate.after(current) || inputDate.equals(current)) {
+		if (inputDate.compareTo( current ) >= 0) {
 			return inputDate;
 		}
 		return DateBuilder.futureDate(1, IntervalUnit.MINUTE);
@@ -334,39 +332,6 @@ public class QuartzListener {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-	}
-
-	public void printJobList() {
-		StringBuilder printStr = new StringBuilder("--Start Printing Jobs--\n");
-
-		try {
-			for (String groupName : scheduler.getJobGroupNames()) {
-
-				for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-
-					String jobName = jobKey.getName();
-					String jobGroup = jobKey.getGroup();
-
-					// get job's trigger
-					@SuppressWarnings("unchecked")
-					List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
-
-					for (Trigger trigger : triggers) {
-						Date nextFireTime = trigger.getNextFireTime();
-						printStr.append("[jobName] : ").append(jobName).append(" [groupName] : ").append(jobGroup)
-								.append(" - ").append(nextFireTime).append(" - First Fire time -")
-								.append(trigger.getStartTime()).append(" -Final Fire Time- ")
-								.append(trigger.getEndTime());
-						printStr.append('\n');
-					}
-
-				}
-			}
-		} catch (Exception e) {
-			logger.info(e.getMessage());
-		}
-		printStr.append("--End printing Jobs--\n");
-		logger.info(printStr.toString());
 	}
 
 	public synchronized void printJobsForJobKey(JobKey jobKeyToSearch) throws SchedulerException {

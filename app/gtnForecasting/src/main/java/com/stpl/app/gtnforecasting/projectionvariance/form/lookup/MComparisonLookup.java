@@ -93,7 +93,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      */
     public final void init() {
         LOGGER.debug("ComparisonLookUp init method started");
-        configureFields();
+        configureFieldsMandated();
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, pvTableLogic, false,contractTypeList));
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -103,7 +103,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Configure fields.
      */
-    private void configureFields() {
+    private void configureFieldsMandated() {
 
         resultsTable.setSortEnabled(true);
         ndc.setImmediate(true);

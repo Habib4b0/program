@@ -11,11 +11,9 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import java.util.List;
-
 
 public class ForecastEligibilityDateValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
@@ -26,15 +24,21 @@ public class ForecastEligibilityDateValueChangeAction implements GtnUIFrameWorkA
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        List<GtnUIFrameWorkActionConfig> levelactionConfigList=(List<GtnUIFrameWorkActionConfig>) actionParamList.get(1);
-        GtnUIFrameWorkActionConfig action1 = (GtnUIFrameWorkActionConfig) levelactionConfigList.get(0);
-        GtnUIFrameWorkActionConfig action2=(GtnUIFrameWorkActionConfig) action1.getActionParameterList().get(3);
-        String hierarchyComponentId=(String) action2.getActionParameterList().get(1);
-        
-        if ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData() != null) {
-                GtnUIFrameworkActionExecutor.executeActionList(componentId, levelactionConfigList);
+        List<GtnUIFrameWorkActionConfig> levelactionConfigList = (List<GtnUIFrameWorkActionConfig>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
+        GtnUIFrameWorkActionConfig actionConfig = (GtnUIFrameWorkActionConfig) levelactionConfigList.get(0).getActionParameterList().get(3);
+
+        String hierarchyComponentId = (String) actionConfig.getActionParameterList().get(1);
+        GtnUIFrameworkComponentData gtnUIFrameworkComponentData = null;
+
+        if (GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(hierarchyComponentId).getComponent() != null) {
+            gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData();
+        }
+
+        if (gtnUIFrameworkComponentData != null && gtnUIFrameworkComponentData.getCustomData() != null) {
+
+            GtnUIFrameworkActionExecutor.executeActionList(componentId, levelactionConfigList);
         }
     }
 

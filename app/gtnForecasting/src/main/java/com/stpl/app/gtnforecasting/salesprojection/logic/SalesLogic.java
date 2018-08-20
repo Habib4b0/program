@@ -936,7 +936,7 @@ public class SalesLogic {
                 salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true) : new Boolean(false));
+            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ?  Boolean.FALSE :  Boolean.TRUE :  Boolean.FALSE);
             if (obj[NumericConstants.FOURTEEN] != null) {
                 salesRowDto.setUncheckCount(DataTypeConverter.convertObjectToInt(obj[NumericConstants.FOURTEEN]));
             }
@@ -3662,7 +3662,7 @@ public class SalesLogic {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturnAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWELVE] == null ? 0 : obj[NumericConstants.TWELVE])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + '%');
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? new Boolean(false) : new Boolean(true));
+            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? Boolean.FALSE : Boolean.TRUE);
             if (i == (resulList.size() - 1)) {
                 salesRowList.add(salesRowDto);
             }

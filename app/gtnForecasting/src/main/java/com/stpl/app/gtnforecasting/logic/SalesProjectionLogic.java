@@ -1119,9 +1119,9 @@ public class SalesProjectionLogic {
             if (obj[0] != null && obj[1] != null) {
                 int value = Integer.parseInt(String.valueOf(obj[1]));
                 if (value == 0) {
-                    checkDetails.put(String.valueOf(obj[0]), new Boolean(false));
+                    checkDetails.put(String.valueOf(obj[0]), Boolean.FALSE);
                 } else {
-                    checkDetails.put(String.valueOf(obj[0]), new Boolean(true));
+                    checkDetails.put(String.valueOf(obj[0]), Boolean.TRUE);
                 }
             }
         }
