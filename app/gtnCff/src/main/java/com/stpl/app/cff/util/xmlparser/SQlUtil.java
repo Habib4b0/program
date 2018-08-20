@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.util.xmlparser;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,7 +32,7 @@ public class SQlUtil {
         try {
             Enumeration<URL> urls = FrameworkUtil.getBundle(SQlUtil.class).getBundleContext().getBundle().findEntries("/sqlresources", "*", false);
             getResources(urls);
-        } catch (IOException | JAXBException e) {
+        } catch ( JAXBException e) {
             LOGGER.error(e.getMessage());
         }
 
@@ -46,7 +45,7 @@ public class SQlUtil {
         return sqlUtil;
     }
 
-    private void getResources(Enumeration<URL> urls) throws JAXBException, IOException {
+    private void getResources(Enumeration<URL> urls) throws JAXBException {
         if (urls == null) {
             return;
         }

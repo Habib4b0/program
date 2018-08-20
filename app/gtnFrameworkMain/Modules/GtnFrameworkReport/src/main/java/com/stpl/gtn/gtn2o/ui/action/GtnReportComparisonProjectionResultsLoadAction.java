@@ -53,6 +53,12 @@ public class GtnReportComparisonProjectionResultsLoadAction
 		} else {
 			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			if (dataSelectionBean == null) {
+				sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(sourceComponentId)
+						.getParentViewId();
+				dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			}
 			comparisonProjectionsList = dataSelectionBean.getComparisonProjectionBeanList();
 		}
 

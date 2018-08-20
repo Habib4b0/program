@@ -168,12 +168,12 @@ public class CustomViewLogic {
             it.remove();
             String levelRef = obj[NumericConstants.TWO] == null ? "" : obj[NumericConstants.TWO].toString();
             if (levelRef.equals("User Defined")) {
-                int LEVEL_ID = Integer.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE].toString());
+                int LEVEL_ID = Integer.parseInt(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE].toString());
                 String LEVEL_VALUE = obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR].toString();
                 levelValue_map.put(LEVEL_ID, LEVEL_VALUE);
 
             } else {
-                int LEVEL_ID = Integer.valueOf(obj[NumericConstants.THREE] == null ? "0" : obj[NumericConstants.THREE].toString());//Changed from "" to "0" for GAL-5444
+                int LEVEL_ID = Integer.parseInt(obj[NumericConstants.THREE] == null ? "0" : obj[NumericConstants.THREE].toString());//Changed from "" to "0" for GAL-5444
                 String table = obj[0] == null ? "" : obj[0].toString();
                 String column = obj[1] == null ? "" : obj[1].toString();
                 String[] strArray = {table, column, ""};
@@ -253,7 +253,7 @@ listNameCollection.add(listName);
 
         for (ListIterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            int LEVEL_ID = Integer.valueOf(obj[1] == null ? "" : obj[1].toString());
+            int LEVEL_ID = Integer.parseInt(obj[1] == null ? "" : obj[1].toString());
             String LEVEL_VALUE = obj[0] == null ? "" : obj[0].toString();
             levelValue_map.put(LEVEL_ID, LEVEL_VALUE);
         }

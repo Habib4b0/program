@@ -228,7 +228,7 @@ public class RelationShipFilterLogic {
 
 		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
-		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
+		if (!selectedCustomerContractList.isEmpty()) {
 			inputBean.setSelectedCustomerHierarcySid(selectedCustomerContractList.get(0).getHierarchyId());
 			inputBean
 					.setSelectedCustomerHierarchyVersionNo(selectedCustomerContractList.get(0).getHierarchyVersionNo());

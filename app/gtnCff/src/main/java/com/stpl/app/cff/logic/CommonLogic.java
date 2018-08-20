@@ -600,8 +600,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
+                if (connection != null) {
                 connection.close();
-
+                }
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -660,8 +661,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
+                if (connection != null) {
                 connection.close();
-
+                }
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
