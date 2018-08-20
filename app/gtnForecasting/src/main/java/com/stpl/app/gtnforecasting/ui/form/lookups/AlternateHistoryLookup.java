@@ -129,14 +129,14 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
      * Builds the lookup.
      */
     private void buildLookup() {
-        initializeComponents();
+        initializeComponentsAlternateHistory();
         setContent(buildHistoryLookup(contractResults, brandResults, customer));
     }
 
     /**
      * Initializes the components.
      */
-    private void initializeComponents() {
+    private void initializeComponentsAlternateHistory() {
         setContractResults(contractResults);
         setBrandResults(brandResults);
         setCustomer(UiUtils.addDefaultNativeSelect());

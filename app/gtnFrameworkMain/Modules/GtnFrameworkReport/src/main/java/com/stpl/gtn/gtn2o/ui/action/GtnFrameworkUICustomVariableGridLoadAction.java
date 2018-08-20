@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,6 +134,7 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 		TreeGrid<GtnWsRecordBean> rightGrid = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(parameterList.get(3)), componentId).getTreeGrid();
 		getAllTreeNodes(rightGrid.getTreeData(), rightGrid.getTreeData().getRootItems(), parameterList, componentId);
+		leftTablesSortOperation(parameterList, componentId);
 	}
 
 	private void addToLeftGrid(Grid<GtnWsRecordBean> leftGrid, GtnWsRecordBean removedBean) {
@@ -160,7 +162,7 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 				case 'D':
 					leftGrid = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(String.valueOf(parameterList.get(6)), componentId).getGrid();
-					break;			
+					break;
 				default:
 					break;
 				}
@@ -168,6 +170,26 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 				getAllTreeNodes(treeData, treeData.getChildren(gtnWsRecordBean), parameterList, componentId);
 			}
 		}
+	}
+
+	private void leftTablesSortOperation(List<Object> parameterList, String componentId) {
+		Grid<GtnWsRecordBean> leftGrid = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(String.valueOf(parameterList.get(4)), componentId).getGrid();
+		sortLeftTableData(
+				(List<GtnWsRecordBean>) ((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems());
+		leftGrid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(parameterList.get(5)), componentId)
+				.getGrid();
+		sortLeftTableData(
+				(List<GtnWsRecordBean>) ((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems());
+		leftGrid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(parameterList.get(6)), componentId)
+				.getGrid();
+		sortLeftTableData(
+				(List<GtnWsRecordBean>) ((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems());
+	}
+
+	private void sortLeftTableData(List<GtnWsRecordBean> items) {
+		Collections.sort(items, (comparatorObj1, comparatorObj2) -> comparatorObj1.getIntegerPropertyByIndex(2)
+				- comparatorObj2.getIntegerPropertyByIndex(2));
 	}
 
 }
