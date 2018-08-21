@@ -200,21 +200,24 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_CUSTOM_CCPDV_POPULATION, input, type);
 	}
 
-	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
-			throws GtnFrameworkGeneralException {
-		GTNLOGGER.info("Calling Data Population Insert Procedure");
-		StringBuilder dataPopulation = new StringBuilder(" EXEC PRC_REPORTING_DASHBOARD ");
-		dataPopulation.append(Integer.parseInt(dataSelectionBean.getUserId())).append(",'");
-		dataPopulation.append(dataSelectionBean.getSessionId()).append("','");
-		dataPopulation.append(dataSelectionBean.getFrequencyName()).append("',");
-		dataPopulation.append(dataSelectionBean.getFromPeriodReport()).append(",");
-		dataPopulation.append(dataSelectionBean.getToPeriod()).append(",");
-		dataPopulation.append(dataSelectionBean.getCustomViewMasterSid()).append(",");
-		dataPopulation.append(dataSelectionBean.getCompanyReport()).append(",");
-		dataPopulation.append(dataSelectionBean.getBusinessUnitReport()).append(",");
-		dataPopulation.append((dataSelectionBean.getReportDataSource() - 1)).append(",");
-		dataPopulation.append(getComparisonProjection(dataSelectionBean.getComparisonProjectionBeanList()));
-		gtnSqlQueryEngine.executeInsertOrUpdateQuery(dataPopulation.toString());
+	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean) {
+		try {
+			GTNLOGGER.info("Calling Data Population Insert Procedure");
+			StringBuilder dataPopulation = new StringBuilder(" EXEC PRC_REPORTING_DASHBOARD ");
+			dataPopulation.append(Integer.parseInt(dataSelectionBean.getUserId())).append(",'");
+			dataPopulation.append(dataSelectionBean.getSessionId()).append("','");
+			dataPopulation.append(dataSelectionBean.getFrequencyName()).append("',");
+			dataPopulation.append(dataSelectionBean.getFromPeriodReport()).append(",");
+			dataPopulation.append(dataSelectionBean.getToPeriod()).append(",");
+			dataPopulation.append(dataSelectionBean.getCustomViewMasterSid()).append(",");
+			dataPopulation.append(dataSelectionBean.getCompanyReport()).append(",");
+			dataPopulation.append(dataSelectionBean.getBusinessUnitReport()).append(",");
+			dataPopulation.append((dataSelectionBean.getReportDataSource() - 1)).append(",");
+			dataPopulation.append(getComparisonProjection(dataSelectionBean.getComparisonProjectionBeanList()));
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(dataPopulation.toString());
+		} catch (GtnFrameworkGeneralException ex) {
+			GTNLOGGER.error(ex.getErrorMessage(), ex);
+		}
 	}
 
 	private String getComparisonProjection(List<GtnReportComparisonProjectionBean> comparisonProjectionList) {
@@ -344,14 +347,15 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(0);
 		String levelName = setDisplayFormat(bean.getData(), displayFormat);
 		recordBean.addProperties("levelValue", levelName);
-		
-		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getCurrencyConversion();
-		
+
+		String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
+				.getCurrencyConversion();
+
 		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream().forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(
 					data -> dataConvertors(recordBean, entry.getKey(), data, bean.getData()[5].toString(), levelName)));
 		}
-		
+
 		// When currency display is set to no conversion in report options
 		if (dataForHierarchy != null && "0".equals(currencyConversionType)) {
 			dataForHierarchy.entrySet().stream()
@@ -359,7 +363,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
 									bean.getData()[5].toString(), levelName)));
 		}
-		
+
 		return recordBean;
 	}
 
@@ -566,18 +570,21 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 
 	}
-	
-	// Method to format values to non-decimal if user has selected Currency Display = No Conversion
-	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey, Double dataValue,
-			String variableIndicator, String levelName) {
+
+	// Method to format values to non-decimal if user has selected Currency Display
+	// = No Conversion
+	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
+			Double dataValue, String variableIndicator, String levelName) {
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE")) {
-			gtnWsRecordBean.addProperties(mapKey,
-					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
+					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
 		} else if ("V".equals(variableIndicator) && levelName.contains("Unit")) {
-			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
+			gtnWsRecordBean.addProperties(mapKey,
+					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
 		} else {
-			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
+			gtnWsRecordBean.addProperties(mapKey,
+					GtnWsReportDecimalFormat.DOLLAR_NO_CONVERSION.getFormattedValue(dataValue));
 		}
 	}
 
@@ -587,14 +594,15 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				: 0.0;
 	}
 
-	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile, String indicator) {
+	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile,
+			String indicator) {
 		boolean result = false;
 		if (filteredHierarchyNo.isEmpty() || filteredHierarchyNo.contains(hierarchyNoFromFile)) {
 			result = true;
-		} else if(indicator.equals("V")){
+		} else if (indicator.equals("V")) {
 			result = filteredHierarchyNo.parallelStream().filter(hierarchyNoFromFile::startsWith).count() > 0;
-		} 
-                    return result;
-                }
+		}
+		return result;
+	}
 
-        }
+}
