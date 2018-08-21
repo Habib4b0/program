@@ -65,6 +65,7 @@
 				<module>app/gtnCff</module>
 				<module>app/gtnARM</module>
 				<module>app/gtnAudit</module>
+				<module>app/gtnLoginPage</module>				
 			</modules>
 			<activation>
 				<property>
