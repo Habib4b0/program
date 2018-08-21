@@ -1227,6 +1227,7 @@ public class PPAProjectionResultsLogic {
                 Object object[] = wacTableList.get(i);
                 if ((String.valueOf(object[NumericConstants.ONE]).equals(rsId))) {
                     frquency = String.valueOf(object[NumericConstants.THREE]);
+                    break;
                 }
             }
         } catch (Exception ex) {

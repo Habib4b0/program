@@ -1234,7 +1234,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		displayFormatLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		displayFormatLoadConfig.setDefaultValue("Name");
+               displayFormatLoadConfig.setSelectedItem("Name");
 		displayFormatLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.DISPLAY_FORMAT);
 		displayFormatConfig.setGtnCheckedComboboxConfig(displayFormatLoadConfig);
 	}
