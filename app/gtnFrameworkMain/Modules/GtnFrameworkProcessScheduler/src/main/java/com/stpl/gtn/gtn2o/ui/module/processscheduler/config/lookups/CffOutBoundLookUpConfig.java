@@ -17,9 +17,10 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
-import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffOutBoundTablefieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffOutBoundTablefieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCheckAllRecordAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkGenerateCffOutBoundAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
@@ -820,8 +821,13 @@ public class CffOutBoundLookUpConfig {
 		cffOutboundSearchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.PROCESS_SCHEDULER);
 
 		cffOutBoundResultConfig.setGtnPagedTableConfig(cffOutboundSearchResults);
-
-		cffOutboundSearchResults.setDoubleClickEnable(true);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig checkAllAction = new GtnUIFrameWorkActionConfig();
+		checkAllAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkAllAction.addActionParameter(GtnFrameworkCheckAllRecordAction.class.getName());
+		actionConfigList.add(checkAllAction);
+		cffOutboundSearchResults.setColumnCheckActionConfigList(actionConfigList);
 
 	}
 

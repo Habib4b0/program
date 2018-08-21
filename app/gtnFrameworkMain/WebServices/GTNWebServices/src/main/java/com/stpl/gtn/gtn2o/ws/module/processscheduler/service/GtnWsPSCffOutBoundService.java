@@ -100,4 +100,19 @@ public class GtnWsPSCffOutBoundService {
 			return false;
 		}		
 	}
+
+	public boolean checkAllItems(GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
+		boolean isCheckAll = (boolean) processSchedulerCffRequest.getProcessSchedulerRequest().getCffOutBoundBean().getValue();
+		int isChecked =  isCheckAll ? 1 : 0;
+		String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET CHECK_RECORD = " + isChecked +  " WHERE USER_ID = "
+				+ processSchedulerCffRequest.getGtnWsGeneralRequest().getUserId() + " AND SESSION_ID = "+ processSchedulerCffRequest.getGtnWsGeneralRequest().getSessionId() + " ;";
+		try{
+			int result = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+			return result >0 ;
+		}
+		catch(GtnFrameworkGeneralException gtnGeneralxception) {
+			logger.error("exception during Update query for setting ETL_CHECK_RECORD Failed", gtnGeneralxception);
+			return false;
+		}
+	}
 }

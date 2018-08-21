@@ -1,15 +1,32 @@
 package com.stpl.gtn.gtn2o.ws.processscheduler.bean;
 
+import java.io.Serializable;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 public class GtnCffOutBoundBean {
 
 	public GtnCffOutBoundBean() {
 		super();
 	}
 
+	private String columnName;
+
+	@JsonDeserialize(as = Object.class)
+	private Serializable value;
 	private int rsModelSid;
 	private int periodSid;
 	private int cffDetailsSid;
 	private boolean checkedRecord;
+	private boolean checkAll;
+
+	public boolean isCheckAll() {
+		return checkAll;
+	}
+
+	public void setCheckAll(boolean checkAll) {
+		this.checkAll = checkAll;
+	}
 
 	public int getRsModelSid() {
 		return rsModelSid;
@@ -41,6 +58,22 @@ public class GtnCffOutBoundBean {
 
 	public void setCheckedRecord(boolean checkRecord) {
 		this.checkedRecord = checkRecord;
+	}
+
+	public String getColumnName() {
+		return columnName;
+	}
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+
+	public Serializable getValue() {
+		return value;
+	}
+
+	public void setValue(Serializable value) {
+		this.value = value;
 	}
 
 }

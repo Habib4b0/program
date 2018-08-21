@@ -11,7 +11,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsPSCffOutBoundService;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -70,5 +69,20 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 		generalResponse.setSucess(isSuccess);
 		processSchedulerResponse.setGtnWsGeneralResponse(generalResponse);
 		return processSchedulerResponse;
+	}
+	
+	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL)
+	public GtnUIFrameworkWebserviceResponse checkAllRecordCffOutBound(@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
+		logger.info("Enter checkAll");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			boolean updateAllSuccess  = gtnWsPSCffOutBoundService.checkAllItems(processSchedulerCffRequest);
+			gtnResponse.getGtnWsGeneralResponse().setSucess(updateAllSuccess);
+			return gtnResponse;
+		}catch(Exception exception) {
+			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
+			logger.error("Exception while Excuting updating check all record Query", exception);
+			return gtnResponse;
+		}
 	}
 }
