@@ -152,12 +152,14 @@ public class NMSalesExcelLogic {
 
     private void setActualsProjForSalesInclution(SalesRowDto salesRowDto, boolean isActuals, String header) {
         if (!isActuals) {
+        	
             salesRowDto.addStringProperties(header + ACTUAL_SALES, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-HistoryProjectedSales", StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-HistoryProjectedUnits", StringUtils.EMPTY);
 
         } else {
+        	
             salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + PROJECTED_UNITS1, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-ProductGrowth", StringUtils.EMPTY);
@@ -171,6 +173,7 @@ public class NMSalesExcelLogic {
 
     private void setActualsProj(SalesRowDto salesRowDto, boolean isActuals, String header, ProjectionSelectionDTO projectionSelectionDTO, Object[] obj) {
         if (!isActuals) {
+        	
             salesRowDto.addStringProperties(header + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.EIGHT], true));
             salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.NINE] == null ? 0 : obj[NumericConstants.NINE])));
             salesRowDto.addStringProperties(header + "-HistoryProjectedSales", String.valueOf(0));

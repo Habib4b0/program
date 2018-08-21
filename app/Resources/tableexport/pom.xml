@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>8.1.6</vaadin.version>
+        <vaadin.version>8.5.1</vaadin.version>
         <commons-io.version>2.2</commons-io.version>
         <apache-poi.version>3.9</apache-poi.version>
     </properties>

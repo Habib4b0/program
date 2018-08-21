@@ -1,3 +1,4 @@
+
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
@@ -416,7 +417,6 @@ public class ParityLookup extends Window {
             errorMsg.addStyleName("red");
             errorMsg.addStyleName("align-left");
             errorMsg.setVisible(true);
-            errorMsg.setImmediate(true);     
         }
         brandName.setValidationVisible(true);
         ndc.setValidationVisible(true);
@@ -613,3 +613,4 @@ public class ParityLookup extends Window {
     }
 
 }
+
