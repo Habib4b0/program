@@ -12,7 +12,7 @@ and open the template in the editor.
         <query> 
             <![CDATA[
                 SELECT
-                    Count(c.HIERARCHY_DEFINITION_SID)
+                    Count(DISTINCT c.HIERARCHY_DEFINITION_SID)
                 FROM
                     dbo.HIERARCHY_LEVEL_DEFINITION A,
                     HIERARCHY_LEVEL_DEFINITION b,
