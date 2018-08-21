@@ -19,13 +19,13 @@
      <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client</artifactId>
-            <version>8.1.6</version>
+            <version>8.5.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-compatibility-client</artifactId>
-            <version>8.1.6</version>
+            <version>8.5.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
