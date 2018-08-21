@@ -19,7 +19,7 @@
 
         <!-- May be overridden by the build system -->
         <license.short.name>apache2</license.short.name>
-        <vaadin.version>8.1.6</vaadin.version>
+        <vaadin.version>8.5.1</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
         <Implementation-Version>${project.version}</Implementation-Version>

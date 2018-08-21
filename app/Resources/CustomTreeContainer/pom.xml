@@ -15,7 +15,7 @@
 	</parent>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		 <vaadin.version>8.1.6</vaadin.version>
+		 <vaadin.version>8.5.1</vaadin.version>
 	</properties>
 	<!-- <distributionManagement> <repository> <id>galderma-releases</id> <url>https://repo.sysbiz.org/content/repositories/galderma-releases/</url> 
 		</repository> </distributionManagement> <repositories> <repository> <id>vaadin-addon-central</id> 
