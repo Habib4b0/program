@@ -55,7 +55,11 @@
 			<artifactId>gtnAuditProcessor</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
+		<dependency>
+		<groupId>com.stpl.liferay</groupId>
+	<artifactId>login-page-override</artifactId>
+	<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${modules.subsystem.order}.${project.artifactId}</finalName>

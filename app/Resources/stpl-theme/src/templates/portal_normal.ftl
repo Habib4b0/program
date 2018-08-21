@@ -37,6 +37,7 @@
 	</head>
 
 	<body class="${css_class}">
+	<#if is_signed_in>
 		<@liferay_util["include"] page=body_top_include />
 		<#if permissionChecker.isOmniadmin()><@liferay.control_menu /> </#if>
 		<nav id="main-head" class="navbar navbar-default">
@@ -49,8 +50,7 @@
         <span></span>
       </button>
       <a id="company_logo" class="navbar-brand" href="${theme_display.getURLHome()}"> <img src="${htmlUtil.escape(theme_display.getCompanyLogo())}" alt="Company-logo" "></a>
-    </div>
-    <#if is_signed_in>
+    </div>  
     <div class="collapse navbar-collapse">           
       <ul class="nav navbar-nav navbar-right">        
         <li class="dropdown profile">
@@ -62,14 +62,10 @@
           </ul>
         </li>
       </ul>
-    </div>
-    <#else>
-				<a class="pull-right white-text" data-redirect="false" href="${htmlUtil.escape(theme_display.getURLSignIn())}" role="menuitem" title=""> 
-					<i class="icon-user"></i> <span class="nav-item-label">  ${languageUtil.get(locale, "sign-in") }</span> 
-				</a>			
-			</#if>
+    </div>   
     <!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+  </div>
+	<!-- /.container-fluid -->
 </nav>
 		<div class="clear"></div>
 		<div class="wrapper">
@@ -83,6 +79,7 @@
   		</ul>
   	</div>	
   </div>	
+	</#if>
 				<div class="page-content">
 					<#if selectable>
 						<@liferay_util["include"] page=content_include />
@@ -107,7 +104,7 @@
 		<div class="clear"></div>
 		<#include "${full_templates_path}/footer.ftl" />-->
 
-		<@liferay_util["include"] page=body_bottom_include />
+<@liferay_util["include"] page=body_bottom_include />
 		<@liferay_util["include"] page=bottom_include />
 	</body>
 
