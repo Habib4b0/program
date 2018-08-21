@@ -1,12 +1,19 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -22,6 +29,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.data.provider.ListDataProvider;
@@ -29,6 +37,8 @@ import com.vaadin.ui.Grid;
 
 public class GtnReportComparisonProjectionSubmitAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportComparisonProjectionSubmitAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -39,6 +49,15 @@ public class GtnReportComparisonProjectionSubmitAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		try {
+		submitAction(componentId, gtnUIFrameWorkActionConfig);
+		} catch (ParseException e) {
+			logger.info(e+"");
+		}
+	}
+
+	private void submitAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException, ParseException {
 		GtnReportComparisonProjectionBean comparisonProjectionBean;
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
@@ -61,6 +80,10 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setContract(String.valueOf(recordBean.getPropertyValue("contract")));
 				comparisonProjectionBean.setBrand(String.valueOf(recordBean.getPropertyValue("brand")));
 				comparisonProjectionBean.setItemNo(String.valueOf(recordBean.getPropertyValueByIndex(9)));
+				String  createdDate = recordBean.getStringPropertyByIndex(6);
+				
+					comparisonProjectionBean.setCreatedDate(new SimpleDateFormat("MM/dd/yyyy").parse(createdDate));
+				
 				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(10)));
 				comparisonProjectionBean
 						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(11)));

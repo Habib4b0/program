@@ -7,7 +7,6 @@ package com.stpl.app.adminconsole.processscheduler.logic;
 
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.AbstractFilterLogic;
-import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.dao.CommonDAO;
 import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
@@ -75,6 +74,16 @@ public class OutboundLogic {
     private static HashMap<String, String> columnNames = new HashMap<String, String>();
     public static final String RELATIONSHIP_DESCRIPTION = "relationshipDescription";
     
+    static {
+        hierarchyFilterMap.put(ConstantsUtils.HIERARCHY_NAME, StringConstantUtils.HDHIERARCHY_NAME);
+        hierarchyFilterMap.put("hierarchyTypeDto", "HD.HIERARCHY_TYPE");
+        hierarchyFilterMap.put(StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY, StringConstantUtils.HDHIERARCHY_CATEGORY);
+        hierarchyFilterMap.put("noOfLevels", "HD.NO_OF_LEVELS");
+        hierarchyFilterMap.put("versionNo", "HD.VERSION_NO");
+        hierarchyFilterMap.put(ConstantsUtils.CREATED_BY, "HD.CREATED_BY");
+        hierarchyFilterMap.put(StringConstantUtils.CREATED_DATE_PROPERTY, StringConstantUtils.HDCREATED_DATE);
+        hierarchyFilterMap.put(ConstantsUtils.MODIFIED_DATE, "HD.MODIFIED_DATE");
+    }
     public int getHierarchyDefinitionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet, String hierType) {
         int count = 0;
         StringBuilder queryBuilder = buildHierarchyDefinitionSearchQuery(searchFields, true, hierType);
@@ -114,9 +123,7 @@ public class OutboundLogic {
     }
 
     private StringBuilder buildHierarchyDefinitionSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount, String hierType) {
-        if (hierarchyTypeMap.isEmpty()) {
-            loadHierarchyTypeMap();
-        }
+       
         StringBuilder queryBuilder = new StringBuilder(isCount ? SQlUtil.getQuery("getHierarchyDefinitionCount") : SQlUtil.getQuery("getHierarchyDefinitionResults"));
         queryBuilder.append(hierarchyTypeMap.get(hierType));
         loadHdSearchCriteriaMap();
@@ -181,21 +188,8 @@ public class OutboundLogic {
         return searchResultsList;
     }
 
-    void loadHdFilterMap() {
-        if (hierarchyFilterMap.isEmpty()) {
-            hierarchyFilterMap.put(ConstantsUtils.HIERARCHY_NAME, StringConstantUtils.HDHIERARCHY_NAME);
-            hierarchyFilterMap.put("hierarchyTypeDto", "HD.HIERARCHY_TYPE");
-            hierarchyFilterMap.put(StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY, StringConstantUtils.HDHIERARCHY_CATEGORY);
-            hierarchyFilterMap.put("noOfLevels", "HD.NO_OF_LEVELS");
-            hierarchyFilterMap.put("versionNo", "HD.VERSION_NO");
-            hierarchyFilterMap.put(ConstantsUtils.CREATED_BY, "HD.CREATED_BY");
-            hierarchyFilterMap.put(StringConstantUtils.CREATED_DATE_PROPERTY, StringConstantUtils.HDCREATED_DATE);
-            hierarchyFilterMap.put(ConstantsUtils.MODIFIED_DATE, "HD.MODIFIED_DATE");
-        }
-    }
 
     private StringBuilder getHdFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
-        loadHdFilterMap();
         if (filterSet != null) {
             stringBuilder.append(AbstractFilterLogic.getAdminInstance().filterQueryGenerator(filterSet, hierarchyFilterMap).toString().replace("where", " AND"));
         }
@@ -205,7 +199,6 @@ public class OutboundLogic {
     private StringBuilder getHdOrderQuery(StringBuilder stringBuilder, final List<SortByColumn> sortByColumns, final int startIndex, final int endIndex) {
         boolean sortOrder = false;
         String orderByColumn = null;
-        loadHdFilterMap();
         if (sortByColumns != null) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn sortByColumn = (SortByColumn) iterator.next();
@@ -225,12 +218,9 @@ public class OutboundLogic {
         return stringBuilder;
     }
 
-    public void loadHierarchyTypeMap() {
-        List<HelperDTO> hierarchyTypeList = helperListUtil.getListNameMap().get(CommonUIUtil.RELATIONSHIP_TYPE);
-        for (HelperDTO hierarchyType : hierarchyTypeList) {
-            hierarchyTypeMap.put(hierarchyType.getDescription(), String.valueOf(hierarchyType.getId()));
-        }
-    }
+//    public void loadHierarchyTypeMap() {
+//      
+//    }
 
     /**
      * Check search criteria.
@@ -575,10 +565,7 @@ public class OutboundLogic {
      * @return
      */
     public List<OutboundTableDTO> getHierarchyCheckedAllResults(ErrorfulFieldGroup searchFields, String hierType) {
-       if (hierarchyTypeMap.isEmpty()) {
-            loadHierarchyTypeMap();
-        }
-      
+       
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append(hierarchyTypeMap.get(hierType));
        
@@ -834,9 +821,7 @@ public class OutboundLogic {
         List<OutboundTableDTO> rbOutboundList = new ArrayList<>();
         try {
             StringBuilder queryBuilder = new StringBuilder();
-            if (hierarchyTypeMap.isEmpty()) {
-                loadHierarchyTypeMap();
-            }
+           
             if (rbMap.isEmpty()) {
                 rbMap.clear();
                 rbMap.put(StringConstantUtils.RELATIONSHIP_NAME, "R.RELATIONSHIP_NAME");
