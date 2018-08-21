@@ -11,9 +11,7 @@ public class GtnCffOutBoundBean {
 	}
 
 	private String columnName;
-
-	@JsonDeserialize(as = Object.class)
-	private Serializable value;
+	private Object value;
 	private int rsModelSid;
 	private int periodSid;
 	private int cffDetailsSid;
@@ -68,11 +66,11 @@ public class GtnCffOutBoundBean {
 		this.columnName = columnName;
 	}
 
-	public Serializable getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(Serializable value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 

@@ -1,7 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.action;
 
-import java.io.Serializable;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -13,14 +11,11 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
-import com.stpl.gtn.gtn2o.ws.itemfamilyplan.constants.GtnWsIFamilyPlanContants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
@@ -45,7 +40,7 @@ public class GtnFrameworkCheckAllRecordAction implements GtnUIFrameWorkAction, G
 		gtnCffOutBoundBean.setCheckAll(true);
 		
 		gtnCffOutBoundBean.setColumnName(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-		gtnCffOutBoundBean.setValue((Serializable) value);
+		gtnCffOutBoundBean.setValue( value);
 		updateField(gtnCffOutBoundBean);
 		for (GtnWsRecordBean record : tableBaseComponent.getItemsFromDataTable()) {
 			tableBaseComponent.setTableColumnValue(record, GtnFrameworkCommonConstants.CHECK_RECORD_ID, value);

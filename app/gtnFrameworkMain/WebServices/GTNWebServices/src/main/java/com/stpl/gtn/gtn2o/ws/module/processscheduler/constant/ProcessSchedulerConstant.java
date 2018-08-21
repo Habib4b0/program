@@ -16,4 +16,5 @@ public class ProcessSchedulerConstant {
 	public static final int THREE_THOUSAND = 3000;
 	public static final String NUMBER_ONE = "1";
 	public static final int HUNDRED = 100;
+	public static final String AND_SESSION_ID = " AND SESSION_ID = ";
 }

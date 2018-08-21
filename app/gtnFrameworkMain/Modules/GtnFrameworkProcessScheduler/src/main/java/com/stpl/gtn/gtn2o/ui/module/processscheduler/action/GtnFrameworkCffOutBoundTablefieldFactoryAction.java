@@ -1,9 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.action;
 
-import java.util.List;
-
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -13,9 +9,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
@@ -42,13 +36,6 @@ public class GtnFrameworkCffOutBoundTablefieldFactoryAction implements GtnUIFram
 				.getVaadinFieldFactoryComponentData(componentId);
 		GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
 		
-		gtnLogger.info("action param property id: "+actionParam.getPropertyId());
-	
-		
-		gtnLogger.info("Current Value="+actionParam.getCurrentValue());
-		gtnLogger.info("Properties="+actionParam.getItemId().getProperties());
-		gtnLogger.info("Item Id="+actionParam.getItemId().getProperties().get(1).toString());
-		
 		GtnCffOutBoundBean gtnCffOutBoundBean=new GtnCffOutBoundBean();
 		gtnCffOutBoundBean.setCffDetailsSid(actionParam.getItemId().getIntegerPropertyByIndex(4));
 		gtnCffOutBoundBean.setRsModelSid(actionParam.getItemId().getIntegerProperty(GtnFrameworkProcessSchedulerStringContants.RS_MODEL_SID));
@@ -67,7 +54,7 @@ public class GtnFrameworkCffOutBoundTablefieldFactoryAction implements GtnUIFram
 				GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN
 						+ GtnWsProcessScedulerConstants.UPDATE_CHECK_RECORD,
 						wsRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		gtnLogger.info(""+response.getGtnWsGeneralResponse().isSucess());
+		gtnLogger.info("updated check record col : "+response.getGtnWsGeneralResponse().isSucess());
 		
 
 		

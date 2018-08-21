@@ -18,7 +18,7 @@ public class SchedulerSynchronizer {
      * @param className
      * @return 
      */
-    public static SchedulerSynchronizer getInstance() {
+    public static synchronized SchedulerSynchronizer getInstance() {
         if (process == null) {
             process = new SchedulerSynchronizer();
         }

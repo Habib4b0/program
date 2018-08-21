@@ -20,12 +20,16 @@ import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 @RestController
 @RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN)
 public class GtnWsProcessSchedulerCffOutBoundController {
-
+	public GtnWsProcessSchedulerCffOutBoundController() {
+		/**
+		 * empty constructor
+		 */
+	}
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerCffOutBoundController.class);
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-	
+
 	@Autowired
 	private GtnWsPSCffOutBoundService gtnWsPSCffOutBoundService;
 
@@ -60,9 +64,10 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 		return processSchedulerResponse;
 
 	}
-	
+
 	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA)
-	public GtnUIFrameworkWebserviceResponse generateCffOutBound(@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
+	public GtnUIFrameworkWebserviceResponse generateCffOutBound(
+			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
 		boolean isSuccess = gtnWsPSCffOutBoundService.cffOutBoundService(processSchedulerCffRequest);
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		GtnUIFrameworkWebserviceResponse processSchedulerResponse = new GtnUIFrameworkWebserviceResponse();
@@ -70,16 +75,17 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 		processSchedulerResponse.setGtnWsGeneralResponse(generalResponse);
 		return processSchedulerResponse;
 	}
-	
+
 	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL)
-	public GtnUIFrameworkWebserviceResponse checkAllRecordCffOutBound(@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
+	public GtnUIFrameworkWebserviceResponse checkAllRecordCffOutBound(
+			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
 		logger.info("Enter checkAll");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			boolean updateAllSuccess  = gtnWsPSCffOutBoundService.checkAllItems(processSchedulerCffRequest);
+			boolean updateAllSuccess = gtnWsPSCffOutBoundService.checkAllItems(processSchedulerCffRequest);
 			gtnResponse.getGtnWsGeneralResponse().setSucess(updateAllSuccess);
 			return gtnResponse;
-		}catch(Exception exception) {
+		} catch (Exception exception) {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
 			logger.error("Exception while Excuting updating check all record Query", exception);
 			return gtnResponse;
