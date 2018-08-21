@@ -3,7 +3,7 @@
 
 <display>
 
-	<category name="ProcessScheduler">
-		<portlet id="ProcessScheduler" />
+	<category name="ProcessSchedulerNew">
+		<portlet id="ProcessSchedulerNew" />
 	</category>
 </display>

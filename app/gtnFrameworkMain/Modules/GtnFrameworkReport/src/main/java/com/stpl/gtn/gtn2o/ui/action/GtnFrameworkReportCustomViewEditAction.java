@@ -127,7 +127,12 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 				.getItems().stream().filter(recordBean -> recordBean.getStringPropertyByIndex(0)
 						.equals(currentTempData.getStringPropertyByIndex(0)))
 				.findFirst();
-		itemList.ifPresent(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string)::removeItemsFromGrid);
+		itemList.ifPresent(leftData -> {
+			GtnUIFrameworkBaseComponent grid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string);
+			currentTempData.setPropertyValueByIndex(1, leftData.getPropertyValueByIndex(1));
+			currentTempData.setPropertyValueByIndex(2, leftData.getPropertyValueByIndex(2));
+			grid.removeItemsFromGrid(leftData);
+		});
 	}
 
 	private void removeLeftDeduction(GtnWsRecordBean currentTempData) {

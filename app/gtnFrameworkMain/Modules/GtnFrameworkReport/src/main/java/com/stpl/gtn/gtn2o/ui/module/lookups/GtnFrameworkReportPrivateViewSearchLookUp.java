@@ -122,6 +122,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupSearchCriteriaConfig.setComponentName("Search Criteria");
 		privateViewSearchLookupSearchCriteriaConfig.setAddToParent(true);
 		privateViewSearchLookupSearchCriteriaConfig.setComponentWidth("90%");
+		privateViewSearchLookupSearchCriteriaConfig.setComponentHight("50px");
 		privateViewSearchLookupSearchCriteriaConfig.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaPanel");
 		privateViewSearchLookupSearchCriteriaConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);

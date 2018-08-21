@@ -48,10 +48,7 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		GtnUIFrameWorkActionConfig rbRequestAction = getRbRequestActionConfig(rbRequest);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
 
-		GtnUIFrameworkWebserviceResponse newResponse = wsclient.callGtnWebServiceUrl(
-				GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
-						+ GtnWsRelationshipBuilderConstants.DELETE_RELATIONSHIP,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse newResponse = getResponse(wsclient, request);
 		GtnWsRelationshipBuilderResponse rbNewResponse = newResponse.getGtnWsRelationshipBuilderResponse();
 		if (rbNewResponse.isSuccess()) {
 			GtnUIFrameworkBaseComponent removeItem = GtnUIFrameworkGlobalUI
@@ -65,6 +62,13 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = getRbDeleteSuccessAlertAction(rbNewResponse);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteSuccessAlertAction);
 	}
+
+    public GtnUIFrameworkWebserviceResponse getResponse(final GtnUIFrameworkWebServiceClient wsclient, final GtnUIFrameworkWebserviceRequest request) {
+        return wsclient.callGtnWebServiceUrl(
+                GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
+                        + GtnWsRelationshipBuilderConstants.DELETE_RELATIONSHIP,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
     public GtnUIFrameWorkActionConfig getRbRequestActionConfig(GtnWsRelationshipBuilderRequest rbRequest) {
         GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(

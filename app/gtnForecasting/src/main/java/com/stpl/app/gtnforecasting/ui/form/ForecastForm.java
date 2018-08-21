@@ -2313,6 +2313,7 @@ public class ForecastForm extends AbstractForm {
 					th.wait();
 				} catch (InterruptedException ex) {
 					LoggerFactory.getLogger(ForecastForm.class.getName()).error( StringUtils.EMPTY, ex);
+                                        Thread.currentThread().interrupt();
 				}
 			}
 

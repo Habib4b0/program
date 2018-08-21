@@ -55,8 +55,8 @@ public class GtnReportDataSelectionResetAction
 		fromPeriodConfig.setHasDefaultValue(true);
 		fromPeriodConfig.setDefaultDesc("next");
 
-		GtnUIFrameworkComboBoxComponent fromPeriod = new GtnUIFrameworkComboBoxComponent();
-		fromPeriod.reloadComponentFromParent("reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
+		GtnUIFrameworkComboBoxComponent comboBoxComponent = new GtnUIFrameworkComboBoxComponent();
+		comboBoxComponent.reloadComponentFromParent("reportLandingScreen_fromPeriod", componentId, Arrays.asList(""));
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(6).toString(), componentId)
 				.setV8PopupFieldValue("");
@@ -139,7 +139,9 @@ public class GtnReportDataSelectionResetAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(19).toString(), componentId)
 				.setV8PopupFieldValue(" ");
 
-		fromPeriod.reloadComponentFromParent(actionParamsList.get(20).toString(), componentId, Arrays.asList(""));
+		comboBoxComponent.reloadComponentFromParent(actionParamsList.get(20).toString(), componentId, Arrays.asList(""));
+		comboBoxComponent.setFocusInComponent(GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParamsList.get(1).toString(),componentId).getComponent());
+
 	}
 
 	@Override

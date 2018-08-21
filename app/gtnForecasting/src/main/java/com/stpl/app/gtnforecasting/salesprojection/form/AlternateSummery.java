@@ -758,6 +758,7 @@ public class AlternateSummery extends CustomComponent {
                 Object itemId = customSid;
                 if (customIdToSelect == customSid) {
                     select = itemId;
+                    break;
                 }
                 viewDdlb.addItem(itemId);
                 viewDdlb.setItemCaption(itemId, obj.getViewName());
@@ -977,7 +978,7 @@ public class AlternateSummery extends CustomComponent {
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
                                      Double incOrDec;
-                                     if (oldNumber == 0.0) {
+                                     if (oldNumber == 0.0d) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;

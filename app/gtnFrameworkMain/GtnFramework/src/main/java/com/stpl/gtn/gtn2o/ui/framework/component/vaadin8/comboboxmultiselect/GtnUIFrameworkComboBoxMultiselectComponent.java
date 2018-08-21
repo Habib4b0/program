@@ -49,6 +49,9 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		comboBoxVaadinMultiSelect.setPopupWidth(null);
 		comboBoxVaadinMultiSelect.showClearButton(true);
 		loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComponentStyle());
+		if (!multiSelectComponentConfig.getComboBoxComponentStyle().isEmpty()) {
+			loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComboBoxComponentStyle());
+		}
 		final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = multiSelectComponentConfig
 				.getGtnCheckedComboboxConfig();
 		comboBoxVaadinMultiSelect.setPlaceholder(checkedComboBoxConfig.getDefaultValue());
@@ -69,7 +72,9 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				List<String> valueList = new ArrayList<>(multiSelectResponse.getItemValueList());
 				comboBoxVaadinMultiSelect.setItems(idList);
 				comboBoxVaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+                                setSelectedItemInComboboxMultiselect(checkedComboBoxConfig, comboBoxVaadinMultiSelect, idList,valueList);
 			}
+                        
 			return comboBoxVaadinMultiSelect;
 		}
 
@@ -85,6 +90,12 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 
 		return comboBoxVaadinMultiSelect;
 	}
+
+    private void setSelectedItemInComboboxMultiselect(final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig, ComboBoxMultiselect comboBoxVaadinMultiSelect, List idList, List<String> valueList) {
+        if(!checkedComboBoxConfig.getSelectedItem().isEmpty()){
+            comboBoxVaadinMultiSelect.select(idList.get(valueList.indexOf(checkedComboBoxConfig.getSelectedItem())));
+        }
+    }
 
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType reloadActionType, String reloadDependentComponentId,
@@ -172,6 +183,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 					vaadinMultiSelect = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
 							comboboxConfig.getItemValues(), vaadinMultiSelect);
 				}
+                              
 				return vaadinMultiSelect;
 			}
 
