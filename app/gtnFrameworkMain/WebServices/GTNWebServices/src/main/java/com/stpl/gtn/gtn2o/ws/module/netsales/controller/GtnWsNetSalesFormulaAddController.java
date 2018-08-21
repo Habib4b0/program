@@ -119,6 +119,30 @@ public class GtnWsNetSalesFormulaAddController {
 		}
 	}
 
+    /**
+     *
+     * @param gtnWsRequest
+     * @return
+     */
+	@RequestMapping(value = "/" + GtnWsNsfUriConstants.NSF_SALES_DEDUCT_REFRESH, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteSalesDeductOnRefreshResponse(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse gtnRefreshLoadResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnRefreshLoadResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnRefreshLoadResponse.getGtnWsGeneralResponse().setSucess(true);
+			LOGGER.info("Enter deleteSalesDeductOnRefreshResponse");
+			gtnWsNsfService.deleteSalesDeductOnRefresh(gtnWsRequest);
+			return gtnRefreshLoadResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnRefreshLoadResponse.getGtnWsGeneralResponse().setSucess(false);
+			LOGGER.error("Exception while Excuting deleteSalesDeductOnRefreshResponse Query", ex);
+			return gtnRefreshLoadResponse;
+		} finally {
+			LOGGER.info("Exit deleteSalesDeductOnRefreshResponse ");
+		}
+	}
+
 	@RequestMapping(value = "/" + GtnWsNsfUriConstants.NS_SAVE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse netSalesSaveService(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
