@@ -71,7 +71,6 @@ public class CommonUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static final String COMMA=",";
-    private ExecutorService service = ThreadPool.getInstance().getService();
 
     /**
      * Instantiates a new common util.

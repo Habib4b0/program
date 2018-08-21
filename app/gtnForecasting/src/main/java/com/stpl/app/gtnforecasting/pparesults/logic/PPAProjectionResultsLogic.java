@@ -71,7 +71,6 @@ public class PPAProjectionResultsLogic {
     private String indicater = StringUtils.EMPTY;
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionResultsLogic.class);
     private List chartList;
-    private final ExecutorService service = ThreadPool.getInstance().getService();
     private List<Object[]> periodTableList=null;
     private List<Object[]> wacTableList=null;
     private List<Object[]> wacPriceTableList=null;
@@ -1180,6 +1179,7 @@ public class PPAProjectionResultsLogic {
 
     public void callPPAGenerateProcedures(final ProjectionSelectionDTO selection) {
         //Calling PRC_NM_PPA_PROJ_INIT only if it is not called in Tab Change
+        final ExecutorService service = ThreadPool.getInstance().getService();
         if (selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT) == null) {
             Future ppaInit = service.submit(CommonUtil.getInstance().createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, selection.getSessionDTO()));
             selection.getSessionDTO().addFutureMap(SalesUtils.PRC_NM_PPA_PROJ_INIT, new Future[]{ppaInit});
@@ -1190,6 +1190,7 @@ public class PPAProjectionResultsLogic {
         Object[] orderedArgs = {selection.getProjectionId(), selection.getUserId(), selection.getSessionDTO().getSessionId()};
         Future future = service.submit(createRunnable(SalesUtils.PRC_NM_PPA_PROJECTION, orderedArgs, selection));
         selection.getSessionDTO().addFutureMap(Constant.PRC_PPA_GENERATE_CALL, new Future[]{future});
+        service.shutdown();
     }
 
     Runnable createRunnable(final String procedureName, final Object[] orderedArgs, final ProjectionSelectionDTO selection) {
