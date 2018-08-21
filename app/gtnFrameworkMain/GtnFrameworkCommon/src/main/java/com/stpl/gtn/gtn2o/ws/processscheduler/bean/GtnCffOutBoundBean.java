@@ -1,9 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.processscheduler.bean;
 
-import java.io.Serializable;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 public class GtnCffOutBoundBean {
 
 	public GtnCffOutBoundBean() {
