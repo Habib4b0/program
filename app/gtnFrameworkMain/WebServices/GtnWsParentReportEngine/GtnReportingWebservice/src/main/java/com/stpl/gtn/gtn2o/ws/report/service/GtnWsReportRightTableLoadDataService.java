@@ -20,7 +20,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportRightTableResultTransformer;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportVaribleRowResultTransformer;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -72,15 +71,11 @@ public class GtnWsReportRightTableLoadDataService {
 	public String getQueryFromProcedure(GtnUIFrameworkWebserviceRequest gtnWsRequest, String hierarchyNo, int levelNo,
 			String customViewType) throws GtnFrameworkGeneralException {
 
-		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
-
-		String frequency = dataSelectionBean.getFrequencyName();
 		GtnWsReportDashboardBean dashboardBean = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean();
-
 		int salesInClusion = dashboardBean.getSalesInclusion();
 		int deductionInclusion = dashboardBean.getDeductionInclusion();
 		String annualTotals = dashboardBean.getAnnualTotals();
-
+		String frequency = dashboardBean.getSelectFreqString();
 		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty()
 				|| "0".equals(dashboardBean.getCurrencyConversion()) ? null : dashboardBean.getCurrencyConversion();
 
