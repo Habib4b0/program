@@ -1562,7 +1562,7 @@ public class FileManagementLogic {
 		} else {
 			resultsList = null;
 		}
-		if (!isCount && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
+		if (!isCount && resultsList != null && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
 			for (int i = 0; i < resultsList.size(); i++) {
 				final Object[] obj = (Object[]) resultsList.get(i);
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1654,7 +1654,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().getDescription()
+		} else if (!isCount && resultsList!= null && detailsResultDTO.getHelperType().getDescription()
 				.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
@@ -1783,7 +1783,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1853,7 +1853,7 @@ public class FileManagementLogic {
 			}
 			LOGGER.debug("resultsListDTO= {}" , resultsListDTO.size());
 			detailsObj = resultsListDTO;
-		} else if (!isCount
+		} else if (!isCount && resultsList != null
 				&& detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;

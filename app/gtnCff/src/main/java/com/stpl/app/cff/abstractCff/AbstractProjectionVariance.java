@@ -204,15 +204,8 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected CustomMenuBar displayFormatDdlb;
     
     protected CustomMenuBar.CustomMenuItem displayFormatValues;
-    /**
-     * The excel btn.
-     */
-    @UiField("group")
-    protected ComboBox group;
     @UiField("pivotPanel")
     protected Panel pivotPanel;
-    @UiField("groupLabel")
-    protected Label groupLabel;
     @UiField("discountLevelLabel")
     protected Label discountLevelLabel;
     
@@ -355,8 +348,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         this.sessionDTO = sessionDTO;
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/cff/tabs/ProjectionVarianceTab.xml"), this));
-        groupLabel.setVisible(false);
-        group.setVisible(false);
         Panel panel = new Panel();
         panel.setContent(layout);
         setCompositionRoot(panel);

@@ -60,8 +60,8 @@ public class ContractResultDTO {
     private String psContSid = StringUtils.EMPTY;
     private boolean checkRecord = false;
     private String contractMasterSid = StringUtils.EMPTY;
-    private Integer userId = new Integer(1);
-    private Integer sessionId = new Integer(1);
+    private Integer userId = Integer.valueOf(1);
+    private Integer sessionId = Integer.valueOf(1);
     private String projectionIdLink;
     private String tempVarOne = StringUtils.EMPTY;
     private String tempVarTwo = StringUtils.EMPTY;

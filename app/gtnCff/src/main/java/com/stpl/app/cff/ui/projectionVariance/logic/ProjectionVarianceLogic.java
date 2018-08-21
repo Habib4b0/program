@@ -1495,7 +1495,7 @@ public class ProjectionVarianceLogic {
                     return new ArrayList<>(Arrays.asList(x[2], x[3]));
                 }));
       
-        if (results != null && !results.isEmpty()) {
+        if (!results.isEmpty()) {
           for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
                  List<Object[]> row = entry.getValue();
                  final Object[] obj = row.get(0);
@@ -2672,6 +2672,7 @@ public class ProjectionVarianceLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }

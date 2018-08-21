@@ -230,18 +230,26 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
                 } else {
-                    if (exp != null) {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
-                    }
+                    excelNextTableHolder(exp, sheetName);
                 }
-                if (exp != null) {
-                    boolean export = i == exportAt;
-                    exp.exportMultipleTabs(export);
-                }
+                exportMultipleTabs(exp, i, exportAt);
             }
         } else {
              exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.DISCOUNT_PROJECTION_RESULTS, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
             exp.export();
+        }
+    }
+
+    public void excelNextTableHolder(ExcelExport exp, String sheetName) {
+        if (exp != null) {
+            exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+        }
+    }
+
+    public void exportMultipleTabs(ExcelExport exp, int i, int exportAt) {
+        if (exp != null) {
+            boolean export = i == exportAt;
+            exp.exportMultipleTabs(export);
         }
     }
  
@@ -716,6 +724,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                     Object itemId = customSid;
                     if (customIdToSelect == customSid) {
                         select = itemId;
+                        break;
                     }
                     customDdlb.addItem(itemId);
                     customDdlb.setItemCaption(itemId, obj.getViewName());

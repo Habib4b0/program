@@ -552,40 +552,68 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	private void addFilterOptionsTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider
-				.getVerticalLayoutConfig(GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB, false, null);
-		gtnLayout.setTabComponent(true);
-		gtnLayout.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-		componentList.add(gtnLayout);
-
-		GtnUIFrameworkComponentConfig filterOptionsTabComponentLayout = configProvider.getHorizontalLayoutConfig(
-				"filterOptionsTabComponentLayout", true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB);
-		componentList.add(filterOptionsTabComponentLayout);
-		GtnUIFrameworkComponentConfig filterOptionsTabPanel = configProvider.getPanelConfig("filterOptionsTabPanel",
-				true, "filterOptionsTabComponentLayout");
+		GtnUIFrameworkComponentConfig filterOptionsTabPanel = configProvider
+				.getPanelConfig(GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PANEL, false, null);
 		filterOptionsTabPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
+		filterOptionsTabPanel.setComponentHight(GtnFrameworkCssConstants.PIXEL_100);
+		filterOptionsTabPanel.setTabComponent(true);
 		componentList.add(filterOptionsTabPanel);
 
-		GtnUIFrameworkComponentConfig filterOptionsTabPanelLayout = configProvider
-				.getHorizontalLayoutConfig("filterOptionsTabPanelLayout", true, "filterOptionsTabPanel");
-		componentList.add(filterOptionsTabPanelLayout);
+		GtnUIFrameworkComponentConfig filterOptionsTabPanelVerticalLayout = configProvider.getVerticalLayoutConfig(
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT, true,
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PANEL);
+		filterOptionsTabPanelVerticalLayout.setComponentWidth(GtnFrameworkCssConstants.PIXEL_1300);
+		filterOptionsTabPanelVerticalLayout.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentList.add(filterOptionsTabPanelVerticalLayout);
 
-		GtnUIFrameworkLayoutConfig cssLayout = new GtnUIFrameworkLayoutConfig();
-		cssLayout.setLayoutType(GtnUIFrameworkLayoutType.COL4_LAYOUT);
-		GtnUIFrameworkComponentConfig cssGtnLayout = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT, true, "filterOptionsTabPanelLayout",
-				GtnUIFrameworkComponentType.LAYOUT);
-		cssGtnLayout.setGtnLayoutConfig(cssLayout);
-		componentList.add(cssGtnLayout);
+		GtnUIFrameworkComponentConfig filterOptionsTabTopLayout = configProvider.getHorizontalLayoutConfig(
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_LAYOUT_TOP, true,
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT);
+		filterOptionsTabTopLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
+		componentList.add(filterOptionsTabTopLayout);
 
-		addFilterOptionsTabComponent(componentList, nameSpace);
+		GtnUIFrameworkLayoutConfig filterOptionsTabTopCssLayout = new GtnUIFrameworkLayoutConfig();
+		filterOptionsTabTopCssLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		GtnUIFrameworkComponentConfig filterOptionsTabTopCssLayoutConfig = configProvider.getUIFrameworkComponentConfig(
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT, true,
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_LAYOUT_TOP, GtnUIFrameworkComponentType.LAYOUT);
+		filterOptionsTabTopCssLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		filterOptionsTabTopCssLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
+		filterOptionsTabTopCssLayoutConfig.setGtnLayoutConfig(filterOptionsTabTopCssLayout);
+		componentList.add(filterOptionsTabTopCssLayoutConfig);
+
+		addFilterOptionsTabTopComponent(componentList, nameSpace);
+
+		GtnUIFrameworkComponentConfig filterOptionsTabBottomLayout = configProvider.getHorizontalLayoutConfig(
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_LAYOUT_BOTTOM, true,
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT);
+		componentList.add(filterOptionsTabBottomLayout);
+
+		GtnUIFrameworkLayoutConfig filterOptionsTabBottomCssLayout = new GtnUIFrameworkLayoutConfig();
+		filterOptionsTabBottomCssLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		GtnUIFrameworkComponentConfig filterOptionsTabBottomCssLayoutConfig = configProvider
+				.getUIFrameworkComponentConfig(GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT,
+						true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_LAYOUT_BOTTOM,
+						GtnUIFrameworkComponentType.LAYOUT);
+		filterOptionsTabBottomCssLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
+		filterOptionsTabBottomCssLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		filterOptionsTabBottomCssLayoutConfig.setGtnLayoutConfig(filterOptionsTabBottomCssLayout);
+		componentList.add(filterOptionsTabBottomCssLayoutConfig);
+
+		addFilterOptionsTabBottomComponent(componentList, nameSpace);
 	}
 
-	private void addFilterOptionsTabComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addFilterOptionsTabTopComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+
 		addCustomerLevelComponent(componentList, nameSpace);
 		addProductLevelComponent(componentList, nameSpace);
 		addDeductionLevelComponent(componentList, nameSpace);
 		addSalesInclusionComponent(componentList, nameSpace);
+	}
+	
+	private void addFilterOptionsTabBottomComponent(List<GtnUIFrameworkComponentConfig> componentList,
+			String nameSpace) {
+
 		addCustomerFilterComponent(componentList, nameSpace);
 		addProductFilterComponent(componentList, nameSpace);
 		addDeductionFilterComponent(componentList, nameSpace);
@@ -595,7 +623,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addDeductionInclusionComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT);
+		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_LEFT_25);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig deductionInclusionConfig = configProvider.getUIFrameworkComponentConfig(
@@ -604,6 +633,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		deductionInclusionConfig.setComponentName("Deduction Inclusion: ");
+		deductionInclusionConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		deductionInclusionConfig.setAuthorizationIncluded(true);
 
 		componentList.add(deductionInclusionConfig);
@@ -618,7 +648,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addDeductionFilterComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT);
+		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_LEFT_25);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig deductionFilterConfig = configProvider.getUIFrameworkComponentConfig(
@@ -626,9 +657,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER,
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		deductionFilterConfig.addComponentStyle(GtnFrameworkCssConstants.V_HAS_WIDTH);
-		deductionFilterConfig.setComponentWidth(GtnFrameworkReportStringConstants.ONE_FIFTY_PIXEL);
 		deductionFilterConfig.setComponentName("Deduction Filter: ");
+		deductionFilterConfig.addComponentStyle(GtnFrameworkCssConstants.REPORT_CUSTOMER_FILTER_MARGIN_LEFT);
+		deductionFilterConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		deductionFilterConfig.setAuthorizationIncluded(true);
 
 		componentList.add(deductionFilterConfig);
@@ -654,14 +685,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 
 		deductionFilterLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		// deductionFilterLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		deductionFilterConfig.setGtnCheckedComboboxConfig(deductionFilterLoadConfig);
 	}
 
 	private void addProductFilterComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT);
+		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_LEFT_25);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig productFilterConfig = configProvider.getUIFrameworkComponentConfig(
@@ -672,6 +703,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		productFilterConfig.addComponentStyle(GtnFrameworkCssConstants.V_HAS_WIDTH);
 		productFilterConfig.setComponentWidth(GtnFrameworkReportStringConstants.ONE_FIFTY_PIXEL);
 		productFilterConfig.setComponentName("Product Filter: ");
+		productFilterConfig.addComponentStyle(GtnFrameworkCssConstants.REPORT_CUSTOMER_FILTER_MARGIN_LEFT);
+		productFilterConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		productFilterConfig.setAuthorizationIncluded(true);
 
 		productFilterConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -697,15 +730,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 
 		productFilterLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		// productFilterLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		productFilterConfig.setGtnCheckedComboboxConfig(productFilterLoadConfig);
 	}
 
 	private void addCustomerFilterComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
-		gtnLayout.addComponentStyle("v-report-filter-options");
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customerFilterConfig = configProvider.getUIFrameworkComponentConfig(
@@ -713,9 +744,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER,
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		customerFilterConfig.addComponentStyle(GtnFrameworkCssConstants.V_HAS_WIDTH);
-		customerFilterConfig.setComponentWidth(GtnFrameworkReportStringConstants.ONE_FIFTY_PIXEL);
 		customerFilterConfig.setComponentName("Customer Filter: ");
+		customerFilterConfig.addComponentStyle(GtnFrameworkCssConstants.REPORT_CUSTOMER_FILTER_MARGIN_LEFT);
+		customerFilterConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		customerFilterConfig.setAuthorizationIncluded(true);
 
 		customerFilterConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -739,7 +770,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		customerFilterConfig.setReloadLogicActionClassName(GtnReportFilterReloadAction.class.getName());
 
 		customerFilterLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		// customerFilterLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		customerFilterConfig.setGtnCheckedComboboxConfig(customerFilterLoadConfig);
 		componentList.add(customerFilterConfig);
 
@@ -748,7 +778,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addSalesInclusionComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT);
+		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_LEFT_25);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig salesInclusionConfig = configProvider.getUIFrameworkComponentConfig(
@@ -757,6 +788,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		salesInclusionConfig.setComponentName("Sales Inclusion: ");
+		salesInclusionConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_30);
+		salesInclusionConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		salesInclusionConfig.setAuthorizationIncluded(true);
 
 		componentList.add(salesInclusionConfig);
@@ -772,7 +805,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addDeductionLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT);
+		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_LEFT_25);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig deductionLevel = configProvider.getUIFrameworkComponentConfig(
@@ -781,6 +815,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		deductionLevel.setComponentName("Deduction Level: ");
+		deductionLevel.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_25);
+		deductionLevel.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		deductionLevel.setAuthorizationIncluded(true);
 
 		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
@@ -812,7 +848,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addProductLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT);
+		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_LEFT_25);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig productLevelConfig = configProvider.getUIFrameworkComponentConfig(
@@ -821,6 +858,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productLevelConfig.setComponentName("Product Level: ");
+		productLevelConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_25);
+		productLevelConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		productLevelConfig.setAuthorizationIncluded(true);
 
 		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -852,8 +891,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addCustomerLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT, true,
-				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
-		gtnLayout.addComponentStyle("v-report-filter-options");
+				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT);
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customerLevelConfig = configProvider.getUIFrameworkComponentConfig(
@@ -862,6 +900,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerLevelConfig.setComponentName("Customer Level: ");
+		customerLevelConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_LEFT_25);
+		customerLevelConfig.addComboComponentStyle(GtnFrameworkCssConstants.REPORT_FILTER_OPTIONS_COMBO_WIDTH);
 		customerLevelConfig.setAuthorizationIncluded(true);
 
 		componentList.add(customerLevelConfig);
@@ -1194,7 +1234,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		displayFormatLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		displayFormatLoadConfig.setDefaultValue("Name");
+               displayFormatLoadConfig.setSelectedItem("Name");
 		displayFormatLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.DISPLAY_FORMAT);
 		displayFormatConfig.setGtnCheckedComboboxConfig(displayFormatLoadConfig);
 	}
@@ -1604,7 +1644,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 			String parentId) {
 		GtnUIFrameworkComponentConfig reportDashboardControlLayout = configProvider
 				.getHorizontalLayoutConfig("reportDashboardControlLayout", true, parentId);
-		reportDashboardControlLayout.addComponentStyle("stpl-margin-left-66");
+		reportDashboardControlLayout.addComponentStyle("stpl-margin-left-25");
 		reportDashboardControlLayout.addComponentStyle("stpl-margin-bottom-13");
 		componentList.add(reportDashboardControlLayout);
 

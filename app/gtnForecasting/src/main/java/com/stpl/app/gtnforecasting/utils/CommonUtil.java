@@ -71,7 +71,6 @@ public class CommonUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static final String COMMA=",";
-    private ExecutorService service = ThreadPool.getInstance().getService();
 
     /**
      * Instantiates a new common util.
@@ -470,6 +469,7 @@ public class CommonUtil {
                 }
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }

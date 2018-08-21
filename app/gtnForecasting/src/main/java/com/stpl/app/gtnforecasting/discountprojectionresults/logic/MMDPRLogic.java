@@ -577,7 +577,7 @@ public class MMDPRLogic {
         if (Constant.PROJECTION_TOTAL.equals(projSelDTO.getGroup()) && Constant.DISCOUNT_SMALL.equals(projSelDTO.getPivotView())) {
             resultList = getPivotProjectionTotalDiscount(projSelDTO, start, offset);
         }
-        if ((Constant.NON_MANDATED_SUPPLEMENTAL.equals(projSelDTO.getLevelValue()) || Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT.equals(projSelDTO.getGroup()) || Constant.NON_MANDATED_SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) && Constant.NON_MANDATED_SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
+        if ((Constant.NON_MANDATED_SUPPLEMENTAL.equals(projSelDTO.getLevelValue()) || Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT.equals(projSelDTO.getGroup())) && Constant.NON_MANDATED_SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
 
             int frequencyDivision;
             if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {

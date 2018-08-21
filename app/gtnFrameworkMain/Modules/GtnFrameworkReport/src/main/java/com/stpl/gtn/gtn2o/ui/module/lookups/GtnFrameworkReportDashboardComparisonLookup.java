@@ -831,7 +831,6 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		rdGridReloadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		rdGridReloadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
 		rdGridReloadAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
-		rdGridReloadAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
 		resetActionConfigList.add(rdGridReloadAction);
 		reportRDResetButton.addGtnUIFrameWorkActionConfig(reportRDLowerConfirmResetAction);
 		componentList.add(reportRDResetButton);
@@ -875,23 +874,28 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		GtnUIFrameWorkActionConfig rdResetActionConfig = new GtnUIFrameWorkActionConfig();
 		rdResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
 		List<Object> params = new ArrayList<>();
-		List<Object> rdResetComponentId = new ArrayList<>(Arrays.asList("dashboardComparisonLookup_projectionType",
-				"dashboardComparisonLookup_workflowStatus",
-				"dashboardComparisonLookup_reportComparisonLookupMarketType",
-				"dashboardComparisonLookup_reportComparisonLookupBrand", "dashboardComparisonLookup_projectionName",
-				"dashboardComparisonLookup_reportComparisonLookupContractHolder", "dashboardComparisonLookup_ndcConfig",
-				"dashboardComparisonLookup_projectionDescription", "dashboardComparisonLookup_reportComparisonContract",
-				"dashboardComparisonLookup_reportComparisonNdcName"));
-		List<Object> rdResetComponentValue = new ArrayList<>(Arrays.asList(0, 0,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY));
+		List<Object> rdResetComponentId = new ArrayList<>();
+		List<Object> rdResetComponentValue = new ArrayList<>();
 		if (gridResetNeeded) {
 			rdResetComponentId.add("comparisonLookupResultsPagedTableComponent");
 			rdResetComponentId.add("comparisonLookupProjectionsResultsPagedTableComponent");
 			rdResetComponentValue.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			rdResetComponentValue.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		} else {
+			rdResetComponentId.addAll(Arrays.asList("dashboardComparisonLookup_projectionType",
+					"dashboardComparisonLookup_workflowStatus",
+					"dashboardComparisonLookup_reportComparisonLookupMarketType",
+					"dashboardComparisonLookup_reportComparisonLookupBrand", "dashboardComparisonLookup_projectionName",
+					"dashboardComparisonLookup_reportComparisonLookupContractHolder",
+					"dashboardComparisonLookup_ndcConfig", "dashboardComparisonLookup_projectionDescription",
+					"dashboardComparisonLookup_reportComparisonContract",
+					"dashboardComparisonLookup_reportComparisonNdcName", "dashboardComparisonLookup_fromPeriod",
+					"dashboardComparisonLookup_toPeriod"));
+			rdResetComponentValue.addAll(Arrays.asList(0, 0, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null));
 		}
 		params.add(rdResetComponentId);
 		params.add(rdResetComponentValue);
