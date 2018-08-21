@@ -46,15 +46,11 @@ public class ItemLogic {
 
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
-    private Map<String, String> componentMap = new HashMap<>();
-    private Map<String, String> ifpMap = new HashMap<>();
-    private Map<String, String> psMap = new HashMap<>();
-    private Map<Integer, String> users = new HashMap<>();
     private String userid = "";
     public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     public void setCfpSearch() {
-        componentMap = new HashMap<>();
+        Map<String, String> componentMap = new HashMap<>();
         componentMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
         componentMap.put(StringConstantsUtil.COMPONENT_NO, " CM.CFP_NO");
         componentMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
@@ -69,7 +65,7 @@ public class ItemLogic {
     }
 
     public void setIfpSearch() {
-        ifpMap = new HashMap<>();
+        Map<String, String> ifpMap = new HashMap<>();
         ifpMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.IFP_ID");
         ifpMap.put(StringConstantsUtil.COMPONENT_NO, "CM.IFP_NO");
         ifpMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.IFP_NAME");
@@ -83,7 +79,7 @@ public class ItemLogic {
     }
 
     public void setPsSearch() {
-        psMap = new HashMap<>();
+        Map<String, String> psMap = new HashMap<>();
         psMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "PS.PS_ID");
         psMap.put(StringConstantsUtil.COMPONENT_NO, "PS.PS_NO");
         psMap.put(StringConstantsUtil.COMPONENT_NAME, "PS.PS_NAME");
@@ -151,7 +147,7 @@ public class ItemLogic {
 
     public List getSearchSelection(ItemIndexDto binderDto, SelectionDTO selection) {
         List<Object> input = new ArrayList();
-         users = getUserName();
+         Map<Integer, String> users = getUserName();
                 for (Map.Entry<Integer, String> entry : users.entrySet()) {
                     if (entry.getValue().contains("ETL")) {
                         userid = entry.getKey().toString();
