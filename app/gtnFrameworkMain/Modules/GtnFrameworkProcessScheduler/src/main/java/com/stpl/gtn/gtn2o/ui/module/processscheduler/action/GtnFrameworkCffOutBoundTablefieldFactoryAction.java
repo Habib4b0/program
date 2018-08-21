@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProce
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsCffOutBoundBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerRequest;
@@ -36,7 +36,7 @@ public class GtnFrameworkCffOutBoundTablefieldFactoryAction implements GtnUIFram
 				.getVaadinFieldFactoryComponentData(componentId);
 		GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
 		
-		GtnCffOutBoundBean gtnCffOutBoundBean=new GtnCffOutBoundBean();
+		GtnWsCffOutBoundBean gtnCffOutBoundBean=new GtnWsCffOutBoundBean();
 		gtnCffOutBoundBean.setCffDetailsSid(actionParam.getItemId().getIntegerPropertyByIndex(4));
 		gtnCffOutBoundBean.setRsModelSid(actionParam.getItemId().getIntegerProperty(GtnFrameworkProcessSchedulerStringContants.RS_MODEL_SID));
 		gtnCffOutBoundBean.setPeriodSid(actionParam.getItemId().getIntegerProperty(GtnFrameworkProcessSchedulerStringContants.PERIOD_SID));

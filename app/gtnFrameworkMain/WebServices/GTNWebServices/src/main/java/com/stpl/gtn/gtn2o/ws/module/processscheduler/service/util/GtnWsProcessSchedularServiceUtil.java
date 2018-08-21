@@ -20,7 +20,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsCffQueryConstants;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsProcessSchedulerConstant;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnFtpPropertiesBean;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsFtpPropertiesBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
@@ -97,9 +97,9 @@ public class GtnWsProcessSchedularServiceUtil {
 		return System.getProperty("com.stpl.gtnframework.base.path.property");
 	}
 
-	public static GtnFtpPropertiesBean getFtpBundleValue() {
+	public static GtnWsFtpPropertiesBean getFtpBundleValue() {
 		logger.info("getFtpBundleValue===================>starts");
-		GtnFtpPropertiesBean ftpProperties = new GtnFtpPropertiesBean();
+		GtnWsFtpPropertiesBean ftpProperties = new GtnWsFtpPropertiesBean();
 		try {
 			String jbossHome = getJbossHome();
 			logger.info("jbossHome===================>" + jbossHome);
@@ -141,7 +141,7 @@ public class GtnWsProcessSchedularServiceUtil {
 
 	}
 
-	public void runJob(GtnFtpPropertiesBean ftpProperties, String scriptName) {
+	public void runJob(GtnWsFtpPropertiesBean ftpProperties, String scriptName) {
 		try {
 			logger.info("Script Name= {}" + scriptName);
 			String jbossHome = getJbossHome();

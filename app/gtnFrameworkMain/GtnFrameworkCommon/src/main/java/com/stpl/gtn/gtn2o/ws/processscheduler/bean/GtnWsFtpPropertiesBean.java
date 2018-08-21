@@ -4,11 +4,11 @@ package com.stpl.gtn.gtn2o.ws.processscheduler.bean;
  *
  * @author deepak.kumar
  */
-public class GtnFtpPropertiesBean {
+public class GtnWsFtpPropertiesBean {
     private String scripts;
     private String interfaceName;
 
-    public GtnFtpPropertiesBean(){
+    public GtnWsFtpPropertiesBean(){
     	super();
     }
     

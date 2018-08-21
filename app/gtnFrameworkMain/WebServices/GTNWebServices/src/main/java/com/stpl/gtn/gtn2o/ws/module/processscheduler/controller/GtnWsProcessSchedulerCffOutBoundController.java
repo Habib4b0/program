@@ -10,7 +10,7 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsPSCffOutBoundService;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsCffOutBoundBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -36,7 +36,7 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
 		logger.info("entered in update check record controller");
 
-		GtnCffOutBoundBean gtnCffOutBoundBean = processSchedulerCffRequest.getProcessSchedulerRequest()
+		GtnWsCffOutBoundBean gtnCffOutBoundBean = processSchedulerCffRequest.getProcessSchedulerRequest()
 				.getCffOutBoundBean();
 		GtnWsGeneralRequest gtnWsGeneralRequest = processSchedulerCffRequest.getGtnWsGeneralRequest();
 

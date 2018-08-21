@@ -1,8 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.processscheduler.bean;
 
-public class GtnCffOutBoundBean {
+public class GtnWsCffOutBoundBean {
 
-	public GtnCffOutBoundBean() {
+	public GtnWsCffOutBoundBean() {
 		super();
 	}
 

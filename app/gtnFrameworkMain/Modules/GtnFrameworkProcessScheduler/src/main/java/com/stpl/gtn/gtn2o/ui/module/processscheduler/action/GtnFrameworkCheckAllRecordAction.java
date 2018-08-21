@@ -12,7 +12,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnCffOutBoundBean;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsCffOutBoundBean;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -33,7 +33,7 @@ public class GtnFrameworkCheckAllRecordAction implements GtnUIFrameWorkAction, G
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("Executing the GtnFrameworkCheckAllRecordAction");
-		GtnCffOutBoundBean gtnCffOutBoundBean=new GtnCffOutBoundBean();
+		GtnWsCffOutBoundBean gtnCffOutBoundBean=new GtnWsCffOutBoundBean();
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI	.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_RESULTS_TABLE);
 		Object value = tableBaseComponent
 				.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
@@ -48,7 +48,7 @@ public class GtnFrameworkCheckAllRecordAction implements GtnUIFrameWorkAction, G
 
 	}
 
-	private void updateField(GtnCffOutBoundBean gtnCffOutBoundBean) {
+	private void updateField(GtnWsCffOutBoundBean gtnCffOutBoundBean) {
 		GtnUIFrameworkWebserviceRequest updateRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 
