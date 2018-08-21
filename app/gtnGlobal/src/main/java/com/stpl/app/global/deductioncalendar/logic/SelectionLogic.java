@@ -453,7 +453,7 @@ public class SelectionLogic {
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
         if (isCount) {
-            object = (Integer) list.get(0);
+            object =  list.get(0);
         } else {
             object = (List) customizeCustomerList(list);
         }

@@ -333,8 +333,20 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO = "displaySelectionTabPeriodRangeTo";
 
 	public static final String FILTER_OPTIONS_TAB = "filterOptionsTab";
+	
+	public static final String FILTER_OPTIONS_TAB_PANEL = "filterOptionsTabPanel";
+	
+	public static final String FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT = "filterOptionsTabPanelVerticalLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_LAYOUT_TOP = "filterOptionsTabTopLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_LAYOUT_BOTTOM = "filterOptionsTabBottomLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CSS_LAYOUT = "filterOptionsTabCssLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT = "filterOptionsTabTopCssLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT = "filterOptionsTabBottomCssLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT = "filterOptionsTabCustomerLevelLayout";
 
