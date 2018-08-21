@@ -1009,65 +1009,58 @@ public class MProjectionVarianceLogic {
             flag = true;
         }
 
-        if (pVSelectionDTO.isVarDisAmount()) {
-            if (pVSelectionDTO.isColValue()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColVariance()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColPercentage()) {
-                count++;
-            }
+        count = isVarDisAmount(pVSelectionDTO, count);
+        count = isVarDisRate(pVSelectionDTO, count);
+        count = isVarRPU(pVSelectionDTO, count);
+        count = isVarNetSales(pVSelectionDTO, flag, count);
+        count = isVarCOGC(pVSelectionDTO, flag, count);
+        count = isVarNetProfit(pVSelectionDTO, flag, count);
+
+        count = checkCount(pVSelectionDTO, group, count);
+        count = checkGroup(group, pVSelectionDTO, parentDto, levelNo, count);
+        return count;
+    }
+
+    public int checkGroup(String group, PVSelectionDTO pVSelectionDTO, ProjectionVarianceDTO parentDto, String levelNo, int count) throws PortalException, SystemException {
+        if (group.contains(Constant.MANDATED_DISCOUNT) || group.contains(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) || group.contains(Constant.MANDATED_RPU) || group.contains(SUPPLEMENTAL_RPU1)) {
+            int pgCount = getProgramCodeCount(pVSelectionDTO, parentDto, levelNo);
+            count = pgCount;
         }
-        //Discount % 
-        if (pVSelectionDTO.isVarDisRate()) {
-            if (pVSelectionDTO.isColValue()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColVariance()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColPercentage()) {
-                count++;
-            }
+        return count;
+    }
+
+    public int checkCount(PVSelectionDTO pVSelectionDTO, String group, int count) {
+        if (getColValue(pVSelectionDTO, group) || pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.VARIANCE))
+                || getColPercentage(pVSelectionDTO, group) || pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.VALUE))
+                || getDiscountRate(pVSelectionDTO, group) || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.CHANGE))
+                || getRpuColumn(pVSelectionDTO, group) || getVarianceFlag(pVSelectionDTO, group)
+                || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.CHANGE))) {
+            count = NumericConstants.TWO;
         }
-        //RPU
-        if (pVSelectionDTO.isVarRPU()) {
-            if (pVSelectionDTO.isColValue()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColVariance()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColPercentage()) {
-                count++;
-            }
-        }
-        //Net Sales
-        if (pVSelectionDTO.isVarNetSales() && flag) {
-            if (pVSelectionDTO.isColValue()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColVariance()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColPercentage()) {
-                count++;
-            }
-        }
-        //COGC
-        if (pVSelectionDTO.isVarCOGC() && flag) {
-            if (pVSelectionDTO.isColValue()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColVariance()) {
-                count++;
-            }
-            if (pVSelectionDTO.isColPercentage()) {
-                count++;
-            }
-        }
+        return count;
+    }
+
+    private boolean getDiscountRate(PVSelectionDTO pVSelectionDTO, String group) {
+        return pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.VARIANCE));
+    }
+
+    private boolean getVarianceFlag(PVSelectionDTO pVSelectionDTO, String group) {
+        return pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.VARIANCE));
+    }
+
+    private boolean getRpuColumn(PVSelectionDTO pVSelectionDTO, String group) {
+        return pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.VALUE));
+    }
+
+    private boolean getColPercentage(PVSelectionDTO pVSelectionDTO, String group) {
+        return pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.CHANGE));
+    }
+
+    private  boolean getColValue(PVSelectionDTO pVSelectionDTO, String group) {
+        return pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.VALUE));
+    }
+
+    public int isVarNetProfit(PVSelectionDTO pVSelectionDTO, boolean flag, int count) {
         //Net PRofit
         if (pVSelectionDTO.isVarNetProfit() && flag) {
             if (pVSelectionDTO.isColValue()) {
@@ -1080,17 +1073,84 @@ public class MProjectionVarianceLogic {
                 count++;
             }
         }
+        return count;
+    }
 
-        if (pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.VALUE)) || pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.VARIANCE))
-                || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_DIS_AMOUNT.toString().concat(Constant.CHANGE)) || pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.VALUE))
-                || pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.VARIANCE)) || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_DIS_RATE.toString().concat(Constant.CHANGE))
-                || pVSelectionDTO.isColValue() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.VALUE)) || pVSelectionDTO.isColVariance() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.VARIANCE))
-                || pVSelectionDTO.isColPercentage() && group.contains(Constant.PVVariables.VAR_RPU.toString().concat(Constant.CHANGE))) {
-            count = NumericConstants.TWO;
+    public int isVarCOGC(PVSelectionDTO pVSelectionDTO, boolean flag, int count) {
+        //COGC
+        if (pVSelectionDTO.isVarCOGC() && flag) {
+            if (pVSelectionDTO.isColValue()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColVariance()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColPercentage()) {
+                count++;
+            }
         }
-        if (group.contains(Constant.MANDATED_DISCOUNT) || group.contains(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) || group.contains(Constant.MANDATED_RPU) || group.contains(SUPPLEMENTAL_RPU1)) {
-            int pgCount = getProgramCodeCount(pVSelectionDTO, parentDto, levelNo);
-            count = pgCount;
+        return count;
+    }
+
+    public int isVarNetSales(PVSelectionDTO pVSelectionDTO, boolean flag, int count) {
+        //Net Sales
+        if (pVSelectionDTO.isVarNetSales() && flag) {
+            if (pVSelectionDTO.isColValue()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColVariance()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColPercentage()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int isVarRPU(PVSelectionDTO pVSelectionDTO, int count) {
+        //RPU
+        if (pVSelectionDTO.isVarRPU()) {
+            if (pVSelectionDTO.isColValue()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColVariance()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColPercentage()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int isVarDisRate(PVSelectionDTO pVSelectionDTO, int count) {
+        //Discount %
+        if (pVSelectionDTO.isVarDisRate()) {
+            if (pVSelectionDTO.isColValue()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColVariance()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColPercentage()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int isVarDisAmount(PVSelectionDTO pVSelectionDTO, int count) {
+        if (pVSelectionDTO.isVarDisAmount()) {
+            if (pVSelectionDTO.isColValue()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColVariance()) {
+                count++;
+            }
+            if (pVSelectionDTO.isColPercentage()) {
+                count++;
+            }
         }
         return count;
     }
