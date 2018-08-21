@@ -27,9 +27,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN)
 public class GtnWsProcessSchedulerUpdateController {
 	public GtnWsProcessSchedulerUpdateController() {
-		/**
-		 * empty constructor
-		 */
+		super();
 	}
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerUpdateController.class);

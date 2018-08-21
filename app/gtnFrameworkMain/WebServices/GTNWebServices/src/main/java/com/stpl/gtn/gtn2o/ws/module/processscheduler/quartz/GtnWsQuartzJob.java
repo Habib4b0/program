@@ -7,21 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsProcessSchedulerConstant;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsPSCffOutBoundService;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsProcessSchedulerUpdateService;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.SchedulerSynchronizer;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsSchedulerSynchronizer;
 
-public class QuartzJob implements Job {
+public class GtnWsQuartzJob implements Job {
 
-	public QuartzJob() {
-		/*
-		 * no need to implement
-		 */
+	public GtnWsQuartzJob() {
+		super();
 	}
 
-	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(QuartzJob.class);
+	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsQuartzJob.class);
 
 	public static final String AUTOMATIC_SCHEDULER = " Automatic Scheduler ";
 
@@ -38,7 +36,7 @@ public class QuartzJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 
 		logger.info("Executing Quartz Job " + context.getJobDetail().getKey().getName());
-		Object profileObj = context.getJobDetail().getJobDataMap().get(QuartzListener.ACTION_JOB_DATA_MAP_KEY);
+		Object profileObj = context.getJobDetail().getJobDataMap().get(GtnWsQuartzListener.ACTION_JOB_DATA_MAP_KEY);
 
 		if (profileObj instanceof WorkflowProfile) {
 			WorkflowProfile profile = (WorkflowProfile) profileObj;
@@ -72,7 +70,7 @@ public class QuartzJob implements Job {
 		}
 		try {
 			logger.info("Ending Quartz Job " + context.getJobDetail().getKey().getName() + " Next Fire Time ");
-			new QuartzListener().printJobsForJobKey(context.getJobDetail().getKey());
+			new GtnWsQuartzListener().printJobsForJobKey(context.getJobDetail().getKey());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -81,18 +79,18 @@ public class QuartzJob implements Job {
 
 	private void executeCffOutBoundInterface(WorkflowProfile profile) {
 		try {
-			SchedulerSynchronizer process = SchedulerSynchronizer.getInstance();
+			GtnWsSchedulerSynchronizer process = GtnWsSchedulerSynchronizer.getInstance();
 			process.lock();
 			int i = 0;
 			gtnWsProcessSchedularServiceUtil.schedulerInsert();
 			gtnWsProcessSchedularServiceUtil.runJob(GtnWsProcessSchedularServiceUtil.getFtpBundleValue(), profile.getScriptName());
 			gtnWsProcessSchedulerUpdateService.updateLastRun(profile.getProcessSid(), true);
-			while (gtnWsProcessSchedularServiceUtil.existsQuery(ProcessSchedulerConstant.NUMBER_ONE,
-					ProcessSchedulerConstant.NUMBER_ONE)) {
+			while (gtnWsProcessSchedularServiceUtil.existsQuery(GtnWsProcessSchedulerConstant.NUMBER_ONE,
+					GtnWsProcessSchedulerConstant.NUMBER_ONE)) {
 				// Waiting block for ETL to end
-				Thread.sleep(ProcessSchedulerConstant.THREE_THOUSAND);
+				Thread.sleep(GtnWsProcessSchedulerConstant.THREE_THOUSAND);
 				i++;
-				if (i == ProcessSchedulerConstant.HUNDRED) {
+				if (i == GtnWsProcessSchedulerConstant.HUNDRED) {
 					logger.info("about to delete ST_CFF_OUT_BOUND_MASTER");
 					gtnWsPSCffOutBoundService.deleteTempCffOutbound(Boolean.TRUE);
 				}

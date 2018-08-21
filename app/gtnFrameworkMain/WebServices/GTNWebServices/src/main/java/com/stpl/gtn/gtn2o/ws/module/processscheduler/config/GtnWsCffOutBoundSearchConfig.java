@@ -13,10 +13,10 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsCffQueryConstants;
 
-public class GtnWebServiceCffOutBoundSearchConfig implements GtnWsSearchQueryConfigLoader {
+public class GtnWsCffOutBoundSearchConfig implements GtnWsSearchQueryConfigLoader {
 	
 	private Map<String, GtnWsSearchQueryConfig> cffOutboundSearchQueryConfigMap = null;
-	private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWebServiceCffOutBoundSearchConfig.class);
+	private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCffOutBoundSearchConfig.class);
 
 	@Override
 	public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {

@@ -3,11 +3,11 @@ package com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class SchedulerSynchronizer {
+public class GtnWsSchedulerSynchronizer {
 	/**
      * Initializing value
      */
-    private static SchedulerSynchronizer process = null;
+    private static GtnWsSchedulerSynchronizer process = null;
     /**
      * Initializing lock variable
      */
@@ -18,14 +18,14 @@ public class SchedulerSynchronizer {
      * @param className
      * @return 
      */
-    public static synchronized SchedulerSynchronizer getInstance() {
+    public static synchronized GtnWsSchedulerSynchronizer getInstance() {
         if (process == null) {
-            process = new SchedulerSynchronizer();
+            process = new GtnWsSchedulerSynchronizer();
         }
         return process;
     }
 
-    private SchedulerSynchronizer() {
+    private GtnWsSchedulerSynchronizer() {
     }
 
     /**

@@ -21,9 +21,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 @RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN)
 public class GtnWsProcessSchedulerCffOutBoundController {
 	public GtnWsProcessSchedulerCffOutBoundController() {
-		/**
-		 * empty constructor
-		 */
+		super();
 	}
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerCffOutBoundController.class);
 

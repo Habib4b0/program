@@ -25,9 +25,7 @@ import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSc
 @Scope(value = "singleton")
 public class GtnWsProcessSchedulerUpdateService {
 	public GtnWsProcessSchedulerUpdateService() {
-		/**
-		 * empty constructor
-		 */
+		super();
 	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerUpdateService.class);

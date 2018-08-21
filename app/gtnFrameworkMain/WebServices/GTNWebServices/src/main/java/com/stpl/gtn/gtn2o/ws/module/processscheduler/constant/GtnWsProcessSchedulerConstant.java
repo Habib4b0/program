@@ -1,8 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.module.processscheduler.constant;
 
-public class ProcessSchedulerConstant {
+public class GtnWsProcessSchedulerConstant {
 
-	private ProcessSchedulerConstant() {
+	private GtnWsProcessSchedulerConstant() {
 		
 	}
 	

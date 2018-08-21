@@ -19,8 +19,8 @@ import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsCffQueryConstants;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.FtpProperties;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsProcessSchedulerConstant;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnFtpPropertiesBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
@@ -31,9 +31,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnWsProcessSchedularServiceUtil {
 	
 	public GtnWsProcessSchedularServiceUtil() {
-		/*
-		 * no need to implement
-		 */
+		super();
 	}
 	
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedularServiceUtil.class);
@@ -99,19 +97,19 @@ public class GtnWsProcessSchedularServiceUtil {
 		return System.getProperty("com.stpl.gtnframework.base.path.property");
 	}
 
-	public static FtpProperties getFtpBundleValue() {
+	public static GtnFtpPropertiesBean getFtpBundleValue() {
 		logger.info("getFtpBundleValue===================>starts");
-		FtpProperties ftpProperties = new FtpProperties();
+		GtnFtpPropertiesBean ftpProperties = new GtnFtpPropertiesBean();
 		try {
 			String jbossHome = getJbossHome();
 			logger.info("jbossHome===================>" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
-				logger.info("prop location: "+prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY));
+				logger.info("prop location: "+prop.getProperty(GtnWsProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY));
 				java.util.Properties prop1 = getPropertyFile(
-						jbossHome.concat("/../").concat(prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
-				ftpProperties.setScripts(prop1.getProperty(ProcessSchedulerConstant.SCRIPTS));
-				logger.info("setted the ftp pro scripts:" + prop1.getProperty(ProcessSchedulerConstant.SCRIPTS));
+						jbossHome.concat("/../").concat(prop.getProperty(GtnWsProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
+				ftpProperties.setScripts(prop1.getProperty(GtnWsProcessSchedulerConstant.SCRIPTS));
+				logger.info("setted the ftp pro scripts:" + prop1.getProperty(GtnWsProcessSchedulerConstant.SCRIPTS));
 			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
@@ -143,7 +141,7 @@ public class GtnWsProcessSchedularServiceUtil {
 
 	}
 
-	public void runJob(FtpProperties ftpProperties, String scriptName) {
+	public void runJob(GtnFtpPropertiesBean ftpProperties, String scriptName) {
 		try {
 			logger.info("Script Name= {}" + scriptName);
 			String jbossHome = getJbossHome();
@@ -152,7 +150,7 @@ public class GtnWsProcessSchedularServiceUtil {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
 				
 				java.util.Properties prop1 = getPropertyFile(
-						jbossHome.concat("/../").concat(prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
+						jbossHome.concat("/../").concat(prop.getProperty(GtnWsProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
 				String etlInterfaceUri = buildUrl(scriptName, prop1);
 				ftpProperties.setScripts(prop1.getProperty("scripts"));
 				runShellScript(etlInterfaceUri);

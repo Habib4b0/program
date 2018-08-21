@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsProcessSchedulerConstant;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSchedularServiceUtil;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.SchedulerSynchronizer;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsSchedulerSynchronizer;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -23,9 +23,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 public class GtnWsPSCffOutBoundService {
 
 	public GtnWsPSCffOutBoundService() {
-		/**
-		 * empty constructor
-		 */
+		super();
 	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsPSCffOutBoundService.class);
@@ -54,7 +52,7 @@ public class GtnWsPSCffOutBoundService {
 		String scriptName = gtnProcessSchedulerBean.getPsSchemaName();
 		int processSid = gtnProcessSchedulerBean.getProcessSchedulerSid();
 
-		SchedulerSynchronizer process = SchedulerSynchronizer.getInstance();
+		GtnWsSchedulerSynchronizer process = GtnWsSchedulerSynchronizer.getInstance();
 		try {
 			process.lock();
 			int i = 0;
@@ -68,9 +66,9 @@ public class GtnWsPSCffOutBoundService {
 				while (gtnWsProcessSchedularServiceUtil.existsQuery(gtnWsGeneralRequest.getUserId(),
 						gtnWsGeneralRequest.getSessionId())) {
 					// Waiting block for ETL to end
-					Thread.sleep(ProcessSchedulerConstant.THREE_THOUSAND);
+					Thread.sleep(GtnWsProcessSchedulerConstant.THREE_THOUSAND);
 					i++;
-					if (i == ProcessSchedulerConstant.HUNDRED) {
+					if (i == GtnWsProcessSchedulerConstant.HUNDRED) {
 						deleteOnClose(gtnWsGeneralRequest);
 						break;
 					}
@@ -95,7 +93,7 @@ public class GtnWsPSCffOutBoundService {
 
 	private boolean checkETLRecords(GtnWsGeneralRequest gtnWsGeneralRequest) {
 		String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET ETL_CHECK_RECORD = 1 WHERE USER_ID = "
-				+ gtnWsGeneralRequest.getUserId() + ProcessSchedulerConstant.AND_SESSION_ID + gtnWsGeneralRequest.getSessionId()
+				+ gtnWsGeneralRequest.getUserId() + GtnWsProcessSchedulerConstant.AND_SESSION_ID + gtnWsGeneralRequest.getSessionId()
 				+ " AND CHECK_RECORD = 1";
 		try {
 			int result = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
@@ -111,7 +109,7 @@ public class GtnWsPSCffOutBoundService {
 				.getValue();
 		int isChecked = isCheckAll ? 1 : 0;
 		String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET CHECK_RECORD = " + isChecked + " WHERE USER_ID = "
-				+ processSchedulerCffRequest.getGtnWsGeneralRequest().getUserId() + ProcessSchedulerConstant.AND_SESSION_ID
+				+ processSchedulerCffRequest.getGtnWsGeneralRequest().getUserId() + GtnWsProcessSchedulerConstant.AND_SESSION_ID
 				+ processSchedulerCffRequest.getGtnWsGeneralRequest().getSessionId() + " ;";
 		try {
 			int result = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
@@ -128,7 +126,7 @@ public class GtnWsPSCffOutBoundService {
 		try {
 			String query = "";
 			if (!isScheduler) {
-				query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + generalRequest.getUserId() + ProcessSchedulerConstant.AND_SESSION_ID
+				query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + generalRequest.getUserId() + GtnWsProcessSchedulerConstant.AND_SESSION_ID
 						+ generalRequest.getSessionId() + ";";
 			} else {
 				query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = 1 AND SESSION_ID = 1;";
