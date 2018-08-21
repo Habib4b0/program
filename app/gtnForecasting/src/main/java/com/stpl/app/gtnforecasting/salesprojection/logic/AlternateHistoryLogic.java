@@ -210,7 +210,7 @@ public class AlternateHistoryLogic {
                 dto.setCustomerName(convertNullToEmpty(String.valueOf(obj[NumericConstants.FIVE])));
                 dto.setContractMasterSid(Integer.valueOf(String.valueOf(obj[NumericConstants.SIX])));
                 dto.setCompanymasterSid(Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])));
-                dto.setCheck(obj[NumericConstants.EIGHT] == null ? false : (boolean) obj[NumericConstants.EIGHT]);
+                dto.setCheck(obj[NumericConstants.EIGHT] == null ? Boolean.FALSE : (Boolean) obj[NumericConstants.EIGHT]);
                 companyList.add(dto);
             }
         }
@@ -361,9 +361,9 @@ public class AlternateHistoryLogic {
                     if (isIdentifierSelected) {
                         dto.setItemIdentifierType(String.valueOf(obj[NumericConstants.EIGHT]));
                         dto.setItemIdentifier(String.valueOf(obj[NumericConstants.SEVEN]));
-                        dto.setCheck(obj[NumericConstants.NINE] == null ? false : (Boolean) obj[NumericConstants.NINE]);
+                        dto.setCheck(obj[NumericConstants.NINE] == null ? Boolean.FALSE : (Boolean) obj[NumericConstants.NINE]);
                     } else {
-                        dto.setCheck(obj[NumericConstants.SEVEN] == null ? false : (Boolean) obj[NumericConstants.SEVEN]);
+                        dto.setCheck(obj[NumericConstants.SEVEN] == null ? Boolean.FALSE  : (Boolean) obj[NumericConstants.SEVEN]);
                     }
                     itemsList.add(dto);
                 }
@@ -529,9 +529,9 @@ public class AlternateHistoryLogic {
                 if (isIdentifierSelected) {
                     dto.setItemIdentifierType(String.valueOf(obj[NumericConstants.EIGHT]));
                     dto.setItemIdentifier(String.valueOf(obj[NumericConstants.SEVEN]));
-                    dto.setCheck(obj[NumericConstants.NINE] == null ? false : (Boolean) obj[NumericConstants.NINE]);
+                    dto.setCheck(obj[NumericConstants.NINE] == null ? Boolean.FALSE  : (Boolean) obj[NumericConstants.NINE]);
                 } else {
-                    dto.setCheck(obj[NumericConstants.SEVEN] == null ? false : (Boolean) obj[NumericConstants.SEVEN]);
+                    dto.setCheck(obj[NumericConstants.SEVEN] == null ? Boolean.FALSE  : (Boolean) obj[NumericConstants.SEVEN]);
                 }
                 selectedItemsList.add(dto);
             }
@@ -998,7 +998,7 @@ public class AlternateHistoryLogic {
                     altDTO.addStringProperties(commonColumn, obj[NumericConstants.THIRTEEN] == null ? "0.0" : String.valueOf(obj[NumericConstants.THIRTEEN]));
                 }
 
-                altDTO.setCheckRecord(obj[NumericConstants.FOURTEEN] == null ? false : (Boolean) (obj[NumericConstants.FOURTEEN]));
+                altDTO.setCheckRecord(obj[NumericConstants.FOURTEEN] == null ? Boolean.FALSE  : (Boolean) (obj[NumericConstants.FOURTEEN]));
             }
         }
         return allocationList;

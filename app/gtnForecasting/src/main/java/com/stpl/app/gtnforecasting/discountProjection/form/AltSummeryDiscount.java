@@ -802,6 +802,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 Object itemId = customSid;
                 if (customIdToSelect == customSid) {
                     select = itemId;
+                    break;
                 }
                 viewDdlb.addItem(itemId);
                 viewDdlb.setItemCaption(itemId, obj.getViewName());
