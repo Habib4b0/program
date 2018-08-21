@@ -13,7 +13,6 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadActi
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionDeleteViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
-import static com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportDataSelectionTabConfig.getResetParameters;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -347,8 +346,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionCssLayout");
 		modeSelectionCsslayout.setAddToParent(true);
 		modeSelectionCsslayout.setGtnLayoutConfig(modeSelectionCsslayoutConfig);
-		modeSelectionCsslayout
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
+		modeSelectionCsslayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
 		componentList.add(modeSelectionCsslayout);
 	}
 
@@ -361,8 +360,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
 		privateViewLayoutConfig.setAddToParent(true);
 		privateViewLayoutConfig.setSpacing(true);
-		privateViewLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
+		privateViewLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
 		privateViewLayoutConfig.addComponentStyle("stpl-margin-top-10");
 		privateViewLayoutConfig.setGtnLayoutConfig(privateViewLayout);
 		componentList.add(privateViewLayoutConfig);
@@ -398,8 +397,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		companyLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
 		companyLayoutConfig.setAddToParent(true);
 		companyLayoutConfig.setSpacing(true);
-		companyLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
+		companyLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
 		companyLayoutConfig.addComponentStyle("v-reportLandingScreen-companyLayout");
 		companyLayoutConfig.setGtnLayoutConfig(companyLayout);
 		componentList.add(companyLayoutConfig);
@@ -434,8 +433,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 		reportDataSourceLayoutConfig.setAddToParent(true);
 		reportDataSourceLayoutConfig.addComponentStyle("v-reportLandingScreen-dataSourceLayout");
-		reportDataSourceLayoutConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
+		reportDataSourceLayoutConfig
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
 		reportDataSourceLayoutConfig.setGtnLayoutConfig(reportDataSourceLayout);
 		componentList.add(reportDataSourceLayoutConfig);
 
@@ -551,7 +550,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		panel.setAddToParent(true);
 		panel.setComponentHight("100px");
 		panel.addComponentStyle("stpl-margin-top-10");
-		panel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
+		panel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
 		componentList.add(panel);
 
 		GtnUIFrameworkLayoutConfig timePeriodInnerLayout = new GtnUIFrameworkLayoutConfig();
@@ -588,7 +588,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
 		fromPeriod.setComponentName("From: ");
 		fromPeriod.setAddToParent(true);
-		//fromPeriod.addComboComponentStyle("v-reportLandingScreen-fromPeriod");
+		// fromPeriod.addComboComponentStyle("v-reportLandingScreen-fromPeriod");
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 
@@ -625,7 +625,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriod.setComponentName("To: ");
 		toPeriod.setAddToParent(true);
 		toPeriod.setEnable(false);
-		//toPeriod.addComboComponentStyle("v-reportLandingScreen-toPeriodComboBox");
+		// toPeriod.addComboComponentStyle("v-reportLandingScreen-toPeriodComboBox");
 		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -733,11 +733,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_privateViews");
 		generateAction.addActionParameter("reportLandingScreen_publicViews");
 		actionList.add(generateAction);
-
-                GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
-		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		resetLandingScreenAction.setActionParameterList(getResetParameters());
-                actionList.add(resetLandingScreenAction);
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();

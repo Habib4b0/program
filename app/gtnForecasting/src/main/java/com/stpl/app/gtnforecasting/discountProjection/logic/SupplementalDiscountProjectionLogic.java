@@ -1069,6 +1069,7 @@ public class SupplementalDiscountProjectionLogic {
         for (int i = 0; i < levelName.size(); i++) {
             if (supplementalLevelNo == i) {
                 tempLevelName = levelName.get(i);
+                break;
             }
         }
         return tempLevelName;

@@ -43,7 +43,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
     public void setError(final String error) {
         try {
             setValue(error);
-            setComponentError(new UserError(error, AbstractErrorMessage.ContentMode.HTML, ErrorMessage.ErrorLevel.ERROR));
+            setComponentError(new UserError(error, AbstractErrorMessage.ContentMode.HTML, ErrorMessage.ERROR.ERROR));
             setVisible(true);
         } catch (Exception e) {
             LOGGER.error("Error " + e);

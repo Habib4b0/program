@@ -3796,6 +3796,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			customerInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 
@@ -3813,6 +3814,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);
