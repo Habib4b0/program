@@ -86,7 +86,7 @@ public class GtnFrameworkAddToTreeMainAction implements GtnUIFrameWorkAction ,Gt
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnFrameworkAddToTreeMainAction();
+		return this;
 	}
 
 }

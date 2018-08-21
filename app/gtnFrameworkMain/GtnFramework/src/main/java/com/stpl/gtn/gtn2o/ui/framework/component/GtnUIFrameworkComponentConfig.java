@@ -57,6 +57,7 @@ public class GtnUIFrameworkComponentConfig {
 	private List<String> componentStyle = new ArrayList<>();
         private List<String> textComponentStyle = new ArrayList<>();
         private List<String> comboBoxComponentStyle = new ArrayList<>();    
+        private List<String> dateFieldStyle = new ArrayList<>();
 	private List<Object> queryInputs = new ArrayList<>();
 	private GtnUIFrameworkComboBoxConfig gtnComboboxConfig;
 	private GtnUIFrameworkPagedTableConfig gtnPagedTableConfig;
@@ -163,6 +164,7 @@ public class GtnUIFrameworkComponentConfig {
 		this.componentStyle = componentConfig.getComponentStyle();
                 this.textComponentStyle=componentConfig.getTextComponentStyle();
                 this.comboBoxComponentStyle=componentConfig.getComboBoxComponentStyle();
+                this.dateFieldStyle=componentConfig.getDateFieldStyle();
 		this.queryInputs = componentConfig.getQueryInputs();
 		this.gtnComboboxConfig = componentConfig.getGtnComboboxConfig();
 		this.gtnPagedTableConfig = componentConfig.getGtnPagedTableConfig();
@@ -292,6 +294,20 @@ public class GtnUIFrameworkComponentConfig {
 			return;
 		}
 		this.textComponentStyle.add(textComponentStyle);
+	}
+
+        public List<String> getDateFieldStyle() {
+        return dateFieldStyle  == null ? dateFieldStyle : Collections.unmodifiableList(dateFieldStyle);
+        }
+
+        public void setDateFieldStyle(List<String> dateFieldStyle) {
+        this.dateFieldStyle = new ArrayList<>(dateFieldStyle);
+         }
+        public void addDateFieldStyle(String dateFieldStyle) {
+		if (dateFieldStyle == null) {
+			return;
+		}
+		this.dateFieldStyle.add(dateFieldStyle);
 	}
 
 	public GtnUIFrameworkComboBoxConfig getGtnComboboxConfig() {

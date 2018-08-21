@@ -54,7 +54,7 @@ public class GtnFrameworkDropToTreeAction implements GtnUIFrameWorkAction, GtnUI
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnFrameworkDropToTreeAction();
+		return this;
 	}
 
 }

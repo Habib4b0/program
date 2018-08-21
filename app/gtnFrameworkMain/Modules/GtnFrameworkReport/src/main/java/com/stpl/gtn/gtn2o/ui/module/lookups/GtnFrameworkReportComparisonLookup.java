@@ -306,7 +306,7 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupBrand.setAddToParent(true);
 		reportComparisonLookupBrand.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
-		reportComparisonLookupBrand.setComponentWsFieldId("comparisonBrand");
+		reportComparisonLookupBrand.setComponentWsFieldId("brand");
 		componentList.add(reportComparisonLookupBrand);
 	}
 
@@ -408,7 +408,7 @@ public class GtnFrameworkReportComparisonLookup {
 		description.setAddToParent(true);
 		description.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
-		description.setComponentWsFieldId("projectionDescription");
+		description.setComponentWsFieldId("description");
 
 		componentList.add(description);
 
@@ -911,22 +911,25 @@ public class GtnFrameworkReportComparisonLookup {
 		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
 		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
 		List<Object> params = new ArrayList<>();
-		List<Object> resetComponentId = new ArrayList<>(Arrays.asList("comparisonLookup_projectionType",
-				"comparisonLookup_workflowStatus", "comparisonLookup_reportComparisonLookupMarketType",
-				"comparisonLookup_reportComparisonLookupBrand", "comparisonLookup_projectionName",
-				"comparisonLookup_reportComparisonLookupContractHolder", "comparisonLookup_ndcConfig",
-				"comparisonLookup_projectionDescription", "comparisonLookup_reportComparisonContract",
-				"comparisonLookup_reportComparisonNdcName"));
-		List<Object> resetComponentValue = new ArrayList<>(Arrays.asList(0, 0,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY));
+		List<Object> resetComponentId = new ArrayList<>();
+		List<Object> resetComponentValue = new ArrayList<>();
 		if (gridResetNeeded) {
 			resetComponentId.add("comparisonLookupResultsPagedTableComponent");
 			resetComponentId.add("comparisonLookupProjectionsResultsPagedTableComponent");
 			resetComponentValue.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			resetComponentValue.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		} else {
+			resetComponentId.addAll(Arrays.asList("comparisonLookup_projectionType", "comparisonLookup_workflowStatus",
+					"comparisonLookup_reportComparisonLookupMarketType", "comparisonLookup_reportComparisonLookupBrand",
+					"comparisonLookup_projectionName", "comparisonLookup_reportComparisonLookupContractHolder",
+					"comparisonLookup_ndcConfig", "comparisonLookup_projectionDescription",
+					"comparisonLookup_reportComparisonContract", "comparisonLookup_reportComparisonNdcName",
+					"comparisonLookup_fromPeriod", "comparisonLookup_toPeriod"));
+			resetComponentValue.addAll(Arrays.asList(0, 0, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null));
 		}
 		params.add(resetComponentId);
 		params.add(resetComponentValue);

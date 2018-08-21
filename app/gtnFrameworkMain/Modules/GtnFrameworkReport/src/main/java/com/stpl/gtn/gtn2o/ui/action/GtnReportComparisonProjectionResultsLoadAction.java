@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +54,12 @@ public class GtnReportComparisonProjectionResultsLoadAction
 		} else {
 			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			if (dataSelectionBean == null) {
+				sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(sourceComponentId)
+						.getParentViewId();
+				dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			}
 			comparisonProjectionsList = dataSelectionBean.getComparisonProjectionBeanList();
 		}
 
@@ -71,8 +78,8 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBean.addProperties(comparisonBean.getMarketType());
 				recordBean.addProperties(comparisonBean.getContractHolder());
 				recordBean.addProperties(comparisonBean.getContract());
-				recordBean.addProperties(comparisonBean.getBrand());
-				recordBean.addProperties(comparisonBean.getCreatedDate());
+				recordBean.addProperties(comparisonBean.getBrand());			
+				recordBean.addProperties(new SimpleDateFormat("MM/dd/yyyy").format(comparisonBean.getCreatedDate()));
 				recordBean.addProperties(comparisonBean.getUserId());
 				recordBean.addProperties(comparisonBean.getCreatedBy());
 				recordBean.addProperties(comparisonBean.getItemNo());

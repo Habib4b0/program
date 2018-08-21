@@ -59,7 +59,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status")
 					.loadV8ComboBoxComponentValue((String) processStatus);
 		} else {			
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("status").loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		}
 
 		Object startDate = gtnWsRecordBean.getPropertyValueByIndex(2);
@@ -111,7 +111,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 
 		if ("24".equals(startHour)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("runEvery")
-					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+					.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("runEvery")
 					.loadV8ComboBoxComponentValue(String.valueOf(startHour));
@@ -119,7 +119,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 
 		if ("60".equals(startMinute)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
-					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+					.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.MINUTES_ID)
 					.loadV8ComboBoxComponentValue(String.valueOf(startMinute));
@@ -150,7 +150,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 		
 		if ("60".equals(startMinute1)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes1")
-					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+					.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes1")
 					.loadV8ComboBoxComponentValue((String) startMinute1);
@@ -158,7 +158,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 
 		if ("60".equals(startMinute2)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes")
-					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+					.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes")
 					.loadV8ComboBoxComponentValue((String) startMinute2);
@@ -166,7 +166,7 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 
 		if ("60".equals(startMinute2)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes3")
-					.loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+					.loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("minutes3")
 					.loadV8ComboBoxComponentValue((String) startMinute3);
@@ -188,19 +188,19 @@ public class GtnFrameworkScheduledProcessTableDoubleClickAction
 		gtnLogger.info("....startHour3..." + startHour3);
 		
 		if (startHour1.equals("24")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1").loadV8ComboBoxComponentValue((String) startHour1);
 		}
 
 		if (startHour2.equals("24")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2").loadV8ComboBoxComponentValue((String) startHour2);
 		}
 
 		if (startHour3.equals("24")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue(Integer.parseInt("0"));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3").loadV8ComboBoxComponentValue((String) startHour3);
 		}

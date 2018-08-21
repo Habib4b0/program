@@ -145,7 +145,7 @@ public class FcpQueryUtils {
 
                 String formatedValue = values.getValue();
 
-                String tempValue[] = values.getValue().split("~");
+                String tempValue[] = values.getKey().split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);

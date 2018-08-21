@@ -20,10 +20,10 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsCffQueryConstants;
 import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.FtpProperties;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service()

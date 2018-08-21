@@ -39,7 +39,7 @@ public class GtnFrameworkCffResultTableResetAction implements GtnUIFrameWorkActi
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_CREATION_DATE_TO_ID)
 		.loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.TYPE_ID)
-		.loadComboBoxComponentValue(Integer.parseInt("0"));
+		.loadComboBoxComponentValue(GtnFrameworkProcessSchedulerStringContants.ZERO);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_ID)
 		.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessSchedulerStringContants.CFF_NAME_ID)
