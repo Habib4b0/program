@@ -31,9 +31,9 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-public class CffOutBoundLookUpConfig {
+public class GtnFrameworkCffOutBoundLookUpConfig {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(CffOutBoundLookUpConfig.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkCffOutBoundLookUpConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public GtnUIFrameworkViewConfig getCffOutBoundLookUpView() {
