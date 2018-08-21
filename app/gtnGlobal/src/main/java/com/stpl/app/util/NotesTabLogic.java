@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.ifs.util.constants.BooleanConstant;
+import java.util.Arrays;
 import org.slf4j.LoggerFactory;
 
 public class NotesTabLogic {
@@ -143,7 +144,7 @@ public class NotesTabLogic {
 			        query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
 			        query = query.replace("?MASTER_TABLE_NAME","'" + moduleName + "'");
 			        try {
-						query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
+						query = query.replace("?FILE_DATA", "'" + Arrays.toString(readBytesFromFile(uploadDetails.getDocumentFullPath()))+ "'" );
 					} catch (IOException e) {
 						LOGGER.error("Error while Fetching File");
 					}

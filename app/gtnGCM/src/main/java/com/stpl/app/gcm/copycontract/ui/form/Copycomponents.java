@@ -1013,7 +1013,6 @@ public class Copycomponents extends CustomComponent {
 
     public void savecontract(Object item) {
         try {
-            String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.SESSION_ID));
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             int contractMasterSid = 0;
             String level = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.LEVELNO).getValue());
