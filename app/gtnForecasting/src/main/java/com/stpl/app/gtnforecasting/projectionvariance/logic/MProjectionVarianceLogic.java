@@ -685,7 +685,7 @@ public class MProjectionVarianceLogic {
                 selectionDTOATCount.setCustomerHierarchyNo(StringUtils.EMPTY);
             }
             if (selectionDTOATCount.getPivotView().equals(Constant.PERIOD)) {
-                count += getProjectionResultsCount(selectionDTOATCount, selectionDTOATCount.getParentNode().trim(), selectionDTOATCount.getLevelNo(), parentDto, isLevelsCount);
+                count += getProjectionResultsCount(selectionDTOATCount,  selectionDTOATCount.getLevelNo(), parentDto, isLevelsCount);
             } else {
                 count += getPivotResultsCount(parentId, selectionDTOATCount, isLevelsCount);
             }
@@ -699,11 +699,11 @@ public class MProjectionVarianceLogic {
 
     }
 
-    public int getProjectionResultsCount(PVSelectionDTO pVSelectionDTO, String parentName, int levelNo, ProjectionVarianceDTO parentDto, boolean isLevelsCount) throws PortalException,SystemException {
+    public int getProjectionResultsCount(PVSelectionDTO pVSelectionDTO,  int levelNo, ProjectionVarianceDTO parentDto, boolean isLevelsCount) throws PortalException,SystemException {
         int count = 0;
         if (parentDto != null) {
             count += getVarianceSalesCount(pVSelectionDTO);
-            count += getVarianceDiscountCount(pVSelectionDTO, parentName, String.valueOf(levelNo), parentDto);
+            count += getVarianceDiscountCount(pVSelectionDTO,  String.valueOf(levelNo), parentDto);
         }
 
         if ((!selectionDTO.isIsCustomerDdlb() && !pVSelectionDTO.isIslevelFiler() && !pVSelectionDTO.isIsLevel() && isLevelsCount) && (parentDto == null || (!parentDto.getGroup().contains(Constant.DISCOUNT_SMALL) && !parentDto.getGroup().contains("RPU")))) {
@@ -1000,13 +1000,10 @@ public class MProjectionVarianceLogic {
         return count;
     }
 
-    public int getVarianceDiscountCount(PVSelectionDTO pVSelectionDTO, String parentName, String levelNo, ProjectionVarianceDTO parentDto) throws PortalException,SystemException {
+    public int getVarianceDiscountCount(PVSelectionDTO pVSelectionDTO,  String levelNo, ProjectionVarianceDTO parentDto) throws PortalException,SystemException {
 
         int count = 0;
         String group = parentDto.getGroup();
-        if (Constants.LabelConstants.TOTAL_DISCOUNT.getConstant().equalsIgnoreCase(selectionDTO.getDiscountLevel())) {
-            parentName = StringUtils.EMPTY;
-        }
         boolean flag = false;
         if (!group.contains(Constants.LabelConstants.DISCOUNT_AMOUNT.getConstant()) && !group.contains(Constants.LabelConstants.DISCOUNT_PERC.getConstant()) && !group.contains("RPU")) {
             flag = true;
@@ -1203,11 +1200,10 @@ public class MProjectionVarianceLogic {
                     isDiscountExpand = true;
                 }
 
-                String parentName = parentDto.getParentNode().trim();
                 String levelNo = String.valueOf(parentDto.getTreeLevelNo());
                 if (pVSelectionDTO.getPivotView().equals(Constants.LabelConstants.PERIOD.getConstant())) {
                     maxRecord += getVarianceSalesCount(pVSelectionDTO);
-                    maxRecord += getVarianceDiscountCount(pVSelectionDTO, parentName, levelNo, parentDto);
+                    maxRecord += getVarianceDiscountCount(pVSelectionDTO,  levelNo, parentDto);
                 } else {
                     maxRecord = pVSelectionDTO.getPeriodList().size() + 1;
                 }
