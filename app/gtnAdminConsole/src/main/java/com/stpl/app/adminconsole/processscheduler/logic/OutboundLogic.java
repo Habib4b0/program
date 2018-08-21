@@ -7,7 +7,6 @@ package com.stpl.app.adminconsole.processscheduler.logic;
 
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.AbstractFilterLogic;
-import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.dao.CommonDAO;
 import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
