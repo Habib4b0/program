@@ -25,9 +25,9 @@ public class SalesRowDto extends ExtMapDTO {
     private String contract = EMPTY_STRING;
     private String product = EMPTY_STRING;
 
-    private Integer levelNo = new Integer("0");
-    private Integer treeLevelNo = new Integer("0");
-    private Integer relationLevelSid = new Integer("0");
+    private Integer levelNo = Integer.valueOf(0);
+    private Integer treeLevelNo = Integer.valueOf(0);
+    private Integer relationLevelSid = Integer.valueOf(0);
     private String hierarchyNo = "%";
     private String hierarchyLevel=EMPTY_STRING;
     private String returnDetailsSid = StringUtils.EMPTY;
@@ -37,7 +37,7 @@ public class SalesRowDto extends ExtMapDTO {
     private String hierarchyType=EMPTY_STRING;
     
     private String parentHierarchyType=EMPTY_STRING;
-    private Integer uncheckCount=new Integer("0");
+    private Integer uncheckCount= Integer.valueOf("0");
     private Integer parent = 0;
     private String parentLevelIndicator = StringUtils.EMPTY;
     private String levelIndicator = StringUtils.EMPTY;

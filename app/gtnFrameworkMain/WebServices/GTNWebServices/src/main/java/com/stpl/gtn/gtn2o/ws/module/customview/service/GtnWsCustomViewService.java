@@ -590,6 +590,7 @@ public class GtnWsCustomViewService {
 		gtnWsRecordBean.addProperties(detailsData.getLevelNo());
 		gtnWsRecordBean.addProperties(detailsData.getHierarchyIndicator());
 		gtnWsRecordBean.addProperties(hierarchyId);
+		gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
 		if (levelName.equals(GtnWsConstants.VARIABLES)) {
 			@SuppressWarnings("unchecked")
 			List<Object[]> variablesData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(

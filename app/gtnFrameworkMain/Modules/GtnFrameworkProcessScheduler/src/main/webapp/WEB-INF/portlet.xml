@@ -9,8 +9,8 @@
 
 	<portlet>
 		<description>Write here a short description about your portlet.</description>
-		<portlet-name>ProcessScheduler</portlet-name>
-		<display-name>ProcessScheduler</display-name>
+		<portlet-name>ProcessSchedulerNew</portlet-name>
+		<display-name>ProcessSchedulerNew</display-name>
 
 		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
 
@@ -29,7 +29,7 @@
 
 
 		<portlet-info>
-			<title>ProcessScheduler</title>
+			<title>ProcessSchedulerNew</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>

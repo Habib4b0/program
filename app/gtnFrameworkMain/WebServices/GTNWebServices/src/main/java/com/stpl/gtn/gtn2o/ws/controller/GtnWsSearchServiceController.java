@@ -79,7 +79,7 @@ public class GtnWsSearchServiceController {
 			+ GtnWebServiceUrlConstants.GTN_COMMON_SEARCH, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getSearchResultForAllModule(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-
+		
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse generalWSResponse = new GtnWsGeneralResponse();
 		try {

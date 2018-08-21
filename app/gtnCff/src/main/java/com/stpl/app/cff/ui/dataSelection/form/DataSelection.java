@@ -434,7 +434,7 @@ public class DataSelection extends AbstractDataSelection {
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}", ex);
 			}
-		} else if ((value == null && SELECT_ONE.equals(String.valueOf(value)))) {
+		} else  {
 			selectedProduct.removeAllItems();
 			selectedProductContainer.removeAllItems();
 			availableProduct.removeAllItems();
@@ -3698,6 +3698,7 @@ public class DataSelection extends AbstractDataSelection {
 			customerInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		level.setContainerDataSource(customerInnerLevelContainer);
@@ -3732,6 +3733,7 @@ public class DataSelection extends AbstractDataSelection {
 			productInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);

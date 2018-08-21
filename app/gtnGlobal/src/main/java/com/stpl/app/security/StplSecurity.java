@@ -381,94 +381,94 @@ public StplSecurityDAO getDto() {
         LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size= {}" , permissionHm.size());
         return permissionHm;
     }
-  private List getBuisnessColumn(String businessRoleIds, String moduleName) {
-        List columnList;
+  private List getBuisnessColumn(String businessRoleIdsSecurity, String moduleNameSecurity) {
+        List columnListSecurity;
 
-        String query;
-        String[] str = null;
+        String sqlQuery;
+        String[] arr = null;
         String mod;
-        if (moduleName.contains(String.valueOf(ConstantsUtils.COMMA))) {
-            str = moduleName.split(String.valueOf(ConstantsUtils.COMMA));
-            mod = str[0];
+        if (moduleNameSecurity.contains(String.valueOf(ConstantsUtils.COMMA))) {
+            arr = moduleNameSecurity.split(String.valueOf(ConstantsUtils.COMMA));
+            mod = arr[0];
         } else {
-            mod = moduleName;
+            mod = moduleNameSecurity;
         }
 
-        query = "select distinct spm.PROPERTY_NAME from USERGROUP_BUSINESSROLE as ubm, \n"
+        sqlQuery = "select distinct spm.PROPERTY_NAME from USERGROUP_BUSINESSROLE as ubm, \n"
                 + "		BUSINESSROLE_MODULE as bmm, \n"
                 + "              MODULE_PROPERTIES as spm where \n"
                 + "            ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and \n"
                 + "            (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') \n"
                 + "            and spm.CATEGORY_NAME IN ('List view Header')";
-        if (businessRoleIds.length() != 0) {
-            query += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                    + businessRoleIds + ")";
+        if (businessRoleIdsSecurity.length() != 0) {
+            sqlQuery += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                    + businessRoleIdsSecurity + ")";
         }
         if (mod.length() != 0) {
-            query += " AND spm.MODULE_NAME in ('" + mod + "') ";
+            sqlQuery += " AND spm.MODULE_NAME in ('" + mod + "') ";
         }
-        if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
-            query += " AND spm.TAB_NAME like ('" + str[1] + "') ";
+        if (arr != null && !arr[1].equals(StringUtils.EMPTY) && arr[1].length() != 0) {
+            sqlQuery += " AND spm.TAB_NAME like ('" + arr[1] + "') ";
         }
-        columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return columnList;
+        columnListSecurity = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
+        return columnListSecurity;
 
     }
 
-    public List fetchColumnForSecurity(String moduleName, String tabName) {
-        List columnList;
-        String query = "SELECT DISPLAY_NAME, PROPERTY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleName + "' "
-                + " AND TAB_NAME = '" + tabName + "' AND CATEGORY_NAME IN ('List view Header') ";
-        columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return columnList;
+    public List fetchColumnForSecurity(String moduleNameSecurity, String tabNameSecurity) {
+        List columnListFetchColumn;
+        String fetchColumnQuery = "SELECT DISPLAY_NAME, PROPERTY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleNameSecurity + "' "
+                + " AND TAB_NAME = '" + tabNameSecurity + "' AND CATEGORY_NAME IN ('List view Header') ";
+        columnListFetchColumn = HelperTableLocalServiceUtil.executeSelectQuery(fetchColumnQuery);
+        return columnListFetchColumn;
     }
 
-    private Set getModePermission(String businessRoleIds, String moduleName , boolean add ,boolean view ,boolean edit,boolean column) {
-       Set field = new HashSet();
-        List columnList;
-        String query;
+    private Set getModePermission(String businessRoleIdsMode, String moduleNameGetMode , boolean addMode ,boolean viewMode ,boolean editMode,boolean columnField) {
+       Set fieldValue = new HashSet();
+        List columnListValues;
+        String sqlQueryModePermission;
         String[] str = null;
         String mod;
-        if (moduleName.contains(String.valueOf(ConstantsUtils.COMMA))) {
-            str = moduleName.split(String.valueOf(ConstantsUtils.COMMA));
+        if (moduleNameGetMode.contains(String.valueOf(ConstantsUtils.COMMA))) {
+            str = moduleNameGetMode.split(String.valueOf(ConstantsUtils.COMMA));
             mod = str[0];
         } else {
-            mod = moduleName;
+            mod = moduleNameGetMode;
         }
-         query = "select distinct spm.PROPERTY_NAME from USERGROUP_BUSINESSROLE as ubm, \n"
+         sqlQueryModePermission = "select distinct spm.PROPERTY_NAME from USERGROUP_BUSINESSROLE as ubm, \n"
                 + "		BUSINESSROLE_MODULE as bmm, \n"
                 + "        MODULE_PROPERTIES as spm where \n"
                 + "        ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and \n"
                 + "        (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') \n";
-         if(column==true){
-             query+= "  and spm.CATEGORY_NAME IN ('List view Header')";
+         if(columnField==true){
+             sqlQueryModePermission+= "  and spm.CATEGORY_NAME IN ('List view Header')";
          }else{
-                query+= " and spm.CATEGORY_NAME NOT IN ('Button','Tab') ";
+                sqlQueryModePermission+= " and spm.CATEGORY_NAME NOT IN ('Button','Tab') ";
          }
-        if (businessRoleIds.length() != 0) {
-            query += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                    + businessRoleIds + ")";
+        if (businessRoleIdsMode.length() != 0) {
+            sqlQueryModePermission += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                    + businessRoleIdsMode + ")";
         }
 
         if (mod.length() != 0) {
-            query += " AND spm.MODULE_NAME in ('" + mod + "') ";
+            sqlQueryModePermission += " AND spm.MODULE_NAME in ('" + mod + "') ";
         }
         if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
-            query += " AND spm.TAB_NAME like ('" + str[1] + "') ";
+            sqlQueryModePermission += " AND spm.TAB_NAME like ('" + str[1] + "') ";
         }
       
-        if(add==true){
-             query+="AND bmm.ADD_FLAG = '1' ";
+        if(addMode==true){
+             sqlQueryModePermission+="AND bmm.ADD_FLAG = '1' ";
         }
-        else if(view==true){
-             query+="AND bmm.VIEW_FLAG = '1' ";
+        else if(viewMode==true){
+             sqlQueryModePermission+="AND bmm.VIEW_FLAG = '1' ";
         }
-        else if(edit==true){
-             query+="AND bmm.EDIT_FLAG = '1' ";
+        else if(editMode==true){
+             sqlQueryModePermission+="AND bmm.EDIT_FLAG = '1' ";
         }
-        columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        field.addAll(columnList);
-        return field;
+        columnListValues = HelperTableLocalServiceUtil.executeSelectQuery(sqlQueryModePermission);
+        fieldValue.addAll(columnListValues);
+        return fieldValue;
     }
 
 	public static Map<Integer,String> getUsermap() {

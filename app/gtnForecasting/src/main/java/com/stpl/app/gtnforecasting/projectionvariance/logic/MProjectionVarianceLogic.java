@@ -120,9 +120,6 @@ public class MProjectionVarianceLogic {
 
     public int getProjectionCount(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds, final Set<Container.Filter> filterValue) throws PortalException, SystemException{
         char quotes = '\'';
-        String asterik = "*";
-        String percent = Constant.PERCENT;
-
         String marketTypeValue;
         String brandValue;
         String projNameValue;
@@ -312,9 +309,6 @@ public class MProjectionVarianceLogic {
             int startIndex, int offset, List<SortByColumn> list, final Set<Container.Filter> filterValue) throws PortalException, SystemException {
 
         char quotes = '\'';
-        String asterik = "*";
-        String percent = Constant.PERCENT;
-
         String marketTypeVal;
         String brandVal;
         String projNameVal;
