@@ -18,75 +18,90 @@
 
 <%@ include file="/init.jsp" %>
 <style>
-	.login-logo
-	{
-		margin: 15px auto;
-	}
-	.sign-in-panel-col
-   {
-	   margin-top: 15%;
-   }
-	.sign-in-panel-col label
-	{
-		font-weight: 400;
-		font-size: 13px;
-	}
-   .sign-in-panel-col .panel-heading
-   {
-		   background: linear-gradient(to bottom, #7fb9ef 0px, #2e85d8 100%);
-		  color: #f4f4f4;
-  font-size: 22px;
-  padding-left: 10px;
-  text-shadow: 1px 1px #686868;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-   }
-	.sign-in-panel-col .panel-heading .panel-title
-	{
-		font-size: 22px;
-	}
-	.sign-in-panel-col .panel{
-			border:0px;    
-  box-shadow: 0 7px 7px #ddd;
-  padding: 0px 0;
-	}
-	.sign-in-panel-col .btn{
-			background: linear-gradient(to bottom, #aeb9c1 0px, #6d808e 100%) repeat ;
-  border-bottom: 2px solid #657682 ;
-		color: #fff;
-		font-size: 16px;
-		margin-top: 30px;
-		width: 100%;
-	}
-	.sign-in-panel-col .btn:hover{
-			background: linear-gradient(to bottom, #6d808e 0px, #86949f 100%) repeat ;
-  border-bottom: 2px solid #657682 ;
-	}
-   .sign-in-panel-col .input-group-addon
-	{
-		background: #fff;
-	}	 
+.login-logo {
+	margin: 15px auto;
+}
 
-	.iconE{
-		left: auto;
-    right: 3px;
-    padding: 0 3px;
-    z-index: 2;
-    position: absolute;
-   
-    bottom: 1px;
-    line-height: 28px;
-    display: inline-block;
-    color: #909090;
-    font-size: 16px;
-    margin-right: 16px;
-	}
-	.iconM{
-		top: 25px;
-	}
-	.iconL{
-    	top: 94px;
-		}
+.sign-in-panel-col {
+	margin-top: 15%;
+}
+
+.sign-in-panel-col label {
+	font-weight: 400;
+	font-size: 13px;
+}
+
+.sign-in-panel-col .panel-heading {
+	background: linear-gradient(to bottom, #7fb9ef 0px, #2e85d8 100%);
+	color: #f4f4f4;
+	font-size: 22px;
+	padding-left: 10px;
+	text-shadow: 1px 1px #686868;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.sign-in-panel-col .panel-heading .panel-title {
+	font-size: 22px;
+}
+
+.sign-in-panel-col .panel {
+	border: 0px;
+	box-shadow: 0 7px 7px #ddd;
+	padding: 0px 0;
+}
+
+.sign-in-panel-col .btn {
+	background: linear-gradient(to bottom, #aeb9c1 0px, #6d808e 100%) repeat;
+	border-bottom: 2px solid #657682;
+	color: #fff;
+	font-size: 16px;
+	margin-top: 30px;
+	width: 100%;
+}
+
+.sign-in-panel-col .btn:hover {
+	background: linear-gradient(to bottom, #6d808e 0px, #86949f 100%) repeat;
+	border-bottom: 2px solid #657682;
+}
+
+.sign-in-panel-col .input-group-addon {
+	background: #fff;
+}
+
+.iconE {
+	left: auto;
+	right: 3px;
+	padding: 0 3px;
+	z-index: 2;
+	position: absolute;
+	bottom: 1px;
+	line-height: 28px;
+	display: inline-block;
+	color: #909090;
+	font-size: 16px;
+	margin-right: 16px;
+}
+
+.iconM {
+	top: 25px;
+}
+
+.iconL {
+	top: 94px;
+}
+
+.sizeable>span {
+	font-size: 18px;
+}
+
+.sizeable {
+	margin-top: 10px !important;
+}
+
+.button-holder {
+	margin: 0px !important;
+}
 </style>
 <c:choose>
 	<c:when test="<%= themeDisplay.isSignedIn() %>">
@@ -226,7 +241,7 @@
 			</aui:fieldset>
 
 			<aui:button-row>
-				<aui:button type="submit" icon="icon-key" iconAlign="left" value="sign-in" />
+				<aui:button cssClass="sizeable" type="submit" icon="icon-key" iconAlign="left" value="sign-in" />
 			</aui:button-row>
 		</div></div></div></div></div></div>
 		</aui:form>
