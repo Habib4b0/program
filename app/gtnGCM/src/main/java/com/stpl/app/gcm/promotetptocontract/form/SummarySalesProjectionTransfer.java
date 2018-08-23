@@ -60,18 +60,13 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     public static final Logger LOGGER = LoggerFactory.getLogger(SummarySalesProjectionTransfer.class);
     
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightDTO;
     private final ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    private ExtFilterTreeTable leftTable;
-    private ExtFilterTreeTable rightTable;
     private final SalesTabTableLogic tableLogic = new SalesTabTableLogic();
     private final FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     private final TabSelectionDTO selectionDTO = new TabSelectionDTO();
@@ -123,6 +118,12 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * Configure table.
      */
     public void configureTable() {
+        
+        CustomTableHeaderDTO rightDTO;
+        Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
+        Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
+        ExtFilterTreeTable leftTable;
+        ExtFilterTreeTable rightTable;
         fullHeader = new CustomTableHeaderDTO();
          CustomTableHeaderDTO leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
         rightDTO = HeaderUtils.getSalesTabsRightTableColumns(fullHeader, Constants.QUARTERLY);
