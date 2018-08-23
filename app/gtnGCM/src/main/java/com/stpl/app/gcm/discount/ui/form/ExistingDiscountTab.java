@@ -769,7 +769,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         ifpList.add(srcTableBean);
                         ifpListforMap.add(srcTableBean);
                     }
-                } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant()) && treeBean != null) {
+                } else if (treeBean != null && compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
                     List list = logic.cfpDuplicateCheck(srcTableBean, treeBean.getInternalId());
                     if (list.isEmpty()) {
                         if (addToTreeMethod(srcTableBean)) {

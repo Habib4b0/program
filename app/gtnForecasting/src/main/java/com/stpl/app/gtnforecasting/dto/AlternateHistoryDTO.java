@@ -126,7 +126,7 @@ public class AlternateHistoryDTO extends ExtMapDTO{
     private String actualsOrProjections = StringUtils.EMPTY;
     
   
-    private Integer projDetailSid=new Integer(0);
+    private Integer projDetailSid=0;
 
     private String temptableSid=StringUtils.EMPTY;
     

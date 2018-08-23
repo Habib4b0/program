@@ -44,7 +44,7 @@ public abstract class AbstractSaveViewPopup extends AbstractLookup {
 	public VerticalLayout buildPopupScreen(TextField viewName, OptionGroup viewType) {
 		this.viewName = viewName;
 		this.viewType = viewType;
-		initializeComponents();
+		initializeComponentsPopup();
 		return build();
 	}
 
@@ -68,7 +68,7 @@ public abstract class AbstractSaveViewPopup extends AbstractLookup {
 	/**
 	 * Initializes and configures the components
 	 */
-	private void initializeComponents() {
+	private void initializeComponentsPopup() {
 
 		initializePrivatePublic();
 		setViewAddButton(getAddButton());
