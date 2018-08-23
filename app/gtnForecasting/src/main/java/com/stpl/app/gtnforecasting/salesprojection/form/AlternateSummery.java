@@ -435,20 +435,20 @@ public class AlternateSummery extends CustomComponent {
     /**
      * new the hierarchy btn.
      *
-     * @param event the event
+     * @param newBtnEvent the event
      */
     @UiHandler("newBtn")
-    public void newHierarchyBtn(Button.ClickEvent event) {
+    public void newHierarchyBtn(Button.ClickEvent newBtnEvent) {
         customTreeViewLogic();
     }
 
     /**
-     * edit the hierarchy btn.
+     * edit the newBtnEvent btn.
      *
-     * @param event the event
+     * @param editBtnEvent the newBtnEvent
      */
     @UiHandler("editBtn")
-    public void editHierarchyBtn(Button.ClickEvent event) {
+    public void editHierarchyBtn(Button.ClickEvent editBtnEvent) {
         editHierarchyLogic();
 
     }
@@ -456,10 +456,10 @@ public class AlternateSummery extends CustomComponent {
     /**
      * Reset btn.
      *
-     * @param event the event
+     * @param resetBtnEvent the event
      */
     @UiHandler("resetBtn")
-    public void resetBtn(Button.ClickEvent event) {
+    public void resetBtn(Button.ClickEvent resetBtnEvent) {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
@@ -467,10 +467,10 @@ public class AlternateSummery extends CustomComponent {
             }
 
             /**
-             * The method is triggered when Yes button of the message box is
+             * The method is triggerrrred when Yes button of the message box is
              * pressed .
              *
-             * @param buttonId The buttonId of the pressed button.
+             * @param buttonId The buttonId of the presssssed button.
              */
             @Override
             public void yesMethod() {

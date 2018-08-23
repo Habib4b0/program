@@ -1094,7 +1094,7 @@ public class DataSelection extends AbstractDataSelection {
 									childHierarchyNo = tempHNo + ".";
 								}
 								if (customerBeanList.isEmpty()
-										|| !customerBeanList.contains(newLevel.getRelationShipBuilderId())) {
+										|| !customerBeanList.contains(Integer.parseInt(newLevel.getRelationShipBuilderId()))) {
 									customerBeanList.add(newLevel.getRelationshipLevelSid());
 									selectedCustomerContainer.addBean(newLevel);
 									if (forecastLevel != newLevel.getLevelNo()) {

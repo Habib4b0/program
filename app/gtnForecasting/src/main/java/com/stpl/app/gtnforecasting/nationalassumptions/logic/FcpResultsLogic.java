@@ -22,7 +22,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -485,7 +484,7 @@ public class FcpResultsLogic {
     }
 
     // Non Famp Starts 
-    public List<TableDTO> getConfiguredNonFamp(int start, int offset, ProjectionSelectionDTO projSelDTO, String hierarchyNo, SessionDTO session) {
+    public List<TableDTO> getConfiguredNonFamp(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(ACTUALS_AND_PROJECTIONS);
@@ -494,13 +493,12 @@ public class FcpResultsLogic {
         projSelDTO.setIsTotal(true);
         projSelDTO.setTreeLevelNo(0);
         projSelDTO.setGroup(StringUtils.EMPTY);
-        hierarchyNo = null;
         resultList = getNonFampResults(start, offset, projSelDTO, session);
 
         return resultList;
     }
 
-    public int getConfiguredNonFampCount(Object parentId, ProjectionSelectionDTO projSelDTO, String hierarchyNo) {
+    public int getConfiguredNonFampCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(ACTUALS_AND_PROJECTIONS);
@@ -515,14 +513,12 @@ public class FcpResultsLogic {
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
             projSelDTO.setGroup(parentDto.getGroup());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
-            hierarchyNo = parentDto.getHierarchyNo();
 
         } else {
             projSelDTO.setIsProjectionTotal(true);
             projSelDTO.setIsTotal(true);
             projSelDTO.setTreeLevelNo(0);
             projSelDTO.setGroup(StringUtils.EMPTY);
-            hierarchyNo = null;
         }
         count += getNonFampCount(projSelDTO);
         return count;
