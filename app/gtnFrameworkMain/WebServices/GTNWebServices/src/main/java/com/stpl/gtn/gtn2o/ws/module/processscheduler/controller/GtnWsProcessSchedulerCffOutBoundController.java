@@ -63,7 +63,7 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 
 	}
 
-	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA)
+	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse generateCffOutBound(
 			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
 		boolean isSuccess = gtnWsPSCffOutBoundService.cffOutBoundService(processSchedulerCffRequest);
@@ -74,7 +74,7 @@ public class GtnWsProcessSchedulerCffOutBoundController {
 		return processSchedulerResponse;
 	}
 
-	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL)
+	@RequestMapping(value = GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse checkAllRecordCffOutBound(
 			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerCffRequest) {
 		logger.info("Enter checkAll");

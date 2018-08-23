@@ -240,7 +240,8 @@ public class GtnWsQuartzListener {
 			if (profile.getStartHour() == GtnWsProcessSchedulerConstant.TWENTY_FOUR) {
 				return;
 			}
-			List<String> generatedCronList = GtnWsQuartzUtil.calculateCronStringForInterval(
+			GtnWsQuartzUtil gtnWsQuartzUtil = new GtnWsQuartzUtil();
+			List<String> generatedCronList = gtnWsQuartzUtil.calculateCronStringForInterval(
 					profile.getStartHour() * GtnWsProcessSchedulerConstant.SIXTY + profile.getStartMinutes());
 			cronStringList.addAll(generatedCronList);
 			return;

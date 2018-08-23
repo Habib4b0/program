@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class GtnWsQuartzUtil {
 	
-	private GtnWsQuartzUtil(){
-		
+	public GtnWsQuartzUtil(){
+		super();
 	}
 
-	public static List<String> calculateCronStringForInterval(int interval) {
+	public List<String> calculateCronStringForInterval(int interval) {
 		int minuteInADay = 0;
 		Map<Integer, List<Integer>> hourlyMap = new HashMap<>();
 		Map<Integer, List<Integer>> minutelyMap = new HashMap<>();
@@ -31,7 +31,7 @@ public class GtnWsQuartzUtil {
 
 	}
 
-	public static void addToHourlyMap(Map<Integer, List<Integer>> hourMap, int minuteInADay) {
+	public void addToHourlyMap(Map<Integer, List<Integer>> hourMap, int minuteInADay) {
 
 		int hour = getHour(minuteInADay);
 		int minute = minuteInADay - (hour * 60);
@@ -45,7 +45,7 @@ public class GtnWsQuartzUtil {
 
 	}
 
-	private static void convertMapToCronList(Map<Integer, List<Integer>> minutelyMap, List<String> cronStringList) {
+	private void convertMapToCronList(Map<Integer, List<Integer>> minutelyMap, List<String> cronStringList) {
 
 		for (int i = 0; i < 60; i++) {
 			List<Integer> hourList = minutelyMap.get(i);
@@ -59,7 +59,7 @@ public class GtnWsQuartzUtil {
 
 	}
 	
-	public static String concateHours(List<Integer> hourlist) {
+	public String concateHours(List<Integer> hourlist) {
 		if (hourlist == null) {
 			return null;
 		}
@@ -88,7 +88,7 @@ public class GtnWsQuartzUtil {
 		return 24;
 	}
 
-	public static void addToMinutelyMap(Map<Integer, List<Integer>> minutelyMap, int minuteInADay) {
+	public void addToMinutelyMap(Map<Integer, List<Integer>> minutelyMap, int minuteInADay) {
 
 		int hour = getHour(minuteInADay);
 		int minute = minuteInADay - (hour * 60);
