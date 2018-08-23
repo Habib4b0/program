@@ -35,7 +35,6 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
-import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
@@ -387,14 +386,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());
         generateLogic();
-        if (viewDdlb.getValue() != null
-                && !Constant.NULL.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
-                && !SELECT_ONE.getConstant().equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
-                && !DASH.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))) {
-            editBtn.setEnabled(false);
-        } else {
-            editBtn.setEnabled(false);
-        }
+        editBtn.setEnabled(false);
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
 
