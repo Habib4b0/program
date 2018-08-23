@@ -2060,7 +2060,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("{}",e);
         }
         excelParentRecords.clear();
     }

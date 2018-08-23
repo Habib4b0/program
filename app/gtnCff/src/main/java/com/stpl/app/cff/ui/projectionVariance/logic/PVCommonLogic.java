@@ -15,7 +15,10 @@ import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +55,23 @@ public class PVCommonLogic {
         }
     }
      public static void customizePeriodV2(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, 
+             DecimalFormat format, int index, Object[] actual,Object[] proj, boolean isPer,boolean isExcel) {
+        try {
+            String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[isExcel ? (actual.length - NumericConstants.THREE):(actual.length -  NumericConstants.TWO)])));
+            String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
+            String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
+
+            addPeriodProperties(variableCategory, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, actualValue, accrualValue);
+
+        } catch (Exception e) {
+            LOGGER.error("{}",e);
+        }
+    }
+     
+     public static void customizePeriodDiscountV2(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, 
              DecimalFormat format, int index, Object[] actual,Object[] proj, boolean isPer) {
         try {
-            String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[actual.length - 3])));
+            String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[actual.length - NumericConstants.THREE])));
             String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + proj[index])));
             String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + actual[index])));
 
@@ -120,7 +137,7 @@ public class PVCommonLogic {
     }
     
     static void getPriorCommonCustomizationV2(String variableCategory, PVSelectionDTO pvsdto, final List<Object[]> rows, ProjectionVarianceDTO projDTO,
-            String commonColumn, int index, int priorIndex, final Boolean isPer, DecimalFormat format) {
+            String commonColumn, int index, int priorIndex, final Boolean isPer, DecimalFormat format,boolean isExcel) {
         LOGGER.debug("Inside getPivotCommonCustomization");
         int currentProjectionId = pvsdto.getCurrentProjId();
 
@@ -136,6 +153,17 @@ public class PVCommonLogic {
         
         if(comparisonBasis ){
            comparisonprojId =  pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis()));
+        }
+        if (isExcel) {
+            Map<Object, List<Object[]>> groupedResult = rows.stream().map(obj -> (Object[]) obj)
+                    .collect(Collectors.groupingBy(x -> {
+                        return new ArrayList<>(Arrays.asList(x[1], x[3], x[4]));
+                    }));
+            List<Object[]> list1 = new ArrayList<>();
+            for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
+                list1.addAll(entry.getValue());
+            }
+            rows.addAll(list1);
         }
         String actValue = StringUtils.EMPTY;
         String accrValue = StringUtils.EMPTY;
@@ -187,7 +215,7 @@ public class PVCommonLogic {
     }
 
     public static String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
+        if (value.contains(NULL.getConstant()) || value.isEmpty() ){
             value = ZERO;
         }
         return value;
