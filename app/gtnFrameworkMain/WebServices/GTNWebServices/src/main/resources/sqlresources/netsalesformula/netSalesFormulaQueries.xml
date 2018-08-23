@@ -627,5 +627,19 @@ SELECT DEDUCTION_DETAILS_SID from IMTD_DEDUCTION_DETAILS where  NET_SALES_FORMUL
  ]]>
 		</query>
 	</entity>
+        <entity id="getSalesDeductOnRefreshdeleteQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+            DELETE FROM dbo.IMTD_SALES_BASIS_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+
+            DELETE FROM dbo.IMTD_DEDUCTION_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+        ]]>
+		</query>
+	</entity>
+        
 
 </sql>
