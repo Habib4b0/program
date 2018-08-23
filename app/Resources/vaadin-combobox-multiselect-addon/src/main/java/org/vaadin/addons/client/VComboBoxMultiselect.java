@@ -1227,7 +1227,6 @@ public class VComboBoxMultiselect extends Composite
 						VComboBoxMultiselect.this.clearCmd);
 				clearMenuItem.getElement()
 					.setId(DOM.createUniqueId());
-				clearMenuItem.addStyleName("align-center");
 				Property.LABEL.set(clearMenuItem.getElement(), VComboBoxMultiselect.this.clearButtonCaption);
 				this.addItem(clearMenuItem);
 			}
@@ -1237,7 +1236,6 @@ public class VComboBoxMultiselect extends Composite
 						VComboBoxMultiselect.this.selectAllCmd);
 				selectAllMenuItem.getElement()
 					.setId(DOM.createUniqueId());
-				selectAllMenuItem.addStyleName("align-center");
 				Property.LABEL.set(selectAllMenuItem.getElement(), VComboBoxMultiselect.this.selectAllButtonCaption);
 				this.addItem(selectAllMenuItem);
 			}

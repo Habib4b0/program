@@ -5,6 +5,30 @@
  */
 package com.stpl.app.gtnforecasting.pparesults.logic;
 
+import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
+
+import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.Future;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.PPAPrjectionResultsDAO;
@@ -26,33 +50,11 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
-import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -1178,19 +1180,22 @@ public class PPAProjectionResultsLogic {
      */
 
     public void callPPAGenerateProcedures(final ProjectionSelectionDTO selection) {
-        //Calling PRC_NM_PPA_PROJ_INIT only if it is not called in Tab Change
-        final ExecutorService service = ThreadPool.getInstance().getService();
+		// Calling PRC_NM_PPA_PROJ_INIT only if it is not called in Tab Change
+		final ThreadPool service = ThreadPool.getInstance();
         if (selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT) == null) {
-            Future ppaInit = service.submit(CommonUtil.getInstance().createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, selection.getSessionDTO()));
-            selection.getSessionDTO().addFutureMap(SalesUtils.PRC_NM_PPA_PROJ_INIT, new Future[]{ppaInit});
+			Future ppaInit = service.submitRunnable(CommonUtil.getInstance()
+					.createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, selection.getSessionDTO()));
+			selection.getSessionDTO().addFutureMap(SalesUtils.PRC_NM_PPA_PROJ_INIT, new Future[] { ppaInit });
             selection.getSessionDTO().setIsSalesCalculated(false);
         }
-        CommonUtil.getInstance().waitsForOtherThreadsToComplete(selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT));
+		CommonUtil.getInstance().waitsForOtherThreadsToComplete(
+				selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT));
      
-        Object[] orderedArgs = {selection.getProjectionId(), selection.getUserId(), selection.getSessionDTO().getSessionId()};
-        Future future = service.submit(createRunnable(SalesUtils.PRC_NM_PPA_PROJECTION, orderedArgs, selection));
-        selection.getSessionDTO().addFutureMap(Constant.PRC_PPA_GENERATE_CALL, new Future[]{future});
-        // service.shutdown();
+		Object[] orderedArgs = { selection.getProjectionId(), selection.getUserId(),
+				selection.getSessionDTO().getSessionId() };
+		Future future = service
+				.submitRunnable(createRunnable(SalesUtils.PRC_NM_PPA_PROJECTION, orderedArgs, selection));
+		selection.getSessionDTO().addFutureMap(Constant.PRC_PPA_GENERATE_CALL, new Future[] { future });
     }
 
     Runnable createRunnable(final String procedureName, final Object[] orderedArgs, final ProjectionSelectionDTO selection) {
