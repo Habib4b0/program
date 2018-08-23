@@ -167,7 +167,7 @@ public class DataSelectionLogic {
                     if (!detailsColumn.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
                         if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("AND ( * = '?' )");
                             StringBuilder tempStart;
                             String value;
@@ -181,7 +181,7 @@ public class DataSelectionLogic {
                                 if (filterQuery.length() == 0) {
                                     tempStart = new StringBuilder(intStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(Startstr);
+                                    tempStart = new StringBuilder(startStr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
@@ -411,6 +411,7 @@ public class DataSelectionLogic {
                 leveldto.setLevelValueReference(object[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.TWO]));
                 leveldto.setTableName(object[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.THREE]));
                 leveldto.setFieldName(object[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.FOUR]));
+                leveldto.setHierarchyLevelDefnId(object[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.FIVE]));
                 resultList.add(leveldto);
             }
         } catch (Exception e) {
@@ -1128,7 +1129,12 @@ public class DataSelectionLogic {
                 dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
                 dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
                 dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.FOUR])));
+                dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
+                dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
                 dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.SEVEN])));
+                dto.setLevelValueReference(String.valueOf(objects[NumericConstants.EIGHT]));
+                dto.setRelationShipVersionNo(Integer.valueOf(objects[NumericConstants.NINE].toString()));
+                dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.TEN]));
                 LOGGER.debug("End of getRelationShipValues :: resultList ==>" + resultList.size());
                 resultList.add(dto);
             }
@@ -1597,7 +1603,7 @@ public class DataSelectionLogic {
         } catch (Exception e) {
             LOGGER.error("getRelationShipValues  -->" + e.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 
