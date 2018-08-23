@@ -95,6 +95,7 @@ import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TreeTable;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -1909,8 +1910,7 @@ public class DataSelectionLogic {
 		for (int i = 0; i < resultsList.size(); i++) {
 			Object[] ob = (Object[]) resultsList.get(i);
 			returnDetilsMap.put(ob[0].toString(), ob[1].toString());
-			if (Integer.valueOf(session.getProductLevelNumber()) == Integer
-					.valueOf(ob[NumericConstants.TWO].toString())) {
+			if (Objects.equals(Integer.valueOf(session.getProductLevelNumber()), Integer.valueOf(ob[NumericConstants.TWO].toString()))) {
 				if (!session.getDetailsSID().isEmpty()) { // Added for GAL-9131
 					session.setDetailsSID(session.getDetailsSID().concat(",").concat(ob[1].toString()));
 				} else {
