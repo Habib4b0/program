@@ -184,6 +184,22 @@
 					)
 			]]>
 	</entry>
+
+	<entry key="getLoadViewResultsCount">
+			<![CDATA[
+				Select
+						COUNT(*)
+					from
+						REPORTING_VIEW_MASTER
+						join ?.dbo.User_ sys on sys.userId = REPORTING_VIEW_MASTER.CREATED_BY
+					WHERE
+						VIEW_TYPE = ?
+						AND VIEW_NAME LIKE ? @filter
+						?
+						AND FLAG = ?
+			]]>
+	</entry>
+	
 	
 	<entry key="loadViewResults">
 			<![CDATA[

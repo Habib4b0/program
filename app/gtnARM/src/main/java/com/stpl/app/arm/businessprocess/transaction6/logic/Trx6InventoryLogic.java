@@ -79,7 +79,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :" + e);
+            LOGGER.error("Error in getMonthName :", e);
         }
         return monthName;
     }
@@ -210,7 +210,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
         try {
             QueryUtils.itemUpdate(input, "Inventory_updates");
         } catch (Exception e) {
-            LOGGER.error("Error in updatePriceOverride :" + e);
+            LOGGER.error("Error in updatePriceOverride :", e);
             return false;
         }
         return true;
@@ -287,7 +287,7 @@ public class Trx6InventoryLogic<T extends AdjustmentDTO, E extends Trx6Selection
 
             QueryUtils.itemUpdate(input, "Inventory_calculte1");
         } catch (Exception e) {
-            LOGGER.error("Error in updateForCalculte :" + e);
+            LOGGER.error("Error in updateForCalculte :", e);
             return false;
         }
         return true;

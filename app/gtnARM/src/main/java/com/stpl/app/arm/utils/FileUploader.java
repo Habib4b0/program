@@ -90,7 +90,7 @@ public class FileUploader implements Upload.Receiver {
                 return outputStream;
             }
         } catch (final java.io.FileNotFoundException e) {
-            LOGGER.error("Error in receiveUpload :" + e);
+            LOGGER.error("Error in receiveUpload :", e);
             return NULL_OUTPUT_STREAM;
         } catch (Exception ex) {
             LOGGER.error("Error in receiveUpload :" + ex);

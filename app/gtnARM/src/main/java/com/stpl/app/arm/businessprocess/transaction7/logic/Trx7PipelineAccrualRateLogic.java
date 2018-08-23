@@ -187,7 +187,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                 LOGGERFORRATESTAB.debug("--Exit getRateQuery--" + resultDTO.size());
             }
         } catch (Exception e) {
-            LOGGERFORRATESTAB.error("Error in getRateQuery :" + e);
+            LOGGERFORRATESTAB.error("Error in getRateQuery :", e);
         }
         return resultDTO;
     }
@@ -322,7 +322,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
             LOGGERFORRATESTAB.debug("query-->" + query);
             list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGERFORRATESTAB.error("Error in getExcelResultList :" + e);
+            LOGGERFORRATESTAB.error("Error in getExcelResultList :", e);
         }
         return list;
     }
@@ -349,7 +349,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
         try {
             QueryUtils.itemUpdate(input, "pipeline_common_query", "Txn7_rates_override_query");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :" + e);
+            LOGGER.error("Error in updateOverride :", e);
             return false;
         }
         return true;

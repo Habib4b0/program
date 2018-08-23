@@ -232,7 +232,7 @@ public class AdjustmentConfigHistory extends Window {
                 ExcelExportforBB.createFileContent(visibleList, searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in createWorkSheetContent :" + e);
+            LOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 

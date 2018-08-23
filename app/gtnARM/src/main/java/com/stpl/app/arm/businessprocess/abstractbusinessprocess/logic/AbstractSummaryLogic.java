@@ -92,7 +92,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
             QueryUtils.itemUpdate(input, getUpdateOverrideQueryName());
 
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride" + e);
+            LOGGER.error("Error in updateOverride", e);
             return false;
         }
         return true;
@@ -103,7 +103,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
             QueryUtils.itemUpdate(getQueryTableinput(sessionDTO), "update_Override");
 
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverrideColumn" + e);
+            LOGGER.error("Error in updateOverrideColumn", e);
             return false;
         }
         return true;
@@ -114,7 +114,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
             QueryUtils.itemUpdate(getQueryTableinput(sessionDTO), "update_TempOverride");
 
         } catch (Exception e) {
-            LOGGER.error("Error in updateTempOverrideColumn" + e);
+            LOGGER.error("Error in updateTempOverrideColumn", e);
             return false;
         }
         return true;
@@ -140,7 +140,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
                 QueryUtils.itemUpdate(getQueryTableinputparameter(sessionDTO), "update_transaction8_overridecolumn");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in updatecalculateOverride" + e);
+            LOGGER.error("Error in updatecalculateOverride", e);
         }
     }
 

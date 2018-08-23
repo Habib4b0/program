@@ -19,7 +19,7 @@ public class SqlEntity {
         return sqlQuery;
     }
 
-    @XmlElement(name="query")
+    @XmlElement(name = "query")
     public void setSqlQuery(String sqlQuery) {
         this.sqlQuery = sqlQuery;
     }

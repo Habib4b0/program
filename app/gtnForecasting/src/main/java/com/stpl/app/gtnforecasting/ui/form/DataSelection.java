@@ -4521,10 +4521,10 @@ public class DataSelection extends ForecastDataSelection {
 				dsLogic.getLevelValueDetails(session, selectionDTO.getCustRelationshipBuilderSid(), true));
 		session.setProductLevelDetails(
 				dsLogic.getLevelValueDetails(session, selectionDTO.getProdRelationshipBuilderSid(), false));
-		session.setSalesHierarchyLevelDetails(
-				dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
-		session.setDiscountCustomerProductLevelDetails(dsLogic.getRelationshipDetailsCustom(session,
-				String.valueOf(session.getCustomDeductionRelationShipSid())));
+                session.setSalesHierarchyLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                session.setDiscountCustomerProductLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
 
 	}
 

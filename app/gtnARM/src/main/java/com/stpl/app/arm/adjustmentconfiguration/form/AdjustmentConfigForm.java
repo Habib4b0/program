@@ -150,7 +150,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private AdjustmentConfigDTO selectedDTo;
     private SessionDTO sessionDTO;
     private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    
+
     protected static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentConfigForm.class);
 
     public AdjustmentConfigForm(SessionDTO sessionDTO) {
@@ -410,13 +410,13 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             try {
                 recordCount = logic.getAdjustmentConfigCount(configTableLogic.getFilters());
             } catch (SQLException ex) {
-               LOGGER.error("Error in createWorkSheet {}",ex.getMessage());
+                LOGGER.error("Error in createWorkSheet {}", ex.getMessage());
             }
         }
         try {
             ExcelExportforBB.createWorkSheet(visibleList, recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error("Error in createWorkSheet {}",ex.getMessage());
+            LOGGER.error("Error in createWorkSheet {}", ex.getMessage());
         }
     }
 
@@ -439,7 +439,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                 ExcelExportforBB.createFileContent(visibleList, searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in createWorkSheetContent :" + e);
+            LOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 

@@ -82,7 +82,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
      * priceddlb holds the list of periods
      */
     protected List<String> priceddlb = null;
-    
+
     public static final Logger LOGGER = LoggerFactory.getLogger(Sales.class);
 
     public Sales(DataSelectionDTO dataselection, PipelineAccrualSelectionDTO selection) {
@@ -201,7 +201,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
                     notifier.setButtonName(CommonConstant.RESET);
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    LOGGER.error("Error in reset :" + e);
+                    LOGGER.error("Error in reset :", e);
                 }
             }
         });
@@ -228,7 +228,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error in generate :" + e);
+                    LOGGER.error("Error in generate :", e);
                 }
             }
         });
@@ -254,7 +254,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in setDefaultValue :" + e);
+            LOGGER.error("Error in setDefaultValue :", e);
         }
     }
 
@@ -294,7 +294,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
             price.setContainerDataSource(new IndexedContainer(priceddlb));
             price.setValue(selection.getPrice());
         } catch (Exception e) {
-            LOGGER.error("Error in loadDetails :" + e);
+            LOGGER.error("Error in loadDetails :", e);
         }
     }
 
