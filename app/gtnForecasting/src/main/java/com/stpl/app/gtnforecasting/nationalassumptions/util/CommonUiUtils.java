@@ -309,9 +309,9 @@ public class CommonUiUtils {
         fullHeaderDTO.setEndPeriod(endPeriod);
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         boolean isCelgene=System.getProperty("Client_Name").equalsIgnoreCase("Celgene"); 
-
+        
         if (pivotView.contains(PRICE_TYPE.getConstant())) {// pivot view
-
+            List<Object> dmap = new ArrayList<>();
             List priceTypeColumns = projSelDTO.getPriceTypeList();
             
             int size = priceTypeColumns.size();
@@ -330,7 +330,7 @@ public class CommonUiUtils {
                 }
 
                 String commonColumn = String.valueOf(priceTypeColumns.get(i)).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY).toLowerCase();
-            List<Object> dmap = new ArrayList<>();
+                dmap = new ArrayList<>();
                 if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);
@@ -413,6 +413,7 @@ public class CommonUiUtils {
             boolean current = false;
             boolean proj = false;
             boolean projectionCol = false;
+            List<Object> dmap = new ArrayList<>();
             if (projectionOrder == 1) {
               
                 int startPr = startPeriod;
@@ -442,7 +443,7 @@ public class CommonUiUtils {
                                 current = false;
                             }
                         }
-                          List<Object> dmap = new ArrayList<>();
+                           dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -514,7 +515,7 @@ public class CommonUiUtils {
                                 hist = false;
                             }
                         }
-                        List<Object> dmap = new ArrayList<>();
+                         dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);

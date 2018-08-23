@@ -123,7 +123,6 @@ public class DataSelectionLogic {
 	private List companiesList = new ArrayList<>();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private static final CommonUtil commonUtil = CommonUtil.getInstance();
-    private  ExecutorService service = ThreadPool.getInstance().getService();
     public static final String EXEC_WITH_SPACE = "EXEC ";
     private static final String QUERY_CALL_VIEW_INSERT_PROCEDURES = "Query callViewInsertProcedures: {}";
     private static final String CUSTOMER_SID_LITERAL = "custSid";
@@ -2772,13 +2771,14 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 
     public void callViewInsertProceduresThread(SessionDTO session, String screenName, String startPeriod, String endPeriod, String massUpdateField) {
         LOGGER.info("callViewInsertProceduresThread************************************{}");
-
+        ExecutorService service = ThreadPool.getInstance().getService();
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                session, screenName, "C", startPeriod, endPeriod, massUpdateField));
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                 session,screenName, "P", startPeriod, endPeriod, massUpdateField));
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                 session,screenName, "U", startPeriod, endPeriod, massUpdateField));
+        service.shutdown();
     }
     public void nmDiscountInsertProcedure(SessionDTO session) {
         ExecutorService discountService = ThreadPool.getInstance().getService();
@@ -2998,66 +2998,78 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         String query = SQlUtil.getQuery("ViewTableTruncationSales");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         LOGGER.info("nmSalesViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        ExecutorService serviceViewPopulation = ThreadPool.getInstance().getService();
+        serviceViewPopulation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceViewPopulation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceViewPopulation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+        serviceViewPopulation.shutdown();
     }
     public void nmSalesViewsPopulationProcedureWithoutTruncation(SessionDTO session) {
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        ExecutorService serviceViewPopulationWithoutTruncation = ThreadPool.getInstance().getService();
+        serviceViewPopulationWithoutTruncation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceViewPopulationWithoutTruncation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceViewPopulationWithoutTruncation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+        serviceViewPopulationWithoutTruncation.shutdown();
     }  
       
       public void nmSalesViewsPopulationProcedureUOM(SessionDTO session) {
         LOGGER.info("nmSalesViewsPopulationProcedure For UOM");
+         ExecutorService serviceViewPopulationProcedureUOM = ThreadPool.getInstance().getService();
         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.SALES);
-        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
+        serviceViewPopulationProcedureUOM.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
                 Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
-        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
+        serviceViewPopulationProcedureUOM.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
-        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
+        serviceViewPopulationProcedureUOM.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+        serviceViewPopulationProcedureUOM.shutdown();
     }
 
     public void nmDiscountViewsPopulationProcedure(SessionDTO session) {
+        ExecutorService serviceDiscountViewsPopulationProcedure = ThreadPool.getInstance().getService();
         String query = SQlUtil.getQuery("ViewTableTruncationDiscount");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         LOGGER.info("nmDiscountViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.DISCOUNT3);
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceDiscountViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceDiscountViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceDiscountViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
+        serviceDiscountViewsPopulationProcedure.shutdown();
     }
     public void nmDiscountViewsPopulationProcedureForUPS(SessionDTO session) {
+        ExecutorService serviceDiscountViewsPopulationProcedureForUPS = ThreadPool.getInstance().getService();
         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.DISCOUNT3);
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceDiscountViewsPopulationProcedureForUPS.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceDiscountViewsPopulationProcedureForUPS.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
-        service.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
+        serviceDiscountViewsPopulationProcedureForUPS.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
+        serviceDiscountViewsPopulationProcedureForUPS.shutdown();
     }
     public void nmPvViewsPopulationProcedure(SessionDTO session) {
+        ExecutorService serviceNmPvViewsPopulationProcedure = ThreadPool.getInstance().getService();
         String query = SQlUtil.getQuery("ViewTableTruncationVariance");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         LOGGER.info("nmPvViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.VARIANCE_SCREEN);
         session.addFutureMap(Constant.CUSTOMER_VIEW_VARIANCE_POPULATION_CALL,
-				new Future[] {service.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
+				new Future[] {serviceNmPvViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_VARIANCE_POPULATION_CALL, Constant.GENERATE_FLAG, Constant.VARIANCE_SCREEN, "C", "null", "null", session))});
-        service.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
+        serviceNmPvViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_VARIANCE_POPULATION_CALL,Constant.GENERATE_FLAG, Constant.VARIANCE_SCREEN, "P", "null", "null", session));
-        service.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
+        serviceNmPvViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_VARIANCE_POPULATION_CALL,Constant.GENERATE_FLAG, Constant.VARIANCE_SCREEN, "U", "null", "null", session));
+        serviceNmPvViewsPopulationProcedure.shutdown();
     }
     
     public void loadCustomViewValuesDeduction(ComboBox customRelationDdlb, Map<String, String> dataMap) {
