@@ -112,6 +112,59 @@ public class GtnWsReportWebsevice {
 		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0)
 				: null;
 	}
+	
+	public List<Object[]> getLoadViewResultsCount(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
+			boolean viewMode, int viewCheck) {
+		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()) {
+			List<Object> inputList = new ArrayList<>();
+			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
+			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
+			String viewName = "";
+			Map<String, String> criteriaMap = new HashMap<>();
+			for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
+					.getGtnWebServiceSearchCriteriaList()) {
+				if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+					criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+				}
+			}
+			if (viewCheck == 1) {
+				viewType = criteriaMap.get("reportProfileLookup_viewType");
+				viewName = criteriaMap.get("reportProfileLookup_viewName");
+				if(viewName==null) 
+					viewName = "%";
+				if (viewType.startsWith("Priv")) {
+					viewMode = true;
+				} else {
+					viewMode = false;
+				}
+			}
+			inputList.add(connection.getCatalog());
+			inputList.add("'" + viewType + "'");
+			if (viewMode) {
+				if (viewCheck == 0) {
+					viewName = criteriaMap.get("privateViewName");
+				}
+				inputList.add("'" + viewName + "'");
+				inputList.add(" AND CREATED_BY = " + userId);
+				inputList.add(viewCheck);
+			} else {
+				if (viewCheck == 0) {
+					viewName = criteriaMap.get("publicViewName");
+				}
+				inputList.add("'" + viewName + "'");
+				inputList.add(StringUtils.EMPTY);
+				inputList.add(viewCheck);
+			}
+			
+			String viewQuery = sqlService.getQuery(inputList, "getLoadViewResultsCount");
+			return executeGetLoadViewResultsQueryCount(viewQuery,gtnUIFrameworkWebserviceRequest);
+		} catch (Exception ex) {
+			gtnLogger.error(ex.getMessage(), ex);
+			return null;
+		}
+	}
+	
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
 			boolean viewMode, int viewCheck) {
@@ -177,6 +230,18 @@ public class GtnWsReportWebsevice {
 				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
 				.addScalar("CREATED_BY", new StringType()).addScalar("VIEW_ID", new IntegerType())
 				.addScalar("VIEW_DATA", new StringType());
+		List<Object[]> resultList = query.list();
+		return resultList;
+		}catch (Exception ex) {
+			gtnLogger.error(ex.getMessage(), ex);
+			return null;
+		}
+	}
+	
+	private List<Object[]> executeGetLoadViewResultsQueryCount(String viewQuery, GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		try(Session session = sessionFactory.openSession()){
+			viewQuery = viewQuery.replace("@filter", setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
+		SQLQuery query = session.createSQLQuery(viewQuery);
 		List<Object[]> resultList = query.list();
 		return resultList;
 		}catch (Exception ex) {

@@ -61,6 +61,7 @@ public class PagedGrid {
 	private HorizontalLayout controlLayout;
 	private TextField pageNoField;
 	private GtnUIFrameworkPagedGridLogic pagedTableLogic;
+	private Label pageCountLabel;
 
 	private static final String SHOW_ALL = "Show all";
 
@@ -119,7 +120,10 @@ public class PagedGrid {
 		if (dataSet.getRows() != null) {
 
 			grid.setItems(dataSet.getRows());
-
+			int countLabel = getCount()%pageLength==0?getCount()/pageLength:getCount()/pageLength+1;
+			if (pageCountLabel != null) {
+				pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
+			}
 		}
 	}
 
@@ -271,7 +275,7 @@ public class PagedGrid {
 	}
 
 	public HorizontalLayout getControlLayout() {
-		Label pageCountLabel;
+	
 		if (controlLayout == null) {
 			controlLayout = new HorizontalLayout();
 			controlLayout.setSpacing(false);
@@ -279,6 +283,7 @@ public class PagedGrid {
 			HorizontalLayout pageNoFieldText = new HorizontalLayout();
 			pageNoField = new TextField();
 			pageCountLabel = new Label("1");
+			pageCountLabel.markAsDirty();
 			pageNoFieldText.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
 			pageCountLabel.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
 			pageNoField.setWidth("50px");
