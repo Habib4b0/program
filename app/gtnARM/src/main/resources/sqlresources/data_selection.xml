@@ -1821,7 +1821,7 @@ CREATE TABLE #CCP_MAP
         </query>
     </entity>
     <entity id="getHierarchyLevelVlaues">
-		<query> 
+        <query> 
         <![CDATA[            
             SELECT
                     distinct LEVEL_NO,
@@ -1841,6 +1841,6 @@ CREATE TABLE #CCP_MAP
             where
                     hld.HIERARCHY_DEFINITION_SID =? and HLD.VERSION_NO =?;
          ]]>
-		</query>
-	</entity>
+        </query>
+    </entity>
 </sql>

@@ -329,7 +329,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
             LOGGER.debug("masterTableSid :" + masterTableSid);
             LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
         } catch (FieldGroup.CommitException e) {
-            LOGGER.error("Error in refreshTable :" + e);
+            LOGGER.error("Error in refreshTable :", e);
         }
     }
 

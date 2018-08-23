@@ -91,7 +91,7 @@ public class Trx7SalesFieldFactory implements TableFieldFactory {
                 service.submit(new UpdateOverride(input));
             } catch (NumberFormatException e) {
                 LOGGER.debug("User is supposed to give Double value");
-                LOGGER.error("Error in priceOverrideListener :" + e);
+                LOGGER.error("Error in priceOverrideListener :", e);
             }
         }
     };

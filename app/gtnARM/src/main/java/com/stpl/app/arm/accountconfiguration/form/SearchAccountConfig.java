@@ -540,7 +540,7 @@ public class SearchAccountConfig extends CustomComponent {
             createWorkSheet("Account Config", resultsTable);
 
         } catch (Exception e) {
-            GTNLOGGER.error("Error in excelExport :" + e);
+            GTNLOGGER.error("Error in excelExport :", e);
         }
     }
 
@@ -571,7 +571,7 @@ public class SearchAccountConfig extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            GTNLOGGER.error("Error in createWorkSheetContent :" + e);
+            GTNLOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 

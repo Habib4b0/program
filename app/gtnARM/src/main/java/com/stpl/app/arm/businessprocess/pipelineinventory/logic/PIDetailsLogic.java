@@ -79,7 +79,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getReserveAccountDetails :" + e);
+            LOGGER.error("Error in getReserveAccountDetails :", e);
         }
         return finalList;
     }
