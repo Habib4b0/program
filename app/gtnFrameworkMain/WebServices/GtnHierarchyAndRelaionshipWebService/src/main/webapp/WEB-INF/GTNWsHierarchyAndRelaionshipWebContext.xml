@@ -8,12 +8,10 @@
 
 	<context:annotation-config />
 
-	<bean id="gtnWsHierarchyAndRelationshipService"
+	<bean id="gtnWsHierarchyRelationshipService"
 		class="com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service.GtnWsHierarchyAndRelationshipService"
-		init-method="init"/>
-         
-	<bean id="
-		gtnWsHierarchyAndRelationshipSqlService "
+		init-method="init" />
+	<bean id="gtnWsHierarchyAndRelationshipSqlService"
 		class="com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice.GtnWsHierarchyAndRelationshipSqlService" />
 
 	<bean id="sqlPropertyBean"

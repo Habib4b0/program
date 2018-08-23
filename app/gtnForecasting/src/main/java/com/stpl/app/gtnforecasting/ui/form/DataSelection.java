@@ -122,7 +122,6 @@ public class DataSelection extends ForecastDataSelection {
 	
 	public static final String CONFIRM_CHANGE = "Confirm Change";
 
-	private final ExecutorService service = ThreadPool.getInstance().getService();
 
 	// Used for CCP_HIERARCHY_INSERT query formation
 	private String topLevelName = StringUtils.EMPTY;
@@ -1149,6 +1148,7 @@ public class DataSelection extends ForecastDataSelection {
 			customerInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		level.setContainerDataSource(customerInnerLevelContainer);
@@ -1163,6 +1163,7 @@ public class DataSelection extends ForecastDataSelection {
 			productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);
@@ -4481,6 +4482,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * @throws ClassNotFoundException
 	 */
 	private void updateDataSelectionChanges() throws ClassNotFoundException, IOException {
+              final ExecutorService service = ThreadPool.getInstance().getService();
 		dsLogic.deleteFromTempCCPTable(session);
 		relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
 				selectedProductContainer.getItemIds(), selectionDTO);
@@ -4512,6 +4514,7 @@ public class DataSelection extends ForecastDataSelection {
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
                 session.setDiscountCustomerProductLevelDetails(
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+                service.shutdown();
 
 	}
 

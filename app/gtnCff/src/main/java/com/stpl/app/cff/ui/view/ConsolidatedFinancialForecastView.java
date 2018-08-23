@@ -33,7 +33,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
     /**
      * The SessionDTO
      */
-    private final SessionDTO sessionDTO = new SessionDTO();
+    
      private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastView.class);
 
     /**
@@ -42,6 +42,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      */
     public ConsolidatedFinancialForecastView() {
         super();
+        SessionDTO sessionDTO = new SessionDTO();
         addStyleName(Constants.BOOTSTRAP_UI);
         addStyleName(Constants.BOOTSTRAP);
         addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);

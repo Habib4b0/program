@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -1674,11 +1675,14 @@ public class AbstractLogic {
         CallableStatement statement = null;
         ResultSet rs = null;
         List<Object[]> objectList = new ArrayList<>();
-        
-        if (datasource != null) {
-            try (Connection connection = datasource.getConnection()){
+        try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
             if (connection != null) {
                 StringBuilder procedureToCall = new StringBuilder("{call ");
                 procedureToCall.append(procedureName);

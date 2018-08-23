@@ -369,6 +369,7 @@ listNameCollection.add(listName);
 
             if ((String.valueOf(levelNo).equals(key.getLevelNo())) && (key.getCcpIds().contains(ccpId))) {
                     parentHierarchyNo = key.getHierarchyNo();
+                    break;
 
             }
 
