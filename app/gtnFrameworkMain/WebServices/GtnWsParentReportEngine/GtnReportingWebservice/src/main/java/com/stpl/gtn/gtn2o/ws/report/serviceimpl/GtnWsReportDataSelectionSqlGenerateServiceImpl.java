@@ -489,6 +489,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
 					.getDataSelectionBean();
 			if (dataSelectionBean.getCustomViewMasterSid() != 0) {
+				truncateTables(Arrays
+						.asList(dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY)));
 				callInsertProcedure(dataSelectionBean);
 				gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME,
 						dataSelectionBean.getSessionId());

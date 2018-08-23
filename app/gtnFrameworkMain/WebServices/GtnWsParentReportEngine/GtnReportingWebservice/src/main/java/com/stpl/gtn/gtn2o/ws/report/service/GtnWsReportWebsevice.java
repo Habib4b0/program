@@ -199,21 +199,22 @@ public class GtnWsReportWebsevice {
 			return Collections.emptyList();
 		} else {
 			comparisonResults = criteriaMap.get("projectionType").equals("F")
-					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
+					? loadProjectionComparisonResults(criteriaMap,gtnUIFrameworkWebserviceRequest) : loadCFFComparisonResults(criteriaMap,gtnUIFrameworkWebserviceRequest);
 			return comparisonResults;
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap)
+	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap, GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
-		List<String> inputList = getInputList(criteriaMap);
+		List<String> inputList = getInputList(criteriaMap, gtnUIFrameworkWebserviceRequest);
+               
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
 		return resultListCustomization(resultList);
 	}
 
-	private List<String> getInputList(Map<String, String> criteriaMap) {
+	private List<String> getInputList(Map<String, String> criteriaMap, GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 				.getService(ConnectionProvider.class).getConnection()){
 		List<String> inputList = new ArrayList<>();
@@ -236,7 +237,9 @@ public class GtnWsReportWebsevice {
                 String createdDate = criteriaMap.get("createdDate") == null ||  criteriaMap.get("createdDate").equals("null") ? "%" : criteriaMap.get("createdDate");
                 String createdBy = criteriaMap.get("createdBy") == null ? "%" : criteriaMap.get("createdBy");
                	String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
-		inputList.add(workflowJoinQuery);
+		int tableRecordStart  = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart();
+                int tableRecordOffset = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
+                inputList.add(workflowJoinQuery);
 		inputList.add(customViewMasterSid);
                 inputList.add(connection.getCatalog());
 		inputList.add(whereCondition);
@@ -251,6 +254,8 @@ public class GtnWsReportWebsevice {
                 inputList.add("'" + createdDate + "'");
                 getFromAndToPeriod(inputList, fromPeriod, toPeriod);
                 inputList.add("'" + createdBy + "'");
+                inputList.add("" + tableRecordStart + "");
+                inputList.add("" + tableRecordOffset + "");
 		return inputList;
 		} catch (SQLException e) {
 			gtnLogger.error(e+"");
@@ -282,7 +287,7 @@ public class GtnWsReportWebsevice {
 		}
 	}
 	
-	private List<String> getCffInputList(Map<String, String> criteriaMap){
+	private List<String> getCffInputList(Map<String, String> criteriaMap,GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest){
 		List<String> cffInputList = new ArrayList<>();
 
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
@@ -302,7 +307,10 @@ public class GtnWsReportWebsevice {
 		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
 		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
 		String comparisonBrand = criteriaMap.get("brand") == null ? "%" : criteriaMap.get("brand");
-		
+                String createdDate = criteriaMap.get("createdDate") == null ||  criteriaMap.get("createdDate").equals("null") ? "%" : criteriaMap.get("createdDate");
+		String createdBy = criteriaMap.get("createdBy") == null ? "%" : criteriaMap.get("createdBy");
+                int tableRecordStart  = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart();
+                int tableRecordOffset = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
 		cffInputList.add("'"+workFlowStatus+"'");
 		cffInputList.add("'"+projectionName+"'");
 		cffInputList.add("'"+projectionDescription+"'");
@@ -315,6 +323,10 @@ public class GtnWsReportWebsevice {
 		cffInputList.add("'"+marketType+"'");
 		cffInputList.add("'"+contractHolder+"'");
 		cffInputList.add("'"+comparisonBrand+"'");
+                cffInputList.add("'"+createdDate+"'");
+                cffInputList.add("'"+createdBy+"'");
+                cffInputList.add("" + tableRecordStart + "");
+                cffInputList.add("" + tableRecordOffset + "");
 		return cffInputList;
 		} catch (SQLException e) {
 			gtnLogger.error(e + " ");
@@ -323,10 +335,10 @@ public class GtnWsReportWebsevice {
 		
 	}
 
-	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
+	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap,GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
 		
-		List<String> inputList = getCffInputList(criteriaMap);
+		List<String> inputList = getCffInputList(criteriaMap,gtnUIFrameworkWebserviceRequest);
 		if(!inputList.isEmpty()) {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
