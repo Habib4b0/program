@@ -3106,7 +3106,7 @@ public class SalesLogic {
     }
 
     public String loadTotalLives(int projectionId) throws PortalException, SystemException {
-        BigDecimal lives = new BigDecimal(0.0);
+        BigDecimal lives = BigDecimal.valueOf(0.0);
         List<String> list = getTotalLives(projectionId, false);
         if (list != null) {
             for (String live : list) {
