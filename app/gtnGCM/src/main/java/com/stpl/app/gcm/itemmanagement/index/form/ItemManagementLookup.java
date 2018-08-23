@@ -698,7 +698,7 @@ public class ItemManagementLookup extends CustomWindow {
                         input.add(AbstractLogic.getItemIds(itemList));
                         ItemQueries.itemUpdate(input, "Insert Contract For Search1");
                     }
-                    notify();
+                    notifyAll();
                 }
             }
         };

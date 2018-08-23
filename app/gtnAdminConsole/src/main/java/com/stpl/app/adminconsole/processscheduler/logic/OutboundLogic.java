@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;
@@ -62,13 +63,13 @@ public class OutboundLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(OutboundLogic.class);
-    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private static final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static HashMap<String, String> hierarchySearchCriteria = new HashMap<>();
     private static HashMap<String, String> hierarchyFilterMap = new HashMap<>();
     private static HashMap<String, String> hierarchyTypeMap = new HashMap<>();
     private SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
-    private static HashMap<String, String> hierarchyCheckAllMap = new HashMap<>();
+    private static List<String> hierarchyCheckAllMap = new ArrayList<>();
     private static HashMap<String, String> rbMap = new HashMap<>();
     private static CommonDAO dao = new CommonDAOImpl();
     private static HashMap<String, String> columnNames = new HashMap<String, String>();
@@ -83,6 +84,12 @@ public class OutboundLogic {
         hierarchyFilterMap.put(ConstantsUtils.CREATED_BY, "HD.CREATED_BY");
         hierarchyFilterMap.put(StringConstantUtils.CREATED_DATE_PROPERTY, StringConstantUtils.HDCREATED_DATE);
         hierarchyFilterMap.put(ConstantsUtils.MODIFIED_DATE, "HD.MODIFIED_DATE");
+    }
+       static {
+        List<HelperDTO> hierarchyTypeList = helperListUtil.getListNameMap().get(CommonUIUtil.RELATIONSHIP_TYPE);
+        for (HelperDTO hierarchyType : hierarchyTypeList) {
+            hierarchyTypeMap.put(hierarchyType.getDescription(), String.valueOf(hierarchyType.getId()));
+        }
     }
     public int getHierarchyDefinitionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet, String hierType) {
         int count = 0;
@@ -572,8 +579,7 @@ public class OutboundLogic {
         if (hierarchySearchCriteria.isEmpty()) {
             loadHdSearchCriteriaMap();
         }
-        Set<String> keys = hierarchyCheckAllMap.keySet();
-        for (String fields : keys) {
+        for (String fields : hierarchyCheckAllMap) {
             if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
