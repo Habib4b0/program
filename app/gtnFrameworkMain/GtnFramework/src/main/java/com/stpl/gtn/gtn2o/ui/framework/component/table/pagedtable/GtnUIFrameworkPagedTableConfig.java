@@ -82,7 +82,16 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean itemsPerPageAlignCentre = true;
     private boolean paginationOff = false;
     private boolean selectionListener = false;
-    
+    private boolean filteron = false;
+
+    public boolean isFilteron() {
+        return filteron;
+    }
+
+    public void setFilteron(boolean filteron) {
+        this.filteron = filteron;
+    }
+
     public boolean getSelectionListener() {
 		return selectionListener;
 	}
