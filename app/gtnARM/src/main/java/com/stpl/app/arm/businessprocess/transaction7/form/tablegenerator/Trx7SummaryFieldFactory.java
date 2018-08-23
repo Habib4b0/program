@@ -82,7 +82,7 @@ public class Trx7SummaryFieldFactory implements TableFieldFactory {
                 valueChangeLogic(dto, val, null, null);
 
             } catch (Exception e) {
-                LOGGER.error("Error in overrideListener :" + e);
+                LOGGER.error("Error in overrideListener :", e);
             }
         }
     };
@@ -92,7 +92,7 @@ public class Trx7SummaryFieldFactory implements TableFieldFactory {
         try {
             value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
         } catch (NumberFormatException e) {
-            LOGGER.error("User is supposed to give Double value " + e);
+            LOGGER.error("User is supposed to give Double value ", e);
             return;
         }
         List input = new ArrayList();

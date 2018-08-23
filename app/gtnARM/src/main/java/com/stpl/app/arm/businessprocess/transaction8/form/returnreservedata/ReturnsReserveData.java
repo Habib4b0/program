@@ -51,7 +51,7 @@ public class ReturnsReserveData extends VerticalLayout {
 
     @UiField("originalSaleLimiter")
     private PopupDateField originalSaleLimiter;
-    
+
     @UiField("dataSelecionGrid")
     private GridLayout dataSelecionGrid;
     @UiField("checkBoxLayout")
@@ -156,7 +156,7 @@ public class ReturnsReserveData extends VerticalLayout {
                 CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             }
         } catch (Exception e) {
-            logger.error("error in generate :" + e);
+            logger.error("error in generate :", e);
         }
     }
 

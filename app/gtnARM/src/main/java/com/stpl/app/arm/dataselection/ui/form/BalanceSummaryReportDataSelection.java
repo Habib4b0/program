@@ -176,7 +176,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         levelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-                    List<LevelDTO> customerHierarchyLevelDefinitionList  = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    List<LevelDTO> customerHierarchyLevelDefinitionList = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = logicVal.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relSid,
                             customerVersionMap.get(relSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
@@ -210,7 +210,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error("Error in customerHierarchyCloseListener :" + e);
+            LOGGER.error("Error in customerHierarchyCloseListener :", e);
         }
     }
 
@@ -336,9 +336,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 List<LevelDTO> selectedCustomerContractList = getSelectedCustomerContractList();
                 GtnARMHierarchyInputBean bean = createInputBean(productHierarchyLookup.getHierarchyDto(), prodRelationshipSid,
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
-                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc,rsContractSids);
-                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue())
-                        ,selectedCustomerContractList,custhierarchyId,customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
+                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 innerLevelValues = logicVal.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
@@ -1226,7 +1226,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftProductsButtonLogic :", e);
         }
     }
 
@@ -1642,7 +1642,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in movemoveLeftProductsButtonLogic" + e);
+            LOGGER.error("Error in movemoveLeftProductsButtonLogic", e);
         }
     }
 
@@ -2084,7 +2084,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveAllCustomersButtonLogic :", e);
         }
     }
 
@@ -2344,7 +2344,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 customerRelation.select(dto.getCustRelationshipBuilderSid());
                 loadCustomerLevel();
                 logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
-                
+
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), customerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
                 initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
@@ -2360,7 +2360,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
                 initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
             } catch (Property.ReadOnlyException | NumberFormatException e) {
-                LOGGER.error("Error in setViewDetails :" + e);
+                LOGGER.error("Error in setViewDetails :", e);
             }
         }
 

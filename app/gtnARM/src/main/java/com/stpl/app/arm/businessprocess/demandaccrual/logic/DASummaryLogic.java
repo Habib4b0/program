@@ -90,7 +90,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 count = count + 1;
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getSummaryCount :" + e);
+            LOGGER.error("Error in getSummaryCount :", e);
         }
         return count;
     }
@@ -111,7 +111,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGER.error("Error in generateButtonCheck :" + e);
+            LOGGER.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
     }
@@ -307,7 +307,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             returnObj[0] = inputs;
             returnObj[1] = masterSids;
         } catch (Exception e) {
-            LOGGER.error("Error in generateInputs :" + e);
+            LOGGER.error("Error in generateInputs :", e);
         }
         return returnObj;
     }

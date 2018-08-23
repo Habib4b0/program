@@ -199,7 +199,7 @@ public class InventoryCustomerLookup extends Window {
             indicator.setItemCaption(false, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
-            LOGGER.error("Error in loadIndicatorDDLB :" + e);
+            LOGGER.error("Error in loadIndicatorDDLB :", e);
         }
         return indicator;
     }
@@ -302,7 +302,7 @@ public class InventoryCustomerLookup extends Window {
             SaveViewPopup viewPopup = new SaveViewPopup(saveViewDTO);
             getUI().addWindow(viewPopup);
         } catch (Exception e) {
-            LOGGER.error("Error in btnSaveViewLogic :" + e);
+            LOGGER.error("Error in btnSaveViewLogic :", e);
         }
     }
 
@@ -329,7 +329,7 @@ public class InventoryCustomerLookup extends Window {
             privateView.setValue(StringUtils.EMPTY);
             /*delete view*/
         } catch (Exception e) {
-            LOGGER.error("Error in deleteButtonClick :" + e);
+            LOGGER.error("Error in deleteButtonClick :", e);
         }
     }
 

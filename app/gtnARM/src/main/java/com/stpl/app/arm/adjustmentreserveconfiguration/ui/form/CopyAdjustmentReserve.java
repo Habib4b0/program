@@ -283,7 +283,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
 
                 tempSelection = this.selection.clone(tempSelection);
             } catch (NullPointerException e) {
-                LOGGER.error("Error in resetConfigureTabLine :" + e);
+                LOGGER.error("Error in resetConfigureTabLine :", e);
             } catch (Exception ex) {
                 LOGGER.error("Error in resetConfigureTabLine :" + ex);
             }
@@ -323,6 +323,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
         balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
 
     }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }

@@ -339,7 +339,7 @@ public abstract class AbstractReserve extends CustomWindow {
     private int tabPosition = 0;
 
     private int lastPosition = 0;
-    
+
     public AbstractReserve(String caption, SessionDTO sessionDTO, ReserveSelection selection) {
         super(caption);
         this.sessionDTO = sessionDTO;
@@ -675,7 +675,7 @@ public abstract class AbstractReserve extends CustomWindow {
                 balSummaryConfigurationTableLogic.loadSetData(true, selection);
 
             } catch (Exception e) {
-                LOGGER.error("Error in loadReportTypeDdlbValue :" + e);
+                LOGGER.error("Error in loadReportTypeDdlbValue :", e);
             }
         } else {
             balanceSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());

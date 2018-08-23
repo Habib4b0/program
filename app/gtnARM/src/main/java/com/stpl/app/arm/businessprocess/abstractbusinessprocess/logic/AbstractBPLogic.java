@@ -262,7 +262,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :" + e);
+            LOGGER.error("Error in getMonthName :", e);
         }
         return monthName;
     }

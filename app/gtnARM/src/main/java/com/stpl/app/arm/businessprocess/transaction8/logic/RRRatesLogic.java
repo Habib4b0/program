@@ -247,7 +247,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                     + "R.RS_CONTRACT_SID AND U.MASTER_TYPE = 'RS_CONTRACT'" : StringUtils.EMPTY);
             QueryUtils.itemUpdate(input, "OVERRIDE_QUERY");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :" + e);
+            LOGGER.error("Error in updateOverride :", e);
             return false;
         }
         return true;

@@ -67,7 +67,7 @@ public class AdjustmentAndBalSummaryTableGenerator implements ExtFilterGenerator
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in getCustomFilterComponent :" + e);
+            LOGGER.error("Error in getCustomFilterComponent :", e);
         }
         return null;
     }

@@ -29,7 +29,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
     @Override
     public User getUserByUserId(final long userId) throws SystemException, PortalException {
         return UserLocalServiceUtil.getUser(userId);
-}
+    }
 
     /**
      * Performs a dynamic query on the database and returns the matching rows
