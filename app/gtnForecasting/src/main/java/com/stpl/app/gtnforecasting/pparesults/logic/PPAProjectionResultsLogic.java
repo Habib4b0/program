@@ -1190,7 +1190,7 @@ public class PPAProjectionResultsLogic {
         Object[] orderedArgs = {selection.getProjectionId(), selection.getUserId(), selection.getSessionDTO().getSessionId()};
         Future future = service.submit(createRunnable(SalesUtils.PRC_NM_PPA_PROJECTION, orderedArgs, selection));
         selection.getSessionDTO().addFutureMap(Constant.PRC_PPA_GENERATE_CALL, new Future[]{future});
-        service.shutdown();
+        // service.shutdown();
     }
 
     Runnable createRunnable(final String procedureName, final Object[] orderedArgs, final ProjectionSelectionDTO selection) {

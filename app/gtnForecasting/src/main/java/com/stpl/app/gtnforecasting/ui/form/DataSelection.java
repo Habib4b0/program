@@ -4514,7 +4514,7 @@ public class DataSelection extends ForecastDataSelection {
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
                 session.setDiscountCustomerProductLevelDetails(
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
-                service.shutdown();
+                // service.shutdown();
 
 	}
 
