@@ -229,7 +229,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customViewButtonPopupAction = new GtnUIFrameWorkActionConfig();
 		customViewButtonPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		customViewButtonPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewButtonPopupAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_RD);
 		customViewButtonPopupAction.addActionParameter("Custom Tree View Popup");
 		customViewButtonPopupAction.addActionParameter("75%");
 		customViewButtonPopupAction.addActionParameter(null);
@@ -610,7 +610,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addDeductionLevelComponent(componentList, nameSpace);
 		addSalesInclusionComponent(componentList, nameSpace);
 	}
-	
+
 	private void addFilterOptionsTabBottomComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String nameSpace) {
 
@@ -1111,7 +1111,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableAndVarianceSequencingConfig.setComponentName("Variable & Variance Sequencing: ");
 		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);
 		variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-reportoptions-vseq");
-        variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-width-200");
+		variableAndVarianceSequencingConfig.addComboComponentStyle("v-report-width-200");
 		componentList.add(variableAndVarianceSequencingConfig);
 
 		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1234,7 +1234,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		displayFormatLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-               displayFormatLoadConfig.setSelectedItem("Name");
+		displayFormatLoadConfig.setSelectedItem("Name");
 		displayFormatLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.DISPLAY_FORMAT);
 		displayFormatConfig.setGtnCheckedComboboxConfig(displayFormatLoadConfig);
 	}
@@ -1327,7 +1327,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		expandCollapseAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VIEW_OPTIONS);
 		actionConfigList.add(expandCollapseAction);
-		
+
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
@@ -1341,7 +1341,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig dashboardValuesResetAction = new GtnUIFrameWorkActionConfig();
 		dashboardValuesResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
-		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RP_DASH_RESET_CONFIRMATION_MESSAGE);
+		dashboardValuesResetAction
+				.addActionParameter(GtnFrameworkReportStringConstants.RP_DASH_RESET_CONFIRMATION_MESSAGE);
 		List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig valuesResetAction = new GtnUIFrameWorkActionConfig();
