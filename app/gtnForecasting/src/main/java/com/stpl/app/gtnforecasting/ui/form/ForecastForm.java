@@ -2401,10 +2401,6 @@ public class ForecastForm extends AbstractForm {
                 break;
             case Constant.EDIT_SMALL:
                 // Main to temp insert
-				if(service.isTerminated()){
-					 service = ThreadPool.getInstance().getService();
-				}
-				
                 session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(
                     commUtil.createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall()))});
                 logic.mainToTempTableInsert(session, service);
