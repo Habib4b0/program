@@ -924,7 +924,7 @@ public class Constants {
     public enum LogicConstants {
 
         VIEW_TYPE();
-        private String constant;
+        private volatile String constant;
 
         private LogicConstants() {
         }

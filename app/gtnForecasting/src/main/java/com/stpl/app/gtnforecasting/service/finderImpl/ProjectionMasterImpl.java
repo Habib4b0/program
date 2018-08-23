@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1259,7 +1260,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                     condition.add("CCP.ITEM_MASTER_SID=ITEM.ITEM_MASTER_SID");
                                 }
                                 prevNo = currNo;
-                                if (level == currNo || !nextHierarchyNo.contains(String.valueOf(tempRow[4])) || list.size() == i + 1) {
+                                if (Objects.equals(level, currNo) || !nextHierarchyNo.contains(String.valueOf(tempRow[4])) || list.size() == i + 1) {
                                     ccpQuery.replace(ccpQuery.indexOf("?"), ccpQuery.indexOf("?") + 1, String.valueOf(tempRow[0]));
                                     for (int j = logic.size() - 1; j >= 0; j--) {
                                         ccpQuery.append(logic.get(j));
