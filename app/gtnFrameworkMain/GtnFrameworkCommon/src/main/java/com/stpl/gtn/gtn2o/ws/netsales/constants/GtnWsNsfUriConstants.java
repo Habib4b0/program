@@ -17,6 +17,7 @@ public final class GtnWsNsfUriConstants {
 
 	public static final String NS_DEDUCTION_SELECTION_INSERT = "deductionSelectionInsert";
 	public static final String NS_DEDUCTION_UPDATE_SERVICE = "deductionupdateService";
+        public static final String NSF_SALES_DEDUCT_REFRESH = "nsfSalesDeductionRefresh";
 
 	public static final String NS_UPDATE_SERVICE = "netSalesUpdateService";
 	public static final String NS_SAVE_SERVICE = "netSalesSaveService";

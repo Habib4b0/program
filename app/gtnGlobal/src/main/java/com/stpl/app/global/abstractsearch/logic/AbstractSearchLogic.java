@@ -304,7 +304,7 @@ public class AbstractSearchLogic {
         Object object;
         DeductionCalendarLogic deductionLogic = new DeductionCalendarLogic();
         if (isCount) {
-            object = (Integer) deductionLogic.getCountAndResultsForDeductionCalendar(binder, 0,0,columns,filterSet,true);
+            object =  deductionLogic.getCountAndResultsForDeductionCalendar(binder, 0,0,columns,filterSet,true);
 
         } else {
             object = deductionLogic.getCountAndResultsForDeductionCalendar(binder, start, start + offset, columns, filterSet,false);

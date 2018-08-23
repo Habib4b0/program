@@ -292,7 +292,7 @@ public class QuartzListener implements ServletContextListener {
 
 	public static Date getStartDate(Date inputDate) {
 		Date current = new Date();
-		if (inputDate.after(current) || inputDate.equals(current)) {
+		if (inputDate.compareTo(current) >=0) {
 			return inputDate;
 		}
 		return DateBuilder.futureDate(1, IntervalUnit.MINUTE);

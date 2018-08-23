@@ -353,7 +353,7 @@
 							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( BM.BRAND_NAME )
 						END AS BRAND,
-						PM.CREATED_DATE,
+						FORMAT( CONVERT( date , PM.CREATED_DATE ) , 'MM/dd/yyyy' )  as CREATED_DATE ,
 					ISNULL(
 						USR.lastName,
 						''
@@ -505,7 +505,7 @@
 	END AS CONTRACT, CASE
 		WHEN COUNT( DISTINCT BM.BRAND_NAME ) > 1 THEN 'MULTIPLE'
 		ELSE MAX( BM.BRAND_NAME )
-	END AS BRAND, PM.CREATED_DATE,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' ) AS USER_ID, PM.CREATED_BY, CASE
+	END AS BRAND,  FORMAT( CONVERT( date , PM.CREATED_DATE ) , 'MM/dd/yyyy' )  as CREATED_DATE ,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' ) AS USER_ID, PM.CREATED_BY, CASE
 		WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
 		ELSE Max( IM.ITEM_NO )
 	END AS ITEM_NO, CASE

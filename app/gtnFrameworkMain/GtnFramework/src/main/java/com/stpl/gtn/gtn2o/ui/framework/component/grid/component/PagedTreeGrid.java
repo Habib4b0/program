@@ -74,6 +74,7 @@ public class PagedTreeGrid {
 
 	private String componentIdInMap = null;
 	private boolean columnLazyLoading = false;
+	private static final Object[] pages=new Object[] { 5, 10, 15, 20, 25, 50, 100 };
 
 	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
 			GtnUIFrameworkComponentConfig componentConfig) {
@@ -446,13 +447,19 @@ public class PagedTreeGrid {
 	 * reloads the current page
 	 */
 	public void paintCurrentPage() {
+		setCount(count);
 		if (pageNumber == 0) {
 			paintFirstPage();
 			return;
 		}
 		int currentOffset = pageNumber * pageLength;
+		gtnlogger.info("currentOffset");
 		if (expandedItemIds.isEmpty() && !levelExpandOn) {
 			dataSet = loadData(currentOffset + 1, currentOffset + pageLength, tableConfig.getLevelNo(), GtnFrameworkCommonStringConstants.STRING_EMPTY);
+			grid.getTreeData().clear();
+			grid.getTreeData().addItems(null, dataSet.getRows());
+			addExpandIcon(grid.getTreeData(), dataSet.getRows());
+			grid.getDataProvider().refreshAll();
 		} else {
 			List<GtnWsRecordBean> childRows = null;
 			findLastExpandedHierarchy(currentOffset);
@@ -586,10 +593,13 @@ public class PagedTreeGrid {
 
 	@SuppressWarnings("unchecked")
 	private void initalizeColumnController() {
-		totalColumns.setReadOnly(false);
-		totalColumns.setValue(tableConfig.getColumnHeaders().size() + GtnFrameworkCommonStringConstants.STRING_EMPTY);
-		totalColumns.setReadOnly(true);
-		columnsPerPage.setValue(50);
+		columnsPerPage.setValue(10);
+		int t=(tableConfig.getLeftHeader().length()+tableConfig.getRightHeader().length())/10;
+		gtnlogger.info("cc l"+tableConfig.getLeftHeader().length());
+		gtnlogger.info("cc r"+tableConfig.getRightHeader().length());
+		gtnlogger.info("cc t"+t);
+		setTotalColumns(t);
+		
 		setColumnPageNumber(0);
 	}
 
@@ -634,7 +644,7 @@ public class PagedTreeGrid {
 
 	@SuppressWarnings("unchecked")
 	private Component getItemsPerPage() {
-		itemsPerPage.setItems(new Object[] { 5, 10, 15, 20, 25, 50, 100 });
+		itemsPerPage.setItems(pages);
 		itemsPerPage.setSelectedItem(10);
 		itemsPerPage.setWidth("65px");
 		itemsPerPage.setStyleName(GtnFrameworkCommonStringConstants.REPORT_DISPLAY_PAGINATION_LABEL);
@@ -645,7 +655,7 @@ public class PagedTreeGrid {
 
 	@SuppressWarnings("unchecked")
 	private Component getColumnsPerPageComponenet() {
-		columnsPerPage.setItems(new Object[] { 5, 10, 15, 20, 25, 50, 100 });
+		columnsPerPage.setItems(pages);
 		columnsPerPage.setSelectedItem(10);
 		columnsPerPage.setWidth("65px");
 		columnsPerPage.setStyleName(GtnFrameworkCommonStringConstants.REPORT_DISPLAY_PAGINATION_LABEL);
@@ -736,8 +746,9 @@ public class PagedTreeGrid {
 		}
 
 		if (pageLength != newPageLength && count != 0 && getTreeDataProvider() != null) {
-			paintCurrentPage();
 			pageLength = newPageLength;
+			paintCurrentPage();
+			
 		}
 	}
 
@@ -776,14 +787,21 @@ public class PagedTreeGrid {
 	}
 
 	public int getTotalPageCount() {
-		int columnCount = getTotalColumns();
+		int columnCount = tableConfig.getLeftHeader().length()+tableConfig.getRightHeader().length();
 		int columnsPerCount = getColumnsPerPage();
 		int lastPage = columnCount / columnsPerCount;
 		return columnCount % columnsPerCount == 0 ? lastPage : lastPage + 1;
+		
 	}
 
 	public int getTotalColumns() {
 		return GridUtils.getInt(totalColumns.getValue());
+	}
+	public void setTotalColumns(int t) {
+		gtnlogger.info("cc"+t);
+		totalColumns.setReadOnly(false);
+		totalColumns.setValue(Integer.toString(t<=0?1:t));
+		totalColumns.setReadOnly(true);
 	}
 
 	public int getColumnsPerPage() {
@@ -804,6 +822,7 @@ public class PagedTreeGrid {
 		int start = columnPageNumber == 0 ? 0 : (getColumnsPerPage() * columnPageNumber) + 1;
 		int end = start + getColumnsPerPage() - 1;
 		HeaderUtils.configureGridColumns(start, end <= 0 ? 10 : end, this);
+		setTotalColumns(getTotalPageCount());
 
 	}
 
@@ -836,7 +855,9 @@ public class PagedTreeGrid {
 	public void setCount(int count) {
 		this.count = count;
 		pageCountLabel.setReadOnly(false);
-		pageCountLabel.setValue(getPageCount() + GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		int lastPage = count / pageLength;
+		int pageCount= count % pageLength == 0 ? lastPage : lastPage + 1;
+		pageCountLabel.setValue(Integer.toString(pageCount));
 		pageCountLabel.setReadOnly(true);
 	}
 

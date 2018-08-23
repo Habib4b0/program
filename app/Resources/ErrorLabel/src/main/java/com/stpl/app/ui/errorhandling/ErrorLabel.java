@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.vaadin.server.AbstractErrorMessage;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.UserError;
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.Label;
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Label;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -39,7 +39,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
     public void setError(final String error) {
         try{
         setValue(error);
-        setComponentError(new UserError(error, AbstractErrorMessage.ContentMode.HTML, ErrorMessage.ErrorLevel.ERROR));
+        setComponentError(new UserError(error, AbstractErrorMessage.ContentMode.HTML, ErrorMessage.ERROR.ERROR));
         setVisible(true);
         } catch(Exception e){
         LOGGER.error("",e);

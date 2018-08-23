@@ -864,6 +864,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     Object itemId = customSid;
                     if (customIdToSelect == customSid) {
                         select = itemId;
+                        break;
                     }
                     customDdlb.addItem(itemId);
                     customDdlb.setItemCaption(itemId, obj.getViewName());
