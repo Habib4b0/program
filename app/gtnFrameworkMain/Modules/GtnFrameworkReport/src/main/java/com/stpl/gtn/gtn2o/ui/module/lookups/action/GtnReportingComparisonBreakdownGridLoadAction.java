@@ -55,7 +55,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		return;
 
 	}
-	
+
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -74,11 +74,17 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					.getComponentData();
 
 			finalArrayListforGrid = getFinalArrayListForGrid(componentId,
-					comparisonLookupBeanListFromDisplaySelectionTab, idComponentDataFromDisplaySelectionTab); 
+					comparisonLookupBeanListFromDisplaySelectionTab, idComponentDataFromDisplaySelectionTab);
 
 			List<String> projectionNameListFromCustomData = new ArrayList<>();
 			projectionNameListFromCustomData.clear();
-			projectionNameListFromCustomData.add("Latest Approved");
+			String reportDataSourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
+					.getViewId();
+			if (!GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", reportDataSourceComponentId)
+					.getCaptionFromV8ComboBox().equals("3")) {
+				projectionNameListFromCustomData.add("Latest Approved");
+			}
 			for (int count = 0; count < finalArrayListforGrid.size(); count++) {
 				projectionNameListFromCustomData.add(finalArrayListforGrid.get(count).getProjectionName());
 			}
@@ -101,7 +107,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			comparisonBasisComboBoxConfig.setItemCaptionValues(projectionList);
 
 			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-			combobox.reloadComponentFromView(					"reportOptionsTabComparisonOptions_comparison", componentId, Arrays.asList(""));
+			combobox.reloadComponentFromView("reportOptionsTabComparisonOptions_comparison", componentId,
+					Arrays.asList(""));
 
 			int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
 
@@ -137,14 +144,13 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					comparisonLookUpBean.setComparisonBreakdownSaveActionList(cmoparisonBreakdownSaveActionList);
 					comparisonLookUpBean.setRowCount(rowCount);
 					comparisonLookUpBean.setComparisonLookupBeanList(finalArrayListforGrid);
-					vaadinComponent = getCustomFilterComponent(comparisonLookUpBean, grid, tableConfig,
-							gridComponent);
+					vaadinComponent = getCustomFilterComponent(comparisonLookUpBean, grid, tableConfig, gridComponent);
 					filterRow.getCell(String.valueOf(filterColumnIdList[col])).setComponent(vaadinComponent);
 				}
 				i++;
 				rowCount++;
 			}
-			setReportProfileComparisonBreakdown(gridComponent,grid,componentId);
+			setReportProfileComparisonBreakdown(gridComponent, grid, componentId);
 
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
@@ -160,11 +166,10 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					.getCustomData();
 		}
 
-		List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromReportLandingScreen = new ArrayList<>() ;
+		List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromReportLandingScreen = new ArrayList<>();
 
 		GtnUIFrameworkComponentData idComponentDataFromReportingLandingScreen = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponentFromParent("reportLandingScreen_reportingDashboardComparisonConfig",
-						componentId)
+				.getVaadinBaseComponentFromParent("reportLandingScreen_reportingDashboardComparisonConfig", componentId)
 				.getComponentData();
 
 		if (idComponentDataFromReportingLandingScreen.getCustomData() != null) {
@@ -174,21 +179,19 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 		if ((!comparisonLookupBeanListFromDisplaySelectionTab.isEmpty())
 				&& (!comparisonLookupBeanListFromReportLandingScreen.isEmpty())) {
-			finalArrayListforGrid = new ArrayList<>(
-					comparisonLookupBeanListFromDisplaySelectionTab);
+			finalArrayListforGrid = new ArrayList<>(comparisonLookupBeanListFromDisplaySelectionTab);
 			finalArrayListforGrid.addAll(comparisonLookupBeanListFromReportLandingScreen);
-			Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<>(
-					finalArrayListforGrid);
+			Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<>(finalArrayListforGrid);
 			finalArrayListforGrid = new ArrayList<>(finalSet);
 
 		}
 
-		else if(comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()&&comparisonLookupBeanListFromReportLandingScreen.isEmpty()) {
+		else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()
+				&& comparisonLookupBeanListFromReportLandingScreen.isEmpty()) {
 			finalArrayListforGrid = new ArrayList<>();
-		}
-		else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()) {
+		} else if (comparisonLookupBeanListFromDisplaySelectionTab.isEmpty()) {
 			finalArrayListforGrid = comparisonLookupBeanListFromReportLandingScreen;
-		} else  {
+		} else {
 			finalArrayListforGrid = comparisonLookupBeanListFromDisplaySelectionTab;
 		}
 		return finalArrayListforGrid;
@@ -196,29 +199,32 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 	private void setReportProfileComparisonBreakdown(GtnUIFrameworkComponentData gridComponent,
 			Grid<GtnWsRecordBean> grid, String componentId) {
-		 List<Object[]> reportProfileSubmitBeanList = new ArrayList<>();
+		List<Object[]> reportProfileSubmitBeanList = new ArrayList<>();
 		GtnUIFrameworkBaseComponent comparisonBreakdownLookupCustomData = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent("reportingDashboardTab_reportOptionsTabComparisonOptions", componentId);
-	     if (Optional.ofNullable(comparisonBreakdownLookupCustomData.getComponentData().getCustomData()).isPresent()) {
-	            List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownReportProfileBean = (List<GtnReportComparisonBreakdownLookupBean>) comparisonBreakdownLookupCustomData.getComponentData().getCustomData();
-	            for (int start = 0; start < comparisonBreakdownReportProfileBean.size(); start++) {
-	                ComboBox comparisonBreakdownGridCombo = (ComboBox) grid.getHeaderRow(comparisonBreakdownReportProfileBean.get(start).getRowCount())
-	                        .getCell(comparisonBreakdownReportProfileBean.get(start).getProperty()).getComponent();
-	                comparisonBreakdownGridCombo.setSelectedItem(String.valueOf(comparisonBreakdownReportProfileBean.get(start).getSelectedVariable()));
-	                Object[] obj = new Object[7];
-	                obj[0] = comparisonBreakdownReportProfileBean.get(start).getSelectedVariable();
-	                obj[1] = comparisonBreakdownReportProfileBean.get(start).getColumnId();
-	                obj[2] = comparisonBreakdownReportProfileBean.get(start).getMasterSid();
-	                obj[3] = comparisonBreakdownReportProfileBean.get(start).getProperty();
-	                obj[4] = comparisonBreakdownReportProfileBean.get(start).getProperty();
-	                obj[5] = comparisonBreakdownReportProfileBean.get(start).getRowCount();
-	                obj[6] = comparisonBreakdownReportProfileBean.get(start).getComponentId();
-	                reportProfileSubmitBeanList.add(obj);
-	            }
+				.getVaadinBaseComponent("reportingDashboardTab_reportOptionsTabComparisonOptions", componentId);
+		if (Optional.ofNullable(comparisonBreakdownLookupCustomData.getComponentData().getCustomData()).isPresent()) {
+			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownReportProfileBean = (List<GtnReportComparisonBreakdownLookupBean>) comparisonBreakdownLookupCustomData
+					.getComponentData().getCustomData();
+			for (int start = 0; start < comparisonBreakdownReportProfileBean.size(); start++) {
+				ComboBox comparisonBreakdownGridCombo = (ComboBox) grid
+						.getHeaderRow(comparisonBreakdownReportProfileBean.get(start).getRowCount())
+						.getCell(comparisonBreakdownReportProfileBean.get(start).getProperty()).getComponent();
+				comparisonBreakdownGridCombo.setSelectedItem(
+						String.valueOf(comparisonBreakdownReportProfileBean.get(start).getSelectedVariable()));
+				Object[] obj = new Object[7];
+				obj[0] = comparisonBreakdownReportProfileBean.get(start).getSelectedVariable();
+				obj[1] = comparisonBreakdownReportProfileBean.get(start).getColumnId();
+				obj[2] = comparisonBreakdownReportProfileBean.get(start).getMasterSid();
+				obj[3] = comparisonBreakdownReportProfileBean.get(start).getProperty();
+				obj[4] = comparisonBreakdownReportProfileBean.get(start).getProperty();
+				obj[5] = comparisonBreakdownReportProfileBean.get(start).getRowCount();
+				obj[6] = comparisonBreakdownReportProfileBean.get(start).getComponentId();
+				reportProfileSubmitBeanList.add(obj);
+			}
 
-	            gridComponent.setCustomData(reportProfileSubmitBeanList);
-	        }
-		
+			gridComponent.setCustomData(reportProfileSubmitBeanList);
+		}
+
 	}
 
 	private void setStartAndEndPeriodForComparisonBreakdownLookup(GtnUIFrameworkPagedTableConfig tableConfig,
@@ -237,7 +243,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		startPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
 
 		GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
-		startPeriodCombobox.reloadComponentFromView(				"reportOptionsTabComparisonOptions_startPeriod", componentId, Arrays.asList(""));
+		startPeriodCombobox.reloadComponentFromView("reportOptionsTabComparisonOptions_startPeriod", componentId,
+				Arrays.asList(""));
 
 		GtnUIFrameworkComboBoxConfig endPeriodComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_endPeriod", componentId)
@@ -246,7 +253,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		endPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
 
 		GtnUIFrameworkComboBoxComponent endPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
-		endPeriodCombobox.reloadComponentFromView(				"reportOptionsTabComparisonOptions_endPeriod", componentId, Arrays.asList(""));
+		endPeriodCombobox.reloadComponentFromView("reportOptionsTabComparisonOptions_endPeriod", componentId,
+				Arrays.asList(""));
 
 	}
 
@@ -277,7 +285,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 			j++;
 		}
-		
+
 		return comparisonBreakdownTableConfig;
 	}
 
@@ -289,8 +297,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			for (int i = 0; i < tableColumnMappingId.length; i++) {
 				CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
 				vaadinCheckBoxGroup.setItems(columnHeaders.get(i));
-				if (!tableColumnMappingId[i].equals(GtnFrameworkReportStringConstants.PROJECTION_NAMES)){		
-				mainHeader.getCell(String.valueOf(tableColumnMappingId[i])).setComponent(vaadinCheckBoxGroup);
+				if (!tableColumnMappingId[i].equals(GtnFrameworkReportStringConstants.PROJECTION_NAMES)) {
+					mainHeader.getCell(String.valueOf(tableColumnMappingId[i])).setComponent(vaadinCheckBoxGroup);
 				}
 			}
 		}
@@ -307,15 +315,16 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	}
 
 	private Component getCustomFilterComponent(GtnReportComparisonBreakdownLookupBean comparisonLookUpBean,
-			Grid<GtnWsRecordBean> comparisonProjectiongrid, GtnUIFrameworkPagedTableConfig comparisonBreakdownTableConfig,
+			Grid<GtnWsRecordBean> comparisonProjectiongrid,
+			GtnUIFrameworkPagedTableConfig comparisonBreakdownTableConfig,
 			GtnUIFrameworkComponentData comparisonBreakdownGridComponent) {
 		try {
 
 			if (comparisonLookUpBean.getProperty().equals(GtnFrameworkReportStringConstants.PROJECTION_NAMES)) {
 				GtnUIFrameworkComponentConfig comparisonBreakdownComponentConfig = new GtnUIFrameworkComponentConfig();
 				comparisonBreakdownComponentConfig.setComponentName(comparisonLookUpBean.getProjectionName());
-				comparisonBreakdownComponentConfig
-						.setComponentId(comparisonLookUpBean.getProperty() + comparisonLookUpBean.getProjectionName() + comparisonLookUpBean.getRowId());
+				comparisonBreakdownComponentConfig.setComponentId(comparisonLookUpBean.getProperty()
+						+ comparisonLookUpBean.getProjectionName() + comparisonLookUpBean.getRowId());
 				GtnUIFrameworkComponent componentLabelForGrid = V8_LABEL.getGtnComponent();
 				Component vaadinComponentLabel = null;
 				vaadinComponentLabel = componentLabelForGrid.buildVaadinComponent(comparisonBreakdownComponentConfig);
@@ -325,8 +334,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 				comparisonProjectiongrid.getColumn(comparisonLookUpBean.getProperty()).setResizable(false);
 				return vaadinLabel;
 			}
-			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_value", comparisonLookUpBean.getComponentId());
+			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(
+					"reportOptionsTabComparisonOptions_value", comparisonLookUpBean.getComponentId());
 
 			GtnUIFrameworkComponent vaadinGtnComboBoxComponent = COMBOBOX_VAADIN8.getGtnComponent();
 			AbstractComponent abstractVaadinComponent = null;
@@ -344,15 +353,18 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					Object[] obj = new Object[7];
 					obj[0] = event.getValue().toString();
 					obj[1] = comparisonBreakdownTableConfig.getColumnHeaders().get(comparisonLookUpBean.getCol());
-					Label projectionNameForWebService = (Label) comparisonProjectiongrid.getHeaderRow(comparisonLookUpBean.getRowCount())
+					Label projectionNameForWebService = (Label) comparisonProjectiongrid
+							.getHeaderRow(comparisonLookUpBean.getRowCount())
 							.getCell(GtnFrameworkReportStringConstants.PROJECTION_NAMES).getComponent();
-					obj[2] = getMasterSidForComparisonBreakdown(projectionNameForWebService, comparisonLookUpBean.getComparisonLookupBeanList());
+					obj[2] = getMasterSidForComparisonBreakdown(projectionNameForWebService,
+							comparisonLookUpBean.getComparisonLookupBeanList());
 					obj[3] = comparisonLookUpBean.getProperty();
 					obj[4] = projectionNameForWebService.getValue();
 					obj[5] = comparisonLookUpBean.getRowCount();
-                    obj[6] = vaadinCombobox.getId();
-                    comparisonLookUpBean.getComparisonBreakdownSaveActionList().add(obj);
-					comparisonBreakdownGridComponent.setCustomData(comparisonLookUpBean.getComparisonBreakdownSaveActionList());
+					obj[6] = vaadinCombobox.getId();
+					comparisonLookUpBean.getComparisonBreakdownSaveActionList().add(obj);
+					comparisonBreakdownGridComponent
+							.setCustomData(comparisonLookUpBean.getComparisonBreakdownSaveActionList());
 				}
 			});
 
