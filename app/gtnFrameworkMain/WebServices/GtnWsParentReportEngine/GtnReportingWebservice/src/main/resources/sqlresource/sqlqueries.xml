@@ -184,6 +184,22 @@
 					)
 			]]>
 	</entry>
+
+	<entry key="getLoadViewResultsCount">
+			<![CDATA[
+				Select
+						COUNT(*)
+					from
+						REPORTING_VIEW_MASTER
+						join ?.dbo.User_ sys on sys.userId = REPORTING_VIEW_MASTER.CREATED_BY
+					WHERE
+						VIEW_TYPE = ?
+						AND VIEW_NAME LIKE ? @filter
+						?
+						AND FLAG = ?
+			]]>
+	</entry>
+	
 	
 	<entry key="loadViewResults">
 			<![CDATA[
@@ -466,7 +482,11 @@
 						USR.firstName,
 						''
 					),PM.CREATED_BY
-				) RSLT
+                                        
+                                       ORDER BY PM.PROJECTION_NAME
+                              	       OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+				) RSLT 
+                                
 		]]>
 	</entry>
 	
@@ -560,8 +580,23 @@ INNER JOIN CFF_DETAILS PD ON
 						  OR CM.COMPANY_NO IS NULL )
 						  AND ( BM.BRAND_NAME LIKE ?
 						  OR BM.BRAND_NAME IS NULL )
+                                                  AND(	CONVERT (date,PM.CREATED_DATE) LIKE ?
+						  OR CONVERT (date,PM.CREATED_DATE) is null)  
+                                                  AND ISNULL(
+                                                USR.lastName,
+                                                ''
+                                                ) + ' ' + ISNULL(
+                                                    USR.middleName,
+                                                ''
+                                                ) + ISNULL(
+                                                    USR.firstName,
+                                                ''
+                                                 ) like ?          
 								GROUP BY
-									PM.CFF_NAME, PM.CFF_MASTER_SID, PM.CREATED_DATE, PM.CREATED_BY ,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' )) SELECT
+									PM.CFF_NAME, PM.CFF_MASTER_SID, PM.CREATED_DATE, PM.CREATED_BY ,  ISNULL( USR.lastName, '' ) + ' ' + ISNULL( USR.middleName, '' ) + ' ' + ISNULL( USR.firstName, '' )
+                                                 ORDER BY PM.CFF_NAME
+                                                 OFFSET ? ROWS FETCH NEXT ? ROWS ONLY)
+ SELECT
 	*
 FROM
 	CTE
