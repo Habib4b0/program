@@ -95,6 +95,7 @@ import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TreeTable;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -1909,8 +1910,7 @@ public class DataSelectionLogic {
 		for (int i = 0; i < resultsList.size(); i++) {
 			Object[] ob = (Object[]) resultsList.get(i);
 			returnDetilsMap.put(ob[0].toString(), ob[1].toString());
-			if (Integer.valueOf(session.getProductLevelNumber()) == Integer
-					.valueOf(ob[NumericConstants.TWO].toString())) {
+			if (Objects.equals(Integer.valueOf(session.getProductLevelNumber()), Integer.valueOf(ob[NumericConstants.TWO].toString()))) {
 				if (!session.getDetailsSID().isEmpty()) { // Added for GAL-9131
 					session.setDetailsSID(session.getDetailsSID().concat(",").concat(ob[1].toString()));
 				} else {
@@ -2778,7 +2778,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 session,screenName, "P", startPeriod, endPeriod, massUpdateField));
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                 session,screenName, "U", startPeriod, endPeriod, massUpdateField));
-        service.shutdown();
+        // service.shutdown();
     }
     public void nmDiscountInsertProcedure(SessionDTO session) {
         ExecutorService discountService = ThreadPool.getInstance().getService();
@@ -3005,7 +3005,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
         serviceViewPopulation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
-        serviceViewPopulation.shutdown();
+        // serviceViewPopulation.shutdown();
     }
     public void nmSalesViewsPopulationProcedureWithoutTruncation(SessionDTO session) {
         ExecutorService serviceViewPopulationWithoutTruncation = ThreadPool.getInstance().getService();
@@ -3015,7 +3015,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
         serviceViewPopulationWithoutTruncation.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
-        serviceViewPopulationWithoutTruncation.shutdown();
+        // serviceViewPopulationWithoutTruncation.shutdown();
     }  
       
       public void nmSalesViewsPopulationProcedureUOM(SessionDTO session) {
@@ -3028,7 +3028,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
         serviceViewPopulationProcedureUOM.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL_UOM,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
-        serviceViewPopulationProcedureUOM.shutdown();
+        // serviceViewPopulationProcedureUOM.shutdown();
     }
 
     public void nmDiscountViewsPopulationProcedure(SessionDTO session) {
@@ -3043,7 +3043,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
         serviceDiscountViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
-        serviceDiscountViewsPopulationProcedure.shutdown();
+        // serviceDiscountViewsPopulationProcedure.shutdown();
     }
     public void nmDiscountViewsPopulationProcedureForUPS(SessionDTO session) {
         ExecutorService serviceDiscountViewsPopulationProcedureForUPS = ThreadPool.getInstance().getService();
@@ -3069,7 +3069,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 Constant.PRODUCT_VIEW_VARIANCE_POPULATION_CALL,Constant.GENERATE_FLAG, Constant.VARIANCE_SCREEN, "P", "null", "null", session));
         serviceNmPvViewsPopulationProcedure.submit(commonUtil.createRunnable(Constant.PV_PRC_VIEWS_CALL,
                 Constant.CUSTOM_VIEW_VARIANCE_POPULATION_CALL,Constant.GENERATE_FLAG, Constant.VARIANCE_SCREEN, "U", "null", "null", session));
-        serviceNmPvViewsPopulationProcedure.shutdown();
+        // serviceNmPvViewsPopulationProcedure.shutdown();
     }
     
     public void loadCustomViewValuesDeduction(ComboBox customRelationDdlb, Map<String, String> dataMap) {

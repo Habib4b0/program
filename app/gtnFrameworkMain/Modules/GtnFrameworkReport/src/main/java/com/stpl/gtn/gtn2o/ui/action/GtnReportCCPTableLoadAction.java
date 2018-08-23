@@ -118,7 +118,8 @@ public class GtnReportCCPTableLoadAction
 		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-		combobox.reloadComponentFromChild(				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
+		combobox.reloadComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId,
+				Arrays.asList(""));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
@@ -199,7 +200,7 @@ public class GtnReportCCPTableLoadAction
 		dto.setSelectedProductHierarchyList(selectedProductList);
 
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 16);
+		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
 		dto.setSessionId(uniqueId);
 		dto.setUniqueId(uniqueId);
 

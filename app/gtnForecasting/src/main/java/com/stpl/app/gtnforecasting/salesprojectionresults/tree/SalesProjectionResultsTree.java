@@ -405,7 +405,7 @@ public class SalesProjectionResultsTree {
         INVENTORY_WITHDRAW("Inventory Withdraw"),
         CONTRACT_SALES_PERCENT_EXFACT("Contract Sales as % of Ex-Factory Sales");
 
-        private SalesProjectionResultsDTO staticData;
+        private volatile SalesProjectionResultsDTO staticData;
         private final String staticDataLabel;
 
         private SPRStaticData(String staticData) {
