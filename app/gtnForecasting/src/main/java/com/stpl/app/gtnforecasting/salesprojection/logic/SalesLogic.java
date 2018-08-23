@@ -3838,14 +3838,15 @@ public class SalesLogic {
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
         double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
-        double amountA = 0.0;
+        double initValue = 0.0d;
+        double amountA = initValue;
         for (String split : entry.getValue().split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountA += salesAmount.get(split);
             }
         }
         //Code to calculate B
-        double amountB = 0.0;
+        double amountB = initValue;
         for (String split : parentDetailsSid.split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountB += salesAmount.get(split);
@@ -3854,9 +3855,9 @@ public class SalesLogic {
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
-        if (amountA == 0.0d && amountB == 0.0d) {
-            amount = 0.0;
-        } else if (amountA != 0.0d && amountB != 0.0d) {
+        if (Math.abs(amountA) == Math.abs(initValue) && Math.abs(amountB) == Math.abs(initValue)) {
+            amount = initValue;
+        } else if (Math.abs(amountA) != initValue && Math.abs(amountB) != initValue) {
             amount = (amountA / amountB) * amount;
         }
         return amount;
