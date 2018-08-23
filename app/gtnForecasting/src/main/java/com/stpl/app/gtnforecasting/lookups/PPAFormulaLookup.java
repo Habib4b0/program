@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.app.gtnforecasting.lookups;
 
 import com.stpl.app.gtnforecasting.dto.RSFormulaDTO;
@@ -48,7 +47,6 @@ public class PPAFormulaLookup extends Window {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAFormulaLookup.class);
 
-
     @UiField("formulaID")
     private TextField formulaID;
 
@@ -56,7 +54,7 @@ public class PPAFormulaLookup extends Window {
     private TextField formulaNo;
 
     @UiField("formulaName")
-    private TextField formulaName;      
+    private TextField formulaName;
 
     @UiField("searchBtn")
     private Button searchBtn;
@@ -72,47 +70,47 @@ public class PPAFormulaLookup extends Window {
 
     @UiField("tablelayout")
     private VerticalLayout tablelayout;
-    
+
     @UiField("detailsTableLayout")
     private VerticalLayout detailsTableLayout;
-    
+
     @UiField("controlLayout")
     private HorizontalLayout controlLayout;
-    
+
     @UiField("detailsControlLayout")
     private HorizontalLayout detailsControlLayout;
-    
+
     @UiField("formulaType")
     private ComboBox formulaType;
-    
+
     private final FormulaTableLogic tableLogic = new FormulaTableLogic();
 
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    
+
     private final FormulaTableLogic detailstableLogic = new FormulaTableLogic();
-    
+
     private final ExtPagedTable detailsTable = new ExtPagedTable(detailstableLogic);
-    
-    
-    private final BeanItemContainer<RSFormulaDTO> resultsContainer = new BeanItemContainer<>(RSFormulaDTO.class);    
-    private final BeanItemContainer<RSFormulaDTO> detailsContainer = new BeanItemContainer<>(RSFormulaDTO.class);    
-    
+
+    private final BeanItemContainer<RSFormulaDTO> resultsContainer = new BeanItemContainer<>(RSFormulaDTO.class);
+    private final BeanItemContainer<RSFormulaDTO> detailsContainer = new BeanItemContainer<>(RSFormulaDTO.class);
+
     private RSFormulaDTO rsFormulaDTO = new RSFormulaDTO();
-    
+
     private CustomFieldGroup binder;
-    
-    private final CommonUtil commonUtil = CommonUtil.getInstance();   
+
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final CommonUIUtils commonUIUtils = new CommonUIUtils();
-    
+
     private boolean isSelected;
-    
+
     private String propertyId;
-    
-    private boolean validatePPA=false;
-    
+
+    private boolean validatePPA = false;
+
     /**
      * Default Constructor to load the formula for Mass Update
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     public PPAFormulaLookup(String propertyId, boolean validatePPA) {
         this.propertyId = propertyId;
@@ -121,9 +119,9 @@ public class PPAFormulaLookup extends Window {
     }
 
     /**
-     *  Configures the Window
+     * Configures the Window
      */
-    private void init()  {
+    private void init() {
         this.setModal(true);
         this.setClosable(true);
         this.center();
@@ -132,32 +130,30 @@ public class PPAFormulaLookup extends Window {
         addStyleName(Constant.BOOTSTRAP);
         addStyleName("bootstrap-bb");
         setContent(Clara.create(getClass().getResourceAsStream("/formula-lookup.xml"), this));
-        configureBinder();        
+        configureBinder();
         configureTable();
         CommonUtil.getInstance().loadComboBox(formulaType, "NS_FORMULA_TYPE", false);
     }
 
-    
-    
     /**
      * Binds the search criteria field values to the DTO.
      */
     private void configureBinder() {
         binder = new CustomFieldGroup(new BeanItem(rsFormulaDTO));
-        binder.bindMemberFields(this);        
+        binder.bindMemberFields(this);
     }
-    
+
     /**
      * Configures the table logic and result table.
      */
     private void configureTable() {
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
-        tableLogic.sinkItemPerPageWithPageLength(false);    
+        tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
         resultsTable.setVisibleColumns(commonUIUtils.formulaLookup);
-        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);    
+        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName(Constant.FILTERBAR);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -165,18 +161,18 @@ public class PPAFormulaLookup extends Window {
         resultsTable.setSelectable(true);
         resultsTable.setWidth("744px");
         tablelayout.addComponent(resultsTable);
-        ResponsiveUtils.getResponsiveControls(tableLogic.createControls(), controlLayout);        
-      if(propertyId.equals(Constant.PPAVariables.NEP_FORMULA.getConstant())){
-          resultsTable.setFilterFieldVisible(Constant.FORMULA_TYPE, false);
-          formulaType.setEnabled(false);
-      }
+        ResponsiveUtils.getResponsiveControls(tableLogic.createControls(), controlLayout);
+        if (propertyId.equals(Constant.PPAVariables.NEP_FORMULA.getConstant())) {
+            resultsTable.setFilterFieldVisible(Constant.FORMULA_TYPE, false);
+            formulaType.setEnabled(false);
+        }
         detailstableLogic.setContainerDataSource(detailsContainer);
         detailstableLogic.setPageLength(NumericConstants.TEN);
-        detailstableLogic.sinkItemPerPageWithPageLength(false);    
+        detailstableLogic.sinkItemPerPageWithPageLength(false);
         detailsTable.setImmediate(true);
         detailsTable.setSizeFull();
         detailsTable.setVisibleColumns(commonUIUtils.ruleDetailsColumns);
-        detailsTable.setColumnHeaders(commonUIUtils.ruleDetailsHeaders);    
+        detailsTable.setColumnHeaders(commonUIUtils.ruleDetailsHeaders);
         detailsTable.setFilterBarVisible(true);
         detailsTable.addStyleName(Constant.FILTERBAR);
         detailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -184,14 +180,15 @@ public class PPAFormulaLookup extends Window {
         detailsTable.setSelectable(false);
         detailsTable.setWidth("744px");
         detailsTableLayout.addComponent(detailsTable);
-        
-        ResponsiveUtils.getResponsiveControls(detailstableLogic.createControls(), detailsControlLayout);      
+
+        ResponsiveUtils.getResponsiveControls(detailstableLogic.createControls(), detailsControlLayout);
     }
-    
-   /**
-    * Searches for the formula with the entered criteria.
-    * @param event 
-    */
+
+    /**
+     * Searches for the formula with the entered criteria.
+     *
+     * @param event
+     */
     @UiHandler("searchBtn")
     public void searchLogic(Button.ClickEvent event) {
         try {
@@ -213,13 +210,14 @@ public class PPAFormulaLookup extends Window {
             LOGGER.error(ex.getMessage());
         }
     }
-    
+
     /**
      * Resets the search fields.
-     * @param event 
+     *
+     * @param event
      */
     @UiHandler("resetBtn")
-    public void resetLogic(Button.ClickEvent event){
+    public void resetLogic(Button.ClickEvent event) {
         rsFormulaDTO = new RSFormulaDTO();
         binder.setItemDataSource(new BeanItem(rsFormulaDTO));
         resultsTable.removeAllItems();
@@ -230,37 +228,39 @@ public class PPAFormulaLookup extends Window {
         detailstableLogic.clearAll();
         detailstableLogic.setReset(true);
     }
-    
+
     /**
      * Selects the item in the table and closes the window.
-     * @param event 
+     * @param event
      */
     @UiHandler("selectBtn")
     public void selectLogic(Button.ClickEvent event) {
         if (null != resultsTable.getValue()) {
-            final RSFormulaDTO itemId=(RSFormulaDTO) resultsTable.getValue();
-            List resultList = PPAQuerys.getPPAData(new ArrayList(){{add(itemId.getFormulaSystemID());}}, "net-sales-ppa-validation", null);
-            boolean ppaCheck=resultList.get(0)!=null && "1".equals(String.valueOf(resultList.get(0)));
+            final RSFormulaDTO itemId = (RSFormulaDTO) resultsTable.getValue();
+            List list = new ArrayList();
+            list.add(itemId.getFormulaSystemID());
+            List resultList = PPAQuerys.getPPAData(list, "net-sales-ppa-validation", null);
+            boolean ppaCheck = resultList.get(0) != null && "1".equals(String.valueOf(resultList.get(0)));
             if (validatePPA && !ppaCheck) {
                 AbstractNotificationUtils.getErrorNotification("Error",
                         "Only formulas that have a Contract Selection of 'Existing Contract' \n"
                         + "and a Formula Type of 'Contract Deduction' may be used. \n"
                         + "Please select another formula and try again.");
             } else {
-            isSelected = true;
-            this.close();
+                isSelected = true;
+                this.close();
             }
         } else {
             final MessageBox msg = MessageBox.showPlain(Icon.WARN, "Select error", "Please select a record.", new MessageBoxListener() {
-              
+
                 /**
                  * The method is triggered when a button of the message box is
                  * pressed .
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
-                    @Override
+                @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -268,31 +268,32 @@ public class PPAFormulaLookup extends Window {
             msg.getButton(ButtonId.OK).focus();
         }
     }
-    
+
     /**
      * Closes the window.
-     * @param event 
+     *
+     * @param event
      */
     @UiHandler("closeBtn")
-    public void closeLogic(Button.ClickEvent event){       
+    public void closeLogic(Button.ClickEvent event) {
         isSelected = false;
         this.close();
     }
-   
+
     /**
      * Returns the selected Item from the table.
-     * 
-     * @return 
+     *
+     * @return
      */
-    public RSFormulaDTO getSelectedItem(){
-      return getBeanFromId(resultsTable.getValue());  
+    public RSFormulaDTO getSelectedItem() {
+        return getBeanFromId(resultsTable.getValue());
     }
-    
+
     /**
-     * 
+     *
      * @param obj
-     * @return 
-     */   
+     * @return
+     */
     public RSFormulaDTO getBeanFromId(Object obj) {
 
         BeanItem<?> targetItem = null;
@@ -310,10 +311,9 @@ public class PPAFormulaLookup extends Window {
     }
 
     /**
-     * Returns the flag.
-     * true - if item is selected in the table.
-     * false - if item is not selected.
-     * @return 
+     * Returns the flag. true - if item is selected in the table. false - if item is not selected.
+     *
+     * @return
      */
     public boolean isSelected() {
         return isSelected;
@@ -321,7 +321,8 @@ public class PPAFormulaLookup extends Window {
 
     /**
      * Sets the flag as true when an item is selected in the table.
-     * @param isSelected 
+     *
+     * @param isSelected
      */
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
@@ -329,7 +330,8 @@ public class PPAFormulaLookup extends Window {
 
     /**
      * Sets the flag as true when an item is selected in the table.
-     * @param clearAndRefresh 
+     *
+     * @param clearAndRefresh
      */
     public void clearAndRefresh(String propertyId, boolean validatePPA) {
         this.propertyId = propertyId;
@@ -347,15 +349,16 @@ public class PPAFormulaLookup extends Window {
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setVisibleColumns(commonUIUtils.formulaLookup);
-        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);    
+        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);
     }
-    
+
     /**
      * Closes the window.
-     * @param event 
+     *
+     * @param event
      */
     @UiHandler("detailsBtn")
-    public void detailsBtnLogic(Button.ClickEvent event){  
+    public void detailsBtnLogic(Button.ClickEvent event) {
         try {
             if (resultsTable.getValue() != null) {
                 detailstableLogic.clearFilters();
@@ -366,5 +369,5 @@ public class PPAFormulaLookup extends Window {
             LOGGER.error(ex.getMessage());
         }
     }
-    
+
 }

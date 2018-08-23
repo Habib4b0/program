@@ -639,11 +639,8 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             Object gropuParentItemId = excelParentRecords.get(groupParentKey);
 
                             if (gropuParentItemId == null) {
-                                ProjectionResultsDTO tpGroup = new ProjectionResultsDTO() {
-                                    {
-                                        setGroup(projectionSelectionDTO.getGroupFilter());
-                                    }
-                                };
+                                ProjectionResultsDTO tpGroup = new ProjectionResultsDTO();
+                                tpGroup.setGroup(projectionSelectionDTO.getGroupFilter());
                                 excelResultBean.addBean(tpGroup);
                                 gropuParentItemId = tpGroup;
                                 excelResultBean.setParent(gropuParentItemId, parentItemId);

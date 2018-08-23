@@ -180,7 +180,7 @@ public class NMProjectionResultsLogic {
         LOGGER.info("= = = Inside getTotalDiscountLevels = = =");
            CommonLogic commonLogic = new CommonLogic();
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        List<ProjectionResultsDTO> projDTOList1 = null;
+        List<ProjectionResultsDTO> projDTOList1 = new ArrayList<>();
         List<Object> list = null;
         String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
          query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
