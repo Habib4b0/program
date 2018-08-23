@@ -61,6 +61,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Locale;
 import org.apache.commons.io.FilenameUtils;
+
 /**
  *
  * @author Asha.Ravi
@@ -177,6 +178,7 @@ public class WorkFlowNotesLookup extends Window {
              *
              */
             private static final long serialVersionUID = 1L;
+
             @Override
             public void call(JsonArray arguments) {
                 try {
@@ -267,7 +269,7 @@ public class WorkFlowNotesLookup extends Window {
                 try {
                     itemClickLogic(event);
                 } catch (Exception e) {
-                    LOGGER.error("Error while clicking the Item :" + e);
+                    LOGGER.error("Error while clicking the Item :", e);
                 }
             }
         });
@@ -435,7 +437,7 @@ public class WorkFlowNotesLookup extends Window {
                 downloadFile(uploadedFile);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in itemClickLogic :" + e);
+            LOGGER.error("Error in itemClickLogic :", e);
         }
     }
 

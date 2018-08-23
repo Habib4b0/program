@@ -385,7 +385,7 @@ public class InventoryCustomerGroupLookup extends Window {
             SaveViewPopup viewPopup = new SaveViewPopup(saveViewDTO);
             getUI().addWindow(viewPopup);
         } catch (Exception e) {
-            LOGGER.error("Error in btnSaveViewLogic :" + e);
+            LOGGER.error("Error in btnSaveViewLogic :", e);
         }
     }
 
@@ -543,7 +543,7 @@ public class InventoryCustomerGroupLookup extends Window {
             indicator.setItemCaption(false, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
-            LOGGER.error("Error while loading Drop down :" + indicator + " with :" + e);
+            LOGGER.error("Error while loading Drop down :" + indicator + " with :", e);
         }
         return indicator;
     }

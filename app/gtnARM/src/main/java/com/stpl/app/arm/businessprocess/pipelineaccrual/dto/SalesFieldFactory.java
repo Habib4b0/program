@@ -92,7 +92,7 @@ public class SalesFieldFactory implements TableFieldFactory {
                 input.add(projectionId);
                 service.submit(new UpdateOverride(input));
             } catch (Exception e) {
-                LOGGER.error("Error in priceOverrideListener :" + e);
+                LOGGER.error("Error in priceOverrideListener :", e);
             }
         }
     };

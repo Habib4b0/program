@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
  * @author Porchelvi.Gunasekara
  */
 public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentDetailInventory.class);
     private boolean creditFlag;
 

@@ -3,7 +3,6 @@ package com.stpl.app.arm.dataselection.dto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import com.stpl.app.utils.CommonUtils;
 import static com.stpl.app.utils.CommonUtils.DASH;
 import com.stpl.app.utils.ConstantsUtils;
@@ -79,7 +78,7 @@ public class CalcultionProfileTableGenerator extends DefaultFieldFactory {
             select.markAsDirty();
             select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
         } catch (Exception e) {
-            LOGGER.error("Error while loading Drop down with :" + e);
+            LOGGER.error("Error while loading Drop down with :", e);
         }
         return select;
     }

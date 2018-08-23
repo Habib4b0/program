@@ -82,7 +82,7 @@ public class AdjustmentRateLogic {
             LOGGER.debug("--Inside deleteRateConfig--" + query);
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception e) {
-            LOGGER.error("Error in deleteRateConfig :" + e);
+            LOGGER.error("Error in deleteRateConfig :", e);
         }
         return true;
     }
@@ -151,7 +151,7 @@ public class AdjustmentRateLogic {
                 months.add(rate);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in customizeRateConfig :" + e);
+            LOGGER.error("Error in customizeRateConfig :", e);
         }
 
         return months;
@@ -190,7 +190,7 @@ public class AdjustmentRateLogic {
                 list.add(dto);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in customizeExcel :" + e);
+            LOGGER.error("Error in customizeExcel :", e);
         }
 
         return list;
@@ -222,7 +222,7 @@ public class AdjustmentRateLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getIntialLoadValue:" + e);
+            LOGGER.error("Error in getIntialLoadValue:", e);
             return Collections.emptyList();
         }
     }
@@ -232,7 +232,7 @@ public class AdjustmentRateLogic {
             DAO.executeUpdate(query);
             return true;
         } catch (Exception e) {
-            LOGGER.error("Error in saveOrUpdateValues:" + e);
+            LOGGER.error("Error in saveOrUpdateValues:", e);
             return false;
         }
     }
@@ -260,7 +260,7 @@ public class AdjustmentRateLogic {
             }
             return true;
         } catch (Exception e) {
-            LOGGER.error("Error in isAddORUpdateView:" + e);
+            LOGGER.error("Error in isAddORUpdateView:", e);
             return false;
         }
     }
@@ -282,7 +282,7 @@ public class AdjustmentRateLogic {
             }
             return StringUtils.EMPTY;
         } catch (Exception e) {
-            LOGGER.error("Error in isSaveView :" + e);
+            LOGGER.error("Error in isSaveView :", e);
             return StringUtils.EMPTY;
         }
 
@@ -320,7 +320,7 @@ public class AdjustmentRateLogic {
             }
             return dtoList;
         } catch (Exception e) {
-            LOGGER.error("Error in getSavedViewList :" + e);
+            LOGGER.error("Error in getSavedViewList :", e);
             return dtoList;
         }
 
@@ -347,7 +347,7 @@ public class AdjustmentRateLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getCompanySid :" + e);
+            LOGGER.error("Error in getCompanySid :", e);
             return finalList;
         }
     }

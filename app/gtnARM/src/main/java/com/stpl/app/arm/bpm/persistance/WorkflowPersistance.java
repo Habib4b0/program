@@ -16,7 +16,7 @@ public class WorkflowPersistance {
             return count > 0;
 
         } catch (Exception e) {
-            LOGGER.error("Error in insertWFInstanceInfo" + e);
+            LOGGER.error("Error in insertWFInstanceInfo", e);
             return false;
         }
     }
@@ -30,7 +30,7 @@ public class WorkflowPersistance {
             obj = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
         } catch (Exception e) {
-            LOGGER.error("Error in selectWFInstanceInfo" + e);
+            LOGGER.error("Error in selectWFInstanceInfo", e);
         }
         return obj;
 
@@ -45,7 +45,7 @@ public class WorkflowPersistance {
             customSql = customSql.replace("?SESSION_ID", String.valueOf(sessionId));
             obj = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
-            LOGGER.error("Error in getProjectionRecordsForAccrual" + e);
+            LOGGER.error("Error in getProjectionRecordsForAccrual", e);
         }
         return obj;
     }

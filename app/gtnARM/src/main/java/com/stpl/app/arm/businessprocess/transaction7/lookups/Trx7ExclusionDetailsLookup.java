@@ -44,9 +44,10 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 /**
  * This Popup will allow the user to exclude certain Customers (GTS Units) from
  * the Net Units calculation on the Sales Tab. The client will use this popup to
- * exclude all â€˜Closed Planâ€™ Customers such as â€˜ESI and Kaiserâ€™ for
- * example. They will be able to use the â€˜Field Nameâ€™ drop down to search by
- * all the fields in the actual Customer Gross Trades Sales data set.
+ * exclude all â€˜Closed Planâ€™ Customers such as â€˜ESI and
+ * Kaiserâ€™ for example. They will be able to use the â€˜Field
+ * Nameâ€™ drop down to search by all the fields in the actual Customer
+ * Gross Trades Sales data set.
  *
  * @author sathyaseelan.v
  */
@@ -84,9 +85,9 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     private final BeanItemContainer<ExclusionLookupDTO> selectedResultsContainer = new BeanItemContainer<>(ExclusionLookupDTO.class);
 
     /**
-     * Displays all values based on the â€˜Field Nameâ€™ selection the user
-     * selected. It will display all of the distinct values for the selected
-     * Field Name.
+     * Displays all values based on the â€˜Field Nameâ€™ selection the
+     * user selected. It will display all of the distinct values for the
+     * selected Field Name.
      *
      */
     @UiField("availableCustomers")
@@ -281,7 +282,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             }
             availableCustomers.setValue(null);
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftButtonClick :" + e);
+            LOGGER.error("Error in moveLeftButtonClick :", e);
         }
     }
 
@@ -302,7 +303,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             }
             selectedCustomer.setValue(null);
         } catch (Exception e) {
-            LOGGER.error("Error in moveRightButtonClick :" + e);
+            LOGGER.error("Error in moveRightButtonClick :", e);
         }
     }
 
@@ -325,7 +326,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 setFieldValues();
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllButtonClick :" + e);
+            LOGGER.error("Error in moveAllButtonClick :", e);
         }
     }
 
@@ -343,7 +344,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 this.close();
             }
         } catch (Exception e) {
-            LOGGER.error("Error in submitButtonClick :" + e);
+            LOGGER.error("Error in submitButtonClick :", e);
         }
     }
 
@@ -352,7 +353,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         try {
             this.close();
         } catch (Exception e) {
-            LOGGER.error("Error in closeButtonClick :" + e);
+            LOGGER.error("Error in closeButtonClick :", e);
         }
     }
 
@@ -362,7 +363,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             notifier.setButtonName("reset");
             notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_exclusion());
         } catch (Exception e) {
-            LOGGER.error("Error in resetButtonClick :" + e);
+            LOGGER.error("Error in resetButtonClick :", e);
         }
     }
 
@@ -372,7 +373,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             notifier.setButtonName("delete");
             notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
         } catch (Exception e) {
-            LOGGER.error("Error in deleteButtonClick :" + e);
+            LOGGER.error("Error in deleteButtonClick :", e);
         }
     }
 
@@ -387,7 +388,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                 availableResultsContainer.addAll(fieldValueList);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getFieldValue :" + e);
+            LOGGER.error("Error in getFieldValue :", e);
         }
     }
 
@@ -420,7 +421,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
             Trx7SaveViewPopup viewPopup = new Trx7SaveViewPopup(saveViewDTO);
             getUI().addWindow(viewPopup);
         } catch (Exception e) {
-            LOGGER.error("Error in saveViewButtonClick :" + e);
+            LOGGER.error("Error in saveViewButtonClick :", e);
         }
 
     }

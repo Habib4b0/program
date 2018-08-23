@@ -238,7 +238,7 @@ public class DataSelection extends AbstractDataSelection {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error("Error in customerHierarchyCloseListener :" + e);
+            LOGGER.error("Error in customerHierarchyCloseListener :", e);
         }
     }
 
@@ -362,7 +362,7 @@ public class DataSelection extends AbstractDataSelection {
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
                         productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
                 GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
-                         selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 innerLevelValues = loadAvailableDsLogic.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
@@ -815,7 +815,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftCustomersButtonLogic :", e);
         }
     }
 
@@ -1246,7 +1246,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftProductsButtonLogic :", e);
         }
     }
 
@@ -1662,7 +1662,7 @@ public class DataSelection extends AbstractDataSelection {
                 DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveAllProductsButtonLogic :", e);
         }
     }
 
@@ -2104,7 +2104,7 @@ public class DataSelection extends AbstractDataSelection {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveAllCustomersButtonLogic :", e);
         }
     }
 
@@ -2409,7 +2409,7 @@ public class DataSelection extends AbstractDataSelection {
                 availableProduct.removeAllItems();
 
             } catch (Exception e) {
-                LOGGER.error("Error in setViewDetails :" + e);
+                LOGGER.error("Error in setViewDetails :", e);
             }
         }
 
