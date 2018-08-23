@@ -94,14 +94,14 @@ public class GtnReportingVariableBreakdownGridLoadAction
 					.getParentViewId();
 			parentComponentId = GtnUIFrameworkGlobalUI.getVaadinComponentData(parentComponentIdForFrequency)
 					.getParentViewId();
-			reportdata = actionParameterList.get(2).toString();
+			reportdata = actionParameterList.get(9).toString();
 			idComponentDataFromDisplaySelectionTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 					"reportingDashboardTab_reportingDashboardComparisonConfig", componentId);
 		} else {
 			parentComponentId = componentId;
 			idComponentData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(actionParameterList.get(2).toString(), parentComponentId);
-			reportdata = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(componentId, actionParameterList.get(9).toString())
+			reportdata = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(actionParameterList.get(9).toString(), parentComponentId)
 				.getCaptionFromV8ComboBox();
 		}
 
