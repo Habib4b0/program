@@ -62,7 +62,6 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         this.sessionDto= sessionDto;
         this.isDataSelection= isDataSelection;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
-        this.screenName = screenName;
         configureFields();
     }
     
@@ -72,8 +71,8 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         toDate.setDateFormat("MM/dd/yyyy");
         selectedResultsBean.addAll(selectedList);
         addBtn.setEnabled(false);
-        loadAvailableResults();
-        loadSelectedResults();
+        loadAvailableResult();
+        loadSelectedResult();
         workFlowStatus.setNullSelectionAllowed(false);
         workFlowStatus.setValue(SELECT_ONE);
         workFlowStatus.focus();
@@ -260,7 +259,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         LOGGER.debug("Ending removeBtnLogic");
     }
 
-    private void loadAvailableResults() {
+    private void loadAvailableResult() {
         LOGGER.debug("Inside loadAvailableResults");
         Object[] objColumn = comparisonResultsColumns;
         resultsTable.setConverter("createdDateFrom", new DateToStringConverter());
@@ -284,7 +283,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         LOGGER.debug("Ending loadAvailableResults");
     }
 
-    private void loadSelectedResults() {
+    private void loadSelectedResult() {
         LOGGER.debug("Inside loadSelectedResults");
         projectionTable.addValueChangeListener(new Property.ValueChangeListener() {
             /**

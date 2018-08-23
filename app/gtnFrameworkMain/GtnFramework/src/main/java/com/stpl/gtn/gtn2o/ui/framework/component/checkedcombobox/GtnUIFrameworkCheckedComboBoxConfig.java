@@ -13,6 +13,7 @@ public class GtnUIFrameworkCheckedComboBoxConfig {
 	private String blurListenerClassName;
 	private List<String> itemValueList;
         private List<String> itemCodeList;
+        private String selectedItem;
 
 	public GtnUIFrameworkCheckedComboBoxConfig() {
 		super();
@@ -65,5 +66,13 @@ public class GtnUIFrameworkCheckedComboBoxConfig {
     public void setItemCodeList(List<String> itemCodeList) {
         this.itemCodeList = itemCodeList;
     }
-        
+     
+    public String getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void setSelectedItem(String selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+           
 }

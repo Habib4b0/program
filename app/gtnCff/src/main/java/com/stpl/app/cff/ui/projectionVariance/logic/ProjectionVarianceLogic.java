@@ -1324,8 +1324,8 @@ public class ProjectionVarianceLogic {
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         dataMap.put("format", projSelDTO.getDisplayFormat());
         dataMap.put("isExcel", Boolean.FALSE);
-        Map<String, List> LevelNamelist = projSelDTO.isIsCustomHierarchy() ? projSelDTO.getSessionDTO().getCustomDescription() : projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, LevelNamelist, projSelDTO.getSessionDTO(),dataMap ));
+        Map<String, List> levelNameList = projSelDTO.isIsCustomHierarchy() ? projSelDTO.getSessionDTO().getCustomDescription() : projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, levelNameList, projSelDTO.getSessionDTO(),dataMap ));
         dto.setLevelValue(detailsList.get(0).toString());
         dto.setHierarchyNo(hierarchyNo);
         dto.setHierarchyIndicator(hierarchyIndicator);
@@ -1495,7 +1495,7 @@ public class ProjectionVarianceLogic {
                     return new ArrayList<>(Arrays.asList(x[2], x[3]));
                 }));
       
-        if (results != null && !results.isEmpty()) {
+        if (!results.isEmpty()) {
           for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
                  List<Object[]> row = entry.getValue();
                  final Object[] obj = row.get(0);
@@ -2672,6 +2672,7 @@ public class ProjectionVarianceLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
@@ -2786,7 +2787,7 @@ public class ProjectionVarianceLogic {
                 proj = list.get(0);
             }
             }else{
-                Integer[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+                Object[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Object[0]);
              if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                 actual = list.get(0);
                 proj = emptyArray;
@@ -3081,7 +3082,7 @@ public class ProjectionVarianceLogic {
                     proj = list.get(0);
                 }
             } else {
-                Integer[] arr=Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+                Object[] arr=Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
                 if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                     actual = list.get(0);
                     proj = arr;
@@ -3368,7 +3369,7 @@ public class ProjectionVarianceLogic {
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
-        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA));
+        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA_CHAR));
         sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         projSelDTO.setSessionDTO(sessionDTO);
         return stringBuilder.toString();

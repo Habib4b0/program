@@ -49,7 +49,7 @@ public class ItemSearchCriteria implements SearchCriteria {
 
     @Override
     public void setFilter(String string) {
-        this.filter = filter;
+        this.filter = string;
     }
 
 }

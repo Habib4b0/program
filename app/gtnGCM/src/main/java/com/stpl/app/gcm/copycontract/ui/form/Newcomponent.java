@@ -1325,10 +1325,10 @@ public class Newcomponent extends CustomComponent {
                                 if (level.equalsIgnoreCase("1")) {
                                     String cfpid = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.DASHBOARD_ID).getValue());
                                     String cfpno = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.DASHBOARD_NUMBER).getValue());
-                                    if (cfpId.getValue().toUpperCase().equalsIgnoreCase(cfpid.toUpperCase())) {
+                                    if (cfpId.getValue().equalsIgnoreCase(cfpid)) {
                                         listcId.add(cfpId.getValue());
                                     }
-                                    if (cfpNo.getValue().toUpperCase().equalsIgnoreCase(cfpno.toUpperCase())) {
+                                    if (cfpNo.getValue().equalsIgnoreCase(cfpno)) {
                                         listcNo.add(cfpNo.getValue());
                                     }
                                 }
@@ -1471,7 +1471,7 @@ public class Newcomponent extends CustomComponent {
                                     String level = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "levelNo").getValue());
                                     if (level.equalsIgnoreCase("2")) {
                                         String ifpid = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.DASHBOARD_ID).getValue());
-                                        if (ifpId.getValue().toUpperCase().equalsIgnoreCase(ifpid.toUpperCase())) {
+                                        if (ifpId.getValue().equalsIgnoreCase(ifpid)) {
                                             listcId.add(ifpId.getValue());
                                         }
 

@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -449,8 +450,7 @@ public class AbstractLogic {
                 dto.setNetPriceTypeFormula(str[NumericConstants.TWENTY_NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_NINE]));
                 dto.setAttachedDate(str[NumericConstants.THIRTY] == null ? null : (Date) (str[NumericConstants.THIRTY]));
                 String basePriceType = dto.getBasePriceType();
-                if (!Constants.SELECT_ONE.equals(basePriceType) && !Constants.NULL.equals(basePriceType) && !Constants.ZEROSTRING.equals(basePriceType) && !StringUtils.EMPTY.equals(basePriceType)) {
-                    if (basePriceType != null) {
+                if (basePriceType != null && !Constants.SELECT_ONE.equals(basePriceType) && !Constants.NULL.equals(basePriceType) && !Constants.ZEROSTRING.equals(basePriceType) && !StringUtils.EMPTY.equals(basePriceType)) {
                         switch (basePriceType) {
                         case Constants.MANUAL_LABLE_NAME:
                             dto.setBaselineWAC(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
@@ -465,7 +465,6 @@ public class AbstractLogic {
                         default:
                             break;
                     }
-                }
                 }
                  
                 finalResult.add(dto);
@@ -619,7 +618,7 @@ public class AbstractLogic {
             dto.setFormulaId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
             dto.setFormulaNo(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
             dto.setFormulaName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-            dto.setFormulaSid(str[NumericConstants.THREE] == null ? 0 : (Integer) (str[NumericConstants.THREE]));
+            dto.setFormulaSid(str[NumericConstants.THREE] == null ? (Integer) 0 : (Integer) (str[NumericConstants.THREE]));
             finalResult.add(dto);
         }
         return finalResult;
@@ -1672,17 +1671,18 @@ public class AbstractLogic {
     }
 
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        Connection connection = null;
-        DataSource datasource;
+        DataSource datasource = null;
         CallableStatement statement = null;
         ResultSet rs = null;
         List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
+        } catch (NamingException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection()){
             if (connection != null) {
                 StringBuilder procedureToCall = new StringBuilder("{call ");
                 procedureToCall.append(procedureName);
@@ -1722,17 +1722,15 @@ public class AbstractLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
            
         }
+        }
         return objectList;
     }
-
+        
     private static List<Object[]> convertResultSetToList(ResultSet rs) {
         List<Object[]> objList = new ArrayList<>();
 
@@ -1903,7 +1901,7 @@ public class AbstractLogic {
             dto.setFormulaId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
             dto.setFormulaNo(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
             dto.setFormulaName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-            dto.setFormulaSid(str[NumericConstants.THREE] == null ? 0 : (Integer) (str[NumericConstants.THREE]));
+            dto.setFormulaSid(str[NumericConstants.THREE] == null ? (Integer) 0 : (Integer) (str[NumericConstants.THREE]));
             dto.setNetSalesformulaType(str[NumericConstants.FOUR] == null || Constants.NULL.equals(str[NumericConstants.FOUR]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FOUR]))));
             finalList.add(dto);
         }

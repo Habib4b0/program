@@ -119,7 +119,7 @@ public class RuleInformation extends CustomComponent {
     private static final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
     
     private final CDRDto cdrBinerDto = new CDRDto();
-    private String noteshistory = new String();
+    private String noteshistory = " ";
     private final DecimalFormat percentFormat = new DecimalFormat("###,###,##0.00");
     private final DecimalFormat dollarFormat = new DecimalFormat("$###,###,##0.00");
     private final DataFormatConverter numericFormat = new DataFormatConverter("#,##0.00");

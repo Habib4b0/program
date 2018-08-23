@@ -90,7 +90,7 @@ public class SummaryLogic {
         ContractDashboardDTO dto = new ContractDashboardDTO();
         dto.setLevelValue(obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
         dto.setComponent(obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
-        dto.setLevelNo(obj[1] == null ? 0 : (Integer) obj[1]);
+        dto.setLevelNo(obj[1] == null ? (Integer) 0: (Integer) obj[1]);
         dto.setId(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
         dto.setNumber(obj[NumericConstants.THREE] == null ? StringUtils.EMPTY : obj[NumericConstants.THREE].toString());
         dto.setName(obj[NumericConstants.FOUR] == null ? StringUtils.EMPTY : obj[NumericConstants.FOUR].toString());

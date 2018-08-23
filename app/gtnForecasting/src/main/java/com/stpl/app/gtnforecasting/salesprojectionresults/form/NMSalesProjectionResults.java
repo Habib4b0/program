@@ -853,18 +853,29 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
+                } else {
+                    excelNextTableHolder(exp, sheetName);
                 }
-                if (i != 0 && exp != null) {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
-                    boolean export = i == exportAt;
-                    exp.exportMultipleTabs(export);
-                }
+                excelExportMultipleTabs(exp, i, exportAt);
             }
         } else {
             exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), SALES_RESULTS, SALES_RESULTS, "Sales_Projection_Results.xls", false);
             exp.export();
         }
         layout.removeComponent(exportPeriodViewTable);
+    }
+
+    public void excelNextTableHolder(ExcelExport exp, String sheetName) {
+        if (exp != null) {
+            exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
+        }
+    }
+
+    public void excelExportMultipleTabs(ExcelExport exp, int i, int exportAt) {
+        if (exp != null) {
+            boolean export = i == exportAt;
+            exp.exportMultipleTabs(export);
+        }
     }
 
     @Override
@@ -933,14 +944,14 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
     @Override
     public void expandButtonLogic() {
-        if (level.getValue() != null && !SELECT_ONE.equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
+        if (level.getValue() != null && !SELECT_ONE.getConstant().equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
             expandCollapseLevelOption(true, level.getValue());
         }
     }
 
     @Override
     public void collapseButtonLogic() {
-        if (level.getValue() != null && !SELECT_ONE.equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
+        if (level.getValue() != null && !SELECT_ONE.getConstant().equals(level.getValue()) && !StringUtils.EMPTY.equals(level.getValue())) {
             expandCollapseLevelOption(false, level.getValue());
         }
     }

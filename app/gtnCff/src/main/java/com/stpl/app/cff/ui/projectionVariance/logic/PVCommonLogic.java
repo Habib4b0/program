@@ -225,7 +225,7 @@ public class PVCommonLogic {
         if (value==null || result.isEmpty()) {
             result = ZERO;
         }
-        return  Double.toString(Double.valueOf(result));
+        return  Double.toString(Double.parseDouble(result));
     }
 
     public static Boolean nullCheck(String value) {

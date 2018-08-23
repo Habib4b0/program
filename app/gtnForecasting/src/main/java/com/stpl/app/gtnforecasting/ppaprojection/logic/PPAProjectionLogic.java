@@ -506,6 +506,7 @@ public class PPAProjectionLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
@@ -684,7 +685,7 @@ public class PPAProjectionLogic {
 
         String retval;
         List<Object> list;
-        if (Integer.valueOf(priceType) != null && !Integer.valueOf(priceType).equals(0)) {
+        if (priceType != null && !priceType.equals(0)) {
 
             String sqlQuery = "SELECT * FROM HELPER_TABLE WHERE HELPER_TABLE_SID =" + priceType;
             list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);

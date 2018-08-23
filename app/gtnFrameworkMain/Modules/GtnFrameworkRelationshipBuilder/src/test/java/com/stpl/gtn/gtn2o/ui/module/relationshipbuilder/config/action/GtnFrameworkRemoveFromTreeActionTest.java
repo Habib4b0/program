@@ -61,5 +61,20 @@ public class GtnFrameworkRemoveFromTreeActionTest {
         GtnUIFrameWorkAction result = instance.createInstance();
         assertEquals(instance, result);
     }
+
+//    /**
+//     * Test of doAction method, of class GtnFrameworkRemoveFromTreeAction.
+//     */
+//    @Test
+//    public void testDoAction() throws Exception {
+//        System.out.println("doAction");
+//        String componentId = "";
+//        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+//        gtnUIFrameWorkActionConfig.addActionParameter(0);  gtnUIFrameWorkActionConfig.addActionParameter("1");
+//        gtnUIFrameWorkActionConfig.addActionParameter("2");
+//        GtnFrameworkRemoveFromTreeAction instance = new GtnFrameworkRemoveFromTreeAction();
+//        instance.doAction(componentId, gtnUIFrameWorkActionConfig);
+//     
+//    }
     
 }

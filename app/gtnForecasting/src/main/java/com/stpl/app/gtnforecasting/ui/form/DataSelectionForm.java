@@ -490,7 +490,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 			deductionValue.setValue(
 					helperListUtil.getHelperDTOByID(StringUtils.isNumeric(String.valueOf(viewDTO.getDeductionValueId()))
-							? Integer.valueOf(viewDTO.getDeductionValueId()) : 0));
+							? viewDTO.getDeductionValueId() : 0));
 		}
 
 		RelationshipDdlbDto selectedCustomerRelationshipDdlbDto = null;
@@ -3796,6 +3796,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			customerInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 
@@ -3813,6 +3814,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);

@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.constants;
 
+import com.stpl.gtn.gtn2o.ws.exception.AccessDeniedException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class GtnFrameworkRelationshipBuilderConstants {
 	public static final String CUSTOMFILTERCOMBOBOX = "customFilterComboBox";
 
 	private GtnFrameworkRelationshipBuilderConstants() {
-
+        throw new AccessDeniedException("Can't create Object for this class");
 	}
 
 	public static String[] getRelationshipBuilderHeader() {

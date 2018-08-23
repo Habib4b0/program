@@ -600,8 +600,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
+                if (connection != null) {
                 connection.close();
-
+                }
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -638,7 +639,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.info(""+orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -661,8 +661,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
+                if (connection != null) {
                 connection.close();
-
+                }
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -2650,12 +2651,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         String newLevel;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
-        CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
-        customerlevelCustomItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
-        customerlevelCustomItem[0].setCheckable(true);
-        customerlevelCustomItem[0].setItemClickable(true);
-        customerlevelCustomItem[0].setItemClickNotClosable(true);
-        customerlevelCustomItem[0].setCheckAll(true);
+        CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
+        customerlevelItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
+        customerlevelItem[0].setCheckable(true);
+        customerlevelItem[0].setItemClickable(true);
+        customerlevelItem[0].setItemClickNotClosable(true);
+        customerlevelItem[0].setCheckAll(true);
         for (int i = 1; i < listOfLevelFilter.size(); i++) {
             MenuItemDTO dto = null;
             Object[] obj = listOfLevelFilter.get(i);
@@ -2667,20 +2668,20 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
                     listOfSids = "";
-                    customerlevelCustomItem[i] = filterValues.addItem(dto, null);
-                    customerlevelCustomItem[i].setCheckable(true);
-                    customerlevelCustomItem[i].setItemClickable(true);
-                    customerlevelCustomItem[i].setItemClickNotClosable(true);
+                    customerlevelItem[i] = filterValues.addItem(dto, null);
+                    customerlevelItem[i].setCheckable(true);
+                    customerlevelItem[i].setItemClickable(true);
+                    customerlevelItem[i].setItemClickNotClosable(true);
                 }
                 listOfSids += obj[1];
                 oldLevel = newLevel;
             }
             if (i == listOfLevelFilter.size() - 1) {
                 dto = new MenuItemDTO(listOfSids, newLevel);
-                customerlevelCustomItem[i] = filterValues.addItem(dto, null);
-                customerlevelCustomItem[i].setCheckable(true);
-                customerlevelCustomItem[i].setItemClickable(true);
-                customerlevelCustomItem[i].setItemClickNotClosable(true);
+                customerlevelItem[i] = filterValues.addItem(dto, null);
+                customerlevelItem[i].setCheckable(true);
+                customerlevelItem[i].setItemClickable(true);
+                customerlevelItem[i].setItemClickNotClosable(true);
             }
         }
     }
@@ -2753,11 +2754,11 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
 	public static String getQueryForLoadingDiscount(GtnForecastHierarchyInputBean inputBean) {
-		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
-		forecastRequest.setInputBean(inputBean);
+		GtnWsForecastRequest forecastDiscountRequest = new GtnWsForecastRequest();
+		forecastDiscountRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsForecastRequest(forecastRequest);
+		request.setGtnWsForecastRequest(forecastDiscountRequest);
 		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_HIERARCHY_CONTROL
 						+ GtnWebServiceUrlConstants.GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE,
@@ -2835,8 +2836,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     
 	@SuppressWarnings({ "unchecked" })
 	public static List<Object[]> getDeductionLevelValues(String type, PVSelectionDTO projectionDto) {
-        List deductionValuesList = new ArrayList<>();
-        StringBuilder query=new StringBuilder();
+        List dedValuesList = new ArrayList<>();
+        StringBuilder queryLevel=new StringBuilder();
 		String selectClause = "  HT.DESCRIPTION,HT.HELPER_TABLE_SID";
         String joinClause=StringUtils.EMPTY;
         String udcJoinClause=" JOIN UDCS  UDC ON UDC.MASTER_SID=RS.RS_CONTRACT_SID AND UDC.MASTER_TYPE='RS_CONTRACT' ";
@@ -2883,37 +2884,37 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     break; 
 
             }
-            query.append("SELECT ").append(selectClause).append(" FROM ST_CCP_DEDUCTION_HIERARCHY DPM ");
-            query.append(" JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ").append(udcJoinClause).append(joinClause);
-            query.append(" JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=DPM.CCP_DETAILS_SID  ");
+            queryLevel.append("SELECT ").append(selectClause).append(" FROM ST_CCP_DEDUCTION_HIERARCHY DPM ");
+            queryLevel.append(" JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ").append(udcJoinClause).append(joinClause);
+            queryLevel.append(" JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=DPM.CCP_DETAILS_SID  ");
 
             if (!projectionDto.getProductLevelFilter().isEmpty()) {
-                String oldCustomerQuery=query.toString();
-                query=new StringBuilder();
-                oldCustomerQuery = SQlUtil.getQuery("product-dynamic-filter") + oldCustomerQuery + " JOIN #HIER_PRODUCT HP ON CCP.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ";
-                oldCustomerQuery = oldCustomerQuery.replace(StringConstantsUtil.RELATION_VER,
+                String oldCustQuery=queryLevel.toString();
+                queryLevel=new StringBuilder();
+                oldCustQuery = SQlUtil.getQuery("product-dynamic-filter") + oldCustQuery + " JOIN #HIER_PRODUCT HP ON CCP.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ";
+                oldCustQuery = oldCustQuery.replace(StringConstantsUtil.RELATION_VER,
 						String.valueOf(projectionDto.getSessionDTO().getProductRelationVersion()));
-                oldCustomerQuery= oldCustomerQuery.replace(StringConstantsUtil.LEVELVALUES,projectionDto.getProductLevelFilter().toString().replace("[", "").replace("]", "")).replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getProdRelationshipBuilderSid());
-                query.append(oldCustomerQuery);
+                oldCustQuery= oldCustQuery.replace(StringConstantsUtil.LEVELVALUES,projectionDto.getProductLevelFilter().toString().replace("[", "").replace("]", "")).replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getProdRelationshipBuilderSid());
+                queryLevel.append(oldCustQuery);
             }
             if (!projectionDto.getCustomerLevelFilter().isEmpty()) {
-                String oldProductQuery=query.toString();
-                query=new StringBuilder();
-                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN #HIER_CUST HC ON CCP.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
-				oldProductQuery = oldProductQuery.replace(StringConstantsUtil.RELATION_VER,
+                String oldProdQuery=queryLevel.toString();
+                queryLevel=new StringBuilder();
+                oldProdQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProdQuery+" JOIN #HIER_CUST HC ON CCP.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
+				oldProdQuery = oldProdQuery.replace(StringConstantsUtil.RELATION_VER,
 						String.valueOf(projectionDto.getSessionDTO().getCustomerRelationVersion()));
-                oldProductQuery= oldProductQuery.replace(StringConstantsUtil.LEVELVALUES,projectionDto.getCustomerLevelFilter().toString().replace("[", "").replace("]", "")).replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid());
-                query.append(oldProductQuery);
+                oldProdQuery= oldProdQuery.replace(StringConstantsUtil.LEVELVALUES,projectionDto.getCustomerLevelFilter().toString().replace("[", "").replace("]", "")).replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid());
+                queryLevel.append(oldProdQuery);
             }
 
-            query.append(" GROUP BY ").append(selectClause);
+            queryLevel.append(" GROUP BY ").append(selectClause);
             
-            deductionValuesList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
+            dedValuesList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryLevel.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return deductionValuesList;
+        return dedValuesList;
     }
 
     public static String userDefinedLevel(int projectionId, String type,String indicator) throws SystemException, PortalException {
@@ -2938,22 +2939,22 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     
     
     public static Map<String, List<Object>> getFilterValues(CustomMenuBar.CustomMenuItem filterValues) {
-        Map<String, List<Object>> keyValueMap = new HashMap<>();
-        List<Object> valuesList = new ArrayList<>();
-        List<Object> captionList = new ArrayList<>();
+        Map<String, List<Object>> filterMap = new HashMap<>();
+        List<Object> valueList = new ArrayList<>();
+        List<Object> captionDataList = new ArrayList<>();
         if (filterValues != null && filterValues.getSize() > 0) {
-            List<CustomMenuBar.CustomMenuItem> items = filterValues.getChildren();
-            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
-                CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
-                if (customMenuItem1.isChecked() && !String.valueOf(customMenuItem1.getMenuItem().getWindow()).equals("0")) {
-                    valuesList.add(customMenuItem1.getMenuItem().getWindow());
-                    captionList.add(customMenuItem1.getMenuItem().getCaption());
+            List<CustomMenuBar.CustomMenuItem> itemData = filterValues.getChildren();
+            for (Iterator<CustomMenuBar.CustomMenuItem> iteratorData = itemData.iterator(); iteratorData.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItem = iteratorData.next();
+                if (customMenuItem.isChecked() && !String.valueOf(customMenuItem.getMenuItem().getWindow()).equals("0")) {
+                    valueList.add(customMenuItem.getMenuItem().getWindow());
+                    captionDataList.add(customMenuItem.getMenuItem().getCaption());
                 }
             }
         }
-        keyValueMap.put("SID", valuesList);
-        keyValueMap.put("CAPTION", captionList);
-        return keyValueMap;
+        filterMap.put("SID", valueList);
+        filterMap.put("CAPTION", captionDataList);
+        return filterMap;
     }
     
     public static void resetDdlb(ComboBox ddlb) {
@@ -2990,15 +2991,15 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
     
     public void loadDisplayFormat(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) {
-        CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
+        CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
         for (int i = 0; i < listOfLevelFilter.size(); i++) {
             Object[] obj = listOfLevelFilter.get(i);
             MenuItemDTO dto = new MenuItemDTO(i, obj[1].toString());
-            customerlevelCustomItem[i] = filterValues.addItem(dto, null);
-            customerlevelCustomItem[i].setCheckable(true);
-            customerlevelCustomItem[i].setItemClickable(true);
-            customerlevelCustomItem[i].setItemClickNotClosable(true);
-            customerlevelCustomItem[i].setChecked(true);
+            customItem[i] = filterValues.addItem(dto, null);
+            customItem[i].setCheckable(true);
+            customItem[i].setItemClickable(true);
+            customItem[i].setItemClickNotClosable(true);
+            customItem[i].setChecked(true);
         }
     }
     
@@ -3034,67 +3035,67 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
-        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA));
+         hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(','));
         sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         return stringBuilder.toString();
     }
     
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
-        StringBuilder columnName = new StringBuilder();
+        StringBuilder columnsName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName.append(RELATIONSHIPJOIN);
-            columnName.append(sessionDTO.getCustRelationshipBuilderSid());
-            columnName.append(RELATIONSHIPVERSION);
-            columnName.append(sessionDTO.getCustomerRelationVersion());
+            columnsName.append(RELATIONSHIPJOIN);
+            columnsName.append(sessionDTO.getCustRelationshipBuilderSid());
+            columnsName.append(RELATIONSHIPVERSION);
+            columnsName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName.append(RELATIONSHIPJOIN);
-            columnName.append(sessionDTO.getProdRelationshipBuilderSid());
-            columnName.append(RELATIONSHIPVERSION);
-            columnName.append(sessionDTO.getProductRelationVersion());
+            columnsName.append(RELATIONSHIPJOIN);
+            columnsName.append(sessionDTO.getProdRelationshipBuilderSid());
+            columnsName.append(RELATIONSHIPVERSION);
+            columnsName.append(sessionDTO.getProductRelationVersion());
         } else {
-            String parentHierarchyNo = replacePercentHierarchy(hierarchyNo);
-            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ").append(levelNo)
-                    .append(" AND RLD.PARENT_HIERARCHY_NO LIKE '").append(parentHierarchyNo).append(RELATIONSHIP_BUILDER_SID).append(sessionDTO.getDedRelationshipBuilderSid())
+            String parentHierNo = replacePercentHierarchy(hierarchyNo);
+            columnsName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ").append(levelNo)
+                    .append(" AND RLD.PARENT_HIERARCHY_NO LIKE '").append(parentHierNo).append(RELATIONSHIP_BUILDER_SID).append(sessionDTO.getDedRelationshipBuilderSid())
                     .append(" AND VERSION_NO = ").append(sessionDTO.getDeductionRelationVersion())
                     .append(" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ")
                     .append(" AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");
         }
-        return columnName.toString();
+        return columnsName.toString();
     }
     
     public static String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
-        StringBuilder columnName = new StringBuilder();
+        StringBuilder columnRelName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName.append(RELATIONSHIPJOIN);
-            columnName.append(sessionDTO.getCustRelationshipBuilderSid());
-            columnName.append(RELATIONSHIPVERSION);
-            columnName.append(sessionDTO.getCustomerRelationVersion());
+            columnRelName.append(RELATIONSHIPJOIN);
+            columnRelName.append(sessionDTO.getCustRelationshipBuilderSid());
+            columnRelName.append(RELATIONSHIPVERSION);
+            columnRelName.append(sessionDTO.getCustomerRelationVersion());
             
            
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName.append(RELATIONSHIPJOIN);
-            columnName.append(sessionDTO.getProdRelationshipBuilderSid());
-            columnName.append(RELATIONSHIPVERSION);
-            columnName.append(sessionDTO.getProductRelationVersion());
+            columnRelName.append(RELATIONSHIPJOIN);
+            columnRelName.append(sessionDTO.getProdRelationshipBuilderSid());
+            columnRelName.append(RELATIONSHIPVERSION);
+            columnRelName.append(sessionDTO.getProductRelationVersion());
             
         } else {
-            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =");       
-            columnName.append(sessionDTO.getDedRelationshipBuilderSid());
-            columnName.append(RELATIONSHIPVERSION);
-            columnName.append(sessionDTO.getDeductionRelationVersion());
+            columnRelName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =");       
+            columnRelName.append(sessionDTO.getDedRelationshipBuilderSid());
+            columnRelName.append(RELATIONSHIPVERSION);
+            columnRelName.append(sessionDTO.getDeductionRelationVersion());
         }
-        return columnName.toString();
+        return columnRelName.toString();
     }
     
      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
-        CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
-        customerlevelCustomItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
-        customerlevelCustomItem[0].setCheckable(true);
-        customerlevelCustomItem[0].setItemClickable(true);
-        customerlevelCustomItem[0].setItemClickNotClosable(true);
-        customerlevelCustomItem[0].setCheckAll(true);
+        CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
+        customerlevelItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
+        customerlevelItem[0].setCheckable(true);
+        customerlevelItem[0].setItemClickable(true);
+        customerlevelItem[0].setItemClickNotClosable(true);
+        customerlevelItem[0].setCheckAll(true);
         for (int i = 1; i < listOfLevelFilter.size(); i++) {
             MenuItemDTO dto = null;
             Object[] obj = listOfLevelFilter.get(i);
@@ -3105,20 +3106,20 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
                      listOfSids = "";
-                    customerlevelCustomItem[i] = filterValues.addItem(dto, null);
-                    customerlevelCustomItem[i].setCheckable(true);
-                    customerlevelCustomItem[i].setItemClickable(true);
-                    customerlevelCustomItem[i].setItemClickNotClosable(true);
+                    customerlevelItem[i] = filterValues.addItem(dto, null);
+                    customerlevelItem[i].setCheckable(true);
+                    customerlevelItem[i].setItemClickable(true);
+                    customerlevelItem[i].setItemClickNotClosable(true);
                 }
                 listOfSids += obj[2];
                 oldLevel = newLevel;
         
             if (i == listOfLevelFilter.size() - 1) {
                 dto = new MenuItemDTO(listOfSids, newLevel);
-                customerlevelCustomItem[i] = filterValues.addItem(dto, null);
-                customerlevelCustomItem[i].setCheckable(true);
-                customerlevelCustomItem[i].setItemClickable(true);
-                customerlevelCustomItem[i].setItemClickNotClosable(true);
+                customerlevelItem[i] = filterValues.addItem(dto, null);
+                customerlevelItem[i].setCheckable(true);
+                customerlevelItem[i].setItemClickable(true);
+                customerlevelItem[i].setItemClickNotClosable(true);
             }
         }
     }

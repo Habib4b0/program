@@ -446,7 +446,7 @@ public class PPAProjection extends CustomComponent implements View {
                                 public void valueChange(Property.ValueChangeEvent event) {
                                     try {
                                         if (valueChangeAllowed) {
-                                            int statusValue = Integer.valueOf(status.getValue() == null ? DASH : String.valueOf(status.getValue()));
+                                            int statusValue = Integer.parseInt(status.getValue() == null ? DASH : String.valueOf(status.getValue()));
                                             ((PPAProjectionDTO) itemId).setPriceProtectionStatus(statusValue);
                                             tableHirarechyNos.add(tableLogic.getTreeLevelonCurrentPage(itemId));
                                             savePPAProjection(propertyId.toString(), statusValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
@@ -1431,7 +1431,7 @@ public class PPAProjection extends CustomComponent implements View {
     @UiHandler("massUpdate")
     public void massUpdate(Property.ValueChangeEvent event) {
         LOGGER.debug("massupdate click listener starts");
-        if ((Constant.LabelConstants.DISABLE).equals(massUpdate.getValue())) {
+        if ((Constant.LabelConstants.DISABLE.getConstant()).equals(massUpdate.getValue())) {
 
             fieldDdlb.setEnabled(BooleanConstant.getFalseFlag());
             valueDdlb.setEnabled(BooleanConstant.getFalseFlag());
@@ -1930,6 +1930,7 @@ public class PPAProjection extends CustomComponent implements View {
                     }
                 } catch (InterruptedException e) {
                     LOGGER.error(e.getMessage());
+                    Thread.currentThread().interrupt();
                 }
             }
         }

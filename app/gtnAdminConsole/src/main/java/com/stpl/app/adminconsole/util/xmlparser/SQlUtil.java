@@ -5,7 +5,6 @@
  */
 package com.stpl.app.adminconsole.util.xmlparser;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -45,7 +44,7 @@ public class SQlUtil {
         return sqlUtil;
     }
 
-    private void getResources(Enumeration<URL> urls) throws JAXBException, IOException {
+    private void getResources(Enumeration<URL> urls) throws JAXBException {
         if (urls == null) {
             return;
         }
