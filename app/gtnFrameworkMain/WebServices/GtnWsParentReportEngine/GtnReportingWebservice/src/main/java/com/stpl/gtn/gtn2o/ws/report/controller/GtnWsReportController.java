@@ -98,6 +98,19 @@ public class GtnWsReportController {
 		return response;
 	}
 
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_COUNT_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getPrivateViewResultsCount(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException, IOException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, true, 0);
+		gtnSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadViewResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -111,7 +124,23 @@ public class GtnWsReportController {
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
+	
+	
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_COUNT_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getPublicViewResultsCount(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException, IOException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> publicViewResultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest,
+				false, 0);
+		gtnSearchResponse.setCount(Integer.parseInt(String.valueOf(publicViewResultList.get(0))));
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+	
+	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadPublicViewResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -127,6 +156,19 @@ public class GtnWsReportController {
 		return response;
 	}
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE_COUNT, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getReportProfileResultsCount(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException, IOException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.getLoadViewResultsCount(gtnUIFrameworkWebserviceRequest, true, 1);
+		gtnSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+	
+	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadReportProfileResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
