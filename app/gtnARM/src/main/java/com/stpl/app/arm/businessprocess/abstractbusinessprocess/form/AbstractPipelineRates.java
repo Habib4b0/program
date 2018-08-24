@@ -152,7 +152,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
             }
 
         } catch (Exception e) {
-            logger.error("Error in setDefaultValue :" + e);
+            logger.error("Error in setDefaultValue :", e);
         }
     }
 
@@ -164,7 +164,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    logger.error("Error in reset :" + e);
+                    logger.error("Error in reset :", e);
                 }
             }
         });
@@ -183,7 +183,7 @@ public abstract class AbstractPipelineRates extends VerticalLayout implements Ra
                 CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             }
         } catch (Exception e) {
-            logger.error("Error in generate :" + e);
+            logger.error("Error in generate :", e);
         }
     }
 

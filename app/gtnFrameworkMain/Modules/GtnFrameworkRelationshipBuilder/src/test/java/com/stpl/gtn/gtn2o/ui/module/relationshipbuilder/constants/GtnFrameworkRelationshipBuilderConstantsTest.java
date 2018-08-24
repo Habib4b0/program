@@ -6,6 +6,8 @@
 
 package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.constants;
 
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkValueChangeManager;
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.After;
@@ -87,6 +89,17 @@ public class GtnFrameworkRelationshipBuilderConstantsTest {
         String[] expResult = {"createdBy"};
         String[] result = GtnFrameworkRelationshipBuilderConstants.getCustomPropertyIds();
         assertArrayEquals(expResult, result);
+    }
+     @Test
+    public void testSetValueChangeAllowed() {
+
+        try {
+            Constructor cons = GtnFrameworkRelationshipBuilderConstants.class.getDeclaredConstructors()[0];
+            cons.setAccessible(true);
+            cons.newInstance();
+        } catch (Exception e) {
+            assertEquals(e.getCause().getMessage(), "Can't create Object for this class");
+        }
     }
     
 }

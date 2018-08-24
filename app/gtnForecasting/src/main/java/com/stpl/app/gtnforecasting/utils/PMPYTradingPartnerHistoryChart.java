@@ -38,7 +38,7 @@ public class PMPYTradingPartnerHistoryChart {
     public PMPYTradingPartnerHistoryChart(final List<PMPYRowDto> dto, String tpName, List<Object> headers) {
         LOGGER.debug("Entering PMPYTradingPartnerHistoryChart method{} ", dto);
         this.headers = headers;
-        LOGGER.debug("End of PMPYTradingPartnerHistoryChart method {}" , tpName , headers);
+        LOGGER.debug("End of PMPYTradingPartnerHistoryChart method {}, {}" , tpName , headers);
     }
 
     /**

@@ -238,7 +238,7 @@ public class DataSelection extends AbstractDataSelection {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error("Error in customerHierarchyCloseListener :" + e);
+            LOGGER.error("Error in customerHierarchyCloseListener :", e);
         }
     }
 
@@ -362,7 +362,7 @@ public class DataSelection extends AbstractDataSelection {
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
                         productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
                 GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
-                         selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 innerLevelValues = loadAvailableDsLogic.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
@@ -380,7 +380,7 @@ public class DataSelection extends AbstractDataSelection {
         } catch (NullPointerException e) {
             LOGGER.error(e + " Company Ddlb might not have been selected");
         } catch (Exception ex) {
-            LOGGER.error("Error  :" + ex);
+            LOGGER.error("Error  :" , ex);
         }
     }
 
@@ -815,7 +815,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftCustomersButtonLogic :", e);
         }
     }
 
@@ -842,7 +842,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again. ");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in moveRightCustomersButtonLogic :" + ex);
+            LOGGER.error("Error in moveRightCustomersButtonLogic :" , ex);
         }
     }
 
@@ -1246,7 +1246,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftProductsButtonLogic :", e);
         }
     }
 
@@ -1662,7 +1662,7 @@ public class DataSelection extends AbstractDataSelection {
                 DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveAllProductsButtonLogic :", e);
         }
     }
 
@@ -2104,7 +2104,7 @@ public class DataSelection extends AbstractDataSelection {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveAllCustomersButtonLogic :", e);
         }
     }
 
@@ -2221,7 +2221,7 @@ public class DataSelection extends AbstractDataSelection {
             }
             return value;
         } catch (Exception ex) {
-            LOGGER.error("Error in bindDataSelectionValues :" + ex);
+            LOGGER.error("Error in bindDataSelectionValues :" , ex);
             return false;
         }
     }
@@ -2348,7 +2348,7 @@ public class DataSelection extends AbstractDataSelection {
                     deleteViewBtn.setEnabled(true);
                 }
             } catch (Exception ex) {
-                LOGGER.error("Error in closeListener :" + ex);
+                LOGGER.error("Error in closeListener :" , ex);
             }
         }
 
@@ -2409,7 +2409,7 @@ public class DataSelection extends AbstractDataSelection {
                 availableProduct.removeAllItems();
 
             } catch (Exception e) {
-                LOGGER.error("Error in setViewDetails :" + e);
+                LOGGER.error("Error in setViewDetails :", e);
             }
         }
 
@@ -2439,7 +2439,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please select and try again.");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in moveLeftToRightDeductions :" + ex);
+            LOGGER.error("Error in moveLeftToRightDeductions :" , ex);
         }
 
     }
@@ -2558,7 +2558,7 @@ public class DataSelection extends AbstractDataSelection {
                 logic.saveDeductionLogic(new HashSet(dataSelectionDTO.getRsContractSidList()), projectionIdValue);
 
                 sessionDTO.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
-                sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
+                sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
                 logic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO);
                 (new QueryUtils()).ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);
@@ -2569,7 +2569,7 @@ public class DataSelection extends AbstractDataSelection {
                 return false;
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveDataSelectionValues :" + ex);
+            LOGGER.error("Error in saveDataSelectionValues :" , ex);
             return false;
         }
     }
@@ -2637,7 +2637,7 @@ public class DataSelection extends AbstractDataSelection {
                 getUI().addWindow(saveViewLookUp);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveViewLogic :" + ex);
+            LOGGER.error("Error in saveViewLogic :" , ex);
         }
     }
 
@@ -2996,7 +2996,7 @@ public class DataSelection extends AbstractDataSelection {
             value = true;
             return value;
         } catch (Exception ex) {
-            LOGGER.error("Error in bindDataSelectionValues :" + ex);
+            LOGGER.error("Error in bindDataSelectionValues :" , ex);
             return false;
         }
     }

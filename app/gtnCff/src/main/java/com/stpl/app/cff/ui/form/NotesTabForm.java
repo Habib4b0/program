@@ -69,7 +69,6 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
-	private final List<String> notesList = new ArrayList<>();
 	/**
 	 * The common logic.
 	 */
@@ -369,7 +368,6 @@ public class NotesTabForm extends AbstractNotesTab {
 		String vUserId = userid;
 		String addedNotes = getAddedNotes();
 		addInfoLogic.saveNotes(projectionId, userid, addedNotes, MODULE_NAME);
-		notesList.clear();
 		List<NotesDTO> addedAttachments = getUploadedData();
 		for (NotesDTO attached : addedAttachments) {
 			addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName(), vUserId, fileSize, MODULE_NAME);

@@ -35,7 +35,6 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
-import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
@@ -255,12 +254,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
-                    } 
-                    if (i != 0 && exp != null) {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    } else {
+                        if (exp != null) {
+                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
+                    }
+                    if (exp != null) {
                         boolean export = i == exportAt;
                         exp.exportMultipleTabs(export);
                     }
+                    
                 }
             } else {
                 List<String> columnHeader = new ArrayList<>();
@@ -383,14 +386,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());
         generateLogic();
-        if (viewDdlb.getValue() != null
-                && !Constant.NULL.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
-                && !SELECT_ONE.getConstant().equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
-                && !DASH.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))) {
-            editBtn.setEnabled(false);
-        } else {
-            editBtn.setEnabled(false);
-        }
+        editBtn.setEnabled(false);
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
 
@@ -616,7 +612,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
     public void checkSpFrequency(){
         spFlag = true;
-        if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()) && spFlag){            
+        if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
         
@@ -1185,9 +1181,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
+                    } else {
+                        if (exp != null) {
+                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
                     }
-                    if (i != 0 && exp != null) {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    if (exp != null) {
                         boolean export = i == exportAt;
                         exp.exportMultipleTabs(export);
                     }

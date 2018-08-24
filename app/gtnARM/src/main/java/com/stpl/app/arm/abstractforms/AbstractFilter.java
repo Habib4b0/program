@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Porchelvi.G
+ * @author Porchelvi
  */
 public class AbstractFilter {
 
@@ -262,7 +262,7 @@ public class AbstractFilter {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in filterQueryGenerator :" + ex);
+            LOGGER.error("Error in filterQueryGenerator :" , ex);
         }
         return sql;
     }

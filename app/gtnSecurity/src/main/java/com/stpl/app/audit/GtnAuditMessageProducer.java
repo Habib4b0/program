@@ -18,22 +18,18 @@ public class GtnAuditMessageProducer {
 
     private static final Log _log = LogFactoryUtil.getLog(GtnAuditMessageProducer.class);
 
-    private ServiceReference<AuditRouter> auditReference = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
-            .getServiceReference(AuditRouter.class);
-    private AuditRouter router = FrameworkUtil.getBundle(this.getClass()).getBundleContext().getService(auditReference);
-
-    ServiceReference<UserLocalService> userReference = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
-            .getServiceReference(UserLocalService.class);
-
-    private UserLocalService userLocalService = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
-            .getService(userReference);
-
     public String getReasonBasedOnCurrentUser(String reason) {
+        ServiceReference<UserLocalService> userReference = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
+                .getServiceReference(UserLocalService.class);
+
+        UserLocalService userLocalService = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
+                .getService(userReference);
+                
         ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
         String user = "Ghost (No user information Available) ";
         if (null != serviceContext) {
             try {
-                User currentUser = this.userLocalService.getUser(serviceContext.getUserId());
+                User currentUser = userLocalService.getUser(serviceContext.getUserId());
                 user = currentUser.getFullName() + " ( " + currentUser.getUserId() + " )";
             } catch (PortalException e) {
                 _log.error("Erron on accessing user. User Id : " + serviceContext.getUserId());
@@ -43,8 +39,11 @@ public class GtnAuditMessageProducer {
         return reason + " by " + user;
     }
 
-    public void logAuditMessage(long companyId, String reason,  String className) {
+    public void logAuditMessage(long companyId, String reason, String className) {
         try {
+            ServiceReference<AuditRouter> auditReference = FrameworkUtil.getBundle(this.getClass()).getBundleContext()
+                    .getServiceReference(AuditRouter.class);
+            AuditRouter router = FrameworkUtil.getBundle(this.getClass()).getBundleContext().getService(auditReference);
             String reasonWithCurrentUser = getReasonBasedOnCurrentUser(reason);
             router.route(new AuditMessage("", companyId, 0L, "", className, null, reasonWithCurrentUser));
         } catch (AuditException e) {

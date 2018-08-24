@@ -220,7 +220,7 @@ public class BussinessProcessForm extends Window {
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error("Error in tabSheet addSelectedTabChangeListener" + ex);
+            LOGGER.error("Error in tabSheet addSelectedTabChangeListener" , ex);
         }
 
     }
@@ -321,7 +321,7 @@ public class BussinessProcessForm extends Window {
                         notifier.getOkCancelMessage(ARMMessages.getCloseMessageName_001(), "Are you sure you want to close the Fixed Dollar Adjustment -'" + dataselectionDTO.getAdjustmentCaption() + "' ? Nothing will be submitted.");
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error in closeButton" + e);
+                    LOGGER.error("Error in closeButton", e);
                 }
             }
         });
@@ -356,7 +356,7 @@ public class BussinessProcessForm extends Window {
                                                 }
 
                                             } catch (Exception ex) {
-                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER + ex);
+                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER , ex);
                                             }
                                         }
 
@@ -378,7 +378,7 @@ public class BussinessProcessForm extends Window {
                     }
                 } catch (Exception ex) {
 
-                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER + ex);
+                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER , ex);
                 }
             }
         });
@@ -394,13 +394,13 @@ public class BussinessProcessForm extends Window {
             params.put(ARMUtils.PROJECTION_ID, dataselectionDTO.getProjectionId());
             String workflowStatus = getWorkflowStatus(dataselectionDTO.getProjectionId());
             if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
-                GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
+                GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO, userId);
                 List<String> roleList = new ArrayList<>();
                 Long processInstanceId = Long.parseLong(String.valueOf(response.getProcessInstanceId()));
                 sessionDTO.setProcessId(processInstanceId);
 
                 if (response.isHasPermission()) {
-                     DSCalculationLogic.startAndCompleteTask(sessionDTO, userId);
+                    DSCalculationLogic.startAndCompleteTask(sessionDTO, userId);
                     submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
 
                 } else {
@@ -415,7 +415,7 @@ public class BussinessProcessForm extends Window {
                 submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
             }
         } catch (NumberFormatException e) {
-            LOGGER.error("Error in submitProjection" + e);
+            LOGGER.error("Error in submitProjection", e);
         }
     }
 
@@ -428,8 +428,8 @@ public class BussinessProcessForm extends Window {
             if (processList != null && !(processList.isEmpty())) {
                 processId = Long.valueOf(processList.get(0).toString());
             }
-            VarianceCalculationLogic.submitWorkflow(processId,sessionDTO, GtnWsBpmCommonConstants.ARM);
-            String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
+            VarianceCalculationLogic.submitWorkflow(processId, sessionDTO, GtnWsBpmCommonConstants.ARM);
+            String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId, "NoOfUsers");
             LOGGER.debug("no of users : " + noOfUsers);
             if (!noOfUsers.isEmpty()) {
                 LOGGER.debug("no of users : " + noOfUsers);
@@ -462,7 +462,7 @@ public class BussinessProcessForm extends Window {
 
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error("Error in submitProjToWorkflow" + ex);
+            LOGGER.error("Error in submitProjToWorkflow" , ex);
         }
     }
 
@@ -481,11 +481,10 @@ public class BussinessProcessForm extends Window {
             List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
             workflowStatus = result != null && !ARMUtils.NULL.equals(String.valueOf(result.get(0))) ? String.valueOf(result.get(0)) : StringUtils.EMPTY;
         } catch (Exception ex) {
-            LOGGER.error("Error in getWorkflowStatus" + ex);
+            LOGGER.error("Error in getWorkflowStatus" , ex);
         }
         return workflowStatus;
     }
-
 
     private void callWorkflowInboxRefresh() {
         JavaScript.getCurrent().execute("localStorage.setItem('" + "ARM" + "', 'true');");
@@ -518,7 +517,7 @@ public class BussinessProcessForm extends Window {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in submitProjectionLogic" + e);
+            LOGGER.error("Error in submitProjectionLogic", e);
             return "Not Saved";
         }
         LOGGER.debug("Ending submitProjection ");
@@ -693,7 +692,7 @@ public class BussinessProcessForm extends Window {
                                         }
                                         if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                            VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                            VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                             callWorkflowInboxRefresh();
                                             AbstractNotificationUtils.getInfoNotification("Approved Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                                             // For Mail
@@ -708,7 +707,7 @@ public class BussinessProcessForm extends Window {
                                         WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                     }
                                 } catch (Exception ex) {
-                                    LOGGER.error("Error in btnApproveLogic" + ex);
+                                    LOGGER.error("Error in btnApproveLogic" , ex);
                                 }
                             }
                         });
@@ -745,7 +744,7 @@ public class BussinessProcessForm extends Window {
 
                                         Map<String, Object> params = new HashMap<>();
                                         params.put(CommonConstant.APPROVE_FLAG, "reject-RWC");
-                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         // For Mail
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Rejected Information ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
@@ -760,7 +759,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnRejectLogic" + ex);
+                                LOGGER.error("Error in btnRejectLogic" , ex);
                             }
                         }
                     });
@@ -793,7 +792,7 @@ public class BussinessProcessForm extends Window {
 
                                         Map<String, Object> params = new HashMap<>();
                                         params.put(CommonConstant.APPROVE_FLAG, "withdraw-RWC");
-                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                                         // For Mail
@@ -808,7 +807,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnWithdrawLogic" + ex);
+                                LOGGER.error("Error in btnWithdrawLogic" , ex);
                             }
                         }
                     });
@@ -842,7 +841,7 @@ public class BussinessProcessForm extends Window {
                                         Map<String, Object> params = new HashMap<>();
                                         params.put(CommonConstant.APPROVE_FLAG, "cancel-RWC");
 
-                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Cancel Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                                         // For Mail
@@ -860,7 +859,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnCancelLogic" + ex);
+                                LOGGER.error("Error in btnCancelLogic" , ex);
                             }
                         }
                     });

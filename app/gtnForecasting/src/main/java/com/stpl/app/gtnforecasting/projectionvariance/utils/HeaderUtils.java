@@ -165,9 +165,9 @@ public class HeaderUtils {
             List<Object> yearwiseColumns;
             List<Object> visibleColumns = new ArrayList<>();
             List<Object> columnHeaders = new ArrayList<>();
-            List<Object> doubleVisibleColumns = null;
-            List<Object> doubleColumnHeaders = null;
-            Map<Object, Object[]> doubleHeaderMapExcel = null;
+            List<Object> doubleVisibleColumns = new ArrayList<>();
+            List<Object> doubleColumnHeaders = new ArrayList<>();
+            Map<Object, Object[]> doubleHeaderMapExcel = new HashMap<>();
             List<Object> staticColumns = new ArrayList<> (excelHeaderDTO.getSingleColumns());
             List<String> staticHeaders = new ArrayList<> (excelHeaderDTO.getSingleHeaders());
             Map<Integer, List<Object>> columnsMap = new HashMap<>();

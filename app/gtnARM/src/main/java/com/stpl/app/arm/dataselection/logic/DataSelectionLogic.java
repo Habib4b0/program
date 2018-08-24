@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -167,7 +166,7 @@ public class DataSelectionLogic {
                     if (!detailsColumn.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
                         if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("AND ( * = '?' )");
                             StringBuilder tempStart;
                             String value;
@@ -181,7 +180,7 @@ public class DataSelectionLogic {
                                 if (filterQuery.length() == 0) {
                                     tempStart = new StringBuilder(intStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(Startstr);
+                                    tempStart = new StringBuilder(startStr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
@@ -320,7 +319,7 @@ public class DataSelectionLogic {
             try {
                 return parseDate.parse(String.valueOf(value));
             } catch (ParseException ex) {
-                LOGGER.error("Errro in searchLogicForHierarchy Date :" + ex);
+                LOGGER.error("Errro in searchLogicForHierarchy Date :", ex);
             }
         }
         return date;
@@ -411,6 +410,7 @@ public class DataSelectionLogic {
                 leveldto.setLevelValueReference(object[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.TWO]));
                 leveldto.setTableName(object[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.THREE]));
                 leveldto.setFieldName(object[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.FOUR]));
+                leveldto.setHierarchyLevelDefnId(object[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.FIVE]));
                 resultList.add(leveldto);
             }
         } catch (Exception e) {
@@ -509,7 +509,7 @@ public class DataSelectionLogic {
                     dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
                     dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
                     dto.setRelationShipVersionNo((int) objects[NumericConstants.TEN]);
-                   
+
                     if (descriptionMap != null) {
                         dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
                     }
@@ -517,7 +517,7 @@ public class DataSelectionLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getParentLevelsWithHierarchyNo :" + ex);
+            LOGGER.error("Error in getParentLevelsWithHierarchyNo :", ex);
         }
         LOGGER.debug("--End of  getParentLevelsWithHierarchyNo--");
         return resultList;
@@ -558,7 +558,7 @@ public class DataSelectionLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getChildLevelsWithHierarchyNo :" + ex);
+            LOGGER.error("Error in getChildLevelsWithHierarchyNo :", ex);
         }
         LOGGER.debug("--End of  getChildLevelsWithHierarchyNo--");
         return resultList;
@@ -950,7 +950,7 @@ public class DataSelectionLogic {
             LOGGER.debug("query --" + query);
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception e) {
-            LOGGER.error("Error in saveCcp :" + e);
+            LOGGER.error("Error in saveCcp :", e);
             LOGGER.error(query);
         }
     }
@@ -975,7 +975,7 @@ public class DataSelectionLogic {
             LOGGER.debug("updateQuery --" + updateQuery);
             HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in updateSavedViewProjection :" + ex);
+            LOGGER.error("Error in updateSavedViewProjection :", ex);
         }
     }
 
@@ -1056,7 +1056,7 @@ public class DataSelectionLogic {
             List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             return !list.isEmpty();
         } catch (Exception ex) {
-            LOGGER.error("Error in View Name Duplicated" + ex);
+            LOGGER.error("Error in View Name Duplicated", ex);
             return true;
         }
     }
@@ -1128,7 +1128,12 @@ public class DataSelectionLogic {
                 dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
                 dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
                 dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.FOUR])));
+                dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
+                dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
                 dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.SEVEN])));
+                dto.setLevelValueReference(String.valueOf(objects[NumericConstants.EIGHT]));
+                dto.setRelationShipVersionNo(Integer.valueOf(objects[NumericConstants.NINE].toString()));
+                dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.TEN]));
                 LOGGER.debug("End of getRelationShipValues :: resultList ==>" + resultList.size());
                 resultList.add(dto);
             }
@@ -1154,7 +1159,7 @@ public class DataSelectionLogic {
             LOGGER.debug("rsModelSid --" + rsModelSid.size());
             return rsModelSid;
         } catch (Exception e) {
-            LOGGER.error("Error in getRSContractMasterSid :" + e);
+            LOGGER.error("Error in getRSContractMasterSid :", e);
             return Collections.emptyList();
         }
     }
@@ -1242,7 +1247,7 @@ public class DataSelectionLogic {
             LOGGER.debug("--Exit getDeductionTree --");
             return cutomizeSelectedDecuction(returnQueryList, hierarchyKeys);
         } catch (Exception ex) {
-            LOGGER.error("Error in getDeductionTree :" + ex);
+            LOGGER.error("Error in getDeductionTree :", ex);
             return Collections.emptyMap();
         }
 
@@ -1290,7 +1295,7 @@ public class DataSelectionLogic {
             LOGGER.debug("--Exit cutomizeSelectedDecuction --" + levelKeys.size());
             return levelKeys;
         } catch (Exception ex) {
-            LOGGER.error("Error in cutomizeSelectedDecuction :" + ex);
+            LOGGER.error("Error in cutomizeSelectedDecuction :", ex);
             return null;
         }
     }
@@ -1597,7 +1602,7 @@ public class DataSelectionLogic {
         } catch (Exception e) {
             LOGGER.error("getRelationShipValues  -->" + e.getMessage());
             LOGGER.error(queryString.toString());
-            return null;
+            return Collections.emptyList();
         }
     }
 

@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
  * @author Manasa
  */
 public class FileUploader implements Receiver {
-	private FileOutputStream outputStream;
 	private File file;
 	private boolean isFileExists;
 	private boolean isFileCreated;
@@ -45,7 +44,8 @@ public class FileUploader implements Receiver {
 	 */
         @Override
 	public OutputStream receiveUpload(String filename, String mimeType) {
-		try {
+		FileOutputStream outputStream=null;
+            try {
 
 			if (!filename.isEmpty() && !"null".equals(FILE_PATH)) {
 
@@ -53,12 +53,12 @@ public class FileUploader implements Receiver {
 				if (!dir.exists()) {
 					dir.mkdirs();
 				}
-				file = GtnFileUtil.getFile(dir, filename);
+				 file = GtnFileUtil.getFile(dir, filename);
 				if (file.exists()) {
 					isFileExists=file.delete();
 				}
 				isFileCreated=file.createNewFile();
-				outputStream = GtnFileUtil.getFileOutputStream(file);
+				outputStream= GtnFileUtil.getFileOutputStream(file);
 			}
 			LOGGER.info("File is deleted successfully : {}",isFileExists);
 			LOGGER.info("File is created successfully : {}",isFileCreated);
@@ -84,21 +84,4 @@ public class FileUploader implements Receiver {
 		return path;
 	}
 
-	/**
-	 * method should be called at the end
-	 */
-        @Override
-	protected void finalize() throws Throwable {
-		try {
-
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		} catch (IOException ex) {
-			new Notification("IOException ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-			LOGGER.error(ex.getMessage());
-		} finally {
-			super.finalize();
-		}
-	}
 }

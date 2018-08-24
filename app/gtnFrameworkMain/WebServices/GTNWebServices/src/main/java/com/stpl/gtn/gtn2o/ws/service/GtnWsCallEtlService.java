@@ -30,7 +30,12 @@ public class GtnWsCallEtlService {
 		LOGGER.info("Entering runShellScript with " + scriptUrl);
 		try {
 			URL url = new URL(scriptUrl);
+			LOGGER.info("URL:host: "+url.getHost());
+			LOGGER.info("URL:path: "+url.getPath());
+			LOGGER.info("URL:port: "+url.getPort());
+			LOGGER.info("URL:File: "+url.getFile());
 			URLConnection urlConnection = url.openConnection();
+			LOGGER.info("urlConnection: "+urlConnection);
 			HttpURLConnection connection = null;
 			if (urlConnection instanceof HttpURLConnection) {
 				connection = (HttpURLConnection) urlConnection;

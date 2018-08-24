@@ -394,9 +394,10 @@ public abstract class AbstractDataSelection extends CustomComponent {
     protected HorizontalLayout horizontalLayout;
     @UiField("selectionVerticalLayout")
     protected VerticalLayout selectionVerticalLayout;
-    
+
     protected Map<Integer, Integer> custVersionMap = new HashMap<>();
     protected Map<Integer, Integer> prodVersionMap = new HashMap<>();
+
     /**
      * Initialization Of UI Fields.
      */
@@ -538,7 +539,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             customerHierarchyCloseListener();
             getUI().addWindow(customerHierarchyLookup);
         } catch (Exception ex) {
-            LOGGER.error("Error in customerHierarchyClickListener :" + ex);
+            LOGGER.error("Error in customerHierarchyClickListener :" , ex);
         }
     }
 
@@ -556,7 +557,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             productHierarchyCloseListener();
             getUI().addWindow(productHierarchyLookup);
         } catch (Exception ex) {
-            LOGGER.error("Error in productHierarchyClickListener :" + ex);
+            LOGGER.error("Error in productHierarchyClickListener :" , ex);
         }
     }
 
@@ -790,6 +791,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
         inputBean.setGlCompany(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);
         return inputBean;
     }
+
     protected List<LevelDTO> getSelectedCustomerContractList() {
         List<LevelDTO> ccList = Collections.emptyList();
         if (selectedCustomerContainer != null && !selectedCustomerContainer.getItemIds().isEmpty()) {
@@ -804,8 +806,9 @@ public abstract class AbstractDataSelection extends CustomComponent {
         }
         return ccList;
     }
-    protected GtnARMHierarchyInputBean loadCustomersInInputbean(GtnARMHierarchyInputBean inputBean,int customerRelationVersionNo,
-            List<LevelDTO> selectedCustomerContractList,int custHierSid,int customerVersionNo) {
+
+    protected GtnARMHierarchyInputBean loadCustomersInInputbean(GtnARMHierarchyInputBean inputBean, int customerRelationVersionNo,
+            List<LevelDTO> selectedCustomerContractList, int custHierSid, int customerVersionNo) {
         inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
         if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
             inputBean.setSelectedCustomerList(DataSelectionLogic.convetToRelationBean(selectedCustomerContractList));

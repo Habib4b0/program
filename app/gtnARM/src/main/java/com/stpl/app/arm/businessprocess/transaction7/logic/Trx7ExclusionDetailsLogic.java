@@ -71,7 +71,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Inside getCompanySid--" + viewSid);
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getCompanySid :" + e);
+            LOGGER.error("Error in getCompanySid :", e);
             return finalList;
         }
     }
@@ -122,7 +122,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Inside getFieldListValue--" + finalList.size());
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getFieldListValue :" + e);
+            LOGGER.error("Error in getFieldListValue :", e);
             return Collections.emptyList();
         }
     }
@@ -149,7 +149,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Exit getIntialLoadValue--" + query);
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getIntialLoadValue :" + e);
+            LOGGER.error("Error in getIntialLoadValue :", e);
             return Collections.emptyList();
         }
     }
@@ -165,7 +165,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Exit LoadView_RateConfig--" + query);
             return rawList == null || rawList.isEmpty() || rawList.get(0) == null ? 0 : Integer.parseInt(String.valueOf(rawList.get(0)));
         } catch (Exception e) {
-            LOGGER.error("Error in loadViewRateConfig :" + e);
+            LOGGER.error("Error in loadViewRateConfig :", e);
             return 0;
         }
     }
@@ -193,7 +193,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Exit LoadView_ViewName--" + query);
             return dtoValue;
         } catch (Exception e) {
-            LOGGER.error("Error in loadViewViewName :" + e);
+            LOGGER.error("Error in loadViewViewName :", e);
             return dtoValue;
         }
     }
@@ -207,7 +207,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Inside isDuplicateName--" + query);
             return !rawList.isEmpty();
         } catch (Exception e) {
-            LOGGER.error("Error in isDuplicateName :" + e);
+            LOGGER.error("Error in isDuplicateName :", e);
             return true;
         }
     }
@@ -257,7 +257,7 @@ public class Trx7ExclusionDetailsLogic {
             return true;
         } catch (Exception e) {
             LOGGER.debug("sbQuery:===========>" + sbQuery.toString());
-            LOGGER.error("Error in isAddORUpdateView :" + e);
+            LOGGER.error("Error in isAddORUpdateView :", e);
             return false;
         }
     }
@@ -279,7 +279,7 @@ public class Trx7ExclusionDetailsLogic {
             }
             return StringUtils.EMPTY;
         } catch (Exception e) {
-            LOGGER.error("Error in isSaveView :" + e);
+            LOGGER.error("Error in isSaveView :", e);
             return StringUtils.EMPTY;
         }
 
@@ -294,7 +294,7 @@ public class Trx7ExclusionDetailsLogic {
             DAO.executeUpdate(deleteQuery);
             LOGGER.debug("--Exit deleteViewLogic--" + deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic :" + ex);
+            LOGGER.error("Error in deleteViewLogic :" , ex);
         }
     }
 
@@ -307,7 +307,7 @@ public class Trx7ExclusionDetailsLogic {
             DAO.executeUpdate(deleteQuery);
             LOGGER.debug("--Exit deleteViewLogicForInventory--" + deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory :" + ex);
+            LOGGER.error("Error in deleteViewLogicForInventory :" , ex);
         }
     }
 
@@ -466,7 +466,7 @@ public class Trx7ExclusionDetailsLogic {
             LOGGER.debug("--Exit getSavedViewList--" + dtoList.size());
             return dtoList;
         } catch (Exception e) {
-            LOGGER.error("Error in getSavedViewList :" + e);
+            LOGGER.error("Error in getSavedViewList :", e);
             return dtoList;
         }
 
@@ -490,7 +490,7 @@ public class Trx7ExclusionDetailsLogic {
             }
             LOGGER.debug("--Exit getCompanySid--" + userMap.size());
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" + ex);
+            LOGGER.error("Error in getAllUsers :" , ex);
         }
     }
 }

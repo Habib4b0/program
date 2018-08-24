@@ -87,7 +87,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
                     break;
             }
 
-            LOGGER.debug("Records returned: " + list == null ? String.valueOf(null) : String.valueOf(list.size()));
+            LOGGER.debug("Records returned: {}" , String.valueOf(list.size()));
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

@@ -44,7 +44,7 @@ public class HierarchyLookupTableLogic extends PageTableLogic {
             isResultsEmpty = Integer.valueOf(count.get(0).toString()) == 0;
             return Integer.valueOf(count.get(0).toString());
         } catch (Exception ex) {
-            LOGGER.error("Error in GetCount :" + ex);
+            LOGGER.error("Error in GetCount :" , ex);
             return 0;
         }
     }
@@ -58,7 +58,7 @@ public class HierarchyLookupTableLogic extends PageTableLogic {
                 return Collections.emptyList();
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in LoadData" + ex);
+            LOGGER.error("Error in LoadData" , ex);
             return Collections.emptyList();
         }
     }

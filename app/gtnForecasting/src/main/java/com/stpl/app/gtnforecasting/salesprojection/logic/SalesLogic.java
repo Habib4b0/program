@@ -599,7 +599,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        LOGGER.info("UI Query-------------------------------------------------"+aaa);
+        
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
     
@@ -616,7 +616,6 @@ public class SalesLogic {
         sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #ST_NM_SALES_PROJECTION_MASTER ");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
-        LOGGER.info("Excel Query-------------------------------------------------"+query);
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
     }
@@ -937,7 +936,7 @@ public class SalesLogic {
                 salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true) : new Boolean(false));
+            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ?  Boolean.FALSE :  Boolean.TRUE :  Boolean.FALSE);
             if (obj[NumericConstants.FOURTEEN] != null) {
                 salesRowDto.setUncheckCount(DataTypeConverter.convertObjectToInt(obj[NumericConstants.FOURTEEN]));
             }
@@ -1357,7 +1356,7 @@ public class SalesLogic {
                 salesRowDto.setHierarchyIndicator(String.valueOf(object[NumericConstants.TEN]));
                 salesRowDto.setCheckRecordCount(String.valueOf(object[NumericConstants.SEVEN]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.SEVEN])) ? Constant.DASH : String.valueOf(object[NumericConstants.SEVEN]));
                 salesRowDto.setCcpCount(String.valueOf(object[NumericConstants.EIGHT]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.EIGHT])) ? Constant.DASH : String.valueOf(object[NumericConstants.EIGHT]));
-                int value = Integer.valueOf((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
+                int value = Integer.parseInt((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
                 salesRowDto.addBooleanProperties(Constant.CHECK, value >= Integer.parseInt(salesRowDto.getCcpCount()));
             }
             hierarchyNo = String.valueOf(object[NumericConstants.THREE]);
@@ -2283,7 +2282,6 @@ public class SalesLogic {
                 periodRestriction.append(Constant.WHERE_YEAR_EQUAL).append(year).append(" AND MONTH = ").append(frequency);
             }
 
-            CommonLogic commonLogic = new CommonLogic();
             String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") :SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
@@ -2309,7 +2307,10 @@ public class SalesLogic {
             }
 
             hierarchyInserQuery = hierarchyInserQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(isCustomView, customerHierarchyNo, productHierarchyNo, hiearchyIndicator));
-
+            hierarchyInserQuery += commonLogic.getJoinBasedOnTab(projectionSelectionDTO.getTabName(), projectionSelectionDTO.getGroupFilter(), projectionSelectionDTO.getScreenName());
+            if (!projectionSelectionDTO.getCustomerLevelFilter().isEmpty() || !projectionSelectionDTO.getProductLevelFilter().isEmpty()) {
+                hierarchyInserQuery += Constant.AND_SPMFILTER_CC_P1;
+            }
             String updateQuery = SQlUtil.getQuery("line-level-update");
             updateQuery = updateQuery.replace("[?UPDATE_LINE]", updateLine.toString());
             String uomJoin = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='" + projectionSelectionDTO.getUomCode() + "'";
@@ -3105,7 +3106,7 @@ public class SalesLogic {
     }
 
     public String loadTotalLives(int projectionId) throws PortalException, SystemException {
-        BigDecimal lives = new BigDecimal(0.0);
+        BigDecimal lives = BigDecimal.valueOf(0.0);
         List<String> list = getTotalLives(projectionId, false);
         if (list != null) {
             for (String live : list) {
@@ -3661,7 +3662,7 @@ public class SalesLogic {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturnAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWELVE] == null ? 0 : obj[NumericConstants.TWELVE])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + '%');
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? new Boolean(false) : new Boolean(true));
+            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? Boolean.FALSE : Boolean.TRUE);
             if (i == (resulList.size() - 1)) {
                 salesRowList.add(salesRowDto);
             }
@@ -3837,14 +3838,14 @@ public class SalesLogic {
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
         double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
-        double amountA = 0.0;
+        double amountA = 0;
         for (String split : entry.getValue().split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountA += salesAmount.get(split);
             }
         }
         //Code to calculate B
-        double amountB = 0.0;
+        double amountB = 0;
         for (String split : parentDetailsSid.split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountB += salesAmount.get(split);
@@ -3853,9 +3854,10 @@ public class SalesLogic {
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
-        if (amountA == 0.0 && amountB == 0.0) {
-            amount = 0.0;
-        } else if (amountA != 0.0 && amountB != 0.0) {
+        
+        if (amountA == 0 || amountB ==0 ){
+            amount = 0;
+        } else {
             amount = (amountA / amountB) * amount;
         }
         return amount;
@@ -4568,7 +4570,7 @@ public class SalesLogic {
     }
 
     public Set availableHierarchy(List currentHierarchy, ProjectionSelectionDTO projectionSelectionDTO, int start, int end, int expandLevelNo) {
-        int forecastlevel = Integer.valueOf(projectionSelectionDTO.getHierarchyIndicator().equals("C") ? projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber() : projectionSelectionDTO.getSessionDTO().getProductLevelNumber());
+        int forecastlevel = Integer.parseInt(projectionSelectionDTO.getHierarchyIndicator().equals("C") ? projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber() : projectionSelectionDTO.getSessionDTO().getProductLevelNumber());
         Set hierachies = new LinkedHashSet();
         for (int i = start; i < end && i < currentHierarchy.size(); i++) {
             String hierarachy = String.valueOf(currentHierarchy.get(i));

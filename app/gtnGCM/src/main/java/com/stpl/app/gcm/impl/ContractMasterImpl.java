@@ -78,7 +78,7 @@ public class ContractMasterImpl {
                     + " from COMPANY_MASTER cm LEFT JOIN HelPER_TABLE htype on htype.HELPER_TABLE_SID =  cm.COMPANY_TYPE"
                     + " LEFT JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cm.COMPANY_STATUS"
                     + " WHERE cm.INBOUND_STATUS <> 'D' AND cm.COMPANY_TYPE not in (select HELPER_TABLE_SID from HELPER_TABLE where LIST_NAME = 'COMP_TYPE' and DESCRIPTION ='BUNIT')"
-                    + " AND cm.COMPANY_TYPE not in (select HELPER_TABLE_SID from HELPER_TABLE where LIST_NAME = 'COMP_TYPE' and DESCRIPTION ='" + Constants.MANUFACTURER.toUpperCase() + "')";
+                    + " AND cm.COMPANY_TYPE not in (select HELPER_TABLE_SID from HELPER_TABLE where LIST_NAME = 'COMP_TYPE' and DESCRIPTION ='" + Constants.MANUFACTURER + "')";
 
             if (StringUtils.isNotBlank(companyId) && StringUtils.isNotEmpty(companyId)) {
                 sql += " AND cm.COMPANY_ID LIKE '" + companyId + "'";

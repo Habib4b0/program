@@ -203,7 +203,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     loadCustomMenuBar(selectionDto.getCustomerGroupList());
                 }
             } catch (Exception e) {
-                LOGGER.error("Error in frequencyListener :" + e);
+                LOGGER.error("Error in frequencyListener :", e);
             }
         }
     };
@@ -366,7 +366,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     notifier.setButtonName(CommonConstant.RESET);
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    LOGGER.error("Error in reset :" + e);
+                    LOGGER.error("Error in reset :", e);
                 }
             }
         });
@@ -393,7 +393,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     }
                     inventoryResults.setValueChangeAllowed(true);
                 } catch (Exception e) {
-                    LOGGER.error("Error in generate :" + e);
+                    LOGGER.error("Error in generate :", e);
                 }
             }
         });
@@ -523,7 +523,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     try {
                         BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                     } catch (IllegalAccessException | InvocationTargetException ex) {
-                        LOGGER.error("Error in configureWorkFlow :" + ex);
+                        LOGGER.error("Error in configureWorkFlow :" , ex);
                     }
                 }
             }

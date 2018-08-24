@@ -70,7 +70,7 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getCompanySid :" + e);
+            LOGGER.error("Error in getCompanySid :", e);
             return finalList;
         }
     }
@@ -113,7 +113,7 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getFieldListValue" + e);
+            LOGGER.error("Error in getFieldListValue", e);
             return Collections.emptyList();
         }
     }
@@ -138,7 +138,7 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getintialLoadValue" + e);
+            LOGGER.error("Error in getintialLoadValue", e);
             return Collections.emptyList();
         }
     }
@@ -150,7 +150,7 @@ public class ExclusionDetailsLogic {
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             return !rawList.isEmpty();
         } catch (Exception e) {
-            LOGGER.error("Error in isDuplicateName" + e);
+            LOGGER.error("Error in isDuplicateName", e);
             return true;
         }
     }
@@ -201,7 +201,7 @@ public class ExclusionDetailsLogic {
             DAO.executeUpdate(sbQuery.toString());
             return true;
         } catch (Exception e) {
-            LOGGER.error("Error in isAddORUpdateView" + e);
+            LOGGER.error("Error in isAddORUpdateView", e);
             return false;
         }
     }
@@ -221,7 +221,7 @@ public class ExclusionDetailsLogic {
             }
             return StringUtils.EMPTY;
         } catch (Exception e) {
-            LOGGER.error("Error in isSaveView" + e);
+            LOGGER.error("Error in isSaveView", e);
             return StringUtils.EMPTY;
         }
 
@@ -234,7 +234,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic" + ex);
+            LOGGER.error("Error in deleteViewLogic" , ex);
         }
     }
 
@@ -245,7 +245,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory" + ex);
+            LOGGER.error("Error in deleteViewLogicForInventory" , ex);
         }
     }
 
@@ -414,7 +414,7 @@ public class ExclusionDetailsLogic {
                 return dtoList;
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getSavedViewList :" + e);
+            LOGGER.error("Error in getSavedViewList :", e);
             return dtoList;
         }
 
@@ -436,7 +436,7 @@ public class ExclusionDetailsLogic {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" + ex);
+            LOGGER.error("Error in getAllUsers :" , ex);
         }
     }
 
@@ -458,7 +458,7 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error("Error in getListInitialInsertFromARC :" + e);
+            LOGGER.error("Error in getListInitialInsertFromARC :", e);
             return Collections.emptyList();
         }
     }

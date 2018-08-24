@@ -434,7 +434,7 @@ public class DataSelection extends AbstractDataSelection {
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}", ex);
 			}
-		} else if ((value == null && SELECT_ONE.equals(String.valueOf(value)))) {
+		} else  {
 			selectedProduct.removeAllItems();
 			selectedProductContainer.removeAllItems();
 			availableProduct.removeAllItems();
@@ -511,7 +511,7 @@ public class DataSelection extends AbstractDataSelection {
                             
                                 if (sessionDTO.getComparisonLookupData() != null) {
                                     for (ComparisonLookupDTO checkedSalesValue : ((ComparisonLookupDTO) sessionDTO.getComparisonLookupData()).getSelected()) {
-                                        br.append(checkedSalesValue.getProjectionId()).append(Constants.COMMA);
+                                        br.append(checkedSalesValue.getProjectionId()).append(Constants.COMMA_CHAR);
                                 }
                                 sessionDTO.setPriorProjectionId(br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString());
                                 }
@@ -1094,7 +1094,7 @@ public class DataSelection extends AbstractDataSelection {
 									childHierarchyNo = tempHNo + ".";
 								}
 								if (customerBeanList.isEmpty()
-										|| !customerBeanList.contains(newLevel.getRelationShipBuilderId())) {
+										|| !customerBeanList.contains(Integer.valueOf(newLevel.getRelationShipBuilderId()))) {
 									customerBeanList.add(newLevel.getRelationshipLevelSid());
 									selectedCustomerContainer.addBean(newLevel);
 									if (forecastLevel != newLevel.getLevelNo()) {
@@ -1186,27 +1186,7 @@ public class DataSelection extends AbstractDataSelection {
 									}
 								}
 								if (!removeValues.isEmpty()) {
-									uncommonValues.removeAll(removeValues); // At
-																			// this
-																			// point,
-																			// uncommonValues
-																			// should
-																			// contain
-																			// only
-																			// 1
-																			// value
-																			// since
-																			// only
-																			// one
-																			// value
-																			// is
-																			// selected
-																			// to
-																			// be
-																			// moved
-																			// in
-																			// available
-																			// table.
+									uncommonValues.removeAll(removeValues); 
 								}
 								if (!uncommonValues.isEmpty()) {
 									newParentLevels = logic.getParentLevelsWithHierarchyNo(
@@ -1334,26 +1314,7 @@ public class DataSelection extends AbstractDataSelection {
 								}
 							}
 							if (!removeValues.isEmpty()) {
-								uncommonValues.removeAll(removeValues); // At
-																		// this
-																		// point,
-																		// uncommonValues
-																		// should
-																		// contain
-																		// only
-																		// 1
-																		// value
-																		// since
-																		// only
-																		// one
-																		// value
-																		// is
-																		// selected
-																		// to be
-																		// moved
-																		// in
-																		// available
-																		// table.
+								uncommonValues.removeAll(removeValues); 
 							}
 							if (!uncommonValues.isEmpty()) {
 								String tempHNo = uncommonValues.get(0);
@@ -3698,6 +3659,7 @@ public class DataSelection extends AbstractDataSelection {
 			customerInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		level.setContainerDataSource(customerInnerLevelContainer);
@@ -3732,6 +3694,7 @@ public class DataSelection extends AbstractDataSelection {
 			productInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);

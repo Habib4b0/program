@@ -166,7 +166,7 @@ public class BusinessProcessUI extends CommonUI {
             try {
                 CommonLogic.getDataSelectionForWorkFlow(dataSelectionDto);
             } catch (Exception ex) {
-                LOGGERVALUE.error("Error in getDataSelectionForWorkFlow :" + ex);
+                LOGGERVALUE.error("Error in getDataSelectionForWorkFlow :" , ex);
             }
             sessionDTO.setWorkflowId(Integer.valueOf(workflowId));
             sessionDTO.setWorkflowUserType(userType);
@@ -196,7 +196,7 @@ public class BusinessProcessUI extends CommonUI {
                 dataSelectionDto.setAdjustmentId(Integer.parseInt(String.valueOf(id.get(0))));
                 editWindow = new BussinessProcessForm(adjType.replace("~", " "), dataSelectionDto, sessionDTO);
             } catch (Exception ex) {
-                LOGGERVALUE.error("Error in editWindow :" + ex);
+                LOGGERVALUE.error("Error in editWindow :" , ex);
             }
         }
         Navigator navigator = new Navigator(this, this);
@@ -204,7 +204,7 @@ public class BusinessProcessUI extends CommonUI {
             try {
                 navigator.addView(ArmWorkflowView.NAME, new ArmWorkflowView(editWindow));
             } catch (Exception ex) {
-                LOGGERVALUE.error("Error in navigator addview :" + ex);
+                LOGGERVALUE.error("Error in navigator addview :" , ex);
             }
         }
         HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");

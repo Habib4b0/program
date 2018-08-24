@@ -1678,6 +1678,7 @@ public class NonMandatedLogic {
 						|| projMaster.getIsApproved().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)
 						|| projMaster.getIsApproved().equals("W"))) {
 					workflowStatus = "RC";
+                                        break;
 				}
 
 				projMaster.setIsApproved("Y");

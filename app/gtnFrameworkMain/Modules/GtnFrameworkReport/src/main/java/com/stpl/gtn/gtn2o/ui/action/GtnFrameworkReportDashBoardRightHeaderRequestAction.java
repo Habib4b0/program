@@ -74,7 +74,7 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		if (variableVarianceComponent.getComponent() != null) {
 			int value = (int) variableVarianceComponent.getFieldValue();
-			if (value == 2) {
+			if (value == 1) {
 				reportDashBoardBean.setVariablesVariances(true);
 			}
 			int headerSequence = (int) GtnUIFrameworkGlobalUI
@@ -112,6 +112,10 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
 
+		
+		reportDashBoardBean.setAnnualTotals( GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId).getStringCaptionFromV8ComboBox());
+		
 		reportDashBoardBean.setCustomViewMasterSid(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
 				.getIntegerFromV8ComboBox());

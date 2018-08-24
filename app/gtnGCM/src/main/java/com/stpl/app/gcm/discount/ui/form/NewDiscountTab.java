@@ -281,7 +281,6 @@ public class NewDiscountTab extends CustomComponent {
     private List<HelperDTO> itemStatusList = new ArrayList<>();
     private List<HelperDTO> priceTypeList = new ArrayList<>();
     private String selectedComponenttype = StringUtils.EMPTY;
-    private final List<String> newlyAddedRebates = new ArrayList<>();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final StplSecurity stplSecurity = new StplSecurity();
     private final List<ContractsDetailsDto> cfpList = new ArrayList<>();
@@ -1581,7 +1580,6 @@ public class NewDiscountTab extends CustomComponent {
                     }
                 }
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), psListforMap);
-                newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
                 setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean, true);
                 returnFlag = true;
             }
@@ -1614,7 +1612,6 @@ public class NewDiscountTab extends CustomComponent {
                     }
                 }
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
-                newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
                 setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean, false);
                 returnFlag = true;
             }
@@ -1646,7 +1643,6 @@ public class NewDiscountTab extends CustomComponent {
                     }
                 }
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
-                newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
                 setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId, false);
                 returnFlag = true;
             }
@@ -1667,7 +1663,6 @@ public class NewDiscountTab extends CustomComponent {
             if ("IFP".equals(srcTableBean.getCategory())) {
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), ifpListforMap);
             }
-            newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
             setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId, true);
             returnFlag = true;
         }
@@ -1947,19 +1942,19 @@ public class NewDiscountTab extends CustomComponent {
         try {
 
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                final Object idValue = iterator.next();
-                final ContractsDetailsDto temp = getBeanFromID(idValue);
+                final Object saveTreeIdValue = iterator.next();
+                final ContractsDetailsDto tempBeanId = getBeanFromID(saveTreeIdValue);
 
-                if (Constants.IndicatorConstants.CONTRACT.toString().equalsIgnoreCase(temp.getCategory())) {
-                    contract = temp;
+                if (Constants.IndicatorConstants.CONTRACT.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    contract = tempBeanId;
                     cfp = new ContractsDetailsDto();
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
                 }
-                if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(temp.getCategory())) {
+                if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
 
-                    cfp = temp;
+                    cfp = tempBeanId;
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
@@ -1969,8 +1964,8 @@ public class NewDiscountTab extends CustomComponent {
                         DiscountLogic.saveCFp(contract.getInternalId(), cfp ,true);
                     }
                 }
-                if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(temp.getCategory())) {
-                    ifp = temp;
+                if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    ifp = tempBeanId;
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.IFP.getConstant())) {
@@ -1979,8 +1974,8 @@ public class NewDiscountTab extends CustomComponent {
                         DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp ,true);
                     }
                 }
-                if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
-                    priceSchedule = temp;
+                if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    priceSchedule = tempBeanId;
                     rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
                         priceSchedule.setModelSysId(rsModelSysId);
@@ -1988,18 +1983,18 @@ public class NewDiscountTab extends CustomComponent {
                         DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule ,true);
                     }
                 }
-                if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
-                    rebateSchedule = temp;
+                if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    rebateSchedule = tempBeanId;
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.getConstant())) {
                         rebateSchedule.setRsSid(String.valueOf(rsModelSysId));
-                        int internalId = temp.getInternalId();
+                        int internalId = tempBeanId.getInternalId();
                         if (internalId == 0) {
                             DiscountLogic.saveRS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule.getPsContractId(), rebateSchedule ,true);
                         }
                     }
                 }
 
-                final Collection childlist = dashboardTreeTable.getChildren(idValue);
+                final Collection childlist = dashboardTreeTable.getChildren(saveTreeIdValue);
                 if (childlist == null || childlist.isEmpty()) {
                 } else {
                     saveTree(childlist, rsModelSysId, category);

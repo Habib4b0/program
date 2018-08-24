@@ -36,6 +36,10 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 		dateField.setDateFormat("MM/dd/yyyy");
 		dateField.setEnabled(componentConfig.isEnable());
 		dateField.setValue((LocalDate) componentConfig.getComponentValue());
+                if(!(componentConfig.getDateFieldStyle().isEmpty()))
+                {
+                    loadStyles(dateField, componentConfig.getDateFieldStyle());
+                }
 		GtnUIFrameworkDateFieldConfig dateFieldConfig = componentConfig.getGtnDateFieldConfig();
 		if (dateFieldConfig != null) {
 

@@ -12,7 +12,7 @@ and open the template in the editor.
         <query> 
             <![CDATA[
                 SELECT
-                    Count(c.HIERARCHY_DEFINITION_SID)
+                    Count(DISTINCT c.HIERARCHY_DEFINITION_SID)
                 FROM
                     dbo.HIERARCHY_LEVEL_DEFINITION A,
                     HIERARCHY_LEVEL_DEFINITION b,
@@ -538,10 +538,10 @@ where
                         CASE WHEN HT_GL.DESCRIPTION='GLCOMP' THEN CM.COMPANY_NAME ELSE NULL END AS COMPANY_NAME, 
                         PM.PROJECTION_MASTER_SID, 
                         FVM.VIEW_ID, 
-                        HD1.VERSION_NO, 
-                        HD1.NO_OF_LEVELS, 
-                        HD2.VERSION_NO, 
-                        HD2.NO_OF_LEVELS, 
+                        HD1.VERSION_NO AS CUST_HIERARCHY_VERSION, 
+                        HD1.NO_OF_LEVELS AS CUST_HIERARCHY_LEVELS, 
+                        HD2.VERSION_NO AS PROD_HIERARCHY_VERSION, 
+                        HD2.NO_OF_LEVELS AS PROD_HIERARCHY_LEVELS, 
                         FVM.CREATED_BY, 
                         FVM.VIEW_TYPE, 
                         CASE WHEN HT_BU.DESCRIPTION='Business Unit' THEN CM_BU.COMPANY_NAME ELSE NULL END AS BUSINESS_UNIT, 
@@ -1821,7 +1821,7 @@ CREATE TABLE #CCP_MAP
         </query>
     </entity>
     <entity id="getHierarchyLevelVlaues">
-		<query> 
+        <query> 
         <![CDATA[            
             SELECT
                     distinct LEVEL_NO,
@@ -1841,6 +1841,6 @@ CREATE TABLE #CCP_MAP
             where
                     hld.HIERARCHY_DEFINITION_SID =? and HLD.VERSION_NO =?;
          ]]>
-		</query>
-	</entity>
+        </query>
+    </entity>
 </sql>

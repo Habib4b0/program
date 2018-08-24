@@ -41,7 +41,7 @@ public class ErrorHandler extends DefaultErrorHandler {
         try {
             this.layout = layout;
         } catch (Exception e) {
-            LOGGER.error("Error in ErrorHandler :" + e);
+            LOGGER.error("Error in ErrorHandler :", e);
         }
     }
 
@@ -64,7 +64,7 @@ public class ErrorHandler extends DefaultErrorHandler {
             layout.addComponent(new Label(CAUSE, ContentMode.HTML));
             doDefault(event);
         } catch (Exception e) {
-            LOGGER.error("Error :" + e);
+            LOGGER.error("Error :", e);
         }
     }
 

@@ -21,6 +21,8 @@ public class GtnWsProcessScedulerConstants {
 	public static final String GTN_PROCESS_SCHEDULER_SERVICE_SCREEN = "/GtnProcessSchedulerService";
 
 	public static final String GET_PROCESS_SCHEDULER_TABLE_DATA = "/getProcessSchedulerTableData";
+	
+	public static final String GET_SCHEDULED_PROCESSING_TABLE_DATA = "/getScheduledProcessingTableData";
 
 	public static final String PROCESS_SCHEDULER_TABLE_CLICK_ACTION = PROCESS_SCHEDULER_PACKAGE
 			+ "GtnFrameworkTableClickAction";
@@ -33,5 +35,15 @@ public class GtnWsProcessScedulerConstants {
 	public static final String GTN_WS_PROCESS_SCHEDULER_UPDATE_SERVICE = "/updateService";
 
 	public static final String GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE_DATA = "/runService";
+
+	public static final String GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE = "/validateAndRunService";
+
+	public static final String GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN = "/processschedulerCffOutbound";
+
+	public static final String GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA = "/cffGenerateService";
+
+	public static final String UPDATE_CHECK_RECORD = "/updateCheckRecord";
+
+	public static final String GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_UPDATE_CHECKED_ALL = "/checkAllRecord";
 
 }

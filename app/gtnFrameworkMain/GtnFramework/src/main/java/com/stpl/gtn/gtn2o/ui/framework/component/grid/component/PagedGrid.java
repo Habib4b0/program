@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -61,6 +64,7 @@ public class PagedGrid {
 	private HorizontalLayout controlLayout;
 	private TextField pageNoField;
 	private GtnUIFrameworkPagedGridLogic pagedTableLogic;
+	private Label pageCountLabel;
 
 	private static final String SHOW_ALL = "Show all";
 
@@ -119,7 +123,10 @@ public class PagedGrid {
 		if (dataSet.getRows() != null) {
 
 			grid.setItems(dataSet.getRows());
-
+			int countLabel = getCount()%pageLength==0?getCount()/pageLength:getCount()/pageLength+1;
+			if (pageCountLabel != null) {
+				pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
+			}
 		}
 	}
 
@@ -271,7 +278,7 @@ public class PagedGrid {
 	}
 
 	public HorizontalLayout getControlLayout() {
-		Label pageCountLabel;
+	
 		if (controlLayout == null) {
 			controlLayout = new HorizontalLayout();
 			controlLayout.setSpacing(false);
@@ -279,6 +286,7 @@ public class PagedGrid {
 			HorizontalLayout pageNoFieldText = new HorizontalLayout();
 			pageNoField = new TextField();
 			pageCountLabel = new Label("1");
+			pageCountLabel.markAsDirty();
 			pageNoFieldText.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
 			pageCountLabel.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
 			pageNoField.setWidth("50px");
@@ -378,7 +386,7 @@ public class PagedGrid {
 				return getTextFieldFilterComponent(property, filterConfig);
 			}
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
-				return getDateFieldFilterComponent(property);
+				return getDateFieldFilterComponent(property,filterConfig);
 			}
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
 				return getComboboxFilterComponent(property, filterConfig);
@@ -446,7 +454,7 @@ public class PagedGrid {
 		return h3;
 	}
 
-	private Component getDateFieldFilterComponent(String property) {
+	private Component getDateFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
 		HorizontalLayout h2 = new HorizontalLayout();
 		h2.setMargin(false);
 		h2.setWidth("118%");
@@ -455,6 +463,10 @@ public class PagedGrid {
 		dateField.setWidth("114%");
 		dateField.setSizeFull();
 		dateField.setId(property);
+                List<String> componentStyle = filterConfig.getGtnComponentConfig().getDateFieldStyle();
+		if (!(componentStyle.isEmpty())) {
+			dateField.setStyleName(componentStyle.get(0));
+		}
 		dateField.addValueChangeListener(this::onFilterDateChange);
 		h2.addComponent(dateField);
 		h2.addLayoutClickListener(new LayoutClickListener() {
@@ -534,19 +546,54 @@ public class PagedGrid {
 	}
 
 	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-		tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
-		refreshGrid();
+            try {
+
+                if (tableConfig.isFilteron()) {
+
+                    String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
+                    GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
+                    action.addActionParameter(event.getValue());
+                    classLoader(action, classPath, event.getComponent().getId());
+                } else {
+                    tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
+                    refreshGrid();
+                }
+            } catch (GtnFrameworkGeneralException exception) {
+                gtnlogger.error("Exception while  filtering component", exception);
+            }
 	}
 
 	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
-		return "%" + event.getValue() + "%";
+		String value = event.getValue();
+		if (!value.isEmpty()) {
+			return "%" + value + "%";
+		}
+		return "";
 	}
 
 	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
-		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
-		refreshGrid();
+            try{
+        
+                if (tableConfig.isFilteron()) {
+                    String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
+                    GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
+                    action.addActionParameter(event.getValue());
+                    classLoader(action, classPath, event.getComponent().getId());
+                } else {
+                    tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+                    refreshGrid();
+                }
+            } catch (GtnFrameworkGeneralException exception) {
+                gtnlogger.error("Exception while  filtering Date component", exception);
+            }
 	}
-
+        private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
+			String sourceViewId) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+		GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
+		loader.configureParams(gtnUIFrameWorkActionConfig);
+		loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
+	}
 	public Set<GtnWsRecordBean> getValue() {
 		return grid.getSelectedItems();
 	}

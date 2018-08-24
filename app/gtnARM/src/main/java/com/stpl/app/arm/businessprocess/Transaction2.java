@@ -54,7 +54,7 @@ public class Transaction2 extends AbstractTransaction {
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
 
         } catch (Exception e) {
-            LOGGER.error("Error in initializeTabs" + e);
+            LOGGER.error("Error in initializeTabs", e);
         }
     }
 

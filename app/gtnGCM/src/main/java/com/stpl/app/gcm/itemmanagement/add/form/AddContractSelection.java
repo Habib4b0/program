@@ -204,14 +204,13 @@ public class AddContractSelection extends CustomComponent {
     private final AddItemTableDTO binderDto = new AddItemTableDTO();
     private static final String CONFIRMATION_HEADER = "Confirmation";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    private SelectionDTO selection;
+    private SelectionDTO selection = new SelectionDTO();
     private final BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
     private final AbstractComponentInfo component = new AbstractComponentInfo(Constants.RS, selection);
     private String massUpdateString = StringUtils.EMPTY;
     private boolean isFound = false;
     private final StplSecurity stplSecurity = new StplSecurity();
-    private final Map comboToTableMap = new HashMap();
     private final Map tempTableMap = new HashMap();
     private final Map fieldAndPropertyMap = new HashMap();
     private CustomTextField.ClickListener clickLister;
@@ -240,7 +239,6 @@ public class AddContractSelection extends CustomComponent {
         panel.setContent(layout);
         field.addItem(Constants.SELECT_ONE);
         LoadField();
-        LoadComboToTableMap();
         LoadTempToTableMap();
         loadFieldAndPropertyMap();
         field.setNullSelectionAllowed(true);
@@ -1640,49 +1638,6 @@ public class AddContractSelection extends CustomComponent {
         return input;
     }
 
-    private void LoadComboToTableMap() {
-        comboToTableMap.put(Constants.STATUS_FIELD, ConstantsUtil.STATUS);
-        comboToTableMap.put(Constants.START_DATE_HEADER, ConstantsUtil.ITEM_START_DATE);
-        comboToTableMap.put(Constants.END_DATE_HEADER, ConstantsUtil.ITEM_END_DATE);
-        comboToTableMap.put(StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_START_DATE);
-        comboToTableMap.put(StringConstantsUtil.CP_END_DATE_LABEL, StringConstantsUtil.CP_END_DATE);
-        comboToTableMap.put(StringConstantsUtil.CONTRACT_PRICE_LABEL, StringConstantsUtil.CONTRACT_PRICE_PROPERTY);
-        comboToTableMap.put(StringConstantsUtil.PRICE_LABEL, StringConstantsUtil.PRICE_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_START_DATE_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_PROTECTION_END_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_TOLERANCE_LABEL, Constants.PRICE_TOLERANCE_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_TOLERANCE_TYPE_LABEL, Constants.PRICE_TOLERANCE_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_TOLERANCE_INTERVAL_LABEL, Constants.PRICE_TOLERANCE_INTERVAL);
-        comboToTableMap.put(StringConstantsUtil.BASE_PRICE_LABEL, StringConstantsUtil.BASE_PRICE_PROPERTY);
-        comboToTableMap.put(StringConstantsUtil.RS_START_DATE_LABEL_CAPS, StringConstantsUtil.RS_START_DATE_LABEL);
-        comboToTableMap.put(StringConstantsUtil.RS_END_DATE_LABEL, StringConstantsUtil.RS_END_DATE_COLUMN);
-        comboToTableMap.put(Constants.FORMULA_ID_LABEL, Constants.FORMULA_ID_PROPERTY);
-        comboToTableMap.put(Constants.REBATE_PLAN_LABEL, Constants.REBATE_PLAN_PROPERTY);
-        comboToTableMap.put(StringConstantsUtil.FORMULA_METHOD_ID_LABEL, StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY);
-        comboToTableMap.put(Constants.NEP_COLUMN_NAME, Constants.NEP_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_STATUS_PROPERTY);
-        comboToTableMap.put(Constants.NEP_FORMULA_LABLE_NAME, Constants.NEP_FORMULA_PROPERTY);
-        comboToTableMap.put(Constants.MAX_INCREMENTAL_CHANGE_LABEL, Constants.MAX_INCREMENTAL_CHANGE_PROPERTY);
-        comboToTableMap.put(Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_ELIGIBLE_PROPERTY);
-        comboToTableMap.put(Constants.RESET_TYPE_LABEL, Constants.RESET_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.RESET_DATE_LABEL, Constants.RESET_DATE_PROPERTY);
-        comboToTableMap.put(Constants.RESET_INTERVAL_LABEL, Constants.RESET_INTERVAL_PROPERTY);
-        comboToTableMap.put(Constants.RESET_FREQUENCY_LABEL, Constants.RESET_FREQUENCY_PROPERTY);
-        comboToTableMap.put(Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY);
-        comboToTableMap.put(Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.RESET_PRICE_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_PROPERTY);
-        comboToTableMap.put(Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASE_PRICE_PROPERTY);
-        comboToTableMap.put(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY);
-        comboToTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME, "netSubsequentPriceFormulaId");
-        comboToTableMap.put(Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, "netBaselineWacFormulaId");
-        comboToTableMap.put(Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.BASELINE_NET_WAC_PROPERTY);
-        comboToTableMap.put(Constants.PRICE_TYPE_LABEL, Constants.PRICE_TYPE_PROPERTY);
-        comboToTableMap.put(Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.MEASUREMENT_PRICE_PROPERTY);
-    }
 
     private void LoadTempToTableMap() {
         tempTableMap.put(Constants.STATUS_FIELD, StringConstantsUtil.ITEM_STATUS_COLUMN);

@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.shared.Position;
 import com.vaadin.ui.AbstractComponent;
 import java.util.List;
 
@@ -26,12 +25,12 @@ import java.util.List;
  */
 public class GtnFrameworkReportSearchNotification implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkReportSearchNotification.class);
+    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkReportSearchNotification.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
-        return;
+        gtnLogger.debug("inside GtnFrameworkReportSearchNotification");
     }
 
     @Override

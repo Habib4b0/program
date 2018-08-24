@@ -122,6 +122,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupSearchCriteriaConfig.setComponentName("Search Criteria");
 		privateViewSearchLookupSearchCriteriaConfig.setAddToParent(true);
 		privateViewSearchLookupSearchCriteriaConfig.setComponentWidth("90%");
+		privateViewSearchLookupSearchCriteriaConfig.setComponentHight("50px");
 		privateViewSearchLookupSearchCriteriaConfig.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaPanel");
 		privateViewSearchLookupSearchCriteriaConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -303,7 +304,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		alertAction.addActionParameter("There are no Views that match the search criteria.  Please try again.");
 		privateViewPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 		privateViewPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
-				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE);
+				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_COUNT_SERVICE);
 		privateViewPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE);
 		privateViewPagedTableConfig.setTableColumnDataType(new Class<?>[] {

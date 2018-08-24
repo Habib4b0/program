@@ -82,7 +82,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :" + e);
+            LOGGER.error("Error in getMonthName :", e);
 
         }
         return monthName;
@@ -260,7 +260,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         try {
             QueryUtils.itemUpdate(input, "PI_Inventory_updatePriceOverride");
         } catch (Exception e) {
-            LOGGER.error("Error in updatePriceOverride :" + e);
+            LOGGER.error("Error in updatePriceOverride :", e);
             return false;
         }
         return true;
@@ -310,7 +310,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             }
 
         } catch (Exception ex) {
-            LOGGER.error("Error in getCustomerGroupView :" + ex);
+            LOGGER.error("Error in getCustomerGroupView :" , ex);
         }
         return customerGroupList;
     }
@@ -333,7 +333,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             }
             return customerList;
         } catch (Exception ex) {
-            LOGGER.error("Error in getCustomerView :" + ex);
+            LOGGER.error("Error in getCustomerView :" , ex);
             return customerList;
         }
     }
@@ -346,7 +346,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
 
             HelperTableLocalServiceUtil.executeUpdateQuery(resetQuery.toString());
         } catch (Exception ex) {
-            LOGGER.error("Error in resetCustomerGroupValue :" + ex);
+            LOGGER.error("Error in resetCustomerGroupValue :" , ex);
         }
 
     }

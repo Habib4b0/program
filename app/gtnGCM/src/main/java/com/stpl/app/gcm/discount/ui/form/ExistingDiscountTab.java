@@ -769,7 +769,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         ifpList.add(srcTableBean);
                         ifpListforMap.add(srcTableBean);
                     }
-                } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant()) && treeBean != null) {
+                } else if (treeBean != null && compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
                     List list = logic.cfpDuplicateCheck(srcTableBean, treeBean.getInternalId());
                     if (list.isEmpty()) {
                         if (addToTreeMethod(srcTableBean)) {
@@ -920,7 +920,7 @@ public class ExistingDiscountTab extends CustomComponent {
                     final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanID);
                     for (final Object id : collection) {
                         final ContractsDetailsDto object = getBeanFromID(id);
-                        if (srcTableBean.getInternalId() == object.getModelSysId()) {
+                        if (srcTableBean.getInternalId().equals(object.getModelSysId())) {
                             final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
                             AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                             return false;

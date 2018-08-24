@@ -209,7 +209,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
         try {
             int count = 0;
-            List<Leveldto> levelList = null;
+            List<Leveldto> levelList = new ArrayList<>();
             count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(parentId, projSelDTO, true);
             LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
             addlevelMap(treeLevel, levelMap);
@@ -281,7 +281,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
      */
     private void customizeResult(List<Leveldto> levelList, int count, String treeLevel, int expandLevelNo, boolean flag) {
         LOGGER.debug("Inside customizeResult");
-        int size = levelList != null ? levelList.size() : 0;
+        int size = levelList.size();
         int index = count - size + 1;
         for (int j = 0; j < size; j++) {
             Leveldto levelDto = levelList.get(j);

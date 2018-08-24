@@ -355,7 +355,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        GTNLOGGER.error("Error in removeLineButtonLogic :" + ex);
+                        GTNLOGGER.error("Error in removeLineButtonLogic :" , ex);
                     }
                 }
 
@@ -505,7 +505,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                     logic.resetLineLogic(selection.getTempTableName());
                     detailsTableLogic.loadsetData(true, selection);
                 } catch (Exception ex) {
-                    GTNLOGGER.error("Error in resetLineBtnResLogic :" + ex);
+                    GTNLOGGER.error("Error in resetLineBtnResLogic :" , ex);
                 }
             }
 
@@ -566,7 +566,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             createWorkSheet("Account Configuration", resultsTable);
 
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in exportButtonLogic :" + ex);
+            GTNLOGGER.error("Error in exportButtonLogic :" , ex);
         }
     }
 
@@ -580,7 +580,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             }
             ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in createWorkSheet :" + ex);
+            GTNLOGGER.error("Error in createWorkSheet :" , ex);
         }
     }
 
@@ -597,7 +597,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                 ExcelExportforBB.createFileContent(ARMUtils.getExcelAccountConfigSearchColumns(), searchList, printWriter);
             }
         } catch (Exception e) {
-            GTNLOGGER.error("Error in createWorkSheetContent :" + e);
+            GTNLOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 

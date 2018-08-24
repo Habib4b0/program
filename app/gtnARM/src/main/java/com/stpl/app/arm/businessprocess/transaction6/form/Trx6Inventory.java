@@ -79,7 +79,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
      * priceddlb holds the list of periods
      */
     protected List<String> priceddlb = null;
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Trx6Inventory.class);
 
     public Trx6Inventory(Trx6SelectionDTO selectionDto, int projectionId) {
@@ -210,7 +210,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
                     notifier.setButtonName(CommonConstant.RESET);
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    LOGGER.error("Error in reset :" + e);
+                    LOGGER.error("Error in reset :", e);
                 }
             }
         });
@@ -232,7 +232,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
                     }
 
                 } catch (Exception e) {
-                    LOGGER.error("Error in generate :" + e);
+                    LOGGER.error("Error in generate :", e);
                 }
             }
         });
@@ -331,7 +331,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
             }
             HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
         } catch (Exception e) {
-            LOGGER.error("Error in loadDetails :" + e);
+            LOGGER.error("Error in loadDetails :", e);
         }
     }
 

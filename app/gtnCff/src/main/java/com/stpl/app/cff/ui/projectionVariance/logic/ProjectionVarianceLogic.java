@@ -109,7 +109,6 @@ public class ProjectionVarianceLogic {
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();
-        private List<Integer> pivotPriorProjIdList = new ArrayList<>();
     private List<Object> pivotTotalList = new ArrayList<>();
     private List<Object> pivotDiscountList = new ArrayList<>();
     private int currentProjId;
@@ -1423,7 +1422,6 @@ public class ProjectionVarianceLogic {
         String frequency = pvsdto.getFrequency();
         List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<>();
-        pivotPriorProjIdList = new ArrayList<>();
         if (StringConstantsUtil.QUARTERLY_FREQ.equals(frequency)) {
             frequency = StringConstantsUtil.QUARTERLY_LABEL;
         } else if (StringConstantsUtil.SEMI_ANNUALLY_FREQ.equals(frequency)) {
@@ -1436,7 +1434,6 @@ public class ProjectionVarianceLogic {
         projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
         for (Integer projId : pvsdto.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));
-            pivotPriorProjIdList.add(projId);
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         String salesInclusion = pvsdto.getSessionDTO().getSalesInclusion();
@@ -1495,7 +1492,7 @@ public class ProjectionVarianceLogic {
                     return new ArrayList<>(Arrays.asList(x[2], x[3]));
                 }));
       
-        if (results != null && !results.isEmpty()) {
+        if (!results.isEmpty()) {
           for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
                  List<Object[]> row = entry.getValue();
                  final Object[] obj = row.get(0);
@@ -2672,6 +2669,7 @@ public class ProjectionVarianceLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
@@ -2742,9 +2740,9 @@ public class ProjectionVarianceLogic {
                         String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(period)) - 1);
                         commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
                     }
-                    PVCommonLogic.customizePeriodV2(commonColumn, varibaleCat, pvsdto, pvDTO, format, totalListPostion, actual, proj, isPer);
+                    PVCommonLogic.customizePeriodV2(commonColumn, varibaleCat, pvsdto, pvDTO, format, totalListPostion, actual, proj, isPer,false);
                     for (int j = 0; j < priorList.size(); j++) {
-                        PVCommonLogic.getPriorCommonCustomizationV2(varibaleCat, pvsdto, list, pvDTO, commonColumn, totalListPostion, j, isPer, format);
+                        PVCommonLogic.getPriorCommonCustomizationV2(varibaleCat, pvsdto, list, pvDTO, commonColumn, totalListPostion, j, isPer, format,false);
                     }
                 }
 
@@ -2786,7 +2784,7 @@ public class ProjectionVarianceLogic {
                 proj = list.get(0);
             }
             }else{
-                Integer[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+                Object[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Object[0]);
              if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                 actual = list.get(0);
                 proj = emptyArray;
@@ -2814,10 +2812,10 @@ public class ProjectionVarianceLogic {
                     String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
                     commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
-
-                PVCommonLogic.customizePeriodV2(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, actual,proj, isPer);
+                /*Only for Discount Customization*/
+                PVCommonLogic.customizePeriodDiscountV2(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, actual,proj, isPer);
                 for (int j = 0; j < priorList.size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomizationV2(projSelDTO.getVarIndicator(), projSelDTO, list, pvDTO, commonColumn, index, j, isPer, isPer ? RATE : AMOUNT);
+                    PVCommonLogic.getPriorCommonCustomizationV2(projSelDTO.getVarIndicator(), projSelDTO, list, pvDTO, commonColumn, index, j, isPer, isPer ? RATE : AMOUNT,false);
                 }
                 if (i++ == groupedResult.entrySet().size() - 1) {
                     resultDto.add(pvDTO);
@@ -3081,7 +3079,7 @@ public class ProjectionVarianceLogic {
                     proj = list.get(0);
                 }
             } else {
-                Integer[] arr=Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+                Object[] arr=Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
                 if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                     actual = list.get(0);
                     proj = arr;
@@ -3091,10 +3089,10 @@ public class ProjectionVarianceLogic {
                 }
             }
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
-            PVCommonLogic.customizePeriodV2(variableValue, variableCategory, pvsdto, projDTO, format, index,actual, proj, format.equals(RATE));
+            PVCommonLogic.customizePeriodV2(variableValue, variableCategory, pvsdto, projDTO, format, index,actual, proj, format.equals(RATE),false);
             for (int j = 0; j < priorList.size(); j++) {
                 PVCommonLogic.getPriorCommonCustomizationV2(variableCategory, pvsdto, list, projDTO, variableValue, index, j,
-                        format.equals(RATE), format);
+                        format.equals(RATE), format,false);
             }
 
         } catch (Exception e) {
@@ -3368,7 +3366,7 @@ public class ProjectionVarianceLogic {
             stringBuilder.append("('");
             stringBuilder.append("')");
         }
-        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA));
+        hierarchyForLevel=hierarchyForLevel.substring(0, hierarchyForLevel.lastIndexOf(Constants.COMMA_CHAR));
         sessionDTO.setLevelHierarchyNo(hierarchyForLevel);
         projSelDTO.setSessionDTO(sessionDTO);
         return stringBuilder.toString();
