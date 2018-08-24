@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,14 +16,14 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImplClass {
-	
-	private GtnValidateWsServiceRegistryService(){
+
+	private GtnValidateWsServiceRegistryService() {
 		super();
 		initializeLogger();
 	}
-	
+
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnValidateWsServiceRegistryService.class);
 	}
 
@@ -32,7 +31,7 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		logger.info("Entered into Validating isWebserviceRegistered");
 		GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
-		List<Object[]> resultList = new ArrayList<>();
+		List<Object[]> resultList = null;
 
 		if (singletonObjectBean.getValidateServiceRegistryRegisteredWsResultList() == null
 				|| !isRegisteredWs(serviceRegistryBean,

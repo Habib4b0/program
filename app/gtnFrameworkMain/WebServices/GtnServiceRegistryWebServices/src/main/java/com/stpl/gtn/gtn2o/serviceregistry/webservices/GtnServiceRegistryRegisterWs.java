@@ -21,7 +21,7 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 	}
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnServiceRegistryRegisterWs.class);
 	}
 
@@ -53,7 +53,7 @@ public class GtnServiceRegistryRegisterWs extends GtnCommonWebServiceImplClass {
 		GtnCommonWebServiceImplClass gtnCommonWebServiceImplClass = new GtnServiceRegistryRegisterWs();
 
 		gtnCommonWebServiceImplClass.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
-		
+
 		logger.info("Webservices Registered in Service Registry");
 
 	}
