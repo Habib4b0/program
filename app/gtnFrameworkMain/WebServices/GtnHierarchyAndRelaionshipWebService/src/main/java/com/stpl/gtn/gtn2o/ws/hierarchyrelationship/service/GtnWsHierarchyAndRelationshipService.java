@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,7 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 	@Autowired
 	private GtnWsHierarchyAndRelationshipSqlService gtnWsHierarchyAndRelationshipSqlService;
 
-	GtnFrameworkSingletonObjectBean hierarchyRelationship = GtnFrameworkSingletonObjectBean.getInstance();
+	GtnFrameworkSingletonObjectBean hierarchyRelationshipSingletonObj = GtnFrameworkSingletonObjectBean.getInstance();
 
 	private GtnWsHierarchyAndRelationshipService() {
 		super();
@@ -47,6 +46,8 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		logger.info("Webservice Registered");
 		List<Object[]> resultList = loadHierarchyRelationshipResults();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
+
+		hierarchyRelationshipSingletonObj.setHierarchyMap(hierarchyMap);
 	}
 
 	public void initializeLogger() {
@@ -104,8 +105,6 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 				bean.setHierarchyDefSid(hierachySid);
 				bean.setHighLevel((int) object[1]);
 				bean.setLowestLevel((int) object[2]);
-				bean.setCreatedDate((LocalDate) object[3]);
-				bean.setModifiedDate((LocalDate) object[4]);
 				bean.setLevelName((String) object[5]);
 				bean.setHierarchyVersion((int) object[6]);
 				levelValues = new HashMap<>();
@@ -128,9 +127,10 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		return hierarchyMap;
 	}
 
-	public List<GtnWsHierarchyDefinitionBean> loadHierarchyResults() {
+	public List<GtnWsHierarchyDefinitionBean> loadHierarchyResults(
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		List<GtnWsHierarchyDefinitionBean> hierarchyList = new ArrayList<>();
-		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = hierarchyRelationship.getHierarchyMap();
+		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = hierarchyRelationshipSingletonObj.getHierarchyMap();
 		for (Map.Entry<String, GtnWsHierarchyDefinitionBean> mapEntry : hierarchyMap.entrySet()) {
 			if (mapEntry.getKey().contains("")) {
 

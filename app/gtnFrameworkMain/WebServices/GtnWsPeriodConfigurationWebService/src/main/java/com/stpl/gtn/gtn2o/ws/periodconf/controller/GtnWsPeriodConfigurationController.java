@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.dependency.singleton.bean.GtnFrameworkSingletonObjectBean;
-import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.periodconf.service.GtnWsPeriodConfigurationService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
@@ -49,17 +48,13 @@ public class GtnWsPeriodConfigurationController extends GtnServiceRegistryImplCl
 		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
 		comboBoxResponse.setComboBoxList(singletonObjectBean.getPeriodConfigResultList());
-		logger.info("Returning Resultlist from List" + singletonObjectBean.getPeriodConfigResultList());
+		logger.info("Returning Resultlist from SingletonList from "
+				+ singletonObjectBean.getPeriodConfigResultList().get(0)[1] + "to"
+				+ singletonObjectBean.getPeriodConfigResultList()
+						.get(singletonObjectBean.getPeriodConfigResultList().size() - 1)[1]);
 		gtnUIFrameworkWebserviceResponse.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 
 		return gtnUIFrameworkWebserviceResponse;
-	}
-
-	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
-				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
-				+ url;
-
 	}
 
 	@RequestMapping(value = "/loadRefreshDate", method = RequestMethod.POST)

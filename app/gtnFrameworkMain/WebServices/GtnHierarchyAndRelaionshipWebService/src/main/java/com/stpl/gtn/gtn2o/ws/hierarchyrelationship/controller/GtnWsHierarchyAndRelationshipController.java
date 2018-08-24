@@ -28,7 +28,7 @@ public class GtnWsHierarchyAndRelationshipController {
 	@RequestMapping(value = "/loadHierarchyResults", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest){
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		gtnWsHierarchyRelationshipService.loadHierarchyResults();
+		gtnWsHierarchyRelationshipService.loadHierarchyResults(gtnUIFrameworkWebserviceRequest);
 		return response;
 	}
 }
