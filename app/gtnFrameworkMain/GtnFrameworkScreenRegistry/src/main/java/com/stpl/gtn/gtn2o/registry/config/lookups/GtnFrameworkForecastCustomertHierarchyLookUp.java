@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -19,7 +20,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 
 public class GtnFrameworkForecastCustomertHierarchyLookUp {
 
@@ -348,6 +348,13 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		forecastingCustomHierarchyClosepopup.addActionParameter("customerHierarchyLookup");
 		actionConfigList.add(forecastingCustomHierarchyClosepopup);
 
+		GtnUIFrameWorkActionConfig forecastingCustomerHierarchyRelationshipLoadAction = new GtnUIFrameWorkActionConfig();
+		forecastingCustomerHierarchyRelationshipLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
+		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter("forecastLandingScreen_customerHierarchy");
+		forecastingCustomerHierarchyRelationshipLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+		actionConfigList.add(forecastingCustomerHierarchyRelationshipLoadAction);
+		
 		forecastCustomerHierarchySelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig forecastCustomerHierarchyCancelButton = new GtnUIFrameworkComponentConfig();

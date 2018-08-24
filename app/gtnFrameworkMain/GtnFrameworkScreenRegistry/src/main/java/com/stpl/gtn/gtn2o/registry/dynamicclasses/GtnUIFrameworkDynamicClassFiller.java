@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.registry.dynamicclasses;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
@@ -49,7 +50,8 @@ public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFille
 				new GtnForecastEligibleDateLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnLandingScreenFromAndToPeriodLoadAction.class.getName(),
 				new GtnLandingScreenFromAndToPeriodLoadAction());
-		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerSelectionRelationshipLoadAction.class.getName(),
+				new GtnCustomerSelectionRelationshipLoadAction());
 	}
 
 }
