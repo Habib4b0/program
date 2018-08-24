@@ -289,8 +289,6 @@ public class AlternateSummery extends CustomComponent {
     private final Set<String> tableHirarechyNos = new HashSet<>();
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
     protected boolean isSalesCalculated;
-//    private List<String> checkedList;
-    private Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
 
     @UiField("GridLayoutProjection")
     protected GridLayout GridLayoutProjection;
