@@ -234,8 +234,7 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	private void addAdditionalSearchCriteriaListFromConfig() {
 		if(!tableConfig.getAdditionalSearchCriteriaListValues().isEmpty()){
-		List<String> additionalSearchCriteriaListValues = new ArrayList<>();
-		additionalSearchCriteriaListValues = tableConfig.getAdditionalSearchCriteriaListValues();
+		List<String> additionalSearchCriteriaListValues = tableConfig.getAdditionalSearchCriteriaListValues();
 		List<GtnWebServiceSearchCriteria> webSearchCriteriaList = new ArrayList<>();
 		for (String searchCriteria : additionalSearchCriteriaListValues) {
 			GtnWebServiceSearchCriteria gtnWebSearchCriteria = new GtnWebServiceSearchCriteria();

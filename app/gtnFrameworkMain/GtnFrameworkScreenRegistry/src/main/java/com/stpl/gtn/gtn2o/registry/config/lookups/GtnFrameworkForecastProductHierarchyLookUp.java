@@ -263,7 +263,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				new Object[] { "hierachyName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
 		
 		List<String> additionalSearchCriteria = new ArrayList<>();
-		additionalSearchCriteria.add("ProductHierarchy");
+		additionalSearchCriteria.add("Product Hierarchy");
 		productHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 		
 		productHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS);
