@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
  */
 public class NonFampTableLogic extends PageTreeTableLogic {
 
-    private String hierarchyNo;
     private boolean firstGenerated = false;
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
@@ -97,7 +96,6 @@ public class NonFampTableLogic extends PageTreeTableLogic {
     public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO sessionDTO) {
        
         this.projSelDTO = projSelDTO;
-        this.hierarchyNo = hierarchyNo;
         this.sessionDTO=sessionDTO;
         clearAll();
         firstGenerated = true;

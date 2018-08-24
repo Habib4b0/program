@@ -394,7 +394,7 @@ public class CommonLogic {
     
     public static List<Object[]> getCustomViewDetailsDiscount(int customId) {
         StringBuilder relationShipLevelQry = new StringBuilder();
-        relationShipLevelQry.append("select * from dbo.CUST_VIEW_DETAILS where custom_View_Master_Sid ="+customId+" ORDER BY LEVEL_NO ASC");
+        relationShipLevelQry.append("select * from dbo.CUST_VIEW_DETAILS where custom_View_Master_Sid =").append(customId).append(" ORDER BY LEVEL_NO ASC");
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
         return list;
     }
