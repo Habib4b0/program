@@ -886,7 +886,7 @@ public class MPmpyCalculator extends Window {
         int valuePerLife = 0;
 
         if (isIsSalesOrUnits()) {
-            int tempSalesAmount = Integer.valueOf(String.valueOf(SalesUtils.currencyToValue(salesField.getValue())));
+            int tempSalesAmount = Integer.parseInt(String.valueOf(SalesUtils.currencyToValue(salesField.getValue())));
             int salesAmount = tempSalesAmount;
             if (lives != 0 && salesAmount != 0) {
                 valuePerLife = tempSalesAmount / lives;

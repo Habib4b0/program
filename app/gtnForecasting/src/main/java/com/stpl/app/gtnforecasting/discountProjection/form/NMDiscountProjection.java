@@ -1342,7 +1342,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             if (tempId != null) {
                 DiscountProjectionDTO tempDto = (DiscountProjectionDTO) tempId;
-                tempDto.setUncheckCount(checkClear ? 0 : tempDto.getCcpCount());
+                tempDto.setUncheckCount(checkClear ? Integer.valueOf(0) : tempDto.getCcpCount());
                 ccpsCount = tempDto.getCcpCount();
                 updateChecks(tempId, isPresentInContainer);
             }
