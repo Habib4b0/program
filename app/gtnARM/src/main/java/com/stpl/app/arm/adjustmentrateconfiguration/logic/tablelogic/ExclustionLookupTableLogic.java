@@ -32,7 +32,7 @@ public class ExclustionLookupTableLogic extends PageTableLogic {
             List<Object> count = logic.searchLogicForExclusionLookUp(exRateDTO, true, 0, 0, null, this.getFilters());
             return count.size();
         } catch (Exception ex) {
-            LOGGER.error("Error in getcount :" + ex);
+            LOGGER.error("Error in getcount :" , ex);
             return 0;
         }
     }
@@ -46,7 +46,7 @@ public class ExclustionLookupTableLogic extends PageTableLogic {
                 return Collections.emptyList();
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData :" + ex);
+            LOGGER.error("Error in loadData :" , ex);
             return Collections.emptyList();
         }
     }

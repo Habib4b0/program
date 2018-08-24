@@ -174,7 +174,7 @@ public class SaveViewLookUp extends Window {
             logic.saveProductHierarchyLogic(dataSelectionDTO.getProductList(), dataSelectionDTO.getProductEndLevelList(), projectionIdValue, null, ARMUtils.SAVE);
             logic.saveDeductionLogic(new HashSet(dataSelectionDTO.getRsContractSidList()), projectionIdValue);
         } catch (Exception ex) {
-            LOGGER.error("Error in Save Selection View " + projectionIdValue + ex);
+            LOGGER.error("Error in Save Selection View " + projectionIdValue , ex);
         }
     }
     private Property.ValueChangeListener valueChange = new Property.ValueChangeListener() {

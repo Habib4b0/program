@@ -47,7 +47,7 @@ public class ReserveSearchTableLogic extends PageTableLogic {
         try {
             return logic.getSearchResults(binderDto, start, offset, getFilters(), getSortByColumns());
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData :" + ex);
+            LOGGER.error("Error in loadData :" , ex);
         }
         return Collections.emptyList();
     }

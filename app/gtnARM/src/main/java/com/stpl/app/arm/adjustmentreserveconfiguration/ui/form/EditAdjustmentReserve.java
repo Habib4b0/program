@@ -70,7 +70,7 @@ public class EditAdjustmentReserve extends AbstractReserve {
             }
             detailsTableLogic.loadsetData(true, selection);
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in configureTabAddLineLogic :" + ex);
+            LOGGER.error("Error in configureTabAddLineLogic :" , ex);
         }
     }
 

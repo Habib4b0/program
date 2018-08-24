@@ -52,7 +52,7 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
             getExcelTable().setDoubleHeaderMap((Map) header.get(5));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGER.error("Error in setExcelVisibleColumn :" + ex);
+            LOGGER.error("Error in setExcelVisibleColumn :" , ex);
         }
     }
 
