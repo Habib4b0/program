@@ -281,7 +281,6 @@ public class NewDiscountTab extends CustomComponent {
     private List<HelperDTO> itemStatusList = new ArrayList<>();
     private List<HelperDTO> priceTypeList = new ArrayList<>();
     private String selectedComponenttype = StringUtils.EMPTY;
-    private final List<String> newlyAddedRebates = new ArrayList<>();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final StplSecurity stplSecurity = new StplSecurity();
     private final List<ContractsDetailsDto> cfpList = new ArrayList<>();
@@ -1581,7 +1580,6 @@ public class NewDiscountTab extends CustomComponent {
                     }
                 }
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), psListforMap);
-                newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
                 setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean, true);
                 returnFlag = true;
             }
@@ -1614,7 +1612,6 @@ public class NewDiscountTab extends CustomComponent {
                     }
                 }
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
-                newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
                 setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean, false);
                 returnFlag = true;
             }
@@ -1646,7 +1643,6 @@ public class NewDiscountTab extends CustomComponent {
                     }
                 }
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
-                newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
                 setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId, false);
                 returnFlag = true;
             }
@@ -1667,7 +1663,6 @@ public class NewDiscountTab extends CustomComponent {
             if ("IFP".equals(srcTableBean.getCategory())) {
                 saveTreeDto.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), ifpListforMap);
             }
-            newlyAddedRebates.add(srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber());
             setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId, true);
             returnFlag = true;
         }
