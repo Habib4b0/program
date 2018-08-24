@@ -19,6 +19,10 @@ public class GtnWsHierarchyDefinitionBean {
 	private Map<Integer, String> hierarchyLevelValues;
 	private Map<Integer, List<GtnWsRelationshipBuilderBean>> relationBean;
 
+	public GtnWsHierarchyDefinitionBean() {
+		super();
+	}
+
 	public String getHierarchyName() {
 		return hierarchyName;
 	}
@@ -114,5 +118,5 @@ public class GtnWsHierarchyDefinitionBean {
 	public void setModifiedDate(LocalDate modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-	
+
 }

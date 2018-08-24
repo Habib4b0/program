@@ -4,6 +4,10 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnServiceRegistryWSResponse {
 
+	public GtnServiceRegistryWSResponse() {
+		super();
+	}
+
 	private GtnWsServiceRegistryBean gtnWsServiceRegistryBean;
 
 	public GtnWsServiceRegistryBean getGtnWsServiceRegistryBean() {
@@ -13,5 +17,5 @@ public class GtnServiceRegistryWSResponse {
 	public void setGtnWsServiceRegistryBean(GtnWsServiceRegistryBean gtnWsServiceRegistryBean) {
 		this.gtnWsServiceRegistryBean = gtnWsServiceRegistryBean;
 	}
-	
+
 }
