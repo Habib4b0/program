@@ -190,7 +190,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error("Error in itemClick :" + ex);
+                            LOGGER.error("Error in itemClick :" , ex);
                         }
                     }
                 } else {
@@ -262,7 +262,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                     binder.commit();
                     modeDdlb.select(ARMConstants.getAddMode());
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" + ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
                 }
             }
 
@@ -308,7 +308,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error("Error in itemClick :" + ex);
+                            LOGGER.error("Error in itemClick :" , ex);
                         }
                     }
                 }
@@ -503,7 +503,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         resultsTable.setRefresh(true);
 
                     } catch (Exception ex) {
-                        LOGGER.error("Error in saveBtnResLogic :" + ex);
+                        LOGGER.error("Error in saveBtnResLogic :" , ex);
                     }
 
                 }
@@ -614,7 +614,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ADJUSTMENT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, fieldLayout, functionHMforFields, CommonSecurityLogic.SEARCH);
         } catch (Exception ex) {
-            LOGGER.error("Error in configureFieldPermission :" + ex);
+            LOGGER.error("Error in configureFieldPermission :" , ex);
         }
         LOGGER.debug("Ending configurePermission");
     }
