@@ -141,7 +141,7 @@ public class ViewSearchLookUp extends Window {
                 close();
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in selectButtonLogic" + ex);
+            LOGGER.error("Error in selectButtonLogic" , ex);
         }
 
     }

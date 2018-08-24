@@ -147,7 +147,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
             countRes = (result != null && !result.isEmpty()) ? result.get(0) : 0;
             LOGGERTRX7.debug("Exit getSalesCount--" + countRes);
         } catch (Exception ex) {
-            LOGGERTRX7.error("Error in getSalesCount :" + ex);
+            LOGGERTRX7.error("Error in getSalesCount :" , ex);
         }
         return countRes;
     }

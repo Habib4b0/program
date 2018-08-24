@@ -91,7 +91,7 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 LOGGER.debug("--Exit getReserveAccountDetails --" + finalList.size());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getReserveAccountDetails :" + ex);
+            LOGGER.error("Error in getReserveAccountDetails :" , ex);
         }
         return finalList;
     }

@@ -73,7 +73,7 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         try {
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in getBinder : " + ex);
+            LOGGER.error("Error in getBinder : " , ex);
         }
         return binder;
     }

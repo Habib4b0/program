@@ -93,7 +93,7 @@ public class FileUploader implements Upload.Receiver {
             LOGGER.error("Error in receiveUpload :", e);
             return NULL_OUTPUT_STREAM;
         } catch (Exception ex) {
-            LOGGER.error("Error in receiveUpload :" + ex);
+            LOGGER.error("Error in receiveUpload :" , ex);
             return NULL_OUTPUT_STREAM;
         }
         LOGGER.debug("End of receiveUpload method");

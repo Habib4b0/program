@@ -216,7 +216,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             excelBtnRes.setPrimaryStyleName("link");
             excelBtnRes.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
         } catch (Exception ex) {
-            LOGGER.error("Error in configureFields :" + ex);
+            LOGGER.error("Error in configureFields :" , ex);
         }
     }
 
@@ -415,7 +415,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                         adjustReserveConfigTableLogic.loadsetData(true, binderDto);
                         AbstractNotificationUtils.getInfoNotification("Delete Successful", ARMMessages.getSuccessful_msg_001());
                     } catch (Exception ex) {
-                        LOGGER.error("Error in deleteButtonLogic :" + ex);
+                        LOGGER.error("Error in deleteButtonLogic :" , ex);
                     }
                 }
 

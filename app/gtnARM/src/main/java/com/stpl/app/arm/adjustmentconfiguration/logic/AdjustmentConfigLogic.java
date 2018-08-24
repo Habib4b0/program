@@ -53,7 +53,7 @@ public class AdjustmentConfigLogic {
         try {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
-            LOGGER.error("Error in getFieldsForSecurity :" + ex);
+            LOGGER.error("Error in getFieldsForSecurity :" , ex);
         }
         return resultList;
     }
