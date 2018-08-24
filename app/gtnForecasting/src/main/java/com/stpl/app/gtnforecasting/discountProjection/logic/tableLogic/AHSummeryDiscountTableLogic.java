@@ -85,7 +85,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
         this.hierarchyIndicator = hierarchyIndicator;
-        this.currentHierarchy = currentHierarchy == null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
+        this.currentHierarchy = currentHierarchy != null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
         this.isParent = isParent;
         this.startAndEndPeriods = startAndEndPeriods == null ? startAndEndPeriods : new ArrayList<>(startAndEndPeriods);
         this.customId = customId;
@@ -476,7 +476,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             for (int j = 0; j < size; j++) {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) (list.get(j));
                 String customTreeLevel = treeLevel + (index + j) + ".";
-                boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter() && Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))||Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
+                boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter())||Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
                 if(!checkFlag){
                     addExpandedTreeList(customTreeLevel, dto);
                     recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
@@ -497,7 +497,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
         DiscountProjectionDTO dto = (DiscountProjectionDTO) object;
         ((ExtTreeContainer<DiscountProjectionDTO>) datasource).addBean(dto);
-        boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter() && Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))||Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
+        boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter()) ||Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
         if (checkFlag) {
             ((ExtTreeContainer<DiscountProjectionDTO>) datasource).setChildrenAllowed(dto, false);
         } else {

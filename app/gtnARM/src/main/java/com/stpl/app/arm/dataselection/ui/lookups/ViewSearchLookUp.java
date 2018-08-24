@@ -62,7 +62,7 @@ public class ViewSearchLookUp extends Window {
     private VerticalLayout resultsTableLayout;
     @UiField("viewLayout")
     private HorizontalLayout viewLayout;
-    
+
     private OptionGroup viewTypeOptionGroup = new OptionGroup();
 
     private PrivatePublicViewtableLogic tableLogic = new PrivatePublicViewtableLogic();

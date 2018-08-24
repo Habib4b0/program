@@ -384,7 +384,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		customViewPopupAction.addActionParameter("dataSelection".equals(currentScreenNameSpace)
 				? GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS
 				: "reportCustomViewLookup");
-		customViewPopupAction.addActionParameter("Custom Tree View Popup");
+		customViewPopupAction.addActionParameter("Custom Tree View pop-up");
 		customViewPopupAction.addActionParameter("75%");
 		customViewPopupAction.addActionParameter(null);
 		actionConfigList.add(customViewPopupAction);

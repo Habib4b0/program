@@ -217,7 +217,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
 
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGERFORSUMMAEYTAB.error("Error in generateButtonCheck :" + e);
+            LOGGERFORSUMMAEYTAB.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
 

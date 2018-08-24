@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -705,14 +704,14 @@ public class PRExcelLogic {
 
     private Map<String, String> getGroupCustomViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
+      
         Map<String, String> customViewMap = new HashMap<>();
-        Set keys = relationshipLevelDetailsMap.keySet();
-
-        for (Iterator i = keys.iterator(); i.hasNext();) {
-            String key = (String) i.next();
-            String value = (String) relationshipLevelDetailsMap.get(key).get(0).toString();
+        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+            String key = entry.getKey();
+            String value = (String) entry.getValue().get(0).toString();
             customViewMap.put(key, value);
         }
+       
         return customViewMap;
     }
      private void customizeDiscountPeriod(){

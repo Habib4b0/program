@@ -1562,7 +1562,7 @@ public class FileManagementLogic {
 		} else {
 			resultsList = null;
 		}
-		if (!isCount && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
+		if (!isCount && resultsList != null && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
 			for (int i = 0; i < resultsList.size(); i++) {
 				final Object[] obj = (Object[]) resultsList.get(i);
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();

@@ -4,13 +4,28 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Future;
+
+import javax.naming.NamingException;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.additionalinformation.form.AdditionalInformationForm;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.view.DataSelectionView;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
 import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -36,18 +51,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import javax.naming.NamingException;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class NationalAssumptionsForm.
@@ -67,7 +70,6 @@ public class NationalAssumptionsForm extends CustomComponent {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptionsForm.class);
     
-
     /**
      * The tabSheet.
      */
@@ -156,7 +158,6 @@ public class NationalAssumptionsForm extends CustomComponent {
      */
     private int tempTabPosition = 0;
     private final SessionDTO sessionDTO;
-    private final ExecutorService service = ThreadPool.getInstance().getService();
     
     private boolean isDataSelectionupdateforFcp;
     private boolean isDataSelectionupdatedforMedicaid;
@@ -692,12 +693,16 @@ public class NationalAssumptionsForm extends CustomComponent {
         nextBtn.setTabIndex(index + NumericConstants.THREE);
         closeBtn.setTabIndex(index + NumericConstants.FOUR);
     }
+
         private void callFileInsertProcedure() {
-            LOGGER.info("sessionDTO.getProjectionId() = {}" , sessionDTO.getProjectionId());
-            LOGGER.info("sessionDTO.getUserId() = {} " , sessionDTO.getUserId());
-            LOGGER.info("sessionDTO.getSessionId() = {} " , sessionDTO.getSessionId());
-            sessionDTO.addFutureMap(Constant.NA_FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NA_WAC_DATA, sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(),NATIONAL_ASSUMPTIONS.getConstant(),sessionDTO))
-        });
+		LOGGER.info("sessionDTO.getProjectionId() = {}", sessionDTO.getProjectionId());
+		LOGGER.info("sessionDTO.getUserId() = {} ", sessionDTO.getUserId());
+		LOGGER.info("sessionDTO.getSessionId() = {} ", sessionDTO.getSessionId());
+		ThreadPool service = ThreadPool.getInstance();
+		sessionDTO.addFutureMap(Constant.NA_FILE_INSERT,
+				new Future[] { service.submitRunnable(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+						SalesUtils.PRC_NA_WAC_DATA, sessionDTO.getProjectionId(), sessionDTO.getUserId(),
+						sessionDTO.getSessionId(), NATIONAL_ASSUMPTIONS.getConstant(), sessionDTO)) });
 }
 
 }

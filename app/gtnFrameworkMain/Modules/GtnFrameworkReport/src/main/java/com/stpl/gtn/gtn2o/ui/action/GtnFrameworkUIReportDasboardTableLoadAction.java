@@ -105,6 +105,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.setCustomViewMasterSid(grid.getTableConfig().getGtnReportDataRefreshBean().getCustomViewMasterSid());
 		dashBoardBean.setComparisonProjectionBeanList(
 				grid.getTableConfig().getGtnReportDataRefreshBean().getComparisonProjectionBeanList());
+		dashBoardBean.setSelectFreqString(grid.getTableConfig().getGtnReportDataRefreshBean().getFrequencyName());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}
@@ -117,7 +118,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
 				GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 				GtnWsReportBean reportBean = new GtnWsReportBean();
-				reportBean.setDataSelectionBean(dataSelectionBean);
+				reportBean.setDataSelectionBean(getDataSelectionBeanCopy(dataSelectionBean, tableConfig));
 				reportRequest.setReportBean(reportBean);
 				serviceRequest.setGtnWsReportRequest(reportRequest);
 				wsclient.callGtnWebServiceUrl(
@@ -130,6 +131,16 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error(e.getErrorMessage(), e);
 		}
+	}
+
+	private GtnWsReportDataSelectionBean getDataSelectionBeanCopy(GtnWsReportDataSelectionBean dataSelectionBean,
+			GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+		GtnWsReportDataSelectionBean reportDataSelectionBeanCopy = dataSelectionBean.reportDataSelectionBeanCopy();
+		GtnReportDataRefreshBean refreshBean = tableConfig.getGtnReportDataRefreshBean();
+		reportDataSelectionBeanCopy.setCustomViewMasterSid(refreshBean.getCustomViewMasterSid());
+		reportDataSelectionBeanCopy.setComparisonProjectionBeanList(refreshBean.getComparisonProjectionBeanList());
+		reportDataSelectionBeanCopy.setFrequencyName(refreshBean.getFrequencyName());
+		return reportDataSelectionBeanCopy;
 	}
 
 	private boolean checkDataRefreshCondition(GtnWsReportDataSelectionBean dataSelectionBean,

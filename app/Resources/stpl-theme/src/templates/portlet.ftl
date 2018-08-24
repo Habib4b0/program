@@ -5,6 +5,7 @@
 <#assign portlet_id = htmlUtil.escapeAttribute(portlet_display.getId()) />
 <#assign portlet_title = htmlUtil.escape(portlet_display.getTitle()) />
 <#assign portlet_toolbar = portlet_display.getPortletToolbar() />
+<#assign is_signed_in = themeDisplay.isSignedIn() />
 
 <section class="portlet" id="portlet_${portlet_id}">
 	<header class="portlet-topper">
@@ -25,9 +26,17 @@
 			</#if>
 		</menu>
 	</header>
+<#assign portlet_css_class = "" />
+<#if is_signed_in>
+	<#assign portlet_css_class = "portlet-content" />
+</#if>
 
-	<div class="portlet-content">
-		<h2 class="portlet-title-text">${portlet_title}</h2>
+	<div class="${portlet_css_class}">
+
+	<#if is_signed_in>
+	 <h2 class="portlet-title-text">${portlet_title}</h2>  
+</#if>
+		
 
 		${portlet_display.writeContent(writer)}
 	</div>

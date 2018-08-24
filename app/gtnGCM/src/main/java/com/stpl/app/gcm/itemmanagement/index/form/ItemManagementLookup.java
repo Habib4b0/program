@@ -698,7 +698,7 @@ public class ItemManagementLookup extends CustomWindow {
                         input.add(AbstractLogic.getItemIds(itemList));
                         ItemQueries.itemUpdate(input, "Insert Contract For Search1");
                     }
-                    notify();
+                    notifyAll();
                 }
             }
         };
@@ -716,6 +716,7 @@ public class ItemManagementLookup extends CustomWindow {
                         saveThread.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                         Thread.currentThread().interrupt();
                     }
                 }
             }

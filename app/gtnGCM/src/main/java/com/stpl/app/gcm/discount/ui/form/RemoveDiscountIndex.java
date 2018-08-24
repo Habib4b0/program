@@ -301,8 +301,9 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                             boolean isCheck = ((CheckBox) event.getComponent()).getValue();
                             RemoveDiscountDto dto = (RemoveDiscountDto) itemId;
                             dto.setCheckRecord(isCheck);
+                            Object value=dto.getContractSid();
                             List<Object> list = getCheckedRecord(dto);
-                            if (list.isEmpty() || !list.contains(dto.getContractSid())) {
+                            if (list.isEmpty() || !list.contains(value)) {
                                 insertIntoTable(dto);
                             }
                             updateTable(dto);

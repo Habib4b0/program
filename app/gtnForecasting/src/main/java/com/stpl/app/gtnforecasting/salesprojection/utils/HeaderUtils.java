@@ -439,8 +439,8 @@ public class HeaderUtils {
         projSelDTO.setColumns(columnList);
         
         List massPopulateList = new ArrayList();
-        for (Object object : massPopulateList) {
-            massPopulateList.add(object);
+        for (Object obj : massPopulateList) {
+            massPopulateList.add(obj);
         }
         projSelDTO.setProjectedList(massPopulateList);
             } catch (NumberFormatException e) {

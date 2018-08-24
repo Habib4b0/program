@@ -80,7 +80,7 @@ public class PipelineInventoryLookupLogic {
             }
             LOGGER.debug("Exit getCustomisedConGroupDto ");
         } catch (Exception e) {
-            LOGGER.error("Error in getCustomisedConGroupDto :" + e);
+            LOGGER.error("Error in getCustomisedConGroupDto :", e);
         }
     }
 
@@ -325,7 +325,7 @@ public class PipelineInventoryLookupLogic {
             }
             return dtoList;
         } catch (Exception e) {
-            LOGGER.error("Error in getARCSavedPublicViewList :" + e);
+            LOGGER.error("Error in getARCSavedPublicViewList :", e);
             return dtoList;
         }
 
