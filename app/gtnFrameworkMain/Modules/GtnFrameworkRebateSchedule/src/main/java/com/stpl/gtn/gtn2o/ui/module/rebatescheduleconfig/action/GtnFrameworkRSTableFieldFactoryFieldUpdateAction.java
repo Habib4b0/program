@@ -262,8 +262,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 			int sysId = Integer.parseInt(String.valueOf(newValue));
 			String name;
 			String tempProperty;
-			if (propertyId.endsWith("RuleName")) {
-				name = dto.getPropertyValue(GtnFrameworkCommonConstants.RULE_NAME).toString();
+			if (propertyId.endsWith("RuleName") || propertyId.equals(GtnFrameworkCommonConstants.FORMULA_NAME)) {
 				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
@@ -280,18 +279,12 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 			} else if ("formulaNo".equals(propertyId)) {
 				CustomTextField txtField = (CustomTextField) GtnUIFrameworkGlobalUI
 						.getVaadinComponent(GtnFrameworkCommonConstants.FORMULA_NAME);
-				name = dto.getPropertyValue("formulaNo").toString();
 				String formulaName = dto.getPropertyValue(GtnFrameworkCommonConstants.FORMULA_NAME).toString();
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
 				txtField.setValue(formulaName);
-			} else if (propertyId.equals(GtnFrameworkCommonConstants.FORMULA_NAME)) {
-				name = dto.getPropertyValue(GtnFrameworkCommonConstants.FORMULA_NAME).toString();
-				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
-				updateField(tempProperty, sysId, Integer
-						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
-			}
+			} 
                         else if (GtnFrameworkCommonConstants.DEDUCTION_NO_CAL.equals(propertyId)) {
 				name = dto.getPropertyValue(GtnFrameworkCommonConstants.DEDUCTION_NO_CAL).toString();
 				String rpname = dto.getPropertyValue(GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO).toString();

@@ -72,7 +72,7 @@ public class DeductionDetailsLogic {
         LOGGER.debug("Inside getDeductionDetailsCount");
         try {
             int count = 0;
-            if (getParent != null && getParent instanceof TableDTO) {
+            if (getParent instanceof TableDTO) {
                 tableDTO = (TableDTO) getParent;
                 deductionDTO.setLevelNo(tableDTO.getLevelNo() + 1);
             } else {
@@ -104,7 +104,7 @@ public class DeductionDetailsLogic {
      */
     public List<TableDTO> getDeductionDetailsData(Object getParent, DeductionDetailsDTO deductionDTO, TableDTO tableDTO, int start, int offset,SessionDTO sessionDTO) {
         LOGGER.debug("Inside getDeductionDetailsData ");
-        if (getParent != null && getParent instanceof TableDTO) {
+        if (getParent instanceof TableDTO) {
             tableDTO = (TableDTO) getParent;
             deductionDTO.setLevelNo(tableDTO.getLevelNo() + 1);
         } else {
@@ -343,7 +343,7 @@ public class DeductionDetailsLogic {
      * @return
      */
     public int getItemCount(String value,SessionDTO sessionDTO) {
-        Object[] obj = value.split("~");
+        String[] obj = value.split("~");
         String query = queryUtils.getItemCount(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])), Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])));
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         return  (list == null || list.isEmpty()) ? 0 : Integer.parseInt(String.valueOf(list.get(0)));
@@ -358,7 +358,7 @@ public class DeductionDetailsLogic {
      */
     public void updateTempTable(DeductionDetailsDTO deductionDTO, String value, String getData, TableDTO dto,SessionDTO sessionDTO) {
         try {
-            Object[] obj = getData.split("~");
+            String[] obj = getData.split("~");
             String query = StringUtils.EMPTY;
             if (deductionDTO.getDataView().equals(ConstantsUtils.CUSTOMER)) {
                 query = queryUtils.getLineUpdateQueryForCustomer(deductionDTO, value, obj,dto);

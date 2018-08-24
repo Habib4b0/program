@@ -802,6 +802,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 Object itemId = customSid;
                 if (customIdToSelect == customSid) {
                     select = itemId;
+                    break;
                 }
                 viewDdlb.addItem(itemId);
                 viewDdlb.setItemCaption(itemId, obj.getViewName());
@@ -1062,7 +1063,7 @@ public class AltSummeryDiscount extends CustomComponent {
      */
     public void generateListView(boolean isGenerate) {
         LOGGER.debug("Inside generateListView ");
-        List<String> discountToBeLoaded;
+        List<String> discountToBeLoaded =  new ArrayList<>();
 
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;
@@ -1070,7 +1071,7 @@ public class AltSummeryDiscount extends CustomComponent {
             discountToBeLoaded = discountProgramsList;
         }
         discountToBeLoaded.add(Constant.REBATE_SCHEDULE_ID_15);
-        if (discountToBeLoaded == null || discountToBeLoaded.isEmpty()) {
+        if (discountToBeLoaded.isEmpty()) {
             NotificationUtils.getErrorNotification("No Discounts selected", "Please select some discounts from program selection lookup");
         } else if (frequencyDdlb.getValue() == null || frequencyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
             NotificationUtils.getErrorNotification("No Frequency selected", "Please select any frequency");
@@ -1434,10 +1435,10 @@ public class AltSummeryDiscount extends CustomComponent {
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkedDoubleHeaders.keySet()) {
-                List a = checkedDoubleHeaders.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
+                List a = entry.getValue();
                 if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;

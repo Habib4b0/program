@@ -59,6 +59,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -345,6 +346,7 @@ public class NationalAssumptionLogic {
                     }
                 }
                 if (StringUtils.isNotBlank(queryBuilder.toString())) {
+                	
                     commonDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), session.getCurrentTableNames()));
                 }
             } catch (PortalException | SystemException | NumberFormatException e) {
@@ -519,7 +521,7 @@ public class NationalAssumptionLogic {
     public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException, SystemException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
-        List<Object[]> qualifierList;
+        List<Long> qualifierList;
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
 
@@ -576,7 +578,7 @@ public class NationalAssumptionLogic {
         if (brandSid.length != 0) {
             brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
         }
-
+        
         qualifierList = DAO.getBrandList(brandQuery);
         HelperDTO dto;
         if (start == 0) {
@@ -708,7 +710,7 @@ public class NationalAssumptionLogic {
             ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
             ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
         }
-
+        
         qualifierList = DAO.getItemMaster(ndcQuery);
         count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
 
@@ -753,7 +755,7 @@ public class NationalAssumptionLogic {
             ndcQuery.setProjection(projectionList);
             ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
             ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
-
+            
             qualifierList = DAO.getItemList(ndcQuery);
             boolean wsflag = true;
             HelperDTO dto;
@@ -847,7 +849,7 @@ public class NationalAssumptionLogic {
         } else {
             dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("ndc9"));
         }
-
+        
         return dynamicQuery;
     }
 
@@ -930,7 +932,7 @@ public class NationalAssumptionLogic {
             ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
             ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
         }
-
+        
         qualifierList = DAO.getItemMaster(ndcQuery);
         count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
         return count;
@@ -1050,7 +1052,6 @@ public class NationalAssumptionLogic {
         } else {
             dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("ndc9"));
         }
-
         return dynamicQuery;
     }
 
@@ -1072,6 +1073,7 @@ public class NationalAssumptionLogic {
                         + " AND PRICE_TYPE = '" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
                         + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'";
 
+                
                 commonDAO.executeBulkUpdateQuery(customSql);
             }
 
@@ -1125,7 +1127,7 @@ public class NationalAssumptionLogic {
 
         try {
             String customSql = "DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
-
+            
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -1134,6 +1136,7 @@ public class NationalAssumptionLogic {
 
     public List listCount(String ndc9, SessionDTO session) {
         String customSql = "Select *  FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
+        
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         return list;
     }
@@ -1143,7 +1146,7 @@ public class NationalAssumptionLogic {
         try {
 
             String customSql = "DELETE FROM dbo.ST_FEDERAL_NEW_NDC WHERE ITEM_MASTER_SID = " + itemMasterSid;
-
+            
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         } catch (PortalException | SystemException ex) {
@@ -1153,6 +1156,7 @@ public class NationalAssumptionLogic {
 
     public List federalListCount(int itemMasterSid, SessionDTO session) {
         String customSql = "DELETE FROM dbo.ST_FEDERAL_NEW_NDC WHERE ITEM_MASTER_SID = " + itemMasterSid;
+        
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         return list;
     }
@@ -1199,13 +1203,13 @@ public class NationalAssumptionLogic {
         input.put("?IMID", itemId);
         String customSql = SQlUtil.getQuery(getClass(),"getFederalNdcDesc");
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         if (!input.isEmpty()) {
             input.clear();
         }
-
+        
         federalList = (List) commonDAO.executeSelectQuery(customSql);
 
         return federalList;
@@ -1218,13 +1222,14 @@ public class NationalAssumptionLogic {
         input.put("?PID", projectionId);
         String customSql = SQlUtil.getQuery(getClass(),"getNewNdcCount");
 
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> key : input.entrySet()) {
+            customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
         }
         if (!input.isEmpty()) {
             input.clear();
 
         }
+        
         federalList = (List) commonDAO.executeSelectQuery(customSql);
 
         return federalList.size();
@@ -1282,6 +1287,7 @@ public class NationalAssumptionLogic {
                     + " WHERE ITEM_MASTER_SID = " + newNdcDTO.getItemMasterSid();
 
         }
+        
         commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
@@ -1322,7 +1328,7 @@ public class NationalAssumptionLogic {
                     + " WHERE NDC9 = '" + newNdcDTO.getNdc9() + "'";
 
         }
-
+        
         commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
@@ -1348,6 +1354,7 @@ public class NationalAssumptionLogic {
     public boolean isAFSSPriceTypeAvailable(String projectionId) {
         try {
             String sql = SQlUtil.getQuery("isAFSS_PriceType_Available").replace("?", projectionId);
+            
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
             int count = getCount(resultsList);
             return count == 0 ? Boolean.TRUE : Boolean.FALSE;

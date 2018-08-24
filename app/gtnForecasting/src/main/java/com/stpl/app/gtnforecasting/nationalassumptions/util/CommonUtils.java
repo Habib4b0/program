@@ -110,7 +110,7 @@ public class CommonUtils {
     private static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String TWENTYNINEPX = "29px";
-
+    private static final String[] MONTH_ARRAY = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     
     /**
      * Creates the clara.
@@ -308,7 +308,7 @@ public class CommonUtils {
             List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
             int companyTypeId = 0;
             if (!companyTypeIds.isEmpty()) {
-                companyTypeId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
+                companyTypeId = Integer.parseInt(Arrays.toString(companyTypeIds.get(0)));
             }
         DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 
@@ -336,24 +336,9 @@ public class CommonUtils {
         }
         return results;
     }
-  /**
-     * To check whether the given string is integer or not
-     *
-     * @param s
-     * @return
-     */
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-}
-        return true;
-    }
 
     public static int getIntegerForMonth(String month) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return Arrays.asList(array).indexOf(month) + 1;
+        return Arrays.asList(MONTH_ARRAY).indexOf(month) + 1;
     }
     
      public static String[] objectListToStringArray(List<Object> objectList) {
@@ -439,7 +424,7 @@ public class CommonUtils {
             }
             
             if(toRemoveSpace){
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -522,8 +507,8 @@ public class CommonUtils {
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             String formattedUN= user.getLastName()+", "+user.getFirstName();
-            getUserMap().put(Long.valueOf(user.getUserId()).intValue(),formattedUN);
-            userIdMap.put(formattedUN,Long.valueOf(user.getUserId()).intValue());
+            getUserMap().put(Integer.valueOf(String.valueOf(user.getUserId())),formattedUN);
+            userIdMap.put(formattedUN,Integer.valueOf(String.valueOf(user.getUserId())));
         }
         LOGGER.debug("End of getUserName method");
         return getUserMap();
@@ -701,4 +686,8 @@ public class CommonUtils {
 	public static void setUserMap(Map<Integer,String> userMap) {
 		CommonUtils.userMap = userMap;
 	}
+        
+      public static int compareDoubleValues(String value) {
+        return Double.compare(Double.parseDouble(value), 0.0);
+    }
 }

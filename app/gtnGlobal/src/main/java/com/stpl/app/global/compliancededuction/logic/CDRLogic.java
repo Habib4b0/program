@@ -57,9 +57,8 @@ public class CDRLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(CDRLogic.class);
     private static final ResourceBundle CONSTANT_PROPERTIES = ResourceBundle.getBundle("properties.constants");
     private static final HashMap<String, String> CRITERIA = new HashMap<String, String>();
-    public final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
-    public static final SimpleDateFormat COMMON_DATE = new SimpleDateFormat("MM-dd-yyy");
     private final StplSecurityDAO securityDto = new StplSecurityDAOImpl();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Gets the CDR Count for search.
@@ -170,14 +169,16 @@ public class CDRLogic {
         if (CRITERIA.isEmpty()) {
             loadCriteriaInMap();
         }
-        Set<String> keys = CRITERIA.keySet();
-        for (String fields : keys) {
+        Set<Map.Entry<String, String>> keys = CRITERIA.entrySet();
+        for (Map.Entry<String, String> entry : keys) {
+            String fields = entry.getKey();
+            String value = entry.getValue();
 
             if ((ConstantsUtils.COMBO1.equals(fields) || ConstantsUtils.COMBO6.equals(fields)) && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString())) {
-                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append('\'');
+                queryBuilder.append(ConstantsUtils.AND).append(value).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append('\'');
 
             } else if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append('\'');
+                queryBuilder.append(ConstantsUtils.AND).append(value).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append('\'');
             }
         }
         queryBuilder = new StringBuilder(queryBuilder.toString().replace("WHERE AND", " WHERE "));
@@ -238,7 +239,6 @@ public class CDRLogic {
     private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         Map<Integer, String> userMap = StplSecurity.getUsermap();
         if (filterSet != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
@@ -287,7 +287,7 @@ public class CDRLogic {
                 StringBuilder detailsQuery = new StringBuilder();
                 for (CDRDto object : (List<CDRDto>) beanObj) {
                     if (object.getCdrDetailsSid() == 0) {
-                        String value = (StringUtils.EMPTY.equals(object.getValueText()) || ConstantsUtils.NULL.equals(object.getValueText())) ? ConstantsUtils.ZERO : object.getValueText().replace(ConstantsUtils.COMMA, StringUtils.EMPTY).replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).trim();
+                        String value = (StringUtils.EMPTY.equals(object.getValueText()) || ConstantsUtils.NULL.equals(object.getValueText())) ? ConstantsUtils.ZERO : object.getValueText().replace(String.valueOf(ConstantsUtils.COMMA), StringUtils.EMPTY).replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).trim();
                         detailsQuery.append(", ( ").append(sessionDTO.getSystemId())
                                 .append(',').
                                 append('\'').append(object.getLineTypeDdlb().getId()).append('\'').append(',').
@@ -297,9 +297,9 @@ public class CDRLogic {
                                 append('\'').append(value).append('\'').append(',').
                                 append('\'').append(object.getComparisonDdlb() != null ? object.getComparisonDdlb().getId() : 0).append('\'').append(',')
                                 .append('\'').append(object.getLogicalOperatorDdlb() != null ? object.getLogicalOperatorDdlb().getId() : 0).append('\'').append(',')
-                                .append('\'').append(DB_DATE.format(new Date())).append('\'').append(',')
+                                .append('\'').append(dateFormat.format(new Date())).append('\'').append(',')
                                 .append('\'').append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append('\'').append(',')
-                                .append('\'').append(DB_DATE.format(new Date())).append('\'').append(',')
+                                .append('\'').append(dateFormat.format(new Date())).append('\'').append(',')
                                 .append('\'').append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append('\'')
                                 .append(')');
                     }
@@ -307,7 +307,7 @@ public class CDRLogic {
                 if (!detailsQuery.toString().isEmpty()) {
 
                     String masterQuery = QueryUtils.getQuery(null, "insertRuleDetails-Edit");
-                    String detailQuery = detailsQuery.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
+                    String detailQuery = detailsQuery.toString().replaceFirst(String.valueOf(ConstantsUtils.COMMA), StringUtils.EMPTY);
                     String finalQuery = masterQuery.concat(detailQuery);
                     HelperTableLocalServiceUtil.executeUpdateQuery(finalQuery);
                 }
@@ -323,7 +323,7 @@ public class CDRLogic {
             for (Object id : ruleDetailsIds) {
                 idsBuilder.append(',' ).append( String.valueOf(id));
             }
-            String ids = idsBuilder.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
+            String ids = idsBuilder.toString().replaceFirst(String.valueOf(ConstantsUtils.COMMA), StringUtils.EMPTY);
             String masterQuery = "delete FROM CDR_DETAILS where " + columnSid + "  in (" + ids + ") ";
             HelperTableLocalServiceUtil.executeUpdateQuery(masterQuery);
         }
@@ -342,9 +342,9 @@ public class CDRLogic {
         queryList.add(binderDto.getRuleNo());
         queryList.add(binderDto.getRuleName());
         queryList.add(binderDto.getRuleCategoryDto() != null ? binderDto.getRuleCategoryDto().getId() : 0);
-        queryList.add(DB_DATE.format(new Date()));
+        queryList.add(dateFormat.format(new Date()));
         queryList.add(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO);
-        queryList.add(DB_DATE.format(new Date()));
+        queryList.add(dateFormat.format(new Date()));
         queryList.add(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO);
         return queryList;
     }

@@ -32,7 +32,7 @@ public class GtnReportReportProfileDeleteAction implements GtnUIFrameWorkAction,
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		return;
+		gtnLogger.debug("configure Params");
 	}
 
 	@Override
@@ -43,27 +43,27 @@ public class GtnReportReportProfileDeleteAction implements GtnUIFrameWorkAction,
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromView(actionParamList.get(1).toString(), componentId).getComponent();
 		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-		PagedGrid pagedGrid = gridComponent.getPagedGrid();
-		Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
+		PagedGrid pagedGridInReportProfile = gridComponent.getPagedGrid();
+		Grid<GtnWsRecordBean> grid = pagedGridInReportProfile.getGrid();
 		Set<GtnWsRecordBean> recordBean= grid.getSelectedItems();
 		List<GtnWsRecordBean> recordBeanList = new ArrayList<>(recordBean);
 		GtnWsRecordBean reportWsbean = recordBeanList.get(0);
 		Integer viewId = (Integer) reportWsbean.getPropertyValueByIndex(4);
-		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-		dataSelectionBean.setViewId(viewId);
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		reportRequest.setDataSelectionBean(dataSelectionBean);
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		GtnWsReportDataSelectionBean dSBean = new GtnWsReportDataSelectionBean();
+		dSBean.setViewId(viewId);
+		GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		gtnWsReportRequest.setDataSelectionBean(dSBean);
+		gtnWsGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsGeneralRequest(generalRequest);
-		request.setGtnWsReportRequest(reportRequest);
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		request.setGtnWsReportRequest(gtnWsReportRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORRT_DELETEVIEW_SERVICE, "report",
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		if(response.getGtnWsGeneralResponse().isSucess()) 
-		pagedGrid.removeItem(reportWsbean);
-		else {
+		if (response.getGtnWsGeneralResponse().isSucess()) {
+			pagedGridInReportProfile.removeItem(reportWsbean);
+		} else {
 			GtnUIFrameWorkActionConfig reportProfileDeleteAlertAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.INFO_ACTION);
 			reportProfileDeleteAlertAction.addActionParameter("Cannot Delete ");

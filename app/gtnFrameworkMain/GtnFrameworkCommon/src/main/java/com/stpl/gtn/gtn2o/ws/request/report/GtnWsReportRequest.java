@@ -15,6 +15,11 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportRequest {
 
+        public GtnWsReportRequest() {
+        super();
+        }
+
+  
 	private List<Object[]> resultList;
 	private String query;
 	private GtnWsReportBean reportBean = new GtnWsReportBean();
@@ -121,11 +126,11 @@ public class GtnWsReportRequest {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+                return forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
-		this.forecastEligibleDate = forecastEligibleDate;
+                 this.forecastEligibleDate = forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public GtnWsReportDashboardFilterBean getFilterBean() {

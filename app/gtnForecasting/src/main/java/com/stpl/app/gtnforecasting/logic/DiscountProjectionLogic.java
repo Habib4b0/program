@@ -82,8 +82,7 @@ public class DiscountProjectionLogic {
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private final QueryUtils utils = new QueryUtils();
     private String baselinePeriods = "";
-    private String selectedPeriods = "";
-
+    
     /**
      * To load Discount Programs in discount selection lookup
      *
@@ -477,7 +476,7 @@ public class DiscountProjectionLogic {
             final String adjustmentBasis, final String adjustmentValue, final String actualOrSalesUnits, List<String> historyPeriods) {
         List<String> inputList = new ArrayList<>();
         inputList.add(session.getFrequency());
-        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? selectedPeriods : session.getActualAdjustmentPeriods());
+        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? StringUtils.join(historyPeriods.iterator(), ",") : session.getActualAdjustmentPeriods());
         inputList.add(adjustmentBasis);
         inputList.add(adjustmentValue);
         inputList.add(adjustmentType);
@@ -508,7 +507,8 @@ public class DiscountProjectionLogic {
     public boolean adjustmentDataUpdate(String frequency, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
         List<String> baselinePeriodsList;
         List<String> selectedPeriodsList;
-        String baselineIndicator = "";
+        String baselineIndicator;
+        String selectedPeriods;
 
         if ("Historical % of Business".equals(allocationMethodology)) {
             baselineIndicator = "H";
@@ -516,9 +516,9 @@ public class DiscountProjectionLogic {
             baselineIndicator = "P";
         }
 
-        for (String discountName : periodsMap.keySet()) {
-            baselinePeriodsList = periodsMap.get(discountName).get(baselineIndicator);
-            selectedPeriodsList = periodsMap.get(discountName).get("P");
+         for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
+            baselinePeriodsList = discountName.getValue().get(baselineIndicator);
+            selectedPeriodsList = discountName.getValue().get("P");
 
             baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
             selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -1103,7 +1103,7 @@ public class DiscountProjectionLogic {
                 }
             }
             detailsSid = idStringBuilder.toString();
-            detailsSid.substring(0, detailsSid.length() - 1);
+            detailsSid = detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
@@ -1179,9 +1179,9 @@ public class DiscountProjectionLogic {
 
         final Map<Integer, List> finalMap = new HashMap<>();
 
-        for (int key : sourceHeaderMap.keySet()) {
+        for (Map.Entry<Integer, List> key : sourceHeaderMap.entrySet()) {
 
-            List list = sourceHeaderMap.get(key);
+            List list = key.getValue();
             if (finalMap.containsKey((Integer) list.get(NumericConstants.TWO))) {
 
                 List tempList = finalMap.get((Integer) list.get(NumericConstants.TWO));

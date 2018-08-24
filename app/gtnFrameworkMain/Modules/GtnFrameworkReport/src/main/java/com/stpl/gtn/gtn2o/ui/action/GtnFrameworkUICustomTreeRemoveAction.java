@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -22,9 +23,8 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkUICustomTreeRemoveAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
-			.getGTNLogger(GtnFrameworkUICustomTreeRemoveAction.class);
-	
+	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkUICustomTreeRemoveAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -49,13 +49,17 @@ public class GtnFrameworkUICustomTreeRemoveAction
 
 	private void addToLeftGrid(Grid<GtnWsRecordBean> leftGrid, GtnWsRecordBean removedBean) {
 		((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems().add(removedBean);
+		sortLeftTableData(
+				(List<GtnWsRecordBean>) ((ListDataProvider<GtnWsRecordBean>) leftGrid.getDataProvider()).getItems());
 		leftGrid.getDataProvider().refreshAll();
 	}
 
 	private GtnWsRecordBean removeBeanFromTree(TreeGrid<GtnWsRecordBean> rightGrid) {
 		GtnWsRecordBean selectedBean = rightGrid.getSelectedItems().iterator().next();
+		rightGrid.deselect(selectedBean);
 		rightGrid.getTreeData().removeItem(selectedBean);
 		rightGrid.getDataProvider().refreshAll();
+		rightGrid.markAsDirty();
 		return selectedBean;
 	}
 
@@ -72,10 +76,10 @@ public class GtnFrameworkUICustomTreeRemoveAction
 		List<GtnWsRecordBean> childList = rightGrid.getTreeData().getChildren(selectedBean);
 		if (!childList.isEmpty()) {
 			GtnUIFrameWorkActionConfig invalidButtonNotificationConfig = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+					GtnUIFrameworkActionType.ALERT_ACTION);
 			String message = "Please remove all children nodes before removing a parent node";
-			invalidButtonNotificationConfig.addActionParameter(message);
 			invalidButtonNotificationConfig.addActionParameter("Illegal level");
+			invalidButtonNotificationConfig.addActionParameter(message);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, invalidButtonNotificationConfig);
 			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
@@ -83,21 +87,22 @@ public class GtnFrameworkUICustomTreeRemoveAction
 
 	private void validateSameLevelToBeRemoved(TreeGrid<GtnWsRecordBean> rightGrid, GtnWsHierarchyType type,
 			String componentId) throws GtnFrameworkGeneralException {
-		
+
 		GTNLOGGER.info("Inside validateSameLevelToBeRemoved");
-		
+
 		GtnWsRecordBean selectedBean = rightGrid.getSelectedItems().iterator().next();
-		
-		GTNLOGGER.info("selectedBean.getStringPropertyByIndex(3): " + selectedBean.getStringPropertyByIndex(3).toLowerCase());
+
+		GTNLOGGER.info(
+				"selectedBean.getStringPropertyByIndex(3): " + selectedBean.getStringPropertyByIndex(3).toLowerCase());
 		GTNLOGGER.info("type.toString(): " + type.toString());
-		
+
 		if (!type.toString().startsWith(selectedBean.getStringPropertyByIndex(3).toLowerCase())) {
 			GtnUIFrameWorkActionConfig invalidButtonNotificationConfig = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+					GtnUIFrameworkActionType.ALERT_ACTION);
 			String message = String.format("Level which is selected belogs to %s Hierarchy",
 					selectedBean.getStringPropertyByIndex(3));
-			invalidButtonNotificationConfig.addActionParameter(message);
 			invalidButtonNotificationConfig.addActionParameter("Illegal level");
+			invalidButtonNotificationConfig.addActionParameter(message);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, invalidButtonNotificationConfig);
 			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
@@ -107,13 +112,18 @@ public class GtnFrameworkUICustomTreeRemoveAction
 			throws GtnFrameworkGeneralException {
 		if (rightGrid.getSelectedItems().isEmpty()) {
 			GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.SELECT_A_ROW_CAPTION);
 			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.NO_LEVEL_SELECTED_MSG);
-			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.NO_LEVEL_SELECTED_CAPTION);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationConfig);
 			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
 
+	}
+
+	private void sortLeftTableData(List<GtnWsRecordBean> items) {
+		Collections.sort(items, (comparatorObj1, comparatorObj2) -> comparatorObj1.getIntegerPropertyByIndex(2)
+				- comparatorObj2.getIntegerPropertyByIndex(2));
 	}
 
 	@Override

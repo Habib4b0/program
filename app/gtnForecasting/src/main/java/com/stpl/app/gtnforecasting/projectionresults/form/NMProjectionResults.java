@@ -517,7 +517,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         //Level Filte Level No Value
         parameterDto.setViewName("DETAIL_TOTAL_DISCOUNT");
 
-        int customMasterSid = Integer.valueOf(customDdlb.getValue() == null || !projectionSelectionDTO.isIsCustomHierarchy() ? "0" : customDdlb.getValue().toString());
+        int customMasterSid = Integer.parseInt(customDdlb.getValue() == null || !projectionSelectionDTO.isIsCustomHierarchy() ? "0" : customDdlb.getValue().toString());
         parameterDto.setCustomViewMasterSid(customMasterSid);
     }
 
@@ -639,11 +639,8 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             Object gropuParentItemId = excelParentRecords.get(groupParentKey);
 
                             if (gropuParentItemId == null) {
-                                ProjectionResultsDTO tpGroup = new ProjectionResultsDTO() {
-                                    {
-                                        setGroup(projectionSelectionDTO.getGroupFilter());
-                                    }
-                                };
+                                ProjectionResultsDTO tpGroup = new ProjectionResultsDTO();
+                                tpGroup.setGroup(projectionSelectionDTO.getGroupFilter());
                                 excelResultBean.addBean(tpGroup);
                                 gropuParentItemId = tpGroup;
                                 excelResultBean.setParent(gropuParentItemId, parentItemId);

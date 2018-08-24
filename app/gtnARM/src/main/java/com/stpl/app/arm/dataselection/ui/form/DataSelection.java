@@ -99,10 +99,10 @@ public class DataSelection extends AbstractDataSelection {
     //Used for CCP_HIERARCHY_INSERT query formation
     private String topLevelName = StringUtils.EMPTY;
     private String periodView = StringUtils.EMPTY;
-    List<Integer> customerHierarchyLevelDefnList = new ArrayList<>();
-    Map<Integer, Integer> customerVersionMap = new HashMap<>();
-    Map<Integer, Integer> productVersionMap = new HashMap<>();
-    List<Integer> productHierarchyLevelDefnList = new ArrayList<>();
+    private List<Integer> customerHierarchyLevelDefnList = new ArrayList<>();
+    private Map<Integer, Integer> customerVersionMap = new HashMap<>();
+    private Map<Integer, Integer> productVersionMap = new HashMap<>();
+    private List<Integer> productHierarchyLevelDefnList = new ArrayList<>();
 
     public DataSelection(String screenName, SessionDTO sessionDTO) {
         super();
@@ -206,7 +206,7 @@ public class DataSelection extends AbstractDataSelection {
                         levelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-                    List<LevelDTO> customerHierarchyLevelDefinitionList  = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    List<LevelDTO> customerHierarchyLevelDefinitionList = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = dslogic.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relationshipSid,
                             customerVersionMap.get(relationshipSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
@@ -238,7 +238,7 @@ public class DataSelection extends AbstractDataSelection {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error("Error in customerHierarchyCloseListener :" + e);
+            LOGGER.error("Error in customerHierarchyCloseListener :", e);
         }
     }
 
@@ -360,9 +360,9 @@ public class DataSelection extends AbstractDataSelection {
                 List<LevelDTO> selectedCustomerContractList = getSelectedCustomerContractList();
                 GtnARMHierarchyInputBean bean = createInputBean(productHierarchyLookup.getHierarchyDto(), prodRelationshipSid,
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
-                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc,rsContractSids);
-                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue())
-                        ,selectedCustomerContractList,custhierarchyId,customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
+                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 innerLevelValues = loadAvailableDsLogic.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
@@ -815,7 +815,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftCustomersButtonLogic :", e);
         }
     }
 
@@ -1246,7 +1246,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftProductsButtonLogic :", e);
         }
     }
 
@@ -1662,7 +1662,7 @@ public class DataSelection extends AbstractDataSelection {
                 DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveAllProductsButtonLogic :", e);
         }
     }
 
@@ -2104,7 +2104,7 @@ public class DataSelection extends AbstractDataSelection {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveAllCustomersButtonLogic :", e);
         }
     }
 
@@ -2409,7 +2409,7 @@ public class DataSelection extends AbstractDataSelection {
                 availableProduct.removeAllItems();
 
             } catch (Exception e) {
-                LOGGER.error("Error in setViewDetails :" + e);
+                LOGGER.error("Error in setViewDetails :", e);
             }
         }
 
@@ -2558,7 +2558,7 @@ public class DataSelection extends AbstractDataSelection {
                 logic.saveDeductionLogic(new HashSet(dataSelectionDTO.getRsContractSidList()), projectionIdValue);
 
                 sessionDTO.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
-                sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
+                sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
                 logic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO);
                 (new QueryUtils()).ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);

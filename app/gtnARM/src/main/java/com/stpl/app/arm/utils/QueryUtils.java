@@ -72,7 +72,7 @@ public class QueryUtils {
                 list = executeSelect(sql.toString());
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getItemData :" + e);
+            LOGGER.error("Error in getItemData :", e);
         }
         LOGGER.debug("End  of  item get Data");
         return list;
@@ -372,7 +372,7 @@ public class QueryUtils {
             }
             LOGGER.debug("-- map --" + map.size());
         } catch (Exception e) {
-            LOGGER.error("Error in createTempTables :" + e);
+            LOGGER.error("Error in createTempTables :", e);
         }
         return map;
     }
@@ -394,7 +394,7 @@ public class QueryUtils {
             LOGGER.debug("queryString " + queryString.toString());
             count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
         } catch (Exception e) {
-            LOGGER.error("Error in updateDataFromMap :" + e);
+            LOGGER.error("Error in updateDataFromMap :", e);
         }
         return count > 0 ? Boolean.TRUE : Boolean.FALSE;
     }
@@ -446,7 +446,7 @@ public class QueryUtils {
             LOGGER.debug("topLevelName -- " + topLevelName);
             callCCPHierarchyInsertion(ccpHierarchyQuery, tempTableNames, topLevelName, isDataSelectionTab);
         } catch (Exception e) {
-            LOGGER.error("Error in ccpHierarchyInsert" + e);
+            LOGGER.error("Error in ccpHierarchyInsert", e);
         }
 
     }
@@ -539,7 +539,7 @@ public class QueryUtils {
             }
             LOGGER.debug("resultList -- " + resultList.size());
         } catch (Exception e) {
-            LOGGER.error("Error in getCustandProdSelection" + e);
+            LOGGER.error("Error in getCustandProdSelection", e);
         }
         return resultList;
     }
@@ -574,7 +574,7 @@ public class QueryUtils {
             LOGGER.debug("builder -- " + builder.toString());
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
         } catch (Exception e) {
-            LOGGER.error("Error in callCCPHierarchyInsertion" + e);
+            LOGGER.error("Error in callCCPHierarchyInsertion", e);
         }
     }
 
@@ -597,7 +597,7 @@ public class QueryUtils {
             }
             LOGGER.debug("queryBuilder -- " + queryBuilder.toString());
         } catch (Exception e) {
-            LOGGER.error("Error in formQueryWithUnionAll" + e);
+            LOGGER.error("Error in formQueryWithUnionAll", e);
         }
         return queryBuilder.toString();
     }
@@ -620,7 +620,7 @@ public class QueryUtils {
             }
             LOGGER.debug("value Builder -- " + value.toString());
         } catch (Exception e) {
-            LOGGER.error("Error in formInqueryStringValue" + e);
+            LOGGER.error("Error in formInqueryStringValue", e);
         }
         return value.toString();
     }
@@ -641,7 +641,7 @@ public class QueryUtils {
             builder.replace(builder.indexOf(CommonConstant.HIERARCHY_DETAILS), CommonConstant.HIERARCHY_DETAILS.length() + builder.lastIndexOf(CommonConstant.HIERARCHY_DETAILS), formInqueryStringValue);
             LOGGER.debug("Query Builder -- " + builder.toString());
         } catch (Exception e) {
-            LOGGER.error("Error in getCCPValues" + e);
+            LOGGER.error("Error in getCCPValues", e);
         }
         return builder.toString();
     }

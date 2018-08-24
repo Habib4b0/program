@@ -15,15 +15,10 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
@@ -80,37 +75,8 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 		return resultLayout;
 	}
 
-	private void configureLeftTablHeader(GtnUIFrameworkPagedTableConfig tableConfig, String sourceViewId)
-			throws GtnFrameworkGeneralException {
 
-		String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
-		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
-				tableConfig.getGtnUIFrameWorkActionConfig(), sourceViewId);
-
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
-				tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnWsPagedTableResponse tableHeadersResponse = response.getGtnWsPagedTableResponse();
-
-		tableConfig.setTableColumnMappingId(tableHeadersResponse.getSingleColumns().toArray());
-		tableConfig.setColumnHeaders(tableHeadersResponse.getSingleHeaders());
-	}
-
-	private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
-			String sourceViewId) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-		GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
-		loader.configureParams(gtnUIFrameWorkActionConfig);
-		loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
-	}
-
-	private GtnUIFrameworkWebserviceRequest getCustomPagedTableRequest(
-			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String sourceViewId) {
-		GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
-				gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(), sourceViewId).getComponentData();
-		return resultTableComponentData.getCustomPagedTreeTableRequest();
-	}
+	
 
 	private void addSelectionListener(GtnUIFrameworkComponentConfig componentConfig, PagedGrid pagedGrid) {
 		if (componentConfig.getGtnPagedTableConfig().getItemClickActionConfigList() != null) {

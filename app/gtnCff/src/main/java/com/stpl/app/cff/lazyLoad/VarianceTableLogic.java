@@ -209,8 +209,8 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
         try {
             int count = 0;
-            List<Leveldto> levelList = null;
-            count = new ProjectionVarianceLogic().getConfiguredProjectionVarianceCount(parentId, projSelDTO, true);
+            List<Leveldto> levelList = new ArrayList<>();
+            count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(parentId, projSelDTO, true);
             LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
             addlevelMap(treeLevel, levelMap);
             String prodHierarchyNo = projSelDTO.getProductHierarchyNo();
@@ -228,7 +228,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = new ProjectionVarianceLogic().getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list = nmProjectionVarianceLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();
                             int index = count - size + 1;
@@ -240,7 +240,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
-                                ProjectionVarianceDTO dto = new ProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(list.get(j)));
+                                ProjectionVarianceDTO dto = nmProjectionVarianceLogic.configureDetailsInDTO(projSelDTO, list.get(j), hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
                                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                             }
@@ -257,7 +257,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
-                                ProjectionVarianceDTO dto = new ProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
+                                ProjectionVarianceDTO dto = nmProjectionVarianceLogic.configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
                                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                 }
@@ -281,7 +281,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
      */
     private void customizeResult(List<Leveldto> levelList, int count, String treeLevel, int expandLevelNo, boolean flag) {
         LOGGER.debug("Inside customizeResult");
-        int size = levelList != null ? levelList.size() : 0;
+        int size = levelList.size();
         int index = count - size + 1;
         for (int j = 0; j < size; j++) {
             Leveldto levelDto = levelList.get(j);

@@ -31,7 +31,7 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
-		
+
 		GtnUIFrameworkTextBoxConfig textboxConfig = componentConfig.getGtnTextBoxConfig();
 		TextField textField = generateAbstaractTextField(componentConfig);
 		Binder<ComponentBinderValidatorBean> textBoxBinder = new Binder<>();
@@ -39,9 +39,13 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 		loadStyles(textField, componentConfig.getComponentStyle());
 		textField.setVisible(componentConfig.isVisible());
 		textField.setEnabled(componentConfig.isEnable());
-		if(componentConfig.getComponentHight()!=null) {
+		if (componentConfig.getComponentHight() != null) {
 			textField.setHeight(componentConfig.getComponentHight());
 		}
+		if (componentConfig.getComponentWidth() != null) {
+			textField.setWidth(componentConfig.getComponentWidth());
+		}
+		
 		String value = "";
 		if (componentConfig.getComponentValue() != null) {
 			value = String.valueOf(componentConfig.getComponentValue());
@@ -49,12 +53,13 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 
 		textField.setValue(value);
 		textBoxBinder.forField(textField).withNullRepresentation(GtnFrameworkCommonStringConstants.STRING_EMPTY).bind(
-				ComponentBinderValidatorBean::getWithNullRepresentation, ComponentBinderValidatorBean::setWithNullRepresentation);
+				ComponentBinderValidatorBean::getWithNullRepresentation,
+				ComponentBinderValidatorBean::setWithNullRepresentation);
 
 		if (textboxConfig != null) {
 			if (textboxConfig.isRequired()) {
-				textBoxBinder.forField(textField).asRequired(textboxConfig.getRequiredMessage())
-						.bind(ComponentBinderValidatorBean::getRequiredField, ComponentBinderValidatorBean::setRequiredField);
+				textBoxBinder.forField(textField).asRequired(textboxConfig.getRequiredMessage()).bind(
+						ComponentBinderValidatorBean::getRequiredField, ComponentBinderValidatorBean::setRequiredField);
 			}
 
 			textField.setEnabled(textboxConfig.isEnable());
@@ -73,6 +78,14 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 				textField.setMaxLength(textboxConfig.getMaximumLength());
 			}
 		}
+		setValidationConfig(componentConfig, textBoxBinder, textField);
+		setDefaultFocus(textField, componentConfig);
+		return textField;
+
+	}
+
+	private void setValidationConfig(GtnUIFrameworkComponentConfig componentConfig,
+			Binder<ComponentBinderValidatorBean> textBoxBinder, TextField textField) {
 		if (componentConfig.getGtnUIFrameworkValidationConfig() != null) {
 
 			if (componentConfig.getGtnUIFrameworkValidationConfig().isAttachRegxValidatior()) {
@@ -81,7 +94,8 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 						.withValidator(new RegexpValidator(
 								componentConfig.getGtnUIFrameworkValidationConfig().getRegxValidationMessage(),
 								componentConfig.getGtnUIFrameworkValidationConfig().getFormatString()))
-						.bind(ComponentBinderValidatorBean::getRegexpValidator, ComponentBinderValidatorBean::setRegexpValidator);
+						.bind(ComponentBinderValidatorBean::getRegexpValidator,
+								ComponentBinderValidatorBean::setRegexpValidator);
 			}
 			if (componentConfig.getGtnUIFrameworkValidationConfig().isAttachLengthValidatior()) {
 				textBoxBinder.forField(textField)
@@ -93,9 +107,6 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 								ComponentBinderValidatorBean::setStringLengthValidator);
 			}
 		}
-		setDefaultFocus(textField, componentConfig);
-		return textField;
-
 	}
 
 	private void loadStyles(final Component component, final List<String> stylesForTextBox) {
@@ -115,9 +126,16 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-		AbstractTextField abstractTextField = (AbstractTextField) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
+		AbstractTextField abstractTextField = (AbstractTextField) GtnUIFrameworkGlobalUI
+				.getVaadinComponent(componentId);
 		abstractTextField.setVisible(componentConfig.isVisible());
 		abstractTextField.setEnabled(componentConfig.isEnable());
+		if (componentConfig.getComponentWidth() != null) {
+			abstractTextField.setWidth(componentConfig.getComponentWidth());
+		}
+		if (componentConfig.getComponentHight() != null) {
+			abstractTextField.setHeight(componentConfig.getComponentHight());
+		}
 		String textValue = "";
 		if (componentConfig.getComponentValue() != null) {
 			textValue = String.valueOf(componentConfig.getComponentValue());
@@ -134,12 +152,12 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 		Binder<ComponentBinderValidatorBean> textBoxBinder = new Binder<>();
 		if (textBoxComponentConfig != null) {
 			if (textBoxComponentConfig.isRequired()) {
-				textBoxBinder.forField(abstractTextField).asRequired(textBoxComponentConfig.getRequiredMessage())
-						.bind(ComponentBinderValidatorBean::getRequiredField, ComponentBinderValidatorBean::setRequiredField);
+				textBoxBinder.forField(abstractTextField).asRequired(textBoxComponentConfig.getRequiredMessage()).bind(
+						ComponentBinderValidatorBean::getRequiredField, ComponentBinderValidatorBean::setRequiredField);
 			}
 			abstractTextField.setEnabled(textBoxComponentConfig.isEnable());
 		}
-		
+
 		setDefaultFocus(abstractTextField, componentConfig);
 
 	}
@@ -195,6 +213,5 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 			textField.focus();
 		}
 	}
-	
 
 }

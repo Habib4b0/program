@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import static com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportDataSelectionTabConfig.getResetParameters;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
@@ -121,6 +123,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		gtnLayout.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		componentList.add(gtnLayout);
 		addDataAssumptionsPagedTableComponent(componentList, gtnLayout.getComponentId());
+                addExcelButtonComponent(componentList, nameSpace, gtnLayout.getComponentId());
 	}
 
 	private void addControlButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -134,7 +137,6 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private void addDataAssumptionsPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentId) {
-
 		GtnUIFrameworkComponentConfig dataAssumptionsPagedTableComponent = configProvider.getUIFrameworkComponentConfig(
 				"dataAssumptionsPagedTableComponent"+parentId, true, parentId, GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsPagedTableComponent.setAuthorizationIncluded(true);
@@ -147,14 +149,14 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 
 		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList(new String[] { "File", "Company",
-				"Business Unit", "Type", "Version", "Active From", "From Period", "To Period" }));
+				"Business Unit", "Type", "Version", "Active From", "Active To","Active File?" }));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
-				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
+				"type", "version", "activeFrom", "toPeriod" ,"activeFile" });
 		dataAssumptionsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVAUTIL_DATE,
-				GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVAUTIL_DATE });
+				GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 		dataAssumptionsPagedTableConfig.setCountUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setResultSetUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setRefreshAtStart(true);
@@ -165,6 +167,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		
 		String[] dataAssumptionsPropertyIDs = GtnFrameworkReportStringConstants
 				.getReportDataAssumptionsFilterPropertyId();
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dataAssumptionsFilterConfigMap = new HashMap<>(
@@ -172,9 +175,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
-				GtnUIFrameworkComponentType.CALENDAR_FIELD };
-
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8,GtnUIFrameworkComponentType.DATEFIELDVAADIN8,
+                                GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
 		String[] dataAssumptionsComboboxIds = { "" };
 		String[] dataAssumptionsComboBoxType = { "" };
 		int comboboxStartIndex = 0;
@@ -184,6 +186,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]); 
                         GtnUIFrameworkComponentConfig componentList = new GtnUIFrameworkComponentConfig();
                         componentList.addComponentStyle("v-textfield-custom-report");
+                         componentList.addDateFieldStyle("v-report-data-assumption-date-field");
                         dataAssumptionsTableFilterConfig.setGtnComponentConfig(componentList);
 			if ((comboboxStartIndex < dataAssumptionsComboboxIds.length)
 					&& dataAssumptionsPropertyIDs[i].equals(dataAssumptionsComboboxIds[comboboxStartIndex])) {
@@ -203,6 +206,30 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 					dataAssumptionsTableFilterConfig);
 		}
 		return dataAssumptionsFilterConfigMap;
+	}
+        private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace,
+			String parentId) {
+
+		GtnUIFrameworkComponentConfig excelButtonConfig = new GtnUIFrameworkComponentConfig();
+		excelButtonConfig.setComponentType(GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		excelButtonConfig
+				.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "excelButtonConfig");
+		excelButtonConfig.setParentComponentId(parentId);
+		excelButtonConfig.setAddToParent(true);                
+		excelButtonConfig.setAuthorizationIncluded(true);
+                excelButtonConfig.setDefaultFocus(true);                
+                excelButtonConfig.addComponentStyle("v-report-data-assumption-excel");
+		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonInput = new GtnUIFrameworkExcelButtonConfig();
+		gtnUIFrameworkExcelButtonInput.setIsTreeTable(true);
+		gtnUIFrameworkExcelButtonInput.setExportFileName("Report");
+		gtnUIFrameworkExcelButtonInput.setExportTableId("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);              
+		GtnUIFrameWorkActionConfig resultTableExcelAction = new GtnUIFrameWorkActionConfig();
+		resultTableExcelAction.setActionType(GtnUIFrameworkActionType.TREEGRID_EXCEL_EXPORT_ACTION);
+		resultTableExcelAction.addActionParameter(gtnUIFrameworkExcelButtonInput);
+
+		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonInput);
+		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(resultTableExcelAction));
+		componentList.add(excelButtonConfig);
 	}
 
 	private void addNavigationButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace,
@@ -244,15 +271,24 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		closeButtonConfig.setParentComponentId(parentId);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
-		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		
+               GtnUIFrameWorkActionConfig confirmationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkReportStringConstants.CONFIRMATION);
+		alertParamsList.add("Are you sure you want to close this Report?");
+		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
+		alertParamsList.add(onSucessActionConfigList);
+		GtnUIFrameWorkActionConfig closeActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		onSucessActionConfigList.add(closeActionConfig);
+		confirmationActionConfig.setActionParameterList(alertParamsList);
+
+		actionConfigList.add(confirmationActionConfig);
 		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
 		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		resetLandingScreenAction.setActionParameterList(GtnFrameworkReportDataSelectionTabConfig.getResetParameters());
-		actionConfigList.add(resetLandingScreenAction);
-		actionConfigList.add(closeAction);
+		resetLandingScreenAction.setActionParameterList(getResetParameters());
+		onSucessActionConfigList.add(resetLandingScreenAction);
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		
 		componentList.add(previousButtonConfig);

@@ -180,7 +180,7 @@ public class NMProjectionResultsLogic {
         LOGGER.info("= = = Inside getTotalDiscountLevels = = =");
            CommonLogic commonLogic = new CommonLogic();
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-        List<ProjectionResultsDTO> projDTOList1 = null;
+        List<ProjectionResultsDTO> projDTOList1 = new ArrayList<>();
         List<Object> list = null;
         String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
          query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
@@ -1743,7 +1743,7 @@ public class NMProjectionResultsLogic {
         List<ProjectionResultsDTO> projRPUDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projDisPerExfacDTOList = new ArrayList<>();
-        List<String> newList = new ArrayList<String>();
+        List<String> newList = new ArrayList<>();
         Iterator<String> iterator = projSelDTO.getDiscountNameList().iterator();
         Iterator<String> iterator1 = projSelDTO.getDiscountNoList().iterator();
         boolean ppaFlag = false;
@@ -1762,7 +1762,7 @@ public class NMProjectionResultsLogic {
         }
         String oldDiscountName;
         String newDiscountName = "oldDiscountName";
-        if (list != null && !list.isEmpty()) {
+        if (!list.isEmpty()) {
             ProjectionResultsDTO projDolDTO = new ProjectionResultsDTO();
             ProjectionResultsDTO projRPUDTO = new ProjectionResultsDTO();
             ProjectionResultsDTO projPerDTO = new ProjectionResultsDTO();

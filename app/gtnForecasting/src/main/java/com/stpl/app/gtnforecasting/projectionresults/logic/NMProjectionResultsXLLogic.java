@@ -75,7 +75,6 @@ public class NMProjectionResultsXLLogic {
     private static final String PRC_PR_EXCEL = "PRC_PROJECTION_RESULT_EXCEL_EXPORT";
     private static final String DASH = "-";
     private List<Object> pivotDiscountList = new ArrayList<>();
-    private final List<ProjectionResultsDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String DETAIL = "Detail";
@@ -684,8 +683,6 @@ public class NMProjectionResultsXLLogic {
                 resultDto.add(pvDTO);
             }
         }
-        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = {} " , discountList.size());
-
     }
 
     public ProjectionResultsDTO getCustomizedPPA(List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, int index, int actIndex, boolean isPer, String parentGroup, String ppaGroup) {
@@ -981,10 +978,10 @@ public class NMProjectionResultsXLLogic {
 
     public void discount_Customize() {
         boolean isDetail = selection.getLevel().equals(DETAIL);
-        commonCustomizationForTotalDiscount("D$",  pivotDiscountList, selection, isDetail,  Boolean.FALSE);
-        commonCustomizationForTotalDiscount("D%",  pivotDiscountList, selection, isDetail,  Boolean.TRUE);
-        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, Boolean.FALSE);
-        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, Boolean.TRUE); //change the NumericConstants
+        commonCustomizationForTotalDiscount("D$",  pivotDiscountList, selection, isDetail,  false);
+        commonCustomizationForTotalDiscount("D%",  pivotDiscountList, selection, isDetail,  true);
+        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, false);
+        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, true); //change the NumericConstants
     }
 
     public List<Object[]> getTotalPivotVariance(ProjectionSelectionDTO selection) {

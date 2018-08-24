@@ -26,17 +26,6 @@ public class ForecastEditView extends VerticalLayout {
      * View name for navigation.
      */
     public static final String NAME = "NMPROJECTION";
-
-    /**
-     * DTO object for DataSelection.
-     */
-    private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
-
-    /**
-     * Binder for DataSelection.
-     */
-    private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
-
     protected ForecastForm forecastName;
     protected ForecastEditWindow editWindow;
     protected ExtFilterTable resultTable;
@@ -51,19 +40,20 @@ public class ForecastEditView extends VerticalLayout {
      * @param editWindow
      * @param resultTable
      * @param screenName
+     * @param dataSelectionForm
      * @throws Exception
      */
     public ForecastEditView(final SessionDTO session, final DataSelectionDTO dataSelectionDTO, final ForecastEditWindow editWindow,
             final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) throws Exception {
         this.session = session;
-        this.dataSelectionDTO = dataSelectionDTO;
+       
         this.editWindow = editWindow;
         this.resultTable = resultTable;
         this.screenName = screenName;
         this.dataSelectionForm = dataSelectionForm;
 
-        forecastName = new ForecastForm(dataSelectionBinder, dataSelectionDTO, this.session, this.editWindow, this.resultTable, screenName, dataSelectionForm, null);
+        forecastName = new ForecastForm(new CustomFieldGroup(new BeanItem<>(dataSelectionDTO)), dataSelectionDTO, this.session, this.editWindow, this.resultTable, screenName, dataSelectionForm, null);
         addComponent(forecastName);
     }
-
+    
 }

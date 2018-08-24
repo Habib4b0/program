@@ -59,4 +59,12 @@
     
 
     <inherits name="org.vaadin.addons.WidgetSet" />
+
+    <inherits name="com.stpl.addons.vaadin.chartjs.WidgetSet" />
+
+    
+
+    
+
+    
 </module>

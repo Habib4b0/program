@@ -70,8 +70,6 @@ public class ReturnsData extends CustomComponent {
     private String[] visibleHeaders;
     private ReturnsDataLogic logic = new ReturnsDataLogic();
     protected RRSelectionDTO selection;
-    
-    public static final Logger LOGGER = LoggerFactory.getLogger(ReturnsData.class);
 
     public ReturnsData(RRSelectionDTO selection) {
         this.selection = selection;
@@ -220,7 +218,7 @@ public class ReturnsData extends CustomComponent {
         try {
             ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
     }
 
@@ -237,7 +235,7 @@ public class ReturnsData extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            logger.error("Error in createWorkSheetContent :" + e);
+            logger.error("Error in createWorkSheetContent :", e);
         }
     }
 

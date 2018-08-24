@@ -324,8 +324,8 @@ public class CommonLogic {
     }
 
     public static boolean isValidViewName(int projectionId, String viewName, int customId) {
-        List<CustomViewMaster> list = getCustomViewforViewName(projectionId, viewName, customId);
-        if (list != null && !list.isEmpty()) {
+        List<CustomViewMaster> viewList = getCustomViewforViewName(projectionId, viewName, customId);
+        if (viewList != null && !viewList.isEmpty()) {
             return false;
         } else {
             return true;
@@ -340,20 +340,20 @@ public class CommonLogic {
      * @return list
      */
     public static List<CustomViewMaster> getCustomViewforViewName(int projectionId, String viewName, int customId) {
-        List<CustomViewMaster> list = null;
+        List<CustomViewMaster> resultsList = null;
         try {
-            DynamicQuery query = CustomViewMasterLocalServiceUtil.dynamicQuery();
-            query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
-            query.add(RestrictionsFactoryUtil.eq("viewName", viewName));
+            DynamicQuery dynamicQuery = CustomViewMasterLocalServiceUtil.dynamicQuery();
+            dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
+            dynamicQuery.add(RestrictionsFactoryUtil.eq("viewName", viewName));
             if (customId != 0) {
-                query.add(RestrictionsFactoryUtil.ne(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, customId));
+                dynamicQuery.add(RestrictionsFactoryUtil.ne(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, customId));
             }
 
-            list = commonDao.getCustomViewList(query);
+            resultsList = commonDao.getCustomViewList(dynamicQuery);
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return list;
+        return resultsList;
     }
 
     public static boolean customViewDetailsSaveLogic(int customId, List levelList) {
@@ -719,35 +719,35 @@ public class CommonLogic {
     }
 
     public static List<Object> getParentLevelNoAndHierarchyNo(int levelNo, String hierarchyNos) {
-        List<Object> levelHierarchy = new ArrayList<>();
+        List<Object> hierarchyList = new ArrayList<>();
         String hierarchyNo = getParentHierarchyNo(hierarchyNos);
         levelNo--;
         if (hierarchyNo.isEmpty()) {
             levelNo = 0;
         }
-        levelHierarchy.add(Integer.valueOf(levelNo));
-        levelHierarchy.add(hierarchyNo);
-        return levelHierarchy;
+        hierarchyList.add(Integer.valueOf(levelNo));
+        hierarchyList.add(hierarchyNo);
+        return hierarchyList;
     }
 
     public static List<List<Object>> getAllLevelNoAndHierarchyNo(Object value) {
         LOGGER.debug("getAllLevelNoAndHierarchyNo started");
-        List<List<Object>> allLevelHierarchy = new ArrayList<>();
+        List<List<Object>> allHierarchy = new ArrayList<>();
         List<Object> levelHierarchy = getLevelNoAndHierarchyNo(value);
 
         int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
-        String hierarchyNo1 = String.valueOf(levelHierarchy.get(1));
-        List<String> nos = getAllHierarchyNo(hierarchyNo1);
-        Collections.reverse(nos);
-        for (String hierarchyNo : nos) {
+        String hierarchyNumber = String.valueOf(levelHierarchy.get(1));
+        List<String> hierarchyList = getAllHierarchyNo(hierarchyNumber);
+        Collections.reverse(hierarchyList);
+        for (String hierarchyNum : hierarchyList) {
             levelHierarchy = new ArrayList<>();
             levelHierarchy.add(Integer.valueOf(levelNo));
-            levelHierarchy.add(hierarchyNo);
-            allLevelHierarchy.add(0, levelHierarchy);
+            levelHierarchy.add(hierarchyNum);
+            allHierarchy.add(0, levelHierarchy);
             levelNo--;
         }
         LOGGER.debug("getAllLevelNoAndHierarchyNo ended");
-        return allLevelHierarchy;
+        return allHierarchy;
     }
 
     public static List<Object> getParentLevelNoAndHierarchyNo(Object value) {
@@ -761,13 +761,13 @@ public class CommonLogic {
     public static List getRelationshipLevels(int hierarchyLevelId) {
         List list = null;
         try {
-            DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
-            query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
-            ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NO));
-            query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
-            list = commonDao.getRelationshipLevels(query);
+            DynamicQuery relationshipQuery = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
+            relationshipQuery.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
+            ProjectionList projectionFromList = ProjectionFactoryUtil.projectionList();
+            projectionFromList.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
+            projectionFromList.add(ProjectionFactoryUtil.property(Constant.LEVEL_NO));
+            relationshipQuery.setProjection(ProjectionFactoryUtil.distinct(projectionFromList));
+            list = commonDao.getRelationshipLevels(relationshipQuery);
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -775,9 +775,9 @@ public class CommonLogic {
     }
 
     public static Leveldto getNextLevel(int levelNo, List<Leveldto> hierarchy) {
-        for (Leveldto dto : hierarchy) {
-            if (dto.getTreeLevelNo() == levelNo) {
-                return dto;
+        for (Leveldto levelDto : hierarchy) {
+            if (levelDto.getTreeLevelNo() == levelNo) {
+                return levelDto;
             }
         }
 
@@ -785,21 +785,21 @@ public class CommonLogic {
     }
 
     public static Leveldto getLevel(List<Leveldto> hierarchy) {
-        for (Leveldto dto : hierarchy) {
-            return dto;
+        for (Leveldto levelDto : hierarchy) {
+            return levelDto;
         }
 
         return null;
     }
 
     public static String getViewTableName(String hierarchyIndicator) {
-        String viewtable = StringUtils.EMPTY;
+        String viewTableName = StringUtils.EMPTY;
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
-            viewtable = "PROJECTION_CUST_HIERARCHY";
+            viewTableName = "PROJECTION_CUST_HIERARCHY";
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
-            viewtable = "PROJECTION_PROD_HIERARCHY";
+            viewTableName = "PROJECTION_PROD_HIERARCHY";
         }
-        return viewtable;
+        return viewTableName;
     }
 
     public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String action) {
@@ -861,22 +861,22 @@ public class CommonLogic {
 
     }
     private static String getQuery(String procedureName, Object[] orderedArgs) {
-		StringBuilder procedureToCall = new StringBuilder("{call ");
-		procedureToCall.append(procedureName);
+		StringBuilder procedureCall = new StringBuilder("{call ");
+		procedureCall.append(procedureName);
 		int noOfArgs = orderedArgs.length;
 		for (int i = 0; i < noOfArgs; i++) {
 			if (i == 0) {
-				procedureToCall.append('(');
+				procedureCall.append('(');
 			}
-			procedureToCall.append("?,");
+			procedureCall.append("?,");
 			if (i == noOfArgs - 1) {
-				procedureToCall.append(')');
+				procedureCall.append(')');
 			}
 		}
-		procedureToCall.replace(procedureToCall.lastIndexOf(CommonUtil.COMMA),
-				procedureToCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
-		procedureToCall.append('}');
-		return procedureToCall.toString();
+		procedureCall.replace(procedureCall.lastIndexOf(CommonUtil.COMMA),
+				procedureCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
+		procedureCall.append('}');
+		return procedureCall.toString();
     }
 
 
@@ -1576,23 +1576,23 @@ public class CommonLogic {
 
     public static List<String> getAllHierarchyNo(String hierarchyNo) {
         LOGGER.debug("getAllHierarchyNo started");
-        List<String> allLevelHierarchy = new ArrayList<>();
+        List<String> allHierarchy = new ArrayList<>();
         String extraDot = StringUtils.EMPTY;
         if (hierarchyNo.endsWith(".")) {
             extraDot = ".";
         }
-        String[] hierarchyNoArray = hierarchyNo.split("\\.");
-        String hierarchyNo1 = hierarchyNoArray[0];
-        allLevelHierarchy.add(hierarchyNo1 + extraDot);
-        for (int i = 1; i < hierarchyNoArray.length - 1; i++) {
-            hierarchyNo1 = hierarchyNo1 + "." + hierarchyNoArray[i];
-            allLevelHierarchy.add(hierarchyNo1 + extraDot);
+        String[] hierarchyArray = hierarchyNo.split("\\.");
+        String hierarchyNum = hierarchyArray[0];
+        allHierarchy.add(hierarchyNum + extraDot);
+        for (int i = 1; i < hierarchyArray.length - 1; i++) {
+            hierarchyNum = hierarchyNum + "." + hierarchyArray[i];
+            allHierarchy.add(hierarchyNum + extraDot);
         }
-        if (!allLevelHierarchy.contains(hierarchyNo)) {
-            allLevelHierarchy.add(hierarchyNo);
+        if (!allHierarchy.contains(hierarchyNo)) {
+            allHierarchy.add(hierarchyNo);
         }
         LOGGER.debug("getAllHierarchyNo ended");
-        return allLevelHierarchy;
+        return allHierarchy;
     }
 
     public static String getParentHierarchyNo(String hierarchyNos) {
@@ -1612,21 +1612,21 @@ public class CommonLogic {
     }
 
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout) {
-        HorizontalLayout controlBar = new HorizontalLayout();
-        controlBar.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
+        HorizontalLayout controlHBar = new HorizontalLayout();
+        controlHBar.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
 
-        HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
+        HorizontalLayout pageSizeLayout = (HorizontalLayout) tempLayout.getComponent(0);
         HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
 
-        CssLayout cssLayout = new CssLayout();
-        cssLayout.setSizeFull();
-        cssLayout.addComponent(pageSize.getComponent(0));
-        cssLayout.addComponent(pageSize.getComponent(0));
+        CssLayout cssComponentLayout = new CssLayout();
+        cssComponentLayout.setSizeFull();
+        cssComponentLayout.addComponent(pageSizeLayout.getComponent(0));
+        cssComponentLayout.addComponent(pageSizeLayout.getComponent(0));
         for (int index = 0; index < NumericConstants.EIGHT; index++) {
-            cssLayout.addComponent(pageManagement.getComponent(0));
+            cssComponentLayout.addComponent(pageManagement.getComponent(0));
         }
-        controlBar.addComponent(cssLayout);
-        return controlBar;
+        controlHBar.addComponent(cssComponentLayout);
+        return controlHBar;
     }
 
     public static String getGroupFilterQuery(String userGroup) {
@@ -1723,34 +1723,34 @@ public class CommonLogic {
     }
 
     public static List<String> getPPAGroup() {
-        List<String> groupList = new ArrayList<>();
+        List<String> groupPPAList = new ArrayList<>();
         try {
             String query = getGroupQuery("ST_NM_PPA_PROJECTION_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-            if (list != null && !list.isEmpty()) {
-                for (Object list1 : list) {
-                    groupList.add(Constant.PPA + String.valueOf(list1));
+            List<Object> resultList = (List<Object>) executeSelectQuery(query, null, null);
+            if (resultList != null && !resultList.isEmpty()) {
+                for (Object list1 : resultList) {
+                    groupPPAList.add(Constant.PPA + String.valueOf(list1));
                 }
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        return groupList;
+        return groupPPAList;
     }
 
     public static List<String> getSalesGroup(SessionDTO session) {
-        List<String> groupList = new ArrayList<>();
+        List<String> salesGroupList = new ArrayList<>();
         try {
-            Set salesGroup = session.getSalesgroupSet();
-            if (salesGroup != null && !salesGroup.isEmpty()) {
-                for (Object list1 : salesGroup) {
-                    groupList.add(Constant.SALES_WITH_HYPHEN + String.valueOf(list1));
+            Set salesGroupSet = session.getSalesgroupSet();
+            if (salesGroupSet != null && !salesGroupSet.isEmpty()) {
+                for (Object list1 : salesGroupSet) {
+                    salesGroupList.add(Constant.SALES_WITH_HYPHEN + String.valueOf(list1));
                 }
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        return groupList;
+        return salesGroupList;
     }
 
     public static List<String> getAllGroup(SessionDTO session, boolean isPPA) {
@@ -1805,7 +1805,7 @@ public class CommonLogic {
     }
 
     public static int getTradingPartnerLevelNoForPR(boolean isCustom, int projectionIdOrCustomId) {
-        int levelNo = 0;
+        int levelNum = 0;
         String query = Constant.SELECT_DISTINCT;
         if (isCustom) {
             query += " CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
@@ -1819,16 +1819,16 @@ public class CommonLogic {
                     + "                 WHERE RLD.LEVEL_NAME = 'Trading Partner'";
         }
         try {
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-            if (list != null && !list.isEmpty()) {
-                Object ob = list.get(0);
-                levelNo = Integer.parseInt(String.valueOf(ob));
+            List<Object> resultList = (List<Object>) executeSelectQuery(query, null, null);
+            if (resultList != null && !resultList.isEmpty()) {
+                Object ob = resultList.get(0);
+                levelNum = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
-        return levelNo;
+        return levelNum;
     }
 
     public static List<String> getSalesGroupDDLB(SessionDTO session) {
@@ -1986,24 +1986,24 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getHierarchy(String hierarchyIndicator, final int levelNo, final Object rbID, final int versionNo) {
-        List<Leveldto> listValue = new ArrayList<>();
+        List<Leveldto> dtoList = new ArrayList<>();
         try {
-            String query = getHierarchyTreeQuery(hierarchyIndicator, levelNo, rbID, versionNo);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-            if (list != null && !list.isEmpty()) {
+            String treeQuery = getHierarchyTreeQuery(hierarchyIndicator, levelNo, rbID, versionNo);
+            List<Object> results = (List<Object>) executeSelectQuery(treeQuery, null, null);
+            if (results != null && !results.isEmpty()) {
                 int count = 0;
-                for (Object list1 : list) {
+                for (Object list1 : results) {
                     count++;
                     final Object[] obj = (Object[]) list1;
                     Leveldto dto = getCustomizedView(obj, true);
                     dto.setCount(count);
-                    listValue.add(dto);
+                    dtoList.add(dto);
                 }
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        return listValue;
+        return dtoList;
     }
 
     public static String getHierarchyTreeQuery(String hierarchyIndicator, final int levelNo, final Object rbID, final int versionNo) {
@@ -2020,35 +2020,35 @@ public class CommonLogic {
     }
 
     public static String getIndicator(int levelNo, int viewName) {
-        List<CustomViewDetails> list = null;
-        String indicator = StringUtils.EMPTY;
-        DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
-        query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
-        query.add(RestrictionsFactoryUtil.eq(Constant.LEVEL_NO, levelNo));
+        List<CustomViewDetails> resultsList = null;
+        String viewIndicator = StringUtils.EMPTY;
+        DynamicQuery dynamicQuery = CustomViewDetailsLocalServiceUtil.dynamicQuery();
+        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
+        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.LEVEL_NO, levelNo));
         try {
-            list = commonDao.getCustomViewDetailsList(query);
+            resultsList = commonDao.getCustomViewDetailsList(dynamicQuery);
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        if (list != null && !list.isEmpty()) {
-            for (CustomViewDetails customViewDetails : list) {
-                indicator = customViewDetails.getHierarchyIndicator();
+        if (resultsList != null && !resultsList.isEmpty()) {
+            for (CustomViewDetails customViewDetails : resultsList) {
+                viewIndicator = customViewDetails.getHierarchyIndicator();
                 break;
             }
         }
-        return indicator;
+        return viewIndicator;
     }
 
     public static int getIndicatorCount(int viewName) {
-        List<CustomViewDetails> list = new ArrayList<>();
-        DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
-        query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
+        List<CustomViewDetails> resultsList = new ArrayList<>();
+        DynamicQuery dynamicQuery = CustomViewDetailsLocalServiceUtil.dynamicQuery();
+        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
         try {
-            list = commonDao.getCustomViewDetailsList(query);
+            resultsList = commonDao.getCustomViewDetailsList(dynamicQuery);
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return list.size();
+        return resultsList.size();
     }
 
     public static int getLevelListCountDPR(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, boolean isFilter, boolean isGroupFilter, String levelName, int customSid, boolean customFlag) {
@@ -2650,11 +2650,11 @@ public class CommonLogic {
 
     public static String convertStringToDate(String stringDate, String inputFormat, String outputFormat) {
         try {
-            SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
-            SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
+            SimpleDateFormat inputFormatter = new SimpleDateFormat(inputFormat);
+            SimpleDateFormat outputFormatter = new SimpleDateFormat(outputFormat);
             Date date;
-            date = inputDateFormatter.parse(stringDate);
-            return outputDateFormatter.format(date);
+            date = inputFormatter.parse(stringDate);
+            return outputFormatter.format(date);
         } catch (ParseException ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2723,42 +2723,42 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getCustomTreeMan(int customId) {
-        List<Leveldto> listValue = new ArrayList<>();
+        List<Leveldto> treeList = new ArrayList<>();
         if (customId != 0) {
-            List<CustomViewDetails> customDetailsList = getCustomViewDetailsMan(customId);
-            for (CustomViewDetails ob : customDetailsList) {
-                List list = getRelationshipLevelsMan(ob.getHierarchyId());
-                if (list != null && !list.isEmpty()) {
-                    Object[] obj = (Object[]) list.get(0);
+            List<CustomViewDetails> customViewList = getCustomViewDetailsMan(customId);
+            for (CustomViewDetails customDetails : customViewList) {
+                List relationshipList = getRelationshipLevelsMan(customDetails.getHierarchyId());
+                if (relationshipList != null && !relationshipList.isEmpty()) {
+                    Object[] obj = (Object[]) relationshipList.get(0);
                     if (obj.length > 1) {
-                        Leveldto dto = new Leveldto();
-                        dto.setHierarchyId(ob.getHierarchyId());
-                        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-                        dto.setLevel(String.valueOf(obj[0]));
-                        dto.setTreeLevelNo(ob.getLevelNo());
-                        dto.setHierarchyIndicator(ob.getHierarchyIndicator());
-                        listValue.add(dto);
+                        Leveldto levelDto = new Leveldto();
+                        levelDto.setHierarchyId(customDetails.getHierarchyId());
+                        levelDto.setLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+                        levelDto.setLevel(String.valueOf(obj[0]));
+                        levelDto.setTreeLevelNo(customDetails.getLevelNo());
+                        levelDto.setHierarchyIndicator(customDetails.getHierarchyIndicator());
+                        treeList.add(levelDto);
                     }
                 }
             }
         }
-        return listValue;
+        return treeList;
     }
 
     public static List getRelationshipLevelsMan(int hierarchyLevelId) {
-        List list = null;
+        List resultList = null;
         try {
-            DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
-            query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
-            ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NO));
-            query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
-            list = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(query);
+            DynamicQuery relationshipQuery = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
+            relationshipQuery.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
+            ProjectionList projListFrom = ProjectionFactoryUtil.projectionList();
+            projListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
+            projListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NO));
+            relationshipQuery.setProjection(ProjectionFactoryUtil.distinct(projListFrom));
+            resultList = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(relationshipQuery);
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return list;
+        return resultList;
     }
 
     /**
@@ -2788,21 +2788,21 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getHierarchyMan(int projectionId, String hierarchyIndicator, final int levelNo) {
-        List<Leveldto> listValue = new ArrayList<>();
+        List<Leveldto> resultsList = new ArrayList<>();
         try {
-            String query = getHierarchyTreeQueryMan(projectionId, hierarchyIndicator, levelNo);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-            if (list != null && !list.isEmpty()) {
-                for (Object list1 : list) {
+            String treeQuery = getHierarchyTreeQueryMan(projectionId, hierarchyIndicator, levelNo);
+            List<Object> dataList = (List<Object>) executeSelectQuery(treeQuery, null, null);
+            if (dataList != null && !dataList.isEmpty()) {
+                for (Object list1 : dataList) {
                     final Object[] obj = (Object[]) list1;
-                    Leveldto dto = getCustomizedViewMan(obj, true);
-                    listValue.add(dto);
+                    Leveldto levelDto = getCustomizedViewMan(obj, true);
+                    resultsList.add(levelDto);
                 }
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        return listValue;
+        return resultsList;
     }
 
     public static String getHierarchyTreeQueryMan(int projectionId, String hierarchyIndicator, final int levelNo) {
@@ -2827,30 +2827,30 @@ public class CommonLogic {
      * @return
      */
     public static Leveldto getCustomizedViewMan(Object[] obj, boolean isHierarchy) {
-        Leveldto dto = new Leveldto();
-        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
-        dto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-        dto.setHierarchyIndicator(String.valueOf(obj[2]));
-        dto.setLevel(String.valueOf(obj[3]));
+        Leveldto levelDto = new Leveldto();
+        levelDto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
+        levelDto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+        levelDto.setHierarchyIndicator(String.valueOf(obj[2]));
+        levelDto.setLevel(String.valueOf(obj[3]));
         if (isHierarchy) {
-            dto.setHierarchyId(Integer.valueOf(String.valueOf(obj[4])));
+            levelDto.setHierarchyId(Integer.valueOf(String.valueOf(obj[4])));
         } else {
-            dto.setRelationshipLevelValue(String.valueOf(obj[4]));
-            dto.setParentNode(String.valueOf(obj[5]));
-            dto.setHierarchyNo(String.valueOf(obj[6]));
+            levelDto.setRelationshipLevelValue(String.valueOf(obj[4]));
+            levelDto.setParentNode(String.valueOf(obj[5]));
+            levelDto.setHierarchyNo(String.valueOf(obj[6]));
 
         }
-        return dto;
+        return levelDto;
     }
 
     public static List<Object> getLevelNoAndHierarchyNo(Object value, boolean filter) {
-        List<Object> levelHierarchy = new ArrayList<>();
+        List<Object> levelHierarchyList = new ArrayList<>();
         String selectedId = DASH;
         if ((value != null) && (!SELECT_ONE.equals(String.valueOf(value)))) {
             selectedId = String.valueOf(value);
         }
         int levelNo = -1;
-        String hierarchyNo = StringUtils.EMPTY;
+        String hierarchyNum = StringUtils.EMPTY;
         int j = selectedId.indexOf('~');
         if (filter && j > 0) {
             levelNo = Integer.parseInt(selectedId.substring(j - 1, j));
@@ -2858,11 +2858,11 @@ public class CommonLogic {
             levelNo = Integer.parseInt(selectedId.substring(0, j));
         }
         if (selectedId.length() > (j + 1)) {
-            hierarchyNo = selectedId.substring(j + 1, selectedId.length());
+            hierarchyNum = selectedId.substring(j + 1, selectedId.length());
         }
-        levelHierarchy.add(Integer.valueOf(levelNo));
-        levelHierarchy.add(hierarchyNo);
-        return levelHierarchy;
+        levelHierarchyList.add(Integer.valueOf(levelNo));
+        levelHierarchyList.add(hierarchyNum);
+        return levelHierarchyList;
     }
 
     public static Map<Object, Object> getReturnsProjectionSelection(final int projectionId) {
@@ -5338,15 +5338,20 @@ public class CommonLogic {
     
     public static void viewProceduresCompletionCheck(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOMER);
-        procedureCompletionCheck(session,SMALL_SALES,Constants.PRODUCT);
-        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOM);
+        procedureCompletionCheck(session, SMALL_SALES, Constants.CUSTOMER);
+        procedureCompletionCheck(session, SMALL_SALES, Constants.PRODUCT);
+        if (session.getCustomRelationShipSid() != 0) {
+            procedureCompletionCheck(session, SMALL_SALES, Constants.CUSTOM);
+        }
     }
+
     public static void viewProceduresCompletionCheckDiscount(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOMER);
-        procedureCompletionCheck(session, DISCOUNT,Constants.PRODUCT);
-        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOM);
+        procedureCompletionCheck(session, DISCOUNT, Constants.CUSTOMER);
+        procedureCompletionCheck(session, DISCOUNT, Constants.PRODUCT);
+        if (session.getCustomDeductionRelationShipSid() != 0) {
+            procedureCompletionCheck(session, DISCOUNT, Constants.CUSTOM);
+        }
     }
    
 
@@ -5378,7 +5383,7 @@ public class CommonLogic {
         return deductionList;
     }
     public static void updateFlagStatusToR(SessionDTO session, String screenName, String view) {
-        LOGGER.info("updateFlagStatusToR---------------------------------------------------{}" + view);
+        LOGGER.info("updateFlagStatusToR---------------------------------------------------{} " , view);
 
         switch (view) {
             case Constants.CUSTOMER:

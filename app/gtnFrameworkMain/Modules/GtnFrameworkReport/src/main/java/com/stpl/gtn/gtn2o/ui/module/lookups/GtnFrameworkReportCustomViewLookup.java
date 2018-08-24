@@ -191,6 +191,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 		variableLoadConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
+		variableLoadConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 
 		variableTypeOptionGroup.addGtnUIFrameWorkActionConfig(variableLoadConfig);
 		componentList.add(variableTypeOptionGroup);
@@ -235,6 +243,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.ADD_VARIABLES_BTN);
 		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.REMOVE_VARIABLES_BTN);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
+		valuChangeConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 
 		variablePositionOptionGroup.addGtnUIFrameWorkActionConfig(valuChangeConfig);
 		componentList.add(variablePositionOptionGroup);
@@ -263,7 +279,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		hierarchyNameTextBox.setComponentName("Tree View Name: ");
 		hierarchyNameTextBox.setAddToParent(true);
 		hierarchyNameTextBox.addComponentStyle("stpl-margin-left-30");
-		
+
 		hierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		hierarchyNameTextBox.setComponentWidth("300px");
 		hierarchyNameTextBox.setDefaultFocus(true);
@@ -351,7 +367,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				.getVerticalLayoutConfig(tabName + "customerBtn", mainCustomerCssLayout.getComponentId());
 		customerBtnVerLayout.setSpacing(true);
 		customerBtnVerLayout.addComponentStyle("stpl-margin-top-100");
-		customerBtnVerLayout.addComponentStyle("stpl-margin-left-40");
+		customerBtnVerLayout.addComponentStyle("stpl-margin-left-10");
 		componentList.add(customerBtnVerLayout);
 
 		GtnUIFrameworkComponentConfig addCustomerButton = new GtnUIFrameworkComponentConfig();
@@ -426,7 +442,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				tabName + GtnFrameworkReportStringConstants.PRODUCT_BTN, mainCssLayoutForProduct.getComponentId());
 		productBtnVerticalLayout.setSpacing(true);
 		productBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
-		productBtnVerticalLayout.addComponentStyle("stpl-margin-left-40");
+		productBtnVerticalLayout.addComponentStyle("stpl-margin-left-10");
 		componentList.add(productBtnVerticalLayout);
 
 		GtnUIFrameworkComponentConfig addProductButton = new GtnUIFrameworkComponentConfig();
@@ -500,7 +516,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				tabName + GtnFrameworkReportStringConstants.DEDUCTION_BTN, mainCssLayoutForProduct.getComponentId());
 		deductionBtnVerticalLayout.setSpacing(true);
 		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
-		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-left-40");
+		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-left-10");
 
 		componentList.add(deductionBtnVerticalLayout);
 
@@ -559,7 +575,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		variablesGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		variablesGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
 		variablesGrid.setComponentWidth("100%");
-		
+
 		GtnUIFrameWorkActionConfig variableLoadConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableLoadConfig.addActionParameter(GtnFrameworkUICustomVariableGridLoadAction.class.getName());
@@ -581,7 +597,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				tabName + GtnFrameworkReportStringConstants.VARIABLES_BTN, mainCssLayoutForProduct.getComponentId());
 		variablesBtnVerticalLayout.setSpacing(true);
 		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
-		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-left-40");
+		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-left-10");
 
 		componentList.add(variablesBtnVerticalLayout);
 
@@ -695,6 +711,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
+		saveActionConfig.addActionParameter(false);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
 
 		GtnUIFrameworkComponentConfig selectButtonConfig = new GtnUIFrameworkComponentConfig();
@@ -714,7 +731,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				this.tabName + "_custom_Variable_Type_OptionGroup", this.tabName + "_custom_Variable_OptionGroup" });
 		selectSaveActionConfig.addActionParameter(tabName + "customTreeTable");
 		selectSaveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
-
+		selectSaveActionConfig.addActionParameter(true);
 		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 

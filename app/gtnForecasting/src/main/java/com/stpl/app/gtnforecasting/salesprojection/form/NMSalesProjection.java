@@ -35,7 +35,6 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
-import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
@@ -45,7 +44,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -94,6 +92,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
+    private boolean spFlag = true;
 
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
@@ -180,7 +179,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setIsFilter(true);
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
-            projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
+            projectionDTO.setFilterLevelNo(Integer.parseInt(projectionDTO.getLevelFilterValue()));
             nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
@@ -256,13 +255,15 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } else {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
-                }
-                    if (i == exportAt) {
-                        exp.exportMultipleTabs(true);
-            } else {
-                        exp.exportMultipleTabs(false);
+                        if (exp != null) {
+                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
                     }
+                    if (exp != null) {
+                        boolean export = i == exportAt;
+                        exp.exportMultipleTabs(export);
+                    }
+                    
                 }
             } else {
                 List<String> columnHeader = new ArrayList<>();
@@ -276,7 +277,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                   Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
                     if (displayFormatIndex.length == 1) {
                         for (int k = 0; k < displayFormatIndex.length; k++) {
-                            LOGGER.info("obj--------------=====" , k);
+                            LOGGER.info("obj--------------===== {}" , k);
                             int index = (Integer) displayFormatIndex[k];
                             if (index == 0) {
                                 visibleColumns.remove(Constant.DF_LEVEL_NAME);
@@ -348,7 +349,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void massUpdateLogic() {
-        if ((Constant.LabelConstants.DISABLE).equals(massUpdate.getValue())) {
+        if ((Constant.LabelConstants.DISABLE.getConstant()).equals(massUpdate.getValue())) {
             fieldDdlb.setValue(Constant.SELECT_ONE);
             fieldDdlb.setEnabled(false);
             valueDdlb.setEnabled(false);
@@ -385,14 +386,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());
         generateLogic();
-        if (viewDdlb.getValue() != null
-                && !Constant.NULL.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
-                && !SELECT_ONE.getConstant().equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
-                && !DASH.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))) {
-            editBtn.setEnabled(false);
-        } else {
-            editBtn.setEnabled(false);
-        }
+        editBtn.setEnabled(false);
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
 
@@ -463,6 +457,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         variables.addItem(Constant.ACCOUNT_GROWTH);
         variables.select(Constant.SALES_SMALL);
         unitOfMeasureDdlb.select("EACH");
+        conversionFactorDdlb.select(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
         loadDisplayFormatDdlb();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(true);
@@ -521,7 +516,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 inputParameters[0] = session.getProjectionId();
                 inputParameters[1] = hierarchyNo;
                 List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
-                int projectionDetailsId = Integer.valueOf(projectionDetailsIdForPMPY.get(0).toString());
+                int projectionDetailsId = Integer.parseInt(projectionDetailsIdForPMPY.get(0).toString());
                 List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
 
                 String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");
@@ -613,6 +608,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
             customerFilterGenerate(customerFlag, productFlag);
             projectionDTO.setGroup(StringUtils.EMPTY);
 
+        }
+    }
+    public void checkSpFrequency(){
+        spFlag = true;
+        if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
+            spFlag =false;
+            AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+        
         }
     }
 
@@ -915,6 +918,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
             map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues), CommonUtil.COMMA));
+            map.put(Constant.UNIT_OF_MEASURE, String.valueOf(unitOfMeasureDdlb.getValue()));
+            map.put(Constant.CONVERSION_FACTOR_DDLB, String.valueOf(conversionFactorDdlb.getValue()));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -1177,12 +1182,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } else {
-                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        if (exp != null) {
+                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                        }
                     }
-                    if (i == exportAt) {
-                        exp.exportMultipleTabs(true);
-                    } else {
-                        exp.exportMultipleTabs(false);
+                    if (exp != null) {
+                        boolean export = i == exportAt;
+                        exp.exportMultipleTabs(export);
                     }
                 }
             } else {

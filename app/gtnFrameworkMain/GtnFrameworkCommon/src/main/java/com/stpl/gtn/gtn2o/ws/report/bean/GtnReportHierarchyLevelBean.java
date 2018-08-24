@@ -24,6 +24,10 @@ public class GtnReportHierarchyLevelBean {
 	private Integer hierarchyVersionNo;
 	private int relationShipVersionNo;
 
+	public String getFieldName() {
+		return fieldName;
+	}
+
 	public String getLevel() {
 		return level;
 	}
@@ -48,36 +52,16 @@ public class GtnReportHierarchyLevelBean {
 		this.relationshipLevelSid = relationshipLevelSid;
 	}
 
-	public String getRelationshipLevelValue() {
-		return relationshipLevelValue;
-	}
-
 	public void setRelationshipLevelValue(String relationshipLevelValue) {
 		this.relationshipLevelValue = relationshipLevelValue;
-	}
-
-	public String getTableName() {
-		return tableName;
 	}
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
 
-	public String getFieldName() {
-		return fieldName;
-	}
-
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
-	}
-
 	public String getLevelValueReference() {
 		return levelValueReference;
-	}
-
-	public void setLevelValueReference(String levelValueReference) {
-		this.levelValueReference = levelValueReference;
 	}
 
 	public String getHierarchyNo() {
@@ -94,6 +78,10 @@ public class GtnReportHierarchyLevelBean {
 
 	public void setRelationShipBuilderId(String relationShipBuilderId) {
 		this.relationShipBuilderId = relationShipBuilderId;
+	}
+
+	public String getTableName() {
+		return tableName;
 	}
 
 	public String getHierarchyLevelDefSid() {
@@ -124,6 +112,10 @@ public class GtnReportHierarchyLevelBean {
 		return hierarchyVersionNo;
 	}
 
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
 	public void setHierarchyVersionNo(Integer hierarchyVersionNo) {
 		this.hierarchyVersionNo = hierarchyVersionNo;
 	}
@@ -144,6 +136,10 @@ public class GtnReportHierarchyLevelBean {
 		this.hierarchyDefSid = hierarchyDefSid;
 	}
 
+	public void setLevelValueReference(String levelValueReference) {
+		this.levelValueReference = levelValueReference;
+	}
+
 	public static GtnReportHierarchyLevelBean getLastLinkedLevel(
 			List<GtnReportHierarchyLevelBean> customerHierarchyLevelDefinitionList) {
 		for (int i = customerHierarchyLevelDefinitionList.size() - 1; i >= 0; i--) {
@@ -152,6 +148,10 @@ public class GtnReportHierarchyLevelBean {
 			}
 		}
 		return null;
+	}
+
+	public String getRelationshipLevelValue() {
+		return relationshipLevelValue;
 	}
 
 }

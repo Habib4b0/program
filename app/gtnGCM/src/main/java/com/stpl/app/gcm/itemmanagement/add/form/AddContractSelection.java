@@ -32,7 +32,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -205,7 +204,7 @@ public class AddContractSelection extends CustomComponent {
     private final AddItemTableDTO binderDto = new AddItemTableDTO();
     private static final String CONFIRMATION_HEADER = "Confirmation";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    private SelectionDTO selection;
+    private SelectionDTO selection = new SelectionDTO();
     private final BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
     private final AbstractComponentInfo component = new AbstractComponentInfo(Constants.RS, selection);
@@ -1629,8 +1628,8 @@ public class AddContractSelection extends CustomComponent {
             priceType.setNullSelectionAllowed(false);
         }
         for (Object[] objects : list) {
-            priceType.addItem((int) objects[0]);
-            priceType.setItemCaption((int) objects[0], objects[1].toString());
+            priceType.addItem((Integer) objects[0]);
+            priceType.setItemCaption((Integer) objects[0], objects[1].toString());
         }
     }
 

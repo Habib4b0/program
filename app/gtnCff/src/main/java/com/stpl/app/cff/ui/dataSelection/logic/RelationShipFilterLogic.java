@@ -97,9 +97,9 @@ public class RelationShipFilterLogic {
 				dto.setDisplayValue(customerDescMap.get(String.valueOf(obj[NumericConstants.FOUR])));
 				dto.setLevel(customerDescMap.get(String.valueOf(obj[NumericConstants.FOUR])));
 				dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
-				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
+                                dto.setLevelNo(Integer.valueOf(String.valueOf(obj[NumericConstants.ONE])));
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+				dto.setRelationshipLevelSid(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
 				dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
 				dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
 				if (isNdc) {
@@ -222,13 +222,13 @@ public class RelationShipFilterLogic {
 			String dedLevel, String dedValue, int relationVersionNo, int customerRelationVersionNo,
 			Object businessUnitValue, Map<String, String> productDescMap) throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
-				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null, Boolean.FALSE);
+				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null, false);
 		inputBean.setSelectedCustomerList(
 				LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
 
 		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
-		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
+		if (!selectedCustomerContractList.isEmpty()) {
 			inputBean.setSelectedCustomerHierarcySid(selectedCustomerContractList.get(0).getHierarchyId());
 			inputBean
 					.setSelectedCustomerHierarchyVersionNo(selectedCustomerContractList.get(0).getHierarchyVersionNo());

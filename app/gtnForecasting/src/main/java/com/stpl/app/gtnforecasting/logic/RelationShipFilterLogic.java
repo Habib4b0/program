@@ -81,7 +81,7 @@ public class RelationShipFilterLogic {
 			throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, dedLevel, dedValue, relationVersionNo,
-				forecastEligibleDate, Boolean.FALSE);
+				forecastEligibleDate, false);
 		String query = getLoadDataQuery(inputBean);
 		return customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false);
 	}
@@ -98,9 +98,9 @@ public class RelationShipFilterLogic {
 				dto.setDisplayValue(customerDescMap.get(obj[NumericConstants.FOUR]));
 				dto.setLevel(customerDescMap.get(obj[NumericConstants.FOUR]));
 				dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
-				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
+				dto.setLevelNo(Integer.valueOf(String.valueOf(obj[NumericConstants.ONE])));
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+				dto.setRelationshipLevelSid(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
 				dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
 				dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
 				if (isNdc) {
@@ -243,7 +243,7 @@ public class RelationShipFilterLogic {
 			throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null,
-				Boolean.FALSE);
+				false);
 
 
 		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));

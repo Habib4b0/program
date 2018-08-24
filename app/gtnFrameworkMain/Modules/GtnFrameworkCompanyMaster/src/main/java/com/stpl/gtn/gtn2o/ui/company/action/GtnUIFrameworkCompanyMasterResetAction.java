@@ -40,10 +40,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.cmrequest.GtnCMasterRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-/**
- *
- * @author Mersal Manikanda.Prabu
- */
 public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkCompanyMasterResetAction.class);
@@ -52,6 +48,9 @@ public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAct
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		gtnLogger.debug("Entering inside configureParams");
+                /**
+                 * An EmptyMethod
+                 */
 	}
 
 	@Override
@@ -125,7 +124,7 @@ public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAct
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkCompanyMasterResetAction();
+		return this;
 	}
 
 	public void setValueToComponents(GtnCMasterBean bean, int position, String componentId) {

@@ -34,9 +34,6 @@ public class CommonUtils {
 	private static PortletConfig portletConfig;
     public final static String COMPANY_NAME = "companyName";
     public final static String QUOTES = "'";
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    public static final SimpleDateFormat commonDate = new SimpleDateFormat("MM-dd-yyy");
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     public static final String MMDDYYYY = "MM/dd/yyyy";
     /**
      * The Constant CHAR_ASTERISK.
@@ -96,7 +93,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;
@@ -110,30 +107,13 @@ public class CommonUtils {
      */
     public static int convertToInteger(String s) {
         try {
-            Integer.parseInt(s);
+            return Integer.parseInt(s);
         } catch (NumberFormatException e) {
             try {
-                Double.valueOf(s).intValue();
+                return Double.valueOf(s).intValue();
             } catch (Exception ex) {
                 return 0;
             }
-            return Double.valueOf(s).intValue();
-        }
-        return Integer.parseInt(s);
-    }
-
-    /**
-     * To check whether the given string is double or not
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isDouble(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
         }
     }
 

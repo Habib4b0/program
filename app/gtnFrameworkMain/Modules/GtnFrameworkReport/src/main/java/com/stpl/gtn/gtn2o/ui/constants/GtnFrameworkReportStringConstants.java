@@ -15,8 +15,9 @@ public final class GtnFrameworkReportStringConstants {
 	private GtnFrameworkReportStringConstants() {
 
 	}
-        public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
-        
+
+	public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+
 	public static final String LEVEL_VALUE = "levelValue";
 
 	public static final String VALUE = "value";
@@ -32,6 +33,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
+
+	public static final String QUARTER = "Quarter";
 
 	public static final String SELECT_ONE_PLACE_HOLDER = "-Select One-";
 
@@ -64,6 +67,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
+        
+	public static final String RP_DASH_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Reporting Dashboard Selection section to the previous values?";
 
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
@@ -328,8 +333,20 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO = "displaySelectionTabPeriodRangeTo";
 
 	public static final String FILTER_OPTIONS_TAB = "filterOptionsTab";
+	
+	public static final String FILTER_OPTIONS_TAB_PANEL = "filterOptionsTabPanel";
+	
+	public static final String FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT = "filterOptionsTabPanelVerticalLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_LAYOUT_TOP = "filterOptionsTabTopLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_LAYOUT_BOTTOM = "filterOptionsTabBottomLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CSS_LAYOUT = "filterOptionsTabCssLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT = "filterOptionsTabTopCssLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT = "filterOptionsTabBottomCssLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT = "filterOptionsTabCustomerLevelLayout";
 
@@ -425,6 +442,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String NO_LEVEL_SELECTED_CAPTION = "No level Selected";
 
+	public static final String SELECT_A_ROW_CAPTION = "Select a row";
+
 	public static final String NO_LEVEL_SELECTED_MSG = "Please select a row to move.";
 
 	public static final String VARIABLE_POSITION_OPTION_GROUP = "custom_Variable_OptionGroup";
@@ -483,8 +502,40 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
 
-        public static final String CONFIRMATION = "Confirmation";
-	
+	public static final String REPORT_CUSTOMER_HIERARCHY = "customerHierarchy";
+
+	public static final String REPORT_CUSTOMER_RELATION_VERSION = "customerRelationshipVersion";
+
+	public static final String REPORT_CUSTOMER_SELECTION_LEVEL = "customerSelectionLevel";
+
+	public static final String REPORT_PRODUCT_SELECTION_LEVEL_RELATION = "customerSelectionRelationship";
+
+	public static final String CONFIRMATION = "Confirmation";
+
+	public static final String REPORTING_DASHBOARD = "Reporting Dashboard";
+
+	public static final String REPORT_CHART_LOOKUP_VIEW = "chartLookupView";
+
+	public static final String MARGIN_LEFT_9 = "stpl-margin-left-9px";
+
+	public static final String COMPARISON_OPTIONS = "comparisonOptions";
+
+	public static final String MARGIN_TOP_11 = "stpl-margin-top-11";
+
+	public static final String MARGIN_LEFT_10 = "stpl-margin-left-10";
+
+	public static final String MARGIN_CUSTOM_STYLE_10 = "v-margin-custom-style-10";
+
+	public static final String CUSTOM_VARIABLE_TYPE_OPTIONGROUP = "_custom_Variable_Type_OptionGroup";
+
+	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
+
+	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
+
+	public static final String COMPARISON_SEARCH_PANEL_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset?";
+
+	public static final String COMPARISON_LOWER_PANEL_RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the contents of the ‘Projections’ list view?";
+
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
 
@@ -508,7 +559,7 @@ public final class GtnFrameworkReportStringConstants {
 			"createdDate", "modifiedDate" };
 
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
-			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
+			"businessUnit", "type", "version", "activeFrom", "toPeriod" ,"activeFile" };
 
 	private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList(
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
@@ -518,6 +569,8 @@ public final class GtnFrameworkReportStringConstants {
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
 
 	public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
+        
+        public static final String REPORT_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.";
 
 	public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
@@ -528,6 +581,9 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingVariableBreakdownHeaderLoadAction";
+        
+        public static final String REPORT_COMPARISON_FILTER_ACTION = REPORT_ACTION_PACKAGE
+			+ "ComparisonProjectionResultFilterAction";
 
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
 			"Market Type", "Contract Holder", "Contract", "Brand");

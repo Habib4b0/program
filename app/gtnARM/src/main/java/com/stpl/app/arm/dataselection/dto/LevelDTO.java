@@ -5,19 +5,20 @@
  */
 package com.stpl.app.arm.dataselection.dto;
 
+import com.stpl.ifs.ui.util.NumericConstants;
 import org.apache.commons.lang.StringUtils;
 
 /**
  *
  * @author sathyaseelan.v
  */
-public class LevelDTO implements Cloneable, Comparable<LevelDTO> {
+public class LevelDTO implements Comparable<LevelDTO> {
 
     private String level;
     private String levelValueReference;
     private String tableName;
     private String fieldName;
-    private Integer levelNo = new Integer("0");
+    private Integer levelNo = NumericConstants.ZERO;
     private int relationshipLevelSid;
     private String ndc;
     private String form;
@@ -50,16 +51,43 @@ public class LevelDTO implements Cloneable, Comparable<LevelDTO> {
         THE DEFAULT CONSTRUCTOR
          */
     }
-    
-    @Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
 
-	@Override
-	public int compareTo(LevelDTO obj) {
-		return this.levelNo.compareTo(obj.levelNo);
-	}
+    public LevelDTO(LevelDTO levelDto) {
+        this.level = levelDto.getLevel();
+        this.levelValueReference = levelDto.getLevelValueReference();
+        this.tableName = levelDto.getTableName();
+        this.fieldName = levelDto.getFieldName();
+        this.relationshipLevelSid = levelDto.getRelationshipLevelSid();
+        this.ndc = levelDto.getNdc();
+        this.form = levelDto.getForm();
+        this.strength = levelDto.getStrength();
+        this.displayValue = levelDto.getDisplayValue();
+        this.actualValue = levelDto.getActualValue();
+        this.rsModelSID = levelDto.getRsModelSID();
+        this.rsName = levelDto.getRsName();
+        this.rsId = levelDto.getRsId();
+        this.relationshipLevelValue = levelDto.getRelationshipLevelValue();
+        this.rsCategory = levelDto.getRsCategory();
+        this.rsType = levelDto.getRsType();
+        this.rsProg = levelDto.getRsProg();
+        this.udc2 = levelDto.getUdc2();
+        this.udc3 = levelDto.getUdc3();
+        this.udc4 = levelDto.getUdc4();
+        this.udc5 = levelDto.getUdc5();
+        this.udc6 = levelDto.getUdc6();
+        this.parentNode = levelDto.getParentNode();
+        this.hierarchyNo = levelDto.getHierarchyNo();
+        this.relationShipBuilderId = levelDto.getRelationShipBuilderId();
+        this.hierarchyLevelDefnId = levelDto.getHierarchyLevelDefnId();
+        this.hierarchyId = levelDto.getHierarchyId();
+        this.hierarchyVersionNo = levelDto.getHierarchyVersionNo();
+        this.relationShipVersionNo = levelDto.getRelationShipVersionNo();
+    }
+
+    @Override
+    public int compareTo(LevelDTO obj) {
+        return this.levelNo.compareTo(obj.levelNo);
+    }
 
     public String getLevel() {
         return level;
@@ -76,7 +104,7 @@ public class LevelDTO implements Cloneable, Comparable<LevelDTO> {
     public void setLevelValueReference(String levelValueReference) {
         this.levelValueReference = levelValueReference;
     }
-    
+
     public String getTableName() {
         return tableName;
     }
@@ -308,5 +336,5 @@ public class LevelDTO implements Cloneable, Comparable<LevelDTO> {
     public void setHierarchyVersionNo(int hierarchyVersionNo) {
         this.hierarchyVersionNo = hierarchyVersionNo;
     }
-    
+
 }

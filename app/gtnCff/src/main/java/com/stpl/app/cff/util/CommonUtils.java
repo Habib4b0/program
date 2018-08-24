@@ -563,7 +563,7 @@ public class CommonUtils {
     public List<CFFSearchDTO> getCustomizedSearchResults(List<Object[]> resultList) {
         List<CFFSearchDTO> cffSearchDTOs = new ArrayList<>();
         CFFSearchDTO cffSearchDTOLoop;
-        SimpleDateFormat form = new SimpleDateFormat("MM/dd/YYYY");
+        SimpleDateFormat form = new SimpleDateFormat(MMDDYYYY);
         Map<Integer, String> userInfo = StplSecurity.getUserMap();
         for (Object[] obj : resultList) {
             cffSearchDTOLoop = new CFFSearchDTO();
@@ -830,13 +830,12 @@ public class CommonUtils {
         return select;
     }
 
-    public static boolean isInteger(String s) {
+    public static boolean isInteger(String strr) {
         try {
-            Integer.parseInt(s);
+              return strr != null && !"null".equals(strr)&& strr.matches("^\\d+$");
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     public static void getHistoryAndProjectionDetails(ProjectionSelectionDTO projSelDTO) {
@@ -1183,7 +1182,7 @@ public class CommonUtils {
         } else {
             LOGGER.debug("entering convert2DigitTo4DigitYearFormat with P1:Date enteredDate= {}", enteredDate);
             final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-            final SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
+            final SimpleDateFormat fmt = new SimpleDateFormat(MMDDYYYY);
             final Calendar cal = Calendar.getInstance();
             cal.add(Calendar.YEAR, -NumericConstants.FOURTEEN);
             sdf.set2DigitYearStart(cal.getTime());
@@ -1238,7 +1237,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;
@@ -1513,12 +1512,15 @@ public class CommonUtils {
         if (stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constants.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
+            if(String.valueOf(value).isEmpty()){
+            return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
+            }
             if (needZeroForNull && nullCheck(value)) {
                 return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
-            return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
+             return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
         if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));

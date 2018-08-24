@@ -124,9 +124,9 @@ public class FcpResultsLogic {
             int projMasterId = projSelDTO.getProjectionId();
             int brandSid = projSelDTO.getBrandMasterId();
             int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
-            List<Object[]> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
+            List<Integer> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
             if (fcpList != null && !fcpList.isEmpty()) {
-                count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? String.valueOf(fcpList.get(0)) : Constant.STRING_ONE);
+                count += StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? fcpList.get(0) : Constant.ONE;
             }
 
         }
@@ -484,7 +484,7 @@ public class FcpResultsLogic {
     }
 
     // Non Famp Starts 
-    public List<TableDTO> getConfiguredNonFamp(int start, int offset, ProjectionSelectionDTO projSelDTO, String hierarchyNo, SessionDTO session) {
+    public List<TableDTO> getConfiguredNonFamp(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(ACTUALS_AND_PROJECTIONS);
@@ -493,13 +493,12 @@ public class FcpResultsLogic {
         projSelDTO.setIsTotal(true);
         projSelDTO.setTreeLevelNo(0);
         projSelDTO.setGroup(StringUtils.EMPTY);
-        hierarchyNo = null;
         resultList = getNonFampResults(start, offset, projSelDTO, session);
 
         return resultList;
     }
 
-    public int getConfiguredNonFampCount(Object parentId, ProjectionSelectionDTO projSelDTO, String hierarchyNo) {
+    public int getConfiguredNonFampCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(ACTUALS_AND_PROJECTIONS);
@@ -514,14 +513,12 @@ public class FcpResultsLogic {
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
             projSelDTO.setGroup(parentDto.getGroup());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
-            hierarchyNo = parentDto.getHierarchyNo();
 
         } else {
             projSelDTO.setIsProjectionTotal(true);
             projSelDTO.setIsTotal(true);
             projSelDTO.setTreeLevelNo(0);
             projSelDTO.setGroup(StringUtils.EMPTY);
-            hierarchyNo = null;
         }
         count += getNonFampCount(projSelDTO);
         return count;
@@ -584,8 +581,8 @@ public class FcpResultsLogic {
             }
         }
 
-        for (int itemSid : nonFampMap.keySet()) {
-            projDTOList.addAll(getNonFampCust(list, projSelDTO, itemSid, nonFampMap.get(itemSid)));
+        for (Map.Entry<Integer, String> itemSid : nonFampMap.entrySet()) {
+            projDTOList.addAll(getNonFampCust(list, projSelDTO, itemSid.getKey(), itemSid.getValue()));
         }
 
         return projDTOList;
@@ -670,8 +667,8 @@ public class FcpResultsLogic {
         int projMasterId = projSelDTO.getProjectionId();
         int brandMasterSid = projSelDTO.getBrandMasterId();
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
-        List<Object[]> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandMasterSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
-        count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? String.valueOf(fcpList.get(0)) : Constant.STRING_ONE);
+        List<Integer> fcpList = queryUtil.loadFcpResultsTable(projMasterId, brandMasterSid, "getFcpParentCount", projSelDTO.getLevelNo(), 0, therapeuticSid);
+        count += StringUtils.isNotBlank(String.valueOf(fcpList.get(0))) ? fcpList.get(0) : Constant.ONE;
         return count;
     }
 
@@ -985,9 +982,9 @@ public class FcpResultsLogic {
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
         int count = 0;
         try {
-            List<Object[]> medicaidIndex = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpRowIndex", 0, itemMasterSid, therapeuticSid);
+            List<Integer> medicaidIndex = queryUtil.loadFcpResultsTable(projMasterId, brandSid, "getFcpRowIndex", 0, itemMasterSid, therapeuticSid);
             if (!medicaidIndex.isEmpty()) {
-                count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
+                count = StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? medicaidIndex.get(0) : Constant.ZERO;
             }
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
@@ -1122,7 +1119,7 @@ public class FcpResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = Double.compare(Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])), 0) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }

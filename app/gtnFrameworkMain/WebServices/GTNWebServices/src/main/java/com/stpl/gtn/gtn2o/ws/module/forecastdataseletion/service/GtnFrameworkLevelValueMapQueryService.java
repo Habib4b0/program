@@ -96,26 +96,22 @@ public class GtnFrameworkLevelValueMapQueryService {
 	}
 
 	public List<Object[]> getLevelValueMap(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(inputBean.getHieraryQuery());
- 		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(inputBean.getHieraryQuery());
 	}
 
 	public List<Object[]> getHierarchyLevelValues(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
 		String query = gtnWsSqlService.getQuery("getHierarchyLevelVlaues");
 		Object[] params = {inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo()};
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER , GtnFrameworkDataType.INTEGER};
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query, params,paramsType);
-		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query, params,paramsType);
 	}
 
 	public List<Object[]> getCustomerLevels(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(inputBean.getHieraryQuery());
-		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(inputBean.getHieraryQuery());
 	}
 	
 	public List<Object[]> loadCustHierarchyAvailableTable(String query) throws GtnFrameworkGeneralException {
-		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
-		return resultList;
+		return (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
 	}
 
 }

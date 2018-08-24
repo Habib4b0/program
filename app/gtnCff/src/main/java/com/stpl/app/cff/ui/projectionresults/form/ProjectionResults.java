@@ -202,7 +202,7 @@ public class ProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setDiscountList(new ArrayList<>(discountlist));
             projectionSelectionDTO.setCustomerLevelNo(NumericConstants.TWO);
             projectionSelectionDTO.setProductLevelNo(NumericConstants.TWO);
-            configureProjectionDTO();
+            configureProjectionResultsDTO();
             viewChange(false);
             groupChange(false);
         }
@@ -462,12 +462,16 @@ public class ProjectionResults extends ForecastProjectionResults {
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
                 } else {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+                    if (exp != null) {
+                        exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+                    }
                 }
                 if (i == exportAt) {
                     exp.exportMultipleTabs(true);
                 } else {
-                    exp.exportMultipleTabs(false);
+                    if (exp != null) {
+                        exp.exportMultipleTabs(false);
+                    }
                 }
             }
         } else {
@@ -477,7 +481,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         tableVerticalLayout.removeComponent(exceltable);
     }
 
-    private void configureProjectionDTO() {
+    private void configureProjectionResultsDTO() {
 
         projectionSelectionDTO.setScreenName(screenName);
         projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());

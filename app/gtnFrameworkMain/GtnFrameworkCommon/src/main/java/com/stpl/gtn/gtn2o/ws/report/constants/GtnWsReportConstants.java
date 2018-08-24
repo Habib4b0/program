@@ -23,13 +23,17 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE = "/loadReportProductRightTableAllData";
 	public static final String GTN_REPORT_BUILD_CUSTOM_TREE = "/buildCustomTree";
 	public static final String GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE = "/loadPrivateViewResults";
+	public static final String GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_COUNT_SERVICE = "/loadPrivateViewResultsCount";
 	public static final String GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE = "/loadPublicViewResults";
+	public static final String GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_COUNT_SERVICE = "/loadPublicViewResultsCount";
 	public static final String GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT = "/generateReportCalculationInsert";
 	public static final String GTN_REPORT_SAVEVIEW_SERVICE = "/reportSaveViewService";
 	public static final String GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE = "/loadReportProfileLookupResults";
+	public static final String GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE_COUNT = "/loadReportProfileLookupResultsCount";
 	public static final String GTN_REPORT_PROFILE_SAVE_SERVICE = "/reportProfileSaveService";
 	public static final String GTN_REPORT_PROFILE_UPDATE_SERVICE = "/reportProfileUpdateService";
 	public static final String GTN_REPORRT_DELETEVIEW_SERVICE = "/reportDeleteViewService";
+	public static final String GTN_REPORT_DELETE_VALIDATION_SERVICE = "/reportDeleteValidation";
 	public static final String GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE = "/reportComparisonAvailableTableLoadService";
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportVariableBreakdownTableHeaders";
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE = "/getReportVariableBreakdownPeriods";

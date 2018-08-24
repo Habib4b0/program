@@ -54,6 +54,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_PADDING_14 = "stpl-padding-14";
 	public static final String PERCENT_100 = "100%";
 	public static final String PERCENT_70 = "70%";
+	public static final String PERCENT_25 = "25%";
 	public static final String PERCENT_40 = "40%";
 	public static final String PERCENT_90 = "90%";
 	public static final String PERCENT_44 = "44%";
@@ -115,6 +116,17 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_PADDING_TOP_10 = "stpl-padding-top-10";
 	public static final String GTN_DUAL_LIST_BOX_BUTTON = "gtnGrid-DualList-Buttons";
 	public static final String PERCENT_50 = "50%";
+	public static final String STPL_MARGIN_BOTTOM_10 = "stpl-margin-bottom-10";
+	public static final String STPL_MARGIN_LEFT_10 = "stpl-margin-left-10";
+	public static final String STPL_MARGIN_LEFT_40 = "stpl-margin-left-40";
+	public static final String STPL_MARGIN_TOP_100 = "stpl-margin-top-100";
+	public static final String STPL_LEFT_CAPTION_100 = "stpl-left-caption-100";
+	public static final String STPL_TEXT_ALIGN_LEFT = "stpl-text-align--left";
+	public static final String STPL_PADDING_LEFT_25 = "stpl-padding-left-25";
+	public static final String REPORT_FILTER_OPTIONS_COMBO_WIDTH = "v-report-filter-option-combo-width";
+	public static final String REPORT_CUSTOMER_FILTER_MARGIN_LEFT = "v-report-filter-option-customer-filter";
+	public static final String STPL_MARGIN_LEFT_30 = "stpl-margin-left-30";
+	public static final String STPL_MARGIN_LEFT_25 = "stpl-margin-left-25";
 
 	private GtnFrameworkCssConstants() {
 		super();

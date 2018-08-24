@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -25,7 +24,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.Column;
 
@@ -44,7 +46,7 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			loadGridBasedOnHistory(componentId, gtnUIFrameWorkActionConfig);
+			loadGridBasedOnHistory(componentId);
 		} catch (Exception ex) {
 			logger.error("Error message", ex);
 		}
@@ -55,7 +57,7 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 		return null;
 	}
 
-	private void loadGridBasedOnHistory(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	private void loadGridBasedOnHistory(String componentId)
 			throws GtnFrameworkValidationFailedException {
 		List<String> valueList = new ArrayList<>();
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
@@ -121,6 +123,21 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 					"reportOptionsTab_variableBreakdownEndPeriod", componentId, Arrays.asList(""));
 			captionList.clear();
 			valueList.clear();
+			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();	
+    		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+			if (dataSelectionBean != null && dataSelectionBean.getVariableBreakdownSaveList() != null) {
+				List<GtnReportVariableBreakdownLookupBean> variableLookupBeanList = dataSelectionBean
+						.getVariableBreakdownSaveList();
+
+				for (GtnReportVariableBreakdownLookupBean bean : variableLookupBeanList) {
+
+					ComboBox comboBox = (ComboBox) grid.getHeaderRow(bean.getRowCount()).getCell(bean.getProperty())
+							.getComponent();
+					comboBox.setSelectedItem(bean.getSelectedVariable());
+				}
+			}
+			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownValue", componentId).loadV8ComboBoxComponentValue(0);
 		}
 	}
 
@@ -152,36 +169,60 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 		Pattern p3 = Pattern.compile("Quarters");
 		Pattern p4 = Pattern.compile("Year");
 
-		if (p1.matcher(historyValue).find()) {
-			if (historyValue.substring(1, 2).equals(" ")) {
-				localDate = localDate.minus(Period.ofMonths(Integer.parseInt(historyValue.substring(0, 1))));
-			} else {
-				localDate = localDate.minus(Period.ofMonths(Integer.parseInt(historyValue.substring(0, 2))));
-			}
-		} else if (p2.matcher(historyValue).find()) {
-			localDate = localDate.minus(Period.ofMonths(6 * Integer.parseInt(historyValue.substring(0, 1))));
-		} else if (p3.matcher(historyValue).find()) {
-			if (historyValue.substring(1, 2).equals(" ")) {
-				localDate = localDate.minus(Period.ofMonths(3 * Integer.parseInt(historyValue.substring(0, 1))));
-			} else {
-				localDate = localDate.minus(Period.ofMonths(3 * Integer.parseInt(historyValue.substring(0, 2))));
-			}
-		} else if (p4.matcher(historyValue).find()) {
-			localDate = localDate.minus(Period.ofYears(Integer.parseInt(historyValue.substring(0, 1))));
-		}
+		localDate = getLocalDateBasedOnFrequency(historyValue, localDate, p1, p2, p3, p4);
 
+		variableBreakdownFromPeriod = getVariableBreakdownFromPeriod(variableBreakdownFrequency,
+				variableBreakdownFromPeriod, localDate, freq);
+		
+		return variableBreakdownFromPeriod;
+	}
+
+	private String getVariableBreakdownFromPeriod(String variableBreakdownFrequency, String variableBreakdownFromPeriod,
+			LocalDate localDate, char freq) {
 		if (Pattern.matches("[0-9]{4}", variableBreakdownFromPeriod)) {
 			variableBreakdownFromPeriod = String.valueOf(localDate.getYear());
 		} else if (freq == 'Q' || variableBreakdownFrequency.equals("-Select one-")) {
 			int quarterValue = (localDate.getMonthValue() / 3) + 1;
 			variableBreakdownFromPeriod = "Q" + quarterValue + " - " + localDate.getYear();
 		} else if (freq == 'S' && !variableBreakdownFromPeriod.subSequence(1, 3).equals("ep")) {
-			int semi_annual = (localDate.getMonthValue() / 6) + 1;
-			variableBreakdownFromPeriod = "S" + semi_annual + " - " + localDate.getYear();
+			int semiAnnual = (localDate.getMonthValue() / 6) + 1;
+			variableBreakdownFromPeriod = "S" + semiAnnual + " - " + localDate.getYear();
 		} else {
 			variableBreakdownFromPeriod = localDate.getMonth().getDisplayName(TextStyle.SHORT, Locale.US) + " "
 					+ localDate.getYear();
 		}
 		return variableBreakdownFromPeriod;
+	}
+
+	private LocalDate getLocalDateBasedOnFrequency(String historyValue, LocalDate localDate, Pattern p1, Pattern p2,
+			Pattern p3, Pattern p4) {
+		if (p1.matcher(historyValue).find()) {
+			localDate = getLocalDatebasedOnMonths(historyValue, localDate);
+		} else if (p2.matcher(historyValue).find()) {
+			localDate = localDate.minus(Period.ofMonths(6 * Integer.parseInt(historyValue.substring(0, 1))));
+		} else if (p3.matcher(historyValue).find()) {
+			localDate = getLocalDateBasedOnQuarter(historyValue, localDate);
+		} else if (p4.matcher(historyValue).find()) {
+			localDate = localDate.minus(Period.ofYears(Integer.parseInt(historyValue.substring(0, 1))));
+		}
+		return localDate;
+	}
+
+	private LocalDate getLocalDateBasedOnQuarter(String historyValue, LocalDate localDate) {
+		if (historyValue.substring(1, 2).equals(" ")) {
+			localDate = localDate.minus(Period.ofMonths(3 * Integer.parseInt(historyValue.substring(0, 1))));
+		} else {
+			localDate = localDate.minus(Period.ofMonths(3 * Integer.parseInt(historyValue.substring(0, 2))));
+		}
+		return localDate;
+	}
+
+	private LocalDate getLocalDatebasedOnMonths(String historyValue, LocalDate localDate) {
+		if (historyValue.substring(1, 2).equals(" ")) {
+			localDate = localDate.minus(Period.ofMonths(Integer.parseInt(historyValue.substring(0, 1))));
+		} else {
+			localDate = localDate.minus(Period.ofMonths(Integer.parseInt(historyValue.substring(0, 2))));
+		}
+		return localDate;
 	}
 }

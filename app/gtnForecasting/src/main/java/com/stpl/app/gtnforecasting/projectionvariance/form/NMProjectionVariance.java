@@ -155,7 +155,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final ForecastForm nonMandatedForm;
     private List<List<String>> discountlist = new ArrayList<>();
     private boolean firstGenerated = false;
-    private final List<Integer> comparisonProjId = new ArrayList<>();
     private List<String> comparisonProjName = new ArrayList<>();
     private boolean editFlag = false;
     public static final String SID = "SID";
@@ -178,6 +177,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     public static final String EACH = "EACH";
+    private boolean pvFlag = true;
 
     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -214,7 +214,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             pvSelectionDTO.setIscustomerFirst(!generateCustomerToBeLoaded.isEmpty());
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
-            LOGGER.info("ded value-------------------------"+String.valueOf(deductionlevelDdlb.getValue()));
+            LOGGER.info("ded value-------------------------{} ", String.valueOf(deductionlevelDdlb.getValue()));
             pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
         }
     };
@@ -634,11 +634,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void excelBtnLogic() {
         try {
-            excelTable.setRefresh(Boolean.FALSE);
+            excelTable.setRefresh(false);
             setPvSelection(variableCategoryValue, variablesValue);
             excelForCommercial();
             long start = System.currentTimeMillis();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(true);
             long end = System.currentTimeMillis();
             LOGGER.info("Time taken to refresh table = {}", (end - start));
             start = end;
@@ -971,11 +971,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 boolean productFlag = (generateProductToBeLoaded.containsAll(pvSelectionDTO.getProductLevelFilter())
                         && generateProductToBeLoaded.size() == pvSelectionDTO.getProductLevelFilter().size());
 
-                if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
                     LOGGER.info("generateBtn :Inside Filter Option");
                     dsLogic.nmPvViewsPopulationProcedure(session);
                     CommonLogic.procedureCompletionCheck(session, Constant.VARIANCE_SCREEN, String.valueOf(view.getValue()));
-                }
 
                 if (excelFlag) {
                     configureExcelTable();
@@ -1074,6 +1072,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             return (ProjectionVarianceDTO) targetItem.getBean();
         } else {
             return null;
+        }
+    }
+     public void checkPvFrequency(){
+        pvFlag = true;
+        if(pvFlag && (!session.getDsFrequency().equals(frequency.getValue()))){            
+            pvFlag =false;
+            AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+        
         }
     }
 
@@ -1856,7 +1862,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             comparison.setValue(projNameList.size() > 1 ? Constant.MULTIPLE : projNameList.get(0));
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
-            comparisonProjId.addAll(projIdList);
             if (!pvSelectionDTO.getProjIdList().isEmpty()) {
                 for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                     comparisonBasis.addItem(j);
@@ -2198,13 +2203,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 Object gropuParentItemId = excelParentRecords.get(groupParentKey);
 
                                 if (gropuParentItemId == null) {
-                                    ProjectionVarianceDTO tpGroup = new ProjectionVarianceDTO() {
-                                        {
-                                            setGroup(pvSelectionDTO.getGroupFilter());
-                                            setDfLevelNumber(pvSelectionDTO.getGroupFilter());
-                                            setDfLevelName(pvSelectionDTO.getGroupFilter());
-                                        }
-                                    };
+                                    ProjectionVarianceDTO tpGroup = new ProjectionVarianceDTO();
+                                    tpGroup.setGroup(pvSelectionDTO.getGroupFilter());
+                                    tpGroup.setDfLevelNumber(pvSelectionDTO.getGroupFilter());
+                                    tpGroup.setDfLevelName(pvSelectionDTO.getGroupFilter());
                                     resultExcelContainer.addBean(tpGroup);
                                     gropuParentItemId = tpGroup;
                                     resultExcelContainer.setParent(gropuParentItemId, parentItemId);
@@ -2332,7 +2334,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         parameterDto.setLevelNo("0");
         //Level Filte Level No Value
         parameterDto.setViewName("DETAIL_TOTAL_DISCOUNT");
-        int customMasterSid = Integer.valueOf(customDdlb.getValue() == null ? "0" : customDdlb.getValue().toString());
+        int customMasterSid = Integer.parseInt(customDdlb.getValue() == null ? "0" : customDdlb.getValue().toString());
         parameterDto.setCustomViewMasterSid(customMasterSid);
         // setting pirror projection ids
         parameterDto.setPirorProjectionIds(pvSelectionDTO.getProjIdList());

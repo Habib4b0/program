@@ -93,7 +93,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletSession;
@@ -314,8 +313,6 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_INDICATOR_MANDATED = "M";
     public static final String BUSINESS_PROCESS_INDICATOR_CHANNELS = "C";
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$0");
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
-    public static final SimpleDateFormat DateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
     public static final DecimalFormat UNITNODECIMAL = new DecimalFormat(DASH);
 
     public static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0");
@@ -332,7 +329,9 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
     public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
-
+    
+    private static final String[] ARRAY_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+   
     /**
      * Gets the current calendar.
      *
@@ -527,8 +526,7 @@ public class CommonUtils {
     public static boolean isInteger(String str) {
         try {
             if ((str != null) && (!"null".equals(str)) && (!"".equals(str)) && (!"All".equals(str))) { // For GAL-9221,GAL-9219,GAL-9197 server log issues	
-                Integer.parseInt(str);
-                return true;
+                 return str.matches("^\\d+$");
             }
         } catch (NumberFormatException e) {
             return false;
@@ -544,21 +542,6 @@ public class CommonUtils {
             viewtable = "PROJECTION_PROD_HIERARCHY";
         }
         return viewtable;
-    }
-
-    /**
-     * To check whether the given string is double or not
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isDouble(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     public static int getMonthForString(String num) {
@@ -1098,7 +1081,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -1127,41 +1110,38 @@ public class CommonUtils {
     }
 
     public static int getIntegerForMonth(String month) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return Arrays.asList(array).indexOf(month) + 1;
+        return Arrays.asList(ARRAY_MONTH).indexOf(month) + 1;
 
     }
 
     public static String replaceIntegerForMonth(String periods) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return periods.replace(array[0], Constant.STRING_ONE)
-                .replace(array[1], "2")
-                .replace(array[NumericConstants.TWO], "3")
-                .replace(array[NumericConstants.THREE], "4")
-                .replace(array[NumericConstants.FOUR], "5")
-                .replace(array[NumericConstants.FIVE], "6")
-                .replace(array[NumericConstants.SIX], "7")
-                .replace(array[NumericConstants.SEVEN], "8")
-                .replace(array[NumericConstants.EIGHT], "9")
-                .replace(array[NumericConstants.NINE], "10")
-                .replace(array[NumericConstants.TEN], "11")
-                .replace(array[NumericConstants.ELEVEN], "12");
+        return periods.replace(ARRAY_MONTH[0], Constant.STRING_ONE)
+                .replace(ARRAY_MONTH[1], "2")
+                .replace(ARRAY_MONTH[NumericConstants.TWO], "3")
+                .replace(ARRAY_MONTH[NumericConstants.THREE], "4")
+                .replace(ARRAY_MONTH[NumericConstants.FOUR], "5")
+                .replace(ARRAY_MONTH[NumericConstants.FIVE], "6")
+                .replace(ARRAY_MONTH[NumericConstants.SIX], "7")
+                .replace(ARRAY_MONTH[NumericConstants.SEVEN], "8")
+                .replace(ARRAY_MONTH[NumericConstants.EIGHT], "9")
+                .replace(ARRAY_MONTH[NumericConstants.NINE], "10")
+                .replace(ARRAY_MONTH[NumericConstants.TEN], "11")
+                .replace(ARRAY_MONTH[NumericConstants.ELEVEN], "12");
     }
 
     public static String replaceShortMonthForMonth(String periods) {
-        String[] array = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        return periods.replace(array[0], "M1")
-                .replace(array[1], "M2")
-                .replace(array[NumericConstants.TWO], "M3")
-                .replace(array[NumericConstants.THREE], "M4")
-                .replace(array[NumericConstants.FOUR], "M5")
-                .replace(array[NumericConstants.FIVE], "M6")
-                .replace(array[NumericConstants.SIX], "M7")
-                .replace(array[NumericConstants.SEVEN], "M8")
-                .replace(array[NumericConstants.EIGHT], "M9")
-                .replace(array[NumericConstants.NINE], "M10")
-                .replace(array[NumericConstants.TEN], "M11")
-                .replace(array[NumericConstants.ELEVEN], "M12");
+        return periods.replace(ARRAY_MONTH[0], "M1")
+                .replace(ARRAY_MONTH[1], "M2")
+                .replace(ARRAY_MONTH[NumericConstants.TWO], "M3")
+                .replace(ARRAY_MONTH[NumericConstants.THREE], "M4")
+                .replace(ARRAY_MONTH[NumericConstants.FOUR], "M5")
+                .replace(ARRAY_MONTH[NumericConstants.FIVE], "M6")
+                .replace(ARRAY_MONTH[NumericConstants.SIX], "M7")
+                .replace(ARRAY_MONTH[NumericConstants.SEVEN], "M8")
+                .replace(ARRAY_MONTH[NumericConstants.EIGHT], "M9")
+                .replace(ARRAY_MONTH[NumericConstants.NINE], "M10")
+                .replace(ARRAY_MONTH[NumericConstants.TEN], "M11")
+                .replace(ARRAY_MONTH[NumericConstants.ELEVEN], "M12");
     }
 
     public static List getHistoryDdlbList(int endValue, String period) {
@@ -1570,7 +1550,7 @@ public class CommonUtils {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", StringUtils.EMPTY);
+                framedString = framedString.replace(", ", StringUtils.EMPTY);
             }
         }
         return framedString;
@@ -1974,4 +1954,9 @@ public class CommonUtils {
     public static void setPortletConfig(PortletConfig portletConfig) {
             CommonUtils.portletConfig = portletConfig;
     }
+    
+    public static int compareDoubleValues(String value) {
+        return Double.compare(Double.parseDouble(value), 0.0);
+    }
+    
 }

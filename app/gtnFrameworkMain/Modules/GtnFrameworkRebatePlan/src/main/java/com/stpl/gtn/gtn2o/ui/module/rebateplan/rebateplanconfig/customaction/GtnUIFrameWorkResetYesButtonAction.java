@@ -33,8 +33,7 @@ import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 public class GtnUIFrameWorkResetYesButtonAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
     private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkResetYesButtonAction.class);
-    String actionType ;
-
+   
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -50,7 +49,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		GtnWsRebatePlanInfoBean rebatePlanInfoBean = new GtnWsRebatePlanInfoBean();
 		String mode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
 		Integer rebatePlanSid = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("systemId");
-		 actionType = String.valueOf(actionParamList.get(1));
+		 String actionType = String.valueOf(actionParamList.get(1));
 		int position = 0;
 		if (actionType.equalsIgnoreCase("RESET_ALL")) {
 			position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanAddViewtabSheet")
@@ -96,19 +95,19 @@ public class GtnUIFrameWorkResetYesButtonAction
 			break;
 		case 1:
 			loadRebatePlanCalculationBean(rebatePlanInfoBean);
-			getLoadDetails(rebatePlanInfoBean);
+			getLoadDetails(rebatePlanInfoBean,actionType);
 			break;
 		case 2:
 			loadNotesTab(componentId, rebatePlanInfoBean, logger);
 			break;
 		case -1:
-			getLoadDetails(rebatePlanInfoBean);
+			getLoadDetails(rebatePlanInfoBean,actionType);
 			resetRuleDetailsInformation();
 			break;
 		case -2:
 			loadRebatePlanInfoBasicBean(rebatePlanInfoBean);
 			loadRebatePlanCalculationBean(rebatePlanInfoBean);
-			getLoadDetails(rebatePlanInfoBean);
+			getLoadDetails(rebatePlanInfoBean,actionType);
 			loadNotesTab(componentId, rebatePlanInfoBean, logger);
 			break;
 		default:
@@ -117,16 +116,16 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 	}
 
-	private void getLoadDetails(GtnWsRebatePlanInfoBean rebatePlanInfoBean)
+	private void getLoadDetails(GtnWsRebatePlanInfoBean rebatePlanInfoBean, String actionType)
 			throws GtnFrameworkValidationFailedException {
 
 		String resultValue = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkStringConstants.REBATE_PLAN_INFO_FORMULA_TYPE)
 				.getCaptionFromComboBox();
 		if (resultValue.equals("Complex")) {
-			balancedParenthensies("ruleDetailsattachResultTableComplex", rebatePlanInfoBean);
+			balancedParenthensies("ruleDetailsattachResultTableComplex", rebatePlanInfoBean,actionType);
 		} else {
-			loadRuleDetailsInfo(GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE, rebatePlanInfoBean);
+			loadRuleDetailsInfo(GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE, rebatePlanInfoBean,actionType);
 		}
 	}
 
@@ -252,13 +251,13 @@ public class GtnUIFrameWorkResetYesButtonAction
 		}
 	}
 
-	private void loadRuleDetailsInfo(String resultTableId, GtnWsRebatePlanInfoBean rebatePlaninfoBean)
+	private void loadRuleDetailsInfo(String resultTableId, GtnWsRebatePlanInfoBean rebatePlaninfoBean, String actionType)
 			throws GtnFrameworkValidationFailedException {
-		Double tierTo = 0d;
-		Double tierFrom = 0d;
+		Double tierTo;
+		Double tierFrom;
 		List<GtnWsRecordBean> resultLiist = new ArrayList<>();
 		GtnWsRecordBean dto;
-                 resetOnAddMode(resultTableId);
+                 resetOnAddMode(resultTableId,actionType);
 		for (GtnWsRebatePlanRuleDetailBean ruleDetailsBean : rebatePlaninfoBean.getRebatePlanRuleDetailBean()) {
 			tierFrom = ruleDetailsBean.getFromDesc();
 			tierTo = ruleDetailsBean.getToDesc();
@@ -330,13 +329,13 @@ public class GtnUIFrameWorkResetYesButtonAction
 		return valueDesc;
 	}
 
-	public void balancedParenthensies(String resultTableId, GtnWsRebatePlanInfoBean rebatePlaninfoBean)
+	public void balancedParenthensies(String resultTableId, GtnWsRebatePlanInfoBean rebatePlaninfoBean, String actionType)
 			throws GtnFrameworkValidationFailedException {
-		Double tierTo = 0d;
-		Double tierFrom = 0d;
+		Double tierTo;
+		Double tierFrom;
 		List<GtnWsRecordBean> resultList = new ArrayList<>();
 		GtnWsRecordBean dto;
-                resetOnAddMode(resultTableId);
+                resetOnAddMode(resultTableId, actionType);
 		for (GtnWsRebatePlanRuleDetailBean ruleDetailsBeanComplex : rebatePlaninfoBean.getRebatePlanRuleDetailBean()) {
 			tierFrom = ruleDetailsBeanComplex.getFromDesc();
 			tierTo = ruleDetailsBeanComplex.getToDesc();
@@ -374,17 +373,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 			String value = getValueFromFormula(s);
 			splitOperator(s, splitList);
 
-			for (int i = 0; i < splitList.size(); i++) {
-				Character s3 = splitList.get(i);
-				String comma = "";
-				if (i != splitList.size() - 1) {
-					comma = ",";
-				}
-				if ((s3 == '$' || s3 == '%')) {
-					sym.append(s3);
-					sym.append(comma);
-				}
-			}
+                        appendForBalancedPareanthesis(splitList, sym);
 
 			splitValue(s, dto, recordHeaderComplex, signs, sym, value);
                         resultList.add(dto);
@@ -406,6 +395,20 @@ public class GtnUIFrameWorkResetYesButtonAction
 		
 	}
         }
+
+    private void appendForBalancedPareanthesis(List<Character> splitList, StringBuilder sym) {
+        for (int i = 0; i < splitList.size(); i++) {
+            Character s3 = splitList.get(i);
+            String comma = "";
+            if (i != splitList.size() - 1) {
+                comma = ",";
+            }
+            if ((s3 == '$' || s3 == '%')) {
+                sym.append(s3);
+                sym.append(comma);
+            }
+        }
+    }
 
 	public void splitValue(String s, GtnWsRecordBean dto, List<Object> recordHeader, String[] signarray,
 			StringBuilder sym, String value) {
@@ -508,7 +511,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 	}
 
-    private void resetOnAddMode(String resultTableId) {
+    private void resetOnAddMode(String resultTableId, String actionType) {
         String getMode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
                 logger.info("in complex-------------"+getMode+"actionType------"+actionType);
                 if (actionType.equalsIgnoreCase("RESET_ALL") && "ADD".equals(getMode)) {

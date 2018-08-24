@@ -46,15 +46,11 @@ public class ItemLogic {
 
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
-    private Map<String, String> componentMap = new HashMap<>();
-    private Map<String, String> ifpMap = new HashMap<>();
-    private Map<String, String> psMap = new HashMap<>();
-    private Map<Integer, String> users = new HashMap<>();
     private String userid = "";
     public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     public void setCfpSearch() {
-        componentMap = new HashMap<>();
+        Map<String, String> componentMap = new HashMap<>();
         componentMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
         componentMap.put(StringConstantsUtil.COMPONENT_NO, " CM.CFP_NO");
         componentMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
@@ -69,7 +65,7 @@ public class ItemLogic {
     }
 
     public void setIfpSearch() {
-        ifpMap = new HashMap<>();
+        Map<String, String> ifpMap = new HashMap<>();
         ifpMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.IFP_ID");
         ifpMap.put(StringConstantsUtil.COMPONENT_NO, "CM.IFP_NO");
         ifpMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.IFP_NAME");
@@ -83,7 +79,7 @@ public class ItemLogic {
     }
 
     public void setPsSearch() {
-        psMap = new HashMap<>();
+        Map<String, String> psMap = new HashMap<>();
         psMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "PS.PS_ID");
         psMap.put(StringConstantsUtil.COMPONENT_NO, "PS.PS_NO");
         psMap.put(StringConstantsUtil.COMPONENT_NAME, "PS.PS_NAME");
@@ -151,7 +147,7 @@ public class ItemLogic {
 
     public List getSearchSelection(ItemIndexDto binderDto, SelectionDTO selection) {
         List<Object> input = new ArrayList();
-         users = getUserName();
+         Map<Integer, String> users = getUserName();
                 for (Map.Entry<Integer, String> entry : users.entrySet()) {
                     if (entry.getValue().contains("ETL")) {
                         userid = entry.getKey().toString();
@@ -300,8 +296,8 @@ public class ItemLogic {
                 input.add("%");
             }
             if (filterMap.get(Constants.PLACE_HOLDER_PROPERTY) != null) {
-                if (!filterMap.get(Constants.PLACE_HOLDER_PROPERTY).equals(NumericConstants.ELEVEN)) {
-                    String placehold = String.valueOf(filterMap.get(Constants.PLACE_HOLDER_PROPERTY));
+                if (!filterMap.get(Constants.PLACE_HOLDER_PROPERTY).equals(Integer.toString(NumericConstants.ELEVEN))) {
+                    String placehold = filterMap.get(Constants.PLACE_HOLDER_PROPERTY);
                     if (placehold.contains("0")) {
                         input.add(" != " + userid + " ");
                     } else {
@@ -482,6 +478,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getCustomizedCFP(final List<Object[]> list) {
         List<ComponentLookUpDTO> finalResult = new ArrayList<>();
+        Date date = new Date();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -494,8 +491,8 @@ public class ItemLogic {
             dto.setPlanName(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setComponentStatus(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
             dto.setTradeClass(str[NumericConstants.NINE] == null || str[NumericConstants.NINE].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-            dto.setStartDate(str[NumericConstants.TEN] == null ? new Date() : (Date) (str[NumericConstants.TEN]));
-            dto.setEndDate(str[NumericConstants.ELEVEN] == null ? new Date() : (Date) (str[NumericConstants.ELEVEN]));
+            dto.setStartDate(str[NumericConstants.TEN] == null ? date : (Date) (str[NumericConstants.TEN]));
+            dto.setEndDate(str[NumericConstants.ELEVEN] == null ? date : (Date) (str[NumericConstants.ELEVEN]));
             finalResult.add(dto);
         }
         return finalResult;
@@ -503,6 +500,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getCustomizedIFP(final List<Object[]> list) {
         List<ComponentLookUpDTO> finalResult = new ArrayList<>();
+        Date date = new Date();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -514,8 +512,8 @@ public class ItemLogic {
             dto.setPlanId(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
             dto.setPlanName(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setComponentStatus(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setStartDate(str[NumericConstants.NINE] == null ? new Date() : (Date) (str[NumericConstants.NINE]));
-            dto.setEndDate(str[NumericConstants.TEN] == null ? new Date() : (Date) (str[NumericConstants.TEN]));
+            dto.setStartDate(str[NumericConstants.NINE] == null ? date : (Date) (str[NumericConstants.NINE]));
+            dto.setEndDate(str[NumericConstants.TEN] == null ? date : (Date) (str[NumericConstants.TEN]));
             finalResult.add(dto);
         }
         return finalResult;
@@ -523,6 +521,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getCustomizedPS(final List<Object[]> list) {
         List<ComponentLookUpDTO> finalResult = new ArrayList<>();
+        Date date = new Date();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -534,8 +533,8 @@ public class ItemLogic {
             dto.setParentPsId(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
             dto.setParentPsName(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
             dto.setComponentStatus(str[NumericConstants.EIGHT] == null || str[NumericConstants.EIGHT].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setStartDate(str[NumericConstants.NINE] == null ? new Date() : (Date) (str[NumericConstants.NINE]));
-            dto.setEndDate(str[NumericConstants.TEN] == null ? new Date() : (Date) (str[NumericConstants.TEN]));
+            dto.setStartDate(str[NumericConstants.NINE] == null ? date : (Date) (str[NumericConstants.NINE]));
+            dto.setEndDate(str[NumericConstants.TEN] == null ? date : (Date) (str[NumericConstants.TEN]));
             dto.setTradeClass(str[NumericConstants.ELEVEN] == null || str[NumericConstants.ELEVEN].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             finalResult.add(dto);
         }
@@ -782,9 +781,11 @@ public class ItemLogic {
             for (Object list1 : list) {
                 obj = (Object[]) list1;
             }
+            if(obj != null)
+            {
             projectionID = Integer.parseInt(String.valueOf(obj[0]));
             forecastingType = String.valueOf(obj[NumericConstants.THREE]);
-        }
+        }}
 
         projIdList.add(projectionID);
         SelectionDTO.setSummaryProjectionId(projectionID);

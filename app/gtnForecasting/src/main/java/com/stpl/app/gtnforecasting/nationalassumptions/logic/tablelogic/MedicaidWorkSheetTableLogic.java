@@ -32,7 +32,7 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private final Logger LOGGER = LoggerFactory.getLogger(MasterFcpWorkSheetTableLogic.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MedicaidWorkSheetTableLogic.class);
     
     private SessionDTO sessionDTO;
 

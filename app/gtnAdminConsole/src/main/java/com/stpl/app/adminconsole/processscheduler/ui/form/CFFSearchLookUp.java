@@ -327,10 +327,10 @@ public class CFFSearchLookUp extends Window {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if ((boolean) checkbox.getValue()) {
-                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (boolean) checkbox.getValue());
+                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (Boolean) checkbox.getValue());
                                     processSchedulerDTO.setCheckRecord(true);
                                 } else if (!processSchedulerDTO.getCheckRecord()) {
-                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (boolean) checkbox.getValue());
+                                    cffLogic.updateTempCffOutbound(processSchedulerDTO, sessionDTO, Boolean.FALSE, (Boolean) checkbox.getValue());
                                     processSchedulerDTO.setCheckRecord(false);
                                 }
                             }
@@ -378,7 +378,7 @@ public class CFFSearchLookUp extends Window {
         try {
             if ((financialForecastId.getValue().equals("null") || (StringUtils.isBlank(String.valueOf(financialForecastId.getValue()))))
                     && (financialForecastName.getValue().equals("null") || (StringUtils.isBlank(String.valueOf(financialForecastName.getValue()))))
-                    && (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtils.SELECT_ONE) || typeDdlb.getValue()==null)
+                    && (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtils.SELECT_ONE))
                     && cffCreationDateFrom.getValue() == null && cffCreationDateTo.getValue() == null && cffApprovalDateFrom.getValue() == null && cffApprovalDateTo.getValue() == null
                     && (projectionId.getValue().equals("null") || (StringUtils.isBlank(String.valueOf(projectionId.getValue()))))
                     && (customerNo.getValue().equals("null") || (StringUtils.isBlank(String.valueOf(customerNo.getValue()))))

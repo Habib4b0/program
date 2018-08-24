@@ -206,7 +206,7 @@ public class SalesProjectionResultsTree {
         apex.setApex(true);
         addStaticLinesToTree(apex);
         if (!availableHierarachies.isEmpty()) {
-            int startLevel = StringUtils.countMatches(String.valueOf(availableHierarachies.get(0)), ".");
+            int startLevel = StringUtils.countMatches(Arrays.toString(availableHierarachies.get(0)), ".");
             List<String> child = new ArrayList<>();
             int currentLevel = startLevel;
             SalesPRCP parent = apex;
@@ -405,7 +405,7 @@ public class SalesProjectionResultsTree {
         INVENTORY_WITHDRAW("Inventory Withdraw"),
         CONTRACT_SALES_PERCENT_EXFACT("Contract Sales as % of Ex-Factory Sales");
 
-        private SalesProjectionResultsDTO staticData;
+        private volatile SalesProjectionResultsDTO staticData;
         private final String staticDataLabel;
 
         private SPRStaticData(String staticData) {

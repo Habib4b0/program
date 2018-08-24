@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.forecast.bean;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
-import java.util.Collections;
 
 /**
  * @author Srithar.Raju
@@ -326,11 +328,11 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	}
 
 	public List<GtnReportHierarchyLevelBean> getLevelList() {
-                return levelList == null ? levelList : Collections.unmodifiableList(levelList);
+		return levelList == null ? levelList : new ArrayList<>(levelList);
 	}
 
 	public void setLevelList(List<GtnReportHierarchyLevelBean> levelList) {
-                this.levelList = new ArrayList<>(levelList);
+		this.levelList = levelList == null ? levelList : new ArrayList<>(levelList);
 	}
 
 	public boolean isForecastInsert() {
@@ -341,4 +343,11 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 		this.forecastInsert = forecastInsert;
 	}
 
+	private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+	}
 }

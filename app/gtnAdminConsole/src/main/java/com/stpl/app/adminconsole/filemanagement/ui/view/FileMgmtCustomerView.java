@@ -22,7 +22,7 @@ public class FileMgmtCustomerView extends VerticalLayout implements View {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = LoggerFactory.getLogger(FileManagementIndexView.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FileMgmtCustomerView.class);
     private SessionDTO sessionDTO;
 
     /**

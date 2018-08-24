@@ -88,7 +88,6 @@ public class MProjectionResultsLogic {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if ( projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
             prcMProcedureResults = CommonLogic.callProcedure("PRC_M_PROJECTION_RESULTS", orderedArgs);
-            totalPRCInput = orderedArgs == null ? orderedArgs : orderedArgs.clone();
             projSelDTO.getSessionDTO().setPrRefreshReqd(false);
         }
         List<Object[]> gtsList = prcMProcedureResults;
@@ -2163,7 +2162,6 @@ public class MProjectionResultsLogic {
     }
 
     public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
-        LOGGER.debug("Enters getCustomizedProgramCode with size = {} " , list.size());
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDolManDTOList = new ArrayList<>();

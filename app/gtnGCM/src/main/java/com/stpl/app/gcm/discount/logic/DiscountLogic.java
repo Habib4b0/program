@@ -307,49 +307,49 @@ public class DiscountLogic {
 
     public List<ContractsDetailsDto> getRebateSchedule(ContractsDetailsDto newDiscountTabDto) {
         List<ContractsDetailsDto> searchList;
-        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY);
-        inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, "%");
+        Map<String, String> inputRebatePercentMap = new HashMap<>(NumericConstants.TWENTY);
+        inputRebatePercentMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.PS_NO_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.PS_NAME_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.PS_ID_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.PS_STATUS_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.PS_TYPE_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.RS_NO_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.RS_NAME_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.RS_ID_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.RS_STATUS_QUESTION, "%");
+        inputRebatePercentMap.put(StringConstantsUtil.RS_TYPE_QUESTION, "%");
         List results = new ArrayList();
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.rsSearch");
+            getToInput(inputRebatePercentMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputRebatePercentMap, "ad.rsSearch");
             query += "ORDER BY RS.RS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.CFP.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.cfpSearch");
+            getToInput(inputRebatePercentMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputRebatePercentMap, "ad.cfpSearch");
             query += "ORDER BY CFP.CFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_SEARCH);
+            getToInput(inputRebatePercentMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputRebatePercentMap, StringConstantsUtil.ADIFP_SEARCH);
             query += "ORDER BY IFP.IFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.psSearch");
+            getToInput(inputRebatePercentMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputRebatePercentMap, "ad.psSearch");
             query += "ORDER BY PS.PS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
@@ -423,18 +423,18 @@ public class DiscountLogic {
         } else if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
-                ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setIfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
-                tabDto.setId(Converters.convertNullToEmpty(arr[1]));
-                tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
-                tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
-                tabDto.setStatus(Converters.convertNullToEmpty(arr[NumericConstants.FIVE]));
-                tabDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(arr[NumericConstants.SIX]))) ? null : DBDate.format((Date) arr[NumericConstants.SIX]));
-                tabDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(arr[NumericConstants.SEVEN]))) ? null : DBDate.format((Date) arr[NumericConstants.SEVEN]));
-                tabDto.setInternalId(Integer.valueOf(Converters.convertNullToEmpty(Converters.convertNullToEmpty(arr[0]))));
-                tabDto.setModelSysId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
-                tabDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());
-                searchList.add(tabDto);
+                ContractsDetailsDto contractTabDto = new ContractsDetailsDto();
+                contractTabDto.setIfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
+                contractTabDto.setId(Converters.convertNullToEmpty(arr[1]));
+                contractTabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
+                contractTabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
+                contractTabDto.setStatus(Converters.convertNullToEmpty(arr[NumericConstants.FIVE]));
+                contractTabDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(arr[NumericConstants.SIX]))) ? null : DBDate.format((Date) arr[NumericConstants.SIX]));
+                contractTabDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(arr[NumericConstants.SEVEN]))) ? null : DBDate.format((Date) arr[NumericConstants.SEVEN]));
+                contractTabDto.setInternalId(Integer.valueOf(Converters.convertNullToEmpty(Converters.convertNullToEmpty(arr[0]))));
+                contractTabDto.setModelSysId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
+                contractTabDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());
+                searchList.add(contractTabDto);
             }
         }
 
@@ -631,46 +631,46 @@ public class DiscountLogic {
 
     public int getRebateScheduleCount(ContractsDetailsDto newDiscountTabDto)  {
         List results = new ArrayList();
-        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY);
-        inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_NO_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_NAME_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_ID_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_STATUS_QUESTION, "%");
-        inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, "%");
+        Map<String, String> inputDataMap = new HashMap<>(NumericConstants.TWENTY);
+        inputDataMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.PS_NO_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.PS_NAME_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.PS_ID_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.PS_STATUS_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.PS_TYPE_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.RS_NO_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.RS_NAME_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.RS_ID_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.RS_STATUS_QUESTION, "%");
+        inputDataMap.put(StringConstantsUtil.RS_TYPE_QUESTION, "%");
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.rsSearch");
+            getToInput(inputDataMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputDataMap, "ad.rsSearch");
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.CFP.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.cfpSearch");
+            getToInput(inputDataMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputDataMap, "ad.cfpSearch");
             results = discountDAO.getRebates(query);
 
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_SEARCH);
+            getToInput(inputDataMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputDataMap, StringConstantsUtil.ADIFP_SEARCH);
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {
-            getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.psSearch");
+            getToInput(inputDataMap, newDiscountTabDto, false);
+            String query = CommonUtil.getQuery(inputDataMap, "ad.psSearch");
             results = discountDAO.getRebates(query);
         }
 
@@ -801,69 +801,69 @@ public class DiscountLogic {
     }
 
     public List<CFPComponentDetailsDTO> getFromCfpCD(Object parent) {
-        List<CFPComponentDetailsDTO> retList = new ArrayList<>();
+        List<CFPComponentDetailsDTO> retCfpCdList = new ArrayList<>();
         Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
 
             inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
 
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
-        for (Object[] temp : resList) {
-            CFPComponentDetailsDTO tempDto = new CFPComponentDetailsDTO();
-            tempDto.setCompanyNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
-            tempDto.setCompanyName(CommonUtil.getPureValue(String.valueOf(temp[1])));
-            tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE]))) ? null : DBDate.format((Date) temp[NumericConstants.THREE]));
-            tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR]))) ? null : DBDate.format((Date) temp[NumericConstants.FOUR]));
-            tempDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
-            retList.add(tempDto);
+        List<Object[]> resCfpList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
+        for (Object[] temp : resCfpList) {
+            CFPComponentDetailsDTO tempCfpDto = new CFPComponentDetailsDTO();
+            tempCfpDto.setCompanyNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
+            tempCfpDto.setCompanyName(CommonUtil.getPureValue(String.valueOf(temp[1])));
+            tempCfpDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE]))) ? null : DBDate.format((Date) temp[NumericConstants.THREE]));
+            tempCfpDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR]))) ? null : DBDate.format((Date) temp[NumericConstants.FOUR]));
+            tempCfpDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
+            retCfpCdList.add(tempCfpDto);
         }
 
-        return retList;
+        return retCfpCdList;
     }
 
     public List<PSComponentDetailsDTO> getFromIfpCD(Object parent) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        List<PSComponentDetailsDTO> retIfpList = new ArrayList<>();
         Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.ifpFromCD"));
-        for (Object[] temp : resList) {
-            PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
+        List<Object[]> resIfpList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.ifpFromCD"));
+        for (Object[] temp : resIfpList) {
+            PSComponentDetailsDTO tempIfpDto = new PSComponentDetailsDTO();
 
-            tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
-            tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
-            tempDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
-            tempDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
-            tempDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR])));
-            tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
-            tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
-            retList.add(tempDto);
+            tempIfpDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
+            tempIfpDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
+            tempIfpDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
+            tempIfpDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
+            tempIfpDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR])));
+            tempIfpDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
+            tempIfpDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
+            retIfpList.add(tempIfpDto);
         }
-        return retList;
+        return retIfpList;
     }
 
     public List<PSComponentDetailsDTO> getFromPsCD(Object parent) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        List<PSComponentDetailsDTO> retPsCpList = new ArrayList<>();
         Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.psFromCD"));
-        for (Object[] temp : resList) {
-            PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
-            tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
-            tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
-            tempDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
-            tempDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
-            tempDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR])));
-            tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
-            tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
+        List<Object[]> resCpList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.psFromCD"));
+        for (Object[] temp : resCpList) {
+            PSComponentDetailsDTO tempPsCdDto = new PSComponentDetailsDTO();
+            tempPsCdDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
+            tempPsCdDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
+            tempPsCdDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
+            tempPsCdDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
+            tempPsCdDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR])));
+            tempPsCdDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
+            tempPsCdDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
 
-            retList.add(tempDto);
+            retPsCpList.add(tempPsCdDto);
         }
-        return retList;
+        return retPsCpList;
     }
 
     public List<PSComponentDetailsDTO> getFromRsCD(Object parent) {
@@ -891,55 +891,55 @@ public class DiscountLogic {
         LOGGER.debug("Entering saveRS method with contractSystemId= {} contractMember.getModelSysId()-----------------{}" , contractSystemId , contractMember.getModelSysId());
          int rsId = flag ? Integer.valueOf(contractMember.getRsSid()) : contractMember.getModelSysId();
         final RsModel rebateMaster = discountDAO.getRebateScheduleMaster(rsId);
-        final RsContract rsMasterAttached = RsContractLocalServiceUtil.createRsContract(0);
-        rsMasterAttached.setContractMasterSid(contractSystemId);
-        rsMasterAttached.setCfpContractSid((cfpSystemId != 0) ? String.valueOf(cfpSystemId) : null);
-        rsMasterAttached.setIfpContractSid((ifpSystemId != 0) ? String.valueOf(ifpSystemId) : null);
-        rsMasterAttached.setPsContractSid((psSystemId != 0) ? String.valueOf(psSystemId) : null);
-        rsMasterAttached.setRsModelSid(rsId);
-        rsMasterAttached.setRsName(rebateMaster.getRsName());
-        rsMasterAttached.setRsId(rebateMaster.getRsId());
-        rsMasterAttached.setRsNo(rebateMaster.getRsNo());
-        rsMasterAttached.setRsType(rebateMaster.getRsType());
-        rsMasterAttached.setRebateProgramType(rebateMaster.getRebateProgramType());
-        rsMasterAttached.setRsCategory(rebateMaster.getRsCategory());
-        rsMasterAttached.setRsStartDate(rebateMaster.getRsStartDate());
-        rsMasterAttached.setRsEndDate(rebateMaster.getRsEndDate());
-        rsMasterAttached.setRsTradeClass(rebateMaster.getRsTradeClass());
-        rsMasterAttached.setRsDesignation(String.valueOf(rebateMaster.getRsDesignation()));
-        rsMasterAttached.setParentRsId(rebateMaster.getParentRsId());
-        rsMasterAttached.setParentRsName(rebateMaster.getParentRsName());
-        rsMasterAttached.setRsStatus(rebateMaster.getRsStatus());
-        rsMasterAttached.setRsTransRefId(rebateMaster.getRsTransRefId());
-        rsMasterAttached.setRsTransRefNo(rebateMaster.getRsTransRefNo());
-        rsMasterAttached.setRsTransRefName(rebateMaster.getRsTransRefName());
-        rsMasterAttached.setPaymentMethod(rebateMaster.getPaymentMethod());
-        rsMasterAttached.setPaymentFrequency(rebateMaster.getPaymentFrequency());
-        rsMasterAttached.setPaymentTerms(rebateMaster.getPaymentTerms());
-        rsMasterAttached.setRebateFrequency(rebateMaster.getRebateFrequency());
-        rsMasterAttached.setRsCalendar(String.valueOf(rebateMaster.getRsCalendar()));
-        rsMasterAttached.setRebateProcessingType(rebateMaster.getRebateProcessingType());
-        rsMasterAttached.setRsValidationProfile(rebateMaster.getRsValidationProfile());
-        rsMasterAttached.setRebateRuleType(rebateMaster.getRebateRuleType());
-        rsMasterAttached.setRebateRuleAssociation(rebateMaster.getRebateRuleAssociation());
-        rsMasterAttached.setRebatePlanLevel(rebateMaster.getRebatePlanLevel());
-        rsMasterAttached.setInterestBearingIndicator(rebateMaster.getInterestBearingIndicator());
-        rsMasterAttached.setInterestBearingBasis(rebateMaster.getInterestBearingBasis());
-        rsMasterAttached.setPaymentGracePeriod(rebateMaster.getPaymentGracePeriod());
-        rsMasterAttached.setRsContractAttachedDate(new Date());
-        rsMasterAttached.setMakePayableTo(rebateMaster.getMakePayableTo());
-        rsMasterAttached.setAddress1(rebateMaster.getAddress1());
-        rsMasterAttached.setAddress2(rebateMaster.getAddress2());
-        rsMasterAttached.setCity(rebateMaster.getCity());
-        rsMasterAttached.setState(rebateMaster.getState());
-        rsMasterAttached.setZipCode(rebateMaster.getZipCode());
-        rsMasterAttached.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
-        rsMasterAttached.setCreatedDate(new Date());
-        rsMasterAttached.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
-        rsMasterAttached.setModifiedDate(new Date());
-        rsMasterAttached.setFormulaMethodId(rebateMaster.getFormulaMethodId());
-        rsMasterAttached.setRecordLockStatus(false);
-        rsMasterAttached.setInboundStatus("A");
+        final RsContract rsMasterNewAttached = RsContractLocalServiceUtil.createRsContract(0);
+        rsMasterNewAttached.setContractMasterSid(contractSystemId);
+        rsMasterNewAttached.setCfpContractSid((cfpSystemId != 0) ? String.valueOf(cfpSystemId) : null);
+        rsMasterNewAttached.setIfpContractSid((ifpSystemId != 0) ? String.valueOf(ifpSystemId) : null);
+        rsMasterNewAttached.setPsContractSid((psSystemId != 0) ? String.valueOf(psSystemId) : null);
+        rsMasterNewAttached.setRsModelSid(rsId);
+        rsMasterNewAttached.setRsName(rebateMaster.getRsName());
+        rsMasterNewAttached.setRsId(rebateMaster.getRsId());
+        rsMasterNewAttached.setRsNo(rebateMaster.getRsNo());
+        rsMasterNewAttached.setRsType(rebateMaster.getRsType());
+        rsMasterNewAttached.setRebateProgramType(rebateMaster.getRebateProgramType());
+        rsMasterNewAttached.setRsCategory(rebateMaster.getRsCategory());
+        rsMasterNewAttached.setRsStartDate(rebateMaster.getRsStartDate());
+        rsMasterNewAttached.setRsEndDate(rebateMaster.getRsEndDate());
+        rsMasterNewAttached.setRsTradeClass(rebateMaster.getRsTradeClass());
+        rsMasterNewAttached.setRsDesignation(String.valueOf(rebateMaster.getRsDesignation()));
+        rsMasterNewAttached.setParentRsId(rebateMaster.getParentRsId());
+        rsMasterNewAttached.setParentRsName(rebateMaster.getParentRsName());
+        rsMasterNewAttached.setRsStatus(rebateMaster.getRsStatus());
+        rsMasterNewAttached.setRsTransRefId(rebateMaster.getRsTransRefId());
+        rsMasterNewAttached.setRsTransRefNo(rebateMaster.getRsTransRefNo());
+        rsMasterNewAttached.setRsTransRefName(rebateMaster.getRsTransRefName());
+        rsMasterNewAttached.setPaymentMethod(rebateMaster.getPaymentMethod());
+        rsMasterNewAttached.setPaymentFrequency(rebateMaster.getPaymentFrequency());
+        rsMasterNewAttached.setPaymentTerms(rebateMaster.getPaymentTerms());
+        rsMasterNewAttached.setRebateFrequency(rebateMaster.getRebateFrequency());
+        rsMasterNewAttached.setRsCalendar(String.valueOf(rebateMaster.getRsCalendar()));
+        rsMasterNewAttached.setRebateProcessingType(rebateMaster.getRebateProcessingType());
+        rsMasterNewAttached.setRsValidationProfile(rebateMaster.getRsValidationProfile());
+        rsMasterNewAttached.setRebateRuleType(rebateMaster.getRebateRuleType());
+        rsMasterNewAttached.setRebateRuleAssociation(rebateMaster.getRebateRuleAssociation());
+        rsMasterNewAttached.setRebatePlanLevel(rebateMaster.getRebatePlanLevel());
+        rsMasterNewAttached.setInterestBearingIndicator(rebateMaster.getInterestBearingIndicator());
+        rsMasterNewAttached.setInterestBearingBasis(rebateMaster.getInterestBearingBasis());
+        rsMasterNewAttached.setPaymentGracePeriod(rebateMaster.getPaymentGracePeriod());
+        rsMasterNewAttached.setRsContractAttachedDate(new Date());
+        rsMasterNewAttached.setMakePayableTo(rebateMaster.getMakePayableTo());
+        rsMasterNewAttached.setAddress1(rebateMaster.getAddress1());
+        rsMasterNewAttached.setAddress2(rebateMaster.getAddress2());
+        rsMasterNewAttached.setCity(rebateMaster.getCity());
+        rsMasterNewAttached.setState(rebateMaster.getState());
+        rsMasterNewAttached.setZipCode(rebateMaster.getZipCode());
+        rsMasterNewAttached.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        rsMasterNewAttached.setCreatedDate(new Date());
+        rsMasterNewAttached.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        rsMasterNewAttached.setModifiedDate(new Date());
+        rsMasterNewAttached.setFormulaMethodId(rebateMaster.getFormulaMethodId());
+        rsMasterNewAttached.setRecordLockStatus(false);
+        rsMasterNewAttached.setInboundStatus("A");
 
         DynamicQuery query = RsContractLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
@@ -963,13 +963,13 @@ public class DiscountLogic {
         RsContract rsContract = RsContractLocalServiceUtil.createRsContract(0);
 
         if (list.isEmpty()) {
-            rsMasterAttached.setContractMasterSid(contractSystemId);
-            rsMasterAttached.setCfpContractSid((cfpSystemId != 0) ? String.valueOf(cfpSystemId) : null);
-            rsMasterAttached.setIfpContractSid((ifpSystemId != 0) ? String.valueOf(ifpSystemId) : null);
-            rsMasterAttached.setPsContractSid((ifpSystemId != 0) ? String.valueOf(psSystemId) : null);
-            rsMasterAttached.setRsModelSid(rsId);
+            rsMasterNewAttached.setContractMasterSid(contractSystemId);
+            rsMasterNewAttached.setCfpContractSid((cfpSystemId != 0) ? String.valueOf(cfpSystemId) : null);
+            rsMasterNewAttached.setIfpContractSid((ifpSystemId != 0) ? String.valueOf(ifpSystemId) : null);
+            rsMasterNewAttached.setPsContractSid((ifpSystemId != 0) ? String.valueOf(psSystemId) : null);
+            rsMasterNewAttached.setRsModelSid(rsId);
 
-            rsContract = discountDAO.addRsMasterAttached(rsMasterAttached);
+            rsContract = discountDAO.addRsMasterAttached(rsMasterNewAttached);
         } else {
             rsContract.setRsContractSid(list.get(0).getRsContractSid());
         }
@@ -1921,7 +1921,7 @@ public class DiscountLogic {
             List results;
             results = discountDAO.getRebates(actualQuery);
             Object[] arr = (Object[]) results.get(0);
-            if (arr[0] != null || arr[0] != null) {
+            if (arr[0] != null) {
                 actual = true;
             }
         } catch (Exception e) {

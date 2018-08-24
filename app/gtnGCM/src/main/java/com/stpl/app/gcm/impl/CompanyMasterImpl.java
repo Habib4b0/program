@@ -1182,6 +1182,8 @@ public class CompanyMasterImpl {
                 List list = null;
                 try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
+                    List<StringBuilder> logic = new ArrayList<>();
+                    List<String> condition = new ArrayList<>();
                     if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
                         for (Object temp : relationshipBuilderSids) {
                             Integer level;
@@ -1193,8 +1195,7 @@ public class CompanyMasterImpl {
                                     + "AND RLD.RELATIONSHIP_BUILDER_SID=" + temp + ";";
                             list = HelperTableLocalServiceUtil.executeSelectQuery(hierarchyQuery);
                             level = DataTypeConverter.convertObjectToInt(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0));
-                            List<StringBuilder> logic = new ArrayList<>();
-                            List<String> condition = new ArrayList<>();
+                            
                             StringBuilder ccpQuery = new StringBuilder("MERGE CCP_MAP AS TARGET USING ( "
                                     + "SELECT distinct ? RELATIONSHIP_LEVEL_SID ,CCP.CCP_DETAILS_SID FROM CCP_DETAILS CCP ");
                             Integer prevNo = 0;
@@ -1360,7 +1361,7 @@ public class CompanyMasterImpl {
                                     condition.add("CCP.ITEM_MASTER_SID=ITEM.ITEM_MASTER_SID");
                                 }
                                 prevNo = currNo;
-                                if (level == currNo || !nextHierarchyNo.contains(String.valueOf(tempRow[4])) || list.size() == i + 1) {
+                                if (level.equals(currNo) || !nextHierarchyNo.contains(String.valueOf(tempRow[4])) || list.size() == i + 1) {
                                     ccpQuery.replace(ccpQuery.indexOf("?"), ccpQuery.indexOf("?") + 1, String.valueOf(tempRow[0]));
                                     for (int j = logic.size() - 1; j >= 0; j--) {
                                         ccpQuery.append(logic.get(j));

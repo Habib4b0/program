@@ -946,13 +946,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setCompanyNo(String.valueOf(obje[1]));
                     itemDTO.setCompanyName(String.valueOf(obje[NumericConstants.TWO]));
                     itemDTO.setCompanyStatus(String.valueOf(obje[NumericConstants.THREE]));
-                    if (obje[NumericConstants.FOUR] != null) {
-                        String date = df.format(obje[NumericConstants.FOUR]);
-                        Date date2 = df.parse(date);
-                        itemDTO.setStartDate(date2);
-                    } else {
-                        itemDTO.setStartDate(null);
-                    }
+                    addBtnSetStartDateMethod(obje, itemDTO);
                     if (obje[NumericConstants.FIVE] != null) {
                         String date = df.format(obje[NumericConstants.FIVE]);
                         Date date2 = df.parse(date);
@@ -976,13 +970,7 @@ public class Newcomponent extends CustomComponent {
                 itemDTO.setItemName(String.valueOf(obje[0]));
                 itemDTO.setItemStatus(String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setBrand(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
-                if (obje[NumericConstants.FOUR] != null) {
-                    String date = df.format(obje[NumericConstants.FOUR]);
-                    Date date2 = df.parse(date);
-                    itemDTO.setStartDate(date2);
-                } else {
-                    itemDTO.setStartDate(null);
-                }
+                addBtnSetStartDateMethod(obje, itemDTO);
                 if (obje[NumericConstants.FIVE] != null) {
                     String date = df.format(obje[NumericConstants.FIVE]);
                     Date date2 = df.parse(date);
@@ -1120,35 +1108,10 @@ public class Newcomponent extends CustomComponent {
         searchDDLB.removeAllItems();
         String cType = String.valueOf(componenttype.getValue());
         if (cType.equalsIgnoreCase(Constants.PRICE_SCHEDULE)) {
-            if (value.equals(Constants.IFP_STATUS)) {
-                commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
-                searchValue.setVisible(false);
-                searchDDLB.setVisible(true);
-            } else if (value.equals(Constants.IFPTYPE)) {
-                CopyContractLogic.getSelectNull(searchDDLB);
-                commonUtil.loadComboBox(searchDDLB, UiUtils.IFP_TYPE, false);
-                searchValue.setVisible(false);
-                searchDDLB.setVisible(true);
-            } else {
-                searchValue.setVisible(true);
-                searchDDLB.setVisible(false);
-            }
+            loadSearchFieldsIfpStatus(value);
             loadMassUpdateField();
         } else if (cType.equalsIgnoreCase(Constants.REBATE_SCHEDULE)) {
-            if (value.equals(Constants.IFP_STATUS)) {
-                CopyContractLogic.getSelectNull(searchDDLB);
-                commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
-                searchValue.setVisible(false);
-                searchDDLB.setVisible(true);
-            } else if (value.equals(Constants.IFPTYPE)) {
-                CopyContractLogic.getSelectNull(searchDDLB);
-                commonUtil.loadComboBox(searchDDLB, UiUtils.IFP_TYPE, false);
-                searchValue.setVisible(false);
-                searchDDLB.setVisible(true);
-            } else {
-                searchValue.setVisible(true);
-                searchDDLB.setVisible(false);
-            }
+            loadSearchFieldsIfpStatus(value);
             loadMassUpdateField();
         } else {
             if (value.equalsIgnoreCase(Constants.COMPANYSTATUS)) {
@@ -1362,10 +1325,10 @@ public class Newcomponent extends CustomComponent {
                                 if (level.equalsIgnoreCase("1")) {
                                     String cfpid = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.DASHBOARD_ID).getValue());
                                     String cfpno = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.DASHBOARD_NUMBER).getValue());
-                                    if (cfpId.getValue().toUpperCase().equalsIgnoreCase(cfpid.toUpperCase())) {
+                                    if (cfpId.getValue().equalsIgnoreCase(cfpid)) {
                                         listcId.add(cfpId.getValue());
                                     }
-                                    if (cfpNo.getValue().toUpperCase().equalsIgnoreCase(cfpno.toUpperCase())) {
+                                    if (cfpNo.getValue().equalsIgnoreCase(cfpno)) {
                                         listcNo.add(cfpNo.getValue());
                                     }
                                 }
@@ -1508,7 +1471,7 @@ public class Newcomponent extends CustomComponent {
                                     String level = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "levelNo").getValue());
                                     if (level.equalsIgnoreCase("2")) {
                                         String ifpid = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.DASHBOARD_ID).getValue());
-                                        if (ifpId.getValue().toUpperCase().equalsIgnoreCase(ifpid.toUpperCase())) {
+                                        if (ifpId.getValue().equalsIgnoreCase(ifpid)) {
                                             listcId.add(ifpId.getValue());
                                         }
 
@@ -2009,24 +1972,24 @@ public class Newcomponent extends CustomComponent {
                 int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue()).getId();
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
-                ContractMaster contractMaster;
-                contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
-                contractMaster.setContractId(contractId);
-                contractMaster.setContractNo(contractNo);
-                contractMaster.setContractName(contractName);
-                contractMaster.setContractType(contractType);
-                contractMaster.setContHoldCompanyMasterSid(contractHolder);
-                contractMaster.setProcessStatus(true);
-                contractMaster.setSource("BPI");
-                contractMaster.setContractStatus(status);
-                contractMaster.setCreatedBy(Integer.parseInt(userId));
-                contractMaster.setStartDate(startDate);
-                contractMaster.setEndDate(endDate);
-                contractMaster.setInboundStatus("A");
-                contractMaster.setCreatedDate(new Date());
-                contractMaster.setModifiedDate(new Date());
-                contractMaster = ContractMasterLocalServiceUtil.addContractMaster(contractMaster);
-                contractMasterSid = contractMaster.getContractMasterSid();
+                ContractMaster newComponentContractMaster;
+                newComponentContractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
+                newComponentContractMaster.setContractId(contractId);
+                newComponentContractMaster.setContractNo(contractNo);
+                newComponentContractMaster.setContractName(contractName);
+                newComponentContractMaster.setContractType(contractType);
+                newComponentContractMaster.setContHoldCompanyMasterSid(contractHolder);
+                newComponentContractMaster.setProcessStatus(true);
+                newComponentContractMaster.setSource("BPI");
+                newComponentContractMaster.setContractStatus(status);
+                newComponentContractMaster.setCreatedBy(Integer.parseInt(userId));
+                newComponentContractMaster.setStartDate(startDate);
+                newComponentContractMaster.setEndDate(endDate);
+                newComponentContractMaster.setInboundStatus("A");
+                newComponentContractMaster.setCreatedDate(new Date());
+                newComponentContractMaster.setModifiedDate(new Date());
+                newComponentContractMaster = ContractMasterLocalServiceUtil.addContractMaster(newComponentContractMaster);
+                contractMasterSid = newComponentContractMaster.getContractMasterSid();
                 dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(contractMasterSid));
                 int AliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, "aliasType").getValue()).getId();
                 Date AliasSDATE = (Date) dashboardResultsTable.getContainerProperty(item, "aliasstartdate").getValue();
@@ -2271,35 +2234,35 @@ public class Newcomponent extends CustomComponent {
                 final IfpModel itemFamily = IfpModelLocalServiceUtil.addIfpModel(ifpmodel);
                 map.put(temptableSId, String.valueOf(itemFamily.getIfpModelSid()));
                 updateToIfpDetails(itemFamily.getIfpModelSid(), temptableSId);
-                final IfpContract ifpMasterAttached = IfpContractLocalServiceUtil.createIfpContract(0);
+                final IfpContract newComponentIfpMasterAttached = IfpContractLocalServiceUtil.createIfpContract(0);
 
-                ifpMasterAttached.setIfpModelSid(itemFamily.getIfpModelSid());
-                ifpMasterAttached.setIfpName(itemFamily.getIfpName());
-                ifpMasterAttached.setIfpNo(itemFamily.getIfpNo());
-                ifpMasterAttached.setSource("BPI");
-                ifpMasterAttached.setIfpType(itemFamily.getIfpType());
-                ifpMasterAttached.setIfpCategory(itemFamily.getIfpCategory());
-                ifpMasterAttached.setIfpDesignation(itemFamily.getIfpDesignation());
-                ifpMasterAttached.setParentIfpId(itemFamily.getParentIfpId());
-                ifpMasterAttached.setParentIfpName(itemFamily.getParentIfpName());
-                ifpMasterAttached.setIfpStatus(itemFamily.getIfpStatus());
-                ifpMasterAttached.setIfpStartDate(itemFamily.getIfpStartDate());
-                ifpMasterAttached.setIfpEndDate(itemFamily.getIfpEndDate());
-                ifpMasterAttached.setIfpContractAttachedDate(new Date());
-                ifpMasterAttached.setCreatedBy(Integer.parseInt(userId));
-                ifpMasterAttached.setCreatedDate(new Date());
-                ifpMasterAttached.setModifiedBy(Integer.parseInt(userId));
-                ifpMasterAttached.setModifiedDate(new Date());
-                ifpMasterAttached.setRecordLockStatus(false);
-                ifpMasterAttached.setInboundStatus("A");
+                newComponentIfpMasterAttached.setIfpModelSid(itemFamily.getIfpModelSid());
+                newComponentIfpMasterAttached.setIfpName(itemFamily.getIfpName());
+                newComponentIfpMasterAttached.setIfpNo(itemFamily.getIfpNo());
+                newComponentIfpMasterAttached.setSource("BPI");
+                newComponentIfpMasterAttached.setIfpType(itemFamily.getIfpType());
+                newComponentIfpMasterAttached.setIfpCategory(itemFamily.getIfpCategory());
+                newComponentIfpMasterAttached.setIfpDesignation(itemFamily.getIfpDesignation());
+                newComponentIfpMasterAttached.setParentIfpId(itemFamily.getParentIfpId());
+                newComponentIfpMasterAttached.setParentIfpName(itemFamily.getParentIfpName());
+                newComponentIfpMasterAttached.setIfpStatus(itemFamily.getIfpStatus());
+                newComponentIfpMasterAttached.setIfpStartDate(itemFamily.getIfpStartDate());
+                newComponentIfpMasterAttached.setIfpEndDate(itemFamily.getIfpEndDate());
+                newComponentIfpMasterAttached.setIfpContractAttachedDate(new Date());
+                newComponentIfpMasterAttached.setCreatedBy(Integer.parseInt(userId));
+                newComponentIfpMasterAttached.setCreatedDate(new Date());
+                newComponentIfpMasterAttached.setModifiedBy(Integer.parseInt(userId));
+                newComponentIfpMasterAttached.setModifiedDate(new Date());
+                newComponentIfpMasterAttached.setRecordLockStatus(false);
+                newComponentIfpMasterAttached.setInboundStatus("A");
                 Object parentItem = dashboardResultsTable.getParent(item);
                 String parentCFPId = String.valueOf(dashboardResultsTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
                 Object contractItem = dashboardResultsTable.getParent(parentItem);
                 String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
-                ifpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
-                ifpMasterAttached.setCfpContractSid(parentCFPId);
+                newComponentIfpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
+                newComponentIfpMasterAttached.setCfpContractSid(parentCFPId);
                 updatePsAndRSModelSid(dashboardResultsTable.getChildren(item), itemFamily.getIfpModelSid());
-                IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
+                IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(newComponentIfpMasterAttached);
                 SaveIFP(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
                 dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
             }
@@ -2413,13 +2376,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setItemName(String.valueOf(obje[0]));
                     itemDTO.setItemStatus(String.valueOf(obje[NumericConstants.EIGHT]));
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
-                    if (obje[NumericConstants.FOUR] != null) {
-                        Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
-                        String finalString = df.format(date);
-                        itemDTO.setPsStartDate(finalString);
-                    } else {
-                        itemDTO.setPsStartDate(null);
-                    }
+                    populateDetailsPsStartDate(obje, itemDTO);
                     if (obje[NumericConstants.FIVE] != null) {
                         Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
@@ -2471,13 +2428,7 @@ public class Newcomponent extends CustomComponent {
                     } else {
                         itemDTO.setPsStartDate(null);
                     }
-                    if (obje[NumericConstants.SIX] != null) {
-                        Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
-                        String finalString = df.format(date);
-                        itemDTO.setPsEndDate(finalString);
-                    } else {
-                        itemDTO.setPsEndDate(null);
-                    }
+                    populateDetailsPsEndDate(obje, itemDTO);
                     if (obje[NumericConstants.TWO] != null && obje[NumericConstants.TWO].equals(Constants.SELECT_ONE)) {
                         itemDTO.setTherapyClass(Constants.EMPTY);
                     } else {
@@ -2517,21 +2468,8 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setItemName(String.valueOf(obje[1]));
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     itemDTO.setStatus(String.valueOf(obje[NumericConstants.FOUR]));
-                    if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
-                        String finalString = df.format(date);
-                        itemDTO.setPsStartDate(finalString);
-
-                    } else {
-                        itemDTO.setPsStartDate(null);
-                    }
-                    if (obje[NumericConstants.SIX] != null) {
-                        Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
-                        String finalString = df.format(date);
-                        itemDTO.setPsEndDate(finalString);
-                    } else {
-                        itemDTO.setPsEndDate(null);
-                    }
+                    populateDetailsPsStartDate(obje, itemDTO);
+                    populateDetailsPsEndDate(obje, itemDTO);
                     if (obje[NumericConstants.TWO] != null && obje[NumericConstants.TWO].equals(Constants.SELECT_ONE)) {
                         itemDTO.setTherapyClass(Constants.EMPTY);
                     } else {
@@ -2741,6 +2679,52 @@ public class Newcomponent extends CustomComponent {
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
         } catch (Exception ex) {
             LOGGER.error("",ex);
+        }
+    }
+    
+    private void addBtnSetStartDateMethod(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
+        if (obje[NumericConstants.FOUR] != null) {
+            String date = df.format(obje[NumericConstants.FOUR]);
+            Date date2 = df.parse(date);
+            itemDTO.setStartDate(date2);
+        } else {
+            itemDTO.setStartDate(null);
+        }
+    }
+
+    private void loadSearchFieldsIfpStatus(String value) {
+        if (value.equals(Constants.IFP_STATUS)) {
+            commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
+            searchValue.setVisible(false);
+            searchDDLB.setVisible(true);
+        } else if (value.equals(Constants.IFPTYPE)) {
+            CopyContractLogic.getSelectNull(searchDDLB);
+            commonUtil.loadComboBox(searchDDLB, UiUtils.IFP_TYPE, false);
+            searchValue.setVisible(false);
+            searchDDLB.setVisible(true);
+        } else {
+            searchValue.setVisible(true);
+            searchDDLB.setVisible(false);
+        }
+    }
+
+    public void populateDetailsPsStartDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
+        if (obje[NumericConstants.FOUR] != null) {
+            Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
+            String finalString = df.format(date);
+            itemDTO.setPsStartDate(finalString);
+        } else {
+            itemDTO.setPsStartDate(null);
+        }
+    }
+
+    public void populateDetailsPsEndDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
+        if (obje[NumericConstants.SIX] != null) {
+            Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
+            String finalString = df.format(date);
+            itemDTO.setPsEndDate(finalString);
+        } else {
+            itemDTO.setPsEndDate(null);
         }
     }
 }

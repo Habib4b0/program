@@ -240,10 +240,10 @@ public class Constants {
     public static final String BRAND_NAME = "brandName";
     public static final String MANUFACTURER = "Manufacturer";
 
-    public final Object summaryContractSelectionColumns[] = new Object[]{
+    public final Object[] summaryContractSelectionColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME,
         Constants.IFPNAME, PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, "tpstatus", COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
-    public final Object summaryTransferTpColumns[] = new Object[]{
+    public final Object[] summaryTransferTpColumns = new Object[]{
         CHECK_RECORD, CONTRACT_HOLDER, CONTRACT_NO, CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, CFP_NAME,
         IFPNAME, PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, "statusString", COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
     public static final String COMPANY_START_DATE_LABEL = "Company Start Date";
@@ -256,16 +256,16 @@ public class Constants {
 
     public static final String CFP_NO_PROPERTY = "cfpNo";
     public static final String WORKFLOW_STATUS_PROPERTY = "workflowStatus";
-    public final Object contractSelectionColumns[] = new Object[]{
+    public final Object[] contractSelectionColumns = new Object[]{
         CHECK_RECORD, PROJ_ID_LINK, WORKFLOW_STATUS_PROPERTY, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, STATUS_S, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY, Constants.CFP_NAME, CFP_NO_PROPERTY, Constants.IFPNAME, IFP_NO_COLUMN, PS_NAME_PROPERTY, "pSNo", RS_NAME_PROPERTY, "rSNo", RAR_CATEGORY_PROPERTY};
     public static final String WORKFLOW_STATUS_LABEL = "Workflow Status";
-    public final String contractSelectionHeaders[] = new String[]{
+    public final String[] contractSelectionHeaders = new String[]{
         "", PROJECTION_ID_HEADER, WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NAME_HEADER,
         CFP_NO_HEADER, Constants.IFP_NAME_LABEL, Constants.IFP_NO, PS_NAME_FIELD, PS_NO_LABEL, RS_NAME_LABEL, RS_NO_HEADER,
         RAR_CATEGORY_HEADER,};
-    public final Object addTpContractSelectionColumns[] = new Object[]{
+    public final Object[] addTpContractSelectionColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME, CFP_NO_PROPERTY, Constants.IFPNAME, IFP_NO_COLUMN, PS_NAME_PROPERTY, "pSNo", RS_NAME_PROPERTY, "rSNo", RAR_CATEGORY_PROPERTY, STATUS_S, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
-    public final String addTpContractSelectionHeaders[] = new String[]{
+    public final String[] addTpContractSelectionHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, CONTRACT_START_DATE_LABEL, CONTRACT_END_DATE_LABEL, CFP_NAME_HEADER,
         CFP_NO_HEADER, Constants.IFP_NAME_LABEL, Constants.IFP_NO, PS_NAME_FIELD, PS_NO_LABEL, RS_NAME_LABEL, RS_NO_HEADER,
         RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
@@ -286,29 +286,29 @@ public class Constants {
     /**
      * The Constant PROMOTE_TP_RESULTS_HEADERS.
      */
-    public final String promoteTpResultsHeaders[] = new String[]{
+    public final String[] promoteTpResultsHeaders = new String[]{
         SYSTEM_ID_LABEL, Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS, ADDRESS_1_LABEL, ADDRESS_2_LABEL, "City", STATE_LABEL, "Zip"};
     public static final String PARENT_NAME_PROPERTY = "parentName";
     public static final String PARENT_NO_PROPERTY = "parentNo";
-    public final Object tpCompanySearchColumns[] = new Object[]{
+    public final Object[] tpCompanySearchColumns = new Object[]{
         COMPANY_SYSTEM_ID_PROPERTY, COMPANY_ID_PROPERTY, COMPANY_NO, COMPANY_NAME, COMPANY_TYPE_PROPERTY, COMPANY_CATEGORY_PROPERTY, TRADE_CLASS_PROPERTY, ADDRESS1_PROPERTY, ADDRESS2_PROPERTY, "city", STATE_PROPERTY, "zip", PARENT_NO_PROPERTY, PARENT_NAME_PROPERTY};
     public static final String PARENT_NAME_LABEL = "Parent Name";
     public static final String PARENT_NO_LABEL = "Parent No";
     /**
      * The Constant PROMOTE_TP_RESULTS_HEADERS.
      */
-    public final String tpCompanySearchHeaders[] = new String[]{
+    public final String[] tpCompanySearchHeaders = new String[]{
         SYSTEM_ID_LABEL, Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS, ADDRESS_1_LABEL, ADDRESS_2_LABEL, "City", STATE_LABEL, "Zip", PARENT_NO_LABEL, PARENT_NAME_LABEL};
-    public final Object discountSearchColumns[] = new Object[]{
+    public final Object[] discountSearchColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE,
         Constants.END_DATE, Constants.CFP_NAME, Constants.IFPNAME, Constants.PSNAME, Constants.RSNAME};
-    public final String discountSearchHeaders[] = new String[]{
+    public final String[] discountSearchHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER,
         END_DATE_HEADER, COMPANY_FAMILY_PLAN, ITEM_FAMILY_PLAN, Constants.PRICE_SCHEDULE, REBATE_SCHEDULE};
     public static final String BASIS_PROPERTY = "basis";
     public static final String RAR_TYPE_PROPERTY = "rarType";
     public static final String CONTRACT_ID_PROPERTY = "contractId";
-    public final Object componentResultsColumns[] = new Object[]{
+    public final Object[] componentResultsColumns = new Object[]{
         CONTRACT_ID_PROPERTY, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, "contractStatus", Constants.START_DATE,
         Constants.END_DATE, Constants.CFP_NAME, Constants.IFPNAME, Constants.PSNAME, "frequency", RAR_TYPE_PROPERTY, BASIS_PROPERTY};
     public static final String NUMBER_LABEL = "Number";
@@ -316,14 +316,14 @@ public class Constants {
     public static final String RAR_TYPE_LABEL = "RAR Type";
     public static final String FREQUENCY_LABEL = "Frequency";
 
-    public final String componentResultsHeaders[] = new String[]{
+    public final String[] componentResultsHeaders = new String[]{
         "ID", NUMBER_LABEL, "Name", STATUS_FIELD, START_DATE_HEADER,
         END_DATE_HEADER, "CFP", "IFP", "PS", FREQUENCY_LABEL, RAR_TYPE_LABEL, BASIS_LABEL};
 
     public static final String NUMBER_PROPERTY = "number";
-    public final Object treeColumns[] = new Object[]{
+    public final Object[] treeColumns = new Object[]{
         CATEGORY, "id", NUMBER_PROPERTY, "name"};
-    public final String treeHeaders[] = new String[]{
+    public final String[] treeHeaders = new String[]{
         "Component", "ID", NUMBER_LABEL, "Name"};
 
     public static final String ITEM_START_DATE_PROPERTY = "itemStartDate";
@@ -336,7 +336,7 @@ public class Constants {
     public static final String REBATE_PLAN_NAME_PROPERTY = "rebatePlanName";
     public static final String FORMULA_ID_PROPERTY = "formulaId";
 
-    public final Object selectedResultsColumns[] = new Object[]{
+    public final Object[] selectedResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, FORMULA_TYPE_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public static final String ATTACHED_DATE_FIELD = "Attached Date";
     public static final String FORMULA_TYPE_LABEL = "Formula Type";
@@ -346,31 +346,31 @@ public class Constants {
     public static final String REBATE_PLAN_LABEL = "Rebate Plan";
     public static final String REBATE_PLAN_NAME_LABEL = "Rebate Plan Name";
     public static final String BUNDLE_NO_LABEL = "Bundle No";
-    public final String selectedResultsHeaders[] = new String[]{
+    public final String[] selectedResultsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND,
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL, FORMULA_NAME_LABEL, FORMULA_TYPE_LABEL, REBATE_PLAN_ID_LABEL, REBATE_PLAN_NAME_LABEL, "Rebate amount", BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
-    public final Object componentDetailsColumns[] = new Object[]{
+    public final Object[] componentDetailsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
     /**
      * The Constant COMPONENT_DETAILS_HEADERS.
      */
-    public final String componentDetailsHeaders[] = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object tpComponentDetailsColumns[] = new Object[]{
+    public final String[] componentDetailsHeaders = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
+    public final Object[] tpComponentDetailsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public final String tpComponentDetailsHeaders[] = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
+    public final String[] tpComponentDetailsHeaders = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
     /**
      * The Constant CONTRACT_COMP_RESULTS_COLUMNS.
      */
-    public final Object contractCompResultsColumns[] = new Object[]{
+    public final Object[] contractCompResultsColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.IFPNAME,
         Constants.PSNAME, Constants.RSNAME};
     /**
      * The Constant CONTRACT_COMP_RESULTS_HEADERS.
      */
-    public final String contractCompResultsHeaders[] = new String[]{
+    public final String[] contractCompResultsHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, "IFP",
         "PS", "RS"};
-    public final Object contractDashboardResultsColumns[] = new Object[]{
+    public final Object[] contractDashboardResultsColumns = new Object[]{
         CATEGORY, "id", NUMBER_PROPERTY, "name"};
     public static final String CATEGORY_LABEL = "Category";
     /**
@@ -380,54 +380,54 @@ public class Constants {
         CATEGORY_LABEL, "ID", NUMBER_LABEL, "Name"};
     public static final String ITEM_ID_PROPERTY = "itemId";
     public static final String STRENGTH_PROPERTY = "strength";
-    public final Object compItemResultsColumns[] = new Object[]{
+    public final Object[] compItemResultsColumns = new Object[]{
         CHECK_RECORD, ITEM_ID_PROPERTY, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, "form", STRENGTH_PROPERTY, STATUS_S,
         Constants.START_DATE, Constants.END_DATE};
     /**
      * The Constant CONTRACT_COMP_RESULTS_HEADERS.
      */
-    public final String compItemResultsHeaders[] = new String[]{
+    public final String[] compItemResultsHeaders = new String[]{
         "", "ID", NUMBER_LABEL, "Name", Constants.THERAPY_CLASS, Constants.BRAND, Constants.FORM, Constants.STRENGTH,
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object addTradingPartnerColumns[] = new Object[]{
+    public final Object[] addTradingPartnerColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp",
         "ifp", "ps", "rs"};
     /**
      * The Constant PROMOTE_TP_RESULTS_HEADERS.
      */
-    public final String addTradingPartnerHeaders[] = new String[]{
+    public final String[] addTradingPartnerHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER,
         "CFP", "IFP", "PS", "RS"};
-    public final Object contractDashboardColumns[] = new Object[]{
+    public final Object[] contractDashboardColumns = new Object[]{
         "component", "id", NUMBER_PROPERTY, "name"};
     /**
      * The Constant PROMOTE_TP_RESULTS_HEADERS.
      */
-    public final String contractDashboardHeaders[] = new String[]{
+    public final String[] contractDashboardHeaders = new String[]{
         "Component", "ID", NUMBER_LABEL, "Name"};
-    public final Object itemSearchResultsColumns[] = new Object[]{
+    public final Object[] itemSearchResultsColumns = new Object[]{
         CHECK_RECORD, ITEM_ID_PROPERTY, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, "form", STRENGTH_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public final String itemSearchResultsHeaders[] = new String[]{
+    public final String[] itemSearchResultsHeaders = new String[]{
         "", "Id", NUMBER_LABEL, "Name", Constants.THERAPY_CLASS, Constants.BRAND, Constants.FORM,
         Constants.STRENGTH, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object contractComponentDetailsResultsColumns[] = new Object[]{
+    public final Object[] contractComponentDetailsResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
     public final String contractComponentDetailsResultsHeaders[] = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND,
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object rsResultsColumns[] = new Object[]{
+    public final Object[] rsResultsColumns = new Object[]{
         "id", NUMBER_PROPERTY, "name", STATUS_S, Constants.START_DATE,
         Constants.END_DATE, Constants.IFPNAME, "frequency", RAR_TYPE_PROPERTY, BASIS_PROPERTY};
-    public final String rsResultsHeaders[] = new String[]{
+    public final String[] rsResultsHeaders = new String[]{
         "Id", NUMBER_LABEL, "Name", STATUS_FIELD,
         START_DATE_HEADER, END_DATE_HEADER, "IFP", FREQUENCY_LABEL, RAR_TYPE_LABEL, BASIS_LABEL};
-    public final Object summaryTpResultsColumns[] = new Object[]{
+    public final Object[] summaryTpResultsColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.CFP_NAME,
         Constants.IFPNAME, Constants.PSNAME, Constants.RSNAME, RAR_CATEGORY_COLUMN, STATUS_S, COMPANY_START_DATE, COMPANY_END_DATE};
     /**
      * The Constant SUMMARY_TP_RESULTS_HEADERS.
      */
-    public final String summaryTpResultsHeaders[] = new String[]{
+    public final String[] summaryTpResultsHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, CFP_NAME_HEADER,
         Constants.IFP_NAME_LABEL, PS_NAME_FIELD, RS_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
     public static final String REBATE_SCHEDULE_NAME_PROPERTY = "rebateScheduleName";
@@ -435,14 +435,14 @@ public class Constants {
     /**
      * CURRENT_TRADING_PARTNER_COLUMNS
      */
-    public final Object currentTradingPartnerColumns[] = new Object[]{
+    public final Object[] currentTradingPartnerColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, REBATE_SCHEDULE_NO_PROPERTY, REBATE_SCHEDULE_NAME_PROPERTY, RAR_CATEGORY_COLUMN, STATUS_S, COMPANY_START_DATE, COMPANY_END_DATE};
     public static final String REBATE_SCHEDULE_NAME_LABEL = "Rebate Schedule Name";
     public static final String REBATE_SCHEDULE_NO_LABEL = "Rebate Schedule No";
     /**
      * The Constant CURRENT_TRADING_PARTNER_HEADERS.
      */
-    public final String currentTradingPartnerHeaders[] = new String[]{
+    public final String[] currentTradingPartnerHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, REBATE_SCHEDULE_NO_LABEL, REBATE_SCHEDULE_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
     public static final String STATUS_ID_PROPERTY = "statusId";
     public final Object[] ptpComponentInfoColumnsIfp = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
@@ -450,19 +450,19 @@ public class Constants {
     public final Object[] ptpComponentInfoColumnsPs = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
     public final String ptpComponentInfoHeadersPs[] = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
     public final Object[] ptpComponentInfoColumns = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
-    public final String ptpComponentInfoHeaders[] = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
-    public final Object tpResultsColumns[] = new Object[]{
+    public final String[] ptpComponentInfoHeaders = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
+    public final Object[] tpResultsColumns = new Object[]{
         COMPANY_SYSTEM_ID_PROPERTY, COMPANY_ID_PROPERTY, COMPANY_NO, COMPANY_NAME, COMPANY_TYPE_PROPERTY, COMPANY_CATEGORY_PROPERTY, TRADE_CLASS_PROPERTY, ADDRESS1_PROPERTY, ADDRESS2_PROPERTY, "city", STATE_PROPERTY, "zip"
     };
-    public final String tpResultsHeaders[] = new String[]{
+    public final String[] tpResultsHeaders = new String[]{
         SYSTEM_ID_LABEL, Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS, ADDRESS_1_LABEL, ADDRESS_2_LABEL, "City", STATE_LABEL, "Zip"
     };
-    public final Object tpComponentInformationColumnsRs[] = new Object[]{
+    public final Object[] tpComponentInformationColumnsRs = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public static final String REBATE_AMOUNT_LABEL = "Rebate Amount";
     public static final String REBATE_PLAN_ID_FIELD = "Rebate Plan Id";
     public static final String FORMULA_ID_FIELD = "Formula Id";
-    public final String tpComponentInformationHeadersRs[] = new String[]{
+    public final String[] tpComponentInformationHeadersRs = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, FORMULA_TYPE_LABEL, FORMULA_ID_FIELD, FORMULA_NAME_LABEL, REBATE_PLAN_ID_FIELD, REBATE_PLAN_NAME_LABEL, REBATE_AMOUNT_LABEL, BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
     public static final String RESET_ELIGIBLE_PROPERTY = "resetEligible";
     public static final String MAX_INCREMENTAL_CHANGE_PROPERTY = "maxIncrementalChange";
@@ -497,7 +497,7 @@ public class Constants {
     public static final String NET_BASELINE_WAC_FORMULA_PROPERTY = "netBaselineWACFormula";
     public static final String NET_RESET_PRICE_FORMULA_PROPERTY = "netResetPriceFormula";
 
-    public final Object tpComponentInformationColumnsPs[] = new Object[]{
+    public final Object[] tpComponentInformationColumnsPs = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S,
         Constants.START_DATE, Constants.END_DATE, PRICE_TYPE_PROPERTY, PRICE_PLAN_NO_PROPERTY,
         PRICE_PLAN_NAME_PROPERTY, PRICE_PROTECTION_STATUS_PROPERTY, PRICE_PROTECTION_START_DATE_PROPERTY,
@@ -521,123 +521,123 @@ public class Constants {
     public static final String PRICE_TOLERANCE_TYPE_LABEL = "Price Tolerance Type";
     public static final String PRICE_PROTECTION_START_DATE_LABEL = "Price Protection Start Date";
     public static final String PRICE_PROTECTION_PRICE_TYPE_LABEL = "Price Protection Price Type";
-    public final String tpComponentInformationHeadersPs[] = new String[]{
+    public final String[] tpComponentInformationHeadersPs = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PLAN_NO_LABEL, PRICE_PLAN_NAME_LABEL, PRICE_PROTECTION_STATUS_LABEL, PRICE_PROTECTION_START_DATE_LABEL, PRICE_PROTECTION_END_DATE_LABEL,
         PRICE_PROTECTION_PRICE_TYPE_LABEL, PRICE_TOLERANCE_INTERVAL_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, PRICE_TOLERANCE_TYPE_LABEL, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL,
         RESET_ELIGIBLE_LABLE_NAME, RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
-    public final Object tpComponentInformationColumnsIfp[] = new Object[]{
+    public final Object[] tpComponentInformationColumnsIfp = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, ATTACHED_DATE_PROPERTY};
-    public final String tpComponentInformationHeadersIfp[] = new String[]{
+    public final String[] tpComponentInformationHeadersIfp = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, ATTACHED_DATE_FIELD};
-    public final Object tpComponentInformationColumnsCfp[] = new Object[]{
+    public final Object[] tpComponentInformationColumnsCfp = new Object[]{
         COMPANY_NO, COMPANY_NAME, COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE, STATUS_S, TRADE_CLASS_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final String tpComponentInformationHeadersCfp[] = new String[]{
+    public final String[] tpComponentInformationHeadersCfp = new String[]{
         Constants.COMPANYNO, Constants.COMPANYNAME, COMPANYSTATUS, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD,
         Constants.TRADECLASS, ATTACHED_DATE_FIELD};
-    public final Object existingSelectedResultsColumns[] = new Object[]{
+    public final Object[] existingSelectedResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
-    public final String existingSelectedResultsHeaders[] = new String[]{
+    public final String[] existingSelectedResultsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND,
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
-    public final Object parentCompanySearchColumns[] = new Object[]{
+    public final Object[] parentCompanySearchColumns = new Object[]{
         COMPANY_ID_PROPERTY, COMPANY_NO, COMPANY_NAME, COMPANY_STATUS, COMPANY_TYPE_PROPERTY};
-    public final String parentCompanySearchHeaders[] = new String[]{
+    public final String[] parentCompanySearchHeaders = new String[]{
         Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, COMPANYSTATUS, Constants.COMPANYTYPE};
-    public final Object promoteTpContractDashboardTreeColumns[] = new Object[]{
+    public final Object[] promoteTpContractDashboardTreeColumns = new Object[]{
         CATEGORY, CONTRACT_ID_PROPERTY, Constants.CONTRACT_NO, Constants.CONTRACT_NAME};
-    public final String promoteTpContractDashboardTreeHeaders[] = new String[]{
+    public final String[] promoteTpContractDashboardTreeHeaders = new String[]{
         CATEGORY_LABEL, "ID", NUMBER_LABEL, "Name"};
-    public final Object cfpSearchColumns[] = new Object[]{
+    public final Object[] cfpSearchColumns = new Object[]{
         "cfpId", CFP_NO_PROPERTY, Constants.CFP_NAME, "cfpType", "cfpCategory", "cfpDesignation",
         "cfpPlanId", "cfpPlanName", "cfpStatus", "cfpTradeClass", Constants.CFP_START_DATE, Constants.CFP_END_DATE};
-    public final String cfpSearchHeaders[] = new String[]{
+    public final String[] cfpSearchHeaders = new String[]{
         "CFP ID", CFP_NO_HEADER, CFP_NAME_HEADER, "CFP Type", "CFP Category", "CFP Designation",
         "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
-    public final Object ifpSearchColumns[] = new Object[]{
+    public final Object[] ifpSearchColumns = new Object[]{
         IFP_NO_COLUMN, Constants.IFPNAME, "ifpType", "ifpCategory", "ifpDesignation",
         "ifpPlanId", "ifpPlanName", IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE};
-    public final String ifpSearchHeaders[] = new String[]{
+    public final String[] ifpSearchHeaders = new String[]{
         Constants.IFP_NO, Constants.IFP_NAME_LABEL, IFP_TYPE_LABEL, "IFP Category", "IFP Designation",
         "IFP Plan ID", "IFP Plan Name", IFP_STATUS, "IFP Start Date", "IFP End Date"};
-    public final Object psSearchColumns[] = new Object[]{
+    public final Object[] psSearchColumns = new Object[]{
         "psNo", Constants.PSNAME, "psType", "psCategory", "psTradeClass", "psDesignation", "parentPsId",
         "parentPsName", "psStatus", Constants.PS_START_DATE, Constants.PS_END_DATE};
     public final String psSearchHeaders[] = new String[]{
         PS_NO_LABEL, PS_NAME_FIELD, "PS Type", "PS Category", "PS Trade Class", "PS Designation",
         "Parent PS ID", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
-    public final Object rsSearchColumns[] = new Object[]{
+    public final Object[] rsSearchColumns = new Object[]{
         "rsId", "rsNo", Constants.RSNAME, "rsType", "rebateProgramType", "rsCategory", "rsTradeClass",
         "rsDesignation", "parentrsId", "parentrsName", "rsStatus", Constants.RS_START_DATE, Constants.RS_END_DATE};
-    public final String rsSearchHeaders[] = new String[]{
+    public final String[] rsSearchHeaders = new String[]{
         "RS ID", RS_NO_HEADER, RS_NAME_LABEL, "RS Type", "Rebate Program Type", "RS Category", Constants.TRADECLASS,
         "RS Designation", "Parent RS ID", "Parent RS Name", "RS Status", "RS Start Date", "RS End Date"};
-    public final Object chSearchColumns[] = new Object[]{
+    public final Object[] chSearchColumns = new Object[]{
         "chId", "chNo", "chName", "chStatus", "chType"};
     public final String chSearchHeaders[] = new String[]{
         "Contract Holder ID", "Contract Holder No", "Contract Holder Name", "Contract Holder Status", "Contract Holder Type"};
-    public final Object custSearchColumns[] = new Object[]{
+    public final Object[] custSearchColumns = new Object[]{
         "custId", "custNo", "custName", "custStatus", "custType"};
-    public final String custSearchHeaders[] = new String[]{
+    public final String[] custSearchHeaders = new String[]{
         "Customer ID", "Customer No", "Customer Name", "Customer Status", "Customer Type"};
-    public final Object itemSearchColumns[] = new Object[]{
+    public final Object[] itemSearchColumns = new Object[]{
         ITEM_ID_PROPERTY, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_TYPE_PROPERTY};
-    public final String itemSearchHeaders[] = new String[]{
+    public final String[] itemSearchHeaders = new String[]{
         Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_STATUS, Constants.ITEM_TYPE};
-    public final Object promoteTpContractDashboardTreeColumnsTransfer[] = new Object[]{
+    public final Object[] promoteTpContractDashboardTreeColumnsTransfer = new Object[]{
         CATEGORY, DASHBOARD_ID, DASHBOARD_NUMBER, DASHBOARD_NAME};
     public static final HelperDTO HELPER_DTO = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    public final Object excelContractSelectionColumns[] = new Object[]{
+    public final Object[] excelContractSelectionColumns = new Object[]{
         ConstantsUtil.PROJECTION_ID, WORKFLOW_STATUS_PROPERTY, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, STATUS_S , COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY, Constants.CFP_NAME, CFP_NO_PROPERTY, 
         Constants.IFPNAME, IFP_NO_COLUMN,  PS_NAME_PROPERTY, "pSNo", RS_NAME_PROPERTY, "rSNo", RAR_CATEGORY_PROPERTY};
     public static final String PROJECTION_ID_LABEL = "Projection Id";
-    public final String excelContractSelectionHeaders[] = new String[]{
+    public final String[] excelContractSelectionHeaders = new String[]{
         PROJECTION_ID_LABEL, WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NAME_HEADER, CFP_NO_HEADER, 
         Constants.IFP_NAME_LABEL, Constants.IFP_NO, PS_NAME_FIELD, PS_NO_LABEL,  RS_NAME_LABEL, RS_NO_HEADER,
         RAR_CATEGORY_HEADER};
-    public final Object companySearchColumns[] = new Object[]{
+    public final Object[] companySearchColumns = new Object[]{
         CHECK, COMPANY_SYSTEM_ID_PROPERTY, COMPANY_ID_PROPERTY, COMPANY_NO, COMPANY_NAME, COMPANY_TYPE_PROPERTY, COMPANY_CATEGORY_PROPERTY, TRADE_CLASS_PROPERTY, ADDRESS1_PROPERTY, ADDRESS2_PROPERTY, "city", STATE_PROPERTY, "zip", PARENT_NO_PROPERTY, PARENT_NAME_PROPERTY};
-    public final String companySearchHeaders[] = new String[]{
+    public final String[] companySearchHeaders = new String[]{
         "", SYSTEM_ID_LABEL, Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS, ADDRESS_1_LABEL, ADDRESS_2_LABEL, "City", STATE_LABEL, "Zip", PARENT_NO_LABEL, PARENT_NAME_LABEL};
-    public final Object companySearchColumnsWithoutCheck[] = new Object[]{
+    public final Object[] companySearchColumnsWithoutCheck = new Object[]{
         COMPANY_ID_PROPERTY, COMPANY_NO, COMPANY_NAME, COMPANY_TYPE_PROPERTY, COMPANY_CATEGORY_PROPERTY, TRADE_CLASS_PROPERTY, ADDRESS1_PROPERTY, ADDRESS2_PROPERTY, "city", STATE_PROPERTY, "zip", PARENT_NO_PROPERTY, PARENT_NAME_PROPERTY};
-    public final String companySearchHeadersWithoutCheck[] = new String[]{
+    public final String[] companySearchHeadersWithoutCheck = new String[]{
         Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS, ADDRESS_1_LABEL, ADDRESS_2_LABEL, "City", STATE_LABEL, "Zip", PARENT_NO_LABEL, PARENT_NAME_LABEL};
-    public final Object linkedCompanyColumns[] = new Object[]{
+    public final Object[] linkedCompanyColumns = new Object[]{
         CHECK, "fromCompanyId", "fromCompanyNo", "fromCompanyName", "toCompanyId", "toCompanyNo", "toCompanyName"};
-    public final String linkedCompanyHeaders[] = new String[]{
+    public final String[] linkedCompanyHeaders = new String[]{
         "", "Company ID - From", "Company No - From", "Company Name - From", "Company ID - To", "Company No - To", "Company Name - To",};
-    public final Object ptpComponentDetailsColumns[] = new Object[]{
+    public final Object[] ptpComponentDetailsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, Constants.START_DATE, Constants.END_DATE};
     /**
      * The Constant COMPONENT_DETAILS_HEADERS.
      */
-    public final String ptpComponentDetailsHeaders[] = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object exlCurrentTradingPartnerColumns[] = new Object[]{
+    public final String[] ptpComponentDetailsHeaders = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
+    public final Object[] exlCurrentTradingPartnerColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, REBATE_SCHEDULE_NO_PROPERTY, REBATE_SCHEDULE_NAME_PROPERTY, RAR_CATEGORY_COLUMN, STATUS_S, COMPANY_START_DATE, COMPANY_END_DATE};
     /**
      * The Constant CURRENT_TRADING_PARTNER_HEADERS.
      */
-    public final String exlCurrentTradingPartnerHeaders[] = new String[]{
+    public final String[] exlCurrentTradingPartnerHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, REBATE_SCHEDULE_NO_LABEL, REBATE_SCHEDULE_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
-    public final Object exlContractCompResultsColumns[] = new Object[]{
+    public final Object[] exlContractCompResultsColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.IFPNAME,
         Constants.PSNAME, Constants.RSNAME};
     /**
      * The Constant CONTRACT_COMP_RESULTS_HEADERS.
      */
-    public final String exlContractCompResultsHeaders[] = new String[]{
+    public final String[] exlContractCompResultsHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, "IFP",
         "PS", "RS"};
-    public final Object exlCompItemResultsColumns[] = new Object[]{
+    public final Object[] exlCompItemResultsColumns = new Object[]{
         ITEM_ID_PROPERTY, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, "form", STRENGTH_PROPERTY, STATUS_S, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
     /**
      * The Constant CONTRACT_COMP_RESULTS_HEADERS.
      */
-    public final String exlCompItemResultsHeaders[] = new String[]{
+    public final String[] exlCompItemResultsHeaders = new String[]{
         "ID", NUMBER_LABEL, "Name", Constants.THERAPY_CLASS, Constants.BRAND, Constants.FORM, Constants.STRENGTH,
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object exlPtpComponentInfoColumns[] = new Object[]{ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, "itemStDate", "itemEdDate", REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
-    public final String exlPtpComponentInfoHeaders[] = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
+    public final Object[] exlPtpComponentInfoColumns = new Object[]{ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, "itemStDate", "itemEdDate", REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
+    public final String[] exlPtpComponentInfoHeaders = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
     private static String ADDBY = "addBy";
     public static final String LEVEL_VALUE_PROPERTY = "levelValue";
     public static final String AMOUNT_LABEL = "Amount";
@@ -933,173 +933,176 @@ public class Constants {
             return constant;
         }
     }
-    public final String copycontractResultsHeaders[] = new String[]{
+    public final String[] copycontractResultsHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, COMPANY_FAMILY_PLAN, ITEM_FAMILY_PLAN, Constants.PRICE_SCHEDULE,
         REBATE_SCHEDULE
     };
-    public final Object copycontractResultsColumns[] = new Object[]{
+    public final Object[] copycontractResultsColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "CFPname", IFP_NAME, PS_NAME, REBATE_SCHEDULE_NAME_PROPERTY};
     public final String copycontractRbResultsHeaders[] = new String[]{
         "ID", NUMBER_LABEL, "Name", THERAPY_CLASS_PROPERTY, Constants.BRAND, Constants.FORM, Constants.STRENGTH, STATUS_S, START_DATE_HEADER,
         END_DATE_HEADER
     };
-    public final Object copycontractRbResultsColumns[] = new Object[]{
+    public final Object[] copycontractRbResultsColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "CFPname", IFP_NAME, PS_NAME, REBATE_SCHEDULE_NAME_PROPERTY};
     public final String copycontractDashboardResultsHeaders[] = new String[]{
         CATEGORY_LABEL, "ID", NUMBER_LABEL, "Name"
     };
-    public final Object copycontractDashboardResultsColumns[] = new Object[]{
+    public final Object[] copycontractDashboardResultsColumns = new Object[]{
         CATEGORY, DASHBOARD_ID, DASHBOARD_NUMBER, DASHBOARD_NAME
     };
-    public final String copycontractCfpResultsHeaders[] = new String[]{
+    public final String[] copycontractCfpResultsHeaders = new String[]{
         "ID", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER
     };
-    public final Object copycontractCfpResultsColumns[] = new Object[]{
+    public final Object[] copycontractCfpResultsColumns = new Object[]{
         "companyFamilyPlanId", "companyFamilyPlanNo", "companyFamilyPlanStatusValue",
         "companyFamilyPlanStartDate", "companyFamilyPlanEndDate"
     };
-    public final String copycontractIfpResultsHeaders[] = new String[]{
+    public final String[] copycontractIfpResultsHeaders = new String[]{
         "ID", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER
     };
-    public final Object copycontractIfpResultsColumns[] = new Object[]{
+    public final Object[] copycontractIfpResultsColumns = new Object[]{
         "itemFamilyplanId", "itemFamilyplanNo", "displayIFPStatus",
         IFP_START_DATE, IFP_END_DATE
     };
-    public final String copycontractPsResultsHeaders[] = new String[]{
+    public final String[] copycontractPsResultsHeaders = new String[]{
         "ID", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, "IFP", "Type", CATEGORY_LABEL, "Designation"
     };
-    public final Object copycontractPsResultsColumns[] = new Object[]{
+    public final Object[] copycontractPsResultsColumns = new Object[]{
         "priceScheduleIdValue", "priceScheduleNoValue", "priceScheduleStatusValue",
         "priceScheduleStartDate", "priceScheduleEndDate", "itemFamilyplanName", "priceScheduleTypeValue", "priceScheduleCategoryValue", "priceScheduleDesignationValue"
     };
-    public final String copycontractRsResultsHeaders[] = new String[]{
+    public final String[] copycontractRsResultsHeaders = new String[]{
         "ID", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, "IFP", FREQUENCY_LABEL, RAR_TYPE_LABEL, BASIS_LABEL};
-    public final Object copycontractRsResultsColumns[] = new Object[]{
+    public final Object[] copycontractRsResultsColumns = new Object[]{
         "rebateScheduleId", REBATE_SCHEDULE_NO_PROPERTY, "statusRebate", "itemRebateStartDate", "itemRebateEndDate", Constants.IFPNAME, "paymentFrequency", "rebateProgramType", "interestBearingBasis"
     };
-    public final String copycontractCfpCompanyResultsHeaders[] = new String[]{
+    public final String[] copycontractCfpCompanyResultsHeaders = new String[]{
         Constants.COMPANYNAME, Constants.COMPANYNO, STATUS_S, START_DATE_HEADER, END_DATE_HEADER
     };
-    public final Object copycontractCfpCompanyResultsColumns[] = new Object[]{
+    public final Object[] copycontractCfpCompanyResultsColumns = new Object[]{
         COMPANY_NAME, COMPANY_NO, "companyStatusValue", "tradeClassStartDate", "tradeClassEndDate"
     };
-    public final String copycontractIfpItemResultsHeaders[] = new String[]{
+    public final String[] copycontractIfpItemResultsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER
     };
-    public final String THERAPEUTIC_CLASS_PROPERTY = "therapeuticClass";
-    public final Object copycontractIfpItemResultsColumns[] = new Object[]{
+    public static final String THERAPEUTIC_CLASS_PROPERTY = "therapeuticClass";
+    public final Object[] copycontractIfpItemResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPEUTIC_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public final String copycontractPsItemResultsHeaders[] = new String[]{
+    public final String[] copycontractPsItemResultsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PROTECTION_START_DATE_LABEL};
-    public final Object copycontractPsItemResultsColumns[] = new Object[]{
+    public final Object[] copycontractPsItemResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPEUTIC_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, PRICE_TYPE_PROPERTY, PRICE_PROTECTION_START_DATE_PROPERTY};
-    public final String copycontractRsItemResultsHeaders[] = new String[]{
+    public final String[] copycontractRsItemResultsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
-    public final Object copycontractRsItemResultsColumns[] = new Object[]{
+    public final Object[] copycontractRsItemResultsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPEUTIC_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
-    public final String itemContractSelectionDetailsHeader[] = new String[]{
+    public final String[] itemContractSelectionDetailsHeader = new String[]{
         "", "ID", NUMBER_LABEL, "Name", Constants.THERAPY_CLASS, Constants.BRAND, Constants.FORM, Constants.STRENGTH, STATUS_S, START_DATE_HEADER,
         END_DATE_HEADER,};
-    public final Object itemContractSelectionDetailsVisibleColumn[] = new Object[]{
+    public final Object[] itemContractSelectionDetailsVisibleColumn = new Object[]{
         Constants.CHECK_RECORD, "id", NUMBER_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, "form", STRENGTH_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public final Object contractSelectionCurrentVisibleColumn[] = new Object[]{
+    public final Object[] contractSelectionCurrentVisibleColumn = new Object[]{
         Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, COMPANY_NO, COMPANY_NAME, REBATE_SCHEDULE_NO_PROPERTY, REBATE_SCHEDULE_NAME_PROPERTY, RAR_CATEGORY_COLUMN, STATUS_S, COMPANY_START_DATE, COMPANY_END_DATE
     };
-    public final String contractSelectionCurrentHeader[] = new String[]{
+    public final String[] contractSelectionCurrentHeader = new String[]{
         StringUtils.EMPTY, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, Constants.COMPANYNO, Constants.COMPANYNAME, REBATE_SCHEDULE_NO_LABEL, REBATE_SCHEDULE_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
-    public final Object currentIfpVisibleColumn[] = new Object[]{
+    public final Object[] currentIfpVisibleColumn = new Object[]{
         Constants.CHECK_RECORD, "ifpId", "ifpNumber", Constants.IFPNAME, IFP_STATUS_PROPERTY, "ifpType"
     };
-    public final String currentIfpHeader[] = new String[]{
+    public final String[] currentIfpHeader = new String[]{
         "", "IFP Id", "IFP Number", Constants.IFP_NAME_LABEL, IFP_STATUS, IFP_TYPE_LABEL};
-    public final String ifpItemHeader[] = new String[]{
+    public final String[] ifpItemHeader = new String[]{
         "", "ID", NUMBER_LABEL, "Name", Constants.THERAPY_CLASS, Constants.BRAND, Constants.FORM, Constants.STRENGTH, STATUS_S, START_DATE_HEADER,
         END_DATE_HEADER
     };
-    public final Object ifpItemColumn[] = new Object[]{
+    public final Object[] ifpItemColumn = new Object[]{
         Constants.CHECK_RECORD, ITEM_ID_PROPERTY, "itemNumber", ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, "form", STRENGTH_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public final Object adCfpIfpResultsColumns[] = new Object[]{
+    public final Object[] adCfpIfpResultsColumns = new Object[]{
         "id", NUMBER_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE};
-    public final String adCfpIfpResultsHeaders[] = new String[]{
+    public final String[] adCfpIfpResultsHeaders = new String[]{
         "Id", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object adPsResultsColumns[] = new Object[]{
+    public final Object[] adPsResultsColumns = new Object[]{
         "id", NUMBER_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.IFPNAME, "type", "psCategory", "designation"};
-    public final String adPsResultsHeaders[] = new String[]{
+    public final String[] adPsResultsHeaders = new String[]{
         "Id", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, "IFP", "Type", CATEGORY_LABEL, "Designation"};
-    public final Object adComponentDetailsColumnsCfp[] = new Object[]{
+    public final Object[] adComponentDetailsColumnsCfp = new Object[]{
         "tpNo", "tpName", "tpContractNo", Constants.START_DATE, Constants.END_DATE, STATUS_S, TRADE_CLASS_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final String TP_CONTRACT_NO_LABEL = "TP Contract No";
+    public static final String TP_CONTRACT_NO_LABEL = "TP Contract No";
     public static final String TRADING_PARTNER_NAME_LABEL = "Trading Partner Name";
-    public final String adComponentDetailsHeadersCfp[] = new String[]{
+    public final String[] adComponentDetailsHeadersCfp = new String[]{
         "Trading Partner No", TRADING_PARTNER_NAME_LABEL, TP_CONTRACT_NO_LABEL, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, Constants.TRADECLASS, ATTACHED_DATE_FIELD};
-    public final Object adComponentDetailsColumnsPs[] = new Object[]{
+    public final Object[] adComponentDetailsColumnsPs = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, PRICE_TYPE_PROPERTY, PRICE_PLAN_NO_PROPERTY, PRICE_PLAN_NAME_PROPERTY, PRICE_PROTECTION_STATUS_PROPERTY, PRICE_PROTECTION_START_DATE_PROPERTY, PRICE_PROTECTION_END_DATE_PROPERTY, PRICE_PROTECTION_PRICE_TYPE_PROPERTY, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY_PROPERTY, PRICE_TOLERANCE_TYPE_PROPERTY, MAX_INCREMENTAL_CHANGE_PROPERTY, PRICE_TOLERANCE_PROPERTY, "resetEligibility", RESET_TYPE_PROPERTY, RESET_DATE_PROPERTY, RESET_INTERVAL_PROPERTY, RESET_FREQUENCY_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final String adComponentDetailsHeadersPs[] = new String[]{
+    public final String[] adComponentDetailsHeadersPs = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PLAN_NO_LABEL, PRICE_PLAN_NAME_LABEL, "Price Protection  Status", PRICE_PROTECTION_START_DATE_LABEL, PRICE_PROTECTION_END_DATE_LABEL, " Price Protection Price Type ", PRICE_TOLERANCE_INTERVAL_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, PRICE_TOLERANCE_TYPE_LABEL, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL,
         "Reset Eligibility", RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
-    public final Object contractColumns[] = new Object[]{
+    public final Object[] contractColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public final String contractHeaders[] = new String[]{
+    public final String[] contractHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND,
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object summarySearchColumns[] = new Object[]{
+    public final Object[] summarySearchColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE,
         Constants.END_DATE, Constants.CFP_NAME, Constants.IFPNAME, Constants.PSNAME, Constants.RSNAME};
-    public final String summarySearchHeaders[] = new String[]{
+    public final String[] summarySearchHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER,
         END_DATE_HEADER, COMPANY_FAMILY_PLAN, ITEM_FAMILY_PLAN, Constants.PRICE_SCHEDULE, REBATE_SCHEDULE};
-    public final Object addtpTreeColumns[] = new Object[]{
+    public final Object[] addtpTreeColumns = new Object[]{
         CATEGORY, CONTRACT_ID_PROPERTY, Constants.CONTRACT_NO, Constants.CONTRACT_NAME};
-    public final Object contractInfoColumns[] = new Object[]{
+    public final Object[] contractInfoColumns = new Object[]{
         COMPANY_NO, COMPANY_NAME, COMPANY_STATUS, COMPANY_START_DATE, COMPANY_END_DATE};
-    public final String contractInfoHeaders[] = new String[]{
+    public final String[] contractInfoHeaders = new String[]{
         Constants.COMPANYNO, Constants.COMPANYNAME, COMPANYSTATUS, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
-    public final Object contractComponentColumns[] = new Object[]{
+    public final Object[] contractComponentColumns = new Object[]{
         CHECK, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, CONTRACT_START_DATE, CONTRACT_END_DATE, IFP_NAME, PS_NAME, RS_NAME};
-    public final String contractComponentHeaders[] = new String[]{
+    public final String[] contractComponentHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, "IFP", "PS", "RS"};
-    public final Object ccComponentDetailsColumns[] = new Object[]{
+    public final Object[] ccComponentDetailsColumns = new Object[]{
         COMPANY_NO, COMPANY_NAME, COMPANY_STATUS, COMPANY_START_DATE, COMPANY_END_DATE};
-    public final String ccComponentDetailsHeaders[] = new String[]{
+    public final String[] ccComponentDetailsHeaders = new String[]{
         Constants.COMPANYNO, Constants.COMPANYNAME, COMPANYSTATUS, START_DATE_HEADER, COMPANY_END_DATE_LABEL};
-    public final Object componentDetailsItemColumns[] = new Object[]{
+    public final Object[] componentDetailsItemColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE};
-    public final String componentDetailsItemHeaders[] = new String[]{
+    public final String[] componentDetailsItemHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object componentDetailsPsColumns[] = new Object[]{
+    public final Object[] componentDetailsPsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE, PRICE_TYPE_PROPERTY, "ppStartDate"};
-    public final String componentDetailsPsHeaders[] = new String[]{
+    public final String[] componentDetailsPsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PROTECTION_START_DATE_LABEL};
-    public final Object componentDetailsRsColumns[] = new Object[]{
+    public final Object[] componentDetailsRsColumns = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
-    public final String componentDetailsRsHeaders[] = new String[]{
+    public final String[] componentDetailsRsHeaders = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_FIELD};
-    public final Object adComponentDetailsColumnsIfp[] = new Object[]{
+    public final Object[] adComponentDetailsColumnsIfp = new Object[]{
         Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, ATTACHED_DATE_PROPERTY};
-    public final String adComponentDetailsHeadersIfp[] = new String[]{
+    public final String[] adComponentDetailsHeadersIfp = new String[]{
         "", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, ATTACHED_DATE_FIELD};
     public final Object[] adComponentDetailsRsColumn = {ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String[] adComponentDetailsRsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, FORMULA_TYPE_LABEL, FORMULA_ID_LABEL, FORMULA_NAME_LABEL, REBATE_PLAN_ID_LABEL,
         "RebatePlan Name", REBATE_AMOUNT_LABEL, BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
     public final String[] adComponentDetailsPsHeader = {Constants.ITEM_NO, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL, RESET_ELIGIBLE_LABLE_NAME, RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
-    public final Object adComponentDetailsPsColumn[] = new Object[]{
+    public final Object[] adComponentDetailsPsColumn = new Object[]{
         ITEM_NO_PROPERTY, MAX_INCREMENTAL_CHANGE_PROPERTY, PRICE_TOLERANCE_PROPERTY, RESET_ELIGIBLE_PROPERTY, RESET_TYPE_PROPERTY, RESET_DATE_PROPERTY, RESET_INTERVAL_PROPERTY, RESET_FREQUENCY_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final Object componentInfoColumnsCfp[] = new Object[]{
+    public final Object[] componentInfoColumnsCfp = new Object[]{
         COMPANY_NO, COMPANY_NAME, Constants.CONTRACT_NO, Constants.START_DATE, Constants.END_DATE, STATUS_S, TRADE_CLASS_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String componentInfoHeadersCfp[] = new String[]{
         Constants.COMPANYNO, Constants.COMPANYNAME, "COMPANY Contract No", START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, Constants.TRADECLASS, ATTACHED_DATE_FIELD};
-    public final Object componentItemSearchColumnsPs[] = new Object[]{
+    public final Object[] componentItemSearchColumnsPs = new Object[]{
         Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, PRICE_TYPE_PROPERTY, PRICE_PLAN_NO_PROPERTY, PRICE_PLAN_NAME_PROPERTY, PRICE_PROTECTION_STATUS_PROPERTY, PRICE_PROTECTION_START_DATE_PROPERTY, PRICE_PROTECTION_END_DATE_PROPERTY, PRICE_PROTECTION_PRICE_TYPE_PROPERTY, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY_PROPERTY, PRICE_TOLERANCE_PROPERTY, RESET_ELIGIBLE_PROPERTY, RESET_TYPE_PROPERTY, RESET_DATE_PROPERTY, RESET_INTERVAL_PROPERTY, RESET_FREQUENCY_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final String componentItemSearchHeadersPs[] = new String[]{
+    public final String[] componentItemSearchHeadersPs = new String[]{
         "", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PLAN_NO_LABEL, PRICE_PLAN_NAME_LABEL, PRICE_PROTECTION_STATUS_LABEL, PRICE_PROTECTION_START_DATE_LABEL, PRICE_PROTECTION_END_DATE_LABEL, PRICE_PROTECTION_PRICE_TYPE_LABEL, PRICE_TOLERANCE_INTERVAL_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, PRICE_TOLERANCE_LABEL,
         "Reset Eligiblity", RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
-    public final Object componentItemSearchColumnsRs[] = new Object[]{
+    public final Object[] componentItemSearchColumnsRs = new Object[]{
         Constants.CHECK_RECORD, "ifpId", Constants.IFPNAME, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
-    public final String componentItemSearchHeadersRs[] = new String[]{
+    public final String[] componentItemSearchHeadersRs = new String[]{
         "", Constants.IFP_ID, Constants.IFP_NAME_LABEL, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, FORMULA_TYPE_LABEL, FORMULA_ID_FIELD, FORMULA_NAME_LABEL, REBATE_PLAN_ID_FIELD, REBATE_PLAN_NAME_LABEL, REBATE_AMOUNT_LABEL, BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
 
     public static final String TRANSFER_ERROR_LABEL = "Transfer Error";
 
+    public final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+        "componentId", "componentNo", "componentName", "componentStatus", "componentType"};
+    
     /**
      * Enum for Message constants
      */
@@ -1175,18 +1178,18 @@ public class Constants {
         "Price Prodection StartDate", "Price Prodection EndDate", "Price Tolerence Type", "Price Tolerence Interval", "Price Tolerence Frequency",
         "BasePrice", "Revision Date", "Attached Status", "AttachedDate"
     };
-    public final Object itemContractSelectionDetailsVisibleColumnAdd[] = new Object[]{
+    public final Object[] itemContractSelectionDetailsVisibleColumnAdd = new Object[]{
         Constants.CHECK_RECORD, NUMBER_PROPERTY, ITEM_NAME_PROPERTY, "id", "UOM", "packageSize", ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, PRICE_TYPE_PROPERTY, "contractPrice", "cpStartDate", "cpEndDate", ITEM_STATUS_PROPERTY, PRICE_TOLERANCE_PROPERTY, PRICE_PROTECTION_START_DATE_PROPERTY, PRICE_PROTECTION_END_DATE_PROPERTY, PRICE_TOLERANCE_TYPE_PROPERTY, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY_PROPERTY, "basePrice", "revisionDate", "attachedStatus", ATTACHED_DATE_PROPERTY};
-    public final Object adIfpResultsColumns[] = new Object[]{
+    public final Object[] adIfpResultsColumns = new Object[]{
         "id", NUMBER_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE};
-    public final String adIfpResultsHeaders[] = new String[]{
+    public final String[] adIfpResultsHeaders = new String[]{
         "Id", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
     public static final String E_DATE_PROPERTY = "eDate";
     public static final String S_DATE_PROPERTY = "sDate";
     /**
      * PTP_COMPONENT_INFO_COLUMNS
      */
-    public final Object adNdRsComponentDetailsColumns[] = new Object[]{Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S,
+    public final Object[] adNdRsComponentDetailsColumns = new Object[]{Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S,
         S_DATE_PROPERTY, E_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_NAME_PROPERTY};
     /**
      * The Constant PTP_COMPONENT_INFO_HEADERS.
@@ -1196,7 +1199,7 @@ public class Constants {
         "", "ID", NUMBER_LABEL, "Name", Constants.THERAPY_CLASS, Constants.BRAND, Constants.FORM, Constants.STRENGTH, STATUS_FIELD, START_DATE_HEADER,
         END_DATE_HEADER, IFP_STATUS, "IFP Start Date", "IFP End Date"
     };
-    public final Object ifpAddItemColumn[] = new Object[]{
+    public final Object[] ifpAddItemColumn = new Object[]{
         Constants.CHECK_RECORD, ITEM_ID_PROPERTY, "itemNumber", ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, "form", STRENGTH_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE};
     public final Object[] idenFormColOrder = new Object[]{
         "qualifier", "companyIdentifier", "identifierStatusName", Constants.START_DATE, Constants.END_DATE, "createdDate", "createdBy", "modifiedBy", "modifiedDate"
@@ -1218,69 +1221,69 @@ public class Constants {
     public final String[] tradeClassHeaders = new String[]{
         Constants.TRADECLASS, "Trade Class Start Date", "Trade Class End Date", "Created Date", "Created By", "Modified By", "Modified Date"
     };
-    public final Object newCompanyDetailsColumns[] = new Object[]{
+    public final Object[] newCompanyDetailsColumns = new Object[]{
         CHECK, COMPANY_ID_PROPERTY, COMPANY_NAME, COMPANY_NO, Constants.PS_START_DATE, Constants.PS_END_DATE, COMPANY_STATUS, TRADE_CLASS_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String newCompanyDetailsHeaders[] = new String[]{
         "", "Trading Partner No ", TRADING_PARTNER_NAME_LABEL, TP_CONTRACT_NO_LABEL, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, Constants.TRADECLASS, ATTACHED_DATE_FIELD};
-    public final Object newIfpDetailsColumns[] = new Object[]{
+    public final Object[] newIfpDetailsColumns = new Object[]{
         CHECK, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, Constants.PS_START_DATE, Constants.PS_END_DATE, ATTACHED_DATE_PROPERTY};
     public final String newIfpDetailsHeaders[] = new String[]{
         "", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, ATTACHED_DATE_FIELD};
-    public final Object newPsDetailsColumns[] = new Object[]{
+    public final Object[] newPsDetailsColumns = new Object[]{
         Constants.CHECK, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, Constants.PS_START_DATE, Constants.PS_END_DATE, PRICE_TYPE_PROPERTY, PRICE_PLAN_NO_PROPERTY, PRICE_PLAN_NAME_PROPERTY, PRICE_PROTECTION_STATUS_PROPERTY, COMPANY_START_DATE, COMPANY_END_DATE, PRICE_PROTECTION_PRICE_TYPE_PROPERTY, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY_PROPERTY, PRICE_TOLERANCE_TYPE_PROPERTY, MAX_INCREMENTAL_CHANGE_PROPERTY, PRICE_TOLERANCE_PROPERTY, "reset", "eligibility", RESET_TYPE_PROPERTY, RESET_DATE_PROPERTY, "resetIntervel", RESET_FREQUENCY_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String newPsDetailsHeaders[] = new String[]{
         Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PLAN_NO_LABEL, PRICE_PLAN_NAME_LABEL, PRICE_PROTECTION_STATUS_LABEL, PRICE_PROTECTION_START_DATE_LABEL, PRICE_PROTECTION_END_DATE_LABEL, PRICE_PROTECTION_PRICE_TYPE_LABEL, PRICE_TOLERANCE_INTERVAL_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, PRICE_TOLERANCE_TYPE_LABEL, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL, "Reset", "Eligibility", RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
-    public final Object adNdPsComponentDetailsColumns[] = new Object[]{
+    public final Object[] adNdPsComponentDetailsColumns = new Object[]{
         Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, S_DATE_PROPERTY, E_DATE_PROPERTY, PRICE_TYPE_PROPERTY, PP_S_DATE};
-    public final Object newRsDetailsColumns[] = new Object[]{
+    public final Object[] newRsDetailsColumns = new Object[]{
         Constants.CHECK, IFP_NO_COLUMN, Constants.IFPNAME, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, Constants.PS_START_DATE, Constants.PS_END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String newRsDetailsHeaders[] = new String[]{
         Constants.EMPTY, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, FORMULA_TYPE_LABEL, FORMULA_ID_LABEL, FORMULA_NAME_LABEL, REBATE_PLAN_ID_LABEL, REBATE_PLAN_NAME_LABEL, REBATE_AMOUNT_LABEL, BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
     public final String adNdPsComponentDetailsHeaders[] = new String[]{
         "", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PROTECTION_START_DATE_LABEL};
-    public final Object formulaSearchColumns[] = new Object[]{
+    public final Object[] formulaSearchColumns = new Object[]{
         FORMULA_ID_PROPERTY, "formulaNo", FORMULA_NAME_PROPERTY};
     public final String formulaSearchHeaders[] = new String[]{
         FORMULA_ID_FIELD, "Formula No", FORMULA_NAME_LABEL};
-    public final Object rebateSearchColumns[] = new Object[]{
+    public final Object[] rebateSearchColumns = new Object[]{
         REBATE_PLAN_ID_PROPERTY, "rebatePlanNo", REBATE_PLAN_NAME_PROPERTY, "rebatePlanStatus", "rebatePlanType"};
     public final String rebateSearchHeaders[] = new String[]{
         REBATE_PLAN_ID_FIELD, "Rebate Plan No", REBATE_PLAN_NAME_LABEL, "Rebate Plan Status", "Rebate Plan Type"};
-    public final Object adSelectedResultsColumnsIfp[] = new Object[]{
+    public final Object[] adSelectedResultsColumnsIfp = new Object[]{
         Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, S_DATE_PROPERTY, E_DATE_PROPERTY};
     public final String adSelectedResultsHeadersIfp[] = new String[]{
         "", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER,};
-    public final Object adSearchResultsColumnsIfp[] = new Object[]{
+    public final Object[] adSearchResultsColumnsIfp = new Object[]{
         Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, ATTACHED_DATE_PROPERTY};
     public final String adSearchResultsHeadersIfp[] = new String[]{
         "", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, ATTACHED_DATE_FIELD};
-    public final Object removeTpContractSelectionColumns[] = new Object[]{
+    public final Object[] removeTpContractSelectionColumns = new Object[]{
         CHECK_RECORD, PROJ_ID_LINK, WORKFLOW_STATUS_PROPERTY, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY, CFP_NO_PROPERTY,
         Constants.CFP_NAME, IFP_NO_COLUMN, Constants.IFPNAME, "pSNo", PS_NAME_PROPERTY, "rSNo", RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY};
     public final String removeTpSelectionHeaders[] = new String[]{
         "", PROJECTION_ID_LABEL, WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NO_HEADER,
         CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, PS_NO_LABEL, PS_NAME_FIELD, RS_NO_HEADER, RS_NAME_LABEL, RAR_CATEGORY_HEADER};
     public static final String STATUS_DESCRIPTION_PROPERTY = "statusDescription";
-    public final Object removeTpSummaryContractSelectionColumns[] = new Object[]{
+    public final Object[] removeTpSummaryContractSelectionColumns = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME,
         Constants.IFPNAME, PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, STATUS_DESCRIPTION_PROPERTY, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
-    public final String removeTpContractSelectionHeaders[] = new String[]{
+    public final String[] removeTpContractSelectionHeaders = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, CFP_NAME_HEADER,
         Constants.IFP_NAME_LABEL, PS_NAME_FIELD, RS_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
-    public final Object excelRemoveTpSummaryContractSelectionColumns[] = new Object[]{
+    public final Object[] excelRemoveTpSummaryContractSelectionColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME,
         Constants.IFPNAME, PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, STATUS_DESCRIPTION_PROPERTY, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
-    public final String excelRemoveTpContractSelectionHeaders[] = new String[]{
+    public final String[] excelRemoveTpContractSelectionHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, CFP_NAME_HEADER,
         Constants.IFP_NAME_LABEL, PS_NAME_FIELD, RS_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
     public final Object adComponentDetailsColumnsIfpNew[] = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, ATTACHED_DATE_PROPERTY};
-    public final String adComponentDetailsHeadersIfpNew[] = new String[]{
+    public final String[] adComponentDetailsHeadersIfpNew = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, ATTACHED_DATE_FIELD};
     public final Object transferCustomerColumns[] = new Object[]{
         CHECK_RECORD, PROJ_ID_LINK, WORKFLOW_STATUS_PROPERTY, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, STATUS_S, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY, CFP_NO_PROPERTY,
         Constants.CFP_NAME, IFP_NO_COLUMN, Constants.IFPNAME, "pSNo", PS_NAME_PROPERTY, "rSNo", RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY};
-    public final String transferCustomerHeaders[] = new String[]{
+    public final String[] transferCustomerHeaders = new String[]{
         "", PROJECTION_ID_LABEL, WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NO_HEADER,
         CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, PS_NO_LABEL, PS_NAME_FIELD, RS_NO_HEADER, RS_NAME_LABEL, RAR_CATEGORY_HEADER};
 
@@ -1319,16 +1322,16 @@ public class Constants {
     public final Object excelRemoveTpContractSelectionColumns[] = new Object[]{
         ConstantsUtil.PROJECTION_ID, WORKFLOW_STATUS_PROPERTY, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY, CFP_NO_PROPERTY,
         Constants.CFP_NAME, IFP_NO_COLUMN, Constants.IFPNAME, "pSNo", PS_NAME_PROPERTY, "rSNo"};
-    public final String excelRemoveTpSelectionHeaders[] = new String[]{
+    public final String[] excelRemoveTpSelectionHeaders = new String[]{
         PROJECTION_ID_LABEL, WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NO_HEADER,
         CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, PS_NO_LABEL, PS_NAME_FIELD, RS_NO_HEADER};
     public final Object adSelectedResultsColumnsCfp[] = new Object[]{
         Constants.CHECK_RECORD, COMPANY_NO, COMPANY_NAME, STATUS_S, S_DATE_PROPERTY, E_DATE_PROPERTY};
-    public final String adSelectedResultsHeadersCfp[] = new String[]{
+    public final String[] adSelectedResultsHeadersCfp = new String[]{
         "", Constants.COMPANYNO, Constants.COMPANYNAME, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public final Object excelSummaryContractSelectionColumns[] = new Object[]{
+    public final Object[] excelSummaryContractSelectionColumns = new Object[]{
         Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME, CFP_NO_PROPERTY, Constants.IFPNAME, IFP_NO_COLUMN, PS_NAME_PROPERTY, "pSNo", RS_NAME_PROPERTY, "rSNo", RAR_CATEGORY_PROPERTY, STATUS_DESCRIPTION_PROPERTY, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
-    public final String excelSummaryContractSelectionHeaders[] = new String[]{
+    public final String[] excelSummaryContractSelectionHeaders = new String[]{
         CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, CONTRACT_START_DATE_LABEL, CONTRACT_END_DATE_LABEL, CFP_NAME_HEADER,
         CFP_NO_HEADER, Constants.IFP_NAME_LABEL, Constants.IFP_NO, PS_NAME_FIELD, PS_NO_LABEL, RS_NAME_LABEL, RS_NO_HEADER,
         RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};

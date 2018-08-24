@@ -66,7 +66,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTPDetails.class);
     
     
     
@@ -100,7 +100,6 @@ public class SummaryTPDetails extends CustomComponent implements View {
     private boolean isLoad = false;
     private boolean isRebateLoad = false;
     private PromoteTPLogic logic = new PromoteTPLogic();
-    private List<CurrentContractDTO> transTpInfoList = new ArrayList<>();
     private boolean contractExcelFlag = false;
     private boolean infoExcelFlag = false;
     private final StplSecurity stplSecurity = new StplSecurity();
@@ -288,7 +287,6 @@ public class SummaryTPDetails extends CustomComponent implements View {
         transferTpResultsContainer.removeAllItems();
         List<CurrentContractDTO> selctContractList = logic.getSelectedTPContractSummary(CommmonLogic.getPromotedContractDetails(contractId, companyId));
         transferTpResultsContainer.addAll(selctContractList);
-        transTpInfoList.addAll(selctContractList);
         setLoad(true);
         setRebateLoad(true);
     }

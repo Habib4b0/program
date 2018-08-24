@@ -16,7 +16,6 @@ import com.stpl.app.model.RsModel;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -189,7 +188,7 @@ public class NMDiscountProjectionLogic {
         for (Object list : tempList) {
             final Object[] obj = (Object[]) list;
             if (!(String.valueOf(obj[NumericConstants.TWO]).equals(Constant.DASH))) {
-                BigDecimal big = new BigDecimal(String.valueOf(obj[NumericConstants.TWO]));
+            	Integer big = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
                 totalccp.remove(big);
                 if (ccpList.length() == 0) {
             ccpList.append(String.valueOf(obj[0]));

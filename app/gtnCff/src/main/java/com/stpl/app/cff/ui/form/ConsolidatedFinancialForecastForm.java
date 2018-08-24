@@ -529,6 +529,12 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         sessionDto.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
 					sessionDto.setScreenName("CCP_HIERARCHY");
 					CFFQueryUtils.createTempTables(sessionDto);
+                                        List inputList=new ArrayList();
+                                        inputList.add(sessionDto.getProjectionId());
+                                        final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
+                                        sessionDto.setFrequency(loadFrequency.get(0));
+                                        final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
+                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
@@ -572,7 +578,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
 							dataSelectionDto);
-
 					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
 					sessionDto.setProductLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
@@ -585,6 +590,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
 								BooleanConstant.getFalseFlag());
 					}
+                                        sessionDto.setStatusName("E");
+                                        cffLogic.loadSalesTempTableInThread(sessionDto,false);
+                                        cffLogic.loadDiscountTempTableInThread(sessionDto,false);
+                                        cffLogic.loadDiscountCustomTempTableInThread(sessionDto,false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);
@@ -808,11 +817,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				|| StringUtils.isBlank(String.valueOf(financialForecastId.getValue())))
 				&& (financialForecastName.getValue().equals("null")
 						|| StringUtils.isBlank(String.valueOf(financialForecastName.getValue())))
-				&& (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE)
-						|| typeDdlb.getValue() == null)
+				&& (typeDdlb.getValue() == null || String.valueOf(typeDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE))
 				&& (statusDdlb.getValue() == null
-						|| String.valueOf(statusDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE)
-						|| statusDdlb.getValue() == null)
+						|| String.valueOf(statusDdlb.getValue()).equals(ConstantsUtil.SELECT_ONE))
 				&& creationFromDate.getValue() == null && creationToDate.getValue() == null
 				&& approvalFromDate.getValue() == null && approvalToDate.getValue() == null) {
 			pass = false;

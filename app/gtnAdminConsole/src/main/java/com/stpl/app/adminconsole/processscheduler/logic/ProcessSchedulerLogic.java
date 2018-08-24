@@ -135,7 +135,6 @@ public class ProcessSchedulerLogic {
 	}
 
 	private List getCustomizedSchedulerProcessing(List list) throws SystemException {
-		LOGGER.debug("Entering getCustomizedSchedulerProcessing= {}" , list.size());
 		List<ProcessSchedulerDTO> returnList = new ArrayList<>();
 		SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		SimpleDateFormat date1 = new SimpleDateFormat("MM/dd/yyyy");
@@ -311,6 +310,7 @@ public class ProcessSchedulerLogic {
 			if (!StringUtils.isBlank(jbossHome)) {
 					java.util.Properties prop =getPropertyFile(getPropertyPath());
 					java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
+					
 					ftpProperties.setScripts(prop1.getProperty("scripts"));
 			}
 		} catch (Exception ex) {
@@ -719,7 +719,7 @@ public class ProcessSchedulerLogic {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
 		List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
 		for (User user : userList) {
-			userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getLastName() + ", " + user.getFirstName());
+			userMap.put(Integer.valueOf(String.valueOf(user.getUserId())), user.getLastName() + ", " + user.getFirstName());
 		}
 		LOGGER.debug("End of getUserName method");
 		return userMap;

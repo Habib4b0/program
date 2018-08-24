@@ -1,0 +1,839 @@
+IF EXISTS (SELECT 'X' 
+           FROM   INFORMATION_SCHEMA.ROUTINES 
+           WHERE  ROUTINE_NAME = 'PRC_ARM_BSR_DEMAND' 
+                  AND ROUTINE_SCHEMA = 'DBO') 
+  BEGIN 
+      DROP PROCEDURE [DBO].PRC_ARM_BSR_DEMAND 
+  END 
+
+GO 
+
+CREATE PROCEDURE [dbo].PRC_ARM_BSR_DEMAND (@PROJECTION_MASTER_SID INT, 
+                                           @USER_ID               INT, 
+                                           @SESSION_ID            INT,
+										   @FREQUENCY CHAR(1),
+										   @FROM_PERIOD VARCHAR(10),
+										   @TO_PERIOD VARCHAR(10)) 
+AS
+
+/**********************************************************************************************************
+** File Name  	:	PRC_ARM_BSR_DEMAND.sql
+** Procedure Name	:	PRC_ARM_BSR_DEMAND
+** Description		:	To generate BSR Demand Adjustment Summary tab.
+** Input Parameters	:	@PROJECTION_MASTER_SID  - Respective Projection ID Creted for BSR Pipeline report
+				        @USER_ID                - it is the identification of the User Performing particular projection
+						@SESSION_ID             - it is the identification of session for particular projection
+											
+** Output Parameters:	NA
+** Author Name		:	@AjayNaidu
+** Creation Date	:	23/10/2017 - MM/DD/YYYY
+** Called By		:   Called by Application for BSR Demand report 
+**********************************************************************************************************
+** Change History
+**********************************************************************************************************
+** VER   Date       Ticket No                        Author           Description 
+** ---  --------    ---------                     -------------     -----------------------------
+** 01  01/12/2017  GAL-12832                        @AJAY           calculation mismatch for 2 accounts
+** 02  28-12-2017  GAL-12267                        @AjayNaidu      BP014 - [NOT] NULL option
+** 03  02-01-2018  GAL-12271                        @AjayNaidu      PE003 Select into option removal
+** 04  08-01-2018  GAL-12270                        @AjayNaidu      EI025 PE001 PE010 ST008 MI005 MI002 Error codes
+** 05  01-02-2018  GAL-13117                        @AjayNaidu      BSR - Demand is not generating Actuals Logic change
+** 06  12-02-2018  GAL-13128                        @AjayNaidu      BSR - History Logic Change
+** 07  04-05-2018  GAL-13426                        @AjayNaidu      BSR-Demand Gl date logic update
+*********************************************************************************************************/
+
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		-- Variables Initialization starts here
+		DECLARE @START_PERIOD_SID INT
+			,@BU_COMPANY INT
+			,@GL_COMPANY INT
+			,@TO_PERIOD_SID INT
+			,@SUMMARY_TYPE INT
+		DECLARE @SQL NVARCHAR(MAX)
+		DECLARE @ARM_BSR_DEMAND VARCHAR(200) = CONCAT ('ST_ARM_BSR_DEMAND_',@USER_ID,'_',@SESSION_ID,'_',REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
+		        @ARM_BSR_CUM_DEMAND VARCHAR(200) = CONCAT ('ST_ARM_BSR_CUM_DEMAND_',@USER_ID,'_',@SESSION_ID,'_',REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+		-- Variables Initialization Ends here
+		--taking price related period selected in data selection and assigning GL and BU to variable starts here 
+----------------Creating all necessray temp tables(all ddl statements) for the logic Starts here (PE001 CodeGuarderror)
+		IF OBJECT_ID('TEMPDB..#TEMP_ARM_PROJ_MASTER') IS NOT NULL 
+  DROP TABLE #TEMP_ARM_PROJ_MASTER 
+
+CREATE TABLE #TEMP_ARM_PROJ_MASTER 
+  ( 
+     ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+     CCP_DETAILS_SID            INT NOT NULL, 
+     RS_MODEL_SID               INT NOT NULL, 
+     CONTRACT_MASTER_SID        INT NOT NULL, 
+     COMPANY_MASTER_SID         INT NOT NULL, 
+     ITEM_MASTER_SID            INT NOT NULL, 
+     RS_ID                      VARCHAR(50) NOT NULL, 
+     PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID) 
+  ) 
+
+IF OBJECT_ID('TEMPDB..#ARM_BSR_CCP') IS NOT NULL 
+  DROP TABLE #ARM_BSR_CCP 
+
+CREATE TABLE #ARM_BSR_CCP 
+  ( 
+     ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+     ACCOUNT                    VARCHAR(100) NOT NULL, 
+     DEMAND_ACCRUAL             INT NULL, 
+     DEMAND_REFORECAST          INT NULL, 
+     DEMAND_PAYMENT_TRUE_UP     INT NULL, 
+     CCP_DETAILS_SID            INT NULL, 
+     RS_MODEL_SID               INT NULL, 
+  ) 
+
+IF OBJECT_ID('TEMPDB..#TEMP_ARM_APPRVD_PROJ_START') IS NOT NULL 
+  DROP TABLE #TEMP_ARM_APPRVD_PROJ_START 
+
+CREATE TABLE #TEMP_ARM_APPRVD_PROJ_START 
+  ( 
+     ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+     PROJECTION_MASTER_SID      INT NOT NULL, 
+     CCP_DETAILS_SID            INT NOT NULL, 
+     RS_MODEL_SID               INT NOT NULL, 
+     ADJUSTMENT_TYPE            INT NULL,
+	 GL_PERIOD_SID   INT NULL
+  ) 
+
+IF OBJECT_ID('TEMPDB..#CTE') IS NOT NULL 
+  DROP TABLE #CTE 
+
+CREATE TABLE #CTE 
+  ( 
+     ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+     CCP_DETAILS_SID            INT NOT NULL, 
+     RS_MODEL_SID               INT NOT NULL, 
+     CONTRACT_MASTER_SID        INT NOT NULL, 
+     COMPANY_MASTER_SID         INT NOT NULL, 
+     ITEM_MASTER_SID            INT NOT NULL, 
+     RS_ID                      VARCHAR(50) NOT NULL, 
+     DEMAND_ACCRUAL             INT NULL, 
+     DEMAND_REFORECAST          INT NULL, 
+     DEMAND_PAYMENT_TRUE_UP     INT NULL, 
+     ACCOUNT                    VARCHAR(100) NOT NULL 
+  ) 
+
+IF OBJECT_ID('TEMPDB..#TEMP_ACTIVE_CUM_BALANCE') IS NOT NULL 
+  DROP TABLE #TEMP_ACTIVE_CUM_BALANCE 
+
+CREATE TABLE #TEMP_ACTIVE_CUM_BALANCE 
+  ( 
+     CCP_DETAILS_SID        INT NOT NULL, 
+     RS_MODEL_SID           INT NOT NULL, 
+     DEMAND_ACCRUAL         NUMERIC(22, 6) NULL, 
+     DEMAND_REFORECAST      NUMERIC(22, 6) NULL, 
+     DEMAND_PAYMENT_TRUE_UP NUMERIC(22, 6) NULL, 
+     ACTUAL_PAYMENTS        NUMERIC(22, 6) NULL 
+     PRIMARY KEY(CCP_DETAILS_SID, RS_MODEL_SID) 
+  ) 
+
+IF OBJECT_ID('TEMPDB..#TEMP_HIST_CUM_BALANCE') IS NOT NULL 
+  DROP TABLE #TEMP_HIST_CUM_BALANCE 
+
+CREATE TABLE #TEMP_HIST_CUM_BALANCE 
+  ( 
+     CCP_DETAILS_SID        INT NOT NULL, 
+     RS_MODEL_SID           INT NOT NULL, 
+     DEMAND_ACCRUAL         NUMERIC(22, 6) NULL, 
+     DEMAND_REFORECAST      NUMERIC(22, 6) NULL, 
+     DEMAND_PAYMENT_TRUE_UP NUMERIC(22, 6) NULL, 
+     PRIMARY KEY(CCP_DETAILS_SID, RS_MODEL_SID) 
+  ) 
+
+IF OBJECT_ID('TEMPDB..#TEMP_ACTIVE_PERIOD_BALANCE') IS NOT NULL 
+  DROP TABLE #TEMP_ACTIVE_PERIOD_BALANCE 
+
+CREATE TABLE #TEMP_ACTIVE_PERIOD_BALANCE 
+  ( 
+     CCP_DETAILS_SID        INT NOT NULL, 
+     RS_MODEL_SID           INT NOT NULL, 
+     PERIOD_SID             INT NOT NULL, 
+     DEMAND_ACCRUAL         NUMERIC(22, 6) NULL, 
+     DEMAND_REFORECAST      NUMERIC(22, 6) NULL, 
+     DEMAND_PAYMENT_TRUE_UP NUMERIC(22, 6) NULL, 
+     ACTUAL_PAYMENTS        NUMERIC(22, 6) NULL 
+     PRIMARY KEY(CCP_DETAILS_SID, RS_MODEL_SID, PERIOD_SID) 
+  ) 
+
+IF OBJECT_ID('TEMPDB..#TEMP_HIST_PERIOD_BALANCE') IS NOT NULL 
+  DROP TABLE #TEMP_HIST_PERIOD_BALANCE 
+
+CREATE TABLE #TEMP_HIST_PERIOD_BALANCE 
+  ( 
+     CCP_DETAILS_SID        INT NOT NULL, 
+     RS_MODEL_SID           INT NOT NULL, 
+     PERIOD_SID             INT NOT NULL, 
+     DEMAND_ACCRUAL         NUMERIC(22, 6) NULL, 
+     DEMAND_REFORECAST      NUMERIC(22, 6) NULL, 
+     DEMAND_PAYMENT_TRUE_UP NUMERIC(22, 6) NULL 
+     PRIMARY KEY(CCP_DETAILS_SID, RS_MODEL_SID, PERIOD_SID) 
+  ) 
+
+   IF Object_id('TEMPDB..#TEMP_PERIOD') IS NOT NULL
+            DROP TABLE #TEMP_PERIOD
+
+          CREATE TABLE #TEMP_PERIOD
+            (
+               PERIOD_SID    INT NOT NULL,
+               PERIODS       VARCHAR(50) NOT NULL,
+               PERIODS_MONTH VARCHAR(50) NOT NULL,
+               PERIOD_DATE   DATETIME NOT NULL,
+               MONTH         INT NOT NULL,
+               YEAR          INT NOT NULL
+            )
+
+----------------Creating all necessray temp tables(all ddl statements) for the logic Ends here (PE001 CodeGuarderror)
+		SELECT @GL_COMPANY = COMPANY_MASTER_SID
+		FROM PROJECTION_MASTER
+		WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+
+			   INSERT INTO #TEMP_PERIOD
+                      (PERIOD_SID,
+                       PERIODS,
+                       PERIODS_MONTH,
+                       PERIOD_DATE,
+                       MONTH,
+                       YEAR)
+          SELECT PERIOD_SID,
+                 CASE
+                   WHEN @FREQUENCY = 'M' THEN Concat (LEFT(Datename(MM, PERIOD_DATE), 3), ' ', YEAR)
+                   WHEN @FREQUENCY = 'Q' THEN Concat ('Q', QUARTER, ' ', YEAR)
+                   WHEN @FREQUENCY = 'S' THEN Concat ('S', SEMI_ANNUAL, ' ', YEAR)
+                   ELSE Cast(YEAR AS CHAR(4))
+                 END                                                    AS PERIODS,
+                 Concat (LEFT(Datename(MM, PERIOD_DATE), 3), ' ', YEAR) AS PERIODS_MONTH,
+                 PERIOD_DATE,
+                 MONTH,
+                 YEAR
+          FROM   PERIOD
+
+		SET @START_PERIOD_SID = (
+				SELECT MIN(PERIOD_SID)
+				FROM #TEMP_PERIOD
+				WHERE PERIODS = @FROM_PERIOD
+				)
+		SET @TO_PERIOD_SID = (
+				SELECT MAX(PERIOD_SID)
+				FROM #TEMP_PERIOD
+				WHERE PERIODS = @TO_PERIOD
+				)
+
+		SELECT @BU_COMPANY = BU_COMPANY_MASTER_SID,@SUMMARY_TYPE=TRANSACTION_TYPE
+		FROM ARM_ADJUSTMENT_MASTER
+		WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+
+		--taking price related period selected in data selection and assigning GL and BU to variable Ends here 
+		--PULLING CCP+D COMBINATION FOR CURRENT PROJECTION(BALNCE REPORT) Starts here
+      INSERT INTO #TEMP_ARM_PROJ_MASTER 
+                  (ARM_ADJUSTMENT_DETAILS_SID, 
+                   CCP_DETAILS_SID, 
+                   RS_MODEL_SID, 
+                   CONTRACT_MASTER_SID, 
+                   COMPANY_MASTER_SID, 
+                   ITEM_MASTER_SID,
+				   RS_ID) 
+      SELECT A.ARM_ADJUSTMENT_DETAILS_SID,
+             A.CCP_DETAILS_SID, 
+             A.RS_MODEL_SID, 
+             B.CONTRACT_MASTER_SID, 
+             B.COMPANY_MASTER_SID, 
+             B.ITEM_MASTER_SID,
+			 RS.RS_ID
+      FROM    ARM_ADJUSTMENT_DETAILS A
+      JOIN CCP_DETAILS B
+        ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+      JOIN RS_MODEL RS
+        ON RS.RS_MODEL_SID = A.RS_MODEL_SID
+      JOIN ARM_ADJUSTMENT_MASTER AM
+        ON AM.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+          WHERE  A.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID 
+--PULLING CCP+D COMBINATION FOR CURRENT PROJECTION(BALNCE REPORT) Ends here
+
+--identifying Balance summary Configuration accounts and adjustment types w.r.t to CCP+D 
+
+INSERT INTO #ARM_BSR_CCP 
+            (ARM_ADJUSTMENT_DETAILS_SID, 
+             ACCOUNT, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST,
+			 DEMAND_PAYMENT_TRUE_UP, 
+             CCP_DETAILS_SID, 
+             RS_MODEL_SID
+            ) 
+SELECT AAS.ARM_ADJUSTMENT_DETAILS_SID, 
+       AAS.ACCOUNT,
+       AAS.DEMAND_ACCRUAL,
+       AAS. DEMAND_REFORECAST,
+	   AAS. DEMAND_PAYMENT_TRUE_UP,
+       TA.CCP_DETAILS_SID, 
+       TA.RS_MODEL_SID
+FROM   ARM_BSR_CCP AAS 
+       JOIN #TEMP_ARM_PROJ_MASTER TA 
+         ON AAS.ARM_ADJUSTMENT_DETAILS_SID = TA.ARM_ADJUSTMENT_DETAILS_SID 
+            AND AAS.SUMMARY_TYPE = @SUMMARY_TYPE 
+
+-----------Approved CCP+D+ADJUSTMENT_TYPE+ACCOUNT'S for the Particular Adjustment type starts here 
+	  INSERT INTO #TEMP_ARM_APPRVD_PROJ_START(ARM_ADJUSTMENT_DETAILS_SID,PROJECTION_MASTER_SID,CCP_DETAILS_SID,RS_MODEL_SID,
+	  ADJUSTMENT_TYPE,GL_PERIOD_SID)
+		SELECT DISTINCT AD.ARM_ADJUSTMENT_DETAILS_SID
+			,AAM.PROJECTION_MASTER_SID
+			,TAM.CCP_DETAILS_SID
+			,TAM.RS_MODEL_SID
+			,AAM.TRANSACTION_TYPE AS ADJUSTMENT_TYPE
+			,P.PERIOD_SID AS GL_PERIOD_SID
+		FROM  ARM_ADJUSTMENT_DETAILS AD 
+		INNER JOIN #TEMP_ARM_PROJ_MASTER TAM ON TAM.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+			AND TAM.RS_MODEL_SID = AD.RS_MODEL_SID
+		INNER JOIN ARM_ADJUSTMENT_MASTER AAM ON AAM.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+			AND AAM.BU_COMPANY_MASTER_SID = @BU_COMPANY
+	    INNER JOIN PERIOD P ON P.PERIOD_DATE=CONVERT(datetime, DATEADD(MM, -1, DATEADD(DD, 1, EOMONTH(AAM.GL_IMPACT_DATE, 0))))
+		AND P.PERIOD_SID<=@TO_PERIOD_SID
+		INNER JOIN PROJECTION_MASTER PM ON AAM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+			AND PM.COMPANY_MASTER_SID = @GL_COMPANY
+		INNER JOIN WORKFLOW_MASTER WM ON WM.PROJECTION_MASTER_SID = AAM.PROJECTION_MASTER_SID
+			AND WM.WORKFLOW_ID LIKE 'ARM%'
+			AND EXISTS (
+				SELECT H1.HELPER_TABLE_SID
+				FROM HELPER_TABLE H1
+				WHERE H1.LIST_NAME = 'WORKFLOWSTATUS'
+					AND H1.DESCRIPTION = 'APPROVED'
+					AND H1.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+				);
+
+INSERT  
+INTO   #CTE (ARM_ADJUSTMENT_DETAILS_SID,CCP_DETAILS_SID,RS_MODEL_SID,CONTRACT_MASTER_SID,COMPANY_MASTER_SID,
+ITEM_MASTER_SID,RS_ID,DEMAND_ACCRUAL,DEMAND_REFORECAST,DEMAND_PAYMENT_TRUE_UP,ACCOUNT)
+SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID, 
+               TAM.CCP_DETAILS_SID, 
+               TAM.RS_MODEL_SID, 
+               TAM.CONTRACT_MASTER_SID, 
+               TAM.COMPANY_MASTER_SID, 
+               TAM.ITEM_MASTER_SID, 
+               TAM.RS_ID, 
+               BSC.DEMAND_ACCRUAL, 
+               BSC.DEMAND_REFORECAST, 
+               BSC.DEMAND_PAYMENT_TRUE_UP, 
+               BSC.ACCOUNT 
+        FROM   #TEMP_ARM_PROJ_MASTER TAM 
+               INNER JOIN #ARM_BSR_CCP BSC 
+                       ON TAM.ARM_ADJUSTMENT_DETAILS_SID = BSC.ARM_ADJUSTMENT_DETAILS_SID 
+
+------------BEGINING BALANCE  (BASED ON BALANCE SUMMARY CONFIGURATION) CALUCLTRAION STARTS HERE 
+
+INSERT INTO #TEMP_ACTIVE_CUM_BALANCE 
+            (CCP_DETAILS_SID, 
+             RS_MODEL_SID, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST, 
+             DEMAND_PAYMENT_TRUE_UP, 
+             ACTUAL_PAYMENTS) 
+SELECT A.CCP_DETAILS_SID, 
+       A.RS_MODEL_SID, 
+       B.DEMAND_ACCRUAL, 
+       C.DEMAND_REFORECAST, 
+       D.DEMAND_PAYMENT_TRUE_UP, 
+       E.ACTUAL_PAYMENTS 
+FROM   #TEMP_ARM_PROJ_MASTER A 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(AA_D.CREDIT), 0) - ISNULL(SUM(AA_D.DEBIT), 0) AS DEMAND_ACCRUAL
+                  FROM   #CTE TAM 
+                         INNER JOIN #TEMP_ARM_APPRVD_PROJ_START TAP_D 
+                                 ON TAP_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                                    AND TAP_D.RS_MODEL_SID = TAM.RS_MODEL_SID 
+                         INNER JOIN ARM_ADJUSTMENT_CONFIG AAC_D 
+                                 ON AAC_D.ARM_ADJUSTMENT_CONFIG_SID = TAM.DEMAND_ACCRUAL 
+                                    AND AAC_D.REDEMPTION_PERIOD = 1 
+                         INNER JOIN ARM_ADJUSTMENTS AA_D 
+                                 ON AA_D.ARM_ADJUSTMENT_DETAILS_SID = TAP_D.ARM_ADJUSTMENT_DETAILS_SID
+                                    AND AA_D.ADJUSTMENT_TYPE = TAM.DEMAND_ACCRUAL 
+                                    AND TAM.DEMAND_ACCRUAL = TAP_D.ADJUSTMENT_TYPE 
+                                    AND AA_D.ACCOUNT = TAM.ACCOUNT 
+                                    AND AA_D.PERIOD_SID < @START_PERIOD_SID 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID) B 
+              ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = B.RS_MODEL_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(AA_DRF.CREDIT), 0) - ISNULL(SUM(AA_DRF.DEBIT), 0) AS DEMAND_REFORECAST
+                  FROM   #CTE TAM 
+                         INNER JOIN #TEMP_ARM_APPRVD_PROJ_START TAP_D 
+                                 ON TAP_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                                    AND TAP_D.RS_MODEL_SID = TAM.RS_MODEL_SID 
+                         INNER JOIN ARM_ADJUSTMENT_CONFIG AAC_DRF 
+                                 ON AAC_DRF.ARM_ADJUSTMENT_CONFIG_SID = TAM.DEMAND_REFORECAST 
+                                    AND AAC_DRF.REDEMPTION_PERIOD = 1 
+                         INNER JOIN ARM_ADJUSTMENTS AA_DRF 
+                                 ON AA_DRF.ARM_ADJUSTMENT_DETAILS_SID = TAP_D.ARM_ADJUSTMENT_DETAILS_SID
+                                    AND AA_DRF.ADJUSTMENT_TYPE = TAM.DEMAND_REFORECAST 
+                                    AND TAM.DEMAND_REFORECAST = TAP_D.ADJUSTMENT_TYPE 
+                                    AND AA_DRF.ACCOUNT = TAM.ACCOUNT 
+                                    AND AA_DRF.PERIOD_SID < @START_PERIOD_SID 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID) C 
+              ON A.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = C.RS_MODEL_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(AA_DPR.CREDIT), 0) - ISNULL(SUM(AA_DPR.DEBIT), 0) AS DEMAND_PAYMENT_TRUE_UP
+                  FROM   #CTE TAM 
+                         INNER JOIN #TEMP_ARM_APPRVD_PROJ_START TAP_D 
+                                 ON TAP_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                                    AND TAP_D.RS_MODEL_SID = TAM.RS_MODEL_SID 
+                         INNER JOIN ARM_ADJUSTMENTS AA_DPR 
+                                 ON AA_DPR.ARM_ADJUSTMENT_DETAILS_SID = TAP_D.ARM_ADJUSTMENT_DETAILS_SID
+                                    AND AA_DPR.ADJUSTMENT_TYPE = TAM.DEMAND_PAYMENT_TRUE_UP 
+                                    AND TAM.DEMAND_PAYMENT_TRUE_UP = TAP_D.ADJUSTMENT_TYPE 
+                                    AND AA_DPR.ACCOUNT = TAM.ACCOUNT 
+                                    AND AA_DPR.PERIOD_SID < @START_PERIOD_SID 
+                         INNER JOIN ARM_ADJUSTMENT_CONFIG AAC_DPR 
+                                 ON AAC_DPR.ARM_ADJUSTMENT_CONFIG_SID = TAM.DEMAND_PAYMENT_TRUE_UP
+                                    AND AAC_DPR.REDEMPTION_PERIOD = 1 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID) D 
+              ON A.CCP_DETAILS_SID = D.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = D.RS_MODEL_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(ACT.DISCOUNT), 0) AS ACTUAL_PAYMENTS 
+                  FROM    #TEMP_ARM_PROJ_MASTER TAM 
+                         INNER JOIN ACTUALS_DETAILS ACT 
+                                ON ACT.CCP_DETAILS_SID=TAM.CCP_DETAILS_SID 
+								AND TAM.RS_MODEL_SID=ACT.RS_MODEL_SID
+								AND ACT.CASH_PAID_PERIOD<=@TO_PERIOD_SID
+                                AND ACT.PERIOD_SID<@START_PERIOD_SID
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID) E 
+              ON A.CCP_DETAILS_SID = E.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = E.RS_MODEL_SID 
+
+--------------------taking Beging Balance calculation History Records FOR Period Balance starts here
+;WITH CTE 
+     AS (SELECT TAM.CCP_DETAILS_SID, 
+                TAM.RS_MODEL_SID, 
+	            AHM.ARM_HIST_ADJ_RES_CON_MASTER_SID,
+				BSC.DEMAND_ACCRUAL,
+				BSC.DEMAND_REFORECAST,
+				BSC.DEMAND_PAYMENT_TRUE_UP,
+				BSC.ACCOUNT
+         FROM   #TEMP_ARM_PROJ_MASTER TAM 
+       INNER JOIN #ARM_BSR_CCP BSC 
+               ON TAM.ARM_ADJUSTMENT_DETAILS_SID = BSC.ARM_ADJUSTMENT_DETAILS_SID 
+		INNER JOIN RS_CONTRACT R 
+         ON R.RS_MODEL_SID = TAM.RS_MODEL_SID 
+            AND R.CONTRACT_MASTER_SID = TAM.CONTRACT_MASTER_SID 
+       INNER JOIN ARM_DEDUCTION_SELECTION ADS 
+         ON ADS.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND ADS.RS_CONTRACT_SID = R.RS_CONTRACT_SID 
+		INNER JOIN ARM_HIST_ADJ_RES_CON_MASTER AHM
+	     ON AHM.RS_CATEGORY = R.RS_CATEGORY 
+            AND AHM.RS_TYPE = R.RS_TYPE 
+            AND AHM.REBATE_PROGRAM_TYPE = R.REBATE_PROGRAM_TYPE 
+	        AND AHM.GL_COMPANY_MASTER_SID=@GL_COMPANY
+	   AND AHM.BU_COMPANY_MASTER_SID=@BU_COMPANY
+	   AND CONFIGURATION_TYPE=0) 
+
+INSERT INTO #TEMP_HIST_CUM_BALANCE 
+            (CCP_DETAILS_SID, 
+             RS_MODEL_SID, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST, 
+             DEMAND_PAYMENT_TRUE_UP) 
+SELECT A.CCP_DETAILS_SID, 
+       A.RS_MODEL_SID, 
+       B.DEMAND_ACCRUAL, 
+       C.DEMAND_REFORECAST, 
+       D.DEMAND_PAYMENT_TRUE_UP 
+FROM   #TEMP_ARM_PROJ_MASTER A 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(AH_D.CREDIT), 0) - ISNULL(SUM(AH_D.DEBIT), 0) AS DEMAND_ACCRUAL
+                  FROM   CTE TAM 
+                         JOIN ARM_HIST_ADJUSTMENTS AH_D 
+                           ON AH_D.ARM_HIST_ADJ_RES_CON_MASTER_SID = TAM.ARM_HIST_ADJ_RES_CON_MASTER_SID
+                              AND AH_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                              AND AH_D.RS_MODEL_SID = TAM.RS_MODEL_SID 
+                              AND AH_D.CALCULATION_PERIOD_SID < @START_PERIOD_SID
+							  AND AH_D.GL_PERIOD_SID<=@TO_PERIOD_SID
+                              AND AH_D.ADJUSTMENT_TYPE = TAM.DEMAND_ACCRUAL 
+                              AND AH_D.ACCOUNT = TAM.ACCOUNT 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID)B 
+              ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = B.RS_MODEL_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(AH_DRF.CREDIT), 0) - ISNULL(SUM(AH_DRF.DEBIT), 0) AS DEMAND_REFORECAST
+                  FROM   CTE TAM 
+                         JOIN ARM_HIST_ADJUSTMENTS AH_DRF 
+                           ON AH_DRF.ARM_HIST_ADJ_RES_CON_MASTER_SID = TAM.ARM_HIST_ADJ_RES_CON_MASTER_SID
+                              AND AH_DRF.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                              AND AH_DRF.RS_MODEL_SID = TAM.RS_MODEL_SID 
+                              AND AH_DRF.CALCULATION_PERIOD_SID < @START_PERIOD_SID
+							  AND AH_DRF.GL_PERIOD_SID<=@TO_PERIOD_SID
+                              AND AH_DRF.ADJUSTMENT_TYPE = TAM.DEMAND_REFORECAST 
+                              AND AH_DRF.ACCOUNT = TAM.ACCOUNT 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID)C 
+              ON A.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = C.RS_MODEL_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         ISNULL(SUM(AH_DPR.CREDIT), 0) - ISNULL(SUM(AH_DPR.DEBIT), 0) AS DEMAND_PAYMENT_TRUE_UP
+                  FROM   CTE TAM 
+                         JOIN ARM_HIST_ADJUSTMENTS AH_DPR 
+                           ON AH_DPR.ARM_HIST_ADJ_RES_CON_MASTER_SID = TAM.ARM_HIST_ADJ_RES_CON_MASTER_SID
+                              AND AH_DPR.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                              AND AH_DPR.RS_MODEL_SID = TAM.RS_MODEL_SID 
+                              AND AH_DPR.CALCULATION_PERIOD_SID < @START_PERIOD_SID
+							  AND AH_DPR.GL_PERIOD_SID<=@TO_PERIOD_SID
+                              AND AH_DPR.ADJUSTMENT_TYPE = TAM.DEMAND_PAYMENT_TRUE_UP 
+                              AND AH_DPR.ACCOUNT = TAM.ACCOUNT 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID)D 
+              ON A.CCP_DETAILS_SID = D.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = D.RS_MODEL_SID 
+
+---------------------Begining balance Calculation including history Debits and Credits Calculation starts here 
+SET @SQL=CONCAT('IF EXISTS (SELECT 1 FROM ', @ARM_BSR_CUM_DEMAND, ' R INNER JOIN ARM_ADJUSTMENT_DETAILS A 
+                                          ON R.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID )  
+					                   BEGIN 
+												TRUNCATE TABLE ', @ARM_BSR_CUM_DEMAND, '  
+									   END
+INSERT INTO ', @ARM_BSR_CUM_DEMAND , '  (ARM_ADJUSTMENT_DETAILS_SID, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST,
+			 DEMAND_PAYMENT_TRUE_UP,
+			 ACTUAL_PAYMENTS,
+			 PERIOD_BALANCE,
+			 PAYMENT_RATIO) 
+SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID, 
+       ISNULL(TAP.DEMAND_ACCRUAL,0) + ISNULL(THB.DEMAND_ACCRUAL,0)         AS DEMAND_ACCRUAL, 
+       ISNULL(TAP.DEMAND_REFORECAST,0) + ISNULL(THB.DEMAND_REFORECAST,0)   AS DEMAND_REFORECAST,
+	   ISNULL(TAP.DEMAND_PAYMENT_TRUE_UP,0) + ISNULL(THB.DEMAND_PAYMENT_TRUE_UP,0) AS DEMAND_PAYMENT_TRUE_UP,
+	   ISNULL(TAP.ACTUAL_PAYMENTS,0),
+	   (ISNULL(TAP.DEMAND_ACCRUAL,0) + ISNULL(THB.DEMAND_ACCRUAL,0) + 
+        ISNULL(TAP.DEMAND_REFORECAST,0) + ISNULL(THB.DEMAND_REFORECAST,0) + ISNULL(TAP.DEMAND_PAYMENT_TRUE_UP,0) + ISNULL(THB.DEMAND_PAYMENT_TRUE_UP,0)) - ISNULL(TAP.ACTUAL_PAYMENTS,0) AS PERIOD_BALANCE,
+	   COALESCE(((ISNULL(TAP.DEMAND_ACCRUAL,0) + ISNULL(THB.DEMAND_ACCRUAL,0) + 
+       ISNULL(TAP.DEMAND_REFORECAST,0) + ISNULL(THB.DEMAND_REFORECAST,0) + ISNULL(TAP.DEMAND_PAYMENT_TRUE_UP,0) + ISNULL(THB.DEMAND_PAYMENT_TRUE_UP,0)) - ISNULL(TAP.ACTUAL_PAYMENTS,0))/NULLIF(TAP.ACTUAL_PAYMENTS,0),0) AS PAYMENT_RATIO
+FROM   #TEMP_ARM_PROJ_MASTER TAM 
+       JOIN ARM_ADJUSTMENT_DETAILS AD 
+         ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AD.ARM_ADJUSTMENT_DETAILS_SID 
+       LEFT JOIN #TEMP_ACTIVE_CUM_BALANCE TAP 
+              ON TAM.CCP_DETAILS_SID = TAP.CCP_DETAILS_SID 
+                 AND TAM.RS_MODEL_SID = TAP.RS_MODEL_SID 
+       LEFT JOIN #TEMP_HIST_CUM_BALANCE THB 
+              ON TAM.CCP_DETAILS_SID = THB.CCP_DETAILS_SID 
+                 AND TAM.RS_MODEL_SID = THB.RS_MODEL_SID')
+
+				 EXEC sp_executesql @SQL
+--------------Active Period Balances(based on balance summary configuration) calucltraion Starts here
+ ;
+WITH CTE 
+     AS (SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID, 
+                TAM.CCP_DETAILS_SID, 
+                TAM.RS_MODEL_SID, 
+                TAM.CONTRACT_MASTER_SID, 
+                TAM.COMPANY_MASTER_SID, 
+                TAM.ITEM_MASTER_SID, 
+                TAM.RS_ID, 
+                TAM.DEMAND_ACCRUAL, 
+                TAM.DEMAND_REFORECAST, 
+                TAM.DEMAND_PAYMENT_TRUE_UP, 
+                TAM.ACCOUNT, 
+                P.PERIOD_SID
+         FROM   #CTE TAM 
+                INNER JOIN PERIOD P 
+                        ON P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @TO_PERIOD_SID) 
+
+INSERT INTO #TEMP_ACTIVE_PERIOD_BALANCE 
+            (CCP_DETAILS_SID,
+			 RS_MODEL_SID,
+             PERIOD_SID, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST,
+			 DEMAND_PAYMENT_TRUE_UP,
+			 ACTUAL_PAYMENTS) 
+SELECT A.CCP_DETAILS_SID,
+       A.RS_MODEL_SID,
+       P.PERIOD_SID, 
+       B.DEMAND_ACCRUAL,
+	   C.DEMAND_REFORECAST,
+	   D.DEMAND_PAYMENT_TRUE_UP,
+	   E.ACTUAL_PAYMENTS
+FROM   
+ #TEMP_ARM_PROJ_MASTER A 
+ INNER JOIN PERIOD P  ON P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @TO_PERIOD_SID 
+ LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         TAM.PERIOD_SID,
+						 ISNULL(SUM(AA_D.CREDIT), 0) - ISNULL(SUM(AA_D.DEBIT), 0) AS DEMAND_ACCRUAL
+FROM CTE TAM 
+                         INNER JOIN #TEMP_ARM_APPRVD_PROJ_START TAP_D 
+                                 ON TAP_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                                    AND TAP_D.RS_MODEL_SID = TAM.RS_MODEL_SID 
+			 INNER JOIN ARM_ADJUSTMENT_CONFIG AAC_D 
+              ON AAC_D.ARM_ADJUSTMENT_CONFIG_SID = TAM.DEMAND_ACCRUAL
+			  AND AAC_D.REDEMPTION_PERIOD=1 
+       INNER JOIN ARM_ADJUSTMENTS AA_D 
+              ON AA_D.ARM_ADJUSTMENT_DETAILS_SID = TAP_D.ARM_ADJUSTMENT_DETAILS_SID 
+                 AND AA_D.ADJUSTMENT_TYPE = TAM.DEMAND_ACCRUAL
+				 AND TAM.DEMAND_ACCRUAL = TAP_D.ADJUSTMENT_TYPE 
+                 AND AA_D.ACCOUNT = TAM.ACCOUNT 
+                 AND AA_D.PERIOD_SID = TAM.PERIOD_SID
+GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID, 
+                            TAM.PERIOD_SID) B 
+						 ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = B.RS_MODEL_SID 
+				 AND P.PERIOD_SID=B.PERIOD_SID
+	LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         TAM.PERIOD_SID,
+                  ISNULL(SUM(AA_DRF.CREDIT), 0) - ISNULL(SUM(AA_DRF.DEBIT), 0)   AS DEMAND_REFORECAST
+FROM CTE TAM 
+                         INNER JOIN #TEMP_ARM_APPRVD_PROJ_START TAP_D 
+                                 ON TAP_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                                    AND TAP_D.RS_MODEL_SID = TAM.RS_MODEL_SID 
+						 INNER JOIN ARM_ADJUSTMENT_CONFIG AAC_DRF 
+              ON AAC_DRF.ARM_ADJUSTMENT_CONFIG_SID = TAM.DEMAND_REFORECAST
+			  AND AAC_DRF.REDEMPTION_PERIOD=1 
+       INNER JOIN ARM_ADJUSTMENTS AA_DRF 
+              ON AA_DRF.ARM_ADJUSTMENT_DETAILS_SID = TAP_D.ARM_ADJUSTMENT_DETAILS_SID 
+                 AND AA_DRF.ADJUSTMENT_TYPE = TAM.DEMAND_REFORECAST
+				 AND TAM.DEMAND_REFORECAST = TAP_D.ADJUSTMENT_TYPE  
+                 AND AA_DRF.ACCOUNT = TAM.ACCOUNT 
+                 AND AA_DRF.PERIOD_SID = TAM.PERIOD_SID
+				 GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID, 
+                            TAM.PERIOD_SID) C 
+				  ON A.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = C.RS_MODEL_SID 
+				 AND P.PERIOD_SID=C.PERIOD_SID
+				 LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         TAM.PERIOD_SID,
+		                 ISNULL(SUM(AA_DPR.CREDIT), 0) - ISNULL(SUM(AA_DPR.DEBIT), 0)  AS DEMAND_PAYMENT_TRUE_UP
+						 FROM CTE TAM 
+                         INNER JOIN #TEMP_ARM_APPRVD_PROJ_START TAP_D 
+                                 ON TAP_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                                    AND TAP_D.RS_MODEL_SID = TAM.RS_MODEL_SID
+							 INNER JOIN ARM_ADJUSTMENT_CONFIG AAC_DPR 
+              ON AAC_DPR.ARM_ADJUSTMENT_CONFIG_SID = TAM.DEMAND_PAYMENT_TRUE_UP
+			  AND AAC_DPR.REDEMPTION_PERIOD=1 
+           INNER JOIN ARM_ADJUSTMENTS AA_DPR 
+              ON AA_DPR.ARM_ADJUSTMENT_DETAILS_SID = TAP_D.ARM_ADJUSTMENT_DETAILS_SID 
+                 AND AA_DPR.ADJUSTMENT_TYPE = TAM.DEMAND_PAYMENT_TRUE_UP
+				 AND TAM.DEMAND_PAYMENT_TRUE_UP = TAP_D.ADJUSTMENT_TYPE  
+                 AND AA_DPR.ACCOUNT = TAM.ACCOUNT 
+                 AND AA_DPR.PERIOD_SID = TAM.PERIOD_SID
+				 GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID, 
+                            TAM.PERIOD_SID) D 
+				  ON A.CCP_DETAILS_SID = D.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = D.RS_MODEL_SID 
+				 AND P.PERIOD_SID=D.PERIOD_SID
+				 LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                                  TAM.RS_MODEL_SID, 
+                                  P.PERIOD_SID,
+                                  SUM(DISCOUNT) AS ACTUAL_PAYMENTS
+								 FROM 
+									#TEMP_ARM_PROJ_MASTER TAM 
+				 INNER JOIN PERIOD P  ON P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @TO_PERIOD_SID 
+				 INNER JOIN ACTUALS_DETAILS ACT
+          ON TAM.CCP_DETAILS_SID=ACT.CCP_DETAILS_SID 
+		 AND TAM.RS_MODEL_SID=ACT.RS_MODEL_SID
+		 AND ACT.CASH_PAID_PERIOD<=@TO_PERIOD_SID
+		 AND P.PERIOD_SID=ACT.PERIOD_SID
+GROUP  BY TAM.CCP_DETAILS_SID, 
+          TAM.RS_MODEL_SID,
+          P.PERIOD_SID
+		  ) E ON 
+		    A.CCP_DETAILS_SID = E.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = E.RS_MODEL_SID 
+				 AND P.PERIOD_SID=E.PERIOD_SID
+--------------------taking  History Records FOR Period Balance starts here
+
+;WITH CTE 
+     AS (SELECT TAM.CCP_DETAILS_SID, 
+                TAM.RS_MODEL_SID, 
+                P.PERIOD_SID,
+	            AHM.ARM_HIST_ADJ_RES_CON_MASTER_SID,
+				BSC.DEMAND_ACCRUAL,
+				BSC.DEMAND_REFORECAST,
+				BSC.DEMAND_PAYMENT_TRUE_UP,
+				BSC.ACCOUNT
+         FROM  #TEMP_ARM_PROJ_MASTER TAM 
+       INNER JOIN #ARM_BSR_CCP BSC 
+               ON TAM.ARM_ADJUSTMENT_DETAILS_SID = BSC.ARM_ADJUSTMENT_DETAILS_SID 
+       INNER JOIN PERIOD P 
+               ON P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @TO_PERIOD_SID 
+		INNER JOIN RS_CONTRACT R 
+         ON R.RS_MODEL_SID = TAM.RS_MODEL_SID 
+            AND R.CONTRACT_MASTER_SID = TAM.CONTRACT_MASTER_SID 
+       INNER JOIN ARM_DEDUCTION_SELECTION ADS 
+         ON ADS.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND ADS.RS_CONTRACT_SID = R.RS_CONTRACT_SID 
+		INNER JOIN ARM_HIST_ADJ_RES_CON_MASTER AHM
+	     ON AHM.RS_CATEGORY = R.RS_CATEGORY 
+            AND AHM.RS_TYPE = R.RS_TYPE 
+            AND AHM.REBATE_PROGRAM_TYPE = R.REBATE_PROGRAM_TYPE 
+	        AND AHM.GL_COMPANY_MASTER_SID=@GL_COMPANY
+	   AND AHM.BU_COMPANY_MASTER_SID=@BU_COMPANY
+	   AND CONFIGURATION_TYPE=0) 
+
+INSERT INTO #TEMP_HIST_PERIOD_BALANCE 
+            (CCP_DETAILS_SID, 
+             RS_MODEL_SID, 
+             PERIOD_SID, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST, 
+             DEMAND_PAYMENT_TRUE_UP) 
+SELECT A.CCP_DETAILS_SID, 
+       A.RS_MODEL_SID, 
+       P.PERIOD_SID, 
+       B.DEMAND_ACCRUAL, 
+       C.DEMAND_REFORECAST, 
+       D.DEMAND_PAYMENT_TRUE_UP 
+FROM   #TEMP_ARM_PROJ_MASTER A 
+       INNER JOIN PERIOD P 
+               ON P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @TO_PERIOD_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         TAM.PERIOD_SID, 
+                         ISNULL(SUM(AH_D.CREDIT), 0) - ISNULL(SUM(AH_D.DEBIT), 0) AS DEMAND_ACCRUAL
+                  FROM   CTE TAM 
+                         JOIN ARM_HIST_ADJUSTMENTS AH_D 
+                           ON AH_D.ARM_HIST_ADJ_RES_CON_MASTER_SID = TAM.ARM_HIST_ADJ_RES_CON_MASTER_SID
+                              AND AH_D.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                              AND AH_D.RS_MODEL_SID = TAM.RS_MODEL_SID
+							  AND AH_D.GL_PERIOD_SID<=@TO_PERIOD_SID
+                              AND AH_D.CALCULATION_PERIOD_SID = TAM.PERIOD_SID 
+                              AND AH_D.ADJUSTMENT_TYPE = TAM.DEMAND_ACCRUAL 
+                              AND AH_D.ACCOUNT = TAM.ACCOUNT 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID, 
+                            TAM.PERIOD_SID)B 
+              ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = B.RS_MODEL_SID 
+                 AND P.PERIOD_SID = B.PERIOD_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         TAM.PERIOD_SID, 
+                         ISNULL(SUM(AH_DRF.CREDIT), 0) - ISNULL(SUM(AH_DRF.DEBIT), 0) AS DEMAND_REFORECAST
+                  FROM   CTE TAM 
+                         JOIN ARM_HIST_ADJUSTMENTS AH_DRF 
+                           ON AH_DRF.ARM_HIST_ADJ_RES_CON_MASTER_SID = TAM.ARM_HIST_ADJ_RES_CON_MASTER_SID
+                              AND AH_DRF.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                              AND AH_DRF.RS_MODEL_SID = TAM.RS_MODEL_SID 
+							  AND AH_DRF.GL_PERIOD_SID<=@TO_PERIOD_SID
+                              AND AH_DRF.CALCULATION_PERIOD_SID = TAM.PERIOD_SID 
+                              AND AH_DRF.ADJUSTMENT_TYPE = TAM.DEMAND_REFORECAST 
+                              AND AH_DRF.ACCOUNT = TAM.ACCOUNT 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID, 
+                            TAM.PERIOD_SID)C 
+              ON A.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = C.RS_MODEL_SID 
+                 AND P.PERIOD_SID = C.PERIOD_SID 
+       LEFT JOIN (SELECT TAM.CCP_DETAILS_SID, 
+                         TAM.RS_MODEL_SID, 
+                         TAM.PERIOD_SID, 
+                         ISNULL(SUM(AH_DPR.CREDIT), 0) - ISNULL(SUM(AH_DPR.DEBIT), 0) AS DEMAND_PAYMENT_TRUE_UP
+                  FROM   CTE TAM 
+                         JOIN ARM_HIST_ADJUSTMENTS AH_DPR 
+                           ON AH_DPR.ARM_HIST_ADJ_RES_CON_MASTER_SID = TAM.ARM_HIST_ADJ_RES_CON_MASTER_SID
+                              AND AH_DPR.CCP_DETAILS_SID = TAM.CCP_DETAILS_SID 
+                              AND AH_DPR.RS_MODEL_SID = TAM.RS_MODEL_SID
+							  AND AH_DPR.GL_PERIOD_SID<=@TO_PERIOD_SID
+                              AND AH_DPR.CALCULATION_PERIOD_SID = TAM.PERIOD_SID 
+                              AND AH_DPR.ADJUSTMENT_TYPE = TAM.DEMAND_PAYMENT_TRUE_UP 
+                              AND AH_DPR.ACCOUNT = TAM.ACCOUNT 
+                  GROUP  BY TAM.CCP_DETAILS_SID, 
+                            TAM.RS_MODEL_SID, 
+                            TAM.PERIOD_SID)D 
+              ON A.CCP_DETAILS_SID = D.CCP_DETAILS_SID 
+                 AND A.RS_MODEL_SID = D.RS_MODEL_SID 
+                 AND P.PERIOD_SID = D.PERIOD_SID 
+---------------------Period balance Calculation including history Debits and Credits Calculation starts here 
+SET @SQL=''
+SET @SQL=CONCAT('IF EXISTS (SELECT 1 FROM ', @ARM_BSR_DEMAND, ' R INNER JOIN ARM_ADJUSTMENT_DETAILS A 
+                                          ON R.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID )  
+					                   BEGIN 
+												TRUNCATE TABLE ', @ARM_BSR_DEMAND, '  
+									   END
+INSERT INTO ', @ARM_BSR_DEMAND , ' 
+            (ARM_ADJUSTMENT_DETAILS_SID, 
+             PERIOD_SID, 
+             DEMAND_ACCRUAL, 
+             DEMAND_REFORECAST,
+			 DEMAND_PAYMENT_TRUE_UP,
+			 ACTUAL_PAYMENTS,
+			 PERIOD_BALANCE,
+			 PAYMENT_RATIO) 
+SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID, 
+       P.PERIOD_SID, 
+       ISNULL(TAP.DEMAND_ACCRUAL,0) + ISNULL(THB.DEMAND_ACCRUAL,0)         AS DEMAND_ACCRUAL, 
+       ISNULL(TAP.DEMAND_REFORECAST,0) + ISNULL(THB.DEMAND_REFORECAST,0)   AS DEMAND_REFORECAST,
+	   ISNULL(TAP.DEMAND_PAYMENT_TRUE_UP,0) + ISNULL(THB.DEMAND_PAYMENT_TRUE_UP,0) AS DEMAND_PAYMENT_TRUE_UP,
+	   ISNULL(TAP.ACTUAL_PAYMENTS,0),
+	   (ISNULL(TAP.DEMAND_ACCRUAL,0) + ISNULL(THB.DEMAND_ACCRUAL,0)  + 
+       ISNULL(TAP.DEMAND_REFORECAST,0) + ISNULL(THB.DEMAND_REFORECAST,0) +  ISNULL(TAP.DEMAND_PAYMENT_TRUE_UP,0) + ISNULL (THB.DEMAND_PAYMENT_TRUE_UP,0)) - ISNULL(TAP.ACTUAL_PAYMENTS,0) AS PERIOD_BALANCE,
+	   COALESCE(((ISNULL(TAP.DEMAND_ACCRUAL,0) + ISNULL(THB.DEMAND_ACCRUAL,0) + 
+       ISNULL(TAP.DEMAND_REFORECAST,0) + ISNULL(THB.DEMAND_REFORECAST,0)  + ISNULL(TAP.DEMAND_PAYMENT_TRUE_UP,0) + ISNULL (THB.DEMAND_PAYMENT_TRUE_UP,0)) - ISNULL(TAP.ACTUAL_PAYMENTS,0))/NULLIF(TAP.ACTUAL_PAYMENTS,0),0) AS PAYMENT_RATIO
+FROM   #TEMP_ARM_PROJ_MASTER TAM 
+       JOIN ARM_ADJUSTMENT_DETAILS AD 
+         ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AD.ARM_ADJUSTMENT_DETAILS_SID 
+       INNER JOIN PERIOD P 
+               ON P.PERIOD_SID BETWEEN ',@START_PERIOD_SID,' AND ',@TO_PERIOD_SID,' 
+       LEFT JOIN #TEMP_ACTIVE_PERIOD_BALANCE TAP 
+              ON TAM.CCP_DETAILS_SID = TAP.CCP_DETAILS_SID 
+                 AND TAM.RS_MODEL_SID = TAP.RS_MODEL_SID 
+                 AND P.PERIOD_SID = TAP.PERIOD_SID 
+       LEFT JOIN #TEMP_HIST_PERIOD_BALANCE THB 
+              ON TAM.CCP_DETAILS_SID = THB.CCP_DETAILS_SID 
+                 AND TAM.RS_MODEL_SID = THB.RS_MODEL_SID 
+                 AND P.PERIOD_SID = THB.PERIOD_SID') 
+
+		EXEC sp_executesql @SQL
+	END TRY
+
+	BEGIN CATCH
+		DECLARE @ERRORMESSAGE NVARCHAR(4000);
+		DECLARE @ERRORSEVERITY INT;
+		DECLARE @ERRORSTATE INT;
+		DECLARE @ERRORNUMBER INT;
+		DECLARE @ERRORPROCEDURE VARCHAR(200);
+		DECLARE @ERRORLINE INT;
+
+		EXEC [dbo].Usperrorcollector
+
+		SELECT @ERRORMESSAGE = ERROR_MESSAGE()
+			,@ERRORSEVERITY = ERROR_SEVERITY()
+			,@ERRORSTATE = ERROR_STATE()
+			,@ERRORPROCEDURE = ERROR_PROCEDURE()
+			,@ERRORLINE = ERROR_LINE()
+			,@ERRORNUMBER = ERROR_NUMBER()
+
+		RAISERROR (
+				@ERRORMESSAGE
+				,-- MESSAGE TEXT.
+				@ERRORSEVERITY
+				,-- SEVERITY.
+				@ERRORSTATE
+				,-- STATE.
+				@ERRORPROCEDURE
+				,-- PROCEDURE_NAME.
+				@ERRORNUMBER
+				,-- ERRORNUMBER
+				@ERRORLINE -- ERRORLINE
+				);
+	END CATCH
+END
+GO

@@ -42,7 +42,7 @@ import com.vaadin.ui.TreeGrid;
  */
 public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFrameWorkAction {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkV8DualListBoxLoadRightTableAction.class);
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkV8DualListBoxLoadRightTableAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -65,7 +65,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		return this;
 	}
 
-	public void loadRightTable(GtnFrameworkV8DualListBoxBean dualListBoxBean , String componentId)
+	public void loadRightTable(GtnFrameworkV8DualListBoxBean dualListBoxBean, String componentId)
 			throws GtnFrameworkGeneralException {
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
@@ -99,12 +99,10 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 				selectedRecordBean.setRecordHeader(dualListBoxConfig.getRightRecordHeader());
 				beanList.add(selectedRecordBean);
 			}
-			if (beanList != null) {
 				treeBuilder.buildTree(beanList);
 				treeBuilder.loadRightTreeTable(rightTable, dualListBoxConfig.getLoadingLevel());
 				rightTable.getDataProvider().refreshAll();
 				rightTable.markAsDirty();
-			}
 		}
 	}
 
@@ -131,26 +129,26 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		return reportRequest;
 	}
 
-	private GtnWsSearchRequest createSearchRequest(final List<Object> queryParameters,
-			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
-		GtnWsSearchRequest dualListBoxSearchRequest = new GtnWsSearchRequest();
-		dualListBoxSearchRequest.setQueryInputList(queryParameters);
-		dualListBoxSearchRequest.setSearchColumnNameList(new ArrayList<Object>(dualListBoxConfig.getRecordHeader()));
-		queryParameters.add(GtnUIFrameworkGlobalUI.getCurrentUser());
-		return dualListBoxSearchRequest;
-	}
-
-	private GtnWsGeneralRequest createGeneralRequest() {
-		GtnWsGeneralRequest dualListBoxGeneralRequest = new GtnWsGeneralRequest();
-		dualListBoxGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		return dualListBoxGeneralRequest;
-	}
-
 	private GtnUIFrameworkWebserviceResponse callWebService(final String webServiceUrl, final String moduleName,
 			final GtnUIFrameworkWebserviceRequest request) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		return client.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + webServiceUrl,
 				moduleName, request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	}
+
+	private GtnWsSearchRequest createSearchRequest(final List<Object> queryParameters,
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
+		GtnWsSearchRequest v8dualListBoxSearchRequest = new GtnWsSearchRequest();
+		v8dualListBoxSearchRequest.setQueryInputList(queryParameters);
+		v8dualListBoxSearchRequest.setSearchColumnNameList(new ArrayList<Object>(dualListBoxConfig.getRecordHeader()));
+		queryParameters.add(GtnUIFrameworkGlobalUI.getCurrentUser());
+		return v8dualListBoxSearchRequest;
+	}
+
+	private GtnWsGeneralRequest createGeneralRequest() {
+		GtnWsGeneralRequest v8dualListBoxGeneralRequest = new GtnWsGeneralRequest();
+		v8dualListBoxGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		return v8dualListBoxGeneralRequest;
 	}
 
 }

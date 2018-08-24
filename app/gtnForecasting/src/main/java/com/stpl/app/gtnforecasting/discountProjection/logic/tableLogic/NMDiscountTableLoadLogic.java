@@ -174,7 +174,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
             boolean isParentChecked = false;
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {}, dto.getLevelName()= {} " , dto.getTreeLevelNo(),  dto.getLevelName());
@@ -318,7 +318,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {} " , dto.getTreeLevelNo());

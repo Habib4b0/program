@@ -1285,7 +1285,7 @@ public class ProjectionResultsLogic {
                             }
                             mayBeAdded++;
                         }
-                        if ((salesUnits.equals(BOTH) && started < NumericConstants.FOUR) || started < NumericConstants.FOUR) {
+                        if (started < NumericConstants.FOUR && salesUnits.equals(BOTH)) {
                             contractSalesDto = resultList.get(0);
                             unitVolDto = resultList.get(1);
                         }
@@ -1300,8 +1300,9 @@ public class ProjectionResultsLogic {
                             mayBeAdded++;
                         }
                         if (neededRecord > 0) {
-                            if ((isExFactoryNeededInProductLevel && (started == NumericConstants.TWO || started == NumericConstants.ONE))
-                                    || (started == NumericConstants.ONE || started == NumericConstants.ZERO)) {
+                            if ((isExFactoryNeededInProductLevel
+                                    && (started == NumericConstants.TWO || started == NumericConstants.ONE))
+                                    || started == NumericConstants.ZERO) {
                                 if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO percentageExfactoryProduct = resultList.get(NumericConstants.EIGHT);
                                     projDTOList.add(percentageExfactoryProduct);
@@ -3721,7 +3722,7 @@ public class ProjectionResultsLogic {
             }
 
             if (toRemoveSpace) {
-                framedString.replace(", ", "");
+                framedString = framedString.replace(", ", "");
             }
         }
         return framedString;

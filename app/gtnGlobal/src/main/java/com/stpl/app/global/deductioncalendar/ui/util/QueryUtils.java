@@ -494,7 +494,7 @@ public class QueryUtils {
         queryBuilder.append("SELECT PERIOD_SID FROM PERIOD WHERE (MONTH IN ('");
         String lastValue = "";
         for (int i = 0; i < list.size(); i++) {
-            Object[] arr = String.valueOf(list.get(i)).split("~");
+              String[] arr = String.valueOf(list.get(i)).split("~");
             if (!lastValue.isEmpty() && !lastValue.equals(String.valueOf(arr[NumericConstants.TWO]))) {
                 queryBuilder.append("') AND YEAR =" ).append( lastValue);
                 queryBuilder.append(") OR ( MONTH IN ('");

@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class GtnReportVariableBreakdownLookupBean {
 
+    public GtnReportVariableBreakdownLookupBean() {
+        super();
+    }
+
+
 	private int masterSid;
 	private int period;
 	private int year;
@@ -30,6 +35,26 @@ public class GtnReportVariableBreakdownLookupBean {
 	private List variableBreakdownSaveActionList;
 	private int rowCount;
 	private List<GtnReportComparisonProjectionBean> comparisonLookupBeanList;
+	
+	private String history;
+	private String frequency;
+	
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
 
 	public List<Object[]> getResultList() {
 		return resultList;

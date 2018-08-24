@@ -1013,7 +1013,6 @@ public class Copycomponents extends CustomComponent {
 
     public void savecontract(Object item) {
         try {
-            String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.SESSION_ID));
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             int contractMasterSid = 0;
             String level = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.LEVELNO).getValue());
@@ -1073,6 +1072,26 @@ public class Copycomponents extends CustomComponent {
         } catch (Exception e) {
             LOGGER.error("",e);
         }
+    }
+
+    public ContractMaster Cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate) throws NumberFormatException {
+        ContractMaster contractMaster;
+        contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
+        contractMaster.setContractId(contractId);
+        contractMaster.setContractNo(contractNo);
+        contractMaster.setContractName(contractName);
+        contractMaster.setContractType(contractType);
+        contractMaster.setContHoldCompanyMasterSid(contractHolder);
+        contractMaster.setProcessStatus(true);
+        contractMaster.setSource("BPI");
+        contractMaster.setContractStatus(status);
+        contractMaster.setCreatedBy(Integer.parseInt(userId));
+        contractMaster.setStartDate(startDate);
+        contractMaster.setEndDate(endDate);
+        contractMaster.setInboundStatus(Constants.A);
+        contractMaster.setCreatedDate(new Date());
+        contractMaster.setModifiedDate(new Date());
+        return contractMaster;
     }
 
     public void saveCFP(Object item) {

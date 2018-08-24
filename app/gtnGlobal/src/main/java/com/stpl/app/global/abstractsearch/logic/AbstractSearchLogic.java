@@ -14,8 +14,6 @@ import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
-import static com.stpl.app.util.ConstantsUtils.QUOTE;
-import static com.stpl.app.util.ConstantsUtils.TAB;
 import com.stpl.app.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.vaadin.v7.data.Container;
@@ -65,12 +63,12 @@ public class AbstractSearchLogic {
     public boolean checkSearchCriteria(final ErrorfulFieldGroup binder) {
         boolean isvalid = false;
         for (Object object : binder.getFields()) {
-            if (object != null && object instanceof TextField && ((TextField) object).isVisible()) {
+            if (object instanceof TextField && ((TextField) object).isVisible()) {
                 if (StringUtils.isNotBlank(((TextField) object).getValue())) {
                     isvalid = true;
                     break;
                 }
-            } else if (object != null && object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantUtil.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
+            } else if (object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantUtil.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
                     isvalid = true;
                     break;
             }
@@ -175,17 +173,13 @@ public class AbstractSearchLogic {
             
             if(methodNameArray!=null && methodNameArray.length!=0){
                     lastIndex=methodNameArray.length-1;
-             }
-            
+             
             for(int i =0; i<methodNameArray.length;i++){
                 String methodName=methodNameArray[i];
                 String methodStringValue;
                 Object methodValue=obj.getClass().getMethod("get"+methodName,null).invoke(obj, null);
                 
-                if(methodValue!=null && ("TradeStartDate".equals(methodName)||"TradeEndDate".equals(methodName)
-                        ||"CompanyFamilyPlanStartDate".equals(methodName)||ConstantsUtils.CFP_END_DATE.equals(methodName)||"CfpmodifiedDate".equals(methodName)
-                        ||"CfpcreatedDate".equals(methodName)||"IfpcreatedDate".equals(methodName)||"PriceScheduleStartDate".equals(methodName)
-                        ||"PriceScheduleEndDate".equals(methodName)||"CdrCreatedDate".equals(methodName)||"CdrModifiedDate".equals(methodName))){
+                if( checkModuleName(methodValue, methodName)){
                     methodStringValue = dateFormat.format(methodValue);
                 } else if(methodValue!=null && StringUtils.isNotBlank(String.valueOf(methodValue)) && !ConstantUtil.SELECT_ONE.equals(String.valueOf(methodValue)) ) {
                     methodStringValue = String.valueOf(methodValue);
@@ -193,20 +187,31 @@ public class AbstractSearchLogic {
                     methodStringValue = StringUtils.EMPTY;
                 }
                 
-                if(lastIndex==i){
-                    builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"');
-                }else{
-                    builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"' ).append( ',');
-                }
+                    checklastIndex(lastIndex, i, builder, methodStringValue);
             }
+         }
                                    
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
            LOGGER.error(ex.getMessage());
         }
        return builder.toString();
     }
+
+    public static boolean checkModuleName(Object methodValue, String methodName) {
+        return methodValue != null && ("TradeStartDate".equals(methodName) || "TradeEndDate".equals(methodName)
+                || "CompanyFamilyPlanStartDate".equals(methodName) || ConstantsUtils.CFP_END_DATE.equals(methodName) || "CfpmodifiedDate".equals(methodName)
+                || "CfpcreatedDate".equals(methodName) || "IfpcreatedDate".equals(methodName) || "PriceScheduleStartDate".equals(methodName)
+                || "PriceScheduleEndDate".equals(methodName) || "CdrCreatedDate".equals(methodName) || "CdrModifiedDate".equals(methodName));
+    }
+
+    public void checklastIndex(int lastIndex, int i, StringBuilder builder, String methodStringValue) {
+        if (lastIndex == i) {
+            builder.append('"').append('\t').append(methodStringValue).append('"');
+        } else {
+            builder.append('"').append('\t').append(methodStringValue).append('"').append(',');
+        }
+    }
     
-     
     /**
      * Prints each line in the CSV file
      * @param printableDto - List of rows we are going to print in the CSV file
@@ -299,7 +304,7 @@ public class AbstractSearchLogic {
         Object object;
         DeductionCalendarLogic deductionLogic = new DeductionCalendarLogic();
         if (isCount) {
-            object = (Integer) deductionLogic.getCountAndResultsForDeductionCalendar(binder, 0,0,columns,filterSet,true);
+            object =  deductionLogic.getCountAndResultsForDeductionCalendar(binder, 0,0,columns,filterSet,true);
 
         } else {
             object = deductionLogic.getCountAndResultsForDeductionCalendar(binder, start, start + offset, columns, filterSet,false);

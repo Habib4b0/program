@@ -82,11 +82,12 @@ public class GtnReportCCPTableLoadAction
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>(6);
 		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		params.add("Report Generate Lookup View");
+		params.add(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD);
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		params.add(null);
 		params.add(dataSelectionDto);
+		params.add("v-position-fixed");
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
@@ -117,8 +118,8 @@ public class GtnReportCCPTableLoadAction
 		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
+		combobox.reloadComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId,
+				Arrays.asList(""));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
@@ -199,7 +200,7 @@ public class GtnReportCCPTableLoadAction
 		dto.setSelectedProductHierarchyList(selectedProductList);
 
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 16);
+		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 12);
 		dto.setSessionId(uniqueId);
 		dto.setUniqueId(uniqueId);
 
@@ -211,6 +212,7 @@ public class GtnReportCCPTableLoadAction
 				List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
 						.getCustomData();
 				dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+				dto.setCustomDataList(gridComponent.getCustomDataList());
 			}
 		}
 

@@ -129,6 +129,7 @@ public class NumericConstants {
     public final static int THOUSAND = 1000;
     public final static int ONE_ZERO_FIVE_ZERO = 1050;
     public final static int ONE_ZERO_TWO_FOUR = 1024;
+    public final static Double ONE_ZERO_TWO_FOUR_DOUBLE = 1024.00;
     public final static int THOUSAND_THREE_HUNDRED = 1300;
     public final static int ONE_THREE_FIVE_ZERO = 1350;
     public final static int ONE_THREE_FIVE_NINE = 1359;

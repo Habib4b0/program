@@ -1401,7 +1401,8 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     public void refreshContractSelectionTable() {
         LOGGER.debug("Contract Selection Refreshed");
-        ContractTableLogic.setCurrentPage(ContractTableLogic.getCurrentPage());
+        int currentPage = ContractTableLogic.getCurrentPage();
+        ContractTableLogic.setCurrentPage(currentPage);
     }
 
     public boolean isSummaryRefreshed() {
@@ -1558,9 +1559,8 @@ public class UpdatedContractSelection extends VerticalLayout {
             recordCount = logic.getComponentInformationCount(excelSelectionValue, excelComponentId, null);
         }
         isComponentInformationExport = true;
-        Object[] headers = resultTable.getColumnHeaders();
-        headers = ArrayUtils.removeElement(headers, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet((String[]) headers, recordCount, this, UI.getCurrent(), fileName);
+        String[] headers =  Arrays.stream(resultTable.getColumnHeaders()).filter(e -> !e.isEmpty()).toArray(String[]::new);
+        ExcelExportforBB.createWorkSheet( headers, recordCount, this, UI.getCurrent(), fileName);
 
     }
 
@@ -1919,8 +1919,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void submition(boolean isNextButtonClicked) {
         LOGGER.debug("Inside Submition");
         summaryRefreshed = true;
+        int currentPage = ContractTableLogic.getCurrentPage();
         contractSelectionLogic.updateSubmitFlag(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
-        ContractTableLogic.setCurrentPage(ContractTableLogic.getCurrentPage());
+        ContractTableLogic.setCurrentPage(currentPage);
         if (!isNextButtonClicked) {
             AbstractNotificationUtils.getAlertNotification("Submit Details", "Selected Contract Holder has been submitted successfully.");
         }

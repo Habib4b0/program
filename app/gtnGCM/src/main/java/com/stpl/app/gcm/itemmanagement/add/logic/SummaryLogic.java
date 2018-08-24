@@ -11,14 +11,11 @@ import com.stpl.app.gcm.itemmanagement.add.dto.SummaryDTO;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractFilter;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -93,7 +90,7 @@ public class SummaryLogic {
         ContractDashboardDTO dto = new ContractDashboardDTO();
         dto.setLevelValue(obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
         dto.setComponent(obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
-        dto.setLevelNo(obj[1] == null ? 0 : (Integer) obj[1]);
+        dto.setLevelNo(obj[1] == null ? (Integer) 0: (Integer) obj[1]);
         dto.setId(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
         dto.setNumber(obj[NumericConstants.THREE] == null ? StringUtils.EMPTY : obj[NumericConstants.THREE].toString());
         dto.setName(obj[NumericConstants.FOUR] == null ? StringUtils.EMPTY : obj[NumericConstants.FOUR].toString());

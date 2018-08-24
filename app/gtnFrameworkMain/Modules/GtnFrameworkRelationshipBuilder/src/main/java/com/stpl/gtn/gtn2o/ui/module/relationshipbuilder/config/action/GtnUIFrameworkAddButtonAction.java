@@ -42,12 +42,7 @@ public class GtnUIFrameworkAddButtonAction implements GtnUIFrameWorkAction, GtnU
 			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(3).toString(), null);
 			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(4).toString(), null);
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
-			GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-			navigationActionConfig.addActionParameter(parameters.get(15).toString());
-			GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
-					.getGtnUIFrameWorkAction();
-			navigationAction.configureParams(navigationActionConfig);
-			navigationAction.doAction(componentId, navigationActionConfig);
+			executeNavigationAction(parameters, componentId);
 
 			String namespaceprefix = parameters.get(5).toString();
 			GtnUIFrameworkBaseComponent comp = GtnUIFrameworkGlobalUI
@@ -91,9 +86,18 @@ public class GtnUIFrameworkAddButtonAction implements GtnUIFrameWorkAction, GtnU
 		}
 	}
 
+     public void executeNavigationAction(List<Object> parameters, String componentId) throws GtnFrameworkGeneralException {
+        GtnUIFrameWorkActionConfig addNavigationActionConfig = new GtnUIFrameWorkActionConfig();
+        addNavigationActionConfig.addActionParameter(parameters.get(15).toString());
+        GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
+                .getGtnUIFrameWorkAction();
+        navigationAction.configureParams(addNavigationActionConfig);
+        navigationAction.doAction(componentId, addNavigationActionConfig);
+    }
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		return new GtnUIFrameworkAddButtonAction();
+		return this;
 	}
 
 }

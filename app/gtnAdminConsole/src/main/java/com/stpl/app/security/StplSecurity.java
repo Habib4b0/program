@@ -314,7 +314,7 @@ public class StplSecurity {
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            getUserMap().put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            getUserMap().put(Integer.valueOf(String.valueOf(user.getUserId())), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
         return getUserMap();

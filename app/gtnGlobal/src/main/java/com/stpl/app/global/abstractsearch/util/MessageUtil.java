@@ -36,7 +36,7 @@ public final class MessageUtil {
 	 */
 	public static String getErrorCode(final String key) {
 		try {
-	            if (key != null && key.contains(key)) {
+	            if (key != null) {
                         return RESOURCE_BUNDLE.getString(key);
                     }
                     return "";

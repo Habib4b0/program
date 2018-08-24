@@ -5,9 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ws.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.stpl.gtn.gtn2o.ws.components.duallistbox.GtnWsDualListBoxFilterManager;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -16,6 +13,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.stpl.gtn.gtn2o.ws.components.duallistbox.GtnWsDualListBoxFilterManager;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 /**
  *
@@ -78,7 +79,7 @@ public class GtnWsRecordBean implements Serializable {
 	}
 
 	public List<Object> getProperties() {
-                return properties == null ? properties : Collections.unmodifiableList(properties);
+		return properties;
 	}
 
 	public Object removeProperties(String propertyId) {
@@ -225,7 +226,12 @@ public class GtnWsRecordBean implements Serializable {
 		if (properties != null && index > -1 && properties.size() > index) {
 			properties.set(index, value);
 		}
+	}
 
+	public void setPropertyValueByIndex(int index, Object value) {
+		if (properties != null && index > -1 && properties.size() > index) {
+			properties.set(index, value);
+		}
 	}
 
 	public String getStringPropertyByIndex(int index) {
@@ -451,9 +457,10 @@ public class GtnWsRecordBean implements Serializable {
 		}
 		return new ArrayList<>(childList);
 	}
-        @JsonIgnore
-        public List<Object> getReadOnlyPropeties(){
-           return  properties==null ? null:Collections.unmodifiableList(properties);
-        }
+
+	@JsonIgnore
+	public List<Object> getReadOnlyPropeties() {
+		return properties == null ? null : Collections.unmodifiableList(properties);
+	}
 
 }

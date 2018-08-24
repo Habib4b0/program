@@ -53,7 +53,6 @@ public class ItemManagementLookup extends CustomWindow {
 
     private TabSheet mainTab = new TabSheet();
     private int tabPosition;
-    private final List<Integer> tabList = new ArrayList<>();
     private List<ItemIndexDto> itemList = new ArrayList<>();
     private final SelectionDTO selection;
     private Button closeBtn = new Button("CLOSE");
@@ -264,7 +263,6 @@ public class ItemManagementLookup extends CustomWindow {
             } else {
                 mainTab.replaceComponent(removeSummary, removeSummary);
             }
-            tabList.add(tabPosition);
         }
         LOGGER.debug("tabLazyLoad outside");
 
@@ -700,7 +698,7 @@ public class ItemManagementLookup extends CustomWindow {
                         input.add(AbstractLogic.getItemIds(itemList));
                         ItemQueries.itemUpdate(input, "Insert Contract For Search1");
                     }
-                    notify();
+                    notifyAll();
                 }
             }
         };
@@ -718,6 +716,7 @@ public class ItemManagementLookup extends CustomWindow {
                         saveThread.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                         Thread.currentThread().interrupt();
                     }
                 }
             }

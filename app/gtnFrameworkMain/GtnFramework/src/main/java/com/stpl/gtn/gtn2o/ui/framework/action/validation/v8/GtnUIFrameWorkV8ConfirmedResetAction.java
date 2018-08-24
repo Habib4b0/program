@@ -102,6 +102,8 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 				else{
 					baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
 				}
+			} else if (baseComponent.getComponent() instanceof DateField) {
+				baseComponent.loadV8DateValue(value);
 			}
 
 		} catch (Exception typeException) {
@@ -110,6 +112,8 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 	}
 
 	private void resetFilterComponents(String componentId, GtnUIFrameworkBaseComponent baseComponent) {
+		
+		gtnLogger.debug("componentId" + componentId);
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> filterMap = baseComponent.getComponentConfig()
 				.getGtnPagedTableConfig().getCustomFilterConfigMap();
 		Set<String> fliterComponents = filterMap.keySet();

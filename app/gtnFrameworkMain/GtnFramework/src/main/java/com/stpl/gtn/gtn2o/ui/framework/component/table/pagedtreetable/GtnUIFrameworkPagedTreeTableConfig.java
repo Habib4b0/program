@@ -67,19 +67,23 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 
 	private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
 
-	private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
+    private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
 
-	private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
+    private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
 
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
+    private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
 
-	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+    private GtnWsReportDashboardBean gtnWsReportDashboardBean;
 
-	private GtnReportDataRefreshBean gtnReportDataRefreshBean = null;
+    private GtnReportDataRefreshBean gtnReportDataRefreshBean = null;
 
-	public boolean isTripleHeaderVisible() {
-		return tripleHeaderVisible;
-	}
+    public GtnUIFrameworkPagedTreeTableConfig() {
+        super();
+    }
+
+    public boolean isTripleHeaderVisible() {
+        return tripleHeaderVisible;
+    }
 
 	public void setTripleHeaderVisible(boolean tripleHeaderVisible) {
 		this.tripleHeaderVisible = tripleHeaderVisible;
@@ -188,9 +192,9 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	private String countQuery;
 	private String dataQuery;
 	private String leftDataQuery;
-	Object[] dataQueryInputs;
-	Object[] leftDataQueryInputs;
-	Object[] countQueryInputs;
+	private Object[] dataQueryInputs;
+	private Object[] leftDataQueryInputs;
+	private Object[] countQueryInputs;
 	private List<Object> visibleColumns;
 	private List<String> columnHeaders;
         private String aggregationColumnHeader;

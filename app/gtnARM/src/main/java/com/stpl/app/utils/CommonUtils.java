@@ -92,7 +92,7 @@ public class CommonUtils {
             select.markAsDirty();
             select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }
@@ -115,7 +115,7 @@ public class CommonUtils {
             select.markAsDirty();
             select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }
@@ -138,7 +138,7 @@ public class CommonUtils {
             select.select(0);
             select.markAsDirty();
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }
@@ -214,7 +214,7 @@ public class CommonUtils {
                 comboBox.setItemCaption(helper[0] != null ? (Integer) helper[0] : 0, String.valueOf(helper[NumericConstants.ONE]));
             }
         } catch (Exception e) {
-            LOGGER.error("Error in loadComboBoxWithMethodologyId :" + e);
+            LOGGER.error("Error in loadComboBoxWithMethodologyId :", e);
         }
         return comboBox;
     }
@@ -237,7 +237,7 @@ public class CommonUtils {
                 comboBox.addItem(helper[1] != null ? String.valueOf(helper[NumericConstants.ONE]) : StringUtils.EMPTY);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in loadDistinctAccount :" + e);
+            LOGGER.error("Error in loadDistinctAccount :", e);
         }
         return comboBox;
     }
@@ -277,7 +277,7 @@ public class CommonUtils {
             select.markAsDirty();
             select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }
@@ -313,7 +313,7 @@ public class CommonUtils {
             select.select(0);
             select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }
@@ -369,7 +369,7 @@ public class CommonUtils {
             notif.show(Page.getCurrent());
         } catch (Exception e) {
 
-            LOGGER.error("Error in successNotification :" + e);
+            LOGGER.error("Error in successNotification :", e);
         }
     }
 
@@ -821,7 +821,7 @@ public class CommonUtils {
             cal.setTime(dat);
             num = cal.get(Calendar.MONTH) + 1;
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthNo :" + e);
+            LOGGER.error("Error in getMonthNo :", e);
         }
         return num;
     }
@@ -942,7 +942,7 @@ public class CommonUtils {
             select.markAsDirty();
             select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }
@@ -1017,7 +1017,7 @@ public class CommonUtils {
             select.select(GlobalConstants.getSelectOne());
 
         } catch (Exception e) {
-            LOGGER.error("Error while loading Drop down : Price with :" + e);
+            LOGGER.error("Error while loading Drop down : Price with :", e);
         }
         return select;
     }
@@ -1128,7 +1128,7 @@ public class CommonUtils {
                 select.setDescription((String) (select.getValue() == DASH ? GlobalConstants.getSelectOne() : select.getItemCaption(select.getValue())));
             }
         } catch (Exception e) {
-            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH + e);
+            LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return select;
     }

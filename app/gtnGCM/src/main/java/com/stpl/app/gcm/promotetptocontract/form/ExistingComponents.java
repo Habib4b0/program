@@ -655,7 +655,6 @@ public class ExistingComponents extends CustomComponent implements View {
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
                     if (NumericConstants.THREE - levelNumber == 1) {
-                        boolean psFlag = false;
                         ComponentInfoDTO comInfoDto = (ComponentInfoDTO) componentResultsTable.getValue();
                         final Object rootId = contractDashboardResultsTableInEC.addItem();
                         contractDashboardResultsTableInEC.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.PS);
@@ -669,9 +668,6 @@ public class ExistingComponents extends CustomComponent implements View {
                         contractDashboardResultsTableInEC.setParent(rootId, root);
                         contractDashboardResultsTableInEC.setChildrenAllowed(rootId, true);
                         contractDashboardResultsTableInEC.setCollapsed(root, false);
-                        if (psFlag) {
-                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS does not associate with  IFP");
-                        }
                     } else {
                         AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }

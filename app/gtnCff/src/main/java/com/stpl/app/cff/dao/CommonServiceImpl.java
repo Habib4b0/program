@@ -188,7 +188,7 @@ public class CommonServiceImpl {
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
 
             if ("PROJECTION_PROD_HIERARCHY".equals(parameters.get(StringConstantsUtil.TABLE_NAME))) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
+                ArrayList<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
                 StringBuilder hierarchyInclusion = new StringBuilder();
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                     hierarchyInclusion.append(StringConstantsUtil.HIERARCHY_NO_LIKE);
@@ -214,7 +214,7 @@ public class CommonServiceImpl {
                 }
                 queryString.append(query);
             } else if (parameters.get(StringConstantsUtil.RL_SIDS) != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
+                ArrayList<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
@@ -242,7 +242,7 @@ public class CommonServiceImpl {
                 }
             }
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
+            ArrayList<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
                 queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_CHILD_LEVEL_RL));
                 queryString.append(" and (");
@@ -257,7 +257,7 @@ public class CommonServiceImpl {
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonUtils.stringListToString(rlSids));
                 if (parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO) != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO);
+                    ArrayList<String> availableHierNo = (ArrayList<String>) parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO);
                     queryString.append(", ");
                     queryString.append(CommonUtils.stringListToString(availableHierNo));
                 }
@@ -579,8 +579,8 @@ public class CommonServiceImpl {
         try {
             Object temp;
             if ("getHierarchyTableDetails".equals(queryName)) {
-                for (String key : input.keySet()) {
-                    customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                 }
                 List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
                 Map<String, String> valueList = new HashMap<>();
@@ -605,9 +605,9 @@ public class CommonServiceImpl {
                 }
                 temp = valueList;
             } else {
-                for (String key : input.keySet()) {
-                    if (customSql.contains(key)) {
-                        customSql = customSql.replace(key, String.valueOf(input.get(key)));
+                for (Map.Entry<String, Object> key : input.entrySet()) {
+                    if (customSql.contains(key.getKey())) {
+                        customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
                     }
                 }
                 if ("ds.singleBrand".equals(queryName)) {
@@ -675,7 +675,7 @@ public class CommonServiceImpl {
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             if (parameters.get(StringConstantsUtil.RL_SIDS) != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
+                ArrayList<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
@@ -698,7 +698,7 @@ public class CommonServiceImpl {
                 }
             }
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
+            ArrayList<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
                 queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_CHILD_LEVEL_RL));
                 queryString.append(" and (");
@@ -713,7 +713,7 @@ public class CommonServiceImpl {
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonUtils.stringListToString(rlSids));
                 if (parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO) != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO);
+                    ArrayList<String> availableHierNo = (ArrayList<String>) parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO);
                     queryString.append(", ");
                     queryString.append(CommonUtils.stringListToString(availableHierNo));
                 }

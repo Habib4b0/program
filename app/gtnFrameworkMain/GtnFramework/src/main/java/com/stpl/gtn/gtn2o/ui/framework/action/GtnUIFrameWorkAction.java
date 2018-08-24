@@ -5,12 +5,16 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public interface GtnUIFrameWorkAction {
 
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException;
+	public default void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		//No need to configure
+	}
 
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException;
 
-	public GtnUIFrameWorkAction createInstance();
+	public default GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }

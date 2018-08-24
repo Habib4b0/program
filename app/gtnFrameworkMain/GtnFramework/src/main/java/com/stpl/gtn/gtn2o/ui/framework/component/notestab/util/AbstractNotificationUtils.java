@@ -5,9 +5,9 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 
-public abstract class AbstractNotificationUtils {
+public interface  AbstractNotificationUtils {
 
-	public MessageBox getConfirmationMessage(final String confirmationHeader, final String confirmationMessage) {
+	public default MessageBox getConfirmationMessage(final String confirmationHeader, final String confirmationMessage) {
 
 		final MessageBox msg = MessageBox.showPlain(Icon.QUESTION, confirmationHeader, confirmationMessage,
 				new MessageBoxListener() {
@@ -174,7 +174,7 @@ public abstract class AbstractNotificationUtils {
 	 *            the confirmation message
 	 * @return the ok cancel message
 	 */
-	public MessageBox getOkCancelMessage(final String confirmationHeader, final String confirmationMessage) {
+	public default MessageBox getOkCancelMessage(final String confirmationHeader, final String confirmationMessage) {
 
 		final MessageBox msg = MessageBox.showPlain(Icon.QUESTION, confirmationHeader, confirmationMessage,
 				new MessageBoxListener() {

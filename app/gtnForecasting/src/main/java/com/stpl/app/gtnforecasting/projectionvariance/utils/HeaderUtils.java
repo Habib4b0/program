@@ -164,10 +164,10 @@ public class HeaderUtils {
             int count=0;
             List<Object> yearwiseColumns;
             List<Object> visibleColumns = new ArrayList<>();
-            List<Object> columnHeaders = null;
-            List<Object> doubleVisibleColumns = null;
-            List<Object> doubleColumnHeaders = null;
-            Map<Object, Object[]> doubleHeaderMapExcel = null;
+            List<Object> columnHeaders = new ArrayList<>();
+            List<Object> doubleVisibleColumns = new ArrayList<>();
+            List<Object> doubleColumnHeaders = new ArrayList<>();
+            Map<Object, Object[]> doubleHeaderMapExcel = new HashMap<>();
             List<Object> staticColumns = new ArrayList<> (excelHeaderDTO.getSingleColumns());
             List<String> staticHeaders = new ArrayList<> (excelHeaderDTO.getSingleHeaders());
             Map<Integer, List<Object>> columnsMap = new HashMap<>();
@@ -284,6 +284,7 @@ public class HeaderUtils {
             }
             startPr = projSelDTO.getForecastStartPeriod();
             lastPr = frequencyDivision;
+            List<Object> dmap = new ArrayList<>();
             for (int yr = projSelDTO.getForecastDTO().getForecastStartYear(); yr <= projSelDTO.getForecastDTO().getForecastEndYear(); yr++) {
                 if (yr == projSelDTO.getForecastDTO().getForecastEndYear()) {
                     lastPr = projSelDTO.getForecastEndPeriod();
@@ -299,7 +300,6 @@ public class HeaderUtils {
                     String commonHeader = common.get(1);
 
                     if (!projectionColumnList.contains(commonColumn)) {
-                        List<Object> dmap = new ArrayList<>();
                         if ("Period".equalsIgnoreCase(pivotView) && "Descending".equalsIgnoreCase(projOrder)) {
                         if (!projList.isEmpty()) {
                             for (int j = 0; j < projList.size(); j++) {
@@ -917,8 +917,8 @@ public class HeaderUtils {
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
         boolean disc = true;
+        List<Object> dmap = new ArrayList<>();
         while (disc) {
-            List<Object> dmap = new ArrayList<>();
             tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID(), currentProjName, String.class);
             excelHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID(), currentProjName + " " + commonHeader, String.class);
             dmap.add(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID());
@@ -947,9 +947,9 @@ public class HeaderUtils {
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
         List<String> commonColumnList = new ArrayList<>();
+        List<Object> dmap = new ArrayList<>();
         if (!discountNames.isEmpty()) {
             for (int i = 0; i < discountNames.size(); i++) {
-                List<Object> dmap = new ArrayList<>();
                 commonHeader = discountNames.get(i);
                 commonColumn = column + commonHeader.replace(" ", StringUtils.EMPTY) + i;
                 tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID(), selection.getCurrentProjectionName(), String.class);

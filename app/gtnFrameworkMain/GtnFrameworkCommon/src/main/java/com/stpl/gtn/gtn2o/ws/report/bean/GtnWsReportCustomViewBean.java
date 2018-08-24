@@ -3,6 +3,12 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 
 public class GtnWsReportCustomViewBean {
+
+        public GtnWsReportCustomViewBean() {
+        super();
+        }
+
+   
 	private GtnWsHierarchyType hierarchyType;
 	private GtnUIFrameworkDataTable gridData;
 	private GtnWsReportCustomViewDataBean customViewDataBean;

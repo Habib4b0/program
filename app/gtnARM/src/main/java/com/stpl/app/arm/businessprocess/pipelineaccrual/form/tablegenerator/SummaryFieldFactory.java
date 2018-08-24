@@ -58,7 +58,7 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
 
     @Override
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
-        String total = ((ExtCustomTable)uiContext).getDoubleHeaderForSingleHeader(propertyId.toString());
+        String total = ((ExtCustomTable) uiContext).getDoubleHeaderForSingleHeader(propertyId.toString());
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
         if (propertyId.toString().contains("override") && dto.getLevelNo() == NumericConstants.FIVE && isFieldRequire && !total.startsWith("total")) {
             List items = new ArrayList();
@@ -95,13 +95,13 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
                 Component uiContext = (Component) ((List) ((TextField) event.getProperty()).getData()).get(NumericConstants.TWO);
                 valueChangeLogic(dto, val, propertyId, uiContext);
             } catch (Exception e) {
-                LOGGER.error("Error in overrideListener :" + e);
+                LOGGER.error("Error in overrideListener :", e);
             }
         }
     };
 
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
-        ExtPagedTable table = (ExtPagedTable) uiContext;
+        ExtCustomTable table = (ExtCustomTable) uiContext;
         int singleVisibleColumn = Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
         if (singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()))) {
             Double value = 0.0;

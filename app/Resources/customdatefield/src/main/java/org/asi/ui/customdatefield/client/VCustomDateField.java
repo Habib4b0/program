@@ -33,7 +33,7 @@ public class VCustomDateField extends VPopupCalendar{
     public void onClick(ClickEvent event) {
         super.onClick(event);
         if (client != null && client.hasEventListeners(this, EventId.CLICK_EVENT_IDENTIFIER)) {
-            client.updateVariable(paintableId, EventId.CLICK_EVENT_IDENTIFIER, "", true);
+            client.updateVariable(currentLocale, EventId.CLICK_EVENT_IDENTIFIER, "", true);
         }
     }
 }

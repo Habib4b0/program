@@ -109,34 +109,34 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 			sendTheExcelToUser(inputBean.getExportFileName(), workBook);
 		} else {
 			// Write Result List in Excel
-			HSSFWorkbook workBook = writeSplitWorksheetExcel(inputBean, exportList, propertyIds, headers, resultTable,
+			HSSFWorkbook workBookFramework = writeSplitWorksheetExcel(inputBean, exportList, propertyIds, headers, resultTable,
 					headerBean);
-			sendTheExcelToUser(inputBean.getExportFileName(), workBook);
+			sendTheExcelToUser(inputBean.getExportFileName(), workBookFramework);
 		}
 
 	}
 
-	public GtnWsExcelHeaderBean getExcelHeaders(String componentId,
-			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
-		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
+	public GtnWsExcelHeaderBean getExcelHeaders(String componentIdFrameWork,
+			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfigFrameWork) {
+		GtnUIFrameworkExcelButtonConfig inputBeanFrameWork = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfigFrameWork
 				.getActionParameterList().get(0);
 		// create Web Service Request
-		GtnUIFrameworkWebserviceRequest serviceRequest = createExcelServiceRequest(inputBean, componentId);
+		GtnUIFrameworkWebserviceRequest serviceRequestExcelHeaders = createExcelServiceRequest(inputBeanFrameWork, componentIdFrameWork);
 		// Call webService for Load Data
-		GtnWsExcelResponse response = callWebService(inputBean.getHeaderServiceUrl(), inputBean.getServiceType(),
-				serviceRequest);
+		GtnWsExcelResponse response = callWebService(inputBeanFrameWork.getHeaderServiceUrl(), inputBeanFrameWork.getServiceType(),
+				serviceRequestExcelHeaders);
 		return response.getExcelHeaderBean();
 	}
 
-	public List<GtnWsRecordBean> getExcelDataList(String componentId,
-			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
+	public List<GtnWsRecordBean> getExcelDataList(String componentIdFrameWork,
+			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfigFrameWork) {
 
-		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
+		GtnUIFrameworkExcelButtonConfig inputBeanDataList = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfigFrameWork
 				.getActionParameterList().get(0);
 		// create Web Service Request
-		GtnUIFrameworkWebserviceRequest serviceRequest = createExcelServiceRequest(inputBean, componentId);
+		GtnUIFrameworkWebserviceRequest serviceRequest = createExcelServiceRequest(inputBeanDataList, componentIdFrameWork);
 		// Call webService for Load Data
-		GtnWsExcelResponse response = callWebService(inputBean.getLoadDataServiceUrl(), inputBean.getServiceType(),
+		GtnWsExcelResponse response = callWebService(inputBeanDataList.getLoadDataServiceUrl(), inputBeanDataList.getServiceType(),
 				serviceRequest);
 
 		return response.getResultBeanList();
@@ -147,31 +147,31 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 		return this;
 	}
 
-	private HSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
-			List<Object> visibleColumns, List<String> headers, ExtCustomTable resultTable) {
+	private HSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBeanWriteExcel, List<GtnWsRecordBean> resultList,
+			List<Object> visibleColumnsWrite, List<String> headers, ExtCustomTable resultTable) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
-		String exportFileName = inputBean.getExportFileName();
+		String exportFileName = inputBeanWriteExcel.getExportFileName();
 		// Create Work Book
-		HSSFWorkbook workBook = new HSSFWorkbook();
+		HSSFWorkbook workBookWriteExcel = new HSSFWorkbook();
 		// Create Sheet
-		HSSFSheet sheet = createsheet(workBook, exportFileName);
+		HSSFSheet sheet = createsheet(workBookWriteExcel, exportFileName);
 		int rowCount = 0;
 		// Create Title Row Only For Tree Table
-		if (inputBean.isIsTreeTable() || inputBean.isTitleNeeded()) {
-			rowCount = createTitleRow(sheet, visibleColumns.size(), exportFileName, rowCount, defaultTitleCellStyle,
-					workBook);
+		if (inputBeanWriteExcel.isIsTreeTable() || inputBeanWriteExcel.isTitleNeeded()) {
+			rowCount = createTitleRow(sheet, visibleColumnsWrite.size(), exportFileName, rowCount, defaultTitleCellStyle,
+					workBookWriteExcel);
 		}
-		rowCount = createHeaderRow(sheet, headers, rowCount, defaultHeadersCellStyle, workBook);
-		createDataRows(sheet, resultList, visibleColumns, rowCount, workBook, resultTable, inputBean);
+		rowCount = createHeaderRow(sheet, headers, rowCount, defaultHeadersCellStyle, workBookWriteExcel);
+		createDataRows(sheet, resultList, visibleColumnsWrite, rowCount, workBookWriteExcel, resultTable, inputBeanWriteExcel);
 		handleAutoWidth(sheet, headers, true);
 		// Grouping Rows needed for Tree Table
-		if (inputBean.isIsTreeTable()) {
-			groupRowsForTreeTable(sheet, resultList, inputBean.isNeedTobeCollapsed());
+		if (inputBeanWriteExcel.isIsTreeTable()) {
+			groupRowsForTreeTable(sheet, resultList, inputBeanWriteExcel.isNeedTobeCollapsed());
 			sheet.setRowSumsBelow(false);
 		}
-		return workBook;
+		return workBookWriteExcel;
 	}
 
 	/**
@@ -188,49 +188,49 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 
 	}
 
-	private HSSFWorkbook writeSplitWorksheetExcel(GtnUIFrameworkExcelButtonConfig inputBean,
-			List<GtnWsRecordBean> resultList, List<Object> visibleColumns, List<String> headers,
-			ExtCustomTable resultTable, GtnWsExcelHeaderBean headerBean) {
+	private HSSFWorkbook writeSplitWorksheetExcel(GtnUIFrameworkExcelButtonConfig inputBeanWriteSplit,
+			List<GtnWsRecordBean> resultListWriteSplit, List<Object> visibleColumnsWriteSplit, List<String> headersWriteSplit,
+			ExtCustomTable resultTableWriteSplit, GtnWsExcelHeaderBean headerBeanWriteSplit) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
 		// Create Work Book
-		HSSFWorkbook workBook = new HSSFWorkbook();
+		HSSFWorkbook workBookWriteSplit = new HSSFWorkbook();
 
 		int index = 0;
 
-		for (String excelHeader : headerBean.getExcelSplitWorksheetName()) {
+		for (String excelHeader : headerBeanWriteSplit.getExcelSplitWorksheetName()) {
 			// Create Sheet
-			HSSFSheet sheet = createsheet(workBook, excelHeader);
-			int rowCount = 0;
+			HSSFSheet sheetWriteSplit = createsheet(workBookWriteSplit, excelHeader);
+			int rowCountWriteSplit = 0;
 
-			int splitIndex = index++;
+			int splitIndexWriteSplit = index++;
 
-			int titleCellSize = headerBean.getExcelSplitIndexList().get(splitIndex)[1]
-					- headerBean.getExcelSplitIndexList().get(splitIndex)[0] + headerBean.getExcelLeftTableEndIndex()
+			int titleCellSize = headerBeanWriteSplit.getExcelSplitIndexList().get(splitIndexWriteSplit)[1]
+					- headerBeanWriteSplit.getExcelSplitIndexList().get(splitIndexWriteSplit)[0] + headerBeanWriteSplit.getExcelLeftTableEndIndex()
 					+ 1;
 
 			// Create Title Row Only For Tree Table
-			if (inputBean.isIsTreeTable() || inputBean.isTitleNeeded()) {
-				rowCount += createTitleRow(sheet, titleCellSize, inputBean.getExportFileName(), rowCount,
-						defaultTitleCellStyle, workBook);
+			if (inputBeanWriteSplit.isIsTreeTable() || inputBeanWriteSplit.isTitleNeeded()) {
+				rowCountWriteSplit += createTitleRow(sheetWriteSplit, titleCellSize, inputBeanWriteSplit.getExportFileName(), rowCountWriteSplit,
+						defaultTitleCellStyle, workBookWriteSplit);
 			}
 
-			rowCount += createSplitHeaderRow(sheet, headers, rowCount, defaultHeadersCellStyle, workBook, headerBean,
-					splitIndex);
-			List<Object> inputList = Arrays.asList(resultList, visibleColumns, splitIndex);
-			createSplitDataRows(sheet, inputList, rowCount, workBook, resultTable, inputBean, headerBean);
+			rowCountWriteSplit += createSplitHeaderRow(sheetWriteSplit, headersWriteSplit, rowCountWriteSplit, defaultHeadersCellStyle, workBookWriteSplit, headerBeanWriteSplit,
+					splitIndexWriteSplit);
+			List<Object> inputList = Arrays.asList(resultListWriteSplit, visibleColumnsWriteSplit, splitIndexWriteSplit);
+			createSplitDataRows(sheetWriteSplit, inputList, rowCountWriteSplit, workBookWriteSplit, resultTableWriteSplit, inputBeanWriteSplit, headerBeanWriteSplit);
 			// Grouping Rows needed for Tree Table
-			if (inputBean.isIsTreeTable()) {
-				groupRowsForTreeTable(sheet, resultList, inputBean.isNeedTobeCollapsed());
-				sheet.setRowSumsBelow(false);
+			if (inputBeanWriteSplit.isIsTreeTable()) {
+				groupRowsForTreeTable(sheetWriteSplit, resultListWriteSplit, inputBeanWriteSplit.isNeedTobeCollapsed());
+				sheetWriteSplit.setRowSumsBelow(false);
 			}
 		}
-		return workBook;
+		return workBookWriteSplit;
 	}
 
-	private HSSFSheet createsheet(HSSFWorkbook workbook, String exportFileName) {
-		return workbook.createSheet(exportFileName);
+	private HSSFSheet createsheet(HSSFWorkbook workbookCreateSheet, String exportFileName) {
+		return workbookCreateSheet.createSheet(exportFileName);
 
 	}
 
@@ -240,16 +240,16 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 	 * getAdditionalProperties (1) row no of start row to be Grouped
 	 * getAdditionalProperties (2) row no of End row to be Grouped
 	 *
-	 * @param sheet
-	 * @param resultList
+	 * @param sheetGroupRows
+	 * @param resultListGroupRows
 	 */
-	private void groupRowsForTreeTable(HSSFSheet sheet, List<GtnWsRecordBean> resultList, boolean isNeedtoCollapsed) {
-		for (int i = 0; i < resultList.size(); i++) {
-			GtnWsRecordBean resultDTO = resultList.get(i);
-			if (!resultDTO.getAdditionalProperties().isEmpty()
-					&& Boolean.parseBoolean(resultDTO.getAdditionalProperties().get(0).toString())) {
-				groupExcelRow(sheet, Integer.parseInt(resultDTO.getAdditionalProperties().get(1).toString()),
-						Integer.parseInt(resultDTO.getAdditionalProperties().get(2).toString()), isNeedtoCollapsed);
+	private void groupRowsForTreeTable(HSSFSheet sheetGroupRows, List<GtnWsRecordBean> resultListGroupRows, boolean isNeedtoCollapsedGroupRows) {
+		for (int i = 0; i < resultListGroupRows.size(); i++) {
+			GtnWsRecordBean resultDTOGroupRows = resultListGroupRows.get(i);
+			if (!resultDTOGroupRows.getAdditionalProperties().isEmpty()
+					&& Boolean.parseBoolean(resultDTOGroupRows.getAdditionalProperties().get(0).toString())) {
+				groupExcelRow(sheetGroupRows, Integer.parseInt(resultDTOGroupRows.getAdditionalProperties().get(1).toString()),
+						Integer.parseInt(resultDTOGroupRows.getAdditionalProperties().get(2).toString()), isNeedtoCollapsedGroupRows);
 			}
 		}
 	}
@@ -258,125 +258,125 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 	 * * Creates a Cell and Sets the Value and Style
 	 *
 	 * @param sheet
-	 * @param row
-	 * @param value
-	 * @param cellNo
-	 * @param cellStyle
+	 * @param rowInCell
+	 * @param valueInCell
+	 * @param cellNoInCell
+	 * @param cellStyleInCell
 	 */
-	private void putValueInCell(Row row, Object value, int cellNo, CellStyle cellStyle) {
-		Cell cell = row.createCell(cellNo);
-		cell.setCellValue(checkPropertyNullvalue(value));
-		cell.setCellStyle(cellStyle);
+	private void putValueInCell(Row rowInCell, Object valueInCell, int cellNoInCell, CellStyle cellStyleInCell) {
+		Cell cell = rowInCell.createCell(cellNoInCell);
+		cell.setCellValue(checkPropertyNullvalue(valueInCell));
+		cell.setCellStyle(cellStyleInCell);
 	}
 
-	private void groupExcelRow(HSSFSheet sheet, int startRow, int endRow, boolean isNeedtoCollapsed) {
-		sheet.groupRow(startRow + 2, endRow + 2);
-		sheet.setRowGroupCollapsed(startRow + 2, isNeedtoCollapsed);
+	private void groupExcelRow(HSSFSheet sheetExcelRow, int startRow, int endRow, boolean isNeedtoCollapsed) {
+		sheetExcelRow.groupRow(startRow + 2, endRow + 2);
+		sheetExcelRow.setRowGroupCollapsed(startRow + 2, isNeedtoCollapsed);
 	}
 
-	private GtnUIFrameworkWebserviceRequest createExcelServiceRequest(GtnUIFrameworkExcelButtonConfig inputBean,
-			String componentId) {
+	private GtnUIFrameworkWebserviceRequest createExcelServiceRequest(GtnUIFrameworkExcelButtonConfig inputBeanCreateExcel,
+			String componentIdCreateExcel) {
 
-		Object[] inputComponents = inputBean.getServiceInput();
-		boolean isTreeTable = inputBean.isIsTreeTable();
-		GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-		Object[] serviceInputArray = new Object[inputComponents.length];
-		System.arraycopy(inputComponents, 0, serviceInputArray, 0, inputComponents.length);
-		if (isTreeTable) {
+		Object[] inputComponentsCreateExcel = inputBeanCreateExcel.getServiceInput();
+		boolean isTreeTableCreateExcel = inputBeanCreateExcel.isIsTreeTable();
+		GtnUIFrameworkWebserviceRequest serviceRequestCreateExcel = new GtnUIFrameworkWebserviceRequest();
+		Object[] serviceInputArrayCreateExcel = new Object[inputComponentsCreateExcel.length];
+		System.arraycopy(inputComponentsCreateExcel, 0, serviceInputArrayCreateExcel, 0, inputComponentsCreateExcel.length);
+		if (isTreeTableCreateExcel) {
 			GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
-					.getVaadinComponentData(inputComponents[0].toString(), componentId);
-			serviceInputArray[0] = gtnUIFrameworkComponentData.getCustomData();
+					.getVaadinComponentData(inputComponentsCreateExcel[0].toString(), componentIdCreateExcel);
+			serviceInputArrayCreateExcel[0] = gtnUIFrameworkComponentData.getCustomData();
 		}
-		GtnwsExcelRequest gtnwsExcelRequest = new GtnwsExcelRequest();
+		GtnwsExcelRequest gtnwsExcelRequestCreateExcel = new GtnwsExcelRequest();
 
-		gtnwsExcelRequest.setInputs(serviceInputArray);
-		serviceRequest.setGtnwsExcelRequest(gtnwsExcelRequest);
-		return serviceRequest;
+		gtnwsExcelRequestCreateExcel.setInputs(serviceInputArrayCreateExcel);
+		serviceRequestCreateExcel.setGtnwsExcelRequest(gtnwsExcelRequestCreateExcel);
+		return serviceRequestCreateExcel;
 	}
 
-	private GtnWsExcelResponse callWebService(String url, String serviceType,
-			GtnUIFrameworkWebserviceRequest serviceRequest) {
-		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, serviceType, serviceRequest,
+	private GtnWsExcelResponse callWebService(String urlCallService, String serviceTypeCallService,
+			GtnUIFrameworkWebserviceRequest serviceRequestCallService) {
+		GtnUIFrameworkWebServiceClient wsclientCallService = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceResponse responseCallService = wsclientCallService.callGtnWebServiceUrl(urlCallService, serviceTypeCallService, serviceRequestCallService,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response.getGtnWsExcelResponse();
+		return responseCallService.getGtnWsExcelResponse();
 	}
 
 	@SuppressWarnings("deprecation")
-	public void sendTheExcelToUser(String exportFileName, HSSFWorkbook workBook) {
-		String exportFile = exportFileName;
-		File tempFile = null;
+	public void sendTheExcelToUser(String exportFileNameSendExcel, HSSFWorkbook workBookSendExcel) {
+		String exportFileSendExcel = exportFileNameSendExcel;
+		File tempFileSendExcel = null;
 		try {
-			tempFile = File.createTempFile(GtnFrameworkCommonStringConstants.TMP,
+			tempFileSendExcel = File.createTempFile(GtnFrameworkCommonStringConstants.TMP,
 					GtnFrameworkCommonStringConstants.DOT_XLS);
 		} catch (IOException e) {
-			gtnLogger.error(exportFile, e);
+			gtnLogger.error(exportFileSendExcel, e);
 		}
-		TemporaryFileDownloadResource resource;
-		try (FileOutputStream fileOut = new FileOutputStream(tempFile);) {
+		TemporaryFileDownloadResource resourceSendExcel;
+		try (FileOutputStream fileOut = new FileOutputStream(tempFileSendExcel);) {
 			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				exportFile = exportFile.replace(' ', '_');
+				exportFileSendExcel = exportFileSendExcel.replace(' ', '_');
 			}
-			workBook.write(fileOut);
-			resource = new TemporaryFileDownloadResource(null, exportFile + GtnFrameworkCommonStringConstants.DOT_XLS,
-					EXCEL_MIME_TYPE, tempFile);
-			UI.getCurrent().getPage().open(resource, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
+			workBookSendExcel.write(fileOut);
+			resourceSendExcel = new TemporaryFileDownloadResource(null, exportFileSendExcel + GtnFrameworkCommonStringConstants.DOT_XLS,
+					EXCEL_MIME_TYPE, tempFileSendExcel);
+			UI.getCurrent().getPage().open(resourceSendExcel, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
 		} catch (final IOException e) {
-			gtnLogger.error(exportFile, e);
+			gtnLogger.error(exportFileSendExcel, e);
 		} finally {
-			if (tempFile != null) {
-				tempFile.deleteOnExit();
+			if (tempFileSendExcel != null) {
+				tempFileSendExcel.deleteOnExit();
 			}
 		}
 	}
 
-	private int createTitleRow(HSSFSheet sheet, int columnSize, String exportFileName, int rowCount,
+	private int createTitleRow(HSSFSheet sheetTitleRow, int columnSizeTitleRow, String exportFileNameTitleRow, int rowCount,
 			CellStyle defaultTitleCellStyle, HSSFWorkbook workBook) {
-		int count = rowCount;
-		Row titlerow = sheet.createRow(count++);
-		putValueInCell(titlerow, exportFileName, 0, defaultTitleCellStyle(defaultTitleCellStyle, workBook));
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, columnSize - 1));
-		return count;
+		int countTitleRow = rowCount;
+		Row titlerow = sheetTitleRow.createRow(countTitleRow++);
+		putValueInCell(titlerow, exportFileNameTitleRow, 0, defaultTitleCellStyle(defaultTitleCellStyle, workBook));
+		sheetTitleRow.addMergedRegion(new CellRangeAddress(0, 0, 0, columnSizeTitleRow - 1));
+		return countTitleRow;
 	}
 
-	private int createHeaderRow(HSSFSheet sheet, List<String> headers, int rowCount, CellStyle defaultHeadersCellStyle,
-			HSSFWorkbook workBook) {
-		int count = rowCount;
-		Row headerRow = sheet.createRow(count++);
+	private int createHeaderRow(HSSFSheet sheetHeaderRow, List<String> headerssheetHeaderRow, int rowCountHeaderRow, CellStyle defaultHeadersCellStyleHeaderRow,
+			HSSFWorkbook workBookHeaderRow) {
+		int countHeaderRow = rowCountHeaderRow;
+		Row headerRow = sheetHeaderRow.createRow(countHeaderRow++);
 
-		for (int j = 0; j < headers.size(); j++) {
-			sheet.autoSizeColumn(j);
-			putValueInCell(headerRow, String.valueOf(headers.get(j)), j,
-					defaultHeadersCellStyle(defaultHeadersCellStyle, workBook));
+		for (int j = 0; j < headerssheetHeaderRow.size(); j++) {
+			sheetHeaderRow.autoSizeColumn(j);
+			putValueInCell(headerRow, String.valueOf(headerssheetHeaderRow.get(j)), j,
+					defaultHeadersCellStyle(defaultHeadersCellStyleHeaderRow, workBookHeaderRow));
 		}
 		headerRow.setHeight((short) 600);
 
-		return count;
+		return countHeaderRow;
 
 	}
 
-	private int createSplitHeaderRow(HSSFSheet sheet, List<String> headers, int rowCount,
-			CellStyle defaultHeadersCellStyle, HSSFWorkbook workBook, GtnWsExcelHeaderBean headerBean,
+	private int createSplitHeaderRow(HSSFSheet sheetCreateSplit, List<String> headersCreateSplit, int rowCountCreateSplit,
+			CellStyle defaultHeadersCellStyleCreateSplit, HSSFWorkbook workBookCreateSplit, GtnWsExcelHeaderBean headerBeanCreateSplit,
 			int splitWorksheetIndex) {
-		int count = rowCount;
-		Row headerRow = sheet.createRow(count++);
+		int countCreateSplit = rowCountCreateSplit;
+		Row headerRow = sheetCreateSplit.createRow(countCreateSplit++);
 
-		for (int j = 0; j < headerBean.getExcelLeftTableEndIndex(); j++) {
-			putValueInCell(headerRow, String.valueOf(headers.get(j)), j,
-					defaultHeadersCellStyle(defaultHeadersCellStyle, workBook));
+		for (int j = 0; j < headerBeanCreateSplit.getExcelLeftTableEndIndex(); j++) {
+			putValueInCell(headerRow, String.valueOf(headersCreateSplit.get(j)), j,
+					defaultHeadersCellStyle(defaultHeadersCellStyleCreateSplit, workBookCreateSplit));
 		}
 
-		int headerStartIndex = headerBean.getExcelSplitIndexList().get(splitWorksheetIndex)[0];
-		int headerEndIndex = headerBean.getExcelSplitIndexList().get(splitWorksheetIndex)[1];
+		int headerStartIndex = headerBeanCreateSplit.getExcelSplitIndexList().get(splitWorksheetIndex)[0];
+		int headerEndIndex = headerBeanCreateSplit.getExcelSplitIndexList().get(splitWorksheetIndex)[1];
 
-		int cellStart = headerBean.getExcelLeftTableEndIndex();
+		int cellStart = headerBeanCreateSplit.getExcelLeftTableEndIndex();
 		for (int j = headerStartIndex; j <= headerEndIndex; j++) {
-			putValueInCell(headerRow, String.valueOf(headers.get(j)), cellStart++,
-					defaultHeadersCellStyle(defaultHeadersCellStyle, workBook));
+			putValueInCell(headerRow, String.valueOf(headersCreateSplit.get(j)), cellStart++,
+					defaultHeadersCellStyle(defaultHeadersCellStyleCreateSplit, workBookCreateSplit));
 		}
 		headerRow.setHeight((short) 600);
 
-		return count;
+		return countCreateSplit;
 
 	}
 
@@ -409,45 +409,44 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 	}
 
 	@SuppressWarnings("unchecked")
-	private int createSplitDataRows(HSSFSheet sheet, List<Object> inputList, int rowCount, HSSFWorkbook workBook,
-			ExtCustomTable resultTable, GtnUIFrameworkExcelButtonConfig inputBean, GtnWsExcelHeaderBean headerBean) {
-		int count = rowCount;
-		List<GtnWsRecordBean> resultList = (List<GtnWsRecordBean>) inputList.get(0);
-		List<Object> propertyIds = (List<Object>) inputList.get(1);
-		int splitWorksheetIndex = (int) inputList.get(2);
-		List<String> componentMappedPropertyIdList = inputBean.getHelperTableMapedPropertyIdList();
-		CellStyle defaultDataCellStyle = defaultDataCellStyle(workBook);
+	private int createSplitDataRows(HSSFSheet sheetDataRows, List<Object> inputListDataRows, int rowCountDataRows, HSSFWorkbook workBookDataRows, ExtCustomTable resultTableDataRows, GtnUIFrameworkExcelButtonConfig inputBeanDataRows, GtnWsExcelHeaderBean headerBeanDataRows) {
+		int count = rowCountDataRows;
+		List<GtnWsRecordBean> resultList = (List<GtnWsRecordBean>) inputListDataRows.get(0);
+		List<Object> propertyIds = (List<Object>) inputListDataRows.get(1);
+		int splitWorksheetIndex = (int) inputListDataRows.get(2);
+		List<String> componentMappedPropertyIdList = inputBeanDataRows.getHelperTableMapedPropertyIdList();
+		CellStyle defaultDataCellStyle = defaultDataCellStyle(workBookDataRows);
 
-		int headerStartIndex = headerBean.getExcelSplitIndexList().get(splitWorksheetIndex)[0];
-		int headerEndIndex = headerBean.getExcelSplitIndexList().get(splitWorksheetIndex)[1];
+		int headerStartIndex = headerBeanDataRows.getExcelSplitIndexList().get(splitWorksheetIndex)[0];
+		int headerEndIndex = headerBeanDataRows.getExcelSplitIndexList().get(splitWorksheetIndex)[1];
 
 		for (int i = 0; i < resultList.size(); i++) {
 			GtnWsRecordBean resultDTO = resultList.get(i);
-			Row row = sheet.createRow(count++);
-			for (int j = 0; j < headerBean.getExcelLeftTableEndIndex(); j++) {
-				String propertyId = String.valueOf(propertyIds.get(j));
-				Object value = resultDTO.getPropertyValue(propertyId);
-				if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyId))) {
-					String componentId = inputBean.getExportTableId() + 0 + propertyId;
-					ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
+			Row row = sheetDataRows.createRow(count++);
+			for (int j = 0; j < headerBeanDataRows.getExcelLeftTableEndIndex(); j++) {
+				String propertyIdDataRows = String.valueOf(propertyIds.get(j));
+				Object valueDataRows = resultDTO.getPropertyValue(propertyIdDataRows);
+				if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyIdDataRows))) {
+					String componentId = inputBeanDataRows.getExportTableId() + 0 + propertyIdDataRows;
+					ComboBox componentDataRows = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 							.getComponent();
-					String componenetIdCaption = component.getItemCaption(value);
-					value = getComboBoxValue(componenetIdCaption);
+					String componenetIdCaption = componentDataRows.getItemCaption(valueDataRows);
+					valueDataRows = getComboBoxValue(componenetIdCaption);
 				}
-				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), j, defaultDataCellStyle);
+				putValueInCell(row, getFormattedValue(valueDataRows, propertyIdDataRows, resultTableDataRows), j, defaultDataCellStyle);
 			}
-			int cellStart = headerBean.getExcelLeftTableEndIndex();
+			int cellStart = headerBeanDataRows.getExcelLeftTableEndIndex();
 			for (int j = headerStartIndex; j <= headerEndIndex; j++) {
 				String propertyId = String.valueOf(propertyIds.get(j));
 				Object value = resultDTO.getPropertyValue(propertyId);
 				if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyId))) {
-					String componentId = inputBean.getExportTableId() + 0 + propertyId;
+					String componentId = inputBeanDataRows.getExportTableId() + 0 + propertyId;
 					ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 							.getComponent();
 					String componenetIdCaption = component.getItemCaption(value);
 					value = getComboBoxValue(componenetIdCaption);
 				}
-				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), cellStart++,
+				putValueInCell(row, getFormattedValue(value, propertyId, resultTableDataRows), cellStart++,
 						defaultDataCellStyle);
 			}
 
@@ -456,105 +455,105 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 		return count;
 	}
 
-	public Object getFormattedValue(Object value, String propertyId, ExtCustomTable resultTable) {
+	public Object getFormattedValue(Object uiFormatedValue, String propertyId, ExtCustomTable resultTable) {
 		if (resultTable != null) {
 			Converter<String, Object> converter = resultTable.getConverter(propertyId);
 			if (converter != null) {
-				return converter.convertToPresentation(value, String.class, resultTable.getLocale());
+				return converter.convertToPresentation(uiFormatedValue, String.class, resultTable.getLocale());
 			}
 		}
 
-		return value;
+		return uiFormatedValue;
 
 	}
 
-	private String checkPropertyNullvalue(Object value) {
-		String stringValue = String.valueOf(value);
-		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(stringValue)
-				? GtnFrameworkCommonStringConstants.STRING_EMPTY : stringValue;
+	private String checkPropertyNullvalue(Object checkPropvalue) {
+		String checkPropsStringValue = String.valueOf(checkPropvalue);
+		return GtnFrameworkCommonStringConstants.STRING_NULL.equalsIgnoreCase(checkPropsStringValue)
+				? GtnFrameworkCommonStringConstants.STRING_EMPTY : checkPropsStringValue;
 	}
 
-	private CellStyle setAllBordersThin(CellStyle cellStyle) {
-		cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-		cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
-		cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-		cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-		cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-		cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-		cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-		cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-		return cellStyle;
+	private CellStyle setAllBordersThin(CellStyle cellStyleAllBorders) {
+		cellStyleAllBorders.setBorderRight(CellStyle.BORDER_THIN);
+		cellStyleAllBorders.setRightBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyleAllBorders.setBorderLeft(CellStyle.BORDER_THIN);
+		cellStyleAllBorders.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyleAllBorders.setBorderTop(CellStyle.BORDER_THIN);
+		cellStyleAllBorders.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyleAllBorders.setBorderBottom(CellStyle.BORDER_THIN);
+		cellStyleAllBorders.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+		return cellStyleAllBorders;
 	}
 
-	protected CellStyle defaultDataCellStyle(HSSFWorkbook workBook) {
-		CellStyle defaultDataCellStyle = workBook.createCellStyle();
-		defaultDataCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		setAllBordersThin(defaultDataCellStyle);
-		return defaultDataCellStyle;
+	protected CellStyle defaultDataCellStyle(HSSFWorkbook workBookDefault) {
+		CellStyle defaultDataCellStyleExcel = workBookDefault.createCellStyle();
+		defaultDataCellStyleExcel.setAlignment(CellStyle.ALIGN_CENTER);
+		setAllBordersThin(defaultDataCellStyleExcel);
+		return defaultDataCellStyleExcel;
 	}
 
-	protected CellStyle defaultHeadersCellStyle(CellStyle defaultHeadersCellStyle, HSSFWorkbook workBook) {
-		CellStyle defaultHeadersStyle = defaultHeadersCellStyle;
+	protected CellStyle defaultHeadersCellStyle(CellStyle defaultHeadersCellStyleExcel, HSSFWorkbook workBookExcel) {
+		CellStyle defaultHeadersStyleExcel = defaultHeadersCellStyleExcel;
 
-		if (defaultHeadersStyle == null) {
-			defaultHeadersStyle = workBook.createCellStyle();
+		if (defaultHeadersStyleExcel == null) {
+			defaultHeadersStyleExcel = workBookExcel.createCellStyle();
 		}
-		Font font = workBook.createFont();
+		Font font = workBookExcel.createFont();
 		font.setColor(HSSFColor.WHITE.index);
-		defaultHeadersStyle.setFont(font);
-		defaultHeadersStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		defaultHeadersStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-		defaultHeadersStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
-		defaultHeadersStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		defaultHeadersStyle.setWrapText(true);
-		setAllBordersThin(defaultHeadersStyle);
-		return defaultHeadersStyle;
+		defaultHeadersStyleExcel.setFont(font);
+		defaultHeadersStyleExcel.setAlignment(CellStyle.ALIGN_CENTER);
+		defaultHeadersStyleExcel.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		defaultHeadersStyleExcel.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+		defaultHeadersStyleExcel.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		defaultHeadersStyleExcel.setWrapText(true);
+		setAllBordersThin(defaultHeadersStyleExcel);
+		return defaultHeadersStyleExcel;
 	}
 
-	protected CellStyle defaultTitleCellStyle(CellStyle defaultTitleCellStyle, HSSFWorkbook workBook) {
-		CellStyle defaultTitleStyle = defaultTitleCellStyle;
-		if (defaultTitleStyle == null) {
-			final Font titleFont = workBook.createFont();
-			titleFont.setFontHeightInPoints((short) 18);
-			titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-			defaultTitleStyle = workBook.createCellStyle();
-			defaultTitleStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			defaultTitleStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			defaultTitleStyle.setFont(titleFont);
+	protected CellStyle defaultTitleCellStyle(CellStyle defaultTitleCellStyleExcel, HSSFWorkbook workBookExcel) {
+		CellStyle defaultTitleStyleExcel = defaultTitleCellStyleExcel;
+		if (defaultTitleStyleExcel == null) {
+			final Font titleFontExcel = workBookExcel.createFont();
+			titleFontExcel.setFontHeightInPoints((short) 18);
+			titleFontExcel.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			defaultTitleStyleExcel = workBookExcel.createCellStyle();
+			defaultTitleStyleExcel.setAlignment(CellStyle.ALIGN_CENTER);
+			defaultTitleStyleExcel.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			defaultTitleStyleExcel.setFont(titleFontExcel);
 
 		}
-		return defaultTitleStyle;
+		return defaultTitleStyleExcel;
 	}
 
-	private List<GtnWsRecordBean> setFilters(List<GtnWsRecordBean> exportList, GtnUIFrameworkComponentData customData) {
-		List<GtnWsRecordBean> localExportList = new ArrayList<>(exportList);
-		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
-		Set<Container.Filter> filters = tableLogic.getFilters();
-		tableLogic.clearFilters();
-		int count = tableLogic.getCount();
-		if (count > 0) {
-			localExportList = tableLogic.loadData(0, count);
+	private List<GtnWsRecordBean> setFilters(List<GtnWsRecordBean> exportListUi, GtnUIFrameworkComponentData customDataUi) {
+		List<GtnWsRecordBean> localExportListUi = new ArrayList<>(exportListUi);
+		GtnUIFrameworkPagedTableLogic tableLogicUi = customDataUi.getCurrentPageTableLogic();
+		Set<Container.Filter> filters = tableLogicUi.getFilters();
+		tableLogicUi.clearFilters();
+		int countUiFramework = tableLogicUi.getCount();
+		if (countUiFramework > 0) {
+			localExportListUi = tableLogicUi.loadData(0, countUiFramework);
 		}
-		tableLogic.setFilters(filters);
-		return localExportList;
+		tableLogicUi.setFilters(filters);
+		return localExportListUi;
 	}
 
-	private void excludeColumnList(GtnUIFrameworkExcelButtonConfig inputBean, List<Object> propertyIds,
+	private void excludeColumnList(GtnUIFrameworkExcelButtonConfig inputBeanUi, List<Object> propertyIdsUi,
 			List<String> headers) {
-		List<String> excludeColumnsList = inputBean.getExcludeColumnsList();
-		if (excludeColumnsList != null && !excludeColumnsList.isEmpty()) {
-			for (int i = 0; i < excludeColumnsList.size(); i++) {
-				int index = propertyIds.indexOf(excludeColumnsList.get(i));
+		List<String> excludeColumnsListUi = inputBeanUi.getExcludeColumnsList();
+		if (excludeColumnsListUi != null && !excludeColumnsListUi.isEmpty()) {
+			for (int i = 0; i < excludeColumnsListUi.size(); i++) {
+				int index = propertyIdsUi.indexOf(excludeColumnsListUi.get(i));
 				if (index >= 0) {
-					propertyIds.remove(index);
+					propertyIdsUi.remove(index);
 					headers.remove(index);
 				}
 			}
 		}
 	}
 
-	private Object getComboBoxValue(String componenetIdCaption) {
-		return componenetIdCaption.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
-				? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaption;
+	private Object getComboBoxValue(String componenetIdCaptionUi) {
+		return componenetIdCaptionUi.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
+				? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaptionUi;
 	}
 }

@@ -88,7 +88,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             }
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGERDETAILLOGIC.error("Error in generateButtonCheck :" + e);
+            LOGGERDETAILLOGIC.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
     }

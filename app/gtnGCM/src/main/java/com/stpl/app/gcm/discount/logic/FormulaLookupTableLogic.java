@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author santanukumar
  */
 public class FormulaLookupTableLogic extends PageTableLogic {
- private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
+ private static final Logger LOGGER = LoggerFactory.getLogger(FormulaLookupTableLogic.class);
    
     private LookupDTO binderDto = new LookupDTO();
     private final DiscountLogic logic = new DiscountLogic();

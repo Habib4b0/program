@@ -19,7 +19,6 @@
 		<sonar.skippedModules>gtnServicePartI</sonar.skippedModules>
 		<sonar.skippedModules>gtnServicePartII</sonar.skippedModules>
 		<stpl.excelexport.version>1.1</stpl.excelexport.version>
-		<vaadin.version>8.1.6</vaadin.version>
 		<org.jboss.logging.version>3.3.0.Final</org.jboss.logging.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<lazy.container.version>0.1</lazy.container.version>
@@ -28,7 +27,7 @@
 		<hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
 		<commons-beanutils.version>1.8.3</commons-beanutils.version>
 		<javax.portlet>2.0</javax.portlet>
-		<vaadin.version>8.1.6</vaadin.version>
+		<vaadin.version>8.5.1</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<gtn.version>1.0</gtn.version>
 		<javaee-api.version>7.0</javaee-api.version>
@@ -64,7 +63,8 @@
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
 				<module>app/gtnARM</module>
-				<module>app/gtnBpmSSOLoginHook</module>
+				<module>app/gtnAudit</module>
+				<module>app/gtnLoginPage</module>				
 			</modules>
 			<activation>
 				<property>

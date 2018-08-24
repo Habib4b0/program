@@ -101,10 +101,8 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             LOGGER.debug("Entering callAdjustmentProcedure  ::::");
             if (connection != null) {
@@ -120,18 +118,13 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callAdjustmentProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callAdjustmentProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callAdjustmentProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -168,10 +161,8 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             LOGGER.debug("Entering callCalculationProcedure  ::::");
             if (connection != null) {
@@ -185,7 +176,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callCalculationProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callCalculationProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callCalculationProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
 
         } finally {
@@ -195,11 +186,6 @@ public class SalesProjectionLogic {
                 }
             } catch (SQLException e) {
                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
             }
         }
 
@@ -292,10 +278,8 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             LOGGER.debug("Entering callAlternateHistoryProcedure  ::::");
 
@@ -323,14 +307,13 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callAlternateHistoryProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callAlternateHistoryProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callAlternateHistoryProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -344,11 +327,9 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
-
+        
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callSalesInsertProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_NM_SALES_INSERT (?,?,?)}");
@@ -361,18 +342,13 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("Error from callAlternateHistoryProcedure: ", ex.getMessage());
+            LOGGER.error("Error from callAlternateHistoryProcedure: {}", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -605,7 +581,7 @@ public class SalesProjectionLogic {
                 list = calculateResultSet(statement);
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
         } catch (NumberFormatException | SQLException | NamingException ex) {
-                 LOGGER.error("Error from callPMPYProcedure: ", ex.getMessage());
+                 LOGGER.error("Error from callPMPYProcedure: {}", ex.getMessage());
 
         } 
         return list;
@@ -845,7 +821,6 @@ public class SalesProjectionLogic {
         }
         if (!list.isEmpty()) {
             Object[] obj = (Object[]) list.get(0);
-            String.valueOf(obj[0]);
             int companyMasterSid = Integer.parseInt(String.valueOf(obj[0]));
 
             int contractMasterSid = Integer.parseInt(String.valueOf(obj[1]));
@@ -1009,11 +984,9 @@ public class SalesProjectionLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
-
+        
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callManualEntryProcedure  ::::");
 
             if (connection != null) {
@@ -1037,11 +1010,6 @@ public class SalesProjectionLogic {
                 if(statement != null) {
                     statement.close();
                 }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            try {
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -1100,7 +1068,7 @@ public class SalesProjectionLogic {
         int quator = getQuator(session.getCurrentDate().getMonth() + 1);
 
         Map<Integer, Double> values;
-        BigDecimal totalValue = new BigDecimal(0.0);
+        BigDecimal totalValue = BigDecimal.valueOf(0.0);
 
         Map<String, Map<Integer, Double>> finalMap;
         SalesProjectionLogic logic = new SalesProjectionLogic();
@@ -1125,8 +1093,8 @@ public class SalesProjectionLogic {
             }
         }
 
-        for (String companyKey : finalMap.keySet()) {
-            values = finalMap.get(companyKey);
+        for (Map.Entry<String, Map<Integer, Double>> companyKey : finalMap.entrySet()) {
+            values = companyKey.getValue();
             lastValue = values.get(DataTypeConverter.convertStringToInteger(year + StringUtils.EMPTY + quator));
             totalValue = totalValue.add(BigDecimal.valueOf(lastValue));
         }
@@ -1151,9 +1119,9 @@ public class SalesProjectionLogic {
             if (obj[0] != null && obj[1] != null) {
                 int value = Integer.parseInt(String.valueOf(obj[1]));
                 if (value == 0) {
-                    checkDetails.put(String.valueOf(obj[0]), new Boolean(false));
+                    checkDetails.put(String.valueOf(obj[0]), Boolean.FALSE);
                 } else {
-                    checkDetails.put(String.valueOf(obj[0]), new Boolean(true));
+                    checkDetails.put(String.valueOf(obj[0]), Boolean.TRUE);
                 }
             }
         }

@@ -717,15 +717,16 @@ public class NewDiscountTab extends CustomComponent {
             @Override
             public void itemClick(final ItemClickEvent event) {
                 tableBeanId = event.getItemId();
-                BeanItem<?> targetItem;
+                BeanItem<?> targetItem = null;
                 if (tableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tableBeanId;
                 } else if (tableBeanId instanceof ContractsDetailsDto) {
                     targetItem = new BeanItem<>((ContractsDetailsDto) tableBeanId);
-                } else {
-                    targetItem = NULL_OBJECT;
-                }
+                } 
+                if(targetItem != null)
+                {
                 tableBean = (ContractsDetailsDto) targetItem.getBean();
+                }
                 levelVal = tableBean.getLevel();
             }
         });
@@ -1674,14 +1675,12 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     private ContractsDetailsDto getBeanFromID(final Object tableID) {
-        BeanItem<?> targetItem;
+        BeanItem<?> targetItem = new BeanItem<>(tableID);
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractsDetailsDto) {
             targetItem = new BeanItem<>((ContractsDetailsDto) tableID);
-        } else {
-            targetItem = NULL_OBJECT;
-        }
+        } 
         return (ContractsDetailsDto) targetItem.getBean();
     }
 
@@ -1827,7 +1826,7 @@ public class NewDiscountTab extends CustomComponent {
             } else {
                 final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(tableBeanId);
                 if (collection == null) {
-                    Object ob = (ContractsDetailsDto) dashboardTreeTable.getValue();
+                    ContractsDetailsDto ob = (ContractsDetailsDto) dashboardTreeTable.getValue();
                     ContractsDetailsDto treeBean = getBeanFromID(dashboardTreeTable.getValue());
                     if (treeBean.getInternalId() == 0) {
                         dashBoardTreeContainer.removeItem(ob);
@@ -1864,7 +1863,7 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     public void addDiscountSaveLogic() {
-
+        String searchSessionId=  session.getSearchSessionId();
         boolean check = false;
         final Collection idList = dashBoardTreeContainer.getItemIds();
         String[] level = {Constants.IndicatorConstants.CONTRACT.toString(),
@@ -1872,7 +1871,7 @@ public class NewDiscountTab extends CustomComponent {
             Constants.IndicatorConstants.IFP.toString(),
             Constants.IndicatorConstants.PS_VALUE.toString(),
             Constants.IndicatorConstants.RS_VALUE.toString()};
-        session.setSearchSessionId(session.getSearchSessionId());
+        session.setSearchSessionId(searchSessionId);
         check = checkForAllLevels(dashboardTreeTable.rootItemIds(), level, 0);
         if (check) {
             MessageBox.showPlain(Icon.QUESTION, "Create", "Are you sure you want to save the contract ?", new MessageBoxListener() {
@@ -1948,19 +1947,19 @@ public class NewDiscountTab extends CustomComponent {
         try {
 
             for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                final Object idValue = iterator.next();
-                final ContractsDetailsDto temp = getBeanFromID(idValue);
+                final Object saveTreeIdValue = iterator.next();
+                final ContractsDetailsDto tempBeanId = getBeanFromID(saveTreeIdValue);
 
-                if (Constants.IndicatorConstants.CONTRACT.toString().equalsIgnoreCase(temp.getCategory())) {
-                    contract = temp;
+                if (Constants.IndicatorConstants.CONTRACT.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    contract = tempBeanId;
                     cfp = new ContractsDetailsDto();
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
                 }
-                if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(temp.getCategory())) {
+                if (Constants.IndicatorConstants.CFP.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
 
-                    cfp = temp;
+                    cfp = tempBeanId;
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
@@ -1970,8 +1969,8 @@ public class NewDiscountTab extends CustomComponent {
                         DiscountLogic.saveCFp(contract.getInternalId(), cfp ,true);
                     }
                 }
-                if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(temp.getCategory())) {
-                    ifp = temp;
+                if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    ifp = tempBeanId;
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.IFP.getConstant())) {
@@ -1980,8 +1979,8 @@ public class NewDiscountTab extends CustomComponent {
                         DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp ,true);
                     }
                 }
-                if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
-                    priceSchedule = temp;
+                if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    priceSchedule = tempBeanId;
                     rebateSchedule = new ContractsDetailsDto();
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
                         priceSchedule.setModelSysId(rsModelSysId);
@@ -1989,18 +1988,18 @@ public class NewDiscountTab extends CustomComponent {
                         DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule ,true);
                     }
                 }
-                if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
-                    rebateSchedule = temp;
+                if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(tempBeanId.getCategory())) {
+                    rebateSchedule = tempBeanId;
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.getConstant())) {
                         rebateSchedule.setRsSid(String.valueOf(rsModelSysId));
-                        int internalId = temp.getInternalId();
+                        int internalId = tempBeanId.getInternalId();
                         if (internalId == 0) {
                             DiscountLogic.saveRS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule.getPsContractId(), rebateSchedule ,true);
                         }
                     }
                 }
 
-                final Collection childlist = dashboardTreeTable.getChildren(idValue);
+                final Collection childlist = dashboardTreeTable.getChildren(saveTreeIdValue);
                 if (childlist == null || childlist.isEmpty()) {
                 } else {
                     saveTree(childlist, rsModelSysId, category);

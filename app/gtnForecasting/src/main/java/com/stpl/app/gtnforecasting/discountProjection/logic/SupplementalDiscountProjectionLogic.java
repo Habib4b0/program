@@ -65,7 +65,6 @@ public class SupplementalDiscountProjectionLogic {
     protected Object supplemental;
     protected Object supplementalLevelName = null;
     protected static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
-    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     public int getConfiguredSupplementalDiscountCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
@@ -95,9 +94,10 @@ public class SupplementalDiscountProjectionLogic {
             }
         } else {
             if (projSelDTO.isIsFilter()) {
+                Integer supplementalLevelNo = projSelDTO.getSupplementalLevelNo();
                 projSelDTO.setLevelNo(projSelDTO.getFilterLevelNo());
                 projSelDTO.setHierarchyIndicator(projSelDTO.getFilterHierarchyNo());
-                projSelDTO.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo());
+                projSelDTO.setSupplementalLevelNo(supplementalLevelNo);
                 projSelDTO.setSupplementalLevelName(getSupplementalLevelName(projSelDTO.getSupplementalLevelNo()));
             } else {
                 projSelDTO.setSupplementalLevelNo(0);
@@ -153,7 +153,8 @@ public class SupplementalDiscountProjectionLogic {
             }
         } else {
             if (projSelDTO.isIsFilter()) {
-                projSelDTO.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo());
+                Integer supplementalLevel = projSelDTO.getSupplementalLevelNo();
+                projSelDTO.setSupplementalLevelNo(supplementalLevel);
                 projSelDTO.setSupplementalLevelName(getSupplementalLevelName(projSelDTO.getSupplementalLevelNo()));
             } else {
                 projSelDTO.setSupplementalLevelNo(0);
@@ -728,11 +729,10 @@ public class SupplementalDiscountProjectionLogic {
 
     public void insertInParity(List<LookUpDTO> finalDtoList, int projId) {
         try {
-
-            for (int i = 0; i < finalDtoList.size(); i++) {
-                LookUpDTO dto = finalDtoList.get(i);
                 StringBuilder queryBuilder1 = new StringBuilder();
                 SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+            for (int i = 0; i < finalDtoList.size(); i++) {
+                LookUpDTO dto = finalDtoList.get(i);
                 if (projId != 0 && !StringUtils.EMPTY.equals(dto.getMethodology()) && !StringUtils.EMPTY.equals(dto.getContract()) && dto.getContractMasterSid() != 0 && dto.getItemMasterSid() != 0 && !StringUtils.EMPTY.equals(dto.getQuarterValue()) && !StringUtils.EMPTY.equals(dto.getYearValue()) && !StringUtils.EMPTY.equals(dto.getDiscount1()) && !StringUtils.EMPTY.equals(dto.getDiscount2())) {
                     queryBuilder1.append("INSERT INTO M_PARITY_LOOKUP (CONTRACT_MASTER_SID,ITEM_MASTER_SID,QUARTER,\"YEAR\",METHODOLOGY, \n");
                     queryBuilder1.append("CONTRACT_PRICE,DISCOUNT_RATE_1,DISCOUNT_RATE_2,CCP_DETAILS_SID) \n");
@@ -1069,6 +1069,7 @@ public class SupplementalDiscountProjectionLogic {
         for (int i = 0; i < levelName.size(); i++) {
             if (supplementalLevelNo == i) {
                 tempLevelName = levelName.get(i);
+                break;
             }
         }
         return tempLevelName;
@@ -1469,6 +1470,7 @@ public class SupplementalDiscountProjectionLogic {
 
         String[] selectedLevelDetails = saveDto.getLevelDetails().split(",");
         int count = saveDto.getSupplementalLevelNo() == 1 ? selectedLevelDetails.length : 1;
+        List<Object> finalList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             try {
                 StringBuilder query = new StringBuilder();
@@ -1496,7 +1498,6 @@ public class SupplementalDiscountProjectionLogic {
                         List<Object> formulaList = getDataList(HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.THREE].toString())), Integer.parseInt(ob[NumericConstants.FIVE].toString()),
                                 HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.FOUR].toString())), Integer.parseInt(ob[NumericConstants.SIX].toString()), false);
                         List<Object> selectionList = getDataList(saveDto.getStartPeriod(), saveDto.getStartYear(), saveDto.getEndPeriod(), saveDto.getEndYear(), false);
-                        List<Object> finalList = new ArrayList<>();
                         for (Object object1 : formulaList) {
                             for (Object object2 : selectionList) {
                                 if (object1.toString().equalsIgnoreCase(object2.toString())) {
@@ -1786,7 +1787,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));
@@ -1817,7 +1818,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
+            if (obList != null && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));

@@ -93,7 +93,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      */
     public final void init() {
         LOGGER.debug("ComparisonLookUp init method started");
-        configureFields();
+        configureFieldsMandated();
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, pvTableLogic, false,contractTypeList));
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -103,7 +103,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Configure fields.
      */
-    private void configureFields() {
+    private void configureFieldsMandated() {
 
         resultsTable.setSortEnabled(true);
         ndc.setImmediate(true);
@@ -200,6 +200,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
         try {
             final java.util.Set<ComparisonLookupDTO> selectedItemId = (java.util.Set<ComparisonLookupDTO>) resultsTable.getValue();
             removeFlag = false;
+            Map<String, Object> projectionMap = new HashMap<>();
             if (!selectedItemId.isEmpty()) {
                 for (final Iterator<ComparisonLookupDTO> iterator = selectedItemId.iterator(); iterator.hasNext();) {
                     final ComparisonLookupDTO item = iterator.next();
@@ -210,8 +211,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                         projectionTable.setValue(null);
                     } else {
                         List<ComparisonLookupDTO> itemIds = selectedResultsBean.getItemIds();
-                        Map<String, Object> projectionMap = new HashMap<>();
-
+                        
                         for (ComparisonLookupDTO lookUpDTO : itemIds) {
                             projectionMap.put(String.valueOf(lookUpDTO.getProjectionId()), lookUpDTO);
                         }

@@ -424,7 +424,7 @@ public class PPAProjectionLogic {
         try {
             int levelNo;
             selection.setIsCount(BooleanConstant.getFalseFlag());
-            if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
+            if (lastParent instanceof PPAProjectionDTO) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();
                 selection.setLevelNo(levelNo + 1);
@@ -454,7 +454,7 @@ public class PPAProjectionLogic {
                     count = configureLevelsCount(selection.getLevelNo(), selection);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
-                    selection.setLevelNo(dto == null ? null : dto.getLevelNo() + 1);
+                    selection.setLevelNo(dto == null ? 0 : dto.getLevelNo() + 1);
                     count = configureLevelsCount(selection.getLevelNo(), selection);
 
                 }
@@ -506,6 +506,7 @@ public class PPAProjectionLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
@@ -684,7 +685,7 @@ public class PPAProjectionLogic {
 
         String retval;
         List<Object> list;
-        if (Integer.valueOf(priceType) != null && !Integer.valueOf(priceType).equals(0)) {
+        if (priceType != null && !priceType.equals(0)) {
 
             String sqlQuery = "SELECT * FROM HELPER_TABLE WHERE HELPER_TABLE_SID =" + priceType;
             list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);

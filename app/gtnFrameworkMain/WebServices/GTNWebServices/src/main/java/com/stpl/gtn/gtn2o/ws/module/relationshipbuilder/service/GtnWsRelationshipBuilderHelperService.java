@@ -33,7 +33,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.bean.GtnWsHierarchyRuleBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 
 /**
  *
@@ -404,20 +403,6 @@ public class GtnWsRelationshipBuilderHelperService {
 		return ruleList;
 	}
 
-	public List<String> getMasterSidList(GtnWsRelationshipBuilderRequest rbRequest,
-			List<HierarchyLevelDefinitionBean> hierarchyList) {
-		final int levelNo = rbRequest.getLevelNo();
-		final List<String> masterSidList = new ArrayList<>();
-		int primaryKeyPosition = rbRequest.getPrimarySIDList().size() - 1;
-		for (int i = 0; i < levelNo - 1; i++) {
-			final HierarchyLevelDefinitionBean hierarchyBean = hierarchyList.get(i);
-			if (!GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyBean.getLevelValueReference())) {
-				masterSidList.add(rbRequest.getPrimarySIDList().get(primaryKeyPosition));
-			}
-			primaryKeyPosition--;
-		}
-		return masterSidList;
-	}
 
 	@SuppressWarnings("unchecked")
 	public List<Object> getMasterSidList(GtnUIFrameworkWebserviceRequest gtnWsRequest,

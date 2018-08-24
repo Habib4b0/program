@@ -175,7 +175,6 @@ public class ExistingDiscountTab extends CustomComponent {
     /* Current Level Value */
     private int levelValue;
     private Object treeBeanId;
-    private final List<Integer> newlyAddedRebates = new ArrayList<>();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     private final List parentList = new ArrayList();
@@ -325,16 +324,16 @@ public class ExistingDiscountTab extends CustomComponent {
             @Override
             public void itemClick(final ItemClickEvent event) {
                 treeBeanId = event.getItemId();
-                BeanItem<?> targetItem;
+                BeanItem<?> targetItem = null;
                 if (treeBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) treeBeanId;
                 } else if (treeBeanId instanceof ContractsDetailsDto) {
                     targetItem = new BeanItem<>((ContractsDetailsDto) treeBeanId);
-                } else {
-                    targetItem = NULL_OBJECT;
-                }
+                } 
+                if(targetItem != null)
+                {
                 tableBean = (ContractsDetailsDto) targetItem.getBean();
-
+                }
             }
         });
         LOGGER.debug("End of getProcessedTree method");
@@ -770,7 +769,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         ifpList.add(srcTableBean);
                         ifpListforMap.add(srcTableBean);
                     }
-                } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
+                } else if (treeBean != null && compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
                     List list = logic.cfpDuplicateCheck(srcTableBean, treeBean.getInternalId());
                     if (list.isEmpty()) {
                         if (addToTreeMethod(srcTableBean)) {
@@ -869,7 +868,6 @@ public class ExistingDiscountTab extends CustomComponent {
                                 }
                             }
                         }
-                        newlyAddedRebates.add(srcTableBean.getInternalId());
                         srcTableBean.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
                         setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean);
                         returnFlag = true;
@@ -890,7 +888,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                         final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
                         if (treeBean.getInternalId() != 0) {
-                            psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getModelSysId())));
+                            psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, treeBean.getModelSysId()));
                         } else {
                             psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getPsSid())));
                         }
@@ -908,7 +906,6 @@ public class ExistingDiscountTab extends CustomComponent {
                                     }
                                 }
                             }
-                            newlyAddedRebates.add(srcTableBean.getInternalId());
                             srcTableBean.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
                             setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanID);
                             returnFlag = true;
@@ -923,7 +920,7 @@ public class ExistingDiscountTab extends CustomComponent {
                     final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanID);
                     for (final Object id : collection) {
                         final ContractsDetailsDto object = getBeanFromID(id);
-                        if (srcTableBean.getInternalId() == object.getModelSysId()) {
+                        if (srcTableBean.getInternalId().equals(object.getModelSysId())) {
                             final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
                             AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                             return false;
@@ -942,16 +939,14 @@ public class ExistingDiscountTab extends CustomComponent {
 
     
     private ContractsDetailsDto getBeanFromID(final Object tableID) {
-        BeanItem<?> targetItem;
+        BeanItem<?> targetItem = new BeanItem<>(tableID);
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractsDetailsDto) {
             targetItem = new BeanItem<>((ContractsDetailsDto) tableID);
-        } else {
-            targetItem = NULL_OBJECT;
-        }
+        } 
         return (ContractsDetailsDto) targetItem.getBean();
-    }
+        }
 
     private void setTreeNode(final ContractsDetailsDto bean, final VerticalDropLocation location, final Object targetItemId) {
 
@@ -1163,7 +1158,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
 
                 final Collection childlist = dashboardTreeTable.getChildren(idValue);
-                if (childlist != null || !childlist.isEmpty()) {
+                if (childlist != null && !childlist.isEmpty()) {
                     saveTree(childlist);
                 }
             }

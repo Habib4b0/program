@@ -68,8 +68,7 @@ public class GtnFrameworkReportCustomViewConfirmDeleteAction
 
 	private void reloadAndSetvalue(String id, String componentId, GtnUIFrameworkBaseComponent customView) {
 		try {
-			new GtnUIFrameworkComboBoxComponent().reloadComponentFromParent(
-					GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, id, componentId, Arrays.asList(""));
+			new GtnUIFrameworkComboBoxComponent().reloadComponentFromParent(id, componentId, Arrays.asList(""));
 			customView.loadV8ComboBoxComponentValue(String.valueOf(0));
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error(e.getErrorMessage(), e);

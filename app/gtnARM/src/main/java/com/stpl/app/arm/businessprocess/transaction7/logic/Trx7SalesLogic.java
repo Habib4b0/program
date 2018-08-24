@@ -73,7 +73,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGERTRX7.error("Error in getMonthName :" + e);
+            LOGGERTRX7.error("Error in getMonthName :", e);
         }
         return monthName;
     }
@@ -233,7 +233,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         try {
             QueryUtils.itemUpdate(input, "trx7_PA_sales_updatePriceOverride");
         } catch (Exception e) {
-            LOGGERTRX7.error("Error in updatePriceOverride :" + e);
+            LOGGERTRX7.error("Error in updatePriceOverride :", e);
             return false;
         }
         return true;

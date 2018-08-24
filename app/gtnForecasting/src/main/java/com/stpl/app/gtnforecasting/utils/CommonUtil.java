@@ -19,7 +19,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
-import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -37,7 +36,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
@@ -71,7 +69,6 @@ public class CommonUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static final String COMMA=",";
-    private ExecutorService service = ThreadPool.getInstance().getService();
 
     /**
      * Instantiates a new common util.
@@ -470,6 +467,7 @@ public class CommonUtil {
                 }
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -656,7 +654,6 @@ public class CommonUtil {
             select.removeAllItems();
             select.addItem(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             select.setValidationVisible(true);
-            select.setImmediate(true);
             select.setNullSelectionAllowed(true);
             select.setNullSelectionItemId(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             List<HelperDTO> helperList = new ArrayList<>();
@@ -703,7 +700,7 @@ public class CommonUtil {
     }
 
     public static double getConversionFormattedMultipleValue(ProjectionSelectionDTO selection, double value) {
-        if (0.0 == value || 0 == value || stringNullCheck(selection.getConversionFactor())
+        if (0 == Double.compare(value, 0) || stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             return value;
@@ -803,6 +800,22 @@ public class CommonUtil {
             if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
                 waitForSeconds();
                 isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
+            } else {
+                return ;
+            }
+        }
+        return ;
+    }
+      public void isProcedureCompletedForSubmit(String screenName, String viewName, SessionDTO session) {
+        List paramList = new ArrayList();
+        paramList.add(screenName);
+        paramList.add(viewName);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(paramList, "getProcedureStatus"), session.getCurrentTableNames()));
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            if (!"6".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
+                isProcedureCompletedForSubmit(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
             } else {
                 return ;
             }

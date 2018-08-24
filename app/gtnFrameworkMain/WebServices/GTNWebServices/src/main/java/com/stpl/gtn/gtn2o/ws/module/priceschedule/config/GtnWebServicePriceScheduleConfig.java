@@ -181,7 +181,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		Map<String, GtnWsColumnDetailsConfig> psPriceTabToColumnDetailsMap = new HashMap<>(50);
 
 		psPriceTabToColumnDetailsMap.put("createdBy",
-				configProvider.getColumnUserConfig("CREATED_BY", GtnFrameworkWebserviceConstant.IMPSD));
+				configProvider.getColumnUserConfig("PS_DETAILS_CREATED_BY", GtnFrameworkWebserviceConstant.IMPSD));
 		psPriceTabToColumnDetailsMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 				configProvider.getColumnBooleanConfig(GtnFrameworkWebserviceConstant.CHECK_RECORD_COLUMN,
 						GtnFrameworkWebserviceConstant.IMPSD));

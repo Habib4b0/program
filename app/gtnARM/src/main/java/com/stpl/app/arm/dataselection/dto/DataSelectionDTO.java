@@ -87,7 +87,6 @@ public class DataSelectionDTO {
     private boolean alterFlag = true;
     private int customerRelationshipVersionNo;
     private int productRelationshipVersionNo;
-    
 
     public DataSelectionDTO() {
         /*
@@ -606,5 +605,5 @@ public class DataSelectionDTO {
     public void setProductRelationshipVersionNo(int productRelationshipVersionNo) {
         this.productRelationshipVersionNo = productRelationshipVersionNo;
     }
-    
+
 }

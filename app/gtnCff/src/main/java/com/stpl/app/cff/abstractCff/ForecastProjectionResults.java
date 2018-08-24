@@ -433,12 +433,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         levelFilterDdlb.setValue(SELECT_ONE);
         List<Leveldto> hierarchy = null;
         projectionSelectionDTO.getLevelDdlbMap().clear();
-        if (projectionSelectionDTO.isIsCustomHierarchy()) {
-           LOGGER.debug("Customer Hierarchy Selection");
-            levelDdlb.setEnabled(customId != 0);
-            levelFilterDdlb.setEnabled(false);
-            hierarchy = CommonLogic.getCustomTree(customId);
-        } else if ("C".equals(projectionSelectionDTO.getHierarchyIndicator())) {
+         if ("C".equals(projectionSelectionDTO.getHierarchyIndicator())) {
              LOGGER.debug("Customer C Hierarchy Selection");
             hierarchy = CommonLogic.getCustomerHierarchy(projectionId, projectionSelectionDTO.getCustomerLevelNo(),sessionDTO.getCustomerRelationVersion());
         } else if ("P".equals(projectionSelectionDTO.getHierarchyIndicator())) {
@@ -701,18 +696,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      */
     public void graphExportLogic() {
         LOGGER.debug("graphExportLogic method starts");
-
-        List<ProjectionResultsDTO> chartiLst = new ArrayList<>();
-        if (resultBeanContainer.size() > 0) {
-            for (Object itemId : resultBeanContainer.getItemIds(0, resultBeanContainer.size())) {
-                ProjectionResultsDTO dto = (ProjectionResultsDTO) itemId;
-                if ((resultBeanContainer.areChildrenAllowed(itemId) && dto.getGroup().contains("Total Discount"))
-                        || (!resultBeanContainer.areChildrenAllowed(itemId) && !dto.getGroup().contains("Projection Total"))) {
-                    chartiLst.add(dto);
-                }
-
-            }
-        }
         if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
             projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }

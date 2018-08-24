@@ -73,7 +73,7 @@ public class GtnUIFrameworkPagedTableConfig {
     private List<String> checkAllColumnList;
     private String countQuery;
     private String dataQuery;
-    private HashMap<String, Object> filterValueMap=new HashMap<>();
+    private Map<String, Object> filterValueMap=new HashMap<>();
     private boolean isRefreshAtStart;
     private String gridColumnHeader;
     private boolean enableCheckBoxInGridHeader=false;
@@ -82,7 +82,16 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean itemsPerPageAlignCentre = true;
     private boolean paginationOff = false;
     private boolean selectionListener = false;
-    
+    private boolean filteron = false;
+
+    public boolean isFilteron() {
+        return filteron;
+    }
+
+    public void setFilteron(boolean filteron) {
+        this.filteron = filteron;
+    }
+
     public boolean getSelectionListener() {
 		return selectionListener;
 	}
@@ -634,11 +643,11 @@ public class GtnUIFrameworkPagedTableConfig {
         this.dataQueryInputs = dataQueryInputs;
     }
 
-    public HashMap<String, Object> getFilterValueMap() {
+    public Map<String, Object> getFilterValueMap() {
         return filterValueMap;
     }
 
-    public void setFilterValueMap(HashMap<String, Object> filterValueMap) {
+    public void setFilterValueMap(Map<String, Object> filterValueMap) {
         this.filterValueMap = filterValueMap;
     }
 

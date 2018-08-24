@@ -24,6 +24,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -248,11 +249,11 @@ public class PhsResultsLogic {
         int projMasterId = projSelDTO.getProjectionId();
         int brandSid = projSelDTO.getBrandMasterId();
         int therapeutic = projSelDTO.getTherapeuticSid().getId();
-        List<Object[]> phsList;
+        List<Integer> phsList;
         int phsParentCount = 0;
         phsList = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsParentCount", projSelDTO.getLevelNo(), 0, therapeutic);
         if (phsList != null && !phsList.isEmpty()) {
-            phsParentCount += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? String.valueOf(phsList.get(0)) : Constant.STRING_ONE);
+            phsParentCount += StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? phsList.get(0) : Constant.ONE;
         }
         return phsParentCount;
     }
@@ -846,9 +847,9 @@ public class PhsResultsLogic {
         int therapeutic = projSelDTO.getTherapeuticSid().getId();
         int count = 0;
         try {
-            List<Object[]> medicaidIndex = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsRowIndex", 0, itemMasterSid, therapeutic);
+            List<Integer> medicaidIndex = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsRowIndex", 0, itemMasterSid, therapeutic);
             if (!medicaidIndex.isEmpty()) {
-                count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
+                count = StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? medicaidIndex.get(0) : Constant.ZERO;
             }
         } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
@@ -879,7 +880,7 @@ public class PhsResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = CommonUtils.compareDoubleValues(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }

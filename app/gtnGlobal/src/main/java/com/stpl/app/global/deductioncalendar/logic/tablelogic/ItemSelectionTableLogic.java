@@ -28,7 +28,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
 
     private final SessionDTO sessionDTO;
     private final SelectionLogic selectionLogic=new SelectionLogic();
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionTableLogic.class);
     
 
     @Override

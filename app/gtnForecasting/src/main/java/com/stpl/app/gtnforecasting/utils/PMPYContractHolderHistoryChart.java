@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.utils;
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,29 +21,6 @@ import org.slf4j.LoggerFactory;
 public class PMPYContractHolderHistoryChart {
 
     /**
-     * The dto.
-     */
-    private final List<PMPYRowDto> dto;
-
-    /**
-     * The chart.
-     */
-    /**
-     * The conf.
-     */
-    /**
-     * The chart1.O
-     */
-    /**
-     * The conf1.
-     */
-    /**
-     * The chart2.
-     */
-    /**
-     * The conf2.
-     */
-    /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PMPYContractHolderHistoryChart.class);
@@ -56,13 +32,13 @@ public class PMPYContractHolderHistoryChart {
      * The Constructor.
      *
      * @param dto the dto
-     * @param frequency the frequency
+     * @param contractName
+     * @param headeres
      */
     public PMPYContractHolderHistoryChart(final List<PMPYRowDto> dto, final String contractName, List<Object> headeres) {
         LOGGER.debug("Entering PMPYContractHolderHistoryChart method ");
 
         this.contractName = contractName;
-        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.headeres = headeres;
         LOGGER.debug("End of PMPYContractHolderHistoryChart method ");
 

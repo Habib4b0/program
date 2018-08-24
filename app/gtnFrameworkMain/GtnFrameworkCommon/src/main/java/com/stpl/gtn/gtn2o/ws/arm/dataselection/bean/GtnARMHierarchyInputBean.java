@@ -14,15 +14,15 @@ public class GtnARMHierarchyInputBean {
 
     private String framedQuery;
 
-    private int relationShipBuilderSid;
+    private int armRelationShipBuilderSid;
 
-    private int hierarchyDefinitionSid;
+    private int armHierarchyDefinitionSid;
 
-    private int hierarchyLevelDefinitionSid;
+    private int armHierarchyLevelDefinitionSid;
 
-    private int relationVersionNo;
+    private int armRelationVersionNo;
 
-    private int hierarchyVersionNo;
+    private int armHierarchyVersionNo;
 
     private int levelNo;
 
@@ -37,24 +37,28 @@ public class GtnARMHierarchyInputBean {
     private List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList;
 
     private List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList;
-    
+
     private int selectedCustomerRelationShipBuilderVersionNo;
-    
+
     private int selectedCustomerHierarcySid;
-    
+
     private int selectedCustomerHierarchyVersionNo;
-    
+
     private int selectedProductRelationShipBuilderVersionNo;
-    
+
     private int selectedProductHierarcySid;
-    
+
     private int selectedProductRelationShipBuilderSid;
-    
+
     private int selectedProductHierarchyVersionNo;
-    
+
     private int projectionId;
-    
+
     private Map<String, String> tempTableMap;
+
+    public GtnARMHierarchyInputBean() {
+        super();
+    }
 
     public String getFramedQuery() {
         return framedQuery;
@@ -65,43 +69,43 @@ public class GtnARMHierarchyInputBean {
     }
 
     public int getRelationShipBuilderSid() {
-        return relationShipBuilderSid;
+        return armRelationShipBuilderSid;
     }
 
     public void setRelationShipBuilderSid(int relationShipBuilderSid) {
-        this.relationShipBuilderSid = relationShipBuilderSid;
+        this.armRelationShipBuilderSid = relationShipBuilderSid;
     }
 
     public int getHierarchyDefinitionSid() {
-        return hierarchyDefinitionSid;
+        return armHierarchyDefinitionSid;
     }
 
     public void setHierarchyDefinitionSid(int hierarchyDefinitionSid) {
-        this.hierarchyDefinitionSid = hierarchyDefinitionSid;
+        this.armHierarchyDefinitionSid = hierarchyDefinitionSid;
     }
 
     public int getHierarchyLevelDefinitionSid() {
-        return hierarchyLevelDefinitionSid;
+        return armHierarchyLevelDefinitionSid;
     }
 
     public void setHierarchyLevelDefinitionSid(int hierarchyLevelDefinitionSid) {
-        this.hierarchyLevelDefinitionSid = hierarchyLevelDefinitionSid;
+        this.armHierarchyLevelDefinitionSid = hierarchyLevelDefinitionSid;
     }
 
     public int getRelationVersionNo() {
-        return relationVersionNo;
+        return armRelationVersionNo;
     }
 
     public void setRelationVersionNo(int relationVersionNo) {
-        this.relationVersionNo = relationVersionNo;
+        this.armRelationVersionNo = relationVersionNo;
     }
 
     public int getHierarchyVersionNo() {
-        return hierarchyVersionNo;
+        return armHierarchyVersionNo;
     }
 
     public void setHierarchyVersionNo(int hierarchyVersionNo) {
-        this.hierarchyVersionNo = hierarchyVersionNo;
+        this.armHierarchyVersionNo = hierarchyVersionNo;
     }
 
     public int getLevelNo() {

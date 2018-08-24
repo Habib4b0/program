@@ -141,7 +141,9 @@ and open the template in the editor.
                         HLD.FIELD_NAME,
                         RLD.RELATIONSHIP_LEVEL_SID,
                         RLD.HIERARCHY_NO,
-                        RLD.RELATIONSHIP_BUILDER_SID
+                        RLD.RELATIONSHIP_BUILDER_SID,
+                        RLD.VERSION_NO AS RELATIONSHIP_VERSION_NO,
+                        HLD.VERSION_NO AS HIERARCHY_VERSION_NO
                 FROM
                         dbo.RELATIONSHIP_LEVEL_DEFINITION RLD,
                         dbo.HIERARCHY_LEVEL_DEFINITION HLD,
@@ -169,7 +171,9 @@ and open the template in the editor.
                             HLD.FIELD_NAME,
                             RLD.RELATIONSHIP_LEVEL_SID,
                             RLD.HIERARCHY_NO,
-                            RLD.RELATIONSHIP_BUILDER_SID
+                            RLD.RELATIONSHIP_BUILDER_SID,
+                            RLD.VERSION_NO AS RELATIONSHIP_VERSION_NO,
+                            HLD.VERSION_NO AS HIERARCHY_VERSION_NO
                     FROM
                             dbo.RELATIONSHIP_LEVEL_DEFINITION RLD,
                             dbo.HIERARCHY_LEVEL_DEFINITION HLD
@@ -1817,7 +1821,7 @@ CREATE TABLE #CCP_MAP
         </query>
     </entity>
     <entity id="getHierarchyLevelVlaues">
-		<query> 
+        <query> 
         <![CDATA[            
             SELECT
                     distinct LEVEL_NO,
@@ -1837,6 +1841,6 @@ CREATE TABLE #CCP_MAP
             where
                     hld.HIERARCHY_DEFINITION_SID =? and HLD.VERSION_NO =?;
          ]]>
-		</query>
-	</entity>
+        </query>
+    </entity>
 </sql>

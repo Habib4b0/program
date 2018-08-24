@@ -975,7 +975,7 @@ ORDER  BY PROJECTION_MASTER_SID
                 AND PM.CFF_NAME  LIKE '?'
                 ? ?
                JOIN #CFF_APPROVAL_DETAILS CAD
-                 ON CAD.CFF_MASTER_SID = PM.CFF_MASTER_SID               
+                 ON CAD.CFF_MASTER_SID = PM.CFF_MASTER_SID    
                INNER JOIN CCP_DETAILS CCP
                        ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
                INNER JOIN CONTRACT_MASTER C
@@ -1014,6 +1014,94 @@ ORDER  BY PROJECTION_MASTER_SID
                       ]]>
         </query>
     </entity>   
+    
+    <entity id="comparisonSearchCountDataSelection">
+        <query>
+             <![CDATA[ 
+             IF Object_id('TEMPDB.DBO.#CFF_APPROVAL_DETAILS', 'U') IS NOT NULL
+             DROP TABLE #CFF_APPROVAL_DETAILS;
+	
+	select * into #CFF_APPROVAL_DETAILS from (
+		select *,row_number()over(partition by cff_master_sid order by CFF_APPROVAL_DETAILS_sid desc)as rn from CFF_APPROVAL_DETAILS )a
+		 JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = a.APPROVAL_STATUS
+	AND HT1.DESCRIPTION = '?'
+		where rn=1
+    ; WITH CTE AS (SELECT PM.CFF_NAME,
+               PM.CFF_NAME AS CFF_DESCRIPTION,
+               CASE
+                 WHEN COUNT(DISTINCT HT.DESCRIPTION) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(HT.DESCRIPTION)
+               END         AS MARKET_TYPE,
+               CASE
+                 WHEN COUNT(DISTINCT CM.COMPANY_NO) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(CM.COMPANY_NO)
+               END         AS CONTRACT_HOLDER,
+               CASE
+                 WHEN COUNT(DISTINCT C.CONTRACT_NO) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(C.CONTRACT_NO)
+               END         AS CONTRACT, 
+               CASE
+                 WHEN COUNT(DISTINCT BM.BRAND_NAME) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(BM.BRAND_NAME)
+               END         AS BRAND,
+               CASE
+                 WHEN COUNT(DISTINCT IM.ITEM_NO) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(IM.ITEM_NO)
+               END         AS ITEM_NO,
+               CASE
+                 WHEN COUNT(DISTINCT IM.ITEM_NAME) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(IM.ITEM_NAME)
+               END         AS ITEM_NAME,
+               PM.CFF_MASTER_SID,
+               PM.CREATED_DATE,
+               PM.CREATED_BY
+        FROM   CFF_MASTER PM
+               INNER JOIN CFF_DETAILS PD
+                       ON PD.CFF_MASTER_SID = PM.CFF_MASTER_SID and PM.CFF_NAME NOT like ''
+                ? ?
+               JOIN #CFF_APPROVAL_DETAILS CAD
+                 ON CAD.CFF_MASTER_SID = PM.CFF_MASTER_SID   
+                  JOIN CUSTOM_CCP_DETAILS CCD ON
+		CCD.CUST_VIEW_MASTER_SID = ? AND
+		CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID                    
+               INNER JOIN CCP_DETAILS CCP
+                       ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+               INNER JOIN CONTRACT_MASTER C
+                       ON C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                       AND C.CONTRACT_NAME LIKE '%'
+                       AND EXISTS (
+                     SELECT 1
+                     FROM CFF_DETAILS CD
+                     WHERE PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+                     )
+               LEFT JOIN HELPER_TABLE HT
+                      ON C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+                         AND ( HT.LIST_NAME = 'CONTRACT_TYPE'
+                               AND HT.DESCRIPTION LIKE '%' )
+               LEFT JOIN COMPANY_MASTER CM
+                      ON C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                         AND ( CM.COMPANY_NO LIKE '%'
+                                OR CM.COMPANY_NO IS NULL )
+               JOIN ITEM_MASTER IM
+                 ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                 AND IM.ITEM_NAME LIKE '%'
+                 AND IM.ITEM_NO LIKE '%'
+               LEFT JOIN BRAND_MASTER BM
+                      ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                         AND ( BM.BRAND_NAME LIKE '%'
+                                OR BM.BRAND_NAME IS NULL )
+       ?
+        GROUP  BY PM.CFF_NAME,
+                  PM.CFF_MASTER_SID,
+                  PM.CREATED_DATE,
+                  PM.CREATED_BY
+        ) 
+        SELECT count(*) FROM CTE
+
+                      ]]>
+        </query>
+    </entity>   
+    
     <entity id="comparisonLoadData">
         <query>
              <![CDATA[ 
@@ -1073,6 +1161,93 @@ ORDER  BY PROJECTION_MASTER_SID
                      FROM CFF_DETAILS CD
                      WHERE PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
                            AND CFF_MASTER_SID IN ( ? )
+                     )
+
+               LEFT JOIN HELPER_TABLE HT
+                      ON C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+                         AND ( HT.LIST_NAME = 'CONTRACT_TYPE'
+                               AND HT.DESCRIPTION LIKE '%' )
+               LEFT JOIN COMPANY_MASTER CM
+                      ON C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                         AND ( CM.COMPANY_NO LIKE '%'
+                                OR CM.COMPANY_NO IS NULL )
+               JOIN ITEM_MASTER IM
+                 ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                 AND IM.ITEM_NAME LIKE '%'
+                 AND IM.ITEM_NO LIKE '%'
+               LEFT JOIN BRAND_MASTER BM
+                      ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                         AND ( BM.BRAND_NAME LIKE '%'
+                                OR BM.BRAND_NAME IS NULL )
+       ?
+        GROUP  BY PM.CFF_NAME,
+                  PM.CFF_MASTER_SID,
+                  PM.CREATED_DATE,
+                  PM.CREATED_BY
+      
+          )
+          SELECT * FROM CTE 
+                      ]]>
+        </query>
+    </entity> 
+    <entity id="comparisonLoadDataDataSelection">
+        <query>
+             <![CDATA[ 
+             IF Object_id('TEMPDB.DBO.#CFF_APPROVAL_DETAILS', 'U') IS NOT NULL
+                  DROP TABLE #CFF_APPROVAL_DETAILS;
+	
+                select * into #CFF_APPROVAL_DETAILS from (
+		select *,row_number()over(partition by cff_master_sid order by CFF_APPROVAL_DETAILS_sid desc)as rn from CFF_APPROVAL_DETAILS )a
+		 JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = a.APPROVAL_STATUS
+                AND HT1.DESCRIPTION = '?'
+		where rn=1
+              ; WITH CTE AS (SELECT PM.CFF_NAME,
+               PM.CFF_NAME AS CFF_DESCRIPTION,
+               CASE
+                 WHEN COUNT(DISTINCT HT.DESCRIPTION) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(HT.DESCRIPTION)
+               END         AS MARKET_TYPE,
+               CASE
+                 WHEN COUNT(DISTINCT CM.COMPANY_NO) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(CM.COMPANY_NO)
+               END         AS CONTRACT_HOLDER,
+               CASE
+                 WHEN COUNT(DISTINCT C.CONTRACT_NO) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(C.CONTRACT_NO)
+               END         AS CONTRACT,
+               CASE
+                 WHEN COUNT(DISTINCT BM.BRAND_NAME) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(BM.BRAND_NAME)
+               END         AS BRAND,
+               CASE
+                 WHEN COUNT(DISTINCT IM.ITEM_NO) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(IM.ITEM_NO)
+               END         AS ITEM_NO,
+               CASE
+                 WHEN COUNT(DISTINCT IM.ITEM_NAME) > 1 THEN 'MULTIPLE'
+                 ELSE MAX(IM.ITEM_NAME)
+               END         AS ITEM_NAME,
+               PM.CFF_MASTER_SID,
+               PM.CREATED_DATE,
+               PM.CREATED_BY
+        FROM   CFF_MASTER PM
+               INNER JOIN CFF_DETAILS PD
+                       ON PD.CFF_MASTER_SID = PM.CFF_MASTER_SID and PM.CFF_NAME NOT like ''
+                ? ?
+               JOIN #CFF_APPROVAL_DETAILS CAD
+                 ON CAD.CFF_MASTER_SID = PM.CFF_MASTER_SID               
+                     JOIN CUSTOM_CCP_DETAILS CCD ON
+		CCD.CUST_VIEW_MASTER_SID = ? AND
+		CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID   
+               INNER JOIN CCP_DETAILS CCP
+                       ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+               INNER JOIN CONTRACT_MASTER C
+                       ON C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                       AND C.CONTRACT_NAME LIKE '%'
+                       AND EXISTS (
+                     SELECT 1
+                     FROM CFF_DETAILS CD
+                     WHERE PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
                      )
 
                LEFT JOIN HELPER_TABLE HT
@@ -1933,6 +2108,18 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
         </query>
     </entity>    
     
+    <entity id="deduction-loading-DataSelection">
+        <query>
+            <![CDATA[
+            
+                  SELECT distinct LEVEL_NO,LEVEL_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION HLD 
+                  JOIN dbo.CFF_MASTER PM ON PM.DEDUCTION_HIERARCHY_SID=HLD.HIERARCHY_DEFINITION_SID 
+ 
+ 
+            ]]>
+        </query>
+    </entity>    
+    
      <entity id="discount-join-filter">
         <query>
             <![CDATA[
@@ -1965,8 +2152,7 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
        AND ST.FILTER_CCPD = 1
        @UDCJOIN
        @HELPERTABLEJOIN
-       WHERE EXISTS(SELECT 1 FROM UDF_SPLITSTRING(@CCP_IDS,',') B WHERE B.TOKEN=ST.CCP_DETAILS_SID)
-       AND EXISTS(SELECT 1 FROM UDF_SPLITSTRING(@RS_IDS,',') B WHERE B.TOKEN=ST.RS_CONTRACT_SID)
+      
 
                       ]]>
         </query>
@@ -2028,6 +2214,16 @@ DECLARE @CREATED_BY int = ?CREATED_BY
         <query>
     		<![CDATA[
    select FILE_DATA from Attachment where ATTACHMENT_TABLE_SID = ?attachmentSid 
+		]]>
+        </query>
+    </entity>   
+    <entity id="loadCustomRelationValues">
+        <query>
+    		<![CDATA[
+     SELECT DISTINCT CVM.CUST_VIEW_MASTER_SID,CVM.CUST_VIEW_NAME,CVM.MODIFIED_DATE  FROM CUST_VIEW_MASTER  CVM 
+        JOIN CUSTOM_CCP_DETAILS CVD ON CVD.CUST_VIEW_MASTER_SID=CVM.CUST_VIEW_MASTER_SID 
+         WHERE CVM.CUSTOMER_RELATIONSHIP_SID=@CUSTSID AND CVM.PRODUCT_RELATIONSHIP_SID=@PRODSID AND CVD.CUSTOMER_VERSION=@CUSTVER AND CVD.PRODUCT_VERSION=@PRODVER
+          AND (CUST_VIEW_TYPE='SALES' OR  CUST_VIEW_TYPE='DISCOUNT') ORDER BY CVM.MODIFIED_DATE DESC
 		]]>
         </query>
     </entity>   

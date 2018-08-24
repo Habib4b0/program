@@ -596,12 +596,8 @@ public class NonMandatedLogic {
 	 */
 	public void manualEntrysalesCalculation(final int projectionId, final String salesOrUnit) throws SystemException {
 		final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-		Connection connection = null;
-
 		CallableStatement statement = null;
-		try {
-			connection = dataSourceConnection.getConnection();
-
+		try (Connection connection = dataSourceConnection.getConnection()){
 			LOGGER.debug("Entering manualEntrysalesCalculation  ::::");
 
 			if (connection != null) {
@@ -622,11 +618,6 @@ public class NonMandatedLogic {
                             if (statement != null) {
 				statement.close();
                             }
-			} catch (SQLException e) {
-				LOGGER.error(e.getMessage());
-			}
-			try {
-				connection.close();
 			} catch (SQLException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -1502,7 +1493,7 @@ public class NonMandatedLogic {
             customSql = customSql.replace("@CUSTSID", String.valueOf(dataSelectionDTO.getCustomRelationShipSid()));
             customSql = customSql.replace("@CUSTDEDSID", String.valueOf(dataSelectionDTO.getCustomDeductionRelationShipSid()));
         }
-        LOGGER.info("Projection Master Query------------" + customSql);
+        LOGGER.info("Projection Master Query------------{} " , customSql);
         HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
 
         String cffQuery = "select IDENT_CURRENT( 'PROJECTION_MASTER' )";
@@ -1687,6 +1678,7 @@ public class NonMandatedLogic {
 						|| projMaster.getIsApproved().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)
 						|| projMaster.getIsApproved().equals("W"))) {
 					workflowStatus = "RC";
+                                        break;
 				}
 
 				projMaster.setIsApproved("Y");
@@ -2196,9 +2188,9 @@ public class NonMandatedLogic {
 		input.put("?PSY", inputDto.getForecastDTO().getProjectionStartYear());
 		input.put("?PEY", inputDto.getForecastDTO().getForecastEndYear());
 		String customSql = SQlUtil.getQuery(getClass(),customSqlId);
-		for (String key : input.keySet()) {
-			if (customSql.contains(key)) {
-				customSql = customSql.replace(key, String.valueOf(input.get(key)));
+		for (Map.Entry<String, Object> key : input.entrySet()) {
+			if (customSql.contains(key.getKey())) {
+				customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
 			}
 		}
 		HelperTableLocalServiceUtil

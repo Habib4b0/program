@@ -76,8 +76,8 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
             toDate.setDateFormat("dd/M/yyyy");
             selectedResultsBean.addAll(selectedList);
             addBtn.setEnabled(false);
-            loadAvailableResults();
-            loadSelectedResults();
+            loadAvailableResultsLookup();
+            loadSelectedResultsLookup();
             workFlowStatus.focus();
             workFlowStatus.setNullSelectionAllowed(true);
             workFlowStatus.setNullSelectionItemId(SELECT_ONE);
@@ -127,7 +127,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
                 }
                 String notSearchProjId;
                 StringBuilder idStringBuilder = new StringBuilder();
-                idStringBuilder.append("'" ).append( currentProjId ).append( "'");
+                idStringBuilder.append('\'' ).append( currentProjId ).append( '\'');
                 for (int j = 0; j < selectedResultsBean.size(); j++) {
                     idStringBuilder.append( ",'" ).append( selectedResultsBean.getIdByIndex(j).getProjectionId() ).append( '\'');
                 }
@@ -269,7 +269,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         LOGGER.info("Ending removeBtnLogic");
     }
 
-    private void loadAvailableResults() {
+    private void loadAvailableResultsLookup() {
         LOGGER.info("Inside loadAvailableResults");
         Object[] objColumn = comparisonResultsColumns;
         resultsTable.setConverter("createdDateFrom", new DateToStringConverter());
@@ -293,7 +293,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         LOGGER.info("Ending loadAvailableResults");
     }
 
-    private void loadSelectedResults() {
+    private void loadSelectedResultsLookup() {
         LOGGER.info("Inside loadSelectedResults");
         projectionTable.addValueChangeListener(new Property.ValueChangeListener() {
             /**

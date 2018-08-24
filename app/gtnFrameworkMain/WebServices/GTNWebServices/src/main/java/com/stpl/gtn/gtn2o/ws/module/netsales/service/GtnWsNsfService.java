@@ -137,6 +137,7 @@ public class GtnWsNsfService {
 
 			dataTypeListTemp.add(GtnFrameworkDataType.STRING);
 			paramListTemp.add(gtnWsRequest.getGtnWsGeneralRequest().getSessionId());
+                        
 
 			for (GtnUIFrameworkNsfSelectedDeductionsBean selectedBeanList : beanList) {
 
@@ -368,7 +369,16 @@ public class GtnWsNsfService {
 		}
 
 	}
+        
+	public void deleteSalesDeductOnRefresh(GtnUIFrameworkWebserviceRequest gtnWsRequest)
+			throws GtnFrameworkGeneralException {
+		String salesDeductOnRefreshdeleteQuery = gtnWsSqlService.getQuery("getSalesDeductOnRefreshdeleteQuery");
+		GtnWsGeneralRequest generalRefreshWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
+		GtnFrameworkDataType[] refreshType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, };
+		Object[] refreshParams = { generalRefreshWSRequest.getUserId(), generalRefreshWSRequest.getSessionId() };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(salesDeductOnRefreshdeleteQuery, refreshParams, refreshType);
 
+	}
 	@SuppressWarnings("rawtypes")
 	public List executeQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
 			throws GtnFrameworkGeneralException {

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,6 @@ public class GtnWsReportDataSelectionBean {
 
 	private String fromOrToForDataSelection;
 
-
 	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
@@ -65,6 +65,7 @@ public class GtnWsReportDataSelectionBean {
 
 	private String privateViewName;
 	private String publicViewName;
+	private List<Object> customDataList;
 
 	public String getFromOrToForDataSelection() {
 		return fromOrToForDataSelection;
@@ -73,7 +74,6 @@ public class GtnWsReportDataSelectionBean {
 	public void setFromOrToForDataSelection(String fromOrToForDataSelection) {
 		this.fromOrToForDataSelection = fromOrToForDataSelection;
 	}
-
 
 	public void setComparisonBreakdownSaveList(
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
@@ -155,7 +155,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
-		this.forecastEligibleDate = forecastEligibleDate;
+		this.forecastEligibleDate = forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public Integer getCustomerHierarchySid() {
@@ -447,6 +447,65 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setPublicViewName(String publicViewName) {
 		this.publicViewName = publicViewName;
+	}
+
+	public List<Object> getCustomDataList() {
+		return customDataList == null ? customDataList : new ArrayList<>(customDataList);
+	}
+
+	public void setCustomDataList(List<Object> customDataList) {
+		this.customDataList = customDataList != null ? new ArrayList<>(customDataList) : customDataList;
+	}
+
+	public GtnWsReportDataSelectionBean reportDataSelectionBeanCopy() {
+		GtnWsReportDataSelectionBean reportDataSelectionCopyBean = new GtnWsReportDataSelectionBean();
+		reportDataSelectionCopyBean.setCustomerHierarchySid(this.customerHierarchySid);
+		reportDataSelectionCopyBean.setProductHierarchySid(this.productHierarchySid);
+		reportDataSelectionCopyBean.setCustomerHierarchyForecastLevel(this.customerHierarchyForecastLevel);
+		reportDataSelectionCopyBean.setProductHierarchyForecastLevel(this.productHierarchyForecastLevel);
+		reportDataSelectionCopyBean.setName(name);
+		reportDataSelectionCopyBean.setProductRelationshipBuilderSid(this.productRelationshipBuilderSid);
+		reportDataSelectionCopyBean.setCustomerRelationshipBuilderSid(this.customerRelationshipBuilderSid);
+		reportDataSelectionCopyBean.setCustomerRelationshipBuilderSid(customerRelationshipBuilderSid);
+		reportDataSelectionCopyBean.setCustomerHierarchyVersionNo(this.customerHierarchyVersionNo);
+		reportDataSelectionCopyBean.setProductHierarchyVersionNo(this.productHierarchyVersionNo);
+		reportDataSelectionCopyBean.setCustomerRelationshipVersionNo(this.customerRelationshipVersionNo);
+		reportDataSelectionCopyBean.setProductRelationshipVersionNo(this.productRelationshipVersionNo);
+		reportDataSelectionCopyBean.setForecastEligibleDate(this.forecastEligibleDate);
+		reportDataSelectionCopyBean.setUserId(this.userId);
+		reportDataSelectionCopyBean.setSessionId(this.sessionId);
+		reportDataSelectionCopyBean.setUniqueId(this.uniqueId);
+		reportDataSelectionCopyBean.setCompanyReport(this.companyReport);
+		reportDataSelectionCopyBean.setBusinessUnitReport(this.businessUnitReport);
+		reportDataSelectionCopyBean.setFromPeriodReport(this.fromPeriodReport);
+		reportDataSelectionCopyBean.setToPeriod(this.toPeriod);
+		reportDataSelectionCopyBean.setCustomerHierarchyRecordBean(this.customerHierarchyRecordBean);
+		reportDataSelectionCopyBean.setAvailableCustomerHierarchyList(this.availableCustomerHierarchyList);
+		reportDataSelectionCopyBean.setAvailableProductHierarchyList(this.availableProductHierarchyList);
+		reportDataSelectionCopyBean.setProductHierarchyRecordBean(this.productHierarchyRecordBean);
+		reportDataSelectionCopyBean.setSelectedCustomerHierarchyList(this.selectedCustomerHierarchyList);
+		reportDataSelectionCopyBean.setSelectedProductHierarchyList(this.selectedProductHierarchyList);
+		reportDataSelectionCopyBean.setComparisonProjectionBeanList(this.comparisonProjectionBeanList);
+		reportDataSelectionCopyBean.setFromPeriod(this.fromPeriod);
+		reportDataSelectionCopyBean.setToPeriodReport(this.toPeriodReport);
+		reportDataSelectionCopyBean.setFrequency(this.frequency);
+		reportDataSelectionCopyBean.setFrequencyName(this.frequencyName);
+		reportDataSelectionCopyBean.setReportDataSource(this.reportDataSource);
+		reportDataSelectionCopyBean.setViewName(this.viewName);
+		reportDataSelectionCopyBean.setViewType(this.viewType);
+		reportDataSelectionCopyBean.setViewId(this.viewId);
+		reportDataSelectionCopyBean.setFromOrToForDataSelection(this.fromOrToForDataSelection);
+		reportDataSelectionCopyBean.setSessionTableMap(this.sessionTableMap);
+		reportDataSelectionCopyBean.setVariableBreakdownHeaderLoadList(this.variableBreakdownHeaderLoadList);
+		reportDataSelectionCopyBean.setVariableBreakdownSaveList(this.variableBreakdownSaveList);
+		reportDataSelectionCopyBean.setComparisonBreakdownSaveList(this.comparisonBreakdownSaveList);
+		reportDataSelectionCopyBean.setVariablesList(this.variablesList);
+		reportDataSelectionCopyBean.setCustomView(this.customView);
+		reportDataSelectionCopyBean.setDataRefreshDone(this.dataRefreshDone);
+		reportDataSelectionCopyBean.setPrivateViewName(this.privateViewName);
+		reportDataSelectionCopyBean.setPublicViewName(this.publicViewName);
+		reportDataSelectionCopyBean.setCustomDataList(this.customDataList);
+		return reportDataSelectionCopyBean;
 	}
 
 }

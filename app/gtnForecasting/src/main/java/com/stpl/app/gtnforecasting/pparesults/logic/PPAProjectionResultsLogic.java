@@ -5,6 +5,30 @@
  */
 package com.stpl.app.gtnforecasting.pparesults.logic;
 
+import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
+
+import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.Future;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.PPAPrjectionResultsDAO;
@@ -26,33 +50,11 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
-import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -71,7 +73,6 @@ public class PPAProjectionResultsLogic {
     private String indicater = StringUtils.EMPTY;
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionResultsLogic.class);
     private List chartList;
-    private final ExecutorService service = ThreadPool.getInstance().getService();
     private List<Object[]> periodTableList=null;
     private List<Object[]> wacTableList=null;
     private List<Object[]> wacPriceTableList=null;
@@ -845,8 +846,7 @@ public class PPAProjectionResultsLogic {
         query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
         query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
-        if (filter != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
-            if (!filter.isEmpty()) {
+        if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter))) && !StringUtils.EMPTY.equals(filter) ) {
                 switch (ddlbType) {
                     case Constant.CONTRACT:
                         searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
@@ -862,8 +862,6 @@ public class PPAProjectionResultsLogic {
                         break;
                     default:
                         break;
-
-                }
             }
         } else {
             switch (ddlbType) {
@@ -911,8 +909,7 @@ public class PPAProjectionResultsLogic {
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
-        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
-            if (!filterText.isEmpty()) {
+        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText))) && !StringUtils.EMPTY.equals(filterText)) {
                 switch (ddlbtype) {
                     case Constant.ITEM_NO:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
@@ -928,7 +925,6 @@ public class PPAProjectionResultsLogic {
                         break;
 
                 }
-            }
         } else {
             switch (ddlbtype) {
                 case Constant.ITEM_NO:
@@ -973,8 +969,7 @@ public class PPAProjectionResultsLogic {
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
-        if (filterText != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
-            if (!filterText.isEmpty()) {
+        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText))) && !StringUtils.EMPTY.equals(filterText)) {
                 switch (ddlbtype) {
                     case Constant.ITEM_NO:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
@@ -989,7 +984,6 @@ public class PPAProjectionResultsLogic {
                     default:
                         break;
                 }
-            }
         } else {
             switch (ddlbtype) {
                 case Constant.ITEM_NO:
@@ -1083,7 +1077,6 @@ public class PPAProjectionResultsLogic {
         SimpleDateFormat myFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
         if (list != null && !list.isEmpty()) {
             load_Wac_Tables(String.valueOf(list.get(0)[NumericConstants.THIRTY_ONE]), sessionDTO);
-        }
         for (Object[] object : list) {
             try {
                 PPADetailsDTO detailsDTO = new PPADetailsDTO();
@@ -1134,6 +1127,7 @@ public class PPAProjectionResultsLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
+    }
         wacTableList=null;
         wacPriceTableList=null;
 
@@ -1186,17 +1180,22 @@ public class PPAProjectionResultsLogic {
      */
 
     public void callPPAGenerateProcedures(final ProjectionSelectionDTO selection) {
-        //Calling PRC_NM_PPA_PROJ_INIT only if it is not called in Tab Change
+		// Calling PRC_NM_PPA_PROJ_INIT only if it is not called in Tab Change
+		final ThreadPool service = ThreadPool.getInstance();
         if (selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT) == null) {
-            Future ppaInit = service.submit(CommonUtil.getInstance().createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, selection.getSessionDTO()));
-            selection.getSessionDTO().addFutureMap(SalesUtils.PRC_NM_PPA_PROJ_INIT, new Future[]{ppaInit});
+			Future ppaInit = service.submitRunnable(CommonUtil.getInstance()
+					.createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, selection.getSessionDTO()));
+			selection.getSessionDTO().addFutureMap(SalesUtils.PRC_NM_PPA_PROJ_INIT, new Future[] { ppaInit });
             selection.getSessionDTO().setIsSalesCalculated(false);
         }
-        CommonUtil.getInstance().waitsForOtherThreadsToComplete(selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT));
+		CommonUtil.getInstance().waitsForOtherThreadsToComplete(
+				selection.getSessionDTO().getFutureValue(SalesUtils.PRC_NM_PPA_PROJ_INIT));
      
-        Object[] orderedArgs = {selection.getProjectionId(), selection.getUserId(), selection.getSessionDTO().getSessionId()};
-        Future future = service.submit(createRunnable(SalesUtils.PRC_NM_PPA_PROJECTION, orderedArgs, selection));
-        selection.getSessionDTO().addFutureMap(Constant.PRC_PPA_GENERATE_CALL, new Future[]{future});
+		Object[] orderedArgs = { selection.getProjectionId(), selection.getUserId(),
+				selection.getSessionDTO().getSessionId() };
+		Future future = service
+				.submitRunnable(createRunnable(SalesUtils.PRC_NM_PPA_PROJECTION, orderedArgs, selection));
+		selection.getSessionDTO().addFutureMap(Constant.PRC_PPA_GENERATE_CALL, new Future[] { future });
     }
 
     Runnable createRunnable(final String procedureName, final Object[] orderedArgs, final ProjectionSelectionDTO selection) {
@@ -1234,6 +1233,7 @@ public class PPAProjectionResultsLogic {
                 Object object[] = wacTableList.get(i);
                 if ((String.valueOf(object[NumericConstants.ONE]).equals(rsId))) {
                     frquency = String.valueOf(object[NumericConstants.THREE]);
+                    break;
                 }
             }
         } catch (Exception ex) {

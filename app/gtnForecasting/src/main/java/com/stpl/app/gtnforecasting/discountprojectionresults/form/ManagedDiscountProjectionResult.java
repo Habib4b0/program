@@ -187,7 +187,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
             Map<String, Integer> historyEndDetails = CommonUtils.getHistoryEndDetails(sessionDTO, frequency);
-            endValue = CommonUtils.getProjections(sessionDTO.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH), historyEndDetails.get(HISTORY_END_YEAR)), frequency);
+            endValue = CommonUtils.getProjections(sessionDTO.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant())), frequency);
 
             history = CommonUtils.getHistoryDdlbList(endValue, period);
             sessionDTO.addFrequencyAndQuater(frequency, history);
@@ -562,17 +562,26 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(customExcelTableResult), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
                 } else {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(customExcelTableResult), sheetName);
+                    excelNextTableHolder(exp, sheetName);
                 }
-                if (i == exportAt) {
-                    exp.exportMultipleTabs(true);
-                } else {
-                    exp.exportMultipleTabs(false);
-                }
+                excelExportMultipleTabs(exp, i, exportAt);
             }
         } else {
             exp = new ExcelExport(new ExtCustomTableHolder(customExcelTableResult), Constant.DISCOUNT_PROJECTION_RESULTS, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
             exp.export();
+        }
+    }
+
+    public void excelNextTableHolder(ExcelExport exp, String sheetName) {
+        if (exp != null) {
+            exp.setNextTableHolder(new ExtCustomTableHolder(customExcelTableResult), sheetName);
+        }
+    }
+
+    public void excelExportMultipleTabs(ExcelExport exp, int i, int exportAt) {
+        if (exp != null) {
+            boolean export = i == exportAt;
+            exp.exportMultipleTabs(export);
         }
     }
 

@@ -47,7 +47,9 @@ public class GtnFrameworkUIReportGenerateRequestAction
 
 		serviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
 
-		String freName = dataSelectionBean.getFrequencyName();
+		String freName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
+				.getStringCaptionFromV8ComboBox();
 
 		reportDashBoardBean.setSelectFreqString(freName);
 
@@ -70,7 +72,8 @@ public class GtnFrameworkUIReportGenerateRequestAction
 		reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getIntegerFromV8ComboBox());
 
 		if (reportDashBoardBean.getPeriodRangeFromSid() != 0) {
-			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
+			reportDashBoardBean
+					.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
 		} else {
 			reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getNthIntegerFromV8ComboBox(1));
 			reportDashBoardBean

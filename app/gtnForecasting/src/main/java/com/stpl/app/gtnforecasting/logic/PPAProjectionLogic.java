@@ -39,6 +39,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -209,7 +210,7 @@ public class PPAProjectionLogic {
                             }
                         }
                         if ((flag) && (isColumn(visibleColumn, quater, year, Constant.RESET_SMALL))) {
-                            int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
+                            int value = Integer.parseInt((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
                             dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
 
                         }
@@ -255,7 +256,7 @@ public class PPAProjectionLogic {
                 }
             }
             if (isColumn(visibleColumn, quater, year, Constant.RESET_SMALL)) {
-                int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
+                int value = Integer.parseInt((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
                 dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
             }
         }
@@ -454,7 +455,7 @@ public class PPAProjectionLogic {
         try {
             int levelNo;
             selection.setIsCount(BooleanConstant.getFalseFlag());
-            if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
+            if (lastParent instanceof PPAProjectionDTO) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();
                 selection.setLevelNo(levelNo + 1);
@@ -564,6 +565,7 @@ public class PPAProjectionLogic {
                         runnableJob.wait();
                     } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
@@ -597,7 +599,7 @@ public class PPAProjectionLogic {
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.ITEM_PRICING_QUAL_NAME, StringUtils.EMPTY)));
         qualifierList = DAO.getItemPricingTypeList(cfpDynamicQuery);
         LOGGER.debug("Ending getLazyPriceTypeCount method with filterText with count= {}" , qualifierList.get(0));
-        return Integer.parseInt(String.valueOf(qualifierList.get(0)));
+        return Integer.parseInt(Arrays.toString(qualifierList.get(0)));
     }
 
     public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws SystemException {

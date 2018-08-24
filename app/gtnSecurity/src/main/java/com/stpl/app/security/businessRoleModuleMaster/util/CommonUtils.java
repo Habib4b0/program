@@ -145,13 +145,6 @@ public class CommonUtils {
 		returnValue=""+aMask;
 		return returnValue;
 	}
-	public static final Double convertStringToDouble(String aMask){
-		Double returnValue=0d;
-		if(aMask!=null){
-			returnValue=Double.parseDouble(aMask);
-		}
-		return returnValue;		
-	}
 	
 	// Method to convert Char to String
 	public static final String convertCharToString(char aMask){
@@ -179,7 +172,7 @@ public class CommonUtils {
 		public static String getSplitInQuery(@SuppressWarnings("rawtypes") List list1, String columnName) {
 
 	    	@SuppressWarnings("rawtypes")
-			List memList= list1 == null ? new ArrayList<>(list1) : list1;
+			List memList= list1 == null ? new ArrayList<>() : list1;
 	    	String requiredColumnName = columnName;
 	    	int count=0;
 	        int a=0;
@@ -252,7 +245,7 @@ public class CommonUtils {
 		 public static String getSplitInQueryNotInV2(@SuppressWarnings("rawtypes") List list1, String columnName){
 
 		    	@SuppressWarnings("rawtypes")
-				List memList= list1 == null ? new ArrayList<>(list1) : list1 ;
+			List memList= list1 == null ? new ArrayList<>() : list1 ;
 		    	String requiredColumnName = columnName;
 		    	int count=0;
 		        int a=0;

@@ -18,6 +18,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -119,12 +122,13 @@ public class HeaderGeneratorService {
 		try {
 			GtnWsReportDashboardBean dashboardBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 					.getGtnWsReportDashboardBean();
-
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean();
 			GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 			boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
 			List<GtnReportComparisonProjectionBean> beanList = dashboardBean.getComparisonProjectionBeanList();
 			List<String> comparsionHeader = new ArrayList<>();
-			comparsionHeader.add("Current");
+			if(dataSelectionBean.getReportDataSource()!=3)
+			comparsionHeader.add("Current Projection");
 			if (beanList != null) {
 				beanList.stream().forEach(bean -> comparsionHeader.add(bean.getProjectionName()));
 			}
@@ -153,7 +157,7 @@ public class HeaderGeneratorService {
 			generateColumn(variablesHeader, variablesColumn);
 			generateColumn(variableCategoryHeader, variableCategoryColumn);
 
-			int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
+			int headerSequence = dashboardBean.getHeaderSequence();
 			boolean isVariableOnly_Allowed = comparisonBasisHeader.length > 1
 					&& Arrays.asList(variablesHeader).contains("Deduction % of Ex-Factory")
 					&& Arrays.asList(variableCategoryHeader).contains("Variance");
@@ -177,21 +181,21 @@ public class HeaderGeneratorService {
 			}
 
 			switch (headerSequence) {
-			case 1:// 1. Time/Variable/Comparison
+			case 0:// 0. Time/Variable/Comparison
 				createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
 						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO,
 						headerSequence);
 				break;
-			case 2:// 2. Comparison/Variable/Time
+			case 1:// 1. Comparison/Variable/Time
 				createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
 						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence);
 				break;
-			case 3:// 3. Comparison/Time/Variable
+			case 2:// 2. Comparison/Time/Variable
 				createTableHeader(combinedVariableCategoryColumn, periodColumn, comparisonBasisColumn,
 						combinedVariableCategoryHeader, periodHeader, comparisonBasisHeader, tableHeaderDTO,
 						headerSequence);
 				break;
-			case 4:// 4. Variable/Comparison/Time
+			case 3:// 3. Variable/Comparison/Time
 				createTableHeader(periodColumn, comparisonBasisColumn, combinedVariableCategoryColumn, periodHeader,
 						comparisonBasisHeader, combinedVariableCategoryHeader, tableHeaderDTO, headerSequence);
 				break;
@@ -210,8 +214,8 @@ public class HeaderGeneratorService {
 		try {
 			LocalDate startDate = parseDate(dashboardBean.getPeriodStart(), dashboardBean.getSelectFreqString());
 			LocalDate endDate = parseDate(dashboardBean.getPeriodTo(), dashboardBean.getSelectFreqString());
-			LinkedHashSet<String> dateString = new LinkedHashSet<>();
-			LinkedHashSet<String> dateheaderColumnId = new LinkedHashSet<>();
+			Set<String> dateString = new LinkedHashSet<>();
+			Set<String> dateheaderColumnId = new LinkedHashSet<>();
 			for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusMonths(1)) {
 				getFormat(dateheaderColumnId, dateString, dashboardBean.getSelectFreqString(), date);
 
@@ -225,26 +229,39 @@ public class HeaderGeneratorService {
                              headers.replaceAll(s -> s+" Total");
                         }
                         
-			if (!dashboardBean.getSelectFreqString().equals("Annual")) {
-				Iterator<String> it = dateheaderColumnId.iterator();
-				String prevoius = null;
+			if (!dashboardBean.getSelectFreqString().equals("Annual") && dashboardBean.getAnnualTotals().equals("Yes")) {
+				List<String> listForIteration = new ArrayList<>(headerId);
+				Iterator<String> it = listForIteration.iterator();
+				String frequency = dashboardBean.getSelectFreqString();
 				int added = 0;
+				String year = "";
 				for (int i = 0; i < dateheaderColumnId.size(); i++) {
-					String year = it.next().substring(1);
-					if (prevoius != null) {
-						if (!prevoius.equals(year)) {
-							int index = i + added++;
-							if (index != headerId.size()) {
-								headerId.add(index, prevoius + "Total");
-								headers.add(index, prevoius + " Total");
-							} else {
-								headerId.add(prevoius + "Total");
-								headers.add(prevoius + " Total");
-							}
+					String id = it.next();
+					year = id.substring(1);
+					Pattern p = Pattern.compile("[0-9]{6}");
+					Matcher m = p.matcher(id);
+					if (m.matches()) {
+						year = id.substring(2);
+					}
+
+					if ((frequency.startsWith("Q") && (Integer.parseInt(id.substring(0, 1))) % 4 == 0)
+							|| (frequency.startsWith("S") && (Integer.parseInt(id.substring(0, 1))) % 2 == 0)
+							|| (frequency.startsWith("M") && (id.length() == 6)
+									&& (Integer.parseInt(id.substring(0, 2))) % 12 == 0)) {
+						int index = i + ++added;
+						if (index != headerId.size()) {
+							headerId.add(index, year + "Total");
+							headers.add(index, year + " Total");
+						} else {
+							headerId.add(year + "Total");
+							headers.add(year + " Total");
 						}
 					}
-					prevoius = year;
+
 				}
+				headerId.add(year + "Total");
+				headers.add(year + " Total");
+				
 			}
 			return Arrays.asList(headers.stream().distinct().collect(Collectors.toList()),
 					headerId.stream().distinct().collect(Collectors.toList()));
@@ -459,25 +476,25 @@ public class HeaderGeneratorService {
 			int headerSequence) {
 		StringBuilder singleColumnValue = new StringBuilder();
 		switch (headerSequence) {
-		case 1:// 1. Time/Variable/Comparison
+		case 0:// 0. Time/Variable/Comparison
 			singleColumnValue.append(tripleColumn);
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(singleColumn);
 			break;
-		case 2:// 2. Comparison/Variable/Time
+		case 1:// 1. Comparison/Variable/Time
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
-		case 3:// 3. Comparison/Time/Variable
+		case 2:// 2. Comparison/Time/Variable
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
-		case 4:// 4. Variable/Comparison/Time
+		case 3:// 3. Variable/Comparison/Time
 			singleColumnValue.append(singleColumn);
 			singleColumnValue.append(tripleColumn);
 			singleColumnValue.append("_");
@@ -556,11 +573,23 @@ public class HeaderGeneratorService {
 				index++;
 			}
 		}
-		combinedVariableCategory.add(combinedVariableCategoryColumn);
-		combinedVariableCategory.add(combinedVariableCategoryHeader);
+		combinedVariableCategory.add(removeDuplicatesFromColumnProperty(combinedVariableCategoryColumn));
+		combinedVariableCategory.add(removeDuplicatesFromColumnProperty(combinedVariableCategoryHeader));
 		return combinedVariableCategory;
 	}
-
+        
+        private Object[] removeDuplicatesFromColumnProperty(Object[] combinedVariableCategoryColumn){
+            ArrayList<Object> columnProperty = new ArrayList<>();
+            for (int i = 0; i < combinedVariableCategoryColumn.length-1; i++) {
+                if(combinedVariableCategoryColumn[i]!=combinedVariableCategoryColumn[i+1]){
+                    columnProperty.add(combinedVariableCategoryColumn[i]);
+                }
+            }
+            columnProperty.add(combinedVariableCategoryColumn[combinedVariableCategoryColumn.length-1]);
+            columnProperty.trimToSize();
+            return columnProperty.toArray();
+        }
+        
 	private void handleVariableBasedOnComparisionBasis(String comparisonBasis, Map<String, String> variableMap) {
 		if (comparisonBasis.equals("Actuals")) {
 			variableMap.put("Variance", "PROJ_VARIANCE");

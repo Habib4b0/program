@@ -301,7 +301,7 @@ public class PromoteTPLogic {
      * @return
      */
     public int getSearchCount(CurrentContractDTO binderDto) {
-        List<Object[]> list = null;
+        List<Object[]> list = new ArrayList<>();
         try {
             list = ItemQueries.getItemData(getSearchSelection(binderDto), "searchPromoteTpToChContractCount", null);
         } catch (Exception ex) {
@@ -758,25 +758,25 @@ public class PromoteTPLogic {
     private List<CurrentContractDTO> getPSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getPSList method");
 
-        final List<CurrentContractDTO> psList = new ArrayList<>();
-        final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
-        psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
-        psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        final List<CurrentContractDTO> getPsList = new ArrayList<>();
+        final DynamicQuery getPsDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
+        getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
+        getPsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
 
             if (parent2.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
                 if (parent2.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
                 }
             }
             if (parent2.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
 
                 if (parent2.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
                 }
 
             }
@@ -785,46 +785,46 @@ public class PromoteTPLogic {
 
             if (parent3.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
                 if (parent3.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
                 }
 
             }
             if (parent3.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
                 if (parent3.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
                 }
 
             }
         }
 
-        psDynamicQuery.setLimit(start, end);
-        final List<PsContract> psMasterList = dao.psMasterDynamicQuery(psDynamicQuery);
+        getPsDynamicQuery.setLimit(start, end);
+        final List<PsContract> psMasterList = dao.psMasterDynamicQuery(getPsDynamicQuery);
 
-        CurrentContractDTO contractMember;
+        CurrentContractDTO psContractMember;
 
         for (final Iterator<PsContract> iterator = psMasterList.iterator(); iterator.hasNext();) {
             final PsContract psMaster = (PsContract) iterator.next();
-            contractMember = new CurrentContractDTO();
-            contractMember.setSystemId(psMaster.getContractMasterSid());
-            contractMember.setContractName(psMaster.getPsName());
+            psContractMember = new CurrentContractDTO();
+            psContractMember.setSystemId(psMaster.getContractMasterSid());
+            psContractMember.setContractName(psMaster.getPsName());
             PsModel psModel = PsModelLocalServiceUtil.getPsModel(psMaster.getPsModelSid());
-            contractMember.setContractId(psModel.getPsId());
-            contractMember.setContractNo(psModel.getPsNo());
-            contractMember.setModelSysId(psModel.getPsModelSid());
-            contractMember.setCategory(Constants.IndicatorConstants.PS_VALUE.getConstant());
-            contractMember.setLevel(level);
-            contractMember.setParent1(parent1);
-            contractMember.setParent2(parent2);
-            contractMember.setParent3(parent3);
-            contractMember.setInternalId(psMaster.getPsContractSid());
-            psList.add(contractMember);
+            psContractMember.setContractId(psModel.getPsId());
+            psContractMember.setContractNo(psModel.getPsNo());
+            psContractMember.setModelSysId(psModel.getPsModelSid());
+            psContractMember.setCategory(Constants.IndicatorConstants.PS_VALUE.getConstant());
+            psContractMember.setLevel(level);
+            psContractMember.setParent1(parent1);
+            psContractMember.setParent2(parent2);
+            psContractMember.setParent3(parent3);
+            psContractMember.setInternalId(psMaster.getPsContractSid());
+            getPsList.add(psContractMember);
         }
         LOGGER.debug("End of getPSList method");
-        return psList;
+        return getPsList;
     }
 
     private List<CurrentContractDTO> getRSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final CurrentContractDTO parent4, final int level, final int start, final int end)
@@ -1320,7 +1320,7 @@ public class PromoteTPLogic {
             String rsNo = conSelDTO.getRebateScheduleNo().replace('*', '%');
             query.append(" AND RS_CON.RS_NO like '" ).append( rsNo ).append( "' \n ");
         }
-        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
+        if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             query.append(" AND RS_CON.RS_CATEGORY in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" ).append( rsCategory ).append( "' and HT.LIST_NAME = 'RS_CATEGORY' ) \n ");
         }
@@ -2492,7 +2492,7 @@ public class PromoteTPLogic {
                         + " from dbo.ITEM_MASTER IM join BRAND_MASTER BM ON IM.BRAND_MASTER_SID=BM.BRAND_MASTER_SID\n"
                         + "JOIN HELPER_TABLE HT ON IM.ITEM_STATUS=HT.HELPER_TABLE_SID";
                 query = query + " AND IM." + composedValue1 + " like'" + composedValue + "'";
-                query = query += "ORDER BY IM.ITEM_MASTER_SID OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT  " + compInfoDto.getEndIndex() + " ROWS ONLY ";
+                query = query + "ORDER BY IM.ITEM_MASTER_SID OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT  " + compInfoDto.getEndIndex() + " ROWS ONLY ";
             }
 
             List results = new ArrayList();
@@ -2519,7 +2519,7 @@ public class PromoteTPLogic {
                         + "ON PSD.PRICE_TOLERANCE_INTERVAL=HT3.HELPER_TABLE_SID LEFT JOIN dbo.HELPER_TABLE HT4 ON PSD.PRICE_TOLERANCE_FREQUENCY=HT4.HELPER_TABLE_SID\n"
                         + "LEFT JOIN dbo.HELPER_TABLE HT5 ON PSD.PRICE_TOLERANCE=HT5.HELPER_TABLE_SID LEFT JOIN dbo.HELPER_TABLE HT6 ON PSD.RESET_TYPE=HT6.HELPER_TABLE_SID\n"
                         + "LEFT JOIN dbo.HELPER_TABLE HT7 ON PSD.RESET_FREQUENCY=HT7.HELPER_TABLE_SID WHERE IM." + composedValue1 + LIKE_QUOTE + composedValue + "'";
-                query1 = query1 += "ORDER BY PM.PS_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
+                query1 = query1 + "ORDER BY PM.PS_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
                 List results = new ArrayList();
                 try {
                     results = promoteTpDAO.getItems(query1);
@@ -2562,7 +2562,7 @@ public class PromoteTPLogic {
                                 "        ON ST.HELPER_TABLE_SID = IM.ITEM_STATUS LEFT JOIN FORMULA_DETAILS_MASTER FORMULA\n" +
                                 "        ON FORMULA.FORMULA_ID = RS_D.FORMULA_ID LEFT JOIN REBATE_PLAN_MASTER RL\n" +
                                 "        ON RL.REBATE_PLAN_MASTER_SID = RS_D.REBATE_PLAN_MASTER_SID WHERE IM." + composedValue1 + LIKE_QUOTE + composedValue + "'";
-                query1 = query1 += " ORDER BY IFP_M.IFP_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
+                query1 = query1 + " ORDER BY IFP_M.IFP_NAME OFFSET " + compInfoDto.getStartIndex() + "  ROWS FETCH NEXT " + compInfoDto.getEndIndex() + " ROWS ONLY";
                 List results = new ArrayList();
                 try {
                     results = promoteTpDAO.getItems(query1);
@@ -3124,6 +3124,7 @@ public class PromoteTPLogic {
     public List<CurrentContractDTO> getSelectedTPContractSummary(List contList) {
         List<CurrentContractDTO> contResultList = new ArrayList<>();
         CurrentContractDTO currentContractDTO = null;
+        Date date = new Date();
         try {
             int listSize = contList.size();
             if (!contList.isEmpty()) {
@@ -3141,7 +3142,7 @@ public class PromoteTPLogic {
                     currentContractDTO.setPsName(convertNullToEmpty(String.valueOf(obj[NumericConstants.EIGHT])));
                     currentContractDTO.setRsName(convertNullToEmpty(String.valueOf(obj[NumericConstants.NINE])));
                     currentContractDTO.setCompanyStartDate(formatDate(String.valueOf(obj[NumericConstants.TEN])));
-                    currentContractDTO.setCompanyEndDate(obj[NumericConstants.ELEVEN] != null ? (Date) obj[NumericConstants.ELEVEN] : new Date());
+                    currentContractDTO.setCompanyEndDate(obj[NumericConstants.ELEVEN] != null ? (Date) obj[NumericConstants.ELEVEN] : date);
                     currentContractDTO.setStatus(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWELVE])));
                     contResultList.add(currentContractDTO);
                 }

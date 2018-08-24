@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -32,7 +33,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.util.Locale;
 
 public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkComponent {
 
@@ -118,7 +118,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			LOGGER.info("column---------->" + column);
 			leftTable.addColumn(row -> row.getPropertyValue(column))
 					.setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]).setId(column);
-			addFilterToGrid(dualListBoxConfig, leftTable, column);
+			addFilterToGrid(leftTable, column);
 		}
 
 		rightTable = new TreeGrid<>();
@@ -131,10 +131,10 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		moveLeft = new Button(" < ");
 		moveRight = new Button(" > ");
 		moveAllRight = new Button("ALL");
-		leftTable.setHeight(GtnFrameworkCssConstants.PIXEL_250);
-		rightTable.setHeight(GtnFrameworkCssConstants.PIXEL_250);
-		leftTable.setWidth(GtnFrameworkCssConstants.PIXEL_300);
-		rightTable.setWidth(GtnFrameworkCssConstants.PIXEL_300);
+		leftTable.setHeight(GtnFrameworkCssConstants.PIXEL_300);
+		rightTable.setHeight(GtnFrameworkCssConstants.PIXEL_300);
+		leftTable.setWidth(GtnFrameworkCssConstants.PIXEL_400);
+		rightTable.setWidth(GtnFrameworkCssConstants.PIXEL_400);
 
 		moveLeft.setId("dualListBoxMoveLeftButton");
 		moveRight.setId("dualListBoxMoveRightButton");
@@ -151,45 +151,45 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		return dualListBoxBean;
 	}
 
-	private void addFilterToGrid(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, Grid grid, String column) {
+	private void addFilterToGrid(Grid grid, String column) {
 		HeaderRow filterRow = grid.appendHeaderRow();
 		HorizontalLayout horizontalLayout = new HorizontalLayout();
 		horizontalLayout.setMargin(false);
 		horizontalLayout.setWidth("113%");
 		horizontalLayout.setHeight("37px");
-		TextField textField = new TextField();
-		textField.setPlaceholder("Show All");
-		textField.setId(column);
-		textField.setHeight("100%");
-		textField.setWidth("100%");
+		TextField gridShowAllTextField = new TextField();
+		gridShowAllTextField.setPlaceholder("Show All");
+		gridShowAllTextField.setId(column);
+		gridShowAllTextField.setHeight("100%");
+		gridShowAllTextField.setWidth("100%");
 
-		horizontalLayout.addComponent(textField);
+		horizontalLayout.addComponent(gridShowAllTextField);
 
 		horizontalLayout.addLayoutClickListener(new LayoutClickListener() {
 			@Override
-			public void layoutClick(LayoutClickEvent event) {
+			public void layoutClick(LayoutClickEvent gridShowAllTextFieldEvent) {
 
-				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder("");
+				if (gridShowAllTextFieldEvent.getChildComponent() == gridShowAllTextField) {
+					gridShowAllTextField.setPlaceholder("");
 				}
 			}
 		});
-		textField.addBlurListener(new BlurListener() {
+		gridShowAllTextField.addBlurListener(new BlurListener() {
 			@Override
-			public void blur(BlurEvent event) {
-				if (event.getComponent() == textField) {
-					String value = textField.getValue();
+			public void blur(BlurEvent gridShowAllTextFieldBlurEvent) {
+				if (gridShowAllTextFieldBlurEvent.getComponent() == gridShowAllTextField) {
+					String value = gridShowAllTextField.getValue();
 					if (value.equals(""))
-						textField.setPlaceholder("Show All");
+						gridShowAllTextField.setPlaceholder("Show All");
 				}
 			}
 		});
-		textField.addValueChangeListener(event -> {
+		gridShowAllTextField.addValueChangeListener(event -> {
 			String filterText = event.getValue();
 			ListDataProvider<GtnWsRecordBean> dataprovider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
 			dataprovider.setFilter(s -> {
 				String value = s.getPropertyValue("levelValue").toString().toLowerCase(Locale.ENGLISH);
-				return value.contains(filterText.toLowerCase());
+				return value.contains(filterText.toLowerCase(Locale.ENGLISH));
 			});
 		});
 		filterRow.getCell(String.valueOf(column)).setComponent(horizontalLayout);

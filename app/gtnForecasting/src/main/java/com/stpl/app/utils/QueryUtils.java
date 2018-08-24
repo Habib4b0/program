@@ -99,10 +99,10 @@ public class QueryUtils {
                      updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
                 }
             } else {
-                for (String discountName : periodsMap.keySet()) {
+                for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
 
-                    baselinePeriodsList = periodsMap.get(discountName).get("H");
-                    selectedPeriodsList = periodsMap.get(discountName).get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+                    baselinePeriodsList = discountName.getValue().get("H");
+                    selectedPeriodsList = discountName.getValue().get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     periodsList.clear();
                     if (baselinePeriodsList != null) {
                         periodsList.addAll(baselinePeriodsList);
@@ -110,7 +110,7 @@ public class QueryUtils {
                     if (selectedPeriodsList != null) {
                         periodsList.addAll(selectedPeriodsList);
                     }
-                    baselinePeriods = CommonUtils.mConvertCollectionToString(periodsList, false, true);
+                    baselinePeriods = CommonUtils.mConvertCollectionToString(periodsList, false, false);
 
                     baselinePeriods = baselinePeriods.replace(", ", ",");
 
@@ -120,7 +120,7 @@ public class QueryUtils {
                     if (isCustom) {
                         updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection);
                     } else {
-                        updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName, isProgram);
+                        updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName.getKey(), isProgram);
                     }
                 }
             }
@@ -850,8 +850,8 @@ public class QueryUtils {
         try {
              sql = SQlUtil.getQuery(queryName);
             if(input !=null){
-            for (String key : input.keySet()) {
-                sql = sql.replace(key, String.valueOf(input.get(key)));
+            for (Map.Entry<String, Object> key : input.entrySet()) {
+                sql = sql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             }
         } catch (Exception ex) {

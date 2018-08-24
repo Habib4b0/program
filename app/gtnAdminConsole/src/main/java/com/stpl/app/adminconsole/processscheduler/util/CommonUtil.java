@@ -20,6 +20,12 @@ import org.apache.commons.lang.StringUtils;
  * @author Jayaram
  */
 public class CommonUtil {
+    private static final Object[] SINGLE_COLUMN = {"hierarchyName", "hierarchyType", "hierarchyCategory", "nooflevels", "version"};
+    private static final Object[] HIERARCHY_NAME_ARY = {"hierarchyName"};
+    private static final Object[] HIERARCHY_TYPE_ARY = {"hierarchyType"};
+    private static final Object[] HIERARCHY_CATEGORY = {"hierarchyCategory"};
+    private static final Object[] NO_OF_LEVELS = {"nooflevels"};
+    private static final Object[] VERSION = {"version"};
     
     public static String workFlowQuery(int start, int offset,boolean count, boolean scheduler,String orderByColumn,boolean orderBy) throws SQLException {
         String query;
@@ -70,36 +76,29 @@ public class CommonUtil {
      * @return 
      */
        public static CustomTableHeaderDTO getHdOutboundCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, int totalLevel) {
-        Object[] singleCol = {"hierarchyName", "hierarchyType", "hierarchyCategory", "nooflevels", "version"};
-        Object[] hierarchyName = {"hierarchyName"};
-        Object[] hierarchyType = {"hierarchyType"};
-        Object[] hierarchyCategory = {"hierarchyCategory"};
-        Object[] nooflevels = {"nooflevels"};
-        Object[] version = {"version"};
-        tableHeaderDTO.addSingleColumn(singleCol[0], "Hierarchy Name", String.class);
-        tableHeaderDTO.addDoubleColumn(singleCol[0], " ");
-        tableHeaderDTO.addDoubleHeaderMap(singleCol[0], hierarchyName);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[0], "Hierarchy Name", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN, " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN, HIERARCHY_NAME_ARY);
 
-        tableHeaderDTO.addSingleColumn(singleCol[1], "Hierarchy Type", String.class);
-        tableHeaderDTO.addDoubleColumn(singleCol[1], " ");
-        tableHeaderDTO.addDoubleHeaderMap(singleCol[1], hierarchyType);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[1], "Hierarchy Type", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[1], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[1], HIERARCHY_TYPE_ARY);
 
-        tableHeaderDTO.addSingleColumn(singleCol[NumericConstants.TWO], "Hierarchy Category", String.class);
-        tableHeaderDTO.addDoubleColumn(singleCol[NumericConstants.TWO], " ");
-        tableHeaderDTO.addDoubleHeaderMap(singleCol[NumericConstants.TWO], hierarchyCategory);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[NumericConstants.TWO], "Hierarchy Category", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[NumericConstants.TWO], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[NumericConstants.TWO], HIERARCHY_CATEGORY);
 
-        tableHeaderDTO.addSingleColumn(singleCol[NumericConstants.THREE], "No of levels", String.class);
-        tableHeaderDTO.addDoubleColumn(singleCol[NumericConstants.THREE], " ");
-        tableHeaderDTO.addDoubleHeaderMap(singleCol[NumericConstants.THREE], nooflevels);
-        tableHeaderDTO.addSingleColumn(singleCol[NumericConstants.FOUR], "Version", String.class);
-        tableHeaderDTO.addDoubleColumn(singleCol[NumericConstants.FOUR], " ");
-        tableHeaderDTO.addDoubleHeaderMap(singleCol[NumericConstants.FOUR], version);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[NumericConstants.THREE], "No of levels", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[NumericConstants.THREE], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[NumericConstants.THREE], NO_OF_LEVELS);
+        tableHeaderDTO.addSingleColumn(SINGLE_COLUMN[NumericConstants.FOUR], "Version", String.class);
+        tableHeaderDTO.addDoubleColumn(SINGLE_COLUMN[NumericConstants.FOUR], " ");
+        tableHeaderDTO.addDoubleHeaderMap(SINGLE_COLUMN[NumericConstants.FOUR], VERSION);
+        List<Object> dmap = new ArrayList<>();
 
         for (int i = 1; i <= totalLevel; i++) {
             String commonHeader = "Level " + i; 
             String commonColumn = "level" + i; 
-
-            List<Object> dmap = new ArrayList<>();
 
             Object singleColumn = commonColumn + "LevelName";
             dmap.add(singleColumn);

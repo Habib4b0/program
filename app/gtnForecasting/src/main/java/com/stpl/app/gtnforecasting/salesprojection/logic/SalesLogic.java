@@ -15,7 +15,6 @@ import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
@@ -135,7 +134,6 @@ public class SalesLogic {
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
     public static final DecimalFormat UNITNODECIMAL = new DecimalFormat("#,##0");
     public static final DecimalFormat UNITTWODECIMAL = new DecimalFormat("#,##0.00");
     public static final DecimalFormat PROJECTEDUNITDECIMAL = new DecimalFormat("#,##0.0");
@@ -658,7 +656,7 @@ public class SalesLogic {
         sql = checkScreenName(projSelDTO, sql);
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
-        LOGGER.info("Excel Query-------------------------------------------------"+aaa);
+        LOGGER.info("Excel Query-------------------------------------------------{} ", aaa);
         return list;
         }
 
@@ -938,7 +936,7 @@ public class SalesLogic {
                 salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true) : new Boolean(false));
+            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ?  Boolean.FALSE :  Boolean.TRUE :  Boolean.FALSE);
             if (obj[NumericConstants.FOURTEEN] != null) {
                 salesRowDto.setUncheckCount(DataTypeConverter.convertObjectToInt(obj[NumericConstants.FOURTEEN]));
             }
@@ -1081,7 +1079,7 @@ public class SalesLogic {
         }
         input.put("?RBSIDC?", projSelDTO.getCustRelationshipBuilderSid());
         input.put("?RBSIDP?", projSelDTO.getProdRelationshipBuilderSid());
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency())) || ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
+        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
             join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
             join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
             join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");
@@ -1163,7 +1161,7 @@ public class SalesLogic {
             input.put(Constant.LEVELNO1, projSelDTO.getLevelFilterValue());
             input.put(Constant.HNO1, PERCENT.getConstant());
         }
-        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency())) || ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
+        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(projSelDTO.getFrequency()))) {
             join.put(Constant.SELECTFREQJOIN1, " 'null' as FREQUENCY, P.\"YEAR\" AS FREQYR,");
             join.put(Constant.GROUPFREQJOIN1, Constant.PFREQUENCY_PYEAR);
             join.put(Constant.ORDERFREQJOIN1, "SA.FREQYR,");
@@ -1358,7 +1356,7 @@ public class SalesLogic {
                 salesRowDto.setHierarchyIndicator(String.valueOf(object[NumericConstants.TEN]));
                 salesRowDto.setCheckRecordCount(String.valueOf(object[NumericConstants.SEVEN]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.SEVEN])) ? Constant.DASH : String.valueOf(object[NumericConstants.SEVEN]));
                 salesRowDto.setCcpCount(String.valueOf(object[NumericConstants.EIGHT]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.EIGHT])) ? Constant.DASH : String.valueOf(object[NumericConstants.EIGHT]));
-                int value = Integer.valueOf((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
+                int value = Integer.parseInt((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
                 salesRowDto.addBooleanProperties(Constant.CHECK, value >= Integer.parseInt(salesRowDto.getCcpCount()));
             }
             hierarchyNo = String.valueOf(object[NumericConstants.THREE]);
@@ -2225,18 +2223,18 @@ public class SalesLogic {
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
-                endPeriod = Integer.valueOf(startPeriod);
+                endPeriod = Integer.parseInt(startPeriod);
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
                 rowcount = rowcount * NumericConstants.THREE;
-                endPeriod = Integer.valueOf(startPeriod) + 2;
+                endPeriod = Integer.parseInt(startPeriod) + 2;
             } else if (frequencyDivision == NumericConstants.TWO) {
                 keyarr[0] = (keyarr[0]).replace('s', ' ');
                 rowcount = rowcount * NumericConstants.SIX;
-                endPeriod = Integer.valueOf(startPeriod) + 5;
+                endPeriod = Integer.parseInt(startPeriod) + 5;
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 keyarr[0] = (keyarr[0]).replace(keyarr[0], String.valueOf(getMonthNo(keyarr[0])));
-                endPeriod = Integer.valueOf(startPeriod) + 11;
+                endPeriod = Integer.parseInt(startPeriod) + 11;
             }
 
             String column = frequencyDivision == 1 ? keyarr[1] : keyarr[NumericConstants.TWO];
@@ -2284,7 +2282,6 @@ public class SalesLogic {
                 periodRestriction.append(Constant.WHERE_YEAR_EQUAL).append(year).append(" AND MONTH = ").append(frequency);
             }
 
-            CommonLogic commonLogic = new CommonLogic();
             String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") :SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
@@ -2310,7 +2307,10 @@ public class SalesLogic {
             }
 
             hierarchyInserQuery = hierarchyInserQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(isCustomView, customerHierarchyNo, productHierarchyNo, hiearchyIndicator));
-
+            hierarchyInserQuery += commonLogic.getJoinBasedOnTab(projectionSelectionDTO.getTabName(), projectionSelectionDTO.getGroupFilter(), projectionSelectionDTO.getScreenName());
+            if (!projectionSelectionDTO.getCustomerLevelFilter().isEmpty() || !projectionSelectionDTO.getProductLevelFilter().isEmpty()) {
+                hierarchyInserQuery += Constant.AND_SPMFILTER_CC_P1;
+            }
             String updateQuery = SQlUtil.getQuery("line-level-update");
             updateQuery = updateQuery.replace("[?UPDATE_LINE]", updateLine.toString());
             String uomJoin = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='" + projectionSelectionDTO.getUomCode() + "'";
@@ -2389,11 +2389,9 @@ public class SalesLogic {
     public boolean callManualEntry(final ProjectionSelectionDTO projectionSelectionDTO, String changedProperty) {
         boolean status = false;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
         SessionDTO session = projectionSelectionDTO.getSessionDTO();
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callManualEntryProcedure  ::::");
             if (connection != null) {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
@@ -2409,7 +2407,7 @@ public class SalesLogic {
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
+                statement.setObject(NumericConstants.TWO, session.getUserId()); //  @USER_ID
                 statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
@@ -2425,7 +2423,6 @@ public class SalesLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -2930,10 +2927,8 @@ public class SalesLogic {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
 
             if (connection != null) {
                 LOGGER.info("PRC_SALES_ADJUSTMENT_TEMP");
@@ -2980,7 +2975,6 @@ public class SalesLogic {
             if (statement != null) {
                 statement.close();
             }
-            connection.close();
         }
         return status;
     }
@@ -3112,7 +3106,7 @@ public class SalesLogic {
     }
 
     public String loadTotalLives(int projectionId) throws PortalException, SystemException {
-        BigDecimal lives = new BigDecimal(0.0);
+        BigDecimal lives = BigDecimal.valueOf(0.0);
         List<String> list = getTotalLives(projectionId, false);
         if (list != null) {
             for (String live : list) {
@@ -3199,10 +3193,8 @@ public class SalesLogic {
     public void callAlternateHistoryProcedure(SessionDTO sessionDTO, ContractBrandDTO contractBrandDTO) throws SQLException {
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_M_ALTERNATE_ACTUALS (?,?,?,?,?,?,?)}");
                 statement.setObject(1, contractBrandDTO.getContractHierarchyNo());
@@ -3220,16 +3212,13 @@ public class SalesLogic {
             if (statement != null) {
                 statement.close();
             }
-            connection.close();
         }
     }
 
     public void callAlternateHistoryProcedure(final Object[] inputs) throws SystemException, SQLException {
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+        try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callAlternateHistoryProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_NM_ALTERNATE_ACTUALS (?,?,?,?,?,?,?)}");
@@ -3257,7 +3246,6 @@ public class SalesLogic {
             if (statement != null) {
                 statement.close();
             }
-            connection.close();
         }
     }
 
@@ -3410,7 +3398,7 @@ public class SalesLogic {
                 return false;
             } else {
                 BigDecimal obj = (BigDecimal) list.get(0);
-                return obj.doubleValue() != 0.0;
+                return CommonUtils.compareDoubleValues(String.valueOf(obj.doubleValue())) != 0;
             }
         } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
@@ -3674,7 +3662,7 @@ public class SalesLogic {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturnAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWELVE] == null ? 0 : obj[NumericConstants.TWELVE])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + '%');
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? new Boolean(false) : new Boolean(true));
+            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? Boolean.FALSE : Boolean.TRUE);
             if (i == (resulList.size() - 1)) {
                 salesRowList.add(salesRowDto);
             }
@@ -3759,10 +3747,8 @@ public class SalesLogic {
         LOGGER.debug("SessionId------->= {} " , sessionId);
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
         CallableStatement statement = null;
-        try {
-            connection = dataSourceConnection.getConnection();
+       try (Connection connection = dataSourceConnection.getConnection()) {
 
             if (connection != null) {
 
@@ -3785,7 +3771,6 @@ public class SalesLogic {
                 if (statement != null) {
                     statement.close();
                 }
-                connection.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -3853,14 +3838,14 @@ public class SalesLogic {
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
         double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
-        double amountA = 0.0;
+        double amountA = 0;
         for (String split : entry.getValue().split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountA += salesAmount.get(split);
             }
         }
         //Code to calculate B
-        double amountB = 0.0;
+        double amountB = 0;
         for (String split : parentDetailsSid.split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountB += salesAmount.get(split);
@@ -3868,10 +3853,11 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} ", amount);
-        if (amountA == 0.0 && amountB == 0.0) {
-            amount = 0.0;
-        } else if (amountA != 0.0 && amountB != 0.0) {
+        LOGGER.debug("amount     = {} ", amount); 
+        
+        if (amountA == 0 || amountB ==0 ){
+            amount = 0;
+        } else {
             amount = (amountA / amountB) * amount;
         }
         return amount;
@@ -4536,19 +4522,19 @@ public class SalesLogic {
     }
 
     public Leveldto getCustomizedView(Object[] obj, boolean isHierarchy) {
-        Leveldto dto = new Leveldto();
-        dto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
-        dto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
-        dto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
-        dto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
+        Leveldto customViewDto = new Leveldto();
+        customViewDto.setLevelNo(Integer.valueOf(String.valueOf(obj[0])));
+        customViewDto.setTreeLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+        customViewDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.TWO]));
+        customViewDto.setLevel(String.valueOf(obj[NumericConstants.THREE]));
         if (isHierarchy) {
-            dto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
+            customViewDto.setHierarchyId(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
         } else {
-            dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
-            dto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
-            dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
+            customViewDto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.FOUR]));
+            customViewDto.setParentNode(String.valueOf(obj[NumericConstants.FIVE]));
+            customViewDto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
         }
-        return dto;
+        return customViewDto;
     }
 
     public int getLevelListCount(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, SessionDTO session) {
@@ -4584,7 +4570,7 @@ public class SalesLogic {
     }
 
     public Set availableHierarchy(List currentHierarchy, ProjectionSelectionDTO projectionSelectionDTO, int start, int end, int expandLevelNo) {
-        int forecastlevel = Integer.valueOf(projectionSelectionDTO.getHierarchyIndicator().equals("C") ? projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber() : projectionSelectionDTO.getSessionDTO().getProductLevelNumber());
+        int forecastlevel = Integer.parseInt(projectionSelectionDTO.getHierarchyIndicator().equals("C") ? projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber() : projectionSelectionDTO.getSessionDTO().getProductLevelNumber());
         Set hierachies = new LinkedHashSet();
         for (int i = start; i < end && i < currentHierarchy.size(); i++) {
             String hierarachy = String.valueOf(currentHierarchy.get(i));

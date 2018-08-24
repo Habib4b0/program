@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
@@ -27,6 +26,7 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.NotificationUtils;
@@ -45,6 +45,7 @@ import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -55,6 +56,7 @@ import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.ComboBox;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -66,6 +68,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -91,7 +94,11 @@ public class CFFLogic {
     private final DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     public static final String LATEST_ESTIMATE_PROPERTY = "latestEstimate"; 
     public static final String UPDATE_CYCLE_PROPERTY = "updateCycle";
-
+    public static final String RBSID = "?RBSID";
+    public static final String RBVERSION = "?RBVERSION";
+    public static final String EACH = "EACH";
+    private ExecutorService service = ThreadPool.getInstance().getService();
+    public static final String STRING_COMMA = ",";
     /**
      * Gets latest approved CCP Projection
      *
@@ -367,7 +374,7 @@ public class CFFLogic {
      */
     public String submitCffApproveDetails(String userId, int cffId) {
         final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        int create = (int) CounterLocalServiceUtil.increment();
         final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
@@ -507,7 +514,7 @@ public class CFFLogic {
      */
     public String rejectCffApproveDetails(String userId, int cffId) {
         final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        int create = (int) CounterLocalServiceUtil.increment();
         final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
@@ -543,7 +550,7 @@ public class CFFLogic {
      */
     public String cancelCffApproveDetails(String userId, int cffId) {
         final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        int create = (int) CounterLocalServiceUtil.increment();
         final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
@@ -886,11 +893,11 @@ public class CFFLogic {
         String query = "INSERT INTO CFF_MASTER (CFF_ELIGIBLE_DATE,CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,\n"
                 + "    CUSTOMER_HIER_VERSION_NO, COMPANY_GROUP_SID, CUSTOMER_HIERARCHY_INNER_LEVEL, CUST_RELATIONSHIP_BUILDER_SID, COMPANY_MASTER_SID, PRODUCT_HIERARCHY_SID,\n"
                 + "    PRODUCT_HIERARCHY_LEVEL, PRODUCT_HIER_VERSION_NO, ITEM_GROUP_SID, PRODUCT_HIERARCHY_INNER_LEVEL, PROD_RELATIONSHIP_BUILDER_SID, INBOUND_STATUS, CREATED_BY,\n"
-                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT, PROJECTION_CUST_VERSION, PROJECTION_PROD_VERSION, PROJECTION_DED_VERSION @DEDUCTION_ADDITION ) VALUES (@CFFELIGDATE,'@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
+                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT, PROJECTION_CUST_VERSION, PROJECTION_PROD_VERSION, PROJECTION_DED_VERSION @CUSTOM @DEDUCTION_ADDITION ) VALUES (@CFFELIGDATE,'@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
                 + "    '@CUSTOMER_HIERARCHY_SID', '@CUSTOMER_HIERARCHY_LEVEL', '@CUSTOMER_HIER_VERSION_NO', @COMPANY_GROUP_SID,\n"
                 + "    '@CUSTOMER_HIERARCHY_INNER_LEVEL', '@CUST_RELATIONSHIP_BUILDER_SID', '@COMPANY_MASTER_SID', '@PRODUCT_HIERARCHY_SID',\n"
                 + "    '@PRODUCT_HIERARCHY_LEVEL', '@PRODUCT_HIER_VERSION_NO', @ITEM_GROUP_SID, '@PRODUCT_HIERARCHY_INNER_LEVEL',\n"
-                + "    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE','@BUSINESS_UNIT',@PROJCUSTVERSION, @PROJPRODVERSION, @PROJDEDVERSION @DED_ADD_VALUES ) ";
+                + "    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE','@BUSINESS_UNIT',@PROJCUSTVERSION, @PROJPRODVERSION, @PROJDEDVERSION ,@CUSTOM_VW_MASTR_SALES @DED_ADD_VALUES ) ";
 
         if (isUpdate) {
             List l = new ArrayList();
@@ -931,6 +938,8 @@ public class CFFLogic {
 
 
         query = query.replace("@DEDUCTION_ADDITION", CommonUtils.isValueEligibleForLoading() ? " ,DEDUCTION_HIERARCHY_SID,DED_RELATIONSHIP_BULDER_SID " : StringUtils.EMPTY);
+        query = query.replace(",@CUSTOM_VW_MASTR_SALES",  dataSelectionDTO.getCustomViewMasterSid()!=0? ","+dataSelectionDTO.getCustomViewMasterSid():StringUtils.EMPTY);
+        query = query.replace("@CUSTOM", dataSelectionDTO.getCustomViewMasterSid() != 0 ? ",CUSTOM_VW_MASTR_SALES" : StringUtils.EMPTY);
         query = query.replace("@DED_ADD_VALUES", CommonUtils.isValueEligibleForLoading() ? " ,'@DEDUCTION_HIERARCHY_SID','@DED_RELATIONSHIP_BULDER_SID' " : StringUtils.EMPTY);
         query = query.replace("@DED_RELATIONSHIP_BULDER_SID", dedRelId[0] + "");
         query = query.replace("@DEDUCTION_HIERARCHY_SID", dedRelId[1] + "");
@@ -988,7 +997,7 @@ public class CFFLogic {
         try {
             if ("update".equals(indicator)) {
                 for (String rsId : addLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
@@ -996,7 +1005,7 @@ public class CFFLogic {
                 }
             } else if ("save".equals(indicator)) {
                 for (Leveldto dto : levelList) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
@@ -1005,7 +1014,7 @@ public class CFFLogic {
             }
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
@@ -1042,7 +1051,7 @@ public class CFFLogic {
         try {
             if ("update".equals(indicator)) {
                 for (String rsId : addLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
@@ -1050,7 +1059,7 @@ public class CFFLogic {
                 }
             } else if ("save".equals(indicator)) {
                 for (Leveldto levelListDto : levelList) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(levelListDto.getRelationshipLevelSid());
@@ -1059,7 +1068,7 @@ public class CFFLogic {
             }
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
-                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    create = (int) CounterLocalServiceUtil.increment();
                     cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
@@ -1547,6 +1556,56 @@ public class CFFLogic {
         }
         return resultMap;
     }
+    
+    public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new LinkedHashMap<>();
+
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesCP", sessionDTO);
+		tempList.clear();
+                String customCCPQuery = SQlUtil.getQuery("getRelationshipCustomCCP").replace("?RBSID", relationshipBuilderSid).replace("@CUSTOMSID", relationshipBuilderSid);
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(customCCPQuery + bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List<Object> detailsList = new ArrayList<>();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+		        detailsList.add(object[object.length-1]);											// Actual System Id
+			 // HIERARCHY
+			updateRelationShipLevelList(object, detailsList, 1);
+                        
+			resultMap.put(String.valueOf(object[0]), detailsList);
+
+			if (j == tempList.size() - 1) {
+				if (detailsList.get(detailsList.size() - 1).equals("C")) {
+					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				} else {
+					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				}
+			}
+
+		}
+		return resultMap;
+	}
+    
+    private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
+		if (object.length >= 5) {
+			List<Object> displayFormat = new ArrayList<>();
+			for (int i = 5; i < object.length - extraColumnIndex; i++) {
+				displayFormat.add(object[i]);
+			}
+			detailsList.add(displayFormat);
+		}
+	}
+    
+    
 
     /**
      * To get the selected cust and prod values. Used in edit mode. For add mode
@@ -1573,6 +1632,35 @@ public class CFFLogic {
         }
         return resultList;
     }
+    
+    public Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeductionCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new HashMap<>();
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesDed", sessionDTO);
+		tempList.clear();
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List detailsList = new ArrayList();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+															// Actual System Id
+			detailsList.add("D"); // HIERARCHY INDICATOR
+			updateRelationShipLevelList(object, detailsList, 0);
+			resultMap.put(String.valueOf(object[0]), detailsList);
+		}
+		return resultMap;
+	}
+    
+    
 
     /**
      * Used to check which level is top in selected customer hierarchy either
@@ -1589,6 +1677,83 @@ public class CFFLogic {
             }
         }
         return StringUtils.EMPTY;
+    }
+    
+    public void loadCustomViewValues(ComboBox customViewDdlb,Map<String,String> customViewInput,boolean isReset){
+    if (customViewInput.get(ConstantsUtil.CUSTOMER_SID_LITERAL) != null && customViewInput.get(ConstantsUtil.CUSTVER) != null && customViewInput.size()>3) {
+            String sqlQuery = SQlUtil.getQuery("loadCustomRelationValues");
+            sqlQuery = sqlQuery.replace("@CUSTSID", customViewInput.get(ConstantsUtil.CUSTOMER_SID_LITERAL)).replace("@PRODSID", customViewInput.get(ConstantsUtil.PROD_SID_LITERAL))
+                    .replace("@CUSTVER", customViewInput.get(ConstantsUtil.CUSTVER)).replace("@PRODVER", customViewInput.get(ConstantsUtil.PRODVER));
+            List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
+
+            for (Object[] objects : queryList) {
+                customViewDdlb.addItem(objects[0]);
+                customViewDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+            if (!queryList.isEmpty()  && isReset) {
+                customViewDdlb.setValue(queryList.get(0)[0]);
+            }
+        }
+    }
+    
+    public void loadSalesTempTableInThread(SessionDTO session,boolean isDataSelection){
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, "CUSTOMER");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.SALES,session.getDeductionName(),"C",isDataSelection?EACH:session.getDiscountUom(),null};
+                CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, "PRODUCT");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.SALES,session.getDeductionName(),"P",isDataSelection?EACH:session.getDiscountUom(),null};
+                  CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, "CUSTOM");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.SALES,session.getDeductionName(),"U",isDataSelection?EACH:session.getDiscountUom(),null};
+                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+        
+    }
+  
+    public void loadDiscountCustomTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOM");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"U", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
+                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+    }
+    
+    public void loadDiscountTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
+    service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOMER");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"C", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
+                CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+      
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "PRODUCT");
+                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"P", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
+                  CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+            }
+        });
+        
     }
 }
 

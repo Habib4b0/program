@@ -7,7 +7,7 @@
 
 	<mvc:annotation-driven />
 	<context:component-scan
-		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion" />
+		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion,com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService,com.stpl.gtn.gtn2o.ws.module.companymaster.service,com.stpl.gtn.gtn2o.ws.module.itemaster.service" />
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -464,11 +464,21 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
 	</bean>
-	<bean id="queryGeneratorService"
+<!--        <bean id="gtnWsCMasterService" class="com.stpl.gtn.gtn2o.ws.module.companymaster.service.GtnWsCMasterService" >
+                <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+        </bean>-->
+        <bean id="gTNSearchServiceController"
+		class="com.stpl.gtn.gtn2o.ws.controller.GtnWsSearchServiceController">
+		<property name="gtnWebServiceAllListConfig" ref="gtnWebServiceAllListConfig"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+	</bean>
+<!--	<bean id="queryGeneratorService"
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator">
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
-	</bean>
+	</bean>-->
 
 	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
 		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
@@ -476,6 +486,6 @@
 		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
-		<property name="queryGeneratorService" ref="queryGeneratorService"></property>
+		<!--<property name="queryGeneratorService" ref="queryGeneratorService"></property>-->
 	</bean>
 </beans>

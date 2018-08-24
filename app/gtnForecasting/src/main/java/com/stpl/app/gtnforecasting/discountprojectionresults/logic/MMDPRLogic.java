@@ -25,7 +25,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,7 +67,6 @@ public class MMDPRLogic {
     private String pivotGroupName = StringUtils.EMPTY;
     private String pivotBrandName = StringUtils.EMPTY;
     private String nmSupp_Level = StringUtils.EMPTY;
-    public static final SimpleDateFormat FORMATDATE = new SimpleDateFormat(Constant.DATE_FORMAT);
     private final HashMap<String, String> map = new HashMap<>();
     private boolean viewFlag = false;
 
@@ -579,7 +577,7 @@ public class MMDPRLogic {
         if (Constant.PROJECTION_TOTAL.equals(projSelDTO.getGroup()) && Constant.DISCOUNT_SMALL.equals(projSelDTO.getPivotView())) {
             resultList = getPivotProjectionTotalDiscount(projSelDTO, start, offset);
         }
-        if ((Constant.NON_MANDATED_SUPPLEMENTAL.equals(projSelDTO.getLevelValue()) || Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT.equals(projSelDTO.getGroup()) || Constant.NON_MANDATED_SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) && Constant.NON_MANDATED_SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
+        if ((Constant.NON_MANDATED_SUPPLEMENTAL.equals(projSelDTO.getLevelValue()) || Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT.equals(projSelDTO.getGroup())) && Constant.NON_MANDATED_SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
 
             int frequencyDivision;
             if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
@@ -595,7 +593,7 @@ public class MMDPRLogic {
                 if (projSelDTO.getNmSuppLevel().equals("NMLevel")) {
                     List list = dqLogic.getNonMandateTotalValue(projSelDTO.getProjectionId(), projSelDTO.getFrequency(), projSelDTO);
                     String checkYear = StringUtils.EMPTY;
-                    if (list.size() != 0) {
+                    if (!list.isEmpty()) {
                         DiscountProjectionResultsDTO dto = null;
                         for (int i = 0; i < list.size(); i++) {
 
@@ -1991,7 +1989,7 @@ public class MMDPRLogic {
     }
 
     private void customizePCDisc(List<Object[]> list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
-        if (!list.isEmpty() && list != null) {
+        if (!list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
@@ -2056,7 +2054,7 @@ public class MMDPRLogic {
 
     private void customizeManSupp(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
 
-        if (!checkYear.isEmpty() && checkYear != null) {
+        if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
 
@@ -2112,7 +2110,7 @@ public class MMDPRLogic {
     }
 
     private void customizeNonMandat(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
-        if (!checkYear.isEmpty() && checkYear != null) {
+        if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
@@ -2161,7 +2159,7 @@ public class MMDPRLogic {
     }
 
     private void customizeNonMandat_Brand(List list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {
-        if (!checkYear.isEmpty() && checkYear != null) {
+        if (!checkYear.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
@@ -2331,7 +2329,8 @@ public class MMDPRLogic {
                 } else {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         if (map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)) == null) {
-                            projSelDTO.setPivotValue(projSelDTO.getPivotValue());
+                            String pivotValueDiscount = projSelDTO.getPivotValue();
+                            projSelDTO.setPivotValue(pivotValueDiscount);
                         } else {
                             String monValue = projSelDTO.getPivotValue().replace(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE), map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)));
                             projSelDTO.setPivotValue(monValue);
@@ -2359,7 +2358,8 @@ public class MMDPRLogic {
                         if (map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE)) != null) {
                             projSelDTO.setPivotValue(projSelDTO.getPivotValue().replace(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE), map.get(projSelDTO.getPivotValue().substring(0, NumericConstants.THREE))));
                         } else {
-                            projSelDTO.setPivotValue(projSelDTO.getPivotValue());
+                            String pivotValueSupplemental = projSelDTO.getPivotValue();
+                            projSelDTO.setPivotValue(pivotValueSupplemental);
                         }
                     } else {
                         projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));

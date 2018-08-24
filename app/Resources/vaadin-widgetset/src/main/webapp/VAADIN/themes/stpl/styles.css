@@ -1017,10 +1017,6 @@
  */
 
 /**
- *
- */
-
-/**
  * @group window
  */
 
@@ -1081,7 +1077,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "8.1.6";
+	content: "8.5.1";
 }
 
 .v-widget {
@@ -1172,7 +1168,7 @@
 	overflow: auto;
 }
 
-.v-assistive-device-only {
+.v-assistive-device-only, .v-assistive-device-only-label label {
 	position: absolute;
 	top: -2000px;
 	left: -2000px;
@@ -1751,6 +1747,61 @@ div.v-layout.v-horizontal.v-widget {
 	content: "!";
 }
 
+.stpl .v-errorindicator-info {
+	color: #00a7f5;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.stpl .v-errorindicator-info:before {
+	content: "!";
+}
+
+.stpl .v-errorindicator-warning {
+	color: #fc9c00;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.stpl .v-errorindicator-warning:before {
+	content: "!";
+}
+
+.stpl .v-errorindicator-error {
+	color: #ed473b;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.stpl .v-errorindicator-error:before {
+	content: "!";
+}
+
+.stpl .v-errorindicator-critical {
+	color: #fa007d;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.stpl .v-errorindicator-critical:before {
+	content: "!";
+}
+
+.stpl .v-errorindicator-system {
+	color: #bb00ff;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.stpl .v-errorindicator-system:before {
+	content: "!";
+}
+
 .stpl .v-required-field-indicator {
 	color: #ed473b;
 	padding: 0 0.2em;
@@ -1828,6 +1879,26 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-tooltip .v-errormessage h2:only-child {
 	font: inherit;
 	line-height: inherit;
+}
+
+.stpl .v-tooltip .v-errormessage-info {
+	color: #00a7f5;
+}
+
+.stpl .v-tooltip .v-errormessage-warning {
+	color: #fc9c00;
+}
+
+.stpl .v-tooltip .v-errormessage-error {
+	color: #ed473b;
+}
+
+.stpl .v-tooltip .v-errormessage-critical {
+	color: #fa007d;
+}
+
+.stpl .v-tooltip .v-errormessage-system {
+	color: #bb00ff;
 }
 
 .stpl .v-tooltip .v-tooltip-text {
@@ -3085,6 +3156,61 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-filterselect-error .v-filterselect-button {
 	color: #ed473b;
 	border-color: #ed473b;
+}
+
+.stpl .v-filterselect-error-info .v-filterselect-input {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.stpl .v-filterselect-error-info .v-filterselect-button {
+	color: #00a7f5;
+	border-color: #00a7f5;
+}
+
+.stpl .v-filterselect-error-warning .v-filterselect-input {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.stpl .v-filterselect-error-warning .v-filterselect-button {
+	color: #fc9c00;
+	border-color: #fc9c00;
+}
+
+.stpl .v-filterselect-error-error .v-filterselect-input {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.stpl .v-filterselect-error-error .v-filterselect-button {
+	color: #ed473b;
+	border-color: #ed473b;
+}
+
+.stpl .v-filterselect-error-critical .v-filterselect-input {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.stpl .v-filterselect-error-critical .v-filterselect-button {
+	color: #fa007d;
+	border-color: #fa007d;
+}
+
+.stpl .v-filterselect-error-system .v-filterselect-input {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
+.stpl .v-filterselect-error-system .v-filterselect-button {
+	color: #bb00ff;
+	border-color: #bb00ff;
 }
 
 .stpl .v-filterselect-suggestpopup {
@@ -5117,6 +5243,36 @@ div.v-layout.v-horizontal.v-widget {
 	color: #6c2621;
 }
 
+.stpl .v-textfield-error-info {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.stpl .v-textfield-error-warning {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.stpl .v-textfield-error-error {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.stpl .v-textfield-error-critical {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.stpl .v-textfield-error-system {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
 .stpl .v-textfield-borderless {
 	border: none;
 	border-radius: 0;
@@ -5861,6 +6017,61 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-datefield-error .v-datefield-button {
 	color: #ed473b;
 	border-color: #ed473b;
+}
+
+.stpl .v-datefield-error-info .v-datefield-textfield {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.stpl .v-datefield-error-info .v-datefield-button {
+	color: #00a7f5;
+	border-color: #00a7f5;
+}
+
+.stpl .v-datefield-error-warning .v-datefield-textfield {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.stpl .v-datefield-error-warning .v-datefield-button {
+	color: #fc9c00;
+	border-color: #fc9c00;
+}
+
+.stpl .v-datefield-error-error .v-datefield-textfield {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.stpl .v-datefield-error-error .v-datefield-button {
+	color: #ed473b;
+	border-color: #ed473b;
+}
+
+.stpl .v-datefield-error-critical .v-datefield-textfield {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.stpl .v-datefield-error-critical .v-datefield-button {
+	color: #fa007d;
+	border-color: #fa007d;
+}
+
+.stpl .v-datefield-error-system .v-datefield-textfield {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
+.stpl .v-datefield-error-system .v-datefield-button {
+	color: #bb00ff;
+	border-color: #bb00ff;
 }
 
 .stpl .v-datefield-full {
@@ -8359,6 +8570,30 @@ div.v-layout.v-horizontal.v-widget {
 	color: inherit;
 }
 
+.stpl .v-window-closebox:focus::after {
+	content: "";
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	bottom: 6px;
+	left: 2px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+}
+
+.stpl .v-window-maximizebox:focus::after, .stpl .v-window-restorebox:focus::after {
+	content: "";
+	position: absolute;
+	top: 6px;
+	right: 2px;
+	bottom: 6px;
+	left: 6px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+}
+
 .stpl .v-window-closebox {
 	padding-right: 4px;
 	border-radius: 0 4px 0 4px;
@@ -8386,6 +8621,10 @@ div.v-layout.v-horizontal.v-widget {
 	width: 37px;
 	padding-right: 0;
 	border-bottom-left-radius: 4px;
+}
+
+.stpl .v-window-closebox-disabled  + .v-window-closebox:focus::after, .stpl .v-window-resizebox-disabled  + .v-window-closebox:focus::after, .stpl .v-window-restorebox-disabled  + .v-window-closebox:focus::after, .stpl .v-window-maximizebox-disabled  + .v-window-closebox:focus::after {
+	left: 6px;
 }
 
 .stpl .v-window-maximizebox:before {
@@ -12371,6 +12610,7 @@ div.v-layout.v-horizontal.v-widget {
 	width: 100% !important;
 	height: auto !important;
 	padding: 9px;
+	display: inline-flex;
 }
 
 .stpl .v-colorpicker-preview-textfield {
@@ -12734,6 +12974,36 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: #ed473b !important;
 	background: #fffbfb;
 	color: #6c2621;
+}
+
+.stpl .v-select-twincol-error-info .v-select-twincol-options, .stpl .v-select-twincol-error-info .v-select-twincol-selections {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.stpl .v-select-twincol-error-warning .v-select-twincol-options, .stpl .v-select-twincol-error-warning .v-select-twincol-selections {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.stpl .v-select-twincol-error-error .v-select-twincol-options, .stpl .v-select-twincol-error-error .v-select-twincol-selections {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.stpl .v-select-twincol-error-critical .v-select-twincol-options, .stpl .v-select-twincol-error-critical .v-select-twincol-selections {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.stpl .v-select-twincol-error-system .v-select-twincol-options, .stpl .v-select-twincol-error-system .v-select-twincol-selections {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
 }
 
 .stpl .v-select select {
@@ -14902,7 +15172,6 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: 600;
 }
 
-
 .stpl .v-textfield-custom-report {
 	margin-left: -18px !important;
 	height: 39px !important;
@@ -14936,9 +15205,9 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-h-layout-report-save-lookup {
 	margin-left: -7px !important;
 }
+
 .stpl #reportCustomViewLookup_custom_Variable_OptionGroup > span:nth-child(1) {
 	margin-right: 52px;
-
 }
 
 .stpl #valueConfigHorizontal #reportOptionsTabComparisonOptions_value {
@@ -14950,6 +15219,279 @@ div.v-layout.v-horizontal.v-widget {
 	margin-right: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.stpl .v-report-display-pagination {
+	margin-left: -57px !important;
+}
+
+.stpl .v-report-display-pagination-button {
+	margin-left: -15px !important;
+	margin-top: -7px !important;
+}
+
+.stpl .v-report-display-pagination-label {
+	margin-left: -15px !important;
+}
+
+.stpl .v-report-display-pagination-button-top {
+	margin-top: -7px !important;
+}
+
+.stpl .v-report-display-selection-profile {
+	margin-left: -49px !important;
+}
+
+.stpl .v-report-display-selection-comparison {
+	margin-left: -12px !important;
+}
+
+.stpl .v-report-display-selection-variables {
+	margin-left: -10px !important;
+}
+
+.stpl .v-report-display-selection-comparison-search {
+	min-width: 186px !important;
+	width: 186px !important;
+	margin-left: 30px !important;
+}
+
+.stpl .v-report-display-selection-profile-search {
+	width: 186px !important;
+}
+
+.stpl .v-report-custom-view {
+	margin-left: -40px !important;
+}
+
+.stpl .v-report-display-selection-variable-category {
+	margin-left: 32px !important;
+}
+
+.stpl .v-report-display-selection-comparison-basis {
+	margin-left: 6px !important;
+}
+
+.stpl .v-report-display-selection-variables-combo {
+	margin-left: 49px !important;
+}
+
+.stpl .v-report-display-selection-annual-totals {
+	margin-left: 20px !important;
+}
+
+.stpl .v-report-display-selection-freq {
+	margin-left: 5px !important;
+}
+
+.stpl .v-report-display-selection-freq-combo {
+	margin-left: 17px !important;
+}
+
+.stpl .v-report-display-selection-prt {
+	margin-left: 4px !important;
+}
+
+.stpl .v-report-display-selection-from {
+	margin-left: -29px !important;
+	margin-top: 7px !important;
+}
+
+.stpl .v-report-data-selection-from-combo {
+	margin-left: 105px !important;
+	margin-top: -42px !important;
+}
+
+.stpl .v-report-display-selection-to {
+	margin-left: -18px !important;
+	margin-top: 7px !important;
+}
+
+.stpl .v-report-data-selection-to-combo {
+	margin-left: 105px !important;
+	margin-top: -46px !important;
+}
+
+.stpl .v-report-data-selection-private {
+	margin-left: -25px !important;
+}
+
+.stpl .v-report-data-selection-public {
+	margin-left: -29px !important;
+}
+
+.stpl .v-report-data-selection-company {
+	margin-left: -26px !important;
+}
+
+.stpl .v-report-data-selection-company-combo {
+	margin-left: 144px !important;
+	margin-top: -45px !important;
+}
+
+.stpl .v-report-data-selection-reportdatasource {
+	margin-left: 58px !important;
+}
+
+.stpl .v-position-fixed {
+	position: fixed !important;
+}
+
+.stpl .v-report-filter-options {
+	margin-left: -50px !important;
+}
+
+.stpl .v-report-reportoptions-hseq {
+	margin-left: -34px !important;
+}
+
+.stpl .v-report-reportoptions-hseq-combo {
+	margin-left: 75px !important;
+}
+
+.stpl .v-report-reportoptions-comparison {
+	margin-left: 1px !important;
+	margin-top: 3px !important;
+}
+
+.stpl .v-report-reportoptions-vseq {
+	margin-left: 5px !important;
+}
+
+.stpl .v-report-excel-button {
+	margin-left: -30px !important;
+}
+
+.stpl .v-report-options-vb {
+	margin-top: 3px !important;
+}
+
+.stpl .v-treegrid-cell-content {
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+.stpl .v-treegrid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+	border: 3px solid transparent;
+}
+
+.stpl .v-report-comparisonOption-width {
+	min-width: 170px !important;
+}
+
+.stpl .v-report-comparisonOption-combowidth {
+	width: 170px !important;
+}
+
+.stpl .v-reportLandingScreen-PrivateView {
+	margin-left: 100px;
+	margin-top: -25px;
+	min-width: 150px !important;
+	width: 150px !important;
+}
+
+.stpl .v-reportLandingScreen-companyLayout {
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.stpl .v-reportLandingScreen-company {
+	margin-left: 90px;
+	margin-top: -25px;
+	min-width: 150px !important;
+	width: 150px !important;
+}
+
+.stpl .v-reportLandingScreen-dataSourceLayout {
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.stpl .v-reportLandingScreen-dataSource {
+	margin-left: 130px;
+	margin-top: -25px;
+	min-width: 150px !important;
+	width: 150px !important;
+}
+
+.stpl .v-reportLandingScreen-reportSelectionLayout1 {
+	margin-top: -21px;
+}
+
+.stpl .v-publicViewTextField {
+	margin-left: 100px;
+	margin-top: -25px;
+	min-width: 150px !important;
+	width: 150px !important;
+}
+
+.stpl .v-bu {
+	margin-left: 90px;
+	margin-top: -25px;
+	min-width: 150px !important;
+	width: 150px !important;
+}
+
+.stpl .v-BU-layout {
+	margin-left: 10px;
+}
+
+.stpl .v-fromToMainLayout {
+	margin-left: -5px;
+	margin-top: 4px;
+}
+
+.stpl .v-reportLandingScreen-fromPeriodLayout {
+	margin-left: -35px;
+	margin-top: 10px;
+}
+
+.stpl .v-reportLandingScreen-fromPeriod {
+	margin-left: 110px;
+	margin-top: -45px;
+}
+
+.stpl .v-reportLandingScreen-toPeriodComboBox {
+	margin-left: 110px;
+	margin-top: -45px;
+}
+
+.stpl .v-report-width-200 {
+	width: 200px !important;
+}
+
+.stpl .v-report-width-170 {
+	width: 170px !important;
+}
+
+.stpl .v-report-data-assumption-excel {
+	margin-left: 16px !important;
+	margin-top: -35px !important;
+}
+
+.stpl .v-report-data-assumption-date-field {
+	margin-top: -5px !important;
+}
+
+.stpl .v-report-overflow-auto {
+	overflow: auto !important;
+}
+
+.stpl .v-report-margin--2 {
+	margin-left: -2px !important;
+}
+
+.stpl .v-report-margin--5 {
+	margin-right: -15px !important;
+}
+
+.stpl .v-report-filter-option-combo-width {
+	width: 150px !important;
+}
+
+.stpl .v-report-filter-option-customer-filter {
+	margin-left: 26px !important;
 }
 
 .v-slot, .v-spacing {
@@ -14969,4 +15511,8 @@ div.v-layout.v-horizontal.v-widget {
 .v-table-caption-container {
 	font-weight: bold;
 	font-size: 12px;
+}
+
+.v-margin-bottom1 {
+	padding-bottom: 0px !important;
 }

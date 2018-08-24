@@ -32,7 +32,6 @@ import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +97,6 @@ public class CopyContractform extends CustomComponent implements View {
     public PopupDateField enddate;
     @UiField("markettype")
     public ComboBox markettype;
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private int tabPosition = 0;
     private Newcomponent Newcomponent;
     private Exixtingcomponent existingcomponent;
@@ -142,7 +140,6 @@ public class CopyContractform extends CustomComponent implements View {
 
     public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) {
         this.editWindow = editWindow;
-        this.resultTable = resultTable;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.count = Count;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyContractform.xml"), this));

@@ -87,33 +87,22 @@ public class Summary extends CustomComponent {
     private final ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
     private final ExtPagedTable summaryResultsTable = new ExtPagedTable(infoLogic);
     private final FreezePagedTreeTable discountTable = new FreezePagedTreeTable(tableLogic);
-    private ExtFilterTreeTable leftTable;
-    private ExtFilterTreeTable rightTable;
-    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightDTO;
     private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private final BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
     
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final List contractList = new ArrayList();
-    private final List companyList = new ArrayList();
     private final List rsList = new ArrayList();
     private List<RemoveDiscountDto> selecteditemList;
-    private ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
-    /**
-     * The map right visible columns.
-     */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     private ContractsDetailsDto dto;
     private RemoveDiscount removeDiscount;
     private final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
-
+    
     public Summary() {
         super();
     }
@@ -235,13 +224,18 @@ public class Summary extends CustomComponent {
         for (RemoveDiscountDto remove : selecteditemList) {
             contractList.add(remove.getContractSid());
             rsList.add(remove.getRsSid());
-            companyList.add(remove.getCompanySid());
 
         }
     }
 
     public void configureDiscountTable() {
-        fullHeader = new CustomTableHeaderDTO();
+        ExtFilterTreeTable leftTable;
+        ExtFilterTreeTable rightTable;
+        CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO rightDTO;
+        ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
+        Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
+        Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
         rightDTO = HeaderUtils.getSalesTabsRightTableColumns(fullHeader, Constants.QUARTERLY);
         CustomTableHeaderDTO leftDTO = HeaderUtils.getSalesTabLeftTableColumnsForPromoteTP(fullHeader);
         resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);

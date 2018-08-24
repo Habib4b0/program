@@ -6,14 +6,11 @@
 package com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic;
 
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,27 +35,6 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountTableLoadLogic.class);
 
-    public void setDiscountVariablesForLogic(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods,
-            int levelNo, boolean isParent, CustomTableHeaderDTO rightDto, String hierarchyIndicator, List<Leveldto> currentHierarchy,
-            boolean isCustomHierarchy, int customId) {
-        clearAll();
-        this.isCustomHierarchy = isCustomHierarchy;
-        this.levelNo = levelNo;
-        this.currentHierarchy = currentHierarchy == null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
-        this.customId = customId;
-        if (!isCustomHierarchy) {
-            if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
-                lastLevelNo = session.getLowerMostCustomerLevelNo();
-            } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
-                lastLevelNo = session.getLowerMostProductLevelNo();
-            } else {
-                lastLevelNo = 0;
-            }
-        } else {
-            lastLevelNo = currentHierarchy.size();
-        }
-        setCurrentPage(1);
-    }
 
     public void filterLevels(int levelNo) {
         this.levelNo = levelNo;
@@ -99,7 +75,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             int treeLevelNo = 0;
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {} " , dto.getTreeLevelNo());
@@ -201,7 +177,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
 //            List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
+            if (parentId instanceof DiscountProjectionDTO) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo()= {}, ---->>= {} " , dto.getTreeLevelNo(), currentHierarchy);

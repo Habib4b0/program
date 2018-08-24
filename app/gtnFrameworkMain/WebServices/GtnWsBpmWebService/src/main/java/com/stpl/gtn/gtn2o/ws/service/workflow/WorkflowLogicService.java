@@ -64,7 +64,8 @@ public class WorkflowLogicService {
 
     @Autowired
     private BpmProcessBean bpmProcessBean;
-    
+
+    @Autowired
     private GtnFrameworkSqlQueryEngine sqlQueryEngine;
 
     public WorkflowLogicService() {
@@ -92,7 +93,7 @@ public class WorkflowLogicService {
         }
         try {
             Object[] workFlowStatusQueryParams = {projectionId};
-            List<Object[]> statusList = (List<Object[]>) sqlQueryEngine.executeSelectQuery(workflowStatusQuery,workFlowStatusQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+            List<Object[]> statusList = (List<Object[]>) sqlQueryEngine.executeSelectQuery(workflowStatusQuery, workFlowStatusQueryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
             if (statusList != null && statusList.isEmpty()) {
                 Object[] statusArray = statusList.get(0);
                 workflowStatus = String.valueOf(statusArray[0]);
@@ -117,7 +118,6 @@ public class WorkflowLogicService {
                 default:
                     properties = DroolsProperties.getPropertiesData();
             }
-//            Properties properties = moduleName.equals(GtnWsBpmCommonConstants.CFF) ? DroolsProperties.getCffPropertiesData() : DroolsProperties.getPropertiesData();
             String workflowId = properties.getProperty(moduleKey, defaultValue);
             processInstance = bpmProcessBean.startProcess(workflowId, null, moduleName);
         } catch (Exception e) {
@@ -202,8 +202,8 @@ public class WorkflowLogicService {
             } else {
                 customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
             }
-            Object[] queryParams = {projectionId, processInstanceId};
-            return databaseService.executeUpdate(customSql, queryParams) > 0;
+            Object[] queryParams = {projectionId, Integer.valueOf(String.valueOf(processInstanceId))};
+            return sqlQueryEngine.executeInsertOrUpdateQuery(customSql, queryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER}) > 0;
 
         } catch (Exception e) {
             LOGGER.error("Exception in insertWFInstanceInfo() method." + e);
@@ -217,7 +217,7 @@ public class WorkflowLogicService {
             String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (CONTRACT_MASTER_SID,PROCESS_INSTANCE_ID,CONTRACT_STRUCTURE) "
                     + "VALUES(?,?,?)";
             Object[] queryParams = {contractId, processInstanceId, contractStructure};
-            return databaseService.executeUpdate(customSql, queryParams) > 0;
+            return sqlQueryEngine.executeInsertOrUpdateQuery(customSql, queryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING}) > 0;
 
         } catch (Exception e) {
             LOGGER.error("Exception in insertContractWFInstanceInfo() method." + e);
@@ -233,7 +233,7 @@ public class WorkflowLogicService {
             String customSql = "SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WHERE PROJECTION_MASTER_SID=?";
 
             Object[] customSqlParams = {projectionId};
-            obj = sqlQueryEngine.executeSelectQuery(customSql,customSqlParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+            obj = sqlQueryEngine.executeSelectQuery(customSql, customSqlParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
         } catch (Exception e) {
             LOGGER.error("Exception in selectWFInstanceInfo() method." + e);
         }
@@ -249,7 +249,7 @@ public class WorkflowLogicService {
             String customSql = "SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WHERE CONTRACT_MASTER_SID="
                     + contractId;
             Object[] cmProcessInstanceIdParams = {contractId};
-            obj = sqlQueryEngine.executeSelectQuery(customSql,cmProcessInstanceIdParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+            obj = sqlQueryEngine.executeSelectQuery(customSql, cmProcessInstanceIdParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
         } catch (GtnFrameworkGeneralException e) {
             LOGGER.error("Exception in selectContractWFInstanceInfo() method." + e);
         }
@@ -329,12 +329,12 @@ public class WorkflowLogicService {
             if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_RETURNS)) {
                 String projectionRecordsQuery = SQLUtility.getQuery("getProjectionRecordsForReturns");
                 Object[] projectionRecordsQueryParams = {projectionId};
-                obj =  (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery,projectionRecordsQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+                obj = (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery, projectionRecordsQueryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
 
             } else if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)) {
                 String projectionRecordsQuery = SQLUtility.getQuery("getProjectionRecords");
                 Object[] projectionRecordsQueryParams = {projectionId, userId, sessionId};
-                obj = (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery,projectionRecordsQueryParams,new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+                obj = (List<Object[]>) sqlQueryEngine.executeSelectQuery(projectionRecordsQuery, projectionRecordsQueryParams, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.STRING,GtnFrameworkDataType.STRING});
             }
         } catch (Exception e) {
             LOGGER.error("Exception in selectWFInstanceInfo() method." + e);

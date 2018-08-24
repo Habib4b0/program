@@ -149,7 +149,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     
     
     
-	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
+	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: {}";
     
     private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
 	/**
@@ -1123,7 +1123,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
-        session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
+        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }
@@ -1763,7 +1763,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
                                     }
                                     Double incOrDec;                            
-                                    if (oldNumber == 0.0) {
+                                    if (oldNumber == 0.0d) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
@@ -1793,9 +1793,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         }
                     });
                     doubleColumnList.removeAll(doubleHistoryAndProjectedColumnList);
+                    SalesRowDto salesRowdto=new SalesRowDto();
                     for(int start=0;start<doubleColumnList.size();start++){
                         if(String.valueOf(propertyId).contains(String.valueOf(doubleColumnList.get(start)))){
-                        	SalesRowDto salesRowdto=new SalesRowDto();
                         	salesRowdto.addStringProperties(StringUtils.EMPTY+propertyId,StringUtils.EMPTY);
         					rightTable.setDoubleHeaderColumnCheckBoxDisable(doubleColumnList.get(start),true);
         					 return null;
@@ -2600,8 +2600,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         int currentYear = (Integer) list.get(NumericConstants.TWO);
         int currentSemi = (Integer) list.get(NumericConstants.THREE);
         String selectedFreq = projectionDTO.getFrequency();
-        for (Object key : checkBoxMap.keySet()) {
-            String[] temp = ((String) key).split("-");
+        for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {
+            String[] temp = ((String) key.getKey()).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -2624,11 +2624,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID , selectedFreq);
                     break;
             }
-            if ((condition) && (checkBoxMap.get(key))) {
+            if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
                     selectedPeriods = selectedPeriods + ",";
                 }
-                String value = (String) key;
+                String value = (String) key.getKey();
                 value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
                 selectedPeriods = selectedPeriods + value;
             }
@@ -2702,8 +2702,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
 
-        for (Object key : checkBoxMap.keySet()) {
-            String[] temp = ((String) key).split("-");
+        for (Map.Entry<Object, Boolean> key : checkBoxMap.entrySet()) {
+            String[] temp = ((String) key.getKey()).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -2727,11 +2727,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     break;
             }
 
-            if ((condition) && (checkBoxMap.get(key))) {
+            if ((condition) && (key.getValue())) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
                     selectedPeriods = selectedPeriods + ",";
                 }
-                String value = (String) key;
+                String value = (String) key.getKey();
                 value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
                 selectedPeriods = selectedPeriods + value;
             }
@@ -2990,11 +2990,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public int getCalculationBased() {
 
         boolean tempSalesvalue = false;
-        boolean tempUnitValue = false;
+        boolean tempUnitValue =  false;
 
-        for (Object key : radioMap.keySet()) {
-            String value = radioMap.get(key);
-            if (checkBoxMap.get(key)) {
+           for (Map.Entry<Object, String> key : radioMap.entrySet()) {
+            String value = key.getValue();
+            if (checkBoxMap.get(key.getKey())) {
                 if ((value != null) && (value.contains(Constant.ACTUALSALES))) {
                     tempSalesvalue = true;
                 }
@@ -3430,6 +3430,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             String salesInclusionMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionMenuItemValue);
+            value = map.get(Constant.UNIT_OF_MEASURE);
+            if (value != null) {
+                unitOfMeasureDdlb.setValue(map.get(Constant.UNIT_OF_MEASURE));
+            }
+            value = map.get(Constant.CONVERSION_FACTOR_DDLB);
+            if (value != null) {
+                conversionFactorDdlb.setValue(map.get(Constant.CONVERSION_FACTOR_DDLB));
+            }
         }
     }
 
@@ -3509,10 +3517,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
         checkedList = new ArrayList<>();
-        for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-            for (String e : checkedDoubleHeaders.keySet()) {
-                List a = checkedDoubleHeaders.get(e);
+        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
+            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
+            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
+                List a = entry.getValue();
                 if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;

@@ -165,6 +165,20 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 	}
 
 	private void addHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
+		
+		GtnUIFrameworkComponentConfig addDsReportProductHierarchyNameTextBoxLayout = new GtnUIFrameworkComponentConfig();
+		addDsReportProductHierarchyNameTextBoxLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		addDsReportProductHierarchyNameTextBoxLayout
+		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportDsProductHierarchyNameTextBoxVerticalLayout");
+		addDsReportProductHierarchyNameTextBoxLayout.setAddToParent(true);
+		addDsReportProductHierarchyNameTextBoxLayout.setParentComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportProductHierarchyNameMainLayout = new GtnUIFrameworkLayoutConfig();
+		reportProductHierarchyNameMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		addDsReportProductHierarchyNameTextBoxLayout.setGtnLayoutConfig(reportProductHierarchyNameMainLayout);
+		
 		GtnUIFrameworkComponentConfig productHierarchyName = new GtnUIFrameworkComponentConfig();
 		productHierarchyName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		productHierarchyName.setComponentId(
@@ -178,7 +192,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productHierarchyName.setAddToParent(true);
 		productHierarchyName.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		productHierarchyName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+				+ "reportDsProductHierarchyNameTextBoxVerticalLayout");
 		
 		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
 		hierarchyNameValidationConfig
@@ -188,6 +202,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		hierarchyNameValidationConfig.setRegxValidationMessage("Hierarchy Name Should be less than 200 Characters");
 		productHierarchyName.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
 
+		componentList.add(addDsReportProductHierarchyNameTextBoxLayout);
 		componentList.add(productHierarchyName);
 	}
 
@@ -214,8 +229,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		dsProductHierarchySearchButton.setComponentName("SEARCH");
 		dsProductHierarchySearchButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
-		dsProductHierarchySearchButton.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");	
-		dsProductHierarchySearchButton.setCustomReference("doNotAddButtonCustomStyle");
+		dsProductHierarchySearchButton.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);	
+		dsProductHierarchySearchButton.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		
 		dsProductHierarchySearchButton.setAddToParent(true);
 
@@ -448,8 +463,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productSelectBtn.setAddToParent(true);
 		productSelectBtn.addDependentComponent("dataSelectionTab_relationship");
 		productSelectBtn.setEnable(false);
-		productSelectBtn.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		productSelectBtn.setCustomReference("doNotAddButtonCustomStyle");
+		productSelectBtn.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		productSelectBtn.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig productSelectAction = new GtnUIFrameWorkActionConfig();
@@ -479,8 +494,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productCancelBtn.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		productCancelBtn.setAddToParent(true);
-		productCancelBtn.addComponentStyle("buttonCustomStyleForLessSpaceBetweenButtons");
-		productCancelBtn.setCustomReference("doNotAddButtonCustomStyle");
+		productCancelBtn.addComponentStyle(GtnFrameworkReportStringConstants.BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS);
+		productCancelBtn.setCustomReference(GtnFrameworkReportStringConstants.DO_NOT_ADD_BUTTON_CUSTOM_STYLE);
 		productCancelBtn.addGtnUIFrameWorkActionConfig(reportDsProductHierarchyClosepopup);
 		componentList.add(productCancelBtn);
 

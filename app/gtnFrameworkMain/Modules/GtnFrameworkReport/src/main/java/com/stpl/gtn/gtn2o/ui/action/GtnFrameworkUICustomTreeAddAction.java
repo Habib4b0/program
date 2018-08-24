@@ -24,10 +24,8 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkUICustomTreeAddAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
-			.getGTNLogger(GtnFrameworkUICustomTreeAddAction.class);
+	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkUICustomTreeAddAction.class);
 
-	
 	private static final String INVALID_STRUCTURE_CAPTION = "Invalid Structure";
 	private static final String INVALID_MSG = "You cannot add %s as a child to %s";
 
@@ -49,9 +47,9 @@ public class GtnFrameworkUICustomTreeAddAction
 		Set<GtnWsRecordBean> selectedBean = leftGrid.getValueFromGird();
 		if (selectedBean.isEmpty()) {
 			GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.SELECT_A_ROW_CAPTION);
 			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.NO_LEVEL_SELECTED_MSG);
-			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.NO_LEVEL_SELECTED_CAPTION);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationConfig);
 			return;
 		}
@@ -66,12 +64,14 @@ public class GtnFrameworkUICustomTreeAddAction
 		GtnWsRecordBean parentBean = isEmpty ? null : grid.getSelectedItems().iterator().next();
 
 		GtnWsRecordBean beanTobeAdded = selectedBean.iterator().next();
-		addToTree(leftGrid, grid, parentBean, beanTobeAdded,isStatic);
+		addToTree(leftGrid, grid, parentBean, beanTobeAdded, isStatic, componentId);
 	}
 
 	private void addToTree(GtnUIFrameworkBaseComponent leftGrid, TreeGrid<GtnWsRecordBean> grid,
-			GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded,boolean isStatic) throws GtnFrameworkGeneralException {
-		checkValidations(grid, beanTobeAdded, parentBean,isStatic);
+			GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded, boolean isStatic, String componentId)
+			throws GtnFrameworkGeneralException {
+		checkValidations(grid, beanTobeAdded, parentBean, isStatic, componentId);
+		setLevelNumber(parentBean, beanTobeAdded);
 		grid.getTreeData().addItem(parentBean, beanTobeAdded);
 		grid.select(beanTobeAdded);
 		leftGrid.removeItemsFromGrid(beanTobeAdded);
@@ -81,33 +81,69 @@ public class GtnFrameworkUICustomTreeAddAction
 		grid.markAsDirty();
 	}
 
-	private void checkValidations(TreeGrid<GtnWsRecordBean> grid, GtnWsRecordBean beanTobeAdded,
-			GtnWsRecordBean parentBean,boolean isStatic) throws GtnFrameworkGeneralException {
-		TreeData<GtnWsRecordBean> data = grid.getTreeData();
-                isstaticVaribleAdd(isStatic, parentBean);
-		isLowerValueAlreadyAdded(parentBean, beanTobeAdded, data);
-		isChildAlreadAdded(data, parentBean, beanTobeAdded,isStatic);
-		isAddingToVariable(parentBean, beanTobeAdded);
+	private void setLevelNumber(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded) {
+		if (parentBean == null) {
+			beanTobeAdded.addAdditionalProperty(1);
+		} else {
+			if (beanTobeAdded.getAdditionalProperties() == null || beanTobeAdded.getAdditionalProperties().isEmpty()) {
+				beanTobeAdded.addAdditionalProperty(parentBean.getAdditionalIntegerPropertyByIndex(0) + 1);
+				return;
+			}
+			beanTobeAdded.addAdditionalProperties(0, parentBean.getAdditionalIntegerPropertyByIndex(0) + 1);
+		}
 	}
 
-	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
-			throws GtnFrameworkSkipActionException {
-		
+	private void checkValidations(TreeGrid<GtnWsRecordBean> grid, GtnWsRecordBean beanTobeAdded,
+			GtnWsRecordBean parentBean, boolean isStatic, String componentId) throws GtnFrameworkGeneralException {
+		TreeData<GtnWsRecordBean> data = grid.getTreeData();
+		isParentSelected(parentBean, grid.getTreeData().getRootItems().size());
+		isstaticVaribleAdd(isStatic, parentBean, componentId);
+		isLowerValueAlreadyAdded(parentBean, beanTobeAdded, data);
+		isChildAlreadAdded(data, parentBean, beanTobeAdded, isStatic);
+		isAddingToVariable(parentBean, beanTobeAdded, componentId);
+	}
+
+	private void isParentSelected(GtnWsRecordBean parentBean, int size) throws GtnFrameworkGeneralException {
+		if (parentBean == null && size != 0) {
+			GtnUIFrameWorkActionConfig parentAlertConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			parentAlertConfig.addActionParameter("No Parent Level Selected");
+			parentAlertConfig.addActionParameter("Please select parent node");
+			GtnUIFrameworkActionExecutor.executeSingleAction(null, parentAlertConfig);
+			throw new GtnFrameworkSkipActionException("No Parent Level Selected");
+		}
+	}
+
+	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded, String componentId)
+			throws GtnFrameworkGeneralException {
+
 		if (parentBean == null
 				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(3))
 				&& !beanTobeAdded.getStringPropertyByIndex(1).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
+			GtnUIFrameWorkActionConfig variableNotificationConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			variableNotificationConfig.addActionParameter(INVALID_STRUCTURE_CAPTION);
+			variableNotificationConfig.addActionParameter("Cannot variable as parent node");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, variableNotificationConfig);
 			throw new GtnFrameworkSkipActionException("Can't add  Variables to root Level");
 		}
 
 	}
-       private void isstaticVaribleAdd(boolean isStatic, GtnWsRecordBean parentBean) throws GtnFrameworkSkipActionException {
-         if (isStatic && isVariable(parentBean)) {
-            throw new GtnFrameworkSkipActionException("Can not add to static variable");
-         }
-        }
+
+	private void isstaticVaribleAdd(boolean isStatic, GtnWsRecordBean parentBean, String componentId)
+			throws GtnFrameworkGeneralException {
+		if (isStatic && isVariable(parentBean)) {
+			GtnUIFrameWorkActionConfig variableConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.ALERT_ACTION);
+			variableConfig.addActionParameter(INVALID_STRUCTURE_CAPTION);
+			variableConfig.addActionParameter("Cannot add levels to variable node");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, variableConfig);
+			throw new GtnFrameworkSkipActionException("Can not add to static variable");
+		}
+	}
 
 	private void isChildAlreadAdded(TreeData<GtnWsRecordBean> gridData, GtnWsRecordBean selectedBean,
-			GtnWsRecordBean beanTobeAdded,boolean isStatic) throws GtnFrameworkGeneralException {
+			GtnWsRecordBean beanTobeAdded, boolean isStatic) throws GtnFrameworkGeneralException {
 		if (beanTobeAdded.getStringPropertyByIndex(3).equals(GtnWsHierarchyType.VARIABLES.toString())) {
 			return;
 		}
@@ -134,17 +170,15 @@ public class GtnFrameworkUICustomTreeAddAction
 			GTNLOGGER.info("Inside isLowerValueAlreadyAdded method");
 			int currentLevel = beanTobeAdded.getIntegerPropertyByIndex(1);
 
-
 			if (next.getPropertyValueByIndex(3).equals(beanTobeAdded.getStringPropertyByIndex(3))
-					&& next.getIntegerPropertyByIndex(1) > currentLevel && !isVariable(beanTobeAdded)
-					) {
-				
+					&& next.getIntegerPropertyByIndex(1) > currentLevel && !isVariable(beanTobeAdded)) {
+
 				GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
-						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+						GtnUIFrameworkActionType.ALERT_ACTION);
 				String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),
 						next.getStringPropertyByIndex(0));
-				notificationConfig.addActionParameter(errorMsg);
 				notificationConfig.addActionParameter(INVALID_STRUCTURE_CAPTION);
+				notificationConfig.addActionParameter(errorMsg);
 				GtnUIFrameworkActionExecutor.executeSingleAction(null, notificationConfig);
 				throw new GtnFrameworkSkipActionException("Lower Level Already added. Cannot add higher Level");
 			}
