@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryResponseBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService;
@@ -32,9 +33,8 @@ public class GtnWsSqlQueryEngineTest {
 		queryExecutorBean.setQueryType("Count");
 		String sqlQuery = "select count(*) from company_master";
 		queryExecutorBean.setSqlQuery(sqlQuery);
-		int count = (int) gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		System.out.println("Result is----->" + count);
-		gtnLogger.info("Result is----->" + count);
+		GtnFrameworkQueryResponseBean count = gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
+		gtnLogger.info("Result is----->" + count.getResultInteger());
 	}
 	
 	@Ignore
@@ -45,9 +45,6 @@ public class GtnWsSqlQueryEngineTest {
 		String sqlQuery = "select * from company_master";
 		queryExecutorBean.setSqlQuery(sqlQuery);
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		for(Object[] object : resultList){
-			System.out.println("object" +object);
-		}
 	}
 	
 	@Test
@@ -61,9 +58,6 @@ public class GtnWsSqlQueryEngineTest {
 		queryExecutorBean.setParams(params);
 		queryExecutorBean.setDataType(type);
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngineService.executeQuery(queryExecutorBean);
-		for(Object[] object : resultList){
-			System.out.println("object" +object);
-		}
 	}
 
 }
