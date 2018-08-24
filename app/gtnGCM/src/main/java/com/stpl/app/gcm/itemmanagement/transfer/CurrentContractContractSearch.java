@@ -58,7 +58,6 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     @UiField("exportLayout")
     protected HorizontalLayout exportLayout;
     private SelectionDTO selectionDto;
-    private Object valueChange;
     private Label Label = new Label("Transfer Sales Projection :");
     private OptionGroup transferSales = new OptionGroup();
     private CheckBox removeProjection = new CheckBox("Remove Projection Details");
