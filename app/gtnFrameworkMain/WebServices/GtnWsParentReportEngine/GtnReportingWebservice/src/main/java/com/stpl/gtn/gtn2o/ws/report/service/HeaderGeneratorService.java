@@ -229,7 +229,7 @@ public class HeaderGeneratorService {
                              headers.replaceAll(s -> s+" Total");
                         }
                         
-			if (!dashboardBean.getSelectFreqString().equals("Annual")) {
+			if (!dashboardBean.getSelectFreqString().equals("Annual") && dashboardBean.getAnnualTotals().equals("Yes")) {
 				List<String> listForIteration = new ArrayList<>(headerId);
 				Iterator<String> it = listForIteration.iterator();
 				String frequency = dashboardBean.getSelectFreqString();
