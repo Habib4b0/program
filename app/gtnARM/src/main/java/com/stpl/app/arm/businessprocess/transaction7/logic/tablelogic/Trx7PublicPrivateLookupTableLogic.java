@@ -66,7 +66,7 @@ public class Trx7PublicPrivateLookupTableLogic extends PageTableLogic {
             setCurrentPage(1);
 
         } catch (Exception e) {
-            LOGGER.error("Error in configureSearchData :" + e);
+            LOGGER.error("Error in configureSearchData :", e);
         }
     }
 

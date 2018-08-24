@@ -509,7 +509,7 @@ public class DataSelectionLogic {
                     dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
                     dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
                     dto.setRelationShipVersionNo((int) objects[NumericConstants.TEN]);
-                   
+
                     if (descriptionMap != null) {
                         dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
                     }
@@ -950,7 +950,7 @@ public class DataSelectionLogic {
             LOGGER.debug("query --" + query);
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception e) {
-            LOGGER.error("Error in saveCcp :" + e);
+            LOGGER.error("Error in saveCcp :", e);
             LOGGER.error(query);
         }
     }
@@ -1154,7 +1154,7 @@ public class DataSelectionLogic {
             LOGGER.debug("rsModelSid --" + rsModelSid.size());
             return rsModelSid;
         } catch (Exception e) {
-            LOGGER.error("Error in getRSContractMasterSid :" + e);
+            LOGGER.error("Error in getRSContractMasterSid :", e);
             return Collections.emptyList();
         }
     }

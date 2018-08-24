@@ -200,17 +200,19 @@ public class DataSelectionForm extends ForecastDataSelection {
 		final StplSecurity stplSecurity = new StplSecurity();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)
 				|| screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			Map<String, AppPermission> functionCompanyHM = null;
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-				functionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
+				Map<String, AppPermission> mfunctionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
 						String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),
 						getGovernmentConstant() + "," + UISecurityUtil.DATA_SELECTION_INDEX);
+                                getButtonPermission(mfunctionCompanyHM);
 			} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-				functionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
+				Map<String, AppPermission> nMfunctionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
 						String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),
 						getCommercialConstant() + "," + UISecurityUtil.DATA_SELECTION_INDEX);
+                                 getButtonPermission(nMfunctionCompanyHM);
+                                
 			}
-			getButtonPermission(functionCompanyHM);
+			
 		}
 
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {

@@ -924,7 +924,7 @@ public class Constants {
     public enum LogicConstants {
 
         VIEW_TYPE();
-        private String constant;
+        private volatile String constant;
 
         private LogicConstants() {
         }
@@ -933,7 +933,7 @@ public class Constants {
             return constant;
         }
 
-        public String getViewType(final String indicator) {
+        public synchronized String getViewType(final String indicator) {
             if (indicator != null && !indicator.isEmpty()) {
                 if (indicator.equals(LabelConstants.PRIVATE_VIEW.getConstant())) {
                     constant = LabelConstants.PRIVATE.getConstant();

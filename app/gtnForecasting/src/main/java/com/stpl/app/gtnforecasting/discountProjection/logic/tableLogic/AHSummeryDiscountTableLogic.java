@@ -85,7 +85,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
         this.hierarchyIndicator = hierarchyIndicator;
-        this.currentHierarchy = currentHierarchy == null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
+        this.currentHierarchy = currentHierarchy != null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
         this.isParent = isParent;
         this.startAndEndPeriods = startAndEndPeriods == null ? startAndEndPeriods : new ArrayList<>(startAndEndPeriods);
         this.customId = customId;

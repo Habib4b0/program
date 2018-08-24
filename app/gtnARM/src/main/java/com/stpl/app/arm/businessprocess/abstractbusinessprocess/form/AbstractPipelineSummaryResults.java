@@ -330,10 +330,12 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     public int hashCode() {
         return super.hashCode();
     }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }
-    private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
     }
 }

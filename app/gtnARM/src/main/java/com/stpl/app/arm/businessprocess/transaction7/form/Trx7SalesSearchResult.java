@@ -149,7 +149,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
             Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "1", selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
             getSummaryLogic().getSalesResults(orderedArgs);
         } catch (Exception e) {
-            LOGGER.error("Error in calculateLogic :" + e);
+            LOGGER.error("Error in calculateLogic :", e);
         }
         return false;
     }

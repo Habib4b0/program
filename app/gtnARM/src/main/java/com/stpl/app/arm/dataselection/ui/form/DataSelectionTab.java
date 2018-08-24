@@ -330,16 +330,16 @@ public class DataSelectionTab extends AbstractDataSelection {
             custVersionMap = logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
             prodVersionMap = logic.loadCustomerRelation(customerRelation, selection.getProductHierarchySid());
             customerDescriptionMap = new DataSelectionQueryUtils()
-					.loadLevelValuesMap(selection.getCustRelationshipBuilderSid()
-					, custVersionMap.get(selection.getCustRelationshipBuilderSid())
-					, selection.getCustomerHierarchySid()
-					, selection.getCustomerHierarchyVersionNo());
-            
+                    .loadLevelValuesMap(selection.getCustRelationshipBuilderSid(),
+                            custVersionMap.get(selection.getCustRelationshipBuilderSid()),
+                            selection.getCustomerHierarchySid(),
+                            selection.getCustomerHierarchyVersionNo());
+
             productDescriptionMap = new DataSelectionQueryUtils()
-            		.loadLevelValuesMap(selection.getProdRelationshipBuilderSid()
-            				,prodVersionMap.get(selection.getProdRelationshipBuilderSid())
-            				, selection.getProductHierarchySid()
-            				, selection.getProductHierarchyVersionNo());
+                    .loadLevelValuesMap(selection.getProdRelationshipBuilderSid(),
+                            prodVersionMap.get(selection.getProdRelationshipBuilderSid()),
+                            selection.getProductHierarchySid(),
+                            selection.getProductHierarchyVersionNo());
             initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
             initializeProductHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getProductHierarchyLevel()));
 
@@ -355,7 +355,7 @@ public class DataSelectionTab extends AbstractDataSelection {
                 toPeriod.select(0);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in setViewDetails :" + e);
+            LOGGER.error("Error in setViewDetails :", e);
         }
     }
 

@@ -68,7 +68,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in configureContainer :" + e);
+            LOGGER.error("Error in configureContainer :", e);
         }
         return dto;
     }
@@ -144,7 +144,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error in recursivelyLoadExpandData :" + e);
+            LOGGER.error("Error in recursivelyLoadExpandData :", e);
         }
     }
 
@@ -159,7 +159,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             //commented code
             setCurrentPage(tempCurrentPage);
         } catch (Exception e) {
-            LOGGER.error("Error in loadExpandData :" + e);
+            LOGGER.error("Error in loadExpandData :", e);
         }
     }
 

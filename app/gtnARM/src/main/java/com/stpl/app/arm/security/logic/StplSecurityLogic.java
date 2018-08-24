@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
  * @author Sathya.Seelan
  */
 public class StplSecurityLogic {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurityLogic.class.getName());
-    
+
     public List getBusinessroleModuleMasterFunctionList(String businessRoleId, String moduleName) {
         String[] str = null;
         String mod;
@@ -48,7 +48,7 @@ public class StplSecurityLogic {
             return null;
         }
     }
-    
+
     public List getBusinessroleModuleMasterFieldList(String businessRoleId, String moduleName) {
         String sql = StringUtils.EMPTY;
         try {
@@ -60,7 +60,7 @@ public class StplSecurityLogic {
             } else {
                 mod = moduleName;
             }
-            
+
             if (mod.equals("Item Hierarchy")) {
                 sql = SQlUtil
                         .getQuery("BusinessRoleModuleFinder.fieldPermissionForTransaction");
@@ -68,14 +68,12 @@ public class StplSecurityLogic {
                 sql = SQlUtil
                         .getQuery("BusinessRoleModuleFinder.fieldPermission");
             }
-            
-            
+
             if (businessRoleId.length() != 0) {
                 sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
                         + businessRoleId + ")";
             }
-            
-            
+
             if (mod.length() != 0) {
                 sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
             }
@@ -88,7 +86,7 @@ public class StplSecurityLogic {
                     || (moduleName.equalsIgnoreCase("Item Hierarchy,Item Hierarchy")) || ("Sales Master".equalsIgnoreCase(moduleName)) || ("Customer Sales".equalsIgnoreCase(moduleName)) || (moduleName.equalsIgnoreCase("GlobalFilesCompanyMaster,View")) || (moduleName.equalsIgnoreCase("IvldCompanyIdentifier,View")) || (moduleName.equalsIgnoreCase("IvldCompanyParent,View")) || (moduleName.equalsIgnoreCase("IvldCompanyTradeClass,View")) || ("GlobalFilesItemIdentifier".equalsIgnoreCase(moduleName)) || ("GlobalFilesItemPricing".equalsIgnoreCase(moduleName)) || ("GlobalFilesItemMaster".equalsIgnoreCase(moduleName)) || ("GlobalFilesCompanyMaster".equalsIgnoreCase(moduleName))
                     || ("GlobalFilesCompanyIdentifier,GlobalFilesCompanyIdentifier".equalsIgnoreCase(moduleName)) || ("GlobalFilesCompanyParent".equalsIgnoreCase(moduleName)) || ("GlobalFilesCompanyTradeClass".equalsIgnoreCase(moduleName))
                     || ("Actual GTS Customer Product".equalsIgnoreCase(moduleName)) || ("Cpi Index".equalsIgnoreCase(moduleName)) || ("Audit Inbound".equalsIgnoreCase(moduleName)) || ("Actual Master".equalsIgnoreCase(moduleName)) || ("Forecast Sales".equalsIgnoreCase(moduleName)) || ("IvldActualMaster".equalsIgnoreCase(moduleName))) ? sql.replace("distinct", "") : sql;
-            
+
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

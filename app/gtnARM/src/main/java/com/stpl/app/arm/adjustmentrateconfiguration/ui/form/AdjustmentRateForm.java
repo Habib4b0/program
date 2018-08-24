@@ -131,7 +131,8 @@ public class AdjustmentRateForm extends CustomComponent {
     /**
      * Click RESET to reset the Adjustment Selection section. If the user
      * proceeds with the reset, all controls in the Ã¢â‚¬ËœAdjustment
-     * SelectionÃ¢â‚¬â„¢ section will be returned to their default state.
+     * SelectionÃ¢â‚¬â„¢ section will be returned to their default
+     * state.
      */
     @UiField("resetBtnRate")
     private Button resetBtn;
@@ -140,19 +141,22 @@ public class AdjustmentRateForm extends CustomComponent {
     private Button populateBtnRate;
     /**
      * Populates the Control Table list view with data based on the values the
-     * user has selected in the Ã¢â‚¬ËœAdjustment SelectionÃ¢â‚¬â„¢ section.
+     * user has selected in the Ã¢â‚¬ËœAdjustment
+     * SelectionÃ¢â‚¬â„¢ section.
      */
     @UiField("generateBtnRate")
     private Button generateBtn;
     /**
      * Exports the Control Table list view with based on the values the user has
-     * generated in the Ã¢â‚¬ËœAdjustment SelectionÃ¢â‚¬â„¢ section.
+     * generated in the Ã¢â‚¬ËœAdjustment SelectionÃ¢â‚¬â„¢
+     * section.
      */
     @UiField("exportBtn")
     private Button exportBtn;
     /**
      * Save the Control Table list view with based on the values the user has
-     * generated in the Ã¢â‚¬ËœAdjustment SelectionÃ¢â‚¬â„¢ section.
+     * generated in the Ã¢â‚¬ËœAdjustment SelectionÃ¢â‚¬â„¢
+     * section.
      */
     @UiField("saveBtn")
     private Button saveBtn;
@@ -444,7 +448,7 @@ public class AdjustmentRateForm extends CustomComponent {
                 generatedSelection.setInternal(selection);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in generateBtnClick :" + e);
+            LOGGER.error("Error in generateBtnClick :", e);
         }
     }
 
@@ -661,7 +665,7 @@ public class AdjustmentRateForm extends CustomComponent {
                         }
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error While Mass populate for the feild :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :" + e);
+                    LOGGER.error("Error While Mass populate for the feild :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :", e);
                 }
             }
         });
@@ -689,7 +693,7 @@ public class AdjustmentRateForm extends CustomComponent {
             notifier.setButtonName("reset");
             notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessageID002());
         } catch (Exception e) {
-            LOGGER.error("Error in resetButtonClick :" + e);
+            LOGGER.error("Error in resetButtonClick :", e);
         }
     }
 
@@ -733,7 +737,7 @@ public class AdjustmentRateForm extends CustomComponent {
                 notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getSaveMessageID004());
             }
         } catch (Exception e) {
-            LOGGER.error("Error in saveButtonClick :" + e);
+            LOGGER.error("Error in saveButtonClick :", e);
         }
     }
 
@@ -752,7 +756,7 @@ public class AdjustmentRateForm extends CustomComponent {
             }
             resultsTableLayout.removeComponent(excelTable);
         } catch (Exception e) {
-            LOGGER.error("Error in exportButtonClick :" + e);
+            LOGGER.error("Error in exportButtonClick :", e);
         }
     }
 
@@ -801,7 +805,7 @@ public class AdjustmentRateForm extends CustomComponent {
             List<AdjustmentRateDTO> dtoList = resultBeanContainer.getItemIds();
             excelContainer.addAll(logic.customizeExcel(dtoList, priceList, selection));
         } catch (Exception e) {
-            LOGGER.error("Error in configureAndLoadDataForExcel :" + e);
+            LOGGER.error("Error in configureAndLoadDataForExcel :", e);
         }
     }
     private final CustomNotification notifier = new CustomNotification();
@@ -995,7 +999,7 @@ public class AdjustmentRateForm extends CustomComponent {
                         CommonUtils.loadRatePeriodComboBox(ratePeriod, findFrequency(frequency), listNameMapper.get(VariableConstants.RATE_PERIOD));
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error in frequencyListener Value Change :" + e);
+                    LOGGER.error("Error in frequencyListener Value Change :", e);
                 }
             }
         };
@@ -1006,7 +1010,7 @@ public class AdjustmentRateForm extends CustomComponent {
                 try {
                     LOGGER.debug("Enter inventoryCustomerListener");
                 } catch (Exception e) {
-                    LOGGER.error("Error in inventoryCustomerListener Value Change :" + e);
+                    LOGGER.error("Error in inventoryCustomerListener Value Change :", e);
                 }
             }
         };
