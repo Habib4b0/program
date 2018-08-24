@@ -293,7 +293,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				GtnFrameworkForecastingStringConstants.getForecastCustomerHierarchyTableColumnsMappingId());
 
 		List<String> additionalSearchCriteria = new ArrayList<>();
-		additionalSearchCriteria.add("CustomerHierarchy");
+		additionalSearchCriteria.add("Customer Hierarchy");
 		customerHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 		
 		customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS);
