@@ -17,6 +17,10 @@ public class GtnWsServiceRegistryBean {
 	private String moduleName;
 	private String webserviceEndPointUrl;
 
+	public GtnWsServiceRegistryBean() {
+		super();
+	}
+
 	public boolean isAuthorizaionService() {
 		return authorizaionService;
 	}

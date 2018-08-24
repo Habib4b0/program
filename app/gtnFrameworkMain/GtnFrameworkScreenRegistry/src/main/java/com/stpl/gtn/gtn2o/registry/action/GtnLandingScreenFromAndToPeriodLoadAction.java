@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
@@ -38,10 +39,13 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
             serviceRegistryBean.setRegisteredWebContext(actionParamList.get(1).toString());
             serviceRegistryBean.setUrl(actionParamList.get(2).toString());
             serviceRegistryBean.setModuleName(actionParamList.get(3).toString());
-            
+            GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+            generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+            generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
             serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
             
             request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            request.setGtnWsGeneralRequest(generalRequest);
             
             GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
             

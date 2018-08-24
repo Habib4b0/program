@@ -6,6 +6,10 @@ public class GtnWsRelationshipBuilderBean {
 	private String relationshipName;
 	private int versionNo;
 
+	public GtnWsRelationshipBuilderBean() {
+		super();
+	}
+
 	public int getRelationshipBuilderSid() {
 		return relationshipBuilderSid;
 	}
