@@ -35,7 +35,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 	private GtnServiceRegistryRegisterWs gtnServiceRegistryRegisterWs;
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnUIServiceRegistryController.class);
 	}
 
@@ -61,9 +61,8 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		logger.trace("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = new GtnServiceRegistryWSResponse();
 
-		gtnServiceRegistryWSResponse = gtnValidateWsServiceRegistryController
+		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = gtnValidateWsServiceRegistryController
 				.serviceRegistryControllerToValidateWs(request);
 
 		logger.debug("Is Webservice Registered:"

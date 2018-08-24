@@ -26,7 +26,7 @@ public class GtnValidateWsServiceRegistryController extends GtnServiceRegistryIm
 	private GtnServiceRegistryAuthorizationService gtnServiceRegistryAuthorizationService;
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnValidateWsServiceRegistryController.class);
 	}
 
@@ -42,8 +42,7 @@ public class GtnValidateWsServiceRegistryController extends GtnServiceRegistryIm
 		GtnWsServiceRegistryBean gtnWsServiceRegistryBean = request.getGtnServiceRegistryWsRequest()
 				.getGtnWsServiceRegistryBean();
 
-		boolean authorizaionCheck = gtnServiceRegistryAuthorizationService
-				.serviceRegistryServiceToAuthorizeWs(gtnWsServiceRegistryBean);
+		boolean authorizaionCheck = gtnServiceRegistryAuthorizationService.serviceRegistryServiceToAuthorizeWs();
 
 		boolean serviceRegistryCheck = gtnValidateWsServiceRegistryService
 				.serviceRegistryServiceToValidateWsIsRegistered(gtnWsServiceRegistryBean);

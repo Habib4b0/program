@@ -1,10 +1,8 @@
 package com.stpl.gtn.gtn2o.serviceregistry.webservices;
 
-import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
-
 public class GtnServiceRegistryAuthorizationService {
-	
-	public boolean serviceRegistryServiceToAuthorizeWs(GtnWsServiceRegistryBean gtnWsServiceRegistryBean){
+
+	public boolean serviceRegistryServiceToAuthorizeWs() {
 		return true;
 	}
 
