@@ -156,7 +156,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                             customizeResetButtonLogic();
                         } catch (Exception ex) {
-                            LOGGER.error("Error in reset" + ex);
+                            LOGGER.error("Error in reset" , ex);
                         }
                         break;
                     case "save":
@@ -312,7 +312,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in view" + ex);
+                        logger.error("Error in view" , ex);
                     }
                 }
             });
@@ -352,7 +352,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequency));
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in todate" + ex);
+                        logger.error("Error in todate" , ex);
                     }
                 }
 
@@ -466,7 +466,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glListener" + ex);
+                logger.error("Error in glListener" , ex);
             }
         }
     };
@@ -498,7 +498,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glWorkflowListener :" + ex);
+                logger.error("Error in glWorkflowListener :" , ex);
             }
         }
     };

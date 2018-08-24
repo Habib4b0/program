@@ -294,7 +294,7 @@ public class Trx7ExclusionDetailsLogic {
             DAO.executeUpdate(deleteQuery);
             LOGGER.debug("--Exit deleteViewLogic--" + deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic :" + ex);
+            LOGGER.error("Error in deleteViewLogic :" , ex);
         }
     }
 
@@ -307,7 +307,7 @@ public class Trx7ExclusionDetailsLogic {
             DAO.executeUpdate(deleteQuery);
             LOGGER.debug("--Exit deleteViewLogicForInventory--" + deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory :" + ex);
+            LOGGER.error("Error in deleteViewLogicForInventory :" , ex);
         }
     }
 
@@ -490,7 +490,7 @@ public class Trx7ExclusionDetailsLogic {
             }
             LOGGER.debug("--Exit getCompanySid--" + userMap.size());
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" + ex);
+            LOGGER.error("Error in getAllUsers :" , ex);
         }
     }
 }

@@ -262,7 +262,7 @@ public class AbstractFilter {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in filterQueryGenerator :" + ex);
+            LOGGER.error("Error in filterQueryGenerator :" , ex);
         }
         return sql;
     }

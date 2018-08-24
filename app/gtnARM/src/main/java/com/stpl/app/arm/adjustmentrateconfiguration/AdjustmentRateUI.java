@@ -89,7 +89,7 @@ public class AdjustmentRateUI extends UI {
             }
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AdjustmentRateUI " + ex);
+            LOGGER.error("Error While Creating AdjustmentRateUI " , ex);
         }
     }
 

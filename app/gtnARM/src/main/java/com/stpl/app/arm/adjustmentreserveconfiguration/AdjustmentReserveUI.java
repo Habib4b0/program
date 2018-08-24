@@ -90,7 +90,7 @@ public class AdjustmentReserveUI extends UI {
             navigator.addView(AdjustmentReserveView.NAME, new AdjustmentReserveView(sessionDTO));
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AdjustmentReserveUI " + ex);
+            LOGGER.error("Error While Creating AdjustmentReserveUI " , ex);
         }
 
 //                 Configure the error handler for the UI
