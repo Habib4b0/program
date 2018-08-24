@@ -63,7 +63,6 @@ public class NMDPRLogic {
      */
     private static final long serialVersionUID = 4428373722392530081L;
     
-    private final Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat DOLLAR_RPU = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.000");
@@ -95,7 +94,7 @@ public class NMDPRLogic {
     private static final String[] ARRAY_ALL_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     public NMDPRLogic() {
-        periodValueMap();
+        //NMDPRLogic
     }
 
     /**
@@ -224,12 +223,6 @@ public class NMDPRLogic {
         return discountProjList;
     }
 
-    private void periodValueMap() {
-        periodMap.put(MONTHLY.getConstant(), "MONTH");
-        periodMap.put(QUARTERLY.getConstant(), Constant.QUARTER);
-        periodMap.put(SEMI_ANNUALLY.getConstant(), Constant.QUARTER);
-        periodMap.put(ANNUALLY.getConstant(), "YEAR");
-    }
 
     /**
      * This method is used to load all the discount of the projection total

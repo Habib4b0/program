@@ -315,11 +315,11 @@ public class DiscountSelection extends Window {
 	}
 
 	public List<String> getSelectedDiscountsList() {
-		return selectedDiscounts == null ? selectedDiscountsNoList : new ArrayList<>(selectedDiscountsNoList);
+		return new ArrayList<>(selectedDiscounts);
 	}
 
 	public List<String> getSelectedDiscountsNoList() {
-		return selectedDiscountsNoList == null ? selectedDiscountsNoList : new ArrayList<>(selectedDiscountsNoList);
+		return new ArrayList<>(selectedDiscountsNoList);
 	}
 
 }
