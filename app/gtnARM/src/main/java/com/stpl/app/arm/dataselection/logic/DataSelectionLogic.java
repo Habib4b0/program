@@ -1159,7 +1159,7 @@ public class DataSelectionLogic {
             LOGGER.debug("rsModelSid --" + rsModelSid.size());
             return rsModelSid;
         } catch (Exception e) {
-            LOGGER.error("Error in getRSContractMasterSid :" + e);
+            LOGGER.error("Error in getRSContractMasterSid :", e);
             return Collections.emptyList();
         }
     }
