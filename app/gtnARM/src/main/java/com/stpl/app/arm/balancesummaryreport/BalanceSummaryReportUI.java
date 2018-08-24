@@ -62,7 +62,7 @@ public class BalanceSummaryReportUI extends CommonUI {
         try {
             StplSecurity.getUserName();
         } catch (SystemException ex) {
-            LOGGER.error("Error in StplSecurity" + ex);
+            LOGGER.error("Error in StplSecurity" , ex);
         }
         LOGGERBALSUMMARYUI.info("USER_ID :" + userId);
         LOGGERBALSUMMARYUI.debug("SESSION_ID :" + sessionId);

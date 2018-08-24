@@ -152,7 +152,7 @@ public class CopyAccountConfig extends AbstractAccountConfig {
             HorizontalLayout l = getHorizontalDetailsLayout();
             commonSecurity.removeComponentOnPermission(resultList, l, functionHMforFields, CommonSecurityLogic.ADD);
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in configureFieldPermission :" + ex);
+            GTNLOGGER.error("Error in configureFieldPermission :" , ex);
         }
         GTNLOGGER.debug("Ending configurePermission");
 

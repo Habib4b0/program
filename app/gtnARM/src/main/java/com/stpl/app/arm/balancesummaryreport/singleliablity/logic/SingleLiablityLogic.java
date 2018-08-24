@@ -308,7 +308,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
         } catch (NumberFormatException ex) {
-            LOGGER.error("Error in generateInputs:" + ex);
+            LOGGER.error("Error in generateInputs:" , ex);
         }
         return returnObj;
     }

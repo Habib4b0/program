@@ -141,7 +141,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 sb = sb.replace("@PAGINATION", isCount ? StringUtils.EMPTY : " ORDER BY UDC1.DESCRIPTION,RTYPE.DESCRIPTION,TP.APPRVD_TRANSACTION_NAME,A.BRAND_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY; ");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getQuery :" + ex);
+            LOGGER.error("Error in getQuery :" , ex);
         }
         if (category.length() == 0 || type.length() == 0 || account.length() == 0) {
             return StringUtils.EMPTY;

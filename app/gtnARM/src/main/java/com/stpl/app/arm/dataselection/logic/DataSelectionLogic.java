@@ -319,7 +319,7 @@ public class DataSelectionLogic {
             try {
                 return parseDate.parse(String.valueOf(value));
             } catch (ParseException ex) {
-                LOGGER.error("Errro in searchLogicForHierarchy Date :" + ex);
+                LOGGER.error("Errro in searchLogicForHierarchy Date :", ex);
             }
         }
         return date;
@@ -509,7 +509,7 @@ public class DataSelectionLogic {
                     dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
                     dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
                     dto.setRelationShipVersionNo((int) objects[NumericConstants.TEN]);
-                   
+
                     if (descriptionMap != null) {
                         dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
                     }
@@ -517,7 +517,7 @@ public class DataSelectionLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getParentLevelsWithHierarchyNo :" + ex);
+            LOGGER.error("Error in getParentLevelsWithHierarchyNo :", ex);
         }
         LOGGER.debug("--End of  getParentLevelsWithHierarchyNo--");
         return resultList;
@@ -558,7 +558,7 @@ public class DataSelectionLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getChildLevelsWithHierarchyNo :" + ex);
+            LOGGER.error("Error in getChildLevelsWithHierarchyNo :", ex);
         }
         LOGGER.debug("--End of  getChildLevelsWithHierarchyNo--");
         return resultList;
@@ -975,7 +975,7 @@ public class DataSelectionLogic {
             LOGGER.debug("updateQuery --" + updateQuery);
             HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in updateSavedViewProjection :" + ex);
+            LOGGER.error("Error in updateSavedViewProjection :", ex);
         }
     }
 
@@ -1247,7 +1247,7 @@ public class DataSelectionLogic {
             LOGGER.debug("--Exit getDeductionTree --");
             return cutomizeSelectedDecuction(returnQueryList, hierarchyKeys);
         } catch (Exception ex) {
-            LOGGER.error("Error in getDeductionTree :" + ex);
+            LOGGER.error("Error in getDeductionTree :", ex);
             return Collections.emptyMap();
         }
 
@@ -1295,7 +1295,7 @@ public class DataSelectionLogic {
             LOGGER.debug("--Exit cutomizeSelectedDecuction --" + levelKeys.size());
             return levelKeys;
         } catch (Exception ex) {
-            LOGGER.error("Error in cutomizeSelectedDecuction :" + ex);
+            LOGGER.error("Error in cutomizeSelectedDecuction :", ex);
             return null;
         }
     }

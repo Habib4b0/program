@@ -97,7 +97,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
 
             }
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in configureTabAddLineLogic :" + ex);
+            LOGGER.error("Error in configureTabAddLineLogic :" , ex);
         }
     }
 
@@ -136,7 +136,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
             try {
                 binder.commit();
             } catch (FieldGroup.CommitException ex) {
-                LOGGER.error("Error in saveToMaster :" + ex);
+                LOGGER.error("Error in saveToMaster :" , ex);
             }
         }
         if (logic.combinationIsSelected(binderDto)) {
@@ -255,7 +255,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" + ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
                 }
             }
 
@@ -285,7 +285,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
             } catch (NullPointerException e) {
                 LOGGER.error("Error in resetConfigureTabLine :", e);
             } catch (Exception ex) {
-                LOGGER.error("Error in resetConfigureTabLine :" + ex);
+                LOGGER.error("Error in resetConfigureTabLine :" , ex);
             }
             if (tempSelection != null) {
                 tempSelection.setReserveMasterSid(logic.getMasterSids(this.selection));

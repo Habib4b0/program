@@ -34,15 +34,15 @@ public class GtnWsHierarchyAndRelationshipController {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
-		
+
 		List<Object[]> hierarchyList = gtnWsHierarchyRelationshipService
 				.loadHierarchyResults(gtnUIFrameworkWebserviceRequest);
-		
+
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(hierarchyList);
 		searchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(searchResponse);
-		
+
 		return response;
 	}
 }
