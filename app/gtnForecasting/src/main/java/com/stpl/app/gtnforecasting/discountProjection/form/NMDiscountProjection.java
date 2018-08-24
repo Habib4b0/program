@@ -3626,7 +3626,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 LOGGER.info("generateBtn :Inside Filter Option");
                 session.setFunctionMode("F");
                 CommonLogic.procedureCompletionCheck(session, "discount", String.valueOf(view.getValue()));
-                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, DISCOUNT);
                 dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
                 CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
             }
