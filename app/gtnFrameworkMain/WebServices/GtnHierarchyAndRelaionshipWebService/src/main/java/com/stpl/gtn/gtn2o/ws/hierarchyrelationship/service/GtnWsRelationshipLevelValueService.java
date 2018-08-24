@@ -32,7 +32,11 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 		return null;
 	}
 
-	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+	private GtnWsRelationshipLevelValueService(){
+		super();
+	}
+	
+	private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void getRelationshipLevelValues(GtnUIFrameworkWebserviceRequest request) {
 
