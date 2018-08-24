@@ -10,14 +10,14 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 
 public class GtnUIServiceRegistryService extends GtnServiceRegistryImplClass {
-	
-	private GtnUIServiceRegistryService(){
+
+	private GtnUIServiceRegistryService() {
 		super();
 		initializeLogger();
 	}
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnUIServiceRegistryService.class);
 	}
 
@@ -30,11 +30,10 @@ public class GtnUIServiceRegistryService extends GtnServiceRegistryImplClass {
 		logger.info("ModuleName:" + serviceRegistryBean.getModuleName());
 		logger.trace("UserId:" + request.getGtnWsGeneralRequest().getUserId());
 		logger.trace("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				serviceRegistryBean.getUrl(), serviceRegistryBean.getModuleName(), request, getGsnWsSecurityToken(
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(serviceRegistryBean.getUrl(),
+				serviceRegistryBean.getModuleName(), request, getGsnWsSecurityToken(
 						request.getGtnWsGeneralRequest().getUserId(), request.getGtnWsGeneralRequest().getSessionId()));
 
-		return response;
 	}
 
 	private GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
