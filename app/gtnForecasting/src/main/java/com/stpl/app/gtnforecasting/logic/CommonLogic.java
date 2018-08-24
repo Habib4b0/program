@@ -5338,15 +5338,20 @@ public class CommonLogic {
     
     public static void viewProceduresCompletionCheck(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOMER);
-        procedureCompletionCheck(session,SMALL_SALES,Constants.PRODUCT);
-        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOM);
+        procedureCompletionCheck(session, SMALL_SALES, Constants.CUSTOMER);
+        procedureCompletionCheck(session, SMALL_SALES, Constants.PRODUCT);
+        if (session.getCustomRelationShipSid() != 0) {
+            procedureCompletionCheck(session, SMALL_SALES, Constants.CUSTOM);
+        }
     }
+
     public static void viewProceduresCompletionCheckDiscount(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOMER);
-        procedureCompletionCheck(session, DISCOUNT,Constants.PRODUCT);
-        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOM);
+        procedureCompletionCheck(session, DISCOUNT, Constants.CUSTOMER);
+        procedureCompletionCheck(session, DISCOUNT, Constants.PRODUCT);
+        if (session.getCustomDeductionRelationShipSid() != 0) {
+            procedureCompletionCheck(session, DISCOUNT, Constants.CUSTOM);
+        }
     }
    
 
