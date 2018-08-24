@@ -6611,7 +6611,7 @@ CROSS JOIN (
 LEFT JOIN (
        select CCP_DETAILS_SID,
               PERIOD_SID,
-              RS_MODEL_SID,max(DISCOUNT) DISCOUNT  from(SELECT AD.CCP_DETAILS_SID,
+              RS_MODEL_SID,sum(discount) DISCOUNT  from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(DISCOUNT) DISCOUNT
@@ -6717,7 +6717,7 @@ CROSS JOIN (
 LEFT JOIN (
       select CCP_DETAILS_SID,
               PERIOD_SID,
-              RS_MODEL_SID,max(DISCOUNT) DISCOUNT from(SELECT AD.CCP_DETAILS_SID,
+              RS_MODEL_SID,sum(discount) DISCOUNT from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(DISCOUNT) DISCOUNT
@@ -6817,7 +6817,7 @@ RI.SELECTED_LEVEL AS RS_CONTRACT_SID
              LEFT JOIN (
       select CCP_DETAILS_SID,
               PERIOD_SID,
-              RS_MODEL_SID,max(DISCOUNT) DISCOUNT
+              RS_MODEL_SID,sum(discount) DISCOUNT
                                                   from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,

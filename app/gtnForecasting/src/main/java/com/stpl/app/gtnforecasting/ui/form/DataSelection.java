@@ -35,11 +35,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import org.apache.commons.lang.StringUtils;
@@ -86,7 +86,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
-import java.util.HashMap;
 
 /**
  *
@@ -98,15 +97,15 @@ public class DataSelection extends ForecastDataSelection {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
-     	private DataSelectionDTO selectionDTO;
+	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
 	private boolean dismantelCustomerSelection = true;
 	private boolean dismantelProductSelection = true;
 	private final DataSelectionForm dataSelectionForm;
 	private boolean updateOnTabChange = false;
-	private boolean customChange = false;   
-	private boolean dedCustomChange = false;   
+	private boolean customChange = false;
+	private boolean dedCustomChange = false;
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
 	private LazyContainer discountDdlbLazyContainer;
@@ -118,10 +117,9 @@ public class DataSelection extends ForecastDataSelection {
 	private final List<String> productHierarchyNos = new ArrayList<>();
 	private final DataSelectionLogic dsLogic = new DataSelectionLogic();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-	private Map<String,String> customViewInput=new HashMap<>();
-	
-	public static final String CONFIRM_CHANGE = "Confirm Change";
+	private Map<String, String> customViewInput = new HashMap<>();
 
+	public static final String CONFIRM_CHANGE = "Confirm Change";
 
 	// Used for CCP_HIERARCHY_INSERT query formation
 	private String topLevelName = StringUtils.EMPTY;
@@ -137,10 +135,10 @@ public class DataSelection extends ForecastDataSelection {
 		productDescriptionMap = session.getProductDescription();
 		customerGroup.setValue(dataSelectionDTO.getCustomerGroup());
 		productGroup.setValue(dataSelectionDTO.getProductGroup());
-                frequency.select(session.getDsFrequency());
-                customRelationDdlb.setValue(session.getCustomRelationShipSid());
-                customRelationDdlbDeduction.setValue(session.getCustomDeductionRelationShipSid());
-		LOGGER.debug("Inside Constructor= {}" , form);
+		frequency.select(session.getDsFrequency());
+		customRelationDdlb.setValue(session.getCustomRelationShipSid());
+		customRelationDdlbDeduction.setValue(session.getCustomDeductionRelationShipSid());
+		LOGGER.debug("Inside Constructor= {}", form);
 	}
 
 	/**
@@ -157,7 +155,7 @@ public class DataSelection extends ForecastDataSelection {
 			if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
 				configureOnViewMode();
 			}
-                        configureDataSelectionDeductionLevel();
+			configureDataSelectionDeductionLevel();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -288,8 +286,8 @@ public class DataSelection extends ForecastDataSelection {
 				productBeanList.clear();
 			}
 		});
-                
-                }
+
+	}
 
 	private void configureForView() {
 		resultsTablePanel.setVisible(false);
@@ -337,8 +335,7 @@ public class DataSelection extends ForecastDataSelection {
 
 							@Override
 							/**
-							 * The method is triggered when Yes button of
-							 * themessage box is pressed .
+							 * The method is triggered when Yes button of themessage box is pressed .
 							 *
 							 *
 							 * @param buttonId
@@ -379,8 +376,7 @@ public class DataSelection extends ForecastDataSelection {
 
 							@Override
 							/**
-							 * The method is triggered when Yes button of the
-							 * message box is pressed .
+							 * The method is triggered when Yes button of the message box is pressed .
 							 *
 							 * @param buttonId
 							 *            The buttonId of the pressed button.
@@ -399,8 +395,8 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		});
-                
-                dataSelectionDeductionLevel.addValueChangeListener(new Property.ValueChangeListener() {
+
+		dataSelectionDeductionLevel.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(final Property.ValueChangeEvent event) {
 				if (!firstTimeLoad) {
@@ -420,8 +416,7 @@ public class DataSelection extends ForecastDataSelection {
 
 							@Override
 							/**
-							 * The method is triggered when Yes button of
-							 * the message box is pressed .
+							 * The method is triggered when Yes button of the message box is pressed .
 							 *
 							 *
 							 * @param buttonId
@@ -434,73 +429,74 @@ public class DataSelection extends ForecastDataSelection {
 							}
 						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Deduction Level. Are you sure you want to proceed? You will lose the current Deduction Level if you continue.");
-					}   else if (dataSelectionDeductionLevelListenerFlag) {
+					} else if (dataSelectionDeductionLevelListenerFlag) {
 						dataSelectionDedLevelValueChange(event);
 					}
-				} 
-                                else {
+				} else {
 					dataSelectionDedLevelValueChange(event);
 				}
 			}
 		});
-                frequency.addValueChangeListener(new Property.ValueChangeListener() {
-                    
+		frequency.addValueChangeListener(new Property.ValueChangeListener() {
+
 			@Override
 			public void valueChange(final Property.ValueChangeEvent event) {
-                             setUpdateOnTabChange(true);
-                        }		
+				setUpdateOnTabChange(true);
+			}
 		});
-                
-                customRelationDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+
+		customRelationDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
-                                        if(customRelationDdlb.getValue()!=null ){
-                            int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
-                            dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
-                                setCustomChange(true);
-				setUpdateOnTabChange(false);
-                                customDdlb();
-			}else{
-                        dataSelectionDTO.setCustomRelationShipSid(0);
-                        setUpdateOnTabChange(false);
-                        setCustomChange(false);
-                   }
-                        }
+				if (customRelationDdlb.getValue() != null) {
+					int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
+					dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+					setCustomChange(true);
+					setUpdateOnTabChange(false);
+					customDdlb();
+				} else {
+					dataSelectionDTO.setCustomRelationShipSid(0);
+					setUpdateOnTabChange(false);
+					setCustomChange(false);
+				}
+			}
 		});
-                        customRelationDdlbDeduction.addValueChangeListener(new Property.ValueChangeListener() {
+		customRelationDdlbDeduction.addValueChangeListener(new Property.ValueChangeListener() {
 
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
-                            if(customRelationDdlbDeduction.getValue()!=null ){
-                            int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
-                            dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
-                            setUpdateOnTabChange(false);
-                            setCustomChange(true);
-                            setDedCustomChange(true);
-                            customDdlb();
-			}else{
-                                dataSelectionDTO.setCustomDeductionRelationShipSid(0);
-                                setUpdateOnTabChange(false);
-                                setCustomChange(true);
-                                setDedCustomChange(false);
-                            }
-                        }
+				if (customRelationDdlbDeduction.getValue() != null) {
+					int custDeductionRelationValue = Integer
+							.parseInt(customRelationDdlbDeduction.getValue().toString());
+					dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
+					setUpdateOnTabChange(false);
+					setCustomChange(true);
+					setDedCustomChange(true);
+					customDdlb();
+				} else {
+					dataSelectionDTO.setCustomDeductionRelationShipSid(0);
+					setUpdateOnTabChange(false);
+					setCustomChange(true);
+					setDedCustomChange(false);
+				}
+			}
 
 		});
 		projectionName.setValue(selectionDTO.getProjectionName());
 		description.setValue(selectionDTO.getDescription());
 	}
-        public void customDdlb(){
-                      if(customRelationDdlb.getValue()!=null ){
-                            int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
-                            dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
-			}
-                       if(customRelationDdlbDeduction.getValue()!=null ){
-                            int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
-                            dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
-			}
-        }
+
+	public void customDdlb() {
+		if (customRelationDdlb.getValue() != null) {
+			int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
+			dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+		}
+		if (customRelationDdlbDeduction.getValue() != null) {
+			int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
+			dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
+		}
+	}
 
 	private void customerLevelValueChange(Property.ValueChangeEvent event) {
 		customerInnerLevelContainer.removeAllItems();
@@ -535,10 +531,11 @@ public class DataSelection extends ForecastDataSelection {
 			setCustomerLevelNullSelection();
 		}
 	}
-      public void setFrequency(SessionDTO session)
-    {
-        frequency.setValue(session.getDsFrequency());
-}
+
+	public void setFrequency(SessionDTO session) {
+		frequency.setValue(session.getDsFrequency());
+	}
+
 	private void productLevelValueChange(Property.ValueChangeEvent event) {
 		productInnerLevelContainer.removeAllItems();
 		if (event.getProperty().getValue() != null
@@ -582,13 +579,13 @@ public class DataSelection extends ForecastDataSelection {
 			setProductLevelNullSelection();
 		}
 	}
-        
-        private void dataSelectionDedLevelValueChange(Property.ValueChangeEvent event) {
+
+	private void dataSelectionDedLevelValueChange(Property.ValueChangeEvent event) {
 		if (event.getProperty().getValue() != null
 				&& !SELECT_ONE.equals(String.valueOf(event.getProperty().getValue()))) {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
 			setSelectedDataSelectionDeductionLevel(selectedLevel);
-		} 
+		}
 	}
 
 	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO) {
@@ -600,16 +597,16 @@ public class DataSelection extends ForecastDataSelection {
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			configureStartAndEndPeriods();
 		} else {
-            productLevel.setVisible(false);
-            customerLevel.setVisible(false);
-            productForecastLevelLabel.setVisible(false);
-            customerForecastLevelLabel.setVisible(false);
-            forecastEligibleDateLB.setVisible(false);
-            forecastEligibleDate.setVisible(false);
-            customRelation.setVisible(false);
-            customRelationDdlb.setVisible(false);
-            customRelationDiscount.setVisible(false);
-            customRelationDdlbDeduction.setVisible(false);
+			productLevel.setVisible(false);
+			customerLevel.setVisible(false);
+			productForecastLevelLabel.setVisible(false);
+			customerForecastLevelLabel.setVisible(false);
+			forecastEligibleDateLB.setVisible(false);
+			forecastEligibleDate.setVisible(false);
+			customRelation.setVisible(false);
+			customRelationDdlb.setVisible(false);
+			customRelationDiscount.setVisible(false);
+			customRelationDdlbDeduction.setVisible(false);
 		}
 		initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		setFirstTimeLoad(true);
@@ -670,7 +667,8 @@ public class DataSelection extends ForecastDataSelection {
 				}
 
 			}
-			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
+			if ((innerProdLevels != null)
+					&& (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				Leveldto companyLevel = null;
 				for (Leveldto dto : innerProdLevels) {
@@ -693,10 +691,11 @@ public class DataSelection extends ForecastDataSelection {
 				if (companyLevel != null) {
 
 					innerLevelValues = logic.loadInnerLevel(companyLevel.getLevel(),
-							productHierarchyDto == null ? 0 : productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
-							relationshipSid, productDescriptionMap, StringUtils.EMPTY, screenName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, companyLevel.getLevelNo(),
-							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
+							productHierarchyDto == null ? 0 : productHierarchyDto.getHierarchyId(), selectedLevelSids,
+							false, companyLevel.getFieldName(), relationshipSid, productDescriptionMap,
+							StringUtils.EMPTY, screenName, discountDTO != null ? discountDTO.getRsModelSid() : 0,
+							companyLevel.getLevelNo(), StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(),
+							businessUnit.getValue());
 				}
 			}
 		} catch (SystemException ex) {
@@ -738,7 +737,8 @@ public class DataSelection extends ForecastDataSelection {
 						try {
 							parentLevel = Integer.parseInt(parentarr[0]);
 						} catch (NumberFormatException ne) {
-							LOGGER.info("Error While loading the Customer level is not a valid number.= {}" , parentarr[0]);
+							LOGGER.info("Error While loading the Customer level is not a valid number.= {}",
+									parentarr[0]);
 						}
 						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
 						if (levelDto.getLevelNo() == parentLevel
@@ -805,8 +805,8 @@ public class DataSelection extends ForecastDataSelection {
 						try {
 							parentLevel = Integer.parseInt(parentarr[0]);
 						} catch (NumberFormatException nfe) {
-							LOGGER.error(
-									"Error While loading the Product level is not a valid number.= {}" , parentarr[0]);
+							LOGGER.error("Error While loading the Product level is not a valid number.= {}",
+									parentarr[0]);
 						}
 						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
 						if (levelDto.getLevelNo() == parentLevel
@@ -886,10 +886,10 @@ public class DataSelection extends ForecastDataSelection {
 							selectionDTO.getDiscount(), true);
 					loadDiscountDdlb(selectionDTO.getDiscountSid(), selectedDiscountDTO);
 				}
-                                
-                                forecastEligibleDate.setValue(selectionDTO.getForecastEligibleDate());
-                                dataSelectionDeductionLevel.setValue(selectionDTO.getDataSelectionDeductionLevelSid());
-                               
+
+				forecastEligibleDate.setValue(selectionDTO.getForecastEligibleDate());
+				dataSelectionDeductionLevel.setValue(selectionDTO.getDataSelectionDeductionLevelSid());
+
 			}
 
 		} catch (Property.ReadOnlyException ex) {
@@ -968,7 +968,7 @@ public class DataSelection extends ForecastDataSelection {
 		try {
 			loadProductLevel(String.valueOf(selectionDTO.getProdHierSid()), selectionDTO.getProductHierVersionNo());
 		} catch (Exception ex) {
-			LOGGER.error("in load product level= {} ",ex);
+			LOGGER.error("in load product level= {} ", ex);
 		}
 	}
 
@@ -995,7 +995,7 @@ public class DataSelection extends ForecastDataSelection {
 			loadInnerProductLevel(UiUtils.parseStringToInteger(selectionDTO.getProductHierarchyLevel()),
 					UiUtils.parseStringToInteger(selectionDTO.getProductHierarchyInnerLevel()));
 		} catch (Exception ex) {
-			LOGGER.error(" in load inner product level= {} ",ex);
+			LOGGER.error(" in load inner product level= {} ", ex);
 		}
 	}
 
@@ -1048,7 +1048,7 @@ public class DataSelection extends ForecastDataSelection {
 				loadSelectedCustomersLevel(selectedRelationshipDdlbDto);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(" in customer relationship= {} ",ex);
+			LOGGER.error(" in customer relationship= {} ", ex);
 		}
 	}
 
@@ -1057,15 +1057,15 @@ public class DataSelection extends ForecastDataSelection {
 			DataSelectionForm.loadRelationDdlb(UiUtils.parseStringToInteger(selectionDTO.getCustomerHierSid()),
 					selectedRelationshipDdlbDto, customerRelationComboBox);
 		} catch (Exception ex) {
-			LOGGER.error(" in customer relationship selected level load= {} ",ex);
+			LOGGER.error(" in customer relationship selected level load= {} ", ex);
 
 		}
 	}
 
 	/**
 	 * Manual trigger and processing of customer group select button logic Code
-	 * based on customer group select button logic Any change made there, should
-	 * be made here accordingly
+	 * based on customer group select button logic Any change made there, should be
+	 * made here accordingly
 	 *
 	 * @param customerGrpSid
 	 */
@@ -1088,7 +1088,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error("at triggerCustGrpOnView= {}",ex);
+			LOGGER.error("at triggerCustGrpOnView= {}", ex);
 		}
 	}
 
@@ -1111,9 +1111,9 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	/**
-	 * Manual trigger and processing of product group select button logic Code
-	 * based on product group select button logic Any change made there, should
-	 * be made here accordingly
+	 * Manual trigger and processing of product group select button logic Code based
+	 * on product group select button logic Any change made there, should be made
+	 * here accordingly
 	 *
 	 * @param productGrpSid
 	 */
@@ -1148,7 +1148,7 @@ public class DataSelection extends ForecastDataSelection {
 			customerInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
-                                break;
+				break;
 			}
 		}
 		level.setContainerDataSource(customerInnerLevelContainer);
@@ -1163,7 +1163,7 @@ public class DataSelection extends ForecastDataSelection {
 			productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
-                                break;
+				break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);
@@ -1177,7 +1177,8 @@ public class DataSelection extends ForecastDataSelection {
 			if (getSelectedCustomers() != null && !getSelectedCustomers().isEmpty() && getSelectedProducts() != null
 					&& !getSelectedProducts().isEmpty()
 					&& (company.getValue() != null && !Constant.SELECT_ONE.equals(company.getValue()))
-					&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue())) && dataSelectionDeductionLevel.getValue() != null) {
+					&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue()))
+					&& dataSelectionDeductionLevel.getValue() != null) {
 				setValid(BooleanConstant.getTrueFlag());
 			} else {
 				setValid(BooleanConstant.getFalseFlag());
@@ -1236,21 +1237,22 @@ public class DataSelection extends ForecastDataSelection {
 	public int getTabNumber() {
 		return Constant.ZERO;
 	}
-         public boolean isCustomChange() {
-        return customChange;
-    }
 
-    public void setCustomChange(boolean customChange) {
-        this.customChange = customChange;
-    }
+	public boolean isCustomChange() {
+		return customChange;
+	}
 
-    public boolean isDedCustomChange() {
-        return dedCustomChange;
-    }
+	public void setCustomChange(boolean customChange) {
+		this.customChange = customChange;
+	}
 
-    public void setDedCustomChange(boolean dedCustomChange) {
-        this.dedCustomChange = dedCustomChange;
-    }
+	public boolean isDedCustomChange() {
+		return dedCustomChange;
+	}
+
+	public void setDedCustomChange(boolean dedCustomChange) {
+		this.dedCustomChange = dedCustomChange;
+	}
 
 	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
 		NonMandatedLogic logic = new NonMandatedLogic();
@@ -1262,7 +1264,7 @@ public class DataSelection extends ForecastDataSelection {
 		LOGGER.debug("updateDataSelection starts");
 		selectionDTO = bindDataselectionDtoToSave();
 		NonMandatedLogic logic = new NonMandatedLogic();
-		logic.saveProjection(selectionDTO, screenName,true);
+		logic.saveProjection(selectionDTO, screenName, true);
 		session.setCustRelationshipBuilderSid(selectionDTO.getCustRelationshipBuilderSid());
 		session.setProdRelationshipBuilderSid(selectionDTO.getProdRelationshipBuilderSid());
 		session.setCustomerDescription(customerDescriptionMap);
@@ -1271,14 +1273,14 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProductHierarchyVersion(selectionDTO.getProductHierVersionNo());
 		session.setCustomerRelationVersion(selectionDTO.getCustomerRelationShipVersionNo());
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
-                session.setCustomRelationShipSid(selectionDTO.getCustomRelationShipSid());
-                session.setCustomDeductionRelationShipSid(selectionDTO.getCustomDeductionRelationShipSid());
-                session.setDsFrequency(String.valueOf(frequency.getValue()));
-                session.setDataSelectionDeductionLevel(selectedDataSelectionDeductionLevel);
+		session.setCustomRelationShipSid(selectionDTO.getCustomRelationShipSid());
+		session.setCustomDeductionRelationShipSid(selectionDTO.getCustomDeductionRelationShipSid());
+		session.setDsFrequency(String.valueOf(frequency.getValue()));
+		session.setDataSelectionDeductionLevel(selectedDataSelectionDeductionLevel);
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
-                		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
+		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
 				|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
 			updateDataSelectionChanges();
 		}
@@ -1307,14 +1309,14 @@ public class DataSelection extends ForecastDataSelection {
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
 
 				selectionDTO.setCustRelationshipBuilderSid(String.valueOf(customerRelationComboBox.getValue()));
-					loadCustomerVersionNo(customerRelationComboBox.getValue());
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} else {
 				selectionDTO.setCustRelationshipBuilderSid(String.valueOf(0));
 			}
 			if (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue())) {
 
 				selectionDTO.setProdRelationshipBuilderSid(String.valueOf(productRelation.getValue()));
-					 loadProductVersionNo(productRelation.getValue());
+				loadProductVersionNo(productRelation.getValue());
 			} else {
 				selectionDTO.setProdRelationshipBuilderSid(String.valueOf(0));
 			}
@@ -1376,7 +1378,7 @@ public class DataSelection extends ForecastDataSelection {
 				productForecastInnerLevel = UiUtils
 						.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]);
 			}
-			if (customerHierarchyDto != null && customerRelationVersionComboBox.getValue()!= null) {
+			if (customerHierarchyDto != null && customerRelationVersionComboBox.getValue() != null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 				selectionDTO.setCustomerHierVersionNo(custHierarchyVersionNo);
@@ -1516,12 +1518,16 @@ public class DataSelection extends ForecastDataSelection {
 			selectionDTO.setProductHierarchyInnerLevel(String.valueOf(productForecastInnerLevel));
 			selectionDTO.setProjectionName(projectionName.getValue());
 			selectionDTO.setDescription(description.getValue());
-                        selectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
-                        selectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlb.getValue())): 0 );
-                        selectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
+			selectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
+			selectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue() != null
+					? Integer.parseInt(String.valueOf(customRelationDdlb.getValue()))
+					: 0);
+			selectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue() != null
+					? Integer.parseInt(String.valueOf(customRelationDdlbDeduction.getValue()))
+					: 0);
 
 		} catch (ParseException ex) {
-			LOGGER.error(" in binding for save, can't parse dates= {}",ex);
+			LOGGER.error(" in binding for save, can't parse dates= {}", ex);
 		}
 		LOGGER.debug("bindDataselectionDtoToSave ends");
 		return selectionDTO;
@@ -1614,7 +1620,8 @@ public class DataSelection extends ForecastDataSelection {
 				innerProdLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY,
 						selectionDTO.getCustomerHierVersionNo());
 			}
-			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
+			if ((innerProdLevels != null)
+					&& (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				Leveldto ndcLevel = null;
@@ -1640,10 +1647,12 @@ public class DataSelection extends ForecastDataSelection {
 														? Constant.RS_CATEGORY1
 														: Constant.DEDUCTION_SCHEDULE_TYPE1.equalsIgnoreCase(
 																String.valueOf(deductionLevel.getValue()))
-																		? Constant.RS_TYPE : StringUtils.EMPTY;
+																		? Constant.RS_TYPE
+																		: StringUtils.EMPTY;
 						dedValue = String.valueOf(deductionValue.getValue());
 					}
-					innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(), productHierarchyDto == null ? 0 : productHierarchyDto.getHierarchyId(),
+					innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(),
+							productHierarchyDto == null ? 0 : productHierarchyDto.getHierarchyId(),
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescriptionMap,
 							INDICATOR_LEVEL_NDC.getConstant(), screenName,
@@ -1749,7 +1758,7 @@ public class DataSelection extends ForecastDataSelection {
 		String dedLevel = StringUtils.EMPTY;
 		String dedValue = StringUtils.EMPTY;
 
-		LOGGER.debug("customer inner Level - ValueChangeListener= {}  " , value);
+		LOGGER.debug("customer inner Level - ValueChangeListener= {}  ", value);
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
 		int forecastLevel = 0;
@@ -1770,8 +1779,8 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			} else {
 				if (selectionDTO != null) {
-					LOGGER.info("customer relation version = {}" , selectionDTO.getCustomerRelationShipVersionNo());
-					LOGGER.info("customer hierarchy version no= {}" , selectionDTO.getCustomerHierVersionNo());
+					LOGGER.info("customer relation version = {}", selectionDTO.getCustomerRelationShipVersionNo());
+					LOGGER.info("customer hierarchy version no= {}", selectionDTO.getCustomerHierVersionNo());
 					relationVersionNo = selectionDTO.getCustomerRelationShipVersionNo();
 					hierarchyVersionNo = selectionDTO.getCustomerHierVersionNo();
 					customerDescriptionMap = relationLogic.getLevelValueMap(
@@ -1795,7 +1804,7 @@ public class DataSelection extends ForecastDataSelection {
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
 					dedLevel = getDedutionLevel();
-                                        dedValue=String.valueOf(deductionValue.getValue());
+					dedValue = String.valueOf(deductionValue.getValue());
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -1805,31 +1814,30 @@ public class DataSelection extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(value);
 			String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 			String[] val = selectedLevel.split(" ");
-                        if (val.length > 1) {
-                        forecastLevel = Integer.parseInt(val[1]);
-                        dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
-                        List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
-                                .getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
-                        Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
-                        List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
-                                : groupFilteredCompanies;
-                        List<Leveldto> resultedLevelsList = null;
-                        resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-                                Integer.parseInt(relationshipSid), tempGroupFileter,
-                                dedLevel,
-                                dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescriptionMap);
-                        if (selectedHierarchyLevelDto.getLevel() != null) {
-                            levelName = selectedHierarchyLevelDto.getLevel();
-                        }
+			if (val.length > 1) {
+				forecastLevel = Integer.parseInt(val[1]);
+				dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
+				List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
+						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
+				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
+				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
+						: groupFilteredCompanies;
+				List<Leveldto> resultedLevelsList = null;
+				resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
+						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevel, dedValue, relationVersionNo,
+						forecastEligibleDate.getValue(), customerDescriptionMap);
+				if (selectedHierarchyLevelDto.getLevel() != null) {
+					levelName = selectedHierarchyLevelDto.getLevel();
+				}
 
-                        availableCustomerContainer.addAll(resultedLevelsList);
-                        availableCustomer.setContainerDataSource(availableCustomerContainer);
-                        availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
-                        availableCustomer.setColumnHeaders(levelName);
-                        availableCustomer.setFilterBarVisible(true);
-                        availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
-                        availableCustomer.setStyleName(Constant.FILTER_TABLE);
-                    }
+				availableCustomerContainer.addAll(resultedLevelsList);
+				availableCustomer.setContainerDataSource(availableCustomerContainer);
+				availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
+				availableCustomer.setColumnHeaders(levelName);
+				availableCustomer.setFilterBarVisible(true);
+				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
+				availableCustomer.setStyleName(Constant.FILTER_TABLE);
+			}
 
 		} catch (CloneNotSupportedException | NumberFormatException ex) {
 			LOGGER.error(" level  ValueChangeListener3= {} ", ex);
@@ -1865,8 +1873,8 @@ public class DataSelection extends ForecastDataSelection {
 			selectedCustomerContainer.removeAllItems();
 			setCustomerForecastLevelNullSelection();
 			setCustomerLevelNullSelection();
-                        setNullSelectionCustomDdlb(customRelationDdlb);
-                        setNullSelectionCustomDdlb(customRelationDdlbDeduction);
+			setNullSelectionCustomDdlb(customRelationDdlb);
+			setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			if (!isFirstTimeLoad()) {
 				customerDescriptionMap = null;
 			}
@@ -1882,10 +1890,11 @@ public class DataSelection extends ForecastDataSelection {
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
-                                customViewInput.put("custVer", customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-                                customViewInput.put("custSid", String.valueOf(customerRelationComboBox.getValue()));
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+				customViewInput.put("custVer",
+						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+				customViewInput.put("custSid", String.valueOf(customerRelationComboBox.getValue()));
+				loadCustomViewDropDown(customRelationDdlb, customViewInput);
+				loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 			} catch (Exception ex) {
 
 				LOGGER.error(" in customerRelation value change= {}", ex);
@@ -1913,8 +1922,8 @@ public class DataSelection extends ForecastDataSelection {
 			productInnerLevelContainer.removeAllItems();
 			setProductForecastLevelNullSelection();
 			setProductLevelNullSelection();
-                        setNullSelectionCustomDdlb(customRelationDdlb);
-                        setNullSelectionCustomDdlb(customRelationDdlbDeduction);
+			setNullSelectionCustomDdlb(customRelationDdlb);
+			setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			if (!isFirstTimeLoad()) {
 				productDescriptionMap = null;
 			}
@@ -1952,15 +1961,16 @@ public class DataSelection extends ForecastDataSelection {
 					}
 				}
 				loadProductVersionNo(productRelation.getValue());
-                                customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
-                                customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
+				customViewInput.put("prodVer",
+						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
+				customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
 
-                                if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
-                                }
+				if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
+					loadCustomViewDropDown(customRelationDdlb, customViewInput);
+					loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+				}
 			} catch (NumberFormatException ex) {
-				LOGGER.error(" in productRelation value change= {}",ex);
+				LOGGER.error(" in productRelation value change= {}", ex);
 			}
 		}
 		if (!isFirstTimeLoad()) {
@@ -2021,7 +2031,7 @@ public class DataSelection extends ForecastDataSelection {
 	protected void loadProductGroup() {
 		final CustomerProductGroupLookup productGroupLookupWindow = new CustomerProductGroupLookup(
 				INDICATOR_PRODUCT_GROUP.getConstant(), WINDOW_PRODUCT_GROUP_LOOKUP.getConstant(), productGroup,
-				Collections.<String> emptyList(), screenName);
+				Collections.<String>emptyList(), screenName);
 		productGroupLookupWindow.init();
 		UI.getCurrent().addWindow(productGroupLookupWindow);
 		productGroupLookupWindow.addCloseListener(new Window.CloseListener() {
@@ -2082,7 +2092,7 @@ public class DataSelection extends ForecastDataSelection {
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 					{
 						dedLevel = getDedutionLevel();
-                                                dedValue = String.valueOf(deductionValue.getValue());
+						dedValue = String.valueOf(deductionValue.getValue());
 					}
 				}
 				String relationshipSid = String.valueOf(productRelation.getValue());
@@ -2096,7 +2106,7 @@ public class DataSelection extends ForecastDataSelection {
 						|| selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("NDC-11"));
 				selectedCustomerContractList = getSelectedCustomerContractList();
 
-				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String> emptyList()
+				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
 						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
@@ -2144,7 +2154,7 @@ public class DataSelection extends ForecastDataSelection {
 	protected void loadCustomerGroup() {
 		final CustomerProductGroupLookup customerGroupLookupWindow = new CustomerProductGroupLookup(
 				INDICATOR_CUSTOMER_GROUP.getConstant(), WINDOW_CUSTOMER_GROUP_LOOKUP.getConstant(), customerGroup,
-				Collections.<String> emptyList(), screenName);
+				Collections.<String>emptyList(), screenName);
 		customerGroupLookupWindow.init();
 		UI.getCurrent().addWindow(customerGroupLookupWindow);
 		customerGroupLookupWindow.addCloseListener(new Window.CloseListener() {
@@ -2179,7 +2189,8 @@ public class DataSelection extends ForecastDataSelection {
 				innerCustLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY,
 						selectionDTO.getCustomerHierVersionNo());
 			}
-			if ((innerCustLevels != null) && (customerRelationComboBox.getValue() != null && !SELECT_ONE.equals(customerRelationComboBox.getValue()))) {
+			if ((innerCustLevels != null) && (customerRelationComboBox.getValue() != null
+					&& !SELECT_ONE.equals(customerRelationComboBox.getValue()))) {
 
 				String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 				Leveldto customerLevelDto = null;
@@ -2205,7 +2216,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException ex) {
-			LOGGER.error(" in getCustomersFromHierarchy= {}",ex);
+			LOGGER.error(" in getCustomersFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
@@ -2289,7 +2300,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableCustomer.setStyleName(Constant.FILTER_TABLE);
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(" filterCustomerOnGroupSelect= {} ",ex);
+			LOGGER.error(" filterCustomerOnGroupSelect= {} ", ex);
 		}
 
 	}
@@ -2349,45 +2360,43 @@ public class DataSelection extends ForecastDataSelection {
 										String.valueOf(level.getValue()).split("-")[0]),
 								forecastEligibleDate.getValue(), false);
 
-							if (!newChildLevels.isEmpty()) {
-								int pos3 = 0;
-								String childHierarchyNo;
-								Leveldto childsParent = null;
-								for (Leveldto newLevel : newChildLevels) {
-									String tempHNo = newLevel.getHierarchyNo();
-									if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-										tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
-									}
-									pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-									if (pos3 != -1) {
-										childHierarchyNo = tempHNo.substring(0, pos3) + ".";
-									} else {
-										childHierarchyNo = tempHNo + ".";
-									}
-									if (customerBeanList.isEmpty()
-											|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-										customerBeanList.add(newLevel.getRelationshipLevelSid());
-										selectedCustomerContainer.addBean(newLevel);
-										if (forecastLevel != newLevel.getLevelNo()) {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, true);
-										} else {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, false);
-										}
-									}
-
-									if (!StringUtils.isBlank(childHierarchyNo)) {
-										for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-											if (childHierarchyNo
-													.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-												childsParent = selectedLevel;
-												break;
-											}
-										}
-									}
-									selectedCustomerContainer.setParent(newLevel, childsParent);
+						if (!newChildLevels.isEmpty()) {
+							int pos3 = 0;
+							String childHierarchyNo;
+							Leveldto childsParent = null;
+							for (Leveldto newLevel : newChildLevels) {
+								String tempHNo = newLevel.getHierarchyNo();
+								if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
+									tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
 								}
-							}
+								pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+								if (pos3 != -1) {
+									childHierarchyNo = tempHNo.substring(0, pos3) + ".";
+								} else {
+									childHierarchyNo = tempHNo + ".";
+								}
+								if (customerBeanList.isEmpty()
+										|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
+									customerBeanList.add(newLevel.getRelationshipLevelSid());
+									selectedCustomerContainer.addBean(newLevel);
+									if (forecastLevel != newLevel.getLevelNo()) {
+										selectedCustomerContainer.setChildrenAllowed(newLevel, true);
+									} else {
+										selectedCustomerContainer.setChildrenAllowed(newLevel, false);
+									}
+								}
 
+								if (!StringUtils.isBlank(childHierarchyNo)) {
+									for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
+										if (childHierarchyNo.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
+											childsParent = selectedLevel;
+											break;
+										}
+									}
+								}
+								selectedCustomerContainer.setParent(newLevel, childsParent);
+							}
+						}
 
 					} else {
 
@@ -2433,7 +2442,7 @@ public class DataSelection extends ForecastDataSelection {
 								tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
 							}
 							int pos2;
-                                                        pos2 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+							pos2 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
 							if (pos2 != -1) {
 								selectedParentHierarchyNo = tempHNo.substring(0, pos2) + ".";
 							} else {
@@ -2659,8 +2668,8 @@ public class DataSelection extends ForecastDataSelection {
 							} else {
 								childHierarchyNo = tempHNo + ".";
 							}
-							if (customerBeanList.isEmpty()
-									|| !customerBeanList.contains(Integer.valueOf(newLevel.getRelationShipBuilderId()))) {
+							if (customerBeanList.isEmpty() || !customerBeanList
+									.contains(Integer.valueOf(newLevel.getRelationShipBuilderId()))) {
 								customerBeanList.add(newLevel.getRelationshipLevelSid());
 								selectedCustomerContainer.addBean(newLevel);
 								if (forecastLevel != newLevel.getLevelNo()) {
@@ -3320,7 +3329,8 @@ public class DataSelection extends ForecastDataSelection {
 												String.valueOf(productLevel.getValue()).split("-")[0]),
 										productDescriptionMap, businessUnit.getValue(),
 										DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
-										productRelationVersionNo, UiUtils.getDataSelectionFormattedLevelNo(
+										productRelationVersionNo,
+										UiUtils.getDataSelectionFormattedLevelNo(
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										forecastEligibleDate.getValue(), true);
 								if (newParentLevels != null) {
@@ -3474,7 +3484,8 @@ public class DataSelection extends ForecastDataSelection {
 									UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 									productDescriptionMap, businessUnit.getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
-									productRelationVersionNo, UiUtils.getDataSelectionFormattedLevelNo(
+									productRelationVersionNo,
+									UiUtils.getDataSelectionFormattedLevelNo(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), true);
 							if (newParentLevels != null) {
@@ -3781,7 +3792,7 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public static List<Integer> getProductBeanLisTemp() {
-				return productBeanLisTemp;
+		return productBeanLisTemp;
 
 	}
 
@@ -3869,7 +3880,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again. ");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(" in moveRightProduct= {}",ex);
+			LOGGER.error(" in moveRightProduct= {}", ex);
 		}
 
 	}
@@ -4388,7 +4399,7 @@ public class DataSelection extends ForecastDataSelection {
 		moveLeftProduct.setEnabled(false);
 		moveRightProduct.setEnabled(false);
 		selectedProduct.setSelectable(false);
-                forecastEligibleDate.setEnabled(false);
+		forecastEligibleDate.setEnabled(false);
 	}
 
 	private void loadDiscountDdlb(int discountSid, CompanyDdlbDto selectedDiscountDdlbDto) {
@@ -4419,15 +4430,16 @@ public class DataSelection extends ForecastDataSelection {
 	public String getProjectionName() {
 		return projectionName.getValue();
 	}
-        public String getProjectionDescription() {
+
+	public String getProjectionDescription() {
 		return description.getValue();
 	}
 
 	public void updateDataSelectionSelectedProducts() {
 		LOGGER.debug("updateDataSelectionSelectedProducts starts");
 		StringBuilder prodUpdateQuery = new StringBuilder();
-		prodUpdateQuery.append(" Delete FROM PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID="
-				).append( session.getProjectionId() ).append( "; ");
+		prodUpdateQuery.append(" Delete FROM PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID=")
+				.append(session.getProjectionId()).append("; ");
 		HelperTableLocalServiceUtil.executeUpdateQuery(prodUpdateQuery.toString());
 		LOGGER.debug("updateDataSelectionSelectedProducts ends");
 	}
@@ -4454,8 +4466,8 @@ public class DataSelection extends ForecastDataSelection {
 			queryBuilder.append(SQlUtil.getQuery("deleteTemplate").replace(Constant.AT_TABLE_NAME, tableNames)
 					.replace("@PD_SID", CollectionToString));
 		}
-		queryBuilder
-				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" ).append( CollectionToString ).append( ')');
+		queryBuilder.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (")
+				.append(CollectionToString).append(')');
 
 		HelperTableLocalServiceUtil.executeUpdateQuery(queryBuilder.toString());
 	}
@@ -4482,28 +4494,27 @@ public class DataSelection extends ForecastDataSelection {
 	 * @throws ClassNotFoundException
 	 */
 	private void updateDataSelectionChanges() throws ClassNotFoundException, IOException {
-              final ExecutorService service = ThreadPool.getInstance().getService();
+		final ThreadPool service = ThreadPool.getInstance();
 		dsLogic.deleteFromTempCCPTable(session);
 		relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
 				selectedProductContainer.getItemIds(), selectionDTO);
-		session.addFutureMap(Constant.FILE_INSERT, new Future[] { service
-				.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
+		session.addFutureMap(Constant.FILE_INSERT, new Future[] { service.submitRunnable(
+				CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
 		// PROJECTION_CUST_HIERARCHY INSERT CALL
-		session.addFutureMap(Constant.CUST_HIERARCHY_INSERT,
-				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.CUST_HIERARCHY_INSERT,
-						selectionDTO.getProjectionId(), selectionDTO.getSelectedCustomerRelationSid(),
-						Boolean.TRUE)) });
+		session.addFutureMap(Constant.CUST_HIERARCHY_INSERT, new Future[] { service.submitRunnable(
+				CommonUtil.getInstance().createRunnable(Constant.CUST_HIERARCHY_INSERT, selectionDTO.getProjectionId(),
+						selectionDTO.getSelectedCustomerRelationSid(), Boolean.TRUE)) });
 		// PROJECTION_PROD_HIERARCHY INSERT CALL
-		session.addFutureMap(Constant.PROD_HIERARCHY_INSERT,
-				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.PROD_HIERARCHY_INSERT,
+		session.addFutureMap(Constant.PROD_HIERARCHY_INSERT, new Future[] {
+				service.submitRunnable(CommonUtil.getInstance().createRunnable(Constant.PROD_HIERARCHY_INSERT,
 						selectionDTO.getProjectionId(), selectionDTO.getSelectedProductRelationSid(), Boolean.TRUE)) });
 		// PROJECTION_DETAILS_INSERT
 		// TO check already projection details insert is running or not
 		CommonUtil.getInstance()
 				.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.PROJECTION_DETAILS_INSERT, 0));
 		session.addFutureMap(Constant.PROJECTION_DETAILS_INSERT,
-				new Future[] {
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
+				new Future[] { service
+						.submitRunnable(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
 								selectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.TRUE)) });
 		session.setHierarchyLevelDetails(new LinkedHashMap<>());
 		session.setCustomerLevelDetails(
@@ -4514,7 +4525,6 @@ public class DataSelection extends ForecastDataSelection {
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
                 session.setDiscountCustomerProductLevelDetails(
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
-                service.shutdown();
 
 	}
 
@@ -4544,7 +4554,7 @@ public class DataSelection extends ForecastDataSelection {
 		if (selectedProductRelation != null && !SELECT_ONE.equals(String.valueOf(selectedProductRelation))) {
 			List<Object[]> versionNoList = relationLogic.getVersionNoList(selectedProductRelation);
 			Object value = loadComboBoxBasedOnRelationshipVersion(productRelationVersionComboBox, versionNoList);
-			LOGGER.info("value= {}" , value);
+			LOGGER.info("value= {}", value);
 			productRelationVersionComboBox.select(value);
 		}
 	}
@@ -4571,33 +4581,33 @@ public class DataSelection extends ForecastDataSelection {
 		}
 		level.setContainerDataSource(productForecastLevelContainer);
 	}
-        
-        private void configureDataSelectionDeductionLevel() {
+
+	private void configureDataSelectionDeductionLevel() {
 
 		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
-                setFirstTimeLoad(true);
-		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList,session);
-                setFirstTimeLoad(false);
-                setSelectedDataSelectionDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
+		setFirstTimeLoad(true);
+		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList, session);
+		setFirstTimeLoad(false);
+		setSelectedDataSelectionDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
 	}
-        
-        private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
-            setNullSelectionCustomDdlb(customRelationDdlb);
-            dsLogic.loadCustomViewValues(customRelationDdlb,inputData,true);
-            if(session.getCustomRelationShipSid()==0){
-                customRelationDdlb.select(null);
-            }
-            customRelationDdlb.select(session.getCustomRelationShipSid());
-        }
 
-        private void loadCustomViewDeductionDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
-            setNullSelectionCustomDdlb(customRelationDdlb);
-            dsLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
-            if(session.getCustomDeductionRelationShipSid()==0){
-                customRelationDdlb.select(null);
-            }
-            customRelationDdlb.select(session.getCustomDeductionRelationShipSid());
+	private void loadCustomViewDropDown(ComboBox customRelationDdlb, Map<String, String> inputData) {
+		setNullSelectionCustomDdlb(customRelationDdlb);
+		dsLogic.loadCustomViewValues(customRelationDdlb, inputData, true);
+		if (session.getCustomRelationShipSid() == 0) {
+			customRelationDdlb.select(null);
+		}
+		customRelationDdlb.select(session.getCustomRelationShipSid());
+	}
 
-        }
-        
-    }
+	private void loadCustomViewDeductionDropDown(ComboBox customRelationDdlb, Map<String, String> inputData) {
+		setNullSelectionCustomDdlb(customRelationDdlb);
+		dsLogic.loadCustomViewDeductionValues(customRelationDdlb, inputData, true);
+		if (session.getCustomDeductionRelationShipSid() == 0) {
+			customRelationDdlb.select(null);
+		}
+		customRelationDdlb.select(session.getCustomDeductionRelationShipSid());
+
+	}
+
+}

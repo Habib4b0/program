@@ -90,8 +90,8 @@ public class WorkflowLogic {
      * @throws IOException
      */
     public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
-        java.util.Properties path =getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
-    	 String filePath=path.getProperty("Workflowpath");
+        java.util.Properties path = getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
+        String filePath = path.getProperty("Workflowpath");
         String moduleName = StringUtils.EMPTY;
         if (screenName.equals(ARMConstants.getPipelineAccrual())) {
             moduleName = "ARM_TRX1";
@@ -245,7 +245,7 @@ public class WorkflowLogic {
                 projectionId));
         List<WorkflowMaster> resultList;
         try {
-            resultList =  WorkflowMasterLocalServiceUtil.dynamicQuery(workflowMasterDynamicQuery);
+            resultList = WorkflowMasterLocalServiceUtil.dynamicQuery(workflowMasterDynamicQuery);
             return resultList.get(0);
         } catch (Exception ex) {
             LOGGER.error("Error in getWorkflowMasterByProjectionId :" + ex);
@@ -361,7 +361,7 @@ public class WorkflowLogic {
         try {
             resultList = WorkflowMasterLocalServiceUtil.dynamicQuery(mailDynamicQuery);
         } catch (Exception e) {
-            LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE + e);
+            LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE, e);
         }
         for (MailNotificationMaster object : resultList) {
 
@@ -397,12 +397,12 @@ public class WorkflowLogic {
                     st.close();
                 }
             } catch (Exception e) {
-                LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE + e);
+                LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE, e);
             }
             try {
                 con.close();
             } catch (Exception e) {
-                LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE + e);
+                LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE, e);
             }
         }
 
@@ -479,18 +479,19 @@ public class WorkflowLogic {
         }
         return String.valueOf(docdetailsSids);
     }
-    public static java.util.Properties getPropertyFile(String bpiPropLoc) {
-		LOGGER.debug("getPropertyFile===================>starts");
-		java.util.Properties prop = new java.util.Properties();
-		try {
-			FileInputStream fileIS = null;
-			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
-			prop.load(fileIS);
-		} catch (IOException ex) {
-			LOGGER.error(ex.getMessage());
-		}
-		LOGGER.debug("getPropertyFile===================>ends");
-		return prop;
 
-	}
+    public static java.util.Properties getPropertyFile(String bpiPropLoc) {
+        LOGGER.debug("getPropertyFile===================>starts");
+        java.util.Properties prop = new java.util.Properties();
+        try {
+            FileInputStream fileIS = null;
+            fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
+            prop.load(fileIS);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        LOGGER.debug("getPropertyFile===================>ends");
+        return prop;
+
+    }
 }

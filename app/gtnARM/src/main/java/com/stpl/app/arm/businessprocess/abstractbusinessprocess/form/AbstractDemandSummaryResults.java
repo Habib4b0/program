@@ -249,7 +249,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         getTableLogic().loadSetData(Boolean.FALSE);
 
     }
-    
+
     @Override
     protected boolean isPercentageColumn2Decimal(String column) {
         return column.contains("demandAccrualRatio") || column.contains("paymentRatio"); //To change body of generated methods, choose Tools | Templates.
@@ -418,10 +418,12 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
     public int hashCode() {
         return super.hashCode();
     }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }
-    private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
     }
 }

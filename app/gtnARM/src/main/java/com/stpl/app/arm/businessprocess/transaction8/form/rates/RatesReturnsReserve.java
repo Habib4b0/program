@@ -57,7 +57,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
             rateBasisDdlb.select(HelperListUtil.getInstance().getIdByDesc("ARM_RATE_BASIS", "Calculated"));
             rateBasisDdlb.setReadOnly(true);
         } catch (Exception e) {
-            loggerRates.error("Error in setDefaultValue :" + e);
+            loggerRates.error("Error in setDefaultValue :", e);
         }
     }
 

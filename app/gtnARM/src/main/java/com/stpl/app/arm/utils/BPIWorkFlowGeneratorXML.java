@@ -139,7 +139,7 @@ public class BPIWorkFlowGeneratorXML {
 
             }
         } catch (Exception e) {
-            LOGGER.error("Error in readBPICounterXML :" + e);
+            LOGGER.error("Error in readBPICounterXML :", e);
         }
 
         return hm;
@@ -281,7 +281,7 @@ public class BPIWorkFlowGeneratorXML {
 
             }
         } catch (Exception e) {
-            LOGGER.error("Error in updateBPICounterXML :" + e);
+            LOGGER.error("Error in updateBPICounterXML :", e);
         }
 
         return null;

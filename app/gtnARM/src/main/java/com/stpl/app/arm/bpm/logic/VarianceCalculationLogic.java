@@ -18,7 +18,7 @@ public class VarianceCalculationLogic {
          */
     }
 
-    public static void submitWorkflow(final Long processInstanceId, final SessionDTO session,String moduleName) {
+    public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();
         GtnWsForecastProjectionSubmitBean submitBean = new GtnWsForecastProjectionSubmitBean();
@@ -31,10 +31,10 @@ public class VarianceCalculationLogic {
         submitRequest.setGtnWsForecastProjectionSubmitBean(submitBean);
         submitRequest.setGtnWsGeneralRequest(generalRequest);
         gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
-         new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
                 GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
                 + GtnWsForecastConstants.GTN_WS_FORECAST_SUBMIT_WORKFLOW,
                 GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, DataSelectionQueryUtils.getGsnWsSecurityToken());
     }
-    
+
 }

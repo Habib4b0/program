@@ -82,6 +82,8 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean itemsPerPageAlignCentre = true;
     private boolean paginationOff = false;
     private boolean selectionListener = false;
+    private List<String> additionalSearchCriteriaListValues;
+    
     private boolean filteron = false;
 
     public boolean isFilteron() {
@@ -665,6 +667,14 @@ public class GtnUIFrameworkPagedTableConfig {
 
 	public void setItemsPerPageAlignCentre(boolean itemsPerPageAlignCentre) {
 		this.itemsPerPageAlignCentre = itemsPerPageAlignCentre;
+	}
+
+	public List<String> getAdditionalSearchCriteriaListValues() {
+		return additionalSearchCriteriaListValues;
+	}
+
+	public void setAdditionalSearchCriteriaListValues(List<String> additionalSearchCriteriaListValues) {
+		this.additionalSearchCriteriaListValues = additionalSearchCriteriaListValues;
 	}
     
 }

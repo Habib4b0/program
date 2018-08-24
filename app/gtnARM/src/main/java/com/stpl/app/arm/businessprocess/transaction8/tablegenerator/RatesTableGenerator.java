@@ -111,7 +111,7 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
                 }
                 refreshTable(tableLogic);
             } catch (Exception e) {
-                LOGGER.error("Error in overrideListener :" + e);
+                LOGGER.error("Error in overrideListener :", e);
             }
         }
     };
