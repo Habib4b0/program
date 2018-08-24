@@ -53,7 +53,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 count = count + 1;
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getSummaryCount :" + e);
+            LOGGER.error("Error in getSummaryCount :", e);
         }
         return count;
     }
@@ -192,7 +192,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             }
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGER.error("Error in generateButtonCheck :" + e);
+            LOGGER.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
     }

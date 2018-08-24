@@ -235,7 +235,7 @@ public class ReturnsData extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            logger.error("Error in createWorkSheetContent :" + e);
+            logger.error("Error in createWorkSheetContent :", e);
         }
     }
 

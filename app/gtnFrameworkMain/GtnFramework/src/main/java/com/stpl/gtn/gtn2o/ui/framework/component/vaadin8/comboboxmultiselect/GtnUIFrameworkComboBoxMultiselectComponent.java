@@ -46,6 +46,8 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		ComboBoxMultiselect comboBoxVaadinMultiSelect = new ComboBoxMultiselect();
 		comboBoxVaadinMultiSelect.setCaption(multiSelectComponentConfig.getComponentName());
 		comboBoxVaadinMultiSelect.showSelectAllButton(true);
+		comboBoxVaadinMultiSelect.setClearButtonCaption("Clear");
+		comboBoxVaadinMultiSelect.setSelectAllButtonCaption("Select All");
 		comboBoxVaadinMultiSelect.setPopupWidth(null);
 		comboBoxVaadinMultiSelect.showClearButton(true);
 		loadStyles(comboBoxVaadinMultiSelect, multiSelectComponentConfig.getComponentStyle());

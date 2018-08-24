@@ -149,7 +149,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
                 getSummaryLogic().updateForCalculte(input, getSelection().getSessionDTO().getCurrentTableNames().get("ST_ARM_INFLATION_INVENTORY_ADJ"));
             }
         } catch (Exception e) {
-            LOGGER.error("Error in calculateLogic :" + e);
+            LOGGER.error("Error in calculateLogic :", e);
         }
         return false;
     }

@@ -202,7 +202,7 @@ public class AdjustmentSummaryWindow extends Window {
             notifier.setButtonName("close");
             notifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), ARMMessages.getCloseMessage_Summary());
         } catch (Exception e) {
-            LOGGER.error("Error in closeButtonClick :" + e);
+            LOGGER.error("Error in closeButtonClick :", e);
         }
     }
 
