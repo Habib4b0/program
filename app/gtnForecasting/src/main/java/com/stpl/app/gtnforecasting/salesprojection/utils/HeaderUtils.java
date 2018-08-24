@@ -438,11 +438,6 @@ public class HeaderUtils {
         List<String> columnList=CommonUtils.objectListToStringList(tableHeaderDTO.getSingleColumns());
         projSelDTO.setColumns(columnList);
         
-        List massPopulateList = new ArrayList();
-        for (Object obj : massPopulateList) {
-            massPopulateList.add(obj);
-        }
-        projSelDTO.setProjectedList(massPopulateList);
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
             }

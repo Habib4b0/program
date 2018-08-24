@@ -121,10 +121,14 @@ public class CustomExcelNM extends ExcelExport {
                 formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
-                if (prop != null && value != null) {
-                    nonFormatter(value, prop, sheetCell);
-                }
+                nonFormatterCustomExcel(prop, value, sheetCell);
             }
+        }
+    }
+
+    private void nonFormatterCustomExcel(Property prop, Object value, Cell sheetCell) {
+        if (prop != null && value != null) {
+            nonFormatter(value, prop, sheetCell);
         }
     }
 

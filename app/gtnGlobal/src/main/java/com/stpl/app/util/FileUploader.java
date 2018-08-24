@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * @author Manasa
  */
 public class FileUploader implements Receiver {
-	private File file;
+
 	private boolean isFileExists;
 	private boolean isFileCreated;
 	public static final String FILE_PATH = getFilePath();
@@ -53,7 +53,7 @@ public class FileUploader implements Receiver {
 				if (!dir.exists()) {
 					dir.mkdirs();
 				}
-				 file = GtnFileUtil.getFile(dir, filename);
+				File file = GtnFileUtil.getFile(dir, filename);
 				if (file.exists()) {
 					isFileExists=file.delete();
 				}

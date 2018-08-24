@@ -119,10 +119,14 @@ public class SalesExcelNM extends ExcelExport{
                 formatForCurrencyAndDecimal(propIdSalesExcel, sheetCellSalesExcel, rootItemId);
 
             } else {
-                if (propSalesExcel != null && valueSalesExcel != null) {
-                    nonFormatter(valueSalesExcel, propSalesExcel, sheetCellSalesExcel);
-                }
+                nonFormatPropSalesExcel(propSalesExcel, valueSalesExcel, sheetCellSalesExcel);
             }
+        }
+    }
+
+    private void nonFormatPropSalesExcel(Property propSalesExcel, Object valueSalesExcel, Cell sheetCellSalesExcel) {
+        if (propSalesExcel != null && valueSalesExcel != null) {
+            nonFormatter(valueSalesExcel, propSalesExcel, sheetCellSalesExcel);
         }
     }
 
