@@ -181,7 +181,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
 
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGER.error("Error in generateButtonCheck :" + e);
+            LOGGER.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
 

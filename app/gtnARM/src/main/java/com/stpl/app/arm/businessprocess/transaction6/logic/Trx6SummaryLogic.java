@@ -104,7 +104,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             finalList.add(excelDoubleSingleVisibleColumn);
             finalList.add(excelSingleColumn);
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in generateHeader :" + e);
+            LOGGERFORSUMMARYLOGIC.error("Error in generateHeader :", e);
         }
         return finalList;
     }
@@ -123,7 +123,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                 count = count + 1;
             }
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in getSummaryCount :" + e);
+            LOGGERFORSUMMARYLOGIC.error("Error in getSummaryCount :", e);
         }
         return count;
     }
@@ -164,7 +164,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             LOGGERFORSUMMARYLOGIC.debug("Exit getSummaryData");
 
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in getSummaryData :" + e);
+            LOGGERFORSUMMARYLOGIC.error("Error in getSummaryData :", e);
         }
         return result;
     }
@@ -228,7 +228,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
 
             dataResult.setDataResults(resultList);
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in cutomize :" + e);
+            LOGGERFORSUMMARYLOGIC.error("Error in cutomize :", e);
         }
         return dataResult;
 
@@ -249,7 +249,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
 
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in generateButtonCheck :" + e);
+            LOGGERFORSUMMARYLOGIC.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
 
@@ -287,7 +287,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             LOGGERFORSUMMARYLOGIC.debug(query);
             list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGERFORSUMMARYLOGIC.error("Error in getExcelResultList :" + e);
+            LOGGERFORSUMMARYLOGIC.error("Error in getExcelResultList :", e);
         }
         return list;
     }

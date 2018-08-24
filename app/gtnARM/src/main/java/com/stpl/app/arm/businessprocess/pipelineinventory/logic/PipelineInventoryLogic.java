@@ -78,7 +78,7 @@ public class PipelineInventoryLogic {
             List resultList = QueryUtils.getItemData(input, query, null);
             searchList = getCustomisedGroupDto(resultList);
         } catch (Exception e) {
-            LOGGER.error("Error in getCustomerProductGroup :" + e);
+            LOGGER.error("Error in getCustomerProductGroup :", e);
         }
         LOGGER.debug("Exit getCustomerProductGroup Method");
         return searchList;

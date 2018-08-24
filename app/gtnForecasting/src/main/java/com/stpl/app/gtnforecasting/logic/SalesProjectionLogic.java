@@ -1068,7 +1068,7 @@ public class SalesProjectionLogic {
         int quator = getQuator(session.getCurrentDate().getMonth() + 1);
 
         Map<Integer, Double> values;
-        BigDecimal totalValue = new BigDecimal(0.0);
+        BigDecimal totalValue = BigDecimal.valueOf(0.0);
 
         Map<String, Map<Integer, Double>> finalMap;
         SalesProjectionLogic logic = new SalesProjectionLogic();

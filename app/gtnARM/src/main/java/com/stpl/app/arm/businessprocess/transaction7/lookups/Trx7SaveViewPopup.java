@@ -106,7 +106,7 @@ public class Trx7SaveViewPopup extends Window {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in addbuttonClick :" + e);
+            LOGGER.error("Error in addbuttonClick :", e);
         }
     }
 
@@ -115,7 +115,7 @@ public class Trx7SaveViewPopup extends Window {
         try {
             close();
         } catch (Exception e) {
-            LOGGER.error("Error in cancelButtonClick :" + e);
+            LOGGER.error("Error in cancelButtonClick :", e);
         }
     }
 
@@ -141,7 +141,7 @@ public class Trx7SaveViewPopup extends Window {
 
             }
         } catch (Exception e) {
-            LOGGER.error("Error in updateButtonClick :" + e);
+            LOGGER.error("Error in updateButtonClick :", e);
         }
     }
 

@@ -2743,9 +2743,9 @@ public class ProjectionVarianceLogic {
                         String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(period)) - 1);
                         commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
                     }
-                    PVCommonLogic.customizePeriodV2(commonColumn, varibaleCat, pvsdto, pvDTO, format, totalListPostion, actual, proj, isPer);
+                    PVCommonLogic.customizePeriodV2(commonColumn, varibaleCat, pvsdto, pvDTO, format, totalListPostion, actual, proj, isPer,false);
                     for (int j = 0; j < priorList.size(); j++) {
-                        PVCommonLogic.getPriorCommonCustomizationV2(varibaleCat, pvsdto, list, pvDTO, commonColumn, totalListPostion, j, isPer, format);
+                        PVCommonLogic.getPriorCommonCustomizationV2(varibaleCat, pvsdto, list, pvDTO, commonColumn, totalListPostion, j, isPer, format,false);
                     }
                 }
 
@@ -2815,10 +2815,10 @@ public class ProjectionVarianceLogic {
                     String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
                     commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
-
-                PVCommonLogic.customizePeriodV2(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, actual,proj, isPer);
+                /*Only for Discount Customization*/
+                PVCommonLogic.customizePeriodDiscountV2(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, actual,proj, isPer);
                 for (int j = 0; j < priorList.size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomizationV2(projSelDTO.getVarIndicator(), projSelDTO, list, pvDTO, commonColumn, index, j, isPer, isPer ? RATE : AMOUNT);
+                    PVCommonLogic.getPriorCommonCustomizationV2(projSelDTO.getVarIndicator(), projSelDTO, list, pvDTO, commonColumn, index, j, isPer, isPer ? RATE : AMOUNT,false);
                 }
                 if (i++ == groupedResult.entrySet().size() - 1) {
                     resultDto.add(pvDTO);
@@ -3092,10 +3092,10 @@ public class ProjectionVarianceLogic {
                 }
             }
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
-            PVCommonLogic.customizePeriodV2(variableValue, variableCategory, pvsdto, projDTO, format, index,actual, proj, format.equals(RATE));
+            PVCommonLogic.customizePeriodV2(variableValue, variableCategory, pvsdto, projDTO, format, index,actual, proj, format.equals(RATE),false);
             for (int j = 0; j < priorList.size(); j++) {
                 PVCommonLogic.getPriorCommonCustomizationV2(variableCategory, pvsdto, list, projDTO, variableValue, index, j,
-                        format.equals(RATE), format);
+                        format.equals(RATE), format,false);
             }
 
         } catch (Exception e) {
