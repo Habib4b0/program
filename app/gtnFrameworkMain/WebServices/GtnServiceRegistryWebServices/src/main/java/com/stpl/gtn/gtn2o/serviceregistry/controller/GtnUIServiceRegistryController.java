@@ -59,6 +59,8 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		logger.debug("inside serviceRegistryUIControllerMappingWs");
 		logger.trace("UserId:" + request.getGtnWsGeneralRequest().getUserId());
 		logger.trace("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
+		logger.info("UserId:" + request.getGtnWsGeneralRequest().getUserId());
+		logger.info("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse = new GtnServiceRegistryWSResponse();

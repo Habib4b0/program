@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean;
+import com.stpl.dependency.queryengine.bean.GtnFrameworkQueryResponseBean;
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.queryengine.engine.GtnFrameworkWsSqlQueryEngine;
@@ -38,12 +39,12 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
 
-	public Object executeQuery(GtnFrameworkQueryExecutorBean queryExecutorBean) throws GtnFrameworkGeneralException {
+	public GtnFrameworkQueryResponseBean executeQuery(GtnFrameworkQueryExecutorBean queryExecutorBean) throws GtnFrameworkGeneralException {
 		GtnWsQueryType queryType = Enum.valueOf(GtnWsQueryType.class,
 				queryExecutorBean.getQueryType().toUpperCase(Locale.ENGLISH));
 		logger.trace("Executing Query Type" + queryType);
 		GtnWsQueryTypeInterface execute = queryType.getGtnWsQueryTypeInterface();
-		Object result = execute.executeQuery(queryExecutorBean, gtnSqlQueryEngine);
+		GtnFrameworkQueryResponseBean result = execute.executeQuery(queryExecutorBean, gtnSqlQueryEngine);
 		logger.trace("Returning Result of Type" + result.getClass());
 		return result;
 	}
