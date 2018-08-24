@@ -1123,7 +1123,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
-        session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
+        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }

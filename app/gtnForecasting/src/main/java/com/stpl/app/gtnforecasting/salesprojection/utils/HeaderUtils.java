@@ -340,7 +340,6 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
                                 countColumn  += 1; 
-                                LOGGER.info("inside PG");
                                 break;
                             case Constant.ACCOUNT_GROWTH:
                                 columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
@@ -351,7 +350,6 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
                                 countColumn  += 1; 
-                                LOGGER.info("inside AG");
                                 break;
                                 
                             default:
@@ -392,7 +390,6 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
                                 countColumn  += 1; 
-                                LOGGER.info("inside PG");
                                 break;
                            
                             case Constant.ACCOUNT_GROWTH:
@@ -404,7 +401,6 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
                                 countColumn  += 1; 
-                                LOGGER.info("inside AG");
                                 break;
                                 
                             default:
