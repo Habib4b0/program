@@ -47,7 +47,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DiscountProjectionResultsLogic {
 
-    private final Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
@@ -66,7 +65,7 @@ public class DiscountProjectionResultsLogic {
     private static final String[] ALL_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     public DiscountProjectionResultsLogic() {
-        periodValueMap();
+        // DiscountProjectionResultsLogic
     }
     private final List<Integer> startAndEndPeriods = new ArrayList<>();
     private static final CommonDAO commonDao = new CommonDAOImpl();
@@ -267,13 +266,6 @@ public class DiscountProjectionResultsLogic {
             LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
         }
         return discountProjList;
-    }
-
-    private void periodValueMap() {
-        periodMap.put(Constant.MONTHLY, "MONTH");
-        periodMap.put(Constant.QUARTERLY, Constant.QUARTER);
-        periodMap.put(Constant.SEMI_ANNUALLY, Constant.QUARTER);
-        periodMap.put(Constant.ANNUALLY, "YEAR");
     }
 
     /**

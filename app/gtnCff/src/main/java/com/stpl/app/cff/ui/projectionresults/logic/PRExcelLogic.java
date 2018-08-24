@@ -8,7 +8,6 @@ package com.stpl.app.cff.ui.projectionresults.logic;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
-import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.CUSTOM;
@@ -1010,7 +1009,6 @@ public class PRExcelLogic {
                 finaldiscountlist.add(discountPercentageExFactoryList);
 
                 String key = oldHierarchyNo;
-                Object[] oldObj;
                 discountMap.put(key, finaldiscountlist);
                 oldHierarchyNo = newHierarchyNo;
                 finaldiscountlist = new ArrayList<>();
@@ -1440,7 +1438,8 @@ public class PRExcelLogic {
         
         
         list.add(frequencyBasedDTO);
-
+        resultMap.put(key,list);
+        
     }
     
     
