@@ -3934,7 +3934,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescMap,
 							INDICATOR_LEVEL_NDC.getConstant(), scrName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, ndcLevel.getLevelNo(), dedValue,
+							0, ndcLevel.getLevelNo(), dedValue,
 							dedLevel, company.getValue(), businessUnit.getValue());
 				}
 			}
