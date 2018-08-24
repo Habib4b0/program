@@ -380,7 +380,7 @@ public class DataSelection extends AbstractDataSelection {
         } catch (NullPointerException e) {
             LOGGER.error(e + " Company Ddlb might not have been selected");
         } catch (Exception ex) {
-            LOGGER.error("Error  :" + ex);
+            LOGGER.error("Error  :" , ex);
         }
     }
 
@@ -842,7 +842,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again. ");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in moveRightCustomersButtonLogic :" + ex);
+            LOGGER.error("Error in moveRightCustomersButtonLogic :" , ex);
         }
     }
 
@@ -2221,7 +2221,7 @@ public class DataSelection extends AbstractDataSelection {
             }
             return value;
         } catch (Exception ex) {
-            LOGGER.error("Error in bindDataSelectionValues :" + ex);
+            LOGGER.error("Error in bindDataSelectionValues :" , ex);
             return false;
         }
     }
@@ -2348,7 +2348,7 @@ public class DataSelection extends AbstractDataSelection {
                     deleteViewBtn.setEnabled(true);
                 }
             } catch (Exception ex) {
-                LOGGER.error("Error in closeListener :" + ex);
+                LOGGER.error("Error in closeListener :" , ex);
             }
         }
 
@@ -2439,7 +2439,7 @@ public class DataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please select and try again.");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in moveLeftToRightDeductions :" + ex);
+            LOGGER.error("Error in moveLeftToRightDeductions :" , ex);
         }
 
     }
@@ -2569,7 +2569,7 @@ public class DataSelection extends AbstractDataSelection {
                 return false;
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveDataSelectionValues :" + ex);
+            LOGGER.error("Error in saveDataSelectionValues :" , ex);
             return false;
         }
     }
@@ -2637,7 +2637,7 @@ public class DataSelection extends AbstractDataSelection {
                 getUI().addWindow(saveViewLookUp);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveViewLogic :" + ex);
+            LOGGER.error("Error in saveViewLogic :" , ex);
         }
     }
 
@@ -2996,7 +2996,7 @@ public class DataSelection extends AbstractDataSelection {
             value = true;
             return value;
         } catch (Exception ex) {
-            LOGGER.error("Error in bindDataSelectionValues :" + ex);
+            LOGGER.error("Error in bindDataSelectionValues :" , ex);
             return false;
         }
     }

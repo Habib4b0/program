@@ -173,7 +173,7 @@ public class DataSelectionQueryUtils {
             LOGGER.debug("list ---" + list.size());
             return list;
         } catch (Exception ex) {
-            LOGGER.error("In getParentLevels ->" + ex);
+            LOGGER.error("In getParentLevels ->" , ex);
             LOGGER.error(queryBuilder.toString());
             return Collections.emptyList();
         }
@@ -189,7 +189,7 @@ public class DataSelectionQueryUtils {
             LOGGER.debug("getChildLevels: " + queryBuilder.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
-            LOGGER.error("In getChildLevels ->" + ex);
+            LOGGER.error("In getChildLevels ->" , ex);
             LOGGER.error(queryBuilder.toString());
             return Collections.emptyList();
         }
@@ -303,7 +303,7 @@ public class DataSelectionQueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error("In executeQuery  ->" + ex);
+            LOGGER.error("In executeQuery  ->" , ex);
             LOGGER.error(queryString.toString());
             return Collections.emptyList();
         }
@@ -365,7 +365,7 @@ public class DataSelectionQueryUtils {
                 try {
                     connection.close();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in findViewByName: " + ex);
+                    LOGGER.error("Error in findViewByName: " , ex);
                 }
             }
         }

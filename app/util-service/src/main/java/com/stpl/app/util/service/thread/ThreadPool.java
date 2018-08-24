@@ -19,7 +19,7 @@ public class ThreadPool {
 	/**
 	 * The Object is Current class object Which is created as Singleton object
 	 */
-	private static ThreadPool pool = null;
+	private static volatile ThreadPool pool = null;
 	/**
 	 * Creates a thread pool that creates new threads as needed, but will reuse
 	 * previously constructed threads when they are available. These pools will
@@ -69,10 +69,7 @@ public class ThreadPool {
 		return service;
 	}
 
-	public Future<?> submitRunnable(Runnable task) {
-		if (service == null) {
-			service = Executors.newCachedThreadPool();
-		}
+	public Future submitRunnable(Runnable task) {
 		return service.submit(task);
 	}
 

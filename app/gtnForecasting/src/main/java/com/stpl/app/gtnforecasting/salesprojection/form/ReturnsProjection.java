@@ -58,26 +58,30 @@ public class ReturnsProjection extends ForecastSalesProjection {
     
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
-    public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
+    public ReturnsProjection(SessionDTO session, String screenName)  {
         super(session, screenName);
         enableDisableFields();
         init();
     }
 
     public final void init()   {
-        projectionDTO.setSessionDTO(session);
-        projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
-        populateLevel.setVisible(true);
-        populateLevel.setEnabled(true);
-        populateLabel.setEnabled(true);
-        populateLabel.setVisible(true);
-        configureProjectionDTO();
-        super.loadLevelFilterValue(PRODUCT_HIERARCHY.getConstant());
-        Utility.loadHierarchyList(session);
-        generateBtnLogic(null);
-        super.configureGraph();       
-        configureFields();
-
+        try {
+            projectionDTO.setSessionDTO(session);
+            projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
+            populateLevel.setVisible(true);
+            populateLevel.setEnabled(true);
+            populateLabel.setEnabled(true);
+            populateLabel.setVisible(true);
+            configureProjectionDTO();
+            super.loadLevelFilterValue(PRODUCT_HIERARCHY.getConstant());
+            Utility.loadHierarchyList(session);
+            generateBtnLogic(null);
+            super.configureGraph();
+            configureFields();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        
     }
 
     /**

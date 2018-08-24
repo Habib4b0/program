@@ -25,7 +25,7 @@ public class GtnFrameworkProcessScheduler extends UI {
 
 	private static final long serialVersionUID = 1L;
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkProcessScheduler.class);
+	private static final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkProcessScheduler.class);
 
 	@Override
 	protected void init(VaadinRequest request) {

@@ -558,7 +558,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            logger.error("Error in exportButtonLogic :" + ex);
+            logger.error("Error in exportButtonLogic :" , ex);
         }
     }
 

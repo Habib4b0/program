@@ -2132,7 +2132,7 @@ public class PVExcelLogic {
             PVCommonLogic.customizePeriodV2(commonColumn, varibaleCat, pvsdto, pvDTO, format, totalListPostion, act,proj, groupName.contains("%"),true);
             
             for (int j = 0; j < vPriorList.size(); j++) {
-                List<Object[]> priorList=PROCRAWLIST_DETAIL.stream().filter(e->Integer.valueOf(String.valueOf(e[0]))!=pvsdto.getCurrentProjId()).collect(Collectors.toList());
+                List<Object[]> priorList=PROCRAWLIST_DETAIL.stream().filter(e->Integer.parseInt(String.valueOf(e[0]))!=pvsdto.getCurrentProjId()).collect(Collectors.toList());
                 PVCommonLogic.getPriorCommonCustomizationV2(varibaleCat, pvsdto, priorList ,pvDTO, commonColumn, totalListPostion, j, groupName.contains("%"), format,true);
             }
         }
@@ -2694,7 +2694,7 @@ public class PVExcelLogic {
                     proj = list.get(0);
                 }
             } else {
-                Integer[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Integer[0]);
+                Object[] emptyArray = Collections.nCopies(obj.length, 0).toArray(new Object[0]);
                 if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                     actual = list.get(0);
                     proj = emptyArray;

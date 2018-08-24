@@ -1590,7 +1590,7 @@ public class FileManagementLogic {
 			detailsObj = resultsListDTO;
 			LOGGER.debug(
 					"getDetailsResults return List<FileMananagementResultDTO> resultsListDTO= {}" , resultsListDTO.size());
-		} else if (!isCount && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.DEMAND)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.DEMAND)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1699,7 +1699,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().getDescription()
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().getDescription()
 				.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 			Map<String, String> userMap = CommonUtil.getCreatedByUser();
 			for (Object resultsList1 : resultsList) {
@@ -1926,8 +1926,11 @@ public class FileManagementLogic {
 
 			detailsObj = resultsListDTO;
 		} else {
+                    if(resultsList != null)
+                    {
 			detailsObj = resultsList.get(0);
-			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj= {}" , detailsObj);
+                    }
+                        LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj= {}" , detailsObj);
 		}
 		return detailsObj;
 	}
