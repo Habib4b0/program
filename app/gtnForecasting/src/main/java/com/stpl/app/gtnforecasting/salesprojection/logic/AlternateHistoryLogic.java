@@ -939,7 +939,7 @@ public class AlternateHistoryLogic {
                 String fre = String.valueOf(obj[1]);
 
                 totDTO.setContractNo("Total Alternate History Baseline");
-                totDTO.setCheckRecord(null);
+                totDTO.setCheckRecord(Boolean.FALSE);
                 if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
                     commonPerColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + Constant.ACTALLOCATION;
                     totDTO.addStringProperties(commonPerColumn, "0.00");
