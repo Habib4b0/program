@@ -25,9 +25,7 @@ import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util.GtnWsProcessSc
 @Scope(value = "singleton")
 public class GtnWsProcessSchedulerUpdateService {
 	public GtnWsProcessSchedulerUpdateService() {
-		/**
-		 * empty constructor
-		 */
+		super();
 	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerUpdateService.class);
@@ -45,7 +43,7 @@ public class GtnWsProcessSchedulerUpdateService {
 	public void runProcessScheduler(String scriptName,Integer processSid) {
 		logger.info("----------------Starting run  Process Scheduler with process sid: "+processSid);
 		gtnWsProcessSchedularServiceUtil.runJob(GtnWsProcessSchedularServiceUtil.getFtpBundleValue(), scriptName);
-		logger.info("----------------ending run  Process Scheduler ");
+		logger.info("----------------ending run  Process Scheduler , Executing last run()");
 		updateLastRun(processSid, false);
 	}
 
