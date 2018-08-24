@@ -18,7 +18,9 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkAdditionalSearchCriteriaAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffOutBoundTablefieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCffResultTableResetAction;
+import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkCheckAllRecordAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkDateFromToValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.action.GtnFrameworkGenerateCffOutBoundAction;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
@@ -29,9 +31,9 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-public class CffOutBoundLookUpConfig {
+public class GtnFrameworkCffOutBoundLookUpConfig {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(CffOutBoundLookUpConfig.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkCffOutBoundLookUpConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public GtnUIFrameworkViewConfig getCffOutBoundLookUpView() {
@@ -801,6 +803,10 @@ public class CffOutBoundLookUpConfig {
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NO_ID,
 				GtnFrameworkProcessSchedulerStringContants.BUSINESS_UNIT_NAME_ID, "financialForecastCreationDate",
 				"financialForecastApprovalDate", "outboundStatus", "originalBatchId" });
+		
+		cffOutboundSearchResults.setExtraColumn(new Object[] { GtnFrameworkProcessSchedulerStringContants.RS_MODEL_SID,
+				GtnFrameworkProcessSchedulerStringContants.PERIOD_SID });
+		cffOutboundSearchResults.setExtraColumnDataType(new Class[] {String.class, String.class}  );
 
 		 cffOutboundSearchResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		 cffOutboundSearchResults.setEditableColumnList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
@@ -815,8 +821,13 @@ public class CffOutBoundLookUpConfig {
 		cffOutboundSearchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.PROCESS_SCHEDULER);
 
 		cffOutBoundResultConfig.setGtnPagedTableConfig(cffOutboundSearchResults);
-
-		cffOutboundSearchResults.setDoubleClickEnable(true);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig checkAllAction = new GtnUIFrameWorkActionConfig();
+		checkAllAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkAllAction.addActionParameter(GtnFrameworkCheckAllRecordAction.class.getName());
+		actionConfigList.add(checkAllAction);
+		cffOutboundSearchResults.setColumnCheckActionConfigList(actionConfigList);
 
 	}
 
@@ -825,12 +836,20 @@ public class CffOutBoundLookUpConfig {
 		for (String propertyId : editableColumnList) {
 			GtnUIFrameworkComponentConfig fieldConfig = new GtnUIFrameworkComponentConfig();
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.COMBOBOX;
-			 if ("checkRecordId".equals(propertyId)) {
+			 if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(propertyId)) {
 				gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.CHECKBOX;
 				gtnLogger.info("found checked box id");
 			} 
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
 			fieldConfig.setEnable(true);
+			
+			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+			GtnUIFrameWorkActionConfig checkRecordAction = new GtnUIFrameWorkActionConfig();
+			checkRecordAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			checkRecordAction.addActionParameter(GtnFrameworkCffOutBoundTablefieldFactoryAction.class.getName());
+			actionConfigList.add(checkRecordAction);
+			fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
+			
 			editableFields.add(fieldConfig);
 		}
 		return editableFields;

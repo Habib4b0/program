@@ -20,9 +20,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnWsProcessSchedulerRunValidationService {
 
 	public GtnWsProcessSchedulerRunValidationService() {
-		/**
-		 * empty constructor
-		 */
+		super();
 	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedulerRunValidationService.class);

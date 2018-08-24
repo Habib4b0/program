@@ -49,7 +49,7 @@ public class PrivatePublicViewtableLogic extends PageTableLogic {
             isResultsEmpty = count == 0;
             return count;
         } catch (Exception ex) {
-            LOGGER.error("ERROR IN GETCOUNT :" + ex);
+            LOGGER.error("ERROR IN GETCOUNT :" , ex);
             return 0;
         }
     }
