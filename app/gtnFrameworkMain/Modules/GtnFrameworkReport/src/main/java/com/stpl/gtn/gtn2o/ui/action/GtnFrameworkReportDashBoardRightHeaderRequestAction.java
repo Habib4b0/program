@@ -112,6 +112,10 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
 
+		
+		reportDashBoardBean.setAnnualTotals( GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId).getStringCaptionFromV8ComboBox());
+		
 		reportDashBoardBean.setCustomViewMasterSid(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
 				.getIntegerFromV8ComboBox());

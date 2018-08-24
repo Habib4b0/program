@@ -53,7 +53,7 @@ public class FileUploader implements Receiver {
 				if (!dir.exists()) {
 					dir.mkdirs();
 				}
-				file = GtnFileUtil.getFile(dir, filename);
+				 file = GtnFileUtil.getFile(dir, filename);
 				if (file.exists()) {
 					isFileExists=file.delete();
 				}

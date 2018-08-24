@@ -222,7 +222,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private boolean summaryRefreshed;
     private List<CompanyMaster> companyMasters;
     private String screenName = StringUtils.EMPTY;
-    private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
     private List<CurrentContractDTO> contractInfo = new ArrayList<>();
     private String excelName = "Rebate Schedule Information";
     private ExtTreeContainer<ComponentInfoDTO> excelResultBean = new ExtTreeContainer<>(ComponentInfoDTO.class);
@@ -937,7 +936,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
                 Map<String, List> componentInformationMap = logic.getComponentInformation(componentSelectionValue, id);
                 loadComponentInformationFields(componentInformationMap.get("FieldData"));
                 loadComponentInformationTable(componentSelectionValue, componentInformationMap.get("TableData"));
-                componentInformation.addAll(componentInformationMap.get("TableData"));
             } else {
                 resetComponentInformationData();
             }
@@ -1011,7 +1009,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rebateFrequency.setVisible(false);
             excelName = "Item Family Plan Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(PRICE_SCHEDULE.getConstant())) {
             rsIdLabel.setCaption("PS " + ID);
             rsNumberLabel.setCaption("PS " + NUM);
@@ -1024,7 +1021,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rebateFrequency.setVisible(false);
             excelName = "Price Schedule Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(REBATE_SCHEDULE.getConstant())) {
             rsIdLabel.setCaption("RS " + ID);
             rsNumberLabel.setCaption("RS " + NUM);
@@ -1037,7 +1033,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rebateFrequency.setVisible(true);
             excelName = "Rebate Schedule Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         }
 
     }

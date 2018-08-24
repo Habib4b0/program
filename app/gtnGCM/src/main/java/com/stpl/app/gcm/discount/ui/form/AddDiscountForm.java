@@ -51,7 +51,6 @@ public class AddDiscountForm extends CustomComponent implements View {
     /**
      * The tab lazy load map.
      */
-    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
 
     /**
      * The previous btn.
@@ -82,7 +81,6 @@ public class AddDiscountForm extends CustomComponent implements View {
      */
     private ExistingDiscountTab existingDiscountTab;
     private final AddDiscountWindow editWindow;
-    private ExtFilterTable resultTable;
     private int tempTabPosition = 0;
 
     @UiField("addDiscountBtn")
@@ -245,15 +243,6 @@ public class AddDiscountForm extends CustomComponent implements View {
      * Configuring tabs.
      */
     private void configuringTabs() {
-        int tabCount = tabSheet.getComponentCount();
-        tabLazyLoadMap.clear();
-        for (int i = 0; i < tabCount; i++) {
-            if (i == 0 || i == 1) {
-                tabLazyLoadMap.put(i, Boolean.TRUE);
-            } else {
-                tabLazyLoadMap.put(i, Boolean.FALSE);
-            }
-        }
         setTabFlag(true);
     }
 

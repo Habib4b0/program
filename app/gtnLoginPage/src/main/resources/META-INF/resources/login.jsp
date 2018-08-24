@@ -5,7 +5,7 @@
 }
 
 .sign-in-panel-col {
-	margin-top: 15%;
+	margin-top: 12%;
 }
 
 .sign-in-panel-col label {
@@ -181,6 +181,7 @@
 			<liferay-ui:error exception="<%= UserScreenNameException.MustNotBeNull.class %>" message="the-screen-name-cannot-be-blank" />
 				<div class="row">
 					<div class="col-md-3 col-sm-6 col-md-offset-4 col-sm-offset-3 sign-in-panel-col">
+							<img  class="img-responsive login-logo" src="<%= themeDisplay.getPathThemeImages() %>/company.png" />
 							<div class="panel panel-default">
 									<div class="panel-heading">
 									  <h2 class="panel-title">Sign In</h2>

@@ -462,12 +462,16 @@ public class ProjectionResults extends ForecastProjectionResults {
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
                 } else {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+                    if (exp != null) {
+                        exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+                    }
                 }
                 if (i == exportAt) {
                     exp.exportMultipleTabs(true);
                 } else {
-                    exp.exportMultipleTabs(false);
+                    if (exp != null) {
+                        exp.exportMultipleTabs(false);
+                    }
                 }
             }
         } else {

@@ -2304,11 +2304,11 @@ public class DataSelectionLogic {
 	}
 
 	public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+            Map<String, List> resultMap = new LinkedHashMap<>();
+            if(!"0".equals(relationshipBuilderSid)){
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-
-		Map<String, List> resultMap = new LinkedHashMap<>();
 
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
 				"customSalesCP", sessionDTO);
@@ -2339,6 +2339,7 @@ public class DataSelectionLogic {
 			}
 
 		}
+            }
 		return resultMap;
 	}
 
@@ -3117,8 +3118,9 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     
     public void callForDeductionLevelMapQuery(SessionDTO session) {
         try {
-			session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session,
-					String.valueOf(session.getCustomDeductionRelationShipSid())));
+            if (session.getCustomDeductionRelationShipSid() != 0) {
+                session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
