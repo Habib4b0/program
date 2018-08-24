@@ -74,10 +74,10 @@ public class SalesExcelNM extends ExcelExport{
     protected void addDataRow(final Sheet sheetToAddTo, final Object rootItemId, final int row) {
         final Row sheetRow = sheetToAddTo.createRow(row);
 
-        Property prop;
-        Object propId;
-        Object value = null;
-        Cell sheetCell;
+        Property propSalesExcel;
+        Object propIdSalesExcel;
+        Object valueSalesExcel = null;
+        Cell sheetCellSalesExcel;
        style1.setDataFormat(hssfDataFormat.getFormat("$#,##0_);($#,##0)"));
        style2.setDataFormat(hssfDataFormat.getFormat("#,##0_);($#,##0)"));
        style3.setDataFormat(hssfDataFormat.getFormat("0.00%"));
@@ -87,39 +87,41 @@ public class SalesExcelNM extends ExcelExport{
 
         for (int col = 0; col < getPropIds().size(); col++) {
 
-            propId = getPropIds().get(col);
-            prop = getProperty(rootItemId, propId);
-            if (prop != null) {
-                value = prop.getValue();
+            propIdSalesExcel = getPropIds().get(col);
+            propSalesExcel = getProperty(rootItemId, propIdSalesExcel);
+            if (propSalesExcel != null) {
+                valueSalesExcel = propSalesExcel.getValue();
             }
-            sheetCell = sheetRow.createCell(col);
+            sheetCellSalesExcel = sheetRow.createCell(col);
 
-            final Short poiAlignment = getTableHolder().getCellAlignment(propId);
-            CellUtil.setAlignment(sheetCell, workbook, poiAlignment);
+            final Short poiAlignment = getTableHolder().getCellAlignment(propIdSalesExcel);
+            CellUtil.setAlignment(sheetCellSalesExcel, workbook, poiAlignment);
 
             if (this.formatter != null) {
                 Double d = 0.0;
                 try {
-                    if (value != null) {
-                        d = dataConverter(value);
+                    if (valueSalesExcel != null) {
+                        d = dataConverter(valueSalesExcel);
                         
                         
                     }
                 } catch (final NumberFormatException nfe) {
                 	
-                	sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                	sheetCellSalesExcel.setCellValue(createHelper.createRichTextString(valueSalesExcel.toString()));
                     continue;
                 }
 
-                sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                sheetCellSalesExcel.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
                 Double cellValue = d;
-                cellValue = getCellValue(propId, d, cellValue);
-                sheetCell.setCellValue(cellValue);
-                formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
+                cellValue = getCellValue(propIdSalesExcel, d, cellValue);
+                sheetCellSalesExcel.setCellValue(cellValue);
+                formatForCurrencyAndDecimal(propIdSalesExcel, sheetCellSalesExcel, rootItemId);
 
             } else {
-                nonFormatter(value, prop, sheetCell);
+                if (propSalesExcel != null && valueSalesExcel != null) {
+                    nonFormatter(valueSalesExcel, propSalesExcel, sheetCellSalesExcel);
+                }
             }
         }
     }
@@ -255,7 +257,6 @@ public class SalesExcelNM extends ExcelExport{
 	}
 
     private void nonFormatter(Object value, Property prop, Cell sheetCell) {
-        if (null != value) {
             if (!isNumeric(prop.getType())) {
                 if (java.util.Date.class.isAssignableFrom(prop.getType())) {
                     sheetCell.setCellValue((Date) value);
@@ -272,7 +273,6 @@ public class SalesExcelNM extends ExcelExport{
                     
                     sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
                 }
-            }
         }
     }
     
