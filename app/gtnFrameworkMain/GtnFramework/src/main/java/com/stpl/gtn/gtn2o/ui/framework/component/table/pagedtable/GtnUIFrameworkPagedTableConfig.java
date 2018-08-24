@@ -84,6 +84,16 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean selectionListener = false;
     private List<String> additionalSearchCriteriaListValues;
     
+    private boolean filteron = false;
+
+    public boolean isFilteron() {
+        return filteron;
+    }
+
+    public void setFilteron(boolean filteron) {
+        this.filteron = filteron;
+    }
+
     public boolean getSelectionListener() {
 		return selectionListener;
 	}

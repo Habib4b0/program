@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -538,8 +541,21 @@ public class PagedGrid {
 	}
 
 	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-		tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
-		refreshGrid();
+            try {
+
+                if (tableConfig.isFilteron()) {
+
+                    String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
+                    GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
+                    action.addActionParameter(event.getValue());
+                    classLoader(action, classPath, event.getComponent().getId());
+                } else {
+                    tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
+                    refreshGrid();
+                }
+            } catch (GtnFrameworkGeneralException exception) {
+                gtnlogger.error("Exception while  filtering component", exception);
+            }
 	}
 
 	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
@@ -551,10 +567,28 @@ public class PagedGrid {
 	}
 
 	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
-		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
-		refreshGrid();
+            try{
+        
+                if (tableConfig.isFilteron()) {
+                    String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
+                    GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
+                    action.addActionParameter(event.getValue());
+                    classLoader(action, classPath, event.getComponent().getId());
+                } else {
+                    tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+                    refreshGrid();
+                }
+            } catch (GtnFrameworkGeneralException exception) {
+                gtnlogger.error("Exception while  filtering Date component", exception);
+            }
 	}
-
+        private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
+			String sourceViewId) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+		GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
+		loader.configureParams(gtnUIFrameWorkActionConfig);
+		loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
+	}
 	public Set<GtnWsRecordBean> getValue() {
 		return grid.getSelectedItems();
 	}
