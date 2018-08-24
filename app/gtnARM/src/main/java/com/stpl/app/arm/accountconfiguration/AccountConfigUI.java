@@ -52,7 +52,7 @@ public class AccountConfigUI extends UI {
      * @param request
      */
     public AccountConfigUI() {
-       super();
+        super();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AccountConfigUI extends UI {
             }
             LOGGER.info("Exits the AccountConfigUI UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AccountConfigUI " ,ex);
+            LOGGER.error("Error While Creating AccountConfigUI ", ex);
         }
     }
 

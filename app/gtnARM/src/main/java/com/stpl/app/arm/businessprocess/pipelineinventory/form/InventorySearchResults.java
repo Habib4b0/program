@@ -139,7 +139,7 @@ public class InventorySearchResults extends AbstractSearchResults {
                 getSelection().getInventoryreserveDate(), getSelection().getPrice(), "1", getSelection().getSessionDTO().getUserId(), getSelection().getSessionDTO().getSessionId()};
             getSummaryLogic().getInventoryResults(orderedArgs);
         } catch (Exception e) {
-            LOGGER.error("Error in calculateLogic :" + e);
+            LOGGER.error("Error in calculateLogic :", e);
         }
         return false;
     }

@@ -718,7 +718,7 @@ public class CommonLogic {
             String query = QueryUtils.buildadjustmentselectionsavequery(projectionId, moduleName, values, keys);
             dao.executeUpdate(query);
         } catch (Exception e) {
-            LOGGER.error("Error in saveAdjustmentSelection :" + e);
+            LOGGER.error("Error in saveAdjustmentSelection :", e);
             saveSuccess = false;
         }
 
@@ -738,7 +738,7 @@ public class CommonLogic {
             String query = QueryUtils.buildadjustmentselectiondeletequery(projectionId);
             dao.executeUpdate(query);
         } catch (Exception e) {
-            LOGGER.error("Error in deleteAdjustmentSelection :" + e);
+            LOGGER.error("Error in deleteAdjustmentSelection :", e);
             deleteSuccess = false;
         }
 
@@ -1332,7 +1332,7 @@ public class CommonLogic {
                 forecastList.add(toDefDate);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getFromAndTo :" + e);
+            LOGGER.error("Error in getFromAndTo :", e);
         }
 
         return forecastList;

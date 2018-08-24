@@ -202,7 +202,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
 
                 } catch (Exception e) {
-                    LOGGER.error("Error in reset" + e);
+                    LOGGER.error("Error in reset", e);
                 }
             }
         });
@@ -230,7 +230,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
                         salesResults.setValueChangeAllowed(true);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error in generate" + e);
+                    LOGGER.error("Error in generate", e);
                 }
             }
         });
@@ -257,7 +257,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
                 dateType.select(0);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in setDefaultValue" + e);
+            LOGGER.error("Error in setDefaultValue", e);
         }
     }
 
@@ -299,7 +299,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
             price.setValue(selection.getPrice());
             price.setNullSelectionAllowed(false);
         } catch (Exception e) {
-            LOGGER.error("Error in loadDetails" + e);
+            LOGGER.error("Error in loadDetails", e);
         }
     }
 

@@ -181,7 +181,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    logger.error("Error in reset" + e);
+                    logger.error("Error in reset", e);
                 }
             }
         });
@@ -195,7 +195,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 try {
                     generateButtonLogic();
                 } catch (Exception e) {
-                    logger.error("Error in generate" + e);
+                    logger.error("Error in generate", e);
                 }
             }
         });
@@ -363,7 +363,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             }
             deductionLevelDdlb.select(HelperListUtil.getInstance().getIdByDesc(VariableConstants.DEDUCTION_LEVELS, VariableConstants.DEDUCTION_PROGRAM));
         } catch (Exception e) {
-            logger.error("Error in glimpactdate" + e);
+            logger.error("Error in glimpactdate", e);
         }
 
     }

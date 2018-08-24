@@ -114,7 +114,7 @@ public class PrivatePublicLookup extends Window {
             viewNameEpl.focus();
 
         } catch (Exception e) {
-            LOGGER.error("Error in configureFields :" + e);
+            LOGGER.error("Error in configureFields :", e);
         }
     }
 
@@ -177,7 +177,7 @@ public class PrivatePublicLookup extends Window {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Error in searchButtonClick :" + e);
+            LOGGER.error("Error in searchButtonClick :", e);
         }
     }
 
@@ -190,7 +190,7 @@ public class PrivatePublicLookup extends Window {
                 notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
             }
         } catch (Exception e) {
-            LOGGER.error("Error in resetButtonClick :" + e);
+            LOGGER.error("Error in resetButtonClick :", e);
         }
     }
 
@@ -208,7 +208,7 @@ public class PrivatePublicLookup extends Window {
                 AbstractNotificationUtils.getErrorNotification("No View Selected", "There is no view selected. Please select a saved view and try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in selectButtonClick :" + e);
+            LOGGER.error("Error in selectButtonClick :", e);
         }
     }
 
@@ -219,7 +219,7 @@ public class PrivatePublicLookup extends Window {
             this.close();
             viewNameEpl.setValue(StringUtils.EMPTY);
         } catch (Exception e) {
-            LOGGER.error("Error in closeButtonClick :" + e);
+            LOGGER.error("Error in closeButtonClick :", e);
         }
     }
     private final CustomNotification notifier = new CustomNotification();
