@@ -288,9 +288,8 @@ public class AlternateSummery extends CustomComponent {
     private String oldGroupValue = StringUtils.EMPTY;
     private final Set<String> tableHirarechyNos = new HashSet<>();
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
-    private Map<Object, String> radioMap = new HashMap<>();
     protected boolean isSalesCalculated;
-    private List<String> checkedList;
+//    private List<String> checkedList;
     private Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
 
     @UiField("GridLayoutProjection")
@@ -498,7 +497,6 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
         checkBoxMap.clear();
-        radioMap.clear();
         generateBtnLogic(event);
     }
 
@@ -1715,29 +1713,6 @@ public class AlternateSummery extends CustomComponent {
 
     public boolean isSalesCalculated() {
         return isSalesCalculated;
-    }
-
-    public boolean ismultipleDiscount() {
-        boolean isOne = true;
-        boolean ismultipleDiscount = false;
-        tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
-            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
-                List a = entry.getValue();
-                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
-                    ismultipleDiscount = true;
-                    break;
-                } else {
-                    checkedList.addAll(a);
-                }
-            }
-            if (!checkedList.isEmpty()) {
-                isOne = false;
-            }
-        }
-        return !ismultipleDiscount;
     }
 
     /**
