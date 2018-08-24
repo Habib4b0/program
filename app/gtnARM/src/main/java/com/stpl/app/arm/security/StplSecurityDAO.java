@@ -8,6 +8,7 @@ package com.stpl.app.arm.security;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
+
 /**
  * <!-- begin-UML-doc -->
  * Defines&nbsp;DAO&nbsp;operations&nbsp;for&nbsp;Security<br><br>@author&nbsp;shrihariharan<br>

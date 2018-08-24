@@ -116,7 +116,7 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
                 Double cellValue = d;
-                cellValue = getCellValue(propId, d, cellValue);
+                cellValue = cellValue / NumericConstants.HUNDRED;
                 sheetCell.setCellValue(cellValue);
                 formatForCurrency(propId, sheetCell, rootItemId);
 
@@ -132,23 +132,6 @@ public class CustomExcelNM extends ExcelExport {
         }else{
             formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
         }
-    }
-
-    private Double getCellValue(Object propId, Double d, Double cellValue) {
-    	
-    	Double getCellValue = cellValue;
-    	
-        if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-        	getCellValue = cellValue / NumericConstants.HUNDRED;
-        }
-        else if ((formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) && (d > 0)) {
-        	
-        	getCellValue = cellValue / NumericConstants.HUNDRED;
-        }
-        else if ((formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) && (d > 0)) {
-        	getCellValue = cellValue / NumericConstants.HUNDRED;
-        }
-        return getCellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {

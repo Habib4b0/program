@@ -26,7 +26,7 @@ public class SysDataSourceConnection {
         try {
             dataSource = (DataSource) new InitialContext().lookup(System.getProperty("sys.schema.jndi.name"));
         } catch (NamingException e) {
-            LOGGER.error("Error in static method od sysDataSourceConnection" + e);
+            LOGGER.error("Error in static method od sysDataSourceConnection", e);
         }
     }
 

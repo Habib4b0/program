@@ -291,7 +291,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         try {
             QueryUtils.itemUpdate(input, "OVERRIDE_QUERY");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :" + e);
+            LOGGER.error("Error in updateOverride :", e);
             return false;
         }
         return true;

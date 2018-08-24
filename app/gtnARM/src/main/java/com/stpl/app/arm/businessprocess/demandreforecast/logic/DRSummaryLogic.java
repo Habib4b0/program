@@ -81,7 +81,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 count = count + 1;
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getSummaryCount :" + e);
+            LOGGER.error("Error in getSummaryCount :", e);
         }
         return count;
     }
@@ -103,7 +103,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGER.error("Error in generateButtonCheck :" + e);
+            LOGGER.error("Error in generateButtonCheck :", e);
         }
         return Boolean.FALSE;
     }

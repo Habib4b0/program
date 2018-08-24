@@ -758,25 +758,25 @@ public class PromoteTPLogic {
     private List<CurrentContractDTO> getPSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getPSList method");
 
-        final List<CurrentContractDTO> psList = new ArrayList<>();
-        final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
-        psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
-        psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        final List<CurrentContractDTO> getPsList = new ArrayList<>();
+        final DynamicQuery getPsDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
+        getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
+        getPsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
 
             if (parent2.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
                 if (parent2.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
                 }
             }
             if (parent2.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
 
                 if (parent2.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent2.getInternalId())));
                 }
 
             }
@@ -785,46 +785,46 @@ public class PromoteTPLogic {
 
             if (parent3.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
                 if (parent3.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
                 }
 
             }
             if (parent3.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
                 if (parent3.getInternalId() == 0) {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
                 } else {
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
+                    getPsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID, String.valueOf(parent3.getInternalId())));
                 }
 
             }
         }
 
-        psDynamicQuery.setLimit(start, end);
-        final List<PsContract> psMasterList = dao.psMasterDynamicQuery(psDynamicQuery);
+        getPsDynamicQuery.setLimit(start, end);
+        final List<PsContract> psMasterList = dao.psMasterDynamicQuery(getPsDynamicQuery);
 
-        CurrentContractDTO contractMember;
+        CurrentContractDTO psContractMember;
 
         for (final Iterator<PsContract> iterator = psMasterList.iterator(); iterator.hasNext();) {
             final PsContract psMaster = (PsContract) iterator.next();
-            contractMember = new CurrentContractDTO();
-            contractMember.setSystemId(psMaster.getContractMasterSid());
-            contractMember.setContractName(psMaster.getPsName());
+            psContractMember = new CurrentContractDTO();
+            psContractMember.setSystemId(psMaster.getContractMasterSid());
+            psContractMember.setContractName(psMaster.getPsName());
             PsModel psModel = PsModelLocalServiceUtil.getPsModel(psMaster.getPsModelSid());
-            contractMember.setContractId(psModel.getPsId());
-            contractMember.setContractNo(psModel.getPsNo());
-            contractMember.setModelSysId(psModel.getPsModelSid());
-            contractMember.setCategory(Constants.IndicatorConstants.PS_VALUE.getConstant());
-            contractMember.setLevel(level);
-            contractMember.setParent1(parent1);
-            contractMember.setParent2(parent2);
-            contractMember.setParent3(parent3);
-            contractMember.setInternalId(psMaster.getPsContractSid());
-            psList.add(contractMember);
+            psContractMember.setContractId(psModel.getPsId());
+            psContractMember.setContractNo(psModel.getPsNo());
+            psContractMember.setModelSysId(psModel.getPsModelSid());
+            psContractMember.setCategory(Constants.IndicatorConstants.PS_VALUE.getConstant());
+            psContractMember.setLevel(level);
+            psContractMember.setParent1(parent1);
+            psContractMember.setParent2(parent2);
+            psContractMember.setParent3(parent3);
+            psContractMember.setInternalId(psMaster.getPsContractSid());
+            getPsList.add(psContractMember);
         }
         LOGGER.debug("End of getPSList method");
-        return psList;
+        return getPsList;
     }
 
     private List<CurrentContractDTO> getRSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final CurrentContractDTO parent4, final int level, final int start, final int end)

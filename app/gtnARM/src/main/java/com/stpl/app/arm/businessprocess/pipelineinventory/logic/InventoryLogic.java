@@ -82,7 +82,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :" + e);
+            LOGGER.error("Error in getMonthName :", e);
 
         }
         return monthName;
@@ -260,7 +260,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         try {
             QueryUtils.itemUpdate(input, "PI_Inventory_updatePriceOverride");
         } catch (Exception e) {
-            LOGGER.error("Error in updatePriceOverride :" + e);
+            LOGGER.error("Error in updatePriceOverride :", e);
             return false;
         }
         return true;

@@ -71,7 +71,7 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :" + e);
+            LOGGER.error("Error in getMonthName :", e);
 
         }
         return monthName;
@@ -153,7 +153,7 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         try {
             QueryUtils.itemUpdate(input, "PA_sales_updatePriceOverride");
         } catch (Exception e) {
-            LOGGER.error("Error in updatePriceOverride :" + e);
+            LOGGER.error("Error in updatePriceOverride :", e);
             return false;
         }
         return true;

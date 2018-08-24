@@ -60,9 +60,10 @@ public class StplSecurity {
     public StplSecurityDAO getDto() {
         return dao;
     }
-    
+
     public static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StplSecurity.class);
     private StplSecurityLogic logic = new StplSecurityLogic();
+
     /**
      * Gets the Business Function Permission based on the userId and moduleName.
      *
@@ -198,7 +199,7 @@ public class StplSecurity {
             }
             return userGroupId;
         } catch (SystemException | PortalException ex) {
-             LOGGER.error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
         return Collections.<Object>emptyList();
     }
@@ -231,7 +232,7 @@ public class StplSecurity {
 
             return businessRoleIds;
         } catch (Exception ex) {
-             LOGGER.error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -245,7 +246,7 @@ public class StplSecurity {
             fieldHm = listToAppPermissionMap(tabPermissionList, FIELD_VALUE);
             return fieldHm;
         } catch (Exception ex) {
-             LOGGER.error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -267,7 +268,7 @@ public class StplSecurity {
             try {
                 tabPermissionList = logic.getBusinessroleModuleMasterFieldList(businessRoleIds, moduleName);
             } catch (Exception ex) {
-                 LOGGER.error(ex.getMessage());
+                LOGGER.error(ex.getMessage());
             }
             addPermission = getModePermission(businessRoleIds, moduleName, true, false, false, false);
             viewPermission = getModePermission(businessRoleIds, moduleName, false, true, false, false);

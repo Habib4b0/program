@@ -597,7 +597,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                 ExcelExportforBB.createFileContent(ARMUtils.getExcelAccountConfigSearchColumns(), searchList, printWriter);
             }
         } catch (Exception e) {
-            GTNLOGGER.error("Error in createWorkSheetContent :" + e);
+            GTNLOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 

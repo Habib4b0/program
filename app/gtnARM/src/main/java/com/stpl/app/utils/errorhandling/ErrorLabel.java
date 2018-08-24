@@ -30,7 +30,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
             setVisible(false);
             setStyleName("myerror");
         } catch (Exception e) {
-            LOGGER.error("Error in ErrorLabel :" + e);
+            LOGGER.error("Error in ErrorLabel :", e);
         }
     }
 
@@ -46,7 +46,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
             setComponentError(new UserError(error, AbstractErrorMessage.ContentMode.HTML, ErrorMessage.ERROR.ERROR));
             setVisible(true);
         } catch (Exception e) {
-            LOGGER.error("Error " + e);
+            LOGGER.error("Error ", e);
         }
     }
 
@@ -60,7 +60,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
             setComponentError(null);
             setVisible(false);
         } catch (Exception e) {
-            LOGGER.error("Error :" + e);
+            LOGGER.error("Error :", e);
         }
     }
 }

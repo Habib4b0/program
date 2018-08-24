@@ -229,7 +229,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    LOGGER.error("Error in reset" + e);
+                    LOGGER.error("Error in reset", e);
                 }
                 LOGGER.debug(" Ending Reset Button ");
             }
@@ -246,7 +246,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                     generateFlag = true;
                     generateBtn();
                 } catch (Exception e) {
-                    LOGGER.error("Error in generate" + e);
+                    LOGGER.error("Error in generate", e);
                 }
                 LOGGER.debug(" Ending Generate Button ");
             }

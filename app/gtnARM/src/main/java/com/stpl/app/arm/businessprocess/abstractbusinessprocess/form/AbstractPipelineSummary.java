@@ -145,7 +145,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                         glImpactDate.addValueChangeListener(glListener);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error in CustomNotification" + e);
+                    LOGGER.error("Error in CustomNotification", e);
                 }
             }
         }
@@ -164,7 +164,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    logger.error("Error in reset" + e);
+                    logger.error("Error in reset", e);
                 }
             }
         });
@@ -210,7 +210,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
             int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDto.getDetailLevel());
             logic.saveGLImpact(glImpactDate.getValue(), configLevelid, selectionDto.getProjectionMasterSid());
         } catch (Exception e) {
-            logger.error("Error in generate" + e);
+            logger.error("Error in generate", e);
         }
     }
 
@@ -243,7 +243,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
             defaultFocus();
         } catch (Exception e) {
-            logger.error("Error in configurefield" + e);
+            logger.error("Error in configurefield", e);
         }
         deductionValueDdlb.addStyleName("deductioncombobox");
     }
@@ -271,7 +271,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 CommonUtils.loadCustomMenu(customMenuItem, variableHeader, variableVisibleColumns);
             }
         } catch (Exception e) {
-            logger.error("Error in deductionvalue :" + e);
+            logger.error("Error in deductionvalue :", e);
         }
     }
 
