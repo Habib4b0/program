@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Asha.Ravi
  */
 public class FileUploader implements Upload.Receiver, FinishedListener {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
     private FileOutputStream outputStream;
     private File file;

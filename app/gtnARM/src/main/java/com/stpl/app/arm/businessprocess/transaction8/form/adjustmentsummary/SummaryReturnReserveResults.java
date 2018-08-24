@@ -83,6 +83,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
     public String getExcelFileName() {
         return "Adjustment_Summary";
     }
+
     @Override
     protected void configureLevelDDLBs() {
         customerProductView.addItems(new Object[]{ARMConstants.getDeductionProduct(),
@@ -90,6 +91,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         customerProductView.setValue(ARMConstants.getDeductionProduct());
         getSelection().setSummaryviewType(ARMConstants.getDeductionProduct());
     }
+
     @Override
     public void setRespectiveHierarchy(String viewType) {
         if (ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes())) {
@@ -98,7 +100,7 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
             getSelection().setSummeryhierarchy(ARMUtils.getReturnsLevelAndLevelFilter(viewType));
         }
     }
-    
+
     @Override
     public void generateButtonLogic(String[] columns) {
         customerProductView.setValue(ARMConstants.getDeductionProduct());
@@ -172,17 +174,17 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
         configureLevelAndLevelFilter();
         tableLogic.loadSetData(Boolean.FALSE);
         setValueChangeAllowed(true);
-        
+
     }
-    
+
     @Override
     protected void configureRightTable() {
-        SummaryFieldFactory fieldFactory = new SummaryFieldFactory(getSummaryLogic(), getSelection(),ARMConstants.getDeductionContract().equals(String.valueOf(customerProductView.getValue())) && ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()));
+        SummaryFieldFactory fieldFactory = new SummaryFieldFactory(getSummaryLogic(), getSelection(), ARMConstants.getDeductionContract().equals(String.valueOf(customerProductView.getValue())) && ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()));
         rightTable.setEditable(true);
         rightTable.setTableFieldFactory(fieldFactory);
         setConverter(rightTable, rightTable.getVisibleColumns());
     }
-    
+
     /**
      * customerProductView ddlb.
      *
@@ -214,12 +216,12 @@ public class SummaryReturnReserveResults extends AbstractPipelineSummaryResults 
             cancelOverride.setEnabled(false);
         }
     }
-    
+
     @Override
     protected boolean isPercentageColumn2Decimal(String column) {
         return column.contains("Ratio") || column.contains("ratio");
     }
-    
+
     @Override
     protected boolean isPercentageColumn3Decimal(String column) {
         return false;

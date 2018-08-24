@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -951,7 +950,7 @@ public class DataSelectionLogic {
             LOGGER.debug("query --" + query);
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception e) {
-            LOGGER.error("Error in saveCcp :" + e);
+            LOGGER.error("Error in saveCcp :", e);
             LOGGER.error(query);
         }
     }
@@ -1057,7 +1056,7 @@ public class DataSelectionLogic {
             List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             return !list.isEmpty();
         } catch (Exception ex) {
-            LOGGER.error("Error in View Name Duplicated" + ex);
+            LOGGER.error("Error in View Name Duplicated", ex);
             return true;
         }
     }

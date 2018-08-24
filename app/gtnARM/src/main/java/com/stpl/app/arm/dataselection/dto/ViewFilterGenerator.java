@@ -5,7 +5,6 @@
  */
 package com.stpl.app.arm.dataselection.dto;
 
-
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.ConstantsUtils;
 import com.vaadin.v7.data.Container;
@@ -86,7 +85,7 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
                 return itemStatus;
             }
         } catch (Exception e) {
-            LOGGER.error("Error in getCustomFilterComponent :" + e);
+            LOGGER.error("Error in getCustomFilterComponent :", e);
         }
         return null;
     }

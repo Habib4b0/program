@@ -108,7 +108,7 @@ public class AccountConfigLogic {
             List searchInput = getSearchInputList(binderDto);
             count = CommonLogic.getCount(QueryUtils.getItemData(searchInput, "searchAccountConfig-count", null));
         } catch (Exception e) {
-            LOGGER.error("Error in getAccountConfigCount :" + e);
+            LOGGER.error("Error in getAccountConfigCount :", e);
         }
         return count;
     }

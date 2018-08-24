@@ -23,7 +23,7 @@ public class Sql {
         return sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
     }
 
-    @XmlElement(name ="entity")
+    @XmlElement(name = "entity")
     public void setSqlEntity(List<SqlEntity> sqlEntity) {
         this.sqlEntity = sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
     }

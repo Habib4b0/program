@@ -50,6 +50,7 @@ public class PVExcelLogic {
     private final PVSelectionDTO selection;
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     private static final DecimalFormat UNIT = new DecimalFormat("#,###");
+    public static final String CUSTOM_CONSTANT = "Custom";
     public static final String STRING_TWO_DECIMAL_FORMAT = "#,##0.00";
     private static final DecimalFormat RATE_PER = new DecimalFormat(STRING_TWO_DECIMAL_FORMAT);
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
@@ -81,6 +82,8 @@ public class PVExcelLogic {
     private static final String P = "P";
     private final Map<String, List<ProjectionVarianceDTO>> discountMap;
     private final ProjectionVarianceLogic logic = new ProjectionVarianceLogic();
+    public static final String SCHEDULE_ID = "SCHEDULE ID";
+    public static final String PROGRAM_TYPESMALL = "Program Type";
     public static final String PRC_CFF_EXCEL_EXPORT = "PRC_CFF_EXCEL_EXPORT";
     public static final String PERIOD_LABEL = "Period";
     public static final String PRC_CFF_DISCOUNT_EXCEL_EXPORT = "PRC_CFF_DISCOUNT_EXCEL_EXPORT";
@@ -89,6 +92,8 @@ public class PVExcelLogic {
     public static final String PIVOT_LABEL = "PIVOT";
     private static final int COLUMN_COUNT_TOTAL = 96;
     private static final int COLUMN_COUNT_DISCOUNT = 12;
+    public static final String PROGRAM = "PROGRAM";
+    public static final String PROGRAM_CATEGORY = "PROGRAM CATEGORY";
     private static final String ALL = "ALL";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private static final String DF_LEVEL_NAME = "dfLevelName";
@@ -265,7 +270,7 @@ public class PVExcelLogic {
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        String viewName=selection.getView().equalsIgnoreCase("Custom")?"D":selection.getView();
+        String viewName=selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT)?"D":selection.getView();
         Object[] orderedArg = {projectionId,selection.getSessionDTO().getLevelHierarchyNo(), frequency,null,null,
            selection.getSessionDTO().getUserId() ,selection.getSessionDTO().getSessionId() ,viewName, 
            selection.getSessionDTO().getCustomViewMasterSid(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion())? null : selection.getSessionDTO().getDeductionInclusion()};
@@ -305,7 +310,7 @@ public class PVExcelLogic {
         }
         
         String projectionIds = CommonUtils.CollectionToString(projectionIdList, false);
-        String viewName = selection.getView().equalsIgnoreCase("Custom") ? "D" : selection.getView();
+        String viewName = selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT) ? "D" : selection.getView();
         Object[] orderedArg = {projectionIds, selection.getSessionDTO().getLevelHierarchyNo(), frequency, null, null,
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(), viewName,
             selection.getSessionDTO().getCustomViewMasterSid(), ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
@@ -314,8 +319,8 @@ public class PVExcelLogic {
         
         if (!selection.getDiscountLevel().equals(ConstantsUtil.TOTAL_DISCOUNT)) {
             String discountLevelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelValues() : selection.getDiscountLevel();
-            discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
-            discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM") ? "SCHEDULE ID" : discountLevelName;
+            discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
+            discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
             Object[] orderedArgDiscount = {projectionIds, frequency, null, null, discountLevelName,
                 ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(), null,
                 selection.getSessionDTO().getCustomViewMasterSid(), selection.getSessionDTO().getSessionId(), selection.getSessionDTO().getUserId(), viewName, selection.getSessionDTO().getLevelHierarchyNo()};
@@ -336,7 +341,7 @@ public class PVExcelLogic {
         String levelNo= selection.getView().equalsIgnoreCase(CUSTOMER_VARIABLE)? selection.getSessionDTO().getProductLevelNumber():selection.getSessionDTO().getCustomerLevelNumber();
         List<Object[]> rawList;
         List<Object[]> rawListDiscount;
-        String viewIndicator = selection.getView().equalsIgnoreCase("Custom") ? "D" : selection.getView();
+        String viewIndicator = selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT) ? "D" : selection.getView();
         Object[] orderedArg = {projectionId, frequency, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),
             viewIndicator, selection.getCustomId(), ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(),
             ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),levelNo };
@@ -368,7 +373,7 @@ public class PVExcelLogic {
       
         List<Object[]> rawListDiscount;
         
-        String viewName=selection.getView().equalsIgnoreCase("Custom")?"D":selection.getView();
+        String viewName=selection.getView().equalsIgnoreCase(CUSTOM_CONSTANT)?"D":selection.getView();
         Object[] orderedArg = {projectionId,selection.getSessionDTO().getLevelHierarchyNo(), frequency,null,null,
            selection.getSessionDTO().getUserId() ,selection.getSessionDTO().getSessionId() ,viewName, 
            selection.getSessionDTO().getCustomViewMasterSid(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion())? null : selection.getSessionDTO().getDeductionInclusion()};
@@ -376,8 +381,8 @@ public class PVExcelLogic {
         PROCRAWLIST_DETAIL.addAll(rawList);
         if (discountFlag) {
             String discountLevelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelValues() : selection.getDiscountLevel();
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM") ? "SCHEDULE ID" : discountLevelName;
+        discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
+        discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
         Object[] orderedArgDiscount = {projectionId, frequency, null, null,discountLevelName,
             ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(), null , 
                       selection.getSessionDTO().getCustomViewMasterSid()
@@ -1326,9 +1331,9 @@ public class PVExcelLogic {
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM") ? "SCHEDULE ID" : discountLevelName;
-        String viewName=projSelDTO.getView().equalsIgnoreCase("Custom")?"D":projSelDTO.getView();
+        discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
+        discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
+        String viewName=projSelDTO.getView().equalsIgnoreCase(CUSTOM_CONSTANT)?"D":projSelDTO.getView();
         Object[] orderedArg = {projectionId, frequency, null, null,discountLevelName,
             ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(), null , 
                       selection.getSessionDTO().getCustomViewMasterSid()

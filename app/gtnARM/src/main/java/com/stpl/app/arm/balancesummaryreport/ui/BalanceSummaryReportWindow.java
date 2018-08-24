@@ -216,7 +216,7 @@ public class BalanceSummaryReportWindow extends Window {
             }
             notifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), closeMsg);
         } catch (Exception e) {
-            LOGGER.error("Error in closeButtonClick  :" + e);
+            LOGGER.error("Error in closeButtonClick  :", e);
         }
     }
 
