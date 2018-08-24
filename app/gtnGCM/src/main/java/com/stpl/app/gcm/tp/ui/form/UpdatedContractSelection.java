@@ -102,7 +102,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customcombobox.CustomComboBox;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -308,7 +307,6 @@ public class UpdatedContractSelection extends VerticalLayout {
     
     private boolean summaryRefreshed;
     private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
-    private final List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
     private final ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
     
@@ -1573,7 +1571,6 @@ public class UpdatedContractSelection extends VerticalLayout {
             setComponentInformationVisibility(false);
             setExcelName("Company Family Plan Information");
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(ITEM_FAMILY_PLAN.getConstant())) {
             cIdLabel.setCaption("IFP " + ID);
             cNumberLabel.setCaption("IFP " + NUMBER);
@@ -1581,7 +1578,6 @@ public class UpdatedContractSelection extends VerticalLayout {
             setComponentInformationVisibility(false);
             setExcelName("Item Family Plan Information");
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(PRICE_SCHEDULE.getConstant())) {
             cIdLabel.setCaption("PS " + ID);
             cNumberLabel.setCaption("PS " + NUMBER);
@@ -1589,7 +1585,6 @@ public class UpdatedContractSelection extends VerticalLayout {
             setComponentInformationVisibility(false);
             setExcelName("Price Schedule Information");
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(REBATE_SCHEDULE.getConstant())) {
             cIdLabel.setCaption("RS " + ID);
             cNumberLabel.setCaption("RS " + NUMBER);
@@ -1597,7 +1592,6 @@ public class UpdatedContractSelection extends VerticalLayout {
             setComponentInformationVisibility(true);
             setExcelName("Rebate Schedule Information");
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         }
 
     }
