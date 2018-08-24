@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationT
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 
 public class GtnFrameworkForecastCustomertHierarchyLookUp {
@@ -188,7 +189,8 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 						+ GtnFrameworkForecastingStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE }));
 		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] {
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX 
+				}));
 		actionConfigList.add(loadDataTableActionConfig);
 		forecastCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -273,8 +275,8 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		tableStyle.add("table-header-normal");
 		customerHierarchyPagedTableComponent.setComponentWidth("100%");
 		customerHierarchyPagedTableComponent.setComponentStyle(tableStyle);
-		customerHierarchyPagedTableComponent.setModuleName("report");
-		
+		customerHierarchyPagedTableComponent.setModuleName("hierarchyRelationship");
+
 		componentList.add(customerHierarchyPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		customerHierarchyPagedTableConfig.setEditable(false);
@@ -290,10 +292,12 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		customerHierarchyPagedTableConfig.setTableColumnMappingId(
 				GtnFrameworkForecastingStringConstants.getForecastCustomerHierarchyTableColumnsMappingId());
 
-		customerHierarchyPagedTableConfig.setCountUrl(GtnWsForecastConstants.GTN_FORECAST_SERVICE
-				+ GtnWsForecastConstants.GTN_FORECAST_CUSTOMERHIERARCHY_SEARCHSERVICE);
-		customerHierarchyPagedTableConfig.setResultSetUrl(GtnWsForecastConstants.GTN_FORECAST_SERVICE
-				+ GtnWsForecastConstants.GTN_FORECAST_CUSTOMERHIERARCHY_SEARCHSERVICE);
+		List<String> additionalSearchCriteria = new ArrayList<>();
+		additionalSearchCriteria.add("CustomerHierarchy");
+		customerHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
+		
+		customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS);
+		customerHierarchyPagedTableConfig.setResultSetUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS);
 		customerHierarchyPagedTableComponent.setGtnPagedTableConfig(customerHierarchyPagedTableConfig);
 	}
 	
