@@ -291,7 +291,7 @@ public class AdjustmentRateForm extends CustomComponent {
             rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowSalesRateRightHeaders());
             reLoadTable(ARMConstants.getPipelineAccrual());
         } catch (Exception ex) {
-            LOGGER.error("Error in configureResultTable :" + ex);
+            LOGGER.error("Error in configureResultTable :" , ex);
         }
     }
 

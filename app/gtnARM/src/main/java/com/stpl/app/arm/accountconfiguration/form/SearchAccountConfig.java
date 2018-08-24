@@ -248,7 +248,7 @@ public class SearchAccountConfig extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    GTNLOGGER.error("Error in resetButtonLogic : " + ex);
+                    GTNLOGGER.error("Error in resetButtonLogic : " , ex);
                 }
             }
 
@@ -445,7 +445,7 @@ public class SearchAccountConfig extends CustomComponent {
                             CommonUtils.successNotification("The Record is deleted");
                         }
                     } catch (Exception ex) {
-                        GTNLOGGER.error("Error in deleteButtonLogic :" + ex);
+                        GTNLOGGER.error("Error in deleteButtonLogic :" , ex);
                     }
                 }
 
@@ -555,7 +555,7 @@ public class SearchAccountConfig extends CustomComponent {
             }
             ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in createWorkSheet :" + ex);
+            GTNLOGGER.error("Error in createWorkSheet :" , ex);
         }
     }
 
@@ -648,7 +648,7 @@ public class SearchAccountConfig extends CustomComponent {
             List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, resultsTableLayout, functionHMforFields, CommonSecurityLogic.ADD);
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in configureFieldPermission:" + ex);
+            GTNLOGGER.error("Error in configureFieldPermission:" , ex);
         }
         GTNLOGGER.debug("Ending configurePermission");
 

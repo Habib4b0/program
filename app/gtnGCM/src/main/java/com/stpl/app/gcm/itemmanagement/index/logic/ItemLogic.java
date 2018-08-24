@@ -49,52 +49,6 @@ public class ItemLogic {
     private String userid = "";
     public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
-    public void setCfpSearch() {
-        Map<String, String> componentMap = new HashMap<>();
-        componentMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
-        componentMap.put(StringConstantsUtil.COMPONENT_NO, " CM.CFP_NO");
-        componentMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
-        componentMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYP_DESCRIPTION);
-        componentMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
-        componentMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "CM.CFP_DESIGNATION");
-        componentMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
-        componentMap.put("tradeClass", "TC.DESCRIPTION");
-        componentMap.put(Constants.START_DATE, "CM.CFP_START_DATE");
-        componentMap.put(Constants.END_DATE, "CM.CFP_END_DATE");
-
-    }
-
-    public void setIfpSearch() {
-        Map<String, String> ifpMap = new HashMap<>();
-        ifpMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.IFP_ID");
-        ifpMap.put(StringConstantsUtil.COMPONENT_NO, "CM.IFP_NO");
-        ifpMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.IFP_NAME");
-        ifpMap.put(StringConstantsUtil.COMPONENT_TYPE, "TYP.DESCRIPTION");
-        ifpMap.put(Constants.CATEGORY, "CAT.DESCRIPTION");
-        ifpMap.put("designation", "CM.IFP_DESIGNATION");
-        ifpMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
-        ifpMap.put(Constants.START_DATE, StringConstantsUtil.CMIFP_START_DATE);
-        ifpMap.put(Constants.END_DATE, "CM.IFP_START_DATE");
-
-    }
-
-    public void setPsSearch() {
-        Map<String, String> psMap = new HashMap<>();
-        psMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "PS.PS_ID");
-        psMap.put(StringConstantsUtil.COMPONENT_NO, "PS.PS_NO");
-        psMap.put(StringConstantsUtil.COMPONENT_NAME, "PS.PS_NAME");
-        psMap.put(StringConstantsUtil.COMPONENT_TYPE, "TYP.DESCRIPTION");
-        psMap.put(Constants.CATEGORY, "CAT.DESCRIPTION");
-        psMap.put("designation", "desig.HELPER_TABLE_SID");
-        psMap.put("parentPsId", "PS.PARENT_PS_ID");
-        psMap.put("PS.PARENT_PS_NAME", StringConstantsUtil.STHELPER_TABLE_SID);
-        psMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
-        psMap.put("tradeClass", "TC.DESCRIPTION");
-        psMap.put(Constants.START_DATE, "PS.PS_START_DATE");
-        psMap.put(Constants.END_DATE, "PS.PS_END_DATE ");
-
-    }
-
     public void LazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag, boolean isFilter) {
         final List inputList = new ArrayList();
         inputList.add(countFlag);

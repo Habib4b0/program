@@ -2274,17 +2274,6 @@ public class NMPVExcelLogic {
         ProjectionVarianceDTO discountDto = new ProjectionVarianceDTO();
 
         List<String> discountNames = new ArrayList<>(selection.getDeductionLevelCaptions());
-        //PPA
-        List list3 = CommonLogic.getPPADiscountNameList(selection);
-        if (list3 != null) {
-            List<String> ppaRebate = new ArrayList<>();
-            for (String string : ppaRebate) {
-                ppaRebate.add(string.toUpperCase());
-            }
-
-            discountNames.addAll(ppaRebate);
-        }
-
         List<String> discountNames1 = new ArrayList<>(discountNames);
         for (int i = 0; i < discountNames1.size(); i++) {
             String name = String.valueOf(discountNames1.get(i)).replaceAll(" ", StringUtils.EMPTY);

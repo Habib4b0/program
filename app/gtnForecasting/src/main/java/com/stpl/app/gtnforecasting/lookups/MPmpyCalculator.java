@@ -883,11 +883,11 @@ public class MPmpyCalculator extends Window {
     }
 
     public String calculateValuePerLife(int lives) {
-        double valuePerLife = 0;
+        int valuePerLife = 0;
 
         if (isIsSalesOrUnits()) {
-            Double tempSalesAmount = (Double) SalesUtils.currencyToValue(salesField.getValue());
-            int salesAmount = tempSalesAmount.intValue();
+            int tempSalesAmount = Integer.valueOf(String.valueOf(SalesUtils.currencyToValue(salesField.getValue())));
+            int salesAmount = tempSalesAmount;
             if (lives != 0 && salesAmount != 0) {
                 valuePerLife = tempSalesAmount / lives;
             }
@@ -897,7 +897,7 @@ public class MPmpyCalculator extends Window {
                 valuePerLife = salesAmount / lives;
             }
         }
-        return String.valueOf(valuePerLife);
+        return String.valueOf(Double.valueOf(valuePerLife));
     }
     
      public String calculateTotalSales(int valuePerLife,int totalLives) {

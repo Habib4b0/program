@@ -314,7 +314,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                         deductionlevelDdlb.setValue(0);
                         CommonUtils.loadAdjustmentTypeDdlb(adjustmentType, selecetedAdjustment);
                     } catch (Exception ex) {
-                        LOGGER.error("Error in resetButtonClick :" + ex);
+                        LOGGER.error("Error in resetButtonClick :" , ex);
                     }
                 }
 
@@ -421,7 +421,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             fromDate.setImmediate(true);
             toDate.setImmediate(true);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadFromAndTo :" + ex);
+            LOGGER.error("Error in loadFromAndTo :" , ex);
         }
     }
 
