@@ -118,7 +118,7 @@ public class HelperListUtil {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in loadValuesWithListName :" + ex);
+            LOGGER.error("Error in loadValuesWithListName :" , ex);
         }
     }
 

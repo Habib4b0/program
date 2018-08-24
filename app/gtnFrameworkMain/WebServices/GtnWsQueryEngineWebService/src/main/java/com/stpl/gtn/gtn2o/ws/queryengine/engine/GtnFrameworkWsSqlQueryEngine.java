@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,24 +19,29 @@ import org.hibernate.criterion.Projection;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
+import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
-public class GtnFrameworkWsSqlQueryEngine {
+public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 	@Autowired
 	private GtnQueryLogger queryLogger;
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private final GtnFrameworkDependencyLogger logger = GtnFrameworkDependencyLogger.getGTNLogger(GtnFrameworkWsSqlQueryEngine.class);
-
 	public GtnFrameworkWsSqlQueryEngine() {
 		super();
+		initializeLogger();
+	}
+
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnFrameworkWsSqlQueryEngine.class);
 	}
 
 	public GtnFrameworkWsSqlQueryEngine(SessionFactory sessionFactory) {
@@ -58,14 +65,18 @@ public class GtnFrameworkWsSqlQueryEngine {
 		this.queryLogger = queryLogger;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Object[]> executeSelectQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		List<Object[]> list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.info("Starting time to Execute Query : " + startTime);
 			Query query = session.createSQLQuery(sqlQuery);
 			list = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.info("End time to execute Query: " + System.currentTimeMillis());
+			logger.info("Time taken to execute Query: " + (double) (System.currentTimeMillis() - startTime) / 1000 + " secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
@@ -99,9 +110,12 @@ public class GtnFrameworkWsSqlQueryEngine {
 		List<Object[]> queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.info("Starting time to Execute Query" + startTime);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
@@ -221,14 +235,13 @@ public class GtnFrameworkWsSqlQueryEngine {
 				sqlQuery = sqlQuery.replace("?", "'" + params[i] + "'");
 				break;
 			case DATE:
-                            if(params[i]!="null"){
-				java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
-				sqlQuery = sqlQuery.replace("?", "'" + sql.toString() + "'");
-                                return;
-                            }
-                            else{
-                                sqlQuery = null;
-                            }				
+				if (params[i] != "null") {
+					java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
+					sqlQuery = sqlQuery.replace("?", "'" + sql.toString() + "'");
+					return;
+				} else {
+					sqlQuery = null;
+				}
 			case INTEGER:
 				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
 				break;
@@ -261,11 +274,14 @@ public class GtnFrameworkWsSqlQueryEngine {
 		int id = 0;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.info("Starting time to Execute Query : " + startTime);
 			trx.begin();
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			id = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			trx.rollback();
@@ -284,11 +300,14 @@ public class GtnFrameworkWsSqlQueryEngine {
 		int updateOrDeletedRecordCount = 0;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.info("Starting time to Execute Query : " + startTime);
 			trx.begin();
 			Query query = session.createSQLQuery(sqlQuery);
 			updateOrDeletedRecordCount = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			trx.rollback();
@@ -457,12 +476,15 @@ public class GtnFrameworkWsSqlQueryEngine {
 		int count = 0;
 		try (Session session = sessionFactory.openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.info("Starting time to Execute Query : " + startTime);
 			Query query = session.createSQLQuery(sqlQuery);
 			List<?> queryValueList = query.list();
 			if (queryValueList != null && !queryValueList.isEmpty()) {
 				count = (Integer) queryValueList.get(0);
 			}
 			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
@@ -485,5 +507,11 @@ public class GtnFrameworkWsSqlQueryEngine {
 		executeInsertOrUpdateQuery(procedureCall, params, type);
 		long endTime = System.currentTimeMillis();
 		logger.info("Procedure Execution Time = = = " + (endTime - startTime));
+	}
+
+	@Override
+	public GtnUIFrameworkWebserviceRequest registerWs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -476,7 +476,7 @@ public class AdjustmentRateLogic {
             }
             return resultList;
         } catch (SQLException | NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException ex) {
-            LOGGER.error("Error in searchLogicForExclusionLookUp" + ex);
+            LOGGER.error("Error in searchLogicForExclusionLookUp" , ex);
         }
         return Collections.emptyList();
     }

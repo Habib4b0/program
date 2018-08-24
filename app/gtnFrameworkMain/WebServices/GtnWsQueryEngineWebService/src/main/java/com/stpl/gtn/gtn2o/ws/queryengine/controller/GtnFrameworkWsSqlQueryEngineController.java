@@ -40,12 +40,12 @@ public class GtnFrameworkWsSqlQueryEngineController extends GtnServiceRegistryIm
 	public GtnQueryEngineWebServiceResponse executeQuery(
 			@RequestBody GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest)
 			throws GtnFrameworkGeneralException {
-		logger.trace("Entering into QueryEngine ExecuteQuery method:");
+		logger.info("Entering into QueryEngine ExecuteQuery method:");
 		GtnQueryEngineWebServiceResponse gtnQueryEngineWebServiceResponse = new GtnQueryEngineWebServiceResponse();
 		GtnFrameworkQueryResponseBean queryResponseBean = (GtnFrameworkQueryResponseBean) gtnFrameworkWsSqlQueryEngineService
 				.executeQuery(gtnQueryEngineWebServiceRequest.getQueryExecutorBean());
 		gtnQueryEngineWebServiceResponse.setQueryResponseBean(queryResponseBean);
-		logger.trace("Exiting from QueryEngine ExecuteQuery method:");
+		logger.info("Exiting from QueryEngine ExecuteQuery method:");
 		return gtnQueryEngineWebServiceResponse;
 	}
 

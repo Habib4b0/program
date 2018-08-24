@@ -42,10 +42,9 @@ public class GtnFrameworkWsSqlQueryEngineService extends GtnServiceRegistryImplC
 	public GtnFrameworkQueryResponseBean executeQuery(GtnFrameworkQueryExecutorBean queryExecutorBean) throws GtnFrameworkGeneralException {
 		GtnWsQueryType queryType = Enum.valueOf(GtnWsQueryType.class,
 				queryExecutorBean.getQueryType().toUpperCase(Locale.ENGLISH));
-		logger.trace("Executing Query Type" + queryType);
+		logger.info("Executing Query Type" + queryType);
 		GtnWsQueryTypeInterface execute = queryType.getGtnWsQueryTypeInterface();
 		GtnFrameworkQueryResponseBean result = execute.executeQuery(queryExecutorBean, gtnSqlQueryEngine);
-		logger.trace("Returning Result of Type" + result.getClass());
 		return result;
 	}
 

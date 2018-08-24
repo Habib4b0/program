@@ -107,8 +107,6 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 				bean.setHierarchyDefSid(hierachySid);
 				bean.setHighLevel((int) object[1]);
 				bean.setLowestLevel((int) object[2]);
-				// bean.setCreatedDate((LocalDate) object[3]);
-				// bean.setModifiedDate((LocalDate) object[4]);
 				bean.setLevelName((String) object[5]);
 				bean.setHierarchyVersion((int) object[6]);
 				bean.setHierarchyCategory((String) object[8]);

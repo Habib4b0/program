@@ -53,7 +53,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
                 return resultsinventoryContainer.size();
 
             } catch (Exception ex) {
-                LOGGER.error("Error in getCount" + ex);
+                LOGGER.error("Error in getCount" , ex);
             }
         }
         return 0;
@@ -77,7 +77,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
             AbstractFilter.getInstance().orderByQueryForContainer(binderDto.getSortedColumns(), resultsinventoryContainer);
             resultList = resultsinventoryContainer.getItemIds(start, offset);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData" + ex);
+            LOGGER.error("Error in loadData" , ex);
         }
 
         return resultList;
