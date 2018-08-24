@@ -36,13 +36,11 @@ public class GtnFrameworkAdditionalSearchCriteriaAction implements GtnUIFrameWor
 		GtnWebServiceSearchCriteria sessionIdSearchCriteria=new GtnWebServiceSearchCriteria();
 		sessionIdSearchCriteria.setFieldId("sessionId");
 		sessionIdSearchCriteria.setFilterValue1(sessionId);
-		
 		sessionIdSearchCriteria.setExpression("EQUALS");
 		
 		GtnWebServiceSearchCriteria userIdSearchCriteria=new GtnWebServiceSearchCriteria();
 		userIdSearchCriteria.setFieldId("userId");
 		userIdSearchCriteria.setFilterValue1(userId);
-		
 		userIdSearchCriteria.setExpression("EQUALS");
 		
 		 GtnUIFrameworkGlobalUI

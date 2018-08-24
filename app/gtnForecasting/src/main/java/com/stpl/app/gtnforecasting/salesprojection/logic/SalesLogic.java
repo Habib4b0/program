@@ -3106,7 +3106,7 @@ public class SalesLogic {
     }
 
     public String loadTotalLives(int projectionId) throws PortalException, SystemException {
-        BigDecimal lives = new BigDecimal(0.0);
+        BigDecimal lives = BigDecimal.valueOf(0.0);
         List<String> list = getTotalLives(projectionId, false);
         if (list != null) {
             for (String live : list) {
@@ -3838,15 +3838,14 @@ public class SalesLogic {
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
         double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
-        double init = 0.0d;
-        double amountA = init;
+        double amountA = 0;
         for (String split : entry.getValue().split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountA += salesAmount.get(split);
             }
         }
         //Code to calculate B
-        double amountB = init;
+        double amountB = 0;
         for (String split : parentDetailsSid.split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountB += salesAmount.get(split);
@@ -3856,8 +3855,8 @@ public class SalesLogic {
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
         
-        if (Double.compare(amountA, init) == 0 && Double.compare(amountB,init)==0 ){
-            amount = init;
+        if (amountA == 0 || amountB ==0 ){
+            amount = 0;
         } else {
             amount = (amountA / amountB) * amount;
         }

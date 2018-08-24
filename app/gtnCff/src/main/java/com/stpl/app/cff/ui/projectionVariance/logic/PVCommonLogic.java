@@ -154,17 +154,7 @@ public class PVCommonLogic {
         if(comparisonBasis ){
            comparisonprojId =  pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis()));
         }
-        if (isExcel) {
-            Map<Object, List<Object[]>> groupedResult = rows.stream().map(obj -> (Object[]) obj)
-                    .collect(Collectors.groupingBy(x -> {
-                        return new ArrayList<>(Arrays.asList(x[1], x[3], x[4]));
-                    }));
-            List<Object[]> list1 = new ArrayList<>();
-            for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
-                list1.addAll(entry.getValue());
-            }
-            rows.addAll(list1);
-        }
+        excelCustomization(isExcel, rows);
         String actValue = StringUtils.EMPTY;
         String accrValue = StringUtils.EMPTY;
         String currValue = StringUtils.EMPTY;
@@ -187,6 +177,20 @@ public class PVCommonLogic {
         priorVraibleValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto,
                 projDTO, isPer, actValue, accrValue, currValue, comparisonPriorVal, commonColumn);
         LOGGER.debug("Ending getPivotCommonCustomization");
+    }
+
+    public static void excelCustomization(boolean isExcel, final List<Object[]> rows) {
+        if (isExcel) {
+            Map<Object, List<Object[]>> groupedResult = rows.stream().map(obj -> (Object[]) obj)
+                    .collect(Collectors.groupingBy(x -> {
+                        return new ArrayList<>(Arrays.asList(x[1], x[3], x[4]));
+                    }));
+            List<Object[]> list1 = new ArrayList<>();
+            for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
+                list1.addAll(entry.getValue());
+            }
+            rows.addAll(list1);
+        }
     }
     
     private static void priorVraibleValueCustomization(String variableCategory, String priorVal, DecimalFormat format, String visibleColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, final Boolean isPer, String actValue, String accrValue, String currValue, String comparisonPriorVal, String commonColumn) {

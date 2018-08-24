@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz.QuartzListener;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz.GtnWsQuartzListener;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 
 @Service()
@@ -18,9 +18,7 @@ import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 public class GtnWsUpdateWorkFlowProfileService {
 	
 	public GtnWsUpdateWorkFlowProfileService() {
-		/*
-		 * no need to implement
-		 */
+		super();
 	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsUpdateWorkFlowProfileService.class);
@@ -29,7 +27,7 @@ public class GtnWsUpdateWorkFlowProfileService {
 	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
-	private QuartzListener quartzListener;
+	private GtnWsQuartzListener quartzListener;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;

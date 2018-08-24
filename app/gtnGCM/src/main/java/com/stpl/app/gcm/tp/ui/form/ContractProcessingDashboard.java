@@ -213,7 +213,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private final CommmonLogic logic = new CommmonLogic();
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private final List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
     private String excelName = "Rebate Schedule Information";
     private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
@@ -919,7 +918,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             setComponentInformationVisibility(false);
             excelName = "Company Family Plan Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(ITEM_FAMILY_PLAN.getConstant())) {
             cIdLabel.setCaption("IFP " + ID);
             cNumberLabel.setCaption("IFP " + NUMBER);
@@ -927,7 +925,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             setComponentInformationVisibility(false);
             excelName = "Item Family Plan Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(PRICE_SCHEDULE.getConstant())) {
             cIdLabel.setCaption("PS " + ID);
             cNumberLabel.setCaption("PS " + NUMBER);
@@ -935,7 +932,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             setComponentInformationVisibility(false);
             excelName = "Price Schedule Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         } else if (componentSelection.equals(REBATE_SCHEDULE.getConstant())) {
             cIdLabel.setCaption("RS " + ID);
             cNumberLabel.setCaption("RS " + NUMBER);
@@ -943,7 +939,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             setComponentInformationVisibility(true);
             excelName = "Rebate Schedule Information";
             excelResultBean.removeAllItems();
-            componentInformation.clear();
         }
 
     }
