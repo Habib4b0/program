@@ -172,7 +172,7 @@ public class QueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error("Error in getQuery :" + ex);
+            LOGGER.error("Error in getQuery :" , ex);
         }
         return sql == null ? null : sql.toString();
     }

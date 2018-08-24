@@ -144,7 +144,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGERSUMMARYRESULT.error("Error in setExcelVisibleColumn :" + ex);
+            LOGGERSUMMARYRESULT.error("Error in setExcelVisibleColumn :" , ex);
         }
     }
 
