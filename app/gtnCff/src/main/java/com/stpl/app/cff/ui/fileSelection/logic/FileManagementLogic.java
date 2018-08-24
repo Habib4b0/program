@@ -1428,7 +1428,7 @@ public class FileManagementLogic {
 		} else {
 			resultsList = null;
 		}
-		if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.EX_FACTORY_SALES)) {
+		if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.EX_FACTORY_SALES)) {
 			for (int i = 0; i < resultsList.size(); i++) {
 				final Object[] obj = (Object[]) resultsList.get(i);
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1457,7 +1457,7 @@ public class FileManagementLogic {
 			}
 			detailsObj = resultsListDTO;
 			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> resultsListDTO= {}", resultsListDTO.size());
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.DEMAND)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.DEMAND)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1519,7 +1519,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] objForIWDS = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1608,7 +1608,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.CUSTOMERGTS)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.CUSTOMERGTS)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1746,7 +1746,10 @@ public class FileManagementLogic {
 
 			detailsObj = resultsListDTO;
 		} else {
-			detailsObj = resultsList.get(0);
+                    if(resultsList != null )
+                    {
+                        detailsObj = resultsList.get(0);
+                    }
 			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj= {}", detailsObj);
 		}
 		return detailsObj;
