@@ -420,7 +420,7 @@ public class SalesProjectionResultsTree {
             this.staticData = staticData;
         }
 
-        public SalesProjectionResultsDTO getStaticData() {
+        public synchronized SalesProjectionResultsDTO getStaticData() {
             return staticData;
         }
     }
