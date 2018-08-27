@@ -109,12 +109,6 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 
-	private void createQuerySalesCustomCP(SessionDTO sessionDTO) {
-		for (int i = 0; i < tempList.size(); i++) {
-			queryList.add(getCustomisedQuerySalesCustom((Object[]) tempList.get(i), sessionDTO));
-		}
-	}
-
 	private RelationshipLevelValuesBean getCustomisedQuery(Object[] tempListObject, SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
 		String customSql = SQlUtil.getQuery("getRelationshipLevelValues");
