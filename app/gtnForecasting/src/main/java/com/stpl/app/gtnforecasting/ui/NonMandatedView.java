@@ -47,7 +47,7 @@ public class NonMandatedView extends VerticalLayout {
         this.session = session;
         this.dataSelectionDTO = dataSelectionDTO;
         try {
-
+       
         } catch (Exception ex) {
             LoggerFactory.getLogger(NonMandatedView.class.getName()).error( StringUtils.EMPTY, ex);
         }
