@@ -165,37 +165,6 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		modeSelectionCsslayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_INNER_LAYOUT);
 		componentList.add(modeSelectionCsslayout);
-
-		/*GtnUIFrameworkLayoutConfig reportDataSelectionFromToMainLayout = new GtnUIFrameworkLayoutConfig();
-		reportDataSelectionFromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig reportDataSelectionFromToLayoutConfig = new GtnUIFrameworkComponentConfig();
-		reportDataSelectionFromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		reportDataSelectionFromToLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromToMainLayout");
-		reportDataSelectionFromToLayoutConfig.setAddToParent(true);
-		reportDataSelectionFromToLayoutConfig.setSpacing(true);
-		reportDataSelectionFromToLayoutConfig.addComponentStyle("v-report-margin--5");
-		reportDataSelectionFromToLayoutConfig
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_MAIN_LAYOUT);
-		reportDataSelectionFromToLayoutConfig.setGtnLayoutConfig(reportDataSelectionFromToMainLayout);
-		componentList.add(reportDataSelectionFromToLayoutConfig);
-
-		GtnUIFrameworkLayoutConfig reportDataSelectionPrivateViewCompanyProjectionNameLayoutConfig = new GtnUIFrameworkLayoutConfig();
-		reportDataSelectionPrivateViewCompanyProjectionNameLayoutConfig
-				.setLayoutType(GtnUIFrameworkLayoutType.COL3_LAYOUT);
-		GtnUIFrameworkComponentConfig privateViewCompanyProjectionNameLayout = new GtnUIFrameworkComponentConfig();
-		privateViewCompanyProjectionNameLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewCompanyProjectionNameLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_SELECTIONLAYOUT1);
-		privateViewCompanyProjectionNameLayout.setAddToParent(true);
-		privateViewCompanyProjectionNameLayout
-				.setGtnLayoutConfig(reportDataSelectionPrivateViewCompanyProjectionNameLayoutConfig);
-		privateViewCompanyProjectionNameLayout
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_INNER_LAYOUT);
-		componentList.add(privateViewCompanyProjectionNameLayout);*/
-
 	}
 
 	private void addPrivateViewCompanyProjectionname(List<GtnUIFrameworkComponentConfig> componentList,
@@ -373,35 +342,10 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 		componentList.add(reportDataSelectionBusinessUnit);
 
-		/*GtnUIFrameworkLayoutConfig reportDataSelectionProjectionDescLayout = new GtnUIFrameworkLayoutConfig();
-		GtnUIFrameworkComponentConfig projectionDescLayoutConfig = new GtnUIFrameworkComponentConfig();
-		projectionDescLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		projectionDescLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabProjectionDescLayout");
-		projectionDescLayoutConfig.setAddToParent(true);
-		projectionDescLayoutConfig.setSpacing(true);
-		projectionDescLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_SELECTIONLAYOUT1);
-		projectionDescLayoutConfig.setGtnLayoutConfig(reportDataSelectionProjectionDescLayout);
-		componentList.add(projectionDescLayoutConfig);
-*/
 	}
 
 	private void addTimePeriod(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		
-/*		GtnUIFrameworkLayoutConfig reportDataSelectionTimePeriodOuterLayout = new GtnUIFrameworkLayoutConfig();
-		reportDataSelectionTimePeriodOuterLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		GtnUIFrameworkComponentConfig timePeriodPanel = new GtnUIFrameworkComponentConfig();
-		timePeriodPanel.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		timePeriodPanel.setComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabTimePeriodOuterLayout");
-		timePeriodPanel.setAddToParent(true);
-		timePeriodPanel.setSpacing(true);
-		timePeriodPanel.setGtnLayoutConfig(reportDataSelectionTimePeriodOuterLayout);
-		timePeriodPanel.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromToMainLayout");
-		componentList.add(timePeriodPanel);*/
-
 		GtnUIFrameworkComponentConfig reportDataSelectionPanel = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionPanel.setComponentName("Time Period");
 		reportDataSelectionPanel
@@ -455,7 +399,6 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionFromPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
 		reportDataSelectionFromPeriod.setComponentName("From: ");
-		//reportDataSelectionFromPeriod.addComponentStyle("v-report-data-selection-from-combo");
 		reportDataSelectionFromPeriod.setAddToParent(true);
 
 		reportDataSelectionFromPeriod.setParentComponentId(
@@ -493,7 +436,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionToPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.STATUS);
 		reportDataSelectionToPeriod.setComponentName("To :");
-		//reportDataSelectionToPeriod.addComponentStyle("v-report-data-selection-to-combo");
+
 		reportDataSelectionToPeriod.setAddToParent(true);
 		reportDataSelectionToPeriod.setEnable(false);
 
