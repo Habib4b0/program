@@ -480,9 +480,9 @@ public class PRExcelLogic {
         netProfit = pvList.get(listIndex++);
         calculate(Constants.PVVariables.VAR_NET_PROFITE.toString(), obj, isTotal ? NumericConstants.FORTY_FIVE : NumericConstants.FORTY_SEVEN, netProfit,  AMOUNT, isTotal,true);
         LOGGER.debug("End of Method={}", listIndex);
-        LOGGER.debug("hierarchyKeys", hierarchyKeys.size() > 0 ? hierarchyKeys : 0);
-        LOGGER.debug("tradingPartnerKeys",tradingPartnerKeys.size() > 0 ? tradingPartnerKeys : 0);
-        LOGGER.debug("discountKeys",discountKeys.size() > 0 ? discountKeys : 0);
+        LOGGER.debug("hierarchyKeys ={}", hierarchyKeys.size() > 0 ? hierarchyKeys : 0);
+        LOGGER.debug("tradingPartnerKeys ={}",tradingPartnerKeys.size() > 0 ? tradingPartnerKeys : 0);
+        LOGGER.debug("discountKeys ={}",discountKeys.size() > 0 ? discountKeys : 0);
     }
 
     private void calculate(String varaibleName, Object[] obj, int index, ProjectionResultsDTO pvDTO, DecimalFormat format,boolean isTotal,boolean salesInclusionFlag) {
