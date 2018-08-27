@@ -420,12 +420,12 @@ public class SalesProjectionResultsTree {
             this.staticData = staticData;
         }
 
-        public SalesProjectionResultsDTO getStaticData() {
+        public synchronized SalesProjectionResultsDTO getStaticData() {
             return staticData;
         }
     }
 
-    class SalesProjectionResultsTreeBuildCreteria {
+    static class SalesProjectionResultsTreeBuildCreteria {
 
         private String salesUnitVariable;
         private String frequency;

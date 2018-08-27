@@ -429,8 +429,6 @@ public class DataSelection extends ForecastDataSelection {
 							}
 						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Deduction Level. Are you sure you want to proceed? You will lose the current Deduction Level if you continue.");
-					} else if (dataSelectionDeductionLevelListenerFlag) {
-						dataSelectionDedLevelValueChange(event);
 					}
 				} else {
 					dataSelectionDedLevelValueChange(event);
