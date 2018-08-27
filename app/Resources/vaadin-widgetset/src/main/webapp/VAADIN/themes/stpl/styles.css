@@ -15484,6 +15484,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-report-margin--5 {
 	margin-right: -15px !important;
+	width: 32% !important;
 }
 
 .stpl .v-report-filter-option-combo-width {
