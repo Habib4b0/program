@@ -156,9 +156,9 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            LOGGER.error("Error while setting property for given Inputs :" + ex);
+            LOGGER.error("Error while setting property for given Inputs :" , ex);
         } catch (IllegalArgumentException ex) {
-            LOGGER.error("Error in customizier " + ex);
+            LOGGER.error("Error in customizier " , ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
@@ -262,7 +262,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :" + e);
+            LOGGER.error("Error in getMonthName :", e);
         }
         return monthName;
     }

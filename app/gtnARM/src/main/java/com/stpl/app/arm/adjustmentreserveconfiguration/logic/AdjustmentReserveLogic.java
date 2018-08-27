@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @author sathyaseelan.v
  */
 public class AdjustmentReserveLogic {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentReserveLogic.class);
 
     private static final AdjustmentReserveLogic logic = new AdjustmentReserveLogic();

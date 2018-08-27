@@ -50,6 +50,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author Srithar.Raju
  */
+
+
 public abstract class AbstractBSummaryReportSummary extends VerticalLayout implements DefaultFocusable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBSummaryReportSummary.class);
@@ -99,10 +101,11 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
      * be all of the unique values under Deduction Program (maps to Contract >
      * Rebate tab > Rebate Program Type) Allows the user to select multiple
      * values from the drop down. The user must select at least one variable to
-     * generate the list view. When the â€œDeduction Level = Deductionâ€�, the
-     * Deduction Values DDLB will show the possible values as â€œRebate Schedule
-     * ID â€“ Rebate Schedule Nameâ€�. In the list views it will also display as
-     * â€œRebate Schedule ID â€“ Rebate Schedule Nameâ€�. Yes, at least one must
+     * generate the list view. When the â€œDeduction Level =
+     * Deductionâ€�, the Deduction Values DDLB will show the possible
+     * values as â€œRebate Schedule ID â€“ Rebate Schedule
+     * Nameâ€�. In the list views it will also display as â€œRebate
+     * Schedule ID â€“ Rebate Schedule Nameâ€�. Yes, at least one must
      * be selected	Format: Alphanumeric Justification: Left *
      */
     @UiField("deductionValue")
@@ -312,7 +315,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                                 List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
                                 loadFrequency(finalList);
                             } catch (Exception ex) {
-                                LOGGER.error("Error in resetBtn :" + ex);
+                                LOGGER.error("Error in resetBtn :" , ex);
                             }
                         }
 
@@ -322,7 +325,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                         }
                     }.getConfirmationMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    LOGGER.error("Error in resetBtn :" + e);
+                    LOGGER.error("Error in resetBtn :", e);
                 }
             }
         });
@@ -499,7 +502,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                 loadExpandCollapseddLb();
             }
         } catch (Exception e) {
-            LOGGER.error("Error in generateBtn :" + e);
+            LOGGER.error("Error in generateBtn :", e);
         }
     }
 

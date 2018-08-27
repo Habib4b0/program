@@ -58,7 +58,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
     /**
      * This is value change listener used to update the value to DB tables.
      */
-    
+
     private FocusListener focus = new FocusListener() {
         /**
          * Will execute,when we click an uploader.
@@ -100,7 +100,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
                         }
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in valueChange :" + ex);
+                    LOGGER.error("Error in valueChange :" , ex);
                 }
             }
         }

@@ -116,13 +116,19 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
                 Double cellValue = d;
-                cellValue = getCellValue(propId, d, cellValue);
+                cellValue = cellValue / NumericConstants.HUNDRED;
                 sheetCell.setCellValue(cellValue);
                 formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
-                nonFormatter(value, prop, sheetCell);
+                nonFormatterCustomExcel(prop, value, sheetCell);
             }
+        }
+    }
+
+    private void nonFormatterCustomExcel(Property prop, Object value, Cell sheetCell) {
+        if (prop != null && value != null) {
+            nonFormatter(value, prop, sheetCell);
         }
     }
 
@@ -132,23 +138,6 @@ public class CustomExcelNM extends ExcelExport {
         }else{
             formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
         }
-    }
-
-    private Double getCellValue(Object propId, Double d, Double cellValue) {
-    	
-    	Double getCellValue = (double) 0;
-    	
-        if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-        	getCellValue = cellValue / NumericConstants.HUNDRED;
-        }
-        else if ((formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) && (d > 0)) {
-        	
-        	getCellValue = cellValue / NumericConstants.HUNDRED;
-        }
-        else if ((formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) && (d > 0)) {
-        	getCellValue = cellValue / NumericConstants.HUNDRED;
-        }
-        return getCellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {
@@ -251,26 +240,24 @@ public class CustomExcelNM extends ExcelExport {
 
     }
 
-    private void nonFormatter(Object value, Property prop, Cell sheetCell) {
-        if (null != value) {
-            if (!isNumeric(prop.getType())) {
-                if (java.util.Date.class.isAssignableFrom(prop.getType())) {
-                    sheetCell.setCellValue((Date) value);
+    private void nonFormatter(Object excelValue, Property property, Cell excelSheetCell) {
+            if (!isNumeric(property.getType())) {
+                if (java.util.Date.class.isAssignableFrom(property.getType())) {
+                    excelSheetCell.setCellValue((Date) excelValue);
                 } else {
-                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                    excelSheetCell.setCellValue(createHelper.createRichTextString(excelValue.toString()));
                 }
             } else {
                 try {
                     // parse all numbers as double, the format will determine how they appear
-                    final Double d = DataTypeConverter.convertObjectToDouble(value);
-                    sheetCell.setCellValue(d);
-                    sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
-                } catch (final NumberFormatException nfe) {
+                    final Double doub = DataTypeConverter.convertObjectToDouble(excelValue);
+                    excelSheetCell.setCellValue(doub);
+                    excelSheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                } catch (final NumberFormatException ex) {
                     
-                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                    excelSheetCell.setCellValue(createHelper.createRichTextString(excelValue.toString()));
                 }
             }
-        }
     }
     
      @Override

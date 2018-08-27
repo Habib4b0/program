@@ -131,7 +131,7 @@ public class DiscountProjectionDTO extends ExtMapDTO {
      */
     private Integer treeLevelNo = 0;
 
-    private Integer relationLevelSid = new Integer(Constant.DASH);
+    private Integer relationLevelSid = Integer.valueOf(Constant.DASH);
 
     private String propertyId = StringUtils.EMPTY;
 

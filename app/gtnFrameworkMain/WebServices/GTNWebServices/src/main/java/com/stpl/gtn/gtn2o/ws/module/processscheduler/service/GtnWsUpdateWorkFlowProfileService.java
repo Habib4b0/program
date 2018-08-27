@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz.QuartzListener;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.quartz.GtnWsQuartzListener;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 
 @Service()
@@ -18,9 +18,7 @@ import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
 public class GtnWsUpdateWorkFlowProfileService {
 	
 	public GtnWsUpdateWorkFlowProfileService() {
-		/*
-		 * no need to implement
-		 */
+		super();
 	}
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsUpdateWorkFlowProfileService.class);
@@ -29,7 +27,7 @@ public class GtnWsUpdateWorkFlowProfileService {
 	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
-	private QuartzListener quartzListener;
+	private GtnWsQuartzListener quartzListener;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -42,7 +40,6 @@ public class GtnWsUpdateWorkFlowProfileService {
 			updateTransaction.begin();
 			WorkflowProfile workflowProfile = updateSession.load(WorkflowProfile.class,
 					gtnWsProcessSchedulerBean.getProcessSchedulerSid());
-			logger.info("before update " + workflowProfile.toString());
 			workflowProfile.setFrequency(gtnWsProcessSchedulerBean.getPsProcessFrequency());
 			if ("Active".equals(gtnWsProcessSchedulerBean.getPsStatus())) {
 				workflowProfile.setActiveFlag('Y');
@@ -66,7 +63,6 @@ public class GtnWsUpdateWorkFlowProfileService {
 			workflowProfile.setModifiedDate(new Date());
 			updateSession.update(workflowProfile);
 			updateTransaction.commit();
-			logger.info("after update " + workflowProfile.toString());
 			logger.info("********** Calling Quartz Listener clas method **********");
 			quartzListener.createQuartzScheduler();
 		} catch (Exception exp) {

@@ -1,8 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -12,9 +9,17 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.vaadin.data.TreeData;
+import com.vaadin.data.provider.TreeDataProvider;
+import com.vaadin.ui.TreeGrid;
+import com.vaadin.ui.VerticalLayout;
+import java.util.Arrays;
+import java.util.List;
 
 public class GtnReportDashboardValuesResetAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -99,7 +104,12 @@ public class GtnReportDashboardValuesResetAction
 		resetAction.addActionParameter(
 				Arrays.asList(new Object[] { "0", "0", "", "0", "0", "0", "", "", "", "", "", "" }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
-	}
+              
+                VerticalLayout treeGridLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD+GtnFrameworkCommonConstants.RESULT_TABLE,componentId).getComponent();
+                TreeGrid<GtnWsRecordBean> treeGrid = (TreeGrid<GtnWsRecordBean>) treeGridLayout.getComponent(0);
+                treeGrid.setDataProvider(new TreeDataProvider<>(new TreeData<GtnWsRecordBean>()));
+                treeGrid.removeAllColumns();
+        }
 
 	private String getComparisonValue(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		if (comparisonProjectionBeanList.size() > 1) {

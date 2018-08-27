@@ -71,7 +71,7 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in generateBtn :" + ex);
+            LOGGER.error("Error in generateBtn :" , ex);
         }
     }
 

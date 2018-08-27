@@ -156,7 +156,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                             customizeResetButtonLogic();
                         } catch (Exception ex) {
-                            LOGGER.error("Error in reset" + ex);
+                            LOGGER.error("Error in reset" , ex);
                         }
                         break;
                     case "save":
@@ -181,7 +181,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    logger.error("Error in reset" + e);
+                    logger.error("Error in reset", e);
                 }
             }
         });
@@ -195,7 +195,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 try {
                     generateButtonLogic();
                 } catch (Exception e) {
-                    logger.error("Error in generate" + e);
+                    logger.error("Error in generate", e);
                 }
             }
         });
@@ -312,7 +312,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in view" + ex);
+                        logger.error("Error in view" , ex);
                     }
                 }
             });
@@ -352,7 +352,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequency));
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in todate" + ex);
+                        logger.error("Error in todate" , ex);
                     }
                 }
 
@@ -363,7 +363,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             }
             deductionLevelDdlb.select(HelperListUtil.getInstance().getIdByDesc(VariableConstants.DEDUCTION_LEVELS, VariableConstants.DEDUCTION_PROGRAM));
         } catch (Exception e) {
-            logger.error("Error in glimpactdate" + e);
+            logger.error("Error in glimpactdate", e);
         }
 
     }
@@ -466,7 +466,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glListener" + ex);
+                logger.error("Error in glListener" , ex);
             }
         }
     };
@@ -498,7 +498,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glWorkflowListener :" + ex);
+                logger.error("Error in glWorkflowListener :" , ex);
             }
         }
     };

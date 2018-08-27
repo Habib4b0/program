@@ -1342,7 +1342,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
             if (tempId != null) {
                 DiscountProjectionDTO tempDto = (DiscountProjectionDTO) tempId;
-                tempDto.setUncheckCount(checkClear ? 0 : tempDto.getCcpCount());
+                tempDto.setUncheckCount(checkClear ? Integer.valueOf(0) : tempDto.getCcpCount());
                 ccpsCount = tempDto.getCcpCount();
                 updateChecks(tempId, isPresentInContainer);
             }
@@ -3626,7 +3626,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 LOGGER.info("generateBtn :Inside Filter Option");
                 session.setFunctionMode("F");
                 CommonLogic.procedureCompletionCheck(session, "discount", String.valueOf(view.getValue()));
-                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, DISCOUNT);
                 dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
                 CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
             }
@@ -4665,7 +4665,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         LOGGER.debug("Inside get Quater with String= {}", str);
         int[] a = new int[NumericConstants.TWO];
         String[] splited = str.split("\\s+");
-        a[0] = Integer.parseInt(new String(splited[0].replaceAll("[Q]+", StringUtils.EMPTY)));
+        a[0] = Integer.parseInt(splited[0].replaceAll("[Q]+", StringUtils.EMPTY));
         a[1] = Integer.parseInt(splited[1]);
         return a;
     }

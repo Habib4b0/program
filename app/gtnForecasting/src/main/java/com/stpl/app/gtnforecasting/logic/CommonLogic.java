@@ -302,12 +302,15 @@ public class CommonLogic {
                         } else {
                             detailsList = getCustomViewDetails(customId);
                         }
+                        
+                        if(detailsList!=null){
                         for (CustomViewDetails customDetails : detailsList) {
                             try {
                                 commonDao.deleteCustomViewDetails(customDetails);
                             } catch (SystemException ex) {
                                 LOGGER.error(ex.getMessage());
                             }
+                        }
                         }
                         if (session.getCustomDetailMap().containsKey(customId)) {
                             session.getCustomDetailMap().remove(customId);
@@ -394,7 +397,7 @@ public class CommonLogic {
     
     public static List<Object[]> getCustomViewDetailsDiscount(int customId) {
         StringBuilder relationShipLevelQry = new StringBuilder();
-        relationShipLevelQry.append("select * from dbo.CUST_VIEW_DETAILS where custom_View_Master_Sid ="+customId+" ORDER BY LEVEL_NO ASC");
+        relationShipLevelQry.append("select * from dbo.CUST_VIEW_DETAILS where custom_View_Master_Sid =").append(customId).append(" ORDER BY LEVEL_NO ASC");
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
         return list;
     }
@@ -5338,15 +5341,20 @@ public class CommonLogic {
     
     public static void viewProceduresCompletionCheck(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOMER);
-        procedureCompletionCheck(session,SMALL_SALES,Constants.PRODUCT);
-        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOM);
+        procedureCompletionCheck(session, SMALL_SALES, Constants.CUSTOMER);
+        procedureCompletionCheck(session, SMALL_SALES, Constants.PRODUCT);
+        if (session.getCustomRelationShipSid() != 0) {
+            procedureCompletionCheck(session, SMALL_SALES, Constants.CUSTOM);
+        }
     }
+
     public static void viewProceduresCompletionCheckDiscount(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOMER);
-        procedureCompletionCheck(session, DISCOUNT,Constants.PRODUCT);
-        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOM);
+        procedureCompletionCheck(session, DISCOUNT, Constants.CUSTOMER);
+        procedureCompletionCheck(session, DISCOUNT, Constants.PRODUCT);
+        if (session.getCustomDeductionRelationShipSid() != 0) {
+            procedureCompletionCheck(session, DISCOUNT, Constants.CUSTOM);
+        }
     }
    
 

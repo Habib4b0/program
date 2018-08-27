@@ -1094,7 +1094,7 @@ public class DataSelection extends AbstractDataSelection {
 									childHierarchyNo = tempHNo + ".";
 								}
 								if (customerBeanList.isEmpty()
-										|| !customerBeanList.contains(newLevel.getRelationShipBuilderId())) {
+										|| !customerBeanList.contains(Integer.valueOf(newLevel.getRelationShipBuilderId()))) {
 									customerBeanList.add(newLevel.getRelationshipLevelSid());
 									selectedCustomerContainer.addBean(newLevel);
 									if (forecastLevel != newLevel.getLevelNo()) {
@@ -1186,27 +1186,7 @@ public class DataSelection extends AbstractDataSelection {
 									}
 								}
 								if (!removeValues.isEmpty()) {
-									uncommonValues.removeAll(removeValues); // At
-																			// this
-																			// point,
-																			// uncommonValues
-																			// should
-																			// contain
-																			// only
-																			// 1
-																			// value
-																			// since
-																			// only
-																			// one
-																			// value
-																			// is
-																			// selected
-																			// to
-																			// be
-																			// moved
-																			// in
-																			// available
-																			// table.
+									uncommonValues.removeAll(removeValues); 
 								}
 								if (!uncommonValues.isEmpty()) {
 									newParentLevels = logic.getParentLevelsWithHierarchyNo(
@@ -1334,26 +1314,7 @@ public class DataSelection extends AbstractDataSelection {
 								}
 							}
 							if (!removeValues.isEmpty()) {
-								uncommonValues.removeAll(removeValues); // At
-																		// this
-																		// point,
-																		// uncommonValues
-																		// should
-																		// contain
-																		// only
-																		// 1
-																		// value
-																		// since
-																		// only
-																		// one
-																		// value
-																		// is
-																		// selected
-																		// to be
-																		// moved
-																		// in
-																		// available
-																		// table.
+								uncommonValues.removeAll(removeValues); 
 							}
 							if (!uncommonValues.isEmpty()) {
 								String tempHNo = uncommonValues.get(0);

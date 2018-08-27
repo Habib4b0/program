@@ -127,12 +127,12 @@ public class BalanceSummaryReportWindow extends Window {
                             previousBtn.setVisible(true);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error("Error in tabSheet Listner :" + ex);
+                        LOGGER.error("Error in tabSheet Listner :" , ex);
                     }
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error("Error in tabSheet Listner :" + ex);
+            LOGGER.error("Error in tabSheet Listner :" , ex);
         }
 
     }
@@ -216,7 +216,7 @@ public class BalanceSummaryReportWindow extends Window {
             }
             notifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), closeMsg);
         } catch (Exception e) {
-            LOGGER.error("Error in closeButtonClick  :" + e);
+            LOGGER.error("Error in closeButtonClick  :", e);
         }
     }
 

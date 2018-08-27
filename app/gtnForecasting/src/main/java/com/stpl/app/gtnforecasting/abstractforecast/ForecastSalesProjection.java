@@ -1123,7 +1123,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
-        session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
+        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }
@@ -1763,7 +1763,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
                                     }
                                     Double incOrDec;                            
-                                    if (oldNumber == 0.0) {
+                                    if (oldNumber == 0.0d) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;

@@ -2100,6 +2100,9 @@ IF @FLAG = 'M'
                                 YEAR
                          FROM    #PERIOD
                           WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
+						  JOIN ', @S_MASTER_TABLE, ' SPM
+         ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+            AND FILTER_CCP = 1
        JOIN ', @S_PROJECTION_TABLE, ' SP
          ON SP.CCP_DETAILS_SID = C.CCP_DETAILS_SID           
                and sp.PERIOD_SID=b.PERIOD_SID
@@ -2144,6 +2147,9 @@ IF @FLAG = 'M'
                                 YEAR
                          FROM    #PERIOD
                           WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
+						  JOIN ', @S_MASTER_TABLE, ' SPM
+         ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+            AND FILTER_CCP = 1
        JOIN ', @S_PROJECTION_TABLE, ' SP
          ON SP.CCP_DETAILS_SID = C.CCP_DETAILS_SID           
                and sp.PERIOD_SID=b.PERIOD_SID
@@ -2190,6 +2196,9 @@ IF @FLAG = 'M'
                                 YEAR
                          FROM    #PERIOD
                           WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
+						  JOIN ', @S_MASTER_TABLE, ' SPM
+         ON SPM.CCP_DETAILS_SID = C1.CCP_DETAILS_SID
+            AND FILTER_CCP = 1
        JOIN ', @S_PROJECTION_TABLE, ' SP
          ON SP.CCP_DETAILS_SID = C1.CCP_DETAILS_SID           
                and sp.PERIOD_SID=b.PERIOD_SID
@@ -4791,6 +4800,7 @@ RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
                            WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
        JOIN ', @D_MASTER_TABLE, ' SPM
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+		 AND FILTER_CCP = 1
             --AND CHECK_RECORD = 1
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID 
          JOIN ', @D_PROJECTION_TABLE, ' DP
@@ -4838,6 +4848,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
                            WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
        JOIN ', @D_MASTER_TABLE, ' SPM
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+		 AND FILTER_CCP = 1
             --AND CHECK_RECORD = 1
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
          JOIN ', @D_PROJECTION_TABLE, ' DP
@@ -4888,6 +4899,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
        JOIN ', @D_MASTER_TABLE, ' SPM
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
                AND ( C.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID    OR    NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
+			   AND FILTER_CCP = 1
             --AND CHECK_RECORD = 1
          JOIN ', @D_PROJECTION_TABLE, ' DP
          ON DP.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID 
@@ -6599,7 +6611,7 @@ CROSS JOIN (
 LEFT JOIN (
        select CCP_DETAILS_SID,
               PERIOD_SID,
-              RS_MODEL_SID,max(DISCOUNT) DISCOUNT  from(SELECT AD.CCP_DETAILS_SID,
+              RS_MODEL_SID,sum(discount) DISCOUNT  from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(DISCOUNT) DISCOUNT
@@ -6705,7 +6717,7 @@ CROSS JOIN (
 LEFT JOIN (
       select CCP_DETAILS_SID,
               PERIOD_SID,
-              RS_MODEL_SID,max(DISCOUNT) DISCOUNT from(SELECT AD.CCP_DETAILS_SID,
+              RS_MODEL_SID,sum(discount) DISCOUNT from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,
               SUM(DISCOUNT) DISCOUNT
@@ -6805,7 +6817,7 @@ RI.SELECTED_LEVEL AS RS_CONTRACT_SID
              LEFT JOIN (
       select CCP_DETAILS_SID,
               PERIOD_SID,
-              RS_MODEL_SID,max(DISCOUNT) DISCOUNT
+              RS_MODEL_SID,sum(discount) DISCOUNT
                                                   from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,

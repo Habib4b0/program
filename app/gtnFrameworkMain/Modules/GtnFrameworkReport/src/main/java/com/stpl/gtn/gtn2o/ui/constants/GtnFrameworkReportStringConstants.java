@@ -17,6 +17,8 @@ public final class GtnFrameworkReportStringConstants {
 	}
 
 	public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+        
+        public static final String REPORT_DASHBOARD = "reportDashboard";
 
 	public static final String LEVEL_VALUE = "levelValue";
 
@@ -333,8 +335,20 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO = "displaySelectionTabPeriodRangeTo";
 
 	public static final String FILTER_OPTIONS_TAB = "filterOptionsTab";
+	
+	public static final String FILTER_OPTIONS_TAB_PANEL = "filterOptionsTabPanel";
+	
+	public static final String FILTER_OPTIONS_TAB_PANEL_VERTICAL_LAYOUT = "filterOptionsTabPanelVerticalLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_LAYOUT_TOP = "filterOptionsTabTopLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_LAYOUT_BOTTOM = "filterOptionsTabBottomLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CSS_LAYOUT = "filterOptionsTabCssLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_TOP_CSS_LAYOUT = "filterOptionsTabTopCssLayout";
+	
+	public static final String FILTER_OPTIONS_TAB_BOTTOM_CSS_LAYOUT = "filterOptionsTabBottomCssLayout";
 
 	public static final String FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT = "filterOptionsTabCustomerLevelLayout";
 
@@ -557,6 +571,8 @@ public final class GtnFrameworkReportStringConstants {
 			"dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
 
 	public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
+        
+        public static final String REPORT_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.";
 
 	public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
@@ -567,6 +583,9 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingVariableBreakdownHeaderLoadAction";
+        
+        public static final String REPORT_COMPARISON_FILTER_ACTION = REPORT_ACTION_PACKAGE
+			+ "ComparisonProjectionResultFilterAction";
 
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
 			"Market Type", "Contract Holder", "Contract", "Brand");

@@ -13,6 +13,11 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	
 	public static final String TIME = "Time";
 
+	public static final int ZERO = 0;
+	
+	public static final boolean TRUE= true;
+	public static final boolean FALSE= false;
+	
 	public static final String INTERVAL = "Interval";
 
 	public static final String TWENTY_FOUR = "24";
@@ -83,10 +88,14 @@ public class GtnFrameworkProcessSchedulerStringContants {
 	public static final String BUSINESS_UNIT_NAME_ID = "CffOutBound_businessUnitName";
 	public static final String CFF_APPROVAL_DATE_FROM_ID = "CffOutBound_cffApprovalDateFrom";
 	public static final String CFF_APPROVAL_DATE_TO_ID = "CffOutBound_cffApprovalDateTo";
-	public static final Object GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria ?";
-	public static final Object GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER = "Reset Confirmation";
-	public static final Object CFF_CREATION_DATE_VALIDATION_MESSAGE = "CFF Creation To date cannot be after CFF Creation From date";
-	public static final Object CFF_APPROVAL_DATE_VALIDATION_MESSAGE = "CFF Approval To date cannot be after CFF Approval From date";
+	public static final String GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria ?";
+	public static final String GTN_CFF_OUTBOUND_CONFIRMATION_MSG_RESET_HEADER = "Reset Confirmation";
+	public static final String CFF_CREATION_DATE_VALIDATION_MESSAGE = "CFF Creation To date cannot be after CFF Creation From date";
+	public static final String CFF_APPROVAL_DATE_VALIDATION_MESSAGE = "CFF Approval To date cannot be after CFF Approval From date";
+	public static final String RS_MODEL_SID = "rsModelSid";
+	public static final String PERIOD_SID = "periodSid";
+	public static final String CFF_OUTBOUND_MANUAL_SUCCESS_MESSAGE = "Manual Process initiated successfully";
+	public static final String CFF_OUTBOUND_MANUAL_FAILURE_MESSAGE = "Manual Processing not Completed Successfully";
 	
 	
 	private GtnFrameworkProcessSchedulerStringContants() {

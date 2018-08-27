@@ -18,10 +18,12 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.ProcessSchedulerConstant;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.service.GtnWsCallEtlService;
-import com.stpl.gtn.gtn2o.ws.processscheduler.bean.FtpProperties;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsCffQueryConstants;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.constant.GtnWsProcessSchedulerConstant;
+import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsFtpPropertiesBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsCallEtlService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service()
@@ -29,9 +31,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnWsProcessSchedularServiceUtil {
 	
 	public GtnWsProcessSchedularServiceUtil() {
-		/*
-		 * no need to implement
-		 */
+		super();
 	}
 	
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsProcessSchedularServiceUtil.class);
@@ -97,19 +97,19 @@ public class GtnWsProcessSchedularServiceUtil {
 		return System.getProperty("com.stpl.gtnframework.base.path.property");
 	}
 
-	public static FtpProperties getFtpBundleValue() {
+	public static GtnWsFtpPropertiesBean getFtpBundleValue() {
 		logger.info("getFtpBundleValue===================>starts");
-		FtpProperties ftpProperties = new FtpProperties();
+		GtnWsFtpPropertiesBean ftpProperties = new GtnWsFtpPropertiesBean();
 		try {
 			String jbossHome = getJbossHome();
 			logger.info("jbossHome===================>" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
-				logger.info("prop location: "+prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY));
+				logger.info("prop location: "+prop.getProperty(GtnWsProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY));
 				java.util.Properties prop1 = getPropertyFile(
-						jbossHome.concat("/../").concat(prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
-				ftpProperties.setScripts(prop1.getProperty(ProcessSchedulerConstant.SCRIPTS));
-				logger.info("setted the ftp pro scripts:" + prop1.getProperty(ProcessSchedulerConstant.SCRIPTS));
+						jbossHome.concat("/../").concat(prop.getProperty(GtnWsProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
+				ftpProperties.setScripts(prop1.getProperty(GtnWsProcessSchedulerConstant.SCRIPTS));
+				logger.info("setted the ftp pro scripts:" + prop1.getProperty(GtnWsProcessSchedulerConstant.SCRIPTS));
 			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
@@ -141,7 +141,7 @@ public class GtnWsProcessSchedularServiceUtil {
 
 	}
 
-	public void runJob(FtpProperties ftpProperties, String scriptName) {
+	public void runJob(GtnWsFtpPropertiesBean ftpProperties, String scriptName) {
 		try {
 			logger.info("Script Name= {}" + scriptName);
 			String jbossHome = getJbossHome();
@@ -150,7 +150,7 @@ public class GtnWsProcessSchedularServiceUtil {
 				java.util.Properties prop = getPropertyFile(getPropertyPath());
 				
 				java.util.Properties prop1 = getPropertyFile(
-						jbossHome.concat("/../").concat(prop.getProperty(ProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
+						jbossHome.concat("/../").concat(prop.getProperty(GtnWsProcessSchedulerConstant.ETL_CONFIGURATION_PROPERTY)));
 				String etlInterfaceUri = buildUrl(scriptName, prop1);
 				ftpProperties.setScripts(prop1.getProperty("scripts"));
 				runShellScript(etlInterfaceUri);
@@ -197,5 +197,66 @@ public class GtnWsProcessSchedularServiceUtil {
 			logger.error(ex.getMessage());
 		}
 		
+	}
+
+	public void schedulerInsert() throws GtnFrameworkGeneralException {
+		logger.debug("Inside schedulerInsert");
+		StringBuilder sb = new StringBuilder(GtnWsCffQueryConstants.CFF_SELECT);
+		List<?> cffIds = gtnSqlQueryEngine.executeSelectQuery(sb.toString());
+		cffOutboundInsertProc("1", "1", cffIds);
+
+		sb = new StringBuilder();
+		sb.append("UPDATE ST_CFF_OUTBOUND_MASTER SET ETL_CHECK_RECORD = 1 WHERE USER_ID = 1 AND SESSION_ID = 1 ;");
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sb.toString());
+
+		logger.debug("Ending schedulerInsert");
+	}
+	
+	public void cffOutboundInsertProc(final String userId, final String sessionId, final List<?> cffIds) {
+
+		if (cffIds != null && !cffIds.isEmpty()) {
+			try {
+				logger.debug("Inside cffOutboundInsertProc with cffids= "+ cffIds.size());
+				StringBuilder sb = new StringBuilder(
+						"DECLARE @CFF_DETAILS_SID UDT_ITEM\n" + "INSERT INTO  @CFF_DETAILS_SID\n");
+				for (int i = 0; i < cffIds.size(); i++) {
+					sb.append(" SELECT ").append(cffIds.get(i));
+					if (i != cffIds.size() - 1) {
+						sb.append(" UNION ALL \n");
+					}
+				}
+				sb.append(" \n EXEC PRC_CFF_OUTBOUND @CFF_DETAILS_SID,").append(userId).append(',').append(sessionId)
+						.append(" , 'SCHEDULER' ").append(';');
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(sb.toString());
+				logger.debug("Ending cffOutboundInsertProc");
+			} catch (Exception ex) {
+				logger.error("exception while executing PROCEDURE "+ex.getMessage());
+			}
+		}
+	}
+	
+	public Boolean existsQuery(final String userId, final String sessionId) throws GtnFrameworkGeneralException {
+		String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = "
+				+ userId + " AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
+		List<?> count = gtnSqlQueryEngine.executeSelectQuery(query);
+		int c = Integer.parseInt(String.valueOf(count.get(0)));
+		return c > 0;
+	}
+	
+	public void deleteTempCffOutbound(GtnWsGeneralRequest gtnWsGeneralRequest, Boolean isScheduler) {
+		logger.debug("Enters deleteTempCffOutbound method");
+		try {
+			String query = "";
+			if (!isScheduler) {
+				query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + gtnWsGeneralRequest.getUserId() + " AND SESSION_ID = "
+						+ gtnWsGeneralRequest.getSessionId() + ";";
+			} else {
+				query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = 1 AND SESSION_ID = 1;";
+			}
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+		} catch (Exception ex) {
+			logger.error("exception while deleting ST_CFF_OUTBOUND_MASTER "+ex.getMessage());
+		}
+		logger.debug("End of deleteTempCffOutbound method");
 	}
 }

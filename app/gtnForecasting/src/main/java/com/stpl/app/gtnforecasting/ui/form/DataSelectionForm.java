@@ -200,17 +200,19 @@ public class DataSelectionForm extends ForecastDataSelection {
 		final StplSecurity stplSecurity = new StplSecurity();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)
 				|| screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			Map<String, AppPermission> functionCompanyHM = null;
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-				functionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
+				Map<String, AppPermission> mfunctionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
 						String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),
 						getGovernmentConstant() + "," + UISecurityUtil.DATA_SELECTION_INDEX);
+                                getButtonPermission(mfunctionCompanyHM);
 			} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-				functionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
+				Map<String, AppPermission> nMfunctionCompanyHM = stplSecurity.getBusinessFunctionPermissionForNm(
 						String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),
 						getCommercialConstant() + "," + UISecurityUtil.DATA_SELECTION_INDEX);
+                                 getButtonPermission(nMfunctionCompanyHM);
+                                
 			}
-			getButtonPermission(functionCompanyHM);
+			
 		}
 
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION)) {
@@ -3796,6 +3798,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			customerInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 
@@ -3813,6 +3816,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 			if (i == innerLevel) {
 				selectedLevelName = levelName;
+                                break;
 			}
 		}
 		productlevelDdlb.setContainerDataSource(productInnerLevelContainer);
@@ -3930,7 +3934,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescMap,
 							INDICATOR_LEVEL_NDC.getConstant(), scrName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, ndcLevel.getLevelNo(), dedValue,
+							0, ndcLevel.getLevelNo(), dedValue,
 							dedLevel, company.getValue(), businessUnit.getValue());
 				}
 			}

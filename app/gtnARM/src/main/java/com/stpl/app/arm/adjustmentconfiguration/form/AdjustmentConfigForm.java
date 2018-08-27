@@ -150,7 +150,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private AdjustmentConfigDTO selectedDTo;
     private SessionDTO sessionDTO;
     private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    
+
     protected static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentConfigForm.class);
 
     public AdjustmentConfigForm(SessionDTO sessionDTO) {
@@ -190,7 +190,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error("Error in itemClick :" + ex);
+                            LOGGER.error("Error in itemClick :" , ex);
                         }
                     }
                 } else {
@@ -262,7 +262,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                     binder.commit();
                     modeDdlb.select(ARMConstants.getAddMode());
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" + ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
                 }
             }
 
@@ -308,7 +308,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error("Error in itemClick :" + ex);
+                            LOGGER.error("Error in itemClick :" , ex);
                         }
                     }
                 }
@@ -410,13 +410,13 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             try {
                 recordCount = logic.getAdjustmentConfigCount(configTableLogic.getFilters());
             } catch (SQLException ex) {
-               LOGGER.error("Error in createWorkSheet {}",ex.getMessage());
+                LOGGER.error("Error in createWorkSheet {}", ex.getMessage());
             }
         }
         try {
             ExcelExportforBB.createWorkSheet(visibleList, recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error("Error in createWorkSheet {}",ex.getMessage());
+            LOGGER.error("Error in createWorkSheet {}", ex.getMessage());
         }
     }
 
@@ -439,7 +439,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                 ExcelExportforBB.createFileContent(visibleList, searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in createWorkSheetContent :" + e);
+            LOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 
@@ -503,7 +503,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         resultsTable.setRefresh(true);
 
                     } catch (Exception ex) {
-                        LOGGER.error("Error in saveBtnResLogic :" + ex);
+                        LOGGER.error("Error in saveBtnResLogic :" , ex);
                     }
 
                 }
@@ -614,7 +614,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ADJUSTMENT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, fieldLayout, functionHMforFields, CommonSecurityLogic.SEARCH);
         } catch (Exception ex) {
-            LOGGER.error("Error in configureFieldPermission :" + ex);
+            LOGGER.error("Error in configureFieldPermission :" , ex);
         }
         LOGGER.debug("Ending configurePermission");
     }

@@ -24,7 +24,6 @@ import org.osgi.service.component.annotations.ServiceScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 @Theme("stpl")
 @Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
@@ -82,7 +81,7 @@ public class AdjustmentConfigUI extends UI {
             }
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AdjustmentRateUI " + ex);
+            LOGGER.error("Error While Creating AdjustmentRateUI " , ex);
         }
     }
 

@@ -150,7 +150,6 @@ public class DeductionDetails extends CustomComponent {
 
     private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    private final Set<String> childLevelSet = new HashSet<>();
 
     private final Set<String> refreshSet = new HashSet<>();
 
@@ -781,7 +780,6 @@ public class DeductionDetails extends CustomComponent {
     private void refreshLogic() {
         generateLogic();
         refreshSet.clear();
-        childLevelSet.clear();
     }
 
     private void populateButton() {
@@ -807,7 +805,7 @@ public class DeductionDetails extends CustomComponent {
                         int endMonth = CommonUtil.getMonth(end[0]);
                         if (Integer.parseInt(start[1]) > Integer.parseInt(end[1])) {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
-                        } else if (Integer.valueOf(start[1]).equals(Integer.valueOf(end[1])) && (startMonth > endMonth)) {
+                        } else if ((startMonth > endMonth) &&  Integer.valueOf(start[1]).equals(Integer.valueOf(end[1]))) {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
                         } else if (refreshSet.isEmpty()) {
                             String updateValue = value.getValue();

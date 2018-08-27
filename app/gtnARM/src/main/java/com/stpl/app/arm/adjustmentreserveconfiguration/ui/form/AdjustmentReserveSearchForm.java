@@ -91,16 +91,16 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
     /**
      * The Company Drop down for Search Screen in Reserve Configuration in which
      * the Options will be all values from Company Master, Company Type = GLcomp
-     * The DDLB needs to show the combination of â€œCOMPANY ID â€“ COMPANY
-     * NAMEâ€�.
+     * The DDLB needs to show the combination of â€œCOMPANY ID â€“
+     * COMPANY NAMEâ€�.
      */
     @UiField("companyDdlbRes")
     private ComboBox companyDdlbRes;
     /**
      * The Business Drop down for Search Screen in Reserve Configuration in
      * which the Options will be any Company Master record where Company Type =
-     * Business Unit.The DDLB needs to show the combination of â€œCOMPANY ID â€“
-     * COMPANY NAMEâ€�.
+     * Business Unit.The DDLB needs to show the combination of â€œCOMPANY ID
+     * â€“ COMPANY NAMEâ€�.
      */
     @UiField("businessDdlbRes")
     private ComboBox businessDdlbRes;
@@ -129,7 +129,8 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      * listed in the DDLB will be filtered based on the value selected for
      * Deduction Type. Based on the value selected in Deduction Category the
      * DDLB will only show the distinct values that are associated with rebate
-     * schedules that have value selected in the â€œDeduction Categoryâ€� DDLB.
+     * schedules that have value selected in the â€œDeduction
+     * Categoryâ€� DDLB.
      */
     @UiField("deductionProgramDdlbRes")
     private ComboBox deductionProgramDdlbRes;
@@ -215,7 +216,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             excelBtnRes.setPrimaryStyleName("link");
             excelBtnRes.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
         } catch (Exception ex) {
-            LOGGER.error("Error in configureFields :" + ex);
+            LOGGER.error("Error in configureFields :" , ex);
         }
     }
 
@@ -414,7 +415,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                         adjustReserveConfigTableLogic.loadsetData(true, binderDto);
                         AbstractNotificationUtils.getInfoNotification("Delete Successful", ARMMessages.getSuccessful_msg_001());
                     } catch (Exception ex) {
-                        LOGGER.error("Error in deleteButtonLogic :" + ex);
+                        LOGGER.error("Error in deleteButtonLogic :" , ex);
                     }
                 }
 
@@ -607,7 +608,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in createWorkSheetContent :" + e);
+            LOGGER.error("Error in createWorkSheetContent :", e);
         }
     }
 
@@ -633,6 +634,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         }
         return false;
     }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }

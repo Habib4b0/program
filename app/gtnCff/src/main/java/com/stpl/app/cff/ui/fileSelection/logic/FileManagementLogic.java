@@ -108,7 +108,6 @@ public class FileManagementLogic {
 	 */
 	protected static final String ITEM_QUALIFIER_SID = "itemQualifierSid";
 
-	private final Map<String, String> monthMap = new HashMap<>();
 
 	private final HashMap<String, String> columnNames = new HashMap<>();
 	private final String dollar = "$";
@@ -861,21 +860,6 @@ public class FileManagementLogic {
 		return brandList;
 	}
 
-	private void loadMonthMap() {
-		monthMap.put("1", "Jan");
-		monthMap.put("2", "Feb");
-		monthMap.put("3", "Mar");
-		monthMap.put("4", "Apr");
-		monthMap.put("5", "May");
-		monthMap.put("6", "Jun");
-		monthMap.put("7", "Jul");
-		monthMap.put("8", "Aug");
-		monthMap.put("9", "Sep");
-		monthMap.put("10", "Oct");
-		monthMap.put("11", "Nov");
-		monthMap.put("12", "Dec");
-
-	}
 
 	/**
 	 * * Gets the file history results based on country and fileType.
@@ -1360,7 +1344,6 @@ public class FileManagementLogic {
     			resultsListInFileRes = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 
 			if (!isCount) {
-				loadMonthMap();
 				for (int i = 0; i < resultsListInFileRes.size(); i++) {
 					final Object[] obj = (Object[]) resultsListInFileRes.get(i);
 					final FileMananagementResultDTO fmDTOForFR = new FileMananagementResultDTO();
@@ -1445,7 +1428,7 @@ public class FileManagementLogic {
 		} else {
 			resultsList = null;
 		}
-		if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.EX_FACTORY_SALES)) {
+		if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.EX_FACTORY_SALES)) {
 			for (int i = 0; i < resultsList.size(); i++) {
 				final Object[] obj = (Object[]) resultsList.get(i);
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1474,7 +1457,7 @@ public class FileManagementLogic {
 			}
 			detailsObj = resultsListDTO;
 			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> resultsListDTO= {}", resultsListDTO.size());
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.DEMAND)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.DEMAND)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1536,7 +1519,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] objForIWDS = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1575,7 +1558,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL) && resultsList != null) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] objForIWDD = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1625,7 +1608,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.CUSTOMERGTS)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.CUSTOMERGTS)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1691,7 +1674,7 @@ public class FileManagementLogic {
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
-		} else if (!isCount && detailsResultDTO.getHelperType().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+		} else if (!isCount && resultsList != null && detailsResultDTO.getHelperType().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] objForAdjDemand = (Object[]) resultsList1;
 				final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
@@ -1763,7 +1746,10 @@ public class FileManagementLogic {
 
 			detailsObj = resultsListDTO;
 		} else {
-			detailsObj = resultsList.get(0);
+                    if(resultsList != null )
+                    {
+                        detailsObj = resultsList.get(0);
+                    }
 			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj= {}", detailsObj);
 		}
 		return detailsObj;

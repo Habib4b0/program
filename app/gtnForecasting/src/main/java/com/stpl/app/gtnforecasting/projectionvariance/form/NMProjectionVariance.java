@@ -2203,13 +2203,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 Object gropuParentItemId = excelParentRecords.get(groupParentKey);
 
                                 if (gropuParentItemId == null) {
-                                    ProjectionVarianceDTO tpGroup = new ProjectionVarianceDTO() {
-                                        {
-                                            setGroup(pvSelectionDTO.getGroupFilter());
-                                            setDfLevelNumber(pvSelectionDTO.getGroupFilter());
-                                            setDfLevelName(pvSelectionDTO.getGroupFilter());
-                                        }
-                                    };
+                                    ProjectionVarianceDTO tpGroup = new ProjectionVarianceDTO();
+                                    tpGroup.setGroup(pvSelectionDTO.getGroupFilter());
+                                    tpGroup.setDfLevelNumber(pvSelectionDTO.getGroupFilter());
+                                    tpGroup.setDfLevelName(pvSelectionDTO.getGroupFilter());
                                     resultExcelContainer.addBean(tpGroup);
                                     gropuParentItemId = tpGroup;
                                     resultExcelContainer.setParent(gropuParentItemId, parentItemId);

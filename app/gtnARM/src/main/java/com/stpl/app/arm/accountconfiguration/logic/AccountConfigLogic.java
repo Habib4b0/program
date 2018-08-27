@@ -72,7 +72,7 @@ public class AccountConfigLogic {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
             LOGGER.debug("resultList -- >>" + resultList.size());
         } catch (Exception ex) {
-            LOGGER.error("Error in getFieldsForSecurity :" + ex);
+            LOGGER.error("Error in getFieldsForSecurity :" , ex);
         }
         return resultList;
     }
@@ -90,7 +90,7 @@ public class AccountConfigLogic {
             LOGGER.debug("userMap -->" + userMap.size());
             LOGGER.info("End of getUserName method");
         } catch (Exception ex) {
-            LOGGER.error("Error in getUserName :" + ex);
+            LOGGER.error("Error in getUserName :" , ex);
         }
         return userMap;
     }
@@ -108,7 +108,7 @@ public class AccountConfigLogic {
             List searchInput = getSearchInputList(binderDto);
             count = CommonLogic.getCount(QueryUtils.getItemData(searchInput, "searchAccountConfig-count", null));
         } catch (Exception e) {
-            LOGGER.error("Error in getAccountConfigCount :" + e);
+            LOGGER.error("Error in getAccountConfigCount :", e);
         }
         return count;
     }

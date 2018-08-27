@@ -374,8 +374,6 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             pvSelectionDTO.setScreenName(screenName);
         }
-        groupLabel.setVisible(false);
-        group.setVisible(false);
         Panel panel = new Panel();
         panel.setContent(layout);
         setCompositionRoot(panel);
@@ -464,6 +462,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
                 viewChange(true);
             }
         });
+        groupLabel.setVisible(false);
+        group.setVisible(false);
 
         initializeResultTable();
     }

@@ -952,6 +952,7 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO);
         if (pivotView.contains(VARIABLE.getConstant())) {
+            List<Object> dmap = new ArrayList<>();
 
             for (int i = 0; i < NumericConstants.FOURTEEN; i++) {
 
@@ -1014,7 +1015,7 @@ public class HeaderUtils {
                 oldCommonColumn = commonColumn;
                 int j = -1;
                 boolean disc = true;
-                 List<Object> dmap = new ArrayList<>();
+                 dmap = new ArrayList<>();
                 while (disc) {
                     if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
                         Object singleColumn = commonColumn + ACTUALS.getConstant();
@@ -1057,8 +1058,9 @@ public class HeaderUtils {
 
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
+            List<Object> dmap = new ArrayList<>();
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<>();
+                dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
@@ -1197,21 +1199,26 @@ public class HeaderUtils {
 
             //No triple Header for Custom View .So making size of discount list as 1
             int discountNamesint = isCustom ? 1 : discountNames.size();
+            List<Object> tmap = new ArrayList<>();
+            List<Object> tmapExcel = new ArrayList<>();
+            List<Object> dmap = new ArrayList<>();
+            List<Object> dmapExcel = new ArrayList<>();
             for (int l = 0; l < discountNamesint; l++) {
                 String discountName = discountNames.get(l);
                 if (discountName.contains("-") && CommonUtil.isValueEligibleForLoading()) {
                     String[] tempArr = discountName.split("-");
                     discountName = tempArr[0];
                 }
-
+            tmap = new ArrayList<>();
+            tmapExcel = new ArrayList<>();
+            
                 String discountColumnName = discountProperties.get(l);
-                List<Object> tmap = new ArrayList<>();
-                List<Object> tmapExcel = new ArrayList<>();
 
 
                 for (int i = 0; i < columnsList.size(); i++) {
-                    List<Object> dmap = new ArrayList<>();
-                    List<Object> dmapExcel = new ArrayList<>();
+                    dmap = new ArrayList<>();
+                    dmapExcel = new ArrayList<>();
+
                     String column = columnsList.get(i);
                     //Added for tabwise excel export
                     boolean excelTab = projSelDTO.getFrequencyDivision() == NumericConstants.FOUR || projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE;
@@ -3438,8 +3445,8 @@ public class HeaderUtils {
         if (pivotView.equals(Constant.PERIOD) || headerIndicator.equals(Constant.PERIOD)) {
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            List<Object> dmap = new ArrayList<>();
             for (int i = 0; i < periodList.size(); i++) {
+                List<Object> dmap = new ArrayList<>();
                 String commonColumn1 = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn1);
                 String commonColumn = commonColumn1;

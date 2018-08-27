@@ -459,22 +459,31 @@ public class ProjectionResults extends ForecastProjectionResults {
                 exceltable.setDoubleHeaderMap((Map<Object, Object[]>) projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exceltable.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                if (i == 0) {
+              if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
                 } else {
-                    exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+                    excelNextTableHolder(exp, sheetName);
                 }
-                if (i == exportAt) {
-                    exp.exportMultipleTabs(true);
-                } else {
-                    exp.exportMultipleTabs(false);
-                }
+                excelExportMultipleTabs(exp, i, exportAt);
             }
         } else {
             exp = new ExcelExport(new ExtCustomTableHolder(exceltable), StringConstantsUtil.PROJECTION_RESULTS, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
             exp.export();
         }
         tableVerticalLayout.removeComponent(exceltable);
+    }
+    
+    public void excelNextTableHolder(ExcelExport exp, String sheetName) {
+        if (exp != null) {
+            exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
+        }
+    }
+
+    public void excelExportMultipleTabs(ExcelExport exp, int i, int exportAt) {
+        if (exp != null) {
+            boolean export = i == exportAt;
+            exp.exportMultipleTabs(export);
+        }
     }
 
     private void configureProjectionResultsDTO() {

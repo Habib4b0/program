@@ -564,12 +564,10 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 tableLogic.setRefresh(false);
                 if (event.isChecked()) {
-                    checkAll = true;
-                    supplementalDiscountProjectionLogic.headerCheckALLQuery(session, checkAll ? 1 : 0, true);
+                    supplementalDiscountProjectionLogic.headerCheckALLQuery(session, 1, true);
                     checkClearAll(true);
                 } else {
-                    checkAll = false;
-                    supplementalDiscountProjectionLogic.headerCheckALLQuery(session, checkAll ? 1 : 0, true);
+                    supplementalDiscountProjectionLogic.headerCheckALLQuery(session, 0, true);
                     checkClearAll(false);
                 }
                 tableLogic.setRefresh(true);

@@ -724,6 +724,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                     Object itemId = customSid;
                     if (customIdToSelect == customSid) {
                         select = itemId;
+                        break;
                     }
                     customDdlb.addItem(itemId);
                     customDdlb.setItemCaption(itemId, obj.getViewName());

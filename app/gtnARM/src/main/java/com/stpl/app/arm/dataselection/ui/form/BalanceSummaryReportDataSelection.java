@@ -176,7 +176,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         levelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-                    List<LevelDTO> customerHierarchyLevelDefinitionList  = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    List<LevelDTO> customerHierarchyLevelDefinitionList = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = logicVal.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relSid,
                             customerVersionMap.get(relSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
@@ -210,7 +210,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error("Error in customerHierarchyCloseListener :" + e);
+            LOGGER.error("Error in customerHierarchyCloseListener :", e);
         }
     }
 
@@ -336,9 +336,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 List<LevelDTO> selectedCustomerContractList = getSelectedCustomerContractList();
                 GtnARMHierarchyInputBean bean = createInputBean(productHierarchyLookup.getHierarchyDto(), prodRelationshipSid,
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
-                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc,rsContractSids);
-                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue())
-                        ,selectedCustomerContractList,custhierarchyId,customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
+                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 innerLevelValues = logicVal.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
@@ -360,7 +360,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         } catch (NullPointerException e) {
             LOGGER.error(e + " business Unit Ddlb might not have been selected");
         } catch (Exception ex) {
-            LOGGER.error("Error in loadAvailableProducts :" + ex);
+            LOGGER.error("Error in loadAvailableProducts :" , ex);
         }
     }
 
@@ -822,7 +822,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again. ");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in moveRightCustomersButtonLogic :" + ex);
+            LOGGER.error("Error in moveRightCustomersButtonLogic :" , ex);
         }
     }
 
@@ -1226,7 +1226,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please try again.");
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveLeftProductsButtonLogic :" + e);
+            LOGGER.error("Error in moveLeftProductsButtonLogic :", e);
         }
     }
 
@@ -1642,7 +1642,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in movemoveLeftProductsButtonLogic" + e);
+            LOGGER.error("Error in movemoveLeftProductsButtonLogic", e);
         }
     }
 
@@ -2084,7 +2084,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error in moveAllCustomersButtonLogic :" + e);
+            LOGGER.error("Error in moveAllCustomersButtonLogic :", e);
         }
     }
 
@@ -2179,7 +2179,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             }
             return value;
         } catch (Exception ex) {
-            LOGGER.error("Error in bindDataSelectionValues :" + ex);
+            LOGGER.error("Error in bindDataSelectionValues :" , ex);
             return false;
         }
     }
@@ -2237,7 +2237,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
             }
         } catch (IllegalArgumentException | NullPointerException ex) {
-            LOGGER.error("Error in generateButtonLogicForScreens :" + ex);
+            LOGGER.error("Error in generateButtonLogicForScreens :" , ex);
         }
     }
 
@@ -2305,7 +2305,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     deleteViewBtn.setEnabled(true);
                 }
             } catch (Exception ex) {
-                LOGGER.error("Error in closeListener :" + ex);
+                LOGGER.error("Error in closeListener :" , ex);
             }
         }
 
@@ -2344,7 +2344,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 customerRelation.select(dto.getCustRelationshipBuilderSid());
                 loadCustomerLevel();
                 logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
-                
+
                 customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), customerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
                 initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
@@ -2360,7 +2360,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         productHierarchyLookup.getHierarchyDto().getVersionNo());
                 initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
             } catch (Property.ReadOnlyException | NumberFormatException e) {
-                LOGGER.error("Error in setViewDetails :" + e);
+                LOGGER.error("Error in setViewDetails :", e);
             }
         }
 
@@ -2390,7 +2390,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         "No Level was selected to move. Please select and try again.");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in moveLeftToRightDeductions :" + ex);
+            LOGGER.error("Error in moveLeftToRightDeductions :" , ex);
         }
 
     }
@@ -2545,7 +2545,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 return false;
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveDataSelectionValues :" + ex);
+            LOGGER.error("Error in saveDataSelectionValues :" , ex);
             return false;
         }
     }
@@ -2613,7 +2613,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 getUI().addWindow(saveViewLookUp);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveViewLogic :" + ex);
+            LOGGER.error("Error in saveViewLogic :" , ex);
         }
     }
 
@@ -3047,7 +3047,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             value = true;
             return value;
         } catch (NumberFormatException | ParseException ex) {
-            LOGGER.error("Error in bindDataSelectionValues :" + ex);
+            LOGGER.error("Error in bindDataSelectionValues :" , ex);
             return false;
         }
     }

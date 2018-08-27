@@ -59,7 +59,7 @@ public class PhsQueryUtils {
             LOGGER.debug(" Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
-
+        
         phsList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsList;
@@ -90,7 +90,7 @@ public class PhsQueryUtils {
         if (parentLevelId != 0) {
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
         }
-
+        
         phsList = (List) DAO.executeSelectQuery(customSql);
 
         return phsList;
@@ -131,7 +131,7 @@ public class PhsQueryUtils {
             LOGGER.debug("Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
-
+ 
         phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsWSList;
@@ -251,7 +251,7 @@ public class PhsQueryUtils {
             LOGGER.debug("Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
-
+        
         fcpList = (List) DAO.executeSelectQuery(customSql);
         return fcpList;
     }

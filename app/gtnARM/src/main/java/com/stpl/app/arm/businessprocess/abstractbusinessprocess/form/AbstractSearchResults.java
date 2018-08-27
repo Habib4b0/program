@@ -267,7 +267,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     calculateLogic();
                     refreshTableData(getAllExpandedHierarchyNo());
                 } catch (Exception e) {
-                    logger.error("Error in calculateBtn :" + e);
+                    logger.error("Error in calculateBtn :", e);
                 }
             }
         });
@@ -285,7 +285,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in expandButtonClick :" + e);
+            logger.error("Error in expandButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -302,7 +302,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in collapseButtonClick :" + e);
+            logger.error("Error in collapseButtonClick :", e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -390,7 +390,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 loadLevelFilterValueDdlb(value, levelNo);
                 setLevelFilterValueDdlbEnable(true);
             } catch (Exception e) {
-                logger.error("Error in levelFilterValueChangeLogic " + e);
+                logger.error("Error in levelFilterValueChangeLogic ", e);
             }
         }
     }
@@ -558,7 +558,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            logger.error("Error in exportButtonLogic :" + ex);
+            logger.error("Error in exportButtonLogic :" , ex);
         }
     }
 

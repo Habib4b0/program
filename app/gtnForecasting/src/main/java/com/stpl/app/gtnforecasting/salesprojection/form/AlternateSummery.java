@@ -288,10 +288,7 @@ public class AlternateSummery extends CustomComponent {
     private String oldGroupValue = StringUtils.EMPTY;
     private final Set<String> tableHirarechyNos = new HashSet<>();
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
-    private Map<Object, String> radioMap = new HashMap<>();
     protected boolean isSalesCalculated;
-    private List<String> checkedList;
-    private Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
 
     @UiField("GridLayoutProjection")
     protected GridLayout GridLayoutProjection;
@@ -435,20 +432,20 @@ public class AlternateSummery extends CustomComponent {
     /**
      * new the hierarchy btn.
      *
-     * @param event the event
+     * @param newBtnEvent the event
      */
     @UiHandler("newBtn")
-    public void newHierarchyBtn(Button.ClickEvent event) {
+    public void newHierarchyBtn(Button.ClickEvent newBtnEvent) {
         customTreeViewLogic();
     }
 
     /**
-     * edit the hierarchy btn.
+     * edit the newBtnEvent btn.
      *
-     * @param event the event
+     * @param editBtnEvent the newBtnEvent
      */
     @UiHandler("editBtn")
-    public void editHierarchyBtn(Button.ClickEvent event) {
+    public void editHierarchyBtn(Button.ClickEvent editBtnEvent) {
         editHierarchyLogic();
 
     }
@@ -456,10 +453,10 @@ public class AlternateSummery extends CustomComponent {
     /**
      * Reset btn.
      *
-     * @param event the event
+     * @param resetBtnEvent the event
      */
     @UiHandler("resetBtn")
-    public void resetBtn(Button.ClickEvent event) {
+    public void resetBtn(Button.ClickEvent resetBtnEvent) {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
@@ -467,10 +464,10 @@ public class AlternateSummery extends CustomComponent {
             }
 
             /**
-             * The method is triggered when Yes button of the message box is
+             * The method is triggerrrred when Yes button of the message box is
              * pressed .
              *
-             * @param buttonId The buttonId of the pressed button.
+             * @param buttonId The buttonId of the presssssed button.
              */
             @Override
             public void yesMethod() {
@@ -498,7 +495,6 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
         checkBoxMap.clear();
-        radioMap.clear();
         generateBtnLogic(event);
     }
 
@@ -758,6 +754,7 @@ public class AlternateSummery extends CustomComponent {
                 Object itemId = customSid;
                 if (customIdToSelect == customSid) {
                     select = itemId;
+                    break;
                 }
                 viewDdlb.addItem(itemId);
                 viewDdlb.setItemCaption(itemId, obj.getViewName());
@@ -977,7 +974,7 @@ public class AlternateSummery extends CustomComponent {
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
                                      Double incOrDec;
-                                     if (oldNumber == 0.0) {
+                                     if (oldNumber == 0.0d) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
@@ -1714,29 +1711,6 @@ public class AlternateSummery extends CustomComponent {
 
     public boolean isSalesCalculated() {
         return isSalesCalculated;
-    }
-
-    public boolean ismultipleDiscount() {
-        boolean isOne = true;
-        boolean ismultipleDiscount = false;
-        tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
-            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
-                List a = entry.getValue();
-                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
-                    ismultipleDiscount = true;
-                    break;
-                } else {
-                    checkedList.addAll(a);
-                }
-            }
-            if (!checkedList.isEmpty()) {
-                isOne = false;
-            }
-        }
-        return !ismultipleDiscount;
     }
 
     /**

@@ -59,9 +59,9 @@ public class DataSelectionQueryUtils {
         }
         return valueList;
     }
-    
+
     private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
-        int hierarchyBuilderSid, int hierarchyVersionNo) {
+            int hierarchyBuilderSid, int hierarchyVersionNo) {
         GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
         inputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
         inputBean.setRelationVersionNo(relationVersionNo);
@@ -96,7 +96,7 @@ public class DataSelectionQueryUtils {
             LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);
             return list;
         } catch (Exception e) {
-            LOGGER.error("Error in getLevelsFromHierarchy :" + e);
+            LOGGER.error("Error in getLevelsFromHierarchy :", e);
             LOGGER.error("Error in getLevelsFromHierarchy :" + customSql);
             return Collections.emptyList();
         }
@@ -105,7 +105,7 @@ public class DataSelectionQueryUtils {
     public static List getCustomerInnerLevel(GtnARMHierarchyInputBean inputBean) {
         String query = StringUtils.EMPTY;
         try {
-            query = getLoadDataQuery(inputBean,GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL);
+            query = getLoadDataQuery(inputBean, GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL);
             LOGGER.debug("query ---" + query);
             List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             LOGGER.debug("returnList ---" + returnList.size());
@@ -116,16 +116,15 @@ public class DataSelectionQueryUtils {
             return Collections.emptyList();
         }
     }
-    
 
-    private static String getLoadDataQuery(GtnARMHierarchyInputBean inputBean,String url) {
+    private static String getLoadDataQuery(GtnARMHierarchyInputBean inputBean, String url) {
         GtnWsArmRequest forecastRequest = new GtnWsArmRequest();
         forecastRequest.setInputBean(inputBean);
         GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
         GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         request.setGtnWsArmRequest(forecastRequest);
         GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-                GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE+ url,
+                GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE + url,
                 request, getGsnWsSecurityToken());
         GtnWsARMResponse foreCastResponse = relationResponse.getGtnWsARMResponse();
         GtnARMHierarchyInputBean outputBean = foreCastResponse.getInputBean();
@@ -142,10 +141,10 @@ public class DataSelectionQueryUtils {
     }
 
     public static List getProductInnerLevel(GtnARMHierarchyInputBean inputBean) {
-            String query = getLoadDataQuery(inputBean,GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_PRODUCT_LEVEL);
-            List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            LOGGER.debug("returnList ---" + returnList.size());
-            return returnList;
+        String query = getLoadDataQuery(inputBean, GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_PRODUCT_LEVEL);
+        List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        LOGGER.debug("returnList ---" + returnList.size());
+        return returnList;
     }
 
     public static List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters, String relationshipBuilderSid) {
@@ -174,7 +173,7 @@ public class DataSelectionQueryUtils {
             LOGGER.debug("list ---" + list.size());
             return list;
         } catch (Exception ex) {
-            LOGGER.error("In getParentLevels ->" + ex);
+            LOGGER.error("In getParentLevels ->" , ex);
             LOGGER.error(queryBuilder.toString());
             return Collections.emptyList();
         }
@@ -190,7 +189,7 @@ public class DataSelectionQueryUtils {
             LOGGER.debug("getChildLevels: " + queryBuilder.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
-            LOGGER.error("In getChildLevels ->" + ex);
+            LOGGER.error("In getChildLevels ->" , ex);
             LOGGER.error(queryBuilder.toString());
             return Collections.emptyList();
         }
@@ -304,7 +303,7 @@ public class DataSelectionQueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error("In executeQuery  ->" + ex);
+            LOGGER.error("In executeQuery  ->" , ex);
             LOGGER.error(queryString.toString());
             return Collections.emptyList();
         }
@@ -366,7 +365,7 @@ public class DataSelectionQueryUtils {
                 try {
                     connection.close();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in findViewByName: " + ex);
+                    LOGGER.error("Error in findViewByName: " , ex);
                 }
             }
         }
