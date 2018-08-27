@@ -87,7 +87,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -98,7 +97,7 @@ public class CommonLogic {
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String PRC_CFF_FILES_DATA_INSERT = "PRC_CFF_FILES_DATA_INSERT";
     public static final String FILES_INSERT = "FILES_INSERT";
-    private ExecutorService service = ThreadPool.getInstance().getService();
+    private ThreadPool service = ThreadPool.getInstance();
     public static final String RUNNING_STATUS = "R";
     /**
      * The Constant LOGGER.
@@ -672,7 +671,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
     
     public Future callThreadForProcedureFileInsert(SessionDTO sessionDTO){
-        Future future=service.submit(new Runnable() {
+        Future future=service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "PRODUCT");
@@ -680,7 +679,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, productInput);
             }
         });
-        service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                  updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "CUSTOMER");
