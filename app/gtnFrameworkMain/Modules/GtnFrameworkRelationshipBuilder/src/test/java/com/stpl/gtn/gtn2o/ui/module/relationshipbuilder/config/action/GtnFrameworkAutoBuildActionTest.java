@@ -10,16 +10,21 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -143,4 +148,24 @@ public class GtnFrameworkAutoBuildActionTest {
 
     }
 
+    /**
+     * Test of getParentIDInfo method, of class GtnFrameworkAutoBuildAction.
+     */
+    @Test
+    public void testGetParentIDInfo() {
+        System.out.println("getParentIDInfo");
+        GtnWsRecordBean selectedLevelBean = getSampleBean();
+        GtnUIFrameworkBaseComponent rbTreeBaseComponent = Mockito.mock(GtnUIFrameworkBaseComponent.class);
+        GtnFrameworkAutoBuildAction instance = new GtnFrameworkAutoBuildAction();
+        when(rbTreeBaseComponent.getParent(selectedLevelBean)).thenReturn(selectedLevelBean);
+         instance.getParentIDInfo(selectedLevelBean, rbTreeBaseComponent);
+    }
+    GtnWsRecordBean getSampleBean() {
+        GtnWsRecordBean bean = new GtnWsRecordBean();
+        List<Object> values = IntStream.rangeClosed(0, GtnWsRelationshipBuilderKeyConstant.values().length).boxed().collect(Collectors.toList());
+
+        bean.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        bean.setProperties(values);
+        return bean;
+    }
 }
