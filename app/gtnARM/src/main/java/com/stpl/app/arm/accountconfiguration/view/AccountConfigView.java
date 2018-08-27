@@ -59,7 +59,7 @@ public class AccountConfigView extends VerticalLayout implements View {
             SearchAccountConfig searchAccountConfig = new SearchAccountConfig(sessionDTO);
             addComponent(searchAccountConfig);
         } catch (Exception ex) {
-            LOGGER.error("Error in AccountConfigView :" + ex);
+            LOGGER.error("Error in AccountConfigView :" , ex);
         }
     }
 

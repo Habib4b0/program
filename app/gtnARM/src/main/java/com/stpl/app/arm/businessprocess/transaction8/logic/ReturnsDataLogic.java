@@ -134,9 +134,9 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            logger.error("Error while setting property for given Inputs :" + ex);
+            logger.error("Error while setting property for given Inputs :" , ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Error in customizier :" + ex);
+            logger.error("Error in customizier :" , ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);

@@ -107,7 +107,7 @@ import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.config.GtnWebServiceItemFamil
 import com.stpl.gtn.gtn2o.ws.module.itemgroups.config.GtnWebServiceItemGroupConfig;
 import com.stpl.gtn.gtn2o.ws.module.netsales.config.GtnWebServiceNetSalesFormulaconfig;
 import com.stpl.gtn.gtn2o.ws.module.priceschedule.config.GtnWebServicePriceScheduleConfig;
-import com.stpl.gtn.gtn2o.ws.module.processscheduler.config.GtnWebServiceCffOutBoundSearchConfig;
+import com.stpl.gtn.gtn2o.ws.module.processscheduler.config.GtnWsCffOutBoundSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.rebateplan.config.GtnWebServiceRebatePlanConfig;
 import com.stpl.gtn.gtn2o.ws.module.rebateschedule.config.GtnWebServiceRebateScheduleConfig;
 import com.stpl.gtn.gtn2o.ws.module.udc.config.GtnWsUdcConfig;
@@ -603,7 +603,7 @@ public class GtnWsAllListConfig {
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.ADJUSTMENT_DETAILS.getClassName(),
 				new GtnWsAdjustmentDetailsPublicViewConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.PROCESS_SCHEDULER.getClassName(),
-				new GtnWebServiceCffOutBoundSearchConfig());
+				new GtnWsCffOutBoundSearchConfig());
 	}
 
 	private void loadTransctionDynamicClassObjects() {

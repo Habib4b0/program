@@ -74,7 +74,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
             try {
                 binder.commit();
             } catch (FieldGroup.CommitException ex) {
-                LOGGER.error("Error in saveToMaster :" + ex);
+                LOGGER.error("Error in saveToMaster :" , ex);
             }
         }
         if (logic.combinationIsSelected(binderDto)) {
@@ -149,7 +149,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" + ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
                 }
             }
 
@@ -284,7 +284,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
 
             }
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in configureTabAddLineLogic :" + ex);
+            LOGGER.error("Error in configureTabAddLineLogic :" , ex);
         }
     }
 
@@ -361,7 +361,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
             List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
             adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
         } catch (Exception ex) {
-            LOGGER.error("Error in resetAdjustmentSummaryLine :" + ex);
+            LOGGER.error("Error in resetAdjustmentSummaryLine :" , ex);
         }
 
     }
@@ -387,7 +387,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
             List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
             balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
         } catch (Exception ex) {
-            LOGGER.error("Error in resetBalanceSummaryLine :" + ex);
+            LOGGER.error("Error in resetBalanceSummaryLine :" , ex);
         }
     }
 }

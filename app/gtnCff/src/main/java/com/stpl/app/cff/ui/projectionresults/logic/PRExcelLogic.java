@@ -8,7 +8,6 @@ package com.stpl.app.cff.ui.projectionresults.logic;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
-import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.CUSTOM;
@@ -88,7 +87,6 @@ public class PRExcelLogic {
     private static final String PRC_PROJ_RESULTS_TOTAL = "PRC_CFF_RESULTS";
     private static final String PRC_PROJ_RESULTS_TOTAL_DISCOUNT = "PRC_CFF_PROJECTION_RESULTS_DISCOUNT";
     private final List<Object[]> procRawListTotDisc = new ArrayList();
-    private List<Object> pivotDiscountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private final Map<String, String> customViewRelationshipHierarchy = new HashMap();
     private boolean isCustomView;
@@ -680,27 +678,7 @@ public class PRExcelLogic {
      *
      * @param projSelDTO
      */
-    void getTotalDiscount(ProjectionSelectionDTO projSelDTO) {
-        pivotDiscountList.clear();
-        String frequency = projSelDTO.getFrequency();
-        String discountId = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<>();
-        pivotDiscountList = new ArrayList<>();
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
-            frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionId, frequency, discountId, "VARIANCE", projSelDTO.getSessionId(), projSelDTO.getUserId(), "1"};
-        List<Object[]> discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
-        pivotDiscountList.addAll(discountsList);
-
-    }
+    
 
     private Map<String, String> getGroupCustomViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
@@ -1031,7 +1009,6 @@ public class PRExcelLogic {
                 finaldiscountlist.add(discountPercentageExFactoryList);
 
                 String key = oldHierarchyNo;
-                Object[] oldObj;
                 discountMap.put(key, finaldiscountlist);
                 oldHierarchyNo = newHierarchyNo;
                 finaldiscountlist = new ArrayList<>();
@@ -1461,7 +1438,8 @@ public class PRExcelLogic {
         
         
         list.add(frequencyBasedDTO);
-
+        resultMap.put(key,list);
+        
     }
     
     

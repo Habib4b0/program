@@ -55,10 +55,10 @@ public class DroolsProperties {
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
             logger.error("Please check the hierarchy_properties.properties file in following path :[ {} " , path );
-            throw new IllegalArgumentException("Error while reading the property file :" + e);
+            throw new IllegalArgumentException("Error while reading the property file :" ,e);
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new IllegalArgumentException("Error while reading the property file :" + e);
+            throw new IllegalArgumentException("Error while reading the property file :", e);
         }
     }
 

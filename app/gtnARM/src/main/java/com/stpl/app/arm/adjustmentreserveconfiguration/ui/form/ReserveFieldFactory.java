@@ -124,7 +124,7 @@ public class ReserveFieldFactory implements TableFieldFactory {
                         logic.updateTableValues(value, map.get(ARMUtils.PROPERTY_ID), map.get(ARMUtils.ITEM_ID), selection);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in valueChange :" + ex);
+                    LOGGER.error("Error in valueChange :" , ex);
                 }
             }
         }

@@ -850,7 +850,7 @@ public abstract class AbstractReserve extends CustomWindow {
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        LOGGER.error("Error in configureTabRemoveLineLogic :" + ex);
+                        LOGGER.error("Error in configureTabRemoveLineLogic :" , ex);
                     }
                 }
 
@@ -886,7 +886,7 @@ public abstract class AbstractReserve extends CustomWindow {
                     adjustmentSummaryConfigLogic.deleteDataFromDB(selection);
                     adjustmentSummaryTableLogic.loadSetData(true, selection);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in adjustmentSummaryRemoveLineLogic :" + ex);
+                    LOGGER.error("Error in adjustmentSummaryRemoveLineLogic :" , ex);
                 }
             }
 
@@ -920,7 +920,7 @@ public abstract class AbstractReserve extends CustomWindow {
                     adjustmentSummaryConfigLogic.deleteDataFromDB(selection);
                     balSummaryConfigurationTableLogic.loadSetData(true, selection);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in balanceSummaryRemoveLineLogic :" + ex);
+                    LOGGER.error("Error in balanceSummaryRemoveLineLogic :" , ex);
                 }
             }
 
@@ -1034,7 +1034,7 @@ public abstract class AbstractReserve extends CustomWindow {
         try {
             saveConfigDetails();
         } catch (Exception ex) {
-            LOGGER.error("Error in saveButtonLogic :" + ex);
+            LOGGER.error("Error in saveButtonLogic :" , ex);
         }
     }
 
@@ -1190,7 +1190,7 @@ public abstract class AbstractReserve extends CustomWindow {
                             break;
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetLineBtnResLogic :" + ex);
+                    LOGGER.error("Error in resetLineBtnResLogic :" , ex);
                 }
             }
 
@@ -1316,7 +1316,7 @@ public abstract class AbstractReserve extends CustomWindow {
                         notif.setPosition(Position.MIDDLE_CENTER);
                         notif.show(Page.getCurrent());
                     } catch (Exception ex) {
-                        LOGGER.error("Error in saveConfigDetails :" + ex);
+                        LOGGER.error("Error in saveConfigDetails :" , ex);
                     }
                 }
 
