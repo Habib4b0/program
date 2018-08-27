@@ -81,18 +81,5 @@ public class FileUploader implements Receiver {
     /**
      * method should be called at the end
      */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-            new Notification("IOException ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-        } finally {
-            super.finalize();
-        }
-    }
+    
 }

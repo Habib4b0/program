@@ -115,40 +115,7 @@ public class FileUploader implements Receiver {
 	 * @throws Throwable
 	 *             the throwable
 	 */
-        @Override
-	protected void finalize() throws Throwable {
-		LOGGER.debug("Entering finalize method ");
-
-		try {
-
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		} catch (IOException ex) {
-			LOGGER.error(ex.getMessage());
-		}
-		LOGGER.debug("End of finalize method");
-		super.finalize();
-	}
-
-	/**
-	 * Gets the output stream.
-	 *
-	 * @return the outputStream
-	 */
-	public FileOutputStream getOutputStream() {
-		return outputStream;
-	}
-
-	/**
-	 * Sets the output stream.
-	 *
-	 * @param outputStream
-	 *            the outputStream to set
-	 */
-	public void setOutputStream(final FileOutputStream outputStream) {
-		this.outputStream = outputStream;
-	}
+        
 
 	/**
 	 * Gets the file.
