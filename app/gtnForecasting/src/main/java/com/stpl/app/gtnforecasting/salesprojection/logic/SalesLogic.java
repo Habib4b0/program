@@ -2450,15 +2450,13 @@ public class SalesLogic {
         int startYear = Integer.parseInt(String.valueOf(inputParameters.get("startYear")));
         int endYear = Integer.parseInt(String.valueOf(inputParameters.get("endYear")));
         String value = String.valueOf(inputParameters.get("enteredValue"));
-           int frequency = projectionSelectionDTO.getFrequencyDivision();
-            String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
-            String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
-            String freq = (frequency == 12 ? "M" : monthOrQuarter);
-            if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
+        int frequency = projectionSelectionDTO.getFrequencyDivision();
+        String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
+        String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
+        String freq = (frequency == 12 ? "M" : monthOrQuarter);
+        if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
             List<Object> input = new ArrayList<>();
-            input.add(freq + startQuarter + " " + startYear);
-            input.add(freq + endQuarter + " " + endYear);
-
+            getParameter(freq, input, startYear, endYear, startQuarter, endQuarter);
             input.add(value);
 
             input.add(freq);
@@ -2527,6 +2525,16 @@ public class SalesLogic {
         }
         
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+    }
+
+    private void getParameter(String freq, List<Object> input, int startYear, int endYear, int startQuarter, int endQuarter) {
+        if (freq.equals("A")) {
+            input.add(startYear);
+            input.add(endYear);
+        } else {
+            input.add(freq + startQuarter + " " + startYear);
+            input.add(freq + endQuarter + " " + endYear);
+        }
     }
 
     public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input) throws PortalException, SystemException {
