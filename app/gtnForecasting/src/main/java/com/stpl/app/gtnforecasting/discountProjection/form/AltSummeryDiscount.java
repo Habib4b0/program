@@ -246,9 +246,6 @@ public class AltSummeryDiscount extends CustomComponent {
     private final FreezePagedTreeTable resultsTable;
     /* Group filter selected value */
     private String userGroup = StringUtils.EMPTY;
-    /* Discount Names to be used in Projection results */
-    private final List<String> discountNamesList = new ArrayList<>();
-    /* Discount No to be used in Projection results */
     
     /* Start and End Periods to be loaded */
     private final List<Integer> startAndEndPeriods = new ArrayList<>();
@@ -260,13 +257,10 @@ public class AltSummeryDiscount extends CustomComponent {
      * Triple header and History, Projected values
      */
     private final Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
-    /* List to have the items to be saved */
-    private final List<SaveDTO> saveList = new ArrayList<>();
     /* To store the custom View */
     private List<CustomViewMaster> customViewList = new ArrayList<>();
     /* The Excel container */
     private ExtTreeContainer<DiscountProjectionDTO> excelContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    private List<String> checkedList;
 
     private final int ccpsCount = 1;
     /**
@@ -1052,7 +1046,6 @@ public class AltSummeryDiscount extends CustomComponent {
     }
 
     protected void generateBtnClickLogic() {
-        saveList.clear();
         generateListView(true);
     }
 
@@ -1401,14 +1394,6 @@ public class AltSummeryDiscount extends CustomComponent {
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
 
-    /**
-     * To get the discount names as List
-     *
-     * @return
-     */
-    public List<String> getDiscountNamesList() {
-        return discountNamesList;
-    }
 
     /**
      * To get the discount Type
@@ -1428,30 +1413,6 @@ public class AltSummeryDiscount extends CustomComponent {
         comboPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
         periodBean.addAll(projectedHeaders);
 
-    }
-
-    public boolean ismultipleDiscount() {
-        boolean isOne = true;
-        boolean ismultipleDiscount = false;
-        tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
-            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
-                List a = entry.getValue();
-                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
-                    ismultipleDiscount = true;
-                    break;
-                } else {
-                    checkedList.addAll(a);
-                }
-            }
-            if (!checkedList.isEmpty()) {
-                isOne = false;
-            }
-
-        }
-        return !ismultipleDiscount;
     }
 
     public boolean isDiscountGenerated() {

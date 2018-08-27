@@ -302,12 +302,15 @@ public class CommonLogic {
                         } else {
                             detailsList = getCustomViewDetails(customId);
                         }
+                        
+                        if(detailsList!=null){
                         for (CustomViewDetails customDetails : detailsList) {
                             try {
                                 commonDao.deleteCustomViewDetails(customDetails);
                             } catch (SystemException ex) {
                                 LOGGER.error(ex.getMessage());
                             }
+                        }
                         }
                         if (session.getCustomDetailMap().containsKey(customId)) {
                             session.getCustomDetailMap().remove(customId);

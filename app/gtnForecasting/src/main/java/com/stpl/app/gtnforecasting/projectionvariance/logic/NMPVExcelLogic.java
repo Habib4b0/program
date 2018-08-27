@@ -2427,10 +2427,10 @@ public class NMPVExcelLogic {
     private Map<String, String> getGroup_customViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.isIsCustomHierarchy() ? selection.getSessionDTO().getDiscountHierarchyLevelDetails() : selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, String> customViewMap = new HashMap<>();
-        Set keys = relationshipLevelDetailsMap.keySet();
+        Set keys = relationshipLevelDetailsMap.entrySet();
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
-            String key = (String) i.next();
+            String key =  (String)((Map.Entry)i.next()).getKey();
             String value = CommonUtil.getDisplayFormattedName(key, relationshipLevelDetailsMap.get(key).get(4).toString(), relationshipLevelDetailsMap, selection.getSessionDTO(), selection.getDisplayFormat());
             customViewMap.put(key, value);
         }
