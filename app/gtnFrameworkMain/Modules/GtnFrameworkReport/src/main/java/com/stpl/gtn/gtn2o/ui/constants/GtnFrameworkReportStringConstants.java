@@ -17,6 +17,8 @@ public final class GtnFrameworkReportStringConstants {
 	}
 
 	public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+        
+        public static final String REPORT_DASHBOARD = "reportDashboard";
 
 	public static final String LEVEL_VALUE = "levelValue";
 
