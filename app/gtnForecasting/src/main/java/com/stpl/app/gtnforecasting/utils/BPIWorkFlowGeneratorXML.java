@@ -177,7 +177,7 @@ public class BPIWorkFlowGeneratorXML {
             
         } else {
             c = Integer.parseInt(counterValue) + 1;
-            counterValue = (Integer.valueOf(c)).toString();
+            counterValue = Integer.toString(c);
             
         }
         

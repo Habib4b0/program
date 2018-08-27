@@ -4665,7 +4665,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         LOGGER.debug("Inside get Quater with String= {}", str);
         int[] a = new int[NumericConstants.TWO];
         String[] splited = str.split("\\s+");
-        a[0] = Integer.parseInt(new String(splited[0].replaceAll("[Q]+", StringUtils.EMPTY)));
+        a[0] = Integer.parseInt(splited[0].replaceAll("[Q]+", StringUtils.EMPTY));
         a[1] = Integer.parseInt(splited[1]);
         return a;
     }

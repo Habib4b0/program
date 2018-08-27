@@ -142,7 +142,6 @@ public class NationalAssumptionsForm extends CustomComponent {
     /**
      * The tabsheet map.
      */
-    private final Map<Integer, Boolean> tabsheetMap = new HashMap<>();
 
     private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class));
 
@@ -234,16 +233,6 @@ public class NationalAssumptionsForm extends CustomComponent {
         tabSheet.addTab(fcpResults, "FCP Results", null, NumericConstants.THREE);
         tabSheet.addTab(phsResults, "PHS Results", null, NumericConstants.FOUR);
         tabSheet.addTab(additionalInformation, "Additional Information", null, NumericConstants.FIVE);
-
-        int tabCount = tabSheet.getComponentCount();
-        tabsheetMap.clear();
-        for (int i = 0; i < tabCount; i++) {
-            if (i == 1) {
-                tabsheetMap.put(i, Boolean.TRUE);
-            } else {
-                tabsheetMap.put(i, Boolean.FALSE);
-            }
-        }
         LOGGER.info("NationalAssumptionsForm addTab() ends ");
         return tabSheet;
     }
