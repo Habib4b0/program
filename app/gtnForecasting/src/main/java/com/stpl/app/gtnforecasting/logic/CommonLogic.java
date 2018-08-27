@@ -4182,9 +4182,7 @@ public class CommonLogic {
             int entryLevel = Integer.parseInt(entry.getValue().get(2).toString());
             boolean checkHierarchy = hierarchyCheck(hierarchyNo, hierarchyIndicator, levelNo, isHierarchyNoNotAvailable, entry, entryLevel);
             if (checkHierarchy) {
-                if (isNotFirstElement) {
-                    stringBuilder.append(",\n");
-                }
+                stringBuilder = isNotFirstElement ? stringBuilder.append(",\n") : stringBuilder;
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
                 if(!flag){
