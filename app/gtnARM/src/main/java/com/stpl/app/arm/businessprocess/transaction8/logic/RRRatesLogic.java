@@ -63,7 +63,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
     }
 
     protected Object getRateQuery(AbstractSelectionDTO selection, Object lastParent, boolean isCount, int start, int offset, int currentPage, int lastPage) {
-        LOGGER.debug("currentPage " + currentPage + " " + lastPage);
+        LOGGER.debug("currentPage {} ", currentPage + " " + lastPage);
         List<AdjustmentDTO> resultDTO;
         int startindex = start + 1;
         int endindex = start + offset;
@@ -163,7 +163,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                     default:
                 }
 
-                LOGGER.debug("----dto.getLevelName()----" + dto.getLevelName());
+                LOGGER.debug("----dto.getLevelName()----{}", dto.getLevelName());
                 dto.setChildrenAllowed(!VariableConstants.PRODUCT_RETURNS.equalsIgnoreCase(dto.getLevelName()) && !"TOTAL".equalsIgnoreCase(dto.getGroup()) && (selection.getRateslevelFilterNo() == 0));
                 dto.setLevelNo(selection.getLevelNo());
             }

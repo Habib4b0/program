@@ -154,7 +154,7 @@ public class CommonLogic {
     public static void loadReserveRateDropdowns(ComboBox comboBox, boolean companyBusinessUnitFlag, String sqlID) {
         String sqlQuery = SQlUtil.getQuery(sqlID);
         if (companyBusinessUnitFlag) {
-            LOGGER.info("QUERY----------------" + sqlQuery);
+            LOGGER.info("QUERY----------------{}", sqlQuery);
             List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
 
             for (Object[] obj : arr) {
@@ -490,7 +490,7 @@ public class CommonLogic {
         try {
             loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
         } catch (PortalException | SystemException noSuchUserException) {
-            LOGGER.error("Error in getUser :" + noSuchUserException);
+            LOGGER.error("Error in getUser :", noSuchUserException);
             loggedUserDetails = null;
         }
 
@@ -617,7 +617,7 @@ public class CommonLogic {
      * @throws Exception the exception
      */
     public static void saveNotes(final int projectionId, final String createdBy, final List<String> notes, final String moduleName, final String reasonCode) {
-        LOGGER.debug("Entering saveNotes method with with projectionId " + projectionId + " createdBy " + createdBy + " notes " + notes + " moduleName " + moduleName);
+        LOGGER.debug("Entering saveNotes method with with projectionId {}", projectionId);
         String baseQuery = SQlUtil.getQuery("insertAdditionalNotes");
         Date date = new Date();
         String param = "(" + projectionId + " , '" + moduleName + "' , " + createdBy + " , '" + new Timestamp(date.getTime()) + "' , " + "@NOTES" + " , '" + reasonCode + "')";

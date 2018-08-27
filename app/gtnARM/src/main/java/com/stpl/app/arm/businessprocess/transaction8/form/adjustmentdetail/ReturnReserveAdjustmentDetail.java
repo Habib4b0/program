@@ -116,7 +116,7 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        LOGGER.debug("inside configurePermission Method" + userId + stplSecurity);
+        LOGGER.debug("inside configurePermission Method{}", userId + stplSecurity);
 
     }
 

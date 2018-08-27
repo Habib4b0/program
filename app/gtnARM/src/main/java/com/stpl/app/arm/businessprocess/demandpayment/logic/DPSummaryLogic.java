@@ -258,7 +258,7 @@ public class DPSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         if (dto instanceof AdjustmentDTO) {
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            LOGGER.debug("levelNo----" + levelNo);
+            LOGGER.debug("levelNo----{}", levelNo);
             masterSids = val.getMasterIds();
 
             if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {

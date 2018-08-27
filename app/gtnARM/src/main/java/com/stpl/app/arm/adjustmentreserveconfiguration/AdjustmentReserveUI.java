@@ -83,8 +83,8 @@ public class AdjustmentReserveUI extends UI {
             CommonLogic.loadDebitAndCrditName();
             //THis method is load report indicator drop down loading to drop down map.
             CommonLogic.loadReportIndicator();
-            LOGGER.info("USER_ID :" + userId);
-            LOGGER.info("SESSION_ID :" + sessionId);
+            LOGGER.info("USER_ID :{}", userId);
+            LOGGER.info("SESSION_ID :{}", sessionId);
             SessionDTO sessionDTO = new SessionDTO();
             Navigator navigator = new Navigator(this, this);
             navigator.addView(AdjustmentReserveView.NAME, new AdjustmentReserveView(sessionDTO));

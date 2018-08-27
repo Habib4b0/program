@@ -103,7 +103,7 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
 
     @Override
     protected Object[] generateInputs(Object dto, SelectionDTO selection) {
-        LOGGER.debug("selection.getSummary_levelFilter()=" + selection.getSummarylevelFilterValue());
+        LOGGER.debug("selection.getSummary_levelFilter()={}", selection.getSummarylevelFilterValue());
         Object[] returnObj = new Object[NumericConstants.TWO];
         List<Object> inputs = new ArrayList<>();
         inputs.add(selection.getProjectionMasterSid());
@@ -114,7 +114,6 @@ public abstract class AbstractPipelineSummaryLogic<T extends AdjustmentDTO> exte
         if (dto instanceof AdjustmentDTO) {
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            LOGGER.debug("levelNo----" + levelNo + "ARMUtils.getSummaryLevel().get(levelNo + 1)===" + ARMUtils.getSummaryLevel().get(levelNo + 1));
             masterSids = val.getMasterIds();
             if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 if (selection.getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
