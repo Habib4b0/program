@@ -1762,10 +1762,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         newNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, newNumber);
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
                                     }
-                                    Double incOrDec;                            
-                                    if (oldNumber == 0.0d) {
+                                    Double incOrDec = 0.0;                          
+                                    if (oldNumber.equals(0.0)) {
                                         incOrDec = Double.POSITIVE_INFINITY;
-                                    } else {
+                                    } else if(!oldNumber.equals(0.0)){
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                     }
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
