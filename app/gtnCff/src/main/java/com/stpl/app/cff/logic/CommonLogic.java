@@ -100,6 +100,7 @@ public class CommonLogic {
     public static final String FILES_INSERT = "FILES_INSERT";
     private ExecutorService service = ThreadPool.getInstance().getService();
     public static final String RUNNING_STATUS = "R";
+    public static final String PROJECTION_ID_FLOWER_BRACES = "PROJECTION_ID= {}";
     /**
      * The Constant LOGGER.
      */
@@ -3166,6 +3167,6 @@ public static Date fromDateIsNull(Date fromDate) {
         deductionList.add(0, new String[]{"0",ConstantsUtils.SELECT_ONE});
         return deductionList;
     }
-		}
+        }
     
 
