@@ -834,11 +834,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
-		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
-		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
-
+	
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
 		companyStatusConfig.setItemCaptionValues(new ArrayList<>());
 		companyStatusConfig.setItemValues(new ArrayList<>());
@@ -864,10 +860,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
-		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
-		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
 		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -908,10 +900,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		customerLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
-		customerLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
-		customerLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
 		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
