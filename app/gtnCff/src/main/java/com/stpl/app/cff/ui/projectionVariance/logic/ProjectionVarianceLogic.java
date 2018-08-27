@@ -830,9 +830,7 @@ public class ProjectionVarianceLogic {
         if (projSelDTO.getLevel().equals(DETAIL)) {
             getCCPIds(projSelDTO);
         }
-        String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM") ? "SCHEDULE ID" : discountLevelName;
+        String discountLevelName = projSelDTO.getSessionDTO().getDeductionName();
         String viewName=projSelDTO.getView().equalsIgnoreCase("Custom")?"D":projSelDTO.getView();
         Object[] orderedArg = {projectionId, frequency, null, null,discountLevelName,salesInclusion, deductionInclusion, null , 
                       projSelDTO.getSessionDTO().getCustomViewMasterSid()

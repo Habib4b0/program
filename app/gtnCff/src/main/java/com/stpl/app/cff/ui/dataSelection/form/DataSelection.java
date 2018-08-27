@@ -4020,4 +4020,4 @@ public class DataSelection extends AbstractDataSelection {
             customViewDdlb.setNullSelectionAllowed(false);
             customViewDdlb.setInputPrompt(SELECT_ONE);
         }
-}
+    }
