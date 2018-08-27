@@ -201,9 +201,6 @@ public class AlternateSummery extends CustomComponent {
     private List<CustomViewMaster> customViewList = new ArrayList<>();
     private final SalesLogic salesLogic = new SalesLogic();
     private List<Leveldto> currentHierarchy = new ArrayList<>();
-    private Map<Object, Boolean> checkBoxMap = new HashMap<>();
-    private Map<Object, String> radioMap = new HashMap<>();
-    
     private static final Logger LOGGER = LoggerFactory.getLogger(AlternateSummery.class);
 
 
@@ -369,8 +366,6 @@ public class AlternateSummery extends CustomComponent {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
-        checkBoxMap.clear();
-        radioMap.clear();
         generateBtnLogic();
     }
 

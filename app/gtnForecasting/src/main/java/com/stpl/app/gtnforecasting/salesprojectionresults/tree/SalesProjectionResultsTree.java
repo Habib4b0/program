@@ -416,16 +416,16 @@ public class SalesProjectionResultsTree {
             return staticDataLabel;
         }
 
-        protected void setStaticData(SalesProjectionResultsDTO staticData) {
+        protected synchronized void setStaticData(SalesProjectionResultsDTO staticData) {
             this.staticData = staticData;
         }
 
-        public SalesProjectionResultsDTO getStaticData() {
+        public synchronized SalesProjectionResultsDTO getStaticData() {
             return staticData;
         }
     }
 
-    class SalesProjectionResultsTreeBuildCreteria {
+    static class SalesProjectionResultsTreeBuildCreteria {
 
         private String salesUnitVariable;
         private String frequency;

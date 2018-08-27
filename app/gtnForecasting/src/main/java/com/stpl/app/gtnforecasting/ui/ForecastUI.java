@@ -228,7 +228,7 @@ public class ForecastUI extends UI {
                             sessionDto.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
                             sessionDto.setProductHierarchyVersion(dto.getProductHierVersionNo());
                             sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
-                            sessionDto.setDataSelectionDeductionLevel(String.valueOf(dto.getDataSelectionDeductionLevelSid()));
+                            sessionDto.setDataSelectionDeductionLevel(String.valueOf(deductionValue));
                             sessionDto.setDataSelectionDeductionLevelCaption(getDeductionCaptionWithSid(deductionValue,sessionDto));
                             sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                             sessionDto.setScreenName(screenName);

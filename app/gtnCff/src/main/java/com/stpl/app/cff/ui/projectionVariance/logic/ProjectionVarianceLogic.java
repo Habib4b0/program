@@ -109,7 +109,6 @@ public class ProjectionVarianceLogic {
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();
-        private List<Integer> pivotPriorProjIdList = new ArrayList<>();
     private List<Object> pivotTotalList = new ArrayList<>();
     private List<Object> pivotDiscountList = new ArrayList<>();
     private int currentProjId;
@@ -831,9 +830,7 @@ public class ProjectionVarianceLogic {
         if (projSelDTO.getLevel().equals(DETAIL)) {
             getCCPIds(projSelDTO);
         }
-        String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM CATEGORY") ? "Program Type" : discountLevelName;
-        discountLevelName = discountLevelName.equalsIgnoreCase("PROGRAM") ? "SCHEDULE ID" : discountLevelName;
+        String discountLevelName = projSelDTO.getSessionDTO().getDeductionName();
         String viewName=projSelDTO.getView().equalsIgnoreCase("Custom")?"D":projSelDTO.getView();
         Object[] orderedArg = {projectionId, frequency, null, null,discountLevelName,salesInclusion, deductionInclusion, null , 
                       projSelDTO.getSessionDTO().getCustomViewMasterSid()
@@ -1423,7 +1420,6 @@ public class ProjectionVarianceLogic {
         String frequency = pvsdto.getFrequency();
         List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<>();
-        pivotPriorProjIdList = new ArrayList<>();
         if (StringConstantsUtil.QUARTERLY_FREQ.equals(frequency)) {
             frequency = StringConstantsUtil.QUARTERLY_LABEL;
         } else if (StringConstantsUtil.SEMI_ANNUALLY_FREQ.equals(frequency)) {
@@ -1436,7 +1432,6 @@ public class ProjectionVarianceLogic {
         projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
         for (Integer projId : pvsdto.getProjIdList()) {
             projectionIdList.add(String.valueOf(projId));
-            pivotPriorProjIdList.add(projId);
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         String salesInclusion = pvsdto.getSessionDTO().getSalesInclusion();
