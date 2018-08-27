@@ -7,17 +7,30 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  *
  * @author Karthik.Raja
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(value = {GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkBaseComponent.class, GtnUIFrameworkActionExecutor.class})
+
 public class GtnFrameworkAutoBuildActionTest {
 
     public GtnFrameworkAutoBuildActionTest() {
@@ -118,284 +131,16 @@ public class GtnFrameworkAutoBuildActionTest {
     @Test
     public void testDoAction_1()
             throws Exception {
+        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
+
         GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
         String componentId = "";
         GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
+        List<Object> parameters = IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList());
+//        parameters.set(2, 1);
+        gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
         fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
 
     }
 
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_2()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_3()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_4()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_5()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_6()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_7()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_8()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_9()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_10()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_11()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_12()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_13()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_14()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_15()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-
-    /**
-     * Run the void doAction(String,GtnUIFrameWorkActionConfig) method test.
-     *
-     * @throws Exception
-     *
-     *
-     */
-    @Test
-    public void testDoAction_16()
-            throws Exception {
-        GtnFrameworkAutoBuildAction fixture = new GtnFrameworkAutoBuildAction();
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-
-        fixture.doAction(componentId, gtnUIFrameWorkActionConfig);
-
-    }
-   
 }
