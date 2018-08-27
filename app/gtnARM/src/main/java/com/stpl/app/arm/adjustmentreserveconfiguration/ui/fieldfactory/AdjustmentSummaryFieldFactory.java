@@ -100,7 +100,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
                         }
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in valueChange :" + ex);
+                    LOGGER.error("Error in valueChange :" , ex);
                 }
             }
         }

@@ -8,7 +8,6 @@ package com.stpl.app.cff.ui.projectionresults.logic;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
-import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.CUSTOM;
@@ -88,7 +87,6 @@ public class PRExcelLogic {
     private static final String PRC_PROJ_RESULTS_TOTAL = "PRC_CFF_RESULTS";
     private static final String PRC_PROJ_RESULTS_TOTAL_DISCOUNT = "PRC_CFF_PROJECTION_RESULTS_DISCOUNT";
     private final List<Object[]> procRawListTotDisc = new ArrayList();
-    private List<Object> pivotDiscountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private final Map<String, String> customViewRelationshipHierarchy = new HashMap();
     private boolean isCustomView;
@@ -482,6 +480,9 @@ public class PRExcelLogic {
         netProfit = pvList.get(listIndex++);
         calculate(Constants.PVVariables.VAR_NET_PROFITE.toString(), obj, isTotal ? NumericConstants.FORTY_FIVE : NumericConstants.FORTY_SEVEN, netProfit,  AMOUNT, isTotal,true);
         LOGGER.debug("End of Method={}", listIndex);
+        LOGGER.debug("hierarchyKeys", hierarchyKeys.size() > 0 ? hierarchyKeys : 0);
+        LOGGER.debug("tradingPartnerKeys",tradingPartnerKeys.size() > 0 ? tradingPartnerKeys : 0);
+        LOGGER.debug("discountKeys",discountKeys.size() > 0 ? discountKeys : 0);
     }
 
     private void calculate(String varaibleName, Object[] obj, int index, ProjectionResultsDTO pvDTO, DecimalFormat format,boolean isTotal,boolean salesInclusionFlag) {
@@ -680,27 +681,7 @@ public class PRExcelLogic {
      *
      * @param projSelDTO
      */
-    void getTotalDiscount(ProjectionSelectionDTO projSelDTO) {
-        pivotDiscountList.clear();
-        String frequency = projSelDTO.getFrequency();
-        String discountId = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<>();
-        pivotDiscountList = new ArrayList<>();
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
-            frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
-        String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionId, frequency, discountId, "VARIANCE", projSelDTO.getSessionId(), projSelDTO.getUserId(), "1"};
-        List<Object[]> discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
-        pivotDiscountList.addAll(discountsList);
-
-    }
+    
 
     private Map<String, String> getGroupCustomViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
@@ -1031,7 +1012,6 @@ public class PRExcelLogic {
                 finaldiscountlist.add(discountPercentageExFactoryList);
 
                 String key = oldHierarchyNo;
-                Object[] oldObj;
                 discountMap.put(key, finaldiscountlist);
                 oldHierarchyNo = newHierarchyNo;
                 finaldiscountlist = new ArrayList<>();
@@ -1461,7 +1441,8 @@ public class PRExcelLogic {
         
         
         list.add(frequencyBasedDTO);
-
+        resultMap.put(key,list);
+        
     }
     
     
@@ -1502,11 +1483,11 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         String oldDiscount=StringUtils.EMPTY;
         int count=procRawListTotDisc.size();
         String commonColumn = StringUtils.EMPTY;
-        List<ProjectionResultsDTO> discountDollarList=new ArrayList<>();
-        List<ProjectionResultsDTO> discountperList=new ArrayList<>();
-        List<ProjectionResultsDTO> totalRPUList=new ArrayList<>();
-        List<ProjectionResultsDTO> discountPercentageExFactoryList=new ArrayList<>();
-        List<List<ProjectionResultsDTO>> finaldiscountlist=new ArrayList<>();
+        List<ProjectionResultsDTO> discountDollarListTotal=new ArrayList<>();
+        List<ProjectionResultsDTO> discountperListTotal=new ArrayList<>();
+        List<ProjectionResultsDTO> totalRPUListTotal=new ArrayList<>();
+        List<ProjectionResultsDTO> discountPercentageExFactoryListTotal=new ArrayList<>();
+        List<List<ProjectionResultsDTO>> finaldiscountlistTotal=new ArrayList<>();
         for(int i=0;i<count;i++){
             Object[] obj = (Object[])procRawListTotDisc.get(i);
             String newDiscount=String.valueOf(obj[NumericConstants.THREE]);
@@ -1680,10 +1661,10 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
                 }else{
 
                 /*New discount means add at List */
-                discountDollarList.add(totalDiscDollar);
-                discountperList.add(totalDiscPer);
-                totalRPUList.add(totalRPU);
-                discountPercentageExFactoryList.add(discountPercentageExFactory);
+                discountDollarListTotal.add(totalDiscDollar);
+                discountperListTotal.add(totalDiscPer);
+                totalRPUListTotal.add(totalRPU);
+                discountPercentageExFactoryListTotal.add(discountPercentageExFactory);
 
                 /*Empty the DTO */
                 totalDiscDollar = new ProjectionResultsDTO();
@@ -1780,16 +1761,16 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
             }
                    if(i==count-1){
 
-                discountDollarList.add(totalDiscDollar);
-                discountperList.add(totalDiscPer);
-                totalRPUList.add(totalRPU);
-                discountPercentageExFactoryList.add(discountPercentageExFactory);
+                discountDollarListTotal.add(totalDiscDollar);
+                discountperListTotal.add(totalDiscPer);
+                totalRPUListTotal.add(totalRPU);
+                discountPercentageExFactoryListTotal.add(discountPercentageExFactory);
 
-                finaldiscountlist.add(discountDollarList);
-                finaldiscountlist.add(discountperList);
-                finaldiscountlist.add(totalRPUList);
-                finaldiscountlist.add(discountPercentageExFactoryList);
-                    discountMap.put(StringConstantsUtil.TOTAL,finaldiscountlist);
+                finaldiscountlistTotal.add(discountDollarListTotal);
+                finaldiscountlistTotal.add(discountperListTotal);
+                finaldiscountlistTotal.add(totalRPUListTotal);
+                finaldiscountlistTotal.add(discountPercentageExFactoryListTotal);
+                    discountMap.put(StringConstantsUtil.TOTAL,finaldiscountlistTotal);
             }
 
         }

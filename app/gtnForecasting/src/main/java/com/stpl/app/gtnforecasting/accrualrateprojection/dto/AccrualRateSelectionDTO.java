@@ -195,7 +195,7 @@ public class AccrualRateSelectionDTO {
     }
 
     public List<Object> getFilterList() {
-        return filterList == null ? filterList : Collections.unmodifiableList(filterList);
+        return Collections.unmodifiableList(filterList);
     }
 
     public void addFilterlist(Object doubleColumn) {
