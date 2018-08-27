@@ -183,7 +183,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                     }
                 }.getConfirmationMessage("New note confirmation", "Are you sure you want to add this note?");
             } catch (FieldGroup.CommitException ex) {
-                LOGGER.error("Error in addEnteredNotes :" , ex);
+                LOGGER.error("Error in addEnteredNotes :", ex);
                 flag.setOk(false);
                 return;
             }
@@ -223,7 +223,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 uploader.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in uploadComponentSucceededLogic :" , ex);
+            LOGGER.error("Error in uploadComponentSucceededLogic :", ex);
         }
 
     }
@@ -256,7 +256,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 uploader.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in uploadComponentStartedLogic :" , ex);
+            LOGGER.error("Error in uploadComponentStartedLogic :", ex);
         }
 
     }
@@ -326,8 +326,8 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
             } else {
                 masterTableSidValue = String.valueOf(binder.getField(masterTableSid).getValue());
             }
-            LOGGER.debug("masterTableSid :" + masterTableSid);
-            LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
+            LOGGER.debug("masterTableSid :{}", masterTableSid);
+            LOGGER.debug("masterTableSidValue :{}", masterTableSidValue);
         } catch (FieldGroup.CommitException e) {
             LOGGER.error("Error in refreshTable :", e);
         }
@@ -360,7 +360,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
         try {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
-            LOGGER.error("Error in getFieldsForSecurity :" , ex);
+            LOGGER.error("Error in getFieldsForSecurity :", ex);
         }
         return resultList;
     }
@@ -378,7 +378,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 removedAttachments.clear();
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in saveNotesInformation :" , ex);
+            LOGGER.error("Error in saveNotesInformation :", ex);
         }
     }
 

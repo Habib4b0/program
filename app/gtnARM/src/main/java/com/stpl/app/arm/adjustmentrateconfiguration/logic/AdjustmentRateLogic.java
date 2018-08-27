@@ -79,7 +79,7 @@ public class AdjustmentRateLogic {
             input.add(String.valueOf(selection.getAdjustmentId()));
 
             String query = QueryUtils.getQuery(input, "DELETE_MASTER_DETAILS");
-            LOGGER.debug("--Inside deleteRateConfig--" + query);
+            LOGGER.debug("--Inside deleteRateConfig--{}", query);
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception e) {
             LOGGER.error("Error in deleteRateConfig :", e);
@@ -95,7 +95,7 @@ public class AdjustmentRateLogic {
 
     public List<AdjustmentRateDTO> selectRateConfig(AdjustmentRateSelection selection) {
         String query = QueryUtils.buildRateConfigselectQuery(selection);
-        LOGGER.debug("Inside selectRateConfig -- " + query);
+        LOGGER.debug("Inside selectRateConfig -- {}", query);
         List<Object[]> rawList = QueryUtils.executeSelect(query);
         if (rawList == null || rawList.isEmpty() || rawList.size() == 1) {
             return Collections.emptyList();
@@ -206,7 +206,7 @@ public class AdjustmentRateLogic {
             String query = "select  Distinct RCD.FIELD_NAME,AED.FILED_VALUES from ARM_EXCLUSION_DETAIL AED\n"
                     + "  Join ARM_ADJ_RATE_CONFIG_DETAIL RCD ON AED.ARM_ADJ_RATE_CONFIG_DETAIL_SID=RCD.ARM_ADJ_RATE_CONFIG_DETAIL_SID\n"
                     + "  where AED.ARM_ADJ_RATE_CONFIG_DETAIL_SID=" + rateDetailsSid + " ";
-            LOGGER.debug("Inside getIntialLoadValue query--" + query);
+            LOGGER.debug("Inside getIntialLoadValue query--{}", query);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (rawList == null || rawList.isEmpty()) {
                 return Collections.emptyList();
@@ -254,7 +254,7 @@ public class AdjustmentRateLogic {
                     sbQuery.append("(" + viewSid + ",'" + idValue + "'),");
                 }
                 sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
-                LOGGER.debug("Inside isAdd_OR_UpdateView query--" + sbQuery.toString());
+                LOGGER.debug("Inside isAdd_OR_UpdateView query--{}", sbQuery.toString());
                 DAO.executeUpdate(sbQuery.toString());
                 return true;
             }
@@ -275,7 +275,7 @@ public class AdjustmentRateLogic {
             query = query.replace("@Created_By", saveViewDTO.getCreatedBy());
             query = query.replace("@Created_Date", dateFormat.format(new Date()));
             query += "   SELECT SCOPE_IDENTITY();";
-            LOGGER.debug("Inside isSaveView query--" + query);
+            LOGGER.debug("Inside isSaveView query--{}", query);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (!rawList.isEmpty()) {
                 return String.valueOf(rawList.get(0));
@@ -302,7 +302,7 @@ public class AdjustmentRateLogic {
             if (viewStatus) {
                 query += "AND CREATED_BY=" + createdBy;
             }
-            LOGGER.debug("Inside getSavedViewList query--" + query);
+            LOGGER.debug("Inside getSavedViewList query--{}", query);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (!rawList.isEmpty()) {
 
@@ -333,7 +333,7 @@ public class AdjustmentRateLogic {
                     + "Join ARM_VIEW_DETAILS AVD ON AVM.ARM_VIEW_MASTER_SID=AVD.ARM_VIEW_MASTER_SID\n"
                     + "where AVM.ARM_VIEW_MASTER_SID='@ARM_VIEW_MASTER_SID' ;";
             query = query.replace("@ARM_VIEW_MASTER_SID", viewSid);
-            LOGGER.debug("Inside getSavedViewList query--" + query);
+            LOGGER.debug("Inside getSavedViewList query--{}", query);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (!rawList.isEmpty()) {
                 finalList = new ArrayList();
@@ -464,7 +464,7 @@ public class AdjustmentRateLogic {
             if (isCount) {
                 return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
             }
-            LOGGER.debug("Inside getSavedViewList finalQuery--" + finalQuery);
+            LOGGER.debug("Inside getSavedViewList finalQuery--{}", finalQuery);
             List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
             for (Object[] obj : list) {
                 LookUpDTO exRateDTO = new LookUpDTO();

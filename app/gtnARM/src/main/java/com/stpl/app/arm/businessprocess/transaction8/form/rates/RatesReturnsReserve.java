@@ -113,7 +113,7 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName && "reset".equals(buttonName)) {
                 deductionLevelDdlb.select(0);
                 CommonUtils.unCheckMenuBarItem(customMenuItem);
