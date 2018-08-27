@@ -544,9 +544,7 @@ public class ForecastForm extends AbstractForm {
                                 if(tabPosition == NumericConstants.FOUR){
                                    discountProjection.checkFrequencyChange(); 
                                 }
-                                if(tabPosition == NumericConstants.EIGHT){
-                                   projectionVariance.checkPvFrequency(); 
-                                }
+                            
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
@@ -558,7 +556,7 @@ public class ForecastForm extends AbstractForm {
                                     discountProjection.setFrequency(session);
                                 }
                                 onTabChange(tabPosition);
-
+                                   
                             } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
                                 // To check wheather the thread is alive
                                 if (tabPosition == 0) {
@@ -827,8 +825,12 @@ public class ForecastForm extends AbstractForm {
 					&& tabLazyLoadMap.get(projectionVariance.getTabNumber())) {
 				projectionVariance.configure();
 				projectionVariance.loadGroupFilterOntabChange();
+                                projectionVariance.checkPvFrequency(); 
                                 projectionVariance.setFrequency(session);
 			}
+                         if(tabPosition == NumericConstants.EIGHT){
+                                   projectionVariance.checkPvFrequency(); 
+                                }
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
 				discountProjectionResults.configure();

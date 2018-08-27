@@ -154,7 +154,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		componentList.add(reportDataSelectionModeLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionFromToMainLayout = new GtnUIFrameworkLayoutConfig();
-		reportDataSelectionFromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		reportDataSelectionFromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig reportDataSelectionFromToLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionFromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportDataSelectionFromToLayoutConfig
@@ -162,7 +162,6 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionFromToLayoutConfig.setAddToParent(true);
 		reportDataSelectionFromToLayoutConfig.setSpacing(true);
 		reportDataSelectionFromToLayoutConfig.addComponentStyle("v-report-margin--5");
-		reportDataSelectionFromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		reportDataSelectionFromToLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.DS_TAB_PROJECTION_OPTION_MAIN_LAYOUT);
