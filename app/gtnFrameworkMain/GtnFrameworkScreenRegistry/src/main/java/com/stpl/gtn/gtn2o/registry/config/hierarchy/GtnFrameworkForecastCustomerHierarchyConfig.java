@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionRelationshipLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
@@ -109,23 +111,13 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		
-		// Added value change action - Loading relationship version
-		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		relationshipValueChangeAction.addActionParameter(GtnRelationshipVersionLoadAction.class.getName());
-		relationshipValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
-		relationshipValueChangeAction.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
-		actionConfigList.add(relationshipValueChangeAction);
-		
-		// Added value change action loading forecast level
-		GtnUIFrameWorkActionConfig relationshipValueChangeAction2 = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		relationshipValueChangeAction2.addActionParameter(GtnForecastLevelLoadAction.class.getName());
-		relationshipValueChangeAction2.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
-		relationshipValueChangeAction2.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
-		
-		actionConfigList.add(relationshipValueChangeAction2);
-		
+		GtnUIFrameWorkActionConfig forecastingCustomerHierarchyForecastLevelLoadAction = new GtnUIFrameWorkActionConfig();
+		forecastingCustomerHierarchyForecastLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
+		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter("forecastLandingScreen_customerHierarchy");
+		forecastingCustomerHierarchyForecastLevelLoadAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
+		actionConfigList.add(forecastingCustomerHierarchyForecastLevelLoadAction);
+				
 		
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		

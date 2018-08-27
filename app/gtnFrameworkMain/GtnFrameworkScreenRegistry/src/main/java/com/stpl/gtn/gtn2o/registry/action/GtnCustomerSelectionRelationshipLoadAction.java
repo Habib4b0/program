@@ -41,7 +41,8 @@ public class GtnCustomerSelectionRelationshipLoadAction implements GtnUIFrameWor
 			relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 		}
 		
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String)params.get(2)).addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);;
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String)params.get(2)).addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
+		
 		}
 		catch(Exception ex){
 			logger.error("Error",ex);
