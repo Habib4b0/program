@@ -1374,7 +1374,7 @@ public class CommonUtils {
                         return String.valueOf(levelName.get(NumericConstants.ZERO));
                     }
                 } else {
-                    return String.valueOf(levelName.get(NumericConstants.ZERO)!=null?levelName.get(NumericConstants.ZERO):relationshipValues.get(0));
+                    return getLevelNameValue(levelName, relationshipValues);
                 }
             } else {
                 return session.getLevelValueDiscription(hierarchyNumber, indicator);
@@ -1383,6 +1383,10 @@ public class CommonUtils {
             LOGGER.error(ex.getMessage());
         }
         return formattedName.toString();
+    }
+
+    private static String getLevelNameValue(List<Object> levelName, List<Object> relationshipValues) {
+        return String.valueOf(levelName.get(NumericConstants.ZERO)!=null?levelName.get(NumericConstants.ZERO):relationshipValues.get(0));
     }
     
     private static boolean displayFormatConditionCheck(List<Object> relationshipValues, Object[] displayFormatIndex) {
