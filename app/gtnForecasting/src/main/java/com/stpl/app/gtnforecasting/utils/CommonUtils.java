@@ -1178,7 +1178,7 @@ public class CommonUtils {
 
     }
 
-    public static User getUser(final String userId) throws PortalException, SystemException {
+    public static User getUser(final String userId) throws PortalException {
         User loggedUserDetails = null;
 
         try {
@@ -1615,7 +1615,7 @@ public class CommonUtils {
         return returnsProperties.getString(key);
     }
 
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws PortalException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
