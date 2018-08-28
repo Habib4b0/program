@@ -59,7 +59,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -365,7 +364,7 @@ public class NationalAssumptionLogic {
             DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
             List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(session);
             priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
 

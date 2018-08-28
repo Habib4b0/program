@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
@@ -31,7 +30,7 @@ public class PhsQueryUtils {
     private static final CommonResultsDAO DAO = new CommonResultsDAOImpl();
     public final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
 
-    public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
+    public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws SystemException {
         Map<String, Object> input = new HashMap<>();
         List phsList;
         String customSql;
@@ -66,7 +65,7 @@ public class PhsQueryUtils {
 
     }
 
-    public List loadPhsResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) throws PortalException, SystemException {
+    public List loadPhsResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) throws SystemException {
         List phsList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
@@ -97,7 +96,7 @@ public class PhsQueryUtils {
 
     }
 
-    public static void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws PortalException, SystemException {
+    public static void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws SystemException {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
         if (Constant.SAVE.equalsIgnoreCase(saveOrUpdate)) {
@@ -116,7 +115,7 @@ public class PhsQueryUtils {
         DAO.executeBulkUpdateQuery(queryBuilder.toString());
     }
 
-    public List loadPhsWorksheet(SessionDTO session, int ndcSid, boolean adjustFlag) throws PortalException, SystemException {
+    public List loadPhsWorksheet(SessionDTO session, int ndcSid, boolean adjustFlag) throws SystemException {
         List phsWSList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
@@ -137,7 +136,7 @@ public class PhsQueryUtils {
         return phsWSList;
     }
 
-    public void saveNotes(Map<String, String> editedValues, SessionDTO session, int itemSid) throws PortalException, SystemException {
+    public void saveNotes(Map<String, String> editedValues, SessionDTO session, int itemSid) throws SystemException {
 
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
@@ -204,7 +203,7 @@ public class PhsQueryUtils {
         }
     }
 
-    public Map<String, String> getPhsPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+    public Map<String, String> getPhsPriceTypeNameDynamic(String screenName) throws SystemException {
         List<Object[]> phsWSList;
         Map<String, String> priceType = new HashMap<>();
 
@@ -219,7 +218,7 @@ public class PhsQueryUtils {
         return priceType;
     }
 
-    public List loadPhsParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
+    public List loadPhsParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws SystemException {
         List fcpList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);

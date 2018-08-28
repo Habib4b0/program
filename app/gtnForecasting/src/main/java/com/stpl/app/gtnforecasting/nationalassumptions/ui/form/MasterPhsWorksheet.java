@@ -647,7 +647,7 @@ public class MasterPhsWorksheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
     }

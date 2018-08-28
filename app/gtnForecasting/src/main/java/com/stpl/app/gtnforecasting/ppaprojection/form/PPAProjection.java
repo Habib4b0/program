@@ -812,7 +812,7 @@ public class PPAProjection extends CustomComponent implements View {
     /**
      * Configure Fields.
      */
-    private void configurefields() throws PortalException, SystemException {
+    private void configurefields() throws PortalException {
         LOGGER.debug("Starting configure fields");
         if (Constant.VIEW.equals(session.getAction())) {
             rightTable.setEditable(BooleanConstant.getFalseFlag());
@@ -1986,7 +1986,7 @@ public class PPAProjection extends CustomComponent implements View {
         projectionPeriodOrderOpg.setValue(Constant.ASCENDING);
     }
 
-    public void security() throws PortalException, SystemException {
+    public void security() throws PortalException {
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION);
 
@@ -2226,7 +2226,7 @@ public class PPAProjection extends CustomComponent implements View {
         return groupChangeFlag;
     }
 
-    public void savePPAProjectionSelection() throws PortalException, SystemException  {
+    public void savePPAProjectionSelection() throws PortalException  {
         LOGGER.debug("save PPA Projection  method starts");
         String builder = StringUtils.EMPTY;
         if (selection.getPpaSelectedVariables() != null) {
