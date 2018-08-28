@@ -8,7 +8,6 @@ package com.stpl.app.arm.accountconfiguration.form;
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigSelection;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
