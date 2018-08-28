@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
@@ -81,6 +80,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
+import java.util.concurrent.ExecutorService;
 import org.asi.ui.customtextfield.CustomTextField;
 
 /**
@@ -112,7 +112,7 @@ public class DataSelection extends AbstractDataSelection {
 	private final CFFLogic cffLogic = new CFFLogic();
 	private final TabSheet tabSheet;
 	private String topLevelName = StringUtils.EMPTY;
-	private final ExecutorService service = ThreadPool.getInstance().getService();
+	private final ThreadPool service = ThreadPool.getInstance();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	private Future customerFuture;
@@ -3853,7 +3853,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	public void insertCffDetailsUsingExecutorService(final int projectionIdValue,
 			final GtnSmallHashMap tempTableNames) {
-		Future future = service.submit(new CFFDetailsInsertJobRun(projectionIdValue, tempTableNames));
+		Future future = service.submitRunnable(new CFFDetailsInsertJobRun(projectionIdValue, tempTableNames));
 		sessionDTO.setFuture(future);
 	}
 
@@ -4020,4 +4020,4 @@ public class DataSelection extends AbstractDataSelection {
             customViewDdlb.setNullSelectionAllowed(false);
             customViewDdlb.setInputPrompt(SELECT_ONE);
         }
-}
+    }

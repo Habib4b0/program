@@ -543,7 +543,7 @@ public class InventoryCustomerGroupLookup extends Window {
             indicator.setItemCaption(false, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
-            LOGGER.error("Error while loading Drop down :" + indicator + " with :", e);
+            LOGGER.error("Error while loading Drop down with :", e);
         }
         return indicator;
     }
