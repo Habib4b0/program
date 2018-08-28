@@ -872,17 +872,17 @@ public class DiscountLogic {
         if (parent instanceof ContractsDetailsDto) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.rsFromCD"));
-        for (Object[] temp : resList) {
-            PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
-            tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
-            tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
-            tempDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
-            tempDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
-            tempDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR])));
-            tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
-            tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
-            retList.add(tempDto);
+        List<Object[]> resRsFromCdList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.rsFromCD"));
+        for (Object[] tempRsFromCd : resRsFromCdList) {
+            PSComponentDetailsDTO tempRsComponentDto = new PSComponentDetailsDTO();
+            tempRsComponentDto.setItemNo(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[0])));
+            tempRsComponentDto.setItemName(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[1])));
+            tempRsComponentDto.setBrand(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.TWO])));
+            tempRsComponentDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.THREE])));
+            tempRsComponentDto.setStatus(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.FOUR])));
+            tempRsComponentDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.FIVE]))) ? null : DBDate.format((Date) tempRsFromCd[NumericConstants.FIVE]));
+            tempRsComponentDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.SIX]))) ? null : DBDate.format((Date) tempRsFromCd[NumericConstants.SIX]));
+            retList.add(tempRsComponentDto);
         }
         return retList;
     }
