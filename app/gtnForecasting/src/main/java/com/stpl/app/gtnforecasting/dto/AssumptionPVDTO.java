@@ -6,7 +6,7 @@ package com.stpl.app.gtnforecasting.dto;
 import java.io.Serializable;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class AssumptionPVDTO.
  */

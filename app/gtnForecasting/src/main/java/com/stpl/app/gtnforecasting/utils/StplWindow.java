@@ -7,7 +7,7 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.vaadin.ui.Window;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class StplWindow.
  *
