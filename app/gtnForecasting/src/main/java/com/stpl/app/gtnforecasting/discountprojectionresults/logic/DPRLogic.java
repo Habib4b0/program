@@ -2309,7 +2309,7 @@ public class DPRLogic {
         return null;
     }
 
-    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException {
 
         LOGGER.debug("Session--->= {}, {}, {}" , sessionDTO.getUserId(), sessionDTO.getSessionId(), sessionDTO.getProjectionId());
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();

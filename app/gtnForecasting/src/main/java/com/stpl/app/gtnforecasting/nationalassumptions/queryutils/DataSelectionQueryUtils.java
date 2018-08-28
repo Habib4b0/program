@@ -810,7 +810,7 @@ public class DataSelectionQueryUtils {
 
         try {
             countList = (List) DAO.executeSelectQuery(sql);
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LoggerFactory.getLogger(DataSelectionQueryUtils.class.getName()).error( StringUtils.EMPTY, ex);
         }
         int count = 0;
@@ -963,7 +963,7 @@ public class DataSelectionQueryUtils {
             }
             sql += (" OFFSET ") + (startIndex) + (Constant.ROWS_FETCH_NEXT_SPACE) + (offset) + (Constant.ROWS_ONLY_SPACE);
             return (List) DAO.executeSelectQuery(sql);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
@@ -1000,7 +1000,7 @@ public class DataSelectionQueryUtils {
             }
             customSql = customSql + " AND HT.DESCRIPTION ='NDC-11'";
             return (List) DAO.executeSelectQuery(customSql);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
             return new ArrayList();
         }

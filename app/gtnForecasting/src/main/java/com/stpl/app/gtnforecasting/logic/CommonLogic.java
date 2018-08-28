@@ -2646,7 +2646,7 @@ public class CommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size = {}" , helperList.size());
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return helperList;
