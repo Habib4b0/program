@@ -118,7 +118,7 @@ public class GtnReportDataSelectionLoadViewAction
 			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxData
 					.getCustomData();
 			TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
+			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkHierarchyTreeBuilder = dualListBoxBean.getTreeBuilder();
 			gtnUIFrameworkHierarchyTreeBuilder.buildTree(dataSelectionBean.getSelectedCustomerHierarchyList());
 			gtnUIFrameworkHierarchyTreeBuilder.loadRightTreeTable(rightTable, 1);
 			rightTable.getDataProvider().refreshAll();
@@ -173,18 +173,20 @@ public class GtnReportDataSelectionLoadViewAction
 
 			TreeGrid<GtnWsRecordBean> dsProductRightTable = productDualListBoxBean.getRightTable();
 
-			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkProductHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
+			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkProductHierarchyTreeBuilder = productDualListBoxBean
+					.getTreeBuilder();
 			gtnUIFrameworkProductHierarchyTreeBuilder.buildTree(dataSelectionBean.getSelectedProductHierarchyList());
 			gtnUIFrameworkProductHierarchyTreeBuilder.loadRightTreeTable(dsProductRightTable, 1);
 			dsProductRightTable.getDataProvider().refreshAll();
 			dsProductRightTable.markAsDirty();
-
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(
-							nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
-							componentId)
-					.loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomView()));
-
+                        
+                        if(dataSelectionBean.getCustomView()!=null){
+                            GtnUIFrameworkGlobalUI
+                                            .getVaadinBaseComponentFromParent(
+                                                            nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
+                                                            componentId)
+                                            .loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomView()));
+                        }
 			int frequency = dataSelectionBean.getFrequency();
 			if (frequency != 0) {
 				GtnUIFrameworkGlobalUI

@@ -129,7 +129,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
 

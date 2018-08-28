@@ -187,8 +187,8 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
      */
     @Override
     protected List getQueryInput(AdjustmentDTO parentDTO, AbstractSelectionDTO selection, List input, String queryName) {
-        LOGGER.debug("parentDTO.getLevelName()=====" + parentDTO.getLevelName());
-        LOGGER.debug("selection.getRate_Basis()" + selection.getRateBasisValue());
+        LOGGER.debug("parentDTO.getLevelName()====={}", parentDTO.getLevelName());
+        LOGGER.debug("selection.getRate_Basis(){}", selection.getRateBasisValue());
         switch (parentDTO.getLevelName()) {
             case VariableConstants.DEDUCTION_UPPERCASE:
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) ? VariableConstants.CUSTOMER_UPPERCASE

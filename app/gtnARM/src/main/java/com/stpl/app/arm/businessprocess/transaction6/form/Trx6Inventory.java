@@ -182,7 +182,7 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:
@@ -220,7 +220,6 @@ public class Trx6Inventory extends VerticalLayout implements View, GenerateAble,
         generate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                LOGGER.debug("Inside generate ButtonClick Btn" + " adjustedPrice.getValue()-->>" + adjustedPrice.getValue());
                 try {
                     loadSelection();
                     if (validateGenearteButton()) {

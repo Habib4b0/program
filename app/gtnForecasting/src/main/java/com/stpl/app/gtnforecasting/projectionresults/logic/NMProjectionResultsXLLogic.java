@@ -178,7 +178,7 @@ public class NMProjectionResultsXLLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList(pvList, obj);
+                addList(obj);
                 hierarchyAndTP_keys(obj, key, pvList);
             } else {
                 updateList(pvList, obj);
@@ -219,13 +219,12 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void addList(List<ProjectionResultsDTO> pvList, final Object[] obj) {
+    private void addList(final Object[] obj) {
         try {
 
             if (isTotal) {
                 ProjectionResultsDTO total = new ProjectionResultsDTO();
                 total.setGroup(Constant.PROJECTION_TOTAL);
-                pvList.add(total);
             } else {
                 ProjectionResultsDTO detail = new ProjectionResultsDTO();
                 //Group Column projSelDTO
@@ -240,55 +239,44 @@ public class NMProjectionResultsXLLogic {
                     groupName = selection.getSessionDTO().getLevelValueDiscription(obj[BASECOLUMN_HIERARCHY_INDEX].toString(), obj[BASECOLUMN_HRCHYINDICATOR_INDEX].toString());
                 }
                 detail.setGroup(groupName);
-                pvList.add(detail);
             }
             //Contract Sales @ WAC
             if (selection.getSalesOrUnit().equals("Sales") || selection.getSalesOrUnit().equals("Both")) {
                 salesValue = new ProjectionResultsDTO();
                 calculate(Constant.PVVariables.VAR_CONTRACT_SALES.toString(), Constant.VALUE, obj, NumericConstants.FIVE, NumericConstants.SIX, salesValue,  AMOUNT);
-                pvList.add(salesValue);
             }
             //Contract Units
             if (selection.getSalesOrUnit().equals("Units") || selection.getSalesOrUnit().equals("Both")) {
                 unitsValue = new ProjectionResultsDTO();
                 calculate(VAR_CONTRACT_UNITS, Constant.VALUE, obj, NumericConstants.SEVEN, NumericConstants.EIGHT, unitsValue,UNIT_VOLUME);
-                pvList.add(unitsValue);
             }
             //Discount $
             disDollValue = new ProjectionResultsDTO();
             calculate(VAR_DIS_AMOUNT, Constant.VALUE, obj, NumericConstants.TWELVE, NumericConstants.THIRTEEN, disDollValue,  AMOUNT);
-            pvList.add(disDollValue);
             //Discount %
             disPerValue = new ProjectionResultsDTO();
             calculate(VAR_DIS_PERCENT, Constant.VALUE, obj, NumericConstants.FOURTEEN, NumericConstants.FIFTEEN, disPerValue,  RATE);
-            pvList.add(disPerValue);
             //RPU
             rpuValue = new ProjectionResultsDTO();
             calculate(VAR_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SIX, NumericConstants.THIRTY_SEVEN, rpuValue, AMOUNT);
-            pvList.add(rpuValue);
             //Discount % of Ex-Factory
             disPerExfac = new ProjectionResultsDTO();
             calculate(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FIFTY, NumericConstants.FIFTY_ONE, disPerExfac,RATE);
-            pvList.add(disPerExfac);
             
             //Net Sales 
             netSalesValue = new ProjectionResultsDTO();
             calculate(Constant.PVVariables.VAR_NETSALES.toString(), Constant.VALUE, obj, NumericConstants.TWENTY_THREE, NumericConstants.TWENTY_FOUR, netSalesValue,  AMOUNT);
-            pvList.add(netSalesValue);
             
             //Net Sales % of Ex-Factory
             netSalesExFac = new ProjectionResultsDTO();
             calculate(Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FORTY_EIGHT, NumericConstants.FORTY_NINE, netSalesExFac,  RATE);
-            pvList.add(netSalesExFac);
             
             //COGS
             cogsValue = new ProjectionResultsDTO();
             calculate(Constant.PVVariables.VAR_COGS.toString(), Constant.VALUE, obj, NumericConstants.THIRTY_EIGHT, NumericConstants.THIRTY_NINE, cogsValue,  AMOUNT);
-            pvList.add(cogsValue);
             //Net Profit
             netProfitValue = new ProjectionResultsDTO();
             calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, AMOUNT);
-            pvList.add(netProfitValue);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -1009,7 +997,7 @@ public class NMProjectionResultsXLLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList(pvList, obj);
+                addList(obj);
                 hierarchyAndTP_keys(obj, key, pvList);
                 } else {
                     updateList(pvList, obj);
@@ -1017,16 +1005,11 @@ public class NMProjectionResultsXLLogic {
             }
         if (discountFlag) {
             Map<String, Integer> discountMap = new HashMap();
-            Set<String> hierarchyKey = new HashSet();
             int listIndex = 0;
             for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 String key = "null".equals(String.valueOf(obj[13])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[13];
                 String discountName = obj[6] == null ? "" : obj[6].toString();
-                if (hierarchyKey.add(key)) {
-                    listIndex = 0;
-                    discountMap.clear();
-                }
                 Integer newListIndex = discountMap.get(discountName);
                 if (newListIndex == null) {
                     discountMap.put(discountName, listIndex++);

@@ -174,6 +174,16 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     private final HeaderUtils headerUtils = new HeaderUtils();
     private Object formulaList;
     private boolean canLoad = true;
+    static {
+        columnName.put(METHODOLOGY.getConstant(), "METHODOLOGY");
+        columnName.put(CONTRACT_PRICE.getConstant(), "CONTRACT_PRICE");
+        columnName.put(DISCOUNT1.getConstant(), "DISCOUNT_RATE_1");
+        columnName.put(DISCOUNT2.getConstant(), "DISCOUNT_RATE_2");
+        columnName.put(ACCESS.getConstant(), "ACCESS");
+        columnName.put(PARITY.getConstant(), "PARITY");
+        columnName.put(PARITY_REFERENCE.getConstant(), "PARITY_REFERENCE");
+        columnName.put(DISCOUNT_PARITY.getConstant(), "PARITY_DISCOUNT");
+    }
 
     public MSupplementalDiscountProjection(SessionDTO session, String screenName)  {
         super(session, screenName);
@@ -1180,16 +1190,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     }
 
     public static String getColumnName(Object value) {
-        if (columnName.size() == 0) {
-            columnName.put(METHODOLOGY.getConstant(), "METHODOLOGY");
-            columnName.put(CONTRACT_PRICE.getConstant(), "CONTRACT_PRICE");
-            columnName.put(DISCOUNT1.getConstant(), "DISCOUNT_RATE_1");
-            columnName.put(DISCOUNT2.getConstant(), "DISCOUNT_RATE_2");
-            columnName.put(ACCESS.getConstant(), "ACCESS");
-            columnName.put(PARITY.getConstant(), "PARITY");
-            columnName.put(PARITY_REFERENCE.getConstant(), "PARITY_REFERENCE");
-            columnName.put(DISCOUNT_PARITY.getConstant(), "PARITY_DISCOUNT");
-        }
         return String.valueOf(columnName.get(value));
     }
 

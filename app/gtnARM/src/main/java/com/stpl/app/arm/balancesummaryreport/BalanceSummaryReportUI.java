@@ -64,8 +64,8 @@ public class BalanceSummaryReportUI extends CommonUI {
         } catch (SystemException ex) {
             LOGGER.error("Error in StplSecurity" , ex);
         }
-        LOGGERBALSUMMARYUI.info("USER_ID :" + userId);
-        LOGGERBALSUMMARYUI.debug("SESSION_ID :" + sessionId);
+        LOGGERBALSUMMARYUI.info("USER_ID :{}", userId);
+        LOGGERBALSUMMARYUI.debug("SESSION_ID :{}", sessionId);
         navigator = new Navigator(this, this);
         HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
         navigator.addView(BalanceSummaryReportDataSelectionView.NAME, new BalanceSummaryReportDataSelectionView(sessionDTO, "Balance Summary Report"));
