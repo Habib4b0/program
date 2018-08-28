@@ -1582,13 +1582,7 @@ public class CFFLogic {
                         
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
-			if (j == tempList.size() - 1) {
-				if (detailsList.get(detailsList.size() - 1).equals("C")) {
-					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
-				} else {
-					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
-				}
-			}
+			
 
 		}
 		return resultMap;
@@ -1597,6 +1591,7 @@ public class CFFLogic {
     private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
 		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
+                        displayFormat.add(object[1]);
 			for (int i = 5; i < object.length - extraColumnIndex; i++) {
 				displayFormat.add(object[i]);
 			}
