@@ -62,7 +62,7 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
-	private String reportProfileLookup = "reportProfileLookup";
+	private String reportProfileLookupId = "reportProfileLookup";
 
 	public void addReportingDashboardLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
@@ -376,9 +376,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "1000px", "845px",
 				GtnFrameworkReportResetAndCloseAction.class.getName(),
-				Arrays.asList(reportProfileLookup + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
-						reportProfileLookup + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
-						reportProfileLookup + GtnFrameworkReportStringConstants.UNDERSCORE
+				Arrays.asList(reportProfileLookupId + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
+						reportProfileLookupId + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
+						reportProfileLookupId + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ "reportProfilePagedTableComponent"),
 				Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY,
 						GtnFrameworkCommonStringConstants.STRING_EMPTY })));
