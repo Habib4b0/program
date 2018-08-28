@@ -71,32 +71,32 @@ public class AccountConfigDTO {
         return companyNo;
     }
 
-    public void setCompanyNo(String companyNo) {
-        this.companyNo = companyNo;
+    public void setCompanyNo(String accCompanyNo) {
+        this.companyNo = accCompanyNo;
     }
 
     public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompanyName(String accCompanyName) {
+        this.companyName = accCompanyName;
     }
 
     public String getBusinessUnitNo() {
         return businessUnitNo;
     }
 
-    public void setBusinessUnitNo(String businessUnitNo) {
-        this.businessUnitNo = businessUnitNo;
+    public void setBusinessUnitNo(String accBusinessUnitNo) {
+        this.businessUnitNo = accBusinessUnitNo;
     }
 
     public String getBusinessUnitName() {
         return businessUnitName;
     }
 
-    public void setBusinessUnitName(String businessUnitName) {
-        this.businessUnitName = businessUnitName;
+    public void setBusinessUnitName(String accBusinessUnitName) {
+        this.businessUnitName = accBusinessUnitName;
     }
 
     public String getAccount() {
@@ -287,19 +287,19 @@ public class AccountConfigDTO {
         return Collections.unmodifiableMap(fieldFactoryComponentMap);
     }
 
-    public Component getFieldFactoryComponent(String propertyId) {
-        if (propertyId == null) {
+    public Component getFieldFactoryComponent(String accountPropertyId) {
+        if (accountPropertyId == null) {
             throw new NullPointerException("Property for getting the component is null");
         }
-        return fieldFactoryComponentMap.get(propertyId);
+        return fieldFactoryComponentMap.get(accountPropertyId);
     }
 
-    public void setFieldFactoryComponentMap(Map<String, Component> fieldFactoryComponentMap) {
-        this.fieldFactoryComponentMap = fieldFactoryComponentMap;
+    public void setFieldFactoryComponentMap(Map<String, Component> fieldFactComponentMap) {
+        this.fieldFactoryComponentMap = fieldFactComponentMap;
     }
 
-    public void addFieldFactoryMap(String propertyId, Component value) {
-        this.fieldFactoryComponentMap.put(propertyId, value);
+    public void addFieldFactoryMap(String accountPropertyId, Component value) {
+        this.fieldFactoryComponentMap.put(accountPropertyId, value);
     }
 
     public String getCompanyIdWithName() {
