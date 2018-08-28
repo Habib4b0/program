@@ -11,10 +11,12 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
+import com.vaadin.v7.ui.Tree;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +25,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.doReturn;
 import org.powermock.api.mockito.PowerMockito;
 import static org.powermock.api.mockito.PowerMockito.when;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -283,5 +286,27 @@ public class GtnUIFrameworkTreeItemClickActionTest {
         boolean result = instance.isEligibleForAdding(currentLevelNo, parameters);
         assertEquals(expResult, result);
     }
-    
+     @Test
+    public void testGetParentIDInfo() {
+        System.out.println("getParentIDInfo");
+        GtnWsRecordBean selectedLevelBean = getSampleBean();
+        GtnUIFrameworkBaseComponent rbTreeBaseComponent = Mockito.mock(GtnUIFrameworkBaseComponent.class);
+        GtnUIFrameworkTreeItemClickAction instance = new GtnUIFrameworkTreeItemClickAction();
+        when(rbTreeBaseComponent.getParent(selectedLevelBean)).thenReturn(selectedLevelBean);
+        Tree tr=Mockito.mock(Tree.class);
+        doReturn(selectedLevelBean).when(tr).getParent(Mockito.any());
+        GtnUIFrameworkComponentData data=  Mockito.mock(GtnUIFrameworkComponentData.class);
+        data.setCustomData(tr);
+        doReturn(data).when(rbTreeBaseComponent).getComponentData();
+        
+         instance.getParentIDInfo(selectedLevelBean, rbTreeBaseComponent,0);
+    }
+    GtnWsRecordBean getSampleBean() {
+        GtnWsRecordBean bean = new GtnWsRecordBean();
+        List<Object> values = IntStream.rangeClosed(0, GtnWsRelationshipBuilderKeyConstant.values().length).boxed().collect(Collectors.toList());
+
+        bean.setRecordHeader(Arrays.stream(GtnWsRelationshipBuilderKeyConstant.values()).collect(Collectors.toList()));
+        bean.setProperties(values);
+        return bean;
+    }
 }

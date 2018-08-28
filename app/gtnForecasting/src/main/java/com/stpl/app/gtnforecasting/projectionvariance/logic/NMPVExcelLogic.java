@@ -136,7 +136,6 @@ public class NMPVExcelLogic {
     private static final String DASH = "-";
     public static final String STRING_NULL = "null";
     protected List<Object> pivotDiscountList = new ArrayList<>();
-    protected List<ProjectionVarianceDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String DETAIL = "Detail";
     protected List<Object> pivotTotalList = new ArrayList<>();

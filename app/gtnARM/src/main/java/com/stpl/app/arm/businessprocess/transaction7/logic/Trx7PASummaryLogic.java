@@ -193,7 +193,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
                 dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
             }
-            LOGGERFORSUMMAEYTAB.debug("index-------" + index);
+            LOGGERFORSUMMAEYTAB.debug("index-------{}", index);
             lastBrand = brand;
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
@@ -254,7 +254,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
         query = query.replace("@SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), false));
         query = query.replace("@TOTAL_SELECTED_COLUMNS", getSelectVariable(selection.getSummaryvariables(), true));
-        LOGGERFORSUMMAEYTAB.debug("--Exit getExcelResultList --" + query);
+        LOGGERFORSUMMAEYTAB.debug("--Exit getExcelResultList --{}", query);
         return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 
@@ -286,7 +286,7 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
                 }
             }
         }
-        LOGGERFORSUMMAEYTAB.debug("--Exit selectQuery --" + selectQuery);
+        LOGGERFORSUMMAEYTAB.debug("--Exit selectQuery --{}", selectQuery);
         return selectQuery.toString();
     }
 

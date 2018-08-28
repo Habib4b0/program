@@ -2450,15 +2450,13 @@ public class SalesLogic {
         int startYear = Integer.parseInt(String.valueOf(inputParameters.get("startYear")));
         int endYear = Integer.parseInt(String.valueOf(inputParameters.get("endYear")));
         String value = String.valueOf(inputParameters.get("enteredValue"));
-           int frequency = projectionSelectionDTO.getFrequencyDivision();
-            String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
-            String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
-            String freq = (frequency == 12 ? "M" : monthOrQuarter);
-            if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
+        int frequency = projectionSelectionDTO.getFrequencyDivision();
+        String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
+        String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
+        String freq = (frequency == 12 ? "M" : monthOrQuarter);
+        if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
             List<Object> input = new ArrayList<>();
-            input.add(freq + startQuarter + " " + startYear);
-            input.add(freq + endQuarter + " " + endYear);
-
+            getParameter(freq, input, startYear, endYear, startQuarter, endQuarter);
             input.add(value);
 
             input.add(freq);
@@ -2527,6 +2525,16 @@ public class SalesLogic {
         }
         
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+    }
+
+    private void getParameter(String freq, List<Object> input, int startYear, int endYear, int startQuarter, int endQuarter) {
+        if (freq.equals("A")) {
+            input.add(startYear);
+            input.add(endYear);
+        } else {
+            input.add(freq + startQuarter + " " + startYear);
+            input.add(freq + endQuarter + " " + endYear);
+        }
     }
 
     public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input) throws PortalException, SystemException {
@@ -3837,15 +3845,15 @@ public class SalesLogic {
         LOGGER.debug("hierarchy-->>        = {} " , hierarchy);
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
-        double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
-        double amountA = 0;
+        Double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
+        Double amountA = 0.0;
         for (String split : entry.getValue().split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountA += salesAmount.get(split);
             }
         }
         //Code to calculate B
-        double amountB = 0;
+        Double amountB = 0.0;
         for (String split : parentDetailsSid.split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountB += salesAmount.get(split);
@@ -3854,10 +3862,9 @@ public class SalesLogic {
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
-        
-        if (amountA == 0 || amountB ==0 ){
-            amount = 0;
-        } else {
+        if (amountA.equals(0.0) && amountB.equals(0.0)) {
+            amount = 0.0;
+        } else if (!amountA.equals(0.0) && !amountB.equals(0.0)) {
             amount = (amountA / amountB) * amount;
         }
         return amount;

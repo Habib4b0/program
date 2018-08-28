@@ -378,7 +378,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-        loggerAbstractDemandSummaryResults.debug(" loadLevelFilterValueDdlb levelValue " + levelValue + " levelNo " + levelNo);
+        loggerAbstractDemandSummaryResults.debug(" loadLevelFilterValueDdlb levelValue {}", levelValue);
         getLevelFilterValueDdlb().removeAllItems();
         getLevelFilterValueDdlb().addItem(0);
         getLevelFilterValueDdlb().setItemCaption(0, GlobalConstants.getSelectOne());
@@ -395,7 +395,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
 
     @Override
     protected void valueDdlbValueChange(int masterSid) {
-        loggerAbstractDemandSummaryResults.debug("valueDdlbValueChange masterSid " + masterSid);
+        loggerAbstractDemandSummaryResults.debug("valueDdlbValueChange masterSid {}", masterSid);
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
             tableLogic.loadSetData(Boolean.FALSE);

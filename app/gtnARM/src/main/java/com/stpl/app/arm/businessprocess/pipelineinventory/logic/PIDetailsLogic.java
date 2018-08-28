@@ -51,7 +51,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
                 }
             }
-            LOGGER.debug("query-- " + query);
+            LOGGER.debug("query-- {}", query);
             List list = QueryUtils.executeSelect(query.toString());
             if (list != null) {
 
@@ -118,7 +118,7 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             }
             conditionStr = "(" + grlStr.toString() + " ) AND ";
         }
-        LOGGER.debug("conditionStr--" + conditionStr);
+        LOGGER.debug("conditionStr--{}", conditionStr);
         return conditionStr;
     }
 
