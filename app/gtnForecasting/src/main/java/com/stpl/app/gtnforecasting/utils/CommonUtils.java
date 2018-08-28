@@ -103,7 +103,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Contains the common methods which support the module functionality.
  *
