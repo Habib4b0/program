@@ -480,6 +480,9 @@ public class PRExcelLogic {
         netProfit = pvList.get(listIndex++);
         calculate(Constants.PVVariables.VAR_NET_PROFITE.toString(), obj, isTotal ? NumericConstants.FORTY_FIVE : NumericConstants.FORTY_SEVEN, netProfit,  AMOUNT, isTotal,true);
         LOGGER.debug("End of Method={}", listIndex);
+        LOGGER.debug("hierarchyKeys ={}", hierarchyKeys.isEmpty() ? hierarchyKeys : 0);
+        LOGGER.debug("tradingPartnerKeys ={}",tradingPartnerKeys.isEmpty() ? tradingPartnerKeys : 0);
+        LOGGER.debug("discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
     }
 
     private void calculate(String varaibleName, Object[] obj, int index, ProjectionResultsDTO pvDTO, DecimalFormat format,boolean isTotal,boolean salesInclusionFlag) {
@@ -1480,11 +1483,11 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         String oldDiscount=StringUtils.EMPTY;
         int count=procRawListTotDisc.size();
         String commonColumn = StringUtils.EMPTY;
-        List<ProjectionResultsDTO> discountDollarList=new ArrayList<>();
-        List<ProjectionResultsDTO> discountperList=new ArrayList<>();
-        List<ProjectionResultsDTO> totalRPUList=new ArrayList<>();
-        List<ProjectionResultsDTO> discountPercentageExFactoryList=new ArrayList<>();
-        List<List<ProjectionResultsDTO>> finaldiscountlist=new ArrayList<>();
+        List<ProjectionResultsDTO> discountDollarListTotal=new ArrayList<>();
+        List<ProjectionResultsDTO> discountperListTotal=new ArrayList<>();
+        List<ProjectionResultsDTO> totalRPUListTotal=new ArrayList<>();
+        List<ProjectionResultsDTO> discountPercentageExFactoryListTotal=new ArrayList<>();
+        List<List<ProjectionResultsDTO>> finaldiscountlistTotal=new ArrayList<>();
         for(int i=0;i<count;i++){
             Object[] obj = (Object[])procRawListTotDisc.get(i);
             String newDiscount=String.valueOf(obj[NumericConstants.THREE]);
@@ -1658,10 +1661,10 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
                 }else{
 
                 /*New discount means add at List */
-                discountDollarList.add(totalDiscDollar);
-                discountperList.add(totalDiscPer);
-                totalRPUList.add(totalRPU);
-                discountPercentageExFactoryList.add(discountPercentageExFactory);
+                discountDollarListTotal.add(totalDiscDollar);
+                discountperListTotal.add(totalDiscPer);
+                totalRPUListTotal.add(totalRPU);
+                discountPercentageExFactoryListTotal.add(discountPercentageExFactory);
 
                 /*Empty the DTO */
                 totalDiscDollar = new ProjectionResultsDTO();
@@ -1758,16 +1761,16 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
             }
                    if(i==count-1){
 
-                discountDollarList.add(totalDiscDollar);
-                discountperList.add(totalDiscPer);
-                totalRPUList.add(totalRPU);
-                discountPercentageExFactoryList.add(discountPercentageExFactory);
+                discountDollarListTotal.add(totalDiscDollar);
+                discountperListTotal.add(totalDiscPer);
+                totalRPUListTotal.add(totalRPU);
+                discountPercentageExFactoryListTotal.add(discountPercentageExFactory);
 
-                finaldiscountlist.add(discountDollarList);
-                finaldiscountlist.add(discountperList);
-                finaldiscountlist.add(totalRPUList);
-                finaldiscountlist.add(discountPercentageExFactoryList);
-                    discountMap.put(StringConstantsUtil.TOTAL,finaldiscountlist);
+                finaldiscountlistTotal.add(discountDollarListTotal);
+                finaldiscountlistTotal.add(discountperListTotal);
+                finaldiscountlistTotal.add(totalRPUListTotal);
+                finaldiscountlistTotal.add(discountPercentageExFactoryListTotal);
+                    discountMap.put(StringConstantsUtil.TOTAL,finaldiscountlistTotal);
             }
 
         }

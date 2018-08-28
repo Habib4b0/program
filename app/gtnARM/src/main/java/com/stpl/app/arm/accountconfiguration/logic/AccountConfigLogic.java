@@ -70,7 +70,7 @@ public class AccountConfigLogic {
         List<Object> resultList = new ArrayList<>();
         try {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
-            LOGGER.debug("resultList -- >>" + resultList.size());
+            LOGGER.debug("resultList -- >>{}", resultList.size());
         } catch (Exception ex) {
             LOGGER.error("Error in getFieldsForSecurity :" , ex);
         }
@@ -87,7 +87,7 @@ public class AccountConfigLogic {
                 userMap.put((int) user.getUserId(), user.getFullName());
             }
             CommonUtils.setUserMap(userMap);
-            LOGGER.debug("userMap -->" + userMap.size());
+            LOGGER.debug("userMap -->{}", userMap.size());
             LOGGER.info("End of getUserName method");
         } catch (Exception ex) {
             LOGGER.error("Error in getUserName :" , ex);
@@ -168,7 +168,7 @@ public class AccountConfigLogic {
                 fullDataList.add(dto);
             }
         }
-        LOGGER.debug("fullDataList--" + fullDataList.size());
+        LOGGER.debug("fullDataList--{}", fullDataList.size());
         return fullDataList;
     }
 

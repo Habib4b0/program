@@ -34,7 +34,6 @@ public class FileUploader implements Receiver {
 	/**
 	 * The output stream.
 	 */
-	private FileOutputStream outputStream;
 	/**
 	 * The file.
 	 */
@@ -54,7 +53,7 @@ public class FileUploader implements Receiver {
 	private final String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID.getConstant());
 	private boolean upload = true;
 	private boolean isFileExists;
-	private boolean isFileCreated;
+	
 	/**
 	 * The Constructor.
 	 *
@@ -90,8 +89,8 @@ public class FileUploader implements Receiver {
 				if (file.exists()) {
 					isFileExists=file.delete();
 				}
-				isFileCreated=file.createNewFile();
-				outputStream = new FileOutputStream(file);
+				boolean isFileCreated=file.createNewFile();
+				FileOutputStream outputStream = new FileOutputStream(file);
 				LOGGER.info("File deleted successfully = {} ",isFileExists);
 				LOGGER.info("File created successfully = {} ",isFileCreated);
 				return outputStream;
@@ -115,40 +114,7 @@ public class FileUploader implements Receiver {
 	 * @throws Throwable
 	 *             the throwable
 	 */
-        @Override
-	protected void finalize() throws Throwable {
-		LOGGER.debug("Entering finalize method ");
-
-		try {
-
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		} catch (IOException ex) {
-			LOGGER.error(ex.getMessage());
-		}
-		LOGGER.debug("End of finalize method");
-		super.finalize();
-	}
-
-	/**
-	 * Gets the output stream.
-	 *
-	 * @return the outputStream
-	 */
-	public FileOutputStream getOutputStream() {
-		return outputStream;
-	}
-
-	/**
-	 * Sets the output stream.
-	 *
-	 * @param outputStream
-	 *            the outputStream to set
-	 */
-	public void setOutputStream(final FileOutputStream outputStream) {
-		this.outputStream = outputStream;
-	}
+        
 
 	/**
 	 * Gets the file.

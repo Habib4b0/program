@@ -744,9 +744,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 !sessionDTO.getFrequency().equals(String.valueOf(frequency.getValue())) ||
                 !sessionDTO.getPriorProjectionId().equals(tempComaprision) || isUomChanged){
             sessionDTO.setPriorProjectionId(tempComaprision);
-            String levelNameOfDeduction=discountLevel.getValue().toString().equals("Program Category")?"PROGRAM TYPE":"SCHEDULE ID";
-            String dedcutionName=!pvSelectionDTO.getDeductionLevelFilter().isEmpty()?deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()):levelNameOfDeduction;
-            sessionDTO.setDeductionName(dedcutionName);
             sessionDTO.setFrequency(String.valueOf(frequency.getValue()));
             sessionDTO.setStatusName(isUomChanged ? "UOM" : GENERATE_FLAG);
             if(!isUomChanged){
@@ -1013,6 +1010,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
         customId = Integer.parseInt(String.valueOf(customDdlb.getValue()));
         pvSelectionDTO.setCustomId(customId);
+        pvSelectionDTO.getSessionDTO().setCustomViewMasterSid(customId);
         levelDdlb.setEnabled(customId != 0);
         int tpNo = CommonLogic.getTradingPartnerLevelNo(true, customId);
         pvSelectionDTO.setTpLevel(tpNo);
@@ -1650,7 +1648,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 pvSelectionDTO.setExcelFilterLevelNo(0);
             }
             getDate();
-            configureTable();
             configureExcelTable();
             excelLogic.getPVData();
             excelParentRecords.clear();

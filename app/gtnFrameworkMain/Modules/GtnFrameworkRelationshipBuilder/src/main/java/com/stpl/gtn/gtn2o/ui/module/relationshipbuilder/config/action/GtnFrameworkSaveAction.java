@@ -40,7 +40,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
         // No Need to Implement. Its an unused method.
     }
 
-    @Override
+     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
@@ -91,10 +91,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
             rbRequest.setRsTreeNodeList(treeNodeList);
         }
 
-        GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-                GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
-                + GtnWsRelationshipBuilderConstants.CHECK_SAVE_RELATIONSHIP,
-                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        GtnUIFrameworkWebserviceResponse response = getSavedResponse(  wsclient, request);
         GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
 
         GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(10).toString()).setComponentVisible(false);
@@ -113,6 +110,13 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
         rbSaveAlertAction.addActionParameter(rbResponse.getMessageType());
         rbSaveAlertAction.addActionParameter(rbResponse.getMessage());
         GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbSaveAlertAction);
+    }
+
+    public GtnUIFrameworkWebserviceResponse getSavedResponse(final GtnUIFrameworkWebServiceClient wsclient, final GtnUIFrameworkWebserviceRequest request) {
+        return wsclient.callGtnWebServiceUrl(
+                GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
+                        + GtnWsRelationshipBuilderConstants.CHECK_SAVE_RELATIONSHIP,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
     }
 
     public void createRBRequest(GtnWsRelationshipBuilderRequest rbRequest, int hierarchySid, int versionNo, String relationshipName, String relationshipDesc, String relationshipType, String buildType)  {

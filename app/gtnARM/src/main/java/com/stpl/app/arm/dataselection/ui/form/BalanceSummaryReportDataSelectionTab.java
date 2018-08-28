@@ -99,7 +99,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
     }
 
     public void loadAvailableCustProd(int hierSid, int relSid, Property.ValueChangeEvent event) {
-        LOGGER.debug("Inside loadAvailableCustProd Method" + hierSid + relSid + event);
+        LOGGER.debug("Inside loadAvailableCustProd Method {}", (hierSid + StringUtils.EMPTY + relSid + event));
     }
 
     @Override
@@ -302,7 +302,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         try {
             innerCustLevels = logic.loadCustomerForecastLevel(dataSelectionDTO.getCustomerHierarchySid(), dataSelectionDTO.getCustomerHierarchyName());
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadCustomerLevel");
+            LOGGER.error("loadCustomerLevel", ex);
         }
 
     }
@@ -311,7 +311,7 @@ public class BalanceSummaryReportDataSelectionTab extends AbstractDataSelection 
         try {
             innerProdLevels = logic.loadCustomerForecastLevel(dataSelectionDTO.getProductHierarchySid(), dataSelectionDTO.getProductHierarchyName());
         } catch (Exception ex) {
-            LOGGER.error(ex + " loadProductLevel");
+            LOGGER.error("loadProductLevel", ex);
         }
     }
 
