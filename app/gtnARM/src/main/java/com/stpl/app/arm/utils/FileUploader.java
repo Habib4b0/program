@@ -82,10 +82,10 @@ public class FileUploader implements Upload.Receiver {
                 file = new File(ArmFileNameUtils.getFile(dir, filename), FilenameUtils.getName(filename));
                 if (file.exists()) {
                     boolean val = file.delete();
-                    LOGGER.debug("FILE DELETED" + val);
+                    LOGGER.debug("FILE DELETED {}", val);
                 }
                 boolean val = file.createNewFile();
-                LOGGER.debug("FILE CREATED" + val);
+                LOGGER.debug("FILE CREATED {}", val);
                 outputStream = new FileOutputStream(file);
                 return outputStream;
             }

@@ -644,7 +644,7 @@ case "privateViewName":
 			return filterString;
 		}
 		if (!filterDataType.equals("Date")) {
-			filterString = filterString + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue
+			filterString = filterString + "AND" + " " + filterId + " " + filterExpression + " " + "'" + filterValue
 					+ "%'";
 		} else {
 			String[] splitedArray = filterValue.split(" ");
@@ -679,9 +679,9 @@ case "privateViewName":
 	private Map<String, String> getDataBaseColumnIdName() {
 		Map<String, String> dbColumnIdMap = new HashMap<>();
 		dbColumnIdMap.put("file", "FORECAST_NAME");
-		dbColumnIdMap.put("company", "company.COMPANY_NAME");
-		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
-		dbColumnIdMap.put("type", "ht.DESCRIPTION");
+		dbColumnIdMap.put("company", "A.COMPANY_NAME");
+		dbColumnIdMap.put("businessUnit", "A.BUSINESS_UNIT");
+		dbColumnIdMap.put("type", "A.FILE_TYPE");
 		dbColumnIdMap.put("version", "VERSION");
 		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");		
 		dbColumnIdMap.put("toPeriod", "TO_PERIOD");

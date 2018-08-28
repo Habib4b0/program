@@ -220,7 +220,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "reset":
@@ -343,7 +343,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 val = (Integer) value;
                 valueDdlbValueChange(val);
             } else {
-                logger.error(String.valueOf(value) + " is not an integer ");
+                String message = String.valueOf(value) + " is not an integer ";
+                logger.error(message);
             }
         }
 
@@ -558,7 +559,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            logger.error("Error in exportButtonLogic :" , ex);
+            logger.error("Error in exportButtonLogic :", ex);
         }
     }
 
@@ -641,7 +642,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isPercentageColumn2Decimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
@@ -663,17 +664,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isCurrencyZeroDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isNumericTwoDecimalFormat(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 
     protected boolean isPercentageColumnzeroDecimal(String column) {
-        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME, column);
         return false;
     }
 

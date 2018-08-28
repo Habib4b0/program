@@ -127,7 +127,7 @@
 		"expressionType": "LESS_OR_EQUAL"
 	},
 	{
-		"columnID": "contractId",
+		"columnID": "contractName",
 		"columnName": "Contract Name",
 		"isSearchCriteria": true,
 		"isResultView": false,
