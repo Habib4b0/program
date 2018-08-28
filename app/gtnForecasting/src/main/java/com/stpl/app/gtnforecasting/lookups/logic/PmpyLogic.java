@@ -300,7 +300,7 @@ public class PmpyLogic {
         return tpColumnName;
     }
 
-    public List loadCustomer() throws PortalException, SystemException {
+    public List loadCustomer() throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CM.COMPANY_MASTER_SID,CM.COMPANY_NO FROM dbo.CCP_DETAILS CCP \n"
@@ -314,7 +314,7 @@ public class PmpyLogic {
         return list;
     }
 
-    public List loadContract(int customerSid) throws PortalException, SystemException {
+    public List loadContract(int customerSid) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CO.CONTRACT_MASTER_SID,CO.CONTRACT_NO FROM dbo.CCP_DETAILS CCP \n"
@@ -328,7 +328,7 @@ public class PmpyLogic {
         return list;
     }
 
-    public List loadProduct( int customerSid, int contractSid) throws PortalException, SystemException {
+    public List loadProduct( int customerSid, int contractSid) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_NO,IM.ITEM_NAME FROM dbo.CCP_DETAILS CCP \n"

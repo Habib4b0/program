@@ -1022,7 +1022,7 @@ public class CommonLogic {
      * @param projectionID
      * @param screenName
      */
-    public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) throws PortalException, SystemException {
+    public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) throws PortalException {
         List<Object> list;
         String query = " IF EXISTS (SELECT 1 from M_PROJECTION_SELECTION  WHERE PROJECTION_MASTER_SID=" + projectionID + "AND SCREEN_NAME='" + screenName + "' ) SELECT 1 ELSE SELECT 0";
         list = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -1041,7 +1041,7 @@ public class CommonLogic {
      * @param screenName
      * @param saveOrUpdate
      */
-    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) throws PortalException, SystemException {
+    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) throws PortalException {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
 
@@ -2608,7 +2608,7 @@ public class CommonLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
         String screenName = projectionSelectionDTO.getScreenName();
         String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
@@ -2652,7 +2652,7 @@ public class CommonLogic {
         return helperList;
     }
 
-    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
         String screenName = projectionSelectionDTO.getScreenName();
         String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
@@ -4595,7 +4595,7 @@ public class CommonLogic {
     }
     
     
-     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) {
         String newLevel=StringUtils.EMPTY;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
@@ -4873,7 +4873,7 @@ public class CommonLogic {
         return deductionValuesList;
     }
 
-    public String userDefinedLevel(SalesProjectionDAO salesProjectionDao, int projectionId, String type,String indicator) throws SystemException, PortalException {
+    public String userDefinedLevel(SalesProjectionDAO salesProjectionDao, int projectionId, String type,String indicator) throws PortalException {
         String hierarchySid=indicator.equals("P")?"PRODUCT_HIERARCHY_SID":"CUSTOMER_HIERARCHY_SID";
         List<String> userDefinedList= (List<String>) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("user-defined-join")
                 .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -5283,7 +5283,7 @@ public class CommonLogic {
         return columnName.toString();
     }
     
-     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) {
         String newLevel = StringUtils.EMPTY;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
