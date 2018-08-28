@@ -80,8 +80,8 @@ public class AdjustmentRateUI extends UI {
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.USER_ID, userId);
                 final String sessionId = request.getWrappedSession().getId();
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionId);
-                LOGGER.info("USER_ID :" + userId);
-                LOGGER.info("SESSION_ID :" + sessionId);
+                LOGGER.info("USER_ID :{}", userId);
+                LOGGER.info("SESSION_ID :{}", sessionId);
                 Navigator navigator = new Navigator(this, this);
                 navigator.addView(AdjustmentRateView.NAME, new AdjustmentRateView());
                 ExecutorService service = Executors.newSingleThreadExecutor();
@@ -89,7 +89,7 @@ public class AdjustmentRateUI extends UI {
             }
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AdjustmentRateUI " + ex);
+            LOGGER.error("Error While Creating AdjustmentRateUI " , ex);
         }
     }
 

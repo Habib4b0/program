@@ -93,7 +93,6 @@ public class HelperListUtil {
             replaceQuery.append("'").append(listNameBundle.getString(moduleName).replace(",", "','")).append("'");
             query = query.replace("?", replaceQuery);
             List<HelperDTO> helperList = null;
-            System.out.println("QUERY--------------" + query);
             final List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (list != null) {
                 String currentListName = StringUtils.EMPTY;
@@ -118,7 +117,7 @@ public class HelperListUtil {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in loadValuesWithListName :" + ex);
+            LOGGER.error("Error in loadValuesWithListName :" , ex);
         }
     }
 

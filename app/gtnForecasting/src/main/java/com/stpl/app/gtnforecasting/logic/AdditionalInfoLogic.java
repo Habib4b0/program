@@ -79,8 +79,6 @@ public class AdditionalInfoLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId= {}, fileName= {}, uploadedBy= {}, fileSize= {}, moduleName= {} " , projectionId, fileName, uploadedBy, fileSize, 
-                moduleName);
 
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
 

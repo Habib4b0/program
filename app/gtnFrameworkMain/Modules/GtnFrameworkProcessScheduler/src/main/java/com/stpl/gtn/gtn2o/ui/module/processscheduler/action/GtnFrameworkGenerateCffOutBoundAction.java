@@ -5,14 +5,19 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProcessSchedulerStringContants;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.processscheduler.bean.GtnWsProcessSchedulerBean;
+import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnFrameworkGenerateCffOutBoundAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
 	
@@ -51,7 +56,23 @@ public class GtnFrameworkGenerateCffOutBoundAction implements GtnUIFrameWorkActi
 		cffRrequest.setProcessSchedulerBean(processSchedulerBean);
 		webServiceRequest.setProcessSchedulerRequest(cffRrequest);
 		
-	
+		GtnUIFrameworkWebserviceResponse webServiceResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_SCREEN
+						+ GtnWsProcessScedulerConstants.GTN_WS_PROCESS_SCHEDULER_CFF_OUTBOUND_SERVICE_DATA,
+						webServiceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
+		gtnLogger.info("response result "+webServiceResponse.getGtnWsGeneralResponse().isSucess());
+		GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
+		notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+		if(webServiceResponse.getGtnWsGeneralResponse().isSucess()) {
+			notificationAction.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_MANUAL_SUCCESS_MESSAGE);
+			notificationAction.addActionParameter("");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationAction);
+		}else{
+			notificationAction.addActionParameter(GtnFrameworkProcessSchedulerStringContants.CFF_OUTBOUND_MANUAL_FAILURE_MESSAGE);
+			notificationAction.addActionParameter("");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationAction);
+		}
 	}
 
 	@Override

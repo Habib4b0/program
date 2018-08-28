@@ -271,7 +271,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:
@@ -315,7 +315,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                                 List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
                                 loadFrequency(finalList);
                             } catch (Exception ex) {
-                                LOGGER.error("Error in resetBtn :" + ex);
+                                LOGGER.error("Error in resetBtn :" , ex);
                             }
                         }
 

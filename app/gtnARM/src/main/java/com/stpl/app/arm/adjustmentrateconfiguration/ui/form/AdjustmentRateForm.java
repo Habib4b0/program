@@ -291,7 +291,7 @@ public class AdjustmentRateForm extends CustomComponent {
             rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowSalesRateRightHeaders());
             reLoadTable(ARMConstants.getPipelineAccrual());
         } catch (Exception ex) {
-            LOGGER.error("Error in configureResultTable :" + ex);
+            LOGGER.error("Error in configureResultTable :", ex);
         }
     }
 
@@ -610,8 +610,8 @@ public class AdjustmentRateForm extends CustomComponent {
         populateBtnRate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getValue());
-                LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()));
+                LOGGER.debug("Inside populateButtonClick Btn :{}", fieldDdlbRate.getValue());
+                LOGGER.debug("Inside populateButtonClick Btn :{}", fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()));
                 try {
 
                     Object val;
@@ -665,7 +665,7 @@ public class AdjustmentRateForm extends CustomComponent {
                         }
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error While Mass populate for the feild :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :", e);
+                    LOGGER.error("Error While Mass populate for the feild :{}", (fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :" + e.getMessage()));
                 }
             }
         });
@@ -699,7 +699,7 @@ public class AdjustmentRateForm extends CustomComponent {
 
     @UiHandler("saveBtn")
     public void saveButtonClick(Button.ClickEvent event) {
-        LOGGER.debug("Inside saveBtn : selection" + selection.toString());
+        LOGGER.debug("Inside saveBtn : selection {}", selection.toString());
         try {
             /**
              * Seems Selected Adjustment selection is different from Generated
@@ -712,7 +712,7 @@ public class AdjustmentRateForm extends CustomComponent {
             List<HelperDTO> rateBasisList = HelperListUtil.getInstance().getListNameMap().get("ARM_RATE_BASIS");
 
             List<AdjustmentRateDTO> list = resultBeanContainer.getItemIds();
-            LOGGER.debug("resultBeanContainer.getItemIds()-------------" + resultBeanContainer.getItemIds());
+            LOGGER.debug("resultBeanContainer.getItemIds()-------------{}", resultBeanContainer.getItemIds());
             if (list.isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getRateSaveErrorMsg());
             } else {
@@ -721,8 +721,8 @@ public class AdjustmentRateForm extends CustomComponent {
                     if (rateBasisList != null && !rateBasisList.isEmpty()) {
                         for (HelperDTO helperDTO : rateBasisList) {
                             rateBasisMap.put(helperDTO.getId(), helperDTO.getDescription());
-                            LOGGER.debug("helperDTO.getId()----" + helperDTO.getId());
-                            LOGGER.debug("helperDTO.getId()----" + helperDTO.getDescription());
+                            LOGGER.debug("helperDTO.getId()----{}", helperDTO.getId());
+                            LOGGER.debug("helperDTO.getId()----{}", helperDTO.getDescription());
 
                         }
                     }
@@ -829,7 +829,7 @@ public class AdjustmentRateForm extends CustomComponent {
         public void yesMethod() {
 
             if (null != buttonName) {
-                LOGGER.debug("buttonName :" + buttonName);
+                LOGGER.debug("buttonName :{}", buttonName);
                 switch (buttonName) {
                     case "reset":
                         adjustmentTypeDdlbRate.select(null);

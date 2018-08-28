@@ -189,7 +189,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
                 dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
             }
-            logger.debug("index-------" + index);
+            logger.debug("index-------{}", index);
             lastBrand = brand;
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
@@ -247,7 +247,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             query = query.replace("@TABLE_NAME", isView ? CommonConstant.ARM_RETURN_RESERVE : CommonConstant.ST_ARM_RETURN_RESERVE);
             return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception ex) {
-            LOGGER.error("Error in getExcelResultList :" + ex);
+            LOGGER.error("Error in getExcelResultList :" , ex);
             return Collections.emptyList();
         }
     }

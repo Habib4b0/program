@@ -220,7 +220,7 @@ public class BussinessProcessForm extends Window {
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error("Error in tabSheet addSelectedTabChangeListener" + ex);
+            LOGGER.error("Error in tabSheet addSelectedTabChangeListener" , ex);
         }
 
     }
@@ -281,7 +281,7 @@ public class BussinessProcessForm extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":
@@ -356,7 +356,7 @@ public class BussinessProcessForm extends Window {
                                                 }
 
                                             } catch (Exception ex) {
-                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER + ex);
+                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER , ex);
                                             }
                                         }
 
@@ -378,7 +378,7 @@ public class BussinessProcessForm extends Window {
                     }
                 } catch (Exception ex) {
 
-                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER + ex);
+                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER , ex);
                 }
             }
         });
@@ -430,9 +430,9 @@ public class BussinessProcessForm extends Window {
             }
             VarianceCalculationLogic.submitWorkflow(processId, sessionDTO, GtnWsBpmCommonConstants.ARM);
             String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId, "NoOfUsers");
-            LOGGER.debug("no of users : " + noOfUsers);
+            LOGGER.debug("no of users : {}", noOfUsers);
             if (!noOfUsers.isEmpty()) {
-                LOGGER.debug("no of users : " + noOfUsers);
+                LOGGER.debug("no of users : {}", noOfUsers);
                 String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
                 String approvedFlag;
                 approvedFlag = ARMUtils.SUBMITTED;
@@ -462,7 +462,7 @@ public class BussinessProcessForm extends Window {
 
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error("Error in submitProjToWorkflow" + ex);
+            LOGGER.error("Error in submitProjToWorkflow" , ex);
         }
     }
 
@@ -481,7 +481,7 @@ public class BussinessProcessForm extends Window {
             List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
             workflowStatus = result != null && !ARMUtils.NULL.equals(String.valueOf(result.get(0))) ? String.valueOf(result.get(0)) : StringUtils.EMPTY;
         } catch (Exception ex) {
-            LOGGER.error("Error in getWorkflowStatus" + ex);
+            LOGGER.error("Error in getWorkflowStatus" , ex);
         }
         return workflowStatus;
     }
@@ -707,7 +707,7 @@ public class BussinessProcessForm extends Window {
                                         WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                     }
                                 } catch (Exception ex) {
-                                    LOGGER.error("Error in btnApproveLogic" + ex);
+                                    LOGGER.error("Error in btnApproveLogic" , ex);
                                 }
                             }
                         });
@@ -759,7 +759,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnRejectLogic" + ex);
+                                LOGGER.error("Error in btnRejectLogic" , ex);
                             }
                         }
                     });
@@ -807,7 +807,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnWithdrawLogic" + ex);
+                                LOGGER.error("Error in btnWithdrawLogic" , ex);
                             }
                         }
                     });
@@ -859,7 +859,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnCancelLogic" + ex);
+                                LOGGER.error("Error in btnCancelLogic" , ex);
                             }
                         }
                     });

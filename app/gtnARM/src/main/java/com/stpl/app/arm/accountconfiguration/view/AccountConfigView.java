@@ -54,12 +54,12 @@ public class AccountConfigView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
-            LOGGER.info("Enters in the View with mode" + sessionDTO.getMode());
+            LOGGER.info("Enters in the View with mode{}", sessionDTO.getMode());
             this.removeAllComponents();
             SearchAccountConfig searchAccountConfig = new SearchAccountConfig(sessionDTO);
             addComponent(searchAccountConfig);
         } catch (Exception ex) {
-            LOGGER.error("Error in AccountConfigView :" + ex);
+            LOGGER.error("Error in AccountConfigView :" , ex);
         }
     }
 

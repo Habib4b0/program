@@ -223,7 +223,7 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
                     dto.addStringProperties("total", !isTotal && get[NumericConstants.EIGHT] != null ? DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(get[NumericConstants.EIGHT].toString().trim())) : StringUtils.EMPTY);
                 }
                 lastBrand = brand;
-                LOGGERFORSUMMARYLOGIC.debug("index-------" + index);
+                LOGGERFORSUMMARYLOGIC.debug("index-------{}", index);
             }
 
             dataResult.setDataResults(resultList);

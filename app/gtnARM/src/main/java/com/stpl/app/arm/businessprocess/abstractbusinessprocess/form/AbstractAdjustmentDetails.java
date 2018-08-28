@@ -208,7 +208,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName && "reset".equals(buttonName)) {
                 resetBtn();
             }
@@ -376,7 +376,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loaddetail" + ex);
+                    LOGGER.error("Error in loaddetail" , ex);
                 }
             }
         }

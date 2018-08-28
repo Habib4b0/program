@@ -127,7 +127,7 @@ public class SaveViewLookUp extends Window {
                 this.close();
             }
         } catch (Exception exception) {
-            LOGGER.error("Error in addButtonLogic :" + exception);
+            LOGGER.error("Error in addButtonLogic :", exception);
         }
     }
 
@@ -159,12 +159,12 @@ public class SaveViewLookUp extends Window {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e + " in save view -  btnUpdateLogic ");
+            LOGGER.error(" in save view -  btnUpdateLogic ", e);
         }
     }
 
     private boolean isDuplicateView(final String viewName, Object viewType) {
-        LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
+        LOGGER.debug("Entering isDuplicateView method with viewName {}", viewName);
         return logic.isDuplicateView(viewName, String.valueOf(viewType), dataSelectionDTO);
     }
 
@@ -174,7 +174,7 @@ public class SaveViewLookUp extends Window {
             logic.saveProductHierarchyLogic(dataSelectionDTO.getProductList(), dataSelectionDTO.getProductEndLevelList(), projectionIdValue, null, ARMUtils.SAVE);
             logic.saveDeductionLogic(new HashSet(dataSelectionDTO.getRsContractSidList()), projectionIdValue);
         } catch (Exception ex) {
-            LOGGER.error("Error in Save Selection View " + projectionIdValue + ex);
+            LOGGER.error("Error in Save Selection View", ex);
         }
     }
     private Property.ValueChangeListener valueChange = new Property.ValueChangeListener() {

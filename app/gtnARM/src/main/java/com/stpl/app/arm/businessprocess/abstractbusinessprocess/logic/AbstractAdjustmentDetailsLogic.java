@@ -362,7 +362,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         long exportBeginTime = System.currentTimeMillis();
         fileName = BCPExcelUtility.excelExportBcpUtility("ADJUSTMENT_DETAILS", visibleHeaders, query, outputFilePath);
         long exportEndTime = System.currentTimeMillis();
-        LOGGER.info("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
+        LOGGER.info("BCP Export took {}", (exportEndTime - exportBeginTime) + " milliseconds");
         file = new CommonUtil().getFileName(fileName);
         List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
         if (fileList == null) {

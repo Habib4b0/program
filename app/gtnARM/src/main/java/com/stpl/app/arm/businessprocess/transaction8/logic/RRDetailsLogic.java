@@ -26,7 +26,7 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        LOGGER.debug("--Inside getReserveAccountDetails --" + isReserve);
+        LOGGER.debug("--Inside getReserveAccountDetails --{}", isReserve);
         List replaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
@@ -61,7 +61,7 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
                 }
             }
-            LOGGER.debug("--query --" + query);
+            LOGGER.debug("--query --{}", query);
             List list = QueryUtils.executeSelect(query.toString());
             if (list != null) {
 
@@ -88,10 +88,10 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 }
                 finalList.add(reserveHeader);
                 finalList.add(reserveProperty);
-                LOGGER.debug("--Exit getReserveAccountDetails --" + finalList.size());
+                LOGGER.debug("--Exit getReserveAccountDetails --{}", finalList.size());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getReserveAccountDetails :" + ex);
+            LOGGER.error("Error in getReserveAccountDetails :" , ex);
         }
         return finalList;
     }

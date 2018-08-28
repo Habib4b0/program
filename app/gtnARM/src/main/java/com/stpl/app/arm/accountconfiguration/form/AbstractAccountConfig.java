@@ -355,7 +355,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        GTNLOGGER.error("Error in removeLineButtonLogic :" + ex);
+                        GTNLOGGER.error("Error in removeLineButtonLogic :" , ex);
                     }
                 }
 
@@ -375,7 +375,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     @UiHandler("populateBtn")
     public void populateBtnButtonLogic(Button.ClickEvent event) {
         if (massfieldDdlb.getValue() != null) {
-            GTNLOGGER.info("massValueDdlbRes.getValue() = " + massfieldDdlb.getValue());
+            GTNLOGGER.info("massValueDdlbRes.getValue() = {}", massfieldDdlb.getValue());
             Object value = massValueDdlb.isVisible() ? massValueDdlb.getValue() : massValue.getValue();
             if (value != null && !String.valueOf(value).isEmpty()) {
                 populateBtnIterator(value);
@@ -505,7 +505,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                     logic.resetLineLogic(selection.getTempTableName());
                     detailsTableLogic.loadsetData(true, selection);
                 } catch (Exception ex) {
-                    GTNLOGGER.error("Error in resetLineBtnResLogic :" + ex);
+                    GTNLOGGER.error("Error in resetLineBtnResLogic :" , ex);
                 }
             }
 
@@ -566,7 +566,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             createWorkSheet("Account Configuration", resultsTable);
 
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in exportButtonLogic :" + ex);
+            GTNLOGGER.error("Error in exportButtonLogic :" , ex);
         }
     }
 
@@ -580,7 +580,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             }
             ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
-            GTNLOGGER.error("Error in createWorkSheet :" + ex);
+            GTNLOGGER.error("Error in createWorkSheet :" , ex);
         }
     }
 

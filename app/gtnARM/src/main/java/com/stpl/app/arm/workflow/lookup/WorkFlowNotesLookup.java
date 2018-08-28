@@ -207,7 +207,7 @@ public class WorkFlowNotesLookup extends Window {
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in call :" + ex);
+                    LOGGER.error("Error in call :" , ex);
                 }
                 uploader.focus();
             }
@@ -323,7 +323,7 @@ public class WorkFlowNotesLookup extends Window {
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = new File(FilenameUtils.getName(fileUploadPath + name));
                 boolean val = destFileUpload.renameTo(renameFileUpload);
-                LOGGER.debug("FILE RENAMED" + val);
+                LOGGER.debug("FILE RENAMED {}", val);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
                 } else {
@@ -346,7 +346,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in uploadComponentSucceededLogic :" + ex);
+            LOGGER.error("Error in uploadComponentSucceededLogic :" , ex);
         }
 
     }
@@ -381,7 +381,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in uploadComponentStartedLogic :" + ex);
+            LOGGER.error("Error in uploadComponentStartedLogic :" , ex);
         }
 
     }
@@ -466,7 +466,7 @@ public class WorkFlowNotesLookup extends Window {
                 Page.getCurrent().open(res, "_blank", true);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in downloadFile :" + ex);
+            LOGGER.error("Error in downloadFile :" , ex);
         }
     }
 

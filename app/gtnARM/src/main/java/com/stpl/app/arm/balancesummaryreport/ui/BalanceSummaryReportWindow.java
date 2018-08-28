@@ -127,12 +127,12 @@ public class BalanceSummaryReportWindow extends Window {
                             previousBtn.setVisible(true);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error("Error in tabSheet Listner :" + ex);
+                        LOGGER.error("Error in tabSheet Listner :" , ex);
                     }
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error("Error in tabSheet Listner :" + ex);
+            LOGGER.error("Error in tabSheet Listner :" , ex);
         }
 
     }
@@ -179,7 +179,7 @@ public class BalanceSummaryReportWindow extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":

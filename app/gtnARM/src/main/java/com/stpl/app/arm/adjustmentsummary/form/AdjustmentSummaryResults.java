@@ -144,12 +144,12 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGERSUMMARYRESULT.error("Error in setExcelVisibleColumn :" + ex);
+            LOGGERSUMMARYRESULT.error("Error in setExcelVisibleColumn :" , ex);
         }
     }
 
     protected void loadSelection() {
-        LOGGERSUMMARYRESULT.debug("customerProductView.getValue()-->>" + customerProductView.getValue());
+        LOGGERSUMMARYRESULT.debug("customerProductView.getValue()-->>{}", customerProductView.getValue());
         selectionAdj.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
     }
 
@@ -249,7 +249,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
         @Override
         public void yesMethod() {
-            LOGGERSUMMARYRESULT.debug("buttonName :" + buttonName);
+            LOGGERSUMMARYRESULT.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "reset":
@@ -360,7 +360,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     protected void valueDdlbValueChange(int masterSid) {
-        LOGGERSUMMARYRESULT.debug("ADJ levelFilterValue masterSid " + masterSid);
+        LOGGERSUMMARYRESULT.debug("ADJ levelFilterValue masterSid {}", masterSid);
         if (isLevelFilterValueDdlbEnable()) {
             getSelection().setSummaryvalueSid(masterSid);
             tableLogic.loadSetData(Boolean.FALSE);

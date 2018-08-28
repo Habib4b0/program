@@ -82,10 +82,10 @@ public class FileUploader implements Upload.Receiver {
                 file = new File(ArmFileNameUtils.getFile(dir, filename), FilenameUtils.getName(filename));
                 if (file.exists()) {
                     boolean val = file.delete();
-                    LOGGER.debug("FILE DELETED" + val);
+                    LOGGER.debug("FILE DELETED {}", val);
                 }
                 boolean val = file.createNewFile();
-                LOGGER.debug("FILE CREATED" + val);
+                LOGGER.debug("FILE CREATED {}", val);
                 outputStream = new FileOutputStream(file);
                 return outputStream;
             }
@@ -93,7 +93,7 @@ public class FileUploader implements Upload.Receiver {
             LOGGER.error("Error in receiveUpload :", e);
             return NULL_OUTPUT_STREAM;
         } catch (Exception ex) {
-            LOGGER.error("Error in receiveUpload :" + ex);
+            LOGGER.error("Error in receiveUpload :" , ex);
             return NULL_OUTPUT_STREAM;
         }
         LOGGER.debug("End of receiveUpload method");

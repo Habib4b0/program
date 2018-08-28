@@ -150,7 +150,6 @@ public class DeductionDetails extends CustomComponent {
 
     private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    private final Set<String> childLevelSet = new HashSet<>();
 
     private final Set<String> refreshSet = new HashSet<>();
 
@@ -781,7 +780,6 @@ public class DeductionDetails extends CustomComponent {
     private void refreshLogic() {
         generateLogic();
         refreshSet.clear();
-        childLevelSet.clear();
     }
 
     private void populateButton() {

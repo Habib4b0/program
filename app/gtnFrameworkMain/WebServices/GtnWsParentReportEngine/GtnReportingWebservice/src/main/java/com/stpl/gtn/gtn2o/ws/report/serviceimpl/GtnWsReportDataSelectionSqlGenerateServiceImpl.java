@@ -279,11 +279,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return gtnWsReportCustomCCPListDetails.stream().filter(row -> row.getLevelNo() == levelNo
 					&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo(), row.getData()[5].toString())
 					&& filterCustomViewVariable(customviewData, reportDashboardBean.getSelectedVariableType(), row)
-					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit)
-					.map(row -> aggregate(convertToRecordbean(gtnWsRequest, row,
-							gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat(),
-							customviewData)))
+					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit).map(
+							row -> aggregate(
+									convertToRecordbean(gtnWsRequest, row,
+											gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
+											gtnWsReportCustomCCPListDetails.indexOf(row),
+											reportDashboardBean.getDisplayFormat(), customviewData),
+									row, customviewData))
 					.collect(Collectors.toList());
 
 		} catch (IOException | NumberFormatException ex) {
@@ -293,13 +295,19 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	@SuppressWarnings("unchecked")
-	GtnWsRecordBean aggregate(GtnWsRecordBean bean) {
+	GtnWsRecordBean aggregate(GtnWsRecordBean bean, GtnWsReportCustomCCPListDetails hierachyBean,
+			List<Object[]> customviewData) {
 		bean.getRecordHeader().stream().filter(e -> e != null && e.toString().contains("Total")).forEach(object -> {
 
 			Double total = bean.getRecordHeader().stream()
 					.filter(e -> e != null && e.toString().contains(object.toString().replace("Total", "")))
 					.mapToDouble(columns -> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
-			bean.addProperties(object.toString(), total);
+			String indicator = hierachyBean.getData()[5].toString();
+			String customViewTypeInBackend = String.valueOf(customviewData.get(0));
+			String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
+			boolean isTotalSpecialCondition = !"V".equals(indicator) && !customViewTypeDataArray[2].equals("Columns");
+			dataConvertors(bean, object.toString(), total, indicator, bean.getStringProperty("levelValue"),
+					isTotalSpecialCondition);
 		});
 		return bean;
 	}
@@ -352,8 +360,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				.getCurrencyConversion();
 
 		if (dataForHierarchy != null && !"0".equals(currencyConversionType)) {
-			dataForHierarchy.entrySet().stream().forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(
-					data -> dataConvertors(recordBean, entry.getKey(), data, bean.getData()[5].toString(), levelName)));
+			dataForHierarchy.entrySet().stream()
+					.forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(data -> dataConvertors(recordBean,
+							entry.getKey(), data, bean.getData()[5].toString(), levelName, false)));
 		}
 
 		// When currency display is set to no conversion in report options
@@ -559,13 +568,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		}
 	}
 
-	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator,
-			String levelName) {
+	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator, String levelName,
+			boolean isTotalSpecialCondition) {
 		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| key.contains("PER") || key.contains("RATE")) {
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
-		} else if ("V".equals(indicator) && levelName.contains("Unit")) {
+		} else if (("V".equals(indicator) && levelName.contains("Unit")) || isTotalSpecialCondition) {
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
 		} else {
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));

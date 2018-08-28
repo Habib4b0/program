@@ -53,7 +53,7 @@ public class AdjustmentConfigLogic {
         try {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
-            LOGGER.error("Error in getFieldsForSecurity :" + ex);
+            LOGGER.error("Error in getFieldsForSecurity :" , ex);
         }
         return resultList;
     }
@@ -73,7 +73,7 @@ public class AdjustmentConfigLogic {
             input.add(con.getCatalog());
             input.add(con.getCatalog());
             input.add(sql);
-            LOGGER.debug("Inside getAdjustmentConfigCount method --" + sql);
+            LOGGER.debug("Inside getAdjustmentConfigCount method --{}", sql);
             return CommonLogic.getCount(QueryUtils.getItemData(input, "AdjustmentConfigCount", null));
         }
     }
@@ -88,7 +88,7 @@ public class AdjustmentConfigLogic {
             input.add(sql);
             input.add(start);
             input.add(offset);
-            LOGGER.debug("Inside getAdjustmentConfigData method --" + sql);
+            LOGGER.debug("Inside getAdjustmentConfigData method --{}", sql);
             return getCustomizedAdjustmentConfig(QueryUtils.getItemData(input, "AdjustmentConfigLoadData", null));
         }
     }
@@ -110,7 +110,7 @@ public class AdjustmentConfigLogic {
             dto.setModifiedBy(itemData1[NumericConstants.NINE] == null ? StringUtils.EMPTY : itemData1[NumericConstants.NINE].toString());
             finalList.add(dto);
         }
-        LOGGER.debug("Exit getCustomizedAdjustmentConfig method --" + finalList.size());
+        LOGGER.debug("Exit getCustomizedAdjustmentConfig method --{}", finalList.size());
         return finalList;
     }
 
@@ -254,7 +254,7 @@ public class AdjustmentConfigLogic {
             queryMap.putAll(ARMUtils.getVisibleToDBColumnMapForConfigForSort());
             orderBy = String.valueOf(AbstractFilter.getInstance().orderByQueryGenerator(sortByColumns, queryMap));
         }
-        LOGGER.debug("Inside getOrderByQuery method --" + orderBy);
+        LOGGER.debug("Inside getOrderByQuery method --{}", orderBy);
         return orderBy;
 
     }

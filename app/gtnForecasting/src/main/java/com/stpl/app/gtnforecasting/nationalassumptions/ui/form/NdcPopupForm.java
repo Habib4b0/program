@@ -58,10 +58,6 @@ public class NdcPopupForm extends Window {
      * The tab position.
      */
     private int tabPosition = 0;
-    /**
-     * The tabsheet map.
-     */
-    private final Map<Integer, Boolean> tabsheetMap;
 
     private MedicaidNdcPopUp medicaidNdcPopUp;
     private FederalNdcPopup federalNdcPopup;
@@ -75,12 +71,10 @@ public class NdcPopupForm extends Window {
 
     public NdcPopupForm() {
         super("New NDC Setup");
-        this.tabsheetMap = new HashMap<>();
     }
 
     public NdcPopupForm(NewNdcDTO newNdcDto, Map<Integer, Object> medicaidMap, Map<Integer, Object> federalMap,SessionDTO sessionDTO) throws SystemException {
         super("New NDC Setup");
-        this.tabsheetMap = new HashMap<>();
         this.newNdcDto = newNdcDto;
         this.sessionDTO=sessionDTO;
         this.medicaidNdcPopUp = new MedicaidNdcPopUp(newNdcDto, medicaidMap,sessionDTO);
@@ -195,15 +189,6 @@ public class NdcPopupForm extends Window {
         tabSheet.addTab(medicaidNdcPopUp, "Medicaid FFS", null, 0);
         tabSheet.addTab(federalNdcPopup, "Federal", null, 1);
 
-        int tabCount = tabSheet.getComponentCount();
-        tabsheetMap.clear();
-        for (int i = 0; i < tabCount; i++) {
-            if (i == 1) {
-                tabsheetMap.put(i, Boolean.TRUE);
-            } else {
-                tabsheetMap.put(i, Boolean.FALSE);
-            }
-        }
         LOGGER.debug("NdcPopupForm addTab() ends ");
         return tabSheet;
     }

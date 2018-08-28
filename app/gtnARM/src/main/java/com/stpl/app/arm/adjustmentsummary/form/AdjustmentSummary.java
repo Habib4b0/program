@@ -213,8 +213,8 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         } else {
             selection.setToDate(defaultToDate);
         }
-        LOGGER.debug("String.valueOf(fromDate.getValue()---->>" + fromDate.getValue().toString());
-        LOGGER.debug("String.valueOf(toDate.getValue()---->>" + toDate.getValue().toString());
+        LOGGER.debug("String.valueOf(fromDate.getValue()---->>{}", fromDate.getValue().toString());
+        LOGGER.debug("String.valueOf(toDate.getValue()---->>{}", toDate.getValue().toString());
         List<List> statusValues = CommonUtils.getSelectedVariables(adjustmentResults.statusMenuItem, Boolean.FALSE);
         selection.setStatus(statusValues.get(1).toString().toUpperCase(Locale.ENGLISH));
         selection.setSummaryStatusID(statusValues.get(NumericConstants.TWO).toString());
@@ -277,7 +277,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:
@@ -314,7 +314,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                         deductionlevelDdlb.setValue(0);
                         CommonUtils.loadAdjustmentTypeDdlb(adjustmentType, selecetedAdjustment);
                     } catch (Exception ex) {
-                        LOGGER.error("Error in resetButtonClick :" + ex);
+                        LOGGER.error("Error in resetButtonClick :" , ex);
                     }
                 }
 
@@ -421,7 +421,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             fromDate.setImmediate(true);
             toDate.setImmediate(true);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadFromAndTo :" + ex);
+            LOGGER.error("Error in loadFromAndTo :" , ex);
         }
     }
 
