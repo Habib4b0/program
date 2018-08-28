@@ -56,7 +56,7 @@ public interface AdditionalInfoDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    void deleteDocDetails(int docDetailsId) throws SystemException, PortalException;
+    void deleteDocDetails(int docDetailsId) throws PortalException;
 
     /**
      * Save notes.

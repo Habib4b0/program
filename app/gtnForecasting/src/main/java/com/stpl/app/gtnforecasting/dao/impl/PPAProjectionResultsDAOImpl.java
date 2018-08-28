@@ -26,7 +26,7 @@ public class PPAProjectionResultsDAOImpl implements PPAPrjectionResultsDAO {
      * @throws Exception
      */
     @Override
-    public void savePPAProjectionView(String indicater, String projectionId) throws SystemException, PortalException {
+    public void savePPAProjectionView(String indicater, String projectionId) throws PortalException {
         return;
     }
 

@@ -47,7 +47,7 @@ public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
             }
             dto.setCalculateFlag(true);
         } catch (NumberFormatException e) {
-            LOGGER.debug("User is supposed to give Double value " + e.getMessage());
+            LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
             return;
         }
         String period;

@@ -579,7 +579,7 @@ public class AdjustmentReserveLogic {
             try (Connection con = SysDataSourceConnection.getConnection()) {
                 input.add(con.getCatalog());
             } catch (SQLException ex) {
-                LOGGER.error("Error in " + getClass(), ex);
+                LOGGER.error("Error in ", ex);
             }
         }
         StringBuilder sql = AbstractFilter.getInstance().getFilterCustomerLookUp(filter);
@@ -662,7 +662,7 @@ public class AdjustmentReserveLogic {
             selection.setTempTableName(selection.getSession().getCurrentTableNames().get("ST_ARM_ADJ_RES_CONFIG_DETAIL"));
             selection.setAdjustmentSummaryTempTableName(selection.getSession().getCurrentTableNames().get("ST_ARM_ADJ_SUMMARY_CONFIG_DETAILS"));
             selection.setBalanceSummaryTempTableName(selection.getSession().getCurrentTableNames().get("ST_ARM_BALANCE_SUMMARY_CONFIG"));
-            LOGGER.info("Map -------------Edit---- >> " + selection.getSession().getCurrentTableNames());
+            LOGGER.info("Map -------------Edit---- >> {}", selection.getSession().getCurrentTableNames());
         }
 
         List input = new ArrayList();

@@ -187,11 +187,12 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 	/**
 	 * Select button logic.
+     * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws com.stpl.portal.kernel.exception.SystemException
      * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
-	protected void btnLookupSelectLogic() throws SystemException, PortalException {
+	protected void btnLookupSelectLogic() throws SystemException {
 		List<String> sidsFromDetails = Collections.emptyList();
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
@@ -226,7 +227,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
-	protected void btnSearchLogic() throws SystemException, PortalException {
+	protected void btnSearchLogic() throws SystemException {
 		String noRecords = "No Records Found";
 		if ((StringUtils.EMPTY.equals(groupName.getValue()) || Constant.NULL.equals(groupName.getValue()))
 				&& (StringUtils.EMPTY.equals(groupNo.getValue()) || Constant.NULL.equals(groupNo.getValue()))) {
