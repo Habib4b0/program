@@ -25,7 +25,6 @@ import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -2445,24 +2444,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 @Override
                 public void yesMethod() {
-                    try {
-                        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                            CommonUtil.getInstance()
-                                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
-                        }
-                        getTableLogic().setRefresh(false);
-                        salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                                adjMethodology, HISTORY_PERIODS, projectionPeriods);
-                        CommonUtil.getInstance().waitForSeconds();
-                        CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
-                        refreshTableData(getCheckedRecordsHierarchyNo());
-                        getTableLogic().setRefresh(true);
-                        session.setActualAdjustment(true);
-                        session.setActualAdjustmentPeriods(projectionPeriods);
-
-                    } catch (PortalException | SQLException ex) {
-                        LOGGER.error(ex.getMessage());
+                    if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                        CommonUtil.getInstance()
+                                .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                     }
+                    getTableLogic().setRefresh(false);
+                    salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
+                            adjMethodology, HISTORY_PERIODS, projectionPeriods);
+                    CommonUtil.getInstance().waitForSeconds();
+                    CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
+                    refreshTableData(getCheckedRecordsHierarchyNo());
+                    getTableLogic().setRefresh(true);
+                    session.setActualAdjustment(true);
+                    session.setActualAdjustmentPeriods(projectionPeriods);
                 }
             }.getOkCancelMessage(confirmMessage, messageBody);
 
@@ -2561,18 +2555,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                         @Override
                         public void yesMethod() {
-                            try {
-                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                                    CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
-                                }
-                                getTableLogic().setRefresh(false);
-                                salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
-                                CommonUtil.getInstance().waitForSeconds();
-                                refreshTableData(getCheckedRecordsHierarchyNo());
-                                getTableLogic().setRefresh(true);
-                            } catch (PortalException  | SQLException ex) {
-                                LOGGER.error(ex.getMessage());
+                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                             }
+                            getTableLogic().setRefresh(false);
+                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
+                            CommonUtil.getInstance().waitForSeconds();
+                            refreshTableData(getCheckedRecordsHierarchyNo());
+                            getTableLogic().setRefresh(true);
                         }
                     }.getOkCancelMessage(confirmMessage, messageBody);
                 } else {

@@ -299,14 +299,14 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
     }
 
     public List getTableInput(SessionDTO sessionDTO) {
-        LOGGER.debug("sessionDTO" + sessionDTO);
+        LOGGER.debug("sessionDTO{}", sessionDTO);
         return Collections.emptyList();
     }
 
     public boolean getCondition(AdjustmentDTO dto, Object propertyId, AbstractSelectionDTO selection) {
-        LOGGER.debug("AdjustmentDTO" + dto);
-        LOGGER.debug("propertyId" + propertyId);
-        LOGGER.debug("AbstractSelectionDTO" + selection);
+        LOGGER.debug("AdjustmentDTO{}", dto);
+        LOGGER.debug("propertyId{}", propertyId);
+        LOGGER.debug("AbstractSelectionDTO{}", selection);
         return false;
     }
 

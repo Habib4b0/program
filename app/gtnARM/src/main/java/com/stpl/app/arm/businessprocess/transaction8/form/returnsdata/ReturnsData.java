@@ -140,7 +140,7 @@ public class ReturnsData extends CustomComponent {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName && "reset".equals(buttonName)) {
                 loadFirstTimeVariables();
             }

@@ -472,7 +472,7 @@ public class WorkflowLogic {
             if (docdetailsSids.length() > 0) {
                 docdetailsSids.deleteCharAt(docdetailsSids.length() - 1);
             }
-            LOGGER.debug("Doc details Id's --->>" + docdetailsSids.toString());
+            LOGGER.debug("Doc details Id's --->>{}", docdetailsSids.toString());
         } catch (Exception ex) {
             LOGGER.error("Error in saveDocDetails :" , ex);
             return ARMUtils.WORKFLOW_NOT_SAVED;

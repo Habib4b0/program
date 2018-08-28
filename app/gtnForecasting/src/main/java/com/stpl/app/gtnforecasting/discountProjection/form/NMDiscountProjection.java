@@ -4320,7 +4320,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 "Are you sure you want to reset the ‘Discount Projection Selections’?");
     }
 
-    public void resetForAdd() throws IllegalStateException {
+    public void resetForAdd() {
         projectionSelection.setDeductionLevelFilter(Collections.EMPTY_LIST);
         projectionSelection.setDeductionLevelCaptions(Collections.EMPTY_LIST);
         projectionSelection.setProductLevelFilter(Collections.EMPTY_LIST);
@@ -4689,7 +4689,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
                 return BooleanConstant.getFalseFlag();
             }
-            if (!frequencyDdlb.getValue().equals(ANNUALLY.getConstant())) {
+            if (!frequencyDdlb.getValue().equals(ANNUALLY.getConstant()) && !frequencyDdlb.getValue().equals(Constant.ANNUAL)) {
                 String startValue = startPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
                 String endValue = valueEnd.replace(' ', '~').trim();
                 String[] startValue1 = startValue.split("~");
@@ -5616,7 +5616,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
-    private void loadDeductionInclusion() throws IllegalStateException {
+    private void loadDeductionInclusion() {
         String[] deductionValues = {"Yes", "No"};
         deductionInclusionDdlb.removeSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionDdlb.removeItems();

@@ -281,7 +281,7 @@ public class BussinessProcessForm extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":
@@ -430,9 +430,9 @@ public class BussinessProcessForm extends Window {
             }
             VarianceCalculationLogic.submitWorkflow(processId, sessionDTO, GtnWsBpmCommonConstants.ARM);
             String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId, "NoOfUsers");
-            LOGGER.debug("no of users : " + noOfUsers);
+            LOGGER.debug("no of users : {}", noOfUsers);
             if (!noOfUsers.isEmpty()) {
-                LOGGER.debug("no of users : " + noOfUsers);
+                LOGGER.debug("no of users : {}", noOfUsers);
                 String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
                 String approvedFlag;
                 approvedFlag = ARMUtils.SUBMITTED;

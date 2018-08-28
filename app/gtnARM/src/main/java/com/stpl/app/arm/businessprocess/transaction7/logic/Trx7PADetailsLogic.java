@@ -29,7 +29,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        LOGGERFORDETAILLOGIC.debug("--Inside getReserveAccountDetails --" + selection.getDataSelectionDTO().getProjectionId());
+        LOGGERFORDETAILLOGIC.debug("--Inside getReserveAccountDetails --{}", selection.getDataSelectionDTO().getProjectionId());
         List replaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
@@ -56,7 +56,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
                 query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
             }
         }
-        LOGGERFORDETAILLOGIC.debug("--query --" + query);
+        LOGGERFORDETAILLOGIC.debug("--query --{}", query);
         List list = QueryUtils.executeSelect(query.toString());
         if (list != null) {
 
@@ -83,7 +83,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
             finalList.add(reserveProperty);
 
         }
-        LOGGERFORDETAILLOGIC.debug("--Exit getReserveAccountDetails --" + finalList.size());
+        LOGGERFORDETAILLOGIC.debug("--Exit getReserveAccountDetails --{}", finalList.size());
         return finalList;
     }
 
@@ -122,7 +122,7 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
             }
             conditionStr = "(" + grlStr.toString() + " ) AND ";
         }
-        LOGGERFORDETAILLOGIC.debug("--Exit getAmountFilterCondition --" + conditionStr);
+        LOGGERFORDETAILLOGIC.debug("--Exit getAmountFilterCondition --{}", conditionStr);
         return conditionStr;
     }
 

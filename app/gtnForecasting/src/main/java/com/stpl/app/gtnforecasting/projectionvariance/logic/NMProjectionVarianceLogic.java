@@ -168,7 +168,7 @@ public class NMProjectionVarianceLogic {
 	 * @return list
 	 */
 	public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final List<ComparisonLookupDTO> finalList = new ArrayList<>();
 		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -244,7 +244,7 @@ public class NMProjectionVarianceLogic {
 	 * @return list
 	 */
 	public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final List<ComparisonLookupDTO> finalList = new ArrayList<>();
 		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -2776,7 +2776,7 @@ public class NMProjectionVarianceLogic {
 
 	public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup, int start,
 			int offset, Set<Filter> filter, List<SortByColumn> sortColumns, String screenName)
-			throws PortalException, SystemException {
+			throws PortalException {
 		Map<String, Object> parameters = new HashMap<>();
 
 		if (filter != null) {
