@@ -74,7 +74,7 @@ public class FcpQueryUtils {
         return fcpList;
     }
 
-    public List loadFcpResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
+    public List loadFcpResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws SystemException {
         Map<String, Object> input = new HashMap<>();
         List fcpList;
         String customSql;
@@ -108,7 +108,7 @@ public class FcpQueryUtils {
 
     }
 
-    public List getNonFamp(SessionDTO session, int brandMasterSid, int therapeuticSid, int parentLevelId, boolean percentFlag) throws PortalException, SystemException {
+    public List getNonFamp(SessionDTO session, int brandMasterSid, int therapeuticSid, int parentLevelId, boolean percentFlag) throws SystemException {
         List fcpList;
         Map<String, Object> input = new HashMap<>();
         String customSql;
@@ -136,7 +136,7 @@ public class FcpQueryUtils {
         return fcpList;
     }
 
-    public void saveNotes(Map<String, String> editedValues, int projId, int itemSid, String pricetype, SessionDTO session) throws PortalException, SystemException {
+    public void saveNotes(Map<String, String> editedValues, int projId, int itemSid, String pricetype, SessionDTO session) throws SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -209,7 +209,7 @@ public class FcpQueryUtils {
         }
     }
 
-    public String[] getTextValue(String propertyId, int itemSid, String pricetype, SessionDTO session) throws PortalException, SystemException {
+    public String[] getTextValue(String propertyId, int itemSid, String pricetype, SessionDTO session) throws SystemException {
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder();
@@ -254,7 +254,7 @@ public class FcpQueryUtils {
         return notesText;
     }
 
-    public List loadFCPWorksheet(SessionDTO session, int ndcSid, boolean annualFlag, boolean adjustFlag) throws PortalException, SystemException {
+    public List loadFCPWorksheet(SessionDTO session, int ndcSid, boolean annualFlag, boolean adjustFlag) throws SystemException {
         List fcpList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
@@ -277,7 +277,7 @@ public class FcpQueryUtils {
         return fcpList;
     }
 
-    public List loadFcpParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
+    public List loadFcpParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws SystemException {
 
         List fcpList;
         Map<String, Object> input = new HashMap<>();
@@ -314,7 +314,7 @@ public class FcpQueryUtils {
         return fcpList;
     }
 
-    public void updateAdjustment(int itemSid, String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void updateAdjustment(int itemSid, String queryName, SessionDTO sessionDTO) throws PortalException {
         Map<String, Object> input = new HashMap<>();
 
         input.put(Constant.IMID1, itemSid);
@@ -328,7 +328,7 @@ public class FcpQueryUtils {
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
     }
 
-    public Map<String, String> getFcpPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+    public Map<String, String> getFcpPriceTypeNameDynamic(String screenName) throws SystemException {
 
         List<Object[]> phsWSList;
         Map<String, String> priceType = new HashMap<>();
@@ -344,7 +344,7 @@ public class FcpQueryUtils {
         return priceType;
     }
     
-    public void updateBeforeAdjustment(String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void updateBeforeAdjustment(String queryName, SessionDTO sessionDTO) throws PortalException {
         String customSql = SQlUtil.getQuery(getClass(),queryName);
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
     }

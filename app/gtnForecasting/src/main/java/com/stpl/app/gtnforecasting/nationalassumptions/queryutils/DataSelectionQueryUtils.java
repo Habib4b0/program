@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.NACommonResultsDAOImpl;
@@ -49,7 +48,7 @@ public class DataSelectionQueryUtils {
      public static final String FILTERBUSINESS_UNIT_NAME = "filter~businessUnitName";
      public static final String FILTERCREATED_BY = "filter~createdBy";
      
-    public List loadResultsTable(String projectionName, String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns,Object businessUnit) throws PortalException, SystemException, ParseException {
+    public List loadResultsTable(String projectionName, String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns,Object businessUnit) throws SystemException, ParseException {
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -394,7 +393,7 @@ public class DataSelectionQueryUtils {
         return resultsList;
     }
 
-    public int loadResultsTableCount(String projectionName, String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId, Set<Container.Filter> filters,Object businessUnit) throws PortalException, SystemException, ParseException {
+    public int loadResultsTableCount(String projectionName, String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId, Set<Container.Filter> filters,Object businessUnit) throws SystemException, ParseException {
 
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
@@ -690,7 +689,7 @@ public class DataSelectionQueryUtils {
 
     }
 
-    public List getPriceTypesList(SessionDTO session) throws PortalException, SystemException {
+    public List getPriceTypesList(SessionDTO session) throws SystemException {
         String sql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode)?"getNaPriceTypesForView":"getNaPriceTypes");
      if (session.getProjectionId() != 0) {
          if (Constant.VIEW.equalsIgnoreCase(mode)) {
@@ -705,7 +704,7 @@ public class DataSelectionQueryUtils {
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
-    public String deleteResultsTable(int projMasterId) throws PortalException, SystemException {
+    public String deleteResultsTable(int projMasterId) throws SystemException {
 
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
@@ -719,14 +718,14 @@ public class DataSelectionQueryUtils {
         return "Success";
     }
 
-    public List getNdcList(SessionDTO session) throws PortalException, SystemException {
+    public List getNdcList(SessionDTO session) throws SystemException {
         String sql = SQlUtil.getQuery(getClass(),"getNdcList");
 
 
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
-    public List getFederalList(SessionDTO session) throws PortalException, SystemException {
+    public List getFederalList(SessionDTO session) throws SystemException {
         String sql = SQlUtil.getQuery(getClass(),"getFederalList");
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
