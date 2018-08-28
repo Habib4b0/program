@@ -171,16 +171,16 @@ public class CopyContractindex extends VerticalLayout {
             tablelogic.setContainerDataSource(resultContainer);
             copycontractTableLayout.addComponent(copycontractResultsTable);
             copycontractTableLayout.addComponent(tablelogic.createControls());
-            copycontractResultsTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
-            copycontractResultsTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
+            copycontractResultsTable.setVisibleColumns(HeaderUtil.getInstance().CONTRACT_SEARCH_COLUMN);
+            copycontractResultsTable.setColumnHeaders(HeaderUtil.getInstance().CONTRACT_SEARCH_HEADER);
             copycontractResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             copycontractResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().CONTRACT_SEARCH_COLUMN[0], BooleanConstant.getTrueFlag());
             copycontractResultsTable.setTableFieldFactory(new TableFieldFactory() {
                 @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     Field field;
-                    if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
+                    if (String.valueOf(HeaderUtil.getInstance().CONTRACT_SEARCH_COLUMN[0]).equals(propertyId)) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
@@ -292,7 +292,7 @@ public class CopyContractindex extends VerticalLayout {
                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias Start date and Contract Alias End date are equal.");
 
             } else if (logic.isSearch(binder)) {
-                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().CONTRACT_SEARCH_COLUMN[0], BooleanConstant.getTrueFlag());
                 if (tablelogic.loadSetDate(binderDTO, true)) {
                     CommonUIUtils.successNotification(Constants.MessageConstants.SEARCH_COMPLETED.getConstant());
 
