@@ -323,6 +323,8 @@ public class NMPVExcelLogic {
                 || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELNAME_INDEX]))) {
             tradingPartnerKeys.add(key);
         }
+        LOGGER.debug("tradingPartnerKeys ={}", tradingPartnerKeys.isEmpty() ? tradingPartnerKeys : 0);
+        LOGGER.debug("hierarchyKeys ={}", hierarchyKeys.isEmpty() ? hierarchyKeys : 0);
     }
 
     private void addList(List<ProjectionVarianceDTO> pvList, final Object[] obj) {
@@ -2046,6 +2048,7 @@ public class NMPVExcelLogic {
         for (int j = 0; j < priorList.size(); j++) {
             PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn, currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
         }
+        LOGGER.debug("discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
     }
     
     private void addList_detail_discount(String key, final Object[] obj) {
