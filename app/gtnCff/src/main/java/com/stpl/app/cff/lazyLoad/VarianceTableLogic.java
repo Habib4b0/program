@@ -227,7 +227,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                         
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-                            Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+                            Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getCustomDescription();
                             List<String> list = nmProjectionVarianceLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();

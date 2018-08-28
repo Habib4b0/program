@@ -975,7 +975,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     tableLogic.getControlTable().getContainerDataSource().removeAllItems();
                 }
                 loadCustomDDLB();
+                if(isAlreadyLoaded){
+                    callGenerateLogic();
+                }
                 levelFilter.setEnabled(false);
+                
             } else {
                 if ("Total".equalsIgnoreCase(String.valueOf(level.getValue()))) {
                     levelFilter.setEnabled(false);
@@ -1476,6 +1480,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         } else if ("P".equals(pvSelectionDTO.getHierarchyIndicator())) {
             hierarchy = CommonLogic.getProductHierarchyMandated(sessionDTO.getProjectionId(), pvSelectionDTO.getProductLevelNo());
         }
+        hierarchy = pvSelectionDTO.isIsCustomHierarchy() ? CommonLogic.getCustomHierarchy(sessionDTO.getCustomViewMasterSid()) : hierarchy;
         if (hierarchy != null) {
             for (Leveldto levelDto : hierarchy) {
                 String levelFiterSid = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
