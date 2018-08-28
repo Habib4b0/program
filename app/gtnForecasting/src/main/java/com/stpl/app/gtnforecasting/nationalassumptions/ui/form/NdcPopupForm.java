@@ -19,7 +19,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -98,7 +97,7 @@ public class NdcPopupForm extends Window {
     }
 
     @UiHandler(Constant.ADD_FULL_SMALL)
-    public void add(Button.ClickEvent event) throws SystemException, PortalException {
+    public void add(Button.ClickEvent event) throws  PortalException {
         if (addLogic()) {
             new AbstractNotificationUtils() {
                 @Override
@@ -231,7 +230,7 @@ public class NdcPopupForm extends Window {
         federalNdcPopup.deleteFederalNdc();
     }
 
-    public boolean addLogic() throws SystemException, PortalException  {
+    public boolean addLogic() throws PortalException  {
         boolean addMessage = false;
         int mediCount = medicaidNdcPopUp.addLogic();
         int fedCount = federalNdcPopup.addLogic();
