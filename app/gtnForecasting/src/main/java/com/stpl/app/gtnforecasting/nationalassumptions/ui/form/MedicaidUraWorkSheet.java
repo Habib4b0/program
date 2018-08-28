@@ -1204,7 +1204,7 @@ public class MedicaidUraWorkSheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -1271,7 +1271,7 @@ public class MedicaidUraWorkSheet extends Window {
                     queryUtil.saveBaseYear(baseYear, sessionDTO, projectionDTO.getNdc9(),StringUtils.EMPTY);
                 }
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }

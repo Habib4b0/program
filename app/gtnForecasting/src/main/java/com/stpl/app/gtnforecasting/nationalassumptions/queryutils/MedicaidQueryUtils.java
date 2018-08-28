@@ -66,13 +66,13 @@ public class MedicaidQueryUtils {
                 customSql = customSql.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             medicaidList = (List) DAO.executeSelectQuery(customSql);
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return medicaidList;
     }
 
-    public List loadMedicaidResultsChild(SessionDTO session, String parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
+    public List loadMedicaidResultsChild(SessionDTO session, String parentSid, List<String> priceTypeList, boolean percentFlag) throws SystemException {
         Map<String, Object> input = new HashMap<>();
         List medicaidList;
         String customSql;
@@ -107,7 +107,7 @@ public class MedicaidQueryUtils {
 
     }
 
-    public void saveNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws PortalException, SystemException {
+    public void saveNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -175,7 +175,7 @@ public class MedicaidQueryUtils {
         }
     }
 
-    public String[] getTextValue(String propertyId, SessionDTO session, int itemSid, String pricetype) throws PortalException, SystemException {
+    public String[] getTextValue(String propertyId, SessionDTO session, int itemSid, String pricetype) throws SystemException {
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder();
@@ -221,7 +221,7 @@ public class MedicaidQueryUtils {
         return notesText;
     }
 
-    public void saveBaseYearNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws PortalException, SystemException {
+    public void saveBaseYearNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -274,7 +274,7 @@ public class MedicaidQueryUtils {
 
     }
 
-    public List loadMedicaidWorksheet(SessionDTO session, String ndc9, boolean adjustFlag) throws PortalException, SystemException {
+    public List loadMedicaidWorksheet(SessionDTO session, String ndc9, boolean adjustFlag) throws SystemException {
         List phsWSList;
         String queryName;
         ndc9 = "'" + ndc9 + "'";
@@ -297,7 +297,7 @@ public class MedicaidQueryUtils {
         return phsWSList;
     }
 
-    public Map<String, String> getPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+    public Map<String, String> getPriceTypeNameDynamic(String screenName) throws SystemException {
         List<Object[]> phsWSList;
         Map<String, String> priceType = new HashMap<>();
 
@@ -311,7 +311,7 @@ public class MedicaidQueryUtils {
         return priceType;
     }
 
-    public List loadMedicaidParent(int projMasterId, int brandSid, String ndc9LevelFilter, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
+    public List loadMedicaidParent(int projMasterId, int brandSid, String ndc9LevelFilter, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws SystemException {
         List medicaidList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
@@ -350,7 +350,7 @@ public class MedicaidQueryUtils {
         return medicaidList;
     }
 
-    public void updateAdjustment(String ndc9, String queryName, SessionDTO session) throws PortalException, SystemException {
+    public void updateAdjustment(String ndc9, String queryName, SessionDTO session) throws PortalException {
         Map<String, Object> input = new HashMap<>();
         ndc9 = "'" + ndc9 + "'";
         input.put(Constant.NDC_NINE_QUESTION, ndc9);
@@ -363,7 +363,7 @@ public class MedicaidQueryUtils {
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
-    public List loadMedicaidDdlb(int projMasterId, int brandSid, int therapeuticSid, String filterText, int start, int end) throws PortalException, SystemException {
+    public List loadMedicaidDdlb(int projMasterId, int brandSid, int therapeuticSid, String filterText, int start, int end) throws SystemException {
         List medicaidList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
@@ -389,7 +389,7 @@ public class MedicaidQueryUtils {
         return medicaidList;
     }
 
-    public void saveBaseYear(Map<String, String> editedValues, SessionDTO session, String ndc9, String priceType) throws PortalException, SystemException {
+    public void saveBaseYear(Map<String, String> editedValues, SessionDTO session, String ndc9, String priceType) throws SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -441,7 +441,7 @@ public class MedicaidQueryUtils {
     }
     
     /**ALG-3140	**/
-    public void removeOverrideOnClose(SessionDTO session) throws PortalException, SystemException {
+    public void removeOverrideOnClose(SessionDTO session) throws PortalException {
         String customSql = "UPDATE ST_MEDICAID_URA_PROJ SET ADJUSTMENT = null";
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }

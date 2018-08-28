@@ -258,8 +258,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentDetailsTableLayout.addComponent(tablelogic.createControls());
         componentInformationTable.setContainerDataSource(componentInformationContainer);
         componentInformationTable.setFilterBarVisible(true);
-        componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-        componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+        componentInformationTable.setVisibleColumns(Constants.TP_COMPONEN_TINFORMATION_COLUMNS_RS);
+        componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERSRS);
         componentInformationTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
         componentInformationTable.setFilterGenerator(new ExtFilterGenerator() {
@@ -674,10 +674,10 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentInformationContainer.removeAllItems();
 
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+            componentInformationTable.setVisibleColumns(Constants.TP_COMPONEN_TINFORMATION_COLUMNS_RS);
+            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERSRS);
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
         } else if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
             componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsCfp);

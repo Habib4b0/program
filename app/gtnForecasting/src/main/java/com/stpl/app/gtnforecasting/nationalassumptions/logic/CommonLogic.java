@@ -56,7 +56,7 @@ public class CommonLogic {
                 PhsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
             
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
               LOGGER.error(ex.getMessage());
         }
     }
@@ -123,7 +123,7 @@ public class CommonLogic {
             LOGGER.debug("End of tempOperation method");
             Object temp =DAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames())) ;
             return temp;
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
            
             LOGGER.error(e.getMessage());
             return null;
@@ -155,7 +155,7 @@ public class CommonLogic {
             } else {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LoggerFactory.getLogger(FcpResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return ht;
@@ -178,7 +178,7 @@ public class CommonLogic {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LoggerFactory.getLogger(FcpResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return ht;

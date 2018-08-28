@@ -65,14 +65,14 @@ public class MSalesProjection extends ForecastSalesProjection {
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
 
-    public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
+    public MSalesProjection(SessionDTO session, String screenName) throws PortalException  {
         super(session, screenName);
         enableDisableFields();
         this.scrnName = screenName;
         init();
     }
 
-    public final void init() throws PortalException, SystemException  {
+    public final void init() throws PortalException  {
         projectionDTO.setSessionDTO(session);
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -482,7 +482,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         }
     }
 
-    public void saveSalesProjection() throws PortalException, SystemException {
+    public void saveSalesProjection() throws PortalException {
         String userId = String.valueOf(projectionDTO.getUserId());
         String sessionId = String.valueOf(projectionDTO.getSessionId());
         salesLogic.saveMandatedSalesProjection(userId, sessionId);
@@ -503,7 +503,7 @@ public class MSalesProjection extends ForecastSalesProjection {
      * @param moduleAndTabName
      * @throws Exception
      */
-    public void setButtonSecurity() throws PortalException, SystemException {
+    public void setButtonSecurity() throws PortalException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION);

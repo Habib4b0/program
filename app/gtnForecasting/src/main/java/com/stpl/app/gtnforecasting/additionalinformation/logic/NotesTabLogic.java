@@ -116,7 +116,7 @@ public class NotesTabLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException, SystemException {
+    public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException {
         if (docDetailsId != 0) {
             DocDetailsLocalServiceUtil.deleteDocDetails(docDetailsId);
         }

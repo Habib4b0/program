@@ -848,7 +848,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     }
 
-    public void resetForAdd() throws IllegalStateException {
+    public void resetForAdd() {
         pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
         pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
         pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
@@ -1837,7 +1837,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
 
-    private void security() throws PortalException, SystemException {
+    private void security() throws PortalException {
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_VARIANCE);
 
@@ -2355,7 +2355,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
 
-    private void loadDisplayFormatDdlb() throws IllegalStateException {
+    private void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
@@ -2499,7 +2499,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
-    private void loadDeductionInclusion() throws IllegalStateException {
+    private void loadDeductionInclusion() {
         String[] deductionValues = {"Yes", "No"};
         deductionInclusionDdlb.removeSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionDdlb.removeItems();
@@ -2548,7 +2548,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return results;
     }
 
-    private void loadSalesInclusion() throws IllegalStateException {
+    private void loadSalesInclusion() {
         String[] variablesalesInclusion = {"Yes", "No"};
         salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
         salesInclusionDdlb.removeItems();

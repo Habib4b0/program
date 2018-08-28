@@ -650,7 +650,7 @@ public class AdditionalInformation extends CustomComponent {
         return removedDetailsList == null ? removedDetailsList : new ArrayList<>(removedDetailsList);
     }
 
-    public void saveAdditionalInformation() throws SystemException, PortalException  {
+    public void saveAdditionalInformation() throws PortalException  {
         int projectionId = (Integer) VaadinSession.getCurrent()
                 .getAttribute(PROJECTION_ID.getConstant());
         List<String> addedNotes = getAddedNotes();

@@ -1119,7 +1119,7 @@ public class SalesLogic {
 
     private List<SalesRowDto> generateProductView(final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO,
             final Map<String, Object> parameters, final Map<String, Object> input, final int start, final int offset,
-            final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException, SystemException {
+            final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException {
         prepareGenerateInputs(expandedParent, projSelDTO, parameters, input, start, offset, false, isTotalSales, false);
         List returnList = salesAllocationDAO.executeQuery(parameters);
         List<SalesRowDto> resultList = processSalesResultViewList(expandedParent, returnList, projSelDTO, isExpandCollapse, false, isTotalSales, parameters);
@@ -1127,7 +1127,7 @@ public class SalesLogic {
     }
 
     private List<SalesRowDto> generateCustomerView(final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO, final Map<String, Object> parameters, final Map<String, Object> input,
-            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException, SystemException {
+            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException {
         prepareGenerateInputs(expandedParent, projSelDTO, parameters, input, start, offset, true, isTotalSales, false);
         List returnList = salesAllocationDAO.executeQuery(parameters);
         List<SalesRowDto> resultList = processSalesResultViewList(expandedParent, returnList, projSelDTO, isExpandCollapse, true, isTotalSales, parameters);
@@ -1135,7 +1135,7 @@ public class SalesLogic {
     }
 
     private List<SalesRowDto> generateCustomView(final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO, final Map<String, Object> parameters, final Map<String, Object> input,
-            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException, SystemException {
+            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException {
         if (isTotalSales) {
             prepareGenerateInputs(expandedParent, projSelDTO, parameters, input, start, offset, true, isTotalSales, false);
         } else {
@@ -1381,7 +1381,7 @@ public class SalesLogic {
         return resultList;
     }
 
-    public boolean checkSelectAll(final String sessionId, final String projectionId, final String userId) throws PortalException, SystemException {
+    public boolean checkSelectAll(final String sessionId, final String projectionId, final String userId) throws PortalException {
         boolean returnValue = false;
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
@@ -1428,7 +1428,7 @@ public class SalesLogic {
         return true;
     }
 
-    public void saveForProcedureCall(final ProjectionSelectionDTO projectionDTO) throws PortalException, SystemException {
+    public void saveForProcedureCall(final ProjectionSelectionDTO projectionDTO) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
         input.put("?METHODOLOGY?", projectionDTO.getMethodology());
@@ -1441,7 +1441,7 @@ public class SalesLogic {
         salesAllocationDAO.executeQuery(parameters);
     }
 
-    public List<String> getSelectedBaseLine(final String sessionId, final String projectionId, final String userId) throws PortalException, SystemException {
+    public List<String> getSelectedBaseLine(final String sessionId, final String projectionId, final String userId) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
         List<String> baseLineList = new ArrayList<>();
@@ -1467,7 +1467,7 @@ public class SalesLogic {
         return baseLineList;
     }
 
-    public void uncheckAll(int projectionId, String sessionId, String userId) throws PortalException, SystemException {
+    public void uncheckAll(int projectionId, String sessionId, String userId) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, Object> input = new HashMap<>();
         parameters.put(INDICATOR.getConstant(), "uncheckAll");
@@ -1478,7 +1478,7 @@ public class SalesLogic {
         salesAllocationDAO.executeQuery(parameters);
     }
 
-    public boolean isCheckAll(final String sessionId, final String userId) throws PortalException, SystemException {
+    public boolean isCheckAll(final String sessionId, final String userId) throws PortalException {
         boolean returnValue = false;
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
@@ -1539,7 +1539,7 @@ public class SalesLogic {
         return period;
     }
 
-    public void updateRecord(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException, SystemException {
+    public void updateRecord(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         prepareUpdateCheckParameters(parameters, input, projectionDTO, salesDto);
         parameters.put(INDICATOR.getConstant(), "updateRecord");
@@ -1566,7 +1566,7 @@ public class SalesLogic {
         }
     }
 
-    public boolean checkHundredPercentage(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException, SystemException {
+    public boolean checkHundredPercentage(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException {
         boolean returnValue = false;
         Map<String, Object> parameters = new HashMap<>();
         prepareUpdateCheckParameters(parameters, input, projectionDTO, salesDto);
@@ -1581,7 +1581,7 @@ public class SalesLogic {
         return returnValue;
     }
 
-    public Map<String, SalesRowDto> prepareSalesItemMap(ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public Map<String, SalesRowDto> prepareSalesItemMap(ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         Map<String, SalesRowDto> itemMap = new HashMap<>();
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
@@ -1743,7 +1743,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public String getCustomViewHierarchyIndicator(int customId, int levelNo) throws PortalException, SystemException {
+    public String getCustomViewHierarchyIndicator(int customId, int levelNo) throws PortalException {
         String hierarchyIndicator;
         String hierarchyIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1757,7 +1757,7 @@ public class SalesLogic {
         return hierarchyIndicator;
     }
 
-    public int saveCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException, SystemException {
+    public int saveCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException {
 
         StringBuilder checkRecordsQuery = new StringBuilder();
 
@@ -1839,7 +1839,7 @@ public class SalesLogic {
         return count;
     }
 
-    public int updateCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException, SystemException {
+    public int updateCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException {
 
         String finalQuery;
         if (isCheckAll) {
@@ -1944,7 +1944,7 @@ public class SalesLogic {
 
     }
 
-    public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         LOGGER.debug("Property Id->= {}, EditedValue-->= {}, incOrDecPer-->= {} " , propertyId, editedValue, incOrDecPer);
         Double actualAmount;
         String detailsIdValues[];
@@ -2048,7 +2048,7 @@ public class SalesLogic {
         }
     }
 
-    public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
+    public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException {
 
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
@@ -2190,7 +2190,7 @@ public class SalesLogic {
     }
     public static final String PROJECTED_SALES = "ProjectedSales";
     
-    public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
+    public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException {
 
         String key;
         String updatedField;
@@ -2368,7 +2368,7 @@ public class SalesLogic {
      * @param checkAll
      * @throws com.liferay.portal.kernel.exception.PortalException
      */
-    public void saveRecordsForManualEntry(String changedProperty, final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean checkAll) throws PortalException, SystemException {
+    public void saveRecordsForManualEntry(String changedProperty, final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean checkAll) throws PortalException {
 
         if (StringUtils.isNotBlank(changedProperty) && !Constant.NULL.equals(changedProperty)) {
             if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
@@ -2442,7 +2442,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, Map<String, Object> inputParameters) throws PortalException, SystemException {
+    public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, Map<String, Object> inputParameters) throws PortalException {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         String growth = String.valueOf(inputParameters.get("updateVariable"));
         int startQuarter = Integer.parseInt(String.valueOf(inputParameters.get("startQuarter")));
@@ -2537,7 +2537,7 @@ public class SalesLogic {
         }
     }
 
-    public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input) throws PortalException, SystemException {
+    public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input) throws PortalException {
         SessionDTO sessionDto = projectionSelectionDTO.getSessionDTO();
         StringBuilder hierarchyNumber = new StringBuilder();
         String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(sessionDto.getCustomerLevelNumber()) : String.valueOf(sessionDto.getProductLevelNumber());
@@ -2735,7 +2735,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void adjustSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
-            final String adjBasis, final String adsVar, final String adsMeth, final String historyPeriods, String projectionPeriods) throws SystemException, SQLException, PortalException {
+            final String adjBasis, final String adsVar, final String adsMeth, final String historyPeriods, String projectionPeriods) throws SystemException {
         List<String> inputList = new ArrayList<>();
         inputList.add(projectionSelectionDTO.getFrequency());
         inputList.add(projectionPeriods);
@@ -2828,7 +2828,7 @@ public class SalesLogic {
         return resultList;
     }
 
-    public List searchAlternateContract(ContractBrandDTO contractBrandDTO) throws PortalException, SystemException {
+    public List searchAlternateContract(ContractBrandDTO contractBrandDTO) throws PortalException {
 
         String companyNo = contractBrandDTO.getCustomer().replace('*', '%');
         String contractName = contractBrandDTO.getContractName();
@@ -2879,7 +2879,7 @@ public class SalesLogic {
         return resultList;
     }
 
-    public List loadAlternateCustomer() throws SystemException, PortalException {
+    public List loadAlternateCustomer() throws PortalException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CM.COMPANY_MASTER_SID,CM.COMPANY_NO FROM dbo.CCP_DETAILS CCP \n"
                 + " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID \n"
@@ -2892,7 +2892,7 @@ public class SalesLogic {
 
     }
 
-    public List loadAlternateBrand(String brandName) throws PortalException, SystemException {
+    public List loadAlternateBrand(String brandName) throws PortalException {
 
         if (brandName.contains("*")) {
             brandName = brandName.replace('*', '%');
@@ -3076,7 +3076,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void saveSelectionForCalculation(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
-            final String startPeriod, final String endPeriod, final String allocationBasis) throws PortalException, SystemException {
+            final String startPeriod, final String endPeriod, final String allocationBasis) throws PortalException {
         String startyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[0];
         String startperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[1];
         String endyear = Constant.NULL_CAPS;
@@ -3113,7 +3113,7 @@ public class SalesLogic {
 
     }
 
-    public String loadTotalLives(int projectionId) throws PortalException, SystemException {
+    public String loadTotalLives(int projectionId) throws PortalException {
         BigDecimal lives = BigDecimal.valueOf(0.0);
         List<String> list = getTotalLives(projectionId, false);
         if (list != null) {
@@ -3124,7 +3124,7 @@ public class SalesLogic {
         return String.valueOf(lives);
     }
 
-    public List getTotalLives(int projectionId, boolean chartflag) throws PortalException, SystemException {
+    public List getTotalLives(int projectionId, boolean chartflag) throws PortalException {
 
         List list;
         StringBuilder queryBuilder = new StringBuilder();
@@ -3152,7 +3152,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public void saveSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO, final String hierarchyNo, String userGroupValue) throws PortalException, SystemException {
+    public void saveSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO, final String hierarchyNo, String userGroupValue) throws PortalException {
         String saveQuery = SQlUtil.getQuery("group-filter-save");
         saveQuery = saveQuery.replace("[?USER_GROUP]", userGroupValue);
         saveQuery = saveQuery.replace("[?HIERARCHY_NO]", hierarchyNo);
@@ -3167,7 +3167,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public List loadSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public List loadSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT USER_GROUP FROM ST_NM_SALES_PROJECTION_MASTER ");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -3257,19 +3257,19 @@ public class SalesLogic {
         }
     }
 
-    public void saveMandatedSalesProjection(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveMandatedSalesProjection(String userId, String sessionId) throws PortalException {
         saveActualsSales(userId, sessionId);
         saveSalesProjection(userId, sessionId);
         saveSalesProjectionMaster(userId, sessionId);
     }
 
-    public void saveNonMandatedSalesProjection(SessionDTO session) throws PortalException, SystemException {
+    public void saveNonMandatedSalesProjection(SessionDTO session) throws PortalException {
         String saveQuery = SQlUtil.getQuery(getClass(),"nm.saveToMainTable");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, session.getCurrentTableNames()));
     }
 
-    public void saveActualsSales(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveActualsSales(String userId, String sessionId) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_ACTUAL_SALES AS TARGET\n"
@@ -3304,7 +3304,7 @@ public class SalesLogic {
         salesProjectionDAO.executeUpdateQuery(query.toString());
     }
 
-    public void saveSalesProjectionMaster(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveSalesProjectionMaster(String userId, String sessionId) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_SALES_PROJECTION_MASTER AS TARGET\n"
@@ -3348,7 +3348,7 @@ public class SalesLogic {
 
     }
 
-    public void saveSalesProjection(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveSalesProjection(String userId, String sessionId) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_SALES_PROJECTION AS TARGET\n"
@@ -3732,7 +3732,7 @@ public class SalesLogic {
     }
 
     public void saveReturnsSelectionForCalculation(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods,
-            final String startPeriodSID, final String endPeriodSID) throws PortalException, SystemException {
+            final String startPeriodSID, final String endPeriodSID) throws PortalException {
 
         String updateQuery = "UPDATE ST_RETURNS_PROJ_MASTER   SET METHODOLOGY= '" + methodology + "',"
                 + " CALCULATION_PERIODS= '" + calcPeriods + "',"
@@ -3786,7 +3786,7 @@ public class SalesLogic {
         LOGGER.debug("In callRefreshProcedure ends");
     }
 
-    private List<Map> getActiveExFactorySalesAndUnits(ProjectionSelectionDTO projectionSelectionDTO, final int year, final int period) throws PortalException, SystemException {
+    private List<Map> getActiveExFactorySalesAndUnits(ProjectionSelectionDTO projectionSelectionDTO, final int year, final int period) throws PortalException {
         List<Map> mapList = new ArrayList<>();
         Map<String, Double> unitsMap = new TreeMap<>();
         Map<String, Double> salesMap = new TreeMap<>();
@@ -3877,7 +3877,7 @@ public class SalesLogic {
         return saveQuery;
     }
 
-    private List<Map> getActiveExFactorySalesAndUnitsForMassUpdate(ProjectionSelectionDTO projectionSelectionDTO, String periodQuery, String frequency) throws PortalException, SystemException {
+    private List<Map> getActiveExFactorySalesAndUnitsForMassUpdate(ProjectionSelectionDTO projectionSelectionDTO, String periodQuery, String frequency) throws PortalException {
         List<Map> mapList = new ArrayList<>();
         Map<String, Map<String, Double>> salesMap = new TreeMap<>();
         Map<String, Map<String, Double>> unitsMap = new TreeMap<>();
@@ -4649,7 +4649,7 @@ public class SalesLogic {
         }
 
     }
-    public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
+    public String getPeriodSid(String period, String fre, String order) throws PortalException {
         List periodSid = (List) salesAllocationDAO.executeSelectQuery(utils.periodQuery(period, fre, order));
         return !periodSid.isEmpty() ? periodSid.get(0).toString() : null; 
     }

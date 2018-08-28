@@ -198,7 +198,7 @@ public class DataSelectionLogic {
                         LOGGER.error(e.getMessage());
                     }
                 }
-            } catch (PortalException | SystemException ex) {
+            } catch (SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
@@ -222,7 +222,7 @@ public class DataSelectionLogic {
         try {  
           List<Object[]> returnList= dsQueryUtils.loadResultsTable(projectionName,getSelectedProducts, companyValueId,thearupeticValueId, productGroupId,startIndex, offset,filters,sortByColumns,businessUnit);
            projectionResults= getCustomizedProjectionResults(returnList);
-        } catch (PortalException | SystemException | ParseException ex) {
+        } catch (SystemException | ParseException ex) {
                 LOGGER.error(ex.getMessage());
         }
          return projectionResults;
@@ -232,7 +232,7 @@ public class DataSelectionLogic {
         try {
             count = dsQueryUtils.loadResultsTableCount(projectionName, getSelectedProducts, companyValueId, thearupeticValueId, productGroupId, filters,businessUnit);
 
-        } catch (PortalException | SystemException | ParseException ex) {
+        } catch (SystemException | ParseException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -367,7 +367,7 @@ public class DataSelectionLogic {
             if (resultList != null && !resultList.isEmpty()) {
                 forecastConfig = (ForecastConfig) resultList.get(0);
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return forecastConfig;
