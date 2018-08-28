@@ -1491,13 +1491,13 @@ public class ProjectionVarianceLogic {
          Comparator c=new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                if (Integer.valueOf(String.valueOf(((List) o1).get(0))) > Integer.valueOf(String.valueOf(((List) o2).get(0)))) {
+                if (Integer.parseInt(String.valueOf(((List) o1).get(0))) > Integer.parseInt(String.valueOf(((List) o2).get(0)))) {
                     return 1;
-                } else if (Integer.valueOf(String.valueOf(((List) o1).get(0))) < Integer.valueOf(String.valueOf(((List) o2).get(0)))) {
+                } else if (Integer.parseInt(String.valueOf(((List) o1).get(0))) < Integer.parseInt(String.valueOf(((List) o2).get(0)))) {
                     return -1;
-                } else if ((Integer.valueOf(String.valueOf(((List) o1).get(1))) > Integer.valueOf(String.valueOf(((List) o2).get(1))))) {
+                } else if ((Integer.parseInt(String.valueOf(((List) o1).get(1))) > Integer.parseInt(String.valueOf(((List) o2).get(1))))) {
                     return 1;
-                } else if ((Integer.valueOf(String.valueOf(((List) o1).get(1))) < Integer.valueOf(String.valueOf(((List) o2).get(1))))) {
+                } else if ((Integer.parseInt(String.valueOf(((List) o1).get(1))) < Integer.parseInt(String.valueOf(((List) o2).get(1))))) {
                     return -1;
                 }
                 return 0;
