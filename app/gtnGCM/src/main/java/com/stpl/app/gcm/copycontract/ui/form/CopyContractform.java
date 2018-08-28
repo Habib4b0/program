@@ -594,7 +594,7 @@ public class CopyContractform extends CustomComponent implements View {
             multiContractTable.setVisible(true);
             multiContractButtons.setVisible(true);
             horizontalLayoutNC1.setVisible(false);
-            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().CONTRACT_SEARCH_COLUMN[0], BooleanConstant.getTrueFlag());
+            multiContractTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], BooleanConstant.getTrueFlag());
             multiContractTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
                 @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
@@ -787,7 +787,7 @@ public class CopyContractform extends CustomComponent implements View {
         multiContractContainer.removeAllItems();
         multiContractTable.resetFilters();
         loadMultiContainer(i);
-        multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().CONTRACT_SEARCH_COLUMN[0], BooleanConstant.getTrueFlag());
+        multiContractTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], BooleanConstant.getTrueFlag());
     }
 
     private void addMultiContractDashboard(Collection<?> list) {

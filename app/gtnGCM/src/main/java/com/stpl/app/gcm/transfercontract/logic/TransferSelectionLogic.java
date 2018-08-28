@@ -305,19 +305,19 @@ public class TransferSelectionLogic {
 
     private void getToInput(final Map<String, String> inputMap, final String searchComponent, final String searchField, final String searchValue) {
         if (Constant.CONTRACT_CATEGORY.equals(searchComponent)) {
-            if (Constant.getInstance().CONTRACT_SEARCH[0].equals(searchField)) {
+            if (Constant.CONTRACT_SEARCH[0].equals(searchField)) {
                 inputMap.put("?CTNO?", CommonUtil.astToPerConverter(searchValue));
-            } else if (Constant.getInstance().CONTRACT_SEARCH[1].equals(searchField)) {
+            } else if (Constant.CONTRACT_SEARCH[1].equals(searchField)) {
                 inputMap.put("?CTNAME?", CommonUtil.astToPerConverter(searchValue));
-            } else if (Constant.getInstance().CONTRACT_SEARCH[NumericConstants.TWO].equals(searchField)) {
+            } else if (Constant.CONTRACT_SEARCH[NumericConstants.TWO].equals(searchField)) {
                 inputMap.put("?CTID?", CommonUtil.astToPerConverter(searchValue));
             }
         } else if (Constant.CFP_CATEGORY.equals(searchComponent)) {
-            if (Constant.getInstance().CFP_SEARCH[0].equals(searchField)) {
+            if (Constant.CFP_SEARCH[0].equals(searchField)) {
                 inputMap.put("?CFPNO?", CommonUtil.astToPerConverter(searchValue));
-            } else if (Constant.getInstance().CFP_SEARCH[1].equals(searchField)) {
+            } else if (Constant.CFP_SEARCH[1].equals(searchField)) {
                 inputMap.put("?CFPNAME?", CommonUtil.astToPerConverter(searchValue));
-            } else if (Constant.getInstance().CFP_SEARCH[NumericConstants.TWO].equals(searchField)) {
+            } else if (Constant.CFP_SEARCH[NumericConstants.TWO].equals(searchField)) {
                 inputMap.put("?CFPID?", CommonUtil.astToPerConverter(searchValue));
             }
         } else if (Constant.IFP_CATEGORY.equals(searchComponent)) {
