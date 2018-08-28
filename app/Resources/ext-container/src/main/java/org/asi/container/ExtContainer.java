@@ -197,25 +197,44 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
 								&& getDataStructureMode() == DataStructureMode.LIST && getRecordHeader() != null
 								&& descriptior.getName().equalsIgnoreCase(getDescriptorName())) {//
 							List results = (List) descriptior.getReadMethod().invoke(itemId);
-							for (int j = 0; j < getRecordHeader().size(); j++) {
-								Object key = getRecordHeader().get(j);
-								setProperty(key, getColumnProperty(key));
-								Object value = null;
-								if (j > -1 && j < results.size()) {
-									value = results.get(j);
-								}
-								Class a = getType(key);
-								Property pro = item.getItemProperty(key);
-								if (pro != null && value != null && a != null) {
-									pro.setValue(value);
-								}
-							}
-							item.getItemProperty(descriptior.getName())
-									.setValue(descriptior.getReadMethod().invoke(itemId));
+                                                        int k=0;
+                                                    for (Object key : getRecordHeader()) {
+                                                        int index = k;
+                                                        // if(isListColumnIndexable()){
+                                                        index = ExtListDTO.getIndexOfProperty(key.toString());
+                                                        //   }
+                                                        Object value = null;
+                                                        if (index > -1 && index < results.size()) {
+                                                            value = results.get(index);
+
+                                                        }
+                                                        Class a = getType(key);
+                                                        Property pro = this.getItem(itemId).getItemProperty(key);
+                                                        if (pro != null && value != null && a != null) {
+                                                            pro.setValue(value);
+                                                        }
+                                                        k++;
+                                                    }
+                                                    this.getItem(itemId).getItemProperty(descriptior.getName()).setValue(descriptior.getReadMethod().invoke(itemId));
+//							for (int j = 0; j < getRecordHeader().size(); j++) {
+//								Object key = getRecordHeader().get(j);
+//								setProperty(key, getColumnProperty(key));
+//								Object value = null;
+//								if (j > -1 && j < results.size()) {
+//									value = results.get(j);
+//								}
+//								Class a = getType(key);
+//								Property pro = item.getItemProperty(key);
+//								if (pro != null && value != null && a != null) {
+//									pro.setValue(value);
+//								}
+//							}
+//							item.getItemProperty(descriptior.getName())
+//									.setValue(descriptior.getReadMethod().invoke(itemId));
 						} else {
 							item.getItemProperty(descriptior.getName())
 									.setValue(descriptior.getReadMethod().invoke(itemId));
-						}
+                                                }
 					}
 				} catch (NullPointerException ex) {
 					Logger.getLogger(ExtContainer.class.getName()).log(Level.WARNING,
