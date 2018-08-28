@@ -745,7 +745,7 @@ public class PVExcelLogic {
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             Map<String, List> relationshipLevelDetailsMap = selection.isIsCustomHierarchy() ? selection.getSessionDTO().getCustomDescription() : selection.getSessionDTO().getHierarchyLevelDetails();
             List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
-            if (!isTotal && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
+            if (!isTotal && productList !=null && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
                 /**
                  * Net Ex-Factory Sales
                  */
@@ -2030,9 +2030,9 @@ public class PVExcelLogic {
             }
         }
 
-        Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
+        Map<String, List> relationshipLevelDetailsMap = selection.isIsCustomHierarchy() ? selection.getSessionDTO().getCustomDescription() : selection.getSessionDTO().getHierarchyLevelDetails();
         List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
-        if (!isTotal && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
+        if (!isTotal && productList !=null && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
             /**
              * Net Ex-Factory Sales
              */
