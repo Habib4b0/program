@@ -35,7 +35,7 @@ public interface WorkFlowLogicDao {
  * @return
  * @throws Exception 
  */
-    WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws SystemException,PortalException;
+    WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws PortalException;
 /**
  * 
  * @param dynamicQuery

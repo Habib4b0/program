@@ -1697,7 +1697,7 @@ public class NonMandatedLogic {
 						getUploadedData, description);
 			}
 
-		} catch (PortalException | SystemException e) {
+		} catch (SystemException e) {
 			LOGGER.error(e.getMessage());
 			return "Not Saved";
 		}
@@ -2498,7 +2498,7 @@ public class NonMandatedLogic {
 			for (ProjectionMaster pm : resultList) {
 				workflowStatus = pm.getIsApproved();
 			}
-		} catch (PortalException | SystemException ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return workflowStatus;

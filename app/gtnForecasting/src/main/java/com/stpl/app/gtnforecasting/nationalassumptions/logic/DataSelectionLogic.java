@@ -198,7 +198,7 @@ public class DataSelectionLogic {
                         LOGGER.error(e.getMessage());
                     }
                 }
-            } catch (PortalException | SystemException ex) {
+            } catch (SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }

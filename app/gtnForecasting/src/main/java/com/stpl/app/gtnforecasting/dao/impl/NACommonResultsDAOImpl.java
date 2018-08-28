@@ -21,25 +21,25 @@ public class NACommonResultsDAOImpl implements NACommonResultsDAO {
     
     
     @Override
-    public Object executeSelectQuery(String query) throws PortalException, SystemException {
+    public Object executeSelectQuery(String query) throws SystemException {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     @Override
-    public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException {
+    public Object executeBulkUpdateQuery(String query) throws SystemException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         return BooleanConstant.getTrueFlag();
 
     }
 
     @Override
-    public Object executeUpdateQuery(String query) throws SystemException, PortalException {
+    public Object executeUpdateQuery(String query) throws PortalException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         return BooleanConstant.getTrueFlag();
     }
 
     @Override
-    public Object executeUpdateQuery(List<StringBuilder> fcpList) throws PortalException, SystemException {
+    public Object executeUpdateQuery(List<StringBuilder> fcpList) throws SystemException {
         for (StringBuilder builder : fcpList) {
             HelperTableLocalServiceUtil.executeUpdateQuery(builder.toString());
         }
