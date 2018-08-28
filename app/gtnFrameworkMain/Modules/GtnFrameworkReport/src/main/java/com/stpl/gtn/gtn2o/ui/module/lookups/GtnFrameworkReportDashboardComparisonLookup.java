@@ -684,7 +684,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		comparisonLookupResultsGridConfig.setTableColumnMappingId(new Object[] { "projectionName", "description",
 				"marketType", "contractHolder", "contract", "brand", "createdDate", "createdBy" });
 		comparisonLookupResultsGridConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
-				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE);
+				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_COUNTSERVICE);
 		comparisonLookupResultsGridConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE);
 		comparisonLookupResultsGridConfig.setCustomFilterConfigMap(getCustomFilterConfig());
