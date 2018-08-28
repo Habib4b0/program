@@ -190,6 +190,7 @@ public class NMPVExcelLogic {
         if (isCustomView) {
             customView_relationship_hierarchy.putAll(getGroup_customViewNM());
         }
+        LOGGER.debug("customView_relationship_hierarchy ={}", customView_relationship_hierarchy.isEmpty() ? customView_relationship_hierarchy : 0);
 
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
 

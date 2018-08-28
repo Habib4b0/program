@@ -503,6 +503,7 @@ public class CommonUtils {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
+        userIdMap.clear();
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {

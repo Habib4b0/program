@@ -56,7 +56,7 @@ public class CommonLogic {
                 PhsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
             
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
               LOGGER.error(ex.getMessage());
         }
     }

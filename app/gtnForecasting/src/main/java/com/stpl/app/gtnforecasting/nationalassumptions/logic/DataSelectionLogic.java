@@ -222,7 +222,7 @@ public class DataSelectionLogic {
         try {  
           List<Object[]> returnList= dsQueryUtils.loadResultsTable(projectionName,getSelectedProducts, companyValueId,thearupeticValueId, productGroupId,startIndex, offset,filters,sortByColumns,businessUnit);
            projectionResults= getCustomizedProjectionResults(returnList);
-        } catch (PortalException | SystemException | ParseException ex) {
+        } catch (SystemException | ParseException ex) {
                 LOGGER.error(ex.getMessage());
         }
          return projectionResults;
@@ -232,7 +232,7 @@ public class DataSelectionLogic {
         try {
             count = dsQueryUtils.loadResultsTableCount(projectionName, getSelectedProducts, companyValueId, thearupeticValueId, productGroupId, filters,businessUnit);
 
-        } catch (PortalException | SystemException | ParseException ex) {
+        } catch (SystemException | ParseException ex) {
             LOGGER.error(ex.getMessage());
         }
 
