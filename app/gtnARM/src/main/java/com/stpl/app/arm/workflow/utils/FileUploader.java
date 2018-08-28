@@ -54,10 +54,10 @@ public class FileUploader implements Upload.Receiver, FinishedListener {
                 file = new CommonUtil().getFileName(dir, filename);
                 if (file.exists()) {
                     boolean val = file.delete();
-                    LOGGER.debug("FILE DELETED" + val);
+                    LOGGER.debug("FILE DELETED {}", val);
                 }
                 boolean val = file.createNewFile();
-                LOGGER.debug("FILE CREATED" + val);
+                LOGGER.debug("FILE CREATED {}", val);
                 outputStream = new FileOutputStream(file);
             }
         } catch (final java.io.FileNotFoundException e) {

@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.salesprojectionresults.tree.node;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCP;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import java.util.List;
-import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -156,23 +155,7 @@ public abstract class SalesPRBaseNode implements TreeNode, Comparable<SalesPRBas
         }
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj != null && obj.getClass() == SalesProjectionNodeCP.class) {
-            SalesProjectionNodeCP node = (SalesProjectionNodeCP) obj;
-            return ((this.hierachyNo.equals(node.getHierachyNo())) && (this.hierarchyForTable.equals(node.getHierarchyForTable())));
-        } else {
-            return false;
-        }
 
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + Objects.hashCode(this.hierachyNo + this.hierarchyForTable);
-        return hash;
-    }
 
     @Override
     public String getPreviousOppositeHieararchy(String indicator) {

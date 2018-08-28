@@ -375,7 +375,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     @UiHandler("populateBtn")
     public void populateBtnButtonLogic(Button.ClickEvent event) {
         if (massfieldDdlb.getValue() != null) {
-            GTNLOGGER.info("massValueDdlbRes.getValue() = " + massfieldDdlb.getValue());
+            GTNLOGGER.info("massValueDdlbRes.getValue() = {}", massfieldDdlb.getValue());
             Object value = massValueDdlb.isVisible() ? massValueDdlb.getValue() : massValue.getValue();
             if (value != null && !String.valueOf(value).isEmpty()) {
                 populateBtnIterator(value);

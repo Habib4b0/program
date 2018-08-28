@@ -227,7 +227,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     protected void customerProductValueChange() {
         LOGGER.debug("customerProductView value change listener starts");
         String viewType = String.valueOf(customerProductView.getValue());
-        LOGGER.debug("selectedView----" + viewType);
+        LOGGER.debug("selectedView----{}", viewType);
         leftTable.setColumnHeaders(ARMConstants.getDeductionProduct().equalsIgnoreCase(viewType) ? ARMUtils.PRODUCT
                 : ARMUtils.CUSTOMER_SMALL);
         getSelection().setSummaryviewType(viewType);
