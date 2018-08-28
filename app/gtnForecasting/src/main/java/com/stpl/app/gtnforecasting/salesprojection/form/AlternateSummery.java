@@ -1846,7 +1846,7 @@ public class AlternateSummery extends CustomComponent {
         });
     }
 
-    public final void init() throws PortalException, SystemException {
+    public final void init() throws PortalException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
@@ -2179,7 +2179,7 @@ public class AlternateSummery extends CustomComponent {
         }
     }
 
-    private void configureGroupDDLB() throws PortalException, SystemException {
+    private void configureGroupDDLB() throws PortalException {
         actualsProjections.select(Constant.BOTH);
         groupBean.removeAllItems();
         groupBean.addBean(Constant.SHOW_ALL_GROUPS);
