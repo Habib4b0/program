@@ -998,7 +998,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().TP_COMPONENT_INFORMATION_COLUMNS_PS);
+            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
