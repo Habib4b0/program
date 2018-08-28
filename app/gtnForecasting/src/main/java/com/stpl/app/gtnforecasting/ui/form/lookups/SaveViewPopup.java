@@ -210,7 +210,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @throws PortalException the portal exception
      */
     public void saveView(final List<Leveldto> selectedCustomersList, final List<Leveldto> selectedProductsList,
-            final String actionFlag) throws SystemException, PortalException {
+            final String actionFlag) throws PortalException {
         try {
 
             LOGGER.debug("Entering saveView method");

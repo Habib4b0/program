@@ -139,7 +139,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	 * Select button logic.
      * @throws com.stpl.portal.kernel.exception.SystemException
 	 */
-	protected void btnLookupSelectLogic1() throws SystemException, PortalException {
+	protected void btnLookupSelectLogic1() throws PortalException {
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			List<String> sidsFromDetails;
@@ -192,7 +192,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
-	protected void btnLookupSelectLogic() throws SystemException {
+	protected void btnLookupSelectLogic() {
 		List<String> sidsFromDetails = Collections.emptyList();
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
@@ -227,7 +227,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
-	protected void btnSearchLogic() throws SystemException {
+	protected void btnSearchLogic() {
 		String noRecords = "No Records Found";
 		if ((StringUtils.EMPTY.equals(groupName.getValue()) || Constant.NULL.equals(groupName.getValue()))
 				&& (StringUtils.EMPTY.equals(groupNo.getValue()) || Constant.NULL.equals(groupNo.getValue()))) {
