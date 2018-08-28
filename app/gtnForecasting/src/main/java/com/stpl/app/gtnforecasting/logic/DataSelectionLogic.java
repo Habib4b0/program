@@ -1140,7 +1140,7 @@ public class DataSelectionLogic {
 		return resultList;
 	}
 
-	public ForecastConfig getTimePeriod(String screenName) throws PortalException, SystemException {
+	public ForecastConfig getTimePeriod(String screenName) throws PortalException {
 		List<ForecastConfig> resultList = null;
 		int businessProcessType = 0;
 		DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
@@ -1257,7 +1257,7 @@ public class DataSelectionLogic {
 	}
 
 	public int getRelationshipSidCount(String filterText, final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		int count = dataSelectionDao
 				.getRelationshipCount(getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid));
 		return count + 1;
@@ -1265,7 +1265,7 @@ public class DataSelectionLogic {
 
 	public List<RelationshipDdlbDto> getRelationshipSidLazy(int startIndex, int endIndex,
 			final RelationshipDdlbDto defaultRelationshipDdlbDto, String filterText, final int hierarchyDefinitionSid,
-			RelationshipDdlbDto selectedRelationshipDdlbDto) throws SystemException, PortalException {
+			RelationshipDdlbDto selectedRelationshipDdlbDto) throws PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid);
 		dynamicQuery.setLimit(startIndex, endIndex);
@@ -1313,7 +1313,7 @@ public class DataSelectionLogic {
 	public static final String RELATIONSHIP_NAME_PROPERTY = "relationshipName";
 
 	public List<RelationshipDdlbDto> getRelationshipSids(final RelationshipDdlbDto defaultRelationshipDdlbDto,
-			final int hierarchyDefinitionSid) throws SystemException, PortalException {
+			final int hierarchyDefinitionSid) throws PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
@@ -1504,7 +1504,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<RelationshipDdlbDto> getRelationshipSid(final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(hierarchyDefinitionSid);
 		List<Object[]> resultList = dataSelectionDao.getRelationship(dynamicQuery);
@@ -1846,7 +1846,7 @@ public class DataSelectionLogic {
 	 * @throws Exception
 	 */
 	public int searchGroupCount(final GroupDTO dto, final Boolean isCompanyGroup, Set<Container.Filter> filters,
-			List<SortByColumn> sortByColumns) throws SystemException, PortalException {
+			List<SortByColumn> sortByColumns) throws PortalException {
 		List countList;
 		if (isCompanyGroup) {
 			countList = getCustomerList(dto, isCompanyGroup, filters, sortByColumns, Boolean.TRUE, 0, 0);
@@ -1966,7 +1966,7 @@ public class DataSelectionLogic {
 
 	public List getProductList(final GroupDTO dto, final Boolean isCompanyGroup, Set<Container.Filter> filters,
 			List<SortByColumn> sortByColumns, Boolean isCount, int startIndex, int offset)
-			throws SystemException, PortalException {
+			throws PortalException {
 		String sql = QueryUtils.getQuery(getGroupInput(dto, isCompanyGroup), "getProdGroupSearch");
 		String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, filterMap(isCompanyGroup))
 				.toString();
@@ -1991,7 +1991,7 @@ public class DataSelectionLogic {
 
 	public List getCustomerList(final GroupDTO dto, final Boolean indicator, Set<Container.Filter> filters,
 			List<SortByColumn> sortByColumns, Boolean isCount, int startIndex, int offset)
-			throws SystemException, PortalException {
+			throws PortalException {
 		String sql = QueryUtils.getQuery(getGroupInput(dto, indicator), "getCustGroupSearch");
 		String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, filterMap(indicator))
 				.toString();

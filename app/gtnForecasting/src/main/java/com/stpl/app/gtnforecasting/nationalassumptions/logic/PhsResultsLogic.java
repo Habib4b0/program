@@ -241,7 +241,7 @@ public class PhsResultsLogic {
         return count;
     }
 
-    public int getPhsParentCount(ProjectionSelectionDTO projSelDTO) throws SystemException, PortalException {
+    public int getPhsParentCount(ProjectionSelectionDTO projSelDTO) throws PortalException {
         projSelDTO.setIsProjectionTotal(true);
         projSelDTO.setIsTotal(true);
         projSelDTO.setTreeLevelNo(0);
