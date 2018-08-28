@@ -1010,6 +1010,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
         customId = Integer.parseInt(String.valueOf(customDdlb.getValue()));
         pvSelectionDTO.setCustomId(customId);
+        pvSelectionDTO.getSessionDTO().setCustomViewMasterSid(customId);
         levelDdlb.setEnabled(customId != 0);
         int tpNo = CommonLogic.getTradingPartnerLevelNo(true, customId);
         pvSelectionDTO.setTpLevel(tpNo);
@@ -1647,7 +1648,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 pvSelectionDTO.setExcelFilterLevelNo(0);
             }
             getDate();
-            configureTable();
             configureExcelTable();
             excelLogic.getPVData();
             excelParentRecords.clear();
