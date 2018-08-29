@@ -140,12 +140,12 @@ public class AbstractComponentInfo extends CustomComponent {
     private final BeanItemContainer<ComponentInfoDTO> searchContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     private String layoutIndicator = " ";
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
-    private final Object[] ifpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
-    private final String[] ifpHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
-    private final Object[] cfpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
-    private final String[] cfpHeader = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
+    private static final Object[] IFP_COL = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
+    private static final String[] IFP_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
+    private static final Object[] CFP_COL = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
+    private static final String[] CFP_HEADER = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
 
-    private final Object[] psCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY,
+    private static final Object[] PS_COL = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY,
         Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
         Constants.MEASUREMENT_PRICE_PROPERTY, Constants.NEP_PROPERTY, Constants.NEP_FORMULA_PROPERTY, Constants.BASE_PRICE_PROPERTY, Constants.BASELINE_WAC_PROPERTY,
         Constants.BASELINE_NET_WAC_PROPERTY, Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY,
@@ -153,7 +153,7 @@ public class AbstractComponentInfo extends CustomComponent {
         Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, Constants.RESET_ELIGIBLE_PROPERTY, Constants.RESET_TYPE_PROPERTY, Constants.RESET_DATE_PROPERTY, Constants.RESET_INTERVAL_PROPERTY, Constants.RESET_FREQUENCY_PROPERTY,
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY, Constants.ATTACHED_DATE_PROPERTY};
 
-    private final String[] psHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
+    private static final String[] PS_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
         Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
         Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.NEP_LABLE_NAME, Constants.NEP_FORMULA_LABLE_NAME, Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASELINE_WAC_LABLE_NAME,
         Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME,
@@ -162,8 +162,8 @@ public class AbstractComponentInfo extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.ATTACHED_DATE_FIELD};
 
 
-    public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
-    public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
+    private static final Object[] RS_COL = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
+    private static final String[] RS_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     private ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
@@ -196,8 +196,8 @@ public class AbstractComponentInfo extends CustomComponent {
         tablelogic.setContainerDataSource(searchContainer);
         tablelogic.setPageLength(NumericConstants.FIVE);
         tablelogic.sinkItemPerPageWithPageLength(false);
-        currentComponentTable.setVisibleColumns(rsCol);
-        currentComponentTable.setColumnHeaders(rsHeader);
+        currentComponentTable.setVisibleColumns(RS_COL);
+        currentComponentTable.setColumnHeaders(RS_HEADER);
         currentComponentTable.markAsDirty();
         currentComponentTable.setSelectable(false);
         currentComponentTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -244,8 +244,8 @@ public class AbstractComponentInfo extends CustomComponent {
 
     public void loadData(String value) throws FieldGroup.CommitException {
         if (value.equals(Constants.PS)) {
-            currentComponentTable.setVisibleColumns(psCol);
-            currentComponentTable.setColumnHeaders(psHeader);
+            currentComponentTable.setVisibleColumns(PS_COL);
+            currentComponentTable.setColumnHeaders(PS_HEADER);
             currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
@@ -267,8 +267,8 @@ public class AbstractComponentInfo extends CustomComponent {
             setFlags();
             loadTextFields(selection.getPsContractSid());
         } else if (value.equals(Constants.IFP)) {
-            currentComponentTable.setVisibleColumns(ifpCol);
-            currentComponentTable.setColumnHeaders(ifpHeader);
+            currentComponentTable.setVisibleColumns(IFP_COL);
+            currentComponentTable.setColumnHeaders(IFP_HEADER);
             currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
@@ -290,8 +290,8 @@ public class AbstractComponentInfo extends CustomComponent {
             setFlags();
             loadTextFields(selection.getIfpConteractSid());
         } else if (value.equals(Constants.CFP)) {
-            currentComponentTable.setVisibleColumns(cfpCol);
-            currentComponentTable.setColumnHeaders(cfpHeader);
+            currentComponentTable.setVisibleColumns(CFP_COL);
+            currentComponentTable.setColumnHeaders(CFP_HEADER);
             currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
@@ -310,8 +310,8 @@ public class AbstractComponentInfo extends CustomComponent {
             setFlags();
             loadTextFields(selection.getCfpContractSid());
         } else if (value.equals(Constants.RS)) {
-            currentComponentTable.setVisibleColumns(rsCol);
-            currentComponentTable.setColumnHeaders(rsHeader);
+            currentComponentTable.setVisibleColumns(RS_COL);
+            currentComponentTable.setColumnHeaders(RS_HEADER);
             currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();

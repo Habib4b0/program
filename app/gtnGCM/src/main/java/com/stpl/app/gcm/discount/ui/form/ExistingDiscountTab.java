@@ -1175,8 +1175,8 @@ public class ExistingDiscountTab extends CustomComponent {
     private void loadCfpFromCD(final ContractsDetailsDto parent) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromCfpCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsCompanyColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().adComponentDetailsCompanyHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsCompanyColumn());
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsCompanyHeader());
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1184,8 +1184,8 @@ public class ExistingDiscountTab extends CustomComponent {
     private void loadIfpFromCD(final ContractsDetailsDto parent) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromIfpCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsPsColumn());
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsPsHeader());
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1193,8 +1193,8 @@ public class ExistingDiscountTab extends CustomComponent {
     private void loadPsFromCD(final ContractsDetailsDto parent) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromPsCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsPsColumn());
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsPsHeader());
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1202,8 +1202,8 @@ public class ExistingDiscountTab extends CustomComponent {
     private void loadRsFromCD(final ContractsDetailsDto parent) {
         levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromRsCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsPsColumn());
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsPsHeader());
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }

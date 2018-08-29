@@ -189,8 +189,8 @@ public class TransferSelectionForm extends VerticalLayout {
         toResultTable.setSelectable(BooleanConstant.getTrueFlag());
         toResultTable.setPageLength(NumericConstants.FIVE);
         toResultTable.setContainerDataSource(toResultContainer);
-        toResultTable.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
-        toResultTable.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
+        toResultTable.setVisibleColumns(HeaderUtil.getTransferToColumn());
+        toResultTable.setColumnHeaders(HeaderUtil.getTransferToHeader());
 
         fromCDResultTable.setImmediate(BooleanConstant.getTrueFlag());
         fromCDResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -198,8 +198,8 @@ public class TransferSelectionForm extends VerticalLayout {
         fromCDResultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         fromCDResultTable.setPageLength(NumericConstants.FIVE);
         fromCDResultTable.setContainerDataSource(fromCDResultContainer);
-        fromCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
-        fromCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
+        fromCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        fromCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
 
         toCDResultTable.setImmediate(BooleanConstant.getTrueFlag());
         toCDResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -207,15 +207,15 @@ public class TransferSelectionForm extends VerticalLayout {
         toCDResultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         toCDResultTable.setPageLength(NumericConstants.FIVE);
         toCDResultTable.setContainerDataSource(toCDResultContainer);
-        toCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
-        toCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
+        toCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        toCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
         loadFormResultTable();
     }
 
     private void loadFormResultTable() {
         fromResultTable.setContainerDataSource(fromResultContainer);
-        fromResultTable.setVisibleColumns(HeaderUtil.getInstance().transforFromColumn);
-        fromResultTable.setColumnHeaders(HeaderUtil.getInstance().transforFromHeader);
+        fromResultTable.setVisibleColumns(HeaderUtil.getTransferFromColumn());
+        fromResultTable.setColumnHeaders(HeaderUtil.getTransferFromHeader());
         for (Object temp : logic.getTransferFromDetails(null, resultList)) {
             fromResultContainer.addItem(temp);
             fromResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
@@ -226,8 +226,8 @@ public class TransferSelectionForm extends VerticalLayout {
     private void toFormResultTable() {
         toResultContainer.removeAllItems();
         toResultTable.setContainerDataSource(toResultContainer);
-        toResultTable.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
-        toResultTable.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
+        toResultTable.setVisibleColumns(HeaderUtil.getTransferToColumn());
+        toResultTable.setColumnHeaders(HeaderUtil.getTransferToHeader());
         for (Object temp : logic.getTransferToDetails(null, sComponent, sField, sValue)) {
             toResultContainer.addItem(temp);
             toResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
@@ -238,57 +238,57 @@ public class TransferSelectionForm extends VerticalLayout {
     private void loadCfpFromCD(final TransferFromDTO parent) {
         fromCDResultTable.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         fromCDResultTable.addItems(logic.getFromCfpCD(parent));
-        fromCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsCompanyColumn);
-        fromCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsCompanyHeader);
+        fromCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsCompanyColumn());
+        fromCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsCompanyHeader());
     }
 
     private void loadIfpFromCD(final TransferFromDTO parent) {
         fromCDResultTable.setContainerDataSource(new BeanItemContainer<>(ComponentDetailsDTO.class));
         fromCDResultTable.addItems(logic.getFromIfpCD(parent));
-        fromCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
-        fromCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
+        fromCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        fromCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
     }
 
     private void loadPsFromCD(final TransferFromDTO parent) {
         fromCDResultTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         fromCDResultTable.addItems(logic.getFromPsCD(parent));
-        fromCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsPsColumn);
-        fromCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsPsHeader);
+        fromCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsPsColumn());
+        fromCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsPsHeader());
     }
 
     private void loadRsFromCD(final TransferFromDTO parent) {
         fromCDResultTable.setContainerDataSource(new BeanItemContainer<>(RSComponentDetailsDTO.class));
         fromCDResultTable.addItems(logic.getFromRsCD(parent));
-        fromCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsRsColumn);
-        fromCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsRsHeader);
+        fromCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsRsColumn());
+        fromCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsHsHeader());
     }
 
     private void loadCfpToCD(final TransferToDTO parent) {
         toCDResultTable.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         toCDResultTable.addItems(logic.getFromCfpCD(parent));
-        toCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsCompanyColumn);
-        toCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsCompanyHeader);
+        toCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsCompanyColumn());
+        toCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsCompanyHeader());
     }
 
     private void loadIfpToCD(final TransferToDTO parent) {
         toCDResultTable.setContainerDataSource(new BeanItemContainer<>(ComponentDetailsDTO.class));
         toCDResultTable.addItems(logic.getFromIfpCD(parent));
-        toCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
-        toCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
+        toCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        toCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
     }
 
     private void loadPsToCD(final TransferToDTO parent) {
         toCDResultTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         toCDResultTable.addItems(logic.getFromPsCD(parent));
-        toCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsPsColumn);
-        toCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsPsHeader);
+        toCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsPsColumn());
+        toCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsPsHeader());
     }
 
     private void loadRsToCD(final TransferToDTO parent) {
         toCDResultTable.setContainerDataSource(new BeanItemContainer<>(RSComponentDetailsDTO.class));
         toCDResultTable.addItems(logic.getFromRsCD(parent));
-        toCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsRsColumn);
-        toCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsRsHeader);
+        toCDResultTable.setVisibleColumns(HeaderUtil.getComponentDetailsRsColumn());
+        toCDResultTable.setColumnHeaders(HeaderUtil.getComponentDetailsHsHeader());
     }
 
     @UiHandler("fromResultTable")
@@ -364,11 +364,11 @@ public class TransferSelectionForm extends VerticalLayout {
         if (Constant.CONTRACT_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
             searchField.addItem(Constants.SELECT_ONE);
-            searchField.addItems(Arrays.asList(Constant.getInstance().contractSearch));
+            searchField.addItems(Arrays.asList(Constant.getContractSearch()));
         } else if (Constant.CFP_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
             searchField.addItem(Constants.SELECT_ONE);
-            searchField.addItems(Arrays.asList(Constant.getInstance().cfpSearch));
+            searchField.addItems(Arrays.asList(Constant.getCfpSearch()));
         } else if (Constant.IFP_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
             searchField.addItem(Constants.SELECT_ONE);

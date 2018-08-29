@@ -167,15 +167,15 @@ public class ContractSearchForm extends VerticalLayout {
         resultTable.setPageLength(NumericConstants.FIVE);
         resultTable.setEditable(BooleanConstant.getTrueFlag());
         resultTable.setContainerDataSource(resultContainer);
-        resultTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
-        resultTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
-        resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+        resultTable.setVisibleColumns(HeaderUtil.getContractSearchColumn());
+        resultTable.setColumnHeaders(HeaderUtil.getContractSearchHeader());
+        resultTable.setColumnCheckBox(HeaderUtil.getContractSearchColumn()[0], BooleanConstant.getTrueFlag());
         resultTable.setTableFieldFactory(new TableFieldFactory() {
 
             @Override
             public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                 Field field;
-                if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
+                if (String.valueOf(HeaderUtil.getContractSearchColumn()[0]).equals(propertyId)) {
                     field = new CheckBox();
                 } else {
                     field = null;

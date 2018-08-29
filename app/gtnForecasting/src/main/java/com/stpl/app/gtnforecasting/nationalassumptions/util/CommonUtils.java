@@ -503,6 +503,7 @@ public class CommonUtils {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
+        userIdMap.clear();
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
@@ -636,7 +637,7 @@ public class CommonUtils {
         return useridFromName;
     }
     
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();

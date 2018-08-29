@@ -23,7 +23,7 @@ public interface PPAProjectionDao {
   	 */
   	List getContractHolderSummary(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
-	    				throws SystemException, PortalException;
+	    				throws PortalException;
 
         /**
          * 
@@ -32,7 +32,7 @@ public interface PPAProjectionDao {
          * @throws PortalException
          * @throws Exception 
          */
-    public List getPPAProjection(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,String levelName) throws SystemException, PortalException;
+    public List getPPAProjection(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,String levelName) throws PortalException;
     public void massUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String parent,String levelValue);
     public void saveCheckRecord(int startQuater, int endQuater, int startYear, int endYear, Double priceCap); 
     public Object executeSelect(String query); 

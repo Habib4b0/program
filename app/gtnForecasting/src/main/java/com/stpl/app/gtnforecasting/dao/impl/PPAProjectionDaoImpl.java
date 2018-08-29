@@ -32,8 +32,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
   	 */
 	@Override
 	public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
-			String level, String discountLevel) throws SystemException, PortalException {
-		// TODO Auto-generated method stub
+			String level, String discountLevel) throws PortalException {
 		return Collections.emptyList();
 	}
 /**
@@ -44,7 +43,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
  * @throws Exception 
  */
     @Override
-    public List getPPAProjection(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,String levelName) throws SystemException, PortalException{
+    public List getPPAProjection(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,String levelName) throws PortalException{
         return new NmPpaProjectionMasterImpl().getPPAProjectionList(projectionId,levelNo,parent,last,startIndex,endIndex,isCount,levelName);
         
     }

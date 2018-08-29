@@ -1780,7 +1780,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     }
 
-    public int findNewNdcCount() throws SystemException, PortalException {
+    public int findNewNdcCount() throws PortalException {
         int count;
         int projectionId = (Integer) VaadinSession.getCurrent()
                 .getAttribute(PROJECTION_ID.getConstant());

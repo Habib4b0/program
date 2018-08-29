@@ -1,6 +1,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Class contains the String constants used in functions.
  *

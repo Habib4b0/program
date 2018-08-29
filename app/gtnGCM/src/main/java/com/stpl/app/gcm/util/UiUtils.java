@@ -55,22 +55,10 @@ public class UiUtils {
 	public final String newCompanyDetailsHeaders[] = new String[] { "Trading Partner No ", "Trading Partner Name",
 			"Trading Partner Contract No", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD };
-	public final Object newIfpDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY,
-			Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY,
-			Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY };
 
-	public final Object ccIfpDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
-			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
-			Constants.ATTACHED_DATE_PROPERTY };
-	public final String newIfpDetailsHeaders[] = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
+	private static final String[] NEW_IFP_DETAILS_HEADERS = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
 			Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			Constants.ATTACHED_DATE_FIELD };
-	public final Object ccPsDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
-			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
-			"priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "ppStartDate",
-			"priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency",
-			"priceToleranceType", "maxIncrementalChange", "priceTolerance", "reset", "eligibility", "resetType",
-			"resetDate", "resetIntervel", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY };
 	public final Object newPsDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
 			Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE,
 			"priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate",
@@ -180,15 +168,18 @@ public class UiUtils {
    /**
     * Instantiates a new UI utils.
     */
-
-	/**
-	 * Constructor
-	 */
-	private UiUtils() {
+	public static String[] getNewIfpDetailsHeaders() {
+        return NEW_IFP_DETAILS_HEADERS.clone();
 		/*
 		 * Constructor
 		 */
 	}
+
+    /**
+     * Constructor
+     */
+    private UiUtils() {
+    }
 
 	public static UiUtils getInstance() {
 		if (object == null) {

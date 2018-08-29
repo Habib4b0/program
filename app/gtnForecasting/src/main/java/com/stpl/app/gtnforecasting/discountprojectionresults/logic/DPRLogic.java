@@ -1309,26 +1309,28 @@ public class DPRLogic {
     }
 
     public String getFormattedValue(DecimalFormat FORMAT, String value) {
+        String valueFormat;
         if (value.contains(Constant.NULL)) {
-            value = "...";
+            valueFormat = "...";
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            valueFormat = FORMAT.format(Double.valueOf(value));
         }
-        return value;
+        return valueFormat;
     }
 
     public String getFormatValue(int numberOfDecimal, String value, String appendChar) {
-        if (value.contains(Constant.NULL)) {
-            value = "...";
+        String formattedValue = value;
+        if (formattedValue.contains(Constant.NULL)) {
+            formattedValue = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            value = getFormattedValue(CUR_TWO, value);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(formattedValue)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(CUR_TWO, formattedValue);
 
         } else if (Constant.PERCENT.equals(appendChar)) {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            value = getFormattedValue(PER_THREE, value).concat(appendChar);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(formattedValue)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(PER_THREE, formattedValue).concat(appendChar);
         }
-        return value;
+        return formattedValue;
     }
 
     private String getProgramCodeQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {
@@ -2309,7 +2311,7 @@ public class DPRLogic {
         return null;
     }
 
-    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException {
 
         LOGGER.debug("Session--->= {}, {}, {}" , sessionDTO.getUserId(), sessionDTO.getSessionId(), sessionDTO.getProjectionId());
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
