@@ -46,7 +46,7 @@ public class MedicaidQueryUtils {
         List medicaidList = new ArrayList();
         try {
             Map<String, Object> input = new HashMap<>();
-            ndc9Level = "'" + ndc9Level + "'";
+            String ndc9LevelNew = "'" + ndc9Level + "'";
             input.put("?PID", projMasterId);
             if (brandSid == 0) {
                 input.put("?BID", Constant.NULL_CAPS);
@@ -58,7 +58,7 @@ public class MedicaidQueryUtils {
             } else {
                 input.put("?TID", therapeuticSid);
             }
-            input.put(Constant.NDC_NINE_QUESTION, ndc9Level);
+            input.put(Constant.NDC_NINE_QUESTION, ndc9LevelNew);
 
             String customSql = SQlUtil
                     .getQuery(getClass(),queryName);
@@ -277,7 +277,7 @@ public class MedicaidQueryUtils {
     public List loadMedicaidWorksheet(SessionDTO session, String ndc9, boolean adjustFlag) throws SystemException {
         List phsWSList;
         String queryName;
-        ndc9 = "'" + ndc9 + "'";
+        String ndc9Value = "'" + ndc9 + "'";
         if (adjustFlag) {
             queryName = Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidWorkSheetAdjustmentForView" : "getMedicaidWorkSheetAdjustment";
         } else {
@@ -285,7 +285,7 @@ public class MedicaidQueryUtils {
         }
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
-        input.put(Constant.NDC_NINE_QUESTION, ndc9);
+        input.put(Constant.NDC_NINE_QUESTION, ndc9Value);
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (Map.Entry<String, Object> key : input.entrySet()) {
@@ -352,8 +352,8 @@ public class MedicaidQueryUtils {
 
     public void updateAdjustment(String ndc9, String queryName, SessionDTO session) throws PortalException {
         Map<String, Object> input = new HashMap<>();
-        ndc9 = "'" + ndc9 + "'";
-        input.put(Constant.NDC_NINE_QUESTION, ndc9);
+        String ndc9Adjustment = "'" + ndc9 + "'";
+        input.put(Constant.NDC_NINE_QUESTION, ndc9Adjustment);
 
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 

@@ -706,8 +706,8 @@ public class SalesProjectionLogic {
             numberofQuators = (toQuator - fromQuator) + 1;
 
         } else if (toYear - fromYear == 1) {
-            fromQuator = NumericConstants.FIVE - fromQuator;
-            numberofQuators = fromQuator + toQuator;
+            int fromQuatorr = NumericConstants.FIVE - fromQuator;
+            numberofQuators = fromQuatorr + toQuator;
 
         } else if (toYear - fromYear > 1) {
 

@@ -1309,26 +1309,28 @@ public class DPRLogic {
     }
 
     public String getFormattedValue(DecimalFormat FORMAT, String value) {
+        String valueFormat;
         if (value.contains(Constant.NULL)) {
-            value = "...";
+            valueFormat = "...";
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            valueFormat = FORMAT.format(Double.valueOf(value));
         }
-        return value;
+        return valueFormat;
     }
 
     public String getFormatValue(int numberOfDecimal, String value, String appendChar) {
+        String formattedValue = StringUtils.EMPTY;
         if (value.contains(Constant.NULL)) {
-            value = "...";
+            formattedValue = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            value = getFormattedValue(CUR_TWO, value);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(CUR_TWO, value);
 
         } else if (Constant.PERCENT.equals(appendChar)) {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            value = getFormattedValue(PER_THREE, value).concat(appendChar);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(PER_THREE, value).concat(appendChar);
         }
-        return value;
+        return formattedValue;
     }
 
     private String getProgramCodeQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {

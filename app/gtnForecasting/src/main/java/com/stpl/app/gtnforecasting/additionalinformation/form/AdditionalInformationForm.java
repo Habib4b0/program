@@ -85,10 +85,10 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
-        mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
-        this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(mode);
-        this.isEditMode = Constant.EDIT.equalsIgnoreCase(mode);
-        this.isViewMode = "View".equalsIgnoreCase(mode);
+        String modeValue = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
+        this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(modeValue);
+        this.isEditMode = Constant.EDIT.equalsIgnoreCase(modeValue);
+        this.isViewMode = "View".equalsIgnoreCase(modeValue);
         table.setContainerDataSource(attachmentsListBean);
         table.setVisibleColumns("documentName", "dateAdded", "userName");
         table.setColumnHeaders("Document Name", "Date Added", "User Name");
