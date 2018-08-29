@@ -26,7 +26,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
 	@Autowired
 	private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
-
+	
 	private GtnWsPeriodConfigurationService() {
 		super();
 	}
@@ -75,7 +75,9 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	}
 
 	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
-
+		
+		logger.info("Entering into webservice loadDate  WS->SR->QE->SR->WS");
+		
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
 		logger.info("LoadDate Query:" + loadDateQuery);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
@@ -83,12 +85,15 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		queryExecutorBean.setQueryType("SELECT");
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsPeriodConfigurationService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
-				gtnQueryEngineWebServiceRequest);
-		List<Object[]> resultList = response.getQueryResponseBean().getResultList();
-		logger.info("Returning Resultlist to Controller");
-
-		return resultList;
+		RestTemplate restTemplate1 = new RestTemplate();
+		
+		GtnQueryEngineWebServiceResponse response1   =	restTemplate1.postForObject(
+				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine" , "serviceRegistry"),
+				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
+		List<Object[]> resultList1 = response1.getQueryResponseBean().getResultList();
+		return resultList1;
+		
+		
 	}
+
 }
