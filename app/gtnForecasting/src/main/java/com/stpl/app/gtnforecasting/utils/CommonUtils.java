@@ -1194,9 +1194,6 @@ public class CommonUtils {
     public static void frequenceValueChange(Object value, ComboBox history, SessionDTO session) {
         if (value == null || SELECT_ONE.getConstant().equals(value.toString())) {
             history.removeAllItems();
-            history.addItem(SELECT_ONE);
-            history.setNullSelectionItemId(SELECT_ONE);
-            history.setValue(SELECT_ONE);
         } else {
             int historyValue = 0;
             List<String> list = null;
