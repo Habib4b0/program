@@ -705,8 +705,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     
                     tempTableProcedureCalling(tempComaprision, cffLogicForTempTable);
                     
-                    commonLogic.checkForCompletionALL(sessionDTO, Constants.SALES);
-                    commonLogic.checkForCompletionALL(sessionDTO,  Constants.DISCOUNT);
+                    commonLogic.checkForCompletionALL(sessionDTO, Constants.SALES,pvSelectionDTO);
+                    commonLogic.checkForCompletionALL(sessionDTO,  Constants.DISCOUNT,pvSelectionDTO);
                     
                     Object[] sortedList=sortingTempAndCurrentFilterValues();
                     
