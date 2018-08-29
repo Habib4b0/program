@@ -128,7 +128,7 @@ public class AddContractSelection extends CustomComponent {
     @UiField("massUpdateValue")
     private ComboBox massUpdateValue;
     @UiField("marketType")
-    private ComboBox marketType_DTO;
+    private ComboBox marketTypeDTO;
     @UiField("typeDdlb")
     private ComboBox typeDdlb;
     @UiField("field")
@@ -624,7 +624,7 @@ public class AddContractSelection extends CustomComponent {
     
     private void resetSearchField() {
         vCntHolder.setValue(StringUtils.EMPTY);
-        marketType_DTO.setValue(null);
+        marketTypeDTO.setValue(null);
         cfp.setValue(StringUtils.EMPTY);
         vCntNo.setValue(StringUtils.EMPTY);
         rsSchedule.setValue(StringUtils.EMPTY);
@@ -1158,7 +1158,7 @@ public class AddContractSelection extends CustomComponent {
      * Load Market Type
      */
     private void loadMarketType() {
-        logic.LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
     }
 
     /**

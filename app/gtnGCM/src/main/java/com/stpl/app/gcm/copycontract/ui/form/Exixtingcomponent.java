@@ -707,8 +707,8 @@ public class Exixtingcomponent extends CustomComponent {
                 if (level.equals(Constants.COMPANY_FAMILY_PLAN)) {
                     if (1 - levelNumber == 1) {
 
-                        Integer cfpId = selectedItemDto.getCompanyFamilyPlanSystemId();
-                        String query = "select CFP_ID,CFP_NO,CFP_NAME from dbo.CFP_MODEL where CFP_MODEL_SID=" + cfpId;
+                        Integer cfpIdTree = selectedItemDto.getCompanyFamilyPlanSystemId();
+                        String query = "select CFP_ID,CFP_NO,CFP_NAME from dbo.CFP_MODEL where CFP_MODEL_SID=" + cfpIdTree;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
                         if (cfpList != null && cfpList.size() > 0) {
                             Object[] obj = (Object[]) cfpList.get(0);
@@ -718,7 +718,7 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NUMBER).setValue(String.valueOf(obj[1]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(String.valueOf(obj[NumericConstants.TWO]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("1");
-                            dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(cfpId));
+                            dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(cfpIdTree));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -836,7 +836,7 @@ public class Exixtingcomponent extends CustomComponent {
         Object root = dashboardResultsTable.getValue();
         if (root != null) {
             Integer level = Integer.valueOf(String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue()));
-            Integer cfpId = Integer.valueOf(String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue()));
+            Integer cfpIdBtnClick = Integer.valueOf(String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue()));
             if (level.equals(1)) {
                 levelDetailsResultsTable.setVisibleColumns("companyNo", "companyName", "companyStatus", Constants.COMPANY_START_DATE, Constants.COMPANY_END_DATE);
                 levelDetailsResultsTable.setColumnHeaders(Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYSTATUS, "Start Date", "Company End Date");
@@ -893,7 +893,7 @@ public class Exixtingcomponent extends CustomComponent {
                     rsDetailsName.setReadOnly(true);
                 }
             }
-            componentLevelTableLogic.loadSetData(level, cfpId, true);
+            componentLevelTableLogic.loadSetData(level, cfpIdBtnClick, true);
 
         } else {
             AbstractNotificationUtils.getErrorNotification("Populate", "Please highlight a component to Populate");

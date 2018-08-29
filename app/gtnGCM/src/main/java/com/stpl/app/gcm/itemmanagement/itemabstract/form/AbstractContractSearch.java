@@ -98,7 +98,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     @UiField(Constants.CONTRACT_HOLDER)
     protected TextField contractHolder;
     @UiField("marketType")
-    protected ComboBox marketType_DTO;
+    protected ComboBox marketTypeDTO;
     @UiField("companyFamilyPlanNo")
     protected CustomTextField cfpNO;
     @UiField("itemFamilyPlanNo")
@@ -114,15 +114,15 @@ public abstract class AbstractContractSearch extends CustomComponent {
     @UiField("rebateScheduleName")
     protected TextField rebateScheduleName;
     @UiField("rebateScheduleType")
-    protected ComboBox rebateScheduleType_DTO;
+    protected ComboBox rebateScheduleTypeDTO;
     @UiField("rarCategory")
-    protected ComboBox rarCategory_DTO;
+    protected ComboBox rarCategoryDTO;
     @UiField("rebateScheduleNo")
     protected TextField rebateScheduleNo;
     @UiField("rebateScheduleCategory")
-    protected ComboBox rebateScheduleCategory_DTO;
+    protected ComboBox rebateScheduleCategoryDto;
     @UiField("rebateProgramType")
-    protected ComboBox rebateProgramType_DTO;
+    protected ComboBox rebateProgramTypeDTO;
     @UiField("rebateScheduleAlias")
     protected TextField rebateScheduleAlias;
     @UiField("reset1")
@@ -130,7 +130,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     @UiField("search")
     protected Button search;
     @UiField("MassUpdatePanel1")
-    public Panel MassUpdatePanel1;
+    public Panel massUpdatePanelOne;
     @UiField("field")
     protected ComboBox field;
     @UiField("massUpdateValue")
@@ -138,7 +138,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     @UiField("populateBtn")
     protected Button populateBtn;
     @UiField("Available Contracts")
-    protected Panel AvailableContracts;
+    protected Panel availableContracts;
     @UiField("reset2")
     protected Button reset2;
     @UiField("submit")
@@ -891,13 +891,13 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private void resetSearchField() {
         try {
             contractHolder.setValue(StringUtils.EMPTY);
-            marketType_DTO.setValue(null);
+            marketTypeDTO.setValue(null);
             cfpNO.setValue(StringUtils.EMPTY);
             contractNo.setValue(StringUtils.EMPTY);
-            rebateScheduleCategory_DTO.setValue(null);
+            rebateScheduleCategoryDto.setValue(null);
             ifpNo.setValue(StringUtils.EMPTY);
             contractName.setValue(StringUtils.EMPTY);
-            rebateProgramType_DTO.setValue(null);
+            rebateProgramTypeDTO.setValue(null);
             psNo.setValue(StringUtils.EMPTY);
             rebateScheduleNo.setValue(StringUtils.EMPTY);
             rebateScheduleName.setValue(StringUtils.EMPTY);
@@ -905,8 +905,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
             rebateScheduleAlias.setValue(StringUtils.EMPTY);
 
-            rebateScheduleType_DTO.setValue(null);
-            rarCategory_DTO.setValue(null);
+            rebateScheduleTypeDTO.setValue(null);
+            rarCategoryDTO.setValue(null);
 
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
@@ -926,19 +926,19 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     private void loadRsType() {
-        getLogic().LazyLoadDdlb(rebateScheduleType_DTO, "LoadRsTypeCount", "LoadRsType", BooleanConstant.getFalseFlag());
+        getLogic().LazyLoadDdlb(rebateScheduleTypeDTO, "LoadRsTypeCount", "LoadRsType", BooleanConstant.getFalseFlag());
     }
 
     private void loadMarketType() {
-        getLogic().LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
+        getLogic().LazyLoadDdlb(marketTypeDTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
     }
 
     private void loadRsCategory() {
-        getLogic().LazyLoadDdlb(rebateScheduleCategory_DTO, "LoadRsCategoryCount", "LoadRsCategory", BooleanConstant.getFalseFlag());
+        getLogic().LazyLoadDdlb(rebateScheduleCategoryDto, "LoadRsCategoryCount", "LoadRsCategory", BooleanConstant.getFalseFlag());
     }
 
     private void loadRptype() {
-        getLogic().LazyLoadDdlb(rebateProgramType_DTO, "LoadRpTypeCount", "LoadRpType", BooleanConstant.getFalseFlag());
+        getLogic().LazyLoadDdlb(rebateProgramTypeDTO, "LoadRpTypeCount", "LoadRpType", BooleanConstant.getFalseFlag());
     }
 
     /**
