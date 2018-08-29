@@ -499,14 +499,16 @@ public class UdcHelperForm extends CustomComponent implements View {
                                 notif.setStyleName(CommonUtils.MYSTYLE);
                                 notif.show(Page.getCurrent());
                             }
-                        } else if (masterSid == 0) {
-                            NotificationUtils.getErrorNotification("Error", "Please select Brand to delete");
                         } else {
+                            NotificationUtils.getErrorNotification("Error", "Please select Brand to delete");
+                        } 
+                        /**      to be implemented
+                        else {
                             Notification notif = new Notification(MSG_DELETION_FAILED + "BRAND" + " is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
-                        }
+                        }**/
                     } else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
                         HelperTable check = HelperTableLocalServiceUtil.getHelperTable(masterSid);
                         HelperTable helperTable = HelperTableLocalServiceUtil.getHelperTable(masterSid);

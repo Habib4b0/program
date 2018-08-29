@@ -119,10 +119,14 @@ public class SalesExcelNM extends ExcelExport{
                 formatForCurrencyAndDecimal(propIdSalesExcel, sheetCellSalesExcel, rootItemId);
 
             } else {
-                if (propSalesExcel != null && valueSalesExcel != null) {
-                    nonFormatter(valueSalesExcel, propSalesExcel, sheetCellSalesExcel);
-                }
+                nonFormatPropSalesExcel(propSalesExcel, valueSalesExcel, sheetCellSalesExcel);
             }
+        }
+    }
+
+    private void nonFormatPropSalesExcel(Property propSalesExcel, Object valueSalesExcel, Cell sheetCellSalesExcel) {
+        if (propSalesExcel != null && valueSalesExcel != null) {
+            nonFormatter(valueSalesExcel, propSalesExcel, sheetCellSalesExcel);
         }
     }
 
@@ -148,7 +152,7 @@ public class SalesExcelNM extends ExcelExport{
         return getCellValue;
     }
 
-    private Double dataConverter(Object value) throws NumberFormatException {
+    private Double dataConverter(Object value) {
         Double d;
         String str = String.valueOf(value);
         if (str.contains("$") || str.contains(",") || str.contains("%")) {

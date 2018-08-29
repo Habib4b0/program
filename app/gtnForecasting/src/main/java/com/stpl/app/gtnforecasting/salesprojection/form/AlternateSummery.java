@@ -288,10 +288,7 @@ public class AlternateSummery extends CustomComponent {
     private String oldGroupValue = StringUtils.EMPTY;
     private final Set<String> tableHirarechyNos = new HashSet<>();
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
-    private Map<Object, String> radioMap = new HashMap<>();
     protected boolean isSalesCalculated;
-    private List<String> checkedList;
-    private Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
 
     @UiField("GridLayoutProjection")
     protected GridLayout GridLayoutProjection;
@@ -498,7 +495,6 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
         checkBoxMap.clear();
-        radioMap.clear();
         generateBtnLogic(event);
     }
 
@@ -974,14 +970,14 @@ public class AlternateSummery extends CustomComponent {
                             newValue = newValue.replace(Constant.PERCENT, StringUtils.EMPTY);
                             if (!oldValue.equals(newValue)) {
                                 try {
-                                    Double newNumber, oldNumber;
-                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
-                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
-                                     Double incOrDec;
-                                     if (oldNumber == 0.0d) {
-                                        incOrDec = Double.POSITIVE_INFINITY;
-                                    } else {
-                                        incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                    Double newNumberValue, oldNumberValue;
+                                    newNumberValue = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
+                                    oldNumberValue = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
+                                     Double incOrDecValue = 0.0;
+                                     if (oldNumberValue.equals(0.0)) {
+                                        incOrDecValue = Double.POSITIVE_INFINITY;
+                                    } else if(!oldNumberValue.equals(0.0)){
+                                        incOrDecValue = ((newNumberValue - oldNumberValue) / oldNumberValue) * NumericConstants.HUNDRED;
                                     }
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
                                     String tempArray[] = tempValue.split("-");
@@ -992,9 +988,9 @@ public class AlternateSummery extends CustomComponent {
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO);
+                                        salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDecValue, salesRowDto, projectionDTO);
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDecValue, changedProperty, salesRowDto, projectionDTO, new boolean[]{checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(itemId));
@@ -1717,29 +1713,6 @@ public class AlternateSummery extends CustomComponent {
         return isSalesCalculated;
     }
 
-    public boolean ismultipleDiscount() {
-        boolean isOne = true;
-        boolean ismultipleDiscount = false;
-        tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
-            Map<String, List<String>> checkedDoubleHeaders = d.getValue();
-            for (Map.Entry<String, List<String>> entry : checkedDoubleHeaders.entrySet()) {
-                List a = entry.getValue();
-                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
-                    ismultipleDiscount = true;
-                    break;
-                } else {
-                    checkedList.addAll(a);
-                }
-            }
-            if (!checkedList.isEmpty()) {
-                isOne = false;
-            }
-        }
-        return !ismultipleDiscount;
-    }
-
     /**
      * Method returns a integer value which has the Year followed by the
      * frequency value which used to compare periods.
@@ -1873,7 +1846,7 @@ public class AlternateSummery extends CustomComponent {
         });
     }
 
-    public final void init() throws PortalException, SystemException {
+    public final void init() throws PortalException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
@@ -2206,7 +2179,7 @@ public class AlternateSummery extends CustomComponent {
         }
     }
 
-    private void configureGroupDDLB() throws PortalException, SystemException {
+    private void configureGroupDDLB() throws PortalException {
         actualsProjections.select(Constant.BOTH);
         groupBean.removeAllItems();
         groupBean.addBean(Constant.SHOW_ALL_GROUPS);

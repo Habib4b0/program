@@ -190,7 +190,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 * @throws java.lang.Exception
 	 */
 	public DataSelectionForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, String screenName)
-			throws SystemException, PortalException {
+			throws  PortalException {
 		super(dataSelectionBinder, screenName, true);
 		LOGGER.debug("DataSelectionIndex Initializing... ");
 		this.dataSelectionDTO = dataSelectionDTO;
@@ -3934,7 +3934,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescMap,
 							INDICATOR_LEVEL_NDC.getConstant(), scrName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, ndcLevel.getLevelNo(), dedValue,
+							0, ndcLevel.getLevelNo(), dedValue,
 							dedLevel, company.getValue(), businessUnit.getValue());
 				}
 			}

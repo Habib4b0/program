@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -142,7 +141,6 @@ public class NationalAssumptionsForm extends CustomComponent {
     /**
      * The tabsheet map.
      */
-    private final Map<Integer, Boolean> tabsheetMap = new HashMap<>();
 
     private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class));
 
@@ -164,7 +162,7 @@ public class NationalAssumptionsForm extends CustomComponent {
     private boolean isDataSelectionupdatedPhs;
     
     
-    public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws SystemException, PortalException  {
+    public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws PortalException  {
         LOGGER.info("NationalAssumptionsForm Constructor initiated ");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/NationalAssumptionsForm.xml"), this));
         this.sessionDTO= sessionDTO;
@@ -234,16 +232,6 @@ public class NationalAssumptionsForm extends CustomComponent {
         tabSheet.addTab(fcpResults, "FCP Results", null, NumericConstants.THREE);
         tabSheet.addTab(phsResults, "PHS Results", null, NumericConstants.FOUR);
         tabSheet.addTab(additionalInformation, "Additional Information", null, NumericConstants.FIVE);
-
-        int tabCount = tabSheet.getComponentCount();
-        tabsheetMap.clear();
-        for (int i = 0; i < tabCount; i++) {
-            if (i == 1) {
-                tabsheetMap.put(i, Boolean.TRUE);
-            } else {
-                tabsheetMap.put(i, Boolean.FALSE);
-            }
-        }
         LOGGER.info("NationalAssumptionsForm addTab() ends ");
         return tabSheet;
     }
@@ -620,7 +608,7 @@ public class NationalAssumptionsForm extends CustomComponent {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage("Close Confirmation",
                 closeMsg);
@@ -660,7 +648,7 @@ public class NationalAssumptionsForm extends CustomComponent {
 
     }
 
-    private void setTabSecurity() throws PortalException, SystemException  {
+    private void setTabSecurity() throws PortalException  {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId =  sessionDTO.getUserId();
 

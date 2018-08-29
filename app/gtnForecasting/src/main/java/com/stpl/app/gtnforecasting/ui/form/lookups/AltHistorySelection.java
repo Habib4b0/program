@@ -102,7 +102,6 @@ public class AltHistorySelection extends CustomComponent implements View {
     private HorizontalLayout gridLayout;
     private AlternateHistoryAllocationTableLogic tableLogic = new AlternateHistoryAllocationTableLogic();
     private FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
-    private CustomTableHeaderDTO rightDTO;
     private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private AlternateHistoryDTO altHistoryDTO;
     private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
@@ -136,7 +135,6 @@ public class AltHistorySelection extends CustomComponent implements View {
     /**
      * The map right visible columns.
      */
-    private ExtPagedTable leftTable;
     private ExtPagedTable rightTable;
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
 
@@ -361,7 +359,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 
         projectionDTO.getVariableList().clear();
         projectionDTO.getVariableList().addAll((Set)variables.getValue());        
-        rightDTO = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
+        CustomTableHeaderDTO rightDTO = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
 
         resultBean = new ExtContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
@@ -370,7 +368,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         List<Integer> pagelength = CommonLogic.getPageNumber();
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         tableLogic.setContainerDataSource(resultBean);
-        leftTable = resultsTable.getLeftFreezeAsTable();
+        ExtPagedTable leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.markAsDirty();
         rightTable.markAsDirty();

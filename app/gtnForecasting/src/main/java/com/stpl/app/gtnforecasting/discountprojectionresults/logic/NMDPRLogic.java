@@ -63,7 +63,6 @@ public class NMDPRLogic {
      */
     private static final long serialVersionUID = 4428373722392530081L;
     
-    private final Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat DOLLAR_RPU = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.000");
@@ -95,7 +94,7 @@ public class NMDPRLogic {
     private static final String[] ARRAY_ALL_MONTH = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     public NMDPRLogic() {
-        periodValueMap();
+        //NMDPRLogic
     }
 
     /**
@@ -224,12 +223,6 @@ public class NMDPRLogic {
         return discountProjList;
     }
 
-    private void periodValueMap() {
-        periodMap.put(MONTHLY.getConstant(), "MONTH");
-        periodMap.put(QUARTERLY.getConstant(), Constant.QUARTER);
-        periodMap.put(SEMI_ANNUALLY.getConstant(), Constant.QUARTER);
-        periodMap.put(ANNUALLY.getConstant(), "YEAR");
-    }
 
     /**
      * This method is used to load all the discount of the projection total
@@ -1270,16 +1263,17 @@ public class NMDPRLogic {
 
 
     public String getFormattedValue(DecimalFormat format, String value) {
+        String valueToFormat;
         if (value.contains(NULL)) {
-            value = DASH.getConstant();
+            valueToFormat = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
             if (format.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
+            valueToFormat = format.format(newValue);
         }
-        return value;
+        return valueToFormat;
     }
 
 
@@ -1380,8 +1374,9 @@ public class NMDPRLogic {
         String startPeriod = "";
         String forecastStartPeriod = "";
         String forecastEndPeriod = "";
+        String discountStringValue = StringUtils.EMPTY;
         if (discountString.equals("0")) {
-            discountString = "'" + discountString + "'";
+            discountStringValue = "'" + discountString + "'";
         }
         if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
             String hsYear = String.valueOf(startAndEndPeriods.get(0));
@@ -1435,7 +1430,7 @@ public class NMDPRLogic {
             query += SQlUtil.getQuery(totalQueryName);
 
             //For replacing in main select query
-            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountString)
+            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountStringValue)
                     .replaceAll("\\?RSNAME", rsName).replaceAll("\\?GRSNAME", getGroupByCondition(frequency, isPivotHier, rsRequired))
                     .replaceAll("\\?PERIODCOND", getPeriodCondition(isPivotHier, forecastStartPeriod, forecastEndPeriod));
         } else if (proSelDTO.getCustomId() != 0) {
@@ -1445,7 +1440,7 @@ public class NMDPRLogic {
             query += SQlUtil.getQuery(queryName);
 
             //For replacing in main select query
-            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountString)
+            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountStringValue)
                     .replaceAll("\\?RSNAME", rsName).replaceAll("\\?GRSNAME", getGroupByCondition(frequency, isPivotHier, rsRequired))
                     .replaceAll("\\?PERIODCOND", getPeriodCondition(isPivotHier, forecastStartPeriod, forecastEndPeriod));
         } else {

@@ -408,7 +408,7 @@ public class ContractBrandLookup extends Window {
         }
     }
 
-    public void brandSearchLogic() throws PortalException, SystemException {
+    public void brandSearchLogic() throws PortalException {
         LOGGER.debug("Entering the Brand Search Logic");
         String tempbrandName = brandName.getValue();
         if ("*".equals(tempbrandName.trim())) {

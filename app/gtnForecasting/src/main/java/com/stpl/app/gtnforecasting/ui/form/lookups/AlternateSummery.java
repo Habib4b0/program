@@ -92,7 +92,6 @@ public class AlternateSummery extends CustomComponent {
      * The split position.
      */
     private final float splitPosition = 300;
-    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
     private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     private CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
@@ -173,8 +172,6 @@ public class AlternateSummery extends CustomComponent {
      */
     private ExtFilterTreeTable leftTable;
     private ExtFilterTreeTable rightTable;
-    private CustomTableHeaderDTO leftHeader = null;
-    private CustomTableHeaderDTO rightHeader = null;
     private SessionDTO session;
     private FreezePagedTreeTable resultsTable;
     private AHSummeryTableLogic summeryTableLogic;
@@ -201,9 +198,6 @@ public class AlternateSummery extends CustomComponent {
     private List<CustomViewMaster> customViewList = new ArrayList<>();
     private final SalesLogic salesLogic = new SalesLogic();
     private List<Leveldto> currentHierarchy = new ArrayList<>();
-    private Map<Object, Boolean> checkBoxMap = new HashMap<>();
-    private Map<Object, String> radioMap = new HashMap<>();
-    
     private static final Logger LOGGER = LoggerFactory.getLogger(AlternateSummery.class);
 
 
@@ -369,8 +363,6 @@ public class AlternateSummery extends CustomComponent {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
-        checkBoxMap.clear();
-        radioMap.clear();
         generateBtnLogic();
     }
 
@@ -1103,12 +1095,11 @@ public class AlternateSummery extends CustomComponent {
         List<Integer> pagelength = CommonLogic.getPageNumber();
         summeryTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         excelHeader = new CustomTableHeaderDTO();
-        leftHeader = HeaderUtils.getAHSummeryTabLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO leftHeader = HeaderUtils.getAHSummeryTabLeftTableColumns(fullHeader);
         session.setForecastName(Constant.SALES_PROJECTION);
         projectionDTO.setIsSumarry(true);
-        rightHeader = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
-
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+        CustomTableHeaderDTO rightHeader = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
+        ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
         customContainer.setColumnProperties(leftHeader.getProperties());
         customContainer.setColumnProperties(rightHeader.getProperties());
 

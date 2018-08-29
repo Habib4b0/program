@@ -87,9 +87,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class CommonLogic {
 
@@ -98,8 +98,9 @@ public class CommonLogic {
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String PRC_CFF_FILES_DATA_INSERT = "PRC_CFF_FILES_DATA_INSERT";
     public static final String FILES_INSERT = "FILES_INSERT";
-    private ExecutorService service = ThreadPool.getInstance().getService();
+    private ThreadPool service = ThreadPool.getInstance();
     public static final String RUNNING_STATUS = "R";
+    public static final String PROJECTION_ID_FLOWER_BRACES = "PROJECTION_ID= {}";
     /**
      * The Constant LOGGER.
      */
@@ -672,7 +673,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
     
     public Future callThreadForProcedureFileInsert(SessionDTO sessionDTO){
-        Future future=service.submit(new Runnable() {
+        Future future=service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "PRODUCT");
@@ -680,7 +681,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 callProcedureUpdate(PRC_CFF_FILES_DATA_INSERT, productInput);
             }
         });
-        service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                  updateStatusForProcedure(RUNNING_STATUS, sessionDTO, FILES_INSERT, "CUSTOMER");
@@ -1611,6 +1612,20 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
         return listValue;
     }
+    
+    public static List<Leveldto> getCustomHierarchy(int masterSid){
+        List<Leveldto> listCustomValue = new ArrayList<>();
+        String selectQuery="SELECT LEVEL_NO,LEVEL_NO,HIERARCHY_INDICATOR,LEVEL_NAME,HIERARCHY_ID FROM CUST_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID=@SID";
+        selectQuery=selectQuery.replace("@SID", String.valueOf(masterSid));
+        List<Object> list = (List<Object>) executeSelectQuery(selectQuery, null, null);
+        Consumer<Object> consumer=(Object t) -> {
+            Object[] temparray=(Object[])t;
+            Leveldto dto = getCustomizedViewMan(temparray, true);
+            listCustomValue.add(dto);
+        };
+        list.forEach(consumer);
+        return listCustomValue;
+    } 
 
     public static String getHierarchyTreeQueryMan(int projectionId, String hierarchyIndicator, final int levelNo) {
         String selectClause = "select distinct RLD.LEVEL_NO, "
@@ -3022,8 +3037,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
-                stringBuilder.append(entry.getValue().get(3));
-                hierarchyForLevel=hierarchyForLevel.concat(entry.getValue().get(3).toString()).concat(Constants.COMMA);
+                stringBuilder.append(entry.getKey());
+                hierarchyForLevel=hierarchyForLevel.concat(entry.getKey()).concat(Constants.COMMA);
                 stringBuilder.append("', ");
                 stringBuilder.append(i++);
                 stringBuilder.append( " )");
@@ -3166,6 +3181,6 @@ public static Date fromDateIsNull(Date fromDate) {
         deductionList.add(0, new String[]{"0",ConstantsUtils.SELECT_ONE});
         return deductionList;
     }
-		}
+        }
     
 

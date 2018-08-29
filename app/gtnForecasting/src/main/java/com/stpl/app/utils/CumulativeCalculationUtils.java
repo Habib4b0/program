@@ -11,6 +11,7 @@ import com.stpl.ifs.ui.util.StandaloneParser;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.constants.ForecastingConstants;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
@@ -86,7 +87,7 @@ public class CumulativeCalculationUtils {
 	}
 	private static String getDecryptedPassword(String secret) throws NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-		byte[] kbytes = System.getProperty("KEY").getBytes();
+		byte[] kbytes = System.getProperty("KEY").getBytes(Charset.defaultCharset());
 		SecretKeySpec key = new SecretKeySpec(kbytes, ForecastingConstants.getPassword());
 		BigInteger n = new BigInteger(secret, NumericConstants.SIXTEEN);
 		byte[] encoding = n.toByteArray();
@@ -108,7 +109,7 @@ public class CumulativeCalculationUtils {
 		Cipher cipher = Cipher.getInstance(ForecastingConstants.getPassword());
 		cipher.init(Cipher.DECRYPT_MODE, key);
 		byte[] decode = cipher.doFinal(encoding);
-		return new String(decode);
+		return new String(decode,Charset.defaultCharset());
 	}
 
 }

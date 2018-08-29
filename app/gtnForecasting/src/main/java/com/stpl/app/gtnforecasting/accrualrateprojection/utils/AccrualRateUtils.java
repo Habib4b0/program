@@ -244,8 +244,8 @@ public class AccrualRateUtils {
      */
     private static int generatePeriodBasis(String periodBasis, final int reminder, final int quarter) {
         int value = 1;
-        periodBasis = periodBasis == null ? StringUtils.EMPTY : periodBasis;
-        switch (periodBasis) {
+        String generatePeriodBasis = periodBasis == null ? StringUtils.EMPTY : periodBasis;
+        switch (generatePeriodBasis) {
             case AccrualRateUtils.MONTH_1_3_FORWARD_QUARTER:
                 value = quarter + 1;
                 break;
@@ -256,7 +256,7 @@ public class AccrualRateUtils {
                 value = reminder != 0 ? quarter : quarter + 1;
                 break;
             default:
-                LOGGER.debug("Invalid Period Basis= {} " , periodBasis);
+                LOGGER.debug("Invalid Period Basis= {} " , generatePeriodBasis);
                 value = quarter + 1;
                 break;
         }

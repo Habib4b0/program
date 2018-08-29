@@ -17,7 +17,6 @@ import com.stpl.app.gtnforecasting.discountprojectionresults.form.ManagedDiscoun
 import com.stpl.app.gtnforecasting.discountprojectionresults.form.NMDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.getRelationshipDetailsDeductionCustom;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.ppaprojection.form.PPAProjection;
@@ -119,7 +118,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Contains and Controls the tabsheet containing all the screen.
  *
@@ -349,7 +348,7 @@ public class ForecastForm extends AbstractForm {
 	 * @throws Exception
 	 * @throws SystemException
 	 */
-	   private void addContent() throws SystemException, PortalException {
+	   private void addContent() throws  PortalException {
         initializeTabs();
         initializeLazyTabLoad(tabLazyLoadMap, tabSheet.getComponentCount());
         buildScreen();
@@ -544,9 +543,7 @@ public class ForecastForm extends AbstractForm {
                                 if(tabPosition == NumericConstants.FOUR){
                                    discountProjection.checkFrequencyChange(); 
                                 }
-                                if(tabPosition == NumericConstants.EIGHT){
-                                   projectionVariance.checkPvFrequency(); 
-                                }
+                            
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
@@ -558,7 +555,7 @@ public class ForecastForm extends AbstractForm {
                                     discountProjection.setFrequency(session);
                                 }
                                 onTabChange(tabPosition);
-
+                                   
                             } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
                                 // To check wheather the thread is alive
                                 if (tabPosition == 0) {
@@ -827,8 +824,12 @@ public class ForecastForm extends AbstractForm {
 					&& tabLazyLoadMap.get(projectionVariance.getTabNumber())) {
 				projectionVariance.configure();
 				projectionVariance.loadGroupFilterOntabChange();
+                                projectionVariance.checkPvFrequency(); 
                                 projectionVariance.setFrequency(session);
 			}
+                         if(tabPosition == NumericConstants.EIGHT){
+                                   projectionVariance.checkPvFrequency(); 
+                                }
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
 				discountProjectionResults.configure();
@@ -1559,7 +1560,7 @@ public class ForecastForm extends AbstractForm {
 	 * Submits the projection. Saves and calls the workflow
 	 */
 	private void submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData)
-			throws SystemException, PortalException {
+			throws PortalException {
 
 		if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
@@ -1910,7 +1911,7 @@ public class ForecastForm extends AbstractForm {
 	 *
 	 * @throws Exception
 	 */
-	private void setButtonSecurity() throws PortalException, SystemException {
+	private void setButtonSecurity() throws PortalException {
 		final StplSecurity stplSecurity = new StplSecurity();
 		Map<String, AppPermission> functionPsHM = stplSecurity
 				.getBusinessFunctionPermissionForNm(

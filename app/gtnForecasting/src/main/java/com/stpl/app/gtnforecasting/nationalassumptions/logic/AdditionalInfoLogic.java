@@ -83,8 +83,7 @@ public class AdditionalInfoLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId= {}, fileName= {}, uploadedBy= {}, fileSize= {}, moduleName  " , projectionId, fileName, uploadedBy, fileSize, moduleName);
-
+        LOGGER.debug("Entering saveUploadedFile method with projectionId= {}, fileName= {}, uploadedBy= {}, fileSize= {}, moduleName {} " , projectionId, fileName, uploadedBy, fileSize, moduleName);
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
         
         if (docDetailsList == null || docDetailsList.isEmpty()) {
@@ -176,7 +175,7 @@ public class AdditionalInfoLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public Boolean deleteUploadedFile(final int docDetailsId) throws SystemException, PortalException { 
+    public Boolean deleteUploadedFile(final int docDetailsId) throws PortalException { 
         LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {} " , docDetailsId);
         addInfoDao.deleteDocDetails(docDetailsId);
         LOGGER.debug("End of deleteUploadedFile method");

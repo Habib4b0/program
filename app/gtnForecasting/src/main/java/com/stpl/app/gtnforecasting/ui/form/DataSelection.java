@@ -429,8 +429,6 @@ public class DataSelection extends ForecastDataSelection {
 							}
 						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Deduction Level. Are you sure you want to proceed? You will lose the current Deduction Level if you continue.");
-					} else if (dataSelectionDeductionLevelListenerFlag) {
-						dataSelectionDedLevelValueChange(event);
 					}
 				} else {
 					dataSelectionDedLevelValueChange(event);
@@ -1254,13 +1252,13 @@ public class DataSelection extends ForecastDataSelection {
 		this.dedCustomChange = dedCustomChange;
 	}
 
-	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
+	public void updateBasicsProjectionMaster() throws PortalException {
 		NonMandatedLogic logic = new NonMandatedLogic();
 		selectionDTO = bindDataselectionDtoToSave();
 		logic.updateBasicsProjectionMaster(selectionDTO, session.getProjectionId(), true);
 	}
 
-	public void updateDataSelection() throws SystemException, PortalException, ClassNotFoundException, IOException {
+	public void updateDataSelection() throws PortalException, ClassNotFoundException, IOException {
 		LOGGER.debug("updateDataSelection starts");
 		selectionDTO = bindDataselectionDtoToSave();
 		NonMandatedLogic logic = new NonMandatedLogic();

@@ -18,16 +18,16 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
-    private IFPItemDTO IFPItemDTO = new IFPItemDTO();
+    private IFPItemDTO ifpItemDTO = new IFPItemDTO();
 
     public IFPSearchDAO(IFPItemDTO IFPItemDTO) {
-        this.IFPItemDTO = IFPItemDTO;
+        this.ifpItemDTO = IFPItemDTO;
     }
 
     @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
-        count = logic.getIFPSearchCount(IFPItemDTO, bsc);
+        count = logic.getIFPSearchCount(ifpItemDTO, bsc);
         return count;
 
     }

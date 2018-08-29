@@ -121,10 +121,14 @@ public class CustomExcelNM extends ExcelExport {
                 formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
-                if (prop != null && value != null) {
-                    nonFormatter(value, prop, sheetCell);
-                }
+                nonFormatterCustomExcel(prop, value, sheetCell);
             }
+        }
+    }
+
+    private void nonFormatterCustomExcel(Property prop, Object value, Cell sheetCell) {
+        if (prop != null && value != null) {
+            nonFormatter(value, prop, sheetCell);
         }
     }
 
@@ -136,7 +140,7 @@ public class CustomExcelNM extends ExcelExport {
         }
     }
 
-    private Double dataConverter(Object value) throws NumberFormatException {
+    private Double dataConverter(Object value) {
         Double d;
         String str = String.valueOf(value);
         if (str.contains("$") || str.contains(",") || str.contains("%")) {
