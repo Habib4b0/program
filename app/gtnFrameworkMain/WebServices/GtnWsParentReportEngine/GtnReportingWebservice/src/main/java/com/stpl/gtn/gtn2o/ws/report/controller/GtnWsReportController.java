@@ -276,14 +276,18 @@ public class GtnWsReportController {
 		String filter = gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList() == null
 				|| gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().isEmpty() ? ""
 						: gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
+		String company=String.valueOf(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCompanyReport());
+		String businessunit=String.valueOf(gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getBusinessUnitReport());
 
 			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY
-					.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter));
+					.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter).replace(GtnWsQueryConstants.FILTER_COMPANY,company).replace(GtnWsQueryConstants.FILTER_BUSINESSUNIT, businessunit));
 			wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
 			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
 			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT, filter);
+			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_COMPANY, company);
+			finalQuery = finalQuery.replace(GtnWsQueryConstants.FILTER_BUSINESSUNIT, businessunit);
 			resultList = executeQuery(finalQuery);
 			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
 			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
