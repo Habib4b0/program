@@ -512,7 +512,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         history.setStyleName("labelresultalign");
         historyDdlb.setEnabled(true);
         historyDdlb.setStyleName("comboxsize");
-        historyDdlb.setNullSelectionAllowed(true);
         variablesLb.setCaption("Variables:");
         variablesLb.setStyleName("labelresultalign");
         variables.setMultiSelect(true);
