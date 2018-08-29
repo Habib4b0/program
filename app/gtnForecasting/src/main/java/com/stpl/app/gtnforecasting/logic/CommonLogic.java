@@ -1661,7 +1661,7 @@ public class CommonLogic {
 
     public static String getGroupFilterQuery(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
-        String userGroupFilter = StringUtils.EMPTY;
+        String userGroupFilter = userGroup;
         
         if (!userGroupFilter.isEmpty()) {
             if (userGroupFilter.startsWith(Constant.ALL)) {
