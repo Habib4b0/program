@@ -11,18 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
+import com.stpl.dependency.queryengine.request.GtnQueryEngineWebServiceRequest;
+import com.stpl.dependency.queryengine.response.GtnQueryEngineWebServiceResponse;
+import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
+import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;	
 
 @RestController
 @RequestMapping(value = "/gtnServiceRegistry")
-public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass {
+public class GtnUIServiceRegistryController extends GtnCommonWebServiceImplClass {
 
 	
 	
@@ -39,7 +41,8 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 
 	@Autowired
 	private GtnServiceRegistryRegisterWs gtnServiceRegistryRegisterWs;
-
+	
+	
 	@PostConstruct
 	public final void initializeLogger() {
 		super.logInformation(GtnUIServiceRegistryController.class);
@@ -100,6 +103,16 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		return response;
 	}
 
+	@RequestMapping(value="/serviceRegistryWebservicesForRedirectToQueryEngine" , method = RequestMethod.POST )
+	public GtnQueryEngineWebServiceResponse registerWebservicesForRedirectToQueryEngine(
+			@RequestBody GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest) {
+		GtnCommonWebServiceImplClass webServiceImpl = new GtnUIServiceRegistryController();
+		return  webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+				gtnQueryEngineWebServiceRequest);
+		
+		
+		
+	}
 	public String getWebServiceEndpoint(String url) {
 		return GtnFrameworkPropertyManager.getProperty("gtn.webservices.endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices.endPointServiceName") + url;
@@ -111,5 +124,10 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
 				+ url;
 
+	}
+
+	@Override
+	public GtnUIFrameworkWebserviceRequest registerWs() {
+		return null;
 	}
 }
