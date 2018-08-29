@@ -109,6 +109,23 @@ public class CommonLogic {
     private static final String SMALL_SALES = "sales";
     private static final String DISCOUNT = "Discount";
     
+    
+    static {
+            fileMap.put(Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant(), Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.PERCOFEXFACTORYSALES, Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND, Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.PERCOFDEMAND, Constant.DEMAND);
+            fileMap.put(Constant.PERCOFINVENTORYWITHDRAWAL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
+            fileMap.put(Constant.PERC_OF_ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
+            fileMap.put(Constant.CUSTOMER_GTS, Constant.CUSTOMER_SALES);
+
+            fileMap.put(Constant.EX_FACTORY_SALES_LABEL, Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.DEMAND, Constant.DEMAND);
+            fileMap.put(Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
+            fileMap.put(Constant.ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
+            fileMap.put(Constant.CUSTOMER_SALES, Constant.CUSTOMER_SALES);
+    }
+    
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
     /**
@@ -4175,14 +4192,13 @@ public class CommonLogic {
         StringBuilder stringBuilder = new StringBuilder();
 
        
-        boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             int entryLevel = Integer.parseInt(entry.getValue().get(2).toString());
             boolean checkHierarchy = hierarchyCheck(hierarchyNo, hierarchyIndicator, levelNo, isHierarchyNoNotAvailable, entry, entryLevel);
             if (checkHierarchy) {
-                if (isNotFirstElement) {
+                if (!stringBuilder.toString().isEmpty()) {
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
@@ -4194,7 +4210,6 @@ public class CommonLogic {
                 }else{
                 stringBuilder.append("')");
                 }
-                isNotFirstElement = true;
             }
         }
         if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
@@ -4498,21 +4513,6 @@ public class CommonLogic {
     }
 
     private String loadFileName(String fileName) {
-        if (fileMap.isEmpty()) {
-            fileMap.put(Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant(), Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.PERCOFEXFACTORYSALES, Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND, Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.PERCOFDEMAND, Constant.DEMAND);
-            fileMap.put(Constant.PERCOFINVENTORYWITHDRAWAL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
-            fileMap.put(Constant.PERC_OF_ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
-            fileMap.put(Constant.CUSTOMER_GTS, Constant.CUSTOMER_SALES);
-
-            fileMap.put(Constant.EX_FACTORY_SALES_LABEL, Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.DEMAND, Constant.DEMAND);
-            fileMap.put(Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
-            fileMap.put(Constant.ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
-            fileMap.put(Constant.CUSTOMER_SALES, Constant.CUSTOMER_SALES);
-        }
         return fileMap.get(fileName);
     }
 

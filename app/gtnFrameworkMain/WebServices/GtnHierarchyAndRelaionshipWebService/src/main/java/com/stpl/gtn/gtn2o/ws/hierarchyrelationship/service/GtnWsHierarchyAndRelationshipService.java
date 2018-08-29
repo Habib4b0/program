@@ -8,6 +8,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -39,6 +41,11 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		super();
 	}
 
+	@PostConstruct
+	public void initializeLogger() {
+		super.logInformation(GtnWsHierarchyAndRelationshipService.class);
+	}
+
 	public void init() {
 		initializeLogger();
 		GtnUIFrameworkWebserviceRequest request = registerWs();
@@ -51,10 +58,6 @@ public class GtnWsHierarchyAndRelationshipService extends GtnCommonWebServiceImp
 		List<Object[]> resultList = loadHierarchyRelationshipResults();
 		Map<String, GtnWsHierarchyDefinitionBean> hierarchyMap = resultCustomization(resultList);
 		hierarchyRelationship.setHierarchyMap(hierarchyMap);
-	}
-
-	public void initializeLogger() {
-		super.logInformation(GtnWsHierarchyAndRelationshipService.class);
 	}
 
 	@Override

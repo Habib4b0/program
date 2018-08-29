@@ -112,7 +112,7 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
                 }
                 value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
             } catch (NumberFormatException e) {
-                LOGGER.debug("User is supposed to give Double value " + e.getMessage());
+                LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
                 if (!isEmptied) {
                     return;
                 }

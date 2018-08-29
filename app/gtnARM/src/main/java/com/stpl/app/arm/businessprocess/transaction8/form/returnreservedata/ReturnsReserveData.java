@@ -127,7 +127,7 @@ public class ReturnsReserveData extends VerticalLayout {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName && "reset".equals(buttonName)) {
                 originalSaleLimiter.setValue(null);
                 removeClosedBatches.setValue(true);

@@ -157,7 +157,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                     input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), selection.getRateLevelName(), NumericConstants.ONE, selection.getTableName(), "%", "%", "%", "%", selection.getRateDeductionValue())));
                     count = QueryUtils.getItemData(input, queryName, CommonConstant.TRX7_CUSTOMERPRODUCTCOUNT);
                 }
-                LOGGERFORRATESTAB.debug("-----------COUNT-----------" + count);
+                LOGGERFORRATESTAB.debug("-----------COUNT-----------{}", count);
                 return count != null && !count.isEmpty() && count.get(0) != null ? count.get(0) : 0;
             } else {
                 List result;
@@ -184,7 +184,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
                     LOGGERFORRATESTAB.debug(queryName);
                     resultDTO = customizeResultSet(result, selection, null);
                 }
-                LOGGERFORRATESTAB.debug("--Exit getRateQuery--" + resultDTO.size());
+                LOGGERFORRATESTAB.debug("--Exit getRateQuery--{}", resultDTO.size());
             }
         } catch (Exception e) {
             LOGGERFORRATESTAB.error("Error in getRateQuery :", e);
@@ -203,7 +203,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
      */
     @Override
     protected List getQueryInput(AdjustmentDTO parentDTO, AbstractSelectionDTO selection, List input, String queryName) {
-        LOGGERFORRATESTAB.debug("--Inside getQueryInput --" + queryName);
+        LOGGERFORRATESTAB.debug("--Inside getQueryInput --{}", queryName);
         selection.setRateDeductionValue(selection.getRateDeductionValue().startsWith("'") ? selection.getRateDeductionValue() : "'" + selection.getRateDeductionValue().replace(",", "','") + "'");
         switch (parentDTO.getLevelName()) {
             case VariableConstants.DEDUCTION_UPPERCASE:
@@ -267,7 +267,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
             default:
 
         }
-        LOGGERFORRATESTAB.debug("--Exit getQueryInput --" + input.size());
+        LOGGERFORRATESTAB.debug("--Exit getQueryInput --{}", input.size());
         return input;
     }
 
@@ -319,7 +319,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
             query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
             query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
             query = query.replace("@FLAG_BIT", String.valueOf(NumericConstants.ONE));
-            LOGGERFORRATESTAB.debug("query-->" + query);
+            LOGGERFORRATESTAB.debug("query-->{}", query);
             list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception e) {
             LOGGERFORRATESTAB.error("Error in getExcelResultList :", e);

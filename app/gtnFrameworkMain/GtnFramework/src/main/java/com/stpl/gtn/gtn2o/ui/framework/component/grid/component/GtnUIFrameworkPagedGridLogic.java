@@ -36,7 +36,9 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 
@@ -70,6 +72,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setCount(true);
+			addServiceRegistryWsRequest(serviceRequest);
 			gtnLogger.info("Count Query Module Name -------->" + componentConfigPagedGrid.getModuleName());
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(countUrlPagedGrid,
 					componentConfigPagedGrid.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -79,6 +82,18 @@ public class GtnUIFrameworkPagedGridLogic {
 				return response.getGtnSerachResponse().getCount();
 			}
 		return 0;
+	}
+
+	private void addServiceRegistryWsRequest(GtnUIFrameworkWebserviceRequest serviceRequest) {
+		if (tableConfig.getPagedTableWsUrl() != null) {
+			GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+			GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+			serviceRegistryBean.setRegisteredWebContext(tableConfig.getRegisteredWebContext());
+			serviceRegistryBean.setUrl(tableConfig.getPagedTableWsUrl());
+			serviceRegistryBean.setModuleName(tableConfig.getModuleName());
+			serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+			serviceRequest.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+		}
 	}
 
 	private void getCheckedRecordCount(GtnUIFrameworkWebserviceRequest serviceRequest, boolean isTogetCount) {
@@ -124,6 +139,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebserviceRequest serviceRequestLoadData = getWSRequest();
 			serviceRequestLoadData.getGtnWsSearchRequest().setTableRecordOffset(offsetLoadData);
 			serviceRequestLoadData.getGtnWsSearchRequest().setTableRecordStart(startLoadData);
+			addServiceRegistryWsRequest(serviceRequestLoadData);
 			gtnLogger.info("Module Name is------->" + componentConfigPagedGrid.getModuleName());
 			GtnUIFrameworkWebserviceResponse responseLoadData = wsclientLoadData.callGtnWebServiceUrl(resultSetUrlPagedGrid,
 					componentConfigPagedGrid.getModuleName(), serviceRequestLoadData, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

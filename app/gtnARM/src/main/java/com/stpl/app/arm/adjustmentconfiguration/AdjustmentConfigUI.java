@@ -74,8 +74,8 @@ public class AdjustmentConfigUI extends UI {
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionId);
                 sessionDTO.setUserId(Integer.valueOf(userId));
                 HelperListUtil.getInstance().loadValuesWithListName("ADJUSTMENT_CONFIGURATION");
-                LOGGER.info("USER_ID :" + userId);
-                LOGGER.info("SESSION_ID :" + sessionId);
+                LOGGER.info("USER_ID :{}", userId);
+                LOGGER.info("SESSION_ID :{}", sessionId);
                 Navigator navigator = new Navigator(this, this);
                 navigator.addView(AdjustmentConfigForm.getName(), new AdjustmentConfigForm(sessionDTO));
             }

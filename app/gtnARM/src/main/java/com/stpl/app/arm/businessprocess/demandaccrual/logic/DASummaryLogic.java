@@ -221,7 +221,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             dto.setUserId(selection.getSessionDTO().getUserId());
             dto.setSessionId(selection.getSessionDTO().getSessionId());
         }
-        LOGGER.debug("index-------" + index);
+        LOGGER.debug("index-------{}", index);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
         return dataResult;
@@ -257,7 +257,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             if (dto instanceof AdjustmentDTO) {
                 AdjustmentDTO val = (AdjustmentDTO) dto;
                 int levelNo = val.getLevelNo();
-                LOGGER.debug("levelNo----" + levelNo);
+                LOGGER.debug("levelNo----{}", levelNo);
                 masterSids = val.getMasterIds();
 
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {

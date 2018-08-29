@@ -1374,7 +1374,7 @@ public class CommonUtils {
                         return String.valueOf(levelName.get(NumericConstants.ZERO));
                     }
                 } else {
-                    return String.valueOf(levelName.get(NumericConstants.ZERO));
+                    return String.valueOf(levelName.get(NumericConstants.ZERO)!=null?levelName.get(NumericConstants.ZERO):relationshipValues.get(0));
                 }
             } else {
                 return session.getLevelValueDiscription(hierarchyNumber, indicator);
