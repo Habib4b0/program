@@ -222,7 +222,7 @@ public class AbstractSearchForm extends CustomComponent {
     private AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
-    private final Map<String, String> SecuritymoduleName = new HashMap<>();
+    private final Map<String, String> securitymoduleName = new HashMap<>();
     private CommonUtils commonUtil = CommonUtils.getInstance();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchForm.class);
@@ -465,9 +465,9 @@ public class AbstractSearchForm extends CustomComponent {
     }
 
     public String securityName() {
-        SecuritymoduleName.put(ConstantsUtils.DEDUCTION_GROUPING, "Deduction Grouping");
+        securitymoduleName.put(ConstantsUtils.DEDUCTION_GROUPING, "Deduction Grouping");
 
-        return SecuritymoduleName.get(moduleName);
+        return securitymoduleName.get(moduleName);
 
     }
 
