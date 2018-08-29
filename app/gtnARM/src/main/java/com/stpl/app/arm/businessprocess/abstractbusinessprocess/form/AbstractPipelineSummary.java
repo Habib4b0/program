@@ -126,7 +126,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName && "reset".equals(buttonName)) {
                 try {
                     defaultFocus();

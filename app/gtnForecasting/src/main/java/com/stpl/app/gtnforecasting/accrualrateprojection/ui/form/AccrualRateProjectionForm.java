@@ -544,7 +544,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     }
 
-    public void saveLogic(boolean onSave) throws SystemException, PortalException {
+    public void saveLogic(boolean onSave) throws PortalException {
 
         LOGGER.debug("Enters Save Logic");
         if ((AccrualRateUtils.ADD.equalsIgnoreCase(session.getAction()) && map.containsKey(Constant.IS_SALES_GENERATED) && map.containsKey(Constant.IS_RATES_GENERATED))
@@ -721,7 +721,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
     /**
      * Submits the projection. Saves and calls the workflow
      */
-    private boolean submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws SystemException, PortalException {
+    private boolean submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws PortalException {
 
         NonMandatedLogic logic = new NonMandatedLogic();
         Map<String, Object> params = new HashMap<>();

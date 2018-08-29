@@ -453,7 +453,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in " + getClass(), ex);
+                    LOGGER.error("Error in ", ex);
                 }
             }
 
@@ -558,7 +558,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         Date sessionDate = new Date();
         selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
-        LOGGER.debug("UserId-->>" + VaadinSession.getCurrent().getAttribute("userId").toString());
+        LOGGER.debug("UserId-->> {}", VaadinSession.getCurrent().getAttribute("userId").toString());
         selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
         return selection;
     }
@@ -595,7 +595,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             }
             ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error("Error in " + getClass(), ex);
+            LOGGER.error("Error in ", ex);
         }
     }
 
@@ -617,7 +617,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         resSelection.setTempTableName(selection.getCurrentTableNames().get("ST_ARM_ADJ_RES_CONFIG_DETAIL"));
         resSelection.setAdjustmentSummaryTempTableName(selection.getCurrentTableNames().get("ST_ARM_ADJ_SUMMARY_CONFIG_DETAILS"));
         resSelection.setBalanceSummaryTempTableName(selection.getCurrentTableNames().get("ST_ARM_BALANCE_SUMMARY_CONFIG"));
-        LOGGER.info("selection.getCurrentTableNames() ------- > " + selection.getCurrentTableNames());
+        LOGGER.info("selection.getCurrentTableNames() ------- > {}", selection.getCurrentTableNames());
     }
 
     private boolean mandatoryCheckForSearch() {

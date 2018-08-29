@@ -466,8 +466,8 @@ public class TransferComponents extends CustomComponent implements View {
         componentDetailsTable.setHeight("230px");
         componentDetailsTable.setPageLength(NumericConstants.FIVE);
         componentDetailsTable.setContainerDataSource(componentDetailResultsContainer);
-        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+        componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumns());
+        componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
     }
 
     public void configureContractComponentDetailsTable() {

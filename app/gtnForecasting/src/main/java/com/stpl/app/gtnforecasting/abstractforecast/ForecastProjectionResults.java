@@ -179,7 +179,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * @param sessionDTO
      * @param screenName
      */
-    public ForecastProjectionResults(final SessionDTO sessionDTO, final String screenName) throws SystemException, PortalException {
+    public ForecastProjectionResults(final SessionDTO sessionDTO, final String screenName) throws  PortalException {
         this.sessionDTO = sessionDTO;
         this.screenName = screenName;
         projectionSelectionDTO.setSessionDTO(sessionDTO);
@@ -728,7 +728,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * @param isExpand
      * @param value
      */
-    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException{
+    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException{
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
         int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
@@ -751,7 +751,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         }
     }
 
-    public void saveProjectionResultsSelection() throws PortalException, SystemException {
+    public void saveProjectionResultsSelection() throws  PortalException {
         LOGGER.debug("save Projection Results method starts");
             Map map = new HashMap();
             map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
@@ -764,7 +764,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         LOGGER.debug("save Projection Results method ends");
     }
 
-    private void loadOnEdit() throws SystemException, PortalException {
+    private void loadOnEdit() throws  PortalException {
 
         Map<String, String> resultmap = CommonLogic.editProjectionResults(Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
         if (resultmap != null && !resultmap.isEmpty()) {

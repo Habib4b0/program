@@ -912,8 +912,8 @@ public class UpdatedContractSelection extends VerticalLayout {
         componentInformationTable.setPageLength(NumericConstants.FIVE);
         tablelogic.setContainerDataSource(componentInformationContainer);
 
-        componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-        componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+        componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+        componentInformationTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
         componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -992,13 +992,13 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void loadComponentInformationTable(String componentSelectionValue) {
 
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+            componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+            componentInformationTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+            componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);

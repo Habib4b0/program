@@ -988,8 +988,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
             bussinessUnit.setWidth(StringConstantsUtil.HUNDRED_PX);
             bussinessUnit.setContentMode(ContentMode.HTML);
             bussinessUnit.setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
-            layoutG2.addComponent(getBusinessUnit());
+            layoutG2.addComponent(bussinessUnit);
             layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
+            layoutG2.addComponent(getBusinessUnit());
             HorizontalLayout layoutForDeduction = new HorizontalLayout();
             layoutForDeduction.setMargin(new MarginInfo(1));
             abstractLabel = new Label("Frequency:");

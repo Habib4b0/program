@@ -38,7 +38,6 @@ public class NonMandatedView extends VerticalLayout {
      */
     private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
-    protected ForecastForm nonMandatedForm;
 
     /**
      * Default constructor.
@@ -47,11 +46,10 @@ public class NonMandatedView extends VerticalLayout {
         this.session = session;
         this.dataSelectionDTO = dataSelectionDTO;
         try {
-
+       
         } catch (Exception ex) {
             LoggerFactory.getLogger(NonMandatedView.class.getName()).error( StringUtils.EMPTY, ex);
         }
-        addComponent(nonMandatedForm);
         enter();
     }
 
@@ -62,7 +60,6 @@ public class NonMandatedView extends VerticalLayout {
      */
     public final void enter() {
         dataSelectionBinder.setItemDataSource(new BeanItem<>(dataSelectionDTO));
-        nonMandatedForm.configureOnEnter();
     }
 
 }

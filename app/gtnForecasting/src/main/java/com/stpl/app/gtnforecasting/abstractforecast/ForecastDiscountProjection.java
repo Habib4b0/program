@@ -510,8 +510,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
-        frequencyDdlb.addItem(SELECT_ONE.getConstant());
-        frequencyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         frequencyDdlb.addItem(MONTHLY.getConstant());
         frequencyDdlb.addItem(QUARTERLY.getConstant());
         frequencyDdlb.addItem(SEMI_ANNUAL.getConstant());
@@ -520,7 +518,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         frequencyDdlb.focus();
 
         loadFrequency(String.valueOf(frequencyDdlb.getValue()));
-        historyDdlb.setNullSelectionAllowed(false);
         frequencyDdlb.setData("frequencyDdlb");
 
         periodOrder.addItem(ASCENDING.getConstant());

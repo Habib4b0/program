@@ -217,6 +217,8 @@ public class NMProjectionResultsXLLogic {
                 || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELVAL_INDEX]))) {
             tradingPartnerKeys.add(key);
         }
+        LOGGER.debug("tradingPartnerKeysPR ={}", tradingPartnerKeys.isEmpty() ? tradingPartnerKeys : 0);
+        LOGGER.debug("hierarchyKeysPR ={}", hierarchyKeys.isEmpty() ? hierarchyKeys : 0);
     }
 
     private void addList(final Object[] obj) {
@@ -825,36 +827,6 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void commonCustomizationForTotalDiscount(String group, List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, boolean isPer) {
-        LOGGER.debug("Inside commonCustomizationForTotalDiscount");
-
-        int indexValue = 0;
-        int actIndex = 0;
-        if (group.equals("D$")) {
-            actIndex = NumericConstants.FOUR;
-            indexValue = NumericConstants.FIVE;
-        } else if (group.equals("D%")) {
-            actIndex = NumericConstants.SIX;
-            indexValue = NumericConstants.SEVEN;
-        } else if (group.equals("Dis%Ex")) { 
-            actIndex = NumericConstants.ELEVEN;
-            indexValue = NumericConstants.TWELVE;
-        } else {
-            actIndex = NumericConstants.EIGHT;
-            indexValue = NumericConstants.NINE;
-        }
-        String parentGroup;
-        if (!isDetail) {
-            parentGroup = group + "value";
-            if (!selection.getDiscountNameList().isEmpty()) {
-
-                getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, actIndex, isPer, parentGroup);
-            }
-
-        }
-        LOGGER.debug("Ending commonCustomizationForTotalDiscount");
-    }
-
     private void calculate_discount(String varaibleName, String varibaleCat, String masterKey, Object[] obj, int actIndex, ProjectionResultsDTO pvDTO,
             DecimalFormat format, boolean isAdd, int listIndex) {
         actIndex++;
@@ -897,6 +869,7 @@ public class NMProjectionResultsXLLogic {
             pvDTO.addStringProperties(commonColumn + ACTUALS, varaibleName.contains(PERCENT) ? baseValue + PERCENT : baseValue);
 
         }
+        LOGGER.debug("calculate_discount discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
     }
 
     private void addList_detail_discount(String key, final Object[] obj) {
@@ -1021,24 +994,5 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void customhierarchyAndTP_keys(Object[] obj, String key, List<ProjectionResultsDTO> pvList) {
-        String parentKey = obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString().substring(obj[obj.length - 1].toString().indexOf('-') + 1);
-        String newKey;
-        if (parentKey == null) {
-            hierarchyKeys.add(key);
-            resultMap.put(key, pvList);
-        } else {
-            if (key.contains("$")) {
-                key = (key.split("\\$"))[0];
-            }
-            newKey = key + "$" + parentKey; //$ delimiter for key and parent key
-            hierarchyKeys.add(newKey);
-            resultMap.put(newKey, pvList);
-        }
-        if ("Customer".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))
-                || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
-            tradingPartnerKeys.add(key);
-        }
-    }
             }
 

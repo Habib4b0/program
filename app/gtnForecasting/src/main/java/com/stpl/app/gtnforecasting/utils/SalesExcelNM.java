@@ -152,7 +152,7 @@ public class SalesExcelNM extends ExcelExport{
         return getCellValue;
     }
 
-    private Double dataConverter(Object value) throws NumberFormatException {
+    private Double dataConverter(Object value) {
         Double d;
         String str = String.valueOf(value);
         if (str.contains("$") || str.contains(",") || str.contains("%")) {

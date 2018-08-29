@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class FileUploader.
  *
@@ -30,7 +30,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * The output stream.
 	 */
-	private FileOutputStream outputStream;
+	
 	/**
 	 * The file.
 	 */
@@ -57,7 +57,6 @@ public class FileUploader implements Receiver {
 	private final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 
 	private boolean isFileExists;
-	private boolean isFileCreated;
 	/**
 	 * The Constructor.
 	 *
@@ -95,8 +94,8 @@ public class FileUploader implements Receiver {
 				if (file.exists()) {
 					isFileExists=file.delete();
 				}
-				isFileCreated=file.createNewFile();
-				outputStream = new FileOutputStream(file);
+				boolean isFileCreated=file.createNewFile();
+				FileOutputStream outputStream = new FileOutputStream(file);
 				LOGGER.info("File deleted successfully= {}",isFileExists);
 				LOGGER.info("File created successfully= {}",isFileCreated);
 				return outputStream;

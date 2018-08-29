@@ -89,7 +89,6 @@ public class WorkFlowNotesLookup extends Window {
         this.notes = notes;
     }
 
-    private Receiver uploadReceiver;
     private Upload uploadComponent;
     private final TextField uploader = new TextField();
     private final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
@@ -99,7 +98,6 @@ public class WorkFlowNotesLookup extends Window {
     private String fileUploadPath;
     private final List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    private boolean isFileRename;
     private NotesDTO tableBean = new NotesDTO();
     private static String SUBMIT_FLAG="";
 
@@ -137,7 +135,7 @@ public class WorkFlowNotesLookup extends Window {
         uploader.setStyleName(Constant.SEARCH_TEXT);
         uploader.setImmediate(true);
         uploader.setEnabled(false);
-        uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
+        Receiver uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
         fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
         uploadComponent.setButtonCaption(Constant.ADD);
@@ -311,7 +309,7 @@ public class WorkFlowNotesLookup extends Window {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                boolean isFileRename=destFileUpload.renameTo(renameFileUpload);
                 LOGGER.info("File renamed successfully = {} ",isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);

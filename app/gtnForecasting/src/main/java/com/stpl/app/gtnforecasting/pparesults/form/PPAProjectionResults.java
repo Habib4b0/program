@@ -1139,7 +1139,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         return date;
     }
 
-    public void security() throws PortalException, SystemException{
+    public void security() throws PortalException{
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {

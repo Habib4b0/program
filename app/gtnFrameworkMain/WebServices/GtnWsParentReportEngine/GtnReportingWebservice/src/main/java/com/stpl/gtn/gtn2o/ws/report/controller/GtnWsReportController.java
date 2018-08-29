@@ -462,6 +462,18 @@ public class GtnWsReportController {
 	}
 
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_COUNTSERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getComparisonAvailableTableCount(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse searchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.getComparisonAvailableTableCount(gtnUIFrameworkWebserviceRequest);
+		searchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
+		response.setGtnSerachResponse(searchResponse);
+		return response;
+	}
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadComparisonAvailableTable(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
