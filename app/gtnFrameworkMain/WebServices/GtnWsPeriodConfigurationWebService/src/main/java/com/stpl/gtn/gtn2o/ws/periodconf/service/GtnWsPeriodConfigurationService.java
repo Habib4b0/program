@@ -36,7 +36,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		super.logInformation(GtnWsPeriodConfigurationService.class);
 	}
 
-	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+public	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void init() {
 		initializeLogger();
@@ -45,7 +45,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(
-				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
+				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices","serviceRegistry"),
 				request, GtnUIFrameworkWebserviceResponse.class);
 		logger.info("Webservice Registered");
 		List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
