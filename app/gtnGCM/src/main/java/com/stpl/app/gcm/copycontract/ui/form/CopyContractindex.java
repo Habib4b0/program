@@ -75,7 +75,7 @@ public class CopyContractindex extends VerticalLayout {
     @UiField("copyBtn")
     public Button copyBtn;
     @UiField("Btnsearch")
-    public Button Btnsearch;
+    public Button btnsearch;
     @UiField("btnreset")
     public Button btnreset;
     @UiField("aliasType")
@@ -386,7 +386,7 @@ public class CopyContractindex extends VerticalLayout {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "Landing screen");
-            Btnsearch.setVisible(CommonLogic.isButtonVisibleAccess("Btnsearch", functionHM));
+            btnsearch.setVisible(CommonLogic.isButtonVisibleAccess("Btnsearch", functionHM));
             btnreset.setVisible(CommonLogic.isButtonVisibleAccess("btnreset", functionHM));
             copyBtn.setVisible(CommonLogic.isButtonVisibleAccess("copyBtn", functionHM));
         } catch (Exception ex) {
