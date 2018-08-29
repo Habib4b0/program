@@ -2267,7 +2267,7 @@ public class NonMandatedLogic {
 	}
 
 	public void insertIntoTempTables(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		insertTempSalesProjectionMaster(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempActualSales(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempSalesProjection(userId, sessionId, lastModifiedDate, projectionId);

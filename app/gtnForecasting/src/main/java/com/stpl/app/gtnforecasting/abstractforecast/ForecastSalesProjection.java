@@ -2738,12 +2738,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @return
      */
     public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
+        String finalValue;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+            finalValue = appendChar.concat(decFormat.format(Double.valueOf(value)));
         } else {
-            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+            finalValue = decFormat.format(Double.valueOf(value)).concat(appendChar);
         }
-        return value;
+        return finalValue;
     }
 
     /**
