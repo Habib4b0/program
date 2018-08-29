@@ -323,7 +323,7 @@ public class WorkFlowNotesLookup extends Window {
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = new File(FilenameUtils.getName(fileUploadPath + name));
                 boolean val = destFileUpload.renameTo(renameFileUpload);
-                LOGGER.debug("FILE RENAMED" + val);
+                LOGGER.debug("FILE RENAMED {}", val);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
                 } else {

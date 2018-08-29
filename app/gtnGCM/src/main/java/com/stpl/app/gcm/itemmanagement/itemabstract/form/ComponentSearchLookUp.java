@@ -71,7 +71,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
     @UiField("componentName")
     public TextField componentName;
     @UiField("componentStatus")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType")
     public TextField componentType;
     @UiField("labelId")
@@ -115,17 +115,17 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
     private final List<String> countFlag = new ArrayList<>();
     private final List<String> loadDataFlag = new ArrayList<>();
     private final CustomTextField componentTextField;
-    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "tradeClass", Constants.START_DATE, Constants.END_DATE};
-    private final String[] CFP_SEARCH_HEADERS = new String[]{
+    private static final String[] CFP_SEARCH_HEADERS = new String[]{
         "CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan Id", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
-    private final Object[] IFP_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] IFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
-    private final String[] IFP_SEARCH_HEADERS = new String[]{
+    private static final String[] IFP_SEARCH_HEADERS = new String[]{
         Constants.IFP_ID, Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan Id", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
-    private final Object[] PS_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] PS_SEARCH_COLUMNS = new Object[]{
         StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, "tradeClass", StringConstantsUtil.DESIGNATION_PROPERTY, "parentPsId", "parentPsName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
-     private final String[] PS_SEARCH_HEADERS = new String[]{
+     private static final String[] PS_SEARCH_HEADERS = new String[]{
         "PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS Id", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
 
     public ComponentSearchLookUp(final String component, final CustomTextField componentTextField) {
@@ -172,8 +172,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
         componentStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         componentTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         selectButton.setEnabled(false);
-        componentStatus_DTO.setNullSelectionAllowed(true);
-        componentStatus_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        componentStatusDto.setNullSelectionAllowed(true);
+        componentStatusDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
         resultsTable.addValueChangeListener(new Property.ValueChangeListener() {
             /**
@@ -288,7 +288,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
                     componentId.setValue(StringUtils.EMPTY);
                     componentName.setValue(StringUtils.EMPTY);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentStatus_DTO.setValue(null);
+                    componentStatusDto.setValue(null);
                     componentCategory.setValue(StringUtils.EMPTY);
                     componentType.setValue(StringUtils.EMPTY);
                     startDate.setValue(null);
@@ -326,7 +326,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
     }
 
     /**

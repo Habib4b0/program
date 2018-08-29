@@ -168,7 +168,7 @@ public class NMProjectionVarianceLogic {
 	 * @return list
 	 */
 	public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final List<ComparisonLookupDTO> finalList = new ArrayList<>();
 		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -244,7 +244,7 @@ public class NMProjectionVarianceLogic {
 	 * @return list
 	 */
 	public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final List<ComparisonLookupDTO> finalList = new ArrayList<>();
 		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -854,29 +854,30 @@ public class NMProjectionVarianceLogic {
 	}
 
 	private String getFrequency(String frequency) {
-		switch (frequency) {
+            String freq = frequency;
+		switch (freq) {
 		case Constant.QUARTERLY: {
-			frequency = Constant.QUARTERLY1;
+			freq = Constant.QUARTERLY1;
 			break;
 		}
 		case Constant.SEMI_ANNUALLY: {
-			frequency = Constant.SEMIANNUAL_CAPS;
+			freq = Constant.SEMIANNUAL_CAPS;
 			break;
 		}
 		case Constant.SEMI_ANNUALY: {
-			frequency = Constant.SEMIANNUAL_CAPS;
+			freq = Constant.SEMIANNUAL_CAPS;
 			break;
 		}
 		case Constant.MONTHLY: {
-			frequency = Constant.MONTHLY_COLUMN;
+			freq = Constant.MONTHLY_COLUMN;
 			break;
 		}
 		default: {
-			frequency = Constant.ANNUAL_CAPS;
+			freq = Constant.ANNUAL_CAPS;
 			break;
 		}
 		}
-		return frequency;
+		return freq;
 	}
 
 	private String getHierarchyIndicator(String hierarchyIndicator, boolean isIsCustomHierarchy) {
@@ -2776,7 +2777,7 @@ public class NMProjectionVarianceLogic {
 
 	public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup, int start,
 			int offset, Set<Filter> filter, List<SortByColumn> sortColumns, String screenName)
-			throws PortalException, SystemException {
+			throws PortalException {
 		Map<String, Object> parameters = new HashMap<>();
 
 		if (filter != null) {

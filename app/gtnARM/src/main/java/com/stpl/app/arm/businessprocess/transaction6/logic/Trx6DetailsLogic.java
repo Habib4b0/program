@@ -49,7 +49,7 @@ public class Trx6DetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmen
                 query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
             }
         }
-        LOGGER.debug("Query --" + query.toString());
+        LOGGER.debug("Query --{}", query.toString());
         List list = QueryUtils.executeSelect(query.toString());
         if (list != null) {
 

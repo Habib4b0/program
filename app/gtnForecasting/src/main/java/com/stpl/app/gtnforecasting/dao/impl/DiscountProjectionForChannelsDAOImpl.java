@@ -554,62 +554,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
     }
 
-    public List getLevelvalues(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, boolean isCustomHierarchy, boolean isLevelFilter) {
-        Session session = null;
-        LOGGER.debug(" entering getLevelvalues");
-        try {
-            session = openSession();
-            String hierarchy = StringUtils.EMPTY;
-            isCustomHierarchy = true;
-            // C indicates customer, P indicates product
-            if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
-                isCustomHierarchy = false;
-            } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
-                isCustomHierarchy = false;
-            }
-
-            String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
-            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-            return list;
-        } catch (ORMException e) {
-            LOGGER.error(e.getMessage());
-            return Collections.emptyList();
-        } finally {
-            LOGGER.debug(" exiting getLevelvalues");
-            closeSession(session);
-        }
-
-    }
-
-    @Override
-    public List loadLevels(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, int customId, boolean isCustomHierarchy, boolean isLevelFilter) {
-        LOGGER.debug(" entering getLevelvalues");
-        try {
-            String hierarchy = StringUtils.EMPTY;
-            isCustomHierarchy = true;
-            // C indicates customer, P indicates product
-            if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
-                isCustomHierarchy = false;
-            } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
-                isCustomHierarchy = false;
-            }
-
-            String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
-            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-            return list;
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            return Collections.emptyList();
-        } finally {
-            LOGGER.debug(" exiting getLevelvalues");
-
-        }
-    }
-
     /**
      * Query for the alternate contract history
      *

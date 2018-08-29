@@ -191,7 +191,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         }
     }
 
-    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws SystemException, PortalException {
+    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
         switch (screenName) {
             case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
                 mandatedExpandData(parentId, treeLevel, expandLevelNo);
@@ -274,7 +274,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         }
     }
 
-    private void nmExpandData(Object parentId, String treeLevel, int expandLevelNo) throws SystemException, PortalException {
+    private void nmExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
         int count = commercialDPRLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
          CommonLogic commonLogic = new CommonLogic();     
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());

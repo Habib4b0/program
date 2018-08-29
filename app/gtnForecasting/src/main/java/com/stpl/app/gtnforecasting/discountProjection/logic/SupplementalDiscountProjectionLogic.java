@@ -405,12 +405,13 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
+        String formatValue;
         if (value == null || value.contains(Constant.NULL) || value.isEmpty()) {
-            value = Constant.DASH;
+            formatValue = Constant.DASH;
         } else {
-            value = decFormat.format(Double.valueOf(value));
+            formatValue = decFormat.format(Double.valueOf(value));
         }
-        return value;
+        return formatValue;
     }
 
     private DiscountProjectionDTO loadProjectionValues(DiscountProjectionDTO dto, ProjectionSelectionDTO projSelDTO) {

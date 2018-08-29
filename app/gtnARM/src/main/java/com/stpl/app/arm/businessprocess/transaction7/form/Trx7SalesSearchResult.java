@@ -109,7 +109,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     }
 
     public void generateButtonLogic(Trx7SelectionDTO selection, boolean isEditButtonClick) {
-        LOGGER.debug("Inside generate ButtonClick Btn" + selection.getSalesVariables().size());
+        LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
         List<Object> header = getSummaryLogic().generateHeader(selection);
         List rightSingleVisibleColumn = (ArrayList) header.get(0);
         Map properties = new HashMap();

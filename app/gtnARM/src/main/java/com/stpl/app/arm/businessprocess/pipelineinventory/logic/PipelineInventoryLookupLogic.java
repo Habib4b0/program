@@ -63,7 +63,7 @@ public class PipelineInventoryLookupLogic {
             LOGGER.debug(query);
             List<Object[]> results = QueryUtils.getItemData(input, query, null);
             int size = results.size();
-            LOGGER.debug("size--" + size);
+            LOGGER.debug("size--{}", size);
             for (int i = 0; i < size; i++) {
                 Object[] arr = results.get(i);
                 CustomerGroupDTO dTO = new CustomerGroupDTO();
@@ -100,7 +100,7 @@ public class PipelineInventoryLookupLogic {
             input.add("%");
         }
         query = "movedCustomerGroup";
-        LOGGER.debug("query--" + query);
+        LOGGER.debug("query--{}", query);
         List resultList = QueryUtils.getItemData(input, query, null);
         searchList = getMovedCustomisedGroupDto(resultList);
         return searchList;
@@ -153,7 +153,7 @@ public class PipelineInventoryLookupLogic {
                         + "," + companyMasterSid + "),");
             }
             saveQuery.replace(saveQuery.length() - 1, saveQuery.length(), "");
-            LOGGER.debug("saveQuery--" + saveQuery);
+            LOGGER.debug("saveQuery--{}", saveQuery);
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery.toString(), selectionDto.getSessionDTO().getCurrentTableNames()));
         } catch (Exception ex) {
             LOGGER.error("Error in saveCustomerGroupValue :" , ex);
@@ -203,7 +203,7 @@ public class PipelineInventoryLookupLogic {
         try {
             String cgQuery = SQlUtil.getQuery("loadCustomerDetailsQuery");
             cgQuery = cgQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewMasterSid);
-            LOGGER.debug("cgQuery --" + cgQuery);
+            LOGGER.debug("cgQuery --{}", cgQuery);
             List<Object> listValue = HelperTableLocalServiceUtil.executeSelectQuery(cgQuery);
             for (int i = 0; i < listValue.size(); i++) {
                 Object[] obj = (Object[]) listValue.get(i);
@@ -237,7 +237,7 @@ public class PipelineInventoryLookupLogic {
                     + "    AND AVD.CHECK_RECORD IS NOT NULL\n"
                     + "    AND AVD.ARM_VIEW_MASTER_SID = @ARM_VIEW_MASTER_SID;";
             cgQuery = cgQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewMasterSid);
-            LOGGER.debug("cgQuery --" + cgQuery);
+            LOGGER.debug("cgQuery --{}", cgQuery);
             List<Object> listValue = HelperTableLocalServiceUtil.executeSelectQuery(cgQuery);
             for (int i = 0; i < listValue.size(); i++) {
                 Object[] obj = (Object[]) listValue.get(i);
@@ -265,11 +265,11 @@ public class PipelineInventoryLookupLogic {
                     + "    where ATID.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;";
 
             custQuery = custQuery.replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId));
-            LOGGER.debug("custQuery --" + custQuery);
+            LOGGER.debug("custQuery --{}", custQuery);
             List<Object> listValue = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(custQuery, selectionDto.getSessionDTO().getCurrentTableNames()));
             if (listValue.isEmpty()) {
                 custQuery = SQlUtil.getQuery("LOAD_INVENTORY_CUSTOMERS");
-                LOGGER.debug("custQuery inside --" + custQuery);
+                LOGGER.debug("custQuery inside --{}", custQuery);
                 listValue = HelperTableLocalServiceUtil.executeSelectQuery(custQuery);
                 checkFlag = false;
             }
