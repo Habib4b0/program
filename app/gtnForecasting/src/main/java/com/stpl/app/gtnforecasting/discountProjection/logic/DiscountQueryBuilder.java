@@ -1158,13 +1158,14 @@ public class DiscountQueryBuilder {
     }
 
     private String checkIsCustom(boolean isCustomHierarchy, String hierarchyIndicator, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyNo, String customSql,SessionDTO session) {
+        String sql = customSql;
         if (isCustomHierarchy) {
-            customSql = customSql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,commonLogic.replacePercentHierarchy(deductionHierarchyNo),hierarchyIndicator,session));
+            sql = sql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,commonLogic.replacePercentHierarchy(deductionHierarchyNo),hierarchyIndicator,session));
         } else {
-            customSql = customSql.replace(Constant.HIERARCHY_NO, hierarchyNo);
+            sql = sql.replace(Constant.HIERARCHY_NO, hierarchyNo);
         }
-        customSql = customSql.replace("@CUSTOM_VIEW", StringUtils.EMPTY);
-        return customSql;
+        sql = sql.replace("@CUSTOM_VIEW", StringUtils.EMPTY);
+        return sql;
     }
 
     public static String getRSDiscountHierarchyNo(List<String> discountList,SessionDTO session,int levelNo) {

@@ -947,13 +947,12 @@ public class MMDPRLogic {
         String sessionId = projSel.getSessionDTO().getSessionId();
         String managedMedicaid = Constant.MANAGED_MEDICAID;
         String quarterly = projSel.getFrequency();
-        String frequency = StringUtils.EMPTY;
         Object object1 = null;
         Object object0 = null;
         Integer historyStartMonth = projSel.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSel.getForecastDTO().getHistoryStartYear();
         int projectionId = projSel.getProjectionId();
-        frequency = frequencyConstantVariable(quarterly, frequency);
+        String frequency = frequencyConstantVariable(quarterly);
         Object[] orderedArgs = {projectionId, userId, sessionId, managedMedicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
          List<Object[]> list;
          // Procedure called only in  Tab Change
@@ -1836,14 +1835,15 @@ public class MMDPRLogic {
     }
 
     public String getFormatValue(int numberOfDecimal, String value, String appendChar) {
+        String formattValue;
         if (value.contains(Constant.NULL)) {
-            value = "...";
+            formattValue = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN)));
+            formattValue = appendChar.concat(String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN)));
         } else {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN)).concat(appendChar);
+            formattValue = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN)).concat(appendChar);
         }
-        return value;
+        return formattValue;
     }
 
     private List<DiscountProjectionResultsDTO> getPivotProjectionTotalDiscount(ProjectionSelectionDTO projSelDTO, int start, int offset) {
@@ -1857,13 +1857,12 @@ public class MMDPRLogic {
         String sessionId = projSelDTO.getSessionDTO().getSessionId();
         String managedMedicaid = Constant.MANAGED_MEDICAID;
         String quarterly = projSelDTO.getFrequency();
-        String frequency = StringUtils.EMPTY;
         Object object1 = null;
         Object object0 = null;
         Integer historyStartMonth = projSelDTO.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSelDTO.getForecastDTO().getHistoryStartYear();
         int projectionId = projSelDTO.getProjectionId();
-        frequency = frequencyConstantVariable(quarterly, frequency);
+        String frequency = frequencyConstantVariable(quarterly);
 
         Object[] orderedArgs = {projectionId, userId, sessionId, managedMedicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
          List<Object[]> list;
@@ -1934,17 +1933,18 @@ public class MMDPRLogic {
         return totalDTO;
     }
 
-    private String frequencyConstantVariable(String quarterly, String frequency) {
+    private String frequencyConstantVariable(String quarterly) {
+        String frequencyVariable= StringUtils.EMPTY;
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
-            frequency = Constant.QUARTERLY;
+            frequencyVariable = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {
-            frequency = "SEMI-ANNUALLY";
+            frequencyVariable = "SEMI-ANNUALLY";
         } else if (ANNUALLY.equalsIgnoreCase(quarterly)) {
-            frequency = "ANNUALLY";
+            frequencyVariable = "ANNUALLY";
         } else if (MONTHLY.getConstant().equalsIgnoreCase(quarterly)) {
-            frequency = MONTHLY.getConstant();
+            frequencyVariable = MONTHLY.getConstant();
         }
-        return frequency;
+        return frequencyVariable;
     }
 
     private void customizePCDisc(List<Object[]> list, DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, String checkYear) {

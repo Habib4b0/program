@@ -413,15 +413,15 @@ public class AccountConfigLogic {
         return finalResult;
     }
 
-    private int getIntegerValue(int index, Object[] str) throws NumberFormatException {
+    private int getIntegerValue(int index, Object[] str) {
         return str[index] == null ? 0 : (Integer) (str[index]);
     }
 
-    private String getStringValue(int index, Object[] str) throws NumberFormatException {
+    private String getStringValue(int index, Object[] str) {
         return str[index] == null ? StringUtils.EMPTY : String.valueOf(str[index]);
     }
 
-    private String getDateValue(int index, Object[] str) throws NumberFormatException {
+    private String getDateValue(int index, Object[] str) {
         return str[index] == null ? null : dbDate.format((Date) str[index]);
     }
 
