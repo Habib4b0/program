@@ -106,7 +106,6 @@ public class Constants {
     public static final String ALPHA_NUM_VALIDATION = "([0-9|a-z|A-Z|\\_|\\*|\\s])*";
     public static final String MM_DD_YYYY = "MM/dd/yyyy";
     public static final String COMMA = ",";
-    public static final String[] itemSearch = {Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_STATUS, Constants.ITEM_TYPE, Constants.BRAND, Constants.FORM, Constants.STRENGTH, Constants.THERAPY_CLASS, Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
     public static final String CFP = "CFP";
     public static final String IFP = "IFP";
     public static final String PS = "PS";
@@ -435,29 +434,24 @@ public class Constants {
     /**
      * CURRENT_TRADING_PARTNER_COLUMNS
      */
-    public static final Object[] CURRENT_TRADING_PARTNER_COLUMNS = new Object[]{
+    private static final Object[] CURRENT_TRADING_PARTNER_COLUMNS = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, REBATE_SCHEDULE_NO_PROPERTY, REBATE_SCHEDULE_NAME_PROPERTY, RAR_CATEGORY_COLUMN, STATUS_S, COMPANY_START_DATE, COMPANY_END_DATE};
     public static final String REBATE_SCHEDULE_NAME_LABEL = "Rebate Schedule Name";
     public static final String REBATE_SCHEDULE_NO_LABEL = "Rebate Schedule No";
     /**
      * The Constant CURRENT_TRADING_PARTNER_HEADERS.
      */
-    public static final String[] CURRENT_TRADING_PARTNER_HEADERS = new String[]{
+    private static final String[] CURRENT_TRADING_PARTNER_HEADERS = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, REBATE_SCHEDULE_NO_LABEL, REBATE_SCHEDULE_NAME_LABEL, RAR_CATEGORY_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
     public static final String STATUS_ID_PROPERTY = "statusId";
-    public static final Object[] PTP_COMPONENT_INFO_COLUMNS_IFP = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public static final String[] PTP_COMPONENT_INFO_HEADERS_IFP = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public static final Object[] PTP_COMPONENT_INFO_COLUMN_SPS = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
-    public static final String[] PTP_COMPONENT_INFO_HEADERS_PS = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
-    public static final Object[] PTP_COMPONENT_INFO_COLUMNS = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
-    public static final String[] PTP_COMPONENT_INFO_HEADERS = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
-    public static final Object[] TP_RESULTS_COLUMNS = new Object[]{
-        COMPANY_SYSTEM_ID_PROPERTY, COMPANY_ID_PROPERTY, COMPANY_NO, COMPANY_NAME, COMPANY_TYPE_PROPERTY, COMPANY_CATEGORY_PROPERTY, TRADE_CLASS_PROPERTY, ADDRESS1_PROPERTY, ADDRESS2_PROPERTY, "city", STATE_PROPERTY, "zip"
-    };
-    public static final String[] TPRESULTSHEADERS = new String[]{
-        SYSTEM_ID_LABEL, Constants.COMPANY_ID, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS, ADDRESS_1_LABEL, ADDRESS_2_LABEL, "City", STATE_LABEL, "Zip"
-    };
-    public static final Object[] TP_COMPONEN_TINFORMATION_COLUMNS_RS = new Object[]{
+    private static final Object[] PTP_COMPONENT_INFO_COLUMNS_IFP = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
+    private static final String[] PTP_COMPONENT_INFO_HEADERS_IFP = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
+    private static final Object[] PTP_COMPONENT_INFO_COLUMN_SPS = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY};
+    private static final String[] PTP_COMPONENT_INFO_HEADERS_PS = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
+    private static final Object[] PTP_COMPONENT_INFO_COLUMNS = new Object[]{CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_ID_PROPERTY, ITEM_START_DATE_PROPERTY, ITEM_END_DATE_PROPERTY, REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
+    private static final String[] PTP_COMPONENT_INFO_HEADERS = new String[]{" ", Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
+    
+    private static final Object[] TP_COMPONEN_TINFORMATION_COLUMNS_RS = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public static final String REBATE_AMOUNT_LABEL = "Rebate Amount";
     public static final String REBATE_PLAN_ID_FIELD = "Rebate Plan Id";
@@ -723,6 +717,55 @@ public class Constants {
     public static final String AND_SESSION_ID = "'AND SESSION_ID like '";
     public static final String AND_OPERATION = "'AND OPERATION like '";
     public static final String AND_CHECK_RECORD = "AND CHECK_RECORD = 1";
+    
+    
+    public static Object[] getCurrentTradingPartnerColumns() {
+        return CURRENT_TRADING_PARTNER_COLUMNS.clone();
+    }
+
+    public static String[] getCurrentTradingPartnerHeaders() {
+        return CURRENT_TRADING_PARTNER_HEADERS.clone();
+    }
+
+    public static Object[] getPtpComponentInfoColumnsIfp() {
+        return PTP_COMPONENT_INFO_COLUMNS_IFP.clone();
+    }
+
+    public static String[] getPtpComponentInfoHeadersIfp() {
+        return PTP_COMPONENT_INFO_HEADERS_IFP.clone();
+    }
+
+    public static Object[] getPtpComponentInfoColumnSps() {
+        return PTP_COMPONENT_INFO_COLUMN_SPS.clone();
+    }
+
+    public static String[] getPtpComponentInfoHeadersPs() {
+        return PTP_COMPONENT_INFO_HEADERS_PS.clone();
+    }
+
+    public static Object[] getPtpComponentInfoColumns() {
+        return PTP_COMPONENT_INFO_COLUMNS.clone();
+    }
+
+    public static String[] getPtpComponentInfoHeaders() {
+        return PTP_COMPONENT_INFO_HEADERS.clone();
+    }
+
+   
+
+    public static Object[] getTpComponentInformationColumnsRs() {
+        return TP_COMPONEN_TINFORMATION_COLUMNS_RS.clone();
+    }
+
+    public static String[] getTpComponentInformationHeadersRs() {
+        return TP_COMPONENT_INFORMATION_HEADERSRS.clone();
+    }
+
+    public static Object[] getTpComponentInformationColumnsPs() {
+        return TP_COMPONENT_INFORMATION_COLUMNS_PS.clone();
+    }
+
+   
     
     /**
      * Enum for Module/Screen/Functionality indicator constants.

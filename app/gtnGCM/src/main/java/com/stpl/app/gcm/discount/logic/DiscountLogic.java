@@ -111,6 +111,7 @@ public class DiscountLogic {
     public static final String SET_COLUMN_NAME_QUESTION = "?SET_COLUMN_NAME?";
     public static final String ROWS_ONLY = " ROWS ONLY";
     public static final String FILTER = "@filter@";
+    private static final String[] ITEM_SEARCH = {Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_STATUS, Constants.ITEM_TYPE, Constants.BRAND, Constants.FORM, Constants.STRENGTH, Constants.THERAPY_CLASS, Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
 
     /**
      * The Constant CHAR_ASTERISK.
@@ -1067,23 +1068,23 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.itemSearch[0].equals(searchField)) {
+        if (ITEM_SEARCH[0].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[1].equals(searchField)) {
+        } else if (ITEM_SEARCH[1].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.TWO].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.TWO].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.THREE].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.THREE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.FOUR].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.FOUR].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.FIVE].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.FIVE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.SIX].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.SIX].equals(searchField)) {
             inputMap.put(StringConstantsUtil.FORM_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.SEVEN].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.SEVEN].equals(searchField)) {
             inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.EIGHT].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.EIGHT].equals(searchField)) {
             inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
@@ -2863,23 +2864,23 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.itemSearch[0].equals(searchField)) {
+        if (ITEM_SEARCH[0].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[1].equals(searchField)) {
+        } else if (ITEM_SEARCH[1].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.TWO].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.TWO].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.THREE].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.THREE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.FOUR].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.FOUR].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.FIVE].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.FIVE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.SIX].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.SIX].equals(searchField)) {
             inputMap.put(StringConstantsUtil.FORM_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.SEVEN].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.SEVEN].equals(searchField)) {
             inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.itemSearch[NumericConstants.EIGHT].equals(searchField)) {
+        } else if (ITEM_SEARCH[NumericConstants.EIGHT].equals(searchField)) {
             inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
