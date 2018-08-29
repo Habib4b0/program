@@ -41,7 +41,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SaveViewPopup.
  *
@@ -210,7 +210,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @throws PortalException the portal exception
      */
     public void saveView(final List<Leveldto> selectedCustomersList, final List<Leveldto> selectedProductsList,
-            final String actionFlag) throws SystemException, PortalException {
+            final String actionFlag) throws PortalException {
         try {
 
             LOGGER.debug("Entering saveView method");

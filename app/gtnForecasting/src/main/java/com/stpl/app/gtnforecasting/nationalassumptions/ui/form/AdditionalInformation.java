@@ -56,7 +56,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class AdditionalInformation.
  *
@@ -650,7 +650,7 @@ public class AdditionalInformation extends CustomComponent {
         return removedDetailsList == null ? removedDetailsList : new ArrayList<>(removedDetailsList);
     }
 
-    public void saveAdditionalInformation() throws SystemException, PortalException  {
+    public void saveAdditionalInformation() throws PortalException  {
         int projectionId = (Integer) VaadinSession.getCurrent()
                 .getAttribute(PROJECTION_ID.getConstant());
         List<String> addedNotes = getAddedNotes();

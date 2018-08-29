@@ -31,6 +31,9 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -352,8 +355,9 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		for (int i = 0; i < componentList.size(); i++) {
 			if (componentList.get(i) != null && resultArray[i] != null) {
 				value = getValuesForComponent(i, componentList, resultArray);
-
+                                
 				GtnWSTransactionColumnBean viewDateModeBean = getDateMode(viewDateModeComponents, componentList.get(i));
+                                 
 				if (viewDateModeBean != null) {
 
 					getValuesForDateComponent(i, componentList, viewDateModeBean, value, resultArray);
@@ -376,15 +380,23 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 
 	private void getValuesForDateComponent(int i, List<Object> componentList,
 			GtnWSTransactionColumnBean viewDateModeBean, Object value, Object[] resultArray) {
-
+                       
 		if (String.valueOf(componentList.get(i)).contains("Date")
 				&& (viewDateModeBean.getComponentType().equals("text"))) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-			String stringDateValue = dateFormat.format(resultArray[i]);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(
-							GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
-					.loadDateValue(stringDateValue);
+            
+                try {
+                    DateFormat formatter = new SimpleDateFormat("MMM d yyyy hh:mma");                   
+                    Date date=formatter.parse(resultArray[i].toString());
+                    LocalDate localDate=date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    Date loadDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponent(
+                                    GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
+                            .loadDateValue(loadDate);
+                } catch (ParseException e) {
+                    gtnLogger.error("Error in LoadDate Value"+e);
+                }
+              
 
 		} else {
 
@@ -404,6 +416,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		try {
 			List<String> dateColumn = Arrays.asList("firstReturn", "lastReturn", "origSaleMonth", "maxExpiredMonth",
 					"maxExpiredMonsPluscutoff");
+                        
 			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 			boolean isDate = (String.valueOf(componentId).contains("Date")
 					|| dateColumn.contains(String.valueOf(componentId))) && componentValue instanceof java.lang.String;

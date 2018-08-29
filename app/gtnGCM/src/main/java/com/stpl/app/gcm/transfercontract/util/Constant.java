@@ -39,8 +39,8 @@ public class Constant {
     public static final String IFP_CATEGORY = "Item Family Plan";
     public static final String PS_CATEGORY = "Price Schedule";
     public static final String RS_CATEGORY = "Rebate Schedule";
-    public final String[] contractSearch = {"Contract No", "Contract Name", "Contract ID"};
-    public final String[] cfpSearch = {"CFP No", "CFP Name", "CFP ID"};
+    private static final String[] CONTRACT_SEARCH = {"Contract No", "Contract Name", "Contract ID"};
+    private static final String[] CFP_SEARCH = {"CFP No", "CFP Name", "CFP ID"};
     private static final String[] IFP_SEARCH = {Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.IFP_ID};
     private static final String[] PS_SEARCH = {"PS No", "PS Name", "PS ID"};
     private static final String[] RS_SEARCH = {"RS No", "RS Name", "RS ID"};
@@ -48,6 +48,12 @@ public class Constant {
     
     public static String[] getIFPSEARCH() {
         return IFP_SEARCH.clone();
+    }
+    public static String[] getContractSearch() {
+        return CONTRACT_SEARCH.clone();
+    }
+     public static String[] getCfpSearch() {
+        return CFP_SEARCH.clone();
     }
 
     public static String[] getPSSEARCH() {

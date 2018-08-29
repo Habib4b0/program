@@ -86,9 +86,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
     private final SelectionDTO selection = new SelectionDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final CustomTextField componentTextField;
-    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentNo", "componentName", "componentType", "category", "tradeClass", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    private final String[] CFP_SEARCH_HEADERS = new String[]{"PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS ID", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
+    private static final String[] CFP_SEARCH_HEADERS = new String[]{"PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS ID", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
 
     public PSLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;
