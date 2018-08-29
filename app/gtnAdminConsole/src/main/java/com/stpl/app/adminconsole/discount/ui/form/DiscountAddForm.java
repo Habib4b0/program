@@ -479,7 +479,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the discount table header
      */
     public String[] getDiscountTableHeader() {
-        return discountTableHeader;
+        return discountTableHeader.clone();
     }
 
     /**
@@ -488,7 +488,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the available list column
      */
     public Object[] getAvailableListColumn() {
-        return availableListColumn;
+        return availableListColumn.clone();
     }
 
     /**
@@ -497,7 +497,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the available list header
      */
     public String[] getAvailableListHeader() {
-        return availableListHeader;
+        return availableListHeader.clone();
     }
 
     /**
