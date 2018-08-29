@@ -1538,7 +1538,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setMaxSplitPosition(1000);
 		reportingDashboardGtnPagedTreeTableConfig.setMinSplitPosition(300);
-		reportingDashboardGtnPagedTreeTableConfig.setPageLength(15);
+		reportingDashboardGtnPagedTreeTableConfig.setPageLength(10);
 		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl("");
 
 		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);
