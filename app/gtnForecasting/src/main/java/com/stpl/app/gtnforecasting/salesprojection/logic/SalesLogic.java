@@ -2049,9 +2049,9 @@ public class SalesLogic {
         }
     }
 
-    public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, Object[] dataArr) throws PortalException {
-        boolean checkAll = (boolean) dataArr[0];
-        boolean isManualEntry = (boolean) dataArr[1];
+    public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean[] dataArr) throws PortalException {
+        boolean checkAll =  dataArr[0];
+        boolean isManualEntry = dataArr[1];
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
             StringBuilder saveQuery = new StringBuilder();

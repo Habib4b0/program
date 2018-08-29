@@ -1780,7 +1780,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveRecords(propertyId.toString(), changedValue,  changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, new Object[] {checkAll, !tempArray1[0].contains(Constant.GROWTH)});
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, new boolean[] {checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     refreshFlag = true;
