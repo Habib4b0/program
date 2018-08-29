@@ -854,29 +854,30 @@ public class NMProjectionVarianceLogic {
 	}
 
 	private String getFrequency(String frequency) {
-		switch (frequency) {
+            String freq = frequency;
+		switch (freq) {
 		case Constant.QUARTERLY: {
-			frequency = Constant.QUARTERLY1;
+			freq = Constant.QUARTERLY1;
 			break;
 		}
 		case Constant.SEMI_ANNUALLY: {
-			frequency = Constant.SEMIANNUAL_CAPS;
+			freq = Constant.SEMIANNUAL_CAPS;
 			break;
 		}
 		case Constant.SEMI_ANNUALY: {
-			frequency = Constant.SEMIANNUAL_CAPS;
+			freq = Constant.SEMIANNUAL_CAPS;
 			break;
 		}
 		case Constant.MONTHLY: {
-			frequency = Constant.MONTHLY_COLUMN;
+			freq = Constant.MONTHLY_COLUMN;
 			break;
 		}
 		default: {
-			frequency = Constant.ANNUAL_CAPS;
+			freq = Constant.ANNUAL_CAPS;
 			break;
 		}
 		}
-		return frequency;
+		return freq;
 	}
 
 	private String getHierarchyIndicator(String hierarchyIndicator, boolean isIsCustomHierarchy) {
