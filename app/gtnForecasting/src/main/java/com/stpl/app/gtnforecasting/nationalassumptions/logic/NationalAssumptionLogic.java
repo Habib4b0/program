@@ -73,7 +73,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NationalAssumptionLogic.
  *
@@ -519,7 +519,7 @@ public class NationalAssumptionLogic {
      */
     public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNew = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Long> qualifierList;
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
@@ -530,7 +530,7 @@ public class NationalAssumptionLogic {
             brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
         }
 
-        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
+        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterTextNew));
         brandQuery.setProjection(ProjectionFactoryUtil.countDistinct(BRAND_NAME.getConstant()));
         qualifierList = DAO.getBrandList(brandQuery);
         count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
@@ -550,7 +550,7 @@ public class NationalAssumptionLogic {
      */
     public static List<HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final HelperDTO theraupticSid, final HelperDTO preBrandVal) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextLazyBrandResults = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
         final List<HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -572,7 +572,7 @@ public class NationalAssumptionLogic {
         projectionList.add(ProjectionFactoryUtil.property(BRAND_NAME.getConstant()));
         brandQuery.setProjection(projectionList);
         brandQuery.addOrder(OrderFactoryUtil.asc(BRAND_NAME.getConstant()));
-        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
+        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterTextLazyBrandResults));
 
         if (brandSid.length != 0) {
             brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
@@ -632,9 +632,9 @@ public class NationalAssumptionLogic {
     }
 
     public static int getLazyTherapeuticClassCount(String filterText) throws  PortalException {
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextCount = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
 
-        DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
+        DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterTextCount);
         tcDynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct(DESCRIPTION));
         List<HelperTable> list = DAO.getHelperTable(tcDynamicQuery);
         return Integer.parseInt(String.valueOf(list.get(0)));
@@ -642,7 +642,7 @@ public class NationalAssumptionLogic {
 
     public static List<HelperDTO> getLazyTherapeuticClassResults(final int start, final int end, String filterText) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextResults = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<HelperTable> list;
         final List<HelperDTO> helperDtoList = new ArrayList<>();
 
@@ -655,7 +655,7 @@ public class NationalAssumptionLogic {
             endValue = end - 1;
         }
 
-        final DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
+        final DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterTextResults);
         tcDynamicQuery.setLimit(startValue, endValue);
         tcDynamicQuery.addOrder(OrderFactoryUtil.asc(HELPER_TABLE_SID));
         list = DAO.getHelperTable(tcDynamicQuery);
@@ -699,14 +699,14 @@ public class NationalAssumptionLogic {
      */
     public static int getLazyNdcCount(String filterText, final HelperDTO brandMasterSid, boolean itemFlag) throws PortalException {
 
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdc = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<ItemMaster> qualifierList;
         DynamicQuery ndcQuery = getNdcDynamicQuery(brandMasterSid, itemFlag);
         if (itemFlag) {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.count(Constant.ITEM_NO));
         } else {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
         }
         
@@ -731,7 +731,7 @@ public class NationalAssumptionLogic {
      */
     public static List<HelperDTO> getLazyNdcResults(final int start, final int end, String filterText, final HelperDTO brandMasterSid, boolean itemFlag, final HelperDTO medicaidNdc9) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdcResult = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
         final List<HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -753,7 +753,7 @@ public class NationalAssumptionLogic {
             projectionList.add(ProjectionFactoryUtil.property(ITEM_DESC));
             ndcQuery.setProjection(projectionList);
             ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdcResult));
             
             qualifierList = DAO.getItemList(ndcQuery);
             boolean wsflag = true;
@@ -952,7 +952,7 @@ public class NationalAssumptionLogic {
      */
     public static List<HelperDTO> getLazyNdcFilterResults(final int start, final int end, String filterText, boolean itemFlag, HelperDTO brandMasterSid, HelperDTO therapeuticSid, final boolean isFilter) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdcFilter = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
         final List<HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -975,7 +975,7 @@ public class NationalAssumptionLogic {
             ndcQuery.setProjection(projectionList);
 
             ndcQuery.addOrder(OrderFactoryUtil.asc(ITEM_DESC));
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdcFilter));
 
             qualifierList = DAO.getItemList(ndcQuery);
 
@@ -1083,14 +1083,15 @@ public class NationalAssumptionLogic {
     }
 
     public String getFormattedGrowth(String value, boolean isGrowth) {
+        String valueGrowth;
         if (value.contains(Constant.NULL)) {
-            value = StringUtils.EMPTY;
+            valueGrowth = StringUtils.EMPTY;
         } else {
             Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
-            value = perWithTwoDecimal.format(newValue) ;
+            valueGrowth = perWithTwoDecimal.format(newValue) ;
         }
-        return value;
+        return valueGrowth;
     }
 
     public List<NewNdcDTO> getFederalTable(SessionDTO session) throws PortalException {

@@ -825,16 +825,17 @@ public class ProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
+        String val;
         if (value.contains(Constant.NULL)) {
-            value = DASH.getConstant();
+            val = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            val = decFormat.format(newValue);
         }
-        return value;
+        return val;
     }
 
     public void getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {

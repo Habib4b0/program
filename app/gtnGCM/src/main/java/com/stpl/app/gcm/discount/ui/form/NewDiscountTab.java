@@ -1766,8 +1766,8 @@ public class NewDiscountTab extends CustomComponent {
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromCfpCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsCompanyColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().adComponentDetailsCompanyHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_COMPANY_COLUMN);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_COMPANY_HEADER);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1779,8 +1779,8 @@ public class NewDiscountTab extends CustomComponent {
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromIfpCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_PS_HEADER);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1792,8 +1792,8 @@ public class NewDiscountTab extends CustomComponent {
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromPsCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_PS_HEADER);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1805,8 +1805,8 @@ public class NewDiscountTab extends CustomComponent {
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromRsCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_PS_HEADER);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }

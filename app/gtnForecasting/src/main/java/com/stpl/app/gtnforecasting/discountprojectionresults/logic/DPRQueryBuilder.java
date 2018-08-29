@@ -95,8 +95,9 @@ public class DPRQueryBuilder {
 
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
+            String discountStringValue = StringUtils.EMPTY;
             if (discountString.equals("0")) {
-                discountString = "'" + discountString + "'";
+                discountStringValue = "'" + discountString + "'";
             }
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
@@ -139,23 +140,24 @@ public class DPRQueryBuilder {
                 forecastEndPeriod = feYear + feMonth;
 
             }
+            String frequencyValue = StringUtils.EMPTY;
             if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+                frequencyValue = Constant.QUARTER;
             }
             if (frequency.equals(ANNUALLY.getConstant())) {
-                frequency = "YEAR";
+                frequencyValue = "YEAR";
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = Constant.SEMI_ANNUAL;
+                frequencyValue = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = MONTH;
+                frequencyValue = MONTH;
             }
 
             
-            projectionQuery = "SELECT PR.YEAR, PR." + frequency + " AS BASE, 0.00 AS ACTUAL_SALES,0.00 AS ACTUAL_DISCOUNT,MAX(NMSP.PROJECTION_SALES) \n"
-                    + "  AS PROJECTION_SALES,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
+            projectionQuery = "SELECT PR.YEAR, PR." + frequencyValue + " AS BASE, 0.00 AS ACTUAL_SALES,0.00 AS ACTUAL_DISCOUNT,MAX(NMSP.PROJECTION_SALES) \n"
+                    + "  AS PROJECTION_SALES,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT,PR." + frequencyValue + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS\n"
                     + " FROM PROJECTION_DETAILS PD JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
                     + "  JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
@@ -166,12 +168,12 @@ public class DPRQueryBuilder {
                     + "  AND RSM.RS_CONTRACT_SID = NMDP.RS_CONTRACT_SID WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ") "
                     + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2)>=" + forecastStartPeriod + ""
                     + "  AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) < = " + forecastEndPeriod + ""
-                    + " and  RSM.RS_NAME IN (" + discountString + ")"
-                    + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
+                    + " and  RSM.RS_NAME IN (" + discountStringValue + ")"
+                    + " GROUP BY PR.YEAR,PR." + frequencyValue + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
                     + UNION_ALL
-                    + " SELECT PR.YEAR ,PR." + frequency + " AS BASE, MAX(NMAS.ACTUAL_SALES) AS ACTUAL_SALES,  SUM(NMAD.ACTUAL_SALES)"
+                    + " SELECT PR.YEAR ,PR." + frequencyValue + " AS BASE, MAX(NMAS.ACTUAL_SALES) AS ACTUAL_SALES,  SUM(NMAD.ACTUAL_SALES)"
                     + " AS ACTUAL_DISCOUNT,MAX(ISNULL(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES, SUM(ISNULL(NMDP.PROJECTION_SALES, 0))\n"
-                    + " AS PROJECTION_DISCOUNT, PR." + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
+                    + " AS PROJECTION_DISCOUNT, PR." + frequencyValue + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
@@ -189,19 +191,19 @@ public class DPRQueryBuilder {
                     + " AND NMDP.RS_CONTRACT_SID = RSM.RS_CONTRACT_SID  "
                     + " WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ")  AND cast(PR.YEAR as varchar(4))+RIGHT ('0'+CAST(PR.MONTH AS VARCHAR),2) > = " + startPeriod + ""
                     + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + ""
-                    + " and  RSM.RS_NAME IN (" + discountString + ")"
-                    + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
+                    + " and  RSM.RS_NAME IN (" + discountStringValue + ")"
+                    + "GROUP BY PR.YEAR,PR." + frequencyValue + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
             if (view.equalsIgnoreCase("parent")) {
-                if (frequency.equals("YEAR") || frequency.equals(MONTH)) {
+                if (frequencyValue.equals("YEAR") || frequencyValue.equals(MONTH)) {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR.MONTH";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + Constant.PRMONTH;
+                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequencyValue + Constant.PRMONTH;
                 }
             } else {
-                if (frequency.equals("YEAR") || frequency.equals(MONTH)) {
+                if (frequencyValue.equals("YEAR") || frequencyValue.equals(MONTH)) {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PRMONTH;
+                    projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequencyValue + Constant.PRMONTH;
                 }
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(projectionQuery, session.getCurrentTableNames()));

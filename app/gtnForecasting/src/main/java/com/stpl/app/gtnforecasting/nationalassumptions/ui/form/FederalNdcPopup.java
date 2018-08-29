@@ -370,7 +370,7 @@ public class FederalNdcPopup extends CustomComponent {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(),
                 "Are you sure you want to reset the page to default/previous values?");

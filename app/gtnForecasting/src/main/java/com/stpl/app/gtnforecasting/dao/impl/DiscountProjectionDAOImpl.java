@@ -29,7 +29,7 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public void updateAdjustedDiscount(int projectionId) {
-        // TODO Auto-generated method stub
+        //updateAdjustedDiscount Method
     }
 
     @Override
@@ -86,7 +86,6 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public List getGlobalRebateDetails(int projectionId) {
-        // TODO Auto-generated method stub
         return Collections.emptyList();
     }
 

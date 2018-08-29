@@ -6,7 +6,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface ProjectionVarianceDAO.
  */

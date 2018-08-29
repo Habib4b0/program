@@ -12,7 +12,6 @@ import com.stpl.app.model.AdditionalNotes;
 import com.stpl.app.model.DocDetails;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface AdditionalInfoDAO.
  *

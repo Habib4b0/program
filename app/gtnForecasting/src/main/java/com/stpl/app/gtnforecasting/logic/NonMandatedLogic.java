@@ -88,7 +88,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NonMandatedLogic.
  *
@@ -2267,7 +2267,7 @@ public class NonMandatedLogic {
 	}
 
 	public void insertIntoTempTables(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		insertTempSalesProjectionMaster(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempActualSales(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempSalesProjection(userId, sessionId, lastModifiedDate, projectionId);

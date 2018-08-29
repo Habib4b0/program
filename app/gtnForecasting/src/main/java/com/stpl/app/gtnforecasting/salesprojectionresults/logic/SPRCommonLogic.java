@@ -1751,7 +1751,7 @@ public class SPRCommonLogic {
         return helperList;
     }
 
-    public static int getHelperTableSID(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperTableSID(String listName, String description) throws SystemException {
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
 		final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.LIST_NAME, listName));

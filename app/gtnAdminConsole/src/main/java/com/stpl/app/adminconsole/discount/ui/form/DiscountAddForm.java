@@ -243,22 +243,22 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public final Object[] discountTableColumns = new Object[]{
+    public static final Object[] discountTableColumns = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
      */
-    public final String[] discountTableHeader = new String[]{
+    public static final String[] discountTableHeader = new String[]{
         "Rebate Name", "Rebate No", "Rebate Schedule Type", "Rebate Program Type", "Rebate Schedule Category", "Rebate Plan Level"};
     /**
      * The Constant AVAILABLE LIST COLUMN.
      */
-    public final Object[] availableListColumn = new Object[]{
+    public static final Object[] availableListColumn = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant AVAILABLE LIST HEADER.
      */
-    public final String[] availableListHeader = new String[]{
+    public static final String[] availableListHeader = new String[]{
         "Rebate Name", "Rebate No", "Rebate Schedule Type", "Rebate Program Type", "Rebate Schedule Category", "Rebate Plan Level"};
     /**
      *

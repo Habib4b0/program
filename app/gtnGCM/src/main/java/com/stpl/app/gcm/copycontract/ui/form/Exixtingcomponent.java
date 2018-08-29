@@ -366,8 +366,8 @@ public class Exixtingcomponent extends CustomComponent {
             SearchfieldEC.addItem(Constants.IFPTYPE);
             componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractIfpResultsColumns);
             componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractIfpResultsHeaders);
-            componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newIfpDetailsColumns);
-            componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
+            componentDetailsTable.setVisibleColumns(UiUtils.NEW_IFP_DETAILS_COLUMNS);
+            componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
         }
 
         if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
@@ -627,8 +627,8 @@ public class Exixtingcomponent extends CustomComponent {
                 sdate.setValue(selectedItemDto.getIfpStartDate());
                 edate.setValue(selectedItemDto.getIfpEndDate());
                 CFPdesignation.setValue(selectedItemDto.getItemFamilyplanDesignation());
-                componentDetailsTable.setVisibleColumns(UiUtils.getInstance().newIfpDetailsColumns);
-                componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
+                componentDetailsTable.setVisibleColumns(UiUtils.NEW_IFP_DETAILS_COLUMNS);
+                componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
                 componentDetailsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 componentDetailsTable.setRefresh(true);
                 componentDetailsTable.setColumnAlignment(Constants.ITEM_START_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
