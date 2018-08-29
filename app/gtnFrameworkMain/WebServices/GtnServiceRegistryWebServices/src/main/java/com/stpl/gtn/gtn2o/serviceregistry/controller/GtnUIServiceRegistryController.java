@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
+import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstants;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
@@ -24,7 +25,7 @@ import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSRespon
 public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass {
 
 	
-	private String time="HH:mm:ss";
+	
 	public GtnUIServiceRegistryController() {
 		super();
 		initializeLogger();
@@ -51,7 +52,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		logger.debug("inside registerWebservices");
 		long startTime = System.currentTimeMillis();
 		Date currentStartTime = new Date(startTime);
-		logger.info("Strating Time to register WS:" + new SimpleDateFormat(time).format(currentStartTime));
+		logger.info("Strating Time to register WS:" + new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(currentStartTime));
 		logger.info("Webservice Url:"
 				+ request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getWebserviceEndPointUrl());
 		logger.info("Webservice Registered Context:"
@@ -61,7 +62,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 
 		logger.info("webservices registered");
 		logger.info("End Time for registering WS:"
-				+ new SimpleDateFormat(time).format(new Date(System.currentTimeMillis())));
+				+ new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(new Date(System.currentTimeMillis())));
 		logger.info(
 				"Total time for executing Registration:" + (double) (System.currentTimeMillis() - startTime) / (1000));
 	}
@@ -72,7 +73,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		long currentStartTime = System.currentTimeMillis();
 		logger.debug("inside serviceRegistryUIControllerMappingWs");
 		logger.info("Start Time to execute the request from UI: "
-				+ new SimpleDateFormat(time).format(currentStartTime));
+				+ new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(currentStartTime));
 		logger.info("UserId:" + request.getGtnWsGeneralRequest().getUserId());
 		logger.info("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
 
@@ -90,7 +91,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 			response = gtnUIServiceRegistryService.serviceRegistryUIServiceCallingWs(request);
 			response.setGtnServiceRegistryWSResponse(gtnServiceRegistryWSResponse);
 			logger.info("End Time of getting response in service registry:"
-					+ new SimpleDateFormat(time).format(new Date(System.currentTimeMillis())));
+					+ new SimpleDateFormat(GtnWsServiceRegistryConstants.TIME).format(new Date(System.currentTimeMillis())));
 			logger.info("Total time for executing Request:"
 					+ (double) (System.currentTimeMillis() - currentStartTime) / (1000) + " secs");
 			return response;

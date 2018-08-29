@@ -36,7 +36,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		super.logInformation(GtnWsPeriodConfigurationService.class);
 	}
 
-public	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+private	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void init() {
 		initializeLogger();

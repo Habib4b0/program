@@ -89,6 +89,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class CommonLogic {
 
@@ -707,12 +708,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
     }
     
-    public void checkForCompletionALL(SessionDTO session, String screenName) {
-        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME in ('CUSTOM','CUSTOMER','PRODUCT') and FLAG='R'";
+    public void checkForCompletionALL(SessionDTO session, String screenName,PVSelectionDTO pvSelectionDTO ) {
+        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME ='"+pvSelectionDTO.getView()+"' and FLAG='R'";
         List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(selectStatus, session.getCurrentTableNames()));
         if (list.get(0) != null && list.get(0)>=1) {
             waitForSeconds();
-            checkForCompletionALL(session, screenName);
+            checkForCompletionALL(session, screenName,pvSelectionDTO);
         }
     }
     
@@ -1611,6 +1612,20 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
         return listValue;
     }
+    
+    public static List<Leveldto> getCustomHierarchy(int masterSid){
+        List<Leveldto> listCustomValue = new ArrayList<>();
+        String selectQuery="SELECT LEVEL_NO,LEVEL_NO,HIERARCHY_INDICATOR,LEVEL_NAME,HIERARCHY_ID FROM CUST_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID=@SID";
+        selectQuery=selectQuery.replace("@SID", String.valueOf(masterSid));
+        List<Object> list = (List<Object>) executeSelectQuery(selectQuery, null, null);
+        Consumer<Object> consumer=(Object t) -> {
+            Object[] temparray=(Object[])t;
+            Leveldto dto = getCustomizedViewMan(temparray, true);
+            listCustomValue.add(dto);
+        };
+        list.forEach(consumer);
+        return listCustomValue;
+    } 
 
     public static String getHierarchyTreeQueryMan(int projectionId, String hierarchyIndicator, final int levelNo) {
         String selectClause = "select distinct RLD.LEVEL_NO, "
@@ -3022,8 +3037,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
-                stringBuilder.append(entry.getValue().get(3));
-                hierarchyForLevel=hierarchyForLevel.concat(entry.getValue().get(3).toString()).concat(Constants.COMMA);
+                stringBuilder.append(entry.getKey());
+                hierarchyForLevel=hierarchyForLevel.concat(entry.getKey()).concat(Constants.COMMA);
                 stringBuilder.append("', ");
                 stringBuilder.append(i++);
                 stringBuilder.append( " )");

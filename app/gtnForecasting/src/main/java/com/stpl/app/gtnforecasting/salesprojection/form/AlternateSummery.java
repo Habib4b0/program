@@ -990,7 +990,7 @@ public class AlternateSummery extends CustomComponent {
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDecValue, salesRowDto, projectionDTO);
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDecValue, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDecValue, changedProperty, salesRowDto, projectionDTO, new boolean[]{checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(itemId));
@@ -1846,7 +1846,7 @@ public class AlternateSummery extends CustomComponent {
         });
     }
 
-    public final void init() throws PortalException, SystemException {
+    public final void init() throws PortalException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
@@ -2179,7 +2179,7 @@ public class AlternateSummery extends CustomComponent {
         }
     }
 
-    private void configureGroupDDLB() throws PortalException, SystemException {
+    private void configureGroupDDLB() throws PortalException {
         actualsProjections.select(Constant.BOTH);
         groupBean.removeAllItems();
         groupBean.addBean(Constant.SHOW_ALL_GROUPS);

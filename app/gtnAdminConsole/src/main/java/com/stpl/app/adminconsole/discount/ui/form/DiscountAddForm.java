@@ -243,22 +243,22 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public final Object[] discountTableColumns = new Object[]{
+    private static final Object[] discountTableColumns = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
      */
-    public final String[] discountTableHeader = new String[]{
+    private static final String[] discountTableHeader = new String[]{
         "Rebate Name", "Rebate No", "Rebate Schedule Type", "Rebate Program Type", "Rebate Schedule Category", "Rebate Plan Level"};
     /**
      * The Constant AVAILABLE LIST COLUMN.
      */
-    public final Object[] availableListColumn = new Object[]{
+    private static final Object[] availableListColumn = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant AVAILABLE LIST HEADER.
      */
-    public final String[] availableListHeader = new String[]{
+    private static final String[] availableListHeader = new String[]{
         "Rebate Name", "Rebate No", "Rebate Schedule Type", "Rebate Program Type", "Rebate Schedule Category", "Rebate Plan Level"};
     /**
      *
@@ -470,7 +470,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the discount table columns
      */
     public Object[] getDiscountTableColumns() {
-        return discountTableColumns;
+        return discountTableColumns.clone();
     }
 
     /**
@@ -479,7 +479,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the discount table header
      */
     public String[] getDiscountTableHeader() {
-        return discountTableHeader;
+        return discountTableHeader.clone();
     }
 
     /**
@@ -488,7 +488,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the available list column
      */
     public Object[] getAvailableListColumn() {
-        return availableListColumn;
+        return availableListColumn.clone();
     }
 
     /**
@@ -497,7 +497,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @return the available list header
      */
     public String[] getAvailableListHeader() {
-        return availableListHeader;
+        return availableListHeader.clone();
     }
 
     /**

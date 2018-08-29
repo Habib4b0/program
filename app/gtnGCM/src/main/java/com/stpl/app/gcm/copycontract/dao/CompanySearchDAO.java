@@ -18,19 +18,19 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
-    private CFPCompanyDTO CFPCompanyDTO = new CFPCompanyDTO();
+    private CFPCompanyDTO cfpCompanyDTO = new CFPCompanyDTO();
 
     public CompanySearchDAO() {
     }
 
     public CompanySearchDAO(CFPCompanyDTO CFPCompanyDTO) {
-        this.CFPCompanyDTO = CFPCompanyDTO;
+        this.cfpCompanyDTO = CFPCompanyDTO;
     }
 
     @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
-        count = logic.getCompanySearchCount(CFPCompanyDTO, bsc);
+        count = logic.getCompanySearchCount(cfpCompanyDTO, bsc);
         return count;
     }
 

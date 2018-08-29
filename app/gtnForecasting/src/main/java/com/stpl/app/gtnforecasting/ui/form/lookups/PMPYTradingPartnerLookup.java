@@ -39,7 +39,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class PMPYTradingPartnerLookup.
  *
@@ -742,7 +742,7 @@ public class PMPYTradingPartnerLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void searchLogic() throws CommitException, SystemException {
+    private void searchLogic() throws CommitException {
         LOGGER.debug("Entering searchLogic method");
         if (StringUtils.isEmpty(tradingPartnerNo.getValue()) && StringUtils.isEmpty(tradingPartnerName.getValue())) {
             AbstractNotificationUtils.getErrorNotification("No Search Criteria", "Please enter a value to search for.");

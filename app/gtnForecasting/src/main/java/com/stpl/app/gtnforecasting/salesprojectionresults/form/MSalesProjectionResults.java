@@ -405,7 +405,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
+        // enter method
     }
 
     /**

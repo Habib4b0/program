@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
  */
 public class AccrualRateProjectionView extends VerticalLayout implements View {
 
-    private AccrualRateProjectionForm accrualRateProjectionForm;
 
     public static final String ARP_VIEW = "ARPVIEW";
     protected String projectionName = StringUtils.EMPTY;
@@ -67,7 +66,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             if (this.getComponentCount() != 0) {
                 this.removeAllComponents();
             }
-            accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
+            AccrualRateProjectionForm accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
             this.addComponent(accrualRateProjectionForm);
             accrualRateProjectionForm.getSales().historyDdlb.focus();
         } catch (ParseException e) {
