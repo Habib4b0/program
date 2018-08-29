@@ -63,7 +63,6 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
 
-        LOGGER.debug("Start:==========>" + start + "Offset ========" + offset);
         List<CustomerGroupDTO> resultList = new ArrayList<>();
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);

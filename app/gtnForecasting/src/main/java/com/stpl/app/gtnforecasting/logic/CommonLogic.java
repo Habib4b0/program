@@ -109,6 +109,23 @@ public class CommonLogic {
     private static final String SMALL_SALES = "sales";
     private static final String DISCOUNT = "Discount";
     
+    
+    static {
+            fileMap.put(Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant(), Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.PERCOFEXFACTORYSALES, Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND, Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.PERCOFDEMAND, Constant.DEMAND);
+            fileMap.put(Constant.PERCOFINVENTORYWITHDRAWAL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
+            fileMap.put(Constant.PERC_OF_ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
+            fileMap.put(Constant.CUSTOMER_GTS, Constant.CUSTOMER_SALES);
+
+            fileMap.put(Constant.EX_FACTORY_SALES_LABEL, Constant.EX_FACTORY_SALES_LABEL);
+            fileMap.put(Constant.DEMAND, Constant.DEMAND);
+            fileMap.put(Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
+            fileMap.put(Constant.ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
+            fileMap.put(Constant.CUSTOMER_SALES, Constant.CUSTOMER_SALES);
+    }
+    
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
     /**
@@ -1005,7 +1022,7 @@ public class CommonLogic {
      * @param projectionID
      * @param screenName
      */
-    public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) throws PortalException, SystemException {
+    public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) throws PortalException {
         List<Object> list;
         String query = " IF EXISTS (SELECT 1 from M_PROJECTION_SELECTION  WHERE PROJECTION_MASTER_SID=" + projectionID + "AND SCREEN_NAME='" + screenName + "' ) SELECT 1 ELSE SELECT 0";
         list = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -1024,7 +1041,7 @@ public class CommonLogic {
      * @param screenName
      * @param saveOrUpdate
      */
-    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) throws PortalException, SystemException {
+    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) throws PortalException {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
 
@@ -1644,27 +1661,29 @@ public class CommonLogic {
 
     public static String getGroupFilterQuery(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith(Constant.ALL)) {
-                if (userGroup.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroup = LIKE_PERCENT;
+        String userGroupFilter = userGroup;
+        
+        if (!userGroupFilter.isEmpty()) {
+            if (userGroupFilter.startsWith(Constant.ALL)) {
+                if (userGroupFilter.contains(Constant.DISCOUNT_SMALL)) {
+                    userGroupFilter = LIKE_PERCENT;
                     query = getGroupFilterDiscountQuery(isPrior, discountList);
-                } else if (userGroup.contains(Constant.PPA_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterPPAQuery(userGroup, isPrior);
-                } else if (userGroup.contains(Constant.SALES_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
+                } else if (userGroupFilter.contains(Constant.PPA_SMALL)) {
+                    userGroupFilter = LIKE_PERCENT;
+                    query = getGroupFilterPPAQuery(userGroupFilter, isPrior);
+                } else if (userGroupFilter.contains(Constant.SALES_SMALL)) {
+                    userGroupFilter = LIKE_PERCENT;
+                    query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith(Constant.DISCOUNT)) {
-                userGroup = " = '" + userGroup.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
+            } else if (userGroupFilter.startsWith(Constant.DISCOUNT)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterDiscountQuery(isPrior, discountList);
-            } else if (userGroup.startsWith(Constant.PPA)) {
-                userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterPPAQuery(userGroup, isPrior);
-            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith(Constant.PPA)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterPPAQuery(userGroupFilter, isPrior);
+            } else if (userGroupFilter.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
             }
         }
         return query;
@@ -2422,27 +2441,29 @@ public class CommonLogic {
 
     public static String getGroupFilterQueryMandated(String userGroup, int userId, int sessionId) {
         String query = StringUtils.EMPTY;
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith(Constant.ALL)) {
-                if (userGroup.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains(Constant.PPA_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains(Constant.SALES_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
+        String userGroupMandated = userGroup;
+        
+        if (!userGroupMandated.isEmpty()) {
+            if (userGroupMandated.startsWith(Constant.ALL)) {
+                if (userGroupMandated.contains(Constant.DISCOUNT_SMALL)) {
+                    userGroupMandated = LIKE_PERCENT;
+                    query = getGroupFilterDiscountQuery(userGroupMandated, userId, sessionId);
+                } else if (userGroupMandated.contains(Constant.PPA_SMALL)) {
+                    userGroupMandated = LIKE_PERCENT;
+                    query = getGroupFilterPPAQuery(userGroupMandated, userId, sessionId);
+                } else if (userGroupMandated.contains(Constant.SALES_SMALL)) {
+                    userGroupMandated = LIKE_PERCENT;
+                    query = getGroupFilterSalesQuery(userGroupMandated, userId, sessionId);
                 }
-            } else if (userGroup.startsWith(Constant.DISCOUNT)) {
-                userGroup = " = '" + userGroup.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(Constant.PPA)) {
-                userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
+            } else if (userGroupMandated.startsWith(Constant.DISCOUNT)) {
+                userGroupMandated = " = '" + userGroupMandated.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterDiscountQuery(userGroupMandated, userId, sessionId);
+            } else if (userGroupMandated.startsWith(Constant.PPA)) {
+                userGroupMandated = " = '" + userGroupMandated.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterPPAQuery(userGroupMandated, userId, sessionId);
+            } else if (userGroupMandated.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroupMandated = " = '" + userGroupMandated.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterSalesQuery(userGroupMandated, userId, sessionId);
             }
         }
         return query;
@@ -2591,7 +2612,7 @@ public class CommonLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
         String screenName = projectionSelectionDTO.getScreenName();
         String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
@@ -2629,13 +2650,13 @@ public class CommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size = {}" , helperList.size());
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return helperList;
     }
 
-    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
         String screenName = projectionSelectionDTO.getScreenName();
         String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
@@ -4175,14 +4196,13 @@ public class CommonLogic {
         StringBuilder stringBuilder = new StringBuilder();
 
        
-        boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             int entryLevel = Integer.parseInt(entry.getValue().get(2).toString());
             boolean checkHierarchy = hierarchyCheck(hierarchyNo, hierarchyIndicator, levelNo, isHierarchyNoNotAvailable, entry, entryLevel);
             if (checkHierarchy) {
-                if (isNotFirstElement) {
+                if (!stringBuilder.toString().isEmpty()) {
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
@@ -4194,7 +4214,6 @@ public class CommonLogic {
                 }else{
                 stringBuilder.append("')");
                 }
-                isNotFirstElement = true;
             }
         }
         if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
@@ -4498,21 +4517,6 @@ public class CommonLogic {
     }
 
     private String loadFileName(String fileName) {
-        if (fileMap.isEmpty()) {
-            fileMap.put(Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant(), Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.PERCOFEXFACTORYSALES, Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND, Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.PERCOFDEMAND, Constant.DEMAND);
-            fileMap.put(Constant.PERCOFINVENTORYWITHDRAWAL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
-            fileMap.put(Constant.PERC_OF_ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
-            fileMap.put(Constant.CUSTOMER_GTS, Constant.CUSTOMER_SALES);
-
-            fileMap.put(Constant.EX_FACTORY_SALES_LABEL, Constant.EX_FACTORY_SALES_LABEL);
-            fileMap.put(Constant.DEMAND, Constant.DEMAND);
-            fileMap.put(Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL, Constant.INVENTORY_WITHDRAWAL_FORECAST_DETAIL);
-            fileMap.put(Constant.ADJUSTED_DEMAND, Constant.ADJUSTED_DEMAND);
-            fileMap.put(Constant.CUSTOMER_SALES, Constant.CUSTOMER_SALES);
-        }
         return fileMap.get(fileName);
     }
 
@@ -4595,7 +4599,7 @@ public class CommonLogic {
     }
     
     
-     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) {
         String newLevel=StringUtils.EMPTY;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
@@ -4694,16 +4698,17 @@ public class CommonLogic {
 
 	private String getReplacedQuery(ProjectionSelectionDTO projDto, List<Object> productList,
 			List<Object> deductionList, String query, boolean isuserDefined) {
-		query = (productList.isEmpty() || isuserDefined) ? query
+            String replaceQuery = query;
+		replaceQuery = (productList.isEmpty() || isuserDefined) ? replaceQuery
 		        : (SQlUtil.getQuery("product-dynamic-filter").replace(Constant.LEVEL_VALUES, productList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
 						.replace(Constant.RELBUILD_SID, projDto.getSessionDTO().getProdRelationshipBuilderSid())
-						+ query);
+						+ replaceQuery);
 
-		query = (deductionList.isEmpty() || isuserDefined) ? query
+		replaceQuery = (deductionList.isEmpty() || isuserDefined) ? replaceQuery
 		        : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
 						.replace("@DEDRELBUILDSID", projDto.getSessionDTO().getDedRelationshipBuilderSid())
-						+ query);
-		return query;
+						+ replaceQuery);
+		return replaceQuery;
 	}
 
 
@@ -4873,7 +4878,7 @@ public class CommonLogic {
         return deductionValuesList;
     }
 
-    public String userDefinedLevel(SalesProjectionDAO salesProjectionDao, int projectionId, String type,String indicator) throws SystemException, PortalException {
+    public String userDefinedLevel(SalesProjectionDAO salesProjectionDao, int projectionId, String type,String indicator) throws PortalException {
         String hierarchySid=indicator.equals("P")?"PRODUCT_HIERARCHY_SID":"CUSTOMER_HIERARCHY_SID";
         List<String> userDefinedList= (List<String>) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("user-defined-join")
                 .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -5230,16 +5235,17 @@ public class CommonLogic {
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
-           if (value.contains(Constant.NULL) || value.equals("-")) {
-            value = DASH;
+           String valueNew = value;
+        if (valueNew.contains(Constant.NULL) || valueNew.equals("-")) {
+            valueNew = DASH;
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNew);
             if (format.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
+            valueNew = format.format(newValue);
         }
-        return value;
+        return valueNew;
     }
     
     
@@ -5283,7 +5289,7 @@ public class CommonLogic {
         return columnName.toString();
     }
     
-     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) {
         String newLevel = StringUtils.EMPTY;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;

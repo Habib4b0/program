@@ -76,7 +76,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DataSelectionIndex.
  */
@@ -724,7 +724,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
         final ProductGroupLookup lookUp = new ProductGroupLookup(sessionDTO);
         UI.getCurrent().addWindow(lookUp);
-        // TODO Auto-generated method stub
         lookUp.addCloseListener(new Window.CloseListener() {
 
             private static final long serialVersionUID = 1L;

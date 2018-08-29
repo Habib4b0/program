@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +64,8 @@ public class GtnWsReportDashboardFilterOptionController {
 				.getFilterBean();
 		if (filterBean.getHierarchyType().equals("D") && filterBean.getDeductionLevelNo() != 0) {
 			resultList = reportFilterOptionService.loadDeductionFilter(gtnUIFrameworkWebserviceRequest);
+		} else if(filterBean.getHierarchyType().equals("D") && filterBean.getDeductionLevelNo() == 0){
+			resultList = Collections.emptyList();
 		} else {
 			resultList = reportFilterOptionService.loadCustomerLevelFilter(gtnUIFrameworkWebserviceRequest);
 		}

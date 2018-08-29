@@ -1,6 +1,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Class that holds the headers and visible column for tables.
  * 

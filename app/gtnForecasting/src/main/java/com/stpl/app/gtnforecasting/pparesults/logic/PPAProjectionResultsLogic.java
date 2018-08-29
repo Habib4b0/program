@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.PPAPrjectionResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionResultsDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -100,7 +99,7 @@ public class PPAProjectionResultsLogic {
 
     }
 
-    public void savePPAResultsView(String projectionId) throws PortalException,SystemException{
+    public void savePPAResultsView(String projectionId) throws PortalException{
         PPAPrjectionResultsDAO dao = new PPAProjectionResultsDAOImpl();
         dao.savePPAProjectionView(indicater, projectionId);
     }

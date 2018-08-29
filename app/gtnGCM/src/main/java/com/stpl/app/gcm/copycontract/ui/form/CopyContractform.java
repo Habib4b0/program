@@ -84,9 +84,9 @@ public class CopyContractform extends CustomComponent implements View {
     @UiField("typeNC")
     public ComboBox aliastypecc;
     @UiField("CLOSE")
-    public Button CLOSE;
+    public Button close;
     @UiField("CREATE")
-    public Button CREATE;
+    public Button create;
     @UiField("startdate")
     public PopupDateField startdate;
     @UiField("aliasStartDate")
@@ -98,9 +98,9 @@ public class CopyContractform extends CustomComponent implements View {
     @UiField("markettype")
     public ComboBox markettype;
     private int tabPosition = 0;
-    private Newcomponent Newcomponent;
+    private Newcomponent newcomponent;
     private Exixtingcomponent existingcomponent;
-    private Copycomponents Copycomponent;
+    private Copycomponents copycomponent;
     private final List<ContractSelectionDTO> selectedList;
     private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<>(CopyComponentDTO.class);
     @UiField("populate")
@@ -174,19 +174,19 @@ public class CopyContractform extends CustomComponent implements View {
             markettype.setValidationVisible(true);
             commonUtil.loadComboBox(aliastypecc, UiUtils.CONTRACT_ALIAS_TYPE, false);
             aliastypecc.setValidationVisible(true);
-            Copycomponent = new Copycomponents(selectedList, copyContractDashBoardTable, dashBoardContainer);
-            Newcomponent = new Newcomponent(newcontractDashBoardTable, dashBoardContainer);
+            copycomponent = new Copycomponents(selectedList, copyContractDashBoardTable, dashBoardContainer);
+            newcomponent = new Newcomponent(newcontractDashBoardTable, dashBoardContainer);
             existingcomponent = new Exixtingcomponent(existingContractDashBoardTable, dashBoardContainer);
-            CLOSE.setVisible(CommonLogic.isButtonVisibleAccess("CLOSE", Copycomponent.getFunctionHM()));
-            CREATE.setVisible(CommonLogic.isButtonVisibleAccess("CREATE", Copycomponent.getFunctionHM()));
+            close.setVisible(CommonLogic.isButtonVisibleAccess("CLOSE", copycomponent.getFunctionHM()));
+            create.setVisible(CommonLogic.isButtonVisibleAccess("CREATE", copycomponent.getFunctionHM()));
             
             tabsheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
             tabsheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
             tabsheet.markAsDirty();
             tabsheet.markAsDirtyRecursive();
-            tabsheet.addTab(Newcomponent, "New", null, 0);
+            tabsheet.addTab(newcomponent, "New", null, 0);
             tabsheet.addTab(existingcomponent, "Existing", null, 1);
-            tabsheet.addTab(Copycomponent, "Copy Component", null, NumericConstants.TWO);
+            tabsheet.addTab(copycomponent, "Copy Component", null, NumericConstants.TWO);
             tabsheet.setSelectedTab(0);
             layout.addComponent(tabsheet);
             loadTable();
@@ -328,7 +328,7 @@ public class CopyContractform extends CustomComponent implements View {
                 try {
                     createContract();
                     resetFields();
-                    Newcomponent.resetFieldsNewComponetTab();
+                    newcomponent.resetFieldsNewComponetTab();
                 } catch (Exception ex) {
                     LOGGER.error("",ex);
                 }
@@ -353,16 +353,16 @@ public class CopyContractform extends CustomComponent implements View {
             String addBy = String.valueOf(newcontractDashBoardTable.getContainerProperty(c, String.valueOf(Constants.getADDBY())).getValue());
             switch (addBy) {
                 case "0":
-                    Newcomponent.savecontract(mainList[i]);
+                    newcomponent.savecontract(mainList[i]);
                     break;
                 case "1":
-                    Newcomponent.savecontract(mainList[i]);
+                    newcomponent.savecontract(mainList[i]);
                     break;
                 case "2":
                     existingcomponent.savecontract(mainList[i]);
                     break;
                 case "3":
-                    Copycomponent.savecontract(mainList[i]);
+                    copycomponent.savecontract(mainList[i]);
                     break;
                 default:
                     break;
@@ -594,7 +594,7 @@ public class CopyContractform extends CustomComponent implements View {
             multiContractTable.setVisible(true);
             multiContractButtons.setVisible(true);
             horizontalLayoutNC1.setVisible(false);
-            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+            multiContractTable.setColumnCheckBox(HeaderUtil.getContractSearchColumn()[0], BooleanConstant.getTrueFlag());
             multiContractTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
                 @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
@@ -787,7 +787,7 @@ public class CopyContractform extends CustomComponent implements View {
         multiContractContainer.removeAllItems();
         multiContractTable.resetFilters();
         loadMultiContainer(i);
-        multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+        multiContractTable.setColumnCheckBox(HeaderUtil.getContractSearchColumn()[0], BooleanConstant.getTrueFlag());
     }
 
     private void addMultiContractDashboard(Collection<?> list) {

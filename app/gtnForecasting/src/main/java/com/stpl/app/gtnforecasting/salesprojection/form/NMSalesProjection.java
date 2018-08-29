@@ -467,7 +467,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
     }
 
-    public void resetForAdd() throws IllegalStateException {
+    public void resetForAdd() {
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         productlevelDdlb.select(Constant.SELECT_ONE);
@@ -1054,7 +1054,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         return productList;
     }
 
-    private void loadSalesInclusion() throws IllegalStateException {
+    private void loadSalesInclusion() {
         String[] variablesalesInclusion = {"Yes", "No"};
         salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
         salesInclusionDdlb.removeItems();
@@ -1077,7 +1077,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         
     }
 
-    private void loadDisplayFormatDdlb() throws IllegalStateException {
+    private void loadDisplayFormatDdlb()  {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);

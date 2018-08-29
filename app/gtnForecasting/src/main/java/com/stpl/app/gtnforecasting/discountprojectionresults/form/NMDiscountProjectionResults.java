@@ -388,7 +388,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         addResultTable();
     }
 
-    public void loadGroupFilter() throws SystemException, PortalException {
+    public void loadGroupFilter() throws PortalException {
         return;
     }
 

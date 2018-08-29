@@ -19,8 +19,8 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class AdjustmentSummaryTableLogic extends PageTableLogic {
 
-    private ReserveSelection selection;
-    private boolean isGenerate = false;
+    private ReserveSelection summarySelection;
+    private boolean issummaryGenerate = false;
     private AdjustmentSummaryConfigLogic logic = AdjustmentSummaryConfigLogic.getInstance();
 
     public AdjustmentSummaryTableLogic() {
@@ -31,15 +31,15 @@ public class AdjustmentSummaryTableLogic extends PageTableLogic {
 
     @Override
     public int getCount() {
-        if (isGenerate) {
-            return logic.getAdjSummaryConfigurationCount(selection, getFilters());
+        if (issummaryGenerate) {
+            return logic.getAdjSummaryConfigurationCount(summarySelection, getFilters());
         }
         return 0;
     }
 
     @Override
     public List loadData(int start, int offset) {
-        return logic.getAdjSummaryConfigurationData(selection, start, offset, getFilters(), getSortByColumns(), false);
+        return logic.getAdjSummaryConfigurationData(summarySelection, start, offset, getFilters(), getSortByColumns(), false);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class AdjustmentSummaryTableLogic extends PageTableLogic {
         return dto;
     }
 
-    public void loadSetData(boolean isRest, ReserveSelection selection) {
-        isGenerate = isRest;
-        this.selection = selection;
+    public void loadSetData(boolean isReset, ReserveSelection summarySelection) {
+        issummaryGenerate = isReset;
+        this.summarySelection = summarySelection;
         clearAll();
         clearFilters();
         setRequiredCount(true);

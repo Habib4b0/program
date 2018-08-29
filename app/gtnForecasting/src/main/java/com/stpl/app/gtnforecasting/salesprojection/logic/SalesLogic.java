@@ -539,65 +539,66 @@ public class SalesLogic {
     public List<SalesRowDto> getSalesResults(ProjectionSelectionDTO projSelDTO, int start, int end, String sql) {
         char oppositeSalesInc = projSelDTO.getSessionDTO().getSalesInclusion().equals("1") ? '0' : '1';
         boolean isSalesInclusionNotSelected = projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL);
+        String sqlQuery = sql;
         if (projSelDTO.getFunctionality().equals(Constant.ALTERNATE_HISTORY)) {
-            sql += SQlUtil.getQuery("alternate-join-loaddata");
-            sql += SQlUtil.getQuery("alternate-histroy-sales-summary");
+            sqlQuery = sqlQuery + SQlUtil.getQuery("alternate-join-loaddata");
+            sqlQuery = sqlQuery + SQlUtil.getQuery("alternate-histroy-sales-summary");
         } else if (projSelDTO.isIsCustomHierarchy() && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) && !projSelDTO.isExcel()) {
             String queryNameforSales = CommonUtil.isValueEligibleForLoading() ? "non-mandated-sales-query-new-custom" : "sales-customView";
-            sql += SQlUtil.getQuery(queryNameforSales);
+            sqlQuery = sqlQuery + SQlUtil.getQuery(queryNameforSales);
         } else {
-            sql += CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) ? SQlUtil.getQuery("non-mandated-sales-query-new") : SQlUtil.getQuery("mandated-sales-query");
+            sqlQuery = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) ? sqlQuery + SQlUtil.getQuery("non-mandated-sales-query-new") : sqlQuery + SQlUtil.getQuery("mandated-sales-query");
         }
 
         String forcastingFlavour;
 
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())) {
-            sql = sql.replace("[$USERID_SESSIONID]", StringUtils.EMPTY);
-            sql = sql.replace("[$MSPM_USERID_SESSIONID]", StringUtils.EMPTY);
+            sqlQuery = sqlQuery.replace("[$USERID_SESSIONID]", StringUtils.EMPTY);
+            sqlQuery = sqlQuery.replace("[$MSPM_USERID_SESSIONID]", StringUtils.EMPTY);
         }
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName())) {
             forcastingFlavour = "NM";
         } else {
             forcastingFlavour = "M";
         }
-        sql = sql.replace("[$TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_SALES_PROJECTION : forcastingFlavour + UNDERSCORE_SALES_PROJECTION);
-        sql = sql.replace("[$ACTUAL_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_ACTUAL_SALES : forcastingFlavour + UNDERSCORE_ACTUAL_SALES);
-        sql = sql.replace("[$MASTER_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + SALES_PROJECTION_MASTER : forcastingFlavour + SALES_PROJECTION_MASTER);
+        sqlQuery = sqlQuery.replace("[$TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_SALES_PROJECTION : forcastingFlavour + UNDERSCORE_SALES_PROJECTION);
+        sqlQuery = sqlQuery.replace("[$ACTUAL_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_ACTUAL_SALES : forcastingFlavour + UNDERSCORE_ACTUAL_SALES);
+        sqlQuery = sqlQuery.replace("[$MASTER_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + SALES_PROJECTION_MASTER : forcastingFlavour + SALES_PROJECTION_MASTER);
 
         if (!ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) || projSelDTO.getFunctionality().equals(Constant.ALTERNATE_HISTORY)) {
-            sql = sql.replace(Constant.USER_ID1_AT, projSelDTO.getSessionDTO().getUserId());
-            sql = sql.replace(Constant.SESSION_ID1_AT, projSelDTO.getSessionDTO().getSessionId());
+            sqlQuery = sqlQuery.replace(Constant.USER_ID1_AT, projSelDTO.getSessionDTO().getUserId());
+            sqlQuery = sqlQuery.replace(Constant.SESSION_ID1_AT, projSelDTO.getSessionDTO().getSessionId());
         }
-        sql = sql.replace(Constant.LEVEL_NO1, String.valueOf(projSelDTO.getTreeLevelNo()));
-        sql = sql.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
-        sql = sql.replace("@START", String.valueOf(start));
-        sql = sql.replace("@END", String.valueOf(end));
-        sql = sql.replace(PROJECTION_MASTER_SID_VARIABLE, String.valueOf(projSelDTO.getProjectionId()));
+        sqlQuery = sqlQuery.replace(Constant.LEVEL_NO1, String.valueOf(projSelDTO.getTreeLevelNo()));
+        sqlQuery = sqlQuery.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
+        sqlQuery = sqlQuery.replace("@START", String.valueOf(start));
+        sqlQuery = sqlQuery.replace("@END", String.valueOf(end));
+        sqlQuery = sqlQuery.replace(PROJECTION_MASTER_SID_VARIABLE, String.valueOf(projSelDTO.getProjectionId()));
         if (CommonUtil.isValueEligibleForLoading()) {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
-            sql = sql.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
-            sql = sql.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
-            sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
-            sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
-            sql = sql.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
-            sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
-            sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
-            sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
-            sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
-            sql = sql.replace("@CUSTOMSID", getCustomSid(projSelDTO));
-            sql = sql.replace("@LASTLEVEL", getLastLevel(projSelDTO));
-            sql = sql.replace("@CCP_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"CCP",StringUtils.EMPTY));
-            sql = sql.replace("@Q_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"Q",StringUtils.EMPTY));
-            sql = sql.replace("@STC_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"STC",StringUtils.EMPTY));
-            sql = sql.replace("@SALES_CONDITION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),StringUtils.EMPTY,"AND mas.SALES_INCLUSION = q.SALES_INCLUSION"));
-            sql = sql.replace("@SALES_INCLUSION_ALL", getSalesInclusionAll(projSelDTO.getSessionDTO().getSalesInclusion(),"cast(1 as bit) SALES_INCLUSION","SALES_INCLUSION"));
+            sqlQuery = sqlQuery.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
+            sqlQuery = sqlQuery.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            sqlQuery = sqlQuery.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
+            sqlQuery = sqlQuery.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
+            sqlQuery = sqlQuery.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
+            sqlQuery = sqlQuery.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
+            sqlQuery = sqlQuery.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
+            sqlQuery = sqlQuery.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
+            sqlQuery = sqlQuery.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
+            sqlQuery = sqlQuery.replace("@REFCOLUMN", getRefColumn(projSelDTO));
+            sqlQuery = sqlQuery.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
+            sqlQuery = sqlQuery.replace("@CUSTOMSID", getCustomSid(projSelDTO));
+            sqlQuery = sqlQuery.replace("@LASTLEVEL", getLastLevel(projSelDTO));
+            sqlQuery = sqlQuery.replace("@CCP_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"CCP",StringUtils.EMPTY));
+            sqlQuery = sqlQuery.replace("@Q_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"Q",StringUtils.EMPTY));
+            sqlQuery = sqlQuery.replace("@STC_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"STC",StringUtils.EMPTY));
+            sqlQuery = sqlQuery.replace("@SALES_CONDITION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),StringUtils.EMPTY,"AND mas.SALES_INCLUSION = q.SALES_INCLUSION"));
+            sqlQuery = sqlQuery.replace("@SALES_INCLUSION_ALL", getSalesInclusionAll(projSelDTO.getSessionDTO().getSalesInclusion(),"cast(1 as bit) SALES_INCLUSION","SALES_INCLUSION"));
         }
         int freqNo = getFrequencyNumber(projSelDTO.getFrequency());
-        sql = sql.replaceAll("@FREQDIVISION", String.valueOf(freqNo));
-        sql = checkScreenName(projSelDTO, sql);
-        String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
+        sqlQuery = sqlQuery.replaceAll("@FREQDIVISION", String.valueOf(freqNo));
+        sqlQuery = checkScreenName(projSelDTO, sqlQuery);
+        String aaa = QueryUtil.replaceTableNames(sqlQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
@@ -661,27 +662,28 @@ public class SalesLogic {
         }
 
 	private String checkScreenName(ProjectionSelectionDTO projSelDTO, String sql) {
+            String sqlQuery = sql;
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName())) {
-            sql = sql.replace("@USER_GROUP", StringUtils.isBlank(projSelDTO.getGroup())
+            sqlQuery = sqlQuery.replace("@USER_GROUP", StringUtils.isBlank(projSelDTO.getGroup())
                     || Constant.NULL.equals(projSelDTO.getGroup()) || Constant.SHOW_ALL_GROUPS.equals(projSelDTO.getGroup()) ? Constant.PERCENT : projSelDTO.getGroup());
         }
         if (!CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) && !CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())) {
             switch (projSelDTO.getFrequencyDivision()) {
                 case 1:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "1 ");
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, StringUtils.EMPTY);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "1 ");
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, StringUtils.EMPTY);
                     break;
                 case NumericConstants.TWO:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, "p.SEMI_ANNUAL,");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, "p.SEMI_ANNUAL,");
                     break;
                 case NumericConstants.FOUR:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, "p.QUARTER,");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, "p.QUARTER,");
                     break;
                 case NumericConstants.TWELVE:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, P_MONTH);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, P_MONTH);
                     break;
                 default:
                     break;
@@ -691,58 +693,59 @@ public class SalesLogic {
             switch (projSelDTO.getFrequencyDivision()) {
 
                 case 1:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "1 AS FREQ");
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, StringUtils.EMPTY);
-                    sql = sql.replace("SH.@FRE@", "1 ");
-                    sql = sql.replace("MSP.@FRE@", "1 ");
-                    sql = sql.replace("mas.@FRE@", "1 ");
-                    sql = sql.replace(",P.@FREVAL@", " ");
-                    sql = sql.replace(Constant.FREQ_AT, "1 ");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "1 AS FREQ");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, StringUtils.EMPTY);
+                    sqlQuery = sqlQuery.replace("SH.@FRE@", "1 ");
+                    sqlQuery = sqlQuery.replace("MSP.@FRE@", "1 ");
+                    sqlQuery = sqlQuery.replace("mas.@FRE@", "1 ");
+                    sqlQuery = sqlQuery.replace(",P.@FREVAL@", " ");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "1 ");
                     break;
                 case NumericConstants.TWO:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.SEMI_ANNUAL");
-                    sql = sql.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
-                    sql = sql.replace(FREQ_VAL, Constant.SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.SEMI_ANNUAL");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(FREQ_VAL, Constant.SEMI_ANNUAL);
                     break;
                 case NumericConstants.FOUR:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.QUARTER");
-                    sql = sql.replace(Constant.FREQ_AT, Constant.QUARTER);
-                    sql = sql.replace(FREQ_VAL, Constant.QUARTER);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.QUARTER");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.QUARTER);
+                    sqlQuery = sqlQuery.replace(FREQ_VAL, Constant.QUARTER);
                     break;
                 case NumericConstants.TWELVE:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.MONTH");
-                    sql = sql.replace(Constant.FREQ_AT, MONTH);
-                    sql = sql.replace(FREQ_VAL, MONTH);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.MONTH");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, MONTH);
+                    sqlQuery = sqlQuery.replace(FREQ_VAL, MONTH);
                     break;
                 default:
                     break;
             }
         }
-		return sql;
+		return sqlQuery;
 	}
 
 	private String buildQuery(ProjectionSelectionDTO projSelDTO, String sql, char oppositeSalesInc,
 			boolean isSalesInclusionNotSelected) {
+            String sqlBuildQuery = sql;
 		if (CommonUtil.isValueEligibleForLoading()) {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
-            sql = sql.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
-            sql = sql.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
-            sql = sql.replace(OPPOSITESINC, getOppositeSalesInc(oppositeSalesInc, isSalesInclusionNotSelected));
-            sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
-            sql = sql.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
-            sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
-            sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
-            sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
-            sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
-            sql = sql.replace("@CUSTOMSID", getCustomSid(projSelDTO));
-            sql = sql.replace("@LASTLEVEL", getLastLevel(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            sqlBuildQuery = sqlBuildQuery.replace(OPPOSITESINC, getOppositeSalesInc(oppositeSalesInc, isSalesInclusionNotSelected));
+            sqlBuildQuery = sqlBuildQuery.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
+            sqlBuildQuery = sqlBuildQuery.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
+            sqlBuildQuery = sqlBuildQuery.replace("@REFCOLUMN", getRefColumn(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@CUSTOMSID", getCustomSid(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@LASTLEVEL", getLastLevel(projSelDTO));
         }
-		return sql;
+		return sqlBuildQuery;
 	}
 
 	private String getLastLevel(ProjectionSelectionDTO projSelDTO) {
@@ -1119,7 +1122,7 @@ public class SalesLogic {
 
     private List<SalesRowDto> generateProductView(final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO,
             final Map<String, Object> parameters, final Map<String, Object> input, final int start, final int offset,
-            final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException, SystemException {
+            final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException {
         prepareGenerateInputs(expandedParent, projSelDTO, parameters, input, start, offset, false, isTotalSales, false);
         List returnList = salesAllocationDAO.executeQuery(parameters);
         List<SalesRowDto> resultList = processSalesResultViewList(expandedParent, returnList, projSelDTO, isExpandCollapse, false, isTotalSales, parameters);
@@ -1127,7 +1130,7 @@ public class SalesLogic {
     }
 
     private List<SalesRowDto> generateCustomerView(final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO, final Map<String, Object> parameters, final Map<String, Object> input,
-            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException, SystemException {
+            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException {
         prepareGenerateInputs(expandedParent, projSelDTO, parameters, input, start, offset, true, isTotalSales, false);
         List returnList = salesAllocationDAO.executeQuery(parameters);
         List<SalesRowDto> resultList = processSalesResultViewList(expandedParent, returnList, projSelDTO, isExpandCollapse, true, isTotalSales, parameters);
@@ -1135,7 +1138,7 @@ public class SalesLogic {
     }
 
     private List<SalesRowDto> generateCustomView(final SalesRowDto expandedParent, final ProjectionSelectionDTO projSelDTO, final Map<String, Object> parameters, final Map<String, Object> input,
-            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException, SystemException {
+            final int start, final int offset, final boolean isExpandCollapse, final boolean isTotalSales) throws PortalException {
         if (isTotalSales) {
             prepareGenerateInputs(expandedParent, projSelDTO, parameters, input, start, offset, true, isTotalSales, false);
         } else {
@@ -1381,7 +1384,7 @@ public class SalesLogic {
         return resultList;
     }
 
-    public boolean checkSelectAll(final String sessionId, final String projectionId, final String userId) throws PortalException, SystemException {
+    public boolean checkSelectAll(final String sessionId, final String projectionId, final String userId) throws PortalException {
         boolean returnValue = false;
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
@@ -1428,7 +1431,7 @@ public class SalesLogic {
         return true;
     }
 
-    public void saveForProcedureCall(final ProjectionSelectionDTO projectionDTO) throws PortalException, SystemException {
+    public void saveForProcedureCall(final ProjectionSelectionDTO projectionDTO) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
         input.put("?METHODOLOGY?", projectionDTO.getMethodology());
@@ -1441,7 +1444,7 @@ public class SalesLogic {
         salesAllocationDAO.executeQuery(parameters);
     }
 
-    public List<String> getSelectedBaseLine(final String sessionId, final String projectionId, final String userId) throws PortalException, SystemException {
+    public List<String> getSelectedBaseLine(final String sessionId, final String projectionId, final String userId) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
         List<String> baseLineList = new ArrayList<>();
@@ -1467,7 +1470,7 @@ public class SalesLogic {
         return baseLineList;
     }
 
-    public void uncheckAll(int projectionId, String sessionId, String userId) throws PortalException, SystemException {
+    public void uncheckAll(int projectionId, String sessionId, String userId) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, Object> input = new HashMap<>();
         parameters.put(INDICATOR.getConstant(), "uncheckAll");
@@ -1478,7 +1481,7 @@ public class SalesLogic {
         salesAllocationDAO.executeQuery(parameters);
     }
 
-    public boolean isCheckAll(final String sessionId, final String userId) throws PortalException, SystemException {
+    public boolean isCheckAll(final String sessionId, final String userId) throws PortalException {
         boolean returnValue = false;
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
@@ -1539,7 +1542,7 @@ public class SalesLogic {
         return period;
     }
 
-    public void updateRecord(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException, SystemException {
+    public void updateRecord(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException {
         Map<String, Object> parameters = new HashMap<>();
         prepareUpdateCheckParameters(parameters, input, projectionDTO, salesDto);
         parameters.put(INDICATOR.getConstant(), "updateRecord");
@@ -1566,7 +1569,7 @@ public class SalesLogic {
         }
     }
 
-    public boolean checkHundredPercentage(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException, SystemException {
+    public boolean checkHundredPercentage(final Map<String, Object> input, final ProjectionSelectionDTO projectionDTO, final SalesRowDto salesDto) throws PortalException {
         boolean returnValue = false;
         Map<String, Object> parameters = new HashMap<>();
         prepareUpdateCheckParameters(parameters, input, projectionDTO, salesDto);
@@ -1581,7 +1584,7 @@ public class SalesLogic {
         return returnValue;
     }
 
-    public Map<String, SalesRowDto> prepareSalesItemMap(ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public Map<String, SalesRowDto> prepareSalesItemMap(ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         Map<String, SalesRowDto> itemMap = new HashMap<>();
         Map<String, Object> parameters = new HashMap<>();
         Map<String, String> input = new HashMap<>();
@@ -1743,7 +1746,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public String getCustomViewHierarchyIndicator(int customId, int levelNo) throws PortalException, SystemException {
+    public String getCustomViewHierarchyIndicator(int customId, int levelNo) throws PortalException {
         String hierarchyIndicator;
         String hierarchyIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1757,7 +1760,7 @@ public class SalesLogic {
         return hierarchyIndicator;
     }
 
-    public int saveCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException, SystemException {
+    public int saveCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException {
 
         StringBuilder checkRecordsQuery = new StringBuilder();
 
@@ -1839,7 +1842,7 @@ public class SalesLogic {
         return count;
     }
 
-    public int updateCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException, SystemException {
+    public int updateCheckedRecords(final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean isChecked, boolean isCheckAll) throws PortalException {
 
         String finalQuery;
         if (isCheckAll) {
@@ -1944,7 +1947,7 @@ public class SalesLogic {
 
     }
 
-    public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         LOGGER.debug("Property Id->= {}, EditedValue-->= {}, incOrDecPer-->= {} " , propertyId, editedValue, incOrDecPer);
         Double actualAmount;
         String detailsIdValues[];
@@ -2048,8 +2051,9 @@ public class SalesLogic {
         }
     }
 
-    public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
-
+    public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean[] dataArr) throws PortalException {
+        boolean checkAll =  dataArr[0];
+        boolean isManualEntry = dataArr[1];
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
             StringBuilder saveQuery = new StringBuilder();
@@ -2190,7 +2194,7 @@ public class SalesLogic {
     }
     public static final String PROJECTED_SALES = "ProjectedSales";
     
-    public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
+    public void saveRecords(String propertyId, String editedValue, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException {
 
         String key;
         String updatedField;
@@ -2211,30 +2215,28 @@ public class SalesLogic {
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
-            String startPeriod = "";
-            int endPeriod = 0;
+            String startPeriodSid;
+            String endPeriodSid;
             if (frequencyDivision != 1) {
             key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
-            startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), (keyarr[0])+" "+(keyarr[1]), true);
+            startPeriodSid = getPeriodSid((keyarr[0])+" "+(keyarr[1]), projectionSelectionDTO.getFrequency(), "Min");
+            endPeriodSid = getPeriodSid((keyarr[0])+" "+(keyarr[1]), projectionSelectionDTO.getFrequency(), "Max");
             }else{
             key = (keyarr[0])+"~"+salesDTO.getHierarchyNo();
-            startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), (keyarr[0]), true);
+            startPeriodSid = getPeriodSid((keyarr[0]), projectionSelectionDTO.getFrequency(), "Min");
+            endPeriodSid = getPeriodSid((keyarr[0]), projectionSelectionDTO.getFrequency(), "Max");
             }
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
-                endPeriod = Integer.parseInt(startPeriod);
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
                 rowcount = rowcount * NumericConstants.THREE;
-                endPeriod = Integer.parseInt(startPeriod) + 2;
             } else if (frequencyDivision == NumericConstants.TWO) {
                 keyarr[0] = (keyarr[0]).replace('s', ' ');
                 rowcount = rowcount * NumericConstants.SIX;
-                endPeriod = Integer.parseInt(startPeriod) + 5;
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 keyarr[0] = (keyarr[0]).replace(keyarr[0], String.valueOf(getMonthNo(keyarr[0])));
-                endPeriod = Integer.parseInt(startPeriod) + 11;
             }
 
             String column = frequencyDivision == 1 ? keyarr[1] : keyarr[NumericConstants.TWO];
@@ -2328,9 +2330,10 @@ public class SalesLogic {
                 updatedField = column;
             }
             projectionSelectionDTO.getSessionDTO().setFunctionMode("R");
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,String.valueOf(endPeriod).equals("0")?StringUtils.EMPTY:String.valueOf(endPeriod),updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,String.valueOf(endPeriod).equals("0")?StringUtils.EMPTY:String.valueOf(endPeriod),updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"U",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,String.valueOf(endPeriod).equals("0")?StringUtils.EMPTY:String.valueOf(endPeriod),updatedField);
+           
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"C",startPeriodSid,endPeriodSid,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"P",startPeriodSid,endPeriodSid,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"U",startPeriodSid,endPeriodSid,updatedField);
             projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             if (column.equals(PROJECTED_SALES) || column.equals(Constant.PROJECTED_UNITS1)) {
                 checkMultiVariables(key.trim(), column, projectionSelectionDTO);
@@ -2368,7 +2371,7 @@ public class SalesLogic {
      * @param checkAll
      * @throws com.liferay.portal.kernel.exception.PortalException
      */
-    public void saveRecordsForManualEntry(String changedProperty, final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean checkAll) throws PortalException, SystemException {
+    public void saveRecordsForManualEntry(String changedProperty, final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean checkAll) throws PortalException {
 
         if (StringUtils.isNotBlank(changedProperty) && !Constant.NULL.equals(changedProperty)) {
             if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
@@ -2442,7 +2445,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, Map<String, Object> inputParameters) throws PortalException, SystemException {
+    public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, Map<String, Object> inputParameters) throws PortalException {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         String growth = String.valueOf(inputParameters.get("updateVariable"));
         int startQuarter = Integer.parseInt(String.valueOf(inputParameters.get("startQuarter")));
@@ -2450,15 +2453,13 @@ public class SalesLogic {
         int startYear = Integer.parseInt(String.valueOf(inputParameters.get("startYear")));
         int endYear = Integer.parseInt(String.valueOf(inputParameters.get("endYear")));
         String value = String.valueOf(inputParameters.get("enteredValue"));
-           int frequency = projectionSelectionDTO.getFrequencyDivision();
-            String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
-            String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
-            String freq = (frequency == 12 ? "M" : monthOrQuarter);
-            if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
+        int frequency = projectionSelectionDTO.getFrequencyDivision();
+        String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
+        String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
+        String freq = (frequency == 12 ? "M" : monthOrQuarter);
+        if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
             List<Object> input = new ArrayList<>();
-            input.add(freq + startQuarter + " " + startYear);
-            input.add(freq + endQuarter + " " + endYear);
-
+            getParameter(freq, input, startYear, endYear, startQuarter, endQuarter);
             input.add(value);
 
             input.add(freq);
@@ -2529,7 +2530,17 @@ public class SalesLogic {
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
-    public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input) throws PortalException, SystemException {
+    private void getParameter(String freq, List<Object> input, int startYear, int endYear, int startQuarter, int endQuarter) {
+        if (freq.equals("A")) {
+            input.add(startYear);
+            input.add(endYear);
+        } else {
+            input.add(freq + startQuarter + " " + startYear);
+            input.add(freq + endQuarter + " " + endYear);
+        }
+    }
+
+    public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input) throws PortalException {
         SessionDTO sessionDto = projectionSelectionDTO.getSessionDTO();
         StringBuilder hierarchyNumber = new StringBuilder();
         String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(sessionDto.getCustomerLevelNumber()) : String.valueOf(sessionDto.getProductLevelNumber());
@@ -2727,7 +2738,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void adjustSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
-            final String adjBasis, final String adsVar, final String adsMeth, final String historyPeriods, String projectionPeriods) throws SystemException, SQLException, PortalException {
+            final String adjBasis, final String adsVar, final String adsMeth, final String historyPeriods, String projectionPeriods) throws SystemException {
         List<String> inputList = new ArrayList<>();
         inputList.add(projectionSelectionDTO.getFrequency());
         inputList.add(projectionPeriods);
@@ -2820,7 +2831,7 @@ public class SalesLogic {
         return resultList;
     }
 
-    public List searchAlternateContract(ContractBrandDTO contractBrandDTO) throws PortalException, SystemException {
+    public List searchAlternateContract(ContractBrandDTO contractBrandDTO) throws PortalException {
 
         String companyNo = contractBrandDTO.getCustomer().replace('*', '%');
         String contractName = contractBrandDTO.getContractName();
@@ -2871,7 +2882,7 @@ public class SalesLogic {
         return resultList;
     }
 
-    public List loadAlternateCustomer() throws SystemException, PortalException {
+    public List loadAlternateCustomer() throws PortalException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CM.COMPANY_MASTER_SID,CM.COMPANY_NO FROM dbo.CCP_DETAILS CCP \n"
                 + " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID \n"
@@ -2884,7 +2895,7 @@ public class SalesLogic {
 
     }
 
-    public List loadAlternateBrand(String brandName) throws PortalException, SystemException {
+    public List loadAlternateBrand(String brandName) throws PortalException {
 
         if (brandName.contains("*")) {
             brandName = brandName.replace('*', '%');
@@ -3068,7 +3079,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void saveSelectionForCalculation(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
-            final String startPeriod, final String endPeriod, final String allocationBasis) throws PortalException, SystemException {
+            final String startPeriod, final String endPeriod, final String allocationBasis) throws PortalException {
         String startyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[0];
         String startperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[1];
         String endyear = Constant.NULL_CAPS;
@@ -3105,7 +3116,7 @@ public class SalesLogic {
 
     }
 
-    public String loadTotalLives(int projectionId) throws PortalException, SystemException {
+    public String loadTotalLives(int projectionId) throws PortalException {
         BigDecimal lives = BigDecimal.valueOf(0.0);
         List<String> list = getTotalLives(projectionId, false);
         if (list != null) {
@@ -3116,7 +3127,7 @@ public class SalesLogic {
         return String.valueOf(lives);
     }
 
-    public List getTotalLives(int projectionId, boolean chartflag) throws PortalException, SystemException {
+    public List getTotalLives(int projectionId, boolean chartflag) throws PortalException {
 
         List list;
         StringBuilder queryBuilder = new StringBuilder();
@@ -3144,7 +3155,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public void saveSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO, final String hierarchyNo, String userGroupValue) throws PortalException, SystemException {
+    public void saveSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO, final String hierarchyNo, String userGroupValue) throws PortalException {
         String saveQuery = SQlUtil.getQuery("group-filter-save");
         saveQuery = saveQuery.replace("[?USER_GROUP]", userGroupValue);
         saveQuery = saveQuery.replace("[?HIERARCHY_NO]", hierarchyNo);
@@ -3159,7 +3170,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public List loadSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public List loadSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT USER_GROUP FROM ST_NM_SALES_PROJECTION_MASTER ");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -3249,19 +3260,19 @@ public class SalesLogic {
         }
     }
 
-    public void saveMandatedSalesProjection(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveMandatedSalesProjection(String userId, String sessionId) throws PortalException {
         saveActualsSales(userId, sessionId);
         saveSalesProjection(userId, sessionId);
         saveSalesProjectionMaster(userId, sessionId);
     }
 
-    public void saveNonMandatedSalesProjection(SessionDTO session) throws PortalException, SystemException {
+    public void saveNonMandatedSalesProjection(SessionDTO session) throws PortalException {
         String saveQuery = SQlUtil.getQuery(getClass(),"nm.saveToMainTable");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, session.getCurrentTableNames()));
     }
 
-    public void saveActualsSales(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveActualsSales(String userId, String sessionId) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_ACTUAL_SALES AS TARGET\n"
@@ -3296,7 +3307,7 @@ public class SalesLogic {
         salesProjectionDAO.executeUpdateQuery(query.toString());
     }
 
-    public void saveSalesProjectionMaster(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveSalesProjectionMaster(String userId, String sessionId) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_SALES_PROJECTION_MASTER AS TARGET\n"
@@ -3340,7 +3351,7 @@ public class SalesLogic {
 
     }
 
-    public void saveSalesProjection(String userId, String sessionId) throws PortalException, SystemException {
+    public void saveSalesProjection(String userId, String sessionId) throws PortalException {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_SALES_PROJECTION AS TARGET\n"
@@ -3724,7 +3735,7 @@ public class SalesLogic {
     }
 
     public void saveReturnsSelectionForCalculation(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods,
-            final String startPeriodSID, final String endPeriodSID) throws PortalException, SystemException {
+            final String startPeriodSID, final String endPeriodSID) throws PortalException {
 
         String updateQuery = "UPDATE ST_RETURNS_PROJ_MASTER   SET METHODOLOGY= '" + methodology + "',"
                 + " CALCULATION_PERIODS= '" + calcPeriods + "',"
@@ -3778,7 +3789,7 @@ public class SalesLogic {
         LOGGER.debug("In callRefreshProcedure ends");
     }
 
-    private List<Map> getActiveExFactorySalesAndUnits(ProjectionSelectionDTO projectionSelectionDTO, final int year, final int period) throws PortalException, SystemException {
+    private List<Map> getActiveExFactorySalesAndUnits(ProjectionSelectionDTO projectionSelectionDTO, final int year, final int period) throws PortalException {
         List<Map> mapList = new ArrayList<>();
         Map<String, Double> unitsMap = new TreeMap<>();
         Map<String, Double> salesMap = new TreeMap<>();
@@ -3837,15 +3848,15 @@ public class SalesLogic {
         LOGGER.debug("hierarchy-->>        = {} " , hierarchy);
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
-        double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
-        double amountA = 0;
+        Double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
+        Double amountA = 0.0;
         for (String split : entry.getValue().split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountA += salesAmount.get(split);
             }
         }
         //Code to calculate B
-        double amountB = 0;
+        Double amountB = 0.0;
         for (String split : parentDetailsSid.split(",")) {
             if (salesAmount.containsKey(split)) {
                 amountB += salesAmount.get(split);
@@ -3854,10 +3865,9 @@ public class SalesLogic {
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
         LOGGER.debug("amount     = {} ", amount); 
-        
-        if (amountA == 0 || amountB ==0 ){
-            amount = 0;
-        } else {
+        if (amountA.equals(0.0) && amountB.equals(0.0)) {
+            amount = 0.0;
+        } else if (!amountA.equals(0.0) && !amountB.equals(0.0)) {
             amount = (amountA / amountB) * amount;
         }
         return amount;
@@ -3870,7 +3880,7 @@ public class SalesLogic {
         return saveQuery;
     }
 
-    private List<Map> getActiveExFactorySalesAndUnitsForMassUpdate(ProjectionSelectionDTO projectionSelectionDTO, String periodQuery, String frequency) throws PortalException, SystemException {
+    private List<Map> getActiveExFactorySalesAndUnitsForMassUpdate(ProjectionSelectionDTO projectionSelectionDTO, String periodQuery, String frequency) throws PortalException {
         List<Map> mapList = new ArrayList<>();
         Map<String, Map<String, Double>> salesMap = new TreeMap<>();
         Map<String, Map<String, Double>> unitsMap = new TreeMap<>();
@@ -4642,7 +4652,7 @@ public class SalesLogic {
         }
 
     }
-    public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
+    public String getPeriodSid(String period, String fre, String order) throws PortalException {
         List periodSid = (List) salesAllocationDAO.executeSelectQuery(utils.periodQuery(period, fre, order));
         return !periodSid.isEmpty() ? periodSid.get(0).toString() : null; 
     }
