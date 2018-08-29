@@ -33,13 +33,7 @@ import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
