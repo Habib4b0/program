@@ -821,7 +821,8 @@ public class PagedTreeGrid {
 		totalColumns.setReadOnly(true);
 	}
 
-	public int getColumnsPerPage() {
+	
+        public int getColumnsPerPage() {
 		return GridUtils.getInt(columnsPerPage.getValue());
 	}
 
@@ -836,8 +837,8 @@ public class PagedTreeGrid {
 		}
 		columnPageNoField.setValue(Integer.toString(columnPageNumber + 1));
 		columnPageNumber = newPageNumberValue;
-		int start = columnPageNumber == 0 ? 0 : (getColumnsPerPage() * columnPageNumber) + 1;
-		int end = start + getColumnsPerPage() - 1;
+		int start = columnPageNumber == 0 ? 0 : (getColumnsPerPage()-1)* columnPageNumber;
+		int end =  getColumnsPerPage();
 		HeaderUtils.configureGridColumns(start, end <= 0 ? 10 : end, this);
 		setTotalColumns(getTotalPageCount());
 

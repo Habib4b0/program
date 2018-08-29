@@ -111,7 +111,7 @@ public class Newcomponent extends CustomComponent {
     @UiField("componenttype")
     public ComboBox componenttype;
     @UiField("SearchfieldNC")
-    public ComboBox SearchfieldNC;
+    public ComboBox searchFieldNC;
     @UiField("componentDetailsSearch")
     public ComboBox componentDetailsSearch;
     @UiField("searchDDLB")
@@ -135,7 +135,7 @@ public class Newcomponent extends CustomComponent {
     @UiField("fieldDdlb")
     public ComboBox fieldDdlb;
     @UiField("SearchvaluedNC")
-    public TextField SearchvaluedNC;
+    public TextField searchValuedNC;
     @UiField("enableDisableRadio")
     public OptionGroup enableDisableRadio;
     @UiField("componentDetailsSearchTableLayout")
@@ -147,7 +147,7 @@ public class Newcomponent extends CustomComponent {
     private final TreeTable dashboardResultsTable;
     @UiField("componentSelectionGrid")
     public GridLayout componentSelectionGrid;
-    private final CopyContractLogic CopyContractLogic = new CopyContractLogic();
+    private final CopyContractLogic copyContractLogic = new CopyContractLogic();
     private final BeanItemContainer<NewComponentDTO> componentSearchContainer = new BeanItemContainer<>(NewComponentDTO.class);
     private final BeanItemContainer<NewComponentDTO> componentResultsContainer = new BeanItemContainer<>(NewComponentDTO.class);
     private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
@@ -181,7 +181,7 @@ public class Newcomponent extends CustomComponent {
     @UiField("cfpfileName")
     public TextField cfpfileName;
     @UiField("CFPType")
-    public ComboBox CFPType;
+    public ComboBox cfpType;
     @UiField("salesInclusion")
     public ComboBox salesInclusion;
     /*ifp Component */
@@ -232,7 +232,7 @@ public class Newcomponent extends CustomComponent {
     @UiField("rsEndDate")
     public PopupDateField rsEndDate;
     @UiField("BtnsearchNC")
-    public Button BtnsearchNC;
+    public Button btnSearchNC;
     @UiField("populateDetails")
     public Button populateDetails;
     @UiField("calendar")
@@ -280,8 +280,8 @@ public class Newcomponent extends CustomComponent {
     private String selectedCompanies = Constants.EMPTY;
     private String selectedItems = Constants.EMPTY;
     public static final String PRICE_VAL = "([0-9|\\.|])*";
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
-    private final CommonDao DAO = CommonImpl.getInstance();
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd ");
+    private final CommonDao dao = CommonImpl.getInstance();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
     private final ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
@@ -321,7 +321,7 @@ public class Newcomponent extends CustomComponent {
 
             rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
             rsEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
-            BtnsearchNC.setEnabled(false);
+            btnSearchNC.setEnabled(false);
             componenttype.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
             componenttype.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
             componenttype.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
@@ -482,11 +482,11 @@ public class Newcomponent extends CustomComponent {
             fieldDdlb.setEnabled(false);
             statusddlb.setEnabled(false);
             populateBtn.setEnabled(false);
-            SearchfieldNC.setEnabled(false);
-            SearchvaluedNC.setEnabled(false);
-            SearchfieldNC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            SearchfieldNC.setNullSelectionAllowed(true);
-            SearchfieldNC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            searchFieldNC.setEnabled(false);
+            searchValuedNC.setEnabled(false);
+            searchFieldNC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            searchFieldNC.setNullSelectionAllowed(true);
+            searchFieldNC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             componentDetailsSearch.setWidth("205px");
             fieldDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             fieldDdlb.addItem(Constants.STATUS_FIELD);
@@ -571,7 +571,7 @@ public class Newcomponent extends CustomComponent {
                 try {
                     componentSearchContainer.removeAllItems();
                     cfpComponent.setVisible(true);
-                    CopyContractLogic.getSelectNull(cfpStatus);
+                    copyContractLogic.getSelectNull(cfpStatus);
                     commonUtil.loadComboBox(cfpStatus, UiUtils.STATUS, false);
                     componentDetailsSearchTable.setContainerDataSource(componentSearchContainer);
                     componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newCompanyDetailsColumns);
@@ -606,9 +606,9 @@ public class Newcomponent extends CustomComponent {
                     });
                     cfpStatus.select(Constants.ZEROSTRING);
                     cfpStatus.setValidationVisible(true);
-                    CopyContractLogic.getSelectNull(CFPType);
-                    commonUtil.loadComboBox(CFPType, UiUtils.CFP_TYPE, false);
-                    CFPType.setValidationVisible(true);
+                    copyContractLogic.getSelectNull(cfpType);
+                    commonUtil.loadComboBox(cfpType, UiUtils.CFP_TYPE, false);
+                    cfpType.setValidationVisible(true);
                     commonUtil.loadComboBox(salesInclusion, Constants.LOCKED_STATUS_LISTNAME, false);
                     salesInclusion.setValidationVisible(true);
                     ifpComponent.setVisible(false);
@@ -630,7 +630,7 @@ public class Newcomponent extends CustomComponent {
                 try {
                     cfpComponent.setVisible(false);
                     componentSearchContainer.removeAllItems();
-                    CopyContractLogic.getSelectNull(ifpStatus);
+                    copyContractLogic.getSelectNull(ifpStatus);
                     commonUtil.loadComboBox(ifpStatus, UiUtils.STATUS, false);
                     ifpStatus.setValidationVisible(true);
                     commonUtil.loadComboBox(ifptype, UiUtils.IFP_TYPE, false);
@@ -1170,7 +1170,7 @@ public class Newcomponent extends CustomComponent {
                 searchValue.setValue(Constants.EMPTY);
             } else if (value.equalsIgnoreCase(Constants.BRAND)) {
                 String query = "select BRAND_MASTER_SID,BRAND_NAME from BRAND_MASTER where INBOUND_STATUS<>'D' and BRAND_NAME is not null order by BRAND_NAME";
-                List componentList = (List) DAO.executeSelect(query);
+                List componentList = (List) dao.executeSelect(query);
                 searchDDLB.setVisible(true);
                 searchDDLB.setNullSelectionItemId(Constants.ZEROSTRING);
                 for (int i = 0; i < componentList.size(); i++) {
@@ -1211,7 +1211,7 @@ public class Newcomponent extends CustomComponent {
         String searchField = String.valueOf(fieldDdlb.getValue());
         if (searchField.equals(Constants.STATUS_FIELD)) {
             try {
-                CopyContractLogic.getSelectNull(statusddlb);
+                copyContractLogic.getSelectNull(statusddlb);
                 commonUtil.loadComboBox(statusddlb, UiUtils.STATUS, false);
                 statusddlb.setVisible(true);
                 startPeriod.setVisible(false);
@@ -1382,7 +1382,7 @@ public class Newcomponent extends CustomComponent {
 
                                 HelperDTO cfpTypedto = new HelperDTO();
                                 cfpTypedto.setId(0);
-                                cfpTypedto.setDescription(String.valueOf(CFPType.getValue()));
+                                cfpTypedto.setDescription(String.valueOf(cfpType.getValue()));
                                 dashboardResultsTable.getContainerProperty(rootId, "marketType").setValue(cfpTypedto);
                                 
                                 HelperDTO salesInclusionDto = new HelperDTO();
@@ -2033,7 +2033,7 @@ public class Newcomponent extends CustomComponent {
                     psModel.setInboundStatus("A");
                     psModel = PsModelLocalServiceUtil.addPsModel(psModel);
                     psModelSid = psModel.getPsModelSid();
-                    CopyContractLogic.insertPsDetails(psModelSid, userId, temptableSId);
+                    copyContractLogic.insertPsDetails(psModelSid, userId, temptableSId);
                     Object ifpItem = dashboardResultsTable.getParent(item);
                     String ifpContractId = String.valueOf(dashboardResultsTable.getContainerProperty(ifpItem, Constants.SAVED_SYSTEM_ID).getValue());
                     Object parentCFPItem = dashboardResultsTable.getParent(ifpItem);
@@ -2091,7 +2091,7 @@ public class Newcomponent extends CustomComponent {
                     rsModel.setModifiedDate(new Date());
                     rsModel.setInboundStatus("A");
                     rsModel = RsModelLocalServiceUtil.addRsModel(rsModel);
-                    CopyContractLogic.insertIntoRsDetails(temptableSId, userId, rsModel.getRsModelSid());
+                    copyContractLogic.insertIntoRsDetails(temptableSId, userId, rsModel.getRsModelSid());
                     Object psItem = dashboardResultsTable.getParent(item);
                     String psContractId = String.valueOf(dashboardResultsTable.getContainerProperty(psItem, Constants.SAVED_SYSTEM_ID).getValue());
                     Object parentIFPItem = dashboardResultsTable.getParent(psItem);
@@ -2272,19 +2272,19 @@ public class Newcomponent extends CustomComponent {
     }
 
     public void SaveCFP(String cfpId, Integer cfpModelId) {
-        CopyContractLogic.SaveCFP(cfpId, cfpModelId);
+        copyContractLogic.SaveCFP(cfpId, cfpModelId);
     }
 
     public void SaveIFP(String ifpId, Integer ifpModelId) {
-        CopyContractLogic.SaveIFP(ifpId, ifpModelId);
+        copyContractLogic.SaveIFP(ifpId, ifpModelId);
     }
 
     public void SavePS(String psid, Integer psModelId) {
-        CopyContractLogic.SavePS(psid, psModelId);
+        copyContractLogic.SavePS(psid, psModelId);
     }
 
     public void SaveRS(String rsid, Integer rsModelId) {
-        CopyContractLogic.SaveRS(rsid, rsModelId);
+        copyContractLogic.SaveRS(rsid, rsModelId);
     }
 
     @UiHandler("levelRemoveBtn")
@@ -2334,14 +2334,14 @@ public class Newcomponent extends CustomComponent {
                         itemDTO.setCompanyStatus(String.valueOf(obje[NumericConstants.SIX]));
                         if (obje[NumericConstants.FOUR] != null) {
 
-                            Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FOUR]));
                             String finalString = df.format(date);
                             itemDTO.setPsStartDate(finalString);
                         } else {
                             itemDTO.setPsStartDate(null);
                         }
                         if (obje[NumericConstants.FIVE] != null) {
-                            Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                             String finalString = df.format(date);
                             itemDTO.setPsEndDate(finalString);
                         } else {
@@ -2378,7 +2378,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     populateDetailsPsStartDate(obje, itemDTO);
                     if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                        Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
                         itemDTO.setPsEndDate(finalString);
                     } else {
@@ -2422,7 +2422,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     itemDTO.setStatus(String.valueOf(obje[NumericConstants.FOUR]));
                     if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                        Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
                         itemDTO.setPsStartDate(finalString);
                     } else {
@@ -2495,7 +2495,7 @@ public class Newcomponent extends CustomComponent {
         cfpNo.setValue(Constants.EMPTY);
         cfpName.setValue(Constants.EMPTY);
         cfpStatus.setValue(null);
-        CFPType.setValue(null);
+        cfpType.setValue(null);
         salesInclusion.setValue(null);
         cfpStartDate.setValue(null);
         cfpEndDate.setValue(null);
@@ -2670,7 +2670,7 @@ public class Newcomponent extends CustomComponent {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "New Tab Screen");
-            BtnsearchNC.setVisible(CommonLogic.isButtonVisibleAccess("BtnsearchNC", functionHM));
+            btnSearchNC.setVisible(CommonLogic.isButtonVisibleAccess("BtnsearchNC", functionHM));
             componentSearch.setVisible(CommonLogic.isButtonVisibleAccess("componentSearch", functionHM));
             addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
             levelRemoveBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelRemoveBtn", functionHM));
@@ -2698,7 +2698,7 @@ public class Newcomponent extends CustomComponent {
             searchValue.setVisible(false);
             searchDDLB.setVisible(true);
         } else if (value.equals(Constants.IFPTYPE)) {
-            CopyContractLogic.getSelectNull(searchDDLB);
+            copyContractLogic.getSelectNull(searchDDLB);
             commonUtil.loadComboBox(searchDDLB, UiUtils.IFP_TYPE, false);
             searchValue.setVisible(false);
             searchDDLB.setVisible(true);
@@ -2710,7 +2710,7 @@ public class Newcomponent extends CustomComponent {
 
     public void populateDetailsPsStartDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
         if (obje[NumericConstants.FOUR] != null) {
-            Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
+            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FOUR]));
             String finalString = df.format(date);
             itemDTO.setPsStartDate(finalString);
         } else {
@@ -2720,7 +2720,7 @@ public class Newcomponent extends CustomComponent {
 
     public void populateDetailsPsEndDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
         if (obje[NumericConstants.SIX] != null) {
-            Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
+            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.SIX]));
             String finalString = df.format(date);
             itemDTO.setPsEndDate(finalString);
         } else {

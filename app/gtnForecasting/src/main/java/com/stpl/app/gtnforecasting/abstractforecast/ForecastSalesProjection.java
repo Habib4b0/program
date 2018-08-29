@@ -1122,7 +1122,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
-        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }
@@ -1778,9 +1777,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO);
                                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveRecords(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveRecords(propertyId.toString(), changedValue,  changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, new boolean[] {checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     refreshFlag = true;
@@ -2738,12 +2737,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @return
      */
     public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
+        String finalValue;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+            finalValue = appendChar.concat(decFormat.format(Double.valueOf(value)));
         } else {
-            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+            finalValue = decFormat.format(Double.valueOf(value)).concat(appendChar);
         }
-        return value;
+        return finalValue;
     }
 
     /**

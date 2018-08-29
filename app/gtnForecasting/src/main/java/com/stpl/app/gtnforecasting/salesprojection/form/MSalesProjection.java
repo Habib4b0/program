@@ -472,7 +472,7 @@ public class MSalesProjection extends ForecastSalesProjection {
                     salesOrUnitsProperty = Constant.UNITS_SMALL;
                 }
 
-                salesLogic.saveEditedRecs(updatePeriod, updateValue, Double.NaN, salesOrUnitsProperty, salesRow, projectionDTO, false, true);
+                salesLogic.saveEditedRecs(updatePeriod, updateValue, Double.NaN, salesOrUnitsProperty, salesRow, projectionDTO, new boolean[]{false, true});
                 refreshTableData(getCheckedRecordsHierarchyNo());
 
             }

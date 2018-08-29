@@ -131,20 +131,14 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * The split position.
      */
     private final float splitPosition = NumericConstants.THREE_HUNDRED;
-    /**
-     * The table control Layout.
-     */
-    private HorizontalLayout controlLayout;
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The result bean Container .
      */
     private ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtPagedTreeTable leftTable;
-    private ExtPagedTreeTable rightTable;
     private ExtCustomTreeTable exportPeriodViewTable;
 
     private boolean firstGenerated = false;
@@ -525,7 +519,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      */
     private void addResultTable() {
         resultsTableLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTableLayout.addComponent(controlLayout);
         controlLayout.setSizeUndefined();
@@ -535,6 +529,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * Configure Result Table.
      */
     private void configureResultTable() {
+        CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
         tableLogic.setTreeNodeMultiClick(false);
         tableLogic.setPageLength(NumericConstants.TWENTY);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -550,7 +545,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         periodTableId.setContainerDataSource(resultBeanContainer);
 
         leftTable = periodTableId.getLeftFreezeAsTable();
-        rightTable = periodTableId.getRightFreezeAsTable();
+        ExtPagedTreeTable rightTable = periodTableId.getRightFreezeAsTable();
 
         periodTableId.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);
         leftTable.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);

@@ -990,7 +990,7 @@ public class AlternateSummery extends CustomComponent {
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDecValue, salesRowDto, projectionDTO);
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDecValue, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDecValue, changedProperty, salesRowDto, projectionDTO, new boolean[]{checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(itemId));
