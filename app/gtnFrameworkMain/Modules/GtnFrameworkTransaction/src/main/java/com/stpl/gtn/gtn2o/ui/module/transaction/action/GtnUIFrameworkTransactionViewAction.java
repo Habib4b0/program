@@ -367,34 +367,34 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 	private static GtnWSTransactionColumnBean getDateMode(List<GtnWSTransactionColumnBean> viewDateMode,
 			Object componentId) {
 		for (GtnWSTransactionColumnBean viewDateModeBean : viewDateMode) {
-			if (viewDateModeBean.getColumnID().equals(componentId)) {
-				return viewDateModeBean;
-			}
-		}
-		return null;
-	}
+	           if (viewDateModeBean.getColumnID().equals(componentId)) {
+                return viewDateModeBean;
+            }
+        }
+        return null;
+    }
 
-	private void getValuesForDateComponent(int i, List<Object> componentList,
-			GtnWSTransactionColumnBean viewDateModeBean, Object value, Object[] resultArray) {
+    private void getValuesForDateComponent(int i, List<Object> componentList,
+            GtnWSTransactionColumnBean viewDateModeBean, Object value, Object[] resultArray) {
 
-		if (String.valueOf(componentList.get(i)).contains("Date")
-				&& (viewDateModeBean.getComponentType().equals("text"))) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-			String stringDateValue = dateFormat.format(resultArray[i]);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(
-							GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
-					.loadDateValue(stringDateValue);
+        if (String.valueOf(componentList.get(i)).contains("Date")
+                && (viewDateModeBean.getComponentType().equals("text"))) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String stringDateValue = dateFormat.format(resultArray[i]);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(
+                            GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
+                    .loadDateValue(stringDateValue);
 
-		} else {
+        } else {
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(
-							GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
-					.loadDateValue(value);
-		}
+                GtnUIFrameworkGlobalUI
+                        .getVaadinBaseComponent(
+                                GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
+                        .loadDateValue(value);
+            }
 
-	}
+    }
 
 	private Object getValuesForComponent(int i, List<Object> componentList, Object[] resultArray)
 			throws GtnFrameworkGeneralException {
