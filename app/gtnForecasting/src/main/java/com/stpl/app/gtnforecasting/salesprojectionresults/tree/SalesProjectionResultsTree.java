@@ -425,7 +425,7 @@ public class SalesProjectionResultsTree {
         }
     }
 
-    class SalesProjectionResultsTreeBuildCreteria {
+    static class SalesProjectionResultsTreeBuildCreteria {
 
         private String salesUnitVariable;
         private String frequency;

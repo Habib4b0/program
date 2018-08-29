@@ -26,7 +26,7 @@ public class SalesProjectionNodeCP extends SalesBaseNode {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj != null && obj.getClass() == SalesProjectionNodeCP.class) {
+        if (obj != null && obj.getClass() == this.getClass()) {
             SalesProjectionNodeCP node = (SalesProjectionNodeCP) obj;
             return ((this.hierachyNo.equals(node.getHierachyNo())) && (this.hierarchyForTable.equals(node.getHierarchyForTable())));
         }

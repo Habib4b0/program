@@ -140,7 +140,7 @@ public class CustomExcelNM extends ExcelExport {
         }
     }
 
-    private Double dataConverter(Object value) throws NumberFormatException {
+    private Double dataConverter(Object value) {
         Double d;
         String str = String.valueOf(value);
         if (str.contains("$") || str.contains(",") || str.contains("%")) {

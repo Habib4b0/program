@@ -872,17 +872,17 @@ public class DiscountLogic {
         if (parent instanceof ContractsDetailsDto) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.rsFromCD"));
-        for (Object[] temp : resList) {
-            PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
-            tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
-            tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
-            tempDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
-            tempDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
-            tempDto.setStatus(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FOUR])));
-            tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
-            tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
-            retList.add(tempDto);
+        List<Object[]> resRsFromCdList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.rsFromCD"));
+        for (Object[] tempRsFromCd : resRsFromCdList) {
+            PSComponentDetailsDTO tempRsComponentDto = new PSComponentDetailsDTO();
+            tempRsComponentDto.setItemNo(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[0])));
+            tempRsComponentDto.setItemName(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[1])));
+            tempRsComponentDto.setBrand(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.TWO])));
+            tempRsComponentDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.THREE])));
+            tempRsComponentDto.setStatus(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.FOUR])));
+            tempRsComponentDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.FIVE]))) ? null : DBDate.format((Date) tempRsFromCd[NumericConstants.FIVE]));
+            tempRsComponentDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(tempRsFromCd[NumericConstants.SIX]))) ? null : DBDate.format((Date) tempRsFromCd[NumericConstants.SIX]));
+            retList.add(tempRsComponentDto);
         }
         return retList;
     }
@@ -1067,23 +1067,23 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.getInstance().itemSearch[0].equals(searchField)) {
+        if (Constants.itemSearch[0].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[1].equals(searchField)) {
+        } else if (Constants.itemSearch[1].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.TWO].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.TWO].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.THREE].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.THREE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.FOUR].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.FOUR].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.FIVE].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.FIVE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.SIX].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.SIX].equals(searchField)) {
             inputMap.put(StringConstantsUtil.FORM_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.SEVEN].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.SEVEN].equals(searchField)) {
             inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.EIGHT].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.EIGHT].equals(searchField)) {
             inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
@@ -2863,23 +2863,23 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.getInstance().itemSearch[0].equals(searchField)) {
+        if (Constants.itemSearch[0].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[1].equals(searchField)) {
+        } else if (Constants.itemSearch[1].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.TWO].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.TWO].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.THREE].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.THREE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.FOUR].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.FOUR].equals(searchField)) {
             inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.FIVE].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.FIVE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.SIX].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.SIX].equals(searchField)) {
             inputMap.put(StringConstantsUtil.FORM_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.SEVEN].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.SEVEN].equals(searchField)) {
             inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().itemSearch[NumericConstants.EIGHT].equals(searchField)) {
+        } else if (Constants.itemSearch[NumericConstants.EIGHT].equals(searchField)) {
             inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 

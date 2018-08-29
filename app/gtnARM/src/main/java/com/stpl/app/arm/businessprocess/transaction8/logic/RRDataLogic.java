@@ -45,7 +45,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
     }
 
     protected Object getReturnReserveDataQuery(AbstractSelectionDTO selection, Object lastParent, boolean isCount, int start, int offset, int currentPage, int lastPage) {
-        LOGGER.debug("currentPage " + currentPage + " " + lastPage);
+        LOGGER.debug("currentPage {}", (currentPage + " " + lastPage));
         List<AdjustmentDTO> resultDTO;
         int startindex = start + 1;
         int endindex = start + offset;
@@ -137,7 +137,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
                         break;
                     default:
                 }
-                LOGGER.debug("----dto.getLevelName()----" + dto.getLevelName());
+                LOGGER.debug("----dto.getLevelName()----{}", dto.getLevelName());
                 dto.setChildrenAllowed(!VariableConstants.PRODUCT_RETURNS.equalsIgnoreCase(dto.getLevelName()) && !"TOTAL".equalsIgnoreCase(dto.getGroup()) && (selection.getReturnReserveDatalevelFilterNo() == 0));
                 dto.setLevelNo(selection.getLevelNo());
             }

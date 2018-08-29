@@ -271,7 +271,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:

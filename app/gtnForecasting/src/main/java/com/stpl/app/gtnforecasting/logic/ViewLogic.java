@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ViewLogic.
  *
@@ -70,7 +70,7 @@ public class ViewLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static User getUserById(final String userId) throws SystemException, PortalException {
+    public static User getUserById(final String userId) throws PortalException {
         LOGGER.debug("Entering getUserById method with userId= {} " , userId);
         return dataSelection.getUser(Long.valueOf(userId));
     }
@@ -85,7 +85,7 @@ public class ViewLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws SystemException, PortalException {
+    public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException {
         LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId= {}, and view id= {}" , projectionId, String.valueOf(saveViewDTO.getViewId()));
         final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         ForecastingViewMaster viewMaster = ForecastingViewMasterLocalServiceUtil.createForecastingViewMaster(0);

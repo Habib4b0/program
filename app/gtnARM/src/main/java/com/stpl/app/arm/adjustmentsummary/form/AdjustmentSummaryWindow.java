@@ -150,9 +150,9 @@ public class AdjustmentSummaryWindow extends Window {
                 }
             });
         } catch (NullPointerException ex) {
-            LOGGER.error("Error in " + getClass(), ex);
+            LOGGER.error("Error in ", ex);
         } catch (Exception ex) {
-            LOGGER.error("Error in " + getClass(), ex);
+            LOGGER.error("Error in ", ex);
         }
 
     }
@@ -176,7 +176,7 @@ public class AdjustmentSummaryWindow extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":

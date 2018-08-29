@@ -59,7 +59,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +73,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NationalAssumptionLogic.
  *
@@ -266,7 +265,7 @@ public class NationalAssumptionLogic {
 
             }
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return Constant.SUCCESS;
@@ -365,7 +364,7 @@ public class NationalAssumptionLogic {
             DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
             List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(session);
             priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -478,7 +477,7 @@ public class NationalAssumptionLogic {
         return objList;
     }
 
-    public static Object[] getBrandDynamicQuery(HelperDTO theraupticsid) throws SystemException, PortalException {
+    public static Object[] getBrandDynamicQuery(HelperDTO theraupticsid) throws PortalException {
 
         int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -518,7 +517,7 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException, SystemException {
+    public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Long> qualifierList;
@@ -549,7 +548,7 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final HelperDTO theraupticSid, final HelperDTO preBrandVal) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final HelperDTO theraupticSid, final HelperDTO preBrandVal) throws PortalException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
@@ -605,7 +604,7 @@ public class NationalAssumptionLogic {
         return list;
     }
 
-    public static DynamicQuery getTheraupeuticDynamicQuery(String filterText) throws SystemException, PortalException {
+    public static DynamicQuery getTheraupeuticDynamicQuery(String filterText) throws PortalException {
 
         int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -632,7 +631,7 @@ public class NationalAssumptionLogic {
         return getHelperTableByListTypeAndDescription(therapeuticId, filterText);
     }
 
-    public static int getLazyTherapeuticClassCount(String filterText) throws PortalException, SystemException {
+    public static int getLazyTherapeuticClassCount(String filterText) throws  PortalException {
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
 
         DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
@@ -641,7 +640,7 @@ public class NationalAssumptionLogic {
         return Integer.parseInt(String.valueOf(list.get(0)));
     }
 
-    public static List<HelperDTO> getLazyTherapeuticClassResults(final int start, final int end, String filterText) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyTherapeuticClassResults(final int start, final int end, String filterText) throws PortalException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<HelperTable> list;
@@ -698,7 +697,7 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyNdcCount(String filterText, final HelperDTO brandMasterSid, boolean itemFlag) throws PortalException, SystemException {
+    public static int getLazyNdcCount(String filterText, final HelperDTO brandMasterSid, boolean itemFlag) throws PortalException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<ItemMaster> qualifierList;
@@ -730,7 +729,7 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyNdcResults(final int start, final int end, String filterText, final HelperDTO brandMasterSid, boolean itemFlag, final HelperDTO medicaidNdc9) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyNdcResults(final int start, final int end, String filterText, final HelperDTO brandMasterSid, boolean itemFlag, final HelperDTO medicaidNdc9) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
@@ -827,7 +826,7 @@ public class NationalAssumptionLogic {
     }
     public static final String ITEM_DESC = "itemDesc";
 
-    public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws SystemException, PortalException {
+    public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
 
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -880,7 +879,7 @@ public class NationalAssumptionLogic {
         return SUCCESS.getConstant();
     }
 
-    public List<NewNdcDTO> getNdcTable(SessionDTO session) throws SystemException, PortalException {
+    public List<NewNdcDTO> getNdcTable(SessionDTO session) throws PortalException {
 
         List<NewNdcDTO> priceTypesDTOList = new ArrayList<>();
         DataSelectionQueryUtils queryUtils = new DataSelectionQueryUtils();
@@ -920,7 +919,7 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyNdcFilterCount(String filterText, HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException, SystemException {
+    public static int getLazyNdcFilterCount(String filterText, HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException {
 
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<ItemMaster> qualifierList;
@@ -951,7 +950,7 @@ public class NationalAssumptionLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyNdcFilterResults(final int start, final int end, String filterText, boolean itemFlag, HelperDTO brandMasterSid, HelperDTO therapeuticSid, final boolean isFilter) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyNdcFilterResults(final int start, final int end, String filterText, boolean itemFlag, HelperDTO brandMasterSid, HelperDTO therapeuticSid, final boolean isFilter) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
         filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         List<Object[]> qualifierList;
@@ -1027,7 +1026,7 @@ public class NationalAssumptionLogic {
         return list;
     }
 
-    public static DynamicQuery getNdcFilterDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws SystemException, PortalException {
+    public static DynamicQuery getNdcFilterDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
 
         final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
@@ -1077,7 +1076,7 @@ public class NationalAssumptionLogic {
                 commonDAO.executeBulkUpdateQuery(customSql);
             }
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return Constant.SUCCESS;
@@ -1094,7 +1093,7 @@ public class NationalAssumptionLogic {
         return value;
     }
 
-    public List<NewNdcDTO> getFederalTable(SessionDTO session) throws SystemException, PortalException {
+    public List<NewNdcDTO> getFederalTable(SessionDTO session) throws PortalException {
 
         List<NewNdcDTO> priceTypesDTOList = new ArrayList<>();
         DataSelectionQueryUtils queryUtils = new DataSelectionQueryUtils();
@@ -1129,7 +1128,7 @@ public class NationalAssumptionLogic {
             String customSql = "DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
             
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
@@ -1149,7 +1148,7 @@ public class NationalAssumptionLogic {
             
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
@@ -1195,7 +1194,7 @@ public class NationalAssumptionLogic {
         }
     }
 
-    public List getFederalNdcDesc(int itemId) throws PortalException, SystemException {
+    public List getFederalNdcDesc(int itemId) throws SystemException {
 
         List federalList;
         Map<String, Object> input = new HashMap<>();
@@ -1215,7 +1214,7 @@ public class NationalAssumptionLogic {
         return federalList;
     }
 
-    public int getNewNdcCount(int projectionId) throws PortalException, SystemException {
+    public int getNewNdcCount(int projectionId) throws SystemException {
         List federalList;
         Map<String, Object> input = new HashMap<>();
 
@@ -1263,7 +1262,7 @@ public class NationalAssumptionLogic {
         return SUCCESS.getConstant();
     }
 
-    public void saveFedralNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws PortalException, SystemException {
+    public void saveFedralNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws SystemException {
         String customSql = null;
         String replaceDollarWac = newNdcDTO.getWac();
         replaceDollarWac = replaceDollarWac.replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
@@ -1291,7 +1290,7 @@ public class NationalAssumptionLogic {
         commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
-    public void saveMedicaidNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws PortalException, SystemException {
+   public void saveMedicaidNdcPopUp(SessionDTO session, List list, NewNdcDTO newNdcDTO) throws PortalException {
         String customSql = null;
         String replaceDollarAmp = newNdcDTO.getBaseYearAMP();
         replaceDollarAmp = replaceDollarAmp.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
@@ -1358,7 +1357,7 @@ public class NationalAssumptionLogic {
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
             int count = getCount(resultsList);
             return count == 0 ? Boolean.TRUE : Boolean.FALSE;
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return BooleanConstant.getFalseFlag();

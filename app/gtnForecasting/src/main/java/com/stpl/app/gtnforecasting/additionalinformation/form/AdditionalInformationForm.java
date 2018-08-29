@@ -338,7 +338,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     }
 
-    public void security() throws PortalException, SystemException{
+    public void security() throws PortalException{
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
 

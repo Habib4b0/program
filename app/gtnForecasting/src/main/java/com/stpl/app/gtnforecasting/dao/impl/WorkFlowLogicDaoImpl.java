@@ -52,7 +52,7 @@ public class WorkFlowLogicDaoImpl implements WorkFlowLogicDao {
      * @throws Exception
      */
     @Override
-    public WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws SystemException,PortalException {
+    public WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws PortalException {
         return WorkflowMasterLocalServiceUtil.getWorkflowMaster(workflowMasterSystemId);
     }
 

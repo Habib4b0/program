@@ -566,8 +566,8 @@ public class NewComponents extends CustomComponent implements View {
                         compItemSearchTable.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfp);
                         compItemSearchTable.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfp);
                         componentDetailsTable.removeAllItems();
-                        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsIfp);
-                        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersIfp);
+                        componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS_IFP);
+                        componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS_IFP);
 
                     } else if (compType.equals(PRICE_SCHEDULE.getConstant())) {
                         componentInfoRebateLayout.setVisible(false);
@@ -584,8 +584,8 @@ public class NewComponents extends CustomComponent implements View {
                         compItemSearchTable.setVisibleColumns(Constants.getInstance().componentItemSearchColumnsPs);
                         compItemSearchTable.setColumnHeaders(Constants.getInstance().componentItemSearchHeadersPs);
                         componentDetailsTable.removeAllItems();
-                        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsPs);
-                        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersPs);
+                        componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMN_SPS);
+                        componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS_PS);
                     } else {
                         componentInfoRebateLayout.setVisible(true);
                         componentInfoIfpLayout.setVisible(false);
@@ -601,8 +601,8 @@ public class NewComponents extends CustomComponent implements View {
                         compItemSearchTable.setVisibleColumns(Constants.getInstance().componentItemSearchColumnsRs);
                         compItemSearchTable.setColumnHeaders(Constants.getInstance().componentItemSearchHeadersRs);
                         componentDetailsTable.removeAllItems();
-                        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-                        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+                        componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS_IFP);
+                        componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS);
                     }
 
                 }
@@ -713,8 +713,8 @@ public class NewComponents extends CustomComponent implements View {
         componentDetailsTable.setHeight("230px");
         componentDetailsTable.setPageLength(NumericConstants.FIVE);
         componentDetailsTable.setContainerDataSource(componentDetailResultsContainer);
-        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+        componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS);
+        componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS);
         componentDetailsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
 
         componentDetailsTable.setTableFieldFactory(new TableFieldFactory() {
@@ -1017,8 +1017,8 @@ public class NewComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.addAll(list);
                     compInfo.addAll(list);
                 }
-                componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-                componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+                componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS);
+                componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS);
                 componentDetailsTable.setEditable(true);
                 componentDetailsTable.setSelectable(true);
 
@@ -1068,8 +1068,8 @@ public class NewComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.addAll(list);
                     compInfo.addAll(list);
                 }
-                componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsIfp);
-                componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersIfp);
+                componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS_IFP);
+                componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS_IFP);
                 componentDetailsTable.setEditable(true);
                 componentDetailsTable.setSelectable(true);
 
@@ -1119,8 +1119,8 @@ public class NewComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.addAll(list);
                     compInfo.addAll(list);
                 }
-                componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsPs);
-                componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersPs);
+                componentDetailsTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMN_SPS);
+                componentDetailsTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS_PS);
                 componentDetailsTable.setEditable(true);
                 componentDetailsTable.setSelectable(true);
 

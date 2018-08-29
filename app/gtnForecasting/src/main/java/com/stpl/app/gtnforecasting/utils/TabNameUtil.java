@@ -1,6 +1,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Class contains String constants used in tab name.
  * @author 

@@ -54,7 +54,7 @@ public class AdjustmentReserveView extends VerticalLayout implements View {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        LOGGER.debug("Enters in the View with mode" + sessionDTO.getMode());
+        LOGGER.debug("Enters in the View with mode{}", sessionDTO.getMode());
         this.removeAllComponents();
         AdjustmentReserveSearchForm adjustmentReserveSearchForm = new AdjustmentReserveSearchForm(sessionDTO);
         addComponent(adjustmentReserveSearchForm);

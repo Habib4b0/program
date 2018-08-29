@@ -173,7 +173,7 @@ public class Sales extends VerticalLayout implements View, DefaultFocusable, Gen
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:

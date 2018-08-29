@@ -171,7 +171,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), flag[NumericConstants.FIVE] ? decimalformat.format(totalColumnValue[NumericConstants.FIVE]) : StringUtils.EMPTY);
             }
             lastBrand = brand;
-            logger.debug("index-------" + index);
+            logger.debug("index-------{}", index);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
@@ -223,7 +223,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-        LOGGER.debug("query--" + query);
+        LOGGER.debug("query--{}", query);
         return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 

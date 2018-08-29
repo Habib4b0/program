@@ -12,7 +12,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ErrorCodeUtil.
  *
