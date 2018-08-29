@@ -33,7 +33,6 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
 	@Override
 	public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
 			String level, String discountLevel) throws PortalException {
-		// TODO Auto-generated method stub
 		return Collections.emptyList();
 	}
 /**

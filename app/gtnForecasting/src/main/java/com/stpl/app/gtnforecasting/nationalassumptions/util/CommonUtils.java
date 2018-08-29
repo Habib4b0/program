@@ -637,7 +637,7 @@ public class CommonUtils {
         return useridFromName;
     }
     
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();

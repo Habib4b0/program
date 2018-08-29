@@ -35,6 +35,7 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORRT_DELETEVIEW_SERVICE = "/reportDeleteViewService";
 	public static final String GTN_REPORT_DELETE_VALIDATION_SERVICE = "/reportDeleteValidation";
 	public static final String GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE = "/reportComparisonAvailableTableLoadService";
+	public static final String GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_COUNTSERVICE = "/getReportComparisonAvailableTableCountService";
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportVariableBreakdownTableHeaders";
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE = "/getReportVariableBreakdownPeriods";
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE = "/getReportVariableBreakdownSaveService";

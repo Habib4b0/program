@@ -55,17 +55,17 @@ public class UiUtils {
 	public final String newCompanyDetailsHeaders[] = new String[] { "Trading Partner No ", "Trading Partner Name",
 			"Trading Partner Contract No", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD };
-	public final Object newIfpDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY,
+	public static final Object[] NEW_IFP_DETAILS_COLUMNS = new Object[] { Constants.ITEM_NO_PROPERTY,
 			Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY,
 			Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY };
 
-	public final Object ccIfpDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+	public static final Object[] CC_IFP_DETAILS_COLUMNS = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
 			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
 			Constants.ATTACHED_DATE_PROPERTY };
-	public final String newIfpDetailsHeaders[] = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
+	public static final String[] NEW_IFP_DETAILS_HEADERS = new String[] { Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
 			Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER,
 			Constants.ATTACHED_DATE_FIELD };
-	public final Object ccPsDetailsColumns[] = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+	public static final Object[] CC_PS_DETAILS_COLUMS = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
 			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
 			"priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "ppStartDate",
 			"priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency",

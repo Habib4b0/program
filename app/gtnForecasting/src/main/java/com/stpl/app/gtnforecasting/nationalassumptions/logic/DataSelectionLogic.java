@@ -367,7 +367,7 @@ public class DataSelectionLogic {
             if (resultList != null && !resultList.isEmpty()) {
                 forecastConfig = (ForecastConfig) resultList.get(0);
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return forecastConfig;

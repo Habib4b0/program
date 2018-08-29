@@ -103,7 +103,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
      * @param session SessionDTO
      * @param screenName Screen Name - Business Process Type as in Database.
      */
-    public NMProjectionResults(final SessionDTO session, final String screenName, ForecastForm form) throws SystemException, PortalException {
+    public NMProjectionResults(final SessionDTO session, final String screenName, ForecastForm form) throws PortalException {
         super(session, screenName);
         this.form = form;
         this.session = session;
@@ -452,7 +452,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         }
     }
 
-    private void security() throws PortalException, SystemException {
+    private void security() throws PortalException {
 
         final Map<String, AppPermission> functionPsHM = stplSec.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 

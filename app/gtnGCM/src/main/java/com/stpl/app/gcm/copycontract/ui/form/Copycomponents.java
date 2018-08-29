@@ -1246,8 +1246,8 @@ public class Copycomponents extends CustomComponent {
                     rsComponent.setVisible(false);
 
                     componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccIfpDetailsColumns);
-                    componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
+                    componentDetailsTable.setVisibleColumns(UiUtils.CC_IFP_DETAILS_COLUMNS);
+                    componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
                     contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
@@ -1258,7 +1258,7 @@ public class Copycomponents extends CustomComponent {
                     rsComponent.setVisible(false);
 
                     componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccPsDetailsColumns);
+                    componentDetailsTable.setVisibleColumns(UiUtils.CC_PS_DETAILS_COLUMS);
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);

@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.projectionresults.logic;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
@@ -919,7 +918,7 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException  {
+    public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException  {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.RATE);
         String query = "";
@@ -949,7 +948,7 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException  {
+    public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) throws PortalException  {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = "";
@@ -979,7 +978,7 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getDiscountRPU(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException {
+    public List<ProjectionResultsDTO> getDiscountRPU(ProjectionSelectionDTO projSelDTO) throws PortalException {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales("RPU");
         String query = "";
@@ -1207,7 +1206,7 @@ public class MProjectionResultsLogic {
         return customQuery;
     }
 
-    public List<ProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
+    public List<ProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException{
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
@@ -1883,7 +1882,7 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException {
+    public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException {
         List<ProjectionResultsDTO> resultList;
         if ((!projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) || parentId instanceof ProjectionResultsDTO) {
             projSelDTO.setYear(Constant.ALL);
@@ -1979,7 +1978,7 @@ public class MProjectionResultsLogic {
         return resultList;
     }
 
-    public int getConfiguredProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelsCount, ProjectionSelectionDTO initialProjSelDTO) throws PortalException, SystemException  {
+    public int getConfiguredProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelsCount, ProjectionSelectionDTO initialProjSelDTO) throws  PortalException  {
         int count = NumericConstants.ZERO;
         if ((!projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) || parentId instanceof ProjectionResultsDTO) {
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
@@ -2062,7 +2061,7 @@ public class MProjectionResultsLogic {
         return count;
     }
 
-    public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) throws PortalException, SystemException {
+    public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) throws PortalException {
         int count = NumericConstants.ZERO;
         if (!projSelDTO.getGroup().startsWith(Constant.ALL)
                 && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
@@ -2161,7 +2160,7 @@ public class MProjectionResultsLogic {
         return Collections.unmodifiableList(programCodeList);
     }
 
-    public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
+    public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException{
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDolManDTOList = new ArrayList<>();
@@ -3659,7 +3658,7 @@ public class MProjectionResultsLogic {
         return customSQL;
     }
 
-    private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException{
+    private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException{
         CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);
         sql += SQlUtil.getQuery(getClass(),"m.program-code-count-query");
@@ -3669,7 +3668,7 @@ public class MProjectionResultsLogic {
         return (Integer) list.get(NumericConstants.ZERO);
     }
 
-    private List getProgramCodeList(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    private List getProgramCodeList(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
            CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);
         sql += SQlUtil.getQuery(getClass(),"m.program-code-query");

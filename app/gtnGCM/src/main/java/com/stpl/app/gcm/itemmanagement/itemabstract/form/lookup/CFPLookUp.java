@@ -88,9 +88,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CFPLookUp.class);
     private final SelectionDTO selection = new SelectionDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final CustomTextField componentTextField;
-    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", "tradeClass", Constants.START_DATE, Constants.END_DATE};
-    private final String[] CFP_SEARCH_HEADERS = new String[]{"CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
+    private static final String[] CFP_SEARCH_HEADERS = new String[]{"CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
 
     public CFPLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;

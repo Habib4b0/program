@@ -190,7 +190,7 @@ public class RemoveDiscount extends CustomComponent {
     @UiField("fromCDName")
     private TextField fromCDName;
     private RemoveDiscount removeDiscount;
-    private final boolean remove = true;
+    private static final boolean REMOVE = true;
     private final ContractsDetailsDto contractDto = new ContractsDetailsDto();
     private int userId;
     private int sessionId;
@@ -520,7 +520,7 @@ public class RemoveDiscount extends CustomComponent {
                         setProcessedTableHeader();
                         break;
                     case ContractsDetailsDto.LEVEL4:
-                        if (remove) {
+                        if (REMOVE) {
                             configureLevel(event.getItemId());
                             dashboardTreeTable.setContainerDataSource(commonLogic.getLevel5Hierarchy(contractDetails, dashBoardTreeContainer, null));
                             dashboardTreeTable.removeExpandListener(expandListener);
@@ -713,10 +713,10 @@ public class RemoveDiscount extends CustomComponent {
             fromCDLabelNo.setValue(temp.getCategory() + " No: ");
             fromCDNo.setValue(temp.getNumber());
             fromCDName.setValue(temp.getName());
-            Object[] objColumn = HeaderUtil.getInstance().adComponentDetailsPsColumn;
+            Object[] objColumn = HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN;
             if (Constants.IndicatorConstants.CFP.toString().equals(temp.getCategory())) {
                 loadCfpFromCD(temp);
-                objColumn = HeaderUtil.getInstance().adComponentDetailsCompanyColumn;
+                objColumn = HeaderUtil.ADCOMPONENT_DETAILS_COMPANY_COLUMN;
 
             } else if (Constants.IndicatorConstants.IFP.toString().equals(temp.getCategory())) {
                 loadIfpFromCD(temp);
@@ -857,29 +857,29 @@ public class RemoveDiscount extends CustomComponent {
     private void loadCfpFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.CFP);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsCompanyColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().adComponentDetailsCompanyHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_COMPANY_COLUMN);
+        contractComponentTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_COMPANY_HEADER);
     }
 
     private void loadIfpFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.IFP);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN);
+        contractComponentTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_PS_HEADER);
     }
 
     private void loadPsFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.PS);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN);
+        contractComponentTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_PS_HEADER);
     }
 
     private void loadRsFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.RS);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.ADCOMPONENT_DETAILS_PS_COLUMN);
+        contractComponentTable.setColumnHeaders(HeaderUtil.ADCOMPONENT_DETAILS_PS_HEADER);
     }
 
     public int getUserId() {
