@@ -947,13 +947,12 @@ public class MMDPRLogic {
         String sessionId = projSel.getSessionDTO().getSessionId();
         String managedMedicaid = Constant.MANAGED_MEDICAID;
         String quarterly = projSel.getFrequency();
-        String frequency = StringUtils.EMPTY;
         Object object1 = null;
         Object object0 = null;
         Integer historyStartMonth = projSel.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSel.getForecastDTO().getHistoryStartYear();
         int projectionId = projSel.getProjectionId();
-        frequency = frequencyConstantVariable(quarterly);
+        String frequency = frequencyConstantVariable(quarterly);
         Object[] orderedArgs = {projectionId, userId, sessionId, managedMedicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
          List<Object[]> list;
          // Procedure called only in  Tab Change
@@ -1858,13 +1857,12 @@ public class MMDPRLogic {
         String sessionId = projSelDTO.getSessionDTO().getSessionId();
         String managedMedicaid = Constant.MANAGED_MEDICAID;
         String quarterly = projSelDTO.getFrequency();
-        String frequency = StringUtils.EMPTY;
         Object object1 = null;
         Object object0 = null;
         Integer historyStartMonth = projSelDTO.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSelDTO.getForecastDTO().getHistoryStartYear();
         int projectionId = projSelDTO.getProjectionId();
-        frequency = frequencyConstantVariable(quarterly);
+        String frequency = frequencyConstantVariable(quarterly);
 
         Object[] orderedArgs = {projectionId, userId, sessionId, managedMedicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
          List<Object[]> list;
