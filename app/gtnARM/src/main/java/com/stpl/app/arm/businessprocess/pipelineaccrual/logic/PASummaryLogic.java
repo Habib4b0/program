@@ -159,7 +159,7 @@ public class PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 lastBrand = brand;
             }
         }
-        LOGGER.debug("index-------" + index);
+        LOGGER.debug("index-------{}", index);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
         return dataResult;

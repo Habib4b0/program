@@ -16,36 +16,44 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-public class GtnCustomerSelectionRelationshipLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+public class GtnCustomerSelectionRelationshipLoadAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		try{
-		List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
-		
-		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String)params.get(1)).getComponentData().getCustomData();
-		
-		Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean.getPropertyValueByIndex(recordBean.getProperties().size()-1);
-		List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));
-		List<String> relationshipCaptionList = new ArrayList<>();
-		List relationshipIdList = new ArrayList<>();
-		
-		ObjectMapper mapper = new ObjectMapper();
+		try {
+			List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = mapper.convertValue(relationshipBuilderBeanListMapper, new TypeReference<List<GtnWsRelationshipBuilderBean>>() { });
+			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent((String) params.get(1)).getComponentData().getCustomData();
 
-		for(GtnWsRelationshipBuilderBean relationshipBuilderBean : relationshipBuilderBeanList){
-			relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
-			relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
-		}
-		
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String)params.get(2)).addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
-		
-		}
-		catch(Exception ex){
-			logger.error("Error",ex);
+			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
+					.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
+			List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
+					.get(String.valueOf(recordBean.getPropertyValueByIndex(7)));
+			List<String> relationshipCaptionList = new ArrayList<>();
+			List relationshipIdList = new ArrayList<>();
+
+			ObjectMapper mapper = new ObjectMapper();
+
+			List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = mapper.convertValue(
+					relationshipBuilderBeanListMapper, new TypeReference<List<GtnWsRelationshipBuilderBean>>() {
+					});
+
+			for (GtnWsRelationshipBuilderBean relationshipBuilderBean : relationshipBuilderBeanList) {
+				relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
+				relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
+			}
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
+					.addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
+
+		} catch (Exception ex) {
+			logger.error("Error", ex);
 		}
 	}
 

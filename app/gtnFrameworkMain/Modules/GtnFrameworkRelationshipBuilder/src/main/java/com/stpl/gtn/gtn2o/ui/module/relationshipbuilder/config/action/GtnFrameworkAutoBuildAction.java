@@ -101,7 +101,7 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
 	}
 
 
-	private List<List<String>> getParentIDInfo(GtnWsRecordBean selectedLevelBean,
+	public List<List<String>> getParentIDInfo(GtnWsRecordBean selectedLevelBean,
 			GtnUIFrameworkBaseComponent rbTreeBaseComponent) {
 		int levelNo = selectedLevelBean
 				.getIntegerPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal());

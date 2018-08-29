@@ -83,6 +83,8 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean paginationOff = false;
     private boolean selectionListener = false;
     private List<String> additionalSearchCriteriaListValues;
+    private String pagedTableWsUrl;
+    private String registeredWebContext;
     
     private boolean filteron = false;
 
@@ -675,6 +677,22 @@ public class GtnUIFrameworkPagedTableConfig {
 
 	public void setAdditionalSearchCriteriaListValues(List<String> additionalSearchCriteriaListValues) {
 		this.additionalSearchCriteriaListValues = additionalSearchCriteriaListValues;
+	}
+
+	public String getPagedTableWsUrl() {
+		return pagedTableWsUrl;
+	}
+
+	public void setPagedTableWsUrl(String pagedTableWsUrl) {
+		this.pagedTableWsUrl = pagedTableWsUrl;
+	}
+
+	public String getRegisteredWebContext() {
+		return registeredWebContext;
+	}
+
+	public void setRegisteredWebContext(String registeredWebContext) {
+		this.registeredWebContext = registeredWebContext;
 	}
     
 }

@@ -136,7 +136,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
             selectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
             fromDate.setValue(selectionDTO.getSummarydemandfromDate());
             toDate.setValue(selectionDTO.getSummarydemandtoDate());
-            LOGGER.debug("selectionDTO.getSummary_glDate()" + selectionDTO.getSummaryglDate());
+            LOGGER.debug("selectionDTO.getSummary_glDate(){}", selectionDTO.getSummaryglDate());
             glImpactDate.removeValueChangeListener(glListener);
             defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
