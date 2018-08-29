@@ -178,6 +178,9 @@ public class Exixtingcomponent extends CustomComponent {
     private final ExtPagedTable componentDetailsTable = new ExtPagedTable(componentDetailsTableLogic);
     private final ExistingLevelDataTableLogic componentLevelTableLogic = new ExistingLevelDataTableLogic();
     private final ExtPagedTable levelDetailsResultsTable = new ExtPagedTable(componentLevelTableLogic);
+    private static final Object[] NEW_IFP_DETAILS_COLUMNS = new Object[] { Constants.ITEM_NO_PROPERTY,
+			Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY,
+			Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY };
 
     public Exixtingcomponent(TreeTable contractDashBoardTable,ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         this.dashboardResultsTable = contractDashBoardTable;
@@ -366,8 +369,8 @@ public class Exixtingcomponent extends CustomComponent {
             SearchfieldEC.addItem(Constants.IFPTYPE);
             componentResultsSearchTable.setVisibleColumns(Constants.getInstance().copycontractIfpResultsColumns);
             componentResultsSearchTable.setColumnHeaders(Constants.getInstance().copycontractIfpResultsHeaders);
-            componentDetailsTable.setVisibleColumns(UiUtils.NEW_IFP_DETAILS_COLUMNS);
-            componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
+            componentDetailsTable.setVisibleColumns(NEW_IFP_DETAILS_COLUMNS);
+            componentDetailsTable.setColumnHeaders(UiUtils.getNewIfpDetailsHeaders());
         }
 
         if (Constants.PRICE_SCHEDULE.equalsIgnoreCase(String.valueOf(ComponenttypeNC.getValue()))) {
@@ -627,8 +630,8 @@ public class Exixtingcomponent extends CustomComponent {
                 sdate.setValue(selectedItemDto.getIfpStartDate());
                 edate.setValue(selectedItemDto.getIfpEndDate());
                 CFPdesignation.setValue(selectedItemDto.getItemFamilyplanDesignation());
-                componentDetailsTable.setVisibleColumns(UiUtils.NEW_IFP_DETAILS_COLUMNS);
-                componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
+                componentDetailsTable.setVisibleColumns(NEW_IFP_DETAILS_COLUMNS);
+                componentDetailsTable.setColumnHeaders(UiUtils.getNewIfpDetailsHeaders());
                 componentDetailsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 componentDetailsTable.setRefresh(true);
                 componentDetailsTable.setColumnAlignment(Constants.ITEM_START_DATE_PROPERTY, ExtCustomTable.Align.CENTER);

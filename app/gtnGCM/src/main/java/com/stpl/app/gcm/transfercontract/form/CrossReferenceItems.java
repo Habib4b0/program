@@ -50,16 +50,16 @@ public class CrossReferenceItems extends VerticalLayout {
     private void configureTables() {
 
         toResultTableItem.setContainerDataSource(toResultContainer);
-        toResultTableItem.setVisibleColumns(HeaderUtil.TRANSFER_TO_COLUMN);
-        toResultTableItem.setColumnHeaders(HeaderUtil.TRANSFER_TO_HEADER);
+        toResultTableItem.setVisibleColumns(HeaderUtil.getTransferToColumn());
+        toResultTableItem.setColumnHeaders(HeaderUtil.getTransferToHeader());
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.COMPONENT_DETAILS_ITEM_COLUMN);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.COMPONENT_DETAILS_ITEM_HEADER);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
 
         ifpResults.setContainerDataSource(ifpResultsContainer);
-        ifpResults.setVisibleColumns(HeaderUtil.IFP_DETAILS_COLUMN);
-        ifpResults.setColumnHeaders(HeaderUtil.IFP_DETAILS_HEADER);
+        ifpResults.setVisibleColumns(HeaderUtil.getIfpDetailsColumn());
+        ifpResults.setColumnHeaders(HeaderUtil.getIfpDetailsHeader());
 
     }
      public final void configureFields(){

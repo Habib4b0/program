@@ -216,6 +216,15 @@ public class Copycomponents extends CustomComponent {
     private TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
     private String SELECT_RECORD = "Please Select Atleast one record at Contract Component Results Section";
     private Map<String, AppPermission> functionHM = new HashMap<>();
+    private static final Object[] CC_IFP_DETAILS_COLUMNS = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
+			Constants.ATTACHED_DATE_PROPERTY };
+    private static final Object[] CC_PS_DETAILS_COLUMS = new Object[] { Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY,
+			Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE,
+			"priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "ppStartDate",
+			"priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency",
+			"priceToleranceType", "maxIncrementalChange", "priceTolerance", "reset", "eligibility", "resetType",
+			"resetDate", "resetIntervel", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY };
 
     public Copycomponents(List<ContractSelectionDTO> selectedList, TreeTable contractDashBoardTable, ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         try {
@@ -1246,8 +1255,8 @@ public class Copycomponents extends CustomComponent {
                     rsComponent.setVisible(false);
 
                     componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.CC_IFP_DETAILS_COLUMNS);
-                    componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
+                    componentDetailsTable.setVisibleColumns(CC_IFP_DETAILS_COLUMNS);
+                    componentDetailsTable.setColumnHeaders(UiUtils.getNewIfpDetailsHeaders());
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
                     contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
@@ -1258,7 +1267,7 @@ public class Copycomponents extends CustomComponent {
                     rsComponent.setVisible(false);
 
                     componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.CC_PS_DETAILS_COLUMS);
+                    componentDetailsTable.setVisibleColumns(CC_PS_DETAILS_COLUMS);
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
