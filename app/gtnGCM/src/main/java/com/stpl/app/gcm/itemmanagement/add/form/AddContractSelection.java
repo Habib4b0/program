@@ -818,104 +818,104 @@ public class AddContractSelection extends CustomComponent {
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
-                    CustomTextField text = new CustomTextField();
-                    text.setEnabled(false);
-                    return text;
+                    CustomTextField textCheckRecord = new CustomTextField();
+                    textCheckRecord.setEnabled(false);
+                    return textCheckRecord;
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
-                    ComboBox marketTypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
-                    return marketTypeDdlb;
+                    ComboBox marketTypeDdlbs = new ComboBox();
+                    logic.LazyLoadDdlb(marketTypeDdlbs, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
+                    return marketTypeDdlbs;
                 }
                 if (Constants.STATUS_S.equals(propertyId)) {
-                    ComboBox statusDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(statusDdlb, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
-                    return statusDdlb;
+                    ComboBox statusDdlbS = new ComboBox();
+                    logic.LazyLoadDdlb(statusDdlbS, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
+                    return statusDdlbS;
                 }
                 if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
-                    ComboBox pricetolerenceintDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
-                    return pricetolerenceintDdlb;
+                    ComboBox pricetolerenceintDdlbInv = new ComboBox();
+                    logic.LazyLoadDdlb(pricetolerenceintDdlbInv, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
+                    return pricetolerenceintDdlbInv;
                 }
                 if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox pricetolerencetypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
-                    return pricetolerencetypeDdlb;
+                    ComboBox pricetolerencetypeDdlbType = new ComboBox();
+                    logic.LazyLoadDdlb(pricetolerencetypeDdlbType, "Load PS_TYPE Count", "Load PS_TYPE", BooleanConstant.getTrueFlag());
+                    return pricetolerencetypeDdlbType;
                 }
                 if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
-                    ComboBox pricetolerencefreqDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
-                    return pricetolerencefreqDdlb;
+                    ComboBox pricetolerencefreqDdlbPr = new ComboBox();
+                    logic.LazyLoadDdlb(pricetolerencefreqDdlbPr, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
+                    return pricetolerencefreqDdlbPr;
                 }
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
-                    ComboBox priceProtectionDdlb = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UiUtils.STATUS, true);
-                    return priceProtectionDdlb;
+                    ComboBox priceProtectionDdlbStat = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlbStat, UiUtils.STATUS, true);
+                    return priceProtectionDdlbStat;
                 }
                 if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
-                    ComboBox basePriceType = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
-                    return basePriceType;
+                    ComboBox basePriceTypePropBas = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(basePriceTypePropBas, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
+                    return basePriceTypePropBas;
                 }
                 if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxPricTyp = new ComboBox();
+                    loadPriceType(comboBoxPricTyp, true);
+                    return comboBoxPricTyp;
                 }
                 if (Constants.MEASUREMENT_PRICE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxMeau = new ComboBox();
+                    loadPriceType(comboBoxMeau, true);
+                    return comboBoxMeau;
                 }
                 if (Constants.RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxTypePri = new ComboBox();
+                    loadPriceType(comboBoxTypePri, true);
+                    return comboBoxTypePri;
                 }
                 if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    loadPriceType(comboBox, true);
-                    return comboBox;
+                    ComboBox comboBoxPerPeriod = new ComboBox();
+                    loadPriceType(comboBoxPerPeriod, true);
+                    return comboBoxPerPeriod;
                 }
                 if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxElig = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxElig, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxElig;
                 }
                 if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.RESET_TYPE_COLUMN_NAME, true);
-                    return comboBox;
+                    ComboBox comboBoxProInit = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxProInit, Constants.RESET_TYPE_COLUMN_NAME, true);
+                    return comboBoxProInit;
                 }
                 if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
-                    return comboBox;
+                    ComboBox comboBoxx = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxx, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
+                    return comboBoxx;
                 }
                 if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
-                    return comboBox;
+                    ComboBox comboBoxPro = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxPro, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
+                    return comboBoxPro;
                 }
                 if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxNet = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxNet, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxNet;
                 }
                 if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxProper = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxProper, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxProper;
                 }
                 if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxProp = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxProp, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxProp;
                 }
                 if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
-                    ComboBox comboBox = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
-                    return comboBox;
+                    ComboBox comboBoxWac = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBoxWac, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBoxWac;
                 }
                 return null;
             }

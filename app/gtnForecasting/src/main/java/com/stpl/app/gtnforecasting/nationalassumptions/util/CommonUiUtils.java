@@ -146,7 +146,8 @@ public class CommonUiUtils {
     }
 
     static ProjectionSelectionDTO getHistoryAndProjectionDetails(ProjectionSelectionDTO projSelDTO) {
-        String frequency = projSelDTO.getFrequency();
+        ProjectionSelectionDTO projSeldto = projSelDTO;
+        String frequency = projSeldto.getFrequency();
         Calendar ob = Calendar.getInstance();
         int curMonth = ob.get(Calendar.MONTH);
         int curYear = ob.get(Calendar.YEAR);
@@ -165,12 +166,12 @@ public class CommonUiUtils {
             currentPeriod = curYear;
             frequencyDivision = 1;
         }
-        projSelDTO.setFrequencyDivision(frequencyDivision);
-        projSelDTO.setCurrentYear(curYear);
-        projSelDTO.setCurrentPeriod(currentPeriod);
-        projSelDTO = getHistoryDetail(projSelDTO);
-        projSelDTO = getProjectionDetail(projSelDTO);
-        return projSelDTO;
+        projSeldto.setFrequencyDivision(frequencyDivision);
+        projSeldto.setCurrentYear(curYear);
+        projSeldto.setCurrentPeriod(currentPeriod);
+        projSeldto = getHistoryDetail(projSeldto);
+        projSeldto = getProjectionDetail(projSeldto);
+        return projSeldto;
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
@@ -1345,16 +1346,17 @@ public class CommonUiUtils {
     }
 
     private static int getQuarter(int projectionStartMonth) {
-        if (projectionStartMonth <= NumericConstants.THREE) {
-            projectionStartMonth = 1;
-        } else if (projectionStartMonth <= NumericConstants.SIX) {
-            projectionStartMonth = NumericConstants.TWO;
-        } else if (projectionStartMonth <= NumericConstants.NINE) {
-            projectionStartMonth = NumericConstants.THREE;
-        } else if (projectionStartMonth <= NumericConstants.TWELVE) {
-            projectionStartMonth = NumericConstants.FOUR;
+        int projStartMonth =  projectionStartMonth;
+        if (projStartMonth <= NumericConstants.THREE) {
+            projStartMonth = 1;
+        } else if (projStartMonth <= NumericConstants.SIX) {
+            projStartMonth = NumericConstants.TWO;
+        } else if (projStartMonth <= NumericConstants.NINE) {
+            projStartMonth = NumericConstants.THREE;
+        } else if (projStartMonth <= NumericConstants.TWELVE) {
+            projStartMonth = NumericConstants.FOUR;
         }
-        return projectionStartMonth;
+        return projStartMonth;
 
     }
 
