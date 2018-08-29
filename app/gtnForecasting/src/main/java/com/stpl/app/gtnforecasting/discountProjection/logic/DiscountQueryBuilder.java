@@ -636,7 +636,7 @@ public class DiscountQueryBuilder {
                 customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + MANUAL_ENTRY_COUNT );
             }
 
-            if (!frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
+            if (!frequency.equals(ANNUALLY.getConstant()) && !frequency.equals(ANNUAL.getConstant())) {
                 customSql += "and I.period = " + period;
             }
 

@@ -248,7 +248,7 @@ public class NewDiscountTab extends CustomComponent {
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    public final SimpleDateFormat DB_DATE = new SimpleDateFormat("MM-dd-yyyy");
+    public final SimpleDateFormat dbDate = new SimpleDateFormat("MM-dd-yyyy");
     public static final String S_DATE_PROPERTY = "sDate";
     /* Current Level Value */
     private int levelValue;
@@ -342,8 +342,8 @@ public class NewDiscountTab extends CustomComponent {
             contractNo.setValue(removeDiscountDto.get(0).getContractNo());
             contractName.setValue(removeDiscountDto.get(0).getContractName());
             contractType.setValue(removeDiscountDto.get(0).getMarketType());
-            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractstartDate()));
-            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractendDate()));
+            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.get(0).getContractstartDate()));
+            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
             isEnable(false);
             componentTypeddlb = CommonLogic.loadComponentType(componentTypeddlb, null, true);
             searchDdlb = CommonLogic.loadNewTabSearchDdlb(searchDdlb, selectedComponenttype);
@@ -946,7 +946,7 @@ public class NewDiscountTab extends CustomComponent {
                 Object ddlb = searchValueStatusDdlb.getValue();
                 newDiscountTabDto.setSearchFieldValue(searchValueStatusDdlb.getItemCaption(ddlb));
             } else if (searchField.contains("Date")) {
-                newDiscountTabDto.setSearchFieldValue(DB_DATE.format(searchDatePeriod.getValue()));
+                newDiscountTabDto.setSearchFieldValue(dbDate.format(searchDatePeriod.getValue()));
             } else {
                 newDiscountTabDto.setSearchFieldValue(ddlbValue);
             }

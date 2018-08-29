@@ -73,7 +73,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CommmonLogic {
 
-    private final CommonDao DAO = CommonImpl.getInstance();
+    private final CommonDao dao = CommonImpl.getInstance();
     private static final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private static final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
@@ -1314,7 +1314,7 @@ public class CommmonLogic {
         }
 
         query.append("  ) TEM ");
-        List list = (List) DAO.executeSelect(query.toString());
+        List list = (List) dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -1547,7 +1547,7 @@ public class CommmonLogic {
             query.append(" AND SCREEN_NAME='").append(contractType).append('\'');
         }
 
-        int count = CommonUtils.convertToInteger(String.valueOf(((List) DAO.executeSelect(query.toString())).get(0)));
+        int count = CommonUtils.convertToInteger(String.valueOf(((List) dao.executeSelect(query.toString())).get(0)));
         return count != 0;
     }
 
@@ -1644,7 +1644,7 @@ public class CommmonLogic {
         List<ContractsDetailsDto> resultList = new ArrayList<>();
         ContractsDetailsDto dto = null;
 
-        list = (List) DAO.executeSelect(query);
+        list = (List) dao.executeSelect(query);
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -1800,7 +1800,7 @@ public class CommmonLogic {
         List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
-        list = (List) DAO.executeSelect(query);
+        list = (List) dao.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
@@ -1938,7 +1938,7 @@ public class CommmonLogic {
         query.append("  SELECT count(Distinct COMPANY_MASTER_SID) FROM COMPANY_MASTER WHERE  ");
         query.append(columnName).append("='").append(value).append("'" + " AND INBOUND_STATUS <> 'D'  ");
 
-        List list = (List) DAO.executeSelect(query.toString());
+        List list = (List) dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -2087,7 +2087,7 @@ public class CommmonLogic {
 
         query.append(" SELECT COUNT(" + fieldName + ") FROM IMTD_ITEM_PRICE_REBATE_DETAILS WHERE CHECK_RECORD='1' AND UDC1='0' AND SESSION_ID  ='" + session.getSessionId() + "' AND " + fieldName + (fieldName.equals("START_DATE") ? ">" : "<") + " CONVERT(DATE, '" + date + "'); ");
 
-        List list = (List) DAO.executeSelect(query.toString());
+        List list = (List) dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -2104,7 +2104,7 @@ public class CommmonLogic {
 
         query.append(" SELECT COUNT(*) FROM IMTD_ITEM_PRICE_REBATE_DETAILS WHERE CHECK_RECORD='1' AND UDC1='0' AND  SESSION_ID  ='" + session.getSessionId() + "' AND  " + (fieldName.equals("ATTACHED_STATUS") ? "ATTACHED_STATUS!=0" : (fieldName + " IS NOT NULL")));
 
-        List list = (List) DAO.executeSelect(query.toString());
+        List list = (List) dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -2226,7 +2226,7 @@ public class CommmonLogic {
         List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
 
-        List list = (List) DAO.executeSelect(query);
+        List list = (List) dao.executeSelect(query);
 
         if (field.equals("count")) {
             dto = new ContractResultDTO();
