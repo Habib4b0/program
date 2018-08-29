@@ -636,86 +636,86 @@ public class QueryUtils {
     }
 
     private String customizeItemSearchQuery(String query, final Map<String, Object> parameters) {
-
+        String itemSearchQuery = query;
         String itemNo = String.valueOf(parameters.get(Constant.ITEM_NO));
 
         if (!itemNo.equals(StringUtils.EMPTY) && !itemNo.equals(Constant.NULL)) {
-            query = query + " AND IM.ITEM_NO like '" + itemNo + "'";
+            itemSearchQuery = itemSearchQuery + " AND IM.ITEM_NO like '" + itemNo + "'";
         }
         String itemName = String.valueOf(parameters.get("itemName"));
 
         if (itemName != null && !itemName.equals(StringUtils.EMPTY) && !itemName.equals(Constant.NULL)) {
-            query = query + " AND  IM.ITEM_NAME like '" + itemName + "'";
+            itemSearchQuery = itemSearchQuery + " AND  IM.ITEM_NAME like '" + itemName + "'";
         }
 
         String businessUnitName = String.valueOf(parameters.get("businessUnitName"));
 
         if (!businessUnitName.equals(StringUtils.EMPTY) && !businessUnitName.equals(Constant.NULL)) {
-            query = query + Constant.AND_CMCOMPANY_NAME_LIKE + businessUnitName + "'";
+            itemSearchQuery = itemSearchQuery + Constant.AND_CMCOMPANY_NAME_LIKE + businessUnitName + "'";
         }
 
         String businessUnitNo = String.valueOf(parameters.get("businessUnitNo"));
 
         if (!businessUnitNo.equals(StringUtils.EMPTY) && !businessUnitNo.equals(Constant.NULL)) {
-            query = query + " AND  CM.COMPANY_NO like '" + businessUnitNo + "'";
+            itemSearchQuery = itemSearchQuery + " AND  CM.COMPANY_NO like '" + businessUnitNo + "'";
         }
         String theraputicClass = String.valueOf(parameters.get("theraputicClass"));
 
         if (!theraputicClass.equals(StringUtils.EMPTY) && !theraputicClass.equals(Constant.NULL)) {
-            query = query + " AND HT1.DESCRIPTION  like '" + theraputicClass + "'";
+            itemSearchQuery = itemSearchQuery + " AND HT1.DESCRIPTION  like '" + theraputicClass + "'";
         }
 
         String brand = String.valueOf(parameters.get(Constant.BRAND));
 
         if (!brand.equals(StringUtils.EMPTY) && !brand.equals(Constant.NULL)) {
-            query = query + " AND BM.BRAND_NAME like '" + brand + "'";
+            itemSearchQuery = itemSearchQuery + " AND BM.BRAND_NAME like '" + brand + "'";
         }
 
         String itemIdentifierType = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER_TYPE));
 
         if (!itemIdentifierType.equals(StringUtils.EMPTY) && !itemIdentifierType.equals(Constant.NULL)) {
             
-             query = query + " AND IQ.ITEM_QUALIFIER_SID = " + itemIdentifierType + " ";
+             itemSearchQuery = itemSearchQuery + " AND IQ.ITEM_QUALIFIER_SID = " + itemIdentifierType + " ";
         }
         String itemIdentifier = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER));
 
         if (!itemIdentifier.equals(StringUtils.EMPTY) && !itemIdentifier.equals(Constant.NULL)) {
             
-           query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + itemIdentifier + "'";
+           itemSearchQuery = itemSearchQuery + " AND II.ITEM_IDENTIFIER_VALUE like '" + itemIdentifier + "'";
            
         }
 
         /* Used for Filter */
         if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
-            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
         if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)))) {
-            query = query + Constant.AND_CMCOMPANY_NAME_LIKE + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)) + "'";
+            itemSearchQuery = itemSearchQuery + Constant.AND_CMCOMPANY_NAME_LIKE + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)) + "'";
         }
 
         if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
-            query = query + " AND IM.ITEM_NAME like  '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND IM.ITEM_NAME like  '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
 
         if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)))) {
-            query = query + " AND  CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND  CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)) + "'";
         }
         if (parameters.containsKey(Constant.FILTERBRAND) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBRAND)))) {
-            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get(Constant.FILTERBRAND)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get(Constant.FILTERBRAND)) + "'";
         }
 
         if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)))) {            
-            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)) + "'";
         }
 
         if (parameters.containsKey(Constant.FILTERTHERAPUTIC_CLASS) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)))) {
-            query = query + " AND HT1.DESCRIPTION like  '" + String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND HT1.DESCRIPTION like  '" + String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)) + "'";
         }
         if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)))) {
-            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)) + "'";
+            itemSearchQuery = itemSearchQuery + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)) + "'";
         }
-        return query;
+        return itemSearchQuery;
     }
 
     /**
