@@ -51,16 +51,16 @@ public class CrossReferenceRebates extends VerticalLayout {
     private void configureTables() {
 
         toResultTableRebate.setContainerDataSource(toResultContainer);
-        toResultTableRebate.setVisibleColumns(HeaderUtil.TRANSFER_TO_COLUMN);
-        toResultTableRebate.setColumnHeaders(HeaderUtil.TRANSFER_TO_HEADER);
+        toResultTableRebate.setVisibleColumns(HeaderUtil.getTransferToColumn());
+        toResultTableRebate.setColumnHeaders(HeaderUtil.getTransferToHeader());
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.COMPONENT_DETAILS_ITEM_COLUMN);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.COMPONENT_DETAILS_ITEM_HEADER);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
 
         rsResults.setContainerDataSource(rsResultsContainer);
-        rsResults.setVisibleColumns(HeaderUtil.RS_DETAILS_COLUMN);
-        rsResults.setColumnHeaders(HeaderUtil.RS_DETAILS_HEADER);
+        rsResults.setVisibleColumns(HeaderUtil.getRsDetailsColumn());
+        rsResults.setColumnHeaders(HeaderUtil.getRsDetailsHeader());
 
     }
      public final void configureFields(){

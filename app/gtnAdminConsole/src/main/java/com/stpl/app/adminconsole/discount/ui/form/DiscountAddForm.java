@@ -243,7 +243,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public static final Object[] discountTableColumns = new Object[]{
+    private static final Object[] discountTableColumns = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
