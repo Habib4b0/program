@@ -1207,32 +1207,32 @@ public class NMSalesProjectionResultsLogic {
 
 	public String getContractsAndUnit(String sql, ProjectionSelectionDTO projSelDTO) {
 		CommonLogic commonLogic = new CommonLogic();
-
+                String sqlQuery = sql;
 		switch (projSelDTO.getFrequencyDivision()) {
 
 		case 1:
-			sql = sql.replace(Constant.FREQ_AT, "year");
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "year");
 			break;
 		case NumericConstants.TWO:
-			sql = sql.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
 			break;
 		case NumericConstants.FOUR:
-			sql = sql.replace(Constant.FREQ_AT, Constant.QUARTER);
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.QUARTER);
 			break;
 		case NumericConstants.TWELVE:
-			sql = sql.replace(Constant.FREQ_AT, "MONTH");
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "MONTH");
 			break;
 		default:
 			break;
 		}
-		sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(projSelDTO));
-		sql = sql.replace("@USER_ID", projSelDTO.getSessionDTO().getUserId());
-		sql = sql.replace("@SESSION_ID", projSelDTO.getSessionDTO().getSessionId());
-		sql = sql.replace("@LEVEL_NO", String.valueOf(projSelDTO.getTreeLevelNo()));
-		sql = sql.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
-		sql = sql.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
+		sqlQuery = sqlQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(projSelDTO));
+		sqlQuery = sqlQuery.replace("@USER_ID", projSelDTO.getSessionDTO().getUserId());
+		sqlQuery = sqlQuery.replace("@SESSION_ID", projSelDTO.getSessionDTO().getSessionId());
+		sqlQuery = sqlQuery.replace("@LEVEL_NO", String.valueOf(projSelDTO.getTreeLevelNo()));
+		sqlQuery = sqlQuery.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
+		sqlQuery = sqlQuery.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
 
-		return sql;
+		return sqlQuery;
 	}
 
 	public int getFrequencyNumber(String frequency) {

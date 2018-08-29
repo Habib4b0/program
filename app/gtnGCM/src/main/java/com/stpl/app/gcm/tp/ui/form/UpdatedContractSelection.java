@@ -235,7 +235,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private TextField rebatePlanLevel;
 
     @UiField("NextBtn")
-    private Button NextBtn;
+    private Button nextBtn;
 
     @UiField("closeBtn")
     private Button closeBtn;
@@ -298,8 +298,8 @@ public class UpdatedContractSelection extends VerticalLayout {
      * The excel export image
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private final CurrentContractTableLogic ContractTableLogic = new CurrentContractTableLogic();
-    private final ExtPagedTable pagedTable = new ExtPagedTable(ContractTableLogic);
+    private final CurrentContractTableLogic contractTableLogic = new CurrentContractTableLogic();
+    private final ExtPagedTable pagedTable = new ExtPagedTable(contractTableLogic);
     private final BeanItemContainer<ContractResultDTO> pagedContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private final BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private ContractSelectionDTO contractSeletion = null;
@@ -493,7 +493,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             contractHolder.setStyleName("searchicon");
             currentTradingPartnerTableLayout.addComponent(pagedTable);
             HorizontalLayout hLayout;
-            hLayout = ContractTableLogic.createControls();
+            hLayout = contractTableLogic.createControls();
             currentTradingPartnerTableLayout.addComponent(hLayout);
 
             componentInformationTableLayout.addComponent(componentInformationTable);
@@ -597,7 +597,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         });
 
         pagedTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        ContractTableLogic.setContainerDataSource(pagedContainer);
+        contractTableLogic.setContainerDataSource(pagedContainer);
 
         if (ADD_TRADING_PARTNER.getConstant().equals(session.getModuleName())) {
             pagedTable.setVisibleColumns(Constants.getInstance().contractSelectionColumns);
@@ -633,7 +633,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             }
         }
         );
-        ContractTableLogic.sinkItemPerPageWithPageLength(false);
+        contractTableLogic.sinkItemPerPageWithPageLength(false);
         pagedTable.addColumnCheckListener(checkListener);
         pagedTable.setColumnWidth(Constants.CHECK_RECORD, NumericConstants.HUNDRED);
         for (Object object : pagedTable.getVisibleColumns()) {
@@ -1169,7 +1169,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
         }
         contractSeletion.setReset(false);
-        if (!ContractTableLogic.loadSetData(contractSeletion, session)) {
+        if (!contractTableLogic.loadSetData(contractSeletion, session)) {
             AbstractNotificationUtils.getErrorNotification("No Records",
                     "There are no Company records that match the search criteria. Please try again.");
         } else {
@@ -1399,8 +1399,8 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     public void refreshContractSelectionTable() {
         LOGGER.debug("Contract Selection Refreshed");
-        int currentPage = ContractTableLogic.getCurrentPage();
-        ContractTableLogic.setCurrentPage(currentPage);
+        int currentPage = contractTableLogic.getCurrentPage();
+        contractTableLogic.setCurrentPage(currentPage);
     }
 
     public boolean isSummaryRefreshed() {
@@ -1473,7 +1473,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     contractSeletion.setReset(true);
                     CommmonLogic.resetContractListView(session.getSessionId(), screenName);
 
-                    ContractTableLogic.loadSetData(contractSeletion, session);
+                    contractTableLogic.loadSetData(contractSeletion, session);
                 } catch (Exception ex) {
                     LOGGER.error("",ex);
                 }
@@ -1518,7 +1518,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             if (end > 0) {
                 if (!isComponentInformationExport) {
                     searchList = logic.getContractSelectionResults(logic.buildContractSearchQuery(contractSeletion, session.getUserId(), session.getSessionId(),
-                            0, end, ContractTableLogic.getFilters()), true);
+                            0, end, contractTableLogic.getFilters()), true);
 
                     if (!TRADING_PARTNER_REMOVE.getConstant().equals(session.getModuleName())) {
                         visibleColumns = Constants.getInstance().excelContractSelectionColumns;
@@ -1802,7 +1802,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     public void noMethod() {
 
                         contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
-                        ContractTableLogic.handleFilterChange();
+                        contractTableLogic.handleFilterChange();
                     }
 
                     @Override
@@ -1814,7 +1814,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                         + "Are you sure you want to continue with this transfer process? ");
             } else {
                 contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
-                ContractTableLogic.handleFilterChange();
+                contractTableLogic.handleFilterChange();
                 LOGGER.debug("No common products");
             }
         } else if (isHavingDifferentProducts()) {
@@ -1823,7 +1823,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 @Override
                 public void noMethod() {
                     contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
-                    ContractTableLogic.handleFilterChange();
+                    contractTableLogic.handleFilterChange();
                 }
 
                 @Override
@@ -1913,9 +1913,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void submition(boolean isNextButtonClicked) {
         LOGGER.debug("Inside Submition");
         summaryRefreshed = true;
-        int currentPage = ContractTableLogic.getCurrentPage();
+        int currentPage = contractTableLogic.getCurrentPage();
         contractSelectionLogic.updateSubmitFlag(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
-        ContractTableLogic.setCurrentPage(currentPage);
+        contractTableLogic.setCurrentPage(currentPage);
         if (!isNextButtonClicked) {
             AbstractNotificationUtils.getAlertNotification("Submit Details", "Selected Contract Holder has been submitted successfully.");
         }
@@ -1987,7 +1987,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
             submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
             resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
-            NextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
+            nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
         } catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);

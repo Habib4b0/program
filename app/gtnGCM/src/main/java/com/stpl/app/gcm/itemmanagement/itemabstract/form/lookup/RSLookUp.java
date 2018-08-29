@@ -62,13 +62,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType_DTO")
-    public ComboBox componentType_DTO;
+    public ComboBox componentTypeDto;
     @UiField("componentCategory_DTO")
-    public ComboBox componentCategory_DTO;
+    public ComboBox componentCategoryDto;
     @UiField("rsProgramType_DTO")
-    public ComboBox rsProgramType_DTO;
+    public ComboBox rsProgramTypeDto;
     @UiField("searchBtn")
     public Button searchBtn;
     @UiField("resetBtn")
@@ -250,12 +250,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
 
                     componentId.setValue(StringUtils.EMPTY);
                     componentName.setValue(StringUtils.EMPTY);
-                    rsProgramType_DTO.setValue(null);
-                    componentStatus_DTO.setValue(null);
+                    rsProgramTypeDto.setValue(null);
+                    componentStatusDto.setValue(null);
                     startDate.setValue(null);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentType_DTO.setValue(null);
-                    componentCategory_DTO.setValue(null);
+                    componentTypeDto.setValue(null);
+                    componentCategoryDto.setValue(null);
                     endDate.setValue(null);
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
@@ -295,21 +295,21 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {
-       logic.loadComboBox(componentType_DTO, "RS_TYPE", false);
+       logic.loadComboBox(componentTypeDto, "RS_TYPE", false);
 
     }
 
     private void loadRsCategory() {
-        logic.loadComboBox(componentCategory_DTO, "RS_CATEGORY", false);
+        logic.loadComboBox(componentCategoryDto, "RS_CATEGORY", false);
      
     }
 
     private void loadRptype() {
-      logic.loadComboBox(rsProgramType_DTO, REBATE_PROGRAM_TYPE_HEADER, false);
+      logic.loadComboBox(rsProgramTypeDto, REBATE_PROGRAM_TYPE_HEADER, false);
      
     }
 
