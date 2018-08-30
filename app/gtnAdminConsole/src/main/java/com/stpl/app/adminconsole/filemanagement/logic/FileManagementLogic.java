@@ -68,7 +68,7 @@ import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.ComboBox;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class FileManagementLogic.
  *
@@ -3138,7 +3138,7 @@ public class FileManagementLogic {
 		businessUnit.setImmediate(true);
 		String query = "select Company_Master_Sid,Company_Name from dbo.company_master cm\n"
 				+ "Join dbo.HELPER_TABLE ht ON Cm.COmpany_Type=ht.HELPER_TABLE_SID  \n"
-				+ "where ht.List_Name like 'Company_type' and ht.description like '%Business Unit%'";
+				+ "where ht.List_Name like 'Company_type' and ht.description like '%Business Unit%' and cm.INBOUND_STATUS <> 'D'";
 		List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		for (Object[] object : list) {
 			if (object != null && !String.valueOf(object).isEmpty()) {

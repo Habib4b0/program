@@ -348,9 +348,6 @@ public class NMProjectionResultsXLLogic {
             projvalue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[actIndex + 1])));
             baseValue = getFormattedValue(format, projvalue);
             pvDTO.addStringProperties(commonColumn + ACTUALS, varaibleName.contains(PERCENT) ? baseValue + PERCENT : baseValue);
-            if (varaibleName.contains("Percent")) {
-
-            }
         }
 
     }

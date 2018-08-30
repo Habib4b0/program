@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TransferSelectionLogic {
 
-    private final CommonDao DAO = CommonImpl.getInstance();
+    private final CommonDao dao = CommonImpl.getInstance();
     public static final String CMSID_QUESTION = "?CMSID?";
 
     public List<TransferFromDTO> getTransferFromDetails(TransferFromDTO parent, Map<String, Set<String>> resultList) {
@@ -71,7 +71,7 @@ public class TransferSelectionLogic {
             retList = new ArrayList<>();
         } else {
             inputMap.put("?SIDS?", systemIds);
-            retList = configureFromDetails((List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, query)), category, level);
+            retList = configureFromDetails((List<Object[]>) dao.executeSelect(CommonUtil.getQuery(inputMap, query)), category, level);
         }
         return retList;
     }
@@ -116,7 +116,7 @@ public class TransferSelectionLogic {
             inputMap.put(StringConstantsUtil.SID_QUESTION, ((TransferToDTO) parent).getCfpContractSid());
         }
 
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "tc.cfpFromCD"));
+        List<Object[]> resList = (List<Object[]>) dao.executeSelect(CommonUtil.getQuery(inputMap, "tc.cfpFromCD"));
         for (Object[] temp : resList) {
             CFPComponentDetailsDTO tempDto = new CFPComponentDetailsDTO();
             int j = -1;
@@ -141,7 +141,7 @@ public class TransferSelectionLogic {
         } else if (parent instanceof TransferToDTO) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, ((TransferToDTO) parent).getIfpContractSid());
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "tc.ifpFromCD"));
+        List<Object[]> resList = (List<Object[]>) dao.executeSelect(CommonUtil.getQuery(inputMap, "tc.ifpFromCD"));
         for (Object[] temp : resList) {
             ComponentDetailsDTO tempDto = new ComponentDetailsDTO();
             int j = -1;
@@ -165,7 +165,7 @@ public class TransferSelectionLogic {
         } else if (parent instanceof TransferToDTO) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, ((TransferToDTO) parent).getPsContractSid());
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "tc.psFromCD"));
+        List<Object[]> resList = (List<Object[]>) dao.executeSelect(CommonUtil.getQuery(inputMap, "tc.psFromCD"));
         for (Object[] temp : resList) {
             PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
             int j = -1;
@@ -195,7 +195,7 @@ public class TransferSelectionLogic {
         } else if (parent instanceof TransferToDTO) {
             inputMap.put(StringConstantsUtil.SID_QUESTION, ((TransferToDTO) parent).getRsContractSid());
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "tc.rsFromCD"));
+        List<Object[]> resList = (List<Object[]>) dao.executeSelect(CommonUtil.getQuery(inputMap, "tc.rsFromCD"));
         for (Object[] temp : resList) {
             RSComponentDetailsDTO tempDto = new RSComponentDetailsDTO();
             int j = -1;
@@ -267,7 +267,7 @@ public class TransferSelectionLogic {
             inputMap.put("?RS_SID?", parent.getPsContractSid());
         }
         getToInput(inputMap, searchComponent, searchField, searchValue);
-        retList = configureToDetails((List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "tc.searchActualContract")), category, level);
+        retList = configureToDetails((List<Object[]>) dao.executeSelect(CommonUtil.getQuery(inputMap, "tc.searchActualContract")), category, level);
         return retList;
     }
 

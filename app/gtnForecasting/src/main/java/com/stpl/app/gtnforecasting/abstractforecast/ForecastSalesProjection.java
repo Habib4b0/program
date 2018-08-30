@@ -3718,9 +3718,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (Constant.GROUP.equals(propertyId)) {
-
-                } else if (Constant.METHODOLOGY.equals(propertyId)) {
+                if (Constant.METHODOLOGY.equals(propertyId)) {
                     TextField filterForMetohdology = new TextField();
                     filterForMetohdology.setReadOnly(true);
                     filterForMetohdology.setWidth("100%");
