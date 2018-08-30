@@ -1748,6 +1748,7 @@ public class HeaderUtils {
             frequency = Integer.parseInt(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             projectFrequency = Integer.parseInt(projFreq);
         } catch (NumberFormatException e) {
+                LOGGER.error(e.getMessage());
         }
 
         projectFrequency = projectFrequency + 1;

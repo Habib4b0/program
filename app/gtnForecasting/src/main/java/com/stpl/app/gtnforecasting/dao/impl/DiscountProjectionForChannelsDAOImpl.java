@@ -41,7 +41,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionForChannelsDAOImpl.class);
     protected CommonUtils commonUtils = new CommonUtils();
     protected DPQueryUtils queryUtils = new DPQueryUtils();
-    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    public final SimpleDateFormat dBDateImpl = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     @Override
     public List<DiscountProjectionDTO> getDiscountProjection(
@@ -134,8 +134,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 LOGGER.debug("?HIE= {}" , hierarchyNo);
                 LOGGER.debug("?HIST= {}" , selecthistoryQuery);
                 LOGGER.debug("?FUT= {}" , selectfutureQuery);
-                LOGGER.debug("?EP= {}" , DBDate.format(projectionSelection.getToDates()));
-                LOGGER.debug("?SP= {}" , DBDate.format(projectionSelection.getStartDate()));
+                LOGGER.debug("?EP= {}" , dBDateImpl.format(projectionSelection.getToDates()));
+                LOGGER.debug("?SP= {}" , dBDateImpl.format(projectionSelection.getStartDate()));
                 LOGGER.debug("?FRE= {}" , freq);
 
                 input.put("?UID", session.getUserId());
@@ -144,8 +144,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 input.put("?CCPQUERY", ccpDetails);
                 input.put("?HIST", selecthistoryQuery);
                 input.put("?FUT", selectfutureQuery);
-                input.put("?EP", DBDate.format(projectionSelection.getToDates()));
-                input.put("?SP", DBDate.format(projectionSelection.getStartDate()));
+                input.put("?EP", dBDateImpl.format(projectionSelection.getToDates()));
+                input.put("?SP", dBDateImpl.format(projectionSelection.getStartDate()));
                 input.put("?FRE", freq);
 
                 String custSql = SQlUtil.getQuery(getClass(),"ch.generateQuery");
