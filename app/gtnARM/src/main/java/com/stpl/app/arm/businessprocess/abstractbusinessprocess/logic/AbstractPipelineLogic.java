@@ -230,7 +230,6 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         List<String> singleVisibleColumn = new ArrayList<>();
         List<String> defaultVisibleColumn = new ArrayList<>();
         List<String> singleVisibleHeader = new ArrayList<>();
-        List<String> singleColumn = new ArrayList<>();
 
         int index = 0;
         int defaultindex = 0;
