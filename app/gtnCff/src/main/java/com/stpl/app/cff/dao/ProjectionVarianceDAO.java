@@ -29,7 +29,7 @@ public interface ProjectionVarianceDAO {
   	 */
   	List getContractHolderSummary(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
-	    				throws SystemException, PortalException;
+	    				throws PortalException;
 	
 	 /**
  	 * Generate projection variance.
@@ -47,7 +47,7 @@ public interface ProjectionVarianceDAO {
  	 */
  	public List generateProjectionVariance(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel,int levelNo,String sales, List<Integer> periods,ProjectionSelectionDTO projSelDTO) 
-	    				throws SystemException, PortalException;
+	    				throws  PortalException;
 	 
 
 	 /**
@@ -66,7 +66,7 @@ public interface ProjectionVarianceDAO {
 	 */
 	public List<ProjectionVarianceDTO> generatePivotProjectionVariance(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel) 
-	    				throws SystemException, PortalException;
+	    				throws PortalException;
 
         /**
 	  * Save or updates projection variance custom view hierarchies.

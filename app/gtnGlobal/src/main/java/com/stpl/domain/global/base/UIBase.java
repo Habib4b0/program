@@ -3,7 +3,6 @@
  */
 package com.stpl.domain.global.base;
 
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.exception.PortalException;
 
 /** 
@@ -21,7 +20,7 @@ public interface UIBase {
 	 * @throws Exception
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	public void init() throws SystemException, PortalException;
+	public void init() throws PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -31,7 +30,7 @@ public interface UIBase {
 	 * @throws Exception
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	public void configureFields() throws PortalException, SystemException;
+	public void configureFields() throws PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -41,5 +40,5 @@ public interface UIBase {
 	 * @throws Exception
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	public void addToContent() throws PortalException, SystemException;
+	public void addToContent() throws PortalException;
 }
