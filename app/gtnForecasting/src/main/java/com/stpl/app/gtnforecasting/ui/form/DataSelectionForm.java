@@ -3330,7 +3330,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					tempSession.setDeductionValue(dto.getDeductionValue());
 					tempSession.setIsFileNotChanged(DSLogic.getFileStatus(projectionIdValue));
 					if (!tempSession.isFileNotChanged()) {
-						try {
 							MessageBox.showPlain(Icon.QUESTION, "Alert",
 									"A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
 									new MessageBoxListener() {
@@ -3349,13 +3348,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 											}
 										}
 									}, ButtonId.YES, ButtonId.NO);
-
-						} catch (
-
-						Exception e) {
-
-							LOGGER.error(e.getMessage());
-						}
 					} else {
 						tempSession.setIsNewFileCalculationNeeded(false);
 						callARPView(dto, tempSession);

@@ -56,8 +56,6 @@ public class NmDiscountImpl {
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
             return null;
-        } finally {
-
         }
     }
 

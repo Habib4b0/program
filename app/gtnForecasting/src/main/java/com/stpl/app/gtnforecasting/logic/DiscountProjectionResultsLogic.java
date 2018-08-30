@@ -4810,9 +4810,6 @@ public class DiscountProjectionResultsLogic {
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
-            if (i == 0) {
-
-            }
             int selectedYear = 0;
             if (obj[0] != null) {
                 selectedYear = (Integer) obj[0];
@@ -4955,8 +4952,6 @@ public class DiscountProjectionResultsLogic {
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
-            if (i == 0) {
-            }
             int selectedYear = 0;
             int selectedMonth = 0;
             if (obj[0] != null) {

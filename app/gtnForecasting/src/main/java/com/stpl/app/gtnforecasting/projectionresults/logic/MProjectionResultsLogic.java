@@ -953,8 +953,6 @@ public class MProjectionResultsLogic {
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = "";
         if (projSelDTO.isIsTotal()) {
-            if (totalDiscount.isEmpty()) {
-            }
             getCustomizedTotalDiscount(prMainQuery, projSelDTO);
             projDTOList.add(prjTotalDisDtoList.get(NumericConstants.TWO));
         } else if (projSelDTO.isIsChildTotal()) {
@@ -983,8 +981,6 @@ public class MProjectionResultsLogic {
         projSelDTO.setSales("RPU");
         String query = "";
         if (projSelDTO.isIsTotal()) {
-            if (totalDiscount.isEmpty()) {
-            }
             getCustomizedTotalDiscount(prMainQuery, projSelDTO);
             projDTOList.add(prjTotalDisDtoList.get(NumericConstants.ONE));
         } else if (projSelDTO.isIsChildTotal()) {
@@ -1080,8 +1076,6 @@ public class MProjectionResultsLogic {
                         projPerDTO.setRelationshipLevelName(newDiscountName);
                         projDolDTOList.add(projDolDTO);
                         projPerDTOList.add(projPerDTO);
-                        if(!columnList.isEmpty()){
-            }
                         for (String columns : columnList) {
                             projDolDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                             projPerDTO.addStringProperties(columns, getFormattedValue(PER_TWO, Constant.ZERO_STRING));
@@ -1129,8 +1123,6 @@ public class MProjectionResultsLogic {
             projDTO1.setProjectionTotal(NumericConstants.ONE);
             projDTO1.setGroup(ob);
             projDTO1.setRelationshipLevelName(ob);
-            if(!columnList.isEmpty()){
-            }
             for (String columns : columnList) {
                 projDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                 projDTO1.addStringProperties(columns, getFormattedValue(PER_TWO, Constant.ZERO_STRING));
@@ -2126,9 +2118,7 @@ public class MProjectionResultsLogic {
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
         int count = NumericConstants.ZERO;
         if (!projSelDTO.isIsFilter()) {
-            if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-
-            } else {
+            if (!projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 count = count + NumericConstants.ONE + projSelDTO.getPeriodList().size();
             }
         }
@@ -2273,8 +2263,6 @@ public class MProjectionResultsLogic {
                         }
                     }
                 }
-                if(!columnList.isEmpty()){
-            }
                 for (String columns : columnList) {
                     projDolManDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                     projRPUManDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
@@ -2654,8 +2642,6 @@ public class MProjectionResultsLogic {
             projDTO.setProjectionTotal(NumericConstants.ONE);
             projDTO.setGroup(projSelDTO.getPeriodListMap().get(ob));
             projDTO.setRelationshipLevelName(projSelDTO.getPeriodListMap().get(ob));
-             if(!columnList.isEmpty()){
-            }
             for (String columns : columnList) {
                 projDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
             }

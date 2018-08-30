@@ -56,8 +56,6 @@ public class NMSalesProjectionMasterImpl {
 
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-        } finally {
-
         }
         return BooleanConstant.getTrueFlag();
     }
