@@ -15,7 +15,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class DiscountView.
  */
