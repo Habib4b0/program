@@ -549,7 +549,7 @@ public class AdjustmentRateForm extends CustomComponent {
     public void massFieldVlaueChange(Property.ValueChangeEvent event) {
         Object val = event.getProperty().getValue();
         if (val != null) {
-            ValueChangeLogic(val);
+            valueChangeLogic(val);
         } else {
             valueTxt.setVisible(false);
             valueDdlbRate.setVisible(true);
@@ -560,7 +560,7 @@ public class AdjustmentRateForm extends CustomComponent {
 
     }
 
-    private void ValueChangeLogic(Object val) throws Property.ReadOnlyException {
+    private void valueChangeLogic(Object val) throws Property.ReadOnlyException {
         if (VariableConstants.EXCLUSION_DETAILS.equals(val)) {
             valueTxt.setVisible(true);
             valueTxt.setReadOnly(false);
@@ -671,8 +671,8 @@ public class AdjustmentRateForm extends CustomComponent {
         for (AdjustmentRateDTO adjustmentRateDTO : list) {
             boolean checkAll = resultsTable.getLeftFreezeAsTable().getColumnCheckBox(VariableConstants.CHECK_RECORD);
             if (checkAll || adjustmentRateDTO.getCheckRecord()) {
-                val = getValue(val, adjustmentRateDTO);
-                resultBeanContainer.getContainerProperty(adjustmentRateDTO, fieldDdlbRate.getValue()).setValue(val);
+                Object value = getValue(val, adjustmentRateDTO);
+                resultBeanContainer.getContainerProperty(adjustmentRateDTO, fieldDdlbRate.getValue()).setValue(value);
             }
         }
     }
@@ -688,9 +688,9 @@ public class AdjustmentRateForm extends CustomComponent {
         } else if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
             resultBeanContainer.getContainerProperty(adjustmentRateDTO, "inventoryCalculation").setValue(StringUtils.EMPTY);
         } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getPrice())) {
-            val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
+            return String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
         } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getRateBasis())) {
-            val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
+            return String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
         }
         return val;
     }
