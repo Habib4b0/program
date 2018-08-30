@@ -542,13 +542,14 @@ public class PagedTreeGrid {
 				if (offset > 0)
 					start = start + offset;
 			} else {
-                         start = findStartOffset(fetched, itemsToFetch, currentLevel, start);
+                         start = findStartOffset(fetched, itemsToFetch, currentLevel);
 			}
 		}
 		return start;
 	}
 
-    private int findStartOffset(int fetched1, int itemsToFetch, int currentLevel, int start) {
+    private int findStartOffset(int fetched1, int itemsToFetch, int currentLevel) {
+        int result;
         if (fetched1 == 0 && itemsToFetch==pageLength) {
             int i = lastExpandedItemHierarchy.size();
             int expandedCount = 0;
@@ -557,12 +558,12 @@ public class PagedTreeGrid {
             }
             int currentOffset = pageNumber * pageLength;
             int levelIndex=GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel));//2
-            start = currentOffset- (levelIndex+ expandedCount);
-            start= levelIndex+start;
+            result = currentOffset- (levelIndex+ expandedCount);
+            result= levelIndex+result;
         } else {
-            start = GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel)) + 1;
+            result = GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel)) + 1;
         }
-        return start;
+        return result;
     }
 
 	private void fetchRowsRecursively(GtnWsRecordBean root, List<GtnWsRecordBean> rows,
