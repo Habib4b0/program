@@ -4663,7 +4663,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
                 return BooleanConstant.getFalseFlag();
             }
-            if (!frequencyDdlb.getValue().equals(ANNUALLY.getConstant()) || !frequencyDdlb.getValue().equals(Constant.ANNUAL)) {
+            if (!frequencyDdlb.getValue().equals(ANNUALLY.getConstant()) && !frequencyDdlb.getValue().equals(Constant.ANNUAL)) {
                 String startValue = startPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
                 String endValue = valueEnd.replace(' ', '~').trim();
                 String[] startValue1 = startValue.split("~");
