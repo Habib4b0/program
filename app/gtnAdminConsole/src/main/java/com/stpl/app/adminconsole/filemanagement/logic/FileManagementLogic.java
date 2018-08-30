@@ -68,7 +68,7 @@ import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.ComboBox;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class FileManagementLogic.
  *
