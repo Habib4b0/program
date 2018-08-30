@@ -2719,6 +2719,7 @@ public class HeaderUtils {
                 historyNum = Integer.parseInt(hist.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
+                LOGGER.error(e.getMessage());
             }
         } else if (frequency.contains(SEMI_ANNUAL.getConstant())) {
             currentPeriod = curMonth / NumericConstants.SIX;
@@ -2727,6 +2728,7 @@ public class HeaderUtils {
                 historyNum = Integer.parseInt(hist.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
+                LOGGER.error(e.getMessage());
             }
         } else if (frequency.contains(MONTHLY.getConstant())) {
             currentPeriod = curMonth;
@@ -2735,6 +2737,7 @@ public class HeaderUtils {
                 historyNum = Integer.parseInt(hist.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
+                LOGGER.error(e.getMessage());
             }
         } else if (frequency.contains(ANNUAL.getConstant())) {
             currentPeriod = curYear;
@@ -2743,6 +2746,7 @@ public class HeaderUtils {
                 historyNum = Integer.parseInt(hist.toLowerCase().replace("year", StringUtils.EMPTY).trim());
                 projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("year", StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
+                LOGGER.error(e.getMessage());
             }
         }
         histProjMap.put(FREQUENCY_DIVISION1, frequencyDivision);

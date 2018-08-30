@@ -408,8 +408,7 @@ public class CommonUtils {
         SimpleDateFormat dateFormat = null;
         String returnValue = StringUtils.EMPTY;
         try {
-            if (date == null) {
-            } else {
+            if (date != null) {
                 dateFormat = new SimpleDateFormat(format);
                 returnValue = dateFormat.format(date);
             }

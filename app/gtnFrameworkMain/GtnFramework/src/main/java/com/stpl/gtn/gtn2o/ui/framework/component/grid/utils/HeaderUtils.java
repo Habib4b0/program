@@ -76,8 +76,9 @@ public class HeaderUtils {
 					.setId(column).setWidth(170);
 		}
                 long start=Long.parseLong(String.valueOf(columnStart)) + leftColumns.size();
+                long limit=Long.parseLong(String.valueOf(columnEnd))-leftColumns.size();
 		List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream()
-				.skip(start).limit(columnEnd-leftColumns.size()).distinct()
+				.skip(start).limit(limit).distinct()
 				.collect(Collectors.toList());
 		for (int j = 0; j < currentSingleColumns.size(); j++) {
 			String column = (currentSingleColumns.get(j)).toString();

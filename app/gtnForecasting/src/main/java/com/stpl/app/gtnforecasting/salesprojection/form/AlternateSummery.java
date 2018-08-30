@@ -1801,8 +1801,7 @@ public class AlternateSummery extends CustomComponent {
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (Constant.GROUP.equals(propertyId)) {
-                } else if (Constant.METHODOLOGY.equals(propertyId)) {
+               if (Constant.METHODOLOGY.equals(propertyId)) {
                     TextField metohdologyFilter = new TextField();
                     metohdologyFilter.setReadOnly(true);
                     metohdologyFilter.setWidth("100%");

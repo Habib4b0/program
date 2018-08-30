@@ -3025,9 +3025,6 @@ public class NMProjectionResultsLogic {
         String groupBy = " I.\"YEAR\"\n" ;
         String customQuery;
         selectClause += "I.\"YEAR\" as YEARS,  ";
-        if (CommonUtils.isInteger(projSelDTO.getYear())) {
-
-        }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as PERIODS, \n";
             groupBy += Constant.IQUARTER;
@@ -3089,9 +3086,6 @@ public class NMProjectionResultsLogic {
         String groupBy = " I.\"YEAR\"\n" ;
         String customQuery;
         selectClause += "I.\"YEAR\" as YEARS, ";
-        if (CommonUtils.isInteger(projSelDTO.getYear())) {
-
-        }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += " I.QUARTER as PERIODS, \n";
             groupBy += Constant.IQUARTER;
@@ -3167,9 +3161,6 @@ public class NMProjectionResultsLogic {
         String groupBy = "  I.\"YEAR\"\n" ;
         String customQuery;
         selectClause += "I.\"YEAR\"  as YEARS, ";
-        if (CommonUtils.isInteger(projSelDTO.getYear())) {
-
-        }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as  PERIODS, \n";
             groupBy += Constant.IQUARTER;
