@@ -310,6 +310,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Object[] tempSingleHeaderArray = null;
+     private boolean dsFlag = true;
 
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -454,7 +455,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
     }
     public void checkFrequencyChange(){
-            boolean dsFlag = true;
                 if(dsFlag && (!session.getDsFrequency().equals(frequencyDdlb.getValue()))){
             dsFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
@@ -4141,14 +4141,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @param isChecked
      */
     private void doubleHeaderCheckListener(Object propertyId, boolean isChecked) {
-        Map<String, List<String>> checkedDoubleHeaders = new HashMap<>();
         String checkedPropertyId = String.valueOf(propertyId);
         ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
         String checkedColumnName = rightTable.getDoubleHeaderColumnHeader(checkedPropertyId);
         String discountPropertyId = rightTable.getTripleHeaderForDoubleHeader(checkedPropertyId);
         String discountName = rightTable.getTripleHeaderColumnHeader(discountPropertyId);
 
-        checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(discountName);
+        Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(discountName);
 
         if (checkedDoubleHeaders == null) {
             checkedDoubleHeaders = new HashMap<>();
