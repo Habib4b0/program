@@ -79,19 +79,14 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             int projectionId = session.getProjectionId();
             NonMandatedLogic logic = new NonMandatedLogic();
             if (projectionId != 0) {
-                try {
                     dataSelectionDTO = logic.getProjection(projectionId);
                     session.setProjectionName(dataSelectionDTO.getProjectionName());
                     session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                     session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-                } catch (ParseException ex) {
-
-                    LOGGER.error(ex.getMessage());
-                }
             } else {
                 dataSelectionDTO = new DataSelectionDTO();
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             LOGGER.error(e.getMessage());
 
         }

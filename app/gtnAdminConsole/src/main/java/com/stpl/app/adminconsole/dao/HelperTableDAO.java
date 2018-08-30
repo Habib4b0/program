@@ -7,7 +7,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Interface HelperTableDAO.
  */

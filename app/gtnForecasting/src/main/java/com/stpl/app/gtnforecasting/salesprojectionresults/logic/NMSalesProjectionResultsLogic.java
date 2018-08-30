@@ -426,6 +426,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Quarter", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
 			current = curMonth / NumericConstants.SIX;
@@ -434,6 +435,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(MONTHLY.getConstant())) {
 			current = curMonth;
@@ -444,6 +446,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(ANNUALLY.getConstant())) {
 			current = curYear;
@@ -452,6 +455,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		}
 		projectFrequency = projectFrequency + 1;

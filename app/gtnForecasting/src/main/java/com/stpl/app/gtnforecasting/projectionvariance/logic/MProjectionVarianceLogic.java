@@ -2165,19 +2165,6 @@ public class MProjectionVarianceLogic {
         }
     }
 
-    private static String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
-                + Constant.CLOSE_BRACKET
-                + "     RELATIONSHIP_LEVEL_SID INT,\n"
-                + "     CCP_DETAILS_SID        INT,\n"
-                + "     HIERARCHY_NO           VARCHAR(50)\n"
-                + "  ) \n"
-                + " INSERT INTO @CCP\n"
-                + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
-
-        return tableQuery;
-    }
-
     /**
      *
      * @param projSelDTO

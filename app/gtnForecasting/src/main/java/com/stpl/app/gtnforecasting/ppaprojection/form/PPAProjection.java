@@ -1085,8 +1085,6 @@ public class PPAProjection extends CustomComponent implements View {
                 } else if (populateIdentifier.get(Constant.DATE_FEILD).contains(fieldValue)) {
 
                     massUpdatePPAProjection(dateValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, selection);
-                } else {
-
                 }
             } else {
                 MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_09"), ButtonId.OK);
@@ -1912,9 +1910,6 @@ public class PPAProjection extends CustomComponent implements View {
             }  catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
-        }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
-
         }
     }
 
