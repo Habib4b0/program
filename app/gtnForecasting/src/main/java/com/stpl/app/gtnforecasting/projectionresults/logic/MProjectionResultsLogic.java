@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.projectionresults.logic;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
@@ -72,7 +71,6 @@ public class MProjectionResultsLogic {
     private List<Object[]> prcMProjResultsContract = new ArrayList<>();
      //To Persist the Total Procedure Result List 
     private List<Object[]> prcMProcedureResults = new ArrayList<>();
-    private final List<Object> totalDiscount = new ArrayList<>();
     private List<Object> childDiscountList = new ArrayList<>();
     private List<Object[]> programCodeList = new ArrayList<>();
     private List<Object> prMainQuery = new ArrayList<>();
@@ -919,7 +917,7 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException  {
+    public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException  {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.RATE);
         String query = "";
@@ -949,13 +947,11 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException  {
+    public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) throws PortalException  {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = "";
         if (projSelDTO.isIsTotal()) {
-            if (totalDiscount.isEmpty()) {
-            }
             getCustomizedTotalDiscount(prMainQuery, projSelDTO);
             projDTOList.add(prjTotalDisDtoList.get(NumericConstants.TWO));
         } else if (projSelDTO.isIsChildTotal()) {
@@ -979,13 +975,11 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getDiscountRPU(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException {
+    public List<ProjectionResultsDTO> getDiscountRPU(ProjectionSelectionDTO projSelDTO) throws PortalException {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales("RPU");
         String query = "";
         if (projSelDTO.isIsTotal()) {
-            if (totalDiscount.isEmpty()) {
-            }
             getCustomizedTotalDiscount(prMainQuery, projSelDTO);
             projDTOList.add(prjTotalDisDtoList.get(NumericConstants.ONE));
         } else if (projSelDTO.isIsChildTotal()) {
@@ -1081,8 +1075,6 @@ public class MProjectionResultsLogic {
                         projPerDTO.setRelationshipLevelName(newDiscountName);
                         projDolDTOList.add(projDolDTO);
                         projPerDTOList.add(projPerDTO);
-                        if(!columnList.isEmpty()){
-            }
                         for (String columns : columnList) {
                             projDolDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                             projPerDTO.addStringProperties(columns, getFormattedValue(PER_TWO, Constant.ZERO_STRING));
@@ -1130,8 +1122,6 @@ public class MProjectionResultsLogic {
             projDTO1.setProjectionTotal(NumericConstants.ONE);
             projDTO1.setGroup(ob);
             projDTO1.setRelationshipLevelName(ob);
-            if(!columnList.isEmpty()){
-            }
             for (String columns : columnList) {
                 projDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                 projDTO1.addStringProperties(columns, getFormattedValue(PER_TWO, Constant.ZERO_STRING));
@@ -1207,7 +1197,7 @@ public class MProjectionResultsLogic {
         return customQuery;
     }
 
-    public List<ProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
+    public List<ProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException{
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
@@ -1883,7 +1873,7 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException {
+    public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException {
         List<ProjectionResultsDTO> resultList;
         if ((!projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) || parentId instanceof ProjectionResultsDTO) {
             projSelDTO.setYear(Constant.ALL);
@@ -1979,7 +1969,7 @@ public class MProjectionResultsLogic {
         return resultList;
     }
 
-    public int getConfiguredProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelsCount, ProjectionSelectionDTO initialProjSelDTO) throws PortalException, SystemException  {
+    public int getConfiguredProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelsCount, ProjectionSelectionDTO initialProjSelDTO) throws  PortalException  {
         int count = NumericConstants.ZERO;
         if ((!projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) || parentId instanceof ProjectionResultsDTO) {
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
@@ -2062,7 +2052,7 @@ public class MProjectionResultsLogic {
         return count;
     }
 
-    public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) throws PortalException, SystemException {
+    public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) throws PortalException {
         int count = NumericConstants.ZERO;
         if (!projSelDTO.getGroup().startsWith(Constant.ALL)
                 && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
@@ -2127,9 +2117,7 @@ public class MProjectionResultsLogic {
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
         int count = NumericConstants.ZERO;
         if (!projSelDTO.isIsFilter()) {
-            if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-
-            } else {
+            if (!projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 count = count + NumericConstants.ONE + projSelDTO.getPeriodList().size();
             }
         }
@@ -2161,7 +2149,7 @@ public class MProjectionResultsLogic {
         return Collections.unmodifiableList(programCodeList);
     }
 
-    public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
+    public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException{
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDolManDTOList = new ArrayList<>();
@@ -2274,8 +2262,6 @@ public class MProjectionResultsLogic {
                         }
                     }
                 }
-                if(!columnList.isEmpty()){
-            }
                 for (String columns : columnList) {
                     projDolManDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                     projRPUManDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
@@ -2655,8 +2641,6 @@ public class MProjectionResultsLogic {
             projDTO.setProjectionTotal(NumericConstants.ONE);
             projDTO.setGroup(projSelDTO.getPeriodListMap().get(ob));
             projDTO.setRelationshipLevelName(projSelDTO.getPeriodListMap().get(ob));
-             if(!columnList.isEmpty()){
-            }
             for (String columns : columnList) {
                 projDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
             }
@@ -3659,7 +3643,7 @@ public class MProjectionResultsLogic {
         return customSQL;
     }
 
-    private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException{
+    private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException{
         CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);
         sql += SQlUtil.getQuery(getClass(),"m.program-code-count-query");
@@ -3669,7 +3653,7 @@ public class MProjectionResultsLogic {
         return (Integer) list.get(NumericConstants.ZERO);
     }
 
-    private List getProgramCodeList(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    private List getProgramCodeList(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
            CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);
         sql += SQlUtil.getQuery(getClass(),"m.program-code-query");

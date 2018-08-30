@@ -49,7 +49,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class HierarchyLookup.
  *
@@ -269,8 +269,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
         } catch (Exception ex) {
             LoggerFactory.getLogger(HierarchyLookup.class.getName()).error(StringUtils.EMPTY, ex);
         }
-    }
-
+    }    
     /**
      * Gets the indicator.
      *

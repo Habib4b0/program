@@ -8,7 +8,7 @@ package com.stpl.app.gtnforecasting.logic;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class PMPYLogic.
  *

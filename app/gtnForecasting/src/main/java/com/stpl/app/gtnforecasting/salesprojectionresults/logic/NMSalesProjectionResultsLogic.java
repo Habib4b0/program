@@ -426,6 +426,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Quarter", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
 			current = curMonth / NumericConstants.SIX;
@@ -434,6 +435,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(MONTHLY.getConstant())) {
 			current = curMonth;
@@ -444,6 +446,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(ANNUALLY.getConstant())) {
 			current = curYear;
@@ -452,6 +455,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		}
 		projectFrequency = projectFrequency + 1;
@@ -1207,32 +1211,32 @@ public class NMSalesProjectionResultsLogic {
 
 	public String getContractsAndUnit(String sql, ProjectionSelectionDTO projSelDTO) {
 		CommonLogic commonLogic = new CommonLogic();
-
+                String sqlQuery = sql;
 		switch (projSelDTO.getFrequencyDivision()) {
 
 		case 1:
-			sql = sql.replace(Constant.FREQ_AT, "year");
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "year");
 			break;
 		case NumericConstants.TWO:
-			sql = sql.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
 			break;
 		case NumericConstants.FOUR:
-			sql = sql.replace(Constant.FREQ_AT, Constant.QUARTER);
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.QUARTER);
 			break;
 		case NumericConstants.TWELVE:
-			sql = sql.replace(Constant.FREQ_AT, "MONTH");
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "MONTH");
 			break;
 		default:
 			break;
 		}
-		sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(projSelDTO));
-		sql = sql.replace("@USER_ID", projSelDTO.getSessionDTO().getUserId());
-		sql = sql.replace("@SESSION_ID", projSelDTO.getSessionDTO().getSessionId());
-		sql = sql.replace("@LEVEL_NO", String.valueOf(projSelDTO.getTreeLevelNo()));
-		sql = sql.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
-		sql = sql.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
+		sqlQuery = sqlQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(projSelDTO));
+		sqlQuery = sqlQuery.replace("@USER_ID", projSelDTO.getSessionDTO().getUserId());
+		sqlQuery = sqlQuery.replace("@SESSION_ID", projSelDTO.getSessionDTO().getSessionId());
+		sqlQuery = sqlQuery.replace("@LEVEL_NO", String.valueOf(projSelDTO.getTreeLevelNo()));
+		sqlQuery = sqlQuery.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
+		sqlQuery = sqlQuery.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
 
-		return sql;
+		return sqlQuery;
 	}
 
 	public int getFrequencyNumber(String frequency) {

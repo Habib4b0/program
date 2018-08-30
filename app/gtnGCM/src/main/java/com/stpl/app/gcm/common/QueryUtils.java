@@ -55,7 +55,7 @@ public class QueryUtils {
 
 	private String rdMarketType = "select DESCRIPTION from HELPER_TABLE where LIST_NAME= 'CONTRACT_TYPE'";
     private static final HashMap<String, String> columnNames = new HashMap<>();
-    public final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     public static final char CHAR_PERCENT = '%';
     private static final Map<String, String> fieldMap = new HashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);
@@ -113,12 +113,12 @@ public class QueryUtils {
             }
             if (getNull(String.valueOf(removeDiscountDto.getField("contractstartDate").getValue()))) {
                 Date startDate = (Date) removeDiscountDto.getField("contractstartDate").getValue();
-                Query = Query + " AND CN.START_DATE = '" + DB_DATE.format(startDate) + "'";
+                Query = Query + " AND CN.START_DATE = '" + dbDate.format(startDate) + "'";
 
             }
             if (getNull(String.valueOf(removeDiscountDto.getField("contractendDate").getValue()))) {
                 Date endDate = (Date) removeDiscountDto.getField("contractendDate").getValue();
-                Query = Query + " AND CN.END_DATE = '" + DB_DATE.format(endDate) + "'";
+                Query = Query + " AND CN.END_DATE = '" + dbDate.format(endDate) + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.IFPNAME).getValue().toString())) {
@@ -163,12 +163,12 @@ public class QueryUtils {
 
             if (getNull(String.valueOf(removeDiscountDto.getField("aliasStartDate").getValue()))) {
                 Date startDate = (Date) removeDiscountDto.getField("aliasStartDate").getValue();
-                Query = Query + " AND CAM.START_DATE = '" + DB_DATE.format(startDate) + "'";
+                Query = Query + " AND CAM.START_DATE = '" + dbDate.format(startDate) + "'";
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField("aliasEndDate").getValue()))) {
                 Date aliasEndDate = (Date) removeDiscountDto.getField("aliasEndDate").getValue();
-                Query = Query + " AND CAM.END_DATE = '" + DB_DATE.format(aliasEndDate) + "'";
+                Query = Query + " AND CAM.END_DATE = '" + dbDate.format(aliasEndDate) + "'";
             }
             }
             if (!filters.isEmpty()) {
@@ -207,10 +207,10 @@ public class QueryUtils {
                         Date filterString = (Date) stringFilter.getStartValue();
                         Date filterString1 = (Date) stringFilter.getEndValue();
                         if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.START_DATE BETWEEN  '" + DB_DATE.format(filterString) + "' AND '" + DB_DATE.format(filterString1) + "'";
+                            Query = Query + " AND CN.START_DATE BETWEEN  '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
                         }
                         if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.END_DATE = '" + DB_DATE.format(filterString) + "' AND '" + DB_DATE.format(filterString1) + "'";
+                            Query = Query + " AND CN.END_DATE = '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
                         }
                     } else if (filter instanceof Compare) {
                         Compare stringFilter = (Compare) filter;
@@ -225,11 +225,11 @@ public class QueryUtils {
                                 operator = "<=";
                             }
                             if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                                Query = Query + " AND CN.START_DATE " + operator + " '" + DB_DATE.format(value) + "'  ";
+                                Query = Query + " AND CN.START_DATE " + operator + " '" + dbDate.format(value) + "'  ";
 
                             }
                             if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                                Query = Query + " AND CN.END_DATE " + operator + " '" + DB_DATE.format(value) + "'  ";
+                                Query = Query + " AND CN.END_DATE " + operator + " '" + dbDate.format(value) + "'  ";
                             }
                         }
                 }
@@ -367,8 +367,8 @@ public class QueryUtils {
                 + where
                 + "join \"PERIOD\" I on I.PERIOD_SID = NMSP.PERIOD_SID \n"
                 + "WHERE PD.PROJECTION_MASTER_SID= " + dto.getProjectionSid() + " \n"
-                + "AND I.PERIOD_DATE  BETWEEN CONVERT(DATE, '" + DB_DATE.format(dto.getFromDate())
-                + "') AND CONVERT(DATE, '" + DB_DATE.format(dto.getToDate()) + "')"
+                + "AND I.PERIOD_DATE  BETWEEN CONVERT(DATE, '" + dbDate.format(dto.getFromDate())
+                + "') AND CONVERT(DATE, '" + dbDate.format(dto.getToDate()) + "')"
                 + "group by I.\"YEAR\", I.QUARTER," + groupBy;
 
         String finalQuery = "select LEVEL_NAME,YEARS,PERIODS,Sales,Units,LEVEL_NO from(" + query + ") MAINQ where MAINQ.ROW_NUM>" + dto.getStartIndex() + " AND MAINQ.ROW_NUM<=" + (dto.getStartIndex() + dto.getOffSet()) + " " + orderBy;
@@ -892,7 +892,7 @@ public class QueryUtils {
 
     public String updateDate(String rsSid) {
         Date date = new Date();
-        String query = "UPDATE RS_CONTRACT SET RS_END_DATE = '" + DB_DATE.format(date) + "' from"
+        String query = "UPDATE RS_CONTRACT SET RS_END_DATE = '" + dbDate.format(date) + "' from"
                 + " RS_CONTRACT WHERE RS_CONTRACT_SID in (" + rsSid + ")";
 
         return query;
@@ -2258,10 +2258,10 @@ public class QueryUtils {
         String sDate = Constants.NULL;
         String eDate = Constants.NULL;
         if (binderDTO.getStartDate() != null) {
-            sDate = DB_DATE.format(binderDTO.getStartDate());
+            sDate = dbDate.format(binderDTO.getStartDate());
         }
         if (binderDTO.getEndDate() != null) {
-            eDate = DB_DATE.format(binderDTO.getEndDate());
+            eDate = dbDate.format(binderDTO.getEndDate());
         }
         query = query + " CM.START_DATE BETWEEN ISNULL(" + sDate + ",'1965-01-01') AND ISNULL(" + eDate + ",'2065-01-01') AND";
         if (!StringUtils.EMPTY.equals(binderDTO.getAliasNumber()) && !Constants.NULL.equals(binderDTO.getAliasNumber())) {
@@ -2274,10 +2274,10 @@ public class QueryUtils {
         String asDate = Constants.NULL;
         String aeDate = Constants.NULL;
         if (binderDTO.getAliasStartDate() != null) {
-            asDate = DB_DATE.format(binderDTO.getAliasStartDate());
+            asDate = dbDate.format(binderDTO.getAliasStartDate());
         }
         if (binderDTO.getAliasEndDate() != null) {
-            aeDate = DB_DATE.format(binderDTO.getAliasEndDate());
+            aeDate = dbDate.format(binderDTO.getAliasEndDate());
         }
         query = query + " CAM.START_DATE BETWEEN ISNULL(" + asDate + ",'1965-01-01') AND ISNULL(" + aeDate + ",'2065-01-01') AND";
         query = query.trim();
@@ -2535,13 +2535,13 @@ public class QueryUtils {
         query1 = query1.replaceAll("\\?IFP_MODEL_ID", ifpModelId);
         query1 = query1.replaceAll("\\?ITEM_MASTER_ID", itemMasterId);
         if (startDate != null) {
-            String date = DB_DATE.format((Date) startDate);
+            String date = dbDate.format((Date) startDate);
             query1 = query1.replaceAll("\\?ITEM_REBATE_START_DATE", "'" + date + "'");
         } else {
             query1 = query1.replaceAll("\\?ITEM_REBATE_START_DATE", "NULL");
         }
         query1 = query1.replaceAll("\\?RECORD_LOCK_STATUS", "'false'");
-        String createdDate = DB_DATE.format(new Date());
+        String createdDate = dbDate.format(new Date());
         query1 = query1.replaceAll("\\?CREATED_DATE", createdDate);
         query1 = query1.replaceAll("\\?MODIFIED_DATE", createdDate);
         query1 = query1.replaceAll("\\?CREATED_BY", userId);

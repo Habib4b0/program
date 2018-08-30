@@ -88,7 +88,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NonMandatedLogic.
  *
@@ -148,7 +148,7 @@ public class NonMandatedLogic {
 	 *             the exception
 	 */
 	public static List<ViewDTO> searhView(final String viewName, final String forecastType, final String viewType)
-			throws SystemException, PortalException, ParseException {
+			throws PortalException, ParseException {
 		LOGGER.debug("Entering searchView method");
 		List list = null;
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
@@ -162,7 +162,7 @@ public class NonMandatedLogic {
 	}
 
 	public static List<ViewDTO> searhViewARP(final String viewName, final String forecastType, final String viewType)
-			throws SystemException, PortalException, ParseException {
+			throws PortalException, ParseException {
 		LOGGER.debug("Entering searchView method");
 		List list = null;
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
@@ -188,7 +188,7 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public static String deleteView(final int viewId) throws SystemException, PortalException {
+	public static String deleteView(final int viewId) throws PortalException {
 		LOGGER.debug("Entering deleteView method with viewId= {} " , viewId);
 		final ForecastingViewMaster fvm = dataSelection.deleteForecastingViewMaster(viewId);
 		LOGGER.debug("End of deleteView method");
@@ -212,7 +212,7 @@ public class NonMandatedLogic {
 	 *             the exception
 	 */
 	public int updateProjection(final DataSelectionDTO dataSelectionDTO, int projectionId, final boolean markAsSaved,
-			final String screenName) throws PortalException, SystemException {
+			final String screenName) throws PortalException {
 
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
@@ -521,7 +521,7 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public PMPYCalculatorDTO pmpyGenerateLogic(final String tpName) throws SystemException, PortalException {
+	public PMPYCalculatorDTO pmpyGenerateLogic(final String tpName) throws PortalException {
 		final PMPYCalculatorDTO bean = new PMPYCalculatorDTO();
 		String tpName1;
 
@@ -1204,7 +1204,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> generatePivotProjectionVariance(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate Pivot Projection Variance");
 
 		return projectionVarianceDAO.generatePivotProjectionVariance(projectionId, indicator, comparisonProjections,
@@ -1236,7 +1236,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> getVariancePPAGroup(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate PPA Group for Projection Variance");
 
 		return pPAProjectionDao.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
@@ -1268,7 +1268,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> getVarianceSalesGroup(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate PPA Group for Projection Variance");
 
 		return salesProjectionDAO.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
@@ -1300,7 +1300,7 @@ public class NonMandatedLogic {
 	 */
 	public List<ProjectionVarianceDTO> getVarianceDiscountGroup(final int projectionId, final String indicator,
 			final List<Integer> comparisonProjections, final String frequency, final String level,
-			final String discountLevel) throws SystemException, PortalException {
+			final String discountLevel) throws PortalException {
 		LOGGER.debug("Generate PPA Group for  Projection Variance");
 
 		return projectionVarianceDAO.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
@@ -1342,7 +1342,7 @@ public class NonMandatedLogic {
 	 */
 	public List<DataSelectionDTO> searchForProjections(String workflowStatus, String marketType, String brand,
 			String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract, String from,
-			String to) throws SystemException, PortalException {
+			String to) throws PortalException {
 
 		return projectionVarianceDAO.searchForProjections(workflowStatus, marketType, brand, projName, contHldr, ndcNo,
 				ndcName, desc, contract, from, to);
@@ -1697,7 +1697,7 @@ public class NonMandatedLogic {
 						getUploadedData, description);
 			}
 
-		} catch (PortalException | SystemException e) {
+		} catch (SystemException e) {
 			LOGGER.error(e.getMessage());
 			return "Not Saved";
 		}
@@ -2172,7 +2172,7 @@ public class NonMandatedLogic {
 		return returnList;
 	}
 
-	public void updateSaveFlag(final int projectionId) throws SystemException, PortalException {
+	public void updateSaveFlag(final int projectionId) throws PortalException {
 		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
 		if (!StringUtils.isEmpty(String.valueOf(projectionId))
 				&& !CommonConstants.NULL.getConstant().equalsIgnoreCase(String.valueOf(projectionId))) {
@@ -2221,7 +2221,7 @@ public class NonMandatedLogic {
 	}
 
 	public int updateBasicsProjectionMaster(final DataSelectionDTO dataSelectionDTO, int projectionId,
-			final boolean markAsSaved) throws PortalException, SystemException {
+			final boolean markAsSaved) throws PortalException {
 
 		final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
@@ -2244,7 +2244,7 @@ public class NonMandatedLogic {
 		return projectionMaster.getProjectionMasterSid();
 	}
 
-	public void tempInsert(final SessionDTO inputDto) throws SystemException, ParseException, PortalException {
+	public void tempInsert(final SessionDTO inputDto) throws ParseException, PortalException {
 
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		Date tempDate = fmt.parse(inputDto.getSessionDate());
@@ -2267,14 +2267,14 @@ public class NonMandatedLogic {
 	}
 
 	public void insertIntoTempTables(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		insertTempSalesProjectionMaster(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempActualSales(userId, sessionId, lastModifiedDate, projectionId);
 		insertTempSalesProjection(userId, sessionId, lastModifiedDate, projectionId);
 	}
 
 	public void insertTempSalesProjectionMaster(String userId, String sessionId, Date lastModifiedDate,
-			String projectionId) throws PortalException, SystemException {
+			String projectionId) throws PortalException {
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		String lastModified = fmt.format(lastModifiedDate);
 		String insertQuery = "INSERT INTO ST_M_SALES_PROJECTION_MASTER(\n" + "	PROJECTION_DETAILS_SID,\n"
@@ -2294,7 +2294,7 @@ public class NonMandatedLogic {
 	}
 
 	public void insertTempSalesProjection(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		String lastModified = fmt.format(lastModifiedDate);
 		String insertQuery = "INSERT INTO dbo.ST_M_SALES_PROJECTION(\n" + "			PROJECTION_DETAILS_SID,\n"
@@ -2320,7 +2320,7 @@ public class NonMandatedLogic {
 	}
 
 	public void insertTempActualSales(String userId, String sessionId, Date lastModifiedDate, String projectionId)
-			throws PortalException, SystemException {
+			throws PortalException {
 		final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
 		String lastModified = fmt.format(lastModifiedDate);
 		String insertQuery = "INSERT INTO dbo.ST_M_ACTUAL_SALES(\n" + "			PROJECTION_DETAILS_SID,\n"
@@ -2384,7 +2384,7 @@ public class NonMandatedLogic {
 	 * @throws PortalException
 	 * @throws Exception
 	 */
-	public boolean checkForZeroActuals(final SessionDTO session) throws PortalException, SystemException {
+	public boolean checkForZeroActuals(final SessionDTO session) throws PortalException {
 
 		String query = SQlUtil.getQuery("checktpcustomeractual");
 		List<Object> list = (List<Object>) salesProjectionDAO
@@ -2400,7 +2400,7 @@ public class NonMandatedLogic {
 	 * @throws PortalException
 	 * @throws Exception
 	 */
-	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
+	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException {
 
         List<Integer> levelnoList = null;
         levelnoList = getMaximumLevelno(session, dataSelectionDTO);
@@ -2498,7 +2498,7 @@ public class NonMandatedLogic {
 			for (ProjectionMaster pm : resultList) {
 				workflowStatus = pm.getIsApproved();
 			}
-		} catch (PortalException | SystemException ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return workflowStatus;

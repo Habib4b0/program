@@ -10,7 +10,7 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Notification;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CommonUIUtils.
  *

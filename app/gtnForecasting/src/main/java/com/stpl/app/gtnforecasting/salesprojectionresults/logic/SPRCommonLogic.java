@@ -902,12 +902,8 @@ public class SPRCommonLogic {
                     customViewMaster.setCreatedDate(date);
                     customViewMaster = commonDao.addCustomView(customViewMaster);
                     if (customViewMaster != null) {
-                        try {
                             customId = customViewMaster.getCustomViewMasterSid();
                             customViewDetailsSaveLogic(customId, levelList);
-                        } catch (SystemException ex) {
-							LOGGER.error(ex.getMessage());
-                        }
                     }
                 } catch (SystemException ex) {
 					LOGGER.error(ex.getMessage());
@@ -928,11 +924,7 @@ public class SPRCommonLogic {
                         customId = customViewMaster.getCustomViewMasterSid();
                         List<CustomViewDetails> detailsList = getCustomViewDetails(customId);
                         for (CustomViewDetails customDetails : detailsList) {
-                            try {
                                 commonDao.deleteCustomViewDetails(customDetails);
-                            } catch (SystemException ex) {
-								LOGGER.error(ex.getMessage());
-                            }
                         }
 
                         customViewDetailsSaveLogic(customId, levelList);
@@ -1745,13 +1737,13 @@ public class SPRCommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size = {}" , helperList.size());
 
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
 			LOGGER.error(ex.getMessage());
         }
         return helperList;
     }
 
-    public static int getHelperTableSID(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperTableSID(String listName, String description) throws SystemException {
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
 		final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.LIST_NAME, listName));

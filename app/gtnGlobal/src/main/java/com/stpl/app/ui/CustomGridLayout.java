@@ -6,7 +6,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * Customized GridLayout Component.
  *

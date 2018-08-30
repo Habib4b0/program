@@ -467,7 +467,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
     }
 
-    public void resetForAdd() throws IllegalStateException {
+    public void resetForAdd() {
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         productlevelDdlb.select(Constant.SELECT_ONE);
@@ -557,10 +557,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
         try {
-            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
-                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
-            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
-                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
+            
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
              loadAllFilters();
@@ -572,7 +569,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
-                commercialGenerate(customerFlag, productFlag);
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
@@ -597,7 +593,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
+            if (!projectionDTO.getFrequency().equals(nmFrequencyDdlb.getValue())) {
                 session.setFunctionMode(session.getAction().equalsIgnoreCase(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
                 CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
@@ -615,6 +611,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+            projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         
         }
     }
@@ -785,6 +782,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
         projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
         projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
+        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
+            commercialGenerate(customerFlag, productFlag);
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -1054,7 +1056,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         return productList;
     }
 
-    private void loadSalesInclusion() throws IllegalStateException {
+    private void loadSalesInclusion() {
         String[] variablesalesInclusion = {"Yes", "No"};
         salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
         salesInclusionDdlb.removeItems();
@@ -1077,7 +1079,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         
     }
 
-    private void loadDisplayFormatDdlb() throws IllegalStateException {
+    private void loadDisplayFormatDdlb()  {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);

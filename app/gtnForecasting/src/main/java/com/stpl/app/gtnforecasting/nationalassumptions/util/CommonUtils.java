@@ -503,6 +503,7 @@ public class CommonUtils {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
+        userIdMap.clear();
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
@@ -560,20 +561,21 @@ public class CommonUtils {
         return userName;
     }
      public static String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
+         String valueNA = value;
+        if (valueNA.contains(Constant.NULL) || StringUtils.isBlank(valueNA)) {
             String newValue = "0";
             Double nullValue = Double.valueOf(newValue);
-            value = FORMAT.format(nullValue);
-        } else if (value.contains("- -")){
-             value = "- -";
+            valueNA = FORMAT.format(nullValue);
+        } else if (valueNA.contains("- -")){
+             valueNA = "- -";
         }else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNA);
             if (FORMAT.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            valueNA = FORMAT.format(newValue);
         }
-        return value;
+        return valueNA;
     }
 
   /**
@@ -636,7 +638,7 @@ public class CommonUtils {
         return useridFromName;
     }
     
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();

@@ -194,7 +194,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 * @throws java.lang.Exception
 	 */
 	public DataSelectionForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, String screenName)
-			throws SystemException, PortalException {
+			throws  PortalException {
 		super(dataSelectionBinder, screenName, true);
 		LOGGER.debug("DataSelectionIndex Initializing... ");
 		this.dataSelectionDTO = dataSelectionDTO;
@@ -3334,7 +3334,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					tempSession.setDeductionValue(dto.getDeductionValue());
 					tempSession.setIsFileNotChanged(DSLogic.getFileStatus(projectionIdValue));
 					if (!tempSession.isFileNotChanged()) {
-						try {
 							MessageBox.showPlain(Icon.QUESTION, "Alert",
 									"A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
 									new MessageBoxListener() {
@@ -3353,13 +3352,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 											}
 										}
 									}, ButtonId.YES, ButtonId.NO);
-
-						} catch (
-
-						Exception e) {
-
-							LOGGER.error(e.getMessage());
-						}
 					} else {
 						tempSession.setIsNewFileCalculationNeeded(false);
 						callARPView(dto, tempSession);

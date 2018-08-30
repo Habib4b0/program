@@ -43,13 +43,13 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class DiscountLogic.
  */
 public class DiscountLogic {
 
-    private DiscountLogicDAO DAO = new DiscountLogicDAOImpl();
+    private DiscountLogicDAO dao = new DiscountLogicDAOImpl();
     /**
      * The Constant LOGGER.
      */
@@ -215,7 +215,7 @@ public class DiscountLogic {
         final HashMap itemsMap = new HashMap();
         final DynamicQuery deductiongroupDynamicQuery = DeductionGroupDetailsLocalServiceUtil.dynamicQuery();
         deductiongroupDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSid));
-        resultList = DAO.getDeductionGroupsDetailsList(deductiongroupDynamicQuery);
+        resultList = dao.getDeductionGroupsDetailsList(deductiongroupDynamicQuery);
 
         for (int i = 0; i < resultList.size(); i++) {
             final DeductionGroupDetails deductionGroupDetail = resultList.get(i);
@@ -226,7 +226,7 @@ public class DiscountLogic {
         if (!items.isEmpty()) {
             rsModelDynamicQuery.add(RestrictionsFactoryUtil.in("rsModelSid", items));
         }
-        itemsList = DAO.getRebateScheduleList(rsModelDynamicQuery);
+        itemsList = dao.getRebateScheduleList(rsModelDynamicQuery);
         itemDetailsList = getCustomizedDetailsResults(itemsList, itemsMap);
         LOGGER.debug("saveDeductionGroupDetails return List<ItemDetailsDTO> deductionDetailsList= {}" , itemDetailsList.size());
         return itemDetailsList;
@@ -322,10 +322,10 @@ public class DiscountLogic {
             deductionGroup.setCreatedBy(userId);
             deductionGroup.setVersionNo(versionNo);
             deductionGroup.setDeductionFilter(ConstantsUtils.EMPTY);
-            deductionGroup = DAO.addDeductionGroup(deductionGroup);
+            deductionGroup = dao.addDeductionGroup(deductionGroup);
 
         } else {
-            deductionGroup = DAO.getDeductionGroup(deductionGroupSystemId);
+            deductionGroup = dao.getDeductionGroup(deductionGroupSystemId);
             int versionNumber = getExistingVersion(deductionGroupSystemId);
             deductionGroup.setDeductionGroupName(binder.getField(CommonUtil.DISCOUNT_NAME).getValue().toString().trim());
             deductionGroup.setDeductionGroupNo(binder.getField(CommonUtil.DISCOUNT_NO).getValue().toString().trim());
@@ -334,7 +334,7 @@ public class DiscountLogic {
             deductionGroup.setDeductionFilter(ConstantsUtils.EMPTY);
             deductionGroup.setModifiedDate(new Date());
             deductionGroup.setModifiedBy(userId);
-            deductionGroup = DAO.updateDeductionGroup(deductionGroup);
+            deductionGroup = dao.updateDeductionGroup(deductionGroup);
         }
         idList.add(deductionGroup.getDeductionGroupSid());
         idList.add(deductionGroup.getVersionNo());
@@ -352,7 +352,7 @@ public class DiscountLogic {
         List<HelperTable> list = null;
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("getDropDownList listName= {}" , listName);
-        list = DAO.getHelperTableDetailsByListName(listName);
+        list = dao.getHelperTableDetailsByListName(listName);
         
         if (list != null) {
             LOGGER.debug("getDropDownList listSize= {}" , list.size());
@@ -380,7 +380,7 @@ public class DiscountLogic {
             final int deductionGroupSessionId = sessionDTO.getSystemId();
             final DynamicQuery deductionGroupDetailsQuery = DeductionGroupDetailsLocalServiceUtil.dynamicQuery();
             deductionGroupDetailsQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSessionId));
-            final List<DeductionGroupDetails> itemToRemove = DAO.getDeductionGroupDetailsList(deductionGroupDetailsQuery);
+            final List<DeductionGroupDetails> itemToRemove = dao.getDeductionGroupDetailsList(deductionGroupDetailsQuery);
             final HashMap savedItemsMap = new HashMap();
             for (final DeductionGroupDetails deductionDetail : itemToRemove) {
                 savedItemsMap.put(deductionDetail.getRsModelSid(), deductionDetail);
@@ -395,7 +395,7 @@ public class DiscountLogic {
                     deductionGroupDetails.setCreatedBy(NumericConstants.TWO_NINE_FIVE);
                     deductionGroupDetails.setCreatedDate(date);
                     deductionGroupDetails.setModifiedDate(date);
-                    DAO.addDeductionGroupDetails(deductionGroupDetails);
+                    dao.addDeductionGroupDetails(deductionGroupDetails);
                 } else {
                     // Group ADD or EDIT
                     if (savedItemsMap.containsKey(rebate.getRebateScheduleSid())) {
@@ -403,21 +403,21 @@ public class DiscountLogic {
                         deductionGroupDetails.setModifiedDate(date);
                         deductionGroupDetails.setModifiedBy(NumericConstants.TWO_NINE_FIVE);
                         deductionGroupDetails.setVersionNo(version);
-                        DAO.updateDeductionGroupDetails(deductionGroupDetails);
+                        dao.updateDeductionGroupDetails(deductionGroupDetails);
                         savedItemsMap.remove(rebate.getRebateScheduleSid());
                     } else {// to save new rebate in existing item group
                         deductionGroupDetails.setCreatedBy(NumericConstants.TWO_NINE_FIVE);
                         deductionGroupDetails.setCreatedDate(date);
                         deductionGroupDetails.setModifiedDate(date);
                         deductionGroupDetails.setVersionNo(version);
-                        DAO.addDeductionGroupDetails(deductionGroupDetails);
+                        dao.addDeductionGroupDetails(deductionGroupDetails);
                     }
                 }
             }
             if (!savedItemsMap.isEmpty()) {
                 final List<DeductionGroupDetails> itemListToDelete = new ArrayList<>(savedItemsMap.values());
                 for (final DeductionGroupDetails itemToDelete : itemListToDelete) {
-                    DAO.deleteDeductionGroupDetails(itemToDelete);
+                    dao.deleteDeductionGroupDetails(itemToDelete);
                 }
             }
             LOGGER.debug("saveDeductionGroupDetails return success");
@@ -555,14 +555,14 @@ public class DiscountLogic {
         List<DeductionGroupDetails> rebateList;
         final DynamicQuery deductionDetailsDynamicQuery = DeductionGroupDetailsLocalServiceUtil.dynamicQuery();
         deductionDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSystemId));
-        rebateList = DAO.getDeductionDetailsList(deductionDetailsDynamicQuery);
+        rebateList = dao.getDeductionDetailsList(deductionDetailsDynamicQuery);
         if (rebateList != null && !rebateList.isEmpty()) {
             for (int i = 0; i < rebateList.size(); i++) {
                 final DeductionGroupDetails itemDetails = rebateList.get(i);
-                DAO.deleteDeductionDetails(itemDetails);
+                dao.deleteDeductionDetails(itemDetails);
             }
         }
-        deductionGroup = DAO.deleteDeductionGroup(deductionGroupSystemId);
+        deductionGroup = dao.deleteDeductionGroup(deductionGroupSystemId);
         deletedItemGroupName = deductionGroup.getDeductionGroupName();
         LOGGER.debug("deleteDeductionGroup return String deletedItemGroupName= {}" , deletedItemGroupName);
         return deletedItemGroupName;

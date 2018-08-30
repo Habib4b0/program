@@ -175,7 +175,7 @@ public class AdditionalInfoLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public Boolean deleteUploadedFile(final int docDetailsId) throws SystemException, PortalException { 
+    public Boolean deleteUploadedFile(final int docDetailsId) throws PortalException { 
         LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {} " , docDetailsId);
         addInfoDao.deleteDocDetails(docDetailsId);
         LOGGER.debug("End of deleteUploadedFile method");

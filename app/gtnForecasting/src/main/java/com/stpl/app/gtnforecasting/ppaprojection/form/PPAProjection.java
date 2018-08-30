@@ -812,7 +812,7 @@ public class PPAProjection extends CustomComponent implements View {
     /**
      * Configure Fields.
      */
-    private void configurefields() throws PortalException, SystemException {
+    private void configurefields() throws PortalException {
         LOGGER.debug("Starting configure fields");
         if (Constant.VIEW.equals(session.getAction())) {
             rightTable.setEditable(BooleanConstant.getFalseFlag());
@@ -1085,8 +1085,6 @@ public class PPAProjection extends CustomComponent implements View {
                 } else if (populateIdentifier.get(Constant.DATE_FEILD).contains(fieldValue)) {
 
                     massUpdatePPAProjection(dateValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, selection);
-                } else {
-
                 }
             } else {
                 MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_09"), ButtonId.OK);
@@ -1913,9 +1911,6 @@ public class PPAProjection extends CustomComponent implements View {
                 LOGGER.error(ex.getMessage());
             }
         }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
-
-        }
     }
 
     public static void waitForSave() {
@@ -1986,7 +1981,7 @@ public class PPAProjection extends CustomComponent implements View {
         projectionPeriodOrderOpg.setValue(Constant.ASCENDING);
     }
 
-    public void security() throws PortalException, SystemException {
+    public void security() throws PortalException {
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION);
 
@@ -2226,7 +2221,7 @@ public class PPAProjection extends CustomComponent implements View {
         return groupChangeFlag;
     }
 
-    public void savePPAProjectionSelection() throws PortalException, SystemException  {
+    public void savePPAProjectionSelection() throws PortalException  {
         LOGGER.debug("save PPA Projection  method starts");
         String builder = StringUtils.EMPTY;
         if (selection.getPpaSelectedVariables() != null) {
