@@ -2274,16 +2274,11 @@ public class DataSelection extends ForecastDataSelection {
 									|| Constant.COMPANY_SMALL.equals(levelName))) {
 						List<Leveldto> filteredValues = new ArrayList<>();
 						if (!groupFilteredCompanies.isEmpty()) {
-							try {
 								for (Leveldto leveldto : custVlues) {
 									if (groupFilteredCompanies.contains(leveldto.getRelationshipLevelValue().trim())) {
 										filteredValues.add(leveldto);
 									}
 								}
-							} catch (Exception ex) {
-								LOGGER.error(ex.getMessage());
-							}
-
 						}
 						availableCustomerContainer.addAll(filteredValues);
 					} else {

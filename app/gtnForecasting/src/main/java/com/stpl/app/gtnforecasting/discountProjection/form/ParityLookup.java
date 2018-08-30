@@ -356,9 +356,6 @@ public class ParityLookup extends Window {
 
                 resultsContainer.addAll(parityDtoList);                 
                 }
-                else if(!valid)
-                {                  
-                }
                 else 
                 AbstractNotificationUtils.getErrorNotification("No Value Found", "There are no results that match the search criteria. ");
                 } else {

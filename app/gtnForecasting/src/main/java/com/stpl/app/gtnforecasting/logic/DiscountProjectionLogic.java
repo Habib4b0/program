@@ -655,6 +655,7 @@ public class DiscountProjectionLogic {
                         break;
                     }
                 } catch (Exception e) {
+                    LOGGER.error(e.getMessage());
                 }
             }
         } else {

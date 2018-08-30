@@ -322,11 +322,7 @@ public class CommonLogic {
                         
                         if(detailsList!=null){
                         for (CustomViewDetails customDetails : detailsList) {
-                            try {
                                 commonDao.deleteCustomViewDetails(customDetails);
-                            } catch (SystemException ex) {
-                                LOGGER.error(ex.getMessage());
-                            }
                         }
                         }
                         if (session.getCustomDetailMap().containsKey(customId)) {
