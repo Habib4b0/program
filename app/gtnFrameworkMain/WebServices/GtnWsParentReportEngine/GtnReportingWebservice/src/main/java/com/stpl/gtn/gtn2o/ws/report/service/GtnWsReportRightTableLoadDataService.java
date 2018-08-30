@@ -99,22 +99,6 @@ public class GtnWsReportRightTableLoadDataService {
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 
-		gtnLogger.info("Procedure SQL: " + procedure);
-		gtnLogger.info("frequency: " + frequency);
-		gtnLogger.info("annualTotals: " + annualTotals);
-		gtnLogger.info("comparisonBasis: " + comparisonBasis);
-		gtnLogger.info("ccpFilter: " + ccpFilter);
-		gtnLogger.info("salesInClusion: " + salesInClusion);
-		gtnLogger.info("deductionInclusion: " + deductionInclusion);
-		gtnLogger.info("currencyConversion: " + currencyConversion);
-		gtnLogger.info("start period: " + dashboardBean.getPeriodRangeFromSid());
-		gtnLogger.info("end period: " + dashboardBean.getPeriodRangeToSid());
-		gtnLogger.info("cust vew master sid: " + gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid());
-		gtnLogger.info("levelNo: " + levelNo);
-		gtnLogger.info("session id: " + gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId());
-		gtnLogger.info("user id: " + Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()));
-		gtnLogger.info("hierarchy: " + hierarchy);
-		gtnLogger.info("customViewType: " + customViewType);
 
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,
