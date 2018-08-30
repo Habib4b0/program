@@ -500,7 +500,7 @@ public class FileManagementLogic {
 	}
 
 	public void populateAll(String clickEvent, final BeanItemContainer<FileMananagementResultDTO> detailsBean,
-			ExtFilterTable detailsTable) throws PortalException, SystemException {
+			ExtFilterTable detailsTable) throws PortalException {
 		if (ConstantsUtils.CHECK.equalsIgnoreCase(clickEvent)) {
 			final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
 			for (int i = 0; i < itemIds.size(); i++) {
@@ -972,7 +972,7 @@ public class FileManagementLogic {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	public List<HelperDTO> getItemQualifierNameResults() throws PortalException, SystemException {
+	public List<HelperDTO> getItemQualifierNameResults() throws PortalException {
 		final List<HelperDTO> list = new ArrayList<>();
 		final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -1009,7 +1009,7 @@ public class FileManagementLogic {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	public List<HelperDTO> getBrandResults() throws PortalException, SystemException {
+	public List<HelperDTO> getBrandResults() throws PortalException {
 		List<Object[]> qualifierList;
 		final List<HelperDTO> list = new ArrayList<>();
 

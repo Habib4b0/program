@@ -39,7 +39,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
@@ -115,7 +114,7 @@ public class CDRForm extends StplCustomComponent {
         }
     }
 
-    private void configureFields() throws SystemException, PortalException {
+    private void configureFields() throws PortalException {
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
         mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         mainTab.markAsDirty();

@@ -1120,7 +1120,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
     
     
-    public void resetForAdd() throws IllegalStateException {
+    public void resetForAdd()  {
         pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
         pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
         pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
@@ -2296,7 +2296,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
-    private void loadDeductionInclusion(boolean reset) throws IllegalStateException {
+    private void loadDeductionInclusion(boolean reset)  {
         String[] deductionValues = {"Yes", "No"};
         if(!reset){
         deductionInclusionValues = deductionInclusionDdlb.addItem(SELECT_VALUES, null);

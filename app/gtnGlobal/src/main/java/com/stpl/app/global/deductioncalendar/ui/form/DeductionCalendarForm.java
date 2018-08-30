@@ -118,14 +118,14 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
      */
     private boolean needRefresh = true;
 
-    public DeductionCalendarForm(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public DeductionCalendarForm(final SessionDTO sessionDTO) throws  PortalException {
         super();
         this.sessionDTO = sessionDTO;
         init();
         binder = getBinder();
     }
 
-    public DeductionCalendarForm(final SessionDTO sessionDTO, final ErrorfulFieldGroup binder) throws SystemException, PortalException {
+    public DeductionCalendarForm(final SessionDTO sessionDTO, final ErrorfulFieldGroup binder) throws PortalException {
         super();
         this.sessionDTO = sessionDTO;
         this.binder = binder;
@@ -169,7 +169,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
     }
 
     @Override
-    public final void init() throws SystemException, PortalException {
+    public final void init() throws PortalException {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/deduction_calendar/deductionCalendarTab.xml"), this));
         addToContent();
         configureFields();
@@ -202,7 +202,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
     }
 
     @Override
-    public void addToContent() throws PortalException, SystemException {
+    public void addToContent() throws PortalException {
         addTabSheet();
     }
 
