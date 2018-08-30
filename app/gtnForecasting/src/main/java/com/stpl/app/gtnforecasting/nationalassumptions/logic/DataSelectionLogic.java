@@ -135,16 +135,11 @@ public class DataSelectionLogic {
                 }
                 naProjMaster.setModifiedBy(Integer.parseInt(session.getUserId()));
                 naProjMaster.setModifiedDate(new Date());
-                try {
                     naProjMaster = updateFlag ? NaProjMasterLocalServiceUtil.updateNaProjMaster(naProjMaster) : NaProjMasterLocalServiceUtil
                             .addNaProjMaster(naProjMaster);
                     if (!updateFlag) {
                       result= saveProducts(naProjMaster.getNaProjMasterSid(),selectedProducts);  
                     }
-                } catch (SystemException e) {
-                    LOGGER.error(e.getMessage());
-                    return Constant.FAIL;
-                }
                 
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
@@ -191,14 +186,10 @@ public class DataSelectionLogic {
                 }
                 DAO.executeBulkUpdateQuery(customSql);
                 for (Integer naProjID : removeList) {
-                    try {
                         NaProjDetailsLocalServiceUtil
                                 .deleteNaProjDetails(naProjID);
-                    } catch (PortalException | SystemException e) {
-                        LOGGER.error(e.getMessage());
-                    }
                 }
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
