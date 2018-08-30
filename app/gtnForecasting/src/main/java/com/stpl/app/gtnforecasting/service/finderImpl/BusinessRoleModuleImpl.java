@@ -57,8 +57,6 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return null;
-		} finally {
-			
 		}
 		
 	}
@@ -113,8 +111,6 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return null;
-		} finally {
-			
 		}
 	}
 	public List getBusinessTabPermission(String businessRoleId,String moduleName) {
@@ -143,8 +139,6 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return null;
-		} finally {
-			
 		}
 	}
 	
@@ -159,8 +153,6 @@ public class BusinessRoleModuleImpl {
 	        } catch (Exception e) {
 	            LOGGER.error(e.getMessage());
                     LOGGER.error(query);
-	        } finally {
-	            
 	        }
 	        return returnList;
 	    }
@@ -189,8 +181,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 
 		}
@@ -217,8 +207,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 		}
 
@@ -245,8 +233,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 		}
 	        
@@ -279,8 +265,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return null;
-			} finally {
-				
 			}
 		}
     public static final String AND_MSM_SUBMODULE_NAME = " AND MSM.SUBMODULE_NAME = '";
@@ -310,8 +294,6 @@ public class BusinessRoleModuleImpl {
 					LOGGER.error(e.getMessage());
 	                                LOGGER.error(sql);
 					return null;
-				} finally {
-					
 				}
 		}
 			
@@ -343,8 +325,6 @@ public class BusinessRoleModuleImpl {
 					LOGGER.error(e.getMessage());
 	                                LOGGER.error(sql);
 					return null;
-				} finally {
-					
 				}
 			}
 				
@@ -372,8 +352,6 @@ public class BusinessRoleModuleImpl {
 						LOGGER.error(e.getMessage());
 	                                        LOGGER.error(sql);
 						return null;
-					} finally {
-						
 					}
 			}
                                 

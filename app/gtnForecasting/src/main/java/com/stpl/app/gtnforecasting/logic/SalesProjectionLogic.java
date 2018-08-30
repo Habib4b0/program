@@ -263,15 +263,6 @@ public class SalesProjectionLogic {
         return String.valueOf(lives);
     }
 
-    public List<PeriodDTO> loadAlternateHistory(final Object[] inputs) throws SystemException, SQLException {
-
-        List<PeriodDTO> list = new ArrayList<>();
-        if (callAlternateHistoryProcedure(inputs)) {
-
-        }
-
-        return list;
-    }
 
     public boolean callAlternateHistoryProcedure(final Object[] inputs) throws SystemException, SQLException {
 
@@ -467,13 +458,9 @@ public class SalesProjectionLogic {
                 }
                 if (values != null) {
                     finalMap.put(tempCompanyName, values);
-                } else {
-
                 }
 
             }
-        } else {
-
         }
 
         return finalMap;

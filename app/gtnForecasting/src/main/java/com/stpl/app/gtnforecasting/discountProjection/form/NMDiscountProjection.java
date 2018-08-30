@@ -716,7 +716,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             AlternateHistory alternateContractLookup = new AlternateHistory(session,
                                     projectionSelection, tableLogic, actualCCPs, rsModelSid, selectedRsName);
                             getUI().addWindow(alternateContractLookup);
-                        } else {
                         }
                     } catch (IllegalArgumentException | NullPointerException ex) {
                         LOGGER.error(ex.getMessage());
@@ -3052,6 +3051,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         "Please select an Allocation Methodology");
             }
         } catch (Property.ReadOnlyException e) {
+           LOGGER.error(e.getMessage());
         }
     }
 
@@ -4635,38 +4635,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         return !ismultipleDiscount;
     }
 
-    private boolean isInPeriod() {
-        int[] startPeriodValue = getQuaterandYear((String) startPeriodForecastTab.getValue());
-        int[] endPeriodValue = getQuaterandYear((String) endPeriodForecastTab.getValue());
-        boolean m = true;
-        for (String columnName : checkedList) {
-            int[] temp = getQuaterandYear(columnName);
-            if (temp[1] >= startPeriodValue[1] && temp[1] <= endPeriodValue[1]) {
-                if (temp[1] == startPeriodValue[1] && temp[0] >= startPeriodValue[0]) {
-                } else {
-                    m = false;
-                }
-                if (temp[1] == endPeriodValue[1] && temp[0] <= endPeriodValue[0]) {
-                } else {
-                    m = false;
-                }
-            } else {
-                m = false;
-            }
-        }
-        return m;
-
-    }
-
-    private int[] getQuaterandYear(String str) {
-        LOGGER.debug("Inside get Quater with String= {}", str);
-        int[] a = new int[NumericConstants.TWO];
-        String[] splited = str.split("\\s+");
-        a[0] = Integer.parseInt(splited[0].replaceAll("[Q]+", StringUtils.EMPTY));
-        a[1] = Integer.parseInt(splited[1]);
-        return a;
-    }
-
     public boolean endDateValidation(String valueEnd) {
         LOGGER.debug("Inside End Date Validation");
         if (startPeriodForecastTab.getValue() != null) {
@@ -5201,53 +5169,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         }.getConfirmationMessage("Confirm List View Reset",
                 "Are you sure you want to reset the list view to the last saved state?");
 
-    }
-
-    private boolean isCheckBoxProperty() {
-        boolean propertyId = false;
-
-        if (checkBoxMap.containsValue(BooleanConstant.getTrueFlag())) {
-            propertyId = true;
-        }
-        return propertyId;
-    }
-
-    private void callResetTableLogic() {
-        List<String> discountToBeLoaded;
-        if (!programSelectionList.isEmpty()) {
-            discountToBeLoaded = programSelectionList;
-        } else {
-            discountToBeLoaded = discountProgramsList;
-        }
-        if (discountToBeLoaded == null || discountToBeLoaded.isEmpty()) {
-        } else if (frequencyDdlb.getValue() == null || frequencyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
-        } else if (historyDdlb.getValue() == null || historyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
-        } else {
-            tableLogic.sinkItemPerPageWithPageLength(false);
-            boolean isFrequencyChange = !String.valueOf(projectionSelection.getFrequency())
-                    .equals(String.valueOf(frequencyDdlb.getValue()));
-            createSelectionDto();
-            createRightHeader();
-            viewValueChangeLogic();
-            resultBeanContainer.setColumnProperties(rightHeader.getProperties());
-            resultsTable.constructRightFreeze(true);
-            resultsTable.getRightFreezeAsTable().setContainerDataSource(tableLogic.getContainerDataSource());
-            configureRightTable();
-            configureLeftTable();
-            tableLogic.setRefresh(BooleanConstant.getFalseFlag());
-            loadScreenBasedOnGeneratedTable(isFrequencyChange);
-            loadDataInTable();
-            tableLogic.setRefresh(BooleanConstant.getFalseFlag()); // As the row refresh will be
-            formatTableData();
-            tableLogic.setRefresh(BooleanConstant.getTrueFlag());
-            setListviewGenerated(true);
-            loadLevelValues();
-            isDiscountGenerated = true;
-            adjProgramsValueChangeLogic(SELECT.getConstant());
-            adjPeriodValueChangeLogic(SELECT.getConstant());
-            adjperiods.select(SELECT);
-            adjprograms.select(SELECT);
-        }
     }
 
     public boolean validateForAlternateHistory() {
