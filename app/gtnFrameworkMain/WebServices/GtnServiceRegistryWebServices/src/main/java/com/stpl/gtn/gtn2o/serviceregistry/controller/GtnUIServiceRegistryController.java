@@ -44,7 +44,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 
 		logger.debug("inside registerWebservices");
 		long startTime = System.currentTimeMillis();
-		logger.info("Strating Time to register WS:" + startTime);
+		logger.debug("Strating Time to register WS:" + startTime);
 		logger.info("Webservice Url:"
 				+ request.getGtnServiceRegistryWsRequest().getGtnWsServiceRegistryBean().getWebserviceEndPointUrl());
 		logger.info("Webservice Registered Context:"
@@ -53,7 +53,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 		gtnServiceRegistryRegisterWs.serviceRegistryRegisterWebServices(request);
 
 		logger.info("webservices registered");
-		logger.info("End Time for registering WS:" + System.currentTimeMillis());
+		logger.debug("End Time for registering WS:" + System.currentTimeMillis());
 		logger.info(
 				"Total time for executing Registration:" + (double) (System.currentTimeMillis() - startTime) / (1000));
 	}
@@ -63,7 +63,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 			@RequestBody GtnUIFrameworkWebserviceRequest request) {
 		long current_time_str = System.currentTimeMillis();
 		logger.debug("inside serviceRegistryUIControllerMappingWs");
-		logger.info("Start Time to execute the request from UI: " + current_time_str);
+		logger.debug("Start Time to execute the request from UI: " + current_time_str);
 		logger.info("UserId:" + request.getGtnWsGeneralRequest().getUserId());
 		logger.info("SessionId:" + request.getGtnWsGeneralRequest().getSessionId());
 
@@ -80,7 +80,7 @@ public class GtnUIServiceRegistryController extends GtnServiceRegistryImplClass 
 				&& gtnServiceRegistryWSResponse.getGtnWsServiceRegistryBean().isRegisteredService()) {
 			response = gtnUIServiceRegistryService.serviceRegistryUIServiceCallingWs(request);
 			response.setGtnServiceRegistryWSResponse(gtnServiceRegistryWSResponse);
-			logger.info("End Time of getting response in service registry:" + System.currentTimeMillis());
+			logger.debug("End Time of getting response in service registry:" + System.currentTimeMillis());
 			logger.info("Total time for executing Request:"
 					+ (double) (System.currentTimeMillis() - current_time_str) / (1000) + " secs");
 			return response;

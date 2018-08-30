@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -22,9 +23,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkForecastProductHierarchyLookUp {
 	
@@ -101,7 +100,8 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		GtnUIFrameworkComponentConfig forecastProductHierarchyLookUpSearchCriteriaConfig = new GtnUIFrameworkComponentConfig();
 		forecastProductHierarchyLookUpSearchCriteriaConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		forecastProductHierarchyLookUpSearchCriteriaConfig.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "forecastProductHierarchyLookupSearchCriteriaLayout");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + 
+                                        GtnFrameworkScreenRegisteryConstants.FORECAST_PROD_HIER_LOOKUP_SEARCH_CRI_LAY);
 		forecastProductHierarchyLookUpSearchCriteriaConfig.setComponentName("Search Criteria");
 		forecastProductHierarchyLookUpSearchCriteriaConfig.setAddToParent(true);
 		forecastProductHierarchyLookUpSearchCriteriaConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -124,7 +124,8 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		addHierarchyTypeOptionGroup.setComponentName("Hierarchy Type");
 		addHierarchyTypeOptionGroup.setAddToParent(true);
 		addHierarchyTypeOptionGroup.setParentComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "forecastProductHierarchyLookupSearchCriteriaLayout");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +
+                                        GtnFrameworkScreenRegisteryConstants.FORECAST_PROD_HIER_LOOKUP_SEARCH_CRI_LAY);
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList("Primary", "Secondary"));
 		comboConfig.setValuesFromService(false);
@@ -143,7 +144,8 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		addHierarchyNameTextBox.setAddToParent(true);
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setParentComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "forecastProductHierarchyLookupSearchCriteriaLayout");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + 
+                                        GtnFrameworkScreenRegisteryConstants.FORECAST_PROD_HIER_LOOKUP_SEARCH_CRI_LAY);
 		componentList.add(addHierarchyNameTextBox);
 	}
 
@@ -260,7 +262,9 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
 		productHierarchyPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "hierachyName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
+				new Object[] {GtnFrameworkScreenRegisteryConstants.HIERARCHY_NAME,
+                                    GtnFrameworkScreenRegisteryConstants.HIGHEST_LEVEL,
+                                    "lowestLevel", "createdDate", "modifiedDate" });
 		
 		List<String> additionalSearchCriteria = new ArrayList<>();
 		additionalSearchCriteria.add("Product Hierarchy");
@@ -274,11 +278,11 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "hierachyName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate"  };
+		String[] propertyIds = {"hierachyName","highestLevel","lowestLevel", "createdDate", "modifiedDate"  };
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
-		String[] comboboxIds={"highestLevel"};
+		String[] comboboxIds={GtnFrameworkScreenRegisteryConstants.HIGHEST_LEVEL};
 		String[] comboboxType={"STATUS"};
 		int comboboxStart=0;
 		for (int i = 0; i < propertyIds.length; i++) {
@@ -332,7 +336,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		actionParameter.add(namespace +GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		actionParameter.add("reportLandingScreen_producthierarchy");		// need to change
-		actionParameter.add(Arrays.asList("hierachyName"));
+		actionParameter.add(Arrays.asList(GtnFrameworkScreenRegisteryConstants.HIERARCHY_NAME));
 		actionParameter.add(Arrays.asList("reportLandingScreen_producthierarchy"));		// need to change
 
 		selectAction.setActionParameterList(actionParameter);

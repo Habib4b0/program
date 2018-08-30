@@ -71,11 +71,11 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		List<Object[]> list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info("Starting time to Execute Query : " + startTime);
+			logger.debug("Starting time to Execute Query : " + startTime);
 			Query query = session.createSQLQuery(sqlQuery);
 			list = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query: " + System.currentTimeMillis());
+			logger.debug("End time to execute Query: " + System.currentTimeMillis());
 			logger.info("Time taken to execute Query: " + (double) (System.currentTimeMillis() - startTime) / 1000 + " secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
@@ -110,11 +110,11 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		List<Object[]> queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info("Starting time to Execute Query" + startTime);
+			logger.debug("Starting time to Execute Query" + startTime);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.debug("End time to execute Query:" + System.currentTimeMillis());
 			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
@@ -274,13 +274,13 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		int id = 0;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info("Starting time to Execute Query : " + startTime);
+			logger.debug("Starting time to Execute Query : " + startTime);
 			trx.begin();
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			id = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.debug("End time to execute Query:" + System.currentTimeMillis());
 			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
@@ -300,13 +300,13 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		int updateOrDeletedRecordCount = 0;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info("Starting time to Execute Query : " + startTime);
+			logger.debug("Starting time to Execute Query : " + startTime);
 			trx.begin();
 			Query query = session.createSQLQuery(sqlQuery);
 			updateOrDeletedRecordCount = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.debug("End time to execute Query:" + System.currentTimeMillis());
 			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
@@ -476,14 +476,14 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		int count = 0;
 		try (Session session = sessionFactory.openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info("Starting time to Execute Query : " + startTime);
+			logger.debug("Starting time to Execute Query : " + startTime);
 			Query query = session.createSQLQuery(sqlQuery);
 			List<?> queryValueList = query.list();
 			if (queryValueList != null && !queryValueList.isEmpty()) {
 				count = (Integer) queryValueList.get(0);
 			}
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:" + System.currentTimeMillis());
+			logger.debug("End time to execute Query:" + System.currentTimeMillis());
 			logger.info("Time taken to execute Query:" + (double)(System.currentTimeMillis() - startTime) / 1000 + "secs");
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);

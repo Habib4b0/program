@@ -77,7 +77,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
 
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
-		logger.info("LoadDate Query:" + loadDateQuery);
+		logger.debug("LoadDate Query:" + loadDateQuery);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(loadDateQuery);
 		queryExecutorBean.setQueryType("SELECT");

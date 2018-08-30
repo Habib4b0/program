@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -19,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnCustomerSelectionForecastLevelLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -38,12 +36,6 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 
 			List<String> hierarchyLevelCaptionList = new ArrayList<>();
 			List hierarchyLevelIdList = new ArrayList<>();
-
-			ObjectMapper mapper = new ObjectMapper();
-
-			GtnWsHierarchyDefinitionBean hierarchyDefinitionBean = mapper.convertValue(hierarchyDefinitionBeanMapper,
-					new TypeReference<GtnWsHierarchyDefinitionBean>() {
-					});
 			Map<Integer, String> hierarchyLevelValuesMap = hierarchyDefinitionBeanMapper.getHierarchyLevelValues();
 
 			for (Map.Entry<Integer, String> hierarchyLevelEntry : hierarchyLevelValuesMap.entrySet()) {

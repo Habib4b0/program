@@ -24,7 +24,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 	public void addTabSheet(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig tabLayout = configProvider.getHorizontalLayoutConfig(nameSpace + "_" + "tabLayout", true, parentComponentId);
-//		tabLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		tabLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(tabLayout);
 
@@ -85,7 +84,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		GtnUIFrameworkComponentConfig displaySelectionInnerMainLayoutConfig = new GtnUIFrameworkComponentConfig();
 		displaySelectionInnerMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		displaySelectionInnerMainLayoutConfig.setComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
+		displaySelectionInnerMainLayoutConfig.setComponentId(nameSpace + "_" + 
+                 GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT);
 		displaySelectionInnerMainLayoutConfig.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerMainLayoutConfig.setSpacing(Boolean.FALSE);
 		displaySelectionInnerMainLayout.setMargin(Boolean.TRUE);
@@ -97,7 +97,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerMainLayout2.setMargin(Boolean.TRUE);
 		GtnUIFrameworkComponentConfig displaySelectionInnerMainLayoutConfig2 = new GtnUIFrameworkComponentConfig();
 		displaySelectionInnerMainLayoutConfig2.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		displaySelectionInnerMainLayoutConfig2.setComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
+		displaySelectionInnerMainLayoutConfig2.setComponentId(nameSpace + "_" +
+                        GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT_TWO);
 		displaySelectionInnerMainLayoutConfig2.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerMainLayoutConfig2.setSpacing(Boolean.FALSE);
 		displaySelectionInnerMainLayoutConfig2.setParentComponentId(parentComponentId);
@@ -113,7 +114,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig1.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout1");
 		displaySelectionInnerLayoutConfig1.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig1.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayoutConfig1.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
+		displaySelectionInnerLayoutConfig1.setParentComponentId(nameSpace + "_" + 
+                        GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT);
 		displaySelectionInnerLayoutConfig1.setGtnLayoutConfig(displaySelectionInnerLayout1);
 		
 //--------Vertical Inside 1 -> Horizontal 2
@@ -125,7 +127,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig2.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout2");
 		displaySelectionInnerLayoutConfig2.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig2.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayoutConfig2.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
+		displaySelectionInnerLayoutConfig2.setParentComponentId(nameSpace + "_" +
+                GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT);
 		displaySelectionInnerLayoutConfig2.setGtnLayoutConfig(displaySelectionInnerLayout2);
 		
 //--------Vertical Inside 1 -> Horizontal 3
@@ -137,7 +140,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig3.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout3");
 		displaySelectionInnerLayoutConfig3.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig3.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayoutConfig3.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
+		displaySelectionInnerLayoutConfig3.setParentComponentId(nameSpace + "_" +
+                GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT);
 		displaySelectionInnerLayoutConfig3.setGtnLayoutConfig(displaySelectionInnerLayout3);
 		
 		
@@ -148,7 +152,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig4.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout4");
 		displaySelectionInnerLayoutConfig4.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig4.setSpacing(Boolean.FALSE);
-		displaySelectionInnerLayoutConfig4.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
+		displaySelectionInnerLayoutConfig4.setParentComponentId(nameSpace + "_" +
+                        GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT_TWO);
 		displaySelectionInnerLayoutConfig4.setGtnLayoutConfig(displaySelectionInnerLayout4);
 		
 //--------Vertical Inside 1 -> Horizontal 2
@@ -161,7 +166,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig5.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig5.setSpacing(Boolean.FALSE);
 		
-		displaySelectionInnerLayoutConfig5.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
+		displaySelectionInnerLayoutConfig5.setParentComponentId(nameSpace + "_" +
+                       GtnCommercialForecastProjectionVarianceClassConstants.DISP_SEL_INNER_LAYOUT_TWO);
 		displaySelectionInnerLayoutConfig5.setGtnLayoutConfig(displaySelectionInnerLayout5);
 		
 		
@@ -207,34 +213,9 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		
 		comparison.setParentComponentId(comparisonLayout.getComponentId());
 		comparison.setAddToParent(true);
-		comparison.setComponentValue("-Select One-");
+		comparison.setComponentValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT_ONE);
 		componentList.add(comparison);
 	}
-	
-	
-//	private void addlevelLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
-//		
-//		GtnUIFrameworkComponentConfig levelLabelLayout = configProvider
-//				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLabelLayout", true, parentComponentId);
-//		levelLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-//		levelLabelLayout.setSpacing(true);
-//		componentList.add(levelLabelLayout);
-//
-//		GtnUIFrameworkComponentConfig levelLabel = new GtnUIFrameworkComponentConfig();
-//		levelLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
-//		levelLabel.setComponentValue("Level:");
-//		levelLabel.setComponentId(nameSpace + "_" + "levelLable");
-//		levelLabel.setParentComponentId(levelLabelLayout.getComponentId());
-//		levelLabel.setAddToParent(true);
-//		
-//		GtnUIFrameworkLabelConfig levelLabelConfig = new GtnUIFrameworkLabelConfig();
-//		levelLabelConfig.setEnable(true);
-//		levelLabel.setGtnLabelConfig(levelLabelConfig);
-//		
-//		
-//		componentList.add(levelLabel);
-//
-//	}
 	
 	private void addLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
@@ -396,7 +377,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		displayFormatConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		displayFormatConfig.setDefaultValue("-Select-");
+		displayFormatConfig.setDefaultValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT);
 		displayFormatConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		displayFormat.setGtnCheckedComboboxConfig(displayFormatConfig);
@@ -462,8 +443,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 				nameSpace + "_" + "discountlevel", true, nameSpace + "_" + "discountLevelLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
 		discountLevelLayoutOptionRadioGroup.setMargin(true);
-		//discountLevelLayoutOptionRadioGroup.setComponentName("Discount Level:");
-
 		GtnUIFrameworkOptionGroupConfig disocountLevelOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		disocountLevelOptionGroupConfig.setItemValues(Arrays.asList(new String[] { "Total Discount", "Program Category", "Program"}));
 		disocountLevelOptionGroupConfig.setValuesFromService(Boolean.FALSE);
@@ -499,28 +478,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 	}
 
-//	private void addPivoteViewLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
-//		
-//		GtnUIFrameworkComponentConfig pivoteViewLabelLayout = configProvider
-//				.getHorizontalLayoutConfig(nameSpace + "_" + "pivoteViewLabelLayout", true, parentComponentId);
-//		pivoteViewLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-//		componentList.add(pivoteViewLabelLayout);
-//
-//		GtnUIFrameworkComponentConfig pivoteViewLabel = new GtnUIFrameworkComponentConfig();
-//		pivoteViewLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
-//		pivoteViewLabel.setComponentValue("Pivot View:");
-//		pivoteViewLabel.setComponentId(nameSpace + "_" + "pivoteViewLabel");
-//		pivoteViewLabel.setParentComponentId(pivoteViewLabelLayout.getComponentId());
-//		pivoteViewLabel.setAddToParent(true);
-//		
-//		GtnUIFrameworkLabelConfig discountLevelLableConfig = new GtnUIFrameworkLabelConfig();
-//		discountLevelLableConfig.setEnable(true);
-//		pivoteViewLabel.setGtnLabelConfig(discountLevelLableConfig);
-//		
-//		
-//		componentList.add(pivoteViewLabel);
-//
-//	}
 	
 	private void addPivotViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
@@ -732,7 +689,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 		GtnUIFrameworkCheckedComboBoxConfig salesInclusionConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		salesInclusionConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		salesInclusionConfig.setDefaultValue("-Select One-");
+		salesInclusionConfig.setDefaultValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT_ONE);
 		salesInclusionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		salesInclusion.setGtnCheckedComboboxConfig(salesInclusionConfig);
@@ -753,7 +710,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 		GtnUIFrameworkCheckedComboBoxConfig customerFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		customerFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		customerFilterConfig.setDefaultValue("-Select-");
+		customerFilterConfig.setDefaultValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT);
 		customerFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerFilter.setGtnCheckedComboboxConfig(customerFilterConfig);
@@ -776,7 +733,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 		GtnUIFrameworkCheckedComboBoxConfig productFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		productFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		productFilterConfig.setDefaultValue("-Select-");
+		productFilterConfig.setDefaultValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT);
 		productFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		productFilter.setGtnCheckedComboboxConfig(productFilterConfig);
@@ -799,7 +756,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 		GtnUIFrameworkCheckedComboBoxConfig deductionFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		deductionFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		deductionFilterConfig.setDefaultValue("-Select-");
+		deductionFilterConfig.setDefaultValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT);
 		deductionFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		deductionFilter.setGtnCheckedComboboxConfig(deductionFilterConfig);
@@ -822,7 +779,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 		GtnUIFrameworkCheckedComboBoxConfig deductionInclusionConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		deductionInclusionConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
-		deductionInclusionConfig.setDefaultValue("-Select One-");
+		deductionInclusionConfig.setDefaultValue(GtnCommercialForecastProjectionVarianceClassConstants.SELECT_ONE);
 		deductionInclusionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		deductionInclusion.setGtnCheckedComboboxConfig(deductionInclusionConfig);
