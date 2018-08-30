@@ -662,27 +662,28 @@ public class SalesLogic {
         }
 
 	private String checkScreenName(ProjectionSelectionDTO projSelDTO, String sql) {
+            String sqlQuery = sql;
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName())) {
-            sql = sql.replace("@USER_GROUP", StringUtils.isBlank(projSelDTO.getGroup())
+            sqlQuery = sqlQuery.replace("@USER_GROUP", StringUtils.isBlank(projSelDTO.getGroup())
                     || Constant.NULL.equals(projSelDTO.getGroup()) || Constant.SHOW_ALL_GROUPS.equals(projSelDTO.getGroup()) ? Constant.PERCENT : projSelDTO.getGroup());
         }
         if (!CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) && !CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())) {
             switch (projSelDTO.getFrequencyDivision()) {
                 case 1:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "1 ");
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, StringUtils.EMPTY);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "1 ");
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, StringUtils.EMPTY);
                     break;
                 case NumericConstants.TWO:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, "p.SEMI_ANNUAL,");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, "p.SEMI_ANNUAL,");
                     break;
                 case NumericConstants.FOUR:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, "p.QUARTER,");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, "p.QUARTER,");
                     break;
                 case NumericConstants.TWELVE:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
-                    sql = sql.replace(Constant.FREQUENCY_GROUP_AT, P_MONTH);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
+                    sqlQuery = sqlQuery.replace(Constant.FREQUENCY_GROUP_AT, P_MONTH);
                     break;
                 default:
                     break;
@@ -692,58 +693,59 @@ public class SalesLogic {
             switch (projSelDTO.getFrequencyDivision()) {
 
                 case 1:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "1 AS FREQ");
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, StringUtils.EMPTY);
-                    sql = sql.replace("SH.@FRE@", "1 ");
-                    sql = sql.replace("MSP.@FRE@", "1 ");
-                    sql = sql.replace("mas.@FRE@", "1 ");
-                    sql = sql.replace(",P.@FREVAL@", " ");
-                    sql = sql.replace(Constant.FREQ_AT, "1 ");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "1 AS FREQ");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, StringUtils.EMPTY);
+                    sqlQuery = sqlQuery.replace("SH.@FRE@", "1 ");
+                    sqlQuery = sqlQuery.replace("MSP.@FRE@", "1 ");
+                    sqlQuery = sqlQuery.replace("mas.@FRE@", "1 ");
+                    sqlQuery = sqlQuery.replace(",P.@FREVAL@", " ");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "1 ");
                     break;
                 case NumericConstants.TWO:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.SEMI_ANNUAL");
-                    sql = sql.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
-                    sql = sql.replace(FREQ_VAL, Constant.SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.SEMI_ANNUAL");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
+                    sqlQuery = sqlQuery.replace(FREQ_VAL, Constant.SEMI_ANNUAL);
                     break;
                 case NumericConstants.FOUR:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.QUARTER");
-                    sql = sql.replace(Constant.FREQ_AT, Constant.QUARTER);
-                    sql = sql.replace(FREQ_VAL, Constant.QUARTER);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, P_QUATER);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.QUARTER");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.QUARTER);
+                    sqlQuery = sqlQuery.replace(FREQ_VAL, Constant.QUARTER);
                     break;
                 case NumericConstants.TWELVE:
-                    sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
-                    sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.MONTH");
-                    sql = sql.replace(Constant.FREQ_AT, MONTH);
-                    sql = sql.replace(FREQ_VAL, MONTH);
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
+                    sqlQuery = sqlQuery.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.MONTH");
+                    sqlQuery = sqlQuery.replace(Constant.FREQ_AT, MONTH);
+                    sqlQuery = sqlQuery.replace(FREQ_VAL, MONTH);
                     break;
                 default:
                     break;
             }
         }
-		return sql;
+		return sqlQuery;
 	}
 
 	private String buildQuery(ProjectionSelectionDTO projSelDTO, String sql, char oppositeSalesInc,
 			boolean isSalesInclusionNotSelected) {
+            String sqlBuildQuery = sql;
 		if (CommonUtil.isValueEligibleForLoading()) {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
-            sql = sql.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
-            sql = sql.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
-            sql = sql.replace(OPPOSITESINC, getOppositeSalesInc(oppositeSalesInc, isSalesInclusionNotSelected));
-            sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
-            sql = sql.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
-            sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
-            sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
-            sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
-            sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
-            sql = sql.replace("@CUSTOMSID", getCustomSid(projSelDTO));
-            sql = sql.replace("@LASTLEVEL", getLastLevel(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            sqlBuildQuery = sqlBuildQuery.replace(OPPOSITESINC, getOppositeSalesInc(oppositeSalesInc, isSalesInclusionNotSelected));
+            sqlBuildQuery = sqlBuildQuery.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
+            sqlBuildQuery = sqlBuildQuery.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
+            sqlBuildQuery = sqlBuildQuery.replace("@REFCOLUMN", getRefColumn(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@CUSTOMSID", getCustomSid(projSelDTO));
+            sqlBuildQuery = sqlBuildQuery.replace("@LASTLEVEL", getLastLevel(projSelDTO));
         }
-		return sql;
+		return sqlBuildQuery;
 	}
 
 	private String getLastLevel(ProjectionSelectionDTO projSelDTO) {
@@ -1948,15 +1950,16 @@ public class SalesLogic {
     public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         LOGGER.debug("Property Id->= {}, EditedValue-->= {}, incOrDecPer-->= {} " , propertyId, editedValue, incOrDecPer);
         Double actualAmount;
+        String editedValueReturns = editedValue;
         String detailsIdValues[];
-        if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
+        if (StringUtils.isNotBlank(editedValueReturns) && !Constant.NULL.equals(editedValueReturns)) {
             String saveQuery;
 
             saveQuery = SQlUtil.getQuery("RETURNS_MANNUAL_ENTRY_QUERY");
-            editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            editedValue = editedValue.replace("$", StringUtils.EMPTY);
-            editedValue = editedValue.replace(",", StringUtils.EMPTY);
-            editedValue = editedValue.trim();
+            editedValueReturns = editedValueReturns.replace(Constant.PERCENT, StringUtils.EMPTY);
+            editedValueReturns = editedValueReturns.replace("$", StringUtils.EMPTY);
+            editedValueReturns = editedValueReturns.replace(",", StringUtils.EMPTY);
+            editedValueReturns = editedValueReturns.trim();
             String returnDetailsId;
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
             int frequencyValue = 0;
@@ -1998,7 +2001,7 @@ public class SalesLogic {
                     amountValue = "PROJECTED_RETURN_AMOUNT+(PROJECTED_RETURN_AMOUNT*" + actualAmount + ")";
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 } else {
-                    actualAmount = Double.parseDouble(editedValue) / (detailsIdValues.length);
+                    actualAmount = Double.parseDouble(editedValueReturns) / (detailsIdValues.length);
                     if(frequencyValue != 0)
                     {
                     amountValue = String.valueOf(actualAmount / frequencyValue);
@@ -2011,7 +2014,7 @@ public class SalesLogic {
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, "PROJECTED_RPU");
                 if (salesDTO.getReturnDetailsSid().split(",").length == 1) {
                     saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
-                    actualAmount = Double.valueOf(editedValue);
+                    actualAmount = Double.valueOf(editedValueReturns);
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 } else {
@@ -2019,26 +2022,26 @@ public class SalesLogic {
                     Map<String, Double> salesAmount = mapList.get(0);
                     Map<String, Double> unitsMap = mapList.get(1);
 
-                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValue, saveQuery, salesAmount, unitsMap);
+                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValueReturns, saveQuery, salesAmount, unitsMap);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (propertyId.endsWith("ProjectedReturn%")) {
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, "PROJECTED_RETURN_PERCENT");
                 if (salesDTO.getReturnDetailsSid().split(",").length == 1) {
                     saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
-                    actualAmount = Double.valueOf(editedValue);
+                    actualAmount = Double.valueOf(editedValueReturns);
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 } else {
                     List<Map> mapList = getActiveExFactorySalesAndUnits(projectionSelectionDTO, year, quater);
                     Map<String, Double> salesAmount = mapList.get(0);
-                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValue, saveQuery, salesAmount, salesAmount);
+                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValueReturns, saveQuery, salesAmount, salesAmount);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (propertyId.endsWith("GrowthRate")) {
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, "GROWTH_RATE");
                 saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
-                actualAmount = Double.valueOf(editedValue);
+                actualAmount = Double.valueOf(editedValueReturns);
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount);
                 salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             }
@@ -2050,21 +2053,22 @@ public class SalesLogic {
     }
 
     public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean[] dataArr) throws PortalException {
+        String editedValueRecs = editedValue;
         boolean checkAll =  dataArr[0];
         boolean isManualEntry = dataArr[1];
-        if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
+        if (StringUtils.isNotBlank(editedValueRecs) && !Constant.NULL.equals(editedValueRecs)) {
 
             StringBuilder saveQuery = new StringBuilder();
             StringBuilder updateQuery = new StringBuilder();
-            editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            editedValue = editedValue.replace("$", StringUtils.EMPTY);
-            editedValue = editedValue.replace(",", StringUtils.EMPTY);
-            editedValue = editedValue.trim();
+            editedValueRecs = editedValueRecs.replace(Constant.PERCENT, StringUtils.EMPTY);
+            editedValueRecs = editedValueRecs.replace("$", StringUtils.EMPTY);
+            editedValueRecs = editedValueRecs.replace(",", StringUtils.EMPTY);
+            editedValueRecs = editedValueRecs.trim();
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
             int year = 0;
             int quator = 0;
 
-            BigDecimal value = new BigDecimal(editedValue);
+            BigDecimal value = new BigDecimal(editedValueRecs);
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");

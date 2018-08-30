@@ -327,7 +327,7 @@ public class PagedGrid {
 		return button;
 	}
 
-	private Component getItemsPerPage() {
+	public Component getItemsPerPage() {
 		HorizontalLayout comboHorizontalLayout = new HorizontalLayout();
 		ComboBox itemsPerPage = new ComboBox();
 		itemsPerPage.setItems(new Object[] { 5, 10, 15, 20, 25, 50, 100 });
@@ -345,6 +345,7 @@ public class PagedGrid {
 		return comboHorizontalLayout;
 	}
 
+	
 	private void setFilterToGrid() {
 		HeaderRow filterRow = grid.appendHeaderRow();
 		Component vaadinComponent = null;
@@ -529,7 +530,7 @@ public class PagedGrid {
 		});
 	}
 
-	void setPageNoFieldValue(int pageNo) {
+	public void setPageNoFieldValue(int pageNo) {
 		pageNoField.setValue(String.valueOf(pageNo + 1));
 	}
 

@@ -63,7 +63,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType")
     public TextField componentType;
     @UiField("searchBtn")
@@ -218,7 +218,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
 
                     componentName.setValue(StringUtils.EMPTY);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentStatus_DTO.setValue(null);
+                    componentStatusDto.setValue(null);
                     componentType.setValue(StringUtils.EMPTY);
                     category.setValue(StringUtils.EMPTY);
                     startDate.setValue(null);
@@ -258,7 +258,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "psStatus count", "psStatus", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, "psStatus count", "psStatus", BooleanConstant.getFalseFlag());
     }
 
   

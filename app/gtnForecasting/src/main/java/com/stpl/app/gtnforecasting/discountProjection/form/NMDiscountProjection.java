@@ -310,6 +310,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Object[] tempSingleHeaderArray = null;
+     private boolean dsFlag = true;
 
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -454,7 +455,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
     }
     public void checkFrequencyChange(){
-            boolean dsFlag = true;
                 if(dsFlag && (!session.getDsFrequency().equals(frequencyDdlb.getValue()))){
             dsFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
@@ -716,7 +716,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             AlternateHistory alternateContractLookup = new AlternateHistory(session,
                                     projectionSelection, tableLogic, actualCCPs, rsModelSid, selectedRsName);
                             getUI().addWindow(alternateContractLookup);
-                        } else {
                         }
                     } catch (IllegalArgumentException | NullPointerException ex) {
                         LOGGER.error(ex.getMessage());
@@ -3052,6 +3051,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         "Please select an Allocation Methodology");
             }
         } catch (Property.ReadOnlyException e) {
+           LOGGER.error(e.getMessage());
         }
     }
 
@@ -4141,14 +4141,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @param isChecked
      */
     private void doubleHeaderCheckListener(Object propertyId, boolean isChecked) {
-        Map<String, List<String>> checkedDoubleHeaders = new HashMap<>();
         String checkedPropertyId = String.valueOf(propertyId);
         ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
         String checkedColumnName = rightTable.getDoubleHeaderColumnHeader(checkedPropertyId);
         String discountPropertyId = rightTable.getTripleHeaderForDoubleHeader(checkedPropertyId);
         String discountName = rightTable.getTripleHeaderColumnHeader(discountPropertyId);
 
-        checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(discountName);
+        Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(discountName);
 
         if (checkedDoubleHeaders == null) {
             checkedDoubleHeaders = new HashMap<>();
@@ -4634,29 +4633,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
         }
         return !ismultipleDiscount;
-    }
-
-    private boolean isInPeriod() {
-        int[] startPeriodValue = getQuaterandYear((String) startPeriodForecastTab.getValue());
-        int[] endPeriodValue = getQuaterandYear((String) endPeriodForecastTab.getValue());
-        boolean m = true;
-        for (String columnName : checkedList) {
-            int[] temp = getQuaterandYear(columnName);
-            if (temp[1] >= startPeriodValue[1] && temp[1] <= endPeriodValue[1]) {
-                if (temp[1] == startPeriodValue[1] && temp[0] >= startPeriodValue[0]) {
-                } else {
-                    m = false;
-                }
-                if (temp[1] == endPeriodValue[1] && temp[0] <= endPeriodValue[0]) {
-                } else {
-                    m = false;
-                }
-            } else {
-                m = false;
-            }
-        }
-        return m;
-
     }
 
     private int[] getQuaterandYear(String str) {
@@ -5202,53 +5178,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         }.getConfirmationMessage("Confirm List View Reset",
                 "Are you sure you want to reset the list view to the last saved state?");
 
-    }
-
-    private boolean isCheckBoxProperty() {
-        boolean propertyId = false;
-
-        if (checkBoxMap.containsValue(BooleanConstant.getTrueFlag())) {
-            propertyId = true;
-        }
-        return propertyId;
-    }
-
-    private void callResetTableLogic() {
-        List<String> discountToBeLoaded;
-        if (!programSelectionList.isEmpty()) {
-            discountToBeLoaded = programSelectionList;
-        } else {
-            discountToBeLoaded = discountProgramsList;
-        }
-        if (discountToBeLoaded == null || discountToBeLoaded.isEmpty()) {
-        } else if (frequencyDdlb.getValue() == null || frequencyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
-        } else if (historyDdlb.getValue() == null || historyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
-        } else {
-            tableLogic.sinkItemPerPageWithPageLength(false);
-            boolean isFrequencyChange = !String.valueOf(projectionSelection.getFrequency())
-                    .equals(String.valueOf(frequencyDdlb.getValue()));
-            createSelectionDto();
-            createRightHeader();
-            viewValueChangeLogic();
-            resultBeanContainer.setColumnProperties(rightHeader.getProperties());
-            resultsTable.constructRightFreeze(true);
-            resultsTable.getRightFreezeAsTable().setContainerDataSource(tableLogic.getContainerDataSource());
-            configureRightTable();
-            configureLeftTable();
-            tableLogic.setRefresh(BooleanConstant.getFalseFlag());
-            loadScreenBasedOnGeneratedTable(isFrequencyChange);
-            loadDataInTable();
-            tableLogic.setRefresh(BooleanConstant.getFalseFlag()); // As the row refresh will be
-            formatTableData();
-            tableLogic.setRefresh(BooleanConstant.getTrueFlag());
-            setListviewGenerated(true);
-            loadLevelValues();
-            isDiscountGenerated = true;
-            adjProgramsValueChangeLogic(SELECT.getConstant());
-            adjPeriodValueChangeLogic(SELECT.getConstant());
-            adjperiods.select(SELECT);
-            adjprograms.select(SELECT);
-        }
     }
 
     public boolean validateForAlternateHistory() {
