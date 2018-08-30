@@ -48,18 +48,18 @@ public class ContractSelectionDTO implements Serializable {
     private String componentSelection = StringUtils.EMPTY;
     private String companyStartDate = StringUtils.EMPTY;
     private String companyEndDate = StringUtils.EMPTY;
-    private String CFPname = StringUtils.EMPTY;
-    private String IFPname = StringUtils.EMPTY;
-    private String PSname = StringUtils.EMPTY;
-    private String RSname = StringUtils.EMPTY;
+    private String cfpName = StringUtils.EMPTY;
+    private String ifpName = StringUtils.EMPTY;
+    private String psName = StringUtils.EMPTY;
+    private String rsName = StringUtils.EMPTY;
     private List<String> companyMasterSids = new ArrayList<>();
     private List<String> phCompanyMasterSids = new ArrayList<>();
     private String moduleName = StringUtils.EMPTY;
     private String screenName = StringUtils.EMPTY;
-    private int CFPId = 0;
-    private int IFPId = 0;
-    private int PSId = 0;
-    private int RSId = 0;
+    private int cfpId = 0;
+    private int ifpId = 0;
+    private int psId = 0;
+    private int rsId = 0;
     private boolean search = false;
     private boolean reset = false;
     private boolean searchInverse = false;
@@ -344,67 +344,67 @@ public class ContractSelectionDTO implements Serializable {
     }
 
     public String getCFPname() {
-        return CFPname;
+        return cfpName;
     }
 
     public void setCFPname(String CFPname) {
-        this.CFPname = CFPname;
+        this.cfpName = CFPname;
     }
 
     public String getIFPname() {
-        return IFPname;
+        return ifpName;
     }
 
     public void setIFPname(String IFPname) {
-        this.IFPname = IFPname;
+        this.ifpName = IFPname;
     }
 
     public String getPSname() {
-        return PSname;
+        return psName;
     }
 
     public void setPSname(String PSname) {
-        this.PSname = PSname;
+        this.psName = PSname;
     }
 
     public String getRSname() {
-        return RSname;
+        return rsName;
     }
 
     public void setRSname(String RSname) {
-        this.RSname = RSname;
+        this.rsName = RSname;
     }
 
     public int getCFPId() {
-        return CFPId;
+        return cfpId;
     }
 
     public void setCFPId(int CFPId) {
-        this.CFPId = CFPId;
+        this.cfpId = CFPId;
     }
 
     public int getIFPId() {
-        return IFPId;
+        return ifpId;
     }
 
     public void setIFPId(int IFPId) {
-        this.IFPId = IFPId;
+        this.ifpId = IFPId;
     }
 
     public int getPSId() {
-        return PSId;
+        return psId;
     }
 
     public void setPSId(int PSId) {
-        this.PSId = PSId;
+        this.psId = PSId;
     }
 
     public int getRSId() {
-        return RSId;
+        return rsId;
     }
 
     public void setRSId(int RSId) {
-        this.RSId = RSId;
+        this.rsId = RSId;
     }
 
     public List<String> getCompanyMasterSids() {

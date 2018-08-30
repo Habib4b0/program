@@ -529,14 +529,13 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * Configure Result Table.
      */
     private void configureResultTable() {
-        CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
         tableLogic.setTreeNodeMultiClick(false);
         tableLogic.setPageLength(NumericConstants.TWENTY);
         tableLogic.sinkItemPerPageWithPageLength(false);
         List<Integer> pagelength = CommonLogic.getPageNumber();
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = HeaderUtils.getSupplementalLeftTableColumns(fullHeader, Constant.CUSTOMER_SMALL);
+        CustomTableHeaderDTO leftHeader = HeaderUtils.getSupplementalLeftTableColumns(fullHeader, Constant.CUSTOMER_SMALL);
         rightHeader = HeaderUtils.getSupplementalrightTableColumns(projectionDTO, fullHeader);
         resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
         tableLogic.setTreeNodeMultiClick(false);

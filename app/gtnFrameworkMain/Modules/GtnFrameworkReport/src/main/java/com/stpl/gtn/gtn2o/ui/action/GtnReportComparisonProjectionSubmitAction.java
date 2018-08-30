@@ -2,18 +2,13 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -50,9 +45,9 @@ public class GtnReportComparisonProjectionSubmitAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-		submitAction(componentId, gtnUIFrameWorkActionConfig);
+			submitAction(componentId, gtnUIFrameWorkActionConfig);
 		} catch (ParseException e) {
-			logger.info(e+"");
+			logger.info(e + "");
 		}
 	}
 
@@ -80,10 +75,10 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setContract(String.valueOf(recordBean.getPropertyValue("contract")));
 				comparisonProjectionBean.setBrand(String.valueOf(recordBean.getPropertyValue("brand")));
 				comparisonProjectionBean.setItemNo(String.valueOf(recordBean.getPropertyValueByIndex(9)));
-				String  createdDate = recordBean.getStringPropertyByIndex(6);
-				
-					comparisonProjectionBean.setCreatedDate(new SimpleDateFormat("MM/dd/yyyy").parse(createdDate));
-				
+				String createdDate = recordBean.getStringPropertyByIndex(6);
+
+				comparisonProjectionBean.setCreatedDate(new SimpleDateFormat("MM/dd/yyyy").parse(createdDate));
+
 				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(10)));
 				comparisonProjectionBean
 						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(11)));
@@ -98,10 +93,10 @@ public class GtnReportComparisonProjectionSubmitAction
 					.getComponentData();
 			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(idComponentData.getViewId()).getComponentData().getSharedPopupData();
-			if(Optional.ofNullable(dataSelectionBean).isPresent()) {
+			if (Optional.ofNullable(dataSelectionBean).isPresent()) {
 				dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 			}
-			
+
 			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
 			idComponentData.setCustomData(comparisonProjectionBeanList);
 			if (comparisonProjectionBeanList.isEmpty()) {
@@ -112,6 +107,9 @@ public class GtnReportComparisonProjectionSubmitAction
 						.getVaadinBaseComponentFromParent(
 								gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
 						.setV8PopupFieldValue(displayValue);
+
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId,
+						(GtnUIFrameWorkActionConfig) gtnUIFrameWorkActionConfig.getActionParameterList().get(3));
 			}
 		} else {
 			validateTableRecords(componentId);
@@ -134,7 +132,8 @@ public class GtnReportComparisonProjectionSubmitAction
 			comparisonBasisComboboxConfig.setItemValues(idList);
 
 			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-			combobox.reloadComponentFromParent(					"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
+			combobox.reloadComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis", componentId,
+					Arrays.asList(""));
 		}
 	}
 

@@ -73,7 +73,7 @@ public class PVExcelLogic {
     private List<Object> pivotDiscountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private List<Integer> pivotPriorProjIdList;
-    private final Map<String, String> CUSTOM_VIEW_RELATIONSHIP_HIER = new HashMap();
+    private final Map<String, String> customViewRelationshipHier = new HashMap();
     private final PVParameters parameterDto;
     private boolean discountFlag;
     private boolean isCustomView;
@@ -132,7 +132,7 @@ public class PVExcelLogic {
         isCustomView = selection.isIsCustomHierarchy();
         if (isCustomView) {
             selection.setHierarchyIndicator(StringUtils.EMPTY);
-            CUSTOM_VIEW_RELATIONSHIP_HIER.putAll(getGroupCustomViewNM());
+            customViewRelationshipHier.putAll(getGroupCustomViewNM());
         }
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
         if (Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(selection.getPivotView())) {
@@ -1506,7 +1506,7 @@ public class PVExcelLogic {
         String hierarchyNo = String.valueOf(obj[1]);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         if (isCustomView) {
-            groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(hierarchy.trim() == null ? StringUtils.EMPTY : hierarchy.trim());
+            groupName = customViewRelationshipHier.get(hierarchy.trim() == null ? StringUtils.EMPTY : hierarchy.trim());
             groupName = groupName == null ? StringUtils.EMPTY : groupName;
             dto.setHierarchyNo(obj[NumericConstants.TWO].toString());
             dto.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());

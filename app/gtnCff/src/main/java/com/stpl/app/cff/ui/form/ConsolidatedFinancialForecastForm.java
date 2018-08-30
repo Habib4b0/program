@@ -592,11 +592,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
 								BooleanConstant.getFalseFlag());
 					}
-                                        sessionDto.setStatusName("E");
+                                        sessionDto.setStatusName("G");
                                         sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
-                                        cffLogic.loadDiscountCustomTempTableInThread(sessionDto,false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);
@@ -1003,7 +1002,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
         Map<String, String> levelCaption = new HashMap<>();
         List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
         for (Object[] strings : deductionLevel) {
-            levelCaption.put(String.valueOf(strings[0]), String.valueOf(strings[1]));
+            String keyValue=String.valueOf(strings[1]).startsWith("UDC")?String.valueOf(strings[1]).replace(" ", StringUtils.EMPTY):String.valueOf(strings[1]);
+            levelCaption.put(String.valueOf(strings[0]), keyValue);
         }
         return levelCaption.get(String.valueOf(session.getDeductionNo()));
     }

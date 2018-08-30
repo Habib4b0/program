@@ -94,7 +94,7 @@ public class TransferContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(BooleanConstant.getTrueFlag());
+        massUpdatePanelOne.setVisible(BooleanConstant.getTrueFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();

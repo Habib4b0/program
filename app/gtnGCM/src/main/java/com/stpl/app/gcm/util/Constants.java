@@ -456,7 +456,7 @@ public class Constants {
     public static final String REBATE_AMOUNT_LABEL = "Rebate Amount";
     public static final String REBATE_PLAN_ID_FIELD = "Rebate Plan Id";
     public static final String FORMULA_ID_FIELD = "Formula Id";
-    public static final String[] TP_COMPONENT_INFORMATION_HEADERSRS = new String[]{
+    private static final String[] TP_COMPONENT_INFORMATION_HEADERSRS = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, FORMULA_TYPE_LABEL, FORMULA_ID_FIELD, FORMULA_NAME_LABEL, REBATE_PLAN_ID_FIELD, REBATE_PLAN_NAME_LABEL, REBATE_AMOUNT_LABEL, BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
     public static final String RESET_ELIGIBLE_PROPERTY = "resetEligible";
     public static final String MAX_INCREMENTAL_CHANGE_PROPERTY = "maxIncrementalChange";
@@ -491,7 +491,7 @@ public class Constants {
     public static final String NET_BASELINE_WAC_FORMULA_PROPERTY = "netBaselineWACFormula";
     public static final String NET_RESET_PRICE_FORMULA_PROPERTY = "netResetPriceFormula";
 
-    public static final Object[] TP_COMPONENT_INFORMATION_COLUMNS_PS = new Object[]{
+    private static final Object[] TP_COMPONENT_INFORMATION_COLUMNS_PS = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S,
         Constants.START_DATE, Constants.END_DATE, PRICE_TYPE_PROPERTY, PRICE_PLAN_NO_PROPERTY,
         PRICE_PLAN_NAME_PROPERTY, PRICE_PROTECTION_STATUS_PROPERTY, PRICE_PROTECTION_START_DATE_PROPERTY,
@@ -1143,7 +1143,7 @@ public class Constants {
 
     public static final String TRANSFER_ERROR_LABEL = "Transfer Error";
 
-    public final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    public final Object[] cfpSearchColumnsArr = new Object[]{
         "componentId", "componentNo", "componentName", "componentStatus", "componentType"};
     
     /**
