@@ -94,9 +94,6 @@ public class MMDPRLogic {
                 projectionSelectionDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
             }
             if (parentDto.getLevelValue().equals(Constant.MANDATED_DISCOUNT)) {
-                if (parentDto.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
-
-                }
                 projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
                 projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                 projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
@@ -211,8 +208,6 @@ public class MMDPRLogic {
                 projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
             } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
                 projectionSelectionDTO.setLevelNo(0);
-            } else {
-
             }
             projectionSelectionDTO.setLevelNo(0);
             projectionSelectionDTO.setTreeLevelNo(0);
@@ -346,19 +341,6 @@ public class MMDPRLogic {
 
                     if (neededRecord > 0) {
                         List<DiscountProjectionResultsDTO> periodList = new ArrayList<>();
-                        if (projSelDTO.isIsProjectionTotal()) {
-                            try {
-
-                            } catch (Exception ex) {
-                              LOGGER.error(ex.getMessage()); 
-                            }
-                        }
-
-                        try {
-
-                        } catch (Exception ex) {
-                            LOGGER.error(ex.getMessage()); 
-                        }
                         int mayBeAddedRecord = start - mayBeAdded;
                         if (mayBeAddedRecord < 0) {
                             mayBeAddedRecord = 0;
@@ -1570,8 +1552,6 @@ public class MMDPRLogic {
                         String commonColumn = StringUtils.EMPTY;
                         for (int i = 0; i < discountList.size(); i++) {
                             final Object[] obj = (Object[]) discountList.get(i);
-                            if (i == 0) {
-                            }
                             int selectedYear = 0;
                             int selectedMonth = 0;
                             if (obj[0] != null) {
