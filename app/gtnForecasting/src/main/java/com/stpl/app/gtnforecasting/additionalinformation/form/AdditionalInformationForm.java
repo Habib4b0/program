@@ -70,8 +70,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
-    private boolean isFileRename;
-
 
     /**
      * The logo.
@@ -148,7 +146,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                boolean isFileRename=destFileUpload.renameTo(renameFileUpload);
                 LOGGER.info("File renamed successfully= {} ",isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);

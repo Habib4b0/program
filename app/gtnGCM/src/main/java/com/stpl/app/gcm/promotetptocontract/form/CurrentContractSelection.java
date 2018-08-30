@@ -192,13 +192,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
     @UiField("basisLabel")
     private Label basisLabel;
     @UiField("RSProgramType")
-    private TextField RSProgramType;
+    private TextField rsProgramType;
     @UiField("RSCategory")
-    private TextField RSCategory;
+    private TextField rsCategory;
     @UiField("RebatePlanlevel")
-    private TextField RebatePlanlevel;
+    private TextField rebatePlanlevel;
     @UiField("PaymentFrequency")
-    private TextField PaymentFrequency;
+    private TextField paymentFrequency;
     @UiField("rsProgrmtypeLabel")
     private Label rsProgrmtypeLabel;
     @UiField("rsCategoryLabel")
@@ -364,13 +364,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(false);
                         basis.setVisible(false);
                         rsProgrmtypeLabel.setVisible(false);
-                        RSProgramType.setVisible(false);
+                        rsProgramType.setVisible(false);
                         rsCategoryLabel.setVisible(false);
-                        RSCategory.setVisible(false);
+                        rsCategory.setVisible(false);
                         rebatePlanLevelLabel.setVisible(false);
-                        RebatePlanlevel.setVisible(false);
+                        rebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
-                        PaymentFrequency.setVisible(false);
+                        paymentFrequency.setVisible(false);
                         compInfoTable.setVisibleColumns(Constants.getInstance().componentInfoColumnsCfp);
                         compInfoTable.setColumnHeaders(Constants.getInstance().componentInfoHeadersCfp);
                     }
@@ -385,13 +385,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(false);
                         basis.setVisible(false);
                         rsProgrmtypeLabel.setVisible(false);
-                        RSProgramType.setVisible(false);
+                        rsProgramType.setVisible(false);
                         rsCategoryLabel.setVisible(false);
-                        RSCategory.setVisible(false);
+                        rsCategory.setVisible(false);
                         rebatePlanLevelLabel.setVisible(false);
-                        RebatePlanlevel.setVisible(false);
+                        rebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
-                        PaymentFrequency.setVisible(false);
+                        paymentFrequency.setVisible(false);
                         compInfoTable.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfp);
                         compInfoTable.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfp);
                     }
@@ -406,14 +406,14 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(false);
                         basis.setVisible(false);
                         rsProgrmtypeLabel.setVisible(false);
-                        RSProgramType.setVisible(false);
+                        rsProgramType.setVisible(false);
                         rsCategoryLabel.setVisible(false);
-                        RSCategory.setVisible(false);
+                        rsCategory.setVisible(false);
                         rebatePlanLevelLabel.setVisible(false);
-                        RebatePlanlevel.setVisible(false);
+                        rebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
-                        PaymentFrequency.setVisible(false);
-                        compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
+                        paymentFrequency.setVisible(false);
+                        compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
                         compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
                     }
                     if (compType.equals(Constants.REBATE_SCHEDULE)) {
@@ -427,15 +427,15 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         basisLabel.setVisible(true);
                         basis.setVisible(true);
                         rsProgrmtypeLabel.setVisible(true);
-                        RSProgramType.setVisible(true);
+                        rsProgramType.setVisible(true);
                         rsCategoryLabel.setVisible(true);
-                        RSCategory.setVisible(true);
+                        rsCategory.setVisible(true);
                         rebatePlanLevelLabel.setVisible(true);
-                        RebatePlanlevel.setVisible(true);
+                        rebatePlanlevel.setVisible(true);
                         paymentFrequencyLabel.setVisible(true);
-                        PaymentFrequency.setVisible(true);
-                        compInfoTable.setVisibleColumns(Constants.TP_COMPONEN_TINFORMATION_COLUMNS_RS);
-                        compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERSRS);
+                        paymentFrequency.setVisible(true);
+                        compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+                        compInfoTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
                     }
                     loadComponentInformation(String.valueOf(event.getProperty().getValue()), currentTradingPartnerTable2.getValue());
                 }
@@ -477,8 +477,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
         tableLogic.setContainerDataSource(searchContainer);        
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        currentTradingPartnerTable2.setVisibleColumns(Constants.CURRENT_TRADING_PARTNER_COLUMNS);
-        currentTradingPartnerTable2.setColumnHeaders(Constants.CURRENT_TRADING_PARTNER_HEADERS);
+        currentTradingPartnerTable2.setVisibleColumns(Constants.getCurrentTradingPartnerColumns());
+        currentTradingPartnerTable2.setColumnHeaders(Constants.getCurrentTradingPartnerHeaders());
         currentTradingPartnerTable2.setSizeFull();
         currentTradingPartnerTable2.setEditable(true);
         currentTradingPartnerTable2.markAsDirty();
@@ -586,8 +586,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
         compInfoTable.setHeight("270px");
         compInfoTable.setPageLength(NumericConstants.FIVE);
         compInfoTable.setContainerDataSource(componentInfoContainer);
-        compInfoTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS);
-        compInfoTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS);
+        compInfoTable.setVisibleColumns(Constants.getPtpComponentInfoColumns());
+        compInfoTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
         LOGGER.debug("configureCompInfoTable method Ended");
     }
 
@@ -982,10 +982,10 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentInfoContainer.removeAllItems();
         if (tableData != null && !tableData.isEmpty()) {
             if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.TP_COMPONEN_TINFORMATION_COLUMNS_RS);
-                compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERSRS);
+                compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+                compInfoTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
             } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
+                compInfoTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
                 compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
                 compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);

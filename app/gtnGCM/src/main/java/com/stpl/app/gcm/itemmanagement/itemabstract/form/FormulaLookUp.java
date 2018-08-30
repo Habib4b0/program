@@ -55,9 +55,9 @@ public class FormulaLookUp extends Window {
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final CustomTextField componentTextField;
     private final BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
-    public static final Object[] FORMULA_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] FORMULA_SEARCH_COLUMNS = new Object[]{
         "formulaId", "formulaNo", "formulaName"};
-    public static final String[] FORMULA_SEARCH_HEADERS = new String[]{
+    private static final String[] FORMULA_SEARCH_HEADERS = new String[]{
         "Formula Id", "Formula No", "Formula Name"};
      private final SelectionDTO selection = new SelectionDTO();
 

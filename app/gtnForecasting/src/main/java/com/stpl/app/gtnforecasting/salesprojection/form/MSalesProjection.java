@@ -460,19 +460,19 @@ public class MSalesProjection extends ForecastSalesProjection {
 
         try {
             String salesOrUnitsProperty;
-
+            String updatePmpyPeriod= updatePeriod;
             if (StringUtils.isNotBlank(hierarchyNo) && StringUtils.isNotEmpty(hierarchyNo)) {
-                updatePeriod = updatePeriod.replace('Q', 'q');
-                updatePeriod = updatePeriod.replace(' ', '-');
+                updatePmpyPeriod = updatePmpyPeriod.replace('Q', 'q');
+                updatePmpyPeriod = updatePmpyPeriod.replace(' ', '-');
                 if (salesOrUnits) {
-                    updatePeriod = updatePeriod + "-ProjectedSales";
+                    updatePmpyPeriod = updatePmpyPeriod + "-ProjectedSales";
                     salesOrUnitsProperty = Constant.SALES_SMALL;
                 } else {
-                    updatePeriod = updatePeriod + "-ProjectedUnits";
+                    updatePmpyPeriod = updatePmpyPeriod + "-ProjectedUnits";
                     salesOrUnitsProperty = Constant.UNITS_SMALL;
                 }
 
-                salesLogic.saveEditedRecs(updatePeriod, updateValue, Double.NaN, salesOrUnitsProperty, salesRow, projectionDTO, false, true);
+                salesLogic.saveEditedRecs(updatePmpyPeriod, updateValue, Double.NaN, salesOrUnitsProperty, salesRow, projectionDTO, new boolean[]{false, true});
                 refreshTableData(getCheckedRecordsHierarchyNo());
 
             }

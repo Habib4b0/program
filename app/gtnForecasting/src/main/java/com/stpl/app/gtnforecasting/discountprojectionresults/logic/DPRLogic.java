@@ -1319,16 +1319,16 @@ public class DPRLogic {
     }
 
     public String getFormatValue(int numberOfDecimal, String value, String appendChar) {
-        String formattedValue = StringUtils.EMPTY;
-        if (value.contains(Constant.NULL)) {
+        String formattedValue = value;
+        if (formattedValue.contains(Constant.NULL)) {
             formattedValue = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            formattedValue = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            formattedValue = getFormattedValue(CUR_TWO, value);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(formattedValue)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(CUR_TWO, formattedValue);
 
         } else if (Constant.PERCENT.equals(appendChar)) {
-            formattedValue = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            formattedValue = getFormattedValue(PER_THREE, value).concat(appendChar);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(formattedValue)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(PER_THREE, formattedValue).concat(appendChar);
         }
         return formattedValue;
     }

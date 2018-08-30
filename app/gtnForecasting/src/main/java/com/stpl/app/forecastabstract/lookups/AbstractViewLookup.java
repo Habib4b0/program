@@ -29,11 +29,6 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 public abstract class AbstractViewLookup extends Window {
 
 	/**
-	 * Object for ResourceBundle
-	 */
-	private ResourceBundle resourceBundle;
-
-	/**
 	 * Constructor for AbstractViewLookup
 	 *
 	 * @param windowName
@@ -132,7 +127,7 @@ public abstract class AbstractViewLookup extends Window {
 	private Panel addResultSection(final ExtFilterTable results) {
 		Panel resultSection = UiUtils.addCommonPanel(RESULTS.getConstant());
 		VerticalLayout layout = (VerticalLayout) UiUtils.getLayout(new VerticalLayout());
-		resourceBundle = ResourceBundle.getBundle("configurations/default");
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("configurations/default");
 		float tableWidth = Float.parseFloat(resourceBundle.getString("view_table_width"));
 		results.setWidth(tableWidth, Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
 		layout.setSizeFull();
