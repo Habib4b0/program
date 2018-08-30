@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * Class contains methods to modify the Helper Table.
  *
