@@ -99,7 +99,7 @@ public class NotesTabLogic {
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
-	public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException, SystemException {
+	public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException{
 		if (docDetailsId != 0) {
 			MasterDataFilesLocalServiceUtil.deleteMasterDataFiles(docDetailsId);
 		}
@@ -109,7 +109,7 @@ public class NotesTabLogic {
 	}
 
 	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName,
-			int moduleSystemId) throws SystemException, PortalException {
+			int moduleSystemId) throws PortalException {
 
 		if (availableUploadedInformation != null && availableUploadedInformation.size() > 0) {
 

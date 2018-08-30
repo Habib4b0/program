@@ -210,7 +210,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ProjNameConfigIndex() throws SystemException, PortalException {
+    public ProjNameConfigIndex() throws PortalException {
 
         super();
         init();

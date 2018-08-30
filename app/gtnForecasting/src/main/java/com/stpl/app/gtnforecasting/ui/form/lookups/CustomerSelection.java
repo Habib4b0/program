@@ -98,7 +98,7 @@ public class CustomerSelection extends CustomComponent implements View {
     @UiField("selectedCustomerTableLayout")
     private  VerticalLayout selectedCustomerTableLayout;
     private AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    private String screen_Name = "Customer_Selection";
+    private String screenName = "Customer_Selection";
     
     @UiField("excelBtn")
     private  Button excelBtn;
@@ -168,7 +168,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 }
                 altHistoryDTO.setContractName(String.valueOf(contractName.getValue()));
                 altHistoryDTO.setCustomerName(String.valueOf(customerName.getValue()));
-                altHistoryDTO.setScreenName(screen_Name);
+                altHistoryDTO.setScreenName(screenName);
                 availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
                 availablecustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO,  session, BooleanConstant.getTrueFlag());
                 if (availableCustomerTable.size() == 0) {
@@ -296,7 +296,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
     protected final void configureFields() {
 
-        altHistoryDTO.setScreenName(screen_Name);
+        altHistoryDTO.setScreenName(screenName);
         altHistoryDTO.setReset(Boolean.FALSE);
         commonUtil.loadComboBox(marketType, "CONTRACT_TYPE", false);
         excelBtn.setIcon(excelExportImage);
