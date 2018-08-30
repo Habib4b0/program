@@ -1033,7 +1033,6 @@ public class DiscountProjectionLogic {
     public void getParentGroupValue(String frequency, List discountProjectionList, DiscountProjectionDTO discountDto,
             List<DiscountProjectionDTO> discountProjList, List<String> ahPeriodList, Map<String, String> hashMapValues) {
         try {
-            DiscountProjectionDTO discountProjDto = discountDto;
             Map<String, Object> mapValue = new HashMap<>();
             List<String> periodList = new ArrayList<>();
             if (discountProjectionList != null && discountProjectionList.size() != 0) {
@@ -1057,32 +1056,32 @@ public class DiscountProjectionLogic {
                     String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
                     String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIXTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SIXTEEN]);
                     if (mapValue.containsKey(headerColumn)) {
-                        discountProjDto = (DiscountProjectionDTO) mapValue.get(headerColumn);
+                        discountDto = (DiscountProjectionDTO) mapValue.get(headerColumn);
                         int AP_INDICATOR = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
                         if (AP_INDICATOR == 0) {
-                            discountProjDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
+                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
                         }
-                        discountProjDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
                     } else {
-                        discountProjDto = new DiscountProjectionDTO();
+                        discountDto = new DiscountProjectionDTO();
                         int AP_INDICATOR = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
                         if (AP_INDICATOR == 0) {
-                            discountProjDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
+                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
                         }
-                        discountProjDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
-                        mapValue.put(headerColumn, discountProjDto);
+                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                        mapValue.put(headerColumn, discountDto);
                     }
                 }
             }
             for (String periodValue : ahPeriodList) {
                 if (mapValue.containsKey(periodValue)) {
-                    discountProjDto = (DiscountProjectionDTO) mapValue.get(periodValue);
+                    discountDto = (DiscountProjectionDTO) mapValue.get(periodValue);
                 } else {
-                    discountProjDto = new DiscountProjectionDTO();
+                    discountDto = new DiscountProjectionDTO();
                 }
-                discountProjDto.setLevelName(String.valueOf(hashMapValues.get(periodValue)));
-                discountProjDto.setParentAlternatePivot(PIVOT_LABEL);
-                discountProjList.add(discountProjDto);
+                discountDto.setLevelName(String.valueOf(hashMapValues.get(periodValue)));
+                discountDto.setParentAlternatePivot(PIVOT_LABEL);
+                discountProjList.add(discountDto);
             }
 
         } catch (NumberFormatException e) {
