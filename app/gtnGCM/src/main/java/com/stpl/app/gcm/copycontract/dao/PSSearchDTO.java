@@ -18,17 +18,17 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
-    private PSIFPDTO PSIFPDTO = new PSIFPDTO();
+    private PSIFPDTO psIfpDTO = new PSIFPDTO();
 
     public PSSearchDTO(PSIFPDTO PSIFPDTO) {
-        this.PSIFPDTO = PSIFPDTO;
+        this.psIfpDTO = PSIFPDTO;
     }
 
     @Override
     public int count(BeanSearchCriteria bsc) {
 
         int count = 0;
-        count = logic.getPSSearchCount(PSIFPDTO, bsc);
+        count = logic.getPSSearchCount(psIfpDTO, bsc);
         return count;
 
     }

@@ -592,11 +592,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 disableFieldsOnView();
             }
             if (Constant.EDIT_SMALL.equalsIgnoreCase(mode)) {
-                try {
                     callNDCPopupProcedure();
-                } catch (SQLException | NamingException ex) {
-                    LOGGER.error(ex.getMessage());
-                }
             }
 
             final StplSecurity stplSecurity = new StplSecurity();
@@ -647,7 +643,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 }
             });
 
-        } catch (PortalException | SystemException portal) {
+        } catch (SQLException | NamingException |PortalException | SystemException portal) {
             LOGGER.error(StringUtils.EMPTY,portal);
         } 
         LOGGER.debug("End of configurefields method");
@@ -1780,7 +1776,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     }
 
-    public int findNewNdcCount() throws SystemException, PortalException {
+    public int findNewNdcCount() throws PortalException {
         int count;
         int projectionId = (Integer) VaadinSession.getCurrent()
                 .getAttribute(PROJECTION_ID.getConstant());

@@ -19,7 +19,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -98,7 +97,7 @@ public class NdcPopupForm extends Window {
     }
 
     @UiHandler(Constant.ADD_FULL_SMALL)
-    public void add(Button.ClickEvent event) throws SystemException, PortalException {
+    public void add(Button.ClickEvent event) throws  PortalException {
         if (addLogic()) {
             new AbstractNotificationUtils() {
                 @Override
@@ -114,7 +113,7 @@ public class NdcPopupForm extends Window {
 
                 @Override
                 public void noMethod() {
-                    // TODO Auto-generated method stub
+                    //noMethod()
                 }
             }.getConfirmationMessage("Add Confirmation",
                     "There are still more NDC’s to add. Are you sure you want to add the NDC’s in the New NDC’s list view now?");
@@ -138,7 +137,7 @@ public class NdcPopupForm extends Window {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage("Close Confirmation",
                 " Are you sure you want to close the New NDC Setup Popup?");
@@ -169,7 +168,7 @@ public class NdcPopupForm extends Window {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(),
                 " Are you sure you want to reset the selected NDC? You will have to recreate it.");
@@ -231,7 +230,7 @@ public class NdcPopupForm extends Window {
         federalNdcPopup.deleteFederalNdc();
     }
 
-    public boolean addLogic() throws SystemException, PortalException  {
+    public boolean addLogic() throws PortalException  {
         boolean addMessage = false;
         int mediCount = medicaidNdcPopUp.addLogic();
         int fedCount = federalNdcPopup.addLogic();

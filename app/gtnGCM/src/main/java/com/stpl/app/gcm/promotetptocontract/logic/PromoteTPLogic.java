@@ -107,7 +107,7 @@ public class PromoteTPLogic {
     private final DiscountDAO discountDAO = new DiscountDaoImpl();
     private final QueryUtils queryUtils = new QueryUtils();
     private final DataQueryLogic dqLogic = new DataQueryLogic();
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd ");
     public static final String LIKE_QUOTE = " like '";
     public static final String ITEM_FAMILY_PLAN_PROPERTY = "Item Family Plan";
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
@@ -2323,9 +2323,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(cfpModelSId);
         promoteTpDAO.updateCFP(input);
 
@@ -2335,9 +2335,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(ifpModelSid);
         promoteTpDAO.updateIFP(input);
     }
@@ -2346,9 +2346,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(psModelSid);
         promoteTpDAO.updatePS(input);
     }
@@ -2357,9 +2357,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(rsModelSid);
         promoteTpDAO.updateRS(input);
 

@@ -32,7 +32,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 	protected SessionDTO session;
 	protected int customId = 0;
 	protected boolean isSelect = false;
-	protected CustomViewMaster customView = null;
 
 	/**
 	 * The Constructor.
@@ -383,7 +382,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 	@Override
 	protected String getCustomMasterData() {
 		String str = StringUtils.EMPTY;
-		customView = CommonLogic.getCustomView(customId);
+		CustomViewMaster customView = CommonLogic.getCustomView(customId);
 		customId = 0;
 		if (customView != null) {
 			str = customView.getViewName();

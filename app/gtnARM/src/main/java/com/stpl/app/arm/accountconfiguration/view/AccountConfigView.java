@@ -59,25 +59,26 @@ public class AccountConfigView extends VerticalLayout implements View {
             SearchAccountConfig searchAccountConfig = new SearchAccountConfig(sessionDTO);
             addComponent(searchAccountConfig);
         } catch (Exception ex) {
-            LOGGER.error("Error in AccountConfigView :" , ex);
+            LOGGER.error("Error in AccountConfigView :", ex);
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object viewAccObj) {
+        return super.equals(viewAccObj);
     }
 
     @Override
     public int hashCode() {
+        LOGGER.debug("Enters the AccountConfig View Hashcode");
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream viewAccOut) throws IOException {
+        viewAccOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream viewAccountIn) throws IOException, ClassNotFoundException {
+        viewAccountIn.defaultReadObject();
     }
 }

@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
-// TODO: Auto-generated Javadoc
+// TODO:  
 /**
  * The Class FileManagementLookup.
  *

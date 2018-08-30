@@ -1252,13 +1252,13 @@ public class DataSelection extends ForecastDataSelection {
 		this.dedCustomChange = dedCustomChange;
 	}
 
-	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
+	public void updateBasicsProjectionMaster() throws PortalException {
 		NonMandatedLogic logic = new NonMandatedLogic();
 		selectionDTO = bindDataselectionDtoToSave();
 		logic.updateBasicsProjectionMaster(selectionDTO, session.getProjectionId(), true);
 	}
 
-	public void updateDataSelection() throws SystemException, PortalException, ClassNotFoundException, IOException {
+	public void updateDataSelection() throws PortalException, ClassNotFoundException, IOException {
 		LOGGER.debug("updateDataSelection starts");
 		selectionDTO = bindDataselectionDtoToSave();
 		NonMandatedLogic logic = new NonMandatedLogic();
@@ -2274,16 +2274,11 @@ public class DataSelection extends ForecastDataSelection {
 									|| Constant.COMPANY_SMALL.equals(levelName))) {
 						List<Leveldto> filteredValues = new ArrayList<>();
 						if (!groupFilteredCompanies.isEmpty()) {
-							try {
 								for (Leveldto leveldto : custVlues) {
 									if (groupFilteredCompanies.contains(leveldto.getRelationshipLevelValue().trim())) {
 										filteredValues.add(leveldto);
 									}
 								}
-							} catch (Exception ex) {
-								LOGGER.error(ex.getMessage());
-							}
-
 						}
 						availableCustomerContainer.addAll(filteredValues);
 					} else {

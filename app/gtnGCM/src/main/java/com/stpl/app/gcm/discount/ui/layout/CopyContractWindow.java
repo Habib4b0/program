@@ -22,7 +22,7 @@ public class CopyContractWindow extends CustomWindow {
 
     public final SessionDTO session;
     private final List<ContractSelectionDTO> selectedList;
-    private String Count = StringUtils.EMPTY;
+    private String count = StringUtils.EMPTY;
     /**
      * The Constant LOGGER.
      */
@@ -31,7 +31,7 @@ public class CopyContractWindow extends CustomWindow {
         super("Copy Contract");
         this.session = session;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
-        this.Count = Count;
+        this.count = Count;
         init();
 
         setClosable(false);
@@ -48,7 +48,7 @@ public class CopyContractWindow extends CustomWindow {
         addStyleName("bootstrap-ui");
         addStyleName(Constants.BOOTSTRAP);
         addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
-        setContent(new CopyContractform(this, selectedList, Count));
+        setContent(new CopyContractform(this, selectedList, count));
     }
 
 }
