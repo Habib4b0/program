@@ -297,7 +297,8 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewPagedTableConfig.setSelectable(true);
 		privateViewPagedTableConfig.setPageLength(10);
 		privateViewPagedTableConfig.setItemPerPage(10);
-
+		privateViewPagedTableConfig.setPaginationOff(true);
+		
 		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
 		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		alertAction.addActionParameter("Invalid Search");
