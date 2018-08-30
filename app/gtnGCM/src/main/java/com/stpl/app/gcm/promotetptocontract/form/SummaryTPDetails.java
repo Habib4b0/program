@@ -135,8 +135,8 @@ public class SummaryTPDetails extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(true);
 
-        currentTradingPartnerTable.setVisibleColumns(Constants.getInstance().CURRENT_TRADING_PARTNER_COLUMNS);
-        currentTradingPartnerTable.setColumnHeaders(Constants.getInstance().CURRENT_TRADING_PARTNER_HEADERS);
+        currentTradingPartnerTable.setVisibleColumns(Constants.getCurrentTradingPartnerColumns());
+        currentTradingPartnerTable.setColumnHeaders(Constants.getCurrentTradingPartnerHeaders());
         currentTradingPartnerTable.setSizeFull();
         currentTradingPartnerTable.setEditable(true);
         currentTradingPartnerTable.setFilterBarVisible(false);

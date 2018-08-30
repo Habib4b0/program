@@ -12,7 +12,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 public abstract class AbstractNotificationUtils {
     /**
 	 * The Constant LOGGER.

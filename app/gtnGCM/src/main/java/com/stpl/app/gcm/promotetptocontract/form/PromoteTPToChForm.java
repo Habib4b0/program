@@ -58,7 +58,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PromoteTPToChForm extends CustomComponent implements View {
 
-    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPToChForm.class);
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
@@ -236,7 +236,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         List<String> projectionWithNewContract = logic.generateNewProjection(userId, sessionId, selectedProjectionId, masterids, true, false, session);
                         String copiedToProjId = String.valueOf(projectionWithNewContract.get(NumericConstants.TWO));
                         Integer copiedFromProjId = Integer.valueOf(String.valueOf(existingProjection.get(NumericConstants.TWO)));
-                        CommonLogic.insertInputsBeforeTranfer(selectedProjectionId, copiedFromProjId, Integer.parseInt(copiedToProjId), Integer.parseInt(copiedToProjId), session.getContMasteSid(), Integer.parseInt(session.getContractMasterSid()), session.getCompanyMasterSid(), DBDate.format(new Date()), DBDate.format(new Date()), true, sessionId, true);
+                        CommonLogic.insertInputsBeforeTranfer(selectedProjectionId, copiedFromProjId, Integer.parseInt(copiedToProjId), Integer.parseInt(copiedToProjId), session.getContMasteSid(), Integer.parseInt(session.getContractMasterSid()), session.getCompanyMasterSid(), dbDate.format(new Date()), dbDate.format(new Date()), true, sessionId, true);
                         CommonLogic.callPromoteProcedure(sessionId);
                         String query = "select PROJECTION_NAME from PROJECTION_MASTER where PROJECTION_MASTER_SID in (" + copiedFromProjId + "," + copiedToProjId + ")";
                         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);

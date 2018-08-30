@@ -60,7 +60,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DataSelection.
  */
@@ -379,9 +379,6 @@ public class DataSelection extends CustomComponent implements View {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                if (resultTable.getValue() != null) {
-
-                }
                 UI.getCurrent().setFocusedComponent(UI.getCurrent());
             }
 
@@ -652,18 +649,13 @@ public class DataSelection extends CustomComponent implements View {
                 String msg = StringUtils.EMPTY;
                 if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                     // Save the Projection
-                    try {
                         dataSelectionBinder.commit();
-                    } catch (FieldGroup.CommitException e) {
-                        LOGGER.error(e.getMessage());
-                    }
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, DataTypeConverter.convertStringToInteger(msg));
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
                     UI.getCurrent().setFocusedComponent(UI.getCurrent());
                 } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
-                    if (projectionId.getValue() == null || StringUtils.EMPTY.equals(projectionId.getValue())) {
-                    } else {
+                    if (projectionId.getValue() != null || !StringUtils.EMPTY.equals(projectionId.getValue())) {
                         msg = projectionId.getValue();
                     }
                 }
@@ -676,13 +668,11 @@ public class DataSelection extends CustomComponent implements View {
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID,
                             DataTypeConverter.convertStringToInteger(msg));
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
-
-                } else {
                 }
             } else {
                 AbstractNotificationUtils.getErrorNotification(Constant.MISSING_DATA, Constant.PLEASE_SELECT_ALL_REQUIRED_FIELDS_BEFORE);
             }
-        } catch (NumberFormatException e) {
+        } catch (FieldGroup.CommitException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
 
@@ -897,11 +887,7 @@ public class DataSelection extends CustomComponent implements View {
                     DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
                     selectedProduct.add(dataSelectionDto);
                 }
-                try {
                     dataSelectionBinder.commit();
-                } catch (FieldGroup.CommitException e) {
-                    LOGGER.error(e.getMessage());
-                }
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                     thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                 logic.saveProjection(values, selectedProduct, true,sessionDTO);
@@ -921,7 +907,7 @@ public class DataSelection extends CustomComponent implements View {
                 }
                 logic.updateProducts((Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID), insertList, removeList);
                 nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
-            } catch (SQLException | NamingException ex) {
+            } catch (FieldGroup.CommitException | SQLException | NamingException ex) {
                 LOGGER.error(ex.getMessage());
             } finally {
                 LOGGER.debug("Inside finally");
@@ -956,7 +942,6 @@ public class DataSelection extends CustomComponent implements View {
 
         final ProductGroupLookup lookUp = new ProductGroupLookup(sessionDTO);
         UI.getCurrent().addWindow(lookUp);
-        // TODO Auto-generated method stub
         lookUp.addCloseListener(new Window.CloseListener() {
 
             private static final long serialVersionUID = 1L;

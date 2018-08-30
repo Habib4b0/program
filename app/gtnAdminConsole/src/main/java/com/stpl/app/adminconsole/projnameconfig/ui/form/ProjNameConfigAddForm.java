@@ -52,7 +52,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class ProjNameConfigAddForm.
  *
@@ -185,7 +185,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ProjNameConfigAddForm() throws SystemException, PortalException {
+    public ProjNameConfigAddForm() throws PortalException {
 
         super();
 

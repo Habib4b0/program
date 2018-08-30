@@ -17,7 +17,6 @@ import com.stpl.app.gtnforecasting.discountprojectionresults.form.ManagedDiscoun
 import com.stpl.app.gtnforecasting.discountprojectionresults.form.NMDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.getRelationshipDetailsDeductionCustom;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.ppaprojection.form.PPAProjection;
@@ -112,6 +111,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;
@@ -119,7 +119,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Contains and Controls the tabsheet containing all the screen.
  *
@@ -349,7 +349,7 @@ public class ForecastForm extends AbstractForm {
 	 * @throws Exception
 	 * @throws SystemException
 	 */
-	   private void addContent() throws SystemException, PortalException {
+	   private void addContent() throws  PortalException {
         initializeTabs();
         initializeLazyTabLoad(tabLazyLoadMap, tabSheet.getComponentCount());
         buildScreen();
@@ -892,7 +892,6 @@ public class ForecastForm extends AbstractForm {
 
 							} else {
 
-								try {
 									Tab tabToReset = tabSheet.getTab(1);
 									tabSheet.removeTab(tabToReset);
 									tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
@@ -900,10 +899,6 @@ public class ForecastForm extends AbstractForm {
 									data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
 									tabPosition = 0;
 									dsFlag = true;
-								} catch (Exception e) {
-									LOGGER.error(e.getMessage());
-								}
-
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
@@ -933,18 +928,8 @@ public class ForecastForm extends AbstractForm {
 				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 			if ((tabPosition == data.getTabNumber()) && (data.isReloadAfterUpdate())) {
-				try {
-
 					data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
-				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage());
-				}
 			}
-
-			if ((tabPosition == data.getTabNumber()) && (Constant.EDIT_SMALL.equals(session.getAction()))) {
-
-			}
-
 			lastPosition = tabPosition;
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -962,26 +947,28 @@ public class ForecastForm extends AbstractForm {
 				new AbstractNotificationUtils() {
 					@Override
 					public void yesMethod() {
-						try {
 							if (data.isDataSelectionValid()) {
-								data.updateDataSelection();
-								nmSalesInsertProcedure();
-								if (session.isFromDateChanged()) {
-
-									DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
-									session.setFromDateChanged(false);
-								}
-								tabSheet.setSelectedTab(tempTabPosition);
-								tabPosition = tempTabPosition;
-								dsFlag = true;
-								salesProjectionForMandated.init();
-								salesProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
-								discountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
-								projectionVarianceForMandated.getBeanContainerResult().removeAllItems();
-								mmdiscountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
+                                                            try {
+                                                                data.updateDataSelection();
+                                                                nmSalesInsertProcedure();
+                                                                if (session.isFromDateChanged()) {
+                                                                    
+                                                                    DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                                                                    session.setFromDateChanged(false);
+                                                                }
+                                                                tabSheet.setSelectedTab(tempTabPosition);
+                                                                tabPosition = tempTabPosition;
+                                                                dsFlag = true;
+                                                                salesProjectionForMandated.init();
+                                                                salesProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
+                                                                discountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
+                                                                projectionVarianceForMandated.getBeanContainerResult().removeAllItems();
+                                                                mmdiscountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
+                                                            } catch (PortalException | ClassNotFoundException | IOException ex) {
+                                                                LOGGER.error(ex.getMessage());
+                                                            }
 							} else {
 
-								try {
 									Tab tabToReset = tabSheet.getTab(1);
 									tabSheet.removeTab(tabToReset);
 									tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
@@ -989,31 +976,19 @@ public class ForecastForm extends AbstractForm {
 									data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
 									tabPosition = 0;
 									dsFlag = true;
-								} catch (Exception e) {
-									LOGGER.error(e.getMessage());
-								}
-
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
-						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
-							LOGGER.error(ex.getMessage());
-						}
 					}
 
 					@Override
 					public void noMethod() {
-						try {
 							Tab tabToReset = tabSheet.getTab(1);
 							tabSheet.removeTab(tabToReset);
 							tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
 							tabSheet.setSelectedTab(0);
 							data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
 							tabPosition = 0;
-
-						} catch (Exception ex) {
-							LOGGER.error(ex.getMessage());
-						}
 						dsFlag = true;
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
@@ -1025,12 +1000,7 @@ public class ForecastForm extends AbstractForm {
 
 			case Constant.ZERO:
 				if (data.isReloadAfterUpdate()) {
-					try {
-
 						data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
-					} catch (Exception ex) {
-						LOGGER.error(ex.getMessage());
-					}
 				}
 				break;
 			case Constant.TWO:
@@ -1561,7 +1531,7 @@ public class ForecastForm extends AbstractForm {
 	 * Submits the projection. Saves and calls the workflow
 	 */
 	private void submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData)
-			throws SystemException, PortalException {
+			throws PortalException {
 
 		if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
@@ -1688,10 +1658,6 @@ public class ForecastForm extends AbstractForm {
 		} else {
 			tabSheet.setSelectedTab(1);
 		}
-		try {
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
 	}
 
 	public NMSalesProjection getSalesProjection() {
@@ -1755,12 +1721,6 @@ public class ForecastForm extends AbstractForm {
 
         if (pushMap.get(INDICATOR_REFRESH_UPDATE.getConstant()) != null
                 && pushMap.get(INDICATOR_REFRESH_UPDATE.getConstant())) {
-            if (tabPosition == nmSalesProjection.getTabNumber()) {
-            }
-            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == salesProjectionResults.getTabNumber()
-					&& tabLazyLoadMap.get(salesProjectionResults.getTabNumber())) {
-				salesProjectionResults.pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
-			}
 
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
@@ -1780,12 +1740,6 @@ public class ForecastForm extends AbstractForm {
 
 		if (pushMap.get(INDICATOR_TIME_PERIOD_CHANGED.getConstant()) != null
 				&& pushMap.get(INDICATOR_TIME_PERIOD_CHANGED.getConstant())) {
-			if (tabPosition == nmSalesProjection.getTabNumber()) {
-			}
-			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == salesProjectionResults.getTabNumber()
-					&& tabLazyLoadMap.get(salesProjectionResults.getTabNumber())) {
-				salesProjectionResults.pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
-			}
 
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
@@ -1912,7 +1866,7 @@ public class ForecastForm extends AbstractForm {
 	 *
 	 * @throws Exception
 	 */
-	private void setButtonSecurity() throws PortalException, SystemException {
+	private void setButtonSecurity() throws PortalException {
 		final StplSecurity stplSecurity = new StplSecurity();
 		Map<String, AppPermission> functionPsHM = stplSecurity
 				.getBusinessFunctionPermissionForNm(

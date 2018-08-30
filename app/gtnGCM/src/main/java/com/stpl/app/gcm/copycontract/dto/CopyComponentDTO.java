@@ -27,7 +27,7 @@ public class CopyComponentDTO implements Serializable {
     private String aliasNumber = StringUtils.EMPTY;
     private Date aliasstartdate;
     private Date aliasenddate;
-    private String CompanyId = StringUtils.EMPTY;
+    private String companyId = StringUtils.EMPTY;
     private String companyNo = StringUtils.EMPTY;
     private String companyName = StringUtils.EMPTY;
     private String companyStatus = StringUtils.EMPTY;
@@ -65,10 +65,10 @@ public class CopyComponentDTO implements Serializable {
     private String rarCategory = StringUtils.EMPTY;
     private String field = StringUtils.EMPTY;
     private String componentSelection = StringUtils.EMPTY;
-    private String CFPname = StringUtils.EMPTY;
-    private String IFPname = StringUtils.EMPTY;
-    private String PSname = StringUtils.EMPTY;
-    private String RSname = StringUtils.EMPTY;
+    private String cfpName = StringUtils.EMPTY;
+    private String ifpName = StringUtils.EMPTY;
+    private String psName = StringUtils.EMPTY;
+    private String rsName = StringUtils.EMPTY;
     private String contractStartDate = StringUtils.EMPTY;
     private String contractEndDate = StringUtils.EMPTY;
     private String ifp = StringUtils.EMPTY;
@@ -115,10 +115,10 @@ public class CopyComponentDTO implements Serializable {
     private String tpNo=StringUtils.EMPTY;
     private String addBy=StringUtils.EMPTY;
 
-    private Integer CFPId = 0;
-    private Integer IFPId = 0;
-    private Integer PSId = 0;
-    private Integer RSId = 0;
+    private Integer cfpId = 0;
+    private Integer ifpId = 0;
+    private Integer psId = 0;
+    private Integer rsId = 0;
     private String levelNo = Constants.ZEROSTRING;
     private boolean check = false;
     private HelperDTO salesInclusion;
@@ -487,27 +487,27 @@ public class CopyComponentDTO implements Serializable {
     }
 
     public String getCFPname() {
-        return CFPname;
+        return cfpName;
     }
 
     public void setCFPname(String CFPname) {
-        this.CFPname = CFPname;
+        this.cfpName = CFPname;
     }
 
     public String getIFPname() {
-        return IFPname;
+        return ifpName;
     }
 
     public void setIFPname(String IFPname) {
-        this.IFPname = IFPname;
+        this.ifpName = IFPname;
     }
 
     public String getPSname() {
-        return PSname;
+        return psName;
     }
 
     public void setPSname(String PSname) {
-        this.PSname = PSname;
+        this.psName = PSname;
     }
 
     public String getContractStartDate() {
@@ -551,43 +551,43 @@ public class CopyComponentDTO implements Serializable {
     }
 
     public String getRSname() {
-        return RSname;
+        return rsName;
     }
 
     public void setRSname(String RSname) {
-        this.RSname = RSname;
+        this.rsName = RSname;
     }
 
     public Integer getCFPId() {
-        return CFPId;
+        return cfpId;
     }
 
     public void setCFPId(Integer CFPId) {
-        this.CFPId = CFPId;
+        this.cfpId = CFPId;
     }
 
     public Integer getIFPId() {
-        return IFPId;
+        return ifpId;
     }
 
     public void setIFPId(Integer IFPId) {
-        this.IFPId = IFPId;
+        this.ifpId = IFPId;
     }
 
     public Integer getPSId() {
-        return PSId;
+        return psId;
     }
 
     public void setPSId(Integer PSId) {
-        this.PSId = PSId;
+        this.psId = PSId;
     }
 
     public Integer getRSId() {
-        return RSId;
+        return rsId;
     }
 
     public void setRSId(Integer RSId) {
-        this.RSId = RSId;
+        this.rsId = RSId;
     }
 
     public Boolean getCheck() {
@@ -735,11 +735,11 @@ public class CopyComponentDTO implements Serializable {
     }
 
     public String getCompanyId() {
-        return CompanyId;
+        return companyId;
     }
 
     public void setCompanyId(String CompanyId) {
-        this.CompanyId = CompanyId;
+        this.companyId = CompanyId;
     }
 
     public String getContractId() {

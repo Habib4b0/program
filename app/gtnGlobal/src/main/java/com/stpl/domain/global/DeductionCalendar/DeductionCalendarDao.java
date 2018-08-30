@@ -7,7 +7,6 @@ package com.stpl.domain.global.DeductionCalendar;
 
 import com.stpl.app.model.DeductionCalendarMaster;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -16,6 +15,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 public interface DeductionCalendarDao {
     
     DeductionCalendarMaster saveDeductionCalendarMaster(DeductionCalendarMaster deductionCalendarMaster)
-			throws SystemException, PortalException;
+			throws PortalException;
     
 }

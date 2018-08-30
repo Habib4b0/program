@@ -54,10 +54,10 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     private static final long serialVersionUID = 4573149356126437540L;
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRoleModuleSearchLogic.class.getName());
 
-    private final int VersionNo = NumericConstants.ONE;
+    private final int versionNo = NumericConstants.ONE;
 
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(ErrorfulFieldGroup searchBusinessRoleModuleForm)
-            throws SystemException, PortalException {
+            throws PortalException {
 
         String businessRoleName = "";
         String subModuleName = "";
@@ -114,7 +114,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     }
 
     public List<SearchBusinessRoleModuleForm> searchFieldAccessDetails(ErrorfulFieldGroup searchBusinessRoleModuleForm)
-            throws SystemException, PortalException {
+            throws PortalException {
 
         String businessRoleName = "";
         String subModuleName = "";
@@ -443,7 +443,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                     }
                     businessroleModuleMaster.setModifiedDate(date);
                     businessroleModuleMaster.setModifiedBy(Integer.parseInt(userId));
-                    businessroleModuleMaster.setVersionNo(VersionNo);
+                    businessroleModuleMaster.setVersionNo(versionNo);
                     dao.updateBusinessroleModuleMaster(businessroleModuleMaster);
                     String afterUpdate = businessroleModuleMaster.toString();
                     auditMessageProducer.logAuditMessage(PortalUtil.getDefaultCompanyId(),
@@ -512,7 +512,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                     String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
                     businessroleModuleMasterFetch.setModifiedBy(Integer.parseInt(userId));
                     businessroleModuleMasterFetch.setModifiedDate(date);
-                    businessroleModuleMaster.setVersionNo(VersionNo);
+                    businessroleModuleMaster.setVersionNo(versionNo);
                     String afterUpdate = businessroleModuleMasterFetch.toString();
                     dao.updateBusinessroleModuleMaster(businessroleModuleMasterFetch);
                     auditMessageProducer.logAuditMessage(PortalUtil.getDefaultCompanyId(),

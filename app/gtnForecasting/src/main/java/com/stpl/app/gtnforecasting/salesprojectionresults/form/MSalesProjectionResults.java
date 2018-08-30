@@ -405,7 +405,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
+        // enter method
     }
 
     /**
@@ -593,8 +593,6 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
                 for (CustomViewMaster obj : customViewList) {
                     int customSid = obj.getCustomViewMasterSid();
                     Object itemId = customSid;
-                    if (customIdToSelect == customSid) {
-                    }
                     customDdlb.addItem(itemId);
                     customDdlb.setItemCaption(itemId, obj.getViewName());
                 }

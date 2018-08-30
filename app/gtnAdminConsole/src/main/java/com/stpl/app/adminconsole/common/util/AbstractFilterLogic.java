@@ -23,7 +23,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class AbstractFilterLogic {
 
-    public final SimpleDateFormat DBDATE = new SimpleDateFormat("yyyy-MM-dd");
+    public final SimpleDateFormat dbDate = new SimpleDateFormat("yyyy-MM-dd");
     private static AbstractFilterLogic adminInstance;
 
     private AbstractFilterLogic() {
@@ -81,7 +81,7 @@ public class AbstractFilterLogic {
                                 tempStart = new StringBuilder(dateStartStr);
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDATE.format(startDate));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(startDate));
                             sqlQuery.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -93,7 +93,7 @@ public class AbstractFilterLogic {
                             }
 
                             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDATE.format(endDate));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, dbDate.format(endDate));
                             sqlQuery.append(tempEnd);
                         }
                     }
@@ -190,7 +190,7 @@ public class AbstractFilterLogic {
                                 }
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDATE.format(value));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(value));
                             sqlQuery.append(tempStart);
                         }
                     }

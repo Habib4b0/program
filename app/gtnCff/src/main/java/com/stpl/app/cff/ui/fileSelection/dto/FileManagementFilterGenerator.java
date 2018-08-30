@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.ui.fileSelection.dto;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
@@ -113,7 +112,7 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
                 return therapyClass;
             }
 
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         return null;

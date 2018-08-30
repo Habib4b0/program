@@ -46,7 +46,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws Exception
      */
     @Override
-    public Object executeUpdateQuery(String query) throws SystemException, PortalException {
+    public Object executeUpdateQuery(String query) throws  PortalException {
         return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
 
@@ -60,7 +60,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws Exception
      */
     @Override
-    public Object executeSelectQuery(String query) throws SystemException, PortalException {
+    public Object executeSelectQuery(String query) throws PortalException {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
@@ -73,7 +73,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws SystemException
      */
     @Override
-    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException, SystemException {
+    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
 
@@ -86,7 +86,7 @@ public class CFFDAOImpl implements CFFDAO {
      * com.stpl.app.cff.dao.CffLogicDAO#addCffMaster(com.stpl.app.cff.model.CffMaster)
      */
     @Override
-    public CffMaster addCffMaster(final CffMaster cffMaster) throws SystemException, PortalException {
+    public CffMaster addCffMaster(final CffMaster cffMaster) throws PortalException {
         return CffMasterLocalServiceUtil.addCffMaster(cffMaster);
     }
 
@@ -98,7 +98,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @see com.stpl.app.cff.dao.CffLogicDAO#getCffMaster(int)
      */
     @Override
-    public CffMaster getCffMaster(final int cffMasterSid) throws SystemException, PortalException {
+    public CffMaster getCffMaster(final int cffMasterSid) throws PortalException {
         return CffMasterLocalServiceUtil.getCffMaster(cffMasterSid);
     }
 
@@ -111,7 +111,7 @@ public class CFFDAOImpl implements CFFDAO {
      * com.stpl.app.cff.dao.CffLogicDAO#updateCffMaster(com.stpl.app.cff.model.CffMaster)
      */
     @Override
-    public CffMaster updateCffMaster(final CffMaster cffMaster) throws SystemException, PortalException {
+    public CffMaster updateCffMaster(final CffMaster cffMaster) throws PortalException {
         return CffMasterLocalServiceUtil.updateCffMaster(cffMaster);
     }
 
@@ -196,7 +196,7 @@ public class CFFDAOImpl implements CFFDAO {
     }
 
     @Override
-    public List<HelperTable> getHelperTableDetailsByListName(String listName) throws PortalException, SystemException {
+    public List<HelperTable> getHelperTableDetailsByListName(String listName) throws SystemException {
         return CommonServiceImpl.getInstance().getHelperTableSId(listName);
     }
 

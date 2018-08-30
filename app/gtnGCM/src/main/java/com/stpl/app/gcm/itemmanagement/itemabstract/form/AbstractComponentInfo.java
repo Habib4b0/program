@@ -106,23 +106,23 @@ public class AbstractComponentInfo extends CustomComponent {
     @UiField("labelRsType")
     private Label labelRsType;
     @UiField("rsType")
-    protected ComboBox rsType_DTO;
+    protected ComboBox rsTypeDTO;
     @UiField("lableRsProgramType")
     protected Label lableRsProgramType;
     @UiField("rsProgramType")
-    protected ComboBox rsProgramType_DTO;
+    protected ComboBox rsProgramTypeDTO;
     @UiField("lableRsCategory")
     protected Label lableRsCategory;
     @UiField("rsCategory")
-    protected ComboBox rsCategory_DTO;
+    protected ComboBox rsCategoryDTO;
     @UiField("lablePaymentFreq")
     private Label lablePaymentFreq;
     @UiField("paymentFrequency")
-    protected ComboBox paymentFrequency_DTO;
+    protected ComboBox paymentFrequencyDTO;
     @UiField("lableRebatePlanLevel")
     private Label lableRebatePlanLevel;
     @UiField("rebatePlanLevel")
-    protected ComboBox rebatePlanLevel_DTO;
+    protected ComboBox rebatePlanLevelDTO;
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
     @UiField("itemSearchGrid")
@@ -162,8 +162,8 @@ public class AbstractComponentInfo extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.ATTACHED_DATE_FIELD};
 
 
-    public static final Object[] RS_COL = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
-    public static final String[] RS_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
+    private static final Object[] RS_COL = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
+    private static final String[] RS_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     private ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
@@ -552,11 +552,11 @@ public class AbstractComponentInfo extends CustomComponent {
         if (!value.equals(Constants.RS)) {
             rebateFrequency.setVisible(false);
             basis.setVisible(false);
-            rsType_DTO.setVisible(false);
-            rsProgramType_DTO.setVisible(false);
-            rsCategory_DTO.setVisible(false);
-            paymentFrequency_DTO.setVisible(false);
-            rebatePlanLevel_DTO.setVisible(false);
+            rsTypeDTO.setVisible(false);
+            rsProgramTypeDTO.setVisible(false);
+            rsCategoryDTO.setVisible(false);
+            paymentFrequencyDTO.setVisible(false);
+            rebatePlanLevelDTO.setVisible(false);
             rsTypeText.setVisible(false);
             rsProgramTypeText.setVisible(false);
             rsCategoryText.setVisible(false);
@@ -574,11 +574,11 @@ public class AbstractComponentInfo extends CustomComponent {
         } else {
             rebateFrequency.setVisible(true);
             basis.setVisible(true);
-            rsType_DTO.setVisible(true);
-            rsProgramType_DTO.setVisible(true);
-            rsCategory_DTO.setVisible(true);
-            paymentFrequency_DTO.setVisible(true);
-            rebatePlanLevel_DTO.setVisible(true);
+            rsTypeDTO.setVisible(true);
+            rsProgramTypeDTO.setVisible(true);
+            rsCategoryDTO.setVisible(true);
+            paymentFrequencyDTO.setVisible(true);
+            rebatePlanLevelDTO.setVisible(true);
             rsTypeText.setVisible(true);
             rsProgramTypeText.setVisible(true);
             rsCategoryText.setVisible(true);
@@ -667,7 +667,7 @@ public class AbstractComponentInfo extends CustomComponent {
      */
     private void loadRsType() {
 
-        abstractLogic.loadComboBox(rsType_DTO, "RS_TYPE", false);
+        abstractLogic.loadComboBox(rsTypeDTO, "RS_TYPE", false);
 
     }
 
@@ -675,28 +675,28 @@ public class AbstractComponentInfo extends CustomComponent {
      * loadRsCategory
      */
     private void loadRsCategory() {
-        abstractLogic.loadComboBox(rsCategory_DTO, "RS_CATEGORY", false);
+        abstractLogic.loadComboBox(rsCategoryDTO, "RS_CATEGORY", false);
     }
 
     /**
      * loadRptype
      */
     private void loadRptype() {
-        abstractLogic.loadComboBox(rsProgramType_DTO, "REBATE_PROGRAM_TYPE", false);
+        abstractLogic.loadComboBox(rsProgramTypeDTO, "REBATE_PROGRAM_TYPE", false);
     }
 
     /**
      * loadPaymentFrequency
      */
     private void loadPaymentFrequency() {
-        abstractLogic.LazyLoadDdlb(paymentFrequency_DTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(paymentFrequencyDTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BooleanConstant.getFalseFlag());
     }
 
     /**
      * loadRPLevel
      */
     private void loadRPLevel() {
-        abstractLogic.LazyLoadDdlb(rebatePlanLevel_DTO, "LoadRPLevelCount", "LoadRPLevel", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(rebatePlanLevelDTO, "LoadRPLevelCount", "LoadRPLevel", BooleanConstant.getFalseFlag());
     }
 
     public void fireComponentListener(final String value, final SelectionDTO selection) {
@@ -839,10 +839,10 @@ public class AbstractComponentInfo extends CustomComponent {
     }
 
     public void replaceComponent() {
-        itemSearchGrid.replaceComponent(rsType_DTO, rsTypeText);
-        itemSearchGrid.replaceComponent(rsProgramType_DTO, rsProgramTypeText);
-        itemSearchGrid.replaceComponent(rsCategory_DTO, rsCategoryText);
-        itemSearchGrid.replaceComponent(paymentFrequency_DTO, paymentFrequencyText);
-        itemSearchGrid.replaceComponent(rebatePlanLevel_DTO, rebatePlanLevelText);
+        itemSearchGrid.replaceComponent(rsTypeDTO, rsTypeText);
+        itemSearchGrid.replaceComponent(rsProgramTypeDTO, rsProgramTypeText);
+        itemSearchGrid.replaceComponent(rsCategoryDTO, rsCategoryText);
+        itemSearchGrid.replaceComponent(paymentFrequencyDTO, paymentFrequencyText);
+        itemSearchGrid.replaceComponent(rebatePlanLevelDTO, rebatePlanLevelText);
     }
 }

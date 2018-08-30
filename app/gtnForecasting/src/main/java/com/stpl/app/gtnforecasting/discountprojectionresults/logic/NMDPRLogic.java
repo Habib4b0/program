@@ -1263,16 +1263,17 @@ public class NMDPRLogic {
 
 
     public String getFormattedValue(DecimalFormat format, String value) {
+        String valueToFormat;
         if (value.contains(NULL)) {
-            value = DASH.getConstant();
+            valueToFormat = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
             if (format.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
+            valueToFormat = format.format(newValue);
         }
-        return value;
+        return valueToFormat;
     }
 
 
@@ -1373,8 +1374,9 @@ public class NMDPRLogic {
         String startPeriod = "";
         String forecastStartPeriod = "";
         String forecastEndPeriod = "";
+        String discountStringValue = StringUtils.EMPTY;
         if (discountString.equals("0")) {
-            discountString = "'" + discountString + "'";
+            discountStringValue = "'" + discountString + "'";
         }
         if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
             String hsYear = String.valueOf(startAndEndPeriods.get(0));
@@ -1428,7 +1430,7 @@ public class NMDPRLogic {
             query += SQlUtil.getQuery(totalQueryName);
 
             //For replacing in main select query
-            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountString)
+            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountStringValue)
                     .replaceAll("\\?RSNAME", rsName).replaceAll("\\?GRSNAME", getGroupByCondition(frequency, isPivotHier, rsRequired))
                     .replaceAll("\\?PERIODCOND", getPeriodCondition(isPivotHier, forecastStartPeriod, forecastEndPeriod));
         } else if (proSelDTO.getCustomId() != 0) {
@@ -1438,7 +1440,7 @@ public class NMDPRLogic {
             query += SQlUtil.getQuery(queryName);
 
             //For replacing in main select query
-            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountString)
+            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountStringValue)
                     .replaceAll("\\?RSNAME", rsName).replaceAll("\\?GRSNAME", getGroupByCondition(frequency, isPivotHier, rsRequired))
                     .replaceAll("\\?PERIODCOND", getPeriodCondition(isPivotHier, forecastStartPeriod, forecastEndPeriod));
         } else {

@@ -56,8 +56,6 @@ public class NmDiscountImpl {
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
             return null;
-        } finally {
-
         }
     }
 
@@ -1614,6 +1612,7 @@ public class NmDiscountImpl {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
+        String frequencyDpr = frequency;
         try {
             String idString = "";
             StringBuilder idStringBuilder = new StringBuilder();
@@ -1674,22 +1673,22 @@ public class NmDiscountImpl {
                 forecastEndPeriod = feYear + feMonth;
 
             }
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+            if (frequencyDpr.equals(QUARTERLY.getConstant())) {
+                frequencyDpr = Constant.QUARTER;
             }
-            if (frequency.equals(Constant.ANNUALLY)) {
-                frequency = "YEAR";
+            if (frequencyDpr.equals(Constant.ANNUALLY)) {
+                frequencyDpr = "YEAR";
             }
-            if (frequency.equals(Constant.SEMIANNUALLY)) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyDpr.equals(Constant.SEMIANNUALLY)) {
+                frequencyDpr = Constant.SEMI_ANNUAL;
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyDpr.equals(MONTHLY.getConstant())) {
+                frequencyDpr = Constant.MONTH_WITHOUT_SPACE;
             }
 
-            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
-                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
+            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequencyDpr + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequencyDpr + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + Constant.JOIN + tableName + "NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
             if (!viewFlag) {
@@ -1712,11 +1711,11 @@ public class NmDiscountImpl {
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
-                    + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
+                    + " GROUP BY PR.YEAR,PR." + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
                     + Constant.UNION_ALL
-                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequencyDpr + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
-                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequencyDpr + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
@@ -1754,17 +1753,17 @@ public class NmDiscountImpl {
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
-                    + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
+                    + Constant.GROUP_BY_PR_YEAR + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
             if (view.equalsIgnoreCase("parent")) {
-                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+                if (frequencyDpr.equals("YEAR") || frequencyDpr.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR.MONTH";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + Constant.PR_MONTH;
+                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequencyDpr + Constant.PR_MONTH;
                 }
-            } else if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+            } else if (frequencyDpr.equals("YEAR") || frequencyDpr.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
             } else {
-                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
+                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequencyDpr + Constant.PR_MONTH;
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(projectionQuery);
         } catch (Exception e) {
@@ -1777,6 +1776,7 @@ public class NmDiscountImpl {
     public List getChildDiscount(List<Integer> discountprojectionId, String projection, List<Integer> startAndEndPeriods, String frequency, int userId, int sessionId) {
 
         String sql = "";
+        String frequencyChildDiscount = frequency;
         try {
             String idString;
             int startFreq = 0;
@@ -1802,8 +1802,8 @@ public class NmDiscountImpl {
                 endYear = startAndEndPeriods.get(3);
             }
 
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+            if (frequencyChildDiscount.equals(QUARTERLY.getConstant())) {
+                frequencyChildDiscount = Constant.QUARTER;
 
                 switch (startFreq) {
                     case 1:
@@ -1841,13 +1841,13 @@ public class NmDiscountImpl {
                 }
 
             }
-            if (frequency.equals(Constant.ANNUALLY)) {
-                frequency = "YEAR";
+            if (frequencyChildDiscount.equals(Constant.ANNUALLY)) {
+                frequencyChildDiscount = "YEAR";
                 startMonth = 1;
                 endMonth = 12;
             }
-            if (frequency.equals(Constant.SEMIANNUALLY)) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyChildDiscount.equals(Constant.SEMIANNUALLY)) {
+                frequencyChildDiscount = Constant.SEMI_ANNUAL;
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -1872,8 +1872,8 @@ public class NmDiscountImpl {
                 }
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyChildDiscount.equals(MONTHLY.getConstant())) {
+                frequencyChildDiscount = Constant.MONTH_WITHOUT_SPACE;
                 startMonth = startFreq;
                 endMonth = endFreq;
             }
@@ -1915,13 +1915,13 @@ public class NmDiscountImpl {
                     + Constant.SPACE_END_NEW_LINE;
 
             if (projection.equals(Constant.ACTUALS)) {
-                sql = "select D.YEAR,D." + frequency + ",sum(B.ACTUAL_SALES) As ACTUAL_SALES,sum(B.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_ACTUAL_DISCOUNT B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ") " + periodFilter + " group by D.YEAR,D." + frequency + Constant.ORDER_BY_D_YEAR;
+                sql = "select D.YEAR,D." + frequencyChildDiscount + ",sum(B.ACTUAL_SALES) As ACTUAL_SALES,sum(B.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_ACTUAL_DISCOUNT B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ") " + periodFilter + " group by D.YEAR,D." + frequencyChildDiscount + Constant.ORDER_BY_D_YEAR;
             }
             if (projection.equals(Constant.PROJECTIONS)) {
-                sql = "select J.RS_NAME,D.YEAR,D." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ")" + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequency + Constant.ORDER_BY_D_YEAR;
+                sql = "select J.RS_NAME,D.YEAR,D." + frequencyChildDiscount + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ")" + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequencyChildDiscount + Constant.ORDER_BY_D_YEAR;
             }
             if (projection.equals("Both")) {
-                sql = "select J.RS_NAME,D.YEAR,D." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE,sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.ST_NM_ACTUAL_DISCOUNT C,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + " and C.USER_ID=" + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + " and C.SESSION_ID=" + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ") " + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequency + Constant.ORDER_BY_D_YEAR;
+                sql = "select J.RS_NAME,D.YEAR,D." + frequencyChildDiscount + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE,sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.ST_NM_ACTUAL_DISCOUNT C,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + " and C.USER_ID=" + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + " and C.SESSION_ID=" + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ") " + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequencyChildDiscount + Constant.ORDER_BY_D_YEAR;
             }
             sql = declareStatement + sql;
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -2038,6 +2038,7 @@ public class NmDiscountImpl {
     public List getTotalDiscountNumber(List<Integer> projectionDetailsId, String frequency, String discountName, List<Integer> startAndEndPeriods, int userId, int sessionId, List<Object> view) {
 
         String projectionQuery = "";
+        String frequencyDiscountNumber = frequency;
         try {
             String idString;
             StringBuilder idStringBuilder = new StringBuilder();
@@ -2082,21 +2083,21 @@ public class NmDiscountImpl {
                 forecastEndPeriod = feYear + feMonth;
 
             }
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+            if (frequencyDiscountNumber.equals(QUARTERLY.getConstant())) {
+                frequencyDiscountNumber = Constant.QUARTER;
             }
-            if (frequency.equals(Constant.ANNUALLY)) {
-                frequency = "YEAR";
+            if (frequencyDiscountNumber.equals(Constant.ANNUALLY)) {
+                frequencyDiscountNumber = "YEAR";
             }
-            if (frequency.equals(Constant.SEMIANNUALLY)) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyDiscountNumber.equals(Constant.SEMIANNUALLY)) {
+                frequencyDiscountNumber = Constant.SEMI_ANNUAL;
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyDiscountNumber.equals(MONTHLY.getConstant())) {
+                frequencyDiscountNumber = Constant.MONTH_WITHOUT_SPACE;
             }
-            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
-                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
+            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequencyDiscountNumber + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequencyDiscountNumber + Constant.PR_MONTH_RS_M_RS_NAME
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
                     + Constant.JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP
@@ -2111,11 +2112,11 @@ public class NmDiscountImpl {
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
-                    + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME"
+                    + " GROUP BY PR.YEAR,PR." + frequencyDiscountNumber + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME"
                     + Constant.UNION_ALL
-                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequencyDiscountNumber + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
-                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequencyDiscountNumber + ",PR.MONTH, RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
@@ -2136,18 +2137,18 @@ public class NmDiscountImpl {
                     + Constant.AND_NM_ADM_SESSION_ID + sessionId + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
-                    + Constant.GROUP_BY_PR_YEAR + frequency + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
+                    + Constant.GROUP_BY_PR_YEAR + frequencyDiscountNumber + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
 
-            if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+            if (frequencyDiscountNumber.equals("YEAR") || frequencyDiscountNumber.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 if (view.get(0) != null && "Descending".equalsIgnoreCase(String.valueOf(view.get(0)))) {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR DESC,PR.MONTH DESC";
                 } else {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
                 }
             } else if (view.get(0) != null && "Descending".equalsIgnoreCase(String.valueOf(view.get(0)))) {
-                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR DESC,PR." + frequency + " DESC,PR.MONTH DESC";
+                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR DESC,PR." + frequencyDiscountNumber + " DESC,PR.MONTH DESC";
             } else {
-                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
+                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequencyDiscountNumber + Constant.PR_MONTH;
             }
 
             return HelperTableLocalServiceUtil.executeSelectQuery(projectionQuery);
@@ -2163,6 +2164,7 @@ public class NmDiscountImpl {
         {
 
             String sql = "";
+            String frequencySubDiscount = frequency;
             try {
                 String idString ;
                 StringBuilder idStringBuilder = new StringBuilder();
@@ -2208,20 +2210,20 @@ public class NmDiscountImpl {
 
                 }
 
-                if (frequency.equals(QUARTERLY.getConstant())) {
-                    frequency = Constant.QUARTER;
+                if (frequencySubDiscount.equals(QUARTERLY.getConstant())) {
+                    frequencySubDiscount = Constant.QUARTER;
                 }
-                if (frequency.equals(Constant.ANNUALLY)) {
-                    frequency = "YEAR";
+                if (frequencySubDiscount.equals(Constant.ANNUALLY)) {
+                    frequencySubDiscount = "YEAR";
                 }
-                if (frequency.equals(Constant.SEMIANNUALLY)) {
-                    frequency = Constant.SEMI_ANNUAL;
+                if (frequencySubDiscount.equals(Constant.SEMIANNUALLY)) {
+                    frequencySubDiscount = Constant.SEMI_ANNUAL;
                 }
-                if (frequency.equals(MONTHLY.getConstant())) {
-                    frequency = Constant.MONTH_WITHOUT_SPACE;
+                if (frequencySubDiscount.equals(MONTHLY.getConstant())) {
+                    frequencySubDiscount = Constant.MONTH_WITHOUT_SPACE;
                 }
-                sql = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
-                        + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
+                sql = Constant.SELECT_PR_YEAR_PR + frequencySubDiscount + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                        + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequencySubDiscount + Constant.PR_MONTH_RS_M_RS_NAME
                         + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                         + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
                         + Constant.JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP
@@ -2236,11 +2238,11 @@ public class NmDiscountImpl {
                         + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                         + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                         + Constant.AND_RS_M_RS_NAME_IN + discountList + ") "
-                        + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
+                        + Constant.GROUP_BY_PR_YEAR + frequencySubDiscount + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
                         + Constant.UNION_ALL
-                        + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                        + Constant.SELECT_PR_YEAR_PR + frequencySubDiscount + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                         + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
-                        + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
+                        + Constant.AS_PROJECTION_DISCOUNT_PR + frequencySubDiscount + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                         + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS "
                         + "FROM PROJECTION_DETAILS PD\n"
                         + Constant.JOIN_ST_NM_DISCOUNT_PROJ_MASTER_NM_ADM_ON
@@ -2260,7 +2262,7 @@ public class NmDiscountImpl {
                         + Constant.AND_NM_ADM_SESSION_ID + sessionId + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                         + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
                         + Constant.AND_RS_M_RS_NAME_IN + discountList + ")"
-                        + Constant.GROUP_BY_PR_YEAR + frequency + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
+                        + Constant.GROUP_BY_PR_YEAR + frequencySubDiscount + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
 
                 sql = sql + " ORDER BY PR.YEAR,BASE,RSM.RS_NAME";
 
@@ -2277,6 +2279,7 @@ public class NmDiscountImpl {
         {
 
             String sql = "";
+            String frequencyTotalDiscount = frequency;
             try {
 
                 int startFreq = 0;
@@ -2293,8 +2296,8 @@ public class NmDiscountImpl {
                     endYear = startAndEndPeriods.get(3);
                 }
 
-                if (frequency.equals(QUARTERLY.getConstant())) {
-                    frequency = Constant.QUARTER;
+                if (frequencyTotalDiscount.equals(QUARTERLY.getConstant())) {
+                    frequencyTotalDiscount = Constant.QUARTER;
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -2330,13 +2333,13 @@ public class NmDiscountImpl {
 
                     }
                 }
-                if (frequency.equals(Constant.ANNUALLY)) {
-                    frequency = "YEAR";
+                if (frequencyTotalDiscount.equals(Constant.ANNUALLY)) {
+                    frequencyTotalDiscount = "YEAR";
                     startMonth = 1;
                     endMonth = 12;
                 }
-                if (frequency.equals(Constant.SEMIANNUALLY)) {
-                    frequency = Constant.SEMI_ANNUAL;
+                if (frequencyTotalDiscount.equals(Constant.SEMIANNUALLY)) {
+                    frequencyTotalDiscount = Constant.SEMI_ANNUAL;
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -2361,8 +2364,8 @@ public class NmDiscountImpl {
                     }
 
                 }
-                if (frequency.equals(MONTHLY.getConstant())) {
-                    frequency = Constant.MONTH_WITHOUT_SPACE;
+                if (frequencyTotalDiscount.equals(MONTHLY.getConstant())) {
+                    frequencyTotalDiscount = Constant.MONTH_WITHOUT_SPACE;
                     startMonth = startFreq;
                     endMonth = endFreq;
 
@@ -2517,6 +2520,7 @@ public class NmDiscountImpl {
     public List getAllPeriodDiscount(List<Integer> discountprojectionId, String frequency, String history, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods) {
 
         String sql = "";
+        String frequencyPeriodDiscount = frequency;
         try {
 
             String idString;
@@ -2543,8 +2547,8 @@ public class NmDiscountImpl {
                 endYear = startAndEndPeriods.get(3);
             }
 
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+            if (frequencyPeriodDiscount.equals(QUARTERLY.getConstant())) {
+                frequencyPeriodDiscount = Constant.QUARTER;
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -2581,13 +2585,13 @@ public class NmDiscountImpl {
                 }
 
             }
-            if (frequency.equals(Constant.ANNUALLY)) {
-                frequency = "YEAR";
+            if (frequencyPeriodDiscount.equals(Constant.ANNUALLY)) {
+                frequencyPeriodDiscount = "YEAR";
                 startMonth = 1;
                 endMonth = 12;
             }
-            if (frequency.equals(Constant.SEMIANNUALLY)) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyPeriodDiscount.equals(Constant.SEMIANNUALLY)) {
+                frequencyPeriodDiscount = Constant.SEMI_ANNUAL;
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -2612,8 +2616,8 @@ public class NmDiscountImpl {
                 }
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyPeriodDiscount.equals(MONTHLY.getConstant())) {
+                frequencyPeriodDiscount = Constant.MONTH_WITHOUT_SPACE;
                 startMonth = startFreq;
                 endMonth = endFreq;
             }
@@ -2656,13 +2660,13 @@ public class NmDiscountImpl {
                     + Constant.SPACE_END_NEW_LINE;
 
             if (actualsOrProjections.equals(Constant.ACTUALS)) {
-                sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
+                sql = Constant.SELECT_JRS_NAME_YEAR + frequencyPeriodDiscount + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequencyPeriodDiscount + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
             }
             if (actualsOrProjections.equals(Constant.PROJECTIONS)) {
-                sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in(" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
+                sql = Constant.SELECT_JRS_NAME_YEAR + frequencyPeriodDiscount + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in(" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequencyPeriodDiscount + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
             }
             if (actualsOrProjections.equals("Both")) {
-                sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE,sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
+                sql = Constant.SELECT_JRS_NAME_YEAR + frequencyPeriodDiscount + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE,sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequencyPeriodDiscount + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
             }
             sql = declareStatement + sql;
 
@@ -2678,6 +2682,7 @@ public class NmDiscountImpl {
     public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String hist, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
 
         String sql = "";
+        String frequencyAllPeriodDiscount = frequency;
         try {
 
             String idString;
@@ -2738,20 +2743,20 @@ public class NmDiscountImpl {
                 forecastEndPeriod = feYear + feMonth;
 
             }
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+            if (frequencyAllPeriodDiscount.equals(QUARTERLY.getConstant())) {
+                frequencyAllPeriodDiscount = Constant.QUARTER;
             }
-            if (frequency.equals(Constant.ANNUALLY)) {
-                frequency = "YEAR";
+            if (frequencyAllPeriodDiscount.equals(Constant.ANNUALLY)) {
+                frequencyAllPeriodDiscount = "YEAR";
             }
-            if (frequency.equals(Constant.SEMIANNUALLY)) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyAllPeriodDiscount.equals(Constant.SEMIANNUALLY)) {
+                frequencyAllPeriodDiscount = Constant.SEMI_ANNUAL;
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyAllPeriodDiscount.equals(MONTHLY.getConstant())) {
+                frequencyAllPeriodDiscount = Constant.MONTH_WITHOUT_SPACE;
             }
-            sql = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
-                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
+            sql = Constant.SELECT_PR_YEAR_PR + frequencyAllPeriodDiscount + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequencyAllPeriodDiscount + Constant.PR_MONTH_RS_M_RS_NAME
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
                     + Constant.JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP
@@ -2766,11 +2771,11 @@ public class NmDiscountImpl {
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
-                    + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
+                    + Constant.GROUP_BY_PR_YEAR + frequencyAllPeriodDiscount + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
                     + Constant.UNION_ALL
-                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequencyAllPeriodDiscount + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
-                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequencyAllPeriodDiscount + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS  FROM PROJECTION_DETAILS PD \n"
                     + Constant.JOIN_ST_NM_DISCOUNT_PROJ_MASTER_NM_ADM_ON
                     + Constant.JOIN_ST_NM_ACTUAL_DISCOUNT_NM_AD_ON_NM_ADP
@@ -2789,12 +2794,12 @@ public class NmDiscountImpl {
                     + Constant.AND_NM_ADM_SESSION_ID + sessionId + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
-                    + Constant.GROUP_BY_PR_YEAR + frequency + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
+                    + Constant.GROUP_BY_PR_YEAR + frequencyAllPeriodDiscount + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
 
-            if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+            if (frequencyAllPeriodDiscount.equals("YEAR") || frequencyAllPeriodDiscount.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
             } else {
-                sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
+                sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequencyAllPeriodDiscount + Constant.PR_MONTH;
             }
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);

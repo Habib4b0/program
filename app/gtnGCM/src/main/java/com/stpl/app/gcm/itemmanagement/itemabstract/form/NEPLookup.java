@@ -82,9 +82,9 @@ public class NEPLookup extends Window {
     private final CustomTextField componentTextField;
     private final SelectionDTO selection = new SelectionDTO();
 
-    public static final Object[] FORMULA_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] FORMULA_SEARCH_COLUMNS = new Object[]{
         "netSalesformulaType", "formulaId", "formulaNo", "formulaName"};
-    public static final String[] FORMULA_SEARCH_HEADERS = new String[]{
+    private static final String[] FORMULA_SEARCH_HEADERS = new String[]{
         "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula NO", "Net Sales Formula Name"};
 
     public NEPLookup(CustomTextField componentTextField, String lookupName) {

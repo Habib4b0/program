@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
  */
 public class AccrualRateProjectionView extends VerticalLayout implements View {
 
-    private AccrualRateProjectionForm accrualRateProjectionForm;
 
     public static final String ARP_VIEW = "ARPVIEW";
     protected String projectionName = StringUtils.EMPTY;
@@ -67,7 +66,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             if (this.getComponentCount() != 0) {
                 this.removeAllComponents();
             }
-            accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
+            AccrualRateProjectionForm accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
             this.addComponent(accrualRateProjectionForm);
             accrualRateProjectionForm.getSales().historyDdlb.focus();
         } catch (ParseException e) {
@@ -80,19 +79,14 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             int projectionId = session.getProjectionId();
             NonMandatedLogic logic = new NonMandatedLogic();
             if (projectionId != 0) {
-                try {
                     dataSelectionDTO = logic.getProjection(projectionId);
                     session.setProjectionName(dataSelectionDTO.getProjectionName());
                     session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                     session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-                } catch (ParseException ex) {
-
-                    LOGGER.error(ex.getMessage());
-                }
             } else {
                 dataSelectionDTO = new DataSelectionDTO();
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             LOGGER.error(e.getMessage());
 
         }

@@ -6,7 +6,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface DiscountProjectionDAO.
  */

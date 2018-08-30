@@ -140,7 +140,7 @@ public class CustomExcelNM extends ExcelExport {
         }
     }
 
-    private Double dataConverter(Object value) throws NumberFormatException {
+    private Double dataConverter(Object value) {
         Double d;
         String str = String.valueOf(value);
         if (str.contains("$") || str.contains(",") || str.contains("%")) {
@@ -283,31 +283,6 @@ public class CustomExcelNM extends ExcelExport {
     }
 
     private String getFormula(Cell sheetCell, final Object rootItemId,int columnIndex) {
-        String columnLetter = CellReference.convertNumToColString(columnIndex);
-        final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
-                .getChildren(rootItemId);
-        int rowNo = sheetCell.getRowIndex() + 2;
-        StringBuilder formula = new StringBuilder();
-        int i = 0;
-        if (children.size() == 1) {
-            formula.append(columnLetter).append(rowNo);
-            return formula.toString();
-        }
-        for (Object object : children) {
-            
-            if (i == 0) {
-                formula.append(columnLetter).append(rowNo);
-            } else if (i == children.size() - 1) {
-                return formula.toString();
-            }
-            formula.append(',');
-            rowNo = displayNodeValues(object, rowNo) + 1;
-            formula.append(columnLetter).append(rowNo);
-            i++;
-        }
-        return formula.toString();
-    }
-    private String getFormulaExample(Cell sheetCell, final Object rootItemId,int columnIndex) {
         String columnLetter = CellReference.convertNumToColString(columnIndex);
         final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(rootItemId);

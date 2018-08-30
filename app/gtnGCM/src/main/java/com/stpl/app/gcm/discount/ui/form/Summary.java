@@ -101,7 +101,7 @@ public class Summary extends CustomComponent {
      */
     private ContractsDetailsDto dto;
     private RemoveDiscount removeDiscount;
-    private final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
+    private final SimpleDateFormat dbDate = new SimpleDateFormat(MMDDYYYY.getConstant());
     
     public Summary() {
         super();
@@ -291,8 +291,8 @@ public class Summary extends CustomComponent {
             contractNo.setValue(remove.getContractNo());
             contractName.setValue(remove.getContractName());
             contractType.setValue(remove.getMarketType());
-            contractStartDate.setValue(remove.getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) remove.getContractstartDate()));
-            contractEndDate.setValue(remove.getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) remove.getContractendDate()));
+            contractStartDate.setValue(remove.getContractstartDate() == null ? StringUtils.EMPTY : dbDate.format((Date) remove.getContractstartDate()));
+            contractEndDate.setValue(remove.getContractendDate() == null ? StringUtils.EMPTY : dbDate.format((Date) remove.getContractendDate()));
         }
     }
 

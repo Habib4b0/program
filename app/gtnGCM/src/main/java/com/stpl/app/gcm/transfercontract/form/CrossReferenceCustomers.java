@@ -50,16 +50,16 @@ public class CrossReferenceCustomers extends VerticalLayout {
     private void configureTables() {
 
         toResultTableCustomer.setContainerDataSource(toResultContainer);
-        toResultTableCustomer.setVisibleColumns(HeaderUtil.getInstance().TRANSFER_TO_COLUMN);
-        toResultTableCustomer.setColumnHeaders(HeaderUtil.getInstance().TRANSFER_TO_HEADER);
+        toResultTableCustomer.setVisibleColumns(HeaderUtil.getTransferToColumn());
+        toResultTableCustomer.setColumnHeaders(HeaderUtil.getTransferToHeader());
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.getInstance().COMPONENT_DETAILS_ITEM_COLUMN);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.getInstance().COMPONENT_DETAILS_ITEM_HEADER);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
 
         cfpResults.setContainerDataSource(cfpResultsContainer);
-        cfpResults.setVisibleColumns(HeaderUtil.getInstance().CFP_DETAILS_COLUMN);
-        cfpResults.setColumnHeaders(HeaderUtil.getInstance().CFP_DETAILS_HEADER);
+        cfpResults.setVisibleColumns(HeaderUtil.getCfpDetailsColumn());
+        cfpResults.setColumnHeaders(HeaderUtil.getCfpDetailsHeader());
 
     }
     public final void configureFields(){
