@@ -4635,15 +4635,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         return !ismultipleDiscount;
     }
 
-    private int[] getQuaterandYear(String str) {
-        LOGGER.debug("Inside get Quater with String= {}", str);
-        int[] a = new int[NumericConstants.TWO];
-        String[] splited = str.split("\\s+");
-        a[0] = Integer.parseInt(splited[0].replaceAll("[Q]+", StringUtils.EMPTY));
-        a[1] = Integer.parseInt(splited[1]);
-        return a;
-    }
-
     public boolean endDateValidation(String valueEnd) {
         LOGGER.debug("Inside End Date Validation");
         if (startPeriodForecastTab.getValue() != null) {

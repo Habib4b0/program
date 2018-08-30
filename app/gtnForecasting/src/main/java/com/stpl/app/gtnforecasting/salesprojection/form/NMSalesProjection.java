@@ -88,7 +88,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
-    protected String ALL = "ALL";
+    protected String allUpperCase = "ALL";
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
@@ -755,7 +755,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public void loadAllFilters() {
         List<String> checkedValues = getCheckedSalesInclusionValues();
-        projectionDTO.getSessionDTO().setSalesInclusion(ALL);
+        projectionDTO.getSessionDTO().setSalesInclusion(allUpperCase);
         if (checkedValues.size() == 1) {
             projectionDTO.getSessionDTO().setSalesInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
         }
