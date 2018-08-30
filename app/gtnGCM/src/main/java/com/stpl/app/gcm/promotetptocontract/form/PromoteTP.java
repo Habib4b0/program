@@ -81,7 +81,7 @@ public class PromoteTP extends VerticalLayout {
     @UiField("companyCategory")
     public ComboBox companyCategory;
     @UiField("tradeClass")
-    public ComboBox tradeClass_DTO;
+    public ComboBox tradeClassDto;
     @UiField("identifierType")
     public ComboBox identifierType;
     @UiField("companyId")
@@ -224,10 +224,10 @@ public class PromoteTP extends VerticalLayout {
         companyCategory.setNullSelectionAllowed(true);
         companyCategory.setNullSelectionItemId(ddlbDefaultValue);
 
-        tradeClass_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        tradeClass_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        tradeClass_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        tradeClass_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        tradeClassDto.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        tradeClassDto.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        tradeClassDto.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        tradeClassDto.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
         identifierType.addItem(ddlbDefaultValue);
         identifierType.setNullSelectionAllowed(true);
@@ -433,7 +433,7 @@ public class PromoteTP extends VerticalLayout {
                 && (StringUtils.isBlank(companyNo.getValue()) || Constants.NULL.equals(companyNo.getValue()))
                 && (StringUtils.isBlank(String.valueOf(companyType.getValue())) || Constants.NULL.equals(companyType.getValue()))
                 && (StringUtils.isBlank(String.valueOf(companyCategory.getValue())) || Constants.NULL.equals(companyCategory.getValue()))
-                && (StringUtils.isBlank(String.valueOf(tradeClass_DTO.getValue())) || Constants.NULL.equals(tradeClass_DTO.getValue()))
+                && (StringUtils.isBlank(String.valueOf(tradeClassDto.getValue())) || Constants.NULL.equals(tradeClassDto.getValue()))
                 && (StringUtils.isBlank(String.valueOf(identifierType.getValue())) || Constants.NULL.equals(identifierType.getValue()))
                 && (StringUtils.isBlank(identifier.getValue()) || Constants.NULL.equals(identifier.getValue()))) {
             AbstractNotificationUtils.getErrorNotification(MessageConstants.NO_SEARCH_CRITERIA_TITLE.getConstant(),
@@ -472,7 +472,7 @@ public class PromoteTP extends VerticalLayout {
                 promoteTpToChDto.setCompanyNo(compNo);
                 promoteTpToChDto.setCompanyType(String.valueOf(companyType.getValue()));
                 promoteTpToChDto.setCompanyCategory(String.valueOf(companyCategory.getValue()));
-                promoteTpToChDto.setTradeClass(String.valueOf(tradeClass_DTO.getValue()));
+                promoteTpToChDto.setTradeClass(String.valueOf(tradeClassDto.getValue()));
                 promoteTpToChDto.setIdentifierType(String.valueOf(identifierType.getValue()));
                 promoteTpToChDto.setIdentifier(identifier.getValue());
 
@@ -534,7 +534,7 @@ public class PromoteTP extends VerticalLayout {
      *
      */
     private void loadTradeClass() {
-        logic.LazyLoadDdlb(tradeClass_DTO, "getTradeClassCountForPromoteTpToCh", "getTradeClassForPromoteTpToCh");
+        logic.LazyLoadDdlb(tradeClassDto, "getTradeClassCountForPromoteTpToCh", "getTradeClassForPromoteTpToCh");
     }
 
     /**

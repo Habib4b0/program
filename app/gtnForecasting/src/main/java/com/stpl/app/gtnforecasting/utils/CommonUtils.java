@@ -103,7 +103,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Contains the common methods which support the module functionality.
  *
@@ -1178,7 +1178,7 @@ public class CommonUtils {
 
     }
 
-    public static User getUser(final String userId) throws PortalException, SystemException {
+    public static User getUser(final String userId) throws PortalException {
         User loggedUserDetails = null;
 
         try {
@@ -1194,9 +1194,6 @@ public class CommonUtils {
     public static void frequenceValueChange(Object value, ComboBox history, SessionDTO session) {
         if (value == null || SELECT_ONE.getConstant().equals(value.toString())) {
             history.removeAllItems();
-            history.addItem(SELECT_ONE);
-            history.setNullSelectionItemId(SELECT_ONE);
-            history.setValue(SELECT_ONE);
         } else {
             int historyValue = 0;
             List<String> list = null;
@@ -1615,7 +1612,7 @@ public class CommonUtils {
         return returnsProperties.getString(key);
     }
 
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws PortalException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();

@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface NACommonResultsDAO {
 
-    public Object executeSelectQuery(String query) throws PortalException, SystemException;
+    public Object executeSelectQuery(String query) throws SystemException;
 
-    public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException;
+    public Object executeBulkUpdateQuery(String query) throws SystemException;
 
-    public Object executeUpdateQuery(String query) throws SystemException, PortalException;
+    public Object executeUpdateQuery(String query) throws PortalException;
         
-    public Object executeUpdateQuery(List<StringBuilder> fcpList) throws PortalException, SystemException;
+    public Object executeUpdateQuery(List<StringBuilder> fcpList) throws SystemException;
 }

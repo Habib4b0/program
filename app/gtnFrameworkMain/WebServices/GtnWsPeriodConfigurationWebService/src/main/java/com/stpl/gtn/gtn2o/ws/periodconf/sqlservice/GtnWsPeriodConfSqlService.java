@@ -13,11 +13,14 @@ import com.stpl.dependency.logger.GtnFrameworkDependencyLogger;
 @Component
 public class GtnWsPeriodConfSqlService {
 
-	private GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
-			.getGTNLogger(GtnWsPeriodConfSqlService.class);
+
+	private GtnWsPeriodConfSqlService()
+	{
+		//empty
+	}
 
 	@Autowired
-	private PropertiesFactoryBean sqlPropertyBean;
+	private volatile PropertiesFactoryBean sqlPropertyBean;
 
 	public PropertiesFactoryBean getSqlPropertyBean() {
 		return sqlPropertyBean;
@@ -28,6 +31,9 @@ public class GtnWsPeriodConfSqlService {
 	}
 
 	public String getQuery(String queryId) {
+		
+		final GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
+				.getGTNLogger(GtnWsPeriodConfSqlService.class);
 		try {
 			return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)
 					.getProperty(queryId);

@@ -15,7 +15,7 @@ import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class AdditionalInfoDAOImpl.
  *
@@ -69,7 +69,7 @@ public class AdditionalInfoDAOImpl implements AdditionalInfoDAO {
      * @throws Exception the exception
      */
     @Override
-    public void deleteDocDetails(final int docDetailsId) throws SystemException, PortalException {
+    public void deleteDocDetails(final int docDetailsId) throws PortalException {
         DocDetailsLocalServiceUtil.deleteDocDetails(docDetailsId);
     }
 

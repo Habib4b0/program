@@ -56,7 +56,8 @@ public abstract class GtnCommonWebServiceImplClass {
 	}
 
 	public String getWebServiceEndpointBasedOnModule(String url, String moduleName) {
-		return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
+		
+				return GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointUrl")
 				+ GtnFrameworkPropertyManager.getProperty("gtn.webservices." + moduleName + ".endPointServiceName")
 				+ url;
 

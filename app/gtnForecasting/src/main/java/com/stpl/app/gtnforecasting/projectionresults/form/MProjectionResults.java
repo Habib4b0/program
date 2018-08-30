@@ -79,7 +79,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
     protected int dolIndex = 0;
     protected boolean canLoad = true;
 
-    public MProjectionResults(final SessionDTO session, final String screenName) throws SystemException, PortalException  {
+    public MProjectionResults(final SessionDTO session, final String screenName) throws  PortalException  {
         super(session, screenName);
     }
 
@@ -416,7 +416,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         }
     }
 
-    public void loadDataToContainer(List<ProjectionResultsDTO> resultList, Object parentId) throws PortalException, SystemException  {
+    public void loadDataToContainer(List<ProjectionResultsDTO> resultList, Object parentId) throws PortalException  {
         for (ProjectionResultsDTO dto : resultList) {
             excelResultBean.addBean(dto);
             if (parentId != null) {
@@ -431,7 +431,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         }
     }
 
-    public void addLowerLevelsForExport(Object id) throws PortalException, SystemException  {
+    public void addLowerLevelsForExport(Object id) throws PortalException  {
         projectionSelectionDTO.setFilterLevelNo(0);
         projectionSelectionDTO.setFilterHierarchyNo(StringUtils.EMPTY);
         projectionSelectionDTO.setProductHierarchyNo(StringUtils.EMPTY);

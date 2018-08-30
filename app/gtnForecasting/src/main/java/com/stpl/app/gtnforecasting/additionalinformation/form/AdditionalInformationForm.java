@@ -70,8 +70,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
-    private boolean isFileRename;
-
 
     /**
      * The logo.
@@ -85,10 +83,10 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
-        mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
-        this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(mode);
-        this.isEditMode = Constant.EDIT.equalsIgnoreCase(mode);
-        this.isViewMode = "View".equalsIgnoreCase(mode);
+        String modeValue = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
+        this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(modeValue);
+        this.isEditMode = Constant.EDIT.equalsIgnoreCase(modeValue);
+        this.isViewMode = "View".equalsIgnoreCase(modeValue);
         table.setContainerDataSource(attachmentsListBean);
         table.setVisibleColumns("documentName", "dateAdded", "userName");
         table.setColumnHeaders("Document Name", "Date Added", "User Name");
@@ -148,7 +146,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                boolean isFileRename=destFileUpload.renameTo(renameFileUpload);
                 LOGGER.info("File renamed successfully= {} ",isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
@@ -338,7 +336,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     }
 
-    public void security() throws PortalException, SystemException{
+    public void security() throws PortalException{
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
 
