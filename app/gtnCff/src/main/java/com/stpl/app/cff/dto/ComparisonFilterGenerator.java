@@ -105,7 +105,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        // TODO Auto-generated method stub
+                         
                         if (event.getProperty().getValue() != null && !"0".equals(event.getProperty().getValue().toString())) {
                             pvSelectionDTO.setIsCustomerDdlb(true);
                             pvSelectionDTO.setHierarchyNo(event.getProperty().getValue().toString());
@@ -201,7 +201,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        // TODO Auto-generated method stub
+                         
                         if (event.getProperty().getValue() != null && !"0".equals(event.getProperty().getValue().toString())) {
                             sprProjectionDTO.setFilterDdlb(true);
                             sprProjectionDTO.setHierarchyNo(event.getProperty().getValue().toString());

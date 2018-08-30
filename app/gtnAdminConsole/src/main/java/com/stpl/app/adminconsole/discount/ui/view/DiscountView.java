@@ -57,7 +57,6 @@ public class DiscountView extends VerticalLayout implements View{
 	 */
     @Override
     public void enter(final ViewChangeEvent event) {
-        // TODO Auto-generated method stub
         try {
             DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO(); 
             final DiscountLogic logic = new DiscountLogic();
