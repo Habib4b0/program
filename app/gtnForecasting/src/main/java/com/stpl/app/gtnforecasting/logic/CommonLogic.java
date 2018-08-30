@@ -4281,27 +4281,28 @@ public class CommonLogic {
 
     public static String getGroupFilterQueryPR(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith(Constant.ALL)) {
-                if (userGroup.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroup = LIKE_PERCENT;
+        String userGroupPR = userGroup;
+        if (!userGroupPR.isEmpty()) {
+            if (userGroupPR.startsWith(Constant.ALL)) {
+                if (userGroupPR.contains(Constant.DISCOUNT_SMALL)) {
+                    userGroupPR = LIKE_PERCENT;
                     query = getGroupFilterDiscountQueryPR(isPrior, discountList);
-                } else if (userGroup.contains(Constant.PPA_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterPPAQueryPR(userGroup, isPrior);
-                } else if (userGroup.contains(Constant.SALES_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterSalesQueryPR(userGroup, userId, sessionId, isPrior);
+                } else if (userGroupPR.contains(Constant.PPA_SMALL)) {
+                    userGroupPR = LIKE_PERCENT;
+                    query = getGroupFilterPPAQueryPR(userGroupPR, isPrior);
+                } else if (userGroupPR.contains(Constant.SALES_SMALL)) {
+                    userGroupPR = LIKE_PERCENT;
+                    query = getGroupFilterSalesQueryPR(userGroupPR, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith(Constant.DISCOUNT)) {
-                userGroup = " = '" + userGroup.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
+            } else if (userGroupPR.startsWith(Constant.DISCOUNT)) {
+                userGroupPR = " = '" + userGroupPR.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterDiscountQueryPR(isPrior, discountList);
-            } else if (userGroup.startsWith(Constant.PPA)) {
-                userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterPPAQueryPR(userGroup, isPrior);
-            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQueryPR(userGroup, userId, sessionId, isPrior);
+            } else if (userGroupPR.startsWith(Constant.PPA)) {
+                userGroupPR = " = '" + userGroupPR.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterPPAQueryPR(userGroupPR, isPrior);
+            } else if (userGroupPR.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroupPR = " = '" + userGroupPR.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterSalesQueryPR(userGroupPR, userId, sessionId, isPrior);
             }
         }
         return query;
