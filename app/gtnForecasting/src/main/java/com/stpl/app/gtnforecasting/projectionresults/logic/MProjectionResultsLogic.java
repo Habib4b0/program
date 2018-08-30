@@ -71,7 +71,6 @@ public class MProjectionResultsLogic {
     private List<Object[]> prcMProjResultsContract = new ArrayList<>();
      //To Persist the Total Procedure Result List 
     private List<Object[]> prcMProcedureResults = new ArrayList<>();
-    private final List<Object> totalDiscount = new ArrayList<>();
     private List<Object> childDiscountList = new ArrayList<>();
     private List<Object[]> programCodeList = new ArrayList<>();
     private List<Object> prMainQuery = new ArrayList<>();
