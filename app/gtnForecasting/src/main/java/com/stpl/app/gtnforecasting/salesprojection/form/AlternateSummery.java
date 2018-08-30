@@ -291,7 +291,7 @@ public class AlternateSummery extends CustomComponent {
     protected boolean isSalesCalculated;
 
     @UiField("GridLayoutProjection")
-    protected GridLayout GridLayoutProjection;
+    protected GridLayout gridLayoutProjection;
 
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;

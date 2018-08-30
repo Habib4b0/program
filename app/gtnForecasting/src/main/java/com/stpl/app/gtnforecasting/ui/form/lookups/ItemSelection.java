@@ -99,7 +99,7 @@ public class ItemSelection extends CustomComponent implements View {
     private VerticalLayout selectedItemsTableLayout;
     
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    private final String screen_Name = "Item_Selection";
+    private final String screenName = "Item_Selection";
     
     @UiField("excelBtn")
     private Button excelBtn;
@@ -384,7 +384,7 @@ public class ItemSelection extends CustomComponent implements View {
                 altHistoryDTO.setReset(Boolean.FALSE);
                 altHistoryDTO.setItemName(String.valueOf(itemName.getValue()));
                 altHistoryDTO.setItemNo(String.valueOf(itemNo.getValue()));
-                altHistoryDTO.setScreenName(screen_Name);
+                altHistoryDTO.setScreenName(screenName);
                 altHistoryDTO.setBusinessUnitName(String.valueOf(businessUnitName.getValue()));
                 altHistoryDTO.setBusinessUnitNo(String.valueOf(businessUnitNo.getValue()));
                 altHistoryDTO.setTheraputicClass(String.valueOf(theraputicClass.getValue()));
@@ -447,7 +447,7 @@ public class ItemSelection extends CustomComponent implements View {
                 itemSearchBinder.commit();
                 altHistoryDTO.setReset(Boolean.FALSE);
                 altHistoryDTO.setItemName(String.valueOf(itemName.getValue()));
-                altHistoryDTO.setScreenName(screen_Name);
+                altHistoryDTO.setScreenName(screenName);
                 logic.addItems(session);
                 selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO,  session, false);
                 availableItemTableLoic.loadSetData(itemSearchBinder, altHistoryDTO,  session, true);
@@ -474,7 +474,7 @@ public class ItemSelection extends CustomComponent implements View {
         if (logic.checkForAtleastOneCheckedItem(session, true)) {
             altHistoryDTO.setReset(Boolean.FALSE);
             altHistoryDTO.setItemName(String.valueOf(itemName.getValue()));
-            altHistoryDTO.setScreenName(screen_Name);
+            altHistoryDTO.setScreenName(screenName);
             altHistoryDTO.getSelectedProductSet().clear();
             logic.addItems(session);
             selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, false);
