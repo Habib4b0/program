@@ -1614,6 +1614,7 @@ public class NmDiscountImpl {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
+        String frequencyDpr = frequency;
         try {
             String idString = "";
             StringBuilder idStringBuilder = new StringBuilder();
@@ -1674,22 +1675,22 @@ public class NmDiscountImpl {
                 forecastEndPeriod = feYear + feMonth;
 
             }
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = Constant.QUARTER;
+            if (frequencyDpr.equals(QUARTERLY.getConstant())) {
+                frequencyDpr = Constant.QUARTER;
             }
-            if (frequency.equals(Constant.ANNUALLY)) {
-                frequency = "YEAR";
+            if (frequencyDpr.equals(Constant.ANNUALLY)) {
+                frequencyDpr = "YEAR";
             }
-            if (frequency.equals(Constant.SEMIANNUALLY)) {
-                frequency = Constant.SEMI_ANNUAL;
+            if (frequencyDpr.equals(Constant.SEMIANNUALLY)) {
+                frequencyDpr = Constant.SEMI_ANNUAL;
 
             }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = Constant.MONTH_WITHOUT_SPACE;
+            if (frequencyDpr.equals(MONTHLY.getConstant())) {
+                frequencyDpr = Constant.MONTH_WITHOUT_SPACE;
             }
 
-            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
-                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
+            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequencyDpr + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequencyDpr + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + Constant.JOIN + tableName + "NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
             if (!viewFlag) {
@@ -1712,11 +1713,11 @@ public class NmDiscountImpl {
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
-                    + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
+                    + " GROUP BY PR.YEAR,PR." + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
                     + Constant.UNION_ALL
-                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequencyDpr + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
-                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequencyDpr + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
@@ -1754,17 +1755,17 @@ public class NmDiscountImpl {
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
-                    + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
+                    + Constant.GROUP_BY_PR_YEAR + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
             if (view.equalsIgnoreCase("parent")) {
-                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+                if (frequencyDpr.equals("YEAR") || frequencyDpr.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR.MONTH";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + Constant.PR_MONTH;
+                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequencyDpr + Constant.PR_MONTH;
                 }
-            } else if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
+            } else if (frequencyDpr.equals("YEAR") || frequencyDpr.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
             } else {
-                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
+                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequencyDpr + Constant.PR_MONTH;
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(projectionQuery);
         } catch (Exception e) {

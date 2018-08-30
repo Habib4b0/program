@@ -136,7 +136,6 @@ public class NMPVExcelLogic {
     private static final String DASH = "-";
     public static final String STRING_NULL = "null";
     protected List<Object> pivotDiscountList = new ArrayList<>();
-    protected List<ProjectionVarianceDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String DETAIL = "Detail";
     protected List<Object> pivotTotalList = new ArrayList<>();
@@ -191,6 +190,7 @@ public class NMPVExcelLogic {
         if (isCustomView) {
             customView_relationship_hierarchy.putAll(getGroup_customViewNM());
         }
+        LOGGER.debug("customView_relationship_hierarchy ={}", customView_relationship_hierarchy.isEmpty() ? customView_relationship_hierarchy : 0);
 
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
 
@@ -324,6 +324,8 @@ public class NMPVExcelLogic {
                 || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELNAME_INDEX]))) {
             tradingPartnerKeys.add(key);
         }
+        LOGGER.debug("tradingPartnerKeys ={}", tradingPartnerKeys.isEmpty() ? tradingPartnerKeys : 0);
+        LOGGER.debug("hierarchyKeys ={}", hierarchyKeys.isEmpty() ? hierarchyKeys : 0);
     }
 
     private void addList(List<ProjectionVarianceDTO> pvList, final Object[] obj) {
@@ -2047,6 +2049,7 @@ public class NMPVExcelLogic {
         for (int j = 0; j < priorList.size(); j++) {
             PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn, currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
         }
+        LOGGER.debug("discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
     }
     
     private void addList_detail_discount(String key, final Object[] obj) {

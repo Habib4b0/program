@@ -111,7 +111,7 @@ public class AssumptionLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    private List<AssumptionPVDTO> getCustomizedPV(List result) throws PortalException, SystemException {
+    private List<AssumptionPVDTO> getCustomizedPV(List result) throws PortalException {
         List<AssumptionPVDTO> retList = new ArrayList<>();
         for (Object[] temp : (List<Object[]>) result) {
             AssumptionPVDTO tempDto = new AssumptionPVDTO();
@@ -482,7 +482,7 @@ public class AssumptionLogic {
      * @throws NumberFormatException
      * @throws PortalException
      */
-    public List<AssumptionPVDTO> getPVSResult(final SessionDTO session, final Integer startIndex, final Integer offset) throws SystemException, PortalException {
+    public List<AssumptionPVDTO> getPVSResult(final SessionDTO session, final Integer startIndex, final Integer offset) throws PortalException {
         List<Object> input = new ArrayList<>();
         input.add(session.getProjectionId());
         input.add(session.getUserId());

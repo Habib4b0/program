@@ -276,7 +276,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		tableStyle.add("table-header-normal");
 		customerHierarchyPagedTableComponent.setComponentWidth("100%");
 		customerHierarchyPagedTableComponent.setComponentStyle(tableStyle);
-		customerHierarchyPagedTableComponent.setModuleName("hierarchyRelationship");
+		customerHierarchyPagedTableComponent.setModuleName("serviceRegistry");
 
 		componentList.add(customerHierarchyPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -297,8 +297,11 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		additionalSearchCriteria.add("Customer Hierarchy");
 		customerHierarchyPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 		
-		customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS);
-		customerHierarchyPagedTableConfig.setResultSetUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS);
+		customerHierarchyPagedTableConfig.setCountUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
+		customerHierarchyPagedTableConfig.setResultSetUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_SERVICE_REGISTRY_URL);
+		customerHierarchyPagedTableConfig.setPagedTableWsUrl(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_URL);
+		customerHierarchyPagedTableConfig.setRegisteredWebContext(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_REGISTERED_WEB_CONTEXT);
+		customerHierarchyPagedTableConfig.setModuleName(GtnFrameworkForecastNewArchitectureConstants.HIERARCHY_RESULTS_END_POINT_URL_NAME);
 		customerHierarchyPagedTableComponent.setGtnPagedTableConfig(customerHierarchyPagedTableConfig);
 	}
 	
@@ -327,7 +330,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerHierarchySelectButton.setAddToParent(true);
-		forecastCustomerHierarchySelectButton.addDependentComponent("Commercial_Forecasting_customerSelectionRelationship");
+//		forecastCustomerHierarchySelectButton.addDependentComponent("Commercial_Forecasting_customerSelectionRelationship");
 		
 		componentList.add(forecastCustomerHierarchySelectButton);
 

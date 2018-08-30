@@ -29,42 +29,51 @@ public class GtnLandingScreenFromAndToPeriodLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-            List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-            
-            GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-            GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
-            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
-            
-            serviceRegistryBean.setRegisteredWebContext(actionParamList.get(1).toString());
-            serviceRegistryBean.setUrl(actionParamList.get(2).toString());
-            serviceRegistryBean.setModuleName(actionParamList.get(3).toString());
-            GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-            generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-            generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
-            
-            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
-            request.setGtnWsGeneralRequest(generalRequest);
-            
-            GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-            
-            List<String> fromPeriodItemValueList = new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
-            List<String> fromPeriodItemCodeList = new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
-            
-            List<String> toPeriodItemValueList = new ArrayList<>();
-            toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size()-1));
-           
-            List<String> toPeriodItemCodeList = new ArrayList<>();
-            toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size()-1));
-            
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString()).addAllItemsToComboBox(fromPeriodItemValueList,fromPeriodItemCodeList);
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString()).addAllItemsToComboBox(toPeriodItemValueList,toPeriodItemCodeList);
-            
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString()).loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString()).loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(0));
+		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
+
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+		GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+
+		serviceRegistryBean.setRegisteredWebContext(actionParamList.get(1).toString());
+		serviceRegistryBean.setUrl(actionParamList.get(2).toString());
+		serviceRegistryBean.setModuleName(actionParamList.get(3).toString());
+		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+		serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+
+		request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+		request.setGtnWsGeneralRequest(generalRequest);
+
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
+				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+		List<String> fromPeriodItemValueList = new ArrayList<>(
+				response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList());
+		List<String> fromPeriodItemCodeList = new ArrayList<>(
+				response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
+
+		List<String> toPeriodItemValueList = new ArrayList<>();
+		toPeriodItemValueList.add(fromPeriodItemValueList.get(fromPeriodItemValueList.size() - 1));
+
+		List<String> toPeriodItemCodeList = new ArrayList<>();
+		toPeriodItemCodeList.add(fromPeriodItemCodeList.get(fromPeriodItemCodeList.size() - 1));
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+				.addAllItemsToComboBox(fromPeriodItemValueList, fromPeriodItemCodeList);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
+				.addAllItemsToComboBox(toPeriodItemValueList, toPeriodItemCodeList);
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+				.loadV8ComboBoxComponentValue(fromPeriodItemCodeList.get(0));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
+				.loadV8ComboBoxComponentValue(toPeriodItemCodeList.get(0));
 
 	}
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;

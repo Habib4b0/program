@@ -27,7 +27,7 @@ public class FileDetailsTableLogic extends PageTableLogic {
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;
-    private int RecordLockCount=0;
+    private int recordLockCount=0;
 
     public FileDetailsTableLogic(){
     	super();
@@ -38,9 +38,9 @@ public class FileDetailsTableLogic extends PageTableLogic {
         try {
             if (isFirstLoad) {
                 count = (Integer) searchLogic.getDetailsResults(resultDTO, 0, 0, this.getSortByColumns(), this.getFilters(), true,false);
-                RecordLockCount=(Integer) searchLogic.getDetailsResults(resultDTO, 0, 0, this.getSortByColumns(), this.getFilters(), true,true);
+                recordLockCount=(Integer) searchLogic.getDetailsResults(resultDTO, 0, 0, this.getSortByColumns(), this.getFilters(), true,true);
             }
-            setRecordLockCount(RecordLockCount);
+            setRecordLockCount(recordLockCount);
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
         } catch (Exception ex) {
@@ -89,10 +89,10 @@ public class FileDetailsTableLogic extends PageTableLogic {
         this.isReset = isReset;
     }
      public int getRecordLockCount() {
-        return RecordLockCount;
+        return recordLockCount;
     }
 
     public void setRecordLockCount(int recordLockCount) {
-        this.RecordLockCount = recordLockCount;
+        this.recordLockCount = recordLockCount;
     }
 }

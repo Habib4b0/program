@@ -68,7 +68,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -97,8 +96,8 @@ public class CFFLogic {
     public static final String RBSID = "?RBSID";
     public static final String RBVERSION = "?RBVERSION";
     public static final String EACH = "EACH";
-    private ExecutorService service = ThreadPool.getInstance().getService();
     public static final String STRING_COMMA = ",";
+    private ThreadPool service = ThreadPool.getInstance();
     /**
      * Gets latest approved CCP Projection
      *
@@ -1583,13 +1582,7 @@ public class CFFLogic {
                         
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
-			if (j == tempList.size() - 1) {
-				if (detailsList.get(detailsList.size() - 1).equals("C")) {
-					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
-				} else {
-					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
-				}
-			}
+			
 
 		}
 		return resultMap;
@@ -1598,6 +1591,7 @@ public class CFFLogic {
     private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
 		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
+                        displayFormat.add(object[1]);
 			for (int i = 5; i < object.length - extraColumnIndex; i++) {
 				displayFormat.add(object[i]);
 			}
@@ -1697,7 +1691,7 @@ public class CFFLogic {
     }
     
     public void loadSalesTempTableInThread(SessionDTO session,boolean isDataSelection){
-        service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, "CUSTOMER");
@@ -1705,7 +1699,7 @@ public class CFFLogic {
                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
         });
-        service.submit(new Runnable() {
+       service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, "PRODUCT");
@@ -1713,7 +1707,7 @@ public class CFFLogic {
                   CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
         });
-        service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, "CUSTOM");
@@ -1725,7 +1719,7 @@ public class CFFLogic {
     }
   
     public void loadDiscountCustomTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
-        service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOM");
@@ -1736,16 +1730,16 @@ public class CFFLogic {
     }
     
     public void loadDiscountTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
-    service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "CUSTOMER");
-                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"C", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
+                Object[] orderedArgs = {session.getProjectionId() + (session.getPriorProjectionId().isEmpty() ? ConstantsUtils.EMPTY : STRING_COMMA + session.getPriorProjectionId()), session.getUserId(), session.getSessionId(), session.getStatusName(), session.getFrequency(), session.getCustomViewMasterSid(), Constants.DISCOUNT, session.getDeductionName(), "C", isDataSelectionDiscount ? EACH : session.getDiscountUom(), null};
                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
         });
       
-        service.submit(new Runnable() {
+        service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, "PRODUCT");

@@ -55,9 +55,9 @@ public class FormulaLookUp extends CustomWindow {
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final CustomTextField componentTextField;
     private final BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
-    public final Object[] formulaSearchColumns = new Object[]{
+    private static final Object[] FORMULA_SEARCH_COLUMNS = new Object[]{
         "formulaId", "formulaNo", "formulaName"};
-    public final String[] formulaSearchHeaders = new String[]{
+    private static final String[] FORMULA_SEARCH_HEADERS = new String[]{
         "Formula Id", "Formula No", "Formula Name"};
     private final SelectionDTO selection = new SelectionDTO();
 
@@ -79,8 +79,8 @@ public class FormulaLookUp extends CustomWindow {
         resultsTable.setPageLength(NumericConstants.TEN);
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(formulaSearchColumns);
-        resultsTable.setColumnHeaders(formulaSearchHeaders);
+        resultsTable.setVisibleColumns(FORMULA_SEARCH_COLUMNS);
+        resultsTable.setColumnHeaders(FORMULA_SEARCH_HEADERS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.setSelectable(true);
         for (Object propertyId : resultsTable.getVisibleColumns()) {

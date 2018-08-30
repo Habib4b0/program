@@ -107,6 +107,7 @@ public class GtnUIFrameworkRadioButtonGroupComponent implements GtnUIFrameworkCo
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		RadioButtonGroup vaadinOptiongroup = (RadioButtonGroup) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		GtnUIFrameworkOptionGroupConfig optionConfig = componentConfig.getGtnUIFrameworkOptionGroupConfig();
+		vaadinOptiongroup.setItems(optionConfig.getItemValues());
 		vaadinOptiongroup.setVisible(componentConfig.isVisible());
 		vaadinOptiongroup.setEnabled(optionConfig.isEnable());
 		if (optionConfig.getDefaultSelection() == null) {

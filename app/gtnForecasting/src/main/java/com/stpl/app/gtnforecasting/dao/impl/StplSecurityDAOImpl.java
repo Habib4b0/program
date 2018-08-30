@@ -27,7 +27,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws PortalException
 	 */
         @Override
-	public User getUserByUserId(final long userId)throws SystemException,PortalException{
+	public User getUserByUserId(final long userId)throws PortalException{
 		return UserLocalServiceUtil.getUser(userId);
 	}
 	/**
@@ -37,7 +37,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws SystemException
 	 */
         @Override
-	public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(final DynamicQuery query)throws PortalException, SystemException{
+	public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(final DynamicQuery query)throws SystemException{
 		return UsergroupBusinessroleLocalServiceUtil.dynamicQuery(query);
 	}
 	
@@ -74,7 +74,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws PortalException
 	 */
         @Override
-	public List getBusinessroleModuleMasterFieldList(final String businessRoleIds,final String moduleName) throws PortalException, SystemException {
+	public List getBusinessroleModuleMasterFieldList(final String businessRoleIds,final String moduleName) throws SystemException {
 		return new BusinessRoleModuleImpl().getBusinessFieldPermission(businessRoleIds, moduleName);
 	}
 	
@@ -87,7 +87,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws PortalException
 	 */
         @Override
-	public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds,final String moduleName)  throws PortalException, SystemException{
+	public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds,final String moduleName)  throws SystemException{
 		return new BusinessRoleModuleImpl().getBusinessFunctionPermission(businessRoleIds, moduleName);
 	}
 	

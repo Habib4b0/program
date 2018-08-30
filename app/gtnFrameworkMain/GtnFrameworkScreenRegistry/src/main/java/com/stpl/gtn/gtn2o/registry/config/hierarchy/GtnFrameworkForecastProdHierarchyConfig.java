@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -51,9 +53,9 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 				nameSpace + "_" + 
                                     GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS, true,
 				nameSpace + "_" + "productSelectionHorizontalLayout");
-		productSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
-		productSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
-		productSelectionCssLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+//		productSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
+//		productSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
+//		productSelectionCssLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(productSelectionCssLayout);
 
 		addHierarchy(componentList, nameSpace);
@@ -100,11 +102,16 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		relationship.setParentComponentId(nameSpace + "_" + "prodrelationshipLayout");
 
 		GtnUIFrameworkComboBoxConfig relationshipConfig = new GtnUIFrameworkComboBoxConfig();
-		relationshipConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_RELATIONSHIP);
-		relationshipConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		relationship.setGtnComboboxConfig(relationshipConfig);
 		componentList.add(relationship);
+		
+		
+		GtnUIFrameWorkActionConfig forecastingProductHierarchyForecastLevelLoadAction = new GtnUIFrameWorkActionConfig();
+		forecastingProductHierarchyForecastLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter(GtnCustomerSelectionForecastLevelLoadAction.class.getName());
+		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter("Commercial Forecasting_prodhierarchyName");
+		forecastingProductHierarchyForecastLevelLoadAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
+		relationship.addGtnUIFrameWorkActionConfig(forecastingProductHierarchyForecastLevelLoadAction);
 	}
 
 	private void addForecastLevel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -121,10 +128,15 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		forecastLevel.setParentComponentId(nameSpace + "_" + "prodforecastLevelLayout");
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		forecastLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_RELATIONSHIP);
-		forecastLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
+		
+		GtnUIFrameWorkActionConfig innerProductLevelLoadAction = new GtnUIFrameWorkActionConfig();
+		innerProductLevelLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		innerProductLevelLoadAction.addActionParameter(GtnFrameworkForecastInnerLevelLoadAction.class.getName());
+		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_prodhierarchyName");
+		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
+		innerProductLevelLoadAction.addActionParameter("Commercial Forecasting_productLevel");
+		forecastLevel.addGtnUIFrameWorkActionConfig(innerProductLevelLoadAction);
 		componentList.add(forecastLevel);
 	}
 
@@ -181,9 +193,6 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		level.setParentComponentId(nameSpace + "_" + "productlevelLayout");
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
-		levelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_RELATIONSHIP);
-		levelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		level.setGtnComboboxConfig(levelConfig);
 		componentList.add(level);
 	}

@@ -213,7 +213,8 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     }
 
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, int totalMonth, List<String> selectedAdjustmentType) {
-        LOGGER.debug("selectedAdjustmentType.size()-->>" + selectedAdjustmentType.size() + "frmDate.after(toDate)-->>" + frmDate.after(toDate) + "totalMonth-->>" + totalMonth);
+        LOGGER.debug("selectedAdjustmentType.size()-->>{}", selectedAdjustmentType.size());
+        LOGGER.debug("totalMonth-->{}", totalMonth);
         if (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate))) {
             return Boolean.TRUE;
         }
@@ -236,7 +237,6 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             TreeMap<String, Integer> masterSids;
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
-            LOGGER.debug("levelNo-->>" + levelNo + "selection.getSummaryLevel()-->>" + selection.getSummaryLevel() + "selection.getSummaryLevel().get(levelNo)-->>" + selection.getSummaryLevel().get(levelNo));
             masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
             masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
             selection.setMasterSids(masterSids);
@@ -321,7 +321,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         if (count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             count = count + 1;
         }
-        LOGGER.debug("count-->>" + count);
+        LOGGER.debug("count-->>{}", count);
         return count;
     }
 

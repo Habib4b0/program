@@ -190,7 +190,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 * @throws java.lang.Exception
 	 */
 	public DataSelectionForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, String screenName)
-			throws SystemException, PortalException {
+			throws  PortalException {
 		super(dataSelectionBinder, screenName, true);
 		LOGGER.debug("DataSelectionIndex Initializing... ");
 		this.dataSelectionDTO = dataSelectionDTO;
