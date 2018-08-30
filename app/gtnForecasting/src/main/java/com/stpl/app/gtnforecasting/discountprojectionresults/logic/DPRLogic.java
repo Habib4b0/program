@@ -840,17 +840,16 @@ public class DPRLogic {
     public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         List<Object[]> gtsList;
-        Object[] orderedArgsTotal = orderedArgs;
         boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
         // Procedure called only in  Tab Change
-        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgsTotal, dprOrderedArgs)) {
+        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
             if (viewFlag) {
-                orderedArgsTotal = ArrayUtils.removeElement(orderedArgsTotal, projSelDTO.getUserId());
-                orderedArgsTotal = ArrayUtils.removeElement(orderedArgsTotal, projSelDTO.getSessionDTO().getSessionId());
+                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getUserId());
+                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getSessionDTO().getSessionId());
             }
-            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgsTotal);
-            dprOrderedArgs = new Object[orderedArgsTotal.length];
-            System.arraycopy(orderedArgsTotal, 0, dprOrderedArgs, 0, orderedArgsTotal.length);
+            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgs);
+            dprOrderedArgs = new Object[orderedArgs.length];
+            System.arraycopy(orderedArgs, 0, dprOrderedArgs, 0, orderedArgs.length);
             totalPrcResultList.clear();
             totalPrcResultList.addAll(gtsList);
         } else {
