@@ -510,9 +510,6 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     protected void saveCurrentPage() {
         LOGGER.debug(" Inside saveCurrentPage ");
         super.saveCurrentPage();
-        if (altSummeryDiscount != null) {
-
-        }
         LOGGER.debug(" Exiting saveCurrentPage ");
     }
 

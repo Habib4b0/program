@@ -239,9 +239,8 @@ public class DPRLogic {
             }
 
             List<DiscountProjectionResultsDTO> projectionDtoList = new ArrayList<>();
-            if (projSelDTO.isIsProjectionTotal()) {
+            if (!projSelDTO.isIsProjectionTotal()) {
 
-            } else {
                 projectionDtoList = getCustomizedPivotChildNodes(projectionDtoList, projSelDTO);
                 for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(projectionDtoList.get(k));

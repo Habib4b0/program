@@ -799,8 +799,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 for (CustomViewMaster obj : customViewList) {
                     int customSid = obj.getCustomViewMasterSid();
                     Object itemId = customSid;
-                    if (customIdToSelect == customSid) {
-                    }
                     customDdlb.addItem(itemId);
                     customDdlb.setItemCaption(itemId, obj.getViewName());
                 }
@@ -1280,13 +1278,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             if (value != null) {
                 view.setValue(value.toString());
             }
-        }
-    }
-
-    public void pushUpdate(String indicator) {
-        if (Constants.IndicatorConstants.INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator)) {
-        }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
         }
     }
 
