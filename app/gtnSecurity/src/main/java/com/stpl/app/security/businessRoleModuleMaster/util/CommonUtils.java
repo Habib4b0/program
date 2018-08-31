@@ -66,7 +66,7 @@ public class CommonUtils {
 		return select;
 	}
 	
-	public static String getListTypeName(int listTypeId) throws PortalException, SystemException{
+	public static String getListTypeName(int listTypeId) throws PortalException{
 		String listValue=EMPTY;
 		if(listTypeId!=0&&listTypeId!=1&&listTypeId!=NumericConstants.TWO){
 		ListType listType=ListTypeServiceUtil.getListType(listTypeId);

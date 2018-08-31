@@ -64,7 +64,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -72,7 +71,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO:  
+   
 /**
  * The Class FileManagementLogic.
  *
@@ -503,7 +502,7 @@ public class FileManagementLogic {
 	}
 
 	public void populateAll(String clickEvent, final BeanItemContainer<FileMananagementResultDTO> detailsBean,
-			ExtFilterTable detailsTableInCFF) throws PortalException, SystemException {
+			ExtFilterTable detailsTableInCFF) throws SystemException {
 		if (ConstantsUtils.CHECK.equalsIgnoreCase(clickEvent)) {
 			final List<FileMananagementResultDTO> itemIdsForPopulateAll;
 			itemIdsForPopulateAll = detailsBean.getItemIds();
@@ -797,7 +796,7 @@ public class FileManagementLogic {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	public List<HelperDTO> getItemQualifierNameResults() throws PortalException, SystemException {
+	public List<HelperDTO> getItemQualifierNameResults() throws SystemException {
 		final List<HelperDTO> listOfItemQualifier = new ArrayList<>();
 		final DynamicQuery itemQualifierDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -834,7 +833,7 @@ public class FileManagementLogic {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	public List<HelperDTO> getBrandResults() throws PortalException, SystemException {
+	public List<HelperDTO> getBrandResults() throws SystemException {
 		List<Object[]> qualifierList;
 		final List<HelperDTO> brandList = new ArrayList<>();
 

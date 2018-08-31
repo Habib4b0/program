@@ -88,7 +88,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
-    protected String ALL = "ALL";
+    protected String allUpperCase = "ALL";
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
@@ -557,10 +557,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
         try {
-            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
-                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
-            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
-                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
+            
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
              loadAllFilters();
@@ -572,7 +569,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
-                commercialGenerate(customerFlag, productFlag);
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
@@ -597,7 +593,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
+            if (!projectionDTO.getFrequency().equals(nmFrequencyDdlb.getValue())) {
                 session.setFunctionMode(session.getAction().equalsIgnoreCase(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
                 CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
@@ -615,6 +611,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
+            projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         
         }
     }
@@ -755,7 +752,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public void loadAllFilters() {
         List<String> checkedValues = getCheckedSalesInclusionValues();
-        projectionDTO.getSessionDTO().setSalesInclusion(ALL);
+        projectionDTO.getSessionDTO().setSalesInclusion(allUpperCase);
         if (checkedValues.size() == 1) {
             projectionDTO.getSessionDTO().setSalesInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
         }
@@ -785,22 +782,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
         projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
         projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
+        checkFrequencyChange();
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
-        String history = String.valueOf(historyDdlb.getValue());
-        history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
-            toHist = true;
-            projectionDTO.setHistory(history);
-            historyNum = Integer.parseInt(projectionDTO.getHistory());
-        }
+        sethistoryddlbValue(historyNum, toHist);
 
-        if (toHist) {
-            projectionDTO.setForecastDTO(session.getForecastDTO());
-            projectionDTO.setHistoryNum(historyNum);
-            projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
-        }
         if (variables.getValue() != null) {
             String tempVariables = variables.getValue().toString();
             tempVariables = tempVariables.substring(1, tempVariables.length() - 1).trim();
@@ -1210,6 +1197,29 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    private void checkFrequencyChange() {
+        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
+            commercialGenerate(customerFlag, productFlag);
+    }
+
+    private void sethistoryddlbValue(int historyNum,  boolean toHist) {
+        String history = String.valueOf(historyDdlb.getValue());
+        history = history.trim();
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+            toHist = true;
+            projectionDTO.setHistory(history);
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
+        }
+        if (toHist) {
+            projectionDTO.setForecastDTO(session.getForecastDTO());
+            projectionDTO.setHistoryNum(historyNum);
+            projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
         }
     }
 }

@@ -251,7 +251,7 @@ public class ProjectionVarianceLogic {
      * @param list
      * @return list
      */
-    public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list) throws PortalException, SystemException {
+    public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list) throws PortalException {
         final List<ComparisonLookupDTO> finalList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -380,7 +380,7 @@ public class ProjectionVarianceLogic {
      * @param list
      * @return list
      */
-    public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list) throws PortalException, SystemException {
+    public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list) throws PortalException{
         final List<ComparisonLookupDTO> finalList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -3389,7 +3389,7 @@ public class ProjectionVarianceLogic {
         return stringBuilder.toString();
     }
 
-    private String hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder) throws NumberFormatException {
+    private String hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder)  {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
         String hierarchyForLevel=StringUtils.EMPTY;

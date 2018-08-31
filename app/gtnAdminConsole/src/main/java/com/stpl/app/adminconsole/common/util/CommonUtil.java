@@ -339,7 +339,7 @@ public final class CommonUtil {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public static String getDescriptionFromHelper(final int helperTableSid) throws SystemException, PortalException {
+    public static String getDescriptionFromHelper(final int helperTableSid) throws PortalException {
 
         String description = ConstantsUtils.EMPTY;
 
