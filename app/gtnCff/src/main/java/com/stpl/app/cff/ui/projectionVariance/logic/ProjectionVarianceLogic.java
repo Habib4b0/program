@@ -2789,7 +2789,7 @@ public class ProjectionVarianceLogic {
 
         Map<Object, List<Object[]>> groupedResult = dataList.stream().map(obj -> (Object[]) obj)
                 .collect(Collectors.groupingBy(x -> {
-                    return new ArrayList<>(Arrays.asList(x[1], x[2],x[dataList.size()-1]));
+                    return new ArrayList<>(Arrays.asList(x[1], x[2]));
                 }));
         int i=0;
         for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
