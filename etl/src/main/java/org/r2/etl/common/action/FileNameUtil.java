@@ -113,6 +113,12 @@ public class FileNameUtil {
 			map.put(Constants.CONTRACT_CFP_MBR_INTERFACE, Constants.CONTRACT_CFP_MBR_INTERFACE);
 			map.put(Constants.PSTG_FORECAST_SALES_WAC_INTERFACE, Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
 			map.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE, Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
+                        
+                        map.put(Constants.DTX_UOM_INTERFACE, Constants.DTX_UOM_INTERFACE);
+                        map.put(Constants.DTX_CPI_INTERFACE, Constants.DTX_CPI_INTERFACE);
+                        map.put(Constants.DTX_RETURN_RATE_INTERFACE, Constants.DTX_RETURN_RATE_INTERFACE);
+                        map.put(Constants.DTX_ITEM_PRICING_INTERFACE, Constants.DTX_ITEM_PRICING_INTERFACE);
+                        map.put(Constants.DTX_ACCRUAL_ACTUAL_INTERFACE, Constants.DTX_ACCRUAL_ACTUAL_INTERFACE);
 
 		}
 		return map;
@@ -260,6 +266,16 @@ public class FileNameUtil {
 					Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
 			interfaceNameMap.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
 					Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_UOM_INTERFACE,
+					Constants.DTX_UOM_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CPI_INTERFACE,
+					Constants.DTX_CPI_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_RETURN_RATE_INTERFACE,
+					Constants.DTX_RETURN_RATE_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_ITEM_PRICING_INTERFACE,
+					Constants.DTX_ITEM_PRICING_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_ACCRUAL_ACTUAL_INTERFACE,
+					Constants.DTX_ACCRUAL_ACTUAL_INTERFACE);
 		}
 		return interfaceNameMap;
 	}
