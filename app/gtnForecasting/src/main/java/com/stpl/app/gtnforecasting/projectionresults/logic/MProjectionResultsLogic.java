@@ -1658,7 +1658,7 @@ public class MProjectionResultsLogic {
             }
             if (neededRecord > NumericConstants.ZERO && !projSelDTO.isIsProjectionTotal()) {
 
-                List<ProjectionResultsDTO> discountPerDtoList = Collections.EMPTY_LIST;
+                List<ProjectionResultsDTO> discountPerDtoList = Collections.emptyList();
                 if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase(Constant.TOTAL_DISCOUNT_PERCEN) || projSelDTO.getDiscountValue().equalsIgnoreCase(Constant.TOTAL_DISCOUNT_PERCEN)) {
                     discountPerDtoList = getDiscountPer(projSelDTO);
                 }
@@ -1678,7 +1678,7 @@ public class MProjectionResultsLogic {
                     mayBeAdded += discountPerDtoList.size();
                 }
 
-                List<ProjectionResultsDTO> discountRPUDtoList = Collections.EMPTY_LIST;
+                List<ProjectionResultsDTO> discountRPUDtoList = Collections.emptyList();
                 if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase(Constant.TOTAL_RPU_CAPS) || projSelDTO.getDiscountValue().equalsIgnoreCase(Constant.TOTAL_RPU_CAPS)) {
                     discountRPUDtoList = getDiscountRPU(projSelDTO);
                 }
@@ -1698,7 +1698,7 @@ public class MProjectionResultsLogic {
                     mayBeAdded += discountRPUDtoList.size();
                 }
 
-                List<ProjectionResultsDTO> discountDolarDtoList = Collections.EMPTY_LIST;
+                List<ProjectionResultsDTO> discountDolarDtoList = Collections.emptyList();
                 if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase(TOTAL_DISCOUNT_DOLLAR) || projSelDTO.getDiscountValue().equalsIgnoreCase(TOTAL_DISCOUNT_DOLLAR)) {
                     discountDolarDtoList = getDiscountDollar(projSelDTO);
                 }
@@ -3120,17 +3120,18 @@ public class MProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(Constant.NULL)) {
-            value = "0";
+        String valueMan = value;
+        if (valueMan.contains(Constant.NULL)) {
+            valueMan = "0";
         } 
         if (decFormat.toPattern().contains(Constant.PERCENT)) {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueMan);
             newValue = newValue / NumericConstants.HUNDRED;
-            value = decFormat.format(newValue);
+            valueMan = decFormat.format(newValue);
         }else{
-            value = decFormat.format(Double.valueOf(value));
+            valueMan = decFormat.format(Double.valueOf(valueMan));
         }
-        return value;
+        return valueMan;
     }
 
 
@@ -4130,7 +4131,8 @@ public class MProjectionResultsLogic {
     }
 
     private List<ProjectionResultsDTO> getLevelListforMandated(int start, int offset, ProjectionSelectionDTO projSelDTO, int neededRecord) {
-     CommonLogic commonLogic = new CommonLogic();        
+     CommonLogic commonLogic = new CommonLogic();      
+     int neededRecordMandated = neededRecord;
         List<ProjectionResultsDTO> resultList = new ArrayList<>();
 
             if (projSelDTO.isIsCustomHierarchy()) {
@@ -4138,7 +4140,7 @@ public class MProjectionResultsLogic {
                 String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                 Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);                
-               for (int i = NumericConstants.ZERO; i < hierarchyNoList.size() && neededRecord > NumericConstants.ZERO; neededRecord--, i++) {
+               for (int i = NumericConstants.ZERO; i < hierarchyNoList.size() && neededRecordMandated > NumericConstants.ZERO; neededRecordMandated--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(),i));
                      
@@ -4149,7 +4151,7 @@ public class MProjectionResultsLogic {
                 Map<String, List> relationshipLevelDetailsMap =  projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
-            for (int i = NumericConstants.ZERO; i < hierarchyNoList.size() && neededRecord > NumericConstants.ZERO; neededRecord--, i++) {
+            for (int i = NumericConstants.ZERO; i < hierarchyNoList.size() && neededRecordMandated > NumericConstants.ZERO; neededRecordMandated--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
                    

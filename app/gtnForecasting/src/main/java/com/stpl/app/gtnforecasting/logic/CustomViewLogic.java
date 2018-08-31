@@ -37,7 +37,7 @@ public class CustomViewLogic {
     private final Map<Integer, String[]> levelTableFieldNames = new LinkedHashMap();
     private final Map<String, String> tableFieldHelperList = new HashMap();
     private final List<String> listNameCollection = new ArrayList();
-    private final List<Integer> helperList_values = new ArrayList();
+    private final List<Integer> helperListValues = new ArrayList();
     private final StringBuilder tableName = new StringBuilder();
     private final Set<String> tableNameSet = new HashSet();
     private final StringBuilder fieldName = new StringBuilder();
@@ -58,7 +58,7 @@ public class CustomViewLogic {
         listNameCollection.clear();
         finalQuery.setLength(0);
         hierarchyList.clear();
-        helperList_values.clear();
+        helperListValues.clear();
         levelCcpIds.clear();
         levelNoSet.clear();
         executeInsertOrUpdate(projectionId, customViewMasterSid, "CUSTOM_CCP_MAP_INSERT_QUERY");
@@ -237,7 +237,7 @@ listNameCollection.add(listName);
                     queryBuilder.append("SELECT ").append(lastFieldName ).append( ',' ).append( lastTableName ).append( "_SID  " ).append( " FROM " ).append( lastTableName ).append( " WHERE " ).append( lastTableName ).append( "_SID in( " ).append( LEVEL_SID ).append( " )");
                 }
             } else {
-                helperList_values.add(LEVEL_ID);
+                helperListValues.add(LEVEL_ID);
             }
             lastTableName = objArray[0];
             lastFieldName = objArray[1];
@@ -262,7 +262,7 @@ listNameCollection.add(listName);
     }
 
     private void updateHelperListValues() {
-        for (ListIterator<Integer> it = helperList_values.listIterator(); it.hasNext();) {
+        for (ListIterator<Integer> it = helperListValues.listIterator(); it.hasNext();) {
             Integer id = it.next();
             levelValueMap.put(id, HelperListUtil.getInstance().getIdDescMap().get(id));
         }

@@ -141,7 +141,7 @@ public class NMPVExcelLogic {
     protected List<Object> pivotTotalList = new ArrayList<>();
     protected List<Integer> pivotPriorProjIdList = new ArrayList();
     private final Map<String, PVParameters> parameters = new HashMap();
-    private final Map<String, String> customView_relationship_hierarchy = new HashMap();
+    private final Map<String, String> customViewRelationshipHierarchy = new HashMap();
     protected PVParameters parameterDto;
     private boolean discountFlag;
     private boolean isCustomView;
@@ -188,9 +188,9 @@ public class NMPVExcelLogic {
         isCustomView = selection.isIsCustomHierarchy();
 
         if (isCustomView) {
-            customView_relationship_hierarchy.putAll(getGroup_customViewNM());
+            customViewRelationshipHierarchy.putAll(getGroup_customViewNM());
         }
-        LOGGER.debug("customView_relationship_hierarchy ={}", customView_relationship_hierarchy.isEmpty() ? customView_relationship_hierarchy : 0);
+        LOGGER.debug("customView_relationship_hierarchy ={}", customViewRelationshipHierarchy.isEmpty() ? customViewRelationshipHierarchy : 0);
 
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
 
@@ -2295,7 +2295,6 @@ public class NMPVExcelLogic {
             /* Below If condition used to check next hierarchy No is same with old hierarchy No*/
             if (oldHierarchyNo.equals(newHierarchyNo)) {
                 if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
-                    String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
                     setBase_Value(discountDto, obj);
 
                 } else if (i == 0) {

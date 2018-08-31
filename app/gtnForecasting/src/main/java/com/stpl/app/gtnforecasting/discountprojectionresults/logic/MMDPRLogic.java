@@ -1710,9 +1710,6 @@ public class MMDPRLogic {
             yearList.add(projSelDTO.getForecastDTO().getForecastStartMonth());
             yearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
             yearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
-
-            String userId = String.valueOf(projSelDTO.getUserId());
-            String sessionId = String.valueOf(projSelDTO.getSessionId());
             List<Integer> projectionDet = dqLogic.getProjectionDetailsId(projSelDTO);
             String frequency = projSelDTO.getFrequency();
             List<String> discountList = projSelDTO.getDiscountNameList();
@@ -2555,13 +2552,14 @@ public class MMDPRLogic {
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int number = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (number == NumericConstants.TWELVE) {
+            number = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (number >= 0 && number <= NumericConstants.ELEVEN) {
+            month = months[number];
         }
         return month;
     }

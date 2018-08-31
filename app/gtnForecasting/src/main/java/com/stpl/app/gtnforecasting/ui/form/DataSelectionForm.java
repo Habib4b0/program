@@ -1730,7 +1730,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 						if (hierarchyNo.length() > 0 && hierarchyNo.charAt(hierarchyNo.length() - 1) == '.') {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
-						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(levelBean).getHierarchyNo();
 						List<String> hierarchyNos = new ArrayList<>();
 						List<Leveldto> newParentLevels = null;
 						List<Leveldto> newChildLevels = null;
