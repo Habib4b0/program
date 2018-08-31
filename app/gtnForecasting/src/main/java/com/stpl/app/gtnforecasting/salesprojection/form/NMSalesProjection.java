@@ -782,27 +782,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
         projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
         projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
-        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
-                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
-            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
-                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
-            commercialGenerate(customerFlag, productFlag);
+        checkFrequencyChange();
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
-        String history = String.valueOf(historyDdlb.getValue());
-        history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
-            toHist = true;
-            projectionDTO.setHistory(history);
-            historyNum = Integer.parseInt(projectionDTO.getHistory());
-        }
+        sethistoryddlbValue(historyNum, toHist);
 
-        if (toHist) {
-            projectionDTO.setForecastDTO(session.getForecastDTO());
-            projectionDTO.setHistoryNum(historyNum);
-            projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
-        }
         if (variables.getValue() != null) {
             String tempVariables = variables.getValue().toString();
             tempVariables = tempVariables.substring(1, tempVariables.length() - 1).trim();
@@ -1212,6 +1197,29 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    private void checkFrequencyChange() {
+        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
+            commercialGenerate(customerFlag, productFlag);
+    }
+
+    private void sethistoryddlbValue(int historyNum,  boolean toHist) {
+        String history = String.valueOf(historyDdlb.getValue());
+        history = history.trim();
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+            toHist = true;
+            projectionDTO.setHistory(history);
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
+        }
+        if (toHist) {
+            projectionDTO.setForecastDTO(session.getForecastDTO());
+            projectionDTO.setHistoryNum(historyNum);
+            projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
         }
     }
 }
