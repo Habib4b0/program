@@ -421,7 +421,7 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
             }
             return result;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
      
      
