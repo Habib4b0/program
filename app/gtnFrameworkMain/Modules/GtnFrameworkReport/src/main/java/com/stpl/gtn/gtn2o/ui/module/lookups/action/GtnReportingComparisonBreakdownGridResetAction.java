@@ -62,7 +62,7 @@ public class GtnReportingComparisonBreakdownGridResetAction
 						.equals(projectionNames.getValue().toString())) {
 					ComboBox comparisonBreakdownResetCombo = (ComboBox) grid.getHeaderRow(j)
 							.getCell(gtnReportComparisonBreakdownLookupBeanList.get(i)[3].toString()).getComponent();
-					comparisonBreakdownResetCombo.setSelectedItem(0);
+					comparisonBreakdownResetCombo.setSelectedItem("0");
 				}
 			}
 		}
