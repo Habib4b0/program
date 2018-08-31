@@ -155,9 +155,7 @@ public class ExclusionAndInventoryRateLookUp extends Window {
             @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if ("yes".equalsIgnoreCase(buttonId.name())) {
-                    LOGGER.debug("Entering Reset operation");
                     resetFields();
-                    LOGGER.debug("Ending Reset operation");
                 }
             }
         }, ButtonId.YES, ButtonId.NO);
