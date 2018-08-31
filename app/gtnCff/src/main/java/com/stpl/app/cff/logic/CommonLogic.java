@@ -1400,7 +1400,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      * @throws Exception
      */
 
-    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final int projectionID) throws PortalException, SystemException {
+    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final int projectionID) throws SystemException {
 
         String tableName ="CFF_SELECTION";
         StringBuilder query = new StringBuilder();
@@ -1438,7 +1438,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return helperList;
     }
 
-    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws  SystemException {
         String tableName = "CFF_SELECTION";
         StringBuilder query = new StringBuilder();
         query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableName).append("\n" + "WHERE CFF_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
@@ -2662,7 +2662,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     }
     
-     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String newLevel;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
@@ -2932,7 +2932,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return dedValuesList;
     }
 
-    public static String userDefinedLevel(int projectionId, String type,String indicator) throws SystemException, PortalException {
+    public static String userDefinedLevel(int projectionId, String type,String indicator) throws PortalException {
         String hierarchySid=indicator.equals("P")?"PRODUCT_HIERARCHY_SID":"CUSTOMER_HIERARCHY_SID";
         List<String> userDefinedList= (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("user-defined-join")
                 .replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -3102,7 +3102,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return columnRelName.toString();
     }
     
-     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
         CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];

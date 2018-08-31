@@ -1569,8 +1569,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             tradingPartnerNo = CommonLogic.getTradingPartnerLevelNo(false, projectionId);
             session.setTradingPartner(tradingPartnerNo);
         }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
-        }
     }
 
     @Override

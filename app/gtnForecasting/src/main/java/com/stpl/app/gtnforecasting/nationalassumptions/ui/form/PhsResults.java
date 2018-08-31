@@ -193,7 +193,7 @@ public class PhsResults extends CustomComponent implements View {
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     private HorizontalLayout controlLayout;
-    private final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(
@@ -386,9 +386,9 @@ public class PhsResults extends CustomComponent implements View {
             }
         });
 
-        if (Constant.EDIT_SMALL.equalsIgnoreCase(MODE) || Constant.VIEW.equalsIgnoreCase(MODE)) {
+        if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode)) {
             setProjectionSelection();
-            if (Constant.VIEW.equalsIgnoreCase(MODE)) {
+            if (Constant.VIEW.equalsIgnoreCase(mode)) {
                 disableFieldsOnView();
             }
         } else {
@@ -535,7 +535,7 @@ public class PhsResults extends CustomComponent implements View {
              * @param buttonId The buttonId of the pressed button.m
              */
             public void yesMethod() {
-                if (Constant.EDIT_SMALL.equalsIgnoreCase(MODE) || Constant.VIEW.equalsIgnoreCase(MODE)) {
+                if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode)) {
                     setProjectionSelection();
                 } else {
                     brandDdlb.select(brandDto);
@@ -757,7 +757,7 @@ public class PhsResults extends CustomComponent implements View {
 
     public void generateLogic() {
         try {
-          if(!Constant.VIEW.equalsIgnoreCase(MODE)){     
+          if(!Constant.VIEW.equalsIgnoreCase(mode)){     
             callPhsProcedure();
             }
            loadResultTable();

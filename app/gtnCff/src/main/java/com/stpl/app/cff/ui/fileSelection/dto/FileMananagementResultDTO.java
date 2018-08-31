@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+   
 /**
  * The Class FileMananagementResultDTO.
  *

@@ -116,7 +116,7 @@ public class CommonUtils {
      * @throws java.lang.Exception
      */
     public ComboBox loadComboBox(final ComboBox select,
-            String listName) throws SystemException, PortalException {
+            String listName) throws PortalException {
         
         final HelperDTO defaultValue=new HelperDTO(ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
@@ -174,7 +174,7 @@ public class CommonUtils {
      * @param listType the list type
      * @return the item type
      */
-    public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
+    public List<HelperDTO> getHelperResults(final String listType) throws PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
@@ -219,7 +219,7 @@ public class CommonUtils {
         return false;
     }
   public ComboBox loadComboBoxForFilters(final ComboBox select,
-            String listName,boolean isFilter) throws SystemException, PortalException  {
+            String listName,boolean isFilter) throws PortalException  {
         
        final HelperDTO defaultValue=new HelperDTO( 0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(defaultValue);
@@ -242,7 +242,7 @@ public class CommonUtils {
         });
         return select;
     }
-          public List<HelperDTO> getHelperResult(final String listType) throws SystemException, PortalException {
+          public List<HelperDTO> getHelperResult(final String listType) throws PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
