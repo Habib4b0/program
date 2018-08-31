@@ -83,7 +83,7 @@ public class Summary extends CustomComponent {
     @UiField("brand")
     private TextField brand;
     @UiField("Contract Processing Dashboard")
-    private Panel ContractProcessingDashboard;
+    private Panel contractProcessingDashboard;
     @UiField("Add Trading Partner Results")
     private Panel addTradingPartnerResults;
     @UiField("lay")
@@ -93,13 +93,13 @@ public class Summary extends CustomComponent {
     @UiField("excelBtn")
     private Button excelBtn;
     @UiField("contractDashboardResults")
-    private Panel ContractDashboardResults;
+    private Panel contractDashboardResults;
     @UiField("contractDashboardLay")
     private VerticalLayout contractDashboardLay;
     private final Button remove1 = new Button("REMOVE");
     private final Button populate = new Button("POPULATE");
     @UiField("Component Details")
-    private Panel ComponentDetails;
+    private Panel componentDetails;
     @UiField("componentDetailsLay")
     private VerticalLayout componentDetailsLay;
     private final ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();

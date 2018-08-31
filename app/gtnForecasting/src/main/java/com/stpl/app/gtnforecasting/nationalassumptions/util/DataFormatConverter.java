@@ -46,19 +46,20 @@ public class DataFormatConverter implements Converter<String, String> {
     public String convertToModel(String value,
             Class<? extends String> targetType, Locale locale)
             {
+                String valueNew = value;
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
                     + targetType.getName() + ")");
         }
 
-        if (value == null) {
+        if (valueNew == null) {
             return null;
         }
-        value = value.trim();
+        valueNew = valueNew.trim();
         String parsedValue = StringUtils.EMPTY;
         try {
-            parsedValue = value.replaceAll(numericDashRegex, StringUtils.EMPTY);
+            parsedValue = valueNew.replaceAll(numericDashRegex, StringUtils.EMPTY);
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }
@@ -69,38 +70,39 @@ public class DataFormatConverter implements Converter<String, String> {
     public String convertToPresentation(String value,
             Class<? extends String> targetType, Locale locale)
              {
+                 String newValue = value;
 
-        if (value == null) {
+        if (newValue == null) {
             return null;
         }
-        if (value.contains("-")) {
+        if (newValue.contains("-")) {
             return StringUtils.EMPTY;
         }
-        if (StringUtils.isBlank(value)) {
+        if (StringUtils.isBlank(newValue)) {
             return StringUtils.EMPTY;
         }
         try {
             String stringValue = StringUtils.EMPTY;
             String tempValue;
-            tempValue = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
+            tempValue = newValue.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
             if (!StringUtils.EMPTY.equals(tempValue) && !Constants.NULL.equals(tempValue)) {
-                value = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
+                newValue = newValue.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
 
                 if (df != null) {
-                    if (StringUtils.isNotBlank(value)) {
-                        BigDecimal bd = new BigDecimal(value);
+                    if (StringUtils.isNotBlank(newValue)) {
+                        BigDecimal bd = new BigDecimal(newValue);
                         stringValue = df.format(bd);
                     }
 
                 } else {
-                    stringValue = value.replaceAll(numericDashRegex, StringUtils.EMPTY);
+                    stringValue = newValue.replaceAll(numericDashRegex, StringUtils.EMPTY);
                 }
                 if (indicator != null && !StringUtils.EMPTY.equals(indicator) && !Constants.NULL.equals(indicator) && INDICATOR_PERCENT.equals(indicator)) {
                     stringValue += INDICATOR_PERCENT;
                 }
             } else {
-                stringValue = value.replaceAll(numericDashRegex, StringUtils.EMPTY);
+                stringValue = newValue.replaceAll(numericDashRegex, StringUtils.EMPTY);
             }
             return stringValue;
         } catch (Exception ex) {

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.sqlservice;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -43,4 +44,42 @@ public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebService
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
+
+	public String getQuery(List input, String queryName) {
+		StringBuilder sql = new StringBuilder();
+		try {
+			sql = new StringBuilder(getQuery(queryName));
+			if (input != null) {
+				for (Object temp : input) {
+					if (sql.indexOf("?") != -1) {
+						sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			logger.error("Exception in getQuery", ex);
+		}
+		return sql.toString();
+	}
+
+	@SuppressWarnings("rawtypes")
+	public String getReplacedQuery(List input, String query) {
+		StringBuilder sql = new StringBuilder();
+		try {
+			sql = new StringBuilder(query);
+			if (input != null) {
+				for (Object temp : input) {
+					if (sql.indexOf("?") != -1) {
+						sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			logger.error("Exception in getReplacedQuery", ex);
+		}
+		return sql.toString();
+	}
+
 }

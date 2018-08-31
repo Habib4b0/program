@@ -4132,12 +4132,13 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public DiscountProjectionResultsDTO getChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, List ccp) {
+        DiscountProjectionResultsDTO dprDto = dto;
         try {
               boolean viewFlag=Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction());
             int projectionMasterId = projSelDTO.getProjectionId();
-            dto.setIsParent(Constant.STRING_ONE);
-            dto.setParent(1);
-            String hierachyNumber = String.valueOf(dto.getHierarchyNo());
+            dprDto.setIsParent(Constant.STRING_ONE);
+            dprDto.setParent(1);
+            String hierachyNumber = String.valueOf(dprDto.getHierarchyNo());
             hierachyNumber = hierachyNumber + PERCENTAGE;
             List<Integer> yearList = new ArrayList<>();
             yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
@@ -4177,10 +4178,10 @@ public class DiscountProjectionResultsLogic {
             List ccpId = null;
             if (ccp == null) {
                 if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                    ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                    ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dprDto.getTreeLevelNo()));
                 }
                 if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                    ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                    ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dprDto.getTreeLevelNo()));
                 }
                 if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                     projSelDTO.setIsCustomHierarchy(true);
@@ -4221,16 +4222,16 @@ public class DiscountProjectionResultsLogic {
                     List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
                     if (list != null && !list.isEmpty()) {
                         if (frequency.equals(QUARTERLY.getConstant())) {
-                            dto = getValueForDTO(projSelDTO, list, dto, Constant.Q_SMALL);
+                            dprDto = getValueForDTO(projSelDTO, list, dprDto, Constant.Q_SMALL);
                         }
                         if (frequency.equals(Constant.SEMI_ANNUALLY)) {
-                            dto = getValueForDTO(projSelDTO, list, dto, Constant.S_SMALL);
+                            dprDto = getValueForDTO(projSelDTO, list, dprDto, Constant.S_SMALL);
                         }
                         if (frequency.equals(Constant.ANNUALLY)) {
-                            dto = getValueForYearDTO(projSelDTO, list, dto);
+                            dprDto = getValueForYearDTO(projSelDTO, list, dprDto);
                         }
                         if (frequency.equals(MONTHLY.getConstant())) {
-                            dto = getValueForMonthDTO(projSelDTO, list, dto);
+                            dprDto = getValueForMonthDTO(projSelDTO, list, dprDto);
                         }
                     }
                 }
@@ -4238,7 +4239,7 @@ public class DiscountProjectionResultsLogic {
         } catch (SystemException | NumberFormatException e) {
             LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
         }
-        return dto;
+        return dprDto;
     }
 
     /**
@@ -4809,9 +4810,6 @@ public class DiscountProjectionResultsLogic {
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
-            if (i == 0) {
-
-            }
             int selectedYear = 0;
             if (obj[0] != null) {
                 selectedYear = (Integer) obj[0];
@@ -4954,8 +4952,6 @@ public class DiscountProjectionResultsLogic {
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
-            if (i == 0) {
-            }
             int selectedYear = 0;
             int selectedMonth = 0;
             if (obj[0] != null) {

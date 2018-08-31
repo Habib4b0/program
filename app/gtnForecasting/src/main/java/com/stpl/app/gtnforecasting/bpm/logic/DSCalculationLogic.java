@@ -77,14 +77,6 @@ public class DSCalculationLogic {
         return workFlowResponse;
     }
 
-    public static boolean startARPWorkflow(SessionDTO session, String userId) {
-        try {
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-        }
-        return false;
-    }
-
     public static List<ForecastingRulesDTO> getProjectionValues(int projectionId, String userId, String sessionId, String screenName, SessionDTO sessionDto) {
         List<ForecastingRulesDTO> list = new ArrayList<>();
         try {

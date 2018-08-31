@@ -965,7 +965,6 @@ public class DataSelectionQueryUtils {
         } catch (SystemException e) {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
-        } finally {
         }
     }
     

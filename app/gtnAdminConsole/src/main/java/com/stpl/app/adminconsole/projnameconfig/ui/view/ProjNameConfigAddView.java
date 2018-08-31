@@ -14,7 +14,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class ProjNameConfigAddView.
  *

@@ -542,25 +542,29 @@ public class PagedTreeGrid {
 				if (offset > 0)
 					start = start + offset;
 			} else {
-                            if(fetched==0 && itemsToFetch==pageLength){
-                                int i = lastExpandedItemHierarchy.size();
-                                int expandedCount = 0;
-                                while (i>= currentLevel) {
-                                    expandedCount += GridUtils.getChildCount(lastExpandedItemHierarchy.get(i--)) ;
-                                }
-                                int currentOffset = pageNumber * pageLength;
-                                int levelIndex=GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel));//2
-                                start = currentOffset- (levelIndex+ expandedCount);
-                                start= levelIndex+start;
-                                
-                               
-                            }else{
-				start = GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel)) + 1;
-                            }
+                         start = findStartOffset(fetched, itemsToFetch, currentLevel);
 			}
 		}
 		return start;
 	}
+
+    private int findStartOffset(int fetched1, int itemsToFetch, int currentLevel) {
+        int result;
+        if (fetched1 == 0 && itemsToFetch==pageLength) {
+            int i = lastExpandedItemHierarchy.size();
+            int expandedCount = 0;
+            while (i>= currentLevel) {
+                expandedCount += GridUtils.getChildCount(lastExpandedItemHierarchy.get(i--)) ;
+            }
+            int currentOffset = pageNumber * pageLength;
+            int levelIndex=GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel));//2
+            result = currentOffset- (levelIndex+ expandedCount);
+            result= levelIndex+result;
+        } else {
+            result = GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel)) + 1;
+        }
+        return result;
+    }
 
 	private void fetchRowsRecursively(GtnWsRecordBean root, List<GtnWsRecordBean> rows,
 			TreeData<GtnWsRecordBean> treeData, int itemsToFetch) {
