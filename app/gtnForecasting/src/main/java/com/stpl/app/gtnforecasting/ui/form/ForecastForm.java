@@ -2021,8 +2021,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Approved Information",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Approved Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2072,8 +2070,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Rejected Information ",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Rejected Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2127,8 +2123,6 @@ public class ForecastForm extends AbstractForm {
 															+ " withdrawn successfully");
 
 											
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Withdrawn Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2180,8 +2174,6 @@ public class ForecastForm extends AbstractForm {
 													Constant.WORKFLOW_ID + workflowIdUpdate
 															+ " cancelled successfully");
 
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Cancelled Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);

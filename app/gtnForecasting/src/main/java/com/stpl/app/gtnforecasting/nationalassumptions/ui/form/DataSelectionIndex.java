@@ -219,7 +219,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
     private Object companyValueId;
 
-    private Object thearupeticValue;
     private Object thearupeticValueId;
 
     private Integer productGroupId = 0;
@@ -655,6 +654,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * To load data depends on the selection
      */
     private void loadData() {
+        Object thearupeticValue;
         if (company.getValue() != null) {
             companyValueId =  company.getValue();
         } else {
