@@ -52,7 +52,6 @@ public class NMDiscountExcelLogic {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
             String hierKey = key.substring(0,key.lastIndexOf('.'));
-            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
             key = key.substring(key.indexOf('-') + 1);
            
             DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);
@@ -76,7 +75,6 @@ public class NMDiscountExcelLogic {
         for (Iterator<Object[]> it = discountExcelList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
-            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
                 key = key.substring(key.indexOf('-') + 1);
            
             DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);

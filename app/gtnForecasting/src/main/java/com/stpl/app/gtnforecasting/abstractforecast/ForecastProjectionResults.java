@@ -372,6 +372,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
+        String periodHistory = period;
         if (ANNUALLY.getConstant().equals(frequency)) {
             endValue = CALCULATE.getAnnualCount();
             freq = YEARS.getConstant();
@@ -393,8 +394,8 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             if ((i == 1)
                     && (QUARTERS.getConstant().equals(freq) || MONTHS
                     .getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
-                period = freq.replace(Constant.S_SMALL, StringUtils.EMPTY);
-                history.add(String.valueOf(i) + SPACE.getConstant() + period);
+                periodHistory = freq.replace(Constant.S_SMALL, StringUtils.EMPTY);
+                history.add(String.valueOf(i) + SPACE.getConstant() + periodHistory);
             } else {
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             }

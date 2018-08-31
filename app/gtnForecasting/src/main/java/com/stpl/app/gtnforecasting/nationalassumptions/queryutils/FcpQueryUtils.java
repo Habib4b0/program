@@ -38,7 +38,7 @@ public class FcpQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private final Logger LOGGER = LoggerFactory.getLogger(FcpQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FcpQueryUtils.class);
 
     public List loadFcpResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) {
         List fcpList = new ArrayList();
