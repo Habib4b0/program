@@ -472,8 +472,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         productlevelDdlb.select(Constant.SELECT_ONE);
         customerlevelDdlb.select(Constant.SELECT_ONE);
-        projectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        projectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        projectionDTO.setProductLevelFilter(Collections.emptyList());
+        projectionDTO.setCustomerLevelFilter(Collections.emptyList());
         loadSalesInclusion();
     }
 
@@ -786,7 +786,18 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
-        sethistoryddlbValue(historyNum, toHist);
+        String history = String.valueOf(historyDdlb.getValue());
+        history = history.trim();
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+            toHist = true;
+            projectionDTO.setHistory(history);
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
+        }
+        if (toHist) {
+            projectionDTO.setForecastDTO(session.getForecastDTO());
+            projectionDTO.setHistoryNum(historyNum);
+            projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
+        }
 
         if (variables.getValue() != null) {
             String tempVariables = variables.getValue().toString();
@@ -1208,18 +1219,4 @@ public class NMSalesProjection extends ForecastSalesProjection {
             commercialGenerate(customerFlag, productFlag);
     }
 
-    private void sethistoryddlbValue(int historyNum,  boolean toHist) {
-        String history = String.valueOf(historyDdlb.getValue());
-        history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
-            toHist = true;
-            projectionDTO.setHistory(history);
-            historyNum = Integer.parseInt(projectionDTO.getHistory());
-        }
-        if (toHist) {
-            projectionDTO.setForecastDTO(session.getForecastDTO());
-            projectionDTO.setHistoryNum(historyNum);
-            projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
-        }
-    }
 }

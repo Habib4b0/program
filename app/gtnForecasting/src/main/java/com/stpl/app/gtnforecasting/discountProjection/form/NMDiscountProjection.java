@@ -264,8 +264,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @UiField("gridlay")
     private GridLayout gridlay;
     private static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
-    private List<String> checkedList;
-
     private String calcBase = StringUtils.EMPTY;
     private GtnSmallHashMap radioMap = new GtnSmallHashMap();
     private GtnSmallHashMap checkBoxMap = new GtnSmallHashMap();
@@ -3373,8 +3371,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     projectionSelection.getYear(), customDetailsList, true, isCustomHierarchy, rightHeader, 0,
                     NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY,
-                    relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
-                    Collections.EMPTY_LIST, Collections.EMPTY_MAP, projectionSelection.getForecastConfigPeriods(),
+                    relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY,
+                    Collections.emptyList(), Collections.EMPTY_MAP, projectionSelection.getForecastConfigPeriods(),
                     projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
@@ -3503,8 +3501,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     discountToBeLoaded, projectionSelection.getYear(), customDetailsList, true, isCustomHierarchy,
                     rightHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(),
-                    StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY,
-                    StringUtils.EMPTY, Collections.EMPTY_LIST, Collections.EMPTY_MAP,
+                    StringUtils.EMPTY, relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY,
+                    StringUtils.EMPTY, Collections.emptyList(), Collections.EMPTY_MAP,
                     projectionSelection.getForecastConfigPeriods(), projectionSelection);
             loadDataToContainer(levelList, dto, true);
             excelTable.setCollapsed(dto, false);
@@ -4318,10 +4316,10 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     }
 
     public void resetForAdd() {
-        projectionSelection.setDeductionLevelFilter(Collections.EMPTY_LIST);
-        projectionSelection.setDeductionLevelCaptions(Collections.EMPTY_LIST);
-        projectionSelection.setProductLevelFilter(Collections.EMPTY_LIST);
-        projectionSelection.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        projectionSelection.setDeductionLevelFilter(Collections.emptyList());
+        projectionSelection.setDeductionLevelCaptions(Collections.emptyList());
+        projectionSelection.setProductLevelFilter(Collections.emptyList());
+        projectionSelection.setCustomerLevelFilter(Collections.emptyList());
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         CommonLogic.unCheckMultiSelect(deductionFilterValues);
@@ -4615,7 +4613,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         boolean isOne = true;
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<>();
+         List<String>  checkedList = new ArrayList<>();
         for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
             Map<String, List<String>> checkDoubleHeader = d.getValue();
             for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {

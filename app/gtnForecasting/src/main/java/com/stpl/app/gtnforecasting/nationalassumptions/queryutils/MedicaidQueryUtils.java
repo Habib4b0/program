@@ -40,7 +40,7 @@ public class MedicaidQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private final Logger LOGGER = LoggerFactory.getLogger(MedicaidQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MedicaidQueryUtils.class);
 
     public List loadMedicaidResultsTable(int projMasterId, int brandSid, String queryName, String ndc9Level, int therapeuticSid) {
         List medicaidList = new ArrayList();
