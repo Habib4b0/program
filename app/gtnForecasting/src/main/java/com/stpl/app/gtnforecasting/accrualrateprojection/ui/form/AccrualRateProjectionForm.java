@@ -742,7 +742,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
                     }
-                    String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
+                    String workflowId = submitProjToWorkflow(notes, screenName, getUploadedData);
                     showSubmitNotification(workflowId);
                 } else {
                     StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
@@ -754,7 +754,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             } else {
                 saveLogic(false);
                 logic.deleteTempBySession();
-                String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
+                String workflowId = submitProjToWorkflow(notes, screenName, getUploadedData);
                 showSubmitNotification(workflowId);
             }
         } else {
@@ -763,7 +763,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         return workflowFlag;
     }
 
-    private String submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
+    private String submitProjToWorkflow(final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
         String workflowId = "Not Saved";
         try {
             Long processId = 0L;

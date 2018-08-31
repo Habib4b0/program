@@ -30,12 +30,6 @@ public class DSCalculationLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
     private static final Properties properties = DroolsProperties.getPropertiesData();
 
-    public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
-        boolean returnflag = false;
-
-        return returnflag;
-    }
-
     public static GtnWsCommonWorkflowResponse startWorkflow(SessionDTO session, String userId) {
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
             GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();

@@ -172,7 +172,7 @@ public class NMDiscountExcelLogic {
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
             setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj, column);
         } else{
-            setActualsProjForDeductionInclusion(discountProjectionDTO, isActuals, header, projectionSelection, obj);
+            setActualsProjForDeductionInclusion(discountProjectionDTO, isActuals, header, projectionSelection);
         }
            
     }
@@ -215,7 +215,7 @@ public class NMDiscountExcelLogic {
           }
 		
 	}
-	private void setActualsProjForDeductionInclusion(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj) {
+	private void setActualsProjForDeductionInclusion(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection) {
         if (isActuals) {
             discountProjectionDTO.addStringProperties(header + ACTUAL_RATE, StringUtils.EMPTY);
             discountProjectionDTO.addStringProperties(header + ACTUAL_AMOUNT, StringUtils.EMPTY);
