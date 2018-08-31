@@ -2228,7 +2228,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     public void generateButtonLogicForScreens() {
         try {
             LOGGER.debug(" generateButtonLogicForScreens ");
-//F
+
             if (saveDataSelectionValues()) {
                 sessionDTO.setWorkFlow(false);
                 selection.setSessionDTO(sessionDTO);
@@ -2535,8 +2535,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 sessionDTO.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
                 sessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", sessionDTO.getProjectionId(), sessionDTO.getUserId().toString(), sessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
-
-                (new QueryUtils()).ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);
+                logic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO);
                 logic.saveCcp(sessionDTO.getCurrentTableNames().get("ST_CCP_HIERARCHY"), String.valueOf(projectionIdValue));
                 logic.saveAdjustmentMaster(dataSelectionDTO);
 

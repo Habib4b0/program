@@ -69,4 +69,13 @@ public class ReturnReserve extends AbstractBSummaryReportSummary {
     public String[] getAdjustmentTypeColumn() {
         return defaultColumns.clone();
     }
+
+    @Override
+    public Object[] getProcedureInput(SummarySelection selection) {
+        Object[] inputs = new Object[3];
+        inputs[0] = selection.getDataSelectionDTO().getProjectionId();
+        inputs[1] = selection.getSessionDTO().getUserId();
+        inputs[2] = selection.getSessionDTO().getSessionId();
+        return inputs;
+    }
 }

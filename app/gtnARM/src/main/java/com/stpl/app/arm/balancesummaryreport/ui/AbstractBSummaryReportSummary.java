@@ -241,14 +241,6 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
         return frequencyDdlb;
     }
 
-    private Object[] getProcedureInput() {
-        Object[] inputs = new Object[3];
-        inputs[0] = selection.getDataSelectionDTO().getProjectionId();
-        inputs[1] = selection.getSessionDTO().getUserId();
-        inputs[2] = selection.getSessionDTO().getSessionId();
-        return inputs;
-    }
-
     private void createTempTables() {
         Map createTempTables = QueryUtils.createTempTables(getTempTablesPropertyName(), selection.getDataSelectionDTO().getProjectionId(), String.valueOf(selection.getSessionDTO().getUserId()), String.valueOf(selection.getSessionDTO().getSessionId()));
         selection.getSessionDTO().setCurrentTableNames(createTempTables);
@@ -446,6 +438,8 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
 
     public abstract String getProcedureName();
 
+    public abstract Object[] getProcedureInput(SummarySelection selection);
+     
     private void configurePermission() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
@@ -497,7 +491,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     public void generateButtonLogicMethod() {
         try {
             if (loadSeletion()) {
-                QueryUtil.callProcedure(getProcedureName(), getProcedureInput());
+                QueryUtil.callProcedure(getProcedureName(), getProcedureInput(selection));
                 adjustmentResults.generateBtnLogic();
                 loadExpandCollapseddLb();
             }
