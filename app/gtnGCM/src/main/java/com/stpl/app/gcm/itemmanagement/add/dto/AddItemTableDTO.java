@@ -278,11 +278,11 @@ public class AddItemTableDTO {
         this.rarCategory = rarCategory;
     }
 
-    public HelperDTO getMarketType_DTO() {
+    public HelperDTO getMarketTypeDto() {
         return marketTypeDTO;
     }
 
-    public void setMarketType_DTO(HelperDTO marketType_DTO) {
+    public void setMarketTypeDto(HelperDTO marketType_DTO) {
         this.marketTypeDTO = marketType_DTO;
     }
 
@@ -590,67 +590,67 @@ public class AddItemTableDTO {
         this.rebateAmount = rebateAmount;
     }
 
-    public String getContractHolder_SID() {
+    public String getContractHolderSid() {
         return contractHolderSID;
     }
 
-    public void setContractHolder_SID(String contractHolder_SID) {
+    public void setContractHolderSid(String contractHolder_SID) {
         this.contractHolderSID = contractHolder_SID;
     }
 
-    public String getContractNo_SID() {
+    public String getContractNoSid() {
         return contractNoSID;
     }
 
-    public void setContractNo_SID(String contractNo_SID) {
+    public void setContractNoSid(String contractNo_SID) {
         this.contractNoSID = contractNo_SID;
     }
 
-    public String getContractName_SID() {
+    public String getContractNameSid() {
         return contractNameSID;
     }
 
-    public void setContractName_SID(String contractName_SID) {
+    public void setContractNameSid(String contractName_SID) {
         this.contractNameSID = contractName_SID;
     }
 
-    public String getCfp_SID() {
+    public String getCfpSid() {
         return cfpSid;
     }
 
-    public void setCfp_SID(String cfp_SID) {
+    public void setCfpSid(String cfp_SID) {
         this.cfpSid = cfp_SID;
     }
 
-    public String getIfp_SID() {
+    public String getIfpSid() {
         return ifpSid;
     }
 
-    public void setIfp_SID(String ifp_SID) {
+    public void setIfpSid(String ifp_SID) {
         this.ifpSid = ifp_SID;
     }
 
-    public String getPs_SID() {
+    public String getPsSid() {
         return psSid;
     }
 
-    public void setPs_SID(String ps_SID) {
+    public void setPsSid(String ps_SID) {
         this.psSid = ps_SID;
     }
 
-    public String getRs_SID() {
+    public String getRsSid() {
         return rsSid;
     }
 
-    public void setRs_SID(String rs_SID) {
+    public void setRsSid(String rs_SID) {
         this.rsSid = rs_SID;
     }
 
-    public String getCustomer_SID() {
+    public String getCustomerSid() {
         return customerSid;
     }
 
-    public void setCustomer_SID(String customer_SID) {
+    public void setCustomerSid(String customer_SID) {
         this.customerSid = customer_SID;
     }
 

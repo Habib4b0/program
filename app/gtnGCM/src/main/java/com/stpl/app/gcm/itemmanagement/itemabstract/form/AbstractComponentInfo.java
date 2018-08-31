@@ -52,6 +52,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
@@ -782,7 +783,7 @@ public class AbstractComponentInfo extends CustomComponent {
             selection.setFilters(tablelogic.getFilters());
             recordCount = logic.getComponentInfoCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {

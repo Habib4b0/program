@@ -164,6 +164,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      *
      * Saves or updates the current view.
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     @Override
     protected void btnAddLogic() throws PortalException {

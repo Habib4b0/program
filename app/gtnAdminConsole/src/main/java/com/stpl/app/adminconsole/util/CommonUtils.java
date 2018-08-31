@@ -122,7 +122,7 @@ public class CommonUtils {
         return object;
     }
 
-    public ComboBox loadComboBox(final ComboBox select, String listName) throws SystemException, PortalException {
+    public ComboBox loadComboBox(final ComboBox select, String listName) throws PortalException {
 
         final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
@@ -166,7 +166,7 @@ public class CommonUtils {
         return select;
     }
 
-    public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
+    public List<HelperDTO> getHelperResults(final String listType) throws PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
