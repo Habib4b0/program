@@ -15,7 +15,7 @@ import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class AdditionalInfoDAOImpl.
  *

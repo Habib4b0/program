@@ -306,10 +306,6 @@ public abstract class AbstractLookup extends Window {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
-				} catch (PortalException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
 				}
 			}
 		});
@@ -331,10 +327,6 @@ public abstract class AbstractLookup extends Window {
 				} catch (SystemException | FieldGroup.CommitException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
-				} catch (PortalException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
 				}
 			}
@@ -423,12 +415,12 @@ public abstract class AbstractLookup extends Window {
 	/**
 	 * Override this to customize Update logic in the extending classes
 	 */
-	protected abstract void btnUpdateLogic() throws  PortalException, FieldGroup.CommitException;
+	protected abstract void btnUpdateLogic() throws FieldGroup.CommitException;
 
 	/**
 	 * Override this to customize Add logic in the extending classes
 	 */
-	protected abstract void btnAddLogic() throws  PortalException, FieldGroup.CommitException;
+	protected abstract void btnAddLogic() throws FieldGroup.CommitException;
 
 	/**
 	 * Override this to customize import logic in the extending classes

@@ -68,7 +68,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		try {
 
 			initializeResultTable(pagedTreeGrid);
-			pagedTreeGrid.setPageLength(tableConfig.getPageLength());
 			resultLayout.setSizeFull();
 			VerticalLayout controls = new VerticalLayout();
 			controls.addComponents(pagedTreeGrid.getControlLayout());

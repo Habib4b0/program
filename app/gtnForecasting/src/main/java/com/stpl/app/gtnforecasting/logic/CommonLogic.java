@@ -322,11 +322,7 @@ public class CommonLogic {
                         
                         if(detailsList!=null){
                         for (CustomViewDetails customDetails : detailsList) {
-                            try {
                                 commonDao.deleteCustomViewDetails(customDetails);
-                            } catch (SystemException ex) {
-                                LOGGER.error(ex.getMessage());
-                            }
                         }
                         }
                         if (session.getCustomDetailMap().containsKey(customId)) {
@@ -1661,27 +1657,29 @@ public class CommonLogic {
 
     public static String getGroupFilterQuery(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith(Constant.ALL)) {
-                if (userGroup.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroup = LIKE_PERCENT;
+        String userGroupFilter = userGroup;
+        
+        if (!userGroupFilter.isEmpty()) {
+            if (userGroupFilter.startsWith(Constant.ALL)) {
+                if (userGroupFilter.contains(Constant.DISCOUNT_SMALL)) {
+                    userGroupFilter = LIKE_PERCENT;
                     query = getGroupFilterDiscountQuery(isPrior, discountList);
-                } else if (userGroup.contains(Constant.PPA_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterPPAQuery(userGroup, isPrior);
-                } else if (userGroup.contains(Constant.SALES_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
+                } else if (userGroupFilter.contains(Constant.PPA_SMALL)) {
+                    userGroupFilter = LIKE_PERCENT;
+                    query = getGroupFilterPPAQuery(userGroupFilter, isPrior);
+                } else if (userGroupFilter.contains(Constant.SALES_SMALL)) {
+                    userGroupFilter = LIKE_PERCENT;
+                    query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith(Constant.DISCOUNT)) {
-                userGroup = " = '" + userGroup.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
+            } else if (userGroupFilter.startsWith(Constant.DISCOUNT)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterDiscountQuery(isPrior, discountList);
-            } else if (userGroup.startsWith(Constant.PPA)) {
-                userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterPPAQuery(userGroup, isPrior);
-            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
+            } else if (userGroupFilter.startsWith(Constant.PPA)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterPPAQuery(userGroupFilter, isPrior);
+            } else if (userGroupFilter.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroupFilter = " = '" + userGroupFilter.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
             }
         }
         return query;
@@ -2439,27 +2437,29 @@ public class CommonLogic {
 
     public static String getGroupFilterQueryMandated(String userGroup, int userId, int sessionId) {
         String query = StringUtils.EMPTY;
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith(Constant.ALL)) {
-                if (userGroup.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains(Constant.PPA_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-                } else if (userGroup.contains(Constant.SALES_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
+        String userGroupMandated = userGroup;
+        
+        if (!userGroupMandated.isEmpty()) {
+            if (userGroupMandated.startsWith(Constant.ALL)) {
+                if (userGroupMandated.contains(Constant.DISCOUNT_SMALL)) {
+                    userGroupMandated = LIKE_PERCENT;
+                    query = getGroupFilterDiscountQuery(userGroupMandated, userId, sessionId);
+                } else if (userGroupMandated.contains(Constant.PPA_SMALL)) {
+                    userGroupMandated = LIKE_PERCENT;
+                    query = getGroupFilterPPAQuery(userGroupMandated, userId, sessionId);
+                } else if (userGroupMandated.contains(Constant.SALES_SMALL)) {
+                    userGroupMandated = LIKE_PERCENT;
+                    query = getGroupFilterSalesQuery(userGroupMandated, userId, sessionId);
                 }
-            } else if (userGroup.startsWith(Constant.DISCOUNT)) {
-                userGroup = " = '" + userGroup.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(Constant.PPA)) {
-                userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
+            } else if (userGroupMandated.startsWith(Constant.DISCOUNT)) {
+                userGroupMandated = " = '" + userGroupMandated.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterDiscountQuery(userGroupMandated, userId, sessionId);
+            } else if (userGroupMandated.startsWith(Constant.PPA)) {
+                userGroupMandated = " = '" + userGroupMandated.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterPPAQuery(userGroupMandated, userId, sessionId);
+            } else if (userGroupMandated.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroupMandated = " = '" + userGroupMandated.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterSalesQuery(userGroupMandated, userId, sessionId);
             }
         }
         return query;
@@ -4277,27 +4277,28 @@ public class CommonLogic {
 
     public static String getGroupFilterQueryPR(String userGroup, int userId, int sessionId, boolean isPrior, List<String> discountList) {
         String query = StringUtils.EMPTY;
-        if (!userGroup.isEmpty()) {
-            if (userGroup.startsWith(Constant.ALL)) {
-                if (userGroup.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroup = LIKE_PERCENT;
+        String userGroupPR = userGroup;
+        if (!userGroupPR.isEmpty()) {
+            if (userGroupPR.startsWith(Constant.ALL)) {
+                if (userGroupPR.contains(Constant.DISCOUNT_SMALL)) {
+                    userGroupPR = LIKE_PERCENT;
                     query = getGroupFilterDiscountQueryPR(isPrior, discountList);
-                } else if (userGroup.contains(Constant.PPA_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterPPAQueryPR(userGroup, isPrior);
-                } else if (userGroup.contains(Constant.SALES_SMALL)) {
-                    userGroup = LIKE_PERCENT;
-                    query = getGroupFilterSalesQueryPR(userGroup, userId, sessionId, isPrior);
+                } else if (userGroupPR.contains(Constant.PPA_SMALL)) {
+                    userGroupPR = LIKE_PERCENT;
+                    query = getGroupFilterPPAQueryPR(userGroupPR, isPrior);
+                } else if (userGroupPR.contains(Constant.SALES_SMALL)) {
+                    userGroupPR = LIKE_PERCENT;
+                    query = getGroupFilterSalesQueryPR(userGroupPR, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith(Constant.DISCOUNT)) {
-                userGroup = " = '" + userGroup.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
+            } else if (userGroupPR.startsWith(Constant.DISCOUNT)) {
+                userGroupPR = " = '" + userGroupPR.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterDiscountQueryPR(isPrior, discountList);
-            } else if (userGroup.startsWith(Constant.PPA)) {
-                userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterPPAQueryPR(userGroup, isPrior);
-            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
-                query = getGroupFilterSalesQueryPR(userGroup, userId, sessionId, isPrior);
+            } else if (userGroupPR.startsWith(Constant.PPA)) {
+                userGroupPR = " = '" + userGroupPR.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterPPAQueryPR(userGroupPR, isPrior);
+            } else if (userGroupPR.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroupPR = " = '" + userGroupPR.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
+                query = getGroupFilterSalesQueryPR(userGroupPR, userId, sessionId, isPrior);
             }
         }
         return query;
@@ -4694,16 +4695,17 @@ public class CommonLogic {
 
 	private String getReplacedQuery(ProjectionSelectionDTO projDto, List<Object> productList,
 			List<Object> deductionList, String query, boolean isuserDefined) {
-		query = (productList.isEmpty() || isuserDefined) ? query
+            String replaceQuery = query;
+		replaceQuery = (productList.isEmpty() || isuserDefined) ? replaceQuery
 		        : (SQlUtil.getQuery("product-dynamic-filter").replace(Constant.LEVEL_VALUES, productList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
 						.replace(Constant.RELBUILD_SID, projDto.getSessionDTO().getProdRelationshipBuilderSid())
-						+ query);
+						+ replaceQuery);
 
-		query = (deductionList.isEmpty() || isuserDefined) ? query
+		replaceQuery = (deductionList.isEmpty() || isuserDefined) ? replaceQuery
 		        : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
 						.replace("@DEDRELBUILDSID", projDto.getSessionDTO().getDedRelationshipBuilderSid())
-						+ query);
-		return query;
+						+ replaceQuery);
+		return replaceQuery;
 	}
 
 
@@ -5230,16 +5232,17 @@ public class CommonLogic {
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
-           if (value.contains(Constant.NULL) || value.equals("-")) {
-            value = DASH;
+           String valueNew = value;
+        if (valueNew.contains(Constant.NULL) || valueNew.equals("-")) {
+            valueNew = DASH;
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNew);
             if (format.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
+            valueNew = format.format(newValue);
         }
-        return value;
+        return valueNew;
     }
     
     

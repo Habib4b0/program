@@ -153,11 +153,7 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnLookupSelectLogic();
-				} catch (PortalException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5025));
-				} catch (SystemException ex) {
+				}  catch (SystemException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5025));
@@ -197,11 +193,7 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnLookupSelectLogic();
-				} catch (PortalException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5040));
-				} catch (SystemException ex) {
+				}  catch (SystemException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5040));
@@ -433,17 +425,17 @@ public abstract class AbstractLookup extends Window {
 	/**
 	 * Override this to customize Add logic in the extending classes
 	 */
-	protected abstract void btnAddLogic() throws SystemException, PortalException, FieldGroup.CommitException;
+	protected abstract void btnAddLogic() throws PortalException, FieldGroup.CommitException;
 
 	/**
 	 * Override this to customize import logic in the extending classes
 	 */
-	protected abstract void btnImportLogic() throws SystemException, SQLException, NamingException, PortalException;
+	protected abstract void btnImportLogic() throws  SQLException, NamingException, PortalException;
 
 	/**
 	 * Override this to customize select logic in the extending classes
 	 */
-	protected abstract void btnLookupSelectLogic() throws PortalException, SystemException;
+	protected abstract void btnLookupSelectLogic() throws SystemException;
 
 	/**
 	 * Configures the result table

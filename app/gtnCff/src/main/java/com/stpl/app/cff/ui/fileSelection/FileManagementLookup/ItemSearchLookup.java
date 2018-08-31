@@ -5,7 +5,6 @@
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
@@ -46,7 +45,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
-// TODO: Auto-generated Javadoc
+   
 /**
  * The Class FileManagementLookup.
  *
@@ -127,7 +126,7 @@ public class ItemSearchLookup extends Window {
         this.itemLookupName = itemLookupName;
     }
 
-    public void init() throws PortalException, SystemException {
+    public void init() throws PortalException {
         setId("COMPANY");
         setStyleName(Constants.BOOTSTRAP_UI);
         addStyleName("bootstrap-company");
@@ -180,7 +179,7 @@ public class ItemSearchLookup extends Window {
         LOGGER.debug(" addItemsButtonClick method Ended");
     }
 
-    private void configureFields() throws PortalException, SystemException {
+    private void configureFields() throws PortalException {
         /**
          * The common util.
          */

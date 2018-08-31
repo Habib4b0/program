@@ -565,13 +565,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
     protected List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
     @UiField("AlternateGrid")
-    private GridLayout AlternateGrid;
+    private GridLayout alternateGrid;
     @UiField("ContractLabel")
-    protected Label ContractLabel;
+    protected Label contractLabel;
     @UiField("BrandLabel")
-    protected Label BrandLabel;
+    protected Label brandLabel;
     @UiField("GridLayoutProjection")
-    protected GridLayout GridLayoutProjection;
+    protected GridLayout gridLayoutProjection;
 
     @UiField("gridPopulate")
     protected GridLayout gridPopulate;
@@ -581,10 +581,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;
     @UiField("ForecastHorizonyalLayout")
-    protected HorizontalLayout ForecastHorizonyalLayout;
+    protected HorizontalLayout forecastHorizonyalLayout;
     protected HorizontalLayout forecastReturnsLayout = new HorizontalLayout();
     @UiField("Allocation")
-    protected Label Allocation;
+    protected Label allocation;
     @UiField("forecastSPeriod")
     protected Label forecastSPeriod;
     @UiField("forecastEPeriod")
@@ -718,21 +718,21 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             populateLevel.setVisible(true);
             populateLabel.setEnabled(true);
             populateLevel.setEnabled(true);
-            ContractLabel.setCaption("Brand:");
-            AlternateGrid.replaceComponent(contract, brand);
-            BrandLabel.setVisible(false);
+            contractLabel.setCaption("Brand:");
+            alternateGrid.replaceComponent(contract, brand);
+            brandLabel.setVisible(false);
             brand.setVisible(false);
-            BrandLabel.setVisible(false);
+            brandLabel.setVisible(false);
             variables.setMultiSelect(false);
             labelVariables.setVisible(false);
             actualsProjections.setVisible(true);
-            GridLayoutProjection.replaceComponent(variables, proPeriodOrd);
-            GridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
+            gridLayoutProjection.replaceComponent(variables, proPeriodOrd);
+            gridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
             totalLivesLayout.setVisible(false);
             adjustmentLayout.setVisible(false);
 
             adjustmentLayout.setVisible(false);
-            ForecastHorizonyalLayout.setVisible(false);
+            forecastHorizonyalLayout.setVisible(false);
             forecastReturnsLayout.setSpacing(false);
             forecastReturnsLayout.setMargin(false);
             forecastReturnsLayout.addComponent(new Label("Methodology:"));
@@ -1122,7 +1122,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
-        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }
@@ -1778,9 +1777,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO);
                                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveRecords(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveRecords(propertyId.toString(), changedValue,  changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     } else {
-                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, new boolean[] {checkAll, !tempArray1[0].contains(Constant.GROWTH)});
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     refreshFlag = true;
@@ -2738,12 +2737,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @return
      */
     public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
+        String finalValue;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+            finalValue = appendChar.concat(decFormat.format(Double.valueOf(value)));
         } else {
-            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+            finalValue = decFormat.format(Double.valueOf(value)).concat(appendChar);
         }
-        return value;
+        return finalValue;
     }
 
     /**
@@ -3718,9 +3718,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (Constant.GROUP.equals(propertyId)) {
-
-                } else if (Constant.METHODOLOGY.equals(propertyId)) {
+                if (Constant.METHODOLOGY.equals(propertyId)) {
                     TextField filterForMetohdology = new TextField();
                     filterForMetohdology.setReadOnly(true);
                     filterForMetohdology.setWidth("100%");

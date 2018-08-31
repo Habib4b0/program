@@ -29,7 +29,7 @@ public interface StplSecurityDAO {
 	 * @throws PortalException
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	User getUserByUserId(long userId) throws SystemException, PortalException;
+	User getUserByUserId(long userId) throws PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -42,7 +42,7 @@ public interface StplSecurityDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(
-			DynamicQuery query) throws PortalException, SystemException;
+			DynamicQuery query) throws PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -68,7 +68,7 @@ public interface StplSecurityDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List getBusinessroleModuleMasterFunctionList(String businessRoleIds,
-			String moduleName) throws PortalException, SystemException;
+			String moduleName) throws PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -83,7 +83,7 @@ public interface StplSecurityDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List getBusinessroleModuleMasterFieldList(String businessRoleIds,
-			String moduleName) throws PortalException, SystemException;
+			String moduleName) throws PortalException;
 			
 	/** 
 	 * <!-- begin-UML-doc -->

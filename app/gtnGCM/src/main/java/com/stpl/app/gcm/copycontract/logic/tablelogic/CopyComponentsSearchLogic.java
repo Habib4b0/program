@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
  */
 public class CopyComponentsSearchLogic extends PageTableLogic {
 
-    private String Query = StringUtils.EMPTY;
+    private String query = StringUtils.EMPTY;
     private boolean generate = false;
-    private String Component = StringUtils.EMPTY;
+    private String component = StringUtils.EMPTY;
     private final CopyContractLogic logic = new CopyContractLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsSearchLogic.class);
 
@@ -39,7 +39,7 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
         int count = 0;
         try {
             if (generate) {
-                count = logic.getComponentCount(Query);
+                count = logic.getComponentCount(query);
             }
         } catch (Exception ex) {
             LOGGER.error("",ex);
@@ -51,7 +51,7 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List<CopyComponentDTO> resultList = null;
         try {
-            resultList = logic.getComponentResults(Component, Query, start, offset);
+            resultList = logic.getComponentResults(component, query, start, offset);
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }
@@ -67,8 +67,8 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
     }
 
     public boolean setData(String Component, String value) {
-        this.Query = value;
-        this.Component = Component;
+        this.query = value;
+        this.component = Component;
         generate = true;
         clearAll();
         setRequiredCount(true);

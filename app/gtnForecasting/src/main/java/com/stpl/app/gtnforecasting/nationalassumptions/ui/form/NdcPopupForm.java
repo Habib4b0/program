@@ -113,7 +113,7 @@ public class NdcPopupForm extends Window {
 
                 @Override
                 public void noMethod() {
-                    // TODO Auto-generated method stub
+                    //noMethod()
                 }
             }.getConfirmationMessage("Add Confirmation",
                     "There are still more NDC’s to add. Are you sure you want to add the NDC’s in the New NDC’s list view now?");
@@ -137,7 +137,7 @@ public class NdcPopupForm extends Window {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage("Close Confirmation",
                 " Are you sure you want to close the New NDC Setup Popup?");
@@ -168,7 +168,7 @@ public class NdcPopupForm extends Window {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(),
                 " Are you sure you want to reset the selected NDC? You will have to recreate it.");

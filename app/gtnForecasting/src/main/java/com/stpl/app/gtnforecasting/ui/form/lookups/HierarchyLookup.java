@@ -35,7 +35,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class HierarchyLookup.
  *
@@ -191,11 +191,6 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
         if (results.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) results.getValue();
             hrchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
-            try {
-            } catch (Exception ex) {
-                LoggerFactory.getLogger(HierarchyLookup.class.getName()).error( StringUtils.EMPTY, ex);
-            }
-
             close();
         }
     }

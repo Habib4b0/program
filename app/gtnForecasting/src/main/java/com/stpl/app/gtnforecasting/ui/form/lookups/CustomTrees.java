@@ -31,12 +31,15 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CustomTrees.
  */
 public class CustomTrees extends Window {
+      private static final Logger LOGGER = LoggerFactory.getLogger(CustomTrees.class);
 
 	/** The view name. */
 	private final TextField viewName = new TextField();
@@ -354,7 +357,7 @@ public class CustomTrees extends Window {
 			@Override
 			public void buttonClick(final Button.ClickEvent event) {
 				if (treeTableId != null) {
-
+                                   LOGGER.debug("removeCustomer addClickListener");
 				}
 			}
 		});
@@ -381,7 +384,7 @@ public class CustomTrees extends Window {
 			@Override
 			public void buttonClick(final Button.ClickEvent event) {
 				if (treeTableId != null) {
-
+                                    LOGGER.debug("removeCustomer addClickListener");
 				}
 			}
 		});

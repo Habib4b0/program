@@ -608,7 +608,7 @@ public class NationalAssumptionsForm extends CustomComponent {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage("Close Confirmation",
                 closeMsg);

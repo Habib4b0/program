@@ -31,11 +31,13 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Abhiram.Giri
  */
+@Service
 public class GtnWsContractDashboardCompanyLogic {
 
 	private static final String POPULATE_COMPANIES_VALUE = "populateCompaniesValue";

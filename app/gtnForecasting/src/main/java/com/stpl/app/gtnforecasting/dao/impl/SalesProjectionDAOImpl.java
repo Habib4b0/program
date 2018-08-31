@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
-// TODO: Auto-generated Javadoc
+
+
 /**
  * The Class SalesProjectionDAOImpl.
  *

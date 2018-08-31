@@ -237,16 +237,6 @@ public class PMPYCalculator extends Window {
     private final DecimalFormat dfUnits = new DecimalFormat("#.0");
 
     /**
-     * The calculated SALES_SMALL value.
-     */
-    private Double calculatedSalesVal = 0.0;
-
-    /**
-     * The calculated UNITS_SMALL value.
-     */
-    private Double calculatedUnitsVal = 0.0;
-
-    /**
      * The excel export ch.
      */
     private final Image excelExportCh = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
@@ -1190,9 +1180,9 @@ public class PMPYCalculator extends Window {
     private void populateButtonLogic(boolean chValue, boolean tpValue) {
 
         LOGGER.debug("Entering populateButtonLogic method");
-        calculatedSalesVal = 0.0;
-        calculatedUnitsVal = 0.0;
-
+        
+        Double calculatedSalesVal = 0.0;
+        Double calculatedUnitsVal = 0.0;
         if (chValue && tpValue) {
             AbstractNotificationUtils.getErrorNotification("Periods in Both List Views Selected",
                     "Historical periods can only be selected from either the Contract Holder list view or the Trading Partner list view.  " + "\nPlease try again.");

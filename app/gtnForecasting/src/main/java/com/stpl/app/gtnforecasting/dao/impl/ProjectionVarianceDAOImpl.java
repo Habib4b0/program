@@ -53,7 +53,6 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     public List generateProjectionVariance(int projectionId, String indicator,
             List<Integer> comparisonProjections, String frequency, String level, String discountLevel, int levelNo, String sales, List<Integer> periods, ProjectionSelectionDTO projSelDTO) throws PortalException{
         List resuList = new ArrayList();
-        // TODO Auto-generated method stub
         return resuList;
     }
 
@@ -76,7 +75,6 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
             List<Integer> comparisonProjections, String frequency, String level, String discountLevel)
             throws PortalException{
 
-        // TODO Auto-generated method stub
         return Collections.emptyList();
     }
 

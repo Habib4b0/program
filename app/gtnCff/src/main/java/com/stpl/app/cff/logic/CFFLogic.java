@@ -140,7 +140,7 @@ public class CFFLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static List<HelperDTO> getDropDownList(final String listName) throws PortalException, SystemException {
+    public static List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         LOGGER.debug("Entering getDropDownList p1: {}", listName);
         final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listName);
@@ -161,7 +161,7 @@ public class CFFLogic {
      * @param listName the list name
      * @return the drop down list
      */
-    public static List<HelperDTO> loadStatusDdlb(final String listName) throws PortalException, SystemException {
+    public static List<HelperDTO> loadStatusDdlb(final String listName) throws SystemException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
 
@@ -1100,7 +1100,7 @@ public class CFFLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static List<ViewDTO> searhView(final String viewName, final String viewType) throws ParseException, PortalException, SystemException
+    public static List<ViewDTO> searhView(final String viewName, final String viewType) throws ParseException, PortalException
              {
         LOGGER.debug("Entering searchView method");
         List list = null;
@@ -1582,13 +1582,7 @@ public class CFFLogic {
                         
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
-			if (j == tempList.size() - 1) {
-				if (detailsList.get(detailsList.size() - 1).equals("C")) {
-					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
-				} else {
-					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
-				}
-			}
+			
 
 		}
 		return resultMap;
@@ -1597,6 +1591,7 @@ public class CFFLogic {
     private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
 		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
+                        displayFormat.add(object[1]);
 			for (int i = 5; i < object.length - extraColumnIndex; i++) {
 				displayFormat.add(object[i]);
 			}

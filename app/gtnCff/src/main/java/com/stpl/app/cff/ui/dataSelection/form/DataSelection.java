@@ -515,8 +515,10 @@ public class DataSelection extends AbstractDataSelection {
                                 }
                                 sessionDTO.setPriorProjectionId(br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString());
                                 }
-                                
-                                sessionDTO.setDeductionName(deductionDdlb.getItemCaption(deductionDdlb.getValue()));
+                                String keyValue = deductionDdlb.getItemCaption(deductionDdlb.getValue());
+                                keyValue = keyValue.startsWith("UDC") ? keyValue.replace(" ", StringUtils.EMPTY) : keyValue;
+
+                                sessionDTO.setDeductionName(keyValue);
                                 sessionDTO.setDeductionNo(Integer.parseInt(String.valueOf(deductionDdlb.getValue())));
                                 sessionDTO.setCustomDescription(cffLogic.getRelationshipDetailsCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
                                 sessionDTO.setDeductionLevelDescription(cffLogic.getRelationshipDetailsDeductionCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));

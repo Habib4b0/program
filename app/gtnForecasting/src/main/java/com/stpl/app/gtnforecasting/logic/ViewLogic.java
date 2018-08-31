@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ViewLogic.
  *
@@ -148,12 +148,8 @@ public class ViewLogic {
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
             ForecastingViewMaster viewMaster = ForecastingViewMasterLocalServiceUtil.createForecastingViewMaster(0);
-            try {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
                 dataSelection.deleteForecastingViewMaster(viewId);
-            } catch (PortalException | SystemException ex) {
-                LoggerFactory.getLogger(ViewLogic.class.getName()).error( StringUtils.EMPTY, ex);
-            }
             if (saveViewDTO.getViewName() != null
                     && !StringUtils.isEmpty(saveViewDTO.getViewName())) {
                 viewMaster.setViewName(saveViewDTO.getViewName());
@@ -170,7 +166,7 @@ public class ViewLogic {
             updatedViewMaster = dataSelection.addForecastingViewMaster(viewMaster);
             return updatedViewMaster;
 
-        } catch (SystemException | NumberFormatException e) {
+        } catch (SystemException |  PortalException | NumberFormatException e) {
            LOGGER.error(e.getMessage());
             return updatedViewMaster;
         }
