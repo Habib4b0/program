@@ -33,7 +33,6 @@ import com.stpl.ifs.util.ExportWord;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.TableResultCustom;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
@@ -82,7 +81,7 @@ public class NotesTabForm extends AbstractNotesTab {
         private static final String[] NOTES_HEADERS = new String[] { "Document Name", "Date Added", "User Name" };
         
 	public NotesTabForm(ErrorfulFieldGroup binder, String moduleName, String dbModuleName, String masterTableSid,
-			String mode) throws SystemException, PortalException {
+			String mode) throws PortalException {
 		super(binder, moduleName);
 		this.masterTableSid = masterTableSid;
 		this.dbModuleName = dbModuleName;

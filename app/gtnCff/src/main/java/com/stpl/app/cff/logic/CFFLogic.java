@@ -140,7 +140,7 @@ public class CFFLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static List<HelperDTO> getDropDownList(final String listName) throws PortalException, SystemException {
+    public static List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         LOGGER.debug("Entering getDropDownList p1: {}", listName);
         final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listName);
@@ -161,7 +161,7 @@ public class CFFLogic {
      * @param listName the list name
      * @return the drop down list
      */
-    public static List<HelperDTO> loadStatusDdlb(final String listName) throws PortalException, SystemException {
+    public static List<HelperDTO> loadStatusDdlb(final String listName) throws SystemException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
 
@@ -1100,7 +1100,7 @@ public class CFFLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static List<ViewDTO> searhView(final String viewName, final String viewType) throws ParseException, PortalException, SystemException
+    public static List<ViewDTO> searhView(final String viewName, final String viewType) throws ParseException, PortalException
              {
         LOGGER.debug("Entering searchView method");
         List list = null;

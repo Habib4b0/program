@@ -256,7 +256,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @param moduleName
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
-    public AbstractSearchForm(String moduleName, final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public AbstractSearchForm(String moduleName, final SessionDTO sessionDTO) throws PortalException {
         super();
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractsearchform.xml"), this));
         binder = getBinder();
@@ -285,7 +285,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
-    public final void init() throws PortalException, SystemException {
+    public final void init() throws PortalException{
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, securityName() + "," + "Index Screen");
@@ -511,7 +511,7 @@ public class AbstractSearchForm extends CustomComponent {
 
     }
 
-    private void configureLayout(String moduleName) throws PortalException, SystemException {
+    private void configureLayout(String moduleName) throws PortalException {
 
         if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
             label4.setVisible(false);
@@ -784,7 +784,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @param tableFieldLookUpDTO
      * @throws Exception
      */
-    private void loadExcelTable(String moduleName, ErrorfulFieldGroup binder, String searchCriteria) throws SystemException, ParseException, PortalException {
+    private void loadExcelTable(String moduleName, ErrorfulFieldGroup binder, String searchCriteria) throws  ParseException, PortalException {
         excelTableBean.removeAllItems();
         if (resultTable.size() != 0) {
             int count = searchLogic.getCountBasedOnModules(binder, 0, 0, true, null, null, moduleName, searchCriteria);
