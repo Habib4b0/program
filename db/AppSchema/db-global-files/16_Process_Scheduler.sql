@@ -5871,6 +5871,20 @@ BEGIN
 END
 GO
 
+-----------------------------------	ALG-5656-----------------------------------
+IF EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE SCRIPT_NAME IS NULL
+			AND PROCESS_NAME = 'RETURN_RATE_FORECAST_INTERFACE'
+		)
+BEGIN
+	UPDATE WORKFLOW_PROFILE
+	SET SCRIPT_NAME = 'Return_Rate_Forecast_Intf.sh' -- varchar(100)
+	WHERE PROCESS_NAME = 'RETURN_RATE_FORECAST_INTERFACE'
+END
+GO
+
 --------Insert for ITEM UOM INTERFACE
 
 
