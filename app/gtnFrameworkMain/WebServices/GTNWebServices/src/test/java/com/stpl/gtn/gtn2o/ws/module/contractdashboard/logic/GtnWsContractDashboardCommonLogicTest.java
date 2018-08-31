@@ -80,15 +80,6 @@ public class GtnWsContractDashboardCommonLogicTest {
      */
     @Test
     public void testSetGtnSearchResponse_6args() throws Exception {
-//        System.out.println("setGtnSearchResponse");
-//        GtnUIFrameworkWebserviceRequest gtnWsRequest = null;
-//        GtnUIFrameworkWebserviceResponse gtnResponse = null;
-//        GtnWsContractDashboardController controller = null;
-//        List<Object> inputlist = null;
-//        String queryName = "";
-//        String orderByQuery = "";
-//        GtnWsContractDashboardCommonLogic instance = new GtnWsContractDashboardCommonLogic();
-//        instance.setGtnSearchResponse(gtnWsRequest, gtnResponse, controller, inputlist, queryName, orderByQuery);
         System.out.println("setGtnSearchResponse");
 
         GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
@@ -156,14 +147,6 @@ public class GtnWsContractDashboardCommonLogicTest {
      */
     @Test
     public void testSetGtnSearchResponse_5args() throws Exception {
-//        System.out.println("setGtnSearchResponse");
-//        GtnUIFrameworkWebserviceRequest gtnWsRequest = null;
-//        GtnUIFrameworkWebserviceResponse gtnResponse = null;
-//        GtnWsContractDashboardController controller = null;
-//        List<Object> inputlist = null;
-//        String queryName = "";
-//        GtnWsContractDashboardCommonLogic instance = new GtnWsContractDashboardCommonLogic();
-//        instance.setGtnSearchResponse(gtnWsRequest, gtnResponse, controller, inputlist, queryName);
 try {
         System.out.println("itemDetailsTableData");
 
@@ -225,11 +208,6 @@ try {
      */
     @Test
     public void testAddInputItemSId() {
-//        System.out.println("addInputItemSId");
-//        GtnUIFrameworkWebserviceRequest gtnWsRequest = null;
-//        List<Object> inputlist = null;
-//        GtnWsContractDashboardCommonLogic instance = new GtnWsContractDashboardCommonLogic();
-//        instance.addInputItemSId(gtnWsRequest, inputlist);
 try{
         System.out.println("addInputItemSId");
 

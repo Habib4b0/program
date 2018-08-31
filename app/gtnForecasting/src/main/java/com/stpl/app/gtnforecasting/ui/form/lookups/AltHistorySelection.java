@@ -935,7 +935,7 @@ public class AltHistorySelection extends CustomComponent implements View {
             }
         if ((!isChecked && !isHeaderChecked)||!checkboxList.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "Please select Time Period.");
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         if (isChecked) {
             datePeriodUnchecked.deleteCharAt(datePeriodUnchecked.lastIndexOf(","));
@@ -944,7 +944,7 @@ public class AltHistorySelection extends CustomComponent implements View {
             } else if (TabNameUtil.SALES_PROJECTION.equals(session.getForecastName())) {
                 AbstractNotificationUtils.getErrorNotification("Not all required fields selected", "The following Time Period " + datePeriodUnchecked + " must have either the ‘Actual Units’ or ‘Projected Units’ check box selected.");
             }
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         
         if (datePeriod.size() > 0) {
