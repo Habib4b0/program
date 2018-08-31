@@ -738,8 +738,7 @@ public class SessionDTO implements Cloneable {
 
     @Override
     public SessionDTO clone() throws CloneNotSupportedException {
-        SessionDTO sessiondto = (SessionDTO) super.clone();
-        return sessiondto;
+        return (SessionDTO) super.clone();
     }
     
 

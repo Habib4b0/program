@@ -420,7 +420,7 @@ public class Copycomponents extends CustomComponent {
                 int cfpIdValue = dto.getCFPId();
                 String query = queryUtils.getCFPDetails(cfpIdValue);
                 List cfpList = ccDao.searchList(query);
-                if (cfpList != null && cfpList.size() > 0) {
+                if (cfpList != null && !cfpList.isEmpty()) {
                     Object[] object = (Object[]) cfpList.get(0);
                     cfpId.setValue(String.valueOf(object[0]));
                     cfpNo.setValue(String.valueOf(object[1]));
@@ -444,7 +444,7 @@ public class Copycomponents extends CustomComponent {
                 int ifpIdValue = dto.getIFPId();
                 String query = queryUtils.getIFPDetails(ifpIdValue);
                 List ifpList = ccDao.searchList(query);
-                if (ifpList != null && ifpList.size() > 0) {
+                if (ifpList != null && !ifpList.isEmpty()) {
                     Object[] object = (Object[]) ifpList.get(0);
                     ifpId.setValue(String.valueOf(object[0]));
                     ifpNo.setValue(String.valueOf(object[1]));
@@ -468,7 +468,7 @@ public class Copycomponents extends CustomComponent {
                 int psIdValue = dto.getPSId();
                 String query = queryUtils.getPSDetails(psIdValue);
                 List psList = ccDao.searchList(query);
-                if (psList != null && psList.size() > 0) {
+                if (psList != null && !psList.isEmpty()) {
                     Object[] object = (Object[]) psList.get(0);
                     psId.setValue(String.valueOf(object[0]));
                     psNo.setValue(String.valueOf(object[1]));
@@ -491,7 +491,7 @@ public class Copycomponents extends CustomComponent {
             int rsIdValue = dto.getRSId();
             String query = queryUtils.rsValue(rsIdValue);
             List rsList = ccDao.searchList(query);
-            if (rsList != null && rsList.size() > 0) {
+            if (rsList != null && !rsList.isEmpty()) {
                 Object[] object = (Object[]) rsList.get(0);
                 rsId.setValue(String.valueOf(object[0]));
                 rsStatus.setValue(String.valueOf(object[1]));
@@ -553,7 +553,7 @@ public class Copycomponents extends CustomComponent {
                 String companyQuery = queryUtils.getCompanyMasterSid(ids);
                 String value = Constants.EMPTY;
                 List companyids = ccDao.searchList(companyQuery);
-                if (companyids != null && companyids.size() > 0) {
+                if (companyids != null && !companyids.isEmpty()) {
                     boolean f = false;
                     for (Object item : companyids) {
                         if (!f) {
@@ -708,7 +708,7 @@ public class Copycomponents extends CustomComponent {
                             String id = String.valueOf(cfpContId);
                             String query = queryUtils.cfpValue(id);
                             List cfpList = ccDao.searchList(query);
-                            if (cfpList != null && cfpList.size() > 0) {
+                            if (cfpList != null && !cfpList.isEmpty()) {
                                 Object[] obj = (Object[]) cfpList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                 if (!tmp.contains(modelId)) {
@@ -748,7 +748,7 @@ public class Copycomponents extends CustomComponent {
                             String id = String.valueOf(ifpContId);
                             String query = queryUtils.getIFP(id);
                             List ifpList = ccDao.searchList(query);
-                            if (ifpList != null && ifpList.size() > 0) {
+                            if (ifpList != null && !ifpList.isEmpty()) {
                                 Object[] obj = (Object[]) ifpList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                 if (!tmp.contains(modelId)) {
@@ -788,13 +788,13 @@ public class Copycomponents extends CustomComponent {
                             String id = String.valueOf(psContId);
                             String query = queryUtils.psValue(id);
                             List psList = ccDao.searchList(query);
-                            if (psList != null && psList.size() > 0) {
+                            if (psList != null && !psList.isEmpty()) {
                                 Object[] obj = (Object[]) psList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                 if (!tmp.contains(modelId)) {
                                     String conditionQuery = queryUtils.conditionQuery(modelId, modelSId);
                                     List conditionList = ccDao.searchList(conditionQuery);
-                                    if (conditionList != null && conditionList.size() > 0) {
+                                    if (conditionList != null && !conditionList.isEmpty()) {
                                         psFlag = false;
                                         tmp.add(modelId);
                                         final Object rootId = contractDashBoardTable.addItem();
@@ -835,7 +835,7 @@ public class Copycomponents extends CustomComponent {
                             String id = String.valueOf(rsContId);
                             String query = queryUtils.rsValue(id);
                             List rsList = ccDao.searchList(query);
-                            if (rsList != null && rsList.size() > 0) {
+                            if (rsList != null && !rsList.isEmpty()) {
                                 Object[] obj = (Object[]) rsList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                 if (!tmp.contains(modelId)) {
@@ -881,7 +881,7 @@ public class Copycomponents extends CustomComponent {
                 String companyQuery = queryUtils.getCompanyMasterSid(cfpcontId);
                 String value = Constants.EMPTY;
                 List companyids = ccDao.searchList(companyQuery);
-                if (companyids != null && companyids.size() > 0) {
+                if (companyids != null && !companyids.isEmpty()) {
                     boolean flag = false;
                     for (Object item : companyids) {
                         if (!flag) {
@@ -1083,7 +1083,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    public ContractMaster Cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate)  {
+    public ContractMaster cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate)  {
         ContractMaster contractMaster;
         contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
         contractMaster.setContractId(contractId);
@@ -1113,14 +1113,14 @@ public class Copycomponents extends CustomComponent {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenCFPQuery();
         List ids = ccDao.searchList(query1);
-        if (ids != null && ids.size() > 0) {
+        if (ids != null && !ids.isEmpty()) {
             String id = String.valueOf(ids.get(0));
             contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
             String cfpModelQuery = queryUtils.cfpModelQuery(id);
             List cfpModel = ccDao.searchList(cfpModelQuery);
-            if (cfpModel != null && cfpModel.size() > 0) {
+            if (cfpModel != null && !cfpModel.isEmpty()) {
                 String cfpModelId = String.valueOf(cfpModel.get(0));
-                copyContractLogic.SaveCFPForCopyComponent(String.valueOf(id), cfpModelId);
+                copyContractLogic.saveCfpForCopyComponent(String.valueOf(id), cfpModelId);
             }
         }        
     }
@@ -1137,14 +1137,14 @@ public class Copycomponents extends CustomComponent {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenIFPQuery();
         List ids = ccDao.searchList(query1);
-        if (ids != null && ids.size() > 0) {
+        if (ids != null && !ids.isEmpty()) {
             String id = String.valueOf(ids.get(0));
             contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
             String ifpModelQuery = queryUtils.ifpModelQuery(id);
             List ifpModel = ccDao.searchList(ifpModelQuery);
-            if (ifpModel != null && ifpModel.size() > 0) {
+            if (ifpModel != null && !ifpModel.isEmpty()) {
                 String ifpModelId = String.valueOf(ifpModel.get(0));
-                copyContractLogic.SaveIFPForCopyComponent(String.valueOf(id), String.valueOf(ifpModelId));
+                copyContractLogic.saveIfpForCopyComponent(String.valueOf(id), String.valueOf(ifpModelId));
             }
         }
     }
@@ -1163,14 +1163,14 @@ public class Copycomponents extends CustomComponent {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenPSQuery();
         List ids = ccDao.searchList(query1);
-        if (ids != null && ids.size() > 0) {
+        if (ids != null && !ids.isEmpty()) {
             String id = String.valueOf(ids.get(0));
             contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
             String psModelQuery = queryUtils.psModelQuery(id);
             List psModel = ccDao.searchList(psModelQuery);
-            if (psModel != null && psModel.size() > 0) {
+            if (psModel != null && !psModel.isEmpty()) {
                 String psModelId = String.valueOf(psModel.get(0));
-                copyContractLogic.SavePSForCopyComponent(String.valueOf(id), String.valueOf(psModelId));
+                copyContractLogic.savePsForCopyComponent(String.valueOf(id), String.valueOf(psModelId));
             }
         }
     }
@@ -1191,14 +1191,14 @@ public class Copycomponents extends CustomComponent {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenRSQuery();
         List ids = ccDao.searchList(query1);
-        if (ids != null && ids.size() > 0) {
+        if (ids != null && !ids.isEmpty()) {
             String id = String.valueOf(ids.get(0));
             contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
             String rsModelQuery = queryUtils.rsModelQuery(id);
             List rsModel = ccDao.searchList(rsModelQuery);
-            if (rsModel != null && rsModel.size() > 0) {
+            if (rsModel != null && !rsModel.isEmpty()) {
                 String rsModelId = String.valueOf(rsModel.get(0));
-                copyContractLogic.SaveRSForCopyComponent(String.valueOf(id), String.valueOf(rsModelId));
+                copyContractLogic.saveRsForCopyComponent(String.valueOf(id), String.valueOf(rsModelId));
             }
         }
     }

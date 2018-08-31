@@ -161,7 +161,7 @@ public StplSecurityDAO getDto() {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessTabPermission(final String userId,final String moduleName) throws SystemException, PortalException {
+    public Map<String, AppPermission> getBusinessTabPermission(final String userId,final String moduleName) throws PortalException {
     	Map<String, AppPermission> tabHm = null;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
