@@ -174,7 +174,6 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             String productHierarchyNo = StringUtils.EMPTY;
 
             int treeLevelNo = 0;
-//            List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
             if (parentId instanceof DiscountProjectionDTO) {

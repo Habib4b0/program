@@ -267,6 +267,24 @@ public final class GlobalInterfaces {
 		return Constants.SUCCESS;
 
 	}
+        
+        /**
+	 * This method is used to invoke DTX Item Pricing Interface.
+	 * 
+	 * @return SUCCESS
+	 * @throws IOException
+	 * @throws EtlException
+	 * 
+	 */
+	public static String runDtxItemPricingHistory() throws BPIETLException {
+
+		LOGGER.info("The DTX UOM Interface started executing");
+		setFileName(FilePathUtil.DTX_UOM_INTERFACE);
+		r2etl.runJob(filename);
+		return Constants.SUCCESS;
+
+	}
+
 
 	private static void setFileName(String input) {
 		filename = logpath + input;

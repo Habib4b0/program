@@ -77,7 +77,7 @@ public class SalesProjectionTree {
 
     private List<String> getAvailableHierarchiesCP(ProjectionSelectionDTO projSelDTO) {
         if (projSelDTO.getSessionDTO().getHierarchyLevelDetails().isEmpty()) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         } else {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO);
