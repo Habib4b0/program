@@ -77,7 +77,7 @@ public class SalesProjectionResultsTree {
 
     private List<Object[]> getAvailableHierarchiesCustom(ProjectionSelectionDTO projSelDTO) {
         if (projSelDTO.getCustomId() == 0) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         String query = SQlUtil.getQuery("custom-relationship");
         query = query.replace("[?CUST_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getCustRelationshipBuilderSid());

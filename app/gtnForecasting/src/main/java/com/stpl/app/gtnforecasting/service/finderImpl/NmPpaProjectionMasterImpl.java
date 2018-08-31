@@ -157,7 +157,7 @@ public class NmPpaProjectionMasterImpl {
               {
                    sql.append("PA.NM_PPA_PROJECTION_SID);");
               }
-            int a = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
+            HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());

@@ -199,16 +199,6 @@ public class NMPmpyCalculator extends Window {
     private final DecimalFormat dfUnits = new DecimalFormat("#.0");
 
     /**
-     * The calculated SALES_SMALL value.
-     */
-    private Double calculatedSalesValue = 0.0;
-
-    /**
-     * The calculated UNITS_SMALL value.
-     */
-    private Double calculatedUnitsValue = 0.0;
-
-    /**
      * The excel export ch.
      */
     @UiField("excelExportCh")
@@ -811,9 +801,9 @@ public class NMPmpyCalculator extends Window {
     private void populateButtonLogic( boolean chValue, boolean tpValue) {
 
         LOGGER.debug("Entering populateButtonLogic method");
-        calculatedSalesValue = 0.0;
-        calculatedUnitsValue = 0.0;
-
+    
+        Double calculatedSalesValue = 0.0;
+        Double calculatedUnitsValue = 0.0;
         if (chValue && tpValue) {
             AbstractNotificationUtils.getErrorNotification("Periods in Both List Views Selected",
                     "Historical periods can only be selected from either the Contract Holder list view or the Trading Partner list view.  " + "\nPlease try again.");

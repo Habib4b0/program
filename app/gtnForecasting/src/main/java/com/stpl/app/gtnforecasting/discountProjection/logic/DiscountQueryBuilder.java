@@ -543,7 +543,6 @@ public class DiscountQueryBuilder {
       private String getCustomHierarchiesForCustomView(List<String[]> massUpdateData) {
         StringBuilder stringBuilder = new StringBuilder();
         boolean isNotFirstElement = false;
-        int i = 1;
         for (String[] hierarchyData : massUpdateData) {
             if (!hierarchyData[0].contains(",")) {
                 if (isNotFirstElement) {
@@ -681,17 +680,6 @@ public class DiscountQueryBuilder {
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");
         try {
-            String discountTypeQuery = "";
-            if (discountList != null && !discountList.isEmpty()) {
-                String selectedDiscounts = getRSDiscountSids(discountList);
-                if (isProgram) {
-                    discountTypeQuery += " JOIN RS_CONTRACT RS ON DP.RS_CONTRACT_SID = RS.RS_CONTRACT_SID  AND RS.RS_CONTRACT_SID  in (" + selectedDiscounts + ") \n ";
-                } else {
-                    discountTypeQuery += " WHERE DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
-                }
-            }
-
-            
                 customSql = "SELECT count(*) AS CHECK_COUNT FROM ST_NM_DISCOUNT_PROJ_MASTER DP JOIN ST_CCP_HIERARCHY CCPH ON CCPH.CCP_DETAILS_SID = DP.CCP_DETAILS_SID \n"
                        + " WHERE DP.CHECK_RECORD=1";
            
