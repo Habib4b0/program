@@ -4934,6 +4934,9 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     } else if (defval == NumericConstants.TWELVE) {
                         subYear1 = tempSubYear;
                     }
+                    else{
+                        subYear1  = CommonUtils.TWELVE;
+                    }
                     String fullYear = tempYear + subYear1;
                     year[i] = Integer.parseInt(fullYear.trim());
 
