@@ -72,12 +72,12 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		List<Object[]> list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info(
+			logger.debug(
 					"Starting time to Execute Query : " + new SimpleDateFormat("HH:mm:ss").format(new Date(startTime)));
 			Query query = session.createSQLQuery(sqlQuery);
 			list = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query: "
+			logger.debug("End time to execute Query: "
 					+ new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
 			logger.info("Time taken to execute Query: " + (double) (System.currentTimeMillis() - startTime) / 1000
 					+ " secs");
@@ -114,12 +114,12 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		List<Object[]> queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info(
+			logger.debug(
 					"Starting time to Execute Query" + new SimpleDateFormat("HH:mm:ss").format(new Date(startTime)));
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:"
+			logger.debug("End time to execute Query:"
 					+ new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
 			logger.info(
 					"Time taken to execute Query:" + (double) (System.currentTimeMillis() - startTime) / 1000 + "secs");
@@ -281,14 +281,14 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		int id = 0;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info(
+			logger.debug(
 					"Starting time to Execute Query : " + new SimpleDateFormat("HH:mm:ss").format(new Date(startTime)));
 			trx.begin();
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			id = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:"
+			logger.debug("End time to execute Query:"
 					+ new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
 			logger.info(
 					"Time taken to execute Query:" + (double) (System.currentTimeMillis() - startTime) / 1000 + "secs");
@@ -310,14 +310,14 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		int updateOrDeletedRecordCount = 0;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info(
+			logger.debug(
 					"Starting time to Execute Query : " + new SimpleDateFormat("HH:mm:ss").format(new Date(startTime)));
 			trx.begin();
 			Query query = session.createSQLQuery(sqlQuery);
 			updateOrDeletedRecordCount = query.executeUpdate();
 			trx.commit();
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:"
+			logger.debug("End time to execute Query:"
 					+ new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
 			logger.info(
 					"Time taken to execute Query:" + (double) (System.currentTimeMillis() - startTime) / 1000 + "secs");
@@ -489,7 +489,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 		int count = 0;
 		try (Session session = sessionFactory.openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
-			logger.info(
+			logger.debug(
 					"Starting time to Execute Query : " + new SimpleDateFormat("HH:mm:ss").format(new Date(startTime)));
 			Query query = session.createSQLQuery(sqlQuery);
 			List<?> queryValueList = query.list();
@@ -497,7 +497,7 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 				count = (Integer) queryValueList.get(0);
 			}
 			queryLogger.endQueryLog(startTime, sqlQuery);
-			logger.info("End time to execute Query:"
+			logger.debug("End time to execute Query:"
 					+ new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
 			logger.info(
 					"Time taken to execute Query:" + (double) (System.currentTimeMillis() - startTime) / 1000 + "secs");

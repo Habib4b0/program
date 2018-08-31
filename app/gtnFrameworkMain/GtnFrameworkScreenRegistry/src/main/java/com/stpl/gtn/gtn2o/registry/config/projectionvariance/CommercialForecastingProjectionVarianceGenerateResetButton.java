@@ -15,7 +15,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class CommercialForecastingProjectionVarianceGenerateResetButton {
 	
-	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addGenerateResetButtonComponetsLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 			
@@ -24,7 +24,8 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 			
 			GtnUIFrameworkComponentConfig generateResetButtonComponentsLayout=new GtnUIFrameworkComponentConfig();
 			generateResetButtonComponentsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-			generateResetButtonComponentsLayout.setComponentId(nameSpace+"_"+"generateResetButtonComponentsLayout");
+			generateResetButtonComponentsLayout.setComponentId(nameSpace+"_"+
+                                GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET);
 			generateResetButtonComponentsLayout.setComponentWidth("140%");
 			generateResetButtonComponentsLayout.setAddToParent(true);
 			generateResetButtonComponentsLayout.setParentComponentId(generateResetButtonComponentsPanelConfig.getComponentId());
@@ -45,7 +46,8 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 	private void addGeneralResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig generateButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "generateButton", true, nameSpace+"_"+"generateResetButtonComponentsLayout", GtnUIFrameworkComponentType.BUTTON);
+				nameSpace + "_" + "generateButton", true, nameSpace+"_"+GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET,
+                        GtnUIFrameworkComponentType.BUTTON);
 		generateButton.setComponentName("GENERATE");
 
 		GtnUIFrameworkComponentConfig resetButton = configProvider.getUIFrameworkComponentConfig(
@@ -60,11 +62,13 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 		
 		
 		GtnUIFrameworkComponentConfig expandButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "expandButton", true, nameSpace + "_"+"generateResetButtonComponentsLayout", GtnUIFrameworkComponentType.BUTTON);
+		nameSpace + "_" + "expandButton", true, nameSpace + "_"+
+                GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET,GtnUIFrameworkComponentType.BUTTON);
 		expandButton.setComponentName("EXPAND");
 
 		GtnUIFrameworkComponentConfig collapseButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "collapseButton", true, nameSpace + "_"+"generateResetButtonComponentsLayout", GtnUIFrameworkComponentType.BUTTON);
+				nameSpace + "_" + "collapseButton", true, nameSpace + "_"+
+                GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET,GtnUIFrameworkComponentType.BUTTON);
 		collapseButton.setComponentName("COLLAPSE");
 
 		
@@ -75,11 +79,13 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 		
 		
 		GtnUIFrameworkComponentConfig newButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "newButton", true, nameSpace +"_"+"generateResetButtonComponentsLayout", GtnUIFrameworkComponentType.BUTTON);
+				nameSpace + "_" + "newButton", true, nameSpace +"_"+
+                GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET,GtnUIFrameworkComponentType.BUTTON);
 		newButton.setComponentName("NEW");
 
 		GtnUIFrameworkComponentConfig editButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "editButton", true, nameSpace + "_"+"generateResetButtonComponentsLayout", GtnUIFrameworkComponentType.BUTTON);
+				nameSpace + "_" + "editButton", true, nameSpace + "_"+
+                GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET,GtnUIFrameworkComponentType.BUTTON);
 		editButton.setComponentName("EDIT");
 
 		
@@ -91,9 +97,9 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 	private void addLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig levelLayout = configProvider
-				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLayout", true, nameSpace + "_"+"generateResetButtonComponentsLayout");
+				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLayout", true, nameSpace + "_"+
+                   GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET);
 		levelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		//levelLayout.setSpacing(true);
 		levelLayout.setMargin(true);
 		componentList.add(levelLayout);
 
@@ -116,9 +122,9 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 	private void addLevelFilterComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig levelFilterLayout = configProvider
-				.getHorizontalLayoutConfig(nameSpace + "_" + "levelFilterLayout", true, nameSpace + "_"+"generateResetButtonComponentsLayout");
+				.getHorizontalLayoutConfig(nameSpace + "_" + "levelFilterLayout", true, nameSpace + "_"
+                                        +GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET);
 		levelFilterLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		//levelFilterLayout.setSpacing(true);
 		componentList.add(levelFilterLayout);
 
 		GtnUIFrameworkComponentConfig levelFilter = new GtnUIFrameworkComponentConfig();
@@ -140,7 +146,8 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 	private void addViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig viewLayoutConfig = configProvider
-				.getHorizontalLayoutConfig(nameSpace + "_" + "viewLayout", true, nameSpace + "_"+"generateResetButtonComponentsLayout");
+				.getHorizontalLayoutConfig(nameSpace + "_" + "viewLayout", true, nameSpace + "_"+
+                                        GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET);
 		viewLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(viewLayoutConfig);
 
@@ -148,7 +155,6 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 				nameSpace + "_" + "view", true, nameSpace + "_" + "viewLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
 		viewLayoutOptionRadioGroup.setComponentName("View:");
-		//viewLayoutOptionRadioGroup.setSpacing(true);
 		viewLayoutOptionRadioGroup.setMargin(true);
 
 		GtnUIFrameworkOptionGroupConfig viewOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
@@ -164,7 +170,8 @@ public class CommercialForecastingProjectionVarianceGenerateResetButton {
 	private void addCustomDropdownComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig customMenuLayout = configProvider
-				.getHorizontalLayoutConfig(nameSpace + "_" + "customMenulayout", true, nameSpace + "_"+"generateResetButtonComponentsLayout");
+				.getHorizontalLayoutConfig(nameSpace + "_" + "customMenulayout", true, nameSpace + "_"+
+                                        GtnCommercialForecastProjectionVarianceClassConstants.BUTTON_LAYOUT_RESET);
 		customMenuLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(customMenuLayout);
 

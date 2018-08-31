@@ -79,7 +79,7 @@ private	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingle
 		logger.info("Entering into webservice loadDate  WS->SR->QE->SR->WS");
 		
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
-		logger.info("LoadDate Query:" + loadDateQuery);
+		logger.debug("LoadDate Query:" + loadDateQuery);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(loadDateQuery);
 		queryExecutorBean.setQueryType("SELECT");
