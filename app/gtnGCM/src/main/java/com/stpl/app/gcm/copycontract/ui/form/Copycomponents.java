@@ -1083,7 +1083,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    public ContractMaster Cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate) throws NumberFormatException {
+    public ContractMaster Cont(String contractId, String contractNo, String contractName, int contractType, String contractHolder, int status, String userId, Date startDate, Date endDate)  {
         ContractMaster contractMaster;
         contractMaster = ContractMasterLocalServiceUtil.createContractMaster(0);
         contractMaster.setContractId(contractId);
