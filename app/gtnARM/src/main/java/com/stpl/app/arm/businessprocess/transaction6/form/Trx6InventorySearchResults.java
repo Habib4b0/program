@@ -166,6 +166,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainertRX6.setColumnProperties(properties);
         resultBeanContainertRX6.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainertRX6.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
