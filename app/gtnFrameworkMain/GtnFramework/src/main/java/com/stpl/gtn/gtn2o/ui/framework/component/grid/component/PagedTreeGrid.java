@@ -618,9 +618,9 @@ public class PagedTreeGrid {
 	@SuppressWarnings("unchecked")
 	private void initalizeColumnController() {
 		columnsPerPage.setValue(10);
-		int t=(tableConfig.getLeftHeader().length()+tableConfig.getRightHeader().length())/10;
-		gtnlogger.info("cc l"+tableConfig.getLeftHeader().length());
-		gtnlogger.info("cc r"+tableConfig.getRightHeader().length());
+		int t=(tableConfig.getLeftTableColumnMappingId().length+tableConfig.getRightTableColumnMappingId().length)/10;
+		gtnlogger.info("cc l"+tableConfig.getLeftTableColumnMappingId().length);
+		gtnlogger.info("cc r"+tableConfig.getRightTableColumnMappingId().length);
 		gtnlogger.info("cc t"+t);
 		setTotalColumns(t);
 		
@@ -808,7 +808,7 @@ public class PagedTreeGrid {
 	}
 
 	public int getTotalPageCount() {
-		int columnCount = tableConfig.getLeftHeader().length()+tableConfig.getRightHeader().length();
+		int columnCount = tableConfig.getLeftTableColumnMappingId().length+tableConfig.getRightTableColumnMappingId().length;
 		int columnsPerCount = getColumnsPerPage();
 		int lastPage = columnCount / columnsPerCount;
 		return columnCount % columnsPerCount == 0 ? lastPage : lastPage + 1;
