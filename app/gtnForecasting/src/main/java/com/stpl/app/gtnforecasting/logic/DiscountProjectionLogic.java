@@ -550,7 +550,7 @@ public class DiscountProjectionLogic {
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo, String hierarchyIndicator,
             boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy) {
         session.setSelectedRsForCustom(queryBuilderAndExecutor.getRsContractSid(session, hierarchyNo, hierarchyIndicator,
-                isCustomView, customViewDetails, isProgram, discountNamesList));
+                isCustomView, customViewDetails, discountNamesList));
         return queryBuilderAndExecutor.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
                 isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy);
     }
@@ -581,7 +581,7 @@ public class DiscountProjectionLogic {
      */
     public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String fieldValue, boolean isProgram, List<String> discountList, String deductionHierarchy, String hierindicator) {
 
-        return queryBuilderAndExecutor.saveGroupValues(session, hierarchyNo, fieldValue, isProgram, discountList, deductionHierarchy, hierindicator);
+        return queryBuilderAndExecutor.saveGroupValues(session, hierarchyNo, fieldValue, isProgram, discountList, deductionHierarchy);
     }
 
     /**
@@ -761,7 +761,7 @@ public class DiscountProjectionLogic {
     }
 
     public boolean isAnyRecordChecked(SessionDTO session, boolean isProgram, List<String> discountProgramsList, boolean isCustomHierarchy) {
-        int count = queryBuilderAndExecutor.getCheckedRecordCount(session, isProgram, discountProgramsList);
+        int count = queryBuilderAndExecutor.getCheckedRecordCount(session, discountProgramsList);
         if (count != 0) {
             if (count == -1) {
                 LOGGER.error("Check Count is not retrieved properly{}", isCustomHierarchy);

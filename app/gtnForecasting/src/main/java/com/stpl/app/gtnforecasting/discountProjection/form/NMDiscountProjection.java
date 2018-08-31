@@ -3372,7 +3372,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY,
                     relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY,
-                    Collections.emptyList(), Collections.EMPTY_MAP, projectionSelection.getForecastConfigPeriods(),
+                    Collections.emptyList(), Collections.emptyMap(), projectionSelection.getForecastConfigPeriods(),
                     projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
@@ -3502,7 +3502,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     rightHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(),
                     StringUtils.EMPTY, relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY,
-                    StringUtils.EMPTY, Collections.emptyList(), Collections.EMPTY_MAP,
+                    StringUtils.EMPTY, Collections.emptyList(), Collections.emptyMap(),
                     projectionSelection.getForecastConfigPeriods(), projectionSelection);
             loadDataToContainer(levelList, dto, true);
             excelTable.setCollapsed(dto, false);
