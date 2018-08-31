@@ -29,7 +29,7 @@ import com.vaadin.ui.themes.ValoTheme;
  *
  * @author alok.v
  */
-public class Summary extends VerticalLayout implements View {
+public class SummaryPromote extends VerticalLayout implements View {
 
 	/**
 	 * View name for navigation.
@@ -38,7 +38,7 @@ public class Summary extends VerticalLayout implements View {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SummaryPromote.class);
 	/**
 	 * The Constant serialVersionUID.
 	 */
@@ -61,7 +61,7 @@ public class Summary extends VerticalLayout implements View {
 	public TextField tradeClass;
 	private ExtFilterTable resultTable;
 
-	public Summary(SessionDTO session, ExtFilterTable resultTable) {
+	public SummaryPromote(SessionDTO session, ExtFilterTable resultTable) {
 		try {
 			this.session = session;
 			this.resultTable = resultTable;
