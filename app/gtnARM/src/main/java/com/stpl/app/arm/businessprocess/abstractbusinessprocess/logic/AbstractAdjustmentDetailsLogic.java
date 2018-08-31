@@ -373,5 +373,13 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         fileList.add(tempFileName);
         VaadinSession.getCurrent().setAttribute(dirName, fileList);
         ExcelExportforBB.sendConvertedFileToUser(UI.getCurrent(), file, outputFilePath);
+        file = new File(fileName.substring(0,fileName.lastIndexOf("/")));
+        if(file.isDirectory() == true) {
+            File[] listFiles = file.listFiles();
+            for(File file1 : listFiles)
+                file1.delete();
+        }
+        file.delete();
+        LOGGER.info("--->Temp Folder Deleted....");
     }
 }
