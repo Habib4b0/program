@@ -561,20 +561,21 @@ public class CommonUtils {
         return userName;
     }
      public static String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
+         String valueNA = value;
+        if (valueNA.contains(Constant.NULL) || StringUtils.isBlank(valueNA)) {
             String newValue = "0";
             Double nullValue = Double.valueOf(newValue);
-            value = FORMAT.format(nullValue);
-        } else if (value.contains("- -")){
-             value = "- -";
+            valueNA = FORMAT.format(nullValue);
+        } else if (valueNA.contains("- -")){
+             valueNA = "- -";
         }else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNA);
             if (FORMAT.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            valueNA = FORMAT.format(newValue);
         }
-        return value;
+        return valueNA;
     }
 
   /**

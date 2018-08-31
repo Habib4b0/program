@@ -180,13 +180,13 @@ public class PhsQueryUtils {
 
     public void saveNotesCondition(String rowId, String formatedValue, StringBuilder queryBuilder1) {
         Double finalvalue;
-
+            String formatedValueNotes = formatedValue;
         if (rowId.equals(Constant.ADJUSTMENT)) {
-            formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
-            formatedValue = formatedValue.trim();
-            if (StringUtils.isNotBlank(formatedValue)) {
-                Double value = Double.valueOf(formatedValue);
+            formatedValueNotes = formatedValueNotes.replace(Constant.PERCENT, StringUtils.EMPTY);
+            formatedValueNotes = formatedValueNotes.replace("$", StringUtils.EMPTY);
+            formatedValueNotes = formatedValueNotes.trim();
+            if (StringUtils.isNotBlank(formatedValueNotes)) {
+                Double value = Double.valueOf(formatedValueNotes);
                 finalvalue = value;
                 if (value == 0) {
                     queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);

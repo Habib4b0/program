@@ -127,7 +127,7 @@ public class GtnCustomerAvailableTableLoadAction
 		request.setGtnWsForecastRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_REPORTDATASELECTION_LOAD_LEVELVALUE_MAP,
+						+ "/loadLevelValueMapResults",
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
@@ -143,7 +143,7 @@ public class GtnCustomerAvailableTableLoadAction
 		request.setGtnWsForecastRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES,
+						+ "/getHierarchyLevelValues",
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}

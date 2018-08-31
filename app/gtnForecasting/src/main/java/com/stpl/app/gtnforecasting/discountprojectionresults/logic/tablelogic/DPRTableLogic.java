@@ -128,8 +128,6 @@ public class DPRTableLogic extends PageTreeTableLogic {
     @Override
     public void setColumnIdToFilterValue(Object prop, Object value) {
         super.setColumnIdToFilterValue(prop, value);
-        if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {
-        }
         Object custFilter = getColumnIdToFilterValue(Constant.GROUP);
         if (custFilter != null) {
             String[] custHeirarchyNo = custFilter.toString().split("~");

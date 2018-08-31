@@ -41,9 +41,9 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
     private Integer levelNo = 0;
     private String hirarechyNo = StringUtils.EMPTY;
     private String hirarechyName = StringUtils.EMPTY;
-    private Integer CCPCount = 0;
+    private Integer ccpCount = 0;
 
-    private Integer CheckRecordCount = 0;
+    private Integer checkRecordCount = 0;
     private Integer priceProtectionStatus =0;
     private String priceProtectionStatus1=StringUtils.EMPTY;
 
@@ -66,19 +66,19 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
     
 
     public Integer getCheckRecordCount() {
-        return CheckRecordCount;
+        return checkRecordCount;
     }
 
     public void setCheckRecordCount(Integer CheckRecordCount) {
-        this.CheckRecordCount = CheckRecordCount;
+        this.checkRecordCount = CheckRecordCount;
     }
 
     public Integer getCCPCount() {
-        return CCPCount;
+        return ccpCount;
     }
 
     public void setCCPCount(Integer CCPCount) {
-        this.CCPCount = CCPCount;
+        this.ccpCount = CCPCount;
     }
 
     public String getHirarechyName() {
