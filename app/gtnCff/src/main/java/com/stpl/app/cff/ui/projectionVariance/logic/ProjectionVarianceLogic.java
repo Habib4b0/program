@@ -2713,36 +2713,46 @@ public class ProjectionVarianceLogic {
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
 
                 Map<Object, List<Object[]>> groupedResult = gtsList.stream().map(obj -> (Object[]) obj)
-                        .collect(Collectors.groupingBy(x -> {
+                     .collect(Collectors.groupingBy(x -> {
                             return new ArrayList<>(Arrays.asList( x[2], x[3]));
                         }));
                 for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
+                    Object period ;
+                    Object year ;
                     List<Object[]> list = entry.getValue();
 
                     final Object[] obj = list.get(0);
-                    final Object[] proj;
-                    final Object[] actual;
+                     Object[] proj=null;
+                     Object[] actual=null;
                     if(list.size()>1){
                     if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
                         actual = list.get(0);
                         proj = list.get(1);
+                        period=actual[3];
+                        year=actual[2];
                     } else {
                         actual = list.get(1);
                         proj = list.get(0);
+                        period=proj[3];
+                        year=proj[2];
                     }
                     }else{
                       Object[] empty= IntStream.rangeClosed(0, obj.length).boxed().map(e -> 0).toArray();
                       if (Integer.parseInt(String.valueOf(obj[obj.length - 1])) == 0) {
+                          
                         actual = list.get(0);
+                        period=actual[3];
+                        year=actual[2];
                         proj = empty;
                     } else {
                         actual = empty;
                         proj = list.get(0);
+                        period=proj[3];
+                        year=proj[2];
                     }  
                     }
                     String commonColumn = StringUtils.EMPTY;
-                    Object period = actual[3];
-                    Object year = actual[2];
+                   
                     if (frequencyDivision == NumericConstants.FOUR) {
                         commonColumn = "Q" + period + StringUtils.EMPTY + year;
                     } else if (frequencyDivision == NumericConstants.TWO) {
@@ -2779,7 +2789,7 @@ public class ProjectionVarianceLogic {
 
         Map<Object, List<Object[]>> groupedResult = dataList.stream().map(obj -> (Object[]) obj)
                 .collect(Collectors.groupingBy(x -> {
-                    return new ArrayList<>(Arrays.asList(x[1], x[2]));
+                    return new ArrayList<>(Arrays.asList(x[1], x[2],x[dataList.size()-1]));
                 }));
         int i=0;
         for (Map.Entry<Object, List<Object[]>> entry : groupedResult.entrySet()) {
