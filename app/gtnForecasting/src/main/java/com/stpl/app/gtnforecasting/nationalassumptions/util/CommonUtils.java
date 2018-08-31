@@ -364,7 +364,7 @@ public class CommonUtils {
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.THERAPEUTIC_CLASS));
         dynamicQuery.add(RestrictionsFactoryUtil.ne(Constant.THERAPEUTIC_CLASS,0));
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constant.THERAPEUTIC_CLASS)));
-        List<Integer> resultList = Collections.EMPTY_LIST;
+        List<Integer> resultList = Collections.emptyList();
         List<HelperDTO> finalList = new ArrayList<>();
         try {
             resultList = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -609,15 +609,15 @@ public class CommonUtils {
     public static double getDoubleValue(String value) {
         double doubleValue = 0;
         boolean doubleFlag = false;
-
-        value = value.replace("$", StringUtils.EMPTY);
-        if ((StringUtils.isNotBlank(value)) && (value.matches("^\\d{0,5}\\.?\\d{0,4}$"))) {
+        String valueDouble = value;
+        valueDouble = valueDouble.replace("$", StringUtils.EMPTY);
+        if ((StringUtils.isNotBlank(valueDouble)) && (valueDouble.matches("^\\d{0,5}\\.?\\d{0,4}$"))) {
                 doubleFlag = true;
 
         }
 
         if (doubleFlag) {
-            doubleValue = Double.parseDouble(value);
+            doubleValue = Double.parseDouble(valueDouble);
 
         } else {
             doubleValue = 0;

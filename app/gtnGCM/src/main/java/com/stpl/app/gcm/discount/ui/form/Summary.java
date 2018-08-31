@@ -280,7 +280,7 @@ public class Summary extends CustomComponent {
         List<RemoveDiscountDto> projDetails = discountLogic.getprojectionValues(removeDiscountDto, contractList, rsList);
         removeDiscountDto.setContractSid(Integer.parseInt(contractList.get(0).toString()));
         removeDiscountDto.setRsContractSid(dto.getRsSystemId());
-        if (projDetails.size() > 0 && dto.getRsSystemId() != null && !dto.getRsSystemId().equals(Constants.NULL) && !dto.getRsSystemId().equals(StringUtils.EMPTY) && !dto.getRsSystemId().equals(Constants.ZEROSTRING)) {
+        if (!projDetails.isEmpty() && dto.getRsSystemId() != null && !dto.getRsSystemId().equals(Constants.NULL) && !dto.getRsSystemId().equals(StringUtils.EMPTY) && !dto.getRsSystemId().equals(Constants.ZEROSTRING)) {
             tableLogic.setData(removeDiscountDto);
         }
         LOGGER.debug("Ended loadResultTable ");

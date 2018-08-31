@@ -109,7 +109,7 @@ public class AbstractSearchLogic {
         }
         this.binder=binder;
         this.moduleName=moduleName;
-           ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
+           ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         
           }
 

@@ -73,12 +73,9 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     private DPRTableLogic dprTableLogic = new DPRTableLogic();
     private FreezePagedTreeTable freezedPagedResults = new FreezePagedTreeTable(dprTableLogic);
-    private CustomTableHeaderDTO customLeftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO customRightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO customFullHeader = new CustomTableHeaderDTO();
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private HorizontalLayout controlLayout;
-    private ExtTreeContainer<DiscountProjectionResultsDTO> beanContainerResult = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     private final ExtCustomTreeTable customExcelTableResult = new ExtCustomTreeTable();
     private ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(
             DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -99,7 +96,6 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
      * The split position.
      */
     private final float splitPos = NumericConstants.THREE_HUNDRED;
-    private List<List<String>> discountlist = new ArrayList<>();
 
     public ManagedDiscountProjectionResult(SessionDTO session, String screenName) {
         super(screenName, session);
@@ -225,10 +221,9 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
     private void configureResultTable() {
         dprTableLogic.setPageLength(NumericConstants.TEN);
         customFullHeader = new CustomTableHeaderDTO();
-        customLeftHeader = HeaderUtils.getDiscountProjectionResultsLeftTableColumn(customFullHeader);
-        customRightHeader = HeaderUtils.getMMDiscountProjectionResultsRightTableColumn(projectionDTO, customFullHeader);
-
-        beanContainerResult = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+        CustomTableHeaderDTO customLeftHeader = HeaderUtils.getDiscountProjectionResultsLeftTableColumn(customFullHeader);
+        CustomTableHeaderDTO customRightHeader = HeaderUtils.getMMDiscountProjectionResultsRightTableColumn(projectionDTO, customFullHeader);
+        ExtTreeContainer<DiscountProjectionResultsDTO> beanContainerResult = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
         beanContainerResult.setColumnProperties(customFullHeader.getProperties());
         dprTableLogic.setContainerDataSource(beanContainerResult);
         dprTableLogic.setTreeNodeMultiClick(false);
@@ -304,7 +299,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
         if (freqFlag && histFlag) {
             flag = true;
             setProjectionId(sessionDTO.getProjectionId());
-            discountlist = new ArrayList<>();
+            List<List<String>> discountlist = new ArrayList<>();
 
             projectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
             projectionDTO.setHistoryNum(historyNum);

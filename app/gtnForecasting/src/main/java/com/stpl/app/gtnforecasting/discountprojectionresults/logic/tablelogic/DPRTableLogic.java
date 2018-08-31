@@ -304,7 +304,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             } else {
-                List<String> hierarchyNoList = Collections.EMPTY_LIST;
+                List<String> hierarchyNoList = Collections.emptyList();
                 if (projSelDTO.getLevelCount() != 0) {
                     if (projSelDTO.isIsCustomHierarchy()) {
                         hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
