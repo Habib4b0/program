@@ -29,6 +29,8 @@ import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -325,15 +327,13 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnAddLogic();
-				} catch (SystemException | FieldGroup.CommitException ex) {
+				} catch (SystemException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
 				} catch (PortalException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
-				}
+                                Logger.getLogger(AbstractLookup.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 			}
 		});
 		return addButton;
@@ -420,12 +420,12 @@ public abstract class AbstractLookup extends Window {
 	/**
 	 * Override this to customize Update logic in the extending classes
 	 */
-	protected abstract void btnUpdateLogic() throws SystemException, PortalException, FieldGroup.CommitException;
+	protected abstract void btnUpdateLogic() throws PortalException, FieldGroup.CommitException;
 
 	/**
 	 * Override this to customize Add logic in the extending classes
 	 */
-	protected abstract void btnAddLogic() throws PortalException, FieldGroup.CommitException;
+	protected abstract void btnAddLogic() throws PortalException;
 
 	/**
 	 * Override this to customize import logic in the extending classes

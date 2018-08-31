@@ -201,7 +201,7 @@ public class ContractSelectionLogic {
     public boolean isAnyRecordSelected(String userId, String sessionId, String screenName) {
         List<Object[]> checkList = dao.isAnyRecordSelected(userId, sessionId, screenName);
 
-        if (checkList.size() > 0 && convertToInteger(String.valueOf(checkList.get(0))) != 0) {
+        if (!checkList.isEmpty() && convertToInteger(String.valueOf(checkList.get(0))) != 0) {
             return true;
         } else {
             return false;

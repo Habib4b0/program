@@ -1685,7 +1685,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     public boolean submitAndNextLogic(final boolean isNextButtonClicked) {
         LOGGER.debug("Contract selection submitAndNextLogic initiated");
         List<String> checkData = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
-        if (checkData.size() > 0 && checkData.get(0).equals(Constants.ZEROSTRING)) {
+        if (!checkData.isEmpty() && checkData.get(0).equals(Constants.ZEROSTRING)) {
             AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select any record to submit");
             return false;
         }

@@ -242,7 +242,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                         String projName;
                         String copiedProjection;
-                        if (list != null && list.size() > 0) {
+                        if (list != null && !list.isEmpty()) {
                             projName = String.valueOf(list.get(0));
                             copiedProjection = String.valueOf(list.get(1));
                             AbstractNotificationUtils.getAlertNotification("Info", "New Projection has been created with Name of:" + projName + "," + copiedProjection);

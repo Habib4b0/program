@@ -874,7 +874,7 @@ public class DeductionDetails extends CustomComponent {
                         } else if (allocationMethododlogyDdlb.getValue() == null) {
                             AbstractNotificationUtils.getErrorNotification("Adjustment", "Please select Adjustment methododlogy");
                         } else if (ConstantsUtils.SELECT1.equals(String.valueOf(adjustmentPeriods.getValue()))) {
-                            if (checkBoxList.size() > 0) {
+                            if (!checkBoxList.isEmpty()) {
                                 adjustmentLogic();
                             } else {
                                 AbstractNotificationUtils.getErrorNotification("No period selected", "Please select which periods need to be included in the adjustment. ");
