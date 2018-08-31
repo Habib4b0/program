@@ -4933,7 +4933,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                         subYear1 = tempSubYear;
                     }
                     else{
-                        subYear1  = CommonUtils.TWELVE;
+                        subYear1  = String.valueOf(NumericConstants.TWELVE);
                     }
                     String fullYear = tempYear + subYear1;
                     year[i] = Integer.parseInt(fullYear.trim());
