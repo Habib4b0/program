@@ -314,7 +314,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                         deductionlevelDdlb.setValue(0);
                         CommonUtils.loadAdjustmentTypeDdlb(adjustmentType, selecetedAdjustment);
                     } catch (Exception ex) {
-                        LOGGER.error("Error in resetButtonClick :" , ex);
+                        LOGGER.error("Error in resetButtonClick :", ex);
                     }
                 }
 
@@ -371,19 +371,27 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         if (deductionValue.getItems() != null) {
             Map<Integer, String> result = new HashMap<>();
             if (deductionValue.getItems() != null) {
-                for (CustomMenuBar.CustomMenuItem item : deductionValue.getItems()) {
-                    if (item != null) {
-                        for (CustomMenuBar.CustomMenuItem child : item.getChildren()) {
-                            if (child.isChecked()) {
-                                result.put(child.getMenuItem().getId(), child.getMenuItem().getCaption());
-                            }
-                        }
-                    }
-                }
+                getResults(result);
             }
             return result;
         }
         return Collections.emptyMap();
+    }
+
+    private void getResults(Map<Integer, String> result) {
+        for (CustomMenuBar.CustomMenuItem item : deductionValue.getItems()) {
+            if (item != null) {
+                getCheckedResults(item, result);
+            }
+        }
+    }
+
+    private void getCheckedResults(CustomMenuBar.CustomMenuItem item, Map<Integer, String> result) {
+        for (CustomMenuBar.CustomMenuItem child : item.getChildren()) {
+            if (child.isChecked()) {
+                result.put(child.getMenuItem().getId(), child.getMenuItem().getCaption());
+            }
+        }
     }
 
     protected void loadFromAndTo(SummarySelection selection) {
@@ -421,7 +429,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             fromDate.setImmediate(true);
             toDate.setImmediate(true);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadFromAndTo :" , ex);
+            LOGGER.error("Error in loadFromAndTo :", ex);
         }
     }
 

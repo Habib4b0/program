@@ -24,7 +24,7 @@ import com.stpl.app.arm.abstractforms.AbstractFilter;
 public class CustomerGrpSelectedTableLogic extends PageTableLogic {
 
     private boolean generate = false;
-    private CustomerGroupDTO binderDto;
+    private CustomerGroupDTO customerGroupbBinderDto;
     private PipelineInventoryLookupLogic commonLogic = new PipelineInventoryLookupLogic();
     private BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     private boolean firstCount = true;
@@ -41,19 +41,19 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     public int getCount() {
         if (generate) {
             try {
-                binderDto.clearFilters();
+                customerGroupbBinderDto.clearFilters();
                 if (firstCount) {
-                    commonLogic.getCustomerGroupView(binderDto, resultsinventoryContainer, binderDto.isViewFlag(), selectionDto, "customerGroupSelectedTableSearch");
+                    commonLogic.getCustomerGroupView(customerGroupbBinderDto, resultsinventoryContainer, customerGroupbBinderDto.isViewFlag(), selectionDto, "customerGroupSelectedTableSearch");
                 }
                 for (Container.Filter fil : getFilters()) {
-                    binderDto.addFilter(fil);
+                    customerGroupbBinderDto.addFilter(fil);
                 }
 
-                AbstractFilter.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsinventoryContainer);
+                AbstractFilter.getInstance().filterQueryForContainer(customerGroupbBinderDto.getFilters(), resultsinventoryContainer);
                 return resultsinventoryContainer.size();
 
             } catch (Exception ex) {
-                LOGGER.error("Error in getCount" , ex);
+                LOGGER.error("Error in getCount", ex);
             }
         }
         return 0;
@@ -64,19 +64,19 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
 
         List<CustomerGroupDTO> resultList = new ArrayList<>();
-        binderDto.setStartIndex(start);
-        binderDto.setEndIndex(offset);
+        customerGroupbBinderDto.setStartIndex(start);
+        customerGroupbBinderDto.setEndIndex(offset);
         try {
-            binderDto.clearFilters();
+            customerGroupbBinderDto.clearFilters();
             for (Container.Filter fil : getFilters()) {
-                binderDto.addFilter(fil);
+                customerGroupbBinderDto.addFilter(fil);
             }
 
-            AbstractFilter.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsinventoryContainer);
-            AbstractFilter.getInstance().orderByQueryForContainer(binderDto.getSortedColumns(), resultsinventoryContainer);
+            AbstractFilter.getInstance().filterQueryForContainer(customerGroupbBinderDto.getFilters(), resultsinventoryContainer);
+            AbstractFilter.getInstance().orderByQueryForContainer(customerGroupbBinderDto.getSortedColumns(), resultsinventoryContainer);
             resultList = resultsinventoryContainer.getItemIds(start, offset);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData" , ex);
+            LOGGER.error("Error in loadData", ex);
         }
 
         return resultList;
@@ -84,9 +84,9 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
 
     @Override
     public Object configureContainer(Object object, Container container) {
-        CustomerGroupDTO dto = (CustomerGroupDTO) object;
-        ((BeanItemContainer<CustomerGroupDTO>) container).addBean(dto);
-        return dto;
+        CustomerGroupDTO customerGroupDTO = (CustomerGroupDTO) object;
+        ((BeanItemContainer<CustomerGroupDTO>) container).addBean(customerGroupDTO);
+        return customerGroupDTO;
     }
 
     /* Method to setting up the data which we pass to logic
@@ -97,7 +97,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
      * @return 
      */
     public boolean loadSetData(CustomerGroupDTO binderDto, boolean reset, AbstractSelectionDTO selectionDto) {
-        this.binderDto = binderDto;
+        this.customerGroupbBinderDto = binderDto;
         this.selectionDto = selectionDto;
         clearAll();
         setRequiredCount(true);
@@ -115,7 +115,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     }
 
     public void addInventoryContainer(CustomerGroupDTO dtoValue, CustomerGroupDTO binderDto) {
-        this.binderDto = binderDto;
+        this.customerGroupbBinderDto = binderDto;
         resultsinventoryContainer.addBean(dtoValue);
         setRequiredCount(true);
         generate = true;
@@ -124,7 +124,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     }
 
     public void addAllInventoryContainer(BeanItemContainer<CustomerGroupDTO> dtoValue, CustomerGroupDTO binderDto) {
-        this.binderDto = binderDto;
+        this.customerGroupbBinderDto = binderDto;
         this.resultsinventoryContainer = dtoValue;
         setRequiredCount(true);
         generate = true;
@@ -132,7 +132,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     }
 
     public void removeInventoryContainer(CustomerGroupDTO dtoValue, CustomerGroupDTO binderDto) {
-        this.binderDto = binderDto;
+        this.customerGroupbBinderDto = binderDto;
         resultsinventoryContainer.removeItem(dtoValue);
         setRequiredCount(true);
         generate = true;
@@ -140,7 +140,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     }
 
     public void removeAllInventoryContainer(CustomerGroupDTO binderDto) {
-        this.binderDto = binderDto;
+        this.customerGroupbBinderDto = binderDto;
         resultsinventoryContainer.removeAllItems();
         setRequiredCount(true);
         generate = true;
