@@ -735,7 +735,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         }
     }
 
-    public void saveProjectionResultsSelection() throws PortalException, SystemException {
+    public void saveProjectionResultsSelection() throws SystemException {
         LOGGER.debug("save Projection Results method starts");
         Map map = new HashMap();
         map.put("Frequency", frequencyDdlb.getValue().toString());
@@ -748,7 +748,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         LOGGER.debug("save Projection Results method ends");
     }
 
-    public void loadOnEdit() throws PortalException, SystemException {
+    public void loadOnEdit() throws SystemException {
         Map<String, String> resultmap = CommonLogic.editProjectionResults("Projection Results", projectionSelectionDTO);
         if (resultmap != null && !resultmap.isEmpty()) {
             String value = resultmap.get("Frequency");

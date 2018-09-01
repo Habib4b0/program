@@ -31,12 +31,12 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
      * @throws PortalException
      */
     @Override
-    public User getUserByUserId(final long userId) throws SystemException, PortalException {
+    public User getUserByUserId(final long userId) throws PortalException {
         return UserLocalServiceUtil.getUser(userId);
     }
 
     @Override
-    public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(DynamicQuery query) throws PortalException, SystemException {
+    public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(DynamicQuery query) throws SystemException {
         return UsergroupBusinessroleLocalServiceUtil.dynamicQuery(query);
     }
 
@@ -46,12 +46,12 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
     }
 
     @Override
-    public List getBusinessroleModuleMasterFunctionList(String businessRoleIds, String moduleName) throws PortalException, SystemException {
+    public List getBusinessroleModuleMasterFunctionList(String businessRoleIds, String moduleName) throws SystemException {
         return commonService.getBusinessFunctionPermission(businessRoleIds, moduleName);
     }
 
     @Override
-    public List getBusinessroleModuleMasterFieldList(String businessRoleIds, String moduleName) throws PortalException, SystemException {
+    public List getBusinessroleModuleMasterFieldList(String businessRoleIds, String moduleName) throws SystemException {
         return commonService.getBusinessFieldPermission(businessRoleIds, moduleName);
     }
 

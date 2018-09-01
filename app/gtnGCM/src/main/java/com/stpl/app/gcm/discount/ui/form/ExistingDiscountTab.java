@@ -118,7 +118,7 @@ public class ExistingDiscountTab extends CustomComponent {
     @UiField("rsNumber")
     private TextField rsNumber;
     @UiField("startDate_")
-    private TextField startDate_;
+    private TextField startDateOne;
     @UiField("rarDdlb")
     private TextField rarDdlb;
     @UiField("rsName")
@@ -238,7 +238,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
             searchValueStatusDdlb.setVisible(false);
             configureTables();
-            LoadDashBoardTree();
+            loadDashBoardTree();
             for (RemoveDiscountDto remove : removeDiscountDto) {
                 rebateList.add(remove.getRsSid());
             }
@@ -297,7 +297,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
     }
 
-    private void LoadDashBoardTree() {
+    private void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
@@ -592,7 +592,7 @@ public class ExistingDiscountTab extends CustomComponent {
             statusDdlb.setValue(newDiscountTabDto.getStatus());
 
             rsNumber.setValue(newDiscountTabDto.getNumber());
-            startDate_.setValue(newDiscountTabDto.getStartDate() == null ? StringUtils.EMPTY : newDiscountTabDto.getStartDate());
+            startDateOne.setValue(newDiscountTabDto.getStartDate() == null ? StringUtils.EMPTY : newDiscountTabDto.getStartDate());
 
             rsName.setValue(newDiscountTabDto.getName());
             rsEndDate.setValue(newDiscountTabDto.getEndDate() == null ? StringUtils.EMPTY : newDiscountTabDto.getEndDate());
@@ -711,7 +711,7 @@ public class ExistingDiscountTab extends CustomComponent {
         statusDdlb.setEnabled(value);
         rebateFrequencyDdlb.setEnabled(value);
         rsNumber.setEnabled(value);
-        startDate_.setEnabled(value);
+        startDateOne.setEnabled(value);
         rarDdlb.setEnabled(value);
         rsName.setEnabled(value);
         rsEndDate.setEnabled(value);

@@ -253,7 +253,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	private void init() throws PortalException, SystemException {
+	private void init() throws PortalException {
 		LOGGER.debug("init Method Started ");
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/fileManagement.xml"), this));
 		getBinder();
@@ -780,7 +780,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 	 * @throws Exception
 	 *             the exception
 	 */
-	protected void saveOnClick() throws SystemException, PortalException {
+	protected void saveOnClick() throws PortalException {
 		LOGGER.debug("saveOnClick method started");
 		final FileManagementLogic fileMgtLogic = new FileManagementLogic();
 		final FileManagementDTO fileMgtDTO1 = fileMgtLogic.getCurrentFileInfo(CommonUtil.getSelectedFileType(fileType),

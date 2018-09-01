@@ -359,8 +359,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         if (isUpdate) {
             query += declareSql.toString();
         }
-        String finalQuery = query.substring(0, query.lastIndexOf(','));
-        return finalQuery;
+        return query.substring(0, query.lastIndexOf(','));
     }
 
     /**
@@ -399,12 +398,15 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + "'" + hierarchyIndicator + "' as  HIERARCHY_INDICATOR,"
                 + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
         String from = StringConstantsUtil.FROM_SMALL + getViewTableName(hierarchyIndicator);
-        String customSql = selectClause + from + " as HC,"
-                + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
-                + StringConstantsUtil.CFF_MASTER_WHERE + projectionId
-                + " and HC.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo
-                + " AND RLD.VERSION_NO = "+ versionNo ;  
-        return customSql;
+        StringBuilder customSql = new StringBuilder();
+        customSql.append(selectClause);
+        customSql.append(from);
+        customSql.append(" as HC,");
+        customSql.append(" RELATIONSHIP_LEVEL_DEFINITION as RLD ");
+        customSql.append(StringConstantsUtil.CFF_MASTER_WHERE).append(projectionId);
+        customSql.append(" and HC.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=").append(levelNo);
+        customSql.append(" AND RLD.VERSION_NO = ").append(versionNo);
+        return customSql.toString();
     }
     
     
@@ -708,12 +710,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         }
     }
     
-    public void checkForCompletionALL(SessionDTO session, String screenName) {
-        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME in ('CUSTOM','CUSTOMER','PRODUCT') and FLAG='R'";
+    public void checkForCompletionALL(SessionDTO session, String screenName,PVSelectionDTO pvSelectionDTO ) {
+        String selectStatus = "Select count(*) from ST_STATUS_TABLE WHERE SCREEN_NAME='" + screenName + "' AND VIEW_NAME ='"+pvSelectionDTO.getView()+"' and FLAG='R'";
         List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(selectStatus, session.getCurrentTableNames()));
         if (list.get(0) != null && list.get(0)>=1) {
             waitForSeconds();
-            checkForCompletionALL(session, screenName);
+            checkForCompletionALL(session, screenName,pvSelectionDTO);
         }
     }
     
@@ -927,15 +929,16 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     
     
     public static String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
-                + "  (\n"
-                + "     RELATIONSHIP_LEVEL_SID INT,\n"
-                + "     CCP_DETAILS_SID        INT,\n"
-                + "     HIERARCHY_NO           VARCHAR(50)\n"
-                + "  ) \n"
-                + " INSERT INTO @CCP\n"
-                + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
-        return tableQuery;
+        StringBuilder tableQuery = new StringBuilder();
+        tableQuery.append("DECLARE @CCP TABLE\n");
+        tableQuery.append("  (\n");
+        tableQuery.append("     RELATIONSHIP_LEVEL_SID INT,\n");
+        tableQuery.append("     CCP_DETAILS_SID        INT,\n");
+        tableQuery.append("     HIERARCHY_NO           VARCHAR(50)\n");
+        tableQuery.append("  ) \n");
+        tableQuery.append(" INSERT INTO @CCP\n");
+        tableQuery.append("            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n");
+        return tableQuery.toString();
     }
    
     public static List<String> getAllHierarchyNo(String hierarchyNo) {
@@ -1065,17 +1068,18 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     private static String getGroupQuery(int projectionId, int sessionId, int userId, String table) {
-        String query = "SELECT DISTINCT M.USER_GROUP FROM " + table + " M"
-                + "  JOIN PROJECTION_DETAILS PD ON M.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID"
-                + " JOIN PROJECTION_CUST_HIERARCHY PCH ON PCH.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD "
-                + " ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID"
-                + " WHERE RLD.LEVEL_NAME = 'Trading Partner' "
-                + " AND M.USER_GROUP IS NOT NULL "
-                + " AND PD.PROJECTION_MASTER_SID ='" + projectionId + "' "
-                + " AND M.USER_ID=" + userId
-                + " AND M.SESSION_ID=" + sessionId;
-        return query;
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT DISTINCT M.USER_GROUP FROM ").append(table).append(" M");
+        query.append("  JOIN PROJECTION_DETAILS PD ON M.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID");
+        query.append(" JOIN PROJECTION_CUST_HIERARCHY PCH ON PCH.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID");
+        query.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ");
+        query.append(" ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID");
+        query.append(" WHERE RLD.LEVEL_NAME = 'Trading Partner' ");
+        query.append(" AND M.USER_GROUP IS NOT NULL ");
+        query.append(" AND PD.PROJECTION_MASTER_SID ='").append(projectionId).append("' ");
+        query.append(" AND M.USER_ID=").append(userId);
+        query.append(" AND M.SESSION_ID=").append(sessionId);
+        return query.toString();
     }
 
     public static List<String> getDiscountGroup(int projectionId, int sessionId, int userId) {
@@ -1400,7 +1404,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      * @throws Exception
      */
 
-    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final int projectionID) throws PortalException, SystemException {
+    public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final int projectionID) throws SystemException {
 
         String tableName ="CFF_SELECTION";
         StringBuilder query = new StringBuilder();
@@ -1438,7 +1442,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return helperList;
     }
 
-    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
+    public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws  SystemException {
         String tableName = "CFF_SELECTION";
         StringBuilder query = new StringBuilder();
         query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableName).append("\n" + "WHERE CFF_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
@@ -2662,7 +2666,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
     }
     
-     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String newLevel;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
@@ -2932,7 +2936,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return dedValuesList;
     }
 
-    public static String userDefinedLevel(int projectionId, String type,String indicator) throws SystemException, PortalException {
+    public static String userDefinedLevel(int projectionId, String type,String indicator) throws PortalException {
         String hierarchySid=indicator.equals("P")?"PRODUCT_HIERARCHY_SID":"CUSTOMER_HIERARCHY_SID";
         List<String> userDefinedList= (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("user-defined-join")
                 .replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -3102,7 +3106,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return columnRelName.toString();
     }
     
-     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues)  {
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
         CustomMenuBar.CustomMenuItem[] customerlevelItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];

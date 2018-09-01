@@ -542,25 +542,29 @@ public class PagedTreeGrid {
 				if (offset > 0)
 					start = start + offset;
 			} else {
-                            if(fetched==0 && itemsToFetch==pageLength){
-                                int i = lastExpandedItemHierarchy.size();
-                                int expandedCount = 0;
-                                while (i>= currentLevel) {
-                                    expandedCount += GridUtils.getChildCount(lastExpandedItemHierarchy.get(i--)) ;
-                                }
-                                int currentOffset = pageNumber * pageLength;
-                                int levelIndex=GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel));//2
-                                start = currentOffset- (levelIndex+ expandedCount);
-                                start= levelIndex+start;
-                                
-                               
-                            }else{
-				start = GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel)) + 1;
-                            }
+                         start = findStartOffset(fetched, itemsToFetch, currentLevel);
 			}
 		}
 		return start;
 	}
+
+    private int findStartOffset(int fetched1, int itemsToFetch, int currentLevel) {
+        int result;
+        if (fetched1 == 0 && itemsToFetch==pageLength) {
+            int i = lastExpandedItemHierarchy.size();
+            int expandedCount = 0;
+            while (i>= currentLevel) {
+                expandedCount += GridUtils.getChildCount(lastExpandedItemHierarchy.get(i--)) ;
+            }
+            int currentOffset = pageNumber * pageLength;
+            int levelIndex=GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel));//2
+            result = currentOffset- (levelIndex+ expandedCount);
+            result= levelIndex+result;
+        } else {
+            result = GridUtils.getLevelIndex(lastExpandedItemHierarchy.get(currentLevel)) + 1;
+        }
+        return result;
+    }
 
 	private void fetchRowsRecursively(GtnWsRecordBean root, List<GtnWsRecordBean> rows,
 			TreeData<GtnWsRecordBean> treeData, int itemsToFetch) {
@@ -614,9 +618,9 @@ public class PagedTreeGrid {
 	@SuppressWarnings("unchecked")
 	private void initalizeColumnController() {
 		columnsPerPage.setValue(10);
-		int t=(tableConfig.getLeftHeader().length()+tableConfig.getRightHeader().length())/10;
-		gtnlogger.info("cc l"+tableConfig.getLeftHeader().length());
-		gtnlogger.info("cc r"+tableConfig.getRightHeader().length());
+		int t=(tableConfig.getLeftTableColumnMappingId().length+tableConfig.getRightTableColumnMappingId().length)/10;
+		gtnlogger.info("cc l"+tableConfig.getLeftTableColumnMappingId().length);
+		gtnlogger.info("cc r"+tableConfig.getRightTableColumnMappingId().length);
 		gtnlogger.info("cc t"+t);
 		setTotalColumns(t);
 		
@@ -804,7 +808,7 @@ public class PagedTreeGrid {
 	}
 
 	public int getTotalPageCount() {
-		int columnCount = tableConfig.getLeftHeader().length()+tableConfig.getRightHeader().length();
+		int columnCount = tableConfig.getLeftTableColumnMappingId().length+tableConfig.getRightTableColumnMappingId().length;
 		int columnsPerCount = getColumnsPerPage();
 		int lastPage = columnCount / columnsPerCount;
 		return columnCount % columnsPerCount == 0 ? lastPage : lastPage + 1;

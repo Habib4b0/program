@@ -154,8 +154,8 @@ public class Allocation extends CustomComponent implements View {
     private ExtCustomTable exportTable;
     private String excelName = "All Item Information";
     private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
-    private Date start_stamp;
-    private Date end_stamp;
+    private Date startStamp;
+    private Date endStamp;
     private final List allocatedPeriodsList = new ArrayList();
 
     public Allocation(SessionDTO session) {
@@ -350,7 +350,7 @@ public class Allocation extends CustomComponent implements View {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 try {
-                                     logic.check_available_allocationTab(dto, session, check.getValue() ? 1 : 0, start_stamp, end_stamp);
+                                     logic.check_available_allocationTab(dto, session, check.getValue() ? 1 : 0, startStamp, endStamp);
                                 } catch (Exception ex) {
                                     LOGGER.error(ex.getMessage());
                                 }
@@ -552,7 +552,7 @@ public class Allocation extends CustomComponent implements View {
                         @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
-                                logic.check_selected_allocationTab(dto, session, check.getValue() ? 1 : 0, start_stamp, end_stamp);
+                                logic.check_selected_allocationTab(dto, session, check.getValue() ? 1 : 0, startStamp, endStamp);
                             } catch (Exception ex) {
                                 LOGGER.error(ex.getMessage());
 
@@ -610,11 +610,11 @@ public class Allocation extends CustomComponent implements View {
             if (Constant.CHECKRECORD.equals(event.getPropertyId().toString())) {
                 String table = (String) ((ExtCustomTable) event.getComponent()).getData();
                 if ("available".equalsIgnoreCase(table)) {
-                    logic.checkAll_available_allocationTab(session, event.isChecked() ? 1 : 0, start_stamp, end_stamp);
+                    logic.checkAll_available_allocationTab(session, event.isChecked() ? 1 : 0, startStamp, endStamp);
                     altDto.setReset(BooleanConstant.getTrueFlag());
                     tableLogic.loadSetData(altDto, session, false);
                 } else {
-                    logic.checkAll_selected_allocationTab(session, event.isChecked() ? 1 : 0, start_stamp, end_stamp);
+                    logic.checkAll_selected_allocationTab(session, event.isChecked() ? 1 : 0, startStamp, endStamp);
                     altDto.setReset(BooleanConstant.getTrueFlag());
                     tableDetLogic.loadSetData(altDto, session, true);
                 }
@@ -631,7 +631,7 @@ public class Allocation extends CustomComponent implements View {
     public void addBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Inside addBtnClick");
         try {
-            if (logic.count_avalibale_allocationTab(session, start_stamp, end_stamp) == 0) {
+            if (logic.count_avalibale_allocationTab(session, startStamp, endStamp) == 0) {
                 AbstractNotificationUtils.getErrorNotification("No Record Selected",
                         "Please verify that a CCP record is selected.");
                 return;
@@ -644,7 +644,7 @@ public class Allocation extends CustomComponent implements View {
                 return;
             }
             leftTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
-            logic.addToQueue(session, start_stamp, end_stamp);
+            logic.addToQueue(session, startStamp, endStamp);
             altDto.setReset(BooleanConstant.getTrueFlag());
             tableLogic.loadSetData(altDto, session, false);
             tableDetLogic.loadSetData(altDto, session, true);
@@ -663,13 +663,13 @@ public class Allocation extends CustomComponent implements View {
     public void removeBtnClick(Button.ClickEvent event) {
         try {
             LOGGER.debug("Inside removeBtnClick");
-            if (logic.count_selected_allocationTab(session, start_stamp, end_stamp) == 0) {
+            if (logic.count_selected_allocationTab(session, startStamp, endStamp) == 0) {
                 AbstractNotificationUtils.getErrorNotification("No Record Selected ",
                         "Please check mark a CCP record in the ‘Allocation Details’ list view to remove. ");
                 return;
             }
             leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
-            logic.remove_selected_allocationTab(session, start_stamp, end_stamp);
+            logic.remove_selected_allocationTab(session, startStamp, endStamp);
             altDto.setReset(BooleanConstant.getTrueFlag());
             tableDetLogic.loadSetData(altDto, session, true);
         } catch (Exception e) {
@@ -958,22 +958,22 @@ public class Allocation extends CustomComponent implements View {
             yearFrom = Integer.parseInt(from_val.substring(NumericConstants.TWO, NumericConstants.SIX));
             yearTo = Integer.parseInt(to_val.substring(NumericConstants.TWO, NumericConstants.SIX));
         }
-        if (start_stamp == null) {
-            start_stamp = new Date(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO, startFrom, 1);
+        if (startStamp == null) {
+            startStamp = new Date(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO, startFrom, 1);
         } else {
-            start_stamp.setYear(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO);
-            start_stamp.setMonth(startFrom);
-            start_stamp.setDate(1);
+            startStamp.setYear(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO);
+            startStamp.setMonth(startFrom);
+            startStamp.setDate(1);
         }
-        if (end_stamp == null) {
-            end_stamp = new Date(yearTo - NumericConstants.ONE_NINE_ZERO_ZERO, startTo, 1);
+        if (endStamp == null) {
+            endStamp = new Date(yearTo - NumericConstants.ONE_NINE_ZERO_ZERO, startTo, 1);
         } else {
-            end_stamp.setYear(yearTo - NumericConstants.ONE_NINE_ZERO_ZERO);
-            end_stamp.setMonth(startTo);
-            end_stamp.setDate(1);
+            endStamp.setYear(yearTo - NumericConstants.ONE_NINE_ZERO_ZERO);
+            endStamp.setMonth(startTo);
+            endStamp.setDate(1);
         }
-        LOGGER.debug("Start_stamp = {}" , start_stamp);
-        LOGGER.debug("End_stamp = {}" , end_stamp);
+        LOGGER.debug("Start_stamp = {}" , startStamp);
+        LOGGER.debug("End_stamp = {}" , endStamp);
     }
     
     public void setAllocatedPeriods(final List allocatedPeriods) {

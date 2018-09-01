@@ -7,7 +7,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Interface HelperTableDAO.
  */
@@ -21,7 +21,7 @@ public interface HelperTableDAO {
 	 * @throws PortalException the portal exception
 	 * @throws SystemException the system exception
 	 */
-	HelperTable getHelperTable(final int helperTableSid) throws  PortalException, SystemException;
+	HelperTable getHelperTable(final int helperTableSid) throws  PortalException;
 	
 	List getHelperID(final DynamicQuery dynamicQuery) throws SystemException;
 }

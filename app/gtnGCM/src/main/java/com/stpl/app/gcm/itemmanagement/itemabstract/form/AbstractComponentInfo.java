@@ -52,6 +52,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
@@ -106,23 +107,23 @@ public class AbstractComponentInfo extends CustomComponent {
     @UiField("labelRsType")
     private Label labelRsType;
     @UiField("rsType")
-    protected ComboBox rsType_DTO;
+    protected ComboBox rsTypeDTO;
     @UiField("lableRsProgramType")
     protected Label lableRsProgramType;
     @UiField("rsProgramType")
-    protected ComboBox rsProgramType_DTO;
+    protected ComboBox rsProgramTypeDTO;
     @UiField("lableRsCategory")
     protected Label lableRsCategory;
     @UiField("rsCategory")
-    protected ComboBox rsCategory_DTO;
+    protected ComboBox rsCategoryDTO;
     @UiField("lablePaymentFreq")
     private Label lablePaymentFreq;
     @UiField("paymentFrequency")
-    protected ComboBox paymentFrequency_DTO;
+    protected ComboBox paymentFrequencyDTO;
     @UiField("lableRebatePlanLevel")
     private Label lableRebatePlanLevel;
     @UiField("rebatePlanLevel")
-    protected ComboBox rebatePlanLevel_DTO;
+    protected ComboBox rebatePlanLevelDTO;
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
     @UiField("itemSearchGrid")
@@ -552,11 +553,11 @@ public class AbstractComponentInfo extends CustomComponent {
         if (!value.equals(Constants.RS)) {
             rebateFrequency.setVisible(false);
             basis.setVisible(false);
-            rsType_DTO.setVisible(false);
-            rsProgramType_DTO.setVisible(false);
-            rsCategory_DTO.setVisible(false);
-            paymentFrequency_DTO.setVisible(false);
-            rebatePlanLevel_DTO.setVisible(false);
+            rsTypeDTO.setVisible(false);
+            rsProgramTypeDTO.setVisible(false);
+            rsCategoryDTO.setVisible(false);
+            paymentFrequencyDTO.setVisible(false);
+            rebatePlanLevelDTO.setVisible(false);
             rsTypeText.setVisible(false);
             rsProgramTypeText.setVisible(false);
             rsCategoryText.setVisible(false);
@@ -574,11 +575,11 @@ public class AbstractComponentInfo extends CustomComponent {
         } else {
             rebateFrequency.setVisible(true);
             basis.setVisible(true);
-            rsType_DTO.setVisible(true);
-            rsProgramType_DTO.setVisible(true);
-            rsCategory_DTO.setVisible(true);
-            paymentFrequency_DTO.setVisible(true);
-            rebatePlanLevel_DTO.setVisible(true);
+            rsTypeDTO.setVisible(true);
+            rsProgramTypeDTO.setVisible(true);
+            rsCategoryDTO.setVisible(true);
+            paymentFrequencyDTO.setVisible(true);
+            rebatePlanLevelDTO.setVisible(true);
             rsTypeText.setVisible(true);
             rsProgramTypeText.setVisible(true);
             rsCategoryText.setVisible(true);
@@ -667,7 +668,7 @@ public class AbstractComponentInfo extends CustomComponent {
      */
     private void loadRsType() {
 
-        abstractLogic.loadComboBox(rsType_DTO, "RS_TYPE", false);
+        abstractLogic.loadComboBox(rsTypeDTO, "RS_TYPE", false);
 
     }
 
@@ -675,28 +676,28 @@ public class AbstractComponentInfo extends CustomComponent {
      * loadRsCategory
      */
     private void loadRsCategory() {
-        abstractLogic.loadComboBox(rsCategory_DTO, "RS_CATEGORY", false);
+        abstractLogic.loadComboBox(rsCategoryDTO, "RS_CATEGORY", false);
     }
 
     /**
      * loadRptype
      */
     private void loadRptype() {
-        abstractLogic.loadComboBox(rsProgramType_DTO, "REBATE_PROGRAM_TYPE", false);
+        abstractLogic.loadComboBox(rsProgramTypeDTO, "REBATE_PROGRAM_TYPE", false);
     }
 
     /**
      * loadPaymentFrequency
      */
     private void loadPaymentFrequency() {
-        abstractLogic.LazyLoadDdlb(paymentFrequency_DTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(paymentFrequencyDTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BooleanConstant.getFalseFlag());
     }
 
     /**
      * loadRPLevel
      */
     private void loadRPLevel() {
-        abstractLogic.LazyLoadDdlb(rebatePlanLevel_DTO, "LoadRPLevelCount", "LoadRPLevel", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(rebatePlanLevelDTO, "LoadRPLevelCount", "LoadRPLevel", BooleanConstant.getFalseFlag());
     }
 
     public void fireComponentListener(final String value, final SelectionDTO selection) {
@@ -782,7 +783,7 @@ public class AbstractComponentInfo extends CustomComponent {
             selection.setFilters(tablelogic.getFilters());
             recordCount = logic.getComponentInfoCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
@@ -839,10 +840,10 @@ public class AbstractComponentInfo extends CustomComponent {
     }
 
     public void replaceComponent() {
-        itemSearchGrid.replaceComponent(rsType_DTO, rsTypeText);
-        itemSearchGrid.replaceComponent(rsProgramType_DTO, rsProgramTypeText);
-        itemSearchGrid.replaceComponent(rsCategory_DTO, rsCategoryText);
-        itemSearchGrid.replaceComponent(paymentFrequency_DTO, paymentFrequencyText);
-        itemSearchGrid.replaceComponent(rebatePlanLevel_DTO, rebatePlanLevelText);
+        itemSearchGrid.replaceComponent(rsTypeDTO, rsTypeText);
+        itemSearchGrid.replaceComponent(rsProgramTypeDTO, rsProgramTypeText);
+        itemSearchGrid.replaceComponent(rsCategoryDTO, rsCategoryText);
+        itemSearchGrid.replaceComponent(paymentFrequencyDTO, paymentFrequencyText);
+        itemSearchGrid.replaceComponent(rebatePlanLevelDTO, rebatePlanLevelText);
     }
 }

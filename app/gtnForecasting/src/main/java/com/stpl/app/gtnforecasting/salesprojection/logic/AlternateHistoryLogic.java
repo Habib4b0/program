@@ -53,18 +53,18 @@ public class AlternateHistoryLogic {
     protected QueryUtils queryUtils = new QueryUtils();
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
     protected final DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
-    protected String ACTUAL_SALES = "actualSales";
-    protected String ACTUAL_UNITS = "actualUnits";
-    protected String PROJECTED_SALES = "projectionSales";
-    protected String PROJECTED_UNITS = "projectionUnits";
-    protected String ACTUAL_PAYMENT = "actualPayments";
+    protected String actualSales = "actualSales";
+    protected String actualUnits = "actualUnits";
+    protected String projectedSales = "projectionSales";
+    protected String projectedUnits = "projectionUnits";
+    protected String actualPayment = "actualPayments";
 
     public static final String PROJECTION_DETAILS_SID = "[$PROJECTION_DETAILS_SID]";
     public static final String END_DATE = "[$END_DATE]";
     public static final String START_DATE = "[$START_DATE]";
     public static final String TABLE_NAME = "[$TABLE_NAME]";
 
-    protected String PROJECTED_PAYMENT = "projectionPayments";
+    protected String projectedPayment = "projectionPayments";
     /**
      * The Constant LOGGER.
      */
@@ -125,7 +125,7 @@ public class AlternateHistoryLogic {
     public List<AlternateHistoryDTO> searchCompany(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session) {
 
         Map<String, Object> parameters = new HashMap<>();
-        List list = Collections.EMPTY_LIST;
+        List list = Collections.emptyList();
         try {
             if (isValidCriteria(altHistoryDTO.getContractHolder())) {
                 String contractHolderParam = altHistoryDTO.getContractHolder();
@@ -650,9 +650,9 @@ public class AlternateHistoryLogic {
                     if (ccpId.equals(currentccpId)) {
                         if (Constant.SALES_PROJECTION.equals(session.getForecastName())) {
                             if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_SALES;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + actualSales;
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[0]));
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_UNITS;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + actualUnits;
                                 if (freq.equals(ANNUALLY.getConstant())) {
                                     altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TEN]));
                                 } else {
@@ -660,10 +660,10 @@ public class AlternateHistoryLogic {
                                 }
                             }
                             if (projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_SALES;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + projectedSales;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[1]));
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_UNITS;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + projectedUnits;
                                 if (freq.equals(ANNUALLY.getConstant())) {
                                     altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.ELEVEN]));
                                 } else {
@@ -672,12 +672,12 @@ public class AlternateHistoryLogic {
                             }
                         } else if (TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) {
                             if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_PAYMENT;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + actualPayment;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[0]));
                             }
                             if (projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_PAYMENT;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + projectedPayment;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[1]));
                             }
@@ -713,10 +713,10 @@ public class AlternateHistoryLogic {
 
                         if (Constant.SALES_PROJECTION.equals(session.getForecastName())) {
                             if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_SALES;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + actualSales;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[0]));
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_UNITS;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + actualUnits;
 
                                 if (freq.equals(ANNUALLY.getConstant())) {
                                     altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TEN]));
@@ -725,10 +725,10 @@ public class AlternateHistoryLogic {
                                 }
                             }
                             if (projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_SALES;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + projectedSales;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[1]));
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_UNITS;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + projectedUnits;
                                 if (freq.equals(ANNUALLY.getConstant())) {
                                     altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.ELEVEN]));
                                 } else {
@@ -737,12 +737,12 @@ public class AlternateHistoryLogic {
                             }
                         } else if (TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) {
                             if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_PAYMENT;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + actualPayment;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[0]));
                             }
                             if (projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS.getConstant())) {
-                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_PAYMENT;
+                                commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + projectedPayment;
 
                                 altDTO.addStringProperties(commonColumn, String.valueOf(obj[1]));
                             }

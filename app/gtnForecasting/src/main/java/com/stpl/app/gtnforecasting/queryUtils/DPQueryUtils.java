@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DPQueryUtils {
     
-    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    private final SimpleDateFormat dbDateDP = new SimpleDateFormat(Constant.DATE_FORMAT);
     
     public String updateCheckRecordQuery(SessionDTO session, String hierarchyNo, String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String hierarchy) {
         String ccpDetails;
@@ -107,7 +107,7 @@ public class DPQueryUtils {
                 + " AND M.RS_CONTRACT_SID = RS.RS_CONTRACT_SID \n"
                 + " AND RS.RS_TYPE ='" + discount + "' \n"
                 + " AND DP.PERIOD_SID = P.PERIOD_SID AND P.PERIOD_DATE "
-                + " BETWEEN CONVERT(DATE, '" + DBDate.format(startDate) + "') AND CONVERT(DATE, '" + DBDate.format(endDate) + "')" + "\n"
+                + " BETWEEN CONVERT(DATE, '" + dbDateDP.format(startDate) + "') AND CONVERT(DATE, '" + dbDateDP.format(endDate) + "')" + "\n"
                 + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' "
                 + ") A \n"
                 + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID \n"
@@ -165,7 +165,7 @@ public class DPQueryUtils {
                 + " AND RS.RS_TYPE = '" + discountName + "' \n"
                 + " AND DP.PERIOD_SID = P.PERIOD_SID \n"
                 + " AND P.PERIOD_DATE "
-                + " BETWEEN CONVERT(DATE, '" + DBDate.format(startDate) + "') AND CONVERT(DATE, '" + DBDate.format(endDate) + "')" + "\n"
+                + " BETWEEN CONVERT(DATE, '" + dbDateDP.format(startDate) + "') AND CONVERT(DATE, '" + dbDateDP.format(endDate) + "')" + "\n"
                 + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                 + ") A "
                 + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID "

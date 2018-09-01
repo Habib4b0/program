@@ -66,7 +66,7 @@ public class MMDPRLogic {
     private String groupName = StringUtils.EMPTY;
     private String pivotGroupName = StringUtils.EMPTY;
     private String pivotBrandName = StringUtils.EMPTY;
-    private String nmSupp_Level = StringUtils.EMPTY;
+    private String nmSuppLevel = StringUtils.EMPTY;
     private final HashMap<String, String> map = new HashMap<>();
     private boolean viewFlag = false;
 
@@ -94,9 +94,6 @@ public class MMDPRLogic {
                 projectionSelectionDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
             }
             if (parentDto.getLevelValue().equals(Constant.MANDATED_DISCOUNT)) {
-                if (parentDto.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
-
-                }
                 projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
                 projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                 projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
@@ -211,8 +208,6 @@ public class MMDPRLogic {
                 projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
             } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
                 projectionSelectionDTO.setLevelNo(0);
-            } else {
-
             }
             projectionSelectionDTO.setLevelNo(0);
             projectionSelectionDTO.setTreeLevelNo(0);
@@ -346,19 +341,6 @@ public class MMDPRLogic {
 
                     if (neededRecord > 0) {
                         List<DiscountProjectionResultsDTO> periodList = new ArrayList<>();
-                        if (projSelDTO.isIsProjectionTotal()) {
-                            try {
-
-                            } catch (Exception ex) {
-                              LOGGER.error(ex.getMessage()); 
-                            }
-                        }
-
-                        try {
-
-                        } catch (Exception ex) {
-                            LOGGER.error(ex.getMessage()); 
-                        }
                         int mayBeAddedRecord = start - mayBeAdded;
                         if (mayBeAddedRecord < 0) {
                             mayBeAddedRecord = 0;
@@ -1570,8 +1552,6 @@ public class MMDPRLogic {
                         String commonColumn = StringUtils.EMPTY;
                         for (int i = 0; i < discountList.size(); i++) {
                             final Object[] obj = (Object[]) discountList.get(i);
-                            if (i == 0) {
-                            }
                             int selectedYear = 0;
                             int selectedMonth = 0;
                             if (obj[0] != null) {
@@ -1730,9 +1710,6 @@ public class MMDPRLogic {
             yearList.add(projSelDTO.getForecastDTO().getForecastStartMonth());
             yearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
             yearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
-
-            String userId = String.valueOf(projSelDTO.getUserId());
-            String sessionId = String.valueOf(projSelDTO.getSessionId());
             List<Integer> projectionDet = dqLogic.getProjectionDetailsId(projSelDTO);
             String frequency = projSelDTO.getFrequency();
             List<String> discountList = projSelDTO.getDiscountNameList();
@@ -2203,10 +2180,10 @@ public class MMDPRLogic {
             Object[] obj = (Object[]) list.get(i);
 
             if (loopCount == 0) {
-                nmSupp_Level = String.valueOf(obj[0]);
+                nmSuppLevel = String.valueOf(obj[0]);
             }
-            if ((!nmSupp_Level.equalsIgnoreCase(String.valueOf(obj[0]))) || loopCount == 0) {
-                nmSupp_Level = String.valueOf(obj[0]);
+            if ((!nmSuppLevel.equalsIgnoreCase(String.valueOf(obj[0]))) || loopCount == 0) {
+                nmSuppLevel = String.valueOf(obj[0]);
                 DiscountProjectionResultsDTO childDto = new DiscountProjectionResultsDTO();
                 childDto = customizedNMBrandLevel(list, childDto, frequencyDivision, projSelDTO);
                 childDto.setParent(0);
@@ -2223,7 +2200,7 @@ public class MMDPRLogic {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                if (nmSupp_Level.equalsIgnoreCase(String.valueOf(obj[0]))) {
+                if (nmSuppLevel.equalsIgnoreCase(String.valueOf(obj[0]))) {
                     dto.setGroup(String.valueOf(obj[0]));
                     dto.setLevelValue(String.valueOf(obj[0]));
                     dto.setParent(0);
@@ -2575,13 +2552,14 @@ public class MMDPRLogic {
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int number = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (number == NumericConstants.TWELVE) {
+            number = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (number >= 0 && number <= NumericConstants.ELEVEN) {
+            month = months[number];
         }
         return month;
     }

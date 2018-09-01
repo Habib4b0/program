@@ -59,7 +59,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class DiscountAddForm.
  */
@@ -559,7 +559,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      *
      * @return the filter table
      */
-    private ExtFilterTable addResultsTable() throws PortalException, SystemException{
+    private ExtFilterTable addResultsTable() throws PortalException {
         LOGGER.debug("addResultsTables method started ");
 
         tableLayout.addComponent(availableRebate);
@@ -620,7 +620,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      *
      * @return the filter table
      */
-    private ExtFilterTable addResultsColumnTable() throws PortalException, SystemException{
+    private ExtFilterTable addResultsColumnTable() throws PortalException{
         LOGGER.debug("addResultsTables method started ");
         tableLayout1.addComponent(selectedRebate);
 
@@ -1012,7 +1012,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    protected List<Integer> saveButtonClick() throws SystemException, PortalException {
+    protected List<Integer> saveButtonClick() throws PortalException {
         List<Integer> idList = new ArrayList<>();
         try {
             LOGGER.debug("Entering saveButtonClick method");

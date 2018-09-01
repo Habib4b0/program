@@ -248,7 +248,7 @@ public class NewDiscountTab extends CustomComponent {
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    public final SimpleDateFormat DB_DATE = new SimpleDateFormat("MM-dd-yyyy");
+    public final SimpleDateFormat dbDate = new SimpleDateFormat("MM-dd-yyyy");
     public static final String S_DATE_PROPERTY = "sDate";
     /* Current Level Value */
     private int levelValue;
@@ -342,8 +342,8 @@ public class NewDiscountTab extends CustomComponent {
             contractNo.setValue(removeDiscountDto.get(0).getContractNo());
             contractName.setValue(removeDiscountDto.get(0).getContractName());
             contractType.setValue(removeDiscountDto.get(0).getMarketType());
-            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractstartDate()));
-            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractendDate()));
+            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.get(0).getContractstartDate()));
+            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
             isEnable(false);
             componentTypeddlb = CommonLogic.loadComponentType(componentTypeddlb, null, true);
             searchDdlb = CommonLogic.loadNewTabSearchDdlb(searchDdlb, selectedComponenttype);
@@ -354,7 +354,7 @@ public class NewDiscountTab extends CustomComponent {
             commonUtil.loadComboBox(paymentMethod, UiUtils.PAYMENT_METHOD, false);
             commonUtil.loadComboBox(rsType, UiUtils.RS_TYPE, false);
             configureTables();
-            LoadDashBoardTree();
+            loadDashBoardTree();
             for (RemoveDiscountDto remove : removeDiscountDto) {
                 rebateList.add(remove.getRsSid());
             }
@@ -688,7 +688,7 @@ public class NewDiscountTab extends CustomComponent {
 
     }
 
-    private void LoadDashBoardTree() {
+    private void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
@@ -946,7 +946,7 @@ public class NewDiscountTab extends CustomComponent {
                 Object ddlb = searchValueStatusDdlb.getValue();
                 newDiscountTabDto.setSearchFieldValue(searchValueStatusDdlb.getItemCaption(ddlb));
             } else if (searchField.contains("Date")) {
-                newDiscountTabDto.setSearchFieldValue(DB_DATE.format(searchDatePeriod.getValue()));
+                newDiscountTabDto.setSearchFieldValue(dbDate.format(searchDatePeriod.getValue()));
             } else {
                 newDiscountTabDto.setSearchFieldValue(ddlbValue);
             }
@@ -1356,17 +1356,17 @@ public class NewDiscountTab extends CustomComponent {
                             && StringUtils.isNotBlank(rebateEnddate) && StringUtils.isNotBlank(pMethod) && StringUtils.isNotBlank(rebateType)
                             && StringUtils.isNotBlank(rebateProgType) && StringUtils.isNotBlank(rebatePlan)) {
                         List list = DiscountLogic.duplicateCheck(compType, rebateId, "RS_ID");
-                        if (list != null && list.size() > 0) {
+                        if (list != null && !list.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Rebate Schedule ID is already exist. Please enter different Rebate Schedule ID");
                             return;
                         }
                         List listNo = DiscountLogic.duplicateCheck(compType, rebateNo, "RS_NO");
-                        if (listNo != null && listNo.size() > 0) {
+                        if (listNo != null && !listNo.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Rebate Schedule No already exists. Please enter different Rebate Schedule No");
                             return;
                         }
                         List listName = DiscountLogic.duplicateCheck(compType, rebateName, "RS_NAME");
-                        if (listName != null && listName.size() > 0) {
+                        if (listName != null && !listName.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Rebate Schedule Name already exists. Please enter different Rebate Schedule Name");
                             return;
                         }
@@ -1415,7 +1415,7 @@ public class NewDiscountTab extends CustomComponent {
                             && StringUtils.isNotBlank(priceStatus) && StringUtils.isNotBlank(priceStartdate)) {
 
                         List list = DiscountLogic.duplicateCheck(compType, priceName, "PS_ID");
-                        if (list != null && list.size() > 0) {
+                        if (list != null && !list.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Price Schedule Name already exist. Please Enter Different Name");
                             return;
                         }

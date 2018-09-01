@@ -264,8 +264,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @UiField("gridlay")
     private GridLayout gridlay;
     private static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
-    private List<String> checkedList;
-
     private String calcBase = StringUtils.EMPTY;
     private GtnSmallHashMap radioMap = new GtnSmallHashMap();
     private GtnSmallHashMap checkBoxMap = new GtnSmallHashMap();
@@ -310,6 +308,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Object[] tempSingleHeaderArray = null;
+     private boolean dsFlag = true;
 
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -454,7 +453,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
     }
     public void checkFrequencyChange(){
-            boolean dsFlag = true;
                 if(dsFlag && (!session.getDsFrequency().equals(frequencyDdlb.getValue()))){
             dsFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
@@ -716,7 +714,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             AlternateHistory alternateContractLookup = new AlternateHistory(session,
                                     projectionSelection, tableLogic, actualCCPs, rsModelSid, selectedRsName);
                             getUI().addWindow(alternateContractLookup);
-                        } else {
                         }
                     } catch (IllegalArgumentException | NullPointerException ex) {
                         LOGGER.error(ex.getMessage());
@@ -3052,6 +3049,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         "Please select an Allocation Methodology");
             }
         } catch (Property.ReadOnlyException e) {
+           LOGGER.error(e.getMessage());
         }
     }
 
@@ -3373,8 +3371,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     projectionSelection.getYear(), customDetailsList, true, isCustomHierarchy, rightHeader, 0,
                     NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY,
-                    relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
-                    Collections.EMPTY_LIST, Collections.EMPTY_MAP, projectionSelection.getForecastConfigPeriods(),
+                    relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY,
+                    Collections.emptyList(), Collections.emptyMap(), projectionSelection.getForecastConfigPeriods(),
                     projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
@@ -3503,8 +3501,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     discountToBeLoaded, projectionSelection.getYear(), customDetailsList, true, isCustomHierarchy,
                     rightHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(),
-                    StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY,
-                    StringUtils.EMPTY, Collections.EMPTY_LIST, Collections.EMPTY_MAP,
+                    StringUtils.EMPTY, relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY,
+                    StringUtils.EMPTY, Collections.emptyList(), Collections.emptyMap(),
                     projectionSelection.getForecastConfigPeriods(), projectionSelection);
             loadDataToContainer(levelList, dto, true);
             excelTable.setCollapsed(dto, false);
@@ -4141,14 +4139,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @param isChecked
      */
     private void doubleHeaderCheckListener(Object propertyId, boolean isChecked) {
-        Map<String, List<String>> checkedDoubleHeaders = new HashMap<>();
         String checkedPropertyId = String.valueOf(propertyId);
         ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
         String checkedColumnName = rightTable.getDoubleHeaderColumnHeader(checkedPropertyId);
         String discountPropertyId = rightTable.getTripleHeaderForDoubleHeader(checkedPropertyId);
         String discountName = rightTable.getTripleHeaderColumnHeader(discountPropertyId);
 
-        checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(discountName);
+        Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(discountName);
 
         if (checkedDoubleHeaders == null) {
             checkedDoubleHeaders = new HashMap<>();
@@ -4319,10 +4316,10 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     }
 
     public void resetForAdd() {
-        projectionSelection.setDeductionLevelFilter(Collections.EMPTY_LIST);
-        projectionSelection.setDeductionLevelCaptions(Collections.EMPTY_LIST);
-        projectionSelection.setProductLevelFilter(Collections.EMPTY_LIST);
-        projectionSelection.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        projectionSelection.setDeductionLevelFilter(Collections.emptyList());
+        projectionSelection.setDeductionLevelCaptions(Collections.emptyList());
+        projectionSelection.setProductLevelFilter(Collections.emptyList());
+        projectionSelection.setCustomerLevelFilter(Collections.emptyList());
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         CommonLogic.unCheckMultiSelect(deductionFilterValues);
@@ -4616,7 +4613,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         boolean isOne = true;
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<>();
+         List<String>  checkedList = new ArrayList<>();
         for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
             Map<String, List<String>> checkDoubleHeader = d.getValue();
             for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
@@ -4634,38 +4631,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
         }
         return !ismultipleDiscount;
-    }
-
-    private boolean isInPeriod() {
-        int[] startPeriodValue = getQuaterandYear((String) startPeriodForecastTab.getValue());
-        int[] endPeriodValue = getQuaterandYear((String) endPeriodForecastTab.getValue());
-        boolean m = true;
-        for (String columnName : checkedList) {
-            int[] temp = getQuaterandYear(columnName);
-            if (temp[1] >= startPeriodValue[1] && temp[1] <= endPeriodValue[1]) {
-                if (temp[1] == startPeriodValue[1] && temp[0] >= startPeriodValue[0]) {
-                } else {
-                    m = false;
-                }
-                if (temp[1] == endPeriodValue[1] && temp[0] <= endPeriodValue[0]) {
-                } else {
-                    m = false;
-                }
-            } else {
-                m = false;
-            }
-        }
-        return m;
-
-    }
-
-    private int[] getQuaterandYear(String str) {
-        LOGGER.debug("Inside get Quater with String= {}", str);
-        int[] a = new int[NumericConstants.TWO];
-        String[] splited = str.split("\\s+");
-        a[0] = Integer.parseInt(splited[0].replaceAll("[Q]+", StringUtils.EMPTY));
-        a[1] = Integer.parseInt(splited[1]);
-        return a;
     }
 
     public boolean endDateValidation(String valueEnd) {
@@ -4967,6 +4932,9 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     } else if (defval == NumericConstants.TWELVE) {
                         subYear1 = tempSubYear;
                     }
+                    else{
+                        subYear1  = String.valueOf(NumericConstants.TWELVE);
+                    }
                     String fullYear = tempYear + subYear1;
                     year[i] = Integer.parseInt(fullYear.trim());
 
@@ -5202,53 +5170,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         }.getConfirmationMessage("Confirm List View Reset",
                 "Are you sure you want to reset the list view to the last saved state?");
 
-    }
-
-    private boolean isCheckBoxProperty() {
-        boolean propertyId = false;
-
-        if (checkBoxMap.containsValue(BooleanConstant.getTrueFlag())) {
-            propertyId = true;
-        }
-        return propertyId;
-    }
-
-    private void callResetTableLogic() {
-        List<String> discountToBeLoaded;
-        if (!programSelectionList.isEmpty()) {
-            discountToBeLoaded = programSelectionList;
-        } else {
-            discountToBeLoaded = discountProgramsList;
-        }
-        if (discountToBeLoaded == null || discountToBeLoaded.isEmpty()) {
-        } else if (frequencyDdlb.getValue() == null || frequencyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
-        } else if (historyDdlb.getValue() == null || historyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
-        } else {
-            tableLogic.sinkItemPerPageWithPageLength(false);
-            boolean isFrequencyChange = !String.valueOf(projectionSelection.getFrequency())
-                    .equals(String.valueOf(frequencyDdlb.getValue()));
-            createSelectionDto();
-            createRightHeader();
-            viewValueChangeLogic();
-            resultBeanContainer.setColumnProperties(rightHeader.getProperties());
-            resultsTable.constructRightFreeze(true);
-            resultsTable.getRightFreezeAsTable().setContainerDataSource(tableLogic.getContainerDataSource());
-            configureRightTable();
-            configureLeftTable();
-            tableLogic.setRefresh(BooleanConstant.getFalseFlag());
-            loadScreenBasedOnGeneratedTable(isFrequencyChange);
-            loadDataInTable();
-            tableLogic.setRefresh(BooleanConstant.getFalseFlag()); // As the row refresh will be
-            formatTableData();
-            tableLogic.setRefresh(BooleanConstant.getTrueFlag());
-            setListviewGenerated(true);
-            loadLevelValues();
-            isDiscountGenerated = true;
-            adjProgramsValueChangeLogic(SELECT.getConstant());
-            adjPeriodValueChangeLogic(SELECT.getConstant());
-            adjperiods.select(SELECT);
-            adjprograms.select(SELECT);
-        }
     }
 
     public boolean validateForAlternateHistory() {

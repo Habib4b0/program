@@ -72,7 +72,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 typeDdlb.setImmediate(true);
                 typeDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return typeDdlb;
-            } catch (SystemException  | PortalException ex) {
+            } catch (SystemException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } 
         }
@@ -87,7 +87,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 statusDdlb.setImmediate(true);
                 statusDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return statusDdlb;
-             } catch (SystemException  | PortalException ex) {
+             } catch (SystemException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
              } 
         }

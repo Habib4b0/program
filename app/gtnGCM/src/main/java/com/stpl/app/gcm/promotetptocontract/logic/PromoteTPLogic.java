@@ -107,7 +107,7 @@ public class PromoteTPLogic {
     private final DiscountDAO discountDAO = new DiscountDaoImpl();
     private final QueryUtils queryUtils = new QueryUtils();
     private final DataQueryLogic dqLogic = new DataQueryLogic();
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd ");
     public static final String LIKE_QUOTE = " like '";
     public static final String ITEM_FAMILY_PLAN_PROPERTY = "Item Family Plan";
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
@@ -1488,7 +1488,7 @@ public class PromoteTPLogic {
                 String composedValue = searchFieldValue.replaceAll("\\*", "%");
                 String query = "select count(*) from dbo.RS_MODEL WHERE " + composedValue1 + LIKE_QUOTE + composedValue + "'";
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (null != list && list.size() > 0) {
+                if (null != list && !list.isEmpty()) {
                     Object obj = list.get(0);
                     count = Integer.parseInt(String.valueOf(obj));
                     return count;
@@ -1504,7 +1504,7 @@ public class PromoteTPLogic {
                 String composedValue = searchFieldValue.replaceAll("\\*", "%");
                 String query = "select count(*) from dbo.IFP_MODEL WHERE " + composedValue1 + LIKE_QUOTE + composedValue + "'";
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (null != list && list.size() > 0) {
+                if (null != list && !list.isEmpty()) {
                     Object obj = list.get(0);
                     count = Integer.parseInt(String.valueOf(obj));
                     return count;
@@ -1520,7 +1520,7 @@ public class PromoteTPLogic {
                 String composedValue = searchFieldValue.replaceAll("\\*", "%");
                 String query = "select count(*) from dbo.PS_MODEL WHERE " + composedValue1 + LIKE_QUOTE + composedValue + "'";
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (null != list && list.size() > 0) {
+                if (null != list && !list.isEmpty()) {
                     Object obj = list.get(0);
                     count = Integer.parseInt(String.valueOf(obj));
                     return count;
@@ -2323,9 +2323,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(cfpModelSId);
         promoteTpDAO.updateCFP(input);
 
@@ -2335,9 +2335,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(ifpModelSid);
         promoteTpDAO.updateIFP(input);
     }
@@ -2346,9 +2346,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(psModelSid);
         promoteTpDAO.updatePS(input);
     }
@@ -2357,9 +2357,9 @@ public class PromoteTPLogic {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(format.format(new java.util.Date()));
         input.add(rsModelSid);
         promoteTpDAO.updateRS(input);
 
@@ -2391,7 +2391,7 @@ public class PromoteTPLogic {
                 String composedValue = searchFieldValue.replaceAll("\\*", "%");
                 String query = "select count(*) from dbo.ITEM_MASTER where " + composedValue1 + LIKE_QUOTE + composedValue + "'";
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (null != list && list.size() > 0) {
+                if (null != list && !list.isEmpty()) {
                     Object obj = list.get(0);
                     count = Integer.parseInt(String.valueOf(obj));
                     return count;
@@ -2413,7 +2413,7 @@ public class PromoteTPLogic {
                         + " LEFT JOIN dbo.HELPER_TABLE HT5 ON PSD.PRICE_TOLERANCE=HT5.HELPER_TABLE_SID LEFT JOIN dbo.HELPER_TABLE HT6 ON PSD.RESET_TYPE=HT6.HELPER_TABLE_SID\n"
                         + " LEFT JOIN dbo.HELPER_TABLE HT7 ON PSD.RESET_FREQUENCY=HT7.HELPER_TABLE_SID WHERE IM." + composedValue1 + LIKE_QUOTE + composedValue + "'";
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (null != list && list.size() > 0) {
+                if (null != list && !list.isEmpty()) {
                     Object obj = list.get(0);
                     count = Integer.parseInt(String.valueOf(obj));
                     return count;
@@ -2454,7 +2454,7 @@ public class PromoteTPLogic {
                                 "        ON FORMULA.FORMULA_ID = RS_D.FORMULA_ID LEFT JOIN REBATE_PLAN_MASTER RL\n" +
                                 "        ON RL.REBATE_PLAN_MASTER_SID = RS_D.REBATE_PLAN_MASTER_SID WHERE IM." + composedValue1 + LIKE_QUOTE + composedValue + "' )A";
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (null != list && list.size() > 0) {
+                if (null != list && !list.isEmpty()) {
                     Object obj = list.get(0);
                     count = Integer.parseInt(String.valueOf(obj));
                     return count;
@@ -2757,7 +2757,7 @@ public class PromoteTPLogic {
         List<Object[]> checkList = promoteTpDAO.startDateAndEndDateValidation(userId, sessionId, screenName);
         if (checkList != null && !checkList.isEmpty()) {
 
-            if (checkList.size() > 0 && convertToInteger(String.valueOf(checkList.get(0))) != 0) {
+            if (checkList.isEmpty() && convertToInteger(String.valueOf(checkList.get(0))) != 0) {
                 dateCheckList.add(Boolean.FALSE);
             } else {
                 dateCheckList.add(Boolean.TRUE);
@@ -2798,7 +2798,7 @@ public class PromoteTPLogic {
             query.append("AND SCREEN_NAME= '").append(contractType).append('\'');
         }
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             /*This query is used to update the record */
             query = new StringBuilder("   ");
             query.append("UPDATE GCM_GLOBAL_DETAILS SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append('\'');
@@ -2883,7 +2883,7 @@ public class PromoteTPLogic {
     public boolean isAnyRecordSelected(String userId, String sessionId, String screenName) {
         List<Object[]> checkList = promoteTpDAO.isAnyRecordSelected(userId, sessionId, screenName);
 
-        if (checkList.size() > 0 && convertToInteger(String.valueOf(checkList.get(0))) != 0) {
+        if (!checkList.isEmpty() && convertToInteger(String.valueOf(checkList.get(0))) != 0) {
             return true;
         } else {
             return false;

@@ -66,7 +66,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public CffViewMaster deleteForecastingViewMaster(final int systemId) throws SystemException, PortalException {
+    public CffViewMaster deleteForecastingViewMaster(final int systemId) throws PortalException {
         return CffViewMasterLocalServiceUtil.deleteCffViewMaster(systemId);
     }
 
@@ -93,7 +93,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public User getUser(final Long systemId) throws SystemException, PortalException {
+    public User getUser(final Long systemId) throws PortalException {
         return UserLocalServiceUtil.getUser(systemId);
     }
 
@@ -159,7 +159,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public CffViewMaster getForecastingViewMaster(final int systemId) throws SystemException, PortalException {
+    public CffViewMaster getForecastingViewMaster(final int systemId) throws PortalException {
         return CffViewMasterLocalServiceUtil.getCffViewMaster(systemId);
     }
 
@@ -199,7 +199,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public ProjectionMaster getProjectionMaster(final int systemId) throws PortalException, SystemException {
+    public ProjectionMaster getProjectionMaster(final int systemId) throws PortalException {
         return ProjectionMasterLocalServiceUtil.getProjectionMaster(systemId);
     }
 
@@ -213,7 +213,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public ProjectionMaster updateProjectionMaster(final ProjectionMaster projectionMaster) throws PortalException, SystemException {
+    public ProjectionMaster updateProjectionMaster(final ProjectionMaster projectionMaster) throws SystemException {
         return ProjectionMasterLocalServiceUtil.updateProjectionMaster(projectionMaster);
     }
 
@@ -265,7 +265,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public ProjectionProdDetails deleteProjectionProdDetailsById(final int systemId) throws SystemException, PortalException {
+    public ProjectionProdDetails deleteProjectionProdDetailsById(final int systemId) throws PortalException {
         return ProjectionProdDetailsLocalServiceUtil.deleteProjectionProdDetails(systemId);
     }
 
@@ -503,12 +503,12 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
     }
 
     @Override
-    public int getRelationshipCount(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+    public int getRelationshipCount(DynamicQuery dynamicQuery) throws PortalException {
         return (int) RelationshipBuilderLocalServiceUtil.dynamicQueryCount(dynamicQuery);
     }
 
     @Override
-    public List getRelationship(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+    public List getRelationship(DynamicQuery dynamicQuery) throws PortalException {
         return RelationshipBuilderLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -528,7 +528,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     }
       @Override
-    public List getHelperTableList(DynamicQuery dynamicQuery) throws PortalException, SystemException  {
+    public List getHelperTableList(DynamicQuery dynamicQuery) throws SystemException  {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 }

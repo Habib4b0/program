@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import com.vaadin.v7.data.util.converter.Converter;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * Utility class to convert Date to String format.
  *

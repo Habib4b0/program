@@ -1,6 +1,6 @@
 package com.stpl.app.adminconsole.util;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class ValidationUtils.
  */

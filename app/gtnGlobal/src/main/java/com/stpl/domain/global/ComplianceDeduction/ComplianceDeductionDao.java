@@ -7,7 +7,6 @@ package com.stpl.domain.global.ComplianceDeduction;
 
 import com.stpl.app.model.CdrModel;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -16,14 +15,14 @@ import com.liferay.portal.kernel.exception.SystemException;
 public interface ComplianceDeductionDao {
     
     CdrModel getCdrModelBySystemId(int crModelId)
-			throws SystemException, PortalException;
+			throws  PortalException;
     CdrModel updateCdrModel(CdrModel cdrModel)
-			throws SystemException, PortalException;
+			throws  PortalException;
     
  CdrModel createCdrModel(int crModelId)
-         throws SystemException, PortalException;
+         throws  PortalException;
     
  CdrModel deleteCdrModel(int crModelId)
-         throws SystemException, PortalException;
+         throws  PortalException;
     
 }

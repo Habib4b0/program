@@ -52,7 +52,7 @@ import com.vaadin.ui.themes.ValoTheme;
  *
  * @author alok.v
  */
-public class TransferContract extends VerticalLayout implements View {
+public class TransferContractPromote extends VerticalLayout implements View {
 
 	/**
 	 * View name for navigation.
@@ -61,7 +61,7 @@ public class TransferContract extends VerticalLayout implements View {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(TransferContract.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransferContractPromote.class);
 	/**
 	 * The Constant serialVersionUID.
 	 */
@@ -125,11 +125,11 @@ public class TransferContract extends VerticalLayout implements View {
 		this.startDate = startDate;
 	}
 
-	public TransferContract() {
+	public TransferContractPromote() {
 
 	}
 
-	public TransferContract(SessionDTO session, ExtFilterTable resultTable) {
+	public TransferContractPromote(SessionDTO session, ExtFilterTable resultTable) {
 		try {
 			this.session = session;
 			this.resultTable = resultTable;
@@ -567,21 +567,21 @@ public class TransferContract extends VerticalLayout implements View {
 				logic.callCcpInsertProcedure();
 				logic.callActualsDetailsInsertProcedure();
 			} catch (SystemException ex) {
-				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
+				LoggerFactory.getLogger(TransferContractPromote.class.getName()).error("", ex);
 			}
 		}
 		if (tabPosition == NumericConstants.TWO) {
 			try {
 				existingComponents.saveExistingContract();
 			} catch (SystemException | PortalException | ParseException ex) {
-				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
+				LoggerFactory.getLogger(TransferContractPromote.class.getName()).error("", ex);
 			}
 		}
 		if (tabPosition == 1) {
 			try {
 				newComponents.saveNewContract();
 			} catch (SystemException | PortalException | ParseException ex) {
-				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
+				LoggerFactory.getLogger(TransferContractPromote.class.getName()).error("", ex);
 			}
 		}
 	}

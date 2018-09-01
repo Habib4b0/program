@@ -849,10 +849,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void resetForAdd() {
-        pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
-        pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        pvSelectionDTO.setDeductionLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setDeductionLevelCaptions(Collections.emptyList());
+        pvSelectionDTO.setProductLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setCustomerLevelFilter(Collections.emptyList());
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         CommonLogic.unCheckMultiSelect(deductionFilterValues);
@@ -966,11 +966,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 CommonLogic.updateForFilter(pvSelectionDTO, "DEDUCTION", true);
                 session.setDiscountRSlist(logic.getRsIdsForDiscountAndUdcs(session));
-                boolean customerFlag = (generateCustomerToBeLoaded.containsAll(pvSelectionDTO.getCustomerLevelFilter())
-                        && generateCustomerToBeLoaded.size() == pvSelectionDTO.getCustomerLevelFilter().size());
-                boolean productFlag = (generateProductToBeLoaded.containsAll(pvSelectionDTO.getProductLevelFilter())
-                        && generateProductToBeLoaded.size() == pvSelectionDTO.getProductLevelFilter().size());
-
                     LOGGER.info("generateBtn :Inside Filter Option");
                     dsLogic.nmPvViewsPopulationProcedure(session);
                     CommonLogic.procedureCompletionCheck(session, Constant.VARIANCE_SCREEN, String.valueOf(view.getValue()));
@@ -1568,8 +1563,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (Constants.IndicatorConstants.INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator)) {
             tradingPartnerNo = CommonLogic.getTradingPartnerLevelNo(false, projectionId);
             session.setTradingPartner(tradingPartnerNo);
-        }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
         }
     }
 
