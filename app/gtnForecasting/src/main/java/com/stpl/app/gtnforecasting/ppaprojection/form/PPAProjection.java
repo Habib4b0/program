@@ -1158,17 +1158,18 @@ public class PPAProjection extends CustomComponent implements View {
 
     private void updateForChildLevel(Object value, Object itemId, String propertyId, boolean presentFlag)  {
         Object methodItemId = itemId;
+        boolean flag = presentFlag;
         updateRow(value, methodItemId, propertyId, presentFlag);
         List<String> hierarchyNos = tableLogic.getAllChildLevels(itemId);
         for (String hierarchyNo : hierarchyNos) {
-            presentFlag = true;
+            flag = true;
             Object lastParent = tableLogic.getcurrentTreeData(hierarchyNo);
             if (lastParent == null) {
-                presentFlag = false;
+                flag = false;
                 lastParent = tableLogic.getParent(hierarchyNo);
             }
             if (lastParent != null) {
-                updateRow(value, lastParent, propertyId, presentFlag);
+                updateRow(value, lastParent, propertyId, flag);
             }
         }
     }

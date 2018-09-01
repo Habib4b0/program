@@ -66,6 +66,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -715,7 +716,7 @@ public class CFFLogic {
         String userIds;
         if (userMap != null) {
             for (Map.Entry<String, String> entry : userMap.entrySet()) {
-                if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+                if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
@@ -757,8 +758,7 @@ public class CFFLogic {
     public static int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -850,8 +850,7 @@ public class CFFLogic {
                 String mode = sessionDTO.getAction();
                 if (mode.equals("edit") || mode.equals("view")) {
                     String projId = String.valueOf(VaadinSession.getCurrent().getAttribute(StringConstantsUtil.PROJECTION_ID));
-                    int fileCount = getFileSelectionCount(projId, filters);
-                    return fileCount;
+                    return getFileSelectionCount(projId, filters);
                 } else {
 
                     list.add(businessUnit);
@@ -1287,9 +1286,7 @@ public class CFFLogic {
         } else {
             query = query.replace("@ORGANIZATION_KEY", StringUtils.EMPTY + businessUnitId);
         }
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     /**
@@ -1306,9 +1303,8 @@ public class CFFLogic {
         } else {
             query = query.replace("@GLCOMP", StringUtils.EMPTY + companyId);
         }
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     /**

@@ -269,6 +269,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         }
         resultsContainer.setColumnProperties(properties);
         resultsContainer.setRecordHeader(Arrays.asList(visibleColumns));
+        resultsContainer.setIndexable(true);
         resultsTable.setVisibleColumns(visibleColumns);
         resultsTable.setColumnHeaders(visibleHeaders);
         for (int i = 0; i < visibleColumns.length; i++) {

@@ -43,7 +43,7 @@ public class DeductionDetailsLogic {
         try {
             String query = queryUtils.getForecastConfigQuery();
             List<Object> resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 Object[] obj = null;
                 for (int i = 0; i < resultList.size(); i++) {
                     obj = (Object[]) resultList.get(i);

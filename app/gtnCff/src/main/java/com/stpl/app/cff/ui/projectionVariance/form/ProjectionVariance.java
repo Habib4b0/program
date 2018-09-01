@@ -73,6 +73,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -518,8 +519,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     int end = 0;
                     if (StringConstantsUtil.DESCENDING1.equalsIgnoreCase(String.valueOf(projectionPeriodOrder.getValue()))) {
                         if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
-                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
-                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
+                            end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
                         } else {
                             start = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
                             end = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
@@ -527,8 +528,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     } else {
                         if (frequency.getValue().equals(ConstantsUtil.MONTHLY) && pivotView.getValue().equals(Constants.VARIABLE_LABEL)) {
 
-                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
-                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase());
+                            start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
+                            end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH));
                         } else {
                             start = periodList.indexOf(fromDate.getValue().toString().replace(" ", StringUtils.EMPTY));
                             end = periodList.indexOf(toDate.getValue().toString().replace(" ", StringUtils.EMPTY));
@@ -901,10 +902,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             for (int i = 0; i < periodList.size(); i++) {
 
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
             }
             if (!periodList.isEmpty()) {
                 for (int i = 0; i < periodList.size(); i++) {
@@ -931,16 +932,16 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             for (int i = 0; i < periodList.size(); i++) {
 
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
             }
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                     && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constants.SELECT_ONE_LABEL)) {
                 String fromVal = fromDateVal.replace(" ", "");
 
-                fromVal = fromVal.toLowerCase();
+                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
                 start = periodList.indexOf(fromVal);
             }
             int end = periodList.size() - 1;

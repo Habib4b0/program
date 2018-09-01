@@ -533,7 +533,6 @@ public class NationalAssumptionsForm extends CustomComponent {
      */
     @UiHandler("saveBtn")
     public void saveBtn(Button.ClickEvent event)  {
-        final String projName = sessionDTO.getProjectionName();
         boolean updateflag = dataSelection.isChanged();
         if (updateflag) {
             new AbstractNotificationUtils() {

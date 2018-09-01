@@ -52,7 +52,6 @@ public class NMDiscountExcelLogic {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
             String hierKey = key.substring(0,key.lastIndexOf('.'));
-            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
             key = key.substring(key.indexOf('-') + 1);
            
             DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);
@@ -76,7 +75,6 @@ public class NMDiscountExcelLogic {
         for (Iterator<Object[]> it = discountExcelList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
-            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
                 key = key.substring(key.indexOf('-') + 1);
            
             DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);
@@ -174,7 +172,7 @@ public class NMDiscountExcelLogic {
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
             setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj, column);
         } else{
-            setActualsProjForDeductionInclusion(discountProjectionDTO, isActuals, header, projectionSelection, obj);
+            setActualsProjForDeductionInclusion(discountProjectionDTO, isActuals, header, projectionSelection);
         }
            
     }
@@ -217,7 +215,7 @@ public class NMDiscountExcelLogic {
           }
 		
 	}
-	private void setActualsProjForDeductionInclusion(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj) {
+	private void setActualsProjForDeductionInclusion(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection) {
         if (isActuals) {
             discountProjectionDTO.addStringProperties(header + ACTUAL_RATE, StringUtils.EMPTY);
             discountProjectionDTO.addStringProperties(header + ACTUAL_AMOUNT, StringUtils.EMPTY);

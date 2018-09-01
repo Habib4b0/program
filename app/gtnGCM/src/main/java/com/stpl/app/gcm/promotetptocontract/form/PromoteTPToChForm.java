@@ -86,8 +86,8 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      */
     private int tabPosition = 0;
     private CurrentContractSelection currentContractSelection;
-    private TransferContract transferContract;
-    private Summary summary;
+    private TransferContractPromote transferContract;
+    private SummaryPromote summary;
     private final ExtFilterTable resultTable;
     private final SessionDTO session;
     private final PromoteTpToChWindow promoteWindow;
@@ -114,8 +114,8 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
     private void init() {
         this.currentContractSelection = new CurrentContractSelection(session, resultTable);
-        this.transferContract = new TransferContract(session, resultTable);
-        this.summary = new Summary(session, resultTable);
+        this.transferContract = new TransferContractPromote(session, resultTable);
+        this.summary = new SummaryPromote(session, resultTable);
     }
 
     private void addTab() {
@@ -242,7 +242,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                         String projName;
                         String copiedProjection;
-                        if (list != null && list.size() > 0) {
+                        if (list != null && !list.isEmpty()) {
                             projName = String.valueOf(list.get(0));
                             copiedProjection = String.valueOf(list.get(1));
                             AbstractNotificationUtils.getAlertNotification("Info", "New Projection has been created with Name of:" + projName + "," + copiedProjection);

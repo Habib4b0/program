@@ -35,7 +35,7 @@ public interface CommonDAO {
      * @throws SystemException
      * @throws PortalException
      */
-    RelationshipLevelDefinition getRelationshipLevel(int relationshipLevelSid) throws SystemException, PortalException;
+    RelationshipLevelDefinition getRelationshipLevel(int relationshipLevelSid) throws PortalException;
 
     /**
      * Gets the Custom View list.
