@@ -356,7 +356,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             queryInput.add(mainDto.getPriceToleranceFrequency().getId());
                             List list;
                             list = ItemQueries.getItemData(queryInput, "getCurrentContractEndDate", null);
-                            if (list != null && !list.isEmpty() && !list.isEmpty()) {
+                            if (list != null && !list.isEmpty()) {
                                 endDate = (Date) list.get(0);
                                 if (startDate != null && endDate != null && startDate.before(endDate)) {
                                     dateValid = false;

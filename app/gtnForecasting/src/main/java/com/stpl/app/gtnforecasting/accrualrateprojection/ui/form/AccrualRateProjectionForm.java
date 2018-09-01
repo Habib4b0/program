@@ -724,8 +724,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
     private boolean submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws PortalException {
 
         NonMandatedLogic logic = new NonMandatedLogic();
-        Map<String, Object> params = new HashMap<>();
-        params.put("projectionId", session.getProjectionId());
         boolean workflowFlag = false;
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || "add".equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 
