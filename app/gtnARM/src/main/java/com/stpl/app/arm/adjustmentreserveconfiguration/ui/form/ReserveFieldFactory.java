@@ -124,7 +124,7 @@ public class ReserveFieldFactory implements TableFieldFactory {
                         logic.updateTableValues(value, map.get(ARMUtils.PROPERTY_ID), map.get(ARMUtils.ITEM_ID), selection);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("Error in valueChange :" , ex);
+                    LOGGER.error("Error in valueChange :", ex);
                 }
             }
         }
@@ -143,22 +143,7 @@ public class ReserveFieldFactory implements TableFieldFactory {
     public Field<?> createField(Container container, final Object itemId, final Object propertyId, Component uiContext) {
         if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.toString())) {
             final ExtCustomCheckBox check = new ExtCustomCheckBox();
-            if (selection.isIsViewMode() || !selection.isIsCurrent()) {
-                check.setEnabled(Boolean.FALSE);
-            } else {
-                check.addClickListener(new ExtCustomCheckBox.ClickListener() {
-                    @Override
-                    public void click(ExtCustomCheckBox.ClickEvent event) {
-                        Object value = check.getValue();
-                        if (!check.getValue()) {
-                            resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), Boolean.TRUE, check.getValue());
-                        }
-                        logic.updateTableValues(value, propertyId, itemId, selection);
-                        List list = logic.headerCheckAll(selection);
-                        resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
-                    }
-                });
-            }
+            getCheckRecord(check, propertyId, itemId);
             return check;
         } else if (ArrayUtils.contains(ARMUtils.getAdjustmentReserveTextBox(), propertyId.toString())) {
             final TextField text = new TextField();
@@ -180,6 +165,25 @@ public class ReserveFieldFactory implements TableFieldFactory {
             return combo;
         }
         return null;
+    }
+
+    private void getCheckRecord(final ExtCustomCheckBox check, final Object propertyId, final Object itemId) {
+        if (selection.isIsViewMode() || !selection.isIsCurrent()) {
+            check.setEnabled(Boolean.FALSE);
+        } else {
+            check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                @Override
+                public void click(ExtCustomCheckBox.ClickEvent event) {
+                    Object value = check.getValue();
+                    if (!check.getValue()) {
+                        resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), Boolean.TRUE, check.getValue());
+                    }
+                    logic.updateTableValues(value, propertyId, itemId, selection);
+                    List list = logic.headerCheckAll(selection);
+                    resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
+                }
+            });
+        }
     }
 
     private ComboBox loadComboForAdjReserve(ComboBox combo, final Object propertyId, final Object itemId, Container container) {

@@ -180,6 +180,7 @@ public class ExclusionAndInventoryRateLookUp extends Window {
     }
 
     public void resetFields() {
+        LOGGER.debug("Reset Fields");
         viewNameEX.setValue(StringUtils.EMPTY);
     }
 
