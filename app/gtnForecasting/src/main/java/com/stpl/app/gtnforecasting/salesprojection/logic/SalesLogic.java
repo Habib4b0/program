@@ -3557,7 +3557,6 @@ public class SalesLogic {
         String queryResult;
         String queryName = Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction()) ? "RETURNS_SALES_QUERY_RESULTS_VIEW" : "RETURNS_SALES_QUERY_RESULTS";
         String frequency = StringUtils.EMPTY;
-        String returnDetailsSID = StringUtils.EMPTY;
         StringBuilder returnDetailsSIDBuilder = new StringBuilder();
         Map<String, String> returnMap = projSelDTO.getSessionDTO().getReturnsDetailsMap();
         for (Map.Entry<String, String> entr : returnMap.entrySet()) {
@@ -3565,7 +3564,7 @@ public class SalesLogic {
                 returnDetailsSIDBuilder.append(entr.getValue() ).append( ',');
             }
         }
-        returnDetailsSID = returnDetailsSIDBuilder.toString();
+        String returnDetailsSID = returnDetailsSIDBuilder.toString();
         LOGGER.debug("ReturnDetailsSID= {} " , returnDetailsSID);
         StringBuilder query = new StringBuilder();
         query.append(SQlUtil.getQuery(queryName));

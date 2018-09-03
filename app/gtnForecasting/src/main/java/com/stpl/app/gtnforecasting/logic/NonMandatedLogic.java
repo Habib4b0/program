@@ -128,7 +128,6 @@ public class NonMandatedLogic {
 	 * the SALES_SMALL dao.
 	 */
 	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-        private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Searh view.
@@ -1444,7 +1443,7 @@ public class NonMandatedLogic {
         SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-        String customSql = StringUtils.EMPTY;
+        String customSql;
         if (isUpdate) {
             List input = new ArrayList();
             input.add(dataSelectionDTO.getProjectionId());

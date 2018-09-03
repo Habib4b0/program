@@ -2180,7 +2180,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             it1.remove();
                             resultExcelContainer.addBean(itemId);
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2239,7 +2239,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             resultExcelContainer.addBean(itemId);
 
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);

@@ -343,7 +343,7 @@ public class DiscountProjectionLogic {
                         } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
-                        String commonColumn = StringUtils.EMPTY;
+                        String commonColumn;
                         if (!isCustom) {
                             commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + column;
                         } else {
@@ -529,6 +529,7 @@ public class DiscountProjectionLogic {
             if (frequency.equals(MONTHLY.getConstant())) {
                 baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                 selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
+                LOGGER.debug(" baselinePeriods {} , baselinePeriods{} " , baselinePeriods, selectedPeriods);
             }
 
         }
@@ -1155,7 +1156,7 @@ public class DiscountProjectionLogic {
 
     public int getDiscountCount(final SessionDTO sessionDTO, final String hierarchyNo, final int levelNo, final String hierarchyIndicator,
             boolean isProgram, final List<String> discountList, final String userGroup, final ProjectionSelectionDTO projselection) {
-        String query = StringUtils.EMPTY;
+        String query;
         if (CommonUtil.isValueEligibleForLoading()) {
             query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup, projselection);
         } else {
@@ -1225,7 +1226,7 @@ public class DiscountProjectionLogic {
     public List<String> getRsAllList(ProjectionSelectionDTO projdto) {
         List<String> rebateList = new ArrayList<>();
         try {
-            String queryAllRebate = StringUtils.EMPTY;
+            String queryAllRebate;
 
             if (Constant.PROGRAM_CATEGORY_LABEL.equals(projdto.getDiscountLevel())) {
                 queryAllRebate = "SELECT DISTINCT DPM.PRICE_GROUP_TYPE FROM  ST_NM_DISCOUNT_PROJ_MASTER DPM JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID"

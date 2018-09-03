@@ -246,11 +246,6 @@ public class NMPmpyCalculator extends Window {
      * The regex.
      */
     public static final String REGEX = "(^[0-9]+(\\.[0-9])?$)";
-
-    /**
-     * The calendar.
-     */
-    private final Calendar calendar = CommonUtils.getCalendar();
     private final ExtFilterTable contractHolderTable = new ExtFilterTable();
     private final ExtFilterTable tradingHistoryTable = new ExtFilterTable();
     private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
