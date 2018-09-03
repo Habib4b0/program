@@ -99,6 +99,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
+import java.util.Locale;
 
 /**
  *
@@ -938,7 +939,7 @@ public class Newcomponent extends CustomComponent {
 
             String query = queryUtils.LoadmassupdateCompany(ids);
             List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (itemList != null && itemList.size() > 0) {
+            if (itemList != null && !itemList.isEmpty()) {
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
                     Object[] obje = (Object[]) itemList.get(i);
@@ -960,7 +961,7 @@ public class Newcomponent extends CustomComponent {
             }
         }
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            String query = queryUtils.Loadmassupdateitem(ids);
+            String query = queryUtils.loadMassUpdateItem(ids);
             List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             for (int i = 0; i < itemList.size(); i++) {
                 NewComponentDTO itemDTO = new NewComponentDTO();
@@ -993,7 +994,7 @@ public class Newcomponent extends CustomComponent {
 
             String query = queryUtils.getPSInfo(ids);
             List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (itemList != null && itemList.size() > 0) {
+            if (itemList != null && !itemList.isEmpty()) {
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
                     Object[] obje = (Object[]) itemList.get(i);
@@ -1050,7 +1051,7 @@ public class Newcomponent extends CustomComponent {
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
             String query = queryUtils.getIFPInfo(ids);
             List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (itemList != null && itemList.size() > 0) {
+            if (itemList != null && !itemList.isEmpty()) {
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
                     Object[] obje = (Object[]) itemList.get(i);
@@ -1312,11 +1313,11 @@ public class Newcomponent extends CustomComponent {
                             List listcId = null;
                             List listcNo = null;
                             if (!Constants.EMPTY.equals(cfpId.getValue())) {
-                                String query = "select upper(CFP_ID) from CFP_MODEL where CFP_ID='" + cfpId.getValue().toUpperCase() + "'";
+                                String query = "select upper(CFP_ID) from CFP_MODEL where CFP_ID='" + cfpId.getValue().toUpperCase(Locale.ENGLISH) + "'";
                                 listcId = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             }
                             if (!Constants.EMPTY.equals(cfpNo.getValue())) {
-                                String query = "select upper(CFP_NO) from CFP_MODEL where CFP_NO='" + cfpNo.getValue().toUpperCase() + "'";
+                                String query = "select upper(CFP_NO) from CFP_MODEL where CFP_NO='" + cfpNo.getValue().toUpperCase(Locale.ENGLISH) + "'";
                                 listcNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             }
                             Object[] itemIds = dashboardResultsTable.getItemIds().toArray();
@@ -1358,10 +1359,10 @@ public class Newcomponent extends CustomComponent {
                             } else if (cfpEndDate.getValue() != null && cfpStartDate.getValue().getTime() == cfpEndDate.getValue().getTime()) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP Start date and CFP End date are equal.");
 
-                            } else if (listcId != null && listcId.size() > 0) {
+                            } else if (listcId != null && !listcId.isEmpty()) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different CFP ID since the CFP ID  already exists");
 
-                            } else if (listcNo != null && listcNo.size() > 0) {
+                            } else if (listcNo != null && !listcNo.isEmpty()) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different CFP No since the CFP No  already exists");
                             } else if (!flag) {
 
@@ -1462,7 +1463,7 @@ public class Newcomponent extends CustomComponent {
                             if (checkStartDate()) {
                                 List listcId = null;
                                 if (!Constants.EMPTY.equals(ifpId.getValue())) {
-                                    String query = "select upper(IFP_ID) from IFP_MODEL where IFP_ID='" + ifpId.getValue().toUpperCase() + "'";
+                                    String query = "select upper(IFP_ID) from IFP_MODEL where IFP_ID='" + ifpId.getValue().toUpperCase(Locale.ENGLISH) + "'";
                                     listcId = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                                 }
@@ -1503,7 +1504,7 @@ public class Newcomponent extends CustomComponent {
                                 } else if (ifpEndDate.getValue() != null && ifpStartDate.getValue().getTime() == ifpEndDate.getValue().getTime()) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP Start date and IFP End date are equal.");
 
-                                } else if (listcId != null && listcId.size() > 0) {
+                                } else if (listcId != null && !listcId.isEmpty()) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different IFP ID since the IFP ID  already exists");
 
                                 } else if (!flag) {
@@ -1609,7 +1610,7 @@ public class Newcomponent extends CustomComponent {
                             if (!psId.getValue().equals(Constants.EMPTY) && !psNo.getValue().equals(Constants.EMPTY) && !psName.getValue().equals(Constants.EMPTY) && psStatus.getValue() != null && psStartDate.getValue() != null && !psfileName.getValue().equals(Constants.EMPTY)) {
                                 String query = "select * from PS_MODEL where PS_NAME='" + psName.getValue() + "'";
                                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                                if (list != null && list.size() > 0) {
+                                if (list != null && !list.isEmpty()) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Price Schedule Name already exist. Please Enter Different Name");
                                     return;
                                 }
@@ -1750,7 +1751,7 @@ public class Newcomponent extends CustomComponent {
                                     && calculationType.getValue() != null) {
                                 String query = "select * from RS_MODEL where RS_NAME='" + rsName.getValue() + "'";
                                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                                if (list != null && list.size() > 0) {
+                                if (list != null && !list.isEmpty()) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Rebate Schedule Name already exist. Please Enter Different Name");
                                     return;
                                 }
@@ -2012,7 +2013,7 @@ public class Newcomponent extends CustomComponent {
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
                 String query = queryUtils.getTempTableValue(temptableSId);
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (list != null && list.size() > 0) {
+                if (list != null && !list.isEmpty()) {
                     Object[] obj = (Object[]) list.get(0);
                     PsModel psModel;
                     psModel = PsModelLocalServiceUtil.createPsModel(0);
@@ -2056,7 +2057,7 @@ public class Newcomponent extends CustomComponent {
                     psContract.setModifiedBy(Integer.parseInt(userId));
                     psContract.setModifiedDate(new Date());
                     psContract = PsContractLocalServiceUtil.addPsContract(psContract);
-                    SavePS(String.valueOf(psContract.getPsContractSid()), psModel.getPsModelSid());
+                    savePs(String.valueOf(psContract.getPsContractSid()), psModel.getPsModelSid());
                     dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(psContract.getPsContractSid()));
                 }
 
@@ -2064,7 +2065,7 @@ public class Newcomponent extends CustomComponent {
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
                 String query = queryUtils.getTempTableValueForPS(temptableSId);
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (list != null && list.size() > 0) {
+                if (list != null && !list.isEmpty()) {
                     Object[] obj = (Object[]) list.get(0);
                     RsModel rsModel = RsModelLocalServiceUtil.createRsModel(0);
                     rsModel.setRsId(String.valueOf(obj[0]));
@@ -2150,7 +2151,7 @@ public class Newcomponent extends CustomComponent {
                     rsContract.setCalculationLevel(rsCalculationLevel);
                     rsContract.setCalculationType(rsCalculationType);
                     rsContract = RsContractLocalServiceUtil.addRsContract(rsContract);
-                    SaveRS(String.valueOf(rsContract.getRsContractSid()), rsModel.getRsModelSid());
+                    saveRs(String.valueOf(rsContract.getRsContractSid()), rsModel.getRsModelSid());
                 }
             } else if (level.equals(Constants.ONE)) {
 
@@ -2207,7 +2208,7 @@ public class Newcomponent extends CustomComponent {
                 cfpMasterAttached.setInboundStatus("A");
                 CfpContract cm1 = CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
                 dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(cm1.getCfpContractSid()));
-                SaveCFP(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
+                saveCfp(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
 
             } else if (level.equals(Constants.TWO)) {
                 String Id = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_ID).getValue());
@@ -2263,7 +2264,7 @@ public class Newcomponent extends CustomComponent {
                 newComponentIfpMasterAttached.setCfpContractSid(parentCFPId);
                 updatePsAndRSModelSid(dashboardResultsTable.getChildren(item), itemFamily.getIfpModelSid());
                 IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(newComponentIfpMasterAttached);
-                SaveIFP(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
+                saveIfp(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
                 dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
             }
         } catch (Exception e) {
@@ -2271,20 +2272,20 @@ public class Newcomponent extends CustomComponent {
         }
     }
 
-    public void SaveCFP(String cfpId, Integer cfpModelId) {
-        copyContractLogic.SaveCFP(cfpId, cfpModelId);
+    public void saveCfp(String cfpId, Integer cfpModelId) {
+        copyContractLogic.saveCfp(cfpId, cfpModelId);
     }
 
-    public void SaveIFP(String ifpId, Integer ifpModelId) {
-        copyContractLogic.SaveIFP(ifpId, ifpModelId);
+    public void saveIfp(String ifpId, Integer ifpModelId) {
+        copyContractLogic.saveIfp(ifpId, ifpModelId);
     }
 
-    public void SavePS(String psid, Integer psModelId) {
-        copyContractLogic.SavePS(psid, psModelId);
+    public void savePs(String psid, Integer psModelId) {
+        copyContractLogic.savePs(psid, psModelId);
     }
 
-    public void SaveRS(String rsid, Integer rsModelId) {
-        copyContractLogic.SaveRS(rsid, rsModelId);
+    public void saveRs(String rsid, Integer rsModelId) {
+        copyContractLogic.saveRs(rsid, rsModelId);
     }
 
     @UiHandler("levelRemoveBtn")
@@ -2324,7 +2325,7 @@ public class Newcomponent extends CustomComponent {
                 cfpDetailsName.setEnabled(false);
                 String query = queryUtils.LoadmassupdateCompany(selectedCompanies);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {
                         NewComponentDTO itemDTO = new NewComponentDTO();
                         Object[] obje = (Object[]) itemList.get(i);
@@ -2366,7 +2367,7 @@ public class Newcomponent extends CustomComponent {
                 ifpDetailsName.setValue(detailsName);
                 ifpDetailsNo.setEnabled(false);
                 ifpDetailsName.setEnabled(false);
-                String query = queryUtils.Loadmassupdateitem(selectedItems);
+                String query = queryUtils.loadMassUpdateItem(selectedItems);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
@@ -2643,16 +2644,16 @@ public class Newcomponent extends CustomComponent {
         rsDetailsNo.setEnabled(false);
         rsDetailsName.setEnabled(false);
 
-        if (levelDetailsResultsTable.size() > 0) {
+        if (!levelDetailsResultsTable.isEmpty()) {
             levelDetailsResultsTable.removeAllItems();
         }
-        if (componentDetailsSearchTable.size() > 0) {
+        if (!componentDetailsSearchTable.isEmpty()) {
             componentDetailsSearchTable.removeAllItems();
         }
-        if (componentDetailsSelectedItem.size() > 0) {
+        if (!componentDetailsSelectedItem.isEmpty()) {
             componentDetailsSelectedItem.removeAllItems();
         }
-        if (dashboardResultsTable.size() > 0) {
+        if (!dashboardResultsTable.isEmpty()) {
             dashboardResultsTable.removeAllItems();
         }
         clearCFPFields();

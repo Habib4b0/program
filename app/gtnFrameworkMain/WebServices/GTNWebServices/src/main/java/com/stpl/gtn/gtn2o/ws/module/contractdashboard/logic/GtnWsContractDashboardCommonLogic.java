@@ -12,7 +12,9 @@ import com.stpl.gtn.gtn2o.ws.module.contractdashboard.controller.GtnWsContractDa
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GtnWsContractDashboardCommonLogic {
 
 	private Map<String, String> itemColumnNameMap = new HashMap<>();

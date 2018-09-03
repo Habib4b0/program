@@ -91,7 +91,6 @@ public class DSCalculationLogic {
                 GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
                 + GtnWsWorkFlowConstants.GTN_WS_CFF_IS_VALID_USER,
                 GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceUserRequest, RelationShipFilterLogic.getGsnWsSecurityToken());
-        GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
-        return workFlowResponse;
+        return response.getGtnWSCommonWorkflowResponse();
     }
 }

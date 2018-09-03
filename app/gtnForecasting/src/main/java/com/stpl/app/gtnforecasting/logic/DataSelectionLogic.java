@@ -514,7 +514,6 @@ public class DataSelectionLogic {
 		parameters.put(Constant.PROJECTION_ID, projectionId);
 		parameters.put(Constant.TABLE_NAME, PROJECTION_PROD_HIERARCHY);
 		parameters.put(BUSINESS_UNIT_PROPERTY, dataSelectionDTO.getBusinessUnitSystemId());
-		// String insertQuery = prepareRelationShipQuery(parameters, false);
 		String insertQuery;
 		StringBuilder insertQueryBuilder = new StringBuilder();
 		insertQueryBuilder.append(prepareRelationShipQuery(parameters, false));

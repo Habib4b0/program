@@ -230,7 +230,6 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         List<String> singleVisibleColumn = new ArrayList<>();
         List<String> defaultVisibleColumn = new ArrayList<>();
         List<String> singleVisibleHeader = new ArrayList<>();
-        List<String> singleColumn = new ArrayList<>();
 
         int index = 0;
         int defaultindex = 0;
@@ -247,7 +246,6 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         HashMap<String, String> map = new HashMap<>();
         for (int i = 0; i < variableVisibleColumn.length; i++) {
             String column = variableVisibleColumn[i];
-            singleColumn.add(column + "." + index++);
 
             if (columnList.contains(column)) {
                 int listIndex = columnList.indexOf(column);
@@ -267,6 +265,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
                 defaultVisibleColumn.add(visibleColumn);
                 map.put(column1, visibleColumn);
             }
+            index++;
 
         }
 

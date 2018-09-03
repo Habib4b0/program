@@ -152,7 +152,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             } else {
-                 List<Leveldto> levelList =Collections.EMPTY_LIST;
+                 List<Leveldto> levelList =Collections.emptyList();
                 if(projSelDTO.getLevelCount()!=0){
                 levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), StringUtils.EMPTY, 0, projSelDTO.getLevelCount(), projSelDTO.getHierarchyIndicator(), levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(),projSelDTO.getCustRelationshipBuilderSid(),projSelDTO.getProdRelationshipBuilderSid(), false, true , projSelDTO.getDiscountNoList(),projSelDTO);
                 }
@@ -217,10 +217,10 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 recursivelyLoadExpandDataForNM(dto, customTreeLevel, expandLevelNo);
             } else {
                  List<String> detailsList;
-                  List<String> hierarchyNoList = Collections.EMPTY_LIST;
+                  List<String> hierarchyNoList = Collections.emptyList();
                  String hierarchy;
                 String hierarchyIndicator=StringUtils.EMPTY;
-                 Map<String, List> relationshipLevelDetailsMap =Collections.EMPTY_MAP ;
+                 Map<String, List> relationshipLevelDetailsMap = Collections.emptyMap() ;
                 if(projSelDTO.getLevelCount()!=0){
                     if (projSelDTO.isIsCustomHierarchy()) {
 

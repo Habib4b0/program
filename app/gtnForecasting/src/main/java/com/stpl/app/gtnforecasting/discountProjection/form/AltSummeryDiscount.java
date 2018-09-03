@@ -928,7 +928,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
                     customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, 
                     BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY, 
-                    relationshipBuilderSid, true,Collections.EMPTY_LIST,true,StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,
+                    relationshipBuilderSid, true,Collections.emptyList(),true,StringUtils.EMPTY, StringUtils.EMPTY,Collections.emptyList(),
                     new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
@@ -1034,8 +1034,8 @@ public class AltSummeryDiscount extends CustomComponent {
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
                     customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), 
                     BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
-                    StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST,false,StringUtils.EMPTY, StringUtils.EMPTY,
-                    Collections.EMPTY_LIST,new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
+                    StringUtils.EMPTY, relationshipBuilderSid, true,Collections.emptyList(),false,StringUtils.EMPTY, StringUtils.EMPTY,
+                    Collections.emptyList(),new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(levelList, dto, true);
             excelTable.setCollapsed(dto, false);
 

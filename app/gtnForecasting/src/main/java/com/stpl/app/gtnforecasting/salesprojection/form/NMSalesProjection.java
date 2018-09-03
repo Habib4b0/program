@@ -88,7 +88,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
-    protected String ALL = "ALL";
+    protected String allUpperCase = "ALL";
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
@@ -472,8 +472,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         productlevelDdlb.select(Constant.SELECT_ONE);
         customerlevelDdlb.select(Constant.SELECT_ONE);
-        projectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        projectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        projectionDTO.setProductLevelFilter(Collections.emptyList());
+        projectionDTO.setCustomerLevelFilter(Collections.emptyList());
         loadSalesInclusion();
     }
 
@@ -752,7 +752,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public void loadAllFilters() {
         List<String> checkedValues = getCheckedSalesInclusionValues();
-        projectionDTO.getSessionDTO().setSalesInclusion(ALL);
+        projectionDTO.getSessionDTO().setSalesInclusion(allUpperCase);
         if (checkedValues.size() == 1) {
             projectionDTO.getSessionDTO().setSalesInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
         }
@@ -782,11 +782,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
         projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
         projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
-        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
-                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
-            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
-                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
-            commercialGenerate(customerFlag, productFlag);
+        checkFrequencyChange();
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -797,12 +793,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());
         }
-
         if (toHist) {
             projectionDTO.setForecastDTO(session.getForecastDTO());
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
         }
+
         if (variables.getValue() != null) {
             String tempVariables = variables.getValue().toString();
             tempVariables = tempVariables.substring(1, tempVariables.length() - 1).trim();
@@ -1214,4 +1210,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
     }
+
+    private void checkFrequencyChange() {
+        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
+            commercialGenerate(customerFlag, productFlag);
+    }
+
 }

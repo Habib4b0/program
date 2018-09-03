@@ -90,32 +90,32 @@ public class RateExcelDTO extends ExtMapDTO implements Comparator<RateExcelDTO> 
         return rateBasis;
     }
 
-    public void setRateBasis(String rateBasis) {
-        this.rateBasis = rateBasis;
+    public void setRateBasis(String ratesBasis) {
+        this.rateBasis = ratesBasis;
     }
 
     public String getRateFrequency() {
         return rateFrequency;
     }
 
-    public void setRateFrequency(String rateFrequency) {
-        this.rateFrequency = rateFrequency;
+    public void setRateFrequency(String ratesFrequency) {
+        this.rateFrequency = ratesFrequency;
     }
 
     public String getRatePeriod() {
         return ratePeriod;
     }
 
-    public void setRatePeriod(String ratePeriod) {
-        this.ratePeriod = ratePeriod;
+    public void setRatePeriod(String ratesPeriod) {
+        this.ratePeriod = ratesPeriod;
     }
 
     public String getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setMonth(String months) {
+        this.month = months;
     }
 
     public String getDateType() {

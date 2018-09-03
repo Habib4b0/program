@@ -185,7 +185,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ProjNameConfigAddForm() throws SystemException, PortalException {
+    public ProjNameConfigAddForm() throws PortalException {
 
         super();
 

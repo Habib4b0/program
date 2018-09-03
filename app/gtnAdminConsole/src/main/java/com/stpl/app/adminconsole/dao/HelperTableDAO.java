@@ -21,7 +21,7 @@ public interface HelperTableDAO {
 	 * @throws PortalException the portal exception
 	 * @throws SystemException the system exception
 	 */
-	HelperTable getHelperTable(final int helperTableSid) throws  PortalException, SystemException;
+	HelperTable getHelperTable(final int helperTableSid) throws  PortalException;
 	
 	List getHelperID(final DynamicQuery dynamicQuery) throws SystemException;
 }
