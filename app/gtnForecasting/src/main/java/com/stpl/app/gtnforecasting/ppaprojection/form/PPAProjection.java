@@ -1894,7 +1894,7 @@ public class PPAProjection extends CustomComponent implements View {
     public void savePPAProjection(final String propertyId, final Object valueOf, final String hirarechyNo, String table) {
         LOGGER.debug("Inside savePPAProjection Method");
         String group = String.valueOf(groupFilterDdlb.getValue() == null ? Constant.PERCENT : groupFilterDdlb.getValue()).replace(Constant.PPA, StringUtils.EMPTY);
-        RunnableJob runnableJob = new RunnableJob(propertyId, valueOf, hirarechyNo, group, projectionId, session, selection, "savePPAProjection", table);
+        RunnableJob runnableJob = new RunnableJob(propertyId, valueOf, hirarechyNo, group, projectionId, selection, "savePPAProjection", table);
         Thread t = new Thread(runnableJob);
         manualSaveRunnableThreads.add(t);
         t.start();

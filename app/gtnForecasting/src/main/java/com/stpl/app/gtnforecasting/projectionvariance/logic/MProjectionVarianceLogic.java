@@ -573,7 +573,7 @@ public class MProjectionVarianceLogic {
         return resultList;
     }
 
-    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate, String frequency) {
+    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate) {
         String fromValue = String.valueOf(fromDate);
         String toValue = String.valueOf(toDate);
         String[] fromArray = fromValue.split(" ");

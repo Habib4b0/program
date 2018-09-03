@@ -675,7 +675,7 @@ public class DiscountQueryBuilder {
         }
     }
 
-    public int getCheckedRecordCount(SessionDTO session, List<String> discountList) {
+    public int getCheckedRecordCount(SessionDTO session) {
         List list = new ArrayList();
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");
@@ -1064,7 +1064,7 @@ public class DiscountQueryBuilder {
         }
         return countQuery;
     }
-    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, boolean isProgram, List<String> discountList, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
+    public String getDiscountCountQueryForAllLevel(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, List<String> discountList, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
         String countQuery = SQlUtil.getQuery("GET_COUNT_ALL_LEVEL").replace(Constant.HIERARCHY_NO, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
                 .replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO))
                 .replace(SELECTED_REBATE_AT, getRSDiscountHierarchyNo(discountList,sessionDTO,levelNo)).replace("@CUSTORPROD", "P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO");
