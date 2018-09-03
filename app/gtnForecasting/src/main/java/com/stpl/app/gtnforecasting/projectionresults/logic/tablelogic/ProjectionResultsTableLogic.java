@@ -220,7 +220,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                   List<String> hierarchyNoList = Collections.emptyList();
                  String hierarchy;
                 String hierarchyIndicator=StringUtils.EMPTY;
-                 Map<String, List> relationshipLevelDetailsMap =Collections.EMPTY_MAP ;
+                 Map<String, List> relationshipLevelDetailsMap = Collections.emptyMap() ;
                 if(projSelDTO.getLevelCount()!=0){
                     if (projSelDTO.isIsCustomHierarchy()) {
 

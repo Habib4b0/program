@@ -821,7 +821,7 @@ public class CommonLogic {
         return viewTableName;
     }
 
-    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String action) {
+    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator) {
         List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, StringUtils.EMPTY, 0, 0, DASH);
@@ -1665,7 +1665,6 @@ public class CommonLogic {
         if (!userGroupFilter.isEmpty()) {
             if (userGroupFilter.startsWith(Constant.ALL)) {
                 if (userGroupFilter.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroupFilter = LIKE_PERCENT;
                     query = getGroupFilterDiscountQuery(isPrior, discountList);
                 } else if (userGroupFilter.contains(Constant.PPA_SMALL)) {
                     userGroupFilter = LIKE_PERCENT;
@@ -1675,7 +1674,6 @@ public class CommonLogic {
                     query = getGroupFilterSalesQuery(userGroupFilter, userId, sessionId, isPrior);
                 }
             } else if (userGroupFilter.startsWith(Constant.DISCOUNT)) {
-                userGroupFilter = " = '" + userGroupFilter.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterDiscountQuery(isPrior, discountList);
             } else if (userGroupFilter.startsWith(Constant.PPA)) {
                 userGroupFilter = " = '" + userGroupFilter.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
@@ -4288,7 +4286,6 @@ public class CommonLogic {
         if (!userGroupPR.isEmpty()) {
             if (userGroupPR.startsWith(Constant.ALL)) {
                 if (userGroupPR.contains(Constant.DISCOUNT_SMALL)) {
-                    userGroupPR = LIKE_PERCENT;
                     query = getGroupFilterDiscountQueryPR(isPrior, discountList);
                 } else if (userGroupPR.contains(Constant.PPA_SMALL)) {
                     userGroupPR = LIKE_PERCENT;
@@ -4298,7 +4295,6 @@ public class CommonLogic {
                     query = getGroupFilterSalesQueryPR(userGroupPR, userId, sessionId, isPrior);
                 }
             } else if (userGroupPR.startsWith(Constant.DISCOUNT)) {
-                userGroupPR = " = '" + userGroupPR.replace(Constant.DISCOUNT, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterDiscountQueryPR(isPrior, discountList);
             } else if (userGroupPR.startsWith(Constant.PPA)) {
                 userGroupPR = " = '" + userGroupPR.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
@@ -4604,7 +4600,7 @@ public class CommonLogic {
     
     
      public static void loadCustomMenuBar(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) {
-        String newLevel=StringUtils.EMPTY;
+        String newLevel;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
         CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
@@ -4800,7 +4796,7 @@ public class CommonLogic {
 		inputBean.setHierarchyIndicator(hieIndicator);
 		return inputBean;
 	}
-    public List<Object[]> getDeductionLevelValues(int projectionId, String type, ProjectionSelectionDTO projectionDto,List<Object> productFilter,List<Object> customerFilter) {
+    public List<Object[]> getDeductionLevelValues(String type, ProjectionSelectionDTO projectionDto,List<Object> productFilter,List<Object> customerFilter) {
         SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         List deductionValuesList = new ArrayList<>();
         StringBuilder query=new StringBuilder();
@@ -5217,7 +5213,7 @@ public class CommonLogic {
         return tableName;
     }
 
-    public String getHeaderForExcelDiscount(Character freq, Object[] obj, String discountId, String separator) {
+    public String getHeaderForExcelDiscount(Character freq, Object[] obj, String separator) {
         String headerCondition;
         switch (freq) {
             case 'A':
@@ -5295,7 +5291,7 @@ public class CommonLogic {
     }
     
      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) {
-        String newLevel = StringUtils.EMPTY;
+        String newLevel;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
         CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];

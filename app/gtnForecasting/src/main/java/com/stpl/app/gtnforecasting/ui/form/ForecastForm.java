@@ -1554,7 +1554,7 @@ public class ForecastForm extends AbstractForm {
                                  GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(session,userId);
 				if (response.isHasPermission()) {
                                       DSCalculationLogic.startAndCompleteTask(session, userId);
-				      submitProjToWorkflow(params, notes, screenName, getUploadedData);         
+				      submitProjToWorkflow( notes, screenName, getUploadedData);         
 				} else {
 					StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
 					if (!roleList.isEmpty()) {
@@ -1564,14 +1564,14 @@ public class ForecastForm extends AbstractForm {
 
 				}
 			} else {
-				submitProjToWorkflow(params, notes, screenName, getUploadedData);
+				submitProjToWorkflow( notes, screenName, getUploadedData);
 			}
 		} else {
 			NotificationUtils.getErrorNotification("Error", MessageUtils.WFP_SUBMIT_ERROR);
 		}
 	}
 
-	private void submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName,
+	private void submitProjToWorkflow(final String notes, final String screenName,
 			final List<NotesDTO> getUploadedData) {	
 		try {
 			Long processId = 0L;

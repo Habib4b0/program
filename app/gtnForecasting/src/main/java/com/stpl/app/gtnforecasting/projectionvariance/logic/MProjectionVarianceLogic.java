@@ -573,7 +573,7 @@ public class MProjectionVarianceLogic {
         return resultList;
     }
 
-    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate, String frequency) {
+    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate) {
         String fromValue = String.valueOf(fromDate);
         String toValue = String.valueOf(toDate);
         String[] fromArray = fromValue.split(" ");
@@ -590,8 +590,8 @@ public class MProjectionVarianceLogic {
         Map<Object, Object[]> doubleHeaderFinalMap = new HashMap<>();
         List<Object> finalVisColList = new ArrayList<>();
         List<String> finalVisHeaderList = new ArrayList<>();
-        String fromAtDateRangeHeaders = StringUtils.EMPTY;
-        String toAtDateRangeHeaders = StringUtils.EMPTY;
+        String fromAtDateRangeHeaders;
+        String toAtDateRangeHeaders;
         StringBuilder fromAtDateRange = new StringBuilder();
         StringBuilder toAtDateRange = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {

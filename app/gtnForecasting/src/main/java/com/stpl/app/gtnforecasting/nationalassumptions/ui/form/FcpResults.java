@@ -597,13 +597,11 @@ public class FcpResults extends CustomComponent implements View {
      * Configure Result Table.
      */
     private void configureResultTable() {
-        CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-        CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
         fullHeader = new CustomTableHeaderDTO();
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         
-        leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
+        CustomTableHeaderDTO leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
+        CustomTableHeaderDTO rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);

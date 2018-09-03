@@ -1024,8 +1024,6 @@ public class PPAProjection extends CustomComponent implements View {
                 Date date = massDate.getValue();
                 String lookupValue = massLookup.getData() == null ? StringUtils.EMPTY : ((Map<String, String>) massLookup.getData()).get(FORMULA_SYSTEM_SID1);
                 Date dateValue = massDate.getValue();
-                String groupFilterValue = String.valueOf(groupFilterDdlb.getValue() == null ? Constant.PERCENT : groupFilterDdlb.getValue()).replace(Constant.PPA, StringUtils.EMPTY);
-                groupFilterValue = groupFilterValue.equals(Constant.ALL_GROUP) ? Constant.PERCENT : groupFilterValue;
 
                 if ((fieldDdlbCheck(fieldValue, valueDdlbVal) || (fieldDateCheck(fieldValue, date))) || (fieldGroupCheck(fieldValue, groupValue)) || (fieldLookupCheck(fieldValue, lookupValue))) {
                     validationError = BooleanConstant.getTrueFlag();
@@ -1172,6 +1170,7 @@ public class PPAProjection extends CustomComponent implements View {
                 updateRow(value, lastParent, propertyId, flag);
             }
         }
+        LOGGER.debug("flag{} ", flag);
     }
 
     private void updateRow(Object value, Object itemId, String propertyId, boolean presentFlag)  {
@@ -1895,7 +1894,7 @@ public class PPAProjection extends CustomComponent implements View {
     public void savePPAProjection(final String propertyId, final Object valueOf, final String hirarechyNo, String table) {
         LOGGER.debug("Inside savePPAProjection Method");
         String group = String.valueOf(groupFilterDdlb.getValue() == null ? Constant.PERCENT : groupFilterDdlb.getValue()).replace(Constant.PPA, StringUtils.EMPTY);
-        RunnableJob runnableJob = new RunnableJob(propertyId, valueOf, hirarechyNo, group, projectionId, session, selection, "savePPAProjection", table);
+        RunnableJob runnableJob = new RunnableJob(propertyId, valueOf, hirarechyNo, group, projectionId, selection, "savePPAProjection", table);
         Thread t = new Thread(runnableJob);
         manualSaveRunnableThreads.add(t);
         t.start();
@@ -2179,12 +2178,7 @@ public class PPAProjection extends CustomComponent implements View {
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
                     return levelField;
-                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
-                    TextField checkField = new TextField();
-                    checkField.setWidth("100%");
-                    checkField.setReadOnly(true);
-                    return checkField;
-                } else if ((Constant.CHECK_RECORD + ".0").equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId) || (Constant.CHECK_RECORD + ".0").equals(propertyId)) {
                     TextField checkField = new TextField();
                     checkField.setWidth("100%");
                     checkField.setReadOnly(true);

@@ -47,7 +47,7 @@ public class SalesExcelNM extends ExcelExport{
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesExcelNM.class);
-    private TableHolder tableHolder;
+    protected TableHolder tableHolder;
     private static final String UNIT_DECIMAL = "UNIT_DECIMAL";
     private static final String UNITTWODECIMAL = "UNITTWODECIMAL";
     private static final String PRODUCT_GROWTH_SUM = "PRODUCT_GROWTH_SUM";
