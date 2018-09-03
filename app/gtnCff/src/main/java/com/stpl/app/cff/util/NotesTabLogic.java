@@ -76,7 +76,7 @@ public class NotesTabLogic {
 		return attachmentDTOList;
 	}
 
-	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId) throws SystemException, PortalException {
+	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId) throws PortalException {
 
 		if (availableUploadedInformation != null && !availableUploadedInformation.isEmpty()) {
 

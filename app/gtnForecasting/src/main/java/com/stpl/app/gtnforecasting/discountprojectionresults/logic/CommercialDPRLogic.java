@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CommercialDPRLogic {
 
-    protected Logger LOGGER = LoggerFactory.getLogger(CommercialDPRLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommercialDPRLogic.class);
     private static final DecimalFormat DOLLAR_RPU_FORMAT = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNIT_VOLUME_FORMAT = new DecimalFormat("#,##0.000");
     private static final DecimalFormat EXFAC_PER_FORMAT = new DecimalFormat("#,##0.00");

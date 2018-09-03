@@ -141,7 +141,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 sb = sb.replace("@PAGINATION", isCount ? StringUtils.EMPTY : " ORDER BY UDC1.DESCRIPTION,RTYPE.DESCRIPTION,TP.APPRVD_TRANSACTION_NAME,A.BRAND_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY; ");
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getQuery :" , ex);
+            LOGGER.error("Error in getQuery :", ex);
         }
         if (category.length() == 0 || type.length() == 0 || account.length() == 0) {
             return StringUtils.EMPTY;
@@ -155,8 +155,6 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
-        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         StringBuilder adjustmentDetailSelection = new StringBuilder();
         List adjDetail = selection.getSelectedAdjustmentType();
@@ -179,34 +177,42 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
             }
             List list = QueryUtils.executeSelect(query.toString());
-            if (list != null) {
-                for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
-                    value = new StringBuilder("");
-                    property = new StringBuilder("");
+            finalList = getFinallist(list, reserveHeader, reserveProperty);
+        }
+        return finalList;
+    }
 
-                    if (isValid(obj[0])) {
-                        value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
-                        property = new StringBuilder(String.valueOf(obj[0]));
-                    }
-                    if (isValid(obj[1])) {
-                        value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
-                        property.append(DASH).append(String.valueOf(obj[1]));
-                    }
-                    if (isValid(obj[NumericConstants.TWO])) {
-                        value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
-                        property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
-                    }
-                    if (isValid(obj[NumericConstants.THREE])) {
-                        value.append(DASH).append(String.valueOf(obj[NumericConstants.THREE]));
-                        property.append(DASH).append(String.valueOf(obj[NumericConstants.THREE]));
-                    }
-                    reserveHeader.add(value.toString());
-                    reserveProperty.add(property.toString());
+    private List<List> getFinallist(List list, List<String> reserveHeader, List<String> reserveProperty) {
+        List<List> finalList = new ArrayList<>();
+        StringBuilder value;
+        StringBuilder property;
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                Object[] obj = (Object[]) list.get(i);
+                value = new StringBuilder("");
+                property = new StringBuilder("");
+
+                if (isValid(obj[0])) {
+                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                    property = new StringBuilder(String.valueOf(obj[0]));
                 }
-                finalList.add(reserveHeader);
-                finalList.add(reserveProperty);
+                if (isValid(obj[1])) {
+                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                    property.append(DASH).append(String.valueOf(obj[1]));
+                }
+                if (isValid(obj[NumericConstants.TWO])) {
+                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                    property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                }
+                if (isValid(obj[NumericConstants.THREE])) {
+                    value.append(DASH).append(String.valueOf(obj[NumericConstants.THREE]));
+                    property.append(DASH).append(String.valueOf(obj[NumericConstants.THREE]));
+                }
+                reserveHeader.add(value.toString());
+                reserveProperty.add(property.toString());
             }
+            finalList.add(reserveHeader);
+            finalList.add(reserveProperty);
         }
         return finalList;
     }

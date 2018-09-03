@@ -190,7 +190,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error("Error in itemClick :" , ex);
+                            LOGGER.error("Error in itemClick :", ex);
                         }
                     }
                 } else {
@@ -262,7 +262,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                     binder.commit();
                     modeDdlb.select(ARMConstants.getAddMode());
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :", ex);
                 }
             }
 
@@ -308,7 +308,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error("Error in itemClick :" , ex);
+                            LOGGER.error("Error in itemClick :", ex);
                         }
                     }
                 }
@@ -317,51 +317,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
 
         });
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultsTable.setFilterGenerator(new ExtFilterGenerator() {
-
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
-                String value = null;
-                if ((originatingField.getValue() != null)) {
-                    value = String.valueOf(originatingField.getValue());
-                    if ("redemptionPeriod".equals(propertyId) && !originatingField.getValue().equals(StringUtils.EMPTY)) {
-                        if ("yes".contains(originatingField.getValue().toString())) {
-                            value = "1";
-                        } else {
-                            value = "0";
-                        }
-                    }
-                    return new SimpleStringFilter(propertyId, value, false, false);
-
-                }
-                return generateFilter(propertyId, value);
-            }
-
-            @Override
-            public void filterRemoved(Object propertyId) {
-                LOGGER.debug("Inside filterRemoved Method");
-            }
-
-            @Override
-            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                LOGGER.debug("Inside filterRemoved Method");
-            }
-
-            @Override
-            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
-                return null;
-            }
-
-            @Override
-            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                return null;
-            }
-
-            @Override
-            public Container.Filter generateFilter(Object propertyId, Object value) {
-                return null;
-            }
-        });
+        resultsTable.setFilterGenerator(adjFilterGenerator);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
@@ -503,7 +459,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         resultsTable.setRefresh(true);
 
                     } catch (Exception ex) {
-                        LOGGER.error("Error in saveBtnResLogic :" , ex);
+                        LOGGER.error("Error in saveBtnResLogic :", ex);
                     }
 
                 }
@@ -614,7 +570,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ADJUSTMENT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, fieldLayout, functionHMforFields, CommonSecurityLogic.SEARCH);
         } catch (Exception ex) {
-            LOGGER.error("Error in configureFieldPermission :" , ex);
+            LOGGER.error("Error in configureFieldPermission :", ex);
         }
         LOGGER.debug("Ending configurePermission");
     }
@@ -721,4 +677,50 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             labelredemptionPeriod.setVisible(true);
         }
     }
+
+    private ExtFilterGenerator adjFilterGenerator = new ExtFilterGenerator() {
+
+        @Override
+        public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+            String adjConfigFiltervalue = null;
+            if ((originatingField.getValue() != null)) {
+                adjConfigFiltervalue = String.valueOf(originatingField.getValue());
+                if ("redemptionPeriod".equals(propertyId) && !originatingField.getValue().equals(StringUtils.EMPTY)) {
+                    if ("yes".contains(originatingField.getValue().toString())) {
+                        adjConfigFiltervalue = "1";
+                    } else {
+                        adjConfigFiltervalue = "0";
+                    }
+                }
+                return new SimpleStringFilter(propertyId, adjConfigFiltervalue, false, false);
+
+            }
+            return generateFilter(propertyId, adjConfigFiltervalue);
+        }
+
+        @Override
+        public void filterRemoved(Object propertyId) {
+            LOGGER.debug("Inside Adjustment Config Form filterRemoved Method");
+        }
+
+        @Override
+        public void filterAdded(Object propertyId, Class<? extends Container.Filter> ftype, Object obj) {
+            LOGGER.debug("Inside Adjustment Config Form filterRemoved Method");
+        }
+
+        @Override
+        public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object obj) {
+            return null;
+        }
+
+        @Override
+        public AbstractField<?> getCustomFilterComponent(Object props) {
+            return null;
+        }
+
+        @Override
+        public Container.Filter generateFilter(Object id, Object value) {
+            return null;
+        }
+    };
 }

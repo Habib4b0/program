@@ -35,7 +35,7 @@ public class RunnableJob implements Runnable {
     }
 
     public RunnableJob(final String propertyId, final Object valueOf, final String hirarechyNo, final String group, int projectionId, 
-            SessionDTO session, ProjectionSelectionDTO selection, final String procedureCall,String table) {
+            ProjectionSelectionDTO selection, final String procedureCall,String table) {
         this.propertyId = propertyId;
         this.valueOf = valueOf;
         this.hirarechyNo = hirarechyNo;

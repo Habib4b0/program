@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class AlternateHistoryTableLogic extends PageTableLogic {
 
     private boolean firstTime = true;
-    private CustomFieldGroup searchBinder;
+    protected CustomFieldGroup searchBinder;
     private AlternateHistoryDTO altHistoryDTO;
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
     private SessionDTO session;

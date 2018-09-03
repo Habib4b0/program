@@ -40,24 +40,24 @@ public class AdjustmentRateSelection implements Serializable {
         return adjustmentType;
     }
 
-    public void setAdjustmentType(String adjustmentType) {
-        this.adjustmentType = adjustmentType;
+    public void setAdjustmentType(String rateSelectionAdjustmentType) {
+        this.adjustmentType = rateSelectionAdjustmentType;
     }
 
     public int getGlcompanyMasterSid() {
         return glcompanyMasterSid;
     }
 
-    public void setGlcompanyMasterSid(int glcompanyMasterSid) {
-        this.glcompanyMasterSid = glcompanyMasterSid;
+    public void setGlcompanyMasterSid(int rateSelectionGlcompanyMasterSid) {
+        this.glcompanyMasterSid = rateSelectionGlcompanyMasterSid;
     }
 
     public int getBucompanyMasterSid() {
         return bucompanyMasterSid;
     }
 
-    public void setBucompanyMasterSid(int bucompanyMasterSid) {
-        this.bucompanyMasterSid = bucompanyMasterSid;
+    public void setBucompanyMasterSid(int rateSelectionbucompanyMasterSid) {
+        this.bucompanyMasterSid = rateSelectionbucompanyMasterSid;
     }
 
     public int getRateConfigMasterSid() {

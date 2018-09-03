@@ -23,9 +23,6 @@ public class ProjectionCustHierarchyImpl {
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to) {
         char QUOTES = '\'';
-        String ASTERIK = "*";
-        String PERCENT = "%";
-        String workflowStatusVal;
         String marketTypeVal;
         String brandVal;
         String projNameVal;
@@ -34,8 +31,6 @@ public class ProjectionCustHierarchyImpl {
         String ndcNameVal;
         String descVal;
         String contractVal;
-        String fromVal;
-        String toVal;
         boolean isProjectionStatus = false;
         StringBuilder customSql = new StringBuilder();
         try {

@@ -134,56 +134,56 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
         return viewName;
     }
 
-    public void setViewName(String viewName) {
-        this.viewName = viewName;
+    public void setViewName(String exclviewName) {
+        this.viewName = exclviewName;
     }
 
     public String getViewType() {
         return viewType;
     }
 
-    public void setViewType(String viewType) {
-        this.viewType = viewType;
+    public void setViewType(String exclviewType) {
+        this.viewType = exclviewType;
     }
 
     public String getFieldName() {
         return fieldName;
     }
 
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+    public void setFieldName(String exclfieldName) {
+        this.fieldName = exclfieldName;
     }
 
     public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setCreatedBy(String exclcreatedBy) {
+        this.createdBy = exclcreatedBy;
     }
 
     public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
+    public void setUserID(Integer excluserID) {
+        this.userID = excluserID;
     }
 
     public boolean isViewStatus() {
         return viewStatus;
     }
 
-    public void setViewStatus(boolean viewStatus) {
-        this.viewStatus = viewStatus;
+    public void setViewStatus(boolean exclviewStatus) {
+        this.viewStatus = exclviewStatus;
     }
 
     public String getViewMasterSid() {
         return viewMasterSid;
     }
 
-    public void setViewMasterSid(String viewMasterSid) {
-        this.viewMasterSid = viewMasterSid;
+    public void setViewMasterSid(String exclviewMasterSid) {
+        this.viewMasterSid = exclviewMasterSid;
     }
 
     public List<CustomerGroupDTO> getCustGrpList() {

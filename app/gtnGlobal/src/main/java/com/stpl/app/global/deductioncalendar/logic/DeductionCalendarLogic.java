@@ -539,7 +539,7 @@ public class DeductionCalendarLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyBrandCount(String filterText) throws PortalException, SystemException {
+    public static int getLazyBrandCount(String filterText) throws PortalException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyBrandCount method with filterText {}" , filterText);
         List<Object[]> qualifierList;
@@ -563,7 +563,7 @@ public class DeductionCalendarLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<com.stpl.app.util.HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final com.stpl.app.util.HelperDTO brand, boolean isFilter) throws PortalException, SystemException {
+    public static List<com.stpl.app.util.HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final com.stpl.app.util.HelperDTO brand, boolean isFilter) throws PortalException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyBrandCount method with filterText {}" , filterText);
         List<Object[]> qualifierList;
@@ -624,7 +624,7 @@ public class DeductionCalendarLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException, SystemException {
+    public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText {}" , filterText);
         final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
@@ -653,7 +653,7 @@ public class DeductionCalendarLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<com.stpl.app.util.HelperDTO> getLazyItemQualifierNameResults(final int start, final int end, final String filteredText, final boolean editListFlag) throws PortalException, SystemException {
+    public static List<com.stpl.app.util.HelperDTO> getLazyItemQualifierNameResults(final int start, final int end, final String filteredText, final boolean editListFlag) throws PortalException {
         String filterText = StringUtils.trimToEmpty(filteredText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText {}" , filterText);
         final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
@@ -712,7 +712,7 @@ public class DeductionCalendarLogic {
         LOGGER.debug("return CompanyQualifier size - {}" , list.size());
         return list;
     }
-    public static int getLazyManufactureIdCount(String filter) throws PortalException, SystemException {
+    public static int getLazyManufactureIdCount(String filter) throws PortalException {
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText : {}" , filter);
         List<Object[]> qualifierList;
@@ -728,7 +728,7 @@ public class DeductionCalendarLogic {
         return Integer.parseInt(String.valueOf(qualifierList.get(0)));
     }
 
-    public static List<com.stpl.app.util.HelperDTO> getLazyManufactureIdResults(final int startIndex, final int end, final String filter, final com.stpl.app.util.HelperDTO manufactureId, final boolean filerGeneraterFlag) throws PortalException, SystemException {
+    public static List<com.stpl.app.util.HelperDTO> getLazyManufactureIdResults(final int startIndex, final int end, final String filter, final com.stpl.app.util.HelperDTO manufactureId, final boolean filerGeneraterFlag) throws PortalException {
         final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
         int startValue = startIndex;
         int endValue;

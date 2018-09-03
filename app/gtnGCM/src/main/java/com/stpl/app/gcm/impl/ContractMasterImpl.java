@@ -10,6 +10,7 @@ import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -54,7 +55,7 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -127,7 +128,7 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -205,7 +206,7 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -221,7 +222,7 @@ public class ContractMasterImpl {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             LOGGER.error(query);
-            return null;
+            return Collections.emptyList();
         } 
 
     }

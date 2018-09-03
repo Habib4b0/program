@@ -565,13 +565,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
     protected List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
     @UiField("AlternateGrid")
-    private GridLayout AlternateGrid;
+    private GridLayout alternateGrid;
     @UiField("ContractLabel")
-    protected Label ContractLabel;
+    protected Label contractLabel;
     @UiField("BrandLabel")
-    protected Label BrandLabel;
+    protected Label brandLabel;
     @UiField("GridLayoutProjection")
-    protected GridLayout GridLayoutProjection;
+    protected GridLayout gridLayoutProjection;
 
     @UiField("gridPopulate")
     protected GridLayout gridPopulate;
@@ -581,10 +581,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;
     @UiField("ForecastHorizonyalLayout")
-    protected HorizontalLayout ForecastHorizonyalLayout;
+    protected HorizontalLayout forecastHorizonyalLayout;
     protected HorizontalLayout forecastReturnsLayout = new HorizontalLayout();
     @UiField("Allocation")
-    protected Label Allocation;
+    protected Label allocation;
     @UiField("forecastSPeriod")
     protected Label forecastSPeriod;
     @UiField("forecastEPeriod")
@@ -718,21 +718,21 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             populateLevel.setVisible(true);
             populateLabel.setEnabled(true);
             populateLevel.setEnabled(true);
-            ContractLabel.setCaption("Brand:");
-            AlternateGrid.replaceComponent(contract, brand);
-            BrandLabel.setVisible(false);
+            contractLabel.setCaption("Brand:");
+            alternateGrid.replaceComponent(contract, brand);
+            brandLabel.setVisible(false);
             brand.setVisible(false);
-            BrandLabel.setVisible(false);
+            brandLabel.setVisible(false);
             variables.setMultiSelect(false);
             labelVariables.setVisible(false);
             actualsProjections.setVisible(true);
-            GridLayoutProjection.replaceComponent(variables, proPeriodOrd);
-            GridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
+            gridLayoutProjection.replaceComponent(variables, proPeriodOrd);
+            gridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
             totalLivesLayout.setVisible(false);
             adjustmentLayout.setVisible(false);
 
             adjustmentLayout.setVisible(false);
-            ForecastHorizonyalLayout.setVisible(false);
+            forecastHorizonyalLayout.setVisible(false);
             forecastReturnsLayout.setSpacing(false);
             forecastReturnsLayout.setMargin(false);
             forecastReturnsLayout.addComponent(new Label("Methodology:"));
@@ -1389,11 +1389,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
                 resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             }
-        } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
-            resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) ||  (PRODUCT.getConstant()).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
             resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
@@ -1401,11 +1397,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
-
+        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue()) ||   (Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
@@ -2449,7 +2441,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                     getTableLogic().setRefresh(false);
                     salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                            adjMethodology, HISTORY_PERIODS, projectionPeriods);
+                            HISTORY_PERIODS, projectionPeriods);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                     refreshTableData(getCheckedRecordsHierarchyNo());
@@ -2558,7 +2550,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                             }
                             getTableLogic().setRefresh(false);
-                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
+                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,  historyPeriods, projectionPeriods);
                             CommonUtil.getInstance().waitForSeconds();
                             refreshTableData(getCheckedRecordsHierarchyNo());
                             getTableLogic().setRefresh(true);
@@ -3775,11 +3767,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             case 1:
                 periods[0] = Integer.valueOf(key.toString().substring(0, NumericConstants.FOUR));
                 break;
-            case NumericConstants.TWO:
-                periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
-                periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-                break;
-            case NumericConstants.FOUR:
+            case NumericConstants.TWO | NumericConstants.FOUR :
                 periods[0] = (int) key.toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                 periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 break;

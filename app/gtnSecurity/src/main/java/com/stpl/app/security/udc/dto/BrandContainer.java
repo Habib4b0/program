@@ -119,7 +119,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
      */
     @Override
     public List<BrandMasterDTO> find(final BeanSearchCriteria criteria, final int startIndex, final int offset, final List<OrderByColumn> columns) {
-        List<BrandMasterDTO> dto = new ArrayList<BrandMasterDTO>();
+        List<BrandMasterDTO> dto = new ArrayList<>();
         try {
             dto = brandLogic.brandFind(category, startIndex, offset,columns);
         } catch (Exception ex) {

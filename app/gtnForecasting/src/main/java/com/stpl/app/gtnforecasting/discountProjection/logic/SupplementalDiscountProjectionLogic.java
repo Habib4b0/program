@@ -958,7 +958,7 @@ public class SupplementalDiscountProjectionLogic {
         return procedureFlag;
     }
 
-    public void clearTemp(final SessionDTO inputDto) {
+    public void clearTemp() {
         Date tempDate = new Date();
         tempDate.setDate(tempDate.getDate() - NumericConstants.TWO);
         clearTempTables(tempDate);
@@ -979,7 +979,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public void insertInToTempTable(SessionDTO sessionDto) {
-        clearTemp(sessionDto);
+        clearTemp();
         try {
             List<StringBuilder> queryList = new ArrayList<>();
             StringBuilder query = new StringBuilder();

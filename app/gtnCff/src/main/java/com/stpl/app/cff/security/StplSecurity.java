@@ -77,7 +77,7 @@ public StplSecurityDAO getDto() {
 	 * @throws PortalException the portal exception
 	 * @throws SystemException the system exception
 	 */
-    public Collection<Object> getUserGroupId(final long userId) throws SystemException, PortalException {   
+    public Collection<Object> getUserGroupId(final long userId) throws PortalException {   
         final Collection<Object> userGroupId = new ArrayList<>();
             final User user = dao.getUserByUserId(userId);
             for (int i = 0; i < user.getUserGroups().size(); i++) {
@@ -95,7 +95,7 @@ public StplSecurityDAO getDto() {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException, SystemException {
+    public String getBusinessRoleIds(final Collection<Object> userGroupId) throws SystemException {
     	String businessRoleIds=StringUtils.EMPTY;
         final DynamicQuery ugBusRoleDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
         ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
@@ -161,7 +161,7 @@ public StplSecurityDAO getDto() {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessTabPermission(final String userId,final String moduleName) throws SystemException, PortalException {
+    public Map<String, AppPermission> getBusinessTabPermission(final String userId,final String moduleName) throws PortalException {
     	Map<String, AppPermission> tabHm = null;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -179,7 +179,7 @@ public StplSecurityDAO getDto() {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId,final String moduleName) throws SystemException, PortalException {
+    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId,final String moduleName) throws PortalException {
         LOGGER.debug("getBusinessFunctionPermission= {}", userId);
          Map<String, AppPermission> functionHm;
 
@@ -200,7 +200,7 @@ public StplSecurityDAO getDto() {
      * @throws SystemException the system exception
      */
 
-    public Map<String, AppPermission> getBusinessFieldPermission(final String userId,final String moduleName) throws SystemException, PortalException {
+    public Map<String, AppPermission> getBusinessFieldPermission(final String userId,final String moduleName) throws PortalException {
             Map<String, AppPermission> fieldHm;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -217,7 +217,7 @@ public StplSecurityDAO getDto() {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public List<String> getDomainPermission(final String userId) throws SystemException, PortalException {
+    public List<String> getDomainPermission(final String userId) throws PortalException {
         Collection<Object> userGroupId;
         List<String> domainIds = null;
         if (null != userId) {
@@ -236,7 +236,7 @@ public StplSecurityDAO getDto() {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public DynamicQuery addDomainRestrictions(final DynamicQuery companyDynamicQuery,final String userId) throws SystemException, PortalException {
+    public DynamicQuery addDomainRestrictions(final DynamicQuery companyDynamicQuery,final String userId) throws  PortalException {
         List<String> domainIds;
         domainIds = getDomainPermission(userId);
         final Disjunction disJunction = RestrictionsFactoryUtil.disjunction();
@@ -326,7 +326,7 @@ public StplSecurityDAO getDto() {
         LOGGER.debug("End of getUserName method");
         return getUserMap();
     } 
-         public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName ,final boolean column) throws SystemException, PortalException {
+         public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName ,final boolean column) throws  PortalException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
          List tabPermissionList;
          Set addPermission;

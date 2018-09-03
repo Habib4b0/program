@@ -182,7 +182,6 @@ public class ForecastUI extends UI {
                 sessionDto.setProjectionId(Integer.parseInt(projectionId));
                 RelationShipFilterLogic logic = RelationShipFilterLogic.getInstance();
                 ProjectionMaster temp = dataSelectionDao.getProjectionMaster(Integer.parseInt(projectionId));
-                String projectionName = StringUtils.EMPTY;
                 if (!getReturnsConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                     int hierarchySid = Integer.parseInt(temp.getCustomerHierarchySid());
                     sessionDto.setCustomerDescription(
@@ -193,7 +192,7 @@ public class ForecastUI extends UI {
                 sessionDto.setProductDescription(
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
-                projectionName = temp.getProjectionName();
+                String projectionName = temp.getProjectionName();
                 sessionDto.setWorkflowId(Integer.parseInt(workflowId));
                 sessionDto.setWorkflowStatus(workflowStatus);
                 sessionDto.setWorkflowUserType(userType);
