@@ -582,7 +582,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
             if (frequency.getValue() != null && !"null".equals(String.valueOf(frequency.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(frequency.getValue()))) {
                 getGenerateCall(false);
                 setDisableFields();
-            } else {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

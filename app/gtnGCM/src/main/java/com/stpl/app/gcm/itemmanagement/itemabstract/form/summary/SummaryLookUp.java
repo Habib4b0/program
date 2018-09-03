@@ -99,26 +99,7 @@ public class SummaryLookUp extends CustomComponent {
         });
     }
 
-    private void tabLazyLoad(int tabPosition) {
-        if (tabPosition == 1) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(sales, sales.getContent(itemList, selection));
-            }
-        }
-        if (tabPosition == NumericConstants.TWO) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(rebate, rebate.getContent(itemList, selection));
-            }
-        }
-        if (tabPosition == NumericConstants.THREE) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(salesAndRebate, salesAndRebate.getContent(itemList, selection));
-            }
-        }
-    }
+    
 
     public void loadSummaryTable() {
         itemDetails.loadData();

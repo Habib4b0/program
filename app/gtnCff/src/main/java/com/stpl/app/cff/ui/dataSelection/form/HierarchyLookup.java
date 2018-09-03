@@ -185,11 +185,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
         if (results.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) results.getValue();
             hierarchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
-            try {
-            } catch (Exception ex) {
-                Logger.getLogger(HierarchyLookup.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+           
             close();
         }
     }

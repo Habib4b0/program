@@ -771,13 +771,6 @@ public class Newcomponent extends CustomComponent {
                                 @Override
                                 public void click(CustomTextField.ClickEvent event) {
                                     FormulaSearchLookup lookup = new FormulaSearchLookup(formulaId);
-                                    lookup.addCloseListener(new Window.CloseListener() {
-                                        @Override
-                                        public void windowClose(Window.CloseEvent e) {
-                                            if (formulaId.getData() != null) {
-                                            }
-                                        }
-                                    });
                                     UI.getCurrent().addWindow(lookup);
                                 }
                             });

@@ -49,9 +49,7 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return Collections.emptyList();
-		} finally {
-			
-		}
+		} 
 		
 	}
 	public static List getBusinessFieldPermission(String businessRoleId,String moduleName) {		
@@ -97,9 +95,7 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return Collections.emptyList();
-		} finally {
-			
-		}
+		} 
 	}
 	public static List getBusinessTabPermission(String businessRoleId,String moduleName) {
 		
@@ -118,9 +114,7 @@ public class BusinessRoleModuleImpl {
 			LOGGER.error(e.getMessage());
                         LOGGER.error(sql);
 			return Collections.emptyList();
-		} finally {
-			
-		}
+		} 
 	}
 	
 	 public Object executeSelectQuery(String query, Object udc1) {
@@ -131,9 +125,7 @@ public class BusinessRoleModuleImpl {
 	        } catch (Exception e) {
 	            LOGGER.error(e.getMessage());
                     LOGGER.error(query);
-	        } finally {
-	            
-	        }
+	        } 
 	        return returnList;
 	    }
 	 
@@ -156,8 +148,6 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return Collections.emptyList();
-			} finally {
-				
 			}
 
 		}
@@ -181,9 +171,7 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return Collections.emptyList();
-			} finally {
-				
-			}
+			} 
 		}
 
 		public List getContractBusinessTabPermission(String businessRoleId, String moduleName) {
@@ -205,9 +193,7 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return Collections.emptyList();
-			} finally {
-				
-			}
+			} 
 		}
 	        
 		@SuppressWarnings("rawtypes")
@@ -233,9 +219,7 @@ public class BusinessRoleModuleImpl {
 				LOGGER.error(e.getMessage());
                                 LOGGER.error(sql);
 				return Collections.emptyList();
-			} finally {
-				
-			}
+			} 
 		}
 			
 			@SuppressWarnings("rawtypes")
@@ -257,9 +241,7 @@ public class BusinessRoleModuleImpl {
 					LOGGER.error(e.getMessage());
 	                                LOGGER.error(sql);
 					return Collections.emptyList();
-				} finally {
-					
-				}
+				} 
 		}
 			
 			@SuppressWarnings("rawtypes")
@@ -284,9 +266,7 @@ public class BusinessRoleModuleImpl {
 					LOGGER.error(e.getMessage());
 	                                LOGGER.error(sql);
 					return Collections.emptyList();
-				} finally {
-					
-				}
+				} 
 			}
 				
 				@SuppressWarnings("rawtypes")
@@ -307,9 +287,7 @@ public class BusinessRoleModuleImpl {
 						LOGGER.error(e.getMessage());
 	                                        LOGGER.error(sql);
 						return Collections.emptyList();
-					} finally {
-						
-					}
+					} 
 			}
                                 
 }
