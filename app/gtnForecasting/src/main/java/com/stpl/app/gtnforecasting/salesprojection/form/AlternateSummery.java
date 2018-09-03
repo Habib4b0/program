@@ -2111,10 +2111,7 @@ public class AlternateSummery extends CustomComponent {
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
