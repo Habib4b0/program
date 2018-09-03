@@ -193,7 +193,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	 */
 	@Override
 	protected void btnLookupSelectLogic() {
-		List<String> sidsFromDetails = Collections.emptyList();
+		List<String> sidsFromDetails;
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			try {

@@ -730,6 +730,7 @@ public class PPAProjectionResultsLogic {
                 }
             }
         }
+         LOGGER.debug("neededRecord{} ", neededRecord);
 
         return projDTOList;
     }

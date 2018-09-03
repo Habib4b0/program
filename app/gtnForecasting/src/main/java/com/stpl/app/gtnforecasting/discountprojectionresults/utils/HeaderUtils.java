@@ -111,7 +111,7 @@ public class HeaderUtils {
         fullHeaderDTO.setEndPeriod(endPeriod);
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
-        List<Object> dmap = new ArrayList<>();
+        List<Object> dmap;
         if (pivotView.contains(Constant.DISCOUNT_SMALL)) {
             for (int i = 0; i < NumericConstants.THREE; i++) {
                 String commonColumn;
@@ -1181,7 +1181,7 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO, true);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
-        List<Object> dmap = new ArrayList<>();
+        List<Object> dmap;
         if (pivotView.contains(DISCOUNT.getConstant())) {
             if (!discountNames.isEmpty()) {
                 for (int i = 0; i < discountNames.size(); i++) {
@@ -1683,7 +1683,7 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO, false);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
-        List<Object> dmap = new ArrayList<>();
+        List<Object> dmap;
         if (pivotView.contains(Constant.DISCOUNT_SMALL)) {
             String commonColumn;
             String commonHeader = "Total Discount";
