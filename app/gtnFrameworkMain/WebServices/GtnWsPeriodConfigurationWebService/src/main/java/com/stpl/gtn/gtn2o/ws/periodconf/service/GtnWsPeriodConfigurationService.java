@@ -26,7 +26,7 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 
 	@Autowired
 	private GtnWsPeriodConfSqlService gtnWsPeriodConfSqlService;
-	
+
 	private GtnWsPeriodConfigurationService() {
 		super();
 	}
@@ -36,7 +36,8 @@ public class GtnWsPeriodConfigurationService extends GtnCommonWebServiceImplClas
 		super.logInformation(GtnWsPeriodConfigurationService.class);
 	}
 
-private	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
+
+	private GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingletonObjectBean.getInstance();
 
 	public void init() {
 		initializeLogger();
@@ -45,7 +46,7 @@ private	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingle
 
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(
-				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices","serviceRegistry"),
+				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/registerWebservices", "serviceRegistry"),
 				request, GtnUIFrameworkWebserviceResponse.class);
 		logger.info("Webservice Registered");
 		List<Object[]> resultList = loadDate(request.getGtnWsGeneralRequest());
@@ -75,9 +76,9 @@ private	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingle
 	}
 
 	public List<Object[]> loadDate(GtnWsGeneralRequest gtnWsGeneralRequest) {
-		
+
 		logger.info("Entering into webservice loadDate  WS->SR->QE->SR->WS");
-		
+
 		String loadDateQuery = gtnWsPeriodConfSqlService.getQuery("loadDate");
 		logger.debug("LoadDate Query:" + loadDateQuery);
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
@@ -86,14 +87,14 @@ private	GtnFrameworkSingletonObjectBean singletonObjectBean = GtnFrameworkSingle
 		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
 		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
 		RestTemplate restTemplate1 = new RestTemplate();
-		
-		GtnQueryEngineWebServiceResponse response1   =	restTemplate1.postForObject(
-				getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine" , "serviceRegistry"),
+
+		GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
+				getWebServiceEndpointBasedOnModule(
+						"/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
 				gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
 		List<Object[]> resultList1 = response1.getQueryResponseBean().getResultList();
 		return resultList1;
-		
-		
+
 	}
 
 }
