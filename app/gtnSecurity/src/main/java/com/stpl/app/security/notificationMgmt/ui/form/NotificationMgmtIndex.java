@@ -57,7 +57,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
 	private int mailNotificationSystemId;
 	private final NotificationMgmtIndexDTO notificationMgmtIndexDto = new NotificationMgmtIndexDTO();
 	private final CustomFieldGroup notificationMgmtBinder = new CustomFieldGroup(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDto));
-	private final BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<NotificationMgmtIndexDTO>(
+	private final BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<>(
             NotificationMgmtIndexDTO.class);
 	private final NotificationMgmtLogic notificationLogic = new NotificationMgmtLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationMgmtIndex.class);
@@ -443,7 +443,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             return false;
         } else {
 
-             String emails[]=emailFrom.split(",");
+             String[] emails=emailFrom.split(",");
              if(emails.length==1){
             if (!(EmailValidator.getInstance().isValid(emailFrom))) {
                 NotificationUtils.getErrorNotification("Email Invalid in From", "Please enter a valid E-mail for From");
@@ -459,7 +459,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             NotificationUtils.getErrorNotification("To Empty", " To field should not be empty .");
             return false;
         } else {
-            String emails[]=emailTo.split(",");
+            String[] emails=emailTo.split(",");
         for(String email:emails){
         if (!(EmailValidator.getInstance().isValid(email))) {
 
@@ -472,7 +472,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             NotificationUtils.getErrorNotification("Cc Empty", " Cc field should not be empty .");
             return false;
         } else {
-             String emails[]=emailCc.split(",");
+             String[] emails=emailCc.split(",");
         for(String email:emails){
             if (!(EmailValidator.getInstance().isValid(email))) {
 
@@ -490,7 +490,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             if (id instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) id;
             } else if (id instanceof NotificationMgmtIndexDTO) {
-                targetItem = new BeanItem<NotificationMgmtIndexDTO>(
+                targetItem = new BeanItem<>(
                         (NotificationMgmtIndexDTO) id);
             }
             

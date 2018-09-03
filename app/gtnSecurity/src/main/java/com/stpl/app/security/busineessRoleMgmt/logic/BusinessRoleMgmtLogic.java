@@ -47,7 +47,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 	}
 
 	public List<BusinessroleMasterDTO> getCustomizedListFromModel(List<BusinessroleMaster> list) {
-		List<BusinessroleMasterDTO> searchItemList = new ArrayList<BusinessroleMasterDTO>();
+		List<BusinessroleMasterDTO> searchItemList = new ArrayList<>();
 		if (list != null) {
 			for (int i = 0; i < list.size(); i++) {
 				BusinessroleMasterDTO businessroleMasterDTO = new BusinessroleMasterDTO();
