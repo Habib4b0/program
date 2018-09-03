@@ -23,11 +23,11 @@ public class GtnFrameworkWsSqlQueryEngineController extends GtnServiceRegistryIm
 
 	public GtnFrameworkWsSqlQueryEngineController() {
 		super();
-		initializeLogger();
+	  initializeLogger();
 	}
 
 	@PostConstruct
-	public void initializeLogger() {
+	public final void initializeLogger() {
 		super.logInformation(GtnFrameworkWsSqlQueryEngineController.class);
 	}
 
