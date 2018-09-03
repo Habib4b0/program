@@ -119,6 +119,7 @@ public class FileNameUtil {
                         map.put(Constants.DTX_RETURN_RATE_INTERFACE, Constants.DTX_RETURN_RATE_INTERFACE);
                         map.put(Constants.DTX_ITEM_PRICING_INTERFACE, Constants.DTX_ITEM_PRICING_INTERFACE);
                         map.put(Constants.DTX_ACCRUAL_ACTUAL_INTERFACE, Constants.DTX_ACCRUAL_ACTUAL_INTERFACE);
+                        map.put(Constants.DTX_ITEM_MASTER_INTERFACE, Constants.DTX_ITEM_MASTER_INTERFACE);
 
 		}
 		return map;
@@ -276,6 +277,8 @@ public class FileNameUtil {
 					Constants.DTX_ITEM_PRICING_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_ACCRUAL_ACTUAL_INTERFACE,
 					Constants.DTX_ACCRUAL_ACTUAL_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_ITEM_MASTER_INTERFACE,
+            		Constants.DTX_ITEM_MASTER_INTERFACE);
 		}
 		return interfaceNameMap;
 	}
