@@ -1373,16 +1373,17 @@ public class NMProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(Constant.NULL)) {
-            value = DASH.getConstant();
+        String valueNM = value;
+        if (valueNM.contains(Constant.NULL)) {
+            valueNM = DASH.getConstant();
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNM);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            valueNM = decFormat.format(newValue);
         }
-        return value;
+        return valueNM;
     }
 
     public void getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
@@ -4406,14 +4407,15 @@ public class NMProjectionResultsLogic {
     }
 
     public String getFormatTwoDecimalValue(DecimalFormat decFormat, String value, String appendChar) {
-        if (value.contains(Constant.NULL)) {
-            value = "...";
+        String valueTwo = value;
+        if (valueTwo.contains(Constant.NULL)) {
+            valueTwo = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+            valueTwo = appendChar.concat(decFormat.format(Double.valueOf(valueTwo)));
         } else {
-            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+            valueTwo = decFormat.format(Double.valueOf(valueTwo)).concat(appendChar);
         }
-        return value;
+        return valueTwo;
     }
 
     private String getProjectionResultsTotalDiscount(ProjectionSelectionDTO projSelDTO) {

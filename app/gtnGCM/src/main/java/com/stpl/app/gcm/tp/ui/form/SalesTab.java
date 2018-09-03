@@ -241,7 +241,7 @@ public class SalesTab extends VerticalLayout {
     @UiHandler("excelBtn")
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
-        if (resultBean.size() > 0) {
+        if (!resultBean.isEmpty()) {
             loadExcelResultTable();
         }
         exportSalesPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());

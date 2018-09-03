@@ -125,7 +125,7 @@ public class AlternateHistoryLogic {
     public List<AlternateHistoryDTO> searchCompany(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session) {
 
         Map<String, Object> parameters = new HashMap<>();
-        List list = Collections.EMPTY_LIST;
+        List list = Collections.emptyList();
         try {
             if (isValidCriteria(altHistoryDTO.getContractHolder())) {
                 String contractHolderParam = altHistoryDTO.getContractHolder();

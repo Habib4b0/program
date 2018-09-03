@@ -61,6 +61,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.MinimizeTray;
@@ -437,7 +438,7 @@ public class ItemManagementIndex extends CustomComponent {
             selection.setFilters(tableLogic.getFilters());
             recordCount = logic.getSearchCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {

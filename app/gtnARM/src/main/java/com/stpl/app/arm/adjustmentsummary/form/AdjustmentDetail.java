@@ -143,8 +143,8 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object adjDetailsobj) {
+        return super.equals(adjDetailsobj);
     }
 
     @Override
@@ -152,11 +152,11 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjDetailsout) throws IOException {
+        adjDetailsout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjDetailsIn) throws IOException, ClassNotFoundException {
+        adjDetailsIn.defaultReadObject();
     }
 }

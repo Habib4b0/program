@@ -246,7 +246,7 @@ public class RebateTab extends VerticalLayout {
     public void excelButtonLogic(Button.ClickEvent event) {
 
         configureExcelResultTable();
-        if (resultBean.size() > 0) {
+        if (!resultBean.isEmpty()) {
             loadExcelResultTable();
         }
         exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());

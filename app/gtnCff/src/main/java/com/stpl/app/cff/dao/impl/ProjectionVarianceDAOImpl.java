@@ -51,9 +51,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     public List generateProjectionVariance(int projectionId, String indicator,
             List<Integer> comparisonProjections, String frequency, String level, String discountLevel,int levelNo,String sales, List<Integer> periods,ProjectionSelectionDTO projSelDTO) throws
             PortalException {
-        List resuList = new ArrayList();
-         
-        return resuList;
+        return new ArrayList();
     }
 
     /**

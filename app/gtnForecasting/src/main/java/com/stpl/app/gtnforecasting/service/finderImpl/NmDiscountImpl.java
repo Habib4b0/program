@@ -1109,7 +1109,7 @@ public class NmDiscountImpl {
                     customSql = customSql.replaceAll("@UID", userId);
                     customSql = customSql.replaceAll("@SNID", sessionId);
                     customSql = customSql.replaceAll("@PERIODLIST", getPeriodFilter());
-                    customSql = customSql.replaceAll("@PROJID", "" + projectionId);
+                    customSql = customSql.replaceAll("@PROJID", Integer.toString(projectionId));
                     customSql = customSql.replaceAll("@SELDISC", "" + selectedDiscounts);
                     customSql = customSql.replaceAll("@RATE", "" + fieldValue);
                     customSql = customSql.replace("@COLUMN1", column);
@@ -1182,7 +1182,6 @@ public class NmDiscountImpl {
 
     public boolean updateInputsForAdjustment(int projectionId, String userId, String sessionId, String frequency, String levelType, String adjustmentType, String adjustmentBasis,
             String adjustmentValue, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
-        Session dbSession = null;
 
         String masterTableUpdateQuery = "";
         String discountProjectionTableUpdateQuery = StringUtils.EMPTY;
@@ -1946,10 +1945,8 @@ public class NmDiscountImpl {
             int endFreq = 0;
             int startYear = 0;
             int endYear = 0;
-            int totalFlag = 0;
 
             if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
-                totalFlag = startAndEndPeriods.get(0);
                 startFreq = startAndEndPeriods.get(1);
                 endFreq = startAndEndPeriods.get(2);
                 startYear = startAndEndPeriods.get(3);

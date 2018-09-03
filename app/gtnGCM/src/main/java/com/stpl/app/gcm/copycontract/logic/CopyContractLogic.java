@@ -537,7 +537,7 @@ public class CopyContractLogic {
         return count;
     }
 
-    public void SaveCFP(String cfpid, Integer cfpmodelid) {
+    public void saveCfp(String cfpid, Integer cfpmodelid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
@@ -548,7 +548,7 @@ public class CopyContractLogic {
         dao.updateCFP(input);
     }
 
-    public void SaveIFP(String ifpId, Integer cfpmodelid) {
+    public void saveIfp(String ifpId, Integer cfpmodelid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
@@ -559,7 +559,7 @@ public class CopyContractLogic {
         dao.updateIFP(input);
     }
 
-    public void SavePS(String psid, Integer cfpmodelid) {
+    public void savePs(String psid, Integer cfpmodelid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
@@ -570,7 +570,7 @@ public class CopyContractLogic {
         dao.updatePS(input);
     }
 
-    public void SaveRS(String rsid, Integer RSmodalid) {
+    public void saveRs(String rsid, Integer RSmodalid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
@@ -582,7 +582,7 @@ public class CopyContractLogic {
 
     }
 
-    public void SaveCFPForCopyComponent(String cfpid, String cfpModelSId) {
+    public void saveCfpForCopyComponent(String cfpid, String cfpModelSId) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
@@ -594,7 +594,7 @@ public class CopyContractLogic {
 
     }
 
-    public void SaveIFPForCopyComponent(String ifpId, String ifpModelSid) {
+    public void saveIfpForCopyComponent(String ifpId, String ifpModelSid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
@@ -605,7 +605,7 @@ public class CopyContractLogic {
         dao.updateIFP(input);
     }
 
-    public void SavePSForCopyComponent(String psid, String psModelSid) {
+    public void savePsForCopyComponent(String psid, String psModelSid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
@@ -616,7 +616,7 @@ public class CopyContractLogic {
         dao.updatePS(input);
     }
 
-    public void SaveRSForCopyComponent(String rsid, String rsModelSid) {
+    public void saveRsForCopyComponent(String rsid, String rsModelSid) {
         List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
@@ -1176,11 +1176,11 @@ public class CopyContractLogic {
 
     public List<CopyComponentDTO> getComponentinfoResults(List<ContractSelectionDTO> selectedlist) throws ParseException {
 
-        return SelectedContracts(selectedlist);
+        return selectedContracts(selectedlist);
 
     }
 
-    public List<CopyComponentDTO> SelectedContracts(List<ContractSelectionDTO> selectedList) throws ParseException {
+    public List<CopyComponentDTO> selectedContracts(List<ContractSelectionDTO> selectedList) throws ParseException {
         List<CopyComponentDTO> copyList = new ArrayList<>();
         if (selectedList != null && !selectedList.isEmpty()) {
 

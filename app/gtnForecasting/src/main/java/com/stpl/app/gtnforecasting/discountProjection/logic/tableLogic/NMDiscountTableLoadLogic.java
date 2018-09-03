@@ -284,7 +284,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 list = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, start, offset, false, isParentChecked, customViewDetails, false, false,
-                        StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList, projectionSelection);
+                        StringUtils.EMPTY, relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.emptyList(), new HashMap<String, String>(), forecastConfigList, projectionSelection);
             }
 
         } catch (Exception ex) {
@@ -587,7 +587,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 isProgram, discountList, year,
                 customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, rightDto, 0, 0, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                 customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), hierarchyNumbers,
-                relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList, projectionSelection);
+                relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.emptyList(), new HashMap<String, String>(), forecastConfigList, projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {
             bulkDataMap.put(tempMap.get(dto.getHierarchyNo()), dto);
