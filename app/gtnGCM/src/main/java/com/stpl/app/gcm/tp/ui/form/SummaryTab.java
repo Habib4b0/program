@@ -281,16 +281,7 @@ public class SummaryTab extends VerticalLayout {
 
             }
 
-        } else {
-            if (currentTPDetailsContainer == null && currentTPDetailsContainer.size() == 0) {
-            AbstractNotificationUtils.getErrorNotification(MessageUtil.getErrorCode(Message.NO_RECORD_SUBMIT), MessageUtil.getErrorCode(Message.NO_VALID_CUSTOMER));
-            } 
-
-            if (transferTPDetailsContainer == null && transferTPDetailsContainer.size() == 0) {
-AbstractNotificationUtils.getErrorNotification(MessageUtil.getErrorCode(Message.NO_RECORD_SUBMIT), MessageUtil.getErrorCode(Message.NO_VALID_TRANSFER));
-            } 
-
-        }
+        } 
         if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_REMOVE.getConstant())) {
             idOne = ButtonId.OK;
             idTwo = ButtonId.CANCEL;

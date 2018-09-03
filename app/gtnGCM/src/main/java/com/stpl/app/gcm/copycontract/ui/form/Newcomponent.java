@@ -1164,7 +1164,7 @@ public class Newcomponent extends CustomComponent {
                 searchValue.setValue(Constants.EMPTY);
             } else if (value.equalsIgnoreCase(Constants.BRAND)) {
                 String query = "select BRAND_MASTER_SID,BRAND_NAME from BRAND_MASTER where INBOUND_STATUS<>'D' and BRAND_NAME is not null order by BRAND_NAME";
-                List componentList = (List) dao.executeSelect(query);
+                List componentList =  dao.executeSelect(query);
                 searchDDLB.setVisible(true);
                 searchDDLB.setNullSelectionItemId(Constants.ZEROSTRING);
                 for (int i = 0; i < componentList.size(); i++) {
@@ -2328,14 +2328,14 @@ public class Newcomponent extends CustomComponent {
                         itemDTO.setCompanyStatus(String.valueOf(obje[NumericConstants.SIX]));
                         if (obje[NumericConstants.FOUR] != null) {
 
-                            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                            Date date =  format.parse(String.valueOf(obje[NumericConstants.FOUR]));
                             String finalString = df.format(date);
                             itemDTO.setPsStartDate(finalString);
                         } else {
                             itemDTO.setPsStartDate(null);
                         }
                         if (obje[NumericConstants.FIVE] != null) {
-                            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                            Date date =  format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                             String finalString = df.format(date);
                             itemDTO.setPsEndDate(finalString);
                         } else {
@@ -2372,7 +2372,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     populateDetailsPsStartDate(obje, itemDTO);
                     if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                        Date date =  format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
                         itemDTO.setPsEndDate(finalString);
                     } else {
@@ -2416,7 +2416,7 @@ public class Newcomponent extends CustomComponent {
                     itemDTO.setBrand(String.valueOf(obje[NumericConstants.THREE]));
                     itemDTO.setStatus(String.valueOf(obje[NumericConstants.FOUR]));
                     if (obje[NumericConstants.FIVE] != null) {
-                        Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                        Date date = format.parse(String.valueOf(obje[NumericConstants.FIVE]));
                         String finalString = df.format(date);
                         itemDTO.setPsStartDate(finalString);
                     } else {
@@ -2704,7 +2704,7 @@ public class Newcomponent extends CustomComponent {
 
     public void populateDetailsPsStartDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
         if (obje[NumericConstants.FOUR] != null) {
-            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.FOUR]));
+            Date date =  format.parse(String.valueOf(obje[NumericConstants.FOUR]));
             String finalString = df.format(date);
             itemDTO.setPsStartDate(finalString);
         } else {
@@ -2714,7 +2714,7 @@ public class Newcomponent extends CustomComponent {
 
     public void populateDetailsPsEndDate(Object[] obje, NewComponentDTO itemDTO) throws ParseException {
         if (obje[NumericConstants.SIX] != null) {
-            Date date = (Date) format.parse(String.valueOf(obje[NumericConstants.SIX]));
+            Date date =  format.parse(String.valueOf(obje[NumericConstants.SIX]));
             String finalString = df.format(date);
             itemDTO.setPsEndDate(finalString);
         } else {
