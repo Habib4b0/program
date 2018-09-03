@@ -91,7 +91,7 @@ public class NmDiscountImpl {
             List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid, boolean isAltHistory, String action) {
 
         String customQuery = StringUtils.EMPTY;
-        String genQuery = StringUtils.EMPTY;
+        String genQuery;
         boolean viewFlag = "view".equalsIgnoreCase(action);
         String masterTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJ_MASTER" : Constant.NM_DISCOUNT_PROJ_MASTER;
         String actualDiscountTableName = !viewFlag ? "ST_NM_ACTUAL_DISCOUNT" : "NM_ACTUAL_DISCOUNT";
@@ -468,8 +468,7 @@ public class NmDiscountImpl {
 
                     orderBy = "\n order by " + orderBy + ", AP_TABLE_INDICATOR";
                     customQuery = declareStatement + historyQuery;
-                    String altHisQuery = StringUtils.EMPTY;
-                    altHisQuery = isAltHistory ? orderBy : "\n \n  UNION \n \n " + futureQuery + orderBy;
+                    String altHisQuery = isAltHistory ? orderBy : "\n \n  UNION \n \n " + futureQuery + orderBy;
                     customQuery += altHisQuery;
                 }
             } else {
@@ -1634,11 +1633,6 @@ public class NmDiscountImpl {
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
-                String heYear = String.valueOf(startAndEndPeriods.get(2));
-                String heMonth = String.valueOf(startAndEndPeriods.get(3));
-
-                String fsYear = String.valueOf(startAndEndPeriods.get(4));
-                String fsMonth = String.valueOf(startAndEndPeriods.get(5));
                 String feYear = String.valueOf(startAndEndPeriods.get(6));
                 String feMonth = String.valueOf(startAndEndPeriods.get(7));
 
@@ -1650,8 +1644,8 @@ public class NmDiscountImpl {
                 Calendar calendar = Calendar.getInstance();
                 int month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
-                heMonth = String.valueOf((calendar.get(Calendar.MONTH) + 1));
-                heYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String heMonth = String.valueOf((calendar.get(Calendar.MONTH) + 1));
+                String heYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (heMonth.length() == 1) {
                     heMonth = "0" + heMonth;
                 }
@@ -1660,8 +1654,8 @@ public class NmDiscountImpl {
                 calendar = Calendar.getInstance();
                 month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
-                fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
-                fsYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
+                String fsYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (fsMonth.length() == 1) {
                     fsMonth = "0" + fsMonth;
                 }
@@ -2362,7 +2356,6 @@ public class NmDiscountImpl {
 
                 }
                 if (frequencyTotalDiscount.equals(MONTHLY.getConstant())) {
-                    frequencyTotalDiscount = Constant.MONTH_WITHOUT_SPACE;
                     startMonth = startFreq;
                     endMonth = endFreq;
 
@@ -2699,11 +2692,7 @@ public class NmDiscountImpl {
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
-                String heYear = String.valueOf(startAndEndPeriods.get(2));
                 String heMonth = String.valueOf(startAndEndPeriods.get(3));
-
-                String fsYear = String.valueOf(startAndEndPeriods.get(4));
-                String fsMonth = String.valueOf(startAndEndPeriods.get(5));
                 String feYear = String.valueOf(startAndEndPeriods.get(6));
                 String feMonth = String.valueOf(startAndEndPeriods.get(7));
 
@@ -2719,7 +2708,7 @@ public class NmDiscountImpl {
                 int month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
                 heMonth = String.valueOf((calendar.get(Calendar.MONTH) + 1));
-                heYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String heYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (heMonth.length() == 1) {
                     heMonth = "0" + heMonth;
                 }
@@ -2728,8 +2717,8 @@ public class NmDiscountImpl {
                 calendar = Calendar.getInstance();
                 month = calendar.get(Calendar.MONTH) + 1;
                 calendar.add(Calendar.MONTH, -((month % 3) == 0 ? 3 : (month % 3)));
-                fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
-                fsYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String fsMonth = String.valueOf((calendar.get(Calendar.MONTH) + 2));
+                String fsYear = String.valueOf(calendar.get(Calendar.YEAR));
                 if (fsMonth.length() == 1) {
                     fsMonth = "0" + fsMonth;
                 }

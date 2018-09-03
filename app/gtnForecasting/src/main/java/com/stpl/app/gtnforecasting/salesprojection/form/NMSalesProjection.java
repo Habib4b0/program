@@ -589,6 +589,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             customerFlag = true;
             productFlag = true;
         }
+        LOGGER.debug("customerFlag{} , productFlag{} ", customerFlag, productFlag);
     }
 
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {

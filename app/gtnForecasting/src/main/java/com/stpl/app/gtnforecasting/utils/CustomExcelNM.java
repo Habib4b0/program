@@ -49,8 +49,7 @@ public class CustomExcelNM extends ExcelExport {
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected final CellStyle style7 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomExcelNM.class);
-    private final TableHolder tableHolder;
+    protected final TableHolder tableHolder;
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
     public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     public static final String GROWTH = "Growth";

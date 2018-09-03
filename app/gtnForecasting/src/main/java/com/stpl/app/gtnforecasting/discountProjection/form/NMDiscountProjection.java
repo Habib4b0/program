@@ -205,8 +205,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private Set<String> hierarchyListForCheckRecord = new HashSet<>();
 
     private boolean isGroupUpdatedManually = false;
-    /* The custom id to select. */
-    private int customIdToSelect = 0;
     /* The Right Header Dto */
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     /* The Right Header Dto */
@@ -1585,7 +1583,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         resultsTable.getRightFreezeAsTable().setTripleHeaderVisible(false);
                     }
                 } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
-                    customIdToSelect = customId;
                     currentHierarchy = session.getCustomerHierarchyList();
                     hierarchyIndicator = "C";
                     levelDdlb.setEnabled(true);
@@ -1608,7 +1605,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     resultsTable.getLeftFreezeAsTable().setDoubleHeaderVisible(true);
                     resultsTable.setTripleHeaderVisible(true);
                 } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
-                    customIdToSelect = customId;
                     currentHierarchy = session.getProductHierarchyList();
                     hierarchyIndicator = Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY;
                     levelDdlb.setEnabled(true);
@@ -2720,9 +2716,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         customTree.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (customTree.isIsSelect()) {
-                    customIdToSelect = customTree.getCustomId();
-                }
                 session.setCustomerViewList(CommonLogic.getCustomViewList(session.getProjectionId()));
                 loadCustomDDLB();
             }
@@ -2740,7 +2733,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             customTree.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
-                    customIdToSelect = customTree.getCustomId();
                     session.setCustomerViewList(CommonLogic.getCustomViewList(session.getProjectionId()));
                     loadCustomDDLB();
                 }
@@ -5605,7 +5597,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     public void loadMethodologyDdlb(final ComboBox methodology) {
         String query;
-        List<String> returnList = new ArrayList<>();
         Map<String, List<String>> input = new HashMap<>();
         List<String> defaultNames = Arrays.asList("1.Contract Details", "2.Single Period", "3.Average", "4.Rolling Annual Trend");
         List<String> exfactNames = Arrays.asList("5.% of Ex-Factory Sales", "9.% OF Ex-Factory - Seasonal Trend");
@@ -5619,7 +5610,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
         input.put("Adjusted Demand", adjDemandNames);
         query = SQlUtil.getQuery("get-file-type-query");
-        returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+         List<String>  returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         outputList.addAll(defaultNames);
         for (String string : returnList) {
             if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
@@ -5684,7 +5675,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
                 }
-                parentItemId = itemId;
                 excelParentRecords.put(tempKey, itemId);
                 excelContainer.setChildrenAllowed(itemId, true);
 

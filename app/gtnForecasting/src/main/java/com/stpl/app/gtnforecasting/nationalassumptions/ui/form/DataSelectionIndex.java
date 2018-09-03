@@ -669,6 +669,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             thearupeticValue = StringUtils.EMPTY;
         }
         productGroupValue = productGroup.getValue();
+        LOGGER.debug(" thearupeticValue {} " , thearupeticValue);
     }
 
     /**

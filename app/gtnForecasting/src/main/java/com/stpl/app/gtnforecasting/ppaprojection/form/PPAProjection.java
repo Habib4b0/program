@@ -1024,8 +1024,6 @@ public class PPAProjection extends CustomComponent implements View {
                 Date date = massDate.getValue();
                 String lookupValue = massLookup.getData() == null ? StringUtils.EMPTY : ((Map<String, String>) massLookup.getData()).get(FORMULA_SYSTEM_SID1);
                 Date dateValue = massDate.getValue();
-                String groupFilterValue = String.valueOf(groupFilterDdlb.getValue() == null ? Constant.PERCENT : groupFilterDdlb.getValue()).replace(Constant.PPA, StringUtils.EMPTY);
-                groupFilterValue = groupFilterValue.equals(Constant.ALL_GROUP) ? Constant.PERCENT : groupFilterValue;
 
                 if ((fieldDdlbCheck(fieldValue, valueDdlbVal) || (fieldDateCheck(fieldValue, date))) || (fieldGroupCheck(fieldValue, groupValue)) || (fieldLookupCheck(fieldValue, lookupValue))) {
                     validationError = BooleanConstant.getTrueFlag();
@@ -1172,6 +1170,7 @@ public class PPAProjection extends CustomComponent implements View {
                 updateRow(value, lastParent, propertyId, flag);
             }
         }
+        LOGGER.debug("flag{} ", flag);
     }
 
     private void updateRow(Object value, Object itemId, String propertyId, boolean presentFlag)  {
