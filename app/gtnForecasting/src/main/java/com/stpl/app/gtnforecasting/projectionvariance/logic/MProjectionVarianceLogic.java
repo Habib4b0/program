@@ -590,8 +590,8 @@ public class MProjectionVarianceLogic {
         Map<Object, Object[]> doubleHeaderFinalMap = new HashMap<>();
         List<Object> finalVisColList = new ArrayList<>();
         List<String> finalVisHeaderList = new ArrayList<>();
-        String fromAtDateRangeHeaders = StringUtils.EMPTY;
-        String toAtDateRangeHeaders = StringUtils.EMPTY;
+        String fromAtDateRangeHeaders;
+        String toAtDateRangeHeaders;
         StringBuilder fromAtDateRange = new StringBuilder();
         StringBuilder toAtDateRange = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {

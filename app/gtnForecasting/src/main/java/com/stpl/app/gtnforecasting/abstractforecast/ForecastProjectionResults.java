@@ -341,23 +341,19 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             String frequency = String.valueOf(frequencyDdlb.getValue());
             switch (frequency) {
                 case Constant.ANNUALLY:
-                    historyBean.addAll(loadHistoryDdlb(Constant.ANNUALLY, YEAR.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(Constant.ANNUALLY));
                     historyConstant = "1 Year";
                     break;
                 case Constant.SEMIANNUALLY:
-                    historyBean.addAll(loadHistoryDdlb(SEMI_ANNUALLY.getConstant(), SEMI_ANNUAL.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(SEMI_ANNUALLY.getConstant()));
                     historyConstant = "2 Semi-Annual";
                     break;
-                case Constant.QUARTERLY:
-                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = Constant.FOUR_QUARTERS;
-                    break;
                 case Constant.MONTHLY:
-                    historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant(), MONTHS.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant()));
                     historyConstant = "12 Months";
                     break;
                 default:
-                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
+                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant()));
                     historyConstant = Constant.FOUR_QUARTERS;
                     break;
             }
@@ -367,12 +363,11 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         LOGGER.debug("Loading Frequency Combo Box Ended");
     }
 
-    protected final List<String> loadHistoryDdlb(String frequency, String period) {
+    protected final List<String> loadHistoryDdlb(String frequency) {
         LOGGER.debug("Loading Frequency Combo Box Initiated");
         List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
-        String periodHistory = period;
         if (ANNUALLY.getConstant().equals(frequency)) {
             endValue = CALCULATE.getAnnualCount();
             freq = YEARS.getConstant();
@@ -394,8 +389,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             if ((i == 1)
                     && (QUARTERS.getConstant().equals(freq) || MONTHS
                     .getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
-                periodHistory = freq.replace(Constant.S_SMALL, StringUtils.EMPTY);
-                history.add(String.valueOf(i) + SPACE.getConstant() + periodHistory);
+                history.add(String.valueOf(i) + SPACE.getConstant() + freq.replace(Constant.S_SMALL, StringUtils.EMPTY));
             } else {
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             }

@@ -191,12 +191,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                     AbstractNotificationUtils.getErrorNotification("Invalid File", "File Not Supported");
                     uploader.setValue(StringUtils.EMPTY);
                     fileNameField.setValue(StringUtils.EMPTY);
-                } else if (fileExists(file)) {
-                    uploadComponent.interruptUpload();
-                    AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
-                    uploader.setValue(StringUtils.EMPTY);
-                    fileNameField.setValue(StringUtils.EMPTY);
-                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.')))) {
+                } else if (fileExists(file) ||  (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.'))))) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);

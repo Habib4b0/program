@@ -66,7 +66,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     private ProjectionSelectionDTO projectionSelection;
     private List<String> forecastConfigList;
     private int maxExpandLevelNo = 0;
-    private String refreshHierarchyNumbers = StringUtils.EMPTY;
+    protected String refreshHierarchyNumbers = StringUtils.EMPTY;
 
     /**
      * The Constant LOGGER.

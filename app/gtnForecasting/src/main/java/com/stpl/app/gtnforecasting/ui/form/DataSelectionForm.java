@@ -137,7 +137,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private boolean dismantleCustSelection = true;
 	private boolean dismantleProdSelection = true;
 	private final CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
-	private final CompanyDdlbDto discountDTO = null;
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final DataSelectionSearchLogic tableLogic = new DataSelectionSearchLogic();
 	protected ExtPagedTable resultTable = new ExtPagedTable(tableLogic);

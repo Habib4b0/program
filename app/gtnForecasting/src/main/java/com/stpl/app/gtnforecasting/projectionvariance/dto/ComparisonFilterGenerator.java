@@ -99,7 +99,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-            String indicator = StringUtils.EMPTY;
+            String indicator ;
             int levelNo = 0;
             MultiKey multikey;
 
