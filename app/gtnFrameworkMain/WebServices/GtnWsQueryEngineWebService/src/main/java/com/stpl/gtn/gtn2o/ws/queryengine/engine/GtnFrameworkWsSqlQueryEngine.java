@@ -152,44 +152,44 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 
 	private void debugQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
 		
-		String s=sqlQuery;
+		String query=sqlQuery;
 		for (int i = 0; i < params.length; i++) {
 			switch (type[i]) {
 			case STRING:
-				s = s.replace("?", "'" + params[i] + "'");
+				query = query.replace("?", "'" + params[i] + "'");
 				break;
 			case DATE:
 				if (params[i]!="" && params[i] != "null")
 				{
 					java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
-					s = s.replace("?", "'" +(sql) + "'");
+					query = query.replace("?", "'" +(sql) + "'");
 				} else {
-					s ="";
+					query ="";
 				}
 				break;
 			case INTEGER:
-				s = s.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 			case DOUBLE:
-				s = s.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 			case NULL_ALLOWED:
-				s = s.replace("?", String.valueOf(params[i]));
+				query =query.replace("?", String.valueOf(params[i]));
 				break;
 
 			case IN_LIST:
-				s = s.replace("inParameter", String.valueOf(params[i]));
+				query = query.replace("inParameter", String.valueOf(params[i]));
 				break;
 			case BIG_DECIMAL:
-				s = s.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 
 			default:
-				s = s.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 			}
 		}
-		logger.debug(s);
+		logger.debug(query);
 	}
 
 	public int executeInsertOrUpdateQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
