@@ -45,7 +45,7 @@ public class HelperUtils {
 
 	
 	public static List<String> getStatus() {
-		List<String> status = new ArrayList<String>();
+		List<String> status = new ArrayList<>();
 		status.add("Active");
 		status.add("Inactive");
 		return status;
@@ -60,7 +60,7 @@ public class HelperUtils {
 	}
 	
 	public static List<String> getMfpPopulateList() {
-		List<String> status = new ArrayList<String>();
+		List<String> status = new ArrayList<>();
 		status.add(CommonUIUtils.STARTDATE);
 		status.add(CommonUIUtils.ENDDATE);
 		status.add("TradeClass StartDate");
@@ -71,7 +71,7 @@ public class HelperUtils {
 		return status;
 	}
 	public static List<String> getIfpPopulateList() {
-		List<String> status = new ArrayList<String>();
+		List<String> status = new ArrayList<>();
 		status.add(CommonUIUtils.STARTDATE);
 		status.add(CommonUIUtils.ENDDATE);
 		status.add("Item StartDate");
@@ -82,7 +82,7 @@ public class HelperUtils {
 	}
 	
 	public static List<String> getCfpPopulateList() {
-		List<String> status = new ArrayList<String>();
+		List<String> status = new ArrayList<>();
 		status.add(CommonUIUtils.STARTDATE);
 		status.add(CommonUIUtils.ENDDATE);
 		status.add("TradeClass StartDate");
@@ -93,14 +93,14 @@ public class HelperUtils {
 	}
 	
 	public static List<String> getPsPopulateList() {
-		List<String> status = new ArrayList<String>();
+		List<String> status = new ArrayList<>();
 		status.add(CommonUIUtils.STARTDATE);
 		status.add(CommonUIUtils.ENDDATE);
 		status.add("RevisionDate");
 		return status;
 	}	
 	public static List<String> geRsPopulateList() {
-		List<String> status = new ArrayList<String>();
+		List<String> status = new ArrayList<>();
 		status.add("Rebate Plan Name");
 		status.add("Rebate Amount");
 		status.add(CommonUIUtils.STARTDATE);

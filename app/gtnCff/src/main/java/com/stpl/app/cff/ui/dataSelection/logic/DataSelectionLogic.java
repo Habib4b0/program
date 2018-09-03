@@ -818,7 +818,7 @@ public class DataSelectionLogic {
 	 * @return the list
 	 */
 	public List loadSavedCustomerHierarchy() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	/**
