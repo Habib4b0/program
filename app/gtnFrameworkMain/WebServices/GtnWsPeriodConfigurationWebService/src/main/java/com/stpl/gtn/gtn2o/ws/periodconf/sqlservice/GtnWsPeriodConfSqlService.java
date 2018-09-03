@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.periodconf.sqlservice;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,14 +21,6 @@ public class GtnWsPeriodConfSqlService {
 	@Autowired
 	private volatile PropertiesFactoryBean sqlPropertyBean;
 
-	public PropertiesFactoryBean getSqlPropertyBean() {
-		return sqlPropertyBean;
-	}
-
-	public void setSqlPropertyBean(PropertiesFactoryBean sqlPropertyBean) {
-		this.sqlPropertyBean = sqlPropertyBean;
-	}
-
 	public String getQuery(String queryId) {
 		
 		final GtnFrameworkDependencyLogger gtnLogger = GtnFrameworkDependencyLogger
@@ -37,7 +28,7 @@ public class GtnWsPeriodConfSqlService {
 		try {
 			return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)
 					.getProperty(queryId);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			gtnLogger.error("Error in Loading sql file ", e);
 		}
 		return StringUtils.EMPTY;

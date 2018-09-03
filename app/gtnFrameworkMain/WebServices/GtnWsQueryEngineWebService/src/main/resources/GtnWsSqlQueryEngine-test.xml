@@ -21,7 +21,17 @@
         </property>
         
     </bean>
-    
+   
+   <bean id="gtnFrameworkWsSqlQueryEngineController" 
+   class="com.stpl.gtn.gtn2o.ws.queryengine.controller.GtnFrameworkWsSqlQueryEngineController">
+   </bean>
+   <bean id="gtnFrameworkWsSqlQueryEngine"
+   class="com.stpl.gtn.gtn2o.ws.queryengine.engine.GtnFrameworkWsSqlQueryEngine">
+   </bean>
+   <bean id="gtnFrameworkQueryExecutorBean"
+   class="com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean">
+   
+   </bean>
      <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
     </bean>
     
