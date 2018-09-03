@@ -175,15 +175,9 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellStyle(style6);
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
-        } else if (formatter.get("sales") != null && String.valueOf(propId).endsWith(formatter.get("sales"))) {
-            sheetCell.setCellStyle(style4);
-            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
-                sheetCell.setCellStyle(style4);
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
-            }
-        } else if (formatter.get("units") != null && String.valueOf(propId).endsWith(formatter.get("units"))) {
+        } else if ((formatter.get("sales") != null && String.valueOf(propId).endsWith(formatter.get("sales"))) || 
+                (formatter.get("units") != null && String.valueOf(propId).endsWith(formatter.get("units"))) || 
+                (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH)))) {
             sheetCell.setCellStyle(style4);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
@@ -198,16 +192,6 @@ public class CustomExcelNM extends ExcelExport {
             	String formula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
                 sheetCell.setCellStyle(style4);
                 sheetCell.setCellFormula(formula);
-            }
-        }
-        //Added Formula to Growth_SUM column  
-        else if (formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) {
-            sheetCell.setCellStyle(style4);
-            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-            	String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
-            	sheetCell.setCellStyle(style4);
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }
        //Added Formula to Child Count column

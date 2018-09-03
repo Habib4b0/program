@@ -111,7 +111,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;
@@ -1536,8 +1535,6 @@ public class ForecastForm extends AbstractForm {
 		if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 			NonMandatedLogic nmLogic = new NonMandatedLogic();
-			Map<String, Object> params = new HashMap<>();
-			params.put(Constant.PROJECTION_ID, session.getProjectionId());
 			saveProjection(false);
 			if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED))
 					&& (!checkMandatedDiscountAvailablity(session))) {
