@@ -80,8 +80,6 @@ public class RemoveItemLogic {
             Object obj = list.get(0);
             count = obj == null ? 0 : (Integer) obj;
         }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
-        }
         return count;
     }
 
@@ -398,8 +396,6 @@ public class RemoveItemLogic {
         if (list != null && !list.isEmpty()) {
             Object obj = list.get(0);
             count = obj == null ? 0 : (Integer) obj;
-        }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
         }
         return count;
     }

@@ -1290,7 +1290,7 @@ public class Constants {
         FORMULA_ID_FIELD, "Formula No", FORMULA_NAME_LABEL};
     public final Object[] rebateSearchColumns = new Object[]{
         REBATE_PLAN_ID_PROPERTY, "rebatePlanNo", REBATE_PLAN_NAME_PROPERTY, "rebatePlanStatus", "rebatePlanType"};
-    public final String rebateSearchHeaders[] = new String[]{
+    public final String[] rebateSearchHeaders = new String[]{
         REBATE_PLAN_ID_FIELD, "Rebate Plan No", REBATE_PLAN_NAME_LABEL, "Rebate Plan Status", "Rebate Plan Type"};
     public final Object[] adSelectedResultsColumnsIfp = new Object[]{
         Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, S_DATE_PROPERTY, E_DATE_PROPERTY};

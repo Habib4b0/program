@@ -1397,8 +1397,7 @@ public class PromoteTPLogic {
                         final Object[] obj = (Object[]) componentInformationList1;
                         dto = new ComponentInfoDTO();
 
-                        if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-                        } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
+                         if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
                             dto.setItemNo(convertNullToEmpty(obj[0]));
                             dto.setItemName(convertNullToEmpty(obj[1]));
                             dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));

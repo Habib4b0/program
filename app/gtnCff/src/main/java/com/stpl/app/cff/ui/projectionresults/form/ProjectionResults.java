@@ -232,11 +232,10 @@ public class ProjectionResults extends ForecastProjectionResults {
         if (levelNo == 0) {
             projectionSelectionDTO.setIsFilter(false);
         }
-        if (excelExport) {
-        } else {
+        if (!excelExport) {
             levelDdlb.setValue(SELECT_ONE);
             loadResultTable(levelNo, hierarchyNo);
-        }
+        } 
 
     }
 
