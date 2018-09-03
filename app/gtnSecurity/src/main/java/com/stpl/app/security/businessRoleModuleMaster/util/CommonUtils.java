@@ -177,7 +177,7 @@ public class CommonUtils {
 	    	int count=0;
 	        int a=0;
 	        int subqueryNocount=0;
-   	        String memberIdArraytemp[] = new String[NumericConstants.THOUSAND];
+   	        String[] memberIdArraytemp = new String[NumericConstants.THOUSAND];
 	        String memberIdquery ="";
 			 boolean xflag = true;
 			 try{
@@ -251,7 +251,7 @@ public class CommonUtils {
 		        int a=0;
 		        int subqueryNocount=0;
 
-		        String memberIdArraytemp[] = new String[NumericConstants.THOUSAND];
+		        String[] memberIdArraytemp = new String[NumericConstants.THOUSAND];
 		        String memberIdquery ="";
 				 boolean xflag = true;
 				 try{
@@ -311,7 +311,7 @@ public class CommonUtils {
 		    	return memberIdquery;
 		    }
 		 
-		 public static String arrayToString(String a[], String separator){
+		 public static String arrayToString(String[] a, String separator){
 		        StringBuilder resultBuilder = new StringBuilder();
 		                   if (a.length > 0) {
                          if (a[0] != null) {
@@ -327,7 +327,7 @@ public class CommonUtils {
 		        return resultBuilder.toString();
 		    }
 		 
-		  public static String arrayToString2(String a[], String separator){
+		  public static String arrayToString2(String[] a, String separator){
 		        String result = "";
 		        if (a.length > 0) {
 		        	

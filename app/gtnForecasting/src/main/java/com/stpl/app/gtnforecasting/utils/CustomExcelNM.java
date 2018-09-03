@@ -21,8 +21,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
@@ -49,8 +47,7 @@ public class CustomExcelNM extends ExcelExport {
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected final CellStyle style7 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomExcelNM.class);
-    private final TableHolder tableHolder;
+    protected final TableHolder tableHolder;
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
     public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     public static final String GROWTH = "Growth";
@@ -136,7 +133,7 @@ public class CustomExcelNM extends ExcelExport {
         if(!isCustom){
             formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
         }else{
-            formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
+            formatForCurrencyAndDecimalCustom(propId, sheetCell);
         }
     }
 
@@ -227,7 +224,7 @@ public class CustomExcelNM extends ExcelExport {
         	}
         }
     }
-    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell) throws FormulaParseException {
         if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
             sheetCell.setCellStyle(style1);
         } else if (formatter.get(CURRENCY_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(CURRENCY_TWO_DECIMAL))) {

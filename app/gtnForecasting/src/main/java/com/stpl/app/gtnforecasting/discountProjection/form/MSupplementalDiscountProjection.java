@@ -165,7 +165,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     private final BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
     private final DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
     private static final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
-    private final HeaderUtils headerUtils = new HeaderUtils();
     private Object formulaList;
     private boolean canLoad = true;
     static {
@@ -1270,7 +1269,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     valueLookUp.setValue(dtoItemValue);
                     selectedValue = String.valueOf(valueLookUp.getValue());
                 } else {
-                    String lookUpValue = StringUtils.EMPTY;
                     StringBuilder lookUpValueBuilder = new StringBuilder();
                     List<String> emptyNdcList = returnList.get(1);
                     String emptyValue = StringUtils.EMPTY;
@@ -1283,7 +1281,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                             lookUpValueBuilder.append(emptyNdcList.get(k));
                         }
                     }
-                    lookUpValue = lookUpValueBuilder.toString();
+                    String lookUpValue = lookUpValueBuilder.toString();
                     int quatValue = 0;
                     List<List> emptyQuarList = returnList.get(NumericConstants.TWO);
                     final String[] quaterName = new String[emptyQuarList.size()];
