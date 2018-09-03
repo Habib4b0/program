@@ -903,7 +903,7 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
+                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
                 salesRowDto.setLevelName(levelName);
                 if (levelName.contains("-")) {
                     String[] tempArr = levelName.split("-");
@@ -936,7 +936,7 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(),  relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
             salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ?  Boolean.FALSE :  Boolean.TRUE :  Boolean.FALSE);
@@ -2740,7 +2740,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void adjustSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
-            final String adjBasis, final String adsVar, final String adsMeth, final String historyPeriods, String projectionPeriods) throws SystemException {
+            final String adjBasis, final String adsVar,final String historyPeriods, String projectionPeriods) throws SystemException {
         List<String> inputList = new ArrayList<>();
         inputList.add(projectionSelectionDTO.getFrequency());
         inputList.add(projectionPeriods);

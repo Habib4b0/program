@@ -1326,7 +1326,7 @@ public class NMPmpyCalculator extends Window {
 
     @UiHandler("totalLivesChartCh")
     public void totalLivesChartCh(Button.ClickEvent event) {
-        final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chContainer.getBeans(), (String) contract.getValue(), rightDto.getDoubleHistoryColumns());
+        final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart((String) contract.getValue(), rightDto.getDoubleHistoryColumns());
         final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
         UI.getCurrent().addWindow(salesGraphWindow);
     }

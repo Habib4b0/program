@@ -81,7 +81,7 @@ public class CommonUtils {
      * The WorkFlowStatus list name.
      */
     public static final String WORKFLOW_STATUS = "WorkFlowStatus";
-    private static HashMap<Long, String> userMap = new HashMap<Long, String>();
+    private static HashMap<Long, String> userMap = new HashMap<>();
     
     public static final String SUCCESSFULLY_DELETED = " has been deleted Successfully";
     public static final String PRIMARY = "Primary";

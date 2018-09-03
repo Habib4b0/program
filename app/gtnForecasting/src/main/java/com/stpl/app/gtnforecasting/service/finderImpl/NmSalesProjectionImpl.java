@@ -2418,7 +2418,7 @@ if(!custom){
         return list;
     }
 
-    public List getVarianceSales(int projectionId, String frequency, List<Integer> startAndEndPeriods, String actualsOrProjections, String parentName, String year, int levelNo, String sales) {
+    public List getVarianceSales(int projectionId, String frequency, List<Integer> startAndEndPeriods,  String parentName, String year, int levelNo, String sales) {
         
         String customQuery = "";
         try {
