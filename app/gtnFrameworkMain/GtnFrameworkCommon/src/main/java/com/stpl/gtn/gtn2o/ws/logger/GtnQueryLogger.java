@@ -18,7 +18,7 @@ public class GtnQueryLogger {
 
 	public long startQueryLog(String query) {
 		if (GtnWebServiceJmx.getInstance().isLogQueryFlag()) {
-			logger.info("Start executing query " + query);
+			logger.debug("Start executing query " + query);
 		}
 		return System.currentTimeMillis();
 	}
@@ -37,7 +37,7 @@ public class GtnQueryLogger {
 		gtnWebServiceJmxMetrics.setQueryTotalTime(gtnWebServiceJmxMetrics.getQueryTotalTime() + queryExecutionTime);
 		GtnWebServiceJmx.getInstance().addQueryExecutionTime(query, gtnWebServiceJmxMetrics);
 		if (GtnWebServiceJmx.getInstance().isLogQueryFlag()) {
-			logger.info(
+			logger.debug(
 					"Time taken for executing query: " + query.substring(0, 10) + " is " + queryExecutionTime + " ms.");
 		}
 	}

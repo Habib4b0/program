@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
@@ -108,7 +109,6 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 
 	
 
-	
 	@SuppressWarnings("unchecked")
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
 		Query query = session.createSQLQuery(sqlQuery);
@@ -247,6 +247,8 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 	}
 
 
+
+
 	public int executeCountQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		int count = 0;
@@ -273,9 +275,9 @@ public class GtnFrameworkWsSqlQueryEngine extends GtnCommonWebServiceImplClass {
 	}
 
 
-
 	@Override
 	public GtnUIFrameworkWebserviceRequest registerWs() {
 		return null;
 	}
 }
+
