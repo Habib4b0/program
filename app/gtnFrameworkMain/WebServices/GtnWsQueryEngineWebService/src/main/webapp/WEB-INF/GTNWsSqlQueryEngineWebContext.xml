@@ -52,6 +52,10 @@
 
 	</bean>
 	
+	 <bean id="gtnFrameworkQueryExecutorBean"
+   class="com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean">
+   
+   </bean>
 	 <bean id="sysDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<!--<property name="jndiName" value="java:comp/env/jdbc/infraDataPool" 
 			/> -->
