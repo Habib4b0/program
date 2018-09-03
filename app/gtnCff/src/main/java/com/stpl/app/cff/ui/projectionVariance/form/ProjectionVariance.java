@@ -634,11 +634,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void callTableLogic(int levelNo, String hierarchyNo, boolean excelFlag) {
         loadVariables();
-        if (excelFlag) {
-        } else {
+        if (!excelFlag) {
             tableLogic.clearAll();
             loadResultTable(levelNo, hierarchyNo);
-        }
+        } 
     }
 
     @UiHandler("fromDate")

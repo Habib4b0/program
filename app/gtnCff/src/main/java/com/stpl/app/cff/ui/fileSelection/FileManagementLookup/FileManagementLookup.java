@@ -1184,8 +1184,7 @@ public class FileManagementLookup extends Window {
 											if (buttonId.name().equals(ConstantsUtils.YES)) {
 												close();
 											}
-											if (buttonId.name().equals("NO")) {
-											}
+											
 										}
 									}, ButtonId.YES, ButtonId.NO);
 
@@ -1690,59 +1689,7 @@ public class FileManagementLookup extends Window {
 			if (!changeFlag) {
 				Collections.sort(existingSystemId);
 				Collections.sort(currentSystemId);
-				if (existingSystemId.equals(currentSystemId)) {
-					for (int i = 0; i < itemIds.size(); i++) {
-						final FileMananagementResultDTO beanItem = itemIds.get(i);
-						if (!beanItem.isRecordLockStatus()) {
-							if ((beanItem.getPrice().equals(beanItem.getHiddenPrice())
-									&& beanItem.getUnits().equals(beanItem.getHiddenUnits()))
-									&& fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
-									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& fileType.equals(ConstantsUtils.DEMAND)) {
-
-							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
-									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-
-							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
-									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
-									&& beanItem.getDay().equals(beanItem.getHiddenDay())
-									&& beanItem.getWeek().equals(beanItem.getHiddenWeek())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-
-							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
-									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
-									&& beanItem.getDay().equals(beanItem.getHiddenDay())
-									&& beanItem.getWeek().equals(beanItem.getHiddenWeek())
-									&& beanItem.getCompanyId().equals(beanItem.getHiddenCompanyId())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-
-							} else if (beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
-									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
-									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
-									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& ((HelperDTO) fmFileType.getValue()).getDescription()
-											.equals(ConstantsUtils.CUSTOMERGTS)) {
-
-							} else {
-								changeFlag = true;
-							}
-						}
-					}
-				} else {
+				if (!existingSystemId.equals(currentSystemId)) {
 					changeFlag = true;
 				}
 			}

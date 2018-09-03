@@ -110,8 +110,7 @@ public class ItemManagementLookup extends CustomWindow {
         if (!selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             insertToTempTable();
         }
-        if (selection.isIsIFP()) {
-        } else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+        else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
             addBtn.setVisible(false);
             mainTab.addTab(contractSelection.getContent(itemList, selection), "Contract Selection", null, 0);
             removeSummary.getContent(itemList, selection);
@@ -256,8 +255,7 @@ public class ItemManagementLookup extends CustomWindow {
         LOGGER.debug("tabLazyLoad inside");
 
         if (tabPosition == 1) {
-            if (selection.isIsIFP()) {
-            } else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+            if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                 mainTab.replaceComponent(itemsummary, itemsummary.getContent(itemList, selection));
                 addSummaryFlag = true;
             } else {
