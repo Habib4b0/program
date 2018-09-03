@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.registry.action.GtnCustomerSelectionForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastInnerLevelLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -18,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkForecastProdHierarchyConfig {
 
-	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String nameSpace) {
 
@@ -29,7 +30,9 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	private void addProductSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig productSelectionLayout = configProvider.getVerticalLayoutConfig(
-				nameSpace + "_" + "productSelectionLayout", true, nameSpace + "_" + "productSelectionPanel");
+				nameSpace + "_" + 
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT,
+                                                                        true, nameSpace + "_" + "productSelectionPanel");
 		productSelectionLayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		productSelectionLayout.setSpacing(true);
 		componentList.add(productSelectionLayout);
@@ -41,12 +44,14 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 	private void addComponents(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig productSelectionHorizontalLayout = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "productSelectionHorizontalLayout", true,
-				nameSpace + "_" + "productSelectionLayout");
+				nameSpace + "_" + 
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT);
 		productSelectionHorizontalLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(productSelectionHorizontalLayout);
 
 		GtnUIFrameworkComponentConfig productSelectionCssLayout = configProvider.getCssLayoutConfig(
-				nameSpace + "_" + "productSelectionCssLayout", true,
+				nameSpace + "_" + 
+                                    GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS, true,
 				nameSpace + "_" + "productSelectionHorizontalLayout");
 //		productSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 //		productSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
@@ -61,7 +66,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	private void addHierarchy(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig producthierarchyLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "producthierarchyLayout", true, nameSpace + "_" + "productSelectionCssLayout");
+				nameSpace + "_" + "producthierarchyLayout", true, nameSpace + "_" +
+                                  GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS);
 		componentList.add(producthierarchyLayout);
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
@@ -84,7 +90,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	private void addRelationship(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig prodrelationshipLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "prodrelationshipLayout", true, nameSpace + "_" + "productSelectionCssLayout");
+				nameSpace + "_" + "prodrelationshipLayout", true, nameSpace + "_" + 
+                              GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS);
 		componentList.add(prodrelationshipLayout);
 
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
@@ -109,7 +116,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	private void addForecastLevel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig prodforecastLevelLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "prodforecastLevelLayout", true, nameSpace + "_" + "productSelectionCssLayout");
+				nameSpace + "_" + "prodforecastLevelLayout", true, nameSpace + "_" + 
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS);
 		componentList.add(prodforecastLevelLayout);
 
 		GtnUIFrameworkComponentConfig forecastLevel = new GtnUIFrameworkComponentConfig();
@@ -134,7 +142,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	private void addCustomerGroupLookup(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig productGroupLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "productGroupLayout", true, nameSpace + "_" + "productSelectionCssLayout");
+				nameSpace + "_" + "productGroupLayout", true, nameSpace + "_" +
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT_CSS);
 		componentList.add(productGroupLayout);
 
 		GtnUIFrameworkComponentConfig customerGroup = new GtnUIFrameworkComponentConfig();
@@ -149,19 +158,22 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	private void addCustomerSelectionInnerPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig productSelectionInnerPanel = configProvider.getPanelConfig(
-				nameSpace + "_" + "productSelectionInnerPanel", true, nameSpace + "_" + "productSelectionLayout");
+				nameSpace + "_" + "productSelectionInnerPanel", true, nameSpace + "_" +
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_PROD_SEL_LAYOUT);
 		productSelectionInnerPanel.setSpacing(true);
 		componentList.add(productSelectionInnerPanel);
 
 		GtnUIFrameworkComponentConfig productSelectionInnerLayout = configProvider.getVerticalLayoutConfig(
-				nameSpace + "_" + "productSelectionInnerLayout", true,
+				nameSpace + "_" + 
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_CUST_SEL_INNER_LAYOUT, true,
 				nameSpace + "_" + "productSelectionInnerPanel");
 		productSelectionInnerLayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		componentList.add(productSelectionInnerLayout);
 
 		GtnUIFrameworkComponentConfig productSelectionInnerCssLayout = configProvider.getCssLayoutConfig(
 				nameSpace + "_" + "productSelectionInnerCssLayout", true,
-				nameSpace + "_" + "productSelectionInnerLayout");
+				nameSpace + "_" +
+                                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_CUST_SEL_INNER_LAYOUT);
 		productSelectionInnerCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
 		componentList.add(productSelectionInnerCssLayout);
 		addLevelComponent(componentList, nameSpace);
@@ -191,7 +203,8 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		productSelectionDualListBoxComponent.setComponentId(nameSpace + "_" + "prodDualListBoxComp");
 		productSelectionDualListBoxComponent.setComponentName("Customer Selection");
 		productSelectionDualListBoxComponent.setAddToParent(true);
-		productSelectionDualListBoxComponent.setParentComponentId(nameSpace + "_" + "productSelectionInnerLayout");
+		productSelectionDualListBoxComponent.setParentComponentId(nameSpace + "_" +
+                        GtnFrameworkScreenRegisteryConstants.PRODUCT_HIERARCHY_ADD_CUST_SEL_INNER_LAYOUT);
 		componentList.add(productSelectionDualListBoxComponent);
 
 		GtnUIFrameworkDualListBoxConfig productSelectionDualListBoxConfig = new GtnUIFrameworkDualListBoxConfig();
