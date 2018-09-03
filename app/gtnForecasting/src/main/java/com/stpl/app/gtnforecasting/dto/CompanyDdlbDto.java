@@ -6,8 +6,6 @@
 package com.stpl.app.gtnforecasting.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *

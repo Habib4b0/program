@@ -453,16 +453,10 @@ public class NMProjectionResultsLogic {
                             int valueIndex = isNetSales ? NumericConstants.SIX : NumericConstants.THREE;
                             String value = StringUtils.EMPTY + discountRow[valueIndex];
                             String value1 = StringUtils.EMPTY;
-                            if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
+                            if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS) || projSelDTO.getSales().contains("TOT")) {
                                 value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                                 value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                            } else if (projSelDTO.getSales().contains(Constant.RATE)) {
-                                value = getFormattedValue(PER_TWO, value);
-                                value1 = getFormattedValue(PER_TWO, "0.00");
-                            } else if (projSelDTO.getSales().contains("TOT")) {
-                                value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                                value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                            } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
+                            } else if (projSelDTO.getSales().contains(Constant.RATE) || projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                                 value = getFormattedValue(PER_TWO, value);
                                 value1 = getFormattedValue(PER_TWO, "0.00");
                             }
@@ -2555,9 +2549,6 @@ public class NMProjectionResultsLogic {
                     if (parentDto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
                         projSelDTO.setCustomerHierarchyNo(projSelDTO.getHierarchyNo());
                         projSelDTO.setProductHierarchyNo(parentDto.getProductHierarchyNo());
-                    } else if (parentDto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                        projSelDTO.setProductHierarchyNo(projSelDTO.getHierarchyNo());
-                        projSelDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
                     }
                     else{
                      projSelDTO.setProductHierarchyNo(projSelDTO.getHierarchyNo());

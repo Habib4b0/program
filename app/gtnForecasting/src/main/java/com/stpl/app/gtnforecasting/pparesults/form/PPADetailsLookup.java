@@ -22,7 +22,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
