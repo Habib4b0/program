@@ -17,6 +17,7 @@ import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
@@ -74,7 +75,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
             try {
                 binder.commit();
             } catch (FieldGroup.CommitException ex) {
-                LOGGER.error("Error in saveToMaster :" , ex);
+                LOGGER.error("Error in saveToMaster :", ex);
             }
         }
         if (logic.combinationIsSelected(binderDto)) {
@@ -82,32 +83,36 @@ public class AddAdjustmentReserve extends AbstractReserve {
                 AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID008()); // Changed as per GAL-5879
                 return false;
             }
-            if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
-                selection.setIsGTNDetails(false);
-                if (selection.getReserveMasterSid() == 0) {
-                    int id = logic.addLineForMaster(selection, 0);
-                    if (id == 0) {
-                        AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
-                        return false;
-                    } else {
-                        selection.setReserveMasterSid(id);
-                        selection.setMasterSID(selection.getReserveMasterSid());
-                        if (selection.getGtnDetailsMasterSid() == 0) {
-                            selection.setGtnDetailsMasterSid(logic.addLineForMaster(selection, 1));
-                        }
-                        return true;
-                    }
-                } else if ((binderModified) && (!logic.updateMasterTable(selection, binderDto))) {
-                    AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
-                    return false;
-                }
-                return true;
-            } else {
-                return saveToMasterForGTN(binderModified);
-            }
+            return saveReserveGtnMaster(binderModified);
         } else {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage001());
             return false;
+        }
+    }
+
+    private boolean saveReserveGtnMaster(boolean binderModified) {
+        if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
+            selection.setIsGTNDetails(false);
+            if (selection.getReserveMasterSid() == 0) {
+                int id = logic.addLineForMaster(selection, 0);
+                if (id == 0) {
+                    AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+                    return false;
+                } else {
+                    selection.setReserveMasterSid(id);
+                    selection.setMasterSID(selection.getReserveMasterSid());
+                    if (selection.getGtnDetailsMasterSid() == 0) {
+                        selection.setGtnDetailsMasterSid(logic.addLineForMaster(selection, 1));
+                    }
+                    return true;
+                }
+            } else if ((binderModified) && (!logic.updateMasterTable(selection, binderDto))) {
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+                return false;
+            }
+            return true;
+        } else {
+            return saveToMasterForGTN(binderModified);
         }
     }
 
@@ -136,26 +141,28 @@ public class AddAdjustmentReserve extends AbstractReserve {
     /**
      * Reset logic for selection criteria.
      *
-     * @param event
+     * @param resetevent
      */
     @UiHandler("resetBtnRes")
-    public void resetSelectionButtonLogic(Button.ClickEvent event) {
-        LOGGER.debug(event.toString());
+    public void resetSelectionButtonLogic(Button.ClickEvent resetevent) {
+        LOGGER.debug(resetevent.toString());
         new AbstractNotificationUtils() {
             @Override
             public void yesMethod() {
                 try {
+                    LOGGER.debug("Inside Add Reserve Yes Method:");
                     binderDto = new AdjustmentReserveDTO();
                     binder.setItemDataSource(new BeanItem<>(binderDto));
+                    LOGGER.debug("Inside Add Reserve Commit:");
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
+                    LOGGER.error("Error in Add resetSelectionButtonLogic :", ex);
                 }
             }
 
             @Override
             public void noMethod() {
-                LOGGER.debug("Inside No Method:");
+                LOGGER.debug("Inside Add Reserve No Method:");
             }
         }.getConfirmationMessage("Confirmation", ARMMessages.getResetMessageID001());
     }
@@ -202,26 +209,26 @@ public class AddAdjustmentReserve extends AbstractReserve {
     }
 
     @UiHandler("deductionCategoryDdlbRes")
-    public void valueChangeDeductionCategoryDdlbRes(final Property.ValueChangeEvent event) {
-        LOGGER.debug(event.toString());
+    public void valueChangeDeductionCategoryDdlbRes(final Property.ValueChangeEvent valueChangeEvent) {
+        LOGGER.debug(valueChangeEvent.toString());
         isValueChangeAllowed = false;
         if ((int) deductionCategoryDdlbRes.getValue() != 0) {
-            Map<Integer, HelperDTO> idhelper = HelperListUtil.getInstance().getIdHelperDTOMap();
-            List<Object> list = logic.getTypeValuesBasedOnCategory((int) deductionCategoryDdlbRes.getValue());
+            Map<Integer, HelperDTO> helper = HelperListUtil.getInstance().getIdHelperDTOMap();
+            List<Object> resultsList = logic.getTypeValuesBasedOnCategory((int) deductionCategoryDdlbRes.getValue());
             deductionTypeDdlbRes.removeAllItems();
-            deductionTypeDdlbRes.addItem(0);
+            deductionTypeDdlbRes.addItem(NumericConstants.ZERO);
             deductionTypeDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
-            for (Object obj : list) {
-                if (obj != null) {
-                    deductionTypeDdlbRes.addItem((int) obj);
-                    deductionTypeDdlbRes.setItemCaption((int) obj, (idhelper.get((int) obj)).getDescription());
+            for (Object object : resultsList) {
+                if (object != null) {
+                    deductionTypeDdlbRes.addItem((Integer) object);
+                    deductionTypeDdlbRes.setItemCaption((Integer) object, (helper.get((Integer) object)).getDescription());
                 }
             }
-            deductionTypeDdlbRes.select(0);
+            deductionTypeDdlbRes.select(NumericConstants.ZERO);
             deductionProgramDdlbRes.removeAllItems();
-            deductionProgramDdlbRes.addItem(0);
+            deductionProgramDdlbRes.addItem(NumericConstants.ZERO);
             deductionProgramDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
-            deductionProgramDdlbRes.select(0);
+            deductionProgramDdlbRes.select(NumericConstants.ZERO);
             isValueChangeAllowed = true;
         } else {
             CommonLogic.configureDropDownsForDeduction(deductionTypeDdlbRes, "getDeductionType");
@@ -229,19 +236,19 @@ public class AddAdjustmentReserve extends AbstractReserve {
     }
 
     @UiHandler("deductionTypeDdlbRes")
-    public void valueChangeDeductionTypeDdlbRes(final Property.ValueChangeEvent event) {
-        LOGGER.debug(event.toString());
+    public void valueChangeDeductionTypeDdlbRes(final Property.ValueChangeEvent addValueChangeevent) {
+        LOGGER.debug(addValueChangeevent.toString());
         if (isValueChangeAllowed && (int) deductionTypeDdlbRes.getValue() != 0) {
             if (deductionTypeDdlbRes.getValue() != null) {
-                Map<Integer, HelperDTO> idhelper = HelperListUtil.getInstance().getIdHelperDTOMap();
-                List<Object> list = logic.getTypeValuesBasedOnType((int) deductionCategoryDdlbRes.getValue(), (int) deductionTypeDdlbRes.getValue());// changed (int) companyDdlbRes.getValue() and (int) businessDdlbRes.getValue() to 0 for GAL-5535
+                Map<Integer, HelperDTO> helper = HelperListUtil.getInstance().getIdHelperDTOMap();
+                List<Object> resList = logic.getTypeValuesBasedOnType((int) deductionCategoryDdlbRes.getValue(), (int) deductionTypeDdlbRes.getValue());// changed (int) companyDdlbRes.getValue() and (int) businessDdlbRes.getValue() to 0 for GAL-5535
                 deductionProgramDdlbRes.removeAllItems();
-                deductionProgramDdlbRes.addItem(0);
+                deductionProgramDdlbRes.addItem(NumericConstants.ZERO);
                 deductionProgramDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
-                for (Object obj : list) {
-                    if (obj != null) {
-                        deductionProgramDdlbRes.addItem((int) obj);
-                        deductionProgramDdlbRes.setItemCaption((int) obj, (idhelper.get((int) obj)).getDescription());
+                for (Object ob : resList) {
+                    if (ob != null) {
+                        deductionProgramDdlbRes.addItem((int) ob);
+                        deductionProgramDdlbRes.setItemCaption((int) ob, (helper.get((int) ob)).getDescription());
                     }
                 }
             }
@@ -284,7 +291,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
 
             }
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in configureTabAddLineLogic :" , ex);
+            LOGGER.error("Error in configureTabAddLineLogic :", ex);
         }
     }
 
@@ -294,9 +301,9 @@ public class AddAdjustmentReserve extends AbstractReserve {
      */
     @Override
     public void adjustmentSummaryAddLineLogic() {
-        Validation validation = new ValidationAddRemoveLine(selection, true);
-        if (!validation.doValidate()) {
-            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+        Validation addLinevalidation = new ValidationAddRemoveLine(selection, true);
+        if (!addLinevalidation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, addLinevalidation.validationMessage());
             return;
         }
         adjustmentSummaryConfigLogic.addLineLogic(selection);
@@ -305,9 +312,9 @@ public class AddAdjustmentReserve extends AbstractReserve {
 
     @Override
     protected void balanceSummaryAddLineLogic() {
-        Validation validation = new ValidationAddRemoveLine(selection, true);
-        if (!validation.doValidate()) {
-            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+        Validation balSumAddLinevalidation = new ValidationAddRemoveLine(selection, true);
+        if (!balSumAddLinevalidation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, balSumAddLinevalidation.validationMessage());
             return;
         }
         balanceSummaryLogic.addLineLogic(selection);
@@ -361,7 +368,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
             List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
             adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
         } catch (Exception ex) {
-            LOGGER.error("Error in resetAdjustmentSummaryLine :" , ex);
+            LOGGER.error("Error in resetAdjustmentSummaryLine :", ex);
         }
 
     }
@@ -387,7 +394,7 @@ public class AddAdjustmentReserve extends AbstractReserve {
             List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
             balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
         } catch (Exception ex) {
-            LOGGER.error("Error in resetBalanceSummaryLine :" , ex);
+            LOGGER.error("Error in resetBalanceSummaryLine :", ex);
         }
     }
 }
