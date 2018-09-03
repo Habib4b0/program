@@ -259,7 +259,7 @@ public class DiscountLogic {
             String query = queryUtils.getLatestCCPQuery(contractSid, rsSid);
             removeList = discountDAO.getValues(query);
 
-            if (removeList.size() > 0) {
+            if (!removeList.isEmpty()) {
                 Object[] objects = (Object[]) removeList.get(0);
                 removeDiscountDto.setProjectionSid(Integer.parseInt(String.valueOf(objects[0])));
                 removeDiscountDto.setForecastingType(String.valueOf(objects[1]));
@@ -624,7 +624,7 @@ public class DiscountLogic {
     public int configureLevelCount(RemoveDiscountDto projSelDTO) {
         List<Object> list = getSummary(projSelDTO);
         int count = 0;
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             count = Integer.parseInt(String.valueOf(list.get(0)));
         }
         return count;

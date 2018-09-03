@@ -67,6 +67,7 @@ import org.slf4j.LoggerFactory;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.BlurListener;
+import java.util.Locale;
 
 /**
  *
@@ -244,11 +245,11 @@ public class CopyContractform extends CustomComponent implements View {
         List listcId = null;
         List listcNo = null;
         if (!StringUtils.EMPTY.equals(cId)) {
-            String query = "select upper(CONTRACT_ID) from CONTRACT_MASTER where CONTRACT_ID='" + cId.toUpperCase() + "'";
+            String query = "select upper(CONTRACT_ID) from CONTRACT_MASTER where CONTRACT_ID='" + cId.toUpperCase(Locale.ENGLISH) + "'";
             listcId = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
         if (!StringUtils.EMPTY.equals(cNo)) {
-            String query = "select upper(CONTRACT_NO) from CONTRACT_MASTER where CONTRACT_NO='" + cNo.toUpperCase() + "'";
+            String query = "select upper(CONTRACT_NO) from CONTRACT_MASTER where CONTRACT_NO='" + cNo.toUpperCase(Locale.ENGLISH) + "'";
             listcNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
 

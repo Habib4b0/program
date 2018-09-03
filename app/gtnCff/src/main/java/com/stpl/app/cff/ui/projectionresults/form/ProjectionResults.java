@@ -93,7 +93,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         configureOnNonMandated();
     }
 
-    private void configureOnNonMandated() throws PortalException, SystemException {
+    private void configureOnNonMandated() throws PortalException {
         configurePermission();
         loadFrequencyDdlb();
         historyDdlb.setValue(NumericConstants.FOUR);

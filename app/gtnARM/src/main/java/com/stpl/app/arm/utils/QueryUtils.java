@@ -439,7 +439,7 @@ public class QueryUtils {
             } else {
                 ccpHierarchyQuery[NumericConstants.TWO] = formQueryWithUnionAll(productList);
             }
-            LOGGER.debug("ccpHierarchyQuery -- {}", ccpHierarchyQuery);
+            LOGGER.debug("ccpHierarchyQuery -- {}",  ccpHierarchyQuery.length);
             LOGGER.debug("isDataSelectionTab -- {}", isDataSelectionTab);
             LOGGER.debug("tempTableNames -- {}", tempTableNames.entrySet());
             LOGGER.debug("topLevelName -- {}", topLevelName);

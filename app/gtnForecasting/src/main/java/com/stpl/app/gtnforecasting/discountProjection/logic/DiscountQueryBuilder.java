@@ -261,7 +261,7 @@ public class DiscountQueryBuilder {
     }
    
     public List<String> getRsContractSid(SessionDTO session, String hierarchyNo,
-            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList) {
+            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, List<String> discountList) {
         String customSql = "";
         LOGGER.debug(" inside updateCheckRecord");
         if (discountList != null && !discountList.isEmpty()) {
@@ -558,7 +558,7 @@ public class DiscountQueryBuilder {
     }
     
     public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String groupValue, boolean isProgram,
-            List<String> discountList,String deductionHierarchy,String hierarchyIndicator) {
+            List<String> discountList,String deductionHierarchy) {
         String customSql = StringUtils.EMPTY;
         String rebateQuery = StringUtils.EMPTY;
         LOGGER.debug(" entering saveGroupValues");
@@ -675,7 +675,7 @@ public class DiscountQueryBuilder {
         }
     }
 
-    public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList) {
+    public int getCheckedRecordCount(SessionDTO session, List<String> discountList) {
         List list = new ArrayList();
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");

@@ -255,43 +255,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
             inputs.add(selection.getDataSelectionDTO().getProjectionId());
             inputs.add(selection.getFrequency());
             selection.setMasterSids(ARMUtils.getMasterIdsMap());
-            String nextLevel;
-            if (dto instanceof AdjustmentDTO) {
-                TreeMap<String, Integer> masterSids;
-                AdjustmentDTO val = (AdjustmentDTO) dto;
-                int levelNo = val.getLevelNo();
-                masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
-                selection.setMasterSids(masterSids);
-                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
-                    nextLevel = selection.getSummarydeductionLevelDes();
-                } else {
-                    nextLevel = selection.getSummaryLevel().get(levelNo);
-                }
-                selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
-                selection.setLevelNo(levelNo);
-            } else {
-                selection.setLevelNo(1);
-                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
-                    nextLevel = selection.getSummarydeductionLevelDes();
-                } else {
-                    nextLevel = selection.getSummaryLevel().get(1);
-                }
-                if (selection.getSummaryvalueSid() != 0) {
-                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
-                } else if (selection.getSummarylevelFilterNo() != 0) {
-                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
-                }
-                //This will ovverride the default first Level (For Level Filter)
-                if (selection.getSummarylevelFilterNo() != 0) {
-                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
-                        nextLevel = selection.getSummarydeductionLevelDes();
-                    } else {
-                        nextLevel = selection.getSummarylevelFilterValue();
-                    }
-                }
-
-            }
+            String nextLevel = getNextLevelSingleLiablity(dto, selection);
             inputs.add(nextLevel);
             inputs.add(selection.getFromDate());
             inputs.add(selection.getToDate());
@@ -308,9 +272,60 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
         } catch (NumberFormatException ex) {
-            LOGGER.error("Error in generateInputs:" , ex);
+            LOGGER.error("Error in generateInputs:", ex);
         }
         return returnObj;
+    }
+
+    private String getNextLevelSingleLiablity(Object dto, SummarySelection selection) {
+        String nextLevel;
+        if (dto instanceof AdjustmentDTO) {
+            TreeMap<String, Integer> masterSids;
+            AdjustmentDTO val = (AdjustmentDTO) dto;
+            int levelNo = val.getLevelNo();
+            masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+            masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
+            selection.setMasterSids(masterSids);
+            if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
+                nextLevel = selection.getSummarydeductionLevelDes();
+            } else {
+                nextLevel = selection.getSummaryLevel().get(levelNo);
+            }
+            selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
+            selection.setLevelNo(levelNo);
+        } else {
+            selection.setLevelNo(1);
+            nextLevel = getNextLevelDeduction(selection);
+            getNextLevelMasterSid(selection);
+            //This will ovverride the default first Level (For Level Filter)
+            if (selection.getSummarylevelFilterNo() != 0) {
+                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
+                    nextLevel = selection.getSummarydeductionLevelDes();
+                } else {
+                    nextLevel = selection.getSummarylevelFilterValue();
+                }
+            }
+
+        }
+        return nextLevel;
+    }
+
+    private void getNextLevelMasterSid(SummarySelection selection) {
+        if (selection.getSummaryvalueSid() != 0) {
+            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
+        } else if (selection.getSummarylevelFilterNo() != 0) {
+            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
+        }
+    }
+
+    private String getNextLevelDeduction(SummarySelection selection) {
+        String nextLevel;
+        if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
+            nextLevel = selection.getSummarydeductionLevelDes();
+        } else {
+            nextLevel = selection.getSummaryLevel().get(1);
+        }
+        return nextLevel;
     }
 
     public AdjustmentDTO customizeListView(AdjustmentDTO dto, Object[] list1, SummarySelection selection, Double[] total) {

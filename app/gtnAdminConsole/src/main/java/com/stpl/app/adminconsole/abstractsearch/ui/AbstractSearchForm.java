@@ -71,6 +71,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.Locale;
 
 /**
  *
@@ -743,7 +744,7 @@ public class AbstractSearchForm extends CustomComponent {
         try {
             binder.getErrorDisplay().clearError();
             binder.commit();
-            String excelName = moduleName.toUpperCase();
+            String excelName = moduleName.toUpperCase(Locale.ENGLISH);
             String key = "excel_" + moduleName;
             configureExcelResultTable();
             loadExcelTable(moduleName, binder, searchCriteria);

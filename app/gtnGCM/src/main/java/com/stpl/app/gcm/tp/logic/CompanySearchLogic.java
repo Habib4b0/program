@@ -60,7 +60,7 @@ public class CompanySearchLogic {
         parameters.put("recordLockStatus", recordLockStatus);
 
         //Used to load the companies for Customer Selection tab in Transfer projection Details module
-        if (tpDto.getCompanyMasterSids().size() > 0) {
+        if (!tpDto.getCompanyMasterSids().isEmpty()) {
             parameters.put("companyMasterSids", CommonUtils.CollectionToString(tpDto.getCompanyMasterSids(), true));
         }
         //Used to restrict the companies for Customer Selection tab in Transfer projection Details module
@@ -153,7 +153,7 @@ public class CompanySearchLogic {
         } else {
             parameters.put(Constants.CHECK_RECORD, null);
         }
-        if (tpDTO.getCompanyMasterSids().size() > 0) {
+        if (!tpDTO.getCompanyMasterSids().isEmpty()) {
             parameters.put("companyMasterSids", CommonUtils.CollectionToString(tpDTO.getCompanyMasterSids(), true));
         }
 

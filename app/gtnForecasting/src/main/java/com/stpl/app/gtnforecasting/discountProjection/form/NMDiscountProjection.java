@@ -3372,7 +3372,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY,
                     relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY,
-                    Collections.emptyList(), Collections.EMPTY_MAP, projectionSelection.getForecastConfigPeriods(),
+                    Collections.emptyList(), Collections.emptyMap(), projectionSelection.getForecastConfigPeriods(),
                     projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
@@ -3502,7 +3502,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     rightHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(),
                     StringUtils.EMPTY, relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY,
-                    StringUtils.EMPTY, Collections.emptyList(), Collections.EMPTY_MAP,
+                    StringUtils.EMPTY, Collections.emptyList(), Collections.emptyMap(),
                     projectionSelection.getForecastConfigPeriods(), projectionSelection);
             loadDataToContainer(levelList, dto, true);
             excelTable.setCollapsed(dto, false);
@@ -4931,6 +4931,9 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                         subYear1 = tempSubYear.replace(Constant.Q, StringUtils.EMPTY);
                     } else if (defval == NumericConstants.TWELVE) {
                         subYear1 = tempSubYear;
+                    }
+                    else{
+                        subYear1  = String.valueOf(NumericConstants.TWELVE);
                     }
                     String fullYear = tempYear + subYear1;
                     year[i] = Integer.parseInt(fullYear.trim());
