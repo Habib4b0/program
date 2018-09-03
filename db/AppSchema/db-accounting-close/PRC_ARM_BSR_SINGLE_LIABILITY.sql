@@ -510,13 +510,8 @@ FROM   #TEMP_ARM_PROJ_MASTER A
                          INNER JOIN ACTUALS_DETAILS ACT 
                                 ON ACT.CCP_DETAILS_SID=TAM.CCP_DETAILS_SID 
                                     AND TAM.RS_MODEL_SID=ACT.RS_MODEL_SID
-                                    --AND ACT.CASH_PAID_PERIOD<=@TO_PERIOD_SID
+                                    AND ACT.CASH_PAID_PERIOD<=@TO_PERIOD_SID
                                     AND ACT.PERIOD_SID<@START_PERIOD_SID
-                         INNER JOIN ACTUALS_MASTER AM
-				ON AM.ACTUAL_ID=ACT.ACTUAL_ID
-                         INNER JOIN PERIOD P1 
-				ON DATEADD(DD,1,EOMONTH(AM.CASH_PAID_DATE,-1))=P1.PERIOD_DATE
-				AND P1.PERIOD_SID <= @TO_PERIOD_SID
                   GROUP  BY TAM.CCP_DETAILS_SID, 
                             TAM.RS_MODEL_SID)H 
               ON H.CCP_DETAILS_SID = A.CCP_DETAILS_SID 
@@ -893,13 +888,8 @@ FROM   #TEMP_ARM_PROJ_MASTER A
 				 INNER JOIN ACTUALS_DETAILS ACT 
                                         ON TAM.CCP_DETAILS_SID=ACT.CCP_DETAILS_SID 
                                             AND TAM.RS_MODEL_SID=ACT.RS_MODEL_SID
-                                            --AND ACT.CASH_PAID_PERIOD<=@TO_PERIOD_SID
+                                            AND ACT.CASH_PAID_PERIOD<=@TO_PERIOD_SID
                                             AND P.PERIOD_SID=ACT.PERIOD_SID
-                                 INNER JOIN ACTUALS_MASTER AM
-                                        ON AM.ACTUAL_ID=ACT.ACTUAL_ID
-                                 INNER JOIN PERIOD P1 
-                                        ON DATEADD(DD,1,EOMONTH(AM.CASH_PAID_DATE,-1))=P1.PERIOD_DATE
-                                        AND P1.PERIOD_SID <= @TO_PERIOD_SID
 GROUP  BY TAM.CCP_DETAILS_SID, 
           TAM.RS_MODEL_SID,
           P.PERIOD_SID) H 
