@@ -348,10 +348,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     historyBean.addAll(loadHistoryDdlb(SEMI_ANNUALLY.getConstant()));
                     historyConstant = "2 Semi-Annual";
                     break;
-                case Constant.QUARTERLY:
-                    historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant()));
-                    historyConstant = Constant.FOUR_QUARTERS;
-                    break;
                 case Constant.MONTHLY:
                     historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant()));
                     historyConstant = "12 Months";
