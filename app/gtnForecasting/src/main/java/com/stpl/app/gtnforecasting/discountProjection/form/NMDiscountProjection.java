@@ -1840,10 +1840,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     customerLevelNoList.add(Constant.PERCENT);
                     productLevelNoList.add(Constant.PERCENT);
                     deductionLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
-                } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
-                    customerLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
-                    productLevelNoList.add(Constant.PERCENT);
-                    deductionLevelNoList.add(Constant.PERCENT);
                 } else {
                     customerLevelNoList.add(StringUtils.EMPTY + dto.getTreeLevelNo());
                     productLevelNoList.add(Constant.PERCENT);

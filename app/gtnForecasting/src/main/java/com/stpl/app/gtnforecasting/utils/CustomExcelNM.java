@@ -21,8 +21,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;

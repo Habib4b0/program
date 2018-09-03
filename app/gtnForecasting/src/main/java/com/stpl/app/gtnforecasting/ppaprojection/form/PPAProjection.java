@@ -2178,12 +2178,7 @@ public class PPAProjection extends CustomComponent implements View {
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
                     return levelField;
-                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
-                    TextField checkField = new TextField();
-                    checkField.setWidth("100%");
-                    checkField.setReadOnly(true);
-                    return checkField;
-                } else if ((Constant.CHECK_RECORD + ".0").equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId) || (Constant.CHECK_RECORD + ".0").equals(propertyId)) {
                     TextField checkField = new TextField();
                     checkField.setWidth("100%");
                     checkField.setReadOnly(true);
