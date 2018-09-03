@@ -125,7 +125,7 @@ public class NMSalesProjectionResultsLogic {
 						unitsDTO = new SalesProjectionResultsDTO();
 						for (int i = 0; i < sprList.size(); i++) {
 							final Object[] obj = (Object[]) sprList.get(i);
-							String commonColumn = StringUtils.EMPTY;
+							String commonColumn;
 							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 								commonColumn = Constant.Q + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
@@ -228,7 +228,7 @@ public class NMSalesProjectionResultsLogic {
 						for (int i = 0; i < sprList.size(); i++) {
 							salesDTO = new SalesProjectionResultsDTO();
 							final Object[] obj = (Object[]) sprList.get(i);
-							String commonColumn = StringUtils.EMPTY;
+							String commonColumn;
 							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 								commonColumn = Constant.Q + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
@@ -261,7 +261,7 @@ public class NMSalesProjectionResultsLogic {
 												: "-");
 								for (int k = 0; k < gtsList.size(); k++) {
 									Object[] gtsObj = (Object[]) gtsList.get(k);
-									String gtsCommonColumn = StringUtils.EMPTY;
+									String gtsCommonColumn;
 									if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 										gtsCommonColumn = Constant.Q + gtsObj[NumericConstants.FIVE]
 												+ gtsObj[NumericConstants.SIX];

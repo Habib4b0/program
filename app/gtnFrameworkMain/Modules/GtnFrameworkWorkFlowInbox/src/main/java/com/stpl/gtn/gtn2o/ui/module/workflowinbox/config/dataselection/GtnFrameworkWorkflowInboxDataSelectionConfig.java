@@ -799,7 +799,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchResults.setEditable(false);
 		searchResults.setFilterBar(true);
 		searchResults.setSelectable(false);
-		searchResults.setSinkItemPerPageWithPageLength(true);
+		searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setPageLength(10);
 		searchResults.setItemPerPage(10);
 		searchResults.setSelectable(true);

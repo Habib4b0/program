@@ -244,9 +244,9 @@ public class DiscountProjectionLogic {
                             }
                             String levelName;
                             if(isCustom){
-                            levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
                             }else{
-                            levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
                                                         }
                             discountDto.setLevelName(levelName);
                             if (levelName.contains("-")) {
@@ -343,7 +343,7 @@ public class DiscountProjectionLogic {
                         } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
-                        String commonColumn = StringUtils.EMPTY;
+                        String commonColumn;
                         if (!isCustom) {
                             commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + column;
                         } else {
@@ -529,6 +529,7 @@ public class DiscountProjectionLogic {
             if (frequency.equals(MONTHLY.getConstant())) {
                 baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                 selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
+                LOGGER.debug(" baselinePeriods {} , baselinePeriods{} " , baselinePeriods, selectedPeriods);
             }
 
         }
@@ -579,7 +580,7 @@ public class DiscountProjectionLogic {
      * @param fieldValue
      * @return
      */
-    public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String fieldValue, boolean isProgram, List<String> discountList, String deductionHierarchy, String hierindicator) {
+    public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String fieldValue, boolean isProgram, List<String> discountList, String deductionHierarchy) {
 
         return queryBuilderAndExecutor.saveGroupValues(session, hierarchyNo, fieldValue, isProgram, discountList, deductionHierarchy);
     }
@@ -760,8 +761,8 @@ public class DiscountProjectionLogic {
         queryBuilderAndExecutor.checkClearAll(session, userGroup, checkClear);
     }
 
-    public boolean isAnyRecordChecked(SessionDTO session, boolean isProgram, List<String> discountProgramsList, boolean isCustomHierarchy) {
-        int count = queryBuilderAndExecutor.getCheckedRecordCount(session, discountProgramsList);
+    public boolean isAnyRecordChecked(SessionDTO session, List<String> discountProgramsList, boolean isCustomHierarchy) {
+        int count = queryBuilderAndExecutor.getCheckedRecordCount(session);
         if (count != 0) {
             if (count == -1) {
                 LOGGER.error("Check Count is not retrieved properly{}", isCustomHierarchy);
@@ -894,8 +895,7 @@ public class DiscountProjectionLogic {
      * @param selectedPeriods
      * @return
      */
-    public void calcDataUpdate(SessionDTO session, ProjectionSelectionDTO projectionSelection, String levelType,
-            Map<String, Map<String, List<String>>> selectedPeriods, List selectedDiscount, Boolean isProgram, Boolean isCustom) {
+    public void calcDataUpdate(SessionDTO session, ProjectionSelectionDTO projectionSelection, Map<String, Map<String, List<String>>> selectedPeriods, List selectedDiscount, Boolean isProgram, Boolean isCustom) {
         projectionSelection.setSessionDTO(session);
         utils.updateDiscProjMasterCalc(projectionSelection, selectedPeriods, selectedDiscount, isProgram, isCustom);
 
@@ -980,7 +980,7 @@ public class DiscountProjectionLogic {
                         discountNamePivot = StringUtils.EMPTY;
                         levelIdPivot = String.valueOf(obj[NumericConstants.THREE]);
                         discountDto.setHierarchyNo(String.valueOf(obj[NumericConstants.TWO]));
-                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                         discountDto.setAlternatePivotList(discountProjectionList);
                         if (isCustom) {
                             discountDto.setTreeLevelNo(treeLevelNo);
@@ -1155,9 +1155,9 @@ public class DiscountProjectionLogic {
 
     public int getDiscountCount(final SessionDTO sessionDTO, final String hierarchyNo, final int levelNo, final String hierarchyIndicator,
             boolean isProgram, final List<String> discountList, final String userGroup, final ProjectionSelectionDTO projselection) {
-        String query = StringUtils.EMPTY;
+        String query;
         if (CommonUtil.isValueEligibleForLoading()) {
-            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup, projselection);
+            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup, projselection);
         } else {
             query = queryBuilderAndExecutor.getDiscountCountQuery(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup);
         }
@@ -1225,7 +1225,7 @@ public class DiscountProjectionLogic {
     public List<String> getRsAllList(ProjectionSelectionDTO projdto) {
         List<String> rebateList = new ArrayList<>();
         try {
-            String queryAllRebate = StringUtils.EMPTY;
+            String queryAllRebate;
 
             if (Constant.PROGRAM_CATEGORY_LABEL.equals(projdto.getDiscountLevel())) {
                 queryAllRebate = "SELECT DISTINCT DPM.PRICE_GROUP_TYPE FROM  ST_NM_DISCOUNT_PROJ_MASTER DPM JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID"

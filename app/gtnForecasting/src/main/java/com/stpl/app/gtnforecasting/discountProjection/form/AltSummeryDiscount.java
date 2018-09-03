@@ -1056,7 +1056,7 @@ public class AltSummeryDiscount extends CustomComponent {
      */
     public void generateListView(boolean isGenerate) {
         LOGGER.debug("Inside generateListView ");
-        List<String> discountToBeLoaded =  new ArrayList<>();
+        List<String> discountToBeLoaded;
 
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;

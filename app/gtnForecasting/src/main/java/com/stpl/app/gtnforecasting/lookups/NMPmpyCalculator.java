@@ -54,7 +54,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -246,11 +245,6 @@ public class NMPmpyCalculator extends Window {
      * The regex.
      */
     public static final String REGEX = "(^[0-9]+(\\.[0-9])?$)";
-
-    /**
-     * The calendar.
-     */
-    private final Calendar calendar = CommonUtils.getCalendar();
     private final ExtFilterTable contractHolderTable = new ExtFilterTable();
     private final ExtFilterTable tradingHistoryTable = new ExtFilterTable();
     private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
@@ -1332,7 +1326,7 @@ public class NMPmpyCalculator extends Window {
 
     @UiHandler("totalLivesChartCh")
     public void totalLivesChartCh(Button.ClickEvent event) {
-        final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chContainer.getBeans(), (String) contract.getValue(), rightDto.getDoubleHistoryColumns());
+        final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart((String) contract.getValue(), rightDto.getDoubleHistoryColumns());
         final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
         UI.getCurrent().addWindow(salesGraphWindow);
     }

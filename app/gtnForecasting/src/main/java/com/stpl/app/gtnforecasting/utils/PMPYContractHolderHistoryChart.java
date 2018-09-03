@@ -35,7 +35,7 @@ public class PMPYContractHolderHistoryChart {
      * @param contractName
      * @param headeres
      */
-    public PMPYContractHolderHistoryChart(final List<PMPYRowDto> dto, final String contractName, List<Object> headeres) {
+    public PMPYContractHolderHistoryChart(final String contractName, List<Object> headeres) {
         LOGGER.debug("Entering PMPYContractHolderHistoryChart method ");
 
         this.contractName = contractName;

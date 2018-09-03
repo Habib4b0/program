@@ -128,7 +128,6 @@ public class NonMandatedLogic {
 	 * the SALES_SMALL dao.
 	 */
 	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-        private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Searh view.
@@ -1444,7 +1443,7 @@ public class NonMandatedLogic {
         SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-        String customSql = StringUtils.EMPTY;
+        String customSql;
         if (isUpdate) {
             List input = new ArrayList();
             input.add(dataSelectionDTO.getProjectionId());
@@ -2409,7 +2408,7 @@ public class NonMandatedLogic {
 	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException {
 
         List<Integer> levelnoList = null;
-        levelnoList = getMaximumLevelno(session, dataSelectionDTO);
+        levelnoList = getMaximumLevelno(dataSelectionDTO);
         String query = SQlUtil.getQuery("remove-tp-customer-with-no-actuals");
         query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(dataSelectionDTO.getProjectionId()));
         query = query.replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
@@ -2418,7 +2417,7 @@ public class NonMandatedLogic {
 
     }
 
-    public List<Integer> getMaximumLevelno(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) {
+    public List<Integer> getMaximumLevelno(final DataSelectionDTO dataSelectionDTO) {
         List<Object> input = new ArrayList<>();
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
         input.add(String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));

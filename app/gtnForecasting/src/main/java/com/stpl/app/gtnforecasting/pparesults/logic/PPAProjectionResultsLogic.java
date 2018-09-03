@@ -730,6 +730,7 @@ public class PPAProjectionResultsLogic {
                 }
             }
         }
+         LOGGER.debug("neededRecord{} ", neededRecord);
 
         return projDTOList;
     }
@@ -775,22 +776,9 @@ public class PPAProjectionResultsLogic {
 
         if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
             if (!filter.isEmpty()) {
-                switch (ddlbType) {
-                    case Constant.CONTRACT:
-                        value = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + value + "'");
-                        break;
-                    case Constant.CUSTOMER1_SMALL:
-                        value = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + value + "'");
-                        break;
-                    case Constant.BRAND:
-                        value = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + value + "'");
-                        break;
-                    default:
-                        break;
-
+                if (Constant.CONTRACT.equals(ddlbType) || Constant.CUSTOMER1_SMALL.equals(ddlbType) || Constant.BRAND.equals(ddlbType)) {
+                    value = Constant.PERCENT + filter + Constant.PERCENT;
+                    query = query.replace(Constant.FILTERR, "'" + value + "'");
                 }
             }
         } else {
@@ -820,11 +808,11 @@ public class PPAProjectionResultsLogic {
      * @return
      */
     public List<HelperDTO> getPPADetailsDDLBResult(int startIndex, int end, String filter, HelperDTO dto,
-            final String ddlbType, final int projectionId, PPADetailsDTO ppaDetailsDTO) {
+            final String ddlbTypePPA, final int projectionId, PPADetailsDTO ppaDetailsDTO) {
         String query = StringUtils.EMPTY;
         String searchFilter;
         final List<HelperDTO> list = new ArrayList<>();
-        switch (ddlbType) {
+        switch (ddlbTypePPA) {
 
             case Constant.CONTRACT:
                 query = SQlUtil.getQuery(getClass(),"contract-ddlb");
@@ -846,24 +834,12 @@ public class PPAProjectionResultsLogic {
         query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
         if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter))) && !StringUtils.EMPTY.equals(filter) ) {
-                switch (ddlbType) {
-                    case Constant.CONTRACT:
-                        searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
-                        break;
-                    case Constant.CUSTOMER1_SMALL:
-                        searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
-                        break;
-                    case Constant.BRAND:
-                        searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
-                        query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
-                        break;
-                    default:
-                        break;
-            }
+                if (Constant.CONTRACT.equals(ddlbTypePPA) || Constant.CUSTOMER1_SMALL.equals(ddlbTypePPA) || Constant.BRAND.equals(ddlbTypePPA)) {
+                    searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
+                    query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
+                }
         } else {
-            switch (ddlbType) {
+            switch (ddlbTypePPA) {
                 case Constant.CONTRACT:
                     query = query.replace("AND CM.CONTRACT_NO LIKE @FILTER", StringUtils.EMPTY);
                     break;
