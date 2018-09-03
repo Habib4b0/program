@@ -2435,7 +2435,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
+            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
             if (CommonUtil.isValueEligibleForLoading() && Constant.TEN_STRING.equals(levelNo)) {
                 CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
             } else {

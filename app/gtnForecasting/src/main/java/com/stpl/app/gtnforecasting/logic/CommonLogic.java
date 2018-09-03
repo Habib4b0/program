@@ -821,7 +821,7 @@ public class CommonLogic {
         return viewTableName;
     }
 
-    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String action) {
+    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator) {
         List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, StringUtils.EMPTY, 0, 0, DASH);
@@ -4796,7 +4796,7 @@ public class CommonLogic {
 		inputBean.setHierarchyIndicator(hieIndicator);
 		return inputBean;
 	}
-    public List<Object[]> getDeductionLevelValues(int projectionId, String type, ProjectionSelectionDTO projectionDto,List<Object> productFilter,List<Object> customerFilter) {
+    public List<Object[]> getDeductionLevelValues(String type, ProjectionSelectionDTO projectionDto,List<Object> productFilter,List<Object> customerFilter) {
         SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         List deductionValuesList = new ArrayList<>();
         StringBuilder query=new StringBuilder();
@@ -5213,7 +5213,7 @@ public class CommonLogic {
         return tableName;
     }
 
-    public String getHeaderForExcelDiscount(Character freq, Object[] obj, String discountId, String separator) {
+    public String getHeaderForExcelDiscount(Character freq, Object[] obj, String separator) {
         String headerCondition;
         switch (freq) {
             case 'A':

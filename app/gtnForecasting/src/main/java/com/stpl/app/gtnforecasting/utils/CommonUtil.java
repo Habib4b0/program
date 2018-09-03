@@ -544,7 +544,7 @@ public class CommonUtil {
         return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
     }
     
-    public static String getDisplayFormattedName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
+    public static String getDisplayFormattedName(String hierarchyNumber, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
         StringBuilder formattedName = new StringBuilder();
         try {
             List<Object> relationshipValues = relationshipDetails.get(hierarchyNumber);
@@ -761,7 +761,7 @@ public class CommonUtil {
         return formattedNameValue;
     }
         
-    public static List<String> getFormattedDisplayName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
+    public static List<String> getFormattedDisplayName(String hierarchyNumber, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
         List<String> formattedNameList = new ArrayList();
         try {
             List<Object> relationshipListValues = relationshipDetails.get(hierarchyNumber);

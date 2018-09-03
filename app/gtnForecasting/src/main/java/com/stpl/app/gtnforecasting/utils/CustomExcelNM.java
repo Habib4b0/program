@@ -133,7 +133,7 @@ public class CustomExcelNM extends ExcelExport {
         if(!isCustom){
             formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
         }else{
-            formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
+            formatForCurrencyAndDecimalCustom(propId, sheetCell);
         }
     }
 
@@ -224,7 +224,7 @@ public class CustomExcelNM extends ExcelExport {
         	}
         }
     }
-    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell) throws FormulaParseException {
         if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
             sheetCell.setCellStyle(style1);
         } else if (formatter.get(CURRENCY_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(CURRENCY_TWO_DECIMAL))) {

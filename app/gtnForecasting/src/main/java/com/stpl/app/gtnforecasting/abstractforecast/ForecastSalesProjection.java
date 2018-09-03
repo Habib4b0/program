@@ -2441,7 +2441,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                     getTableLogic().setRefresh(false);
                     salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                            adjMethodology, HISTORY_PERIODS, projectionPeriods);
+                            HISTORY_PERIODS, projectionPeriods);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                     refreshTableData(getCheckedRecordsHierarchyNo());
@@ -2550,7 +2550,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                             }
                             getTableLogic().setRefresh(false);
-                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
+                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,  historyPeriods, projectionPeriods);
                             CommonUtil.getInstance().waitForSeconds();
                             refreshTableData(getCheckedRecordsHierarchyNo());
                             getTableLogic().setRefresh(true);
