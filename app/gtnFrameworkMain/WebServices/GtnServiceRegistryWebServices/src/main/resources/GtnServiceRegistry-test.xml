@@ -11,7 +11,17 @@
      
        <bean id="gtnServiceRegistryRegisterWs" class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs">
      </bean>
-     
-<!--  	 <bean id="gtnUIServiceRegistryController" class="com.stpl.gtn.gtn2o.serviceregistry.controller.GtnUIServiceRegistryController"/>  
- -->	
+         <bean id="gtnUIServiceRegistryController"
+        class="com.stpl.gtn.gtn2o.serviceregistry.controller.GtnUIServiceRegistryController" />
+  
+	<bean id="gtnValidateWsServiceRegistryController"
+		class="com.stpl.gtn.gtn2o.serviceregistry.controller.GtnValidateWsServiceRegistryController" />
+	<bean id="gtnServiceRegistryAuthorizationService"
+		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryAuthorizationService" />
+	<bean id="gtnValidateWsServiceRegistryService"
+		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnValidateWsServiceRegistryService" />
+	<bean id="gtnUIServiceRegistryService"
+		class="com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService" />
+	       
+	
 </beans>   
