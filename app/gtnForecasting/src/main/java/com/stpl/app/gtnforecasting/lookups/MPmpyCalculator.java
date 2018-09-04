@@ -63,7 +63,6 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.logging.Level;
 
 /**
  * The Class MPmpyCalculator.
