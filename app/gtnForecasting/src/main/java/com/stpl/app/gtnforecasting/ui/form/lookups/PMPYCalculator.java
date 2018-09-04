@@ -551,7 +551,7 @@ public class PMPYCalculator extends Window {
                  */
                 @Override
                 public void click(final MouseEvents.ClickEvent event) {
-                    final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chTreeContainer.getBeans(), (String) contractComboBox.getValue(), rightDto.getDoubleHistoryColumns());
+                    final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart((String) contractComboBox.getValue(), rightDto.getDoubleHistoryColumns());
 
                     final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
                     UI.getCurrent().addWindow(salesGraphWindow);

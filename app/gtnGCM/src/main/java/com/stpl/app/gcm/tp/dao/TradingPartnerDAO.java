@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gcm.tp.dao;
 
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 import java.util.Map;
 

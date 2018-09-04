@@ -52,7 +52,7 @@ public class StplSecurity {
 
     private static final List<String> DOMAINIDS1 = null;
 
-    private static final Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    private static final Map<Integer, String> userMap = new ConcurrentHashMap<>();
 
     public StplSecurityDAO getDto() {
         return dto;
@@ -113,7 +113,7 @@ public class StplSecurity {
      * @return List<String>
      */
     public List<String> getDomainIds(final Collection<Object> userGroupId) {
-        List<String> domainIds = new ArrayList<String>();
+        List<String> domainIds = new ArrayList<>();
         final DynamicQuery ugDomainDynamicQuery = UsergroupDomainMasterLocalServiceUtil.dynamicQuery();
         ugDomainDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         try {
@@ -243,7 +243,7 @@ public class StplSecurity {
      * @return HashMap<String, AppPermission>
      */
     public Map<String, AppPermission> listToAppPermissionMap(final List permissionList, final int type) {
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
         final int listSize = permissionList.size();
         AppPermission appPermission;
@@ -343,7 +343,7 @@ public class StplSecurity {
 
     public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList, final Set addpermission, final Set viewpermission, final Set editpermission, final int type) {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
         if (type == ConstantsUtils.ZERO_INT || type == ConstantsUtils.ONE_INT || type == ConstantsUtils.TWO_INT) {

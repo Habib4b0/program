@@ -1762,7 +1762,7 @@ public class AlternateHistoryLogic {
 
         List<String> months = Arrays.asList(dateFormatSymbols.getShortMonths());
 
-        String selectedPeriods = StringUtils.EMPTY;
+        String selectedPeriods;
         StringBuilder selectedPeriodsBuilder = new StringBuilder();
         for (Object object : allocatedPeriods) {
             String frequency = (StringUtils.EMPTY + object).substring(frequencyStartIndex, frequncyEndIndex);

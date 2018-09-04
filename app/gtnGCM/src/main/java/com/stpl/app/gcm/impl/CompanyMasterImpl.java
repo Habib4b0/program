@@ -13,6 +13,7 @@ import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -161,7 +162,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -543,7 +544,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
 
@@ -561,7 +562,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -581,7 +582,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -595,13 +596,13 @@ public class CompanyMasterImpl {
             sql = "DELETE FROM COMPANY_TRADE_CLASS WHERE COMPANY_MASTER_SID=" + companySystemId;
 
             HelperTableLocalServiceUtil.executeSelectQuery(sql);
-            return null;
+            return Collections.emptyList();
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
 
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -651,7 +652,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -669,7 +670,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error("",e);
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -681,7 +682,7 @@ public class CompanyMasterImpl {
             sql.append(SQlUtil.getQuery("getCustomerDetails"));
 
             if (searchCriteria.contains("~") && !searchCriteria.contains("*")) {
-                String arr[] = searchCriteria.split("~");
+                String[] arr = searchCriteria.split("~");
                 for (String arr1 : arr) {
                     sql.append(arr1);
                 }
@@ -696,7 +697,7 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error("",e);
             LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
 

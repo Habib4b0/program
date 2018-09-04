@@ -111,10 +111,10 @@ public class RuleInformation extends CustomComponent {
     private Button resetBtn;
     private final ExtFilterTable resultsTable = new ExtFilterTable();
     private final BeanItemContainer<CDRDto> resultsContainer = new BeanItemContainer(CDRDto.class);
-    private static final Object RULE_DETAILS_COLUMNS[] = new Object[]{
+    private static final Object[] RULE_DETAILS_COLUMNS = new Object[]{
         "lineTypeDdlb", "itemGroupDdlb", "keywordDdlb", "operatorDdlb", "valueText", "comparisonDdlb", "logicalOperatorDdlb"};
     
-    private static final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
+    private static final String[] RULE_DETAILS_HEADERS = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
     
     private final CDRDto cdrBinerDto = new CDRDto();
     private String noteshistory = " ";

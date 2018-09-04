@@ -2180,7 +2180,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             it1.remove();
                             resultExcelContainer.addBean(itemId);
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2239,7 +2239,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             resultExcelContainer.addBean(itemId);
 
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2435,7 +2435,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
+            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
             if (CommonUtil.isValueEligibleForLoading() && Constant.TEN_STRING.equals(levelNo)) {
                 CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
             } else {
