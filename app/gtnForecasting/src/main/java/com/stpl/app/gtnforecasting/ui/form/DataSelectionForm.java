@@ -4129,12 +4129,28 @@ public class DataSelectionForm extends ForecastDataSelection {
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
 		try {
-			int forecastLevel = 0;
+                    
+                    int forecastLevel = 0;
+                    int relationVersionNo =0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
-				int relationVersionNo = Integer.parseInt(
-						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+                            ObjectMapper mapper = new ObjectMapper();
+                            Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMapper = customerHierarchyLookupWindow.getHierarchyDto().getRelationshipMap();
+                            Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = mapper.convertValue(
+					relationshipMapper, new TypeReference<Map<Integer, List<GtnWsRelationshipBuilderBean>>>() {});
+			
+                            List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = relationshipMap.get(customerHierarchyLookupWindow.getHierarchyDto().getHierarchyId());
+                        
+                            for(GtnWsRelationshipBuilderBean relationshipBuiderBean:relationshipBuilderBeanList){
+                                if(relationshipBuiderBean.getRelationshipBuilderSid() == (int)customerRelationComboBox.getValue()){
+                                    relationVersionNo = relationshipBuiderBean.getVersionNo();
+                                    break;
+                                }
+                            }
+                                 int hierarchyVersionNo = customerHierarchyLookupWindow.getHierarchyDto().getVersionNo();
+//				 relationVersionNo = Integer.parseInt(
+//						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+//				 hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 				String dedLevel = StringUtils.EMPTY;
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)
@@ -4152,8 +4168,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				dataSelectionDTO.setCustomerRelationShipVersionNo(relationVersionNo);
 				String selectedLevel = String.valueOf(value);
 				String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
-				String[] val = selectedLevel.split(" ");
-				forecastLevel = Integer.parseInt(val[1]);
+				//String[] val = selectedLevel.split(" ");
+				forecastLevel = (int)value;
                                 dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
 				customerHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
@@ -4174,6 +4190,52 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setFilterBarVisible(true);
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
+                                
+//			int forecastLevel = 0;
+//			if (value != null && customerRelationComboBox.getValue() != null
+//					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
+//				int relationVersionNo = Integer.parseInt(
+//						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+//				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+//				String dedLevel = StringUtils.EMPTY;
+//				String dedValue = StringUtils.EMPTY;
+//				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)
+//						&& !(deductionValue.getValue() instanceof String)) {
+//					{
+//						dedLevel = getDedutionLevel(String.valueOf(deductionLevel.getValue()));
+//						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
+//								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+//					}
+//				}
+//
+//				customerDescMap = relationLogic.getLevelValueMap(
+//						String.valueOf(customerRelationComboBox.getValue()), customerHierarchyDto.getHierarchyId(),
+//						hierarchyVersionNo, relationVersionNo);
+//				dataSelectionDTO.setCustomerRelationShipVersionNo(relationVersionNo);
+//				String selectedLevel = String.valueOf(value);
+//				String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
+//				String[] val = selectedLevel.split(" ");
+//				forecastLevel = Integer.parseInt(val[1]);
+//                                dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
+//				customerHierarchyLevelDefinitionList = relationLogic
+//						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
+//				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
+//				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
+//						: groupFilteredCompanies;
+//				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
+//						Integer.parseInt(relationshipSid), tempGroupFileter, 
+//						dedLevel,
+//						dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescMap);
+//				if (selectedHierarchyLevelDto.getLevel() != null) {
+//					levelName = selectedHierarchyLevelDto.getLevel();
+//				}
+//				availableCustomerContainer.addAll(resultedLevelsList);
+//				availableCustomer.setContainerDataSource(availableCustomerContainer);
+//				availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
+//				availableCustomer.setColumnHeaders(levelName);
+//				availableCustomer.setFilterBarVisible(true);
+//				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
+//				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
 		} catch (Exception ex) {
 			

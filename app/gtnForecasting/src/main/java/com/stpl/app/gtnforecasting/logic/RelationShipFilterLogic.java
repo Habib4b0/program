@@ -21,8 +21,10 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -314,17 +316,37 @@ public class RelationShipFilterLogic {
 	public Map<String, String> getLevelValueMap(Object relationshipBuilderSID, int hierarchyBuilderSid,
 			int hierarchyVersionNo, int relationVersionNo) {
 		Map<String, String> relationMap = new HashMap<>();
-		String query = getLevelMapValueMapQuery(relationshipBuilderSID, relationVersionNo, hierarchyBuilderSid,
+		GtnForecastHierarchyInputBean inputBean = getLevelMapValueMapQuery(relationshipBuilderSID, relationVersionNo, hierarchyBuilderSid,
 				hierarchyVersionNo);
-		List<Object[]> list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(query);
-		for (Object[] leveldto2 : list) {
-			if (leveldto2[0] != null && leveldto2[1] != null)
-				relationMap.put(leveldto2[0].toString(), leveldto2[1].toString());
-		}
-		return relationMap;
+                
+                GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+		forecastRequest.setInputBean(inputBean);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setGtnWsForecastRequest(forecastRequest);
+                 GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+            serviceRegistryBean.setUrl("/loadLevelValueMapResults");
+            serviceRegistryBean.setModuleName("hierarchyRelationship");
+            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            
+            GtnUIFrameworkWebserviceResponse relationshipMapResponse = client.callGtnWebServiceUrl(
+				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+				request, getGsnWsSecurityToken());
+            
+            relationMap = relationshipMapResponse.getGtnWsForecastResponse().getInputBean().getTempTableMap();
+            return relationMap;
+//		List<Object[]> list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(query);
+//		for (Object[] leveldto2 : list) {
+//			if (leveldto2[0] != null && leveldto2[1] != null)
+//				relationMap.put(leveldto2[0].toString(), leveldto2[1].toString());
+//		}
+		
 	}
 
-	private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
+	private GtnForecastHierarchyInputBean getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
 			int hierarchyBuilderSid, int hierarchyVersionNo) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
@@ -336,13 +358,26 @@ public class RelationShipFilterLogic {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP,
+                 GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+            serviceRegistryBean.setUrl("/dataSelectionSelectedLevelValueMap");
+            serviceRegistryBean.setModuleName("hierarchyRelationship");
+            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            
+            GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
 				request, getGsnWsSecurityToken());
+                    
+            
+//		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+//				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+//						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP,
+//				request, getGsnWsSecurityToken());
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
-		return outputBean.getHieraryQuery();
+		return outputBean;
 	}
 
 	/**

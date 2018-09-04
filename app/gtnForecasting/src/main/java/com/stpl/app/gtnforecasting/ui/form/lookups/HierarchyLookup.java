@@ -222,6 +222,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
                 hierDto.setModifiedDateSearch(
                         Converters.parseDate(String.valueOf(obj[4].toString())));
             }
+            hierDto.setVersionNo((int)obj[6]);
             hierDto.setHierarchyMap((Map<Integer, String>)obj[10]);
             hierDto.setRelationshipMap((Map<Integer, List<GtnWsRelationshipBuilderBean>>)obj[11]);
             resultList.add(hierDto);
