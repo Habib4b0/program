@@ -25,23 +25,23 @@ import org.slf4j.LoggerFactory;
 public class DPRQueryBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(DPRQueryBuilder.class);
     
-    public List getCCPDetailsID(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
+    public List getCCPDetailsID(int projectionMasterSid, String hierarchyNo, String levelNo) {
         String sql = StringUtils.EMPTY;
         try {
             sql = "SELECT  LCCP.CCP_DETAILS_SID FROM   (SELECT CCPMAP.CCP_DETAILS_SID,HLD.HIERARCHY_NO,HLD.RELATIONSHIP_LEVEL_SID FROM "
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO,CCP.CCP_DETAILS_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD"
                     + " JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID "
                     + "JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
-                    + "AND PD.PROJECTION_MASTER_SID =" + ProjectionMasterSid
+                    + "AND PD.PROJECTION_MASTER_SID =" + projectionMasterSid
                     + "JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID"
-                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + ProjectionMasterSid + "') CCPMAP,"
+                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + projectionMasterSid + "') CCPMAP,"
                     + "(SELECT RLD1.HIERARCHY_NO,RLD1.RELATIONSHIP_LEVEL_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1 "
                     + "JOIN   PROJECTION_CUST_HIERARCHY PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
+                    + "AND PCH.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
                     + "WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%') LCCP WHERE "
                     + "LCCP.HIERARCHY_NO IN (SELECT RLD2.HIERARCHY_NO FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2 "
                     + "JOIN   PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
+                    + "AND PCH2.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -50,23 +50,23 @@ public class DPRQueryBuilder {
         return Collections.emptyList();
     }
     
-    public List getCCPDetailsIDForProductHierarchy(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
+    public List getCCPDetailsIDForProductHierarchy(int projectionMasterSid, String hierarchyNo, String levelNo) {
         String sql = StringUtils.EMPTY;
         try {
             sql = "SELECT  LCCP.CCP_DETAILS_SID FROM   (SELECT CCPMAP.CCP_DETAILS_SID,HLD.HIERARCHY_NO,HLD.RELATIONSHIP_LEVEL_SID FROM "
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO,CCP.CCP_DETAILS_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD"
                     + " JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID "
                     + "JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
-                    + "AND PD.PROJECTION_MASTER_SID =" + ProjectionMasterSid
+                    + "AND PD.PROJECTION_MASTER_SID =" + projectionMasterSid
                     + " JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID"
-                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + ProjectionMasterSid + "') CCPMAP,"
+                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + projectionMasterSid + "') CCPMAP,"
                     + "(SELECT RLD1.HIERARCHY_NO,RLD1.RELATIONSHIP_LEVEL_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1 "
                     + "JOIN   PROJECTION_PROD_HIERARCHY PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
+                    + "AND PCH.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
                     + "WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%') LCCP WHERE "
                     + "LCCP.HIERARCHY_NO IN (SELECT RLD2.HIERARCHY_NO FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2 "
                     + "JOIN   PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
+                    + "AND PCH2.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class DPRQueryBuilder {
             if (discountString.equals("0")) {
                 discountStringValue = "'" + discountString + "'";
             }
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear;
@@ -235,7 +235,7 @@ public class DPRQueryBuilder {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));
@@ -361,7 +361,7 @@ public class DPRQueryBuilder {
                 String endPeriod = "";
                 String forecastStartPeriod = "";
                 String forecastEndPeriod = "";
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     String hsYear = String.valueOf(startAndEndPeriods.get(0));
                     String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                     String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));

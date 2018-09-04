@@ -164,8 +164,8 @@ public class NewNdcDTO implements Serializable {
         return itemMasterSidMap;
     }
 
-    public void setItemMasterSidMap(Map<Integer, String> ItemMasterSidMap) {
-        this.itemMasterSidMap = ItemMasterSidMap;
+    public void setItemMasterSidMap(Map<Integer, String> itemMasterSidMap) {
+        this.itemMasterSidMap = itemMasterSidMap;
     }
 
     public Map<String, String> getItemNoMap() {
@@ -260,8 +260,8 @@ public class NewNdcDTO implements Serializable {
         return deletedItems == null ? deletedItems : new ArrayList<>(deletedItems) ;
     }
 
-    public void setDeletedItems(List<Integer> DeletedItems) {
-        this.deletedItems = DeletedItems == null ? DeletedItems : new ArrayList<>(DeletedItems);
+    public void setDeletedItems(List<Integer> deletedItems) {
+        this.deletedItems = deletedItems == null ? deletedItems : new ArrayList<>(deletedItems);
     }
 
     }

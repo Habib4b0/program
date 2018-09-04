@@ -658,12 +658,12 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     }
      public void loadCustomViewDDdlb(boolean isDataSelection) {
          LOGGER.debug("loadCustomDDLB initiated ");
-        Map<String,String> dataMap=new HashMap<>();
-        dataMap.put("custSid", sessionDTO.getCustRelationshipBuilderSid());
-        dataMap.put("custVer", String.valueOf(sessionDTO.getCustomerRelationVersion()));
-        dataMap.put("prodSid", sessionDTO.getProdRelationshipBuilderSid());
-        dataMap.put("prodVer", String.valueOf(sessionDTO.getProductRelationVersion()));
-        new DataSelectionLogic().loadCustomViewDeductionValues(customDdlb, dataMap,false);
+        Map<String,String> dataMapCustomViewDdlb=new HashMap<>();
+        dataMapCustomViewDdlb.put("custSid", sessionDTO.getCustRelationshipBuilderSid());
+        dataMapCustomViewDdlb.put("custVer", String.valueOf(sessionDTO.getCustomerRelationVersion()));
+        dataMapCustomViewDdlb.put("prodSid", sessionDTO.getProdRelationshipBuilderSid());
+        dataMapCustomViewDdlb.put("prodVer", String.valueOf(sessionDTO.getProductRelationVersion()));
+        new DataSelectionLogic().loadCustomViewDeductionValues(customDdlb, dataMapCustomViewDdlb,false);
         customDdlb.setValue(sessionDTO.getCustomDeductionRelationShipSid());
         LOGGER.debug("loadCustomDDLB ends ");
     }
