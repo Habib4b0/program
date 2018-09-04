@@ -467,7 +467,7 @@ public class SearchAccountConfig extends CustomComponent {
         selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
         GTNLOGGER.info("UserId-->>{}", VaadinSession.getCurrent().getAttribute("userId").toString());
-        selection.setUserId((Integer)(VaadinSession.getCurrent().getAttribute("userId")));
+        selection.setUserId(ARMUtils.getIntegerValue(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
         return selection;
     }
 

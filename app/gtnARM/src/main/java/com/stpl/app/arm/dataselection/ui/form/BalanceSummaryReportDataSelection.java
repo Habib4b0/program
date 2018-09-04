@@ -2524,7 +2524,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 logic.saveProductHierarchyLogic(productList, productListEndSids, projectionIdValue, null, ARMUtils.SAVE);
                 logic.saveDeductionLogic(new HashSet(bsrDataSelectionDTO.getRsContractSidList()), projectionIdValue);
 
-                bsrSessionDTO.setUserId((Integer)(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
+                bsrSessionDTO.setUserId(ARMUtils.getIntegerValue(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
                 bsrSessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", bsrSessionDTO.getProjectionId(), bsrSessionDTO.getUserId().toString(), bsrSessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
 
