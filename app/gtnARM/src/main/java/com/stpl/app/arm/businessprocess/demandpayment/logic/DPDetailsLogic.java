@@ -55,11 +55,11 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 value = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(paymentObj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(paymentObj[0]))));
+                    value = new StringBuilder(helperId.getDescriptionByID((Integer)(paymentObj[0])));
                     property = new StringBuilder(String.valueOf(paymentObj[0]));
                 }
                 if (isValid(paymentObj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(paymentObj[1]))));
+                    value.append(DASH).append(helperId.getDescriptionByID((Integer)(paymentObj[1])));
                     property.append(DASH).append(String.valueOf(paymentObj[1]));
                 }
                 if (isValid(paymentObj[NumericConstants.TWO])) {

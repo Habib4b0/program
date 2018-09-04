@@ -65,11 +65,11 @@ public class Trx7PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustm
                 value = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                    value = new StringBuilder(helperId.getDescriptionByID((Integer)(obj[0])));
                     property = new StringBuilder(String.valueOf(obj[0]));
                 }
                 if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                    value.append(DASH).append(helperId.getDescriptionByID((Integer)(obj[1])));
                     property.append(DASH).append(String.valueOf(obj[1]));
                 }
                 if (isValid(obj[NumericConstants.TWO])) {

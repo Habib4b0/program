@@ -170,10 +170,6 @@ public class SalesSearchResults extends AbstractSearchResults {
         getSummaryLogic().getSalesResults(orderedArgs);
     }
 
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
-    }
 
     @Override
     public SalesLogic getSummaryLogic() {

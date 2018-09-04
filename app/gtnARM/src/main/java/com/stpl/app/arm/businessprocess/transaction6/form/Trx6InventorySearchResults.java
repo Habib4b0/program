@@ -282,11 +282,6 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     }
 
     @Override
-    public Trx6SelectionDTO getSelection() {
-        return super.getSelection();
-    }
-
-    @Override
     protected void customerProductValueChange() {
         LOGGER.debug("inside customerProductValueChange Method");
 

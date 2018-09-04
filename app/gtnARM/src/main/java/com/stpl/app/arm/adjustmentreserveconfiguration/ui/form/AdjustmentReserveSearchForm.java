@@ -559,7 +559,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
         LOGGER.debug("UserId-->> {}", VaadinSession.getCurrent().getAttribute("userId").toString());
-        selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
+        selection.setUserId((Integer)(VaadinSession.getCurrent().getAttribute("userId")));
         return selection;
     }
 
