@@ -1357,8 +1357,9 @@ public class DataSelectionLogic {
 				inputs.add(hierarchyVersion);
 
 				if (!relationHierarchy.isEmpty()) {
-					resultss = HelperTableLocalServiceUtil
-							.executeSelectQuery(QueryUtils.getQuery(inputs, "childLevelsHierarchyNo"));
+//					resultss = HelperTableLocalServiceUtil
+//							.executeSelectQuery(QueryUtils.getQuery(inputs, "childLevelsHierarchyNo"));
+                                    resultss = relationLogic.getChildLevelsHierarchyNo(inputs);
 				}
 			}
 

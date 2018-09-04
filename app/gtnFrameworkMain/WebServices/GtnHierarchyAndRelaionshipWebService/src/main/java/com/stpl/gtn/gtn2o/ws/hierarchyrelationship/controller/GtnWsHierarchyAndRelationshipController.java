@@ -151,6 +151,24 @@ public class GtnWsHierarchyAndRelationshipController {
 		response.setGtnWsForecastResponse(forecastResponse);
 		return response;
 	}
+        
+        
+        @RequestMapping(value = "/loadAvailableTableCustomerLevel", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadAvailableTableCustomerLevel(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsForecastRequest forecastRequest = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+                inputBean.setHieraryQuery(forecastRequest.getInputBean().getHieraryQuery());
+		List<Object[]> resultsDataList = relationshipLevelValueService.getAvailableTableCustomerLevelValues(inputBean);
+		inputBean.setResultList(resultsDataList);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		response.setGtnWsForecastResponse(forecastResponse);
+		return response;
+	}
+        
 	
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_PRODUCT_LEVEL, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadProductHierarcyLevel(
@@ -166,4 +184,32 @@ public class GtnWsHierarchyAndRelationshipController {
 		return response;
 	}
 	
+        @RequestMapping(value = "/childLevelsWithHierarchyNo", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getChildLevelsWithHierarchyNo(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnWsForecastRequest forecastRequet = gtnWsRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = forecastRequet.getInputBean();
+		List<Object[]> resultList = relationshipLevelValueService.getChildLevelsWithHierarchyNoService(inputBean);
+		inputBean.setResultList(resultList);
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		response.setGtnWsForecastResponse(forecastResponse);
+		return response;
+	}
+   
+        @RequestMapping(value = "/selectedCustomerLevel", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getSelectedCustomerLevel(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		
+			GtnWsForecastRequest forecastRequet = gtnWsRequest.getGtnWsForecastRequest();
+			GtnForecastHierarchyInputBean inputBean = forecastRequet.getInputBean();
+			List<Object[]> resultList = relationshipLevelValueService.getSelectedCustomerLevelService(inputBean);
+			inputBean.setResultList(resultList);
+			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+			GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+			forecastResponse.setInputBean(inputBean);
+			response.setGtnWsForecastResponse(forecastResponse);
+			return response;
+	}
 }
