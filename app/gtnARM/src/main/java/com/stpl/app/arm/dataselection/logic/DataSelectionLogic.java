@@ -5,8 +5,6 @@
  */
 package com.stpl.app.arm.dataselection.logic;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
@@ -740,7 +738,7 @@ public class DataSelectionLogic {
         return results;
     }
 
-    public static String getUserFLName(String userId) throws PortalException, SystemException {
+    public static String getUserFLName(String userId) {
         String name = StringUtils.EMPTY;
         User userInfo = CommonLogic.getUser(userId);
         if (userInfo != null) {
