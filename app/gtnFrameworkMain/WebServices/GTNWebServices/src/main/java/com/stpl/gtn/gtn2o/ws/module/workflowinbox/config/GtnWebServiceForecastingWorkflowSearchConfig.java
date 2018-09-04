@@ -41,8 +41,6 @@ public class GtnWebServiceForecastingWorkflowSearchConfig implements GtnWsSearch
 		GtnWebServiceReturnWorkflowSearchConfig.addWorkflowSearchQueryConfig(fieldToColumnDetailsMap);
 		
 		addWorkflowStatus(fieldToColumnDetailsMap);
-
-		
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWebServiceWorkflowSearchConfig.addWfDateColumnsInMap(configProvider, fieldToColumnDetailsMap);
 		GtnWebServiceArpWorkflowSearchConfig.addDetailsSearchFieldArpWorkflowInbox(fieldToColumnDetailsMap);
