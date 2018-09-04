@@ -73,7 +73,8 @@ public class SummaryLookUp extends CustomComponent {
             mainTab.addTab(sales.getContent(itemList, selection), "Sales", null, 1);
             mainTab.addTab(rebate.getContent(itemList, selection), "Rebates", null, NumericConstants.TWO);
             mainTab.addTab(salesAndRebate.getContent(itemList, selection), "Sales and Rebates", null, NumericConstants.THREE);
-            LOGGER.debug("{}",itemList.get(0));
+            LOGGER.debug("{}", itemList == null ? new ArrayList<>(itemList) : itemList.get(0));
+            LOGGER.debug("{}", this.itemList == null ? new ArrayList<>(itemList) : itemList.get(0));
             configureFields();
         } catch (Exception ex) {
             LOGGER.error("",ex);
