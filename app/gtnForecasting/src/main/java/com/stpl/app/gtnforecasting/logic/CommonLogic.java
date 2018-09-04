@@ -1267,9 +1267,9 @@ public class CommonLogic {
         return user;
     }
 
-    public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID \n"
-                + Constant.AND_SMALL_SPACE + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
+    public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
+        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp + ".RELATIONSHIP_LEVEL_SID \n"
+                + Constant.AND_SMALL_SPACE + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
         return ccpWhereCond;
     }
 
@@ -2490,8 +2490,8 @@ public class CommonLogic {
         return user;
     }
 
-    public static String getCCPWhereConditionQuery(String projectionDetails, String CCP) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+    public static String getCCPWhereConditionQuery(String projectionDetails, String ccP) {
+        String ccpWhereCond = Constant.AND_SMALL_SPACE + ccP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 
@@ -5429,6 +5429,10 @@ public class CommonLogic {
                 CommonUtil.getInstance().updateTable(session, "ST_PRODUCT_DISCOUNT");
                 CommonUtil.getInstance().updateTable(session, "ST_CUSTOM_DISCOUNT");
     }
-}
     
-
+    public List<Object[]> getCustomViewSids(int projectionSid) {
+        String query = "select CUSTOM_VIEW_MASTER_SID,CUSTOM_VIEW_MASTER_DEDUCTION_SID from projection_master where projection_master_sid=" + projectionSid;
+        return (List<Object[]>)HelperTableLocalServiceUtil.executeSelectQuery(query);
+    }
+    
+}

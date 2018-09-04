@@ -451,7 +451,9 @@ public class PagedTreeGrid {
 	 */
 	public void paintCurrentPage() {
 		setCount(count);
-		if (pageNumber == 0) {
+                getPageCount();
+		if (pageNumber == 0 || pageNumber+1 > Integer.parseInt(pageCountLabel.getValue())) {
+                    pageNumber=0;
 			paintFirstPage();
 			return;
 		}
@@ -618,11 +620,7 @@ public class PagedTreeGrid {
 	@SuppressWarnings("unchecked")
 	private void initalizeColumnController() {
 		columnsPerPage.setValue(10);
-		int t=(tableConfig.getLeftTableColumnMappingId().length+tableConfig.getRightTableColumnMappingId().length)/10;
-		gtnlogger.info("cc l"+tableConfig.getLeftTableColumnMappingId().length);
-		gtnlogger.info("cc r"+tableConfig.getRightTableColumnMappingId().length);
-		gtnlogger.info("cc t"+t);
-		setTotalColumns(t);
+		setTotalColumns(tableConfig.getVisibleColumns().size()/10);
 		
 		setColumnPageNumber(0);
 	}
@@ -705,7 +703,7 @@ public class PagedTreeGrid {
 		controlLayout.addComponent(getColumnsPerPageComponenet());
 		controlLayout.addComponent(getControlLayoutButtons("<<", e -> setColumnPageNumber(0), Boolean.FALSE));
 		controlLayout
-				.addComponent(getControlLayoutButtons("<", e -> setColumnPageNumber(--columnPageNumber), Boolean.TRUE));
+				.addComponent(getControlLayoutButtons("<", e -> setColumnPageNumber(columnPageNumber-1), Boolean.TRUE));
 		controlLayout.addComponent(new Label("Columns Page No:"));
 		controlLayout.addComponent(columnPageNoField);
 		controlLayout.addComponent(new Label("/"));
@@ -713,9 +711,9 @@ public class PagedTreeGrid {
 		totalColumns.setStyleName(GtnFrameworkCommonStringConstants.REPORT_DISPLAY_PAGINATION_LABEL);
 		controlLayout.addComponent(totalColumns);
 		controlLayout.addComponent(
-				getControlLayoutButtons(">", e -> setColumnPageNumber(++columnPageNumber), Boolean.FALSE));
+				getControlLayoutButtons(">", e -> setColumnPageNumber(columnPageNumber+1), Boolean.FALSE));
 		controlLayout.addComponent(
-				getControlLayoutButtons(">>", e -> setColumnPageNumber(getTotalPageCount()), Boolean.TRUE));
+				getControlLayoutButtons(">>", e -> setColumnPageNumber(getTotalPageCount()- 1), Boolean.TRUE));
 		columnPageNoField
 				.addBlurListener(e -> setColumnPageNumber((Integer.parseInt(columnPageNoField.getValue())) - 1));
 
@@ -808,7 +806,7 @@ public class PagedTreeGrid {
 	}
 
 	public int getTotalPageCount() {
-		int columnCount = tableConfig.getLeftTableColumnMappingId().length+tableConfig.getRightTableColumnMappingId().length;
+		int columnCount = tableConfig.getVisibleColumns().size();
 		int columnsPerCount = getColumnsPerPage();
 		int lastPage = columnCount / columnsPerCount;
 		return columnCount % columnsPerCount == 0 ? lastPage : lastPage + 1;
@@ -832,14 +830,14 @@ public class PagedTreeGrid {
 
 	public void setColumnPageNumber(int newPageNumber) {
 		int newPageNumberValue = newPageNumber;
-		if(getTotalPageCount()<newPageNumberValue) {
+		if(getTotalPageCount()<=newPageNumberValue) {
 			return;
 		}
 		if (newPageNumber < 0) {
 			columnPageNumber = 0;
 			newPageNumberValue = 0;
 		}
-		columnPageNoField.setValue(Integer.toString(columnPageNumber + 1));
+		columnPageNoField.setValue(Integer.toString(newPageNumberValue + 1));
 		columnPageNumber = newPageNumberValue;
 		int start = columnPageNumber == 0 ? 0 : (getColumnsPerPage()-1)* columnPageNumber;
 		int end =  getColumnsPerPage();

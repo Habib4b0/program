@@ -76,8 +76,7 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 		}
 		HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
 				.getPreviousLinkedLevel(hierarchyLevelDefinitionList, customerHierarchyLevelBean);
-		GtnFrameworkQueryGeneratorBean querygeneratorBean = queryGeneratorService.getQuerybySituationNameAndLevel(
-				customerHierarchyLevelBean, "AUTOMATIC_INSERT", hierarchyLevelDefinitionList);
+		
 		List<Object> inputsList = getInputListForSelectClause();
 		inputsList.add(relationBean.getRelationshipBuilderSid());
 		inputsList.add(previousHierarchyLevelBean.getLevelNo());
@@ -87,6 +86,8 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 		inputsList.add(queryGeneratorService.getHierarchyNo(hierarchyLevelDefinitionList, customerHierarchyLevelBean));
 		inputsList.add(customerHierarchyLevelBean.getLevelNo());
 		inputsList.add(customertUpdatedVersionNo > 1 ? customertUpdatedVersionNo - 1 : 1);
+                GtnFrameworkQueryGeneratorBean querygeneratorBean = queryGeneratorService.getQuerybySituationNameAndLevel(
+				customerHierarchyLevelBean, "AUTOMATIC_INSERT", hierarchyLevelDefinitionList);
 		String query = gtnWsSqlService.getReplacedQuery(inputsList, querygeneratorBean.generateQuery());
 		List<String> insertQueryInput = new ArrayList<>();
 		insertQueryInput.add(query);

@@ -48,7 +48,6 @@ import com.stpl.app.gcm.transfercontract.util.CommonUtil;
 import com.stpl.app.gcm.util.CommonUtils;
 import static com.stpl.app.gcm.util.CommonUtils.convertToInteger;
 import com.stpl.app.gcm.util.Constants;
-import static com.stpl.app.gcm.util.Constants.IndicatorConstants.COMPANY_FAMILY_PLAN;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ITEM_FAMILY_PLAN;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.PRICE_SCHEDULE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.REBATE_SCHEDULE;

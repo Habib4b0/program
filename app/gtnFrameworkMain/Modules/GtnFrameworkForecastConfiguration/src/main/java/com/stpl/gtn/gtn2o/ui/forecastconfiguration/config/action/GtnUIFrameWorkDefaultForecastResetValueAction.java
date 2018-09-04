@@ -34,13 +34,18 @@ public class GtnUIFrameWorkDefaultForecastResetValueAction implements GtnUIFrame
 				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 				request.setForecastConfigurationRequest(forecastConfigurationRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-				+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getWSResponse(request);
                                 String forecastYear = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(forecastYear);
                                 
+	}
+
+	public GtnUIFrameworkWebserviceResponse getWSResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+		+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
 	}
 
 	@Override
