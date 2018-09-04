@@ -578,8 +578,14 @@ public class GtnWsCustomViewService {
 				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
 		for (Object[] object : variablesData) {
 			gtnWsRecordBean = new GtnWsRecordBean();
-			configureReportBean(gtnWsRecordBean, object[1].toString(), Integer.parseInt(object[0].toString()),
-					detailsData);
+                        gtnWsRecordBean.addProperties(object[1].toString());
+                        gtnWsRecordBean.addProperties(detailsData.getLevelNo());
+                        int index = GtnWsReportVariablesType.fromString(object[1].toString()).ordinal();
+                        gtnWsRecordBean.addProperties((65+index));
+                        gtnWsRecordBean.addProperties(detailsData.getHierarchyIndicator());
+                        gtnWsRecordBean.addProperties(Integer.parseInt(object[0].toString()));
+                        gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
+                        gtnWsRecordBean.setRecordHeader(Arrays.asList("levelValue"));
 			recordTreeData.add(gtnWsRecordBean);
 		}
 	}
