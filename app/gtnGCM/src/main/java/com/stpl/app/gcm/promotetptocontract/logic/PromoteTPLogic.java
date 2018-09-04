@@ -402,7 +402,7 @@ public class PromoteTPLogic {
             if (!componentInformationList.isEmpty()) {
                 for (Object[] componentInformationList1 : componentInformationList) {
                     try {
-                        final Object[] obj = (Object[]) componentInformationList1;
+                        final Object[] obj =  componentInformationList1;
                         dto = new ComponentInfoDTO();
                         dto.setItemNo(convertNullToEmpty(obj[0]));
                         dto.setItemName(convertNullToEmpty(obj[1]));
@@ -430,7 +430,7 @@ public class PromoteTPLogic {
         container.removeAllItems();
         try {
             for (final Iterator<CurrentContractDTO> iterator = contractList.iterator(); iterator.hasNext();) {
-                final CurrentContractDTO contractMember = (CurrentContractDTO) iterator.next();
+                final CurrentContractDTO contractMember = iterator.next();
                 container.addBean(contractMember);
                 if (!Constants.IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory()) && isLevel2ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
                     container.setChildrenAllowed(contractMember, true);
@@ -1202,7 +1202,7 @@ public class PromoteTPLogic {
         int count = 0;
         String query = getContractQuery(conSelDto, userId, sessionId, 0, 0, false);
         try {
-            List list = (List) daoImpl.executeSelect(query);
+            List list = daoImpl.executeSelect(query);
             if (!list.isEmpty()) {
                 count = list.size();
             }
@@ -1345,7 +1345,7 @@ public class PromoteTPLogic {
         List<CurrentContractDTO> resultList = new ArrayList<>();
         CurrentContractDTO dto = null;
         try {
-            list = (List) daoImpl.executeSelect(query);
+            list =  daoImpl.executeSelect(query);
             int listsize = list.size();
 
             if (!list.isEmpty()) {
@@ -1394,11 +1394,10 @@ public class PromoteTPLogic {
             if (componentInfoList != null && !componentInfoList.isEmpty()) {
                 for (Object[] componentInformationList1 : componentInfoList) {
                     try {
-                        final Object[] obj = (Object[]) componentInformationList1;
+                        final Object[] obj = componentInformationList1;
                         dto = new ComponentInfoDTO();
 
-                        if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-                        } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
+                         if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
                             dto.setItemNo(convertNullToEmpty(obj[0]));
                             dto.setItemName(convertNullToEmpty(obj[1]));
                             dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));
@@ -1718,7 +1717,7 @@ public class PromoteTPLogic {
         container.removeAllItems();
         try {
             for (final Iterator<ComponentInfoDTO> iterator = contractList.iterator(); iterator.hasNext();) {
-                final ComponentInfoDTO contractMember = (ComponentInfoDTO) iterator.next();
+                final ComponentInfoDTO contractMember =  iterator.next();
                 container.addBean(contractMember);
                 if (!Constants.IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory()) && isLevel2ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
                     container.setChildrenAllowed(contractMember, true);
@@ -2687,7 +2686,7 @@ public class PromoteTPLogic {
             if (componentInformationList != null && !componentInformationList.isEmpty()) {
                 for (Object[] componentInformationList1 : componentInformationList) {
                     try {
-                        final Object[] obj = (Object[]) componentInformationList1;
+                        final Object[] obj =  componentInformationList1;
                         dto = new ComponentInfoDTO();
 
                         if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
@@ -3008,7 +3007,7 @@ public class PromoteTPLogic {
         List<CurrentContractDTO> resultList = new ArrayList<>();
         CurrentContractDTO dto = null;
 
-        list = (List) daoImpl.executeSelect(query);
+        list =  daoImpl.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
@@ -3373,7 +3372,7 @@ public class PromoteTPLogic {
         }
         if (!StringUtils.EMPTY.equals(query)) {
             try {
-                List list = (List) daoImpl.executeSelect(query);
+                List list =  daoImpl.executeSelect(query);
                 if (!list.isEmpty()) {
                     count = Integer.parseInt(String.valueOf(list.get(0)));
                     if (count > 0) {
@@ -3396,7 +3395,7 @@ public class PromoteTPLogic {
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
+                Object[] obj =  list.get(i);
                 idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                 resultList.add(idDescription);
             }

@@ -119,12 +119,11 @@ public class CommonUtils {
 	public static final String getDateTime(String aMask, Date aDate){
 		SimpleDateFormat df = null;
 		String returnValue = EMPTY;
-		if (aDate == null) {
-		}
-		else {
-			df = new SimpleDateFormat(aMask);
+		if (aDate != null) {
+                    df = new SimpleDateFormat(aMask);
 			returnValue = df.format(aDate);
 		}
+		
 		return returnValue;
 	}
 	

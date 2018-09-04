@@ -3023,8 +3023,7 @@ public class ProjectionVarianceLogic {
     }
 
     private String getCommonColumn(String column, int frequencyDivision) {
-        if (frequencyDivision == 1) {
-        } else if (frequencyDivision == NumericConstants.FOUR) {
+         if (frequencyDivision == NumericConstants.FOUR) {
             column = column.replace('q', 'Q');
         } else if (frequencyDivision == NumericConstants.TWO) {
             column = column.replace('s', 'S');

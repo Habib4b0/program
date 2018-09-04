@@ -57,6 +57,7 @@ public class SummaryLookUp extends CustomComponent {
         LOGGER.debug("getContent method starts");
 
         this.selection = selection;
+        this.itemList.clear();
         this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
         Panel panel = new Panel();
         panel.setCaption(StringUtils.EMPTY);
@@ -72,6 +73,7 @@ public class SummaryLookUp extends CustomComponent {
             mainTab.addTab(sales.getContent(itemList, selection), "Sales", null, 1);
             mainTab.addTab(rebate.getContent(itemList, selection), "Rebates", null, NumericConstants.TWO);
             mainTab.addTab(salesAndRebate.getContent(itemList, selection), "Sales and Rebates", null, NumericConstants.THREE);
+            LOGGER.debug("{}",itemList.get(0));
             configureFields();
         } catch (Exception ex) {
             LOGGER.error("",ex);
@@ -99,26 +101,7 @@ public class SummaryLookUp extends CustomComponent {
         });
     }
 
-    private void tabLazyLoad(int tabPosition) {
-        if (tabPosition == 1) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(sales, sales.getContent(itemList, selection));
-            }
-        }
-        if (tabPosition == NumericConstants.TWO) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(rebate, rebate.getContent(itemList, selection));
-            }
-        }
-        if (tabPosition == NumericConstants.THREE) {
-            if (selection.isIsIFP()) {
-            } else {
-                mainTab.replaceComponent(salesAndRebate, salesAndRebate.getContent(itemList, selection));
-            }
-        }
-    }
+    
 
     public void loadSummaryTable() {
         itemDetails.loadData();
