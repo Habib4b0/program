@@ -849,10 +849,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void resetForAdd() {
-        pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
-        pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        pvSelectionDTO.setDeductionLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setDeductionLevelCaptions(Collections.emptyList());
+        pvSelectionDTO.setProductLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setCustomerLevelFilter(Collections.emptyList());
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         CommonLogic.unCheckMultiSelect(deductionFilterValues);
@@ -966,11 +966,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 CommonLogic.updateForFilter(pvSelectionDTO, "DEDUCTION", true);
                 session.setDiscountRSlist(logic.getRsIdsForDiscountAndUdcs(session));
-                boolean customerFlag = (generateCustomerToBeLoaded.containsAll(pvSelectionDTO.getCustomerLevelFilter())
-                        && generateCustomerToBeLoaded.size() == pvSelectionDTO.getCustomerLevelFilter().size());
-                boolean productFlag = (generateProductToBeLoaded.containsAll(pvSelectionDTO.getProductLevelFilter())
-                        && generateProductToBeLoaded.size() == pvSelectionDTO.getProductLevelFilter().size());
-
                     LOGGER.info("generateBtn :Inside Filter Option");
                     dsLogic.nmPvViewsPopulationProcedure(session);
                     CommonLogic.procedureCompletionCheck(session, Constant.VARIANCE_SCREEN, String.valueOf(view.getValue()));
@@ -2185,7 +2180,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             it1.remove();
                             resultExcelContainer.addBean(itemId);
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2244,7 +2239,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             resultExcelContainer.addBean(itemId);
 
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2440,7 +2435,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
+            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
             if (CommonUtil.isValueEligibleForLoading() && Constant.TEN_STRING.equals(levelNo)) {
                 CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
             } else {

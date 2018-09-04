@@ -10,6 +10,7 @@ import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -54,7 +55,7 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -63,16 +64,12 @@ public class ContractMasterImpl {
         String sql = StringUtils.EMPTY;
         try {
 
-            if (StringUtils.isNotBlank(companyId)) {
-
-            } else {
+            if (!StringUtils.isNotBlank(companyId)) {
                 companyId = "%";
-            }
-            if (orederBy != null) {
-
-            } else {
+            } 
+            if (orederBy == null) {
                 orederBy = "ASC";
-            }
+            } 
 
             sql = "SELECT cm.COMPANY_MASTER_SID, cm.COMPANY_ID, cm.COMPANY_NO, cm.COMPANY_NAME, cm.COMPANY_STATUS, cm.COMPANY_TYPE, htype.DESCRIPTION as ctype, hstatus.DESCRIPTION as cstatus"
                     + " from COMPANY_MASTER cm LEFT JOIN HelPER_TABLE htype on htype.HELPER_TABLE_SID =  cm.COMPANY_TYPE"
@@ -127,7 +124,7 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -205,7 +202,7 @@ public class ContractMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
 
     }
@@ -221,7 +218,7 @@ public class ContractMasterImpl {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             LOGGER.error(query);
-            return null;
+            return Collections.emptyList();
         } 
 
     }

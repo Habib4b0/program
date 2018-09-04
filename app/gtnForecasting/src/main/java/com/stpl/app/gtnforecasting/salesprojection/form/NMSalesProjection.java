@@ -472,8 +472,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         productlevelDdlb.select(Constant.SELECT_ONE);
         customerlevelDdlb.select(Constant.SELECT_ONE);
-        projectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        projectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        projectionDTO.setProductLevelFilter(Collections.emptyList());
+        projectionDTO.setCustomerLevelFilter(Collections.emptyList());
         loadSalesInclusion();
     }
 
@@ -589,6 +589,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             customerFlag = true;
             productFlag = true;
         }
+        LOGGER.debug("customerFlag{} , productFlag{} ", customerFlag, productFlag);
     }
 
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {

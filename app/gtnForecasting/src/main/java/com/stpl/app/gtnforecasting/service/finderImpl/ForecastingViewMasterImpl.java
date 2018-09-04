@@ -20,7 +20,6 @@ public class ForecastingViewMasterImpl {
      public static final Logger LOGGER = LoggerFactory
             .getLogger(ForecastingViewMasterImpl.class);
     public List findViewByName(String viewName, String forecastType, String userId, String viewType) {
-        Session session = null;
         String customSql = StringUtils.EMPTY;
         try {
             LOGGER.debug("Entering findViewByName method with viewName= {}, forecastType= {}, userId= {}, viewType= {}  " , viewName, forecastType, userId, viewType);

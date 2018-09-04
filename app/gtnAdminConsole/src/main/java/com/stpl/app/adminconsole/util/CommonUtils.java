@@ -81,7 +81,7 @@ public class CommonUtils {
      * The WorkFlowStatus list name.
      */
     public static final String WORKFLOW_STATUS = "WorkFlowStatus";
-    private static HashMap<Long, String> userMap = new HashMap<Long, String>();
+    private static HashMap<Long, String> userMap = new HashMap<>();
     
     public static final String SUCCESSFULLY_DELETED = " has been deleted Successfully";
     public static final String PRIMARY = "Primary";
@@ -122,7 +122,7 @@ public class CommonUtils {
         return object;
     }
 
-    public ComboBox loadComboBox(final ComboBox select, String listName) throws SystemException, PortalException {
+    public ComboBox loadComboBox(final ComboBox select, String listName) throws PortalException {
 
         final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
@@ -166,7 +166,7 @@ public class CommonUtils {
         return select;
     }
 
-    public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
+    public List<HelperDTO> getHelperResults(final String listType) throws PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
@@ -575,8 +575,8 @@ public class CommonUtils {
      * @return String - date in string format
      */
     public static final String getDateTime(final String aMask, final Date aDate) {
-        if (aDate == null) {
-        } else {
+        if (aDate != null) {
+        
             final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
             final String returnValue = dateFormat.format(aDate);
             return returnValue;

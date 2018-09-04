@@ -4561,16 +4561,17 @@ public class DiscountProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(Constant.NULL)) {
-            value = DASH.getConstant();
+        String valueDpResults = value;
+        if (valueDpResults.contains(Constant.NULL)) {
+            valueDpResults = DASH.getConstant();
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueDpResults);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            valueDpResults = decFormat.format(newValue);
         }
-        return value;
+        return valueDpResults;
     }
 
     private String createColumn(String group) {

@@ -93,7 +93,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         configureOnNonMandated();
     }
 
-    private void configureOnNonMandated() throws PortalException, SystemException {
+    private void configureOnNonMandated() throws PortalException {
         configurePermission();
         loadFrequencyDdlb();
         historyDdlb.setValue(NumericConstants.FOUR);
@@ -232,11 +232,10 @@ public class ProjectionResults extends ForecastProjectionResults {
         if (levelNo == 0) {
             projectionSelectionDTO.setIsFilter(false);
         }
-        if (excelExport) {
-        } else {
+        if (!excelExport) {
             levelDdlb.setValue(SELECT_ONE);
             loadResultTable(levelNo, hierarchyNo);
-        }
+        } 
 
     }
 

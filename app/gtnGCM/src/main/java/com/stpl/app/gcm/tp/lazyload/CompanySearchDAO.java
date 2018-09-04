@@ -46,10 +46,7 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
     @Override
     public List<TradingPartnerDTO> find(BeanSearchCriteria sc, int startIndex, int offset, List<OrderByColumn> orderByColumns) {
         List<TradingPartnerDTO> resultList = new ArrayList<>();
-        try {
-        } catch (Exception ex) {
-             LOGGER.error("",ex);
-        }
+        
         return resultList;
     }
 
