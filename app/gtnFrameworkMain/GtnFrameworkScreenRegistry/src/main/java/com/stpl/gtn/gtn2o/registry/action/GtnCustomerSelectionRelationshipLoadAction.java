@@ -48,7 +48,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
 				relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 			}
-
+			
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
 					.addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
 

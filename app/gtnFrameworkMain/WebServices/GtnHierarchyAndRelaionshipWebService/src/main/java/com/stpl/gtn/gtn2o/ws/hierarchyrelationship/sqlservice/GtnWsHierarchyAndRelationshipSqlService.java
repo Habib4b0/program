@@ -9,12 +9,12 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.stpl.dependency.webservice.GtnCommonWebServiceImplClass;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
-@Component
+@Service
 public class GtnWsHierarchyAndRelationshipSqlService extends GtnCommonWebServiceImplClass {
 
 	private GtnWsHierarchyAndRelationshipSqlService() {
