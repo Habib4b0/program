@@ -968,7 +968,7 @@ public class DiscountProjectionLogic {
             if (!pivotList.isEmpty()) {
                 getParentGroupValue(frequency, pivotList, discountDto, discountProjList, ahPeriodList, hashMapValues);
             }
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
 
@@ -1039,7 +1039,7 @@ public class DiscountProjectionLogic {
         try {
             Map<String, Object> mapValue = new HashMap<>();
             List<String> periodList = new ArrayList<>();
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
                     String headerColumn = StringUtils.EMPTY;

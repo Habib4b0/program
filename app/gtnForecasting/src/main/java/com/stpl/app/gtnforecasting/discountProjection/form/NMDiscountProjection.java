@@ -5158,7 +5158,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         NMDiscountProjectionLogic logic = new NMDiscountProjectionLogic();
 
         if (checkedDiscountsPropertyIds.size() > 0) {
-            if (checkedDiscountsPropertyIds.size() != 0) {
+            if (!checkedDiscountsPropertyIds.isEmpty()) {
                 String selectedRsName = resultsTable.getRightFreezeAsTable()
                         .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
 

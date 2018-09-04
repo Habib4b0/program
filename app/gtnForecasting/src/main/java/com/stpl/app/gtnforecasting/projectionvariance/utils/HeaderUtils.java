@@ -377,7 +377,7 @@ public class HeaderUtils {
             
         } else {
             if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
-                if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().size() == 0) {
+                if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().isEmpty()) {
                     programCodeName = MProjectionVarianceLogic.getProgramCodeName(projSelDTO.getProjectionId());
                 } else {
                     programCodeName = projSelDTO.getProgramCodeNameList();
