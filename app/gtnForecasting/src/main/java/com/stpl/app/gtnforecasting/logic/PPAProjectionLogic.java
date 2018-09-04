@@ -714,7 +714,7 @@ public class PPAProjectionLogic {
         if (StringUtils.isNotBlank(inputSearch)) {
             inputSearch = inputSearch.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        return input;
+        return inputSearch;
     }
 
     private String getFilterQuery(final Set<Container.Filter> filterSet) {

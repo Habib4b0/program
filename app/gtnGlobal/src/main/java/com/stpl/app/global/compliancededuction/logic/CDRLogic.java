@@ -56,7 +56,7 @@ public class CDRLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CDRLogic.class);
     private static final ResourceBundle CONSTANT_PROPERTIES = ResourceBundle.getBundle("properties.constants");
-    private static final HashMap<String, String> CRITERIA = new HashMap<String, String>();
+    private static final HashMap<String, String> CRITERIA = new HashMap<>();
     private final StplSecurityDAO securityDto = new StplSecurityDAOImpl();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

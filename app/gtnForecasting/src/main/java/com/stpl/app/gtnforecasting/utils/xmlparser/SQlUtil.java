@@ -78,6 +78,7 @@ public class SQlUtil {
 	}
 
 	public static String getQuery(Class clasName, String sqlId) {
+                LOGGER.debug("clasName {} " , clasName);
 		return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
 	}
 

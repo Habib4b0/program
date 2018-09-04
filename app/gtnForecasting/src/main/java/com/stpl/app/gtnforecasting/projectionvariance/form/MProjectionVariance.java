@@ -471,7 +471,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
 
         if (fromDate.getValue() != null && toDate.getValue() != null) {
             if (pivotView.getValue().equals(Constant.PERIOD)) {
-                pvLogic.getDateRangeHeaders(rightTable, rightHeader, pvSelectionDTO.getFromDate(), pvSelectionDTO.getToDate(), String.valueOf(frequency.getValue()));
+                pvLogic.getDateRangeHeaders(rightTable, rightHeader, pvSelectionDTO.getFromDate(), pvSelectionDTO.getToDate());
             } else {
                 List<String> periodList = pvSelectionDTO.getPeriodList();
                 List<String> pivotList = new ArrayList<>();
@@ -734,9 +734,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         } else {
             List<com.stpl.ifs.ui.forecastds.dto.Leveldto> newLevelList = null;
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY,session.getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY,session.getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
             }
             if (newLevelList != null) {
                 for (com.stpl.ifs.ui.forecastds.dto.Leveldto levelDto : newLevelList) {

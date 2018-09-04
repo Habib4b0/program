@@ -7,6 +7,7 @@
 package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.dto.SessionDTO;
+import static com.stpl.app.cff.logic.CommonLogic.LOGGER;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
@@ -75,6 +76,7 @@ public class DataSelectionUtil {
             cal1.setTime(date);
 
         } catch (ParseException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return date;
     }
@@ -105,6 +107,7 @@ public class DataSelectionUtil {
             cal1.setTime(date);
 
         } catch (ParseException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return date;
     }

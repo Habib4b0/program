@@ -521,8 +521,7 @@ public class TransferComponents extends CustomComponent implements View {
                 ifpName.setValue(String.valueOf(obj[NumericConstants.TWO]));
             }
 
-            if (ifpContractId.equals(Constants.EMPTY)) {
-            } else {
+             else {
                 String componentQuery = queryUtils.getItemMasterDetailsTransContract(ifpContractId);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && !componentList.isEmpty()) {
@@ -575,8 +574,8 @@ public class TransferComponents extends CustomComponent implements View {
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (!(ids.equals(Constants.EMPTY))) {
+            
                 String componentQuery = queryUtils.getPSDetailsTransContract(ids);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && !componentList.isEmpty()) {
@@ -640,8 +639,8 @@ public class TransferComponents extends CustomComponent implements View {
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (! ids.equals(Constants.EMPTY)) {
+           
                 String componentQuery = queryUtils.getRSDetailsTransContract(ids);
 
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);

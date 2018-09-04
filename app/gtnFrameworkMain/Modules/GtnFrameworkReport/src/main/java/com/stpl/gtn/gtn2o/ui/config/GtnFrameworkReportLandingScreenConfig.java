@@ -170,7 +170,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
 		reportingDashboardComparisonPopupConfig.addActionParameter("comparisonLookupView");
 		reportingDashboardComparisonPopupConfig.addActionParameter("Comparison Popup");
-		reportingDashboardComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		reportingDashboardComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.EIGHTY_PERCENT);
+		reportingDashboardComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.EIGHTY_PERCENT);
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		landingScreenVariableComparisonPopupActionList.add(reportingDashboardComparisonPopupConfig);
 

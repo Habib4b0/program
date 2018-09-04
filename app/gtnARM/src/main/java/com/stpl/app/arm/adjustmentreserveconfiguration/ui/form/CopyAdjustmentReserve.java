@@ -142,22 +142,9 @@ public class CopyAdjustmentReserve extends AbstractReserve {
                 return false;
             }
             if (!isFirst) {
-                int id = logic.addLineForMaster(selection, 1);
-                int id1 = logic.addLineForMaster(selection, 0);
-                if (id == 0 && id1 == 0) {
-                    AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+                if (copyFunctionalitySave(revmasid)) {
                     return false;
-                } else {
-                    selection.setReserveMasterSid(id1);
-                    selection.setGtnDetailsMasterSid(id);
-                    if (selection.isIsGTNDetails()) {
-                        selection.setMasterSID(selection.getGtnDetailsMasterSid());
-                    } else {
-                        selection.setMasterSID(selection.getReserveMasterSid());
-                    }
                 }
-                isFirst = true;
-                logic.updateMasterSid(selectedDto, selection, revmasid);
             } else if (binderModified) {
                 int masid = selection.getMasterSID();
                 selection.setMasterSID(selection.getGtnDetailsMasterSid());
@@ -178,6 +165,26 @@ public class CopyAdjustmentReserve extends AbstractReserve {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage001());
             return false;
         }
+    }
+
+    private boolean copyFunctionalitySave(int revmasid) {
+        int id = logic.addLineForMaster(selection, 1);
+        int id1 = logic.addLineForMaster(selection, 0);
+        if (id == 0 && id1 == 0) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+            return true;
+        } else {
+            selection.setReserveMasterSid(id1);
+            selection.setGtnDetailsMasterSid(id);
+            if (selection.isIsGTNDetails()) {
+                selection.setMasterSID(selection.getGtnDetailsMasterSid());
+            } else {
+                selection.setMasterSID(selection.getReserveMasterSid());
+            }
+        }
+        isFirst = true;
+        logic.updateMasterSid(selectedDto, selection, revmasid);
+        return false;
     }
 
     private boolean duplicateCheck() {

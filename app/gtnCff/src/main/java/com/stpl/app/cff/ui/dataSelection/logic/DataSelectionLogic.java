@@ -152,10 +152,7 @@ public class DataSelectionLogic {
 			}
 			hdto.setVersionNo(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN].toString())));
 
-			if (obj[NumericConstants.TWO] != null) {
-			}
-			if (obj[NumericConstants.THREE] != null) {
-			}
+			
 			resultList.add(hdto);// Sanityrelat0090
 
 		}
@@ -818,7 +815,7 @@ public class DataSelectionLogic {
 	 * @return the list
 	 */
 	public List loadSavedCustomerHierarchy() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	/**

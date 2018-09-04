@@ -169,7 +169,7 @@ public class CopyContractLogic {
             CFPCompanyDto.setCompanyNo(String.valueOf(objects[1]));
             CFPCompanyDto.setCompanyName(String.valueOf(objects[NumericConstants.TWO]));
             if (objects[NumericConstants.THREE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.THREE]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.THREE]));
                 String finalString = dateFormat.format(date);
                 CFPCompanyDto.setTradeClassStartDate(finalString);
                 CFPCompanyDto.setStartDate(finalString);
@@ -179,7 +179,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
                 CFPCompanyDto.setTradeClassEndDate(finalString);
                 CFPCompanyDto.setEndDate(finalString);
@@ -215,14 +215,14 @@ public class CopyContractLogic {
 
             CFPCompanyDto.setCompanyFamilyPlanStatusValue(String.valueOf(objects[NumericConstants.THIRTEEN]));
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 CFPCompanyDto.setCompanyFamilyPlanStartDate(finalString);
             } else {
                 CFPCompanyDto.setCompanyFamilyPlanStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.SIX] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.SIX]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.SIX]));
                 String finalString = dateFormat.format(date);
                 CFPCompanyDto.setCompanyFamilyPlanEndDate(finalString);
             } else {
@@ -268,7 +268,7 @@ public class CopyContractLogic {
                 IFPItemDTO.setStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 IFPItemDTO.setItemEndDate(finalString);
                 IFPItemDTO.setEndDate(finalString);
@@ -294,14 +294,14 @@ public class CopyContractLogic {
             IFPItemDTO.setItemFamilyplanNo(String.valueOf(objects[NumericConstants.TWO]));
             IFPItemDTO.setItemFamilyplanName(String.valueOf(objects[NumericConstants.THREE]));
             if (objects[NumericConstants.SEVEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
                 String finalString = dateFormat.format(date);
                 IFPItemDTO.setIfpStartDate(finalString);
             } else {
                 IFPItemDTO.setIfpStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.EIGHT] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
                 String finalString = dateFormat.format(date);
                 IFPItemDTO.setIfpEndDate(finalString);
             } else {
@@ -347,7 +347,7 @@ public class CopyContractLogic {
             PSIFPDTO.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
 
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
                 PSIFPDTO.setItemStartDate(finalString);
                 PSIFPDTO.setStartDate(finalString);
@@ -356,7 +356,7 @@ public class CopyContractLogic {
                 PSIFPDTO.setStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 PSIFPDTO.setItemEndDate(finalString);
                 PSIFPDTO.setEndDate(finalString);
@@ -401,7 +401,7 @@ public class CopyContractLogic {
             PSIFPDTO.setPriceScheduleNameValue(String.valueOf(objects[NumericConstants.THREE]));
             PSIFPDTO.setPriceScheduleStatusValue(Constants.NULL.equals(String.valueOf(objects[NumericConstants.FOURTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FOURTEEN].toString());
             if (objects[NumericConstants.SEVEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.SEVEN]));
                 String finalString = dateFormat.format(date);
                 PSIFPDTO.setPriceScheduleStartDate(finalString);
 
@@ -410,7 +410,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.EIGHT] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.EIGHT]));
                 String finalString = dateFormat.format(date);
                 PSIFPDTO.setPriceScheduleEndDate(finalString);
             } else {
@@ -459,14 +459,14 @@ public class CopyContractLogic {
             rsIfpDto.setRebateScheduleName(String.valueOf(objects[NumericConstants.THREE]));
             rsIfpDto.setStatusRebate(String.valueOf(objects[NumericConstants.EIGHT]));
             if (objects[NumericConstants.ELEVEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.ELEVEN]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.ELEVEN]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemRebateStartDate(finalString);
             } else {
                 rsIfpDto.setItemRebateStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.TWELVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.TWELVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.TWELVE]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemRebateEndDate(finalString);
             } else {
@@ -497,7 +497,7 @@ public class CopyContractLogic {
             rsIfpDto.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
             rsIfpDto.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemStartDate(finalString);
                 rsIfpDto.setStartDate(finalString);
@@ -508,7 +508,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 rsIfpDto.setItemEndDate(finalString);
                 rsIfpDto.setEndDate(finalString);
@@ -798,14 +798,14 @@ public class CopyContractLogic {
                 itemDTO.setBrand(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsStartDate(finalString);
                 } else {
                     itemDTO.setPsStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.FIVE] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                    Date date = dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsEndDate(finalString);
                 } else {
@@ -836,14 +836,14 @@ public class CopyContractLogic {
                 itemDTO.setBrand(checkNullValue(obje[NumericConstants.TWO]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setItemStatus(checkNullValue(obje[NumericConstants.THREE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsStartDate(finalString);
                 } else {
                     itemDTO.setPsStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.FIVE] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                    Date date = dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setPsEndDate(finalString);
                 } else {
@@ -854,14 +854,14 @@ public class CopyContractLogic {
                 itemDTO.setPricePlanName(obje[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHT]));
                 itemDTO.setPriceProtectionStatus(checkNullValue(obje[NumericConstants.NINE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.NINE]));
                 if (obje[NumericConstants.TEN] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setCompanyStartDate(finalString);
                 } else {
                     itemDTO.setCompanyStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.ELEVEN] != null) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.ELEVEN]));
+                    Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.ELEVEN]));
                     String finalString = dateFormat.format(date);
                     itemDTO.setCompanyEndDate(finalString);
                 } else {
@@ -897,14 +897,14 @@ public class CopyContractLogic {
             Company.setCompanyName(String.valueOf(obje[NumericConstants.THREE]));
             Company.setCompanyType(String.valueOf(obje[NumericConstants.FOUR]));
             if (obje[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 Company.setPsStartDate(finalString);
             } else {
                 Company.setPsStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.SIX] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
                 String finalString = dateFormat.format(date);
                 Company.setPsEndDate(finalString);
             } else {
@@ -947,14 +947,14 @@ public class CopyContractLogic {
             Company.setStrength(obje[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVEN]));
 
             if (obje[NumericConstants.NINE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.NINE]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.NINE]));
                 String finalString = dateFormat.format(date);
                 Company.setPsStartDate(finalString);
             } else {
                 Company.setPsStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.TEN] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.TEN]));
                 String finalString = dateFormat.format(date);
                 Company.setPsEndDate(finalString);
             } else {
@@ -1150,14 +1150,14 @@ public class CopyContractLogic {
             itemDTO.setBrand(Constants.NULL.equals(String.valueOf(obje[NumericConstants.THREE])) ? StringUtils.EMPTY : obje[NumericConstants.THREE].toString());
             itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
             if (obje[NumericConstants.FIVE] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                Date date =  dbDateFormat.parse(String.valueOf(obje[NumericConstants.FIVE]));
                 String finalString = dateFormat.format(date);
                 itemDTO.setIfpStartDate(finalString);
             } else {
                 itemDTO.setIfpStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.SIX] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
+                Date date = dbDateFormat.parse(String.valueOf(obje[NumericConstants.SIX]));
                 String finalString = dateFormat.format(date);
                 itemDTO.setIfpEndDate(finalString);
             } else {
@@ -1208,7 +1208,7 @@ public class CopyContractLogic {
                     dto.setContractStartDate(Constants.EMPTY);
                 }
                 if (!contractDto.getEndDate().equals(Constants.NULL)) {
-                    Date date = (Date) dbDateFormat.parse(String.valueOf(contractDto.getEndDate()));
+                    Date date = dbDateFormat.parse(String.valueOf(contractDto.getEndDate()));
                     String finalString = dateFormat.format(date);
                     dto.setContractEndDate(finalString);
                 } else {
