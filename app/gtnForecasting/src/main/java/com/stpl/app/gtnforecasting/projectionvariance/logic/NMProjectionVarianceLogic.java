@@ -2687,13 +2687,14 @@ public class NMProjectionVarianceLogic {
 		return null;
 	}
 
-	public String getFormattedValue(DecimalFormat FORMAT, String value) {
-		if (value.contains(NULL.getConstant())) {
-			value = ZERO;
+	public String getFormattedValue(DecimalFormat formatPv, String value) {
+            String valueToFormat = value;
+		if (valueToFormat.contains(NULL.getConstant())) {
+			valueToFormat = ZERO;
 		} else {
-			value = FORMAT.format(Double.valueOf(value));
+			valueToFormat = formatPv.format(Double.valueOf(valueToFormat));
 		}
-		return value;
+		return valueToFormat;
 	}
 
 	public String isNull(String value) {

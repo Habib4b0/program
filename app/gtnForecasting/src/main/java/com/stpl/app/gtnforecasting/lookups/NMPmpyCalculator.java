@@ -1128,13 +1128,13 @@ public class NMPmpyCalculator extends Window {
             Double gtsValue = Double.valueOf(PPAQuerys.getPPAData(input, queryName, null).get(0).toString());
             if (gtsValue == 0) {
                 List input1 = new ArrayList();
-                List NDcs = new ArrayList();
+                List ndcsImportLogic = new ArrayList();
                 input1.add(CommonUtils.getListToString((List) inputs[0]));
                 List<String> ndcs = PPAQuerys.getPPAData(input1, "Get NDC Values", null);
                 for (String str : ndcs) {
-                    NDcs.add(str == null ? StringUtils.EMPTY : str);
+                    ndcsImportLogic.add(str == null ? StringUtils.EMPTY : str);
                 }
-                MessageBox.showPlain(Icon.INFO, "Error", "The following NDC's " + CommonUtils.getListToString(NDcs) + "is/are not on the current GTS File", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, "Error", "The following NDC's " + CommonUtils.getListToString(ndcsImportLogic) + "is/are not on the current GTS File", ButtonId.OK);
 
             } else {
                 MessageBox.showPlain(Icon.QUESTION, "Replace sales confirmation", "Are you sure you want to use the calculated Sales/Units value for the selected Trading Partner" + " ?",

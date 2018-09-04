@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.AHSummery
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;

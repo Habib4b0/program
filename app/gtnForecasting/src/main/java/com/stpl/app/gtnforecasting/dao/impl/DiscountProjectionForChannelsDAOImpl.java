@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import com.liferay.portal.kernel.dao.orm.ORMException;
-import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionForChannelsDAO;
@@ -473,8 +471,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             String selectedPeriodsToUpdate = CommonUtils.CollectionToString(selectedPeriodsList, false);
             selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
             selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace(Constant.Q, StringUtils.EMPTY).replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
-            String DiscountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
-           HelperTableLocalServiceUtil.executeUpdateQuery(DiscountProjectionTableUpdateQuery);
+            String discountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
+           HelperTableLocalServiceUtil.executeUpdateQuery(discountProjectionTableUpdateQuery);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

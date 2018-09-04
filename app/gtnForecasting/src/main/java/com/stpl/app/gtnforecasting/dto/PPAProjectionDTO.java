@@ -46,16 +46,16 @@ public class PPAProjectionDTO extends ExtMapDTO implements Cloneable {
         return checkRecordCount;
     }
 
-    public void setCheckRecordCount(Integer CheckRecordCount) {
-        this.checkRecordCount = CheckRecordCount;
+    public void setCheckRecordCount(Integer checkRecordCount) {
+        this.checkRecordCount = checkRecordCount;
     }
 
     public Integer getCCPCount() {
         return cCPCount;
     }
 
-    public void setCCPCount(Integer CCPCount) {
-        this.cCPCount = CCPCount;
+    public void setCCPCount(Integer cCPCount) {
+        this.cCPCount = cCPCount;
     }
 
     public String getHirarechyName() {

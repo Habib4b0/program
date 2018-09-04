@@ -1522,7 +1522,7 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public void updateDataSelectionProjectionTables(final String propertyName) throws SystemException {
-		DataSelectionLogic dsLogic = new DataSelectionLogic();
+		DataSelectionLogic dsLogicProj = new DataSelectionLogic();
 		List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(session.getProjectionId(), Boolean.TRUE,
 				selectionDTO.getCustomerHierarchyLevel(), customerDescriptionMap);
 		List<Leveldto> initialProductHierarchy = getInitialHierarchy(session.getProjectionId(), Boolean.FALSE,
@@ -1545,30 +1545,30 @@ public class DataSelection extends ForecastDataSelection {
 					.replace("@HIERARCHYNO", CommonUtils.CollectionToString(productRemovedLevels, true))));
 		}
 		if (!customerRemovedLevels.isEmpty()) {
-			dsLogic.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
+			dsLogicProj.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(),
 					UiUtils.stringListToString(customerRemovedLevels));
 		}
 		if (!productRemovedLevels.isEmpty()) {
-			dsLogic.deleteTempOnUpdate("PROJECTION_PROD_HIERARCHY", session.getProjectionId(),
+			dsLogicProj.deleteTempOnUpdate("PROJECTION_PROD_HIERARCHY", session.getProjectionId(),
 					UiUtils.stringListToString(productRemovedLevels));
 		}
 
 		setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 		setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-		dsLogic.updateCustomerHierarchyLogic(getSelectedCustomers(),
+		dsLogicProj.updateCustomerHierarchyLogic(getSelectedCustomers(),
 				DataSelectionUtil
 						.getEndLevelHierNo(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer)),
 				session.getProjectionId(),
 				DataSelectionUtil.getRemovedLevelsRsid(initialCustomerHierarchy, getSelectedCustomers()),
 				DataSelectionUtil.getNewLevelRsid(initialCustomerHierarchy, getSelectedCustomers()));
-		dsLogic.updateProductHierarchyLogic(getSelectedProducts(),
+		dsLogicProj.updateProductHierarchyLogic(getSelectedProducts(),
 				DataSelectionUtil
 						.getEndLevelHierNo(dataSelectionForm.getProductHierarchyEndLevels(selectedProductContainer)),
 				session.getProjectionId(),
 				DataSelectionUtil.getRemovedLevelsRsid(initialProductHierarchy, getSelectedProducts()),
 				DataSelectionUtil.getNewLevelRsid(initialProductHierarchy, getSelectedProducts()), selectionDTO);
 
-		dsLogic.updateCcpLogic(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer),
+		dsLogicProj.updateCcpLogic(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer),
 				dataSelectionForm.getProductHierarchyEndLevelsHierNo(selectedProductContainer),
 				Constant.CUSTOMER1_SMALL, session.getProjectionId());
 

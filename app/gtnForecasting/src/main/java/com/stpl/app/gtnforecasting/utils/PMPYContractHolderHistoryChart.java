@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;

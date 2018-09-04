@@ -259,8 +259,8 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 String hierarchyNo = projSelDTO.getHierarchyNo();
 
                 String indicator = projSelDTO.getHierarchyIndicator();
-                int levelNo = projSelDTO.getTreeLevelNo();
-                if (expandLevelNo >= levelNo) {
+                int levelNoExpandData = projSelDTO.getTreeLevelNo();
+                if (expandLevelNo >= levelNoExpandData) {
                     if (projSelDTO.isGroupCount()) {
                         String customTreeLevel = treeLevel + count + ".";
                         ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
@@ -305,7 +305,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                                 projSelDTO.setDeductionHierarchyNo(deductionHierarchyNo);
                                 projSelDTO.setHierarchyNo(hierarchyNo);
                                 projSelDTO.setHierarchyIndicator(indicator);
-                                projSelDTO.setTreeLevelNo(levelNo);
+                                projSelDTO.setTreeLevelNo(levelNoExpandData);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
                                 ProjectionVarianceDTO dto = nmProjectionVarianceLogic.configureDetailsInDTO(projSelDTO, list.get(j), hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
@@ -322,7 +322,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                                 projSelDTO.setCustomerHierarchyNo(customerHierarchyNo);
                                 projSelDTO.setHierarchyNo(hierarchyNo);
                                 projSelDTO.setHierarchyIndicator(indicator);
-                                projSelDTO.setTreeLevelNo(levelNo);
+                                projSelDTO.setTreeLevelNo(levelNoExpandData);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
                                 ProjectionVarianceDTO dto = nmProjectionVarianceLogic.configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
@@ -339,9 +339,9 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo();
                 String hierarchyNo = projSelDTO.getHierarchyNo();
                 String indicator = projSelDTO.getHierarchyIndicator();
-                int levelNo = projSelDTO.getTreeLevelNo();
-                if (expandLevelNo >= levelNo) {
-                    levelList = MProjectionVarianceLogic.getConditionalLevelList(projSelDTO.getSession().getProjectionId(), 0, projSelDTO.getLevelCount(), indicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO);
+                int levelNoMandated = projSelDTO.getTreeLevelNo();
+                if (expandLevelNo >= levelNoMandated) {
+                    levelList = MProjectionVarianceLogic.getConditionalLevelList(projSelDTO.getSession().getProjectionId(), 0, projSelDTO.getLevelCount(), indicator, levelNoMandated, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO);
                     customizeResult(levelList, count, treeLevel, expandLevelNo, true, indicator, hierarchyNo, productHierarchyNo, customerHierarchyNo);
                 }
             }

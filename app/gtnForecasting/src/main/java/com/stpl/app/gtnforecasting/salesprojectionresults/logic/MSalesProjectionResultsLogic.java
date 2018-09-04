@@ -622,17 +622,18 @@ public class MSalesProjectionResultsLogic {
         return projDtoList;
     }
 
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
-        if (value.contains(Constant.NULL)) {
-            value = "...";
+    public String getFormatValue(DecimalFormat formatManded, String value, String appendChar) {
+        String valueManded = value;
+        if (valueManded.contains(Constant.NULL)) {
+            valueManded = "...";
         } else {
             if (CURRENCY.equals(appendChar)) {
-                value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+                valueManded = appendChar.concat(formatManded.format(Double.valueOf(valueManded)));
             } else {
-                value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+                valueManded = formatManded.format(Double.valueOf(valueManded)).concat(appendChar);
             }
         }
-        return value;
+        return valueManded;
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
@@ -658,8 +659,8 @@ public class MSalesProjectionResultsLogic {
         return common;
     }
 
-    public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID and " + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+    public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
+        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp + ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 

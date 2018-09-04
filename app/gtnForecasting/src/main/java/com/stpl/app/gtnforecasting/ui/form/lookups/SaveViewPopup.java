@@ -301,16 +301,16 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     protected void btnUpdateLogic() {
         final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 
-        int non_creatoralert = 0;
+        int nonCreatoralert = 0;
         if (((!dataselectionDtoToSave.getViewType().equals(StringUtils.EMPTY)) && (dataselectionDtoToSave.getViewType().equals("public"))) && (!userId.equals(viewDTO.getCreatedUserid()))) {
-                    non_creatoralert++;
+                    nonCreatoralert++;
 
         }
 
         try {
             if (StringUtils.isBlank(viewName.getValue()) || Constant.NULL.equals(String.valueOf(viewName.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("Invalid view name", "Enter the view name");
-            } else if (non_creatoralert != 0) {
+            } else if (nonCreatoralert != 0) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + viewDTO.getViewName() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
 
             } else if (!viewName.getValue().equals(viewDTO.getViewName())) {
