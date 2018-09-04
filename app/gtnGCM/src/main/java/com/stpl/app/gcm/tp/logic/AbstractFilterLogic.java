@@ -4,7 +4,6 @@
  */
 package com.stpl.app.gcm.tp.logic;
 
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.vaadin.v7.data.Container;
