@@ -216,6 +216,7 @@ public abstract class AbstractDemandSummaryResults extends AbstractSummarySearch
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
         resultBeanContainer.setColumnProperties(properties);
+        resultBeanContainer.setIndexable(true);
         rightTable.setDoubleHeaderVisible(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(NumericConstants.TWO)).toArray(), ((List) header.get(NumericConstants.TWO)).size(), String[].class));

@@ -49,8 +49,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author Srithar.Raju
  */
-
-
 public abstract class AbstractBSummaryReportSummary extends VerticalLayout implements DefaultFocusable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBSummaryReportSummary.class);
@@ -240,6 +238,20 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
         return frequencyDdlb;
     }
 
+    private Object[] getProcedureInput() {
+        List<Object> inputList = new ArrayList<>();
+
+        inputList.add(selection.getDataSelectionDTO().getProjectionId());
+        inputList.add(selection.getSessionDTO().getUserId());
+        inputList.add(selection.getSessionDTO().getSessionId());
+        if (selection.getDataSelectionDTO().getAdjustmentCaption().equalsIgnoreCase("Demand") || selection.getDataSelectionDTO().getAdjustmentCaption().equalsIgnoreCase("Single Liability")) {
+            inputList.add(selection.getFrequency().substring(0, 1));
+            inputList.add(selection.getFromDate());
+            inputList.add(selection.getToDate());
+        }
+        return inputList.toArray();
+    }
+
     private void createTempTables() {
         Map createTempTables = QueryUtils.createTempTables(getTempTablesPropertyName(), selection.getDataSelectionDTO().getProjectionId(), String.valueOf(selection.getSessionDTO().getUserId()), String.valueOf(selection.getSessionDTO().getSessionId()));
         selection.getSessionDTO().setCurrentTableNames(createTempTables);
@@ -306,7 +318,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                                 List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
                                 loadFrequency(finalList);
                             } catch (Exception ex) {
-                                LOGGER.error("Error in resetBtn :" , ex);
+                                LOGGER.error("Error in resetBtn :", ex);
                             }
                         }
 
@@ -445,8 +457,6 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
 
     public abstract String getProcedureName();
 
-    public abstract Object[] getProcedureInput(SummarySelection selection);
-     
     private void configurePermission() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
@@ -498,7 +508,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     public void generateButtonLogicMethod() {
         try {
             if (loadSeletion()) {
-                QueryUtil.callProcedure(getProcedureName(), getProcedureInput(selection));
+                QueryUtil.callProcedure(getProcedureName(), getProcedureInput());
                 adjustmentResults.generateBtnLogic();
                 loadExpandCollapseddLb();
             }

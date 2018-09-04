@@ -64,16 +64,4 @@ public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
     public String[] getAdjustmentTypeColumn() {
         return CommonLogic.getInstance().getStringArrayCloned(defaultColumns);
     }
-
-    @Override
-    public Object[] getProcedureInput(SummarySelection selection) {
-        Object[] inputs = new Object[6];
-        inputs[0] = selection.getDataSelectionDTO().getProjectionId();
-        inputs[1] = selection.getSessionDTO().getUserId();
-        inputs[2] = selection.getSessionDTO().getSessionId();
-        inputs[3] = selection.getFrequency().substring(0, 1);
-        inputs[4] = selection.getFromDate();
-        inputs[5] = selection.getToDate();
-        return inputs;
-    }
 }
