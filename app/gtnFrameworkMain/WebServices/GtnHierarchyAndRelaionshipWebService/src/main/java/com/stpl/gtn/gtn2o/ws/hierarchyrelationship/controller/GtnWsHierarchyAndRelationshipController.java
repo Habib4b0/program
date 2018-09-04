@@ -1,23 +1,29 @@
 package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service.GtnWsHierarchyAndRelationshipService;
 import com.stpl.gtn.gtn2o.ws.hierarchyrelationship.service.GtnWsRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
@@ -145,4 +151,19 @@ public class GtnWsHierarchyAndRelationshipController {
 		response.setGtnWsForecastResponse(forecastResponse);
 		return response;
 	}
+	
+	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_PRODUCT_LEVEL, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadProductHierarcyLevel(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnWsForecastRequest forecastRequet = gtnWsRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = forecastRequet.getInputBean();
+		String finalQuery = relationshipLevelValueService.getProductLevelQuery(inputBean);
+		inputBean.setHieraryQuery(finalQuery);
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		response.setGtnWsForecastResponse(forecastResponse);
+		return response;
+	}
+	
 }

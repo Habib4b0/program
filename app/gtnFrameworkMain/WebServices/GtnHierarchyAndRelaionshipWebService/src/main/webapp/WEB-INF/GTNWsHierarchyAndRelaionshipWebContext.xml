@@ -19,4 +19,77 @@
 		<property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
 	</bean>
 
+	<bean id="gtnFrameworkEntityMasterBean"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean"
+		init-method="initSetup">
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+	</bean>
+
+	<bean id="gtnSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryLogger" ref="queryLogger"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">com.stpl.gtn.gtn2o.queryengine.customdialect.CustomSQLServer2008Dialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyEntityMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySingleColumnRelation.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTableMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTableRelation.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTypeTableRelation.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyRestrictionMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTable.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTableDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyColumnSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyHelperSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationFilter.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" />
+		<property name="lookupOnStartup" value="true" />
+	</bean>
+	<bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+	</bean>
+	
+	<bean id="gtnHierarchyServiceBuilder"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
+		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
+	<bean id="queryGeneratorService"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.querygenerator.GtnWsAllHierarchyQueryGenerator">
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
 </beans>
