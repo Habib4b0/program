@@ -6,7 +6,6 @@
 package com.stpl.app.gcm.tp.lazyload;
 
 import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
-import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.addons.lazycontainer.BeanDAO;

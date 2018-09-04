@@ -38,7 +38,6 @@ import com.stpl.app.service.RsDetailsLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 
