@@ -21,8 +21,10 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
+import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -336,10 +338,23 @@ public class RelationShipFilterLogic {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP,
+                 GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+            serviceRegistryBean.setUrl("/dataSelectionSelectedLevelValueMap");
+            serviceRegistryBean.setModuleName("hierarchyRelationship");
+            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            
+            GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
 				request, getGsnWsSecurityToken());
+                    
+            
+//		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+//				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+//						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP,
+//				request, getGsnWsSecurityToken());
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
