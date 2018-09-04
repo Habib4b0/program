@@ -1399,24 +1399,24 @@ public class RsIfpDto implements Serializable {
         return rsStartdate;
     }
 
-    public void setRSStartdate(String RSStartdate) {
-        this.rsStartdate = RSStartdate;
+    public void setRSStartdate(String rsStartDate) {
+        this.rsStartdate = rsStartDate;
     }
 
     public String getRSenddate() {
         return rsEndDate;
     }
 
-    public void setRSenddate(String RSenddate) {
-        this.rsEndDate = RSenddate;
+    public void setRSenddate(String rsEndDate) {
+        this.rsEndDate = rsEndDate;
     }
 
     public String getRebateSchduleStatusvalue() {
         return rebateSchduleStatusvalue;
     }
 
-    public void setRebateSchduleStatusvalue(String RebateSchduleStatusvalue) {
-        this.rebateSchduleStatusvalue = RebateSchduleStatusvalue;
+    public void setRebateSchduleStatusvalue(String rebateSchduleStatusValue) {
+        this.rebateSchduleStatusvalue = rebateSchduleStatusValue;
     }
 
     public String getStatusRebate() {

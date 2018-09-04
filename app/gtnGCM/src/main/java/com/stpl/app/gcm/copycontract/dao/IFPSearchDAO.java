@@ -20,8 +20,8 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
     private IFPItemDTO ifpItemDTO = new IFPItemDTO();
 
-    public IFPSearchDAO(IFPItemDTO IFPItemDTO) {
-        this.ifpItemDTO = IFPItemDTO;
+    public IFPSearchDAO(IFPItemDTO ifpItemDto) {
+        this.ifpItemDTO = ifpItemDto;
     }
 
     @Override
