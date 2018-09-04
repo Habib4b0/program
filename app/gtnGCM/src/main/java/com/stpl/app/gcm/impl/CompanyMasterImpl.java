@@ -596,7 +596,7 @@ public class CompanyMasterImpl {
             sql = "DELETE FROM COMPANY_TRADE_CLASS WHERE COMPANY_MASTER_SID=" + companySystemId;
 
             HelperTableLocalServiceUtil.executeSelectQuery(sql);
-            return null;
+            return Collections.emptyList();
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());

@@ -1314,7 +1314,7 @@ public class CommmonLogic {
         }
 
         query.append("  ) TEM ");
-        List list = (List) dao.executeSelect(query.toString());
+        List list = dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -1547,7 +1547,7 @@ public class CommmonLogic {
             query.append(" AND SCREEN_NAME='").append(contractType).append('\'');
         }
 
-        int count = CommonUtils.convertToInteger(String.valueOf(((List) dao.executeSelect(query.toString())).get(0)));
+        int count = CommonUtils.convertToInteger(String.valueOf((dao.executeSelect(query.toString())).get(0)));
         return count != 0;
     }
 
@@ -1644,7 +1644,7 @@ public class CommmonLogic {
         List<ContractsDetailsDto> resultList = new ArrayList<>();
         ContractsDetailsDto dto = null;
 
-        list = (List) dao.executeSelect(query);
+        list =  dao.executeSelect(query);
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -1779,7 +1779,7 @@ public class CommmonLogic {
         } else {
             container.removeAllItems();
             for (final Iterator<ContractsDetailsDto> iterator = resultList.iterator(); iterator.hasNext();) {
-                final ContractsDetailsDto contractMember = (ContractsDetailsDto) iterator.next();
+                final ContractsDetailsDto contractMember =  iterator.next();
                 container.addBean(contractMember);
 
                 if (!RS_VALUE.getConstant().equals(contractMember.getCategory()) && contractMember.getLevel() < NumericConstants.FIVE) {
@@ -1800,7 +1800,7 @@ public class CommmonLogic {
         List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
-        list = (List) dao.executeSelect(query);
+        list =  dao.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
@@ -1938,7 +1938,7 @@ public class CommmonLogic {
         query.append("  SELECT count(Distinct COMPANY_MASTER_SID) FROM COMPANY_MASTER WHERE  ");
         query.append(columnName).append("='").append(value).append("'" + " AND INBOUND_STATUS <> 'D'  ");
 
-        List list = (List) dao.executeSelect(query.toString());
+        List list = dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -1985,7 +1985,7 @@ public class CommmonLogic {
 
         if (identifierList != null) {
             for (int i = 0; i < identifierList.size(); i++) {
-                final CompanyCrtIdentifierDTO identifierForm = (CompanyCrtIdentifierDTO) identifierList.get(i);
+                final CompanyCrtIdentifierDTO identifierForm =  identifierList.get(i);
 
                 final CompanyIdentifier identifier = CompanyIdentifierLocalServiceUtil.createCompanyIdentifier(0);
 
@@ -2087,7 +2087,7 @@ public class CommmonLogic {
 
         query.append(" SELECT COUNT(" + fieldName + ") FROM IMTD_ITEM_PRICE_REBATE_DETAILS WHERE CHECK_RECORD='1' AND UDC1='0' AND SESSION_ID  ='" + session.getSessionId() + "' AND " + fieldName + (fieldName.equals("START_DATE") ? ">" : "<") + " CONVERT(DATE, '" + date + "'); ");
 
-        List list = (List) dao.executeSelect(query.toString());
+        List list = dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -2104,7 +2104,7 @@ public class CommmonLogic {
 
         query.append(" SELECT COUNT(*) FROM IMTD_ITEM_PRICE_REBATE_DETAILS WHERE CHECK_RECORD='1' AND UDC1='0' AND  SESSION_ID  ='" + session.getSessionId() + "' AND  " + (fieldName.equals("ATTACHED_STATUS") ? "ATTACHED_STATUS!=0" : (fieldName + " IS NOT NULL")));
 
-        List list = (List) dao.executeSelect(query.toString());
+        List list =  dao.executeSelect(query.toString());
 
         if (list != null && list.get(0) != null) {
 
@@ -2226,7 +2226,7 @@ public class CommmonLogic {
         List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
 
-        List list = (List) dao.executeSelect(query);
+        List list = dao.executeSelect(query);
 
         if (field.equals("count")) {
             dto = new ContractResultDTO();

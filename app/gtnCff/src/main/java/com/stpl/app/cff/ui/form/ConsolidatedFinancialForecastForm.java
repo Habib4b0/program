@@ -631,7 +631,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			}
 
 		} catch (final Exception ex) {
-                    ex.printStackTrace();
 			LOGGER.error(ex.getMessage());
 		}
 	}
