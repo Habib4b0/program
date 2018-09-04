@@ -90,7 +90,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 			usrGrpList.addAll(map.keySet());
 			userDto.setUserGroup(usrGrpList);
 
-			List<String> brmList = new ArrayList<String>();
+			List<String> brmList = new ArrayList<>();
 			int count2 = dao.count();
 			HashMap<String, Integer> map2 = new HashMap<>();
 			List<BusinessroleMaster> businessRoleMaster = dao.getBusinessroleMasters(0, count2);

@@ -350,9 +350,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                     brandName.setValue(StringUtils.EMPTY);
                     displayBrand.setValue(StringUtils.EMPTY);
 
-                } else {
-
-                }
+                } 
             }
 
         });

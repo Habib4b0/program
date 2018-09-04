@@ -4975,15 +4975,12 @@ public class NMProjectionResultsLogic {
                         value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                         
                         value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    } else if (projSelDTO.getSales().contains(Constant.RATE)) {
+                    } else if (projSelDTO.getSales().contains(Constant.RATE) || projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                         value = getFormattedValue(PER_TWO, value);
                         value1 = getFormattedValue(PER_TWO, "0.00");
                     } else if (projSelDTO.getSales().contains("TOT")) {
                         value = getFormatTwoDecimalValue(CUR_TWO, value, pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
                         value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
-                    } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
-                        value = getFormattedValue(PER_TWO, value);
-                        value1 = getFormattedValue(PER_TWO, "0.00");
                     }
                     projDTO.addStringProperties(column, discountRow[v]!=null && !"null".equals(discountRow[v]) ? value:value1);
                     columnList.remove(column);

@@ -2223,8 +2223,7 @@ public class DataSelection extends AbstractDataSelection {
 					levelInString = String.valueOf(level.getValue());
 				}
 				int currentLevel = UiUtils.parseStringToInteger(levelInString);
-				if (currentLevel != 0 && DataSelectionUtil.getBeanFromId(selectedItem).getLevelNo() == currentLevel) {
-				}
+				
 				DataSelectionUtil.removeItemsRecursively(selectedItem, selectedCustomer, availableCustomer,
 						selectedCustomerContainer, availableCustomerContainer, currentLevel);
 				selectedCustomerContainer.removeItem(DataSelectionUtil.getBeanFromId(selectedItem));
