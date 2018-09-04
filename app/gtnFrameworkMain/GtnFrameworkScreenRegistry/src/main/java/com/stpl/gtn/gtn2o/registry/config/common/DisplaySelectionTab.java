@@ -98,19 +98,19 @@ public class DisplaySelectionTab {
 		frequencyLayout.setSpacing(true);
 		componentList.add(frequencyLayout);
 
-		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
-		frequency.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		frequency.setComponentName("Frequency:");
-		frequency.setComponentId(nameSpace + "_" + "frequency");
-		frequency.setParentComponentId(frequencyLayout.getComponentId());
-		frequency.setAddToParent(true);
-		componentList.add(frequency);
+		GtnUIFrameworkComponentConfig frequencyDisplay = new GtnUIFrameworkComponentConfig();
+		frequencyDisplay.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		frequencyDisplay.setComponentName("Frequency:");
+		frequencyDisplay.setComponentId(nameSpace + "_" + "frequency");
+		frequencyDisplay.setParentComponentId(frequencyLayout.getComponentId());
+		frequencyDisplay.setAddToParent(true);
+		componentList.add(frequencyDisplay);
 
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
 		frequencyConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		frequencyConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		frequency.setGtnComboboxConfig(frequencyConfig);
+		frequencyDisplay.setGtnComboboxConfig(frequencyConfig);
 
 	}
 

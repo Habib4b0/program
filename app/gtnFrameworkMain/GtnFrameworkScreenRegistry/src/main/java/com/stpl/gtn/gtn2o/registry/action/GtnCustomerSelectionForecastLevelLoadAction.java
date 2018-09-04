@@ -85,3 +85,4 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 		hierarchyLevelCaptionList.add(levelValue);
 	}
 }
+
