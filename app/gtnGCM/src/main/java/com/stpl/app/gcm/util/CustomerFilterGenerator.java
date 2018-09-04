@@ -90,44 +90,28 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                 return comboBox;
 
             } else if ("priceType".equals(propertyId) || "priceProtectionPriceType".equals(propertyId)) {
-                try {
                     final ComboBox priceType = new ComboBox();
                     commonMsg.loadComboBox(priceType, "PS_TYPE", true);
                     priceType.select(0);
 
                     return priceType;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("priceToleranceType".equals(propertyId)) {
-                try {
                     final ComboBox tolerance = new ComboBox();
                     commonMsg.loadComboBox(tolerance, "PRICE_TOLERANCE_TYPE", true);
                     tolerance.select(0);
 
                     return tolerance;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("priceToleranceInterval".equals(propertyId)) {
-                try {
                     final ComboBox toleranceInterval = new ComboBox();
                     commonMsg.loadComboBox(toleranceInterval, "PRICE_TOLERANCE_INTERVAL", true);
                     toleranceInterval.select(0);
 
                     return toleranceInterval;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("priceToleranceFrequency".equals(propertyId)) {
-                try {
                     final ComboBox frequency = new ComboBox();
                     commonMsg.loadComboBox(frequency, "PRICE_TOLERANCE_FREQUENCY", true);
                     frequency.select(0);
                     return frequency;
-                } catch (Exception ex) {
-                    LOGGER.error("",ex);
-                }
             } else if ("contractType".equals(propertyId)) {
                 try {
                     final ComboBox frequency = new ComboBox();
