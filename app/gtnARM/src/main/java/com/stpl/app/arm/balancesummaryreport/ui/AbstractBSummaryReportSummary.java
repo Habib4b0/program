@@ -18,7 +18,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
@@ -50,8 +49,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author Srithar.Raju
  */
-
-
 public abstract class AbstractBSummaryReportSummary extends VerticalLayout implements DefaultFocusable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBSummaryReportSummary.class);
@@ -242,11 +239,17 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     }
 
     private Object[] getProcedureInput() {
-        Object[] inputs = new Object[3];
-        inputs[0] = selection.getDataSelectionDTO().getProjectionId();
-        inputs[1] = selection.getSessionDTO().getUserId();
-        inputs[2] = selection.getSessionDTO().getSessionId();
-        return inputs;
+        List<Object> inputList = new ArrayList<>();
+
+        inputList.add(selection.getDataSelectionDTO().getProjectionId());
+        inputList.add(selection.getSessionDTO().getUserId());
+        inputList.add(selection.getSessionDTO().getSessionId());
+        if (selection.getDataSelectionDTO().getAdjustmentCaption().equalsIgnoreCase("Demand") || selection.getDataSelectionDTO().getAdjustmentCaption().equalsIgnoreCase("Single Liability")) {
+            inputList.add(selection.getFrequency().substring(0, 1));
+            inputList.add(selection.getFromDate());
+            inputList.add(selection.getToDate());
+        }
+        return inputList.toArray();
     }
 
     private void createTempTables() {
@@ -315,7 +318,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                                 List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
                                 loadFrequency(finalList);
                             } catch (Exception ex) {
-                                LOGGER.error("Error in resetBtn :" , ex);
+                                LOGGER.error("Error in resetBtn :", ex);
                             }
                         }
 
