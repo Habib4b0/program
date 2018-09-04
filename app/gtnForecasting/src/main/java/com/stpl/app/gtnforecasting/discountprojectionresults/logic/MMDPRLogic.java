@@ -614,7 +614,7 @@ public class MMDPRLogic {
                 } else if (projSelDTO.getGroup().equals(Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT)) {
                     List list = dqLogic.getSumNMPivotValue(projSelDTO.getProjectionId(), projSelDTO.getFrequency(), projSelDTO);
                     String checkYear = StringUtils.EMPTY;
-                    if (list.size() != 0) {
+                    if (!list.isEmpty()) {
                         DiscountProjectionResultsDTO dto = null;
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);

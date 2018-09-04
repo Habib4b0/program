@@ -404,17 +404,17 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     protected final List<String> loadHistory(String frequency, String period)  {
         LOGGER.debug("Entering loadHistory method");
-        List<String> historyList;
-        historyList = session.getFrequencyAndQuaterValue(frequency);
+        List<String> loadHistoryList;
+        loadHistoryList = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
-        if (historyList == null || historyList.isEmpty()) {
+        if (loadHistoryList == null || loadHistoryList.isEmpty()) {
             endValue = CommonUtils.getProjections(session.getFromDate(), new Date(), frequency);
-            historyList = CommonUtils.getHistoryDdlbList(endValue, period);
+            loadHistoryList = CommonUtils.getHistoryDdlbList(endValue, period);
         }
 
-        session.addFrequencyAndQuater(frequency, historyList);
+        session.addFrequencyAndQuater(frequency, loadHistoryList);
         LOGGER.debug("End of loadHistory method");
-        return historyList;
+        return loadHistoryList;
     }
 
     /**

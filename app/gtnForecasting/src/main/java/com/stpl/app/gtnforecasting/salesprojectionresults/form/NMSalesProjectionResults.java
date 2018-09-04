@@ -29,7 +29,6 @@ import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CalculatePeriods.CALCULATE;
 import static com.stpl.app.utils.Constants.CommonConstants.*;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;

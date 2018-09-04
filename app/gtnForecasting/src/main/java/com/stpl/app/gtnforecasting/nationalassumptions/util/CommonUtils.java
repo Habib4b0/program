@@ -560,20 +560,20 @@ public class CommonUtils {
             }
         return userName;
     }
-     public static String getFormattedValue(DecimalFormat FORMAT, String value) {
+     public static String getFormattedValue(DecimalFormat formatter, String value) {
          String valueNA = value;
         if (valueNA.contains(Constant.NULL) || StringUtils.isBlank(valueNA)) {
             String newValue = "0";
             Double nullValue = Double.valueOf(newValue);
-            valueNA = FORMAT.format(nullValue);
+            valueNA = formatter.format(nullValue);
         } else if (valueNA.contains("- -")){
              valueNA = "- -";
         }else {
             Double newValue = Double.valueOf(valueNA);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+            if (formatter.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            valueNA = FORMAT.format(newValue);
+            valueNA = formatter.format(newValue);
         }
         return valueNA;
     }
@@ -639,13 +639,13 @@ public class CommonUtils {
     }
     
     public static int getHelperCode(String listName, String description) throws SystemException {
-        final DataSelectionDAO DAO = new DataSelectionDAOImpl();
+        final DataSelectionDAO daoHelperCode = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = daoHelperCode.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(ZERO).toString());
         }

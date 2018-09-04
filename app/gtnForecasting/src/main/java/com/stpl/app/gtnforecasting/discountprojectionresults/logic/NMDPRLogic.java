@@ -1378,7 +1378,7 @@ public class NMDPRLogic {
         if (discountString.equals("0")) {
             discountStringValue = "'" + discountString + "'";
         }
-        if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+        if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
             String hsYear = String.valueOf(startAndEndPeriods.get(0));
             String hsMonth = String.valueOf(startAndEndPeriods.get(1));
             String feYear = String.valueOf(startAndEndPeriods.get(NumericConstants.SIX));

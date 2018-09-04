@@ -174,7 +174,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         bsrLevelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-                    List<LevelDTO> customerHierarchyLevelDefinitionList = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    List<LevelDTO> customerHierarchyLevelDefinitionList = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = logicVal.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relSid,
                             bsrCustomerVersionMap.get(relSid), tempDto.getLevelNo(), bsrCustomerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, bsrRsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
@@ -2220,7 +2220,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     public void generateButtonLogicForScreens() {
         try {
             LOGGER.debug(" generateButtonLogicForScreens ");
-//F
+
             if (saveDataSelectionValues()) {
                 bsrSessionDTO.setWorkFlow(false);
                 bsrSelection.setSessionDTO(bsrSessionDTO);
@@ -2527,11 +2527,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 bsrSessionDTO.setUserId(ARMUtils.getIntegerValue(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
                 bsrSessionDTO.setCurrentTableNames(QueryUtils.createTempTables("ARM_CCP_HIERARCHY", bsrSessionDTO.getProjectionId(), bsrSessionDTO.getUserId().toString(), bsrSessionDTO.getSessionId().toString()));
                 getCustTopLevelName();
-
-                (new QueryUtils()).ccpHierarchyInsert(bsrSessionDTO.getCurrentTableNames(), bsrDataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE);
+                logic.ccpHierarchyInsert(bsrSessionDTO.getCurrentTableNames(), selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), bsrDataSelectionDTO);
                 logic.saveCcp(bsrSessionDTO.getCurrentTableNames().get("ST_CCP_HIERARCHY"), String.valueOf(projectionIdValue));
                 logic.saveAdjustmentMaster(bsrDataSelectionDTO);
-
                 return true;
             } else {
                 return false;

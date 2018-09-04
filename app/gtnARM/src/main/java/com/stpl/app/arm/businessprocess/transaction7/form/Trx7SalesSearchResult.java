@@ -123,6 +123,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setColumnProperties(properties);
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainer.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
