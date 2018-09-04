@@ -20,8 +20,8 @@ public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
     private PSIFPDTO psIfpDTO = new PSIFPDTO();
 
-    public PSSearchDTO(PSIFPDTO PSIFPDTO) {
-        this.psIfpDTO = PSIFPDTO;
+    public PSSearchDTO(PSIFPDTO psIfpDto) {
+        this.psIfpDTO = psIfpDto;
     }
 
     @Override

@@ -143,9 +143,9 @@ public class ContractSelectionLogic {
 
     public void insertDataIntoTempTable(String userId, String sessionId, List<String> companyMasterSids, String screenName, boolean isInverse) {
 
-        String CompanyMasterSid = CommonUtils.CollectionToString(companyMasterSids, false);
+        String companyMasterSid = CommonUtils.CollectionToString(companyMasterSids, false);
         List input = new ArrayList();
-        input.add(CompanyMasterSid);
+        input.add(companyMasterSid);
         input.add(companyMasterSids.size());
         input.add(userId);
         input.add(sessionId);
@@ -155,7 +155,7 @@ public class ContractSelectionLogic {
     }
 
     public int getDataCount(List<String> companyMasterSid, boolean isInverse) {
-        String CompanyMasterSids = CommonUtils.CollectionToString(companyMasterSid, true);
+        String companyMasterSids = CommonUtils.CollectionToString(companyMasterSid, true);
         String equalitySign = " in ";
         if (isInverse) {
             equalitySign = " not in ";
@@ -167,10 +167,10 @@ public class ContractSelectionLogic {
             input.add(StringUtils.EMPTY);
         }
         input.add(equalitySign);
-        input.add(CompanyMasterSids);
+        input.add(companyMasterSids);
         input.add(equalitySign);
-        input.add(CompanyMasterSids);
-        input.add(CompanyMasterSids);
+        input.add(companyMasterSids);
+        input.add(companyMasterSids);
         input.add(companyMasterSid.size());
         List finalList = ItemQueries.getItemData(input, "Get Data Count", null);
         return CommonUtils.convertToInteger(String.valueOf(finalList.get(0)));
@@ -229,8 +229,8 @@ public class ContractSelectionLogic {
         return count > 0;
     }
 
-    public static boolean isTCStartDateGreaterThanEndDate(String userId, String sessionId, String date, String Startdate) {
-        String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID='" + userId + "' and TEMP.SESSION_ID='" + sessionId + "' and TEMP.CHECK_RECORD = '1' and '" + Startdate + "' > '" + date + "'";
+    public static boolean isTCStartDateGreaterThanEndDate(String userId, String sessionId, String date, String startDate) {
+        String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID='" + userId + "' and TEMP.SESSION_ID='" + sessionId + "' and TEMP.CHECK_RECORD = '1' and '" + startDate + "' > '" + date + "'";
         int count = CommonUtils.convertToInteger(String.valueOf(((List) daoImpl.executeSelect(query)).get(0)));
         return count > 0;
     }
@@ -306,7 +306,7 @@ public class ContractSelectionLogic {
     public List<Object[]> getComponentInformationData(String componentSelectionValue, String[] id, boolean isTableLoad, boolean isCount, int start, int offset, Set<Container.Filter> filters) {
 
         String queryName = null;
-        List FinalList = new ArrayList();
+        List finalList = new ArrayList();
         List input = new ArrayList();
         input.add(id[0]);
         input.add(id[1]);
@@ -336,11 +336,11 @@ public class ContractSelectionLogic {
             queryName = queryName + " Count For Table";
         }
         if (filters != null) {
-            FinalList.addAll(ItemQueries.getItemData(input, queryName, null, filters));
+            finalList.addAll(ItemQueries.getItemData(input, queryName, null, filters));
         } else {
-            FinalList.addAll(ItemQueries.getItemData(input, queryName, null));
+            finalList.addAll(ItemQueries.getItemData(input, queryName, null));
         }
-        return FinalList;
+        return finalList;
     }
 
     public List getSubmitValidation(String userId, String sessionId, String screenName, String validationType) {
