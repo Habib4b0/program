@@ -1109,12 +1109,12 @@ public class PPAProjectionResultsLogic {
         return resultList;
     }
 
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatValue(DecimalFormat formatPPA, String value, String appendChar) {
         String valueFor =value;
         if (CURRENCY.equals(appendChar)) {
-            valueFor = appendChar.concat(FORMAT.format(Double.valueOf(valueFor)));
+            valueFor = appendChar.concat(formatPPA.format(Double.valueOf(valueFor)));
         } else {
-            valueFor = FORMAT.format(Double.valueOf(valueFor)).concat(appendChar);
+            valueFor = formatPPA.format(Double.valueOf(valueFor)).concat(appendChar);
         }
         return valueFor;
     }
@@ -1250,7 +1250,7 @@ public class PPAProjectionResultsLogic {
     }
 
     String[] calcWacPriceChange(String rsId, String periodSid, String year, String frequencyValue) {
-        String[] wac_price = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
+        String[] wacPrice = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
 
         try {
             String periodIds[] = fetchPeriod_Sids(year, frequencyValue);
@@ -1258,25 +1258,25 @@ public class PPAProjectionResultsLogic {
 
             int i;
             // finding wac price 
-            wac_price[NumericConstants.ZERO] = searchWacPrice(rsId, periodSid);
+            wacPrice[NumericConstants.ZERO] = searchWacPrice(rsId, periodSid);
 
             // checking if wac price change to be reset ie (returns zero)
             for (i = NumericConstants.ZERO; i < wacTableList.size(); i++) {
                 Object object[] = wacTableList.get(i);
                 if ((String.valueOf(object[NumericConstants.ONE]).equals(rsId))
                         && periodList.contains(String.valueOf(object[NumericConstants.TWO]))) {
-                    return wac_price;
+                    return wacPrice;
                 }
             }
 
             // finding wac  Price Change
             int historyPeriod = Integer.parseInt(periodSid) - (currentfrquencyForWacReset + periodList.indexOf(periodSid));
             int baseperiod = Integer.parseInt(periodSid) - periodList.indexOf(periodSid);
-            wac_price[NumericConstants.ONE] = calculateWacPriceChange(searchWacPrice(rsId, String.valueOf(baseperiod)), searchWacPrice(rsId, String.valueOf(historyPeriod)));
-            return wac_price;
+            wacPrice[NumericConstants.ONE] = calculateWacPriceChange(searchWacPrice(rsId, String.valueOf(baseperiod)), searchWacPrice(rsId, String.valueOf(historyPeriod)));
+            return wacPrice;
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
-            return wac_price;
+            return wacPrice;
         }
     }
 
