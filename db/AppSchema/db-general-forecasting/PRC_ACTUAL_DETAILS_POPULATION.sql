@@ -89,7 +89,8 @@ FROM   (SELECT CONTRACT_MASTER_SID,
                                                   + 1 )       DISCOUNT 
 						,A1.ACTUAL_ID
                                                 ,P1.PERIOD_SID AS CASH_PERIOD_SID
-                           FROM   ACTUALS_MASTER A1) B 
+                           FROM   ACTUALS_MASTER A1
+                                  JOIN PERIOD P1 ON DATEADD(DD,1,EOMONTH(A1.CASH_PAID_DATE,-1))=P1.PERIOD_DATE) B 
              ON A.PERIOD_DATE BETWEEN B.START_DATE AND B.END_DATE)A  
              JOIN RS_MODEL RM 
                ON RM.RS_ID = A.PROVISION_ID 
