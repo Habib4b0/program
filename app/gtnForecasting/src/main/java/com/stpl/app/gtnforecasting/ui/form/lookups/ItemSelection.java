@@ -126,11 +126,6 @@ public class ItemSelection extends CustomComponent implements View {
         StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
     private final Object[] availableItemsVisibleColumns = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName", "itemIdentifierType", "itemIdentifier"};
-    private final String[] availableItemHeaders1 = new String[]{
-        StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name"};
-    private final Object[] availableItemsColumns1 = new Object[]{
-        Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName"};
-
     private final SessionDTO session;
 
     public ItemSelection(SessionDTO session) {

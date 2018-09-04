@@ -739,12 +739,12 @@ public class MProjectionVarianceLogic {
     }
 
     public int configureLevelsCount(PVSelectionDTO projSelDTO) {
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic commonLogicMand = new CommonLogic();
         int count;
         if (projSelDTO.isIsCustomHierarchy()) {
-            count = commonLogic.getCountForCustomView(projSelDTO);
+            count = commonLogicMand.getCountForCustomView(projSelDTO);
         } else {
-            count = commonLogic.getCount(projSelDTO);
+            count = commonLogicMand.getCount(projSelDTO);
         }
         return count;
 
@@ -2135,8 +2135,8 @@ public class MProjectionVarianceLogic {
 
     public List<ProjectionVarianceDTO> getDetailsPivotVariance(final PVSelectionDTO pvsdto) {
         try {
-            CommonLogic commonLogic = new CommonLogic();
-           String ccpQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
+            CommonLogic commonLogicPv = new CommonLogic();
+           String ccpQuery = commonLogicPv.insertAvailableHierarchyNo(pvsdto);
             pvsdto.setYear("ALL");
             pvsdto.setProjectionId(pvsdto.getCurrentProjectionID());
             String query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
@@ -4940,8 +4940,8 @@ public class MProjectionVarianceLogic {
     }
 
         public List<Object> getProjVarianceResults(final PVSelectionDTO pvsdto) {
-        CommonLogic commonLogic = new CommonLogic();
-         String ccpQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
+        CommonLogic commonLogicPvResults = new CommonLogic();
+         String ccpQuery = commonLogicPvResults.insertAvailableHierarchyNo(pvsdto);
         pvsdto.setYear("ALL");
         pvsdto.setProjectionId(pvsdto.getSession().getProjectionId());
         String query;

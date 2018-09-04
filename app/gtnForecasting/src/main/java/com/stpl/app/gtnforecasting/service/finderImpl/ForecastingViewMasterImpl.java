@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.kernel.dao.orm.Session;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;

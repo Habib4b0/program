@@ -350,29 +350,29 @@ public class DiscountProjectionLogic {
                             commonColumn = column;
                         }
 
-                        String ACTUAL_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIVE])) ? DASH : String.valueOf(obj[NumericConstants.FIVE]);
-                        String PROJECTED_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIX])) ? DASH : String.valueOf(obj[NumericConstants.SIX]);
-                        String ACTUAL_CONVERTED_AMT = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.ELEVEN], false);
-                        String ACTUAL_AMT_OBJ = Constant.NULL.equals(ACTUAL_CONVERTED_AMT) ? DASH : ACTUAL_CONVERTED_AMT;
-                        ACTUAL_CONVERTED_AMT = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.THIRTEEN], false);
-                        String PROJECTED_AMT_OBJ = Constant.NULL.equals(ACTUAL_CONVERTED_AMT) ? DASH : ACTUAL_CONVERTED_AMT;
-                        String ACTUAL_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? DASH : String.valueOf(obj[NumericConstants.TWELVE]);
-                        String PROJECTED_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
-                        String GROWTH_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIFTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FIFTEEN]);
+                        String actualObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIVE])) ? DASH : String.valueOf(obj[NumericConstants.FIVE]);
+                        String projObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIX])) ? DASH : String.valueOf(obj[NumericConstants.SIX]);
+                        String actualConvertedObj = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.ELEVEN], false);
+                        String actualAmountObj = Constant.NULL.equals(actualConvertedObj) ? DASH : actualConvertedObj;
+                        actualConvertedObj = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.THIRTEEN], false);
+                        String projectedAmoutObj = Constant.NULL.equals(actualConvertedObj) ? DASH : actualConvertedObj;
+                        String actualRpObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? DASH : String.valueOf(obj[NumericConstants.TWELVE]);
+                        String projectedRpObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
+                        String growthObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIFTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FIFTEEN]);
                         discountDto.setDeductionInclusion(String.valueOf(obj[obj.length - 2]));
                         if (isExcelExport) {
-                            ACTUAL_OBJ = getFormattedValue(PERCENTAGE_FORMAT, ACTUAL_OBJ);
-                            PROJECTED_OBJ = getFormattedValue(PERCENTAGE_FORMAT, PROJECTED_OBJ);
+                            actualObj = getFormattedValue(PERCENTAGE_FORMAT, actualObj);
+                            projObj = getFormattedValue(PERCENTAGE_FORMAT, projObj);
                         }
                         
-                          Integer AP_INDICATOR = obj[NumericConstants.SEVEN] != null ? Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : null;
-                        if (AP_INDICATOR == null) {
+                          Integer apIndicator = obj[NumericConstants.SEVEN] != null ? Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : null;
+                        if (apIndicator == null) {
                             customizeDiscountForDeductionInclusion(doubleProjectedAndHistoryCombinedUniqueList, discountDto);
                         } else {
                             discountProjectionSetTableValues(frequency, forecastConfigList, discountDto,
-                                    doubleProjectedAndHistoryCombinedUniqueList, column, commonColumn, ACTUAL_OBJ,
-                                    PROJECTED_OBJ, ACTUAL_AMT_OBJ, PROJECTED_AMT_OBJ, ACTUAL_RP_OBJ, PROJECTED_RP_OBJ,
-                                    GROWTH_OBJ, AP_INDICATOR);
+                                    doubleProjectedAndHistoryCombinedUniqueList, column, commonColumn, actualObj,
+                                    projObj, actualAmountObj, projectedAmoutObj, actualRpObj, projectedRpObj,
+                                    growthObj, apIndicator);
                         }
 
                         if (i == discountProjectionList.size() - 1) {
@@ -410,15 +410,15 @@ public class DiscountProjectionLogic {
 
     private void discountProjectionSetTableValues(String frequency, List<String> forecastConfigList,
             DiscountProjectionDTO discountDto, List doubleProjectedAndHistoryCombinedUniqueList, String column,
-            String commonColumn, String ACTUAL_OBJ, String PROJECTED_OBJ, String ACTUAL_AMT_OBJ,
-            String PROJ_AMT_OBJ, String ACTUAL_RP_OBJ, String PROJ_RP_OBJ, String GROWTH_OBJ,
-            Integer AP_INDICATOR) {
+            String commonColumn, String actualObject, String projectedObject, String actualAmountObject,
+            String projAmountObj, String actualRpObject, String ProjRpObject, String growthObject,
+            Integer apIndicatorObject) {
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(commonColumn)) {
-            if (AP_INDICATOR == 0) {
+            if (apIndicatorObject == 0) {
                 if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                    discountDto.addStringProperties(commonColumn + ACTUAL_RATE, ACTUAL_OBJ);
-                    discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, ACTUAL_AMT_OBJ);
-                    discountDto.addStringProperties(commonColumn + Constant.ACTUALRPU, ACTUAL_RP_OBJ);
+                    discountDto.addStringProperties(commonColumn + ACTUAL_RATE, actualObject);
+                    discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, actualAmountObject);
+                    discountDto.addStringProperties(commonColumn + Constant.ACTUALRPU, actualRpObject);
                 } else {
                     discountDto.addStringProperties(commonColumn + ACTUAL_RATE, StringUtils.EMPTY);
                     discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, StringUtils.EMPTY);
@@ -428,17 +428,17 @@ public class DiscountProjectionLogic {
             }
 
             if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                PROJECTED_OBJ = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, PROJECTED_OBJ);
-                PROJ_AMT_OBJ = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, PROJ_AMT_OBJ);
-                PROJ_RP_OBJ = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, PROJ_RP_OBJ);
-                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, PROJECTED_OBJ);
-                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, PROJ_AMT_OBJ);
+                projectedObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projectedObject);
+                projAmountObj = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projAmountObj);
+                ProjRpObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, ProjRpObject);
+                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObject);
+                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObj);
                 discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU,
-                        PROJ_RP_OBJ);
-                discountDto.addStringProperties(commonColumn + Constant.GROWTH, GROWTH_OBJ);
+                        ProjRpObject);
+                discountDto.addStringProperties(commonColumn + Constant.GROWTH, growthObject);
             } else {
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, StringUtils.EMPTY);
                 discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, StringUtils.EMPTY);
@@ -448,7 +448,7 @@ public class DiscountProjectionLogic {
 
             }
         } else {
-            if (AP_INDICATOR == 0) {
+            if (apIndicatorObject == 0) {
                 discountDto.addStringProperties(commonColumn + ACTUAL_RATE, StringUtils.EMPTY);
                 discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, StringUtils.EMPTY);
                 discountDto.addStringProperties(commonColumn + Constant.ACTUALRPU, StringUtils.EMPTY);
@@ -946,10 +946,10 @@ public class DiscountProjectionLogic {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
                     commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + commonColumn;
-                    String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.THREE])) ? DASH : String.valueOf(obj[NumericConstants.THREE]);
-                    String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOUR])) ? DASH : String.valueOf(obj[NumericConstants.FOUR]);
-                    totalDTO.addStringProperties(commonColumn + ACTUAL_AMOUNT, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
-                    totalDTO.addStringProperties(commonColumn + PROJECTED_AMOUNT, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                    String actualAmtObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.THREE])) ? DASH : String.valueOf(obj[NumericConstants.THREE]);
+                    String projeAmoutObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOUR])) ? DASH : String.valueOf(obj[NumericConstants.FOUR]);
+                    totalDTO.addStringProperties(commonColumn + ACTUAL_AMOUNT, getFormattedValue(AMOUNT, actualAmtObj));
+                    totalDTO.addStringProperties(commonColumn + PROJECTED_AMOUNT, getFormattedValue(AMOUNT, projeAmoutObj));
                 }
             }
         }
@@ -968,7 +968,7 @@ public class DiscountProjectionLogic {
             if (!pivotList.isEmpty()) {
                 getParentGroupValue(frequency, pivotList, discountDto, discountProjList, ahPeriodList, hashMapValues);
             }
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
 
@@ -1039,7 +1039,7 @@ public class DiscountProjectionLogic {
         try {
             Map<String, Object> mapValue = new HashMap<>();
             List<String> periodList = new ArrayList<>();
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
                     String headerColumn = StringUtils.EMPTY;
@@ -1057,22 +1057,22 @@ public class DiscountProjectionLogic {
                         periodList.add(headerColumn);
                     }
 
-                    String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
-                    String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIXTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SIXTEEN]);
+                    String actualAmtParentGroupValue = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
+                    String projAmtParentGroupValue = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIXTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SIXTEEN]);
                     if (mapValue.containsKey(headerColumn)) {
                         discountDto = (DiscountProjectionDTO) mapValue.get(headerColumn);
-                        int AP_INDICATOR = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
-                        if (AP_INDICATOR == 0) {
-                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
+                        int apIndicatorParentGroupValue = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
+                        if (apIndicatorParentGroupValue == 0) {
+                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, actualAmtParentGroupValue));
                         }
-                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, projAmtParentGroupValue));
                     } else {
                         discountDto = new DiscountProjectionDTO();
-                        int AP_INDICATOR = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
-                        if (AP_INDICATOR == 0) {
-                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
+                        int apIndicParentGroupValue = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
+                        if (apIndicParentGroupValue == 0) {
+                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, actualAmtParentGroupValue));
                         }
-                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, projAmtParentGroupValue));
                         mapValue.put(headerColumn, discountDto);
                     }
                 }
