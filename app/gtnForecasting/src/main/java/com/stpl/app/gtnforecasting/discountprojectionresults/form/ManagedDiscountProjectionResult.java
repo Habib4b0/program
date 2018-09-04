@@ -157,7 +157,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
             public void valueChange(Property.ValueChangeEvent event) {
 
                 List<String> brandList = mmLogic.getBrandValue(sessionDTO.getProjectionId(), String.valueOf(therapeuticClass.getValue()));
-                if (brandList.size() != 0) {
+                if (!brandList.isEmpty()) {
                     for (String value : brandList) {
                         brand.addItem(value);
                     }
@@ -370,7 +370,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
 
     public void loadTherapeuticClass() {
         List<String> listValue = mmLogic.getTherapeuticValue(sessionDTO.getProjectionId());
-        if (listValue.size() != 0) {
+        if (!listValue.isEmpty()) {
             for (String list : listValue) {
                 therapeuticClass.addItem(list);
             }

@@ -99,7 +99,7 @@ public class DPRQueryBuilder {
             if (discountString.equals("0")) {
                 discountStringValue = "'" + discountString + "'";
             }
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear;
@@ -235,7 +235,7 @@ public class DPRQueryBuilder {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));
@@ -361,7 +361,7 @@ public class DPRQueryBuilder {
                 String endPeriod = "";
                 String forecastStartPeriod = "";
                 String forecastEndPeriod = "";
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     String hsYear = String.valueOf(startAndEndPeriods.get(0));
                     String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                     String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));
