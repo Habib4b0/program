@@ -1745,5 +1745,33 @@ public class CFFLogic {
         });
         
     }
+
+    public void callCFFHierarachyDetailsProcedure(SessionDTO session, boolean isDataSelection) {
+        LOGGER.info("callCFFHierarachyDetailsProcedure");
+             service.submitRunnable(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session,Constants.CFF_EXCEL, "CUSTOMER");
+                Object[] orderedArgs={session.getProjectionId(),session.getFrequency(),session.getUserId(),session.getSessionId(),"C",session.getCustomViewMasterSid(),session.getCustomerLevelNumber()};
+                CommonLogic.callProcedureUpdate(Constants.PRC_CFF_HIERARCHY_DETAILS, orderedArgs);
+            }
+        });
+       service.submitRunnable(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session,Constants.CFF_EXCEL, "PRODUCT");
+                Object[] orderedArgs={session.getProjectionId(),session.getFrequency(),session.getUserId(),session.getSessionId(),"P",session.getCustomViewMasterSid(),session.getProductLevelNumber()};
+                CommonLogic.callProcedureUpdate(Constants.PRC_CFF_HIERARCHY_DETAILS, orderedArgs);
+            }
+        });
+        service.submitRunnable(new Runnable() {
+            @Override
+            public void run() {
+                CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.CFF_EXCEL, "CUSTOM");
+                Object[] orderedArgs={session.getProjectionId(),session.getFrequency(),session.getUserId(),session.getSessionId(),"U",session.getCustomViewMasterSid(),"1"};
+                CommonLogic.callProcedureUpdate(Constants.PRC_CFF_HIERARCHY_DETAILS, orderedArgs);
+            }
+        });
+    }
 }
 
