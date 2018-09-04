@@ -39,28 +39,30 @@ public class GtnCustomerAvailableTableLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-            List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		Date forecastEligibleDate = null;
 		String hierarchyComponentId = String.valueOf(actionParamList.get(1));
 		String relationshipComponentId = String.valueOf(actionParamList.get(2));
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData();
 
-		String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).getCaptionFromV8ComboBox());
-		String hierarchyVersionNo = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).getStringCaptionFromV8ComboBox();
+		String relationshipVersionNo = String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)), componentId)
+						.getCaptionFromV8ComboBox());
+		String hierarchyVersionNo = recordBean.getPropertyValueByIndex(6).toString();
 
 		String relationshipBuilderSid = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(relationshipComponentId, componentId).getCaptionFromV8ComboBox());
-		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
+		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(7);
 
-		Integer selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).getCaptionFromV8ComboBox());
+		Integer selectedLevelNo = Integer.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
+						.getCaptionFromV8ComboBox());
 		String selectedLevel = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).getStringCaptionFromV8ComboBox();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
+				.getStringCaptionFromV8ComboBox();
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)),componentId).getFieldValue();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)), componentId).getFieldValue();
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
@@ -85,7 +87,7 @@ public class GtnCustomerAvailableTableLoadAction
 			queryParameters.add(Boolean.FALSE);
 
 			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
-					.getVaadinComponent(String.valueOf(actionParamList.get(6)),componentId);
+					.getVaadinComponent(String.valueOf(actionParamList.get(6)), componentId);
 			GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
 					.getData();
 			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData
@@ -109,9 +111,8 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_LEVELVALUE_MAP, "hierarchyRelationship", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -126,9 +127,8 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ "/loadLevelValueMapResults",
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				"/loadLevelValueMapResults", "hierarchyRelationship", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
@@ -142,9 +142,8 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ "/getHierarchyLevelValues",
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				"/getHierarchyLevelValues", "hierarchyRelationship", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
@@ -164,9 +163,8 @@ public class GtnCustomerAvailableTableLoadAction
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL, "hierarchyRelationship", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
 	}
 

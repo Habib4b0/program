@@ -19,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnCustomerSelectionRelationshipLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -48,7 +48,7 @@ public class GtnCustomerSelectionRelationshipLoadAction
 				relationshipCaptionList.add(relationshipBuilderBean.getRelationshipName());
 				relationshipIdList.add(relationshipBuilderBean.getRelationshipBuilderSid());
 			}
-
+			
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) params.get(2))
 					.addAllItemsToComboBox(relationshipCaptionList, relationshipIdList);
 
