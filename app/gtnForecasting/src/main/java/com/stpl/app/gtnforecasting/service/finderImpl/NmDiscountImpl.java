@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.kernel.dao.orm.Session;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
@@ -1010,7 +1009,7 @@ public class NmDiscountImpl {
                 int startYear = 0;
                 int endYear = 0;
 
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     if (startAndEndPeriods.size() > 1) {
                         startYear = startAndEndPeriods.get(1);
@@ -1630,7 +1629,7 @@ public class NmDiscountImpl {
             if (discountString.equals("0")) {
                 discountString = "'" + discountString + "'";
             }
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String feYear = String.valueOf(startAndEndPeriods.get(6));
@@ -1788,7 +1787,7 @@ public class NmDiscountImpl {
                 }
             }
             idString = idStringBuilder.toString();
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 startFreq = startAndEndPeriods.get(0);
                 endFreq = startAndEndPeriods.get(1);
                 startYear = startAndEndPeriods.get(2);
@@ -2045,7 +2044,7 @@ public class NmDiscountImpl {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(2));
@@ -2171,7 +2170,7 @@ public class NmDiscountImpl {
                 String endPeriod = "";
                 String forecastStartPeriod = "";
                 String forecastEndPeriod = "";
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     String hsYear = String.valueOf(startAndEndPeriods.get(0));
                     String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                     String heYear = String.valueOf(startAndEndPeriods.get(2));
@@ -2280,7 +2279,7 @@ public class NmDiscountImpl {
                 String declareStatement = "";
                 int startMonth = 0;
                 int endMonth = 0;
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     endFreq = startAndEndPeriods.get(1);
                     startYear = startAndEndPeriods.get(2);
@@ -2494,7 +2493,7 @@ public class NmDiscountImpl {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heMonth = String.valueOf(startAndEndPeriods.get(3));
