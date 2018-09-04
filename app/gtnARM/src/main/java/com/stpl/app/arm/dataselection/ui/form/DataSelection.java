@@ -5,8 +5,6 @@
  */
 package com.stpl.app.arm.dataselection.ui.form;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.arm.abstractforms.AbstractDataSelection;
 import com.stpl.app.arm.adjustmentsummary.form.AdjustmentSummaryWindow;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
