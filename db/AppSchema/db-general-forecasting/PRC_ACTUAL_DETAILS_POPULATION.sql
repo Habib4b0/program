@@ -24,9 +24,9 @@ AS
 *****************************************************************************************************************************
 ** CHANGE HISTORY
 *****************************************************************************************************************************
-** VER   DATE      TICKET NO          AUTHOR           DESCRIPTION 
-** ---   --------  -----------        ----------       -----------------------------------------------
-** NA    NA        NA                 NA               NA
+** VER   DATE           TICKET NO          AUTHOR           DESCRIPTION 
+** ---   --------       -----------        ----------       -----------------------------------------------
+** 01    3/Sept/2018    ALG-5585           @Vishal          Cash Paid date adding to actual detials
 *****************************************************************************************************************************/
 
 
@@ -43,7 +43,8 @@ INSERT INTO ACTUALS_DETAILS
  ,[QUANTITY]          
  ,[DISCOUNT]          
  ,[QUANTITY_INCLUSION]
- ,[ACTUAL_ID]  
+ ,[ACTUAL_ID] 
+ ,CASH_PAID_PERIOD
 )
 
 
@@ -55,7 +56,8 @@ ISNULL((A.SALES), 0)               AS SALES,
 ISNULL((A.QUANTITY), 0)            AS QUANTITY, 
 ISNULL((A.DISCOUNT), 0)            AS DISCOUNT, 
 ISNULL((A.QUANTITY_INCLUSION), 'Y')AS QUANTITY_INCLUSION,
-A.ACTUAL_ID
+A.ACTUAL_ID,
+CASH_PERIOD_SID
 FROM   (SELECT CONTRACT_MASTER_SID, 
                      COMPANY_MASTER_SID, 
                      ITEM_MASTER_SID, 
@@ -69,7 +71,8 @@ FROM   (SELECT CONTRACT_MASTER_SID,
                      QUANTITY, 
                      DISCOUNT, 
                      QUANTITY_INCLUSION ,
-					 B.ACTUAL_ID
+                     B.ACTUAL_ID,
+                     CASH_PERIOD_SID
               FROM   PERIOD A 
                      JOIN (SELECT PROVISION_ID, 
                                   ACCRUAL_ACTUAL_START_DATE   START_DATE, 
@@ -84,8 +87,10 @@ FROM   (SELECT CONTRACT_MASTER_SID,
                                                     + 1 )     QUANTITY, 
                                   (AMOUNT) / ( DATEDIFF(MM, ACCRUAL_ACTUAL_START_DATE, ACCRUAL_ACTUAL_END_DATE)
                                                   + 1 )       DISCOUNT 
-												  ,A1.ACTUAL_ID
-                           FROM   ACTUALS_MASTER A1) B 
+						,A1.ACTUAL_ID
+                                                ,P1.PERIOD_SID AS CASH_PERIOD_SID
+                           FROM   ACTUALS_MASTER A1
+                                  JOIN PERIOD P1 ON DATEADD(DD,1,EOMONTH(A1.CASH_PAID_DATE,-1))=P1.PERIOD_DATE) B 
              ON A.PERIOD_DATE BETWEEN B.START_DATE AND B.END_DATE)A  
              JOIN RS_MODEL RM 
                ON RM.RS_ID = A.PROVISION_ID 

@@ -9,7 +9,6 @@ import com.stpl.app.gcm.copycontract.ui.form.CopyContractform;
 import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.Collections;
 import java.util.List;
 
 /**

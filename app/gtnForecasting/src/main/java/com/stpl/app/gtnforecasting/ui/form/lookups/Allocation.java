@@ -923,40 +923,40 @@ public class Allocation extends CustomComponent implements View {
 
     private void update_start_end_DateStamps() {
 
-        String from_val = session.getAltFromPeriod();
-        String to_val = session.getAltToPeriod();
-        String frequency_val = this.frequency.getValue().toString();
+        String fromVal = session.getAltFromPeriod();
+        String toVal = session.getAltToPeriod();
+        String frequencyVal = this.frequency.getValue().toString();
         int startFrom;
         int yearFrom;
         int startTo;
         int yearTo;
 
-        if (Constant.ANNUALLY.equalsIgnoreCase(frequency_val)) {
+        if (Constant.ANNUALLY.equalsIgnoreCase(frequencyVal)) {
             startFrom = 0;
             startTo = NumericConstants.ELEVEN;
-            yearFrom = Integer.parseInt(from_val.trim());
-            yearTo = Integer.parseInt(to_val.trim());
-        } else if (Constant.MONTHLY.equalsIgnoreCase(frequency_val)) {
+            yearFrom = Integer.parseInt(fromVal.trim());
+            yearTo = Integer.parseInt(toVal.trim());
+        } else if (Constant.MONTHLY.equalsIgnoreCase(frequencyVal)) {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             List<String> months = Arrays.asList(dateFormatSymbols.getShortMonths());
-            startFrom = months.indexOf(StringUtils.capitalize(from_val.substring(0, NumericConstants.THREE))) ;
-            startTo = months.indexOf(StringUtils.capitalize(to_val.substring(0, NumericConstants.THREE))) ;
-            yearFrom = Integer.parseInt(from_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
-            yearTo = Integer.parseInt(to_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            startFrom = months.indexOf(StringUtils.capitalize(fromVal.substring(0, NumericConstants.THREE))) ;
+            startTo = months.indexOf(StringUtils.capitalize(toVal.substring(0, NumericConstants.THREE))) ;
+            yearFrom = Integer.parseInt(fromVal.substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            yearTo = Integer.parseInt(toVal.substring(NumericConstants.THREE, NumericConstants.SEVEN));
         } else {
-            if (Constant.QUARTERLY.equalsIgnoreCase(frequency_val)) {
-                startFrom = Integer.parseInt(from_val.substring(1, NumericConstants.TWO));
+            if (Constant.QUARTERLY.equalsIgnoreCase(frequencyVal)) {
+                startFrom = Integer.parseInt(fromVal.substring(1, NumericConstants.TWO));
                 startFrom = (startFrom * NumericConstants.THREE) - NumericConstants.THREE;
-                startTo = Integer.parseInt(to_val.substring(1, NumericConstants.TWO));
+                startTo = Integer.parseInt(toVal.substring(1, NumericConstants.TWO));
                 startTo = (startTo * NumericConstants.THREE)-1;
             } else {
-                startFrom = Integer.parseInt(from_val.substring(1, NumericConstants.TWO));
+                startFrom = Integer.parseInt(fromVal.substring(1, NumericConstants.TWO));
                 startFrom = (startFrom * NumericConstants.SIX) - NumericConstants.SIX;
-                startTo = Integer.parseInt(to_val.substring(1, NumericConstants.TWO));
+                startTo = Integer.parseInt(toVal.substring(1, NumericConstants.TWO));
                 startTo = (startTo * NumericConstants.SIX)-1;
 }
-            yearFrom = Integer.parseInt(from_val.substring(NumericConstants.TWO, NumericConstants.SIX));
-            yearTo = Integer.parseInt(to_val.substring(NumericConstants.TWO, NumericConstants.SIX));
+            yearFrom = Integer.parseInt(fromVal.substring(NumericConstants.TWO, NumericConstants.SIX));
+            yearTo = Integer.parseInt(toVal.substring(NumericConstants.TWO, NumericConstants.SIX));
         }
         if (startStamp == null) {
             startStamp = new Date(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO, startFrom, 1);

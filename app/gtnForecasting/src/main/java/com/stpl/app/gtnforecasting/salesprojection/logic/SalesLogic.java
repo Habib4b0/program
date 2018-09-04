@@ -814,10 +814,10 @@ public class SalesLogic {
     public List<SalesRowDto> getSalesResults(ProjectionSelectionDTO projSelDTO, int start, int end) {
         /*if no record available in ST_NM_ACTAUL_SALES table, we will show hierarchy in table */
 
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic commonSalesLogic = new CommonLogic();
         String sql;
 
-        sql = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        sql = commonSalesLogic.insertAvailableHierarchyNo(projSelDTO);
 
         return getSalesResults(projSelDTO, start, end, sql);
     }
@@ -825,10 +825,10 @@ public class SalesLogic {
     public List<SalesRowDto> getSalesResultsForExpand(ProjectionSelectionDTO projSelDTO, Set hierarchyNoSet) {
         /*if no record available in ST_NM_ACTAUL_SALES table, we will show hierarchy in table */
 
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic commonLogicSalesResults = new CommonLogic();
         String sql;
 
-        sql = commonLogic.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
+        sql = commonLogicSalesResults.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
         return getSalesResults(projSelDTO, 0, hierarchyNoSet.size(), sql);
     }
 
@@ -1850,7 +1850,7 @@ public class SalesLogic {
             finalQuery = SQlUtil.getQuery(queryName);
             finalQuery = finalQuery.replace("[?CHECK_RECORD]", isChecked ? "1" : "0");
         } else {
-            CommonLogic commonLogic = new CommonLogic();
+            CommonLogic commonLogicUdateCheckedRecords = new CommonLogic();
             String hierarchy = salesDTO.getHierarchyNo().contains(",") ? salesDTO.getHierarchyNo().split(",")[0] : salesDTO.getHierarchyNo();
             String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") : SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,"('" + hierarchy.trim() + "')");
@@ -1874,7 +1874,7 @@ public class SalesLogic {
                 productHierarchyNo = StringUtils.EMPTY;
             }
 
-            hierarchyInserQuery = hierarchyInserQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(isCustomView, customerHierarchyNo, productHierarchyNo, hiearchyIndicator));
+            hierarchyInserQuery = hierarchyInserQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogicUdateCheckedRecords.getHierarchyJoinQuery(isCustomView, customerHierarchyNo, productHierarchyNo, hiearchyIndicator));
             String queryName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? "check-record-update-mandated" : "check-record-update";
             String updateQuery = SQlUtil.getQuery(queryName);
             updateQuery = updateQuery.replace("[?CHECK_RECORD]", isChecked ? "1" : "0");
@@ -2395,7 +2395,7 @@ public class SalesLogic {
         boolean status = false;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
         CallableStatement statement = null;
-        SessionDTO session = projectionSelectionDTO.getSessionDTO();
+        SessionDTO sessionCallManualEntry = projectionSelectionDTO.getSessionDTO();
         try (Connection connection = dataSourceConnection.getConnection()) {
             LOGGER.debug("Entering callManualEntryProcedure  ::::");
             if (connection != null) {
@@ -2405,15 +2405,15 @@ public class SalesLogic {
                     statement = connection.prepareCall("{call PRC_SALES_PROJ_MANUAL_ENTRY_TEMP (?,?,?,?,?)}");
                 }
                 LOGGER.debug("PRC_SALES_PROJ_MANUAL_ENTRY_TEMP");
-                LOGGER.debug("1= {} " , session.getProjectionId());
-                LOGGER.debug("2= {} " , session.getUserId());
-                LOGGER.debug("3= {} " , session.getSessionId());
+                LOGGER.debug("1= {} " , sessionCallManualEntry.getProjectionId());
+                LOGGER.debug("2= {} " , sessionCallManualEntry.getUserId());
+                LOGGER.debug("3= {} " , sessionCallManualEntry.getSessionId());
                 LOGGER.debug("4= {} " , changedProperty);
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
-                statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, session.getUserId()); //  @USER_ID
-                statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
+                statement.setObject(1, sessionCallManualEntry.getProjectionId()); //  @PROJECTION_SID
+                statement.setObject(NumericConstants.TWO, sessionCallManualEntry.getUserId()); //  @USER_ID
+                statement.setObject(NumericConstants.THREE, sessionCallManualEntry.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
                     statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
@@ -2548,8 +2548,8 @@ public class SalesLogic {
         String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(sessionDto.getCustomerLevelNumber()) : String.valueOf(sessionDto.getProductLevelNumber());
         String prodCustVersion = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "PROJECTION_CUST_VERSION" : "PROJECTION_PROD_VERSION";
         String prodCustBuilderSid = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_RELATIONSHIP_BUILDER_SID" : "PROD_RELATIONSHIP_BUILDER_SID";
-        String CustomQueryString = projectionSelectionDTO.isIsCustomHierarchy() ? "selected-Hierarchy-Query-sales-Custom" : "selected-Hierarchy-Query-sales";
-        String sqlQuery = SQlUtil.getQuery(CustomQueryString).replace("@HIER_NO", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? CUST_HIERARCHY_NO : PROD_HIERARCHY_NO)
+        String customQueryString = projectionSelectionDTO.isIsCustomHierarchy() ? "selected-Hierarchy-Query-sales-Custom" : "selected-Hierarchy-Query-sales";
+        String sqlQuery = SQlUtil.getQuery(customQueryString).replace("@HIER_NO", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? CUST_HIERARCHY_NO : PROD_HIERARCHY_NO)
                 .replace("@LEVEL_NO", lowerMostLevelNo).replace("@PROJ_ID", String.valueOf(sessionDto.getProjectionId())).replace("@CUSTPRODVER", prodCustVersion)
                 .replace("@REL_BUILD_ID", prodCustBuilderSid).replace("@CUSTID", String.valueOf(sessionDto.getCustomRelationShipSid()));
         List<String> hierarchyList = (List<String>) salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, sessionDto.getCurrentTableNames()));
@@ -4085,13 +4085,14 @@ public class SalesLogic {
         return resultList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL)) {
-            value = SPRDASH.getConstant();
+    public String getFormattedValue(DecimalFormat formatSales, String value) {
+        String valueSales = value;
+        if (valueSales.contains(Constant.NULL)) {
+            valueSales = SPRDASH.getConstant();
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            valueSales = formatSales.format(Double.valueOf(valueSales));
         }
-        return value;
+        return valueSales;
     }
 
     public List<SalesRowDto> getSalesProjectionPivotResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
@@ -4622,12 +4623,12 @@ public class SalesLogic {
         return builder.toString();
     }
 
-    private void getStatement(Connection connection, String prc_sales_projection_temp, ProjectionSelectionDTO projectionSelectionDTO, String start, String end, String calcBased, String allocationBasis, String indicator) {
+    private void getStatement(Connection connection, String prcSalesProjectionTemp, ProjectionSelectionDTO projectionSelectionDTO, String start, String end, String calcBased, String allocationBasis, String indicator) {
         StringBuilder procedure = new StringBuilder("{call ");
         if (indicator.equals("NM")) {
-            procedure.append(prc_sales_projection_temp).append(" (?,?,?,?,?,?,?,?,?)}");
+            procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?,?)}");
         } else {
-            procedure.append(prc_sales_projection_temp).append(" (?,?,?,?,?,?,?,?)}");
+            procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?)}");
         }
         try (CallableStatement statement = connection.prepareCall(procedure.toString())) {
             statement.setObject(1, projectionSelectionDTO.getProjectionId());

@@ -75,11 +75,6 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
     }
 
     @Override
-    protected void resetBtn() {
-        super.resetBtn();
-    }
-
-    @Override
     protected void loadReserveAccount() {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         if (!list.isEmpty()) {

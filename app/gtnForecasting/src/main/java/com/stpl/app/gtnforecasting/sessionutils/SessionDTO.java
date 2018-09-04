@@ -411,16 +411,16 @@ public class SessionDTO implements Serializable {
         this.frequencyAndQuater = frequencyAndQuater;
     }
 
-    public void addFrequencyAndQuater(String frequency, List HistoryCount) {
-        this.frequencyAndQuater.put(frequency, HistoryCount);
+    public void addFrequencyAndQuater(String frequency, List historyCount) {
+        this.frequencyAndQuater.put(frequency, historyCount);
     }
 
     public Map<String, Date> getHistoryAndStartDate() {
         return historyAndStartDate;
     }
 
-    public void setHistoryAndStartDate(Map<String, Date> HistoryAndStartDate) {
-        this.historyAndStartDate = HistoryAndStartDate;
+    public void setHistoryAndStartDate(Map<String, Date> historyAndStartDate) {
+        this.historyAndStartDate = historyAndStartDate;
     }
 
     public void addHistoryAndStartDate(String history, Date startDate) {

@@ -947,8 +947,8 @@ public class FcpResultsLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.debug(ex.getMessage());

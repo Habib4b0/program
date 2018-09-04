@@ -987,3 +987,613 @@ GO
 		FROM DBO.VLD_PSTG_ACCRUAL_ACTUAL_INTERFACE WHERE IS_COMPLETE='Y'
 
 GO
+
+----------------------------------------------------PSTG_ITEM_MASTER_INTERFACE------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'PSTG_ITEM_MASTER_INTERFACE'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+BEGIN
+CREATE TABLE [dbo].[PSTG_ITEM_MASTER_INTERFACE](
+	[PSTG_ITEM_MASTER_INTERFACE_SID] [bigint] IDENTITY(1,1) NOT NULL,
+	[PROD_NUM] [nvarchar](1000) NULL,
+	[USERID] [nvarchar](1000) NULL,
+	[LASTMOD] [nvarchar](1000) NULL,
+	[FLG_NOTE] [nvarchar](1000) NULL,
+	[PRODLVL_NUM] [nvarchar](1000) NULL,
+	[UOM_NUM] [nvarchar](1000) NULL,
+	[PROD_DESC] [nvarchar](1000) NULL,
+	[PROD_FLG_LOCK] [nvarchar](1000) NULL,
+	[PROD_FLG_UPDATE] [nvarchar](1000) NULL,
+	[PROD_ID_PRI] [nvarchar](1000) NULL,
+	[PROD_ID_PRI_DISP] [nvarchar](1000) NULL,
+	[PROD_GDESC] [nvarchar](1000) NULL,
+	[PROD_DT_INTRO] [nvarchar](1000) NULL,
+	[PROD_DT_STOP_MFR] [nvarchar](1000) NULL,
+	[PROD_DT_EXPIRE] [nvarchar](1000) NULL,
+	[BRACKETSET_CD] [nvarchar](1000) NULL,
+	[PROD_MIN_DOSAGE] [nvarchar](1000) NULL,
+	[PROD_DT_TERM] [nvarchar](1000) NULL,
+	[PROD_DT_DISC] [nvarchar](1000) NULL,
+	[MSHRTYP_CD] [nvarchar](1000) NULL,
+	[PRODTYP_ID] [nvarchar](1000) NULL,
+	[SUBM_DT_END] [nvarchar](1000) NULL,
+	[PIDENT_ID_PRI] [nvarchar](1000) NULL,
+	[PROD_ID_SEC] [nvarchar](1000) NULL,
+	[PROD_ID_SEC_DISP] [nvarchar](1000) NULL,
+	[PIDENT_ID_SEC] [nvarchar](1000) NULL,
+	[PROD_MOD_SEQ] [nvarchar](1000) NULL,
+	[PRODSTAT_NUM] [nvarchar](1000) NULL,
+	[PROD_NUM_REPACKAGED_FROM] [nvarchar](1000) NULL,
+	[UOM_NUM_CBK] [nvarchar](1000) NULL,
+	[REASON_NUM] [nvarchar](1000) NULL,
+	[GENERICTYP_ID] [nvarchar](1000) NULL,
+	[BRANDTYP_ID] [nvarchar](1000) NULL,
+	[PROD_PRODREL_TOTAL_ERRORS] [nvarchar](1000) NULL,
+	[CHARITM_DESC] [nvarchar](1000) NULL,
+	[PROD_DT_ADDED] [nvarchar](1000) NULL,
+	[EXT_STRING_01] [nvarchar](1000) NULL,
+	[EXT_STRING_02] [nvarchar](1000) NULL,
+	[EXT_STRING_03] [nvarchar](1000) NULL,
+	[EXT_STRING_04] [nvarchar](1000) NULL,
+	[EXT_STRING_05] [nvarchar](1000) NULL,
+	[EXT_DATE_01] [nvarchar](1000) NULL,
+	[EXT_DATE_02] [nvarchar](1000) NULL,
+	[EXT_DATE_03] [nvarchar](1000) NULL,
+	[EXT_DATE_04] [nvarchar](1000) NULL,
+	[EXT_DATE_05] [nvarchar](1000) NULL,
+	[EXT_NUMBER_01] [nvarchar](1000) NULL,
+	[EXT_NUMBER_02] [nvarchar](1000) NULL,
+	[PROD_FLG_USED_FOR_MEDI] [nvarchar](1000) NULL,
+	[UOM_NUM_CMS] [nvarchar](1000) NULL,
+	[PROD_DT_CMS_MARKET] [nvarchar](1000) NULL,
+	[PROD_DT_CMS_EXPIRE] [nvarchar](1000) NULL,
+	[PROD_DT_FIRST_SALE] [nvarchar](1000) NULL,
+	[PROD_DT_CMS_LASTMOD] [nvarchar](1000) NULL,
+	[PROD_DT_ASP_LASTMOD] [nvarchar](1000) NULL,
+	[PROD_FORM] [nvarchar](1000) NULL,
+	[PROD_STRENGTH] [nvarchar](1000) NULL,
+	[PROD_PKG_SIZE] [nvarchar](1000) NULL,
+	[PROD_UNIT_TYPE] [nvarchar](1000) NULL,
+	[PROD_UNIT_SIZE] [nvarchar](1000) NULL,
+	[PROD_DRUG_CAT] [nvarchar](1000) NULL,
+	[PROD_MKT_CAT] [nvarchar](1000) NULL,
+	[PROD_SLS_GRP] [nvarchar](1000) NULL,
+	[STATUS_NUM] [nvarchar](1000) NULL,
+	[STATUS_CD] [nvarchar](1000) NULL,
+	[STATUS_ABBR] [nvarchar](1000) NULL,
+	[STATUS_DESC] [nvarchar](1000) NULL,
+	[ROOT_PRODNUM] [nvarchar](1000) NULL,
+	[ROOT_NAME] [nvarchar](1000) NULL,
+	[GENERIC_PRODNUM] [nvarchar](1000) NULL,
+	[GENERIC_NAME] [nvarchar](1000) NULL,
+	[BRAND_PRODNUM] [nvarchar](1000) NULL,
+	[BRAND_NAME] [nvarchar](1000) NULL,
+	[PRODSUM_PRODNUM] [nvarchar](1000) NULL,
+	[PRODSUM_NAME] [nvarchar](1000) NULL,
+	[NDC9] [nvarchar](1000) NULL,
+	[PACK_PRODNUM] [nvarchar](1000) NULL,
+	[PACK_NAME] [nvarchar](1000) NULL,
+	[NDC11] [nvarchar](1000) NULL,
+	[UPPS] [nvarchar](1000) NULL,
+	[CMS_UPPS] [nvarchar](1000) NULL,
+	[BSL_AMP] [nvarchar](1000) NULL,
+	[BSL_CPI] [nvarchar](1000) NULL,
+	[UOM] [nvarchar](1000) NULL,
+	[UOM_CBK] [nvarchar](1000) NULL,
+	[UOM_CMS] [nvarchar](1000) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[CREATED_BY] [nvarchar](100) NULL
+) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'PSTG_ITEM_MASTER_INTERFACE'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_PSTG_ITEM_MASTER_INTERFACE_CREATED_DATE')
+	BEGIN
+		ALTER TABLE [DBO].[PSTG_ITEM_MASTER_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ITEM_MASTER_INTERFACE_CREATED_DATE]  DEFAULT (GETDATE()) FOR [CREATED_DATE]
+	END	
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'PSTG_ITEM_MASTER_INTERFACE'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_PSTG_ITEM_MASTER_INTERFACE_CREATED_BY')
+	BEGIN
+		ALTER TABLE [DBO].[PSTG_ITEM_MASTER_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ITEM_MASTER_INTERFACE_CREATED_BY]  DEFAULT ('AGN') FOR [CREATED_BY]
+	END
+GO
+---------------------------------------------------------IVLD_PSTG_ITEM_MASTER_INTERFACE--------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IVLD_PSTG_ITEM_MASTER_INTERFACE'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+BEGIN
+CREATE TABLE [dbo].[IVLD_PSTG_ITEM_MASTER_INTERFACE](
+	[IVLD_PSTG_ITEM_MASTER_INTERFACE_SID] [bigint] IDENTITY(1,1) NOT NULL,
+	[PROD_NUM] [nvarchar](1000) NULL,
+	[USERID] [nvarchar](1000) NULL,
+	[LASTMOD] [nvarchar](1000) NULL,
+	[FLG_NOTE] [nvarchar](1000) NULL,
+	[PRODLVL_NUM] [nvarchar](1000) NULL,
+	[UOM_NUM] [nvarchar](1000) NULL,
+	[PROD_DESC] [nvarchar](1000) NULL,
+	[PROD_FLG_LOCK] [nvarchar](1000) NULL,
+	[PROD_FLG_UPDATE] [nvarchar](1000) NULL,
+	[PROD_ID_PRI] [nvarchar](1000) NULL,
+	[PROD_ID_PRI_DISP] [nvarchar](1000) NULL,
+	[PROD_GDESC] [nvarchar](1000) NULL,
+	[PROD_DT_INTRO] [nvarchar](1000) NULL,
+	[PROD_DT_STOP_MFR] [nvarchar](1000) NULL,
+	[PROD_DT_EXPIRE] [nvarchar](1000) NULL,
+	[BRACKETSET_CD] [nvarchar](1000) NULL,
+	[PROD_MIN_DOSAGE] [nvarchar](1000) NULL,
+	[PROD_DT_TERM] [nvarchar](1000) NULL,
+	[PROD_DT_DISC] [nvarchar](1000) NULL,
+	[MSHRTYP_CD] [nvarchar](1000) NULL,
+	[PRODTYP_ID] [nvarchar](1000) NULL,
+	[SUBM_DT_END] [nvarchar](1000) NULL,
+	[PIDENT_ID_PRI] [nvarchar](1000) NULL,
+	[PROD_ID_SEC] [nvarchar](1000) NULL,
+	[PROD_ID_SEC_DISP] [nvarchar](1000) NULL,
+	[PIDENT_ID_SEC] [nvarchar](1000) NULL,
+	[PROD_MOD_SEQ] [nvarchar](1000) NULL,
+	[PRODSTAT_NUM] [nvarchar](1000) NULL,
+	[PROD_NUM_REPACKAGED_FROM] [nvarchar](1000) NULL,
+	[UOM_NUM_CBK] [nvarchar](1000) NULL,
+	[REASON_NUM] [nvarchar](1000) NULL,
+	[GENERICTYP_ID] [nvarchar](1000) NULL,
+	[BRANDTYP_ID] [nvarchar](1000) NULL,
+	[PROD_PRODREL_TOTAL_ERRORS] [nvarchar](1000) NULL,
+	[CHARITM_DESC] [nvarchar](1000) NULL,
+	[PROD_DT_ADDED] [nvarchar](1000) NULL,
+	[EXT_STRING_01] [nvarchar](1000) NULL,
+	[EXT_STRING_02] [nvarchar](1000) NULL,
+	[EXT_STRING_03] [nvarchar](1000) NULL,
+	[EXT_STRING_04] [nvarchar](1000) NULL,
+	[EXT_STRING_05] [nvarchar](1000) NULL,
+	[EXT_DATE_01] [nvarchar](1000) NULL,
+	[EXT_DATE_02] [nvarchar](1000) NULL,
+	[EXT_DATE_03] [nvarchar](1000) NULL,
+	[EXT_DATE_04] [nvarchar](1000) NULL,
+	[EXT_DATE_05] [nvarchar](1000) NULL,
+	[EXT_NUMBER_01] [nvarchar](1000) NULL,
+	[EXT_NUMBER_02] [nvarchar](1000) NULL,
+	[PROD_FLG_USED_FOR_MEDI] [nvarchar](1000) NULL,
+	[UOM_NUM_CMS] [nvarchar](1000) NULL,
+	[PROD_DT_CMS_MARKET] [nvarchar](1000) NULL,
+	[PROD_DT_CMS_EXPIRE] [nvarchar](1000) NULL,
+	[PROD_DT_FIRST_SALE] [nvarchar](1000) NULL,
+	[PROD_DT_CMS_LASTMOD] [nvarchar](1000) NULL,
+	[PROD_DT_ASP_LASTMOD] [nvarchar](1000) NULL,
+	[PROD_FORM] [nvarchar](1000) NULL,
+	[PROD_STRENGTH] [nvarchar](1000) NULL,
+	[PROD_PKG_SIZE] [nvarchar](1000) NULL,
+	[PROD_UNIT_TYPE] [nvarchar](1000) NULL,
+	[PROD_UNIT_SIZE] [nvarchar](1000) NULL,
+	[PROD_DRUG_CAT] [nvarchar](1000) NULL,
+	[PROD_MKT_CAT] [nvarchar](1000) NULL,
+	[PROD_SLS_GRP] [nvarchar](1000) NULL,
+	[STATUS_NUM] [nvarchar](1000) NULL,
+	[STATUS_CD] [nvarchar](1000) NULL,
+	[STATUS_ABBR] [nvarchar](1000) NULL,
+	[STATUS_DESC] [nvarchar](1000) NULL,
+	[ROOT_PRODNUM] [nvarchar](1000) NULL,
+	[ROOT_NAME] [nvarchar](1000) NULL,
+	[GENERIC_PRODNUM] [nvarchar](1000) NULL,
+	[GENERIC_NAME] [nvarchar](1000) NULL,
+	[BRAND_PRODNUM] [nvarchar](1000) NULL,
+	[BRAND_NAME] [nvarchar](1000) NULL,
+	[PRODSUM_PRODNUM] [nvarchar](1000) NULL,
+	[PRODSUM_NAME] [nvarchar](1000) NULL,
+	[NDC9] [nvarchar](1000) NULL,
+	[PACK_PRODNUM] [nvarchar](1000) NULL,
+	[PACK_NAME] [nvarchar](1000) NULL,
+	[NDC11] [nvarchar](1000) NULL,
+	[UPPS] [nvarchar](1000) NULL,
+	[CMS_UPPS] [nvarchar](1000) NULL,
+	[BSL_AMP] [nvarchar](1000) NULL,
+	[BSL_CPI] [nvarchar](1000) NULL,
+	[UOM] [nvarchar](1000) NULL,
+	[UOM_CBK] [nvarchar](1000) NULL,
+	[UOM_CMS] [nvarchar](1000) NULL,
+	[PSTG_ITEM_MASTER_INTERFACE_SID] [bigint] NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[CREATED_BY] [nvarchar](100) NULL,
+	[REASON_FOR_FAILURE] [nvarchar](1000) NULL,
+	[ERROR_CODE] [varchar](15) NULL,
+	[ERROR_FIELD] [nvarchar](1000) NULL,
+	[BATCH_ID] [varchar](100) NULL,
+	[IVLD_INTERFACE_DATE] [datetime] NOT NULL
+) ON [PRIMARY]
+END
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'IVLD_PSTG_ITEM_MASTER_INTERFACE'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_IVLD_PSTG_ITEM_MASTER_INTERFACE_IVLD_INTERFACE_DATE')
+	BEGIN
+		ALTER TABLE [DBO].[IVLD_PSTG_ITEM_MASTER_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ITEM_MASTER_INTERFACE_IVLD_INTERFACE_DATE] DEFAULT (GETDATE()) FOR [IVLD_INTERFACE_DATE]
+	END
+	
+GO
+-------------------------------------------------------------------VLD_PSTG_ITEM_MASTER_INTERFACE---------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'VLD_PSTG_ITEM_MASTER_INTERFACE'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+BEGIN
+    CREATE TABLE [dbo].[VLD_PSTG_ITEM_MASTER_INTERFACE](
+	[ITEM_MASTER_INTERFACE_ID] [numeric](38, 0) NOT NULL,
+	[ITEM_ID] [varchar](38) NOT NULL,
+	[ITEM_NO] [varchar](50) NOT NULL,
+	[ITEM_CODE] [varchar](25) NOT NULL,
+	[ITEM_NAME] [varchar](100) NOT NULL,
+	[ITEM_DESC] [varchar](250) NULL,
+	[PACKAGE_SIZE] [varchar](100) NULL,
+	[PACKAGE_SIZE_CODE] [varchar](25) NULL,
+	[PACKAGE_SIZE_INTRO_DATE] [datetime] NULL,
+	[UPPS] [numeric](22, 6) NULL,
+	[ITEM_START_DATE] [datetime] NULL,
+	[ITEM_END_DATE] [datetime] NULL,
+	[ITEM_STATUS] [varchar](20) NOT NULL,
+	[MANUFACTURER_ID] [varchar](38) NULL,
+	[MANUFACTURER_NO] [varchar](50) NULL,
+	[MANUFACTURER_NAME] [varchar](100) NULL,
+	[LABELER_CODE] [varchar](25) NULL,
+	[ORGANIZATION_KEY] [varchar](50) NULL,
+	[ACQUISITION_DATE] [datetime] NULL,
+	[AUTHORIZED_GENERIC] [varchar](50) NULL,
+	[AUTHORIZED_GENERIC_START_DATE] [datetime] NULL,
+	[AUTHORIZED_GENERIC_END_DATE] [datetime] NULL,
+	[BRAND] [varchar](30) NULL,
+	[FORM] [varchar](50) NOT NULL,
+	[STRENGTH] [varchar](100) NOT NULL,
+	[THERAPEUTIC_CLASS] [varchar](50) NULL,
+	[FIRST_SALE_DATE] [datetime] NULL,
+	[ITEM_TYPE_INDICATION] [varchar](50) NULL,
+	[ITEM_CLASS] [varchar](50) NULL,
+	[ITEM_TYPE] [varchar](50) NULL,
+	[MARKET_TERMINATION_DATE] [datetime] NULL,
+	[NEW_FORMULATION_INDICATOR] [varchar](50) NULL,
+	[NEW_FORMULATION] [varchar](38) NULL,
+	[NEW_FORMULATION_START_DATE] [datetime] NULL,
+	[NEW_FORMULATION_END_DATE] [datetime] NULL,
+	[PEDIATRIC_EXCLUSIVE_INDICATOR] [varchar](50) NULL,
+	[PEDIATRIC_EXCLUSIVE_START_DATE] [datetime] NULL,
+	[PEDIATRIC_EXCLUSIVE_END_DATE] [datetime] NULL,
+	[CLOTTING_FACTOR_INDICATOR] [varchar](50) NULL,
+	[CLOTTING_FACTOR_START_DATE] [datetime] NULL,
+	[CLOTTING_FACTOR_END_DATE] [datetime] NULL,
+	[PRIMARY_UOM] [varchar](20) NULL,
+	[SECONDARY_UOM] [varchar](20) NULL,
+	[SHELF_LIFE] [varchar](30) NULL,
+	[SHELF_LIFE_TYPE] [varchar](30) NULL,
+	[DUAL_PRICING_INDICATOR] [varchar](30) NULL,
+	[ITEM_FAMILY_ID] [varchar](38) NULL,
+	[UDC1] [varchar](100) NULL,
+	[UDC2] [varchar](100) NULL,
+	[UDC3] [varchar](100) NULL,
+	[UDC4] [varchar](100) NULL,
+	[UDC5] [varchar](100) NULL,
+	[UDC6] [varchar](100) NULL,
+	[ACQUIRED_AMP] [numeric](20, 6) NULL,
+	[ACQUIRED_BAMP] [numeric](20, 6) NULL,
+	[OBRA_BAMP] [numeric](20, 6) NULL,
+	[DRA] [numeric](20, 0) NULL,
+	[ADD_CHG_DEL_INDICATOR] [varchar](10) NOT NULL,
+	[CREATED_BY] [varchar](50) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[MODIFIED_BY] [varchar](50) NULL,
+	[MODIFIED_DATE] [datetime] NULL,
+	[BATCH_ID] [varchar](38) NOT NULL,
+	[SOURCE] [varchar](50) NULL,
+	[DOSES_PER_UNIT] [varchar](25) NULL,
+	[DISCONTINUATION_DATE] [datetime] NULL,
+	[LAST_LOT_EXPIRATION_DATE] [datetime] NULL,
+	[DIVESTITURE_DATE] [datetime] NULL,
+	[NON_FEDERAL_EXPIRATION_DATE] [datetime] NULL,
+	[NDC9] [varchar](25) NOT NULL,
+	[NDC8] [varchar](100) NOT NULL,
+	[DISPLAY_BRAND] [varchar](30) NULL,
+	[BRAND_ID] [varchar](25) NOT NULL,
+	[ITEM_CATEGORY] [varchar](10) NULL,
+	[BASELINE_AMP] [numeric](20, 6) NULL,
+	[BASE_CPI_PERIOD] [datetime] NULL,
+	[BASE_CPI] [numeric](20, 6) NULL,
+	[IS_COMPLETE] [char](1) NOT NULL
+) ON [PRIMARY]
+END
+--------------------------------------------------------------VW_ITM_MST_TGT------------------------------------------------------------
+GO
+
+IF EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'VW_ITM_MST_TGT'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+  BEGIN
+		DROP TABLE VW_ITM_MST_TGT
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'VW_ITM_MST_TGT'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='VIEW')
+  BEGIN
+
+		DROP VIEW VW_ITM_MST_TGT
+  END
+
+GO
+
+	CREATE VIEW VW_ITM_MST_TGT
+		AS
+		SELECT  ITEM_MASTER_INTERFACE_ID,          
+	ITEM_ID,
+	ITEM_NO,
+	ITEM_CODE,                      
+	ITEM_NAME,                      
+	ITEM_DESC,                      
+	PACKAGE_SIZE,                   
+	PACKAGE_SIZE_CODE,              
+	PACKAGE_SIZE_INTRO_DATE,        
+	UPPS,                           
+	ITEM_START_DATE,                
+	ITEM_END_DATE,                  
+	ITEM_STATUS,                    
+	MANUFACTURER_ID,                
+	MANUFACTURER_NO,                
+	MANUFACTURER_NAME,              
+	LABELER_CODE,                   
+	ORGANIZATION_KEY,               
+	ACQUISITION_DATE,               
+	AUTHORIZED_GENERIC,             
+	AUTHORIZED_GENERIC_START_DATE,  
+	AUTHORIZED_GENERIC_END_DATE,    
+	BRAND,                          
+	FORM,
+	STRENGTH,                       
+	THERAPEUTIC_CLASS,              
+	FIRST_SALE_DATE,                
+	ITEM_TYPE_INDICATION,           
+	ITEM_CLASS,                     
+	ITEM_TYPE,                      
+	MARKET_TERMINATION_DATE,        
+	NEW_FORMULATION_INDICATOR,      
+	NEW_FORMULATION,                
+	NEW_FORMULATION_START_DATE,     
+	NEW_FORMULATION_END_DATE,       
+	PEDIATRIC_EXCLUSIVE_INDICATOR,  
+	PEDIATRIC_EXCLUSIVE_START_DATE, 
+	PEDIATRIC_EXCLUSIVE_END_DATE,   
+	CLOTTING_FACTOR_INDICATOR,      
+	CLOTTING_FACTOR_START_DATE,     
+	CLOTTING_FACTOR_END_DATE,       
+	PRIMARY_UOM,                    
+	SECONDARY_UOM,                  
+	SHELF_LIFE,                     
+	SHELF_LIFE_TYPE,                
+	DUAL_PRICING_INDICATOR,         
+	ITEM_FAMILY_ID,                 
+	UDC1,                           
+	UDC2,                           
+	UDC3,                           
+	UDC4,                           
+	UDC5,                           
+	UDC6,                           
+	ACQUIRED_AMP,                   
+	ACQUIRED_BAMP,                  
+	OBRA_BAMP,                      
+	DRA,                            
+	ADD_CHG_DEL_INDICATOR,          
+	CREATED_BY,                     
+	CREATED_DATE,                   
+	MODIFIED_BY,                    
+	MODIFIED_DATE,                  
+	BATCH_ID,     
+	SOURCE,                         
+	DOSES_PER_UNIT,                 
+	DISCONTINUATION_DATE,           
+	LAST_LOT_EXPIRATION_DATE,       
+	DIVESTITURE_DATE,               
+	NON_FEDERAL_EXPIRATION_DATE,    
+	NDC9,                           
+	NDC8,                           
+	DISPLAY_BRAND,                  
+	BRAND_ID,                       
+	ITEM_CATEGORY,                  
+	BASELINE_AMP,                   
+	BASE_CPI_PERIOD,                
+	BASE_CPI                      
+		FROM VLD_PSTG_ITEM_MASTER_INTERFACE WHERE IS_COMPLETE='Y'
+
+GO
+
+
+
+----------------------------------------------------PSTG_ITEM_IDENTIFIER_INTERFACE-----------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'PSTG_ITEM_IDENTIFIER_INTERFACE'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+BEGIN
+   CREATE TABLE [dbo].[PSTG_ITEM_IDENTIFIER_INTERFACE](
+	[PSTG_ITEM_IDENTIFIER_INTERFACE_SID] [int] IDENTITY(1,1) NOT NULL,
+	[PRODID_NUM] [nvarchar](1000) NULL,
+	[USERID] [nvarchar](1000) NULL,
+	[LASTMOD] [nvarchar](1000) NULL,
+	[FLG_NOTE] [nvarchar](1000) NULL,
+	[PROD_NUM] [nvarchar](1000) NULL,
+	[PIDENT_ID] [nvarchar](1000) NULL,
+	[PRODID_IDENTIFIER] [nvarchar](1000) NULL,
+	[PRODID_IDENTIFIER_DISP] [nvarchar](1000) NULL,
+	[STATUS_NUM] [nvarchar](1000) NULL,
+	[PRODID_DT_START] [nvarchar](1000) NULL,
+	[PRODID_DT_END] [nvarchar](1000) NULL,
+	[PRODID_NUM_PRIOR] [nvarchar](1000) NULL,
+	[REASON_NUM] [nvarchar](1000) NULL,
+	[DISPSEQTYP_CD] [nvarchar](1000) NULL,
+	[PRODID_MOD_SEQ] [nvarchar](1000) NULL,
+	[REVISION] [nvarchar](1000) NULL,
+	[STATUS_ABBR] [nvarchar](1000) NULL,
+	[STATUS_DESC] [nvarchar](1000) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[CREATED_BY] [nvarchar](100) NULL
+) ON [PRIMARY]
+END
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'PSTG_ITEM_IDENTIFIER_INTERFACE'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_PSTG_ITEM_IDENTIFIER_INTERFACE_CREATED_DATE')
+	BEGIN
+		ALTER TABLE [dbo].[PSTG_ITEM_IDENTIFIER_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ITEM_IDENTIFIER_INTERFACE_CREATED_DATE]  DEFAULT (getdate()) FOR [CREATED_DATE]
+	END	
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'PSTG_ITEM_IDENTIFIER_INTERFACE'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_PSTG_ITEM_IDENTIFIER_INTERFACE_CREATED_BY')
+	BEGIN
+		ALTER TABLE [dbo].[PSTG_ITEM_IDENTIFIER_INTERFACE] ADD  CONSTRAINT [DF_PSTG_ITEM_IDENTIFIER_INTERFACE_CREATED_BY]  DEFAULT ('AGN') FOR [CREATED_BY]
+	END
+GO
+---------------------------------------------------------IVLD_PSTG_ITEM_IDENTIFIER_INTERFACE--------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IVLD_PSTG_ITEM_IDENTIFIER_INTERFACE'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+BEGIN
+CREATE TABLE [dbo].[IVLD_PSTG_ITEM_IDENTIFIER_INTERFACE](
+	[IVLD_PSTG_ITEM_IDENTIFIER_INTERFACE_SID] [int] IDENTITY(1,1) NOT NULL,
+	[PRODID_NUM] [nvarchar](1000) NULL,
+	[USERID] [nvarchar](1000) NULL,
+	[LASTMOD] [nvarchar](1000) NULL, 
+	[FLG_NOTE] [nvarchar](1000) NULL,  
+	[PROD_NUM] [nvarchar](1000) NULL,
+	[PIDENT_ID] [nvarchar](1000) NULL,
+	[PRODID_IDENTIFIER] [nvarchar](1000) NULL,
+	[PRODID_IDENTIFIER_DISP] [nvarchar](1000) NULL,
+	[STATUS_NUM] [nvarchar](1000) NULL,
+	[PRODID_DT_START] [nvarchar](1000) NULL,
+	[PRODID_DT_END] [nvarchar](1000) NULL,
+	[PRODID_NUM_PRIOR] [nvarchar](1000) NULL,
+	[REASON_NUM] [nvarchar](1000) NULL,
+	[DISPSEQTYP_CD] [nvarchar](1000) NULL,
+	[PRODID_MOD_SEQ] [nvarchar](1000) NULL,
+	[REVISION] [nvarchar](1000) NULL,
+	[STATUS_ABBR] [nvarchar](1000) NULL,
+	[STATUS_DESC] [nvarchar](1000) NULL,
+	[PSTG_ITEM_IDENTIFIER_INTERFACE_SID] [nvarchar](20) NOT NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[CREATED_BY] [nvarchar](100) NULL,
+	[REASON_FOR_FAILURE] [varchar](100) NULL,
+	[ERROR_CODE] [varchar](15) NULL,
+	[ERROR_FIELD] [varchar](1000) NULL,
+	[BATCH_ID] [varchar](100) NULL,
+	[IVLD_INTERFACE_DATE] [datetime] NOT NULL
+) ON [PRIMARY]
+END
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'IVLD_PSTG_ITEM_IDENTIFIER_INTERFACE'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_IVLD_PSTG_ITEM_IDENTIFIER_IVLD_INTERFACE_DATE')
+	BEGIN
+		ALTER TABLE [dbo].[IVLD_PSTG_ITEM_IDENTIFIER_INTERFACE] ADD  CONSTRAINT [DF_IVLD_PSTG_ITEM_IDENTIFIER_IVLD_INTERFACE_DATE]  DEFAULT (getdate()) FOR [IVLD_INTERFACE_DATE]
+	END	
+GO
+
+-------------------------------------------------------------------VLD_PSTG_ITEM_IDENTIFIER_INTERFACE---------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'VLD_PSTG_ITEM_IDENTIFIER_INTERFACE'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE') 
+BEGIN
+    CREATE TABLE [dbo].[VLD_PSTG_ITEM_IDENTIFIER_INTERFACE](
+	[ITEM_IDENTIFIER_INTERFACE_ID] [numeric](38, 0) NOT NULL,
+	[ITEM_ID] [varchar](38) NOT NULL,
+	[ITEM_NO] [varchar](50) NOT NULL, 
+	[ITEM_NAME] [varchar](100) NULL,
+	[IDENTIFIER_CODE_QUALIFIER] [varchar](25) NOT NULL,
+	[IDENTIFIER_CODE_QUALIFIER_NAME] [varchar](100) NULL,
+	[ITEM_IDENTIFIER] [varchar](50) NOT NULL,
+	[ITEM_STATUS] [varchar](20) NOT NULL,
+	[START_DATE] [datetime] NOT NULL,
+	[END_DATE] [datetime] NULL,
+	[ENTITY_CODE] [varchar](30) NULL,
+	[CREATED_BY] [varchar](50) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[MODIFIED_BY] [varchar](50) NULL,
+	[MODIFIED_DATE] [datetime] NULL,
+	[ADD_CHG_DEL_INDICATOR] [varchar](10) NOT NULL,
+	[BATCH_ID] [varchar](38) NOT NULL,
+	[SOURCE] [varchar](50) NULL,
+	[IS_COMPLETE] [char](1) NOT NULL
+) ON [PRIMARY]
+END
+--------------------------------------------------------------VW_ITM_IDN_TGT------------------------------------------------------------
+GO
+
+IF EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'VW_ITM_IDN_TGT'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='BASE TABLE')
+  BEGIN
+		DROP TABLE VW_ITM_IDN_TGT
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'VW_ITM_IDN_TGT'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND TABLE_TYPE='VIEW')
+  BEGIN
+
+		DROP VIEW VW_ITM_IDN_TGT
+  END
+
+GO
+
+	CREATE VIEW VW_ITM_IDN_TGT
+		AS SELECT
+		ITEM_IDENTIFIER_INTERFACE_ID, 
+	    ITEM_ID, 
+	    ITEM_NO, 
+	    ITEM_NAME,
+	    IDENTIFIER_CODE_QUALIFIER,
+	    IDENTIFIER_CODE_QUALIFIER_NAME,
+	    ITEM_IDENTIFIER, 
+	    ITEM_STATUS, 
+	    START_DATE, 
+	    END_DATE, 
+	    ENTITY_CODE, 
+	    CREATED_BY, 
+	    CREATED_DATE, 
+	    MODIFIED_BY, 
+	    MODIFIED_DATE, 
+	    ADD_CHG_DEL_INDICATOR, 
+	    BATCH_ID, 
+	    SOURCE
+		FROM VLD_PSTG_ITEM_IDENTIFIER_INTERFACE WHERE IS_COMPLETE='Y'
+GO
+

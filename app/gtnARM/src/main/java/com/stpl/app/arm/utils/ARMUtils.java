@@ -2525,11 +2525,11 @@ public class ARMUtils {
     public static String[] getAccountConfigAddmodeHeaders() {
         return ACCOUNT_CONFIG_ADDMODE_HEADERS.clone();
     }
-    
+
     public static Object[] getAccountConfigCopymodeColumns() {
         return ACCOUNT_CONFIG_ADDMODE_COLUMNS.clone();
     }
-    
+
     public static String[] getAccountConfigCopymodeHeaders() {
         return ACCOUNT_CONFIG_ADDMODE_HEADERS.clone();
     }
@@ -2553,7 +2553,7 @@ public class ARMUtils {
     public static Object[] getAccountConfigComboboxProperties() {
         return ACCOUNT_CONFIG_COMBOBOX_PROPERTIES.clone();
     }
-    
+
     public static Object[] getAccountConfigCopyModeComboboxProperties() {
         return ACCOUNT_CONFIG_COMBOBOX_PROPERTIES.clone();
     }
@@ -2997,5 +2997,9 @@ public class ARMUtils {
         map.put(ARMConstants.getDeductionCategory6(), "U.UDC6");
         return map.get(key);
 
+    }
+
+    public static int getIntegerValue(String value) {
+        return Integer.valueOf(value);
     }
 }

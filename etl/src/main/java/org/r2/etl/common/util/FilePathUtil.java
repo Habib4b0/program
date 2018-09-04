@@ -274,6 +274,9 @@ public final class FilePathUtil {
         public static final String DTX_RETURN_RATE_INTERFACE = "/DTX_RETURN_RATE_INTERFACE/DTX_RETURN_RATE_INTERFACE.kjb";
         public static final String DTX_ITEM_PRICING_INTERFACE = "/DTX_ITEM_PRICING_INTERFACE/DTX_ITEM_PRICING_INTERFACE.kjb";
         public static final String DTX_ACCRUAL_ACTUAL_INTERFACE = "/DTX_ACCRUAL_ACTUAL_INTERFACE/DTX_ACCRUAL_ACTUAL_INTERFACE.kjb";
+        public static final String DTX_ITEM_MASTER_INTERFACE = "/DTX_ITEM_MASTER_INTERFACE/DTX_ITEM_MASTER_INTERFACE.kjb";
+        public static final String DTX_ITEM_IDENTIFIER_INTERFACE = "/DTX_ITEM_IDENTIFIER_INTERFACE/DTX_ITEM_IDENTIFIER_INTERFACE.kjb";
+        
         
 
 	private FilePathUtil() {
