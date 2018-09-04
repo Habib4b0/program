@@ -284,7 +284,7 @@ public class Exixtingcomponent extends CustomComponent {
     }
 
     @UiHandler("ComponenttypeEC")
-    public void ComponenttypeChange(Property.ValueChangeEvent event) {
+    public void componenttypeChange(Property.ValueChangeEvent event) {
 
         loadComponentResultsSection();
         componentInformationGrid.removeAllComponents();
@@ -308,7 +308,7 @@ public class Exixtingcomponent extends CustomComponent {
     }
 
     @UiHandler("SearchfieldEC")
-    public void SearchfieldECChange(Property.ValueChangeEvent event) {
+    public void searchFieldEcChange(Property.ValueChangeEvent event) {
         searchfieldECDDlb.removeAllItems();
         if (searchfieldEC.getValue() != null && searchfieldEC.getValue().toString().contains(Constants.STATUS_FIELD)) {
             searchfieldECDDlb.setVisible(true);
@@ -513,7 +513,7 @@ public class Exixtingcomponent extends CustomComponent {
     }
 
     @UiHandler("BtnsearchEC")
-    public void BtnsearchECClick(Button.ClickEvent event) {
+    public void btnSearchEcClick(Button.ClickEvent event) {
         LOGGER.debug("Entered search method");
 
         if (componenttypeNC.getValue() != null && searchfieldEC.getValue() != null && (!searchvaluedEC.getValue().equalsIgnoreCase(StringUtils.EMPTY) || searchfieldECDDlb.getValue() != null)) {
@@ -710,7 +710,7 @@ public class Exixtingcomponent extends CustomComponent {
                         Integer cfpIdTree = selectedItemDto.getCompanyFamilyPlanSystemId();
                         String query = "select CFP_ID,CFP_NO,CFP_NAME from dbo.CFP_MODEL where CFP_MODEL_SID=" + cfpIdTree;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if (cfpList != null && cfpList.size() > 0) {
+                        if (cfpList != null && !cfpList.isEmpty()) {
                             Object[] obj = (Object[]) cfpList.get(0);
                             final Object rootId = dashboardResultsTable.addItem();
                             dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.CFP);
@@ -734,7 +734,7 @@ public class Exixtingcomponent extends CustomComponent {
                         Integer ifpId = selectedItemDto.getIfpDetailsSystemId();
                         String query = "select IFP_ID,IFP_NO,IFP_NAME from dbo.IFP_MODEL where IFP_MODEL_SID=" + ifpId;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if (cfpList != null && cfpList.size() > 0) {
+                        if (cfpList != null && !cfpList.isEmpty()) {
                             Object[] obj = (Object[]) cfpList.get(0);
                             final Object rootId = dashboardResultsTable.addItem();
                             dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.IFP);
@@ -759,10 +759,10 @@ public class Exixtingcomponent extends CustomComponent {
                         String Parent = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
                         String conditionQuery = "select * from PS_DETAILS where PS_MODEL_SID=" + psId + " and IFP_MODEL_SID=" + Parent;
                         List conditionList = HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
-                        if (conditionList != null && conditionList.size() > 0) {
+                        if (conditionList != null && !conditionList.isEmpty()) {
                             String query = "select PS_ID,PS_NO,PS_NAME from dbo.PS_MODEL where PS_MODEL_SID=" + psId;
                             List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                            if (cfpList != null && cfpList.size() > 0) {
+                            if (cfpList != null && !cfpList.isEmpty()) {
                                 Object[] obj = (Object[]) cfpList.get(0);
                                 final Object rootId = dashboardResultsTable.addItem();
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.PS);
@@ -790,7 +790,7 @@ public class Exixtingcomponent extends CustomComponent {
                         Integer rsId = selectedItemDto.getRebateScheduleSystemId();
                         String query = "select RS_ID,RS_NO,RS_NAME from dbo.RS_MODEL where RS_MODEL_SID=" + rsId;
                         List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if (cfpList != null && cfpList.size() > 0) {
+                        if (cfpList != null && !cfpList.isEmpty()) {
                             Object[] obj = (Object[]) cfpList.get(0);
                             final Object rootId = dashboardResultsTable.addItem();
                             dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.RS);
@@ -990,7 +990,7 @@ public class Exixtingcomponent extends CustomComponent {
                     cfpMasterAttached.setInboundStatus("A");
                     cfpMasterAttached.setSalesInclusion(companyFamily.getSalesInclusion());
                     CfpContract cm1 = CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
-                    SaveCFP(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
+                    saveCfp(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
                     dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(cm1.getCfpContractSid()));
                 }
 
@@ -1029,7 +1029,7 @@ public class Exixtingcomponent extends CustomComponent {
                     String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, SAVED_SYSTEM_ID).getValue());
                     ifpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                     IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
-                    SaveIFP(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
+                    saveIfp(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
                     dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
                 }
             }
@@ -1068,7 +1068,7 @@ public class Exixtingcomponent extends CustomComponent {
                 psMasterAttached.setCfpContractSid(parentCFPId);
                 psMasterAttached.setIfpContractSid(parentIFPId);
                 PsContract im1 = PsContractLocalServiceUtil.addPsContract(psMasterAttached);
-                SavePS(String.valueOf(im1.getPsContractSid()), priceSchedule.getPsModelSid());
+                savePs(String.valueOf(im1.getPsContractSid()), priceSchedule.getPsModelSid());
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getPsContractSid()));
             } else if (level.equals("4")) {
                 Object psParentItem = dashboardResultsTable.getParent(itemIds[i]);
@@ -1137,7 +1137,7 @@ public class Exixtingcomponent extends CustomComponent {
                 rsMasterAttached.setCalculationType(rebateMaster.getCalculationType());
                 RsContract rsContract = RsContractLocalServiceUtil.addRsContract(rsMasterAttached);
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(rsContract.getRsContractSid()));
-                SaveRS(String.valueOf(rsContract.getRsContractSid()), rebateMaster.getRsModelSid());
+                saveRs(String.valueOf(rsContract.getRsContractSid()), rebateMaster.getRsModelSid());
                 
             }
             
@@ -1145,23 +1145,23 @@ public class Exixtingcomponent extends CustomComponent {
         
     }
     
-    public void SaveCFP(String cfpId, Integer CFPmodelid) {
-        copyContractLogic.SaveCFP(cfpId, CFPmodelid);
+    public void saveCfp(String cfpId, Integer CFPmodelid) {
+        copyContractLogic.saveCfp(cfpId, CFPmodelid);
         
     }
     
-    public void SaveIFP(String ifpId, Integer IFPmodelid) {
-        copyContractLogic.SaveIFP(ifpId, IFPmodelid);
+    public void saveIfp(String ifpId, Integer IFPmodelid) {
+        copyContractLogic.saveIfp(ifpId, IFPmodelid);
         
     }
     
-    public void SavePS(String psid, Integer IFPmodelid) {
-        copyContractLogic.SavePS(psid, IFPmodelid);
+    public void savePs(String psid, Integer IFPmodelid) {
+        copyContractLogic.savePs(psid, IFPmodelid);
         
     }
     
-    public void SaveRS(String rsid, Integer RSmodalid) {
-        copyContractLogic.SaveRS(rsid, RSmodalid);
+    public void saveRs(String rsid, Integer RSmodalid) {
+        copyContractLogic.saveRs(rsid, RSmodalid);
         
     }
     

@@ -40,7 +40,7 @@ public class ProjNameConfigAddView extends VerticalLayout implements View{
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ProjNameConfigAddView() throws SystemException, PortalException {
+    public ProjNameConfigAddView() throws PortalException {
         
         super();
         LOGGER.debug("ProjNameConfigAddView Constructor method is started");

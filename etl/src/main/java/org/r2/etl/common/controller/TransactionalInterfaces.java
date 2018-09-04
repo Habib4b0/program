@@ -272,6 +272,70 @@ public final class TransactionalInterfaces {
 		r2etl.runJob(filename);
 		return Constants.SUCCESS;
 	}
+        
+        /**
+	 * This method is used to invoke DTX UOM Interface.
+	 * 
+	 * @return SUCCESS
+	 * @throws IOException
+	 * @throws EtlException
+	 * 
+	 */
+	public static String runDtxUomInterface() throws BPIETLException {
+
+		setFileName(FilePathUtil.DTX_UOM_INTERFACE);
+		r2etl.runJob(filename);
+		return Constants.SUCCESS;
+
+	}
+        
+        /**
+	 * This method is used to invoke DTX CPI Interface.
+	 * 
+	 * @return SUCCESS
+	 * @throws IOException
+	 * @throws EtlException
+	 * 
+	 */
+	public static String runDtxCpiInterface() throws BPIETLException {
+
+		setFileName(FilePathUtil.DTX_CPI_INTERFACE);
+		r2etl.runJob(filename);
+		return Constants.SUCCESS;
+
+	}
+        
+        /**
+	 * This method is used to invoke DTX RETRUN RATE Interface.
+	 * 
+	 * @return SUCCESS
+	 * @throws IOException
+	 * @throws EtlException
+	 * 
+	 */
+	public static String runDtxReturnRateInterface() throws BPIETLException {
+
+		setFileName(FilePathUtil.DTX_RETURN_RATE_INTERFACE);
+		r2etl.runJob(filename);
+		return Constants.SUCCESS;
+
+	}
+        
+        /**
+	 * This method is used to invoke DTX ACCRUAL ACTUAL Interface.
+	 * 
+	 * @return SUCCESS
+	 * @throws IOException
+	 * @throws EtlException
+	 * 
+	 */
+	public static String runDtxAccrualActualInterface() throws BPIETLException {
+
+		setFileName(FilePathUtil.DTX_ACCRUAL_ACTUAL_INTERFACE);
+		r2etl.runJob(filename);
+		return Constants.SUCCESS;
+
+	}
 
 	private static void setFileName(String input) {
 		filename = logpath + input;

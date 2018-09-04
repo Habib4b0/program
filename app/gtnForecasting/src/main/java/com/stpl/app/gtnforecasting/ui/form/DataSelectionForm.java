@@ -141,7 +141,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private boolean dismantleCustSelection = true;
 	private boolean dismantleProdSelection = true;
 	private final CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
-	private final CompanyDdlbDto discountDTO = null;
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final DataSelectionSearchLogic tableLogic = new DataSelectionSearchLogic();
 	protected ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
@@ -1734,7 +1733,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 						if (hierarchyNo.length() > 0 && hierarchyNo.charAt(hierarchyNo.length() - 1) == '.') {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
-						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(levelBean).getHierarchyNo();
 						List<String> hierarchyNos = new ArrayList<>();
 						List<Leveldto> newParentLevels = null;
 						List<Leveldto> newChildLevels = null;

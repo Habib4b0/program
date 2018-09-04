@@ -27,7 +27,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
      */
     @Override
     public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
-            String level, String discountLevel) throws SystemException, PortalException {
+            String level, String discountLevel) throws PortalException {
 
 
         return Collections.emptyList();
@@ -49,11 +49,9 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
      */
     @Override
     public List generateProjectionVariance(int projectionId, String indicator,
-            List<Integer> comparisonProjections, String frequency, String level, String discountLevel,int levelNo,String sales, List<Integer> periods,ProjectionSelectionDTO projSelDTO) throws SystemException,
+            List<Integer> comparisonProjections, String frequency, String level, String discountLevel,int levelNo,String sales, List<Integer> periods,ProjectionSelectionDTO projSelDTO) throws
             PortalException {
-        List resuList = new ArrayList();
-        // TODO Auto-generated method stub
-        return resuList;
+        return new ArrayList();
     }
 
     /**
@@ -73,9 +71,9 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     @Override
     public List<ProjectionVarianceDTO> generatePivotProjectionVariance(int projectionId, String indicator,
             List<Integer> comparisonProjections, String frequency, String level, String discountLevel)
-            throws SystemException, PortalException {
+            throws PortalException {
 
-        // TODO Auto-generated method stub
+         
         return Collections.emptyList();
     }
 

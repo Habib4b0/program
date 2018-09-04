@@ -254,10 +254,10 @@ public class UdcHelperForm extends CustomComponent implements View {
             if (obj instanceof BeanItem<?>) {
                 LOGGER.debug("Object is Bean Item");
             } else if (obj instanceof BrandMasterDTO) {
-                targetItem = new BeanItem<BrandMasterDTO>((BrandMasterDTO) obj);
+                targetItem = new BeanItem<>((BrandMasterDTO) obj);
                 masterSid = ((BrandMasterDTO) targetItem.getBean()).getBrandMasterSid();
             } else if (obj instanceof HelperForm) {
-                targetItem = new BeanItem<HelperForm>((HelperForm) obj);
+                targetItem = new BeanItem<>((HelperForm) obj);
                 masterSid = ((HelperForm) targetItem.getBean()).getHelperTableSid();
             } else {
                 masterSid = 0;
@@ -350,9 +350,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                     brandName.setValue(StringUtils.EMPTY);
                     displayBrand.setValue(StringUtils.EMPTY);
 
-                } else {
-
-                }
+                } 
             }
 
         });
@@ -610,7 +608,7 @@ public class UdcHelperForm extends CustomComponent implements View {
      * @return object of list or count
      */
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = new SecurityImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {

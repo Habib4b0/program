@@ -79,7 +79,7 @@ public class FileUploader implements Receiver {
 	public static String getFilePath() {
 		String path = "";
 		String jbossHome = System.getProperty("jboss.home.dir");
-		String ftppath[] = jbossHome.split("jboss-7.1.1");
+		String[] ftppath = jbossHome.split("jboss-7.1.1");
 		path = ftppath[0];
 		return path;
 	}

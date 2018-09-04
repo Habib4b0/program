@@ -72,7 +72,7 @@ public class OutboundLogic {
     private static List<String> hierarchyCheckAllMap = new ArrayList<>();
     private static HashMap<String, String> rbMap = new HashMap<>();
     private static CommonDAO dao = new CommonDAOImpl();
-    private static HashMap<String, String> columnNames = new HashMap<String, String>();
+    private static HashMap<String, String> columnNames = new HashMap<>();
     public static final String RELATIONSHIP_DESCRIPTION = "relationshipDescription";
     
     static {

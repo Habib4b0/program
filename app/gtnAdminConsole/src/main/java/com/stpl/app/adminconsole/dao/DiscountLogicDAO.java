@@ -83,7 +83,7 @@ public interface DiscountLogicDAO {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    DeductionGroup getDeductionGroup(int systemId) throws PortalException, SystemException;
+    DeductionGroup getDeductionGroup(int systemId) throws PortalException;
     
       /**
      * Update deduction group.
@@ -151,7 +151,7 @@ public interface DiscountLogicDAO {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    DeductionGroup deleteDeductionGroup(int systemId) throws PortalException, SystemException;
+    DeductionGroup deleteDeductionGroup(int systemId) throws PortalException;
     
     
 }

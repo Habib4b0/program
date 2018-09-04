@@ -42,11 +42,13 @@ import com.stpl.gtn.gtn2o.ws.module.contractdashboard.controller.GtnWsContractDa
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Abhiram.Giri
  */
+@Service
 public class GtnWsContractDashboardSubmitLogic {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsContractDashboardSubmitLogic.class);

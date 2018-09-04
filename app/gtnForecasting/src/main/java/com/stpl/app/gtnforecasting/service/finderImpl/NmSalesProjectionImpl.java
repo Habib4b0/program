@@ -184,9 +184,9 @@ public class NmSalesProjectionImpl {
                     String prodHier = "%";
 
                     if (viewType.equals("C")) {
-                        customerLevel = levelNo + "";
+                        customerLevel = Integer.toString(levelNo);
                     } else {
-                        productLevel = levelNo + "";
+                        productLevel = Integer.toString(levelNo);
 
                     }
                     if (!hierarchyNo.equals(Constant.STRING_EMPTY)) {
@@ -334,9 +334,9 @@ public class NmSalesProjectionImpl {
                         String prodHier = "%";
 
                         if (viewType.equals("C")) {
-                            customerLevel = levelNo + "";
+                            customerLevel = Integer.toString(levelNo);
                         } else {
-                            productLevel = levelNo + "";
+                            productLevel = Integer.toString(levelNo);
 
                         }
                          if (!hierarchyNo.equals(Constant.STRING_EMPTY)) {
@@ -435,9 +435,6 @@ public class NmSalesProjectionImpl {
 
                 }
             }else if (method.equals("massUpdate")) {
-
-                String projectionId = String.valueOf(inputs[0]);
-
                 int startYear = (Integer) inputs[1];
                 int endYear = (Integer) inputs[2];
                 int startQuator = (Integer) inputs[3];
@@ -484,7 +481,6 @@ public class NmSalesProjectionImpl {
 
                 String projectionId = String.valueOf(inputs[0]);
 
-                String levelValues = (String) inputs[1];
                 String viewType = (String) inputs[2];
                 String hierarchyNos = (String) inputs[3];
                 String userid = (String) inputs[4];
@@ -566,7 +562,6 @@ if(!custom){
                 String calcBased = (String) inputs[3];
                 String viewType = (String) inputs[4];
 
-                String levelValues = (String) inputs[5];
                 String hierarchyNos = (String) inputs[6];
                 String userid = (String) inputs[9];
                 String sessionId = (String) inputs[10];
@@ -609,9 +604,6 @@ if(!custom){
                         
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
-                int parentLevel = 0;
-                String viewType = (String) inputs[2];
-                boolean checkAll = (Boolean) inputs[6];
 
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
@@ -621,23 +613,18 @@ if(!custom){
                 String parentViewType = (String) inputs[10];
                 String lastCustomerHierarchyno=(String)inputs[11];
                 String lastProductHierarchyno=(String) inputs[12];
-                   String CurrentViewType=(String) inputs[13];
                  String methodology = (String) inputs[14];
                  String calcPeriods = (String) inputs[15];
                  String calcBased = (String) inputs[16];
-                   
-             
-                parentLevel = levelNo - 1;
- 
                 String customerLevel = "%";
                 String productLevel = "%";
                 String custHier = "%";
                 String prodHier = "%";
 
               if (parentViewType.equals("C")) {
-                    customerLevel = levelNo + "";
+                    customerLevel = Integer.toString(levelNo);
                 } else {
-                    productLevel = levelNo + "";
+                    productLevel = Integer.toString(levelNo);
                 }
               
               if(!lastCustomerHierarchyno.equals("%")){
@@ -699,7 +686,6 @@ if(!custom){
                 String adjBasis = (String) inputs[3];
                 String adsVar = (String) inputs[4];
                 String adsMeth = (String) inputs[5];
-                String levelValues = (String) inputs[6];
                 String hierarchyNos = (String) inputs[7];
                 String viewType = (String) inputs[9];
                 String userid = (String) inputs[10];
@@ -760,10 +746,6 @@ if(!custom){
                   
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
-                int parentLevel = 0;
-                String viewType = (String) inputs[2];
-                boolean checkAll = (Boolean) inputs[6];
-
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
                 String customId = (String) inputs[9];
@@ -777,19 +759,15 @@ if(!custom){
                 String adjBasis = (String) inputs[16];
                 String adsVar = (String) inputs[17];
                 String adsMeth = (String) inputs[18];
-                   
-             
-                parentLevel = levelNo - 1;
- 
                 String customerLevel = "%";
                 String productLevel = "%";
                 String custHier = "%";
                 String prodHier = "%";
 
               if (parentViewType.equals("C")) {
-                    customerLevel = levelNo + "";
+                    customerLevel = Integer.toString(levelNo);
                 } else {
-                    productLevel = levelNo + "";
+                    productLevel = Integer.toString(levelNo);
                 }
               
               if(!lastCustomerHierarchyno.equals("%")){
@@ -854,8 +832,6 @@ if(!custom){
 
                 String projectionId = String.valueOf(inputs[0]);
                 String viewType = (String) inputs[1];
-                String userid = (String) inputs[3];
-                String sessionId = (String) inputs[4];
                 String relationshipBuilderSid=(String) inputs[9];
                 String hierarchy="";
 
@@ -1203,8 +1179,6 @@ if(!custom){
 
             } else if (method.equals("pmpyProDetailId")) {
                 int projectionId = (Integer) inputs[0];
-                String hierarchyNo = (String) inputs[1];
-                
                  queryBuilder1.append("    select distinct CCP.ITEM_MASTER_SID from dbo.PROJECTION_DETAILS PD   \n  ");
 
                 queryBuilder1.append("    Join dbo.CCP_DETAILS CCP on  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID  \n  ");
@@ -1230,8 +1204,6 @@ if(!custom){
                     
               }else if(method.equals("getCount")){
                 int projectionId = (Integer) inputs[0];
-
-                String hierarchyNo = (String) inputs[2];
                 String viewType = (String) inputs[3];
                 int levelNo = (Integer) inputs[4];
               
@@ -1504,7 +1476,6 @@ if(!custom){
              
               
                 String projectionId = String.valueOf(inputs[0]);
-                String levelValues = (String) inputs[1];
                   String viewType = (String) inputs[2];
                 String hierarchyNos = (String) inputs[3];
              
@@ -1829,10 +1800,8 @@ if(!custom){
                                      
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
-                int parentLevel = 0;
                 String filterValues = (String) inputs[1];
                 String tempFilterValues[]=filterValues.split("-");
-                boolean checkAll = (Boolean) inputs[6];
                 String checkUncheck = (String) inputs[7];
 
                 String userid = (String) inputs[4];
@@ -1843,20 +1812,15 @@ if(!custom){
                 String parentViewType = (String) inputs[10];
                 String lastCustomerHierarchyno=(String)inputs[11];
                 String lastProductHierarchyno=(String) inputs[12];
-                   String CurrentViewType=(String) inputs[13];
-                   
-             
-                parentLevel = levelNo - 1;
- 
                 String customerLevel = "%";
                 String productLevel = "%";
                 String custHier = "%";
                 String prodHier = "%";
 
               if (parentViewType.equals("C")) {
-                    customerLevel = levelNo + "";
+                    customerLevel = Integer.toString(levelNo);
                 } else {
-                    productLevel = levelNo + "";
+                    productLevel = Integer.toString(levelNo);
                 }
               
               if(!lastCustomerHierarchyno.equals("%")){
@@ -1928,32 +1892,22 @@ if(!custom){
                                      
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
-                int parentLevel = 0;
-                String viewType = (String) inputs[2];
-                
-
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
                 String customId = (String) inputs[9];
                 String hierarchyNo = (String) inputs[3];
-                
                 String parentViewType = (String) inputs[10];
                 String lastCustomerHierarchyno=(String)inputs[11];
                 String lastProductHierarchyno=(String) inputs[12];
-                   String CurrentViewType=(String) inputs[13];
-                   
-             
-                parentLevel = levelNo - 1;
- 
                 String customerLevel = "%";
                 String productLevel = "%";
                 String custHier = "%";
                 String prodHier = "%";
 
               if (parentViewType.equals("C")) {
-                    customerLevel = levelNo + "";
+                    customerLevel = Integer.toString(levelNo);
                 } else {
-                    productLevel = levelNo + "";
+                    productLevel = Integer.toString(levelNo);
                 }
               
               if(!lastCustomerHierarchyno.equals("%")){
@@ -2066,11 +2020,7 @@ if(!custom){
             }else if (method.equals("getProjectionDetId")) {
 
                 String projectionId = String.valueOf(inputs[0]);
-                String levelValues = (String) inputs[1];
-                String viewType = (String) inputs[2];
                 String hierarchyNos = (String) inputs[3];
-                String userid = (String) inputs[4];
-                String sessionId = (String) inputs[5];
             
           
                 if (hierarchyNos.equals(Constant.WHERE)) {
@@ -2123,12 +2073,7 @@ if(!custom){
 if(!custom){
                 String projectionId = String.valueOf(inputs[0]);
                 String viewType = (String) inputs[4];
-
-                String levelValues = (String) inputs[5];
                 String hierarchyNos = (String) inputs[6];
-                String userid = (String) inputs[9];
-                String sessionId = (String) inputs[10];
-                
                 queryBuilder1.append("   select ISNULL(SUM(AM.SALES_AMOUNT),0) as sales from ACTUALS_MASTER AM     \n");
                 queryBuilder1.append("   join CCP_DETAILS CCPD on CCPD.COMPANY_MASTER_SID=AM.COMPANY_MASTER_SID    \n");
                 queryBuilder1.append("   and CCPD.CONTRACT_MASTER_SID=AM.CONTRACT_MASTER_SID     \n");
@@ -2176,8 +2121,6 @@ if(!custom){
                         
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
-                int parentLevel = 0;
-              
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
                 String customId = (String) inputs[9];
@@ -2186,18 +2129,15 @@ if(!custom){
                 String parentViewType = (String) inputs[10];
                 String lastCustomerHierarchyno=(String)inputs[11];
                 String lastProductHierarchyno=(String) inputs[12];
-                 
-                parentLevel = levelNo - 1;
- 
                 String customerLevel = "%";
                 String productLevel = "%";
                 String custHier = "%";
                 String prodHier = "%";
 
               if (parentViewType.equals("C")) {
-                    customerLevel = levelNo + "";
+                    customerLevel = Integer.toString(levelNo);
                 } else {
-                    productLevel = levelNo + "";
+                    productLevel = Integer.toString(levelNo);
                 }
               
               if(!lastCustomerHierarchyno.equals("%")){
@@ -2431,7 +2371,6 @@ if(!custom){
     public List getSalesProjectionResultLevels(Object[] inputs) {
         List list = new ArrayList();
         String projectionId = String.valueOf(inputs[0]);
-        String frequency = String.valueOf(inputs[1]);
         int levelNo = Integer.parseInt(String.valueOf(inputs[2]));
         String viewType = String.valueOf(inputs[3]);
         String indicator = String.valueOf(inputs[6]);
@@ -2479,7 +2418,7 @@ if(!custom){
         return list;
     }
 
-    public List getVarianceSales(int projectionId, String frequency, List<Integer> startAndEndPeriods, String actualsOrProjections, String parentName, String year, int levelNo, String sales) {
+    public List getVarianceSales(int projectionId, String frequency, List<Integer> startAndEndPeriods,  String parentName, String year, int levelNo, String sales) {
         
         String customQuery = "";
         try {

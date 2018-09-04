@@ -82,11 +82,7 @@ import org.slf4j.LoggerFactory;
 public class NationalAssumptionLogic {
 
     
-    /**
-     * The current year.
-     */
-    private int currentYear;
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String dataSourceContext = "java:jboss/datasources/jdbc/appDataPool";
     public static final String DESCRIPTION = "description";
     public static final String CALL_BRACKET = "{call ";
     /**
@@ -108,7 +104,7 @@ public class NationalAssumptionLogic {
     /**
      * The Dollar Four Decimal Places Format.
      */
-    private final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.0000");
+    private final DecimalFormat curFour = new DecimalFormat("$#,##0.0000");
     private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
 
     public NationalAssumptionLogic() {
@@ -125,10 +121,10 @@ public class NationalAssumptionLogic {
     public List<BaselinePeriodDTO> getBasePeriods(int startIndex, int endIndex) {
         List<BaselinePeriodDTO> results = new ArrayList<>();
         List<BaselinePeriodDTO> totalresults = getBaselinePeriods();
+        int startedIndxed = startIndex;
+        for (; startedIndxed <= endIndex; startedIndxed++) {
 
-        for (; startIndex <= endIndex; startIndex++) {
-
-            results.add(totalresults.get(startIndex));
+            results.add(totalresults.get(startedIndxed));
 
         }
         return results;
@@ -137,10 +133,10 @@ public class NationalAssumptionLogic {
     public List<BaselinePeriodDTO> getRollingPeriods(int startIndex, int endIndex) {
         List<BaselinePeriodDTO> results = new ArrayList<>();
         List<BaselinePeriodDTO> totalresults = getRollingPeriods();
+        int startedIndxedPeriod = startIndex;
+        for (; startedIndxedPeriod <= endIndex; startedIndxedPeriod++) {
 
-        for (; startIndex <= endIndex; startIndex++) {
-
-            results.add(totalresults.get(startIndex));
+            results.add(totalresults.get(startedIndxedPeriod));
 
         }
         return results;
@@ -208,6 +204,7 @@ public class NationalAssumptionLogic {
 
     private List<BaselinePeriodDTO> getRollingPeriods() {
         Calendar now = Calendar.getInstance();
+        int currentYear;
         currentYear = now.get(Calendar.YEAR);
         List<BaselinePeriodDTO> periods = new ArrayList<>();
         for (int i = 0; i < NumericConstants.FIVE; i++) {
@@ -383,7 +380,7 @@ public class NationalAssumptionLogic {
             priceTypeResult.setBaselineMethodology(String.valueOf(obj[NumericConstants.TWO]));
             priceTypeResult.setForecastMethodology(String.valueOf(obj[NumericConstants.THREE]));
             if (GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
-                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR]), GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())));
+                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR])));
                 priceTypeResult.setFrequency(String.valueOf(obj[NumericConstants.NINE]));
             }
             priceTypeResult.setStartPeriod(String.valueOf(obj[NumericConstants.FIVE]));
@@ -433,7 +430,7 @@ public class NationalAssumptionLogic {
         List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.error(ex.getMessage());
@@ -857,7 +854,7 @@ public class NationalAssumptionLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
                LOGGER.error(ex.getMessage());
@@ -898,11 +895,11 @@ public class NationalAssumptionLogic {
             ndcDto = new NewNdcDTO();
             final Object[] obj = (Object[]) priceType;
             ndcDto.setNdc9(String.valueOf(obj[0]));
-            ndcDto.setWac(CUR_FOUR.format(obj[1]));
-            ndcDto.setBaseYearAMP(CUR_FOUR.format(obj[NumericConstants.TWO]));
-            ndcDto.setBaseYearCPI(CUR_FOUR.format(obj[NumericConstants.THREE]));
-            ndcDto.setForecastAMP(CUR_FOUR.format(obj[NumericConstants.FOUR]));
-            ndcDto.setForecastBestPrice(CUR_FOUR.format(obj[NumericConstants.FIVE]));
+            ndcDto.setWac(curFour.format(obj[1]));
+            ndcDto.setBaseYearAMP(curFour.format(obj[NumericConstants.TWO]));
+            ndcDto.setBaseYearCPI(curFour.format(obj[NumericConstants.THREE]));
+            ndcDto.setForecastAMP(curFour.format(obj[NumericConstants.FOUR]));
+            ndcDto.setForecastBestPrice(curFour.format(obj[NumericConstants.FIVE]));
             priceTypesResults.add(ndcDto);
         }
         return priceTypesResults;
@@ -920,15 +917,15 @@ public class NationalAssumptionLogic {
      * @throws SystemException
      */
     public static int getLazyNdcFilterCount(String filterText, HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException {
-
-        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        String filterTextNdc = filterText;
+        filterTextNdc = StringUtils.trimToEmpty(filterTextNdc) + Constant.PERCENT;
         List<ItemMaster> qualifierList;
         final DynamicQuery ndcQuery = getNdcFilterDynamicQuery(brandMasterSid, itemFlag, therapeuticSid);
         if (itemFlag) {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.count(Constant.ITEM_NO));
         } else {
-            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterTextNdc));
             ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
         }
         
@@ -1082,12 +1079,12 @@ public class NationalAssumptionLogic {
         return Constant.SUCCESS;
     }
 
-    public String getFormattedGrowth(String value, boolean isGrowth) {
-        String valueGrowth;
-        if (value.contains(Constant.NULL)) {
+    public String getFormattedGrowth(String value) {
+        String valueGrowth = value;
+        if (valueGrowth.contains(Constant.NULL)) {
             valueGrowth = StringUtils.EMPTY;
         } else {
-            Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
+            Double newValue = Double.valueOf(valueGrowth.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
             valueGrowth = perWithTwoDecimal.format(newValue) ;
         }
@@ -1114,9 +1111,9 @@ public class NationalAssumptionLogic {
             final Object[] obj = (Object[]) priceType;
             ndcDto.setItemMasterSid(Integer.parseInt(String.valueOf(obj[0])));
             ndcDto.setItemNo(String.valueOf(obj[1]));
-            ndcDto.setWac(CUR_FOUR.format(obj[NumericConstants.TWO]));
-            ndcDto.setNonFamp(CUR_FOUR.format(obj[NumericConstants.THREE]));
-            ndcDto.setFssOGA(CUR_FOUR.format(obj[NumericConstants.FOUR]));
+            ndcDto.setWac(curFour.format(obj[NumericConstants.TWO]));
+            ndcDto.setNonFamp(curFour.format(obj[NumericConstants.THREE]));
+            ndcDto.setFssOGA(curFour.format(obj[NumericConstants.FOUR]));
 
             priceTypesResults.add(ndcDto);
         }
@@ -1241,7 +1238,7 @@ public class NationalAssumptionLogic {
         
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(dataSourceContext);
         } catch (NamingException ex)
         {
             LOGGER.error(ex.getMessage());

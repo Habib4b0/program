@@ -150,32 +150,32 @@ public class AdjustmentRateDTO implements Serializable {
         return inventoryCustomer;
     }
 
-    public void setInventoryCustomer(int inventoryCustomer) {
-        this.inventoryCustomer = inventoryCustomer;
+    public void setInventoryCustomer(int rateInventoryCustomer) {
+        this.inventoryCustomer = rateInventoryCustomer;
     }
 
     public String getInventoryCalculation() {
         return inventoryCalculation;
     }
 
-    public void setInventoryCalculation(String inventoryCalculation) {
-        this.inventoryCalculation = inventoryCalculation;
+    public void setInventoryCalculation(String rateInventoryCalculation) {
+        this.inventoryCalculation = rateInventoryCalculation;
     }
 
     public String getExclusionDetails() {
         return exclusionDetails;
     }
 
-    public void setExclusionDetails(String exclusionDetails) {
-        this.exclusionDetails = exclusionDetails;
+    public void setExclusionDetails(String rateExclusionDetails) {
+        this.exclusionDetails = rateExclusionDetails;
     }
 
     public String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setPrice(String ratePrice) {
+        this.price = ratePrice;
     }
 
     public int getReserveDate() {

@@ -170,6 +170,56 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 			finalQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			finalQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}
+		System.out.println("query----->"
+				+ gtnWsHierarchyAndRelationshipSqlService.getReplacedQuery(inputList, finalQuery.toString()));
 		return gtnWsHierarchyAndRelationshipSqlService.getReplacedQuery(inputList, finalQuery.toString());
+	}
+
+	public String getProductLevelQuery(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService
+				.getHierarchyBuilder(inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
+		HierarchyLevelDefinitionBean selectedHierarchyBean = HierarchyLevelDefinitionBean
+				.getBeanByLevelNo(inputBean.getLevelNo(), hierarchyDefinitionList);
+		if (selectedHierarchyBean.isUserDefined()) {
+			return buildQueryForUserDefinedLevel(inputBean);
+		}
+		return getQueryForLinkedLevelProduct(inputBean, hierarchyDefinitionList, selectedHierarchyBean);
+	}
+
+	private String buildQueryForUserDefinedLevel(GtnForecastHierarchyInputBean inputBean) {
+		List<Object> input = new ArrayList<>();
+		input.add(inputBean.getRelationShipBuilderSid());
+		input.add(inputBean.getLevelNo());
+		input.add(inputBean.getRelationVersionNo());
+		return gtnWsHierarchyAndRelationshipSqlService.getQuery(input, "SelectValuesFromUserDefinedHierarchy");
+	}
+
+	@SuppressWarnings("rawtypes")
+	private String getQueryForLinkedLevelProduct(GtnForecastHierarchyInputBean inputBean,
+			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList,
+			HierarchyLevelDefinitionBean selectedHierarchyBean) throws GtnFrameworkGeneralException {
+
+		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
+				.getLastLinkedLevel(hierarchyDefinitionList);
+		String situationName = "LOAD_AVAILABLE_TABLE_PRODUCT";
+		if (inputBean.isNdc()) {
+			situationName = "LOAD_AVAILABLE_TABLE_FOR_NDC";
+		}
+		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
+				situationName, hierarchyDefinitionList);
+
+		if (!inputBean.getBusinessUnitValue().equals("null")
+				&& !String.valueOf(inputBean.getBusinessUnitValue()).equals("0")
+				&& !String.valueOf(inputBean.getBusinessUnitValue()).isEmpty()) {
+			queryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
+					GtnFrameworkDataType.STRING, String.valueOf(inputBean.getBusinessUnitValue()));
+		}
+		List<Object> inputList = new ArrayList<>();
+		inputList.add(inputBean.getRelationShipBuilderSid());
+		inputList.add(String.valueOf(lastLevelDto.getLevelNo()));
+		inputList.add(inputBean.getRelationVersionNo());
+		inputList.add(inputBean.getRelationVersionNo());
+		inputList.add(String.valueOf(selectedHierarchyBean.getLevelNo()));
+		return gtnWsHierarchyAndRelationshipSqlService.getReplacedQuery(inputList, queryBean.generateQuery());
 	}
 }

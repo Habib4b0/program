@@ -66,7 +66,7 @@ public class CommonUtils {
 		return select;
 	}
 	
-	public static String getListTypeName(int listTypeId) throws PortalException, SystemException{
+	public static String getListTypeName(int listTypeId) throws PortalException{
 		String listValue=EMPTY;
 		if(listTypeId!=0&&listTypeId!=1&&listTypeId!=NumericConstants.TWO){
 		ListType listType=ListTypeServiceUtil.getListType(listTypeId);
@@ -119,12 +119,11 @@ public class CommonUtils {
 	public static final String getDateTime(String aMask, Date aDate){
 		SimpleDateFormat df = null;
 		String returnValue = EMPTY;
-		if (aDate == null) {
-		}
-		else {
-			df = new SimpleDateFormat(aMask);
+		if (aDate != null) {
+                    df = new SimpleDateFormat(aMask);
 			returnValue = df.format(aDate);
 		}
+		
 		return returnValue;
 	}
 	
@@ -177,7 +176,7 @@ public class CommonUtils {
 	    	int count=0;
 	        int a=0;
 	        int subqueryNocount=0;
-   	        String memberIdArraytemp[] = new String[NumericConstants.THOUSAND];
+   	        String[] memberIdArraytemp = new String[NumericConstants.THOUSAND];
 	        String memberIdquery ="";
 			 boolean xflag = true;
 			 try{
@@ -251,7 +250,7 @@ public class CommonUtils {
 		        int a=0;
 		        int subqueryNocount=0;
 
-		        String memberIdArraytemp[] = new String[NumericConstants.THOUSAND];
+		        String[] memberIdArraytemp = new String[NumericConstants.THOUSAND];
 		        String memberIdquery ="";
 				 boolean xflag = true;
 				 try{
@@ -311,7 +310,7 @@ public class CommonUtils {
 		    	return memberIdquery;
 		    }
 		 
-		 public static String arrayToString(String a[], String separator){
+		 public static String arrayToString(String[] a, String separator){
 		        StringBuilder resultBuilder = new StringBuilder();
 		                   if (a.length > 0) {
                          if (a[0] != null) {
@@ -327,7 +326,7 @@ public class CommonUtils {
 		        return resultBuilder.toString();
 		    }
 		 
-		  public static String arrayToString2(String a[], String separator){
+		  public static String arrayToString2(String[] a, String separator){
 		        String result = "";
 		        if (a.length > 0) {
 		        	

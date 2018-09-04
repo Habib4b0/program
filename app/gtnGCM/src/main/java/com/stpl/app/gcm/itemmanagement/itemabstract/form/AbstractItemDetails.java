@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
@@ -236,7 +237,7 @@ public final class AbstractItemDetails extends CustomComponent {
         if (resultTable.size() != 0) {
             list = summaryLogic.getContractResults(selection, 0, Integer.MAX_VALUE);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     Component ConfigureTransferItemTable() {

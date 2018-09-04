@@ -281,22 +281,7 @@ public class SummaryTab extends VerticalLayout {
 
             }
 
-        } else {
-            if (currentTPDetailsContainer != null && currentTPDetailsContainer.size() > 0) {
-
-            } else {
-                AbstractNotificationUtils.getErrorNotification(MessageUtil.getErrorCode(Message.NO_RECORD_SUBMIT), MessageUtil.getErrorCode(Message.NO_VALID_CUSTOMER));
-                return;
-            }
-
-            if (transferTPDetailsContainer != null && transferTPDetailsContainer.size() > 0) {
-
-            } else {
-                AbstractNotificationUtils.getErrorNotification(MessageUtil.getErrorCode(Message.NO_RECORD_SUBMIT), MessageUtil.getErrorCode(Message.NO_VALID_TRANSFER));
-                return;
-            }
-
-        }
+        } 
         if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_REMOVE.getConstant())) {
             idOne = ButtonId.OK;
             idTwo = ButtonId.CANCEL;
@@ -393,8 +378,7 @@ public class SummaryTab extends VerticalLayout {
                                                     tempTransferList = common.copyProjection(toProjectionId, false, null, null, null,session);
                                                 }
                                                 copyToProjectionId = Integer.parseInt(tempTransferList.get(NumericConstants.TWO));
-                                            } else {
-                                            }
+                                            } 
                                             int sourceContract = CommonLogic.getSelectedContractSid(session.getSessionId(), false);
                                             int destinationContract = CommonLogic.getSelectedContractSid(session.getSessionId(), true);
                                             String fromCustomerEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
@@ -416,13 +400,9 @@ public class SummaryTab extends VerticalLayout {
                                             }
 
                                             projectionCreationFlag = true;
-                                        } else {
-                                        }
+                                        } 
 
-                                    } else {
-
-                                    }
-                                } else {
+                                    } 
                                 }
                             } catch (Exception e) {
                                 LOGGER.error("",e);

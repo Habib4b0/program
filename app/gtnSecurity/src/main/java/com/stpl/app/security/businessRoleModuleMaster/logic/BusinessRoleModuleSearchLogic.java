@@ -57,7 +57,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     private final int versionNo = NumericConstants.ONE;
 
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(ErrorfulFieldGroup searchBusinessRoleModuleForm)
-            throws SystemException, PortalException {
+            throws PortalException {
 
         String businessRoleName = "";
         String subModuleName = "";
@@ -114,7 +114,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     }
 
     public List<SearchBusinessRoleModuleForm> searchFieldAccessDetails(ErrorfulFieldGroup searchBusinessRoleModuleForm)
-            throws SystemException, PortalException {
+            throws PortalException {
 
         String businessRoleName = "";
         String subModuleName = "";

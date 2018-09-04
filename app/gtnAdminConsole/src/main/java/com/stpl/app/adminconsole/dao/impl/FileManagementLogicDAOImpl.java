@@ -112,12 +112,12 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
     
-       public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException,SystemException{
+       public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException{
         return ItemQualifierLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
       
 
-    public List getBrandList(final DynamicQuery ifpDynamicQuery) throws PortalException, SystemException {
+    public List getBrandList(final DynamicQuery ifpDynamicQuery) throws PortalException {
         return BrandMasterLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
     
@@ -127,7 +127,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @return list of HelperTable
      * @throws SystemException 
      */
-    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException,SystemException {
+    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
     /**

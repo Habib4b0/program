@@ -21,8 +21,8 @@ public interface UdcLogicDAO {
      public List<HelperTable>getDescrition(String desc)throws SystemException;
      public List<HelperTable> findByHelperTableDetails(String category)throws SystemException;
      public HelperTable saveHelperTableDetails(HelperTable helperTable)throws SystemException;
-     public HelperTable deleteHelperTableByCode(int code)throws SystemException,PortalException;
+     public HelperTable deleteHelperTableByCode(int code)throws PortalException;
      public BrandMaster saveBrandTableDetails(BrandMaster brandTable)throws SystemException;
-     public BrandMaster deleteBrandTableByCode(BrandMaster code)throws SystemException,PortalException;
-     public BrandMaster getBrandMaster(int id)throws SystemException,PortalException;
+     public BrandMaster deleteBrandTableByCode(BrandMaster code)throws PortalException;
+     public BrandMaster getBrandMaster(int id)throws PortalException;
 }

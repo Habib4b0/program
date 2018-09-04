@@ -60,8 +60,6 @@ public class MSalesProjection extends ForecastSalesProjection {
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
     
     private static Map<String, Integer> rowCountMap = new HashMap<>();
-    private boolean generated = false;
-    private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
 
@@ -150,8 +148,8 @@ public class MSalesProjection extends ForecastSalesProjection {
         try {
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
-                generated = true;
-                firstGenerated = true;
+                boolean generated = true;
+                boolean firstGenerated = true;
                 tableLayout.removeAllComponents();
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);

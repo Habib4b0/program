@@ -348,10 +348,10 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     protected List<String> getCheckedValues() {
         if (selecetedAdjustment != null && selecetedAdjustment.getSize() > 0) {
             List<String> result = new ArrayList<>();
-            List<CustomMenuBar.CustomMenuItem> items = selecetedAdjustment.getChildren();
-            for (CustomMenuBar.CustomMenuItem customMenuItem1 : items) {
-                if (customMenuItem1.isChecked()) {
-                    result.add(customMenuItem1.getMenuItem().getCaption());
+            List<CustomMenuBar.CustomMenuItem> custom = selecetedAdjustment.getChildren();
+            for (CustomMenuBar.CustomMenuItem customMenuItem : custom) {
+                if (customMenuItem.isChecked()) {
+                    result.add(customMenuItem.getMenuItem().getCaption());
                 }
             }
             return result;
@@ -366,21 +366,29 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
      */
     protected Map<Integer, String> getDeductionValue() {
         if (deductionValue.getItems() != null) {
-            Map<Integer, String> result = new HashMap<>();
+            Map<Integer, String> results = new HashMap<>();
             if (deductionValue.getItems() != null) {
-                for (CustomMenuBar.CustomMenuItem item : deductionValue.getItems()) {
-                    if (item != null) {
-                        for (CustomMenuBar.CustomMenuItem child : item.getChildren()) {
-                            if (child.isChecked()) {
-                                result.put(child.getMenuItem().getId(), child.getMenuItem().getCaption());
-                            }
-                        }
-                    }
-                }
+                getResultsMenuBar(results);
             }
-            return result;
+            return results;
         }
         return Collections.emptyMap();
+    }
+
+    private void getResultsMenuBar(Map<Integer, String> result) {
+        for (CustomMenuBar.CustomMenuItem customItem : deductionValue.getItems()) {
+            if (customItem != null) {
+                getCheckedResultsMenuBar(customItem, result);
+            }
+        }
+    }
+
+    private void getCheckedResultsMenuBar(CustomMenuBar.CustomMenuItem item, Map<Integer, String> result) {
+        for (CustomMenuBar.CustomMenuItem child : item.getChildren()) {
+            if (child.isChecked()) {
+                result.put(child.getMenuItem().getId(), child.getMenuItem().getCaption());
+            }
+        }
     }
 
     @UiHandler("frequencyDdlb")

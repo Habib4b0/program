@@ -7,7 +7,7 @@ package com.stpl.app.cff.util;
 
 import com.vaadin.ui.Window;
 
-// TODO:  
+   
 /**
  * The Class StplWindow.
  *

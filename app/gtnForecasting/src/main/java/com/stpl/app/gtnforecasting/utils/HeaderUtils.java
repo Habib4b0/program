@@ -1519,10 +1519,11 @@ public class HeaderUtils {
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int numb = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numb >= 0 && numb <= NumericConstants.ELEVEN) {
+            month = months[numb];
         }
         return month;
     }
@@ -1718,8 +1719,6 @@ public class HeaderUtils {
 
     public static List getCalculatedSalesColumns(Map selection, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO excelDto, SessionDTO session) {
         ForecastDTO forecastDTO = session.getForecastDTO();
-
-//        Map<Object, Object[]> reProjectedColumn = new HashMap<>();
         Map<Object, Object[]> doubleHeaderHistoryMap = new HashMap<>();
         List<String> totalProjected = new ArrayList<>();
         SalesProjectionLogic salesLogic = new SalesProjectionLogic();
@@ -2147,10 +2146,7 @@ public class HeaderUtils {
         historyEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (historyEndPeriod == forecastStartPeriod && historyEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             historyEndPeriod--;
-            if (frequencyDivision == 1) {
-                historyEndMonth = NumericConstants.TWELVE;
-                historyEndYear = historyEndYear - 1;
-            } else if (historyEndPeriod < 1) {
+            if ((frequencyDivision == 1) || (historyEndPeriod < 1)) {
                 historyEndMonth = NumericConstants.TWELVE;
                 historyEndYear = historyEndYear - 1;
             } else if (frequencyDivision == NumericConstants.TWO) {
@@ -3958,10 +3954,7 @@ public class HeaderUtils {
         historyEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (historyEndPeriod == forecastStartPeriod && historyEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             historyEndPeriod--;
-            if (frequencyDivision == 1) {
-                historyEndMonth = NumericConstants.TWELVE;
-                historyEndYear = historyEndYear - 1;
-            } else if (historyEndPeriod < 1) {
+            if ((frequencyDivision == 1) || (historyEndPeriod < 1)) {
                 historyEndMonth = NumericConstants.TWELVE;
                 historyEndYear = historyEndYear - 1;
             } else if (frequencyDivision == NumericConstants.TWO) {
