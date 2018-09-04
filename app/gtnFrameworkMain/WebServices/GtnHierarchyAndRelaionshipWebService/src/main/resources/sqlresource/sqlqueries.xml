@@ -185,4 +185,32 @@
             ]]>
         </entry>
 
+ <entry key="childLevelsHierarchyNo">
+          
+            <![CDATA[ 
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES,
+                    RLD.PARENT_NODE,
+                    RLD.LEVEL_NAME,
+                    HLD.LEVEL_VALUE_REFERENCE,
+                    HLD.TABLE_NAME,
+                    HLD.FIELD_NAME,
+                    RLD.RELATIONSHIP_LEVEL_SID,
+                    RLD.HIERARCHY_NO,
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                   HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
+                FROM
+                    dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    AND RLD.hierarchy_No IN (?)
+                    AND RLD.level_No <= ?
+                    AND RLD.VERSION_NO = ?
+                    AND HLD.VERSION_NO = ?
+                ORDER BY
+                    RLD.LEVEL_NO ASC              
+            ]]>
+        </entry>
 </properties>

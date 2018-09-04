@@ -165,6 +165,22 @@ public class GtnWsHierarchyAndRelationshipController {
 		response.setGtnWsForecastResponse(forecastResponse);
 		return response;
 	}
+	
+	@RequestMapping(value = "/loadAvailableTableCustomerLevel", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadAvailableTableCustomerLevel(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsForecastRequest forecastRequest = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+                inputBean.setHieraryQuery(forecastRequest.getInputBean().getHieraryQuery());
+		List<Object[]> resultsDataList = relationshipLevelValueService.getAvailableTableCustomerLevelValues(inputBean);
+		inputBean.setResultList(resultsDataList);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		response.setGtnWsForecastResponse(forecastResponse);
+		return response;
+	}
 
 	@RequestMapping(value = "/loadAvailableTable", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadCustHierarchyLeftTable(
