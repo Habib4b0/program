@@ -5429,6 +5429,10 @@ public class CommonLogic {
                 CommonUtil.getInstance().updateTable(session, "ST_PRODUCT_DISCOUNT");
                 CommonUtil.getInstance().updateTable(session, "ST_CUSTOM_DISCOUNT");
     }
-}
     
-
+    public List<Object[]> getCustomViewSids(int projectionSid) {
+        String query = "select CUSTOM_VIEW_MASTER_SID,CUSTOM_VIEW_MASTER_DEDUCTION_SID from projection_master where projection_master_sid=" + projectionSid;
+        return (List<Object[]>)HelperTableLocalServiceUtil.executeSelectQuery(query);
+    }
+    
+}
