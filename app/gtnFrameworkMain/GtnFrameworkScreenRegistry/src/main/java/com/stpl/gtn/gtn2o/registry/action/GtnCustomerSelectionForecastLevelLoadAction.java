@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnCustomerSelectionForecastLevelLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnCustomerSelectionRelationshipLoadAction.class);
 
 	@SuppressWarnings("unchecked")
 	@Override

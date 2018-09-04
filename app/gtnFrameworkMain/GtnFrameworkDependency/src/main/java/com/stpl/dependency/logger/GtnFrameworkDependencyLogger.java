@@ -34,7 +34,7 @@ public class GtnFrameworkDependencyLogger {
 	}
 
 	public void queryLog(String message) {
-		logger.info(message);
+		logger.debug(message);
 	}
 
 	public void trace(String message){

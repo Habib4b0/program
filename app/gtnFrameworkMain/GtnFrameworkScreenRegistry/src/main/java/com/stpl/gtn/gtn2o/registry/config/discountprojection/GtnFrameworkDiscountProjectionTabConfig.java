@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.registry.config.common.MassUpdateTab;
 import com.stpl.gtn.gtn2o.registry.config.common.ResultsLayout;
 import com.stpl.gtn.gtn2o.registry.config.common.UpdatePreviousNextCloseSubmitButton;
 import com.stpl.gtn.gtn2o.registry.config.projectionvariance.GtnCommercialForecastProjectionVarianceClassConstants;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
@@ -98,18 +99,18 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 			String nameSpace) {
 		
 		
-		GtnUIFrameworkComponentConfig tabLayout = configProvider
+		GtnUIFrameworkComponentConfig tabLayoutAddDiscountProj = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "displaySelectionFilterTabLayout", true, parentComponentId);
-		tabLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-		tabLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(tabLayout);
+		tabLayoutAddDiscountProj.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		tabLayoutAddDiscountProj.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentList.add(tabLayoutAddDiscountProj);
 
-		GtnUIFrameworkComponentConfig tabSheet = configProvider.getUIFrameworkComponentConfig(
+		GtnUIFrameworkComponentConfig tabSheetAddDiscountProj = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "displaySelectionFilterTabSheet", true, nameSpace + "_" + "displaySelectionFilterTabLayout",
 				GtnUIFrameworkComponentType.TABSHEET);
-		tabSheet.setComponentName("Tab Sheet");
-		tabSheet.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(tabSheet);
+		tabSheetAddDiscountProj.setComponentName("Tab Sheet");
+		tabSheetAddDiscountProj.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentList.add(tabSheetAddDiscountProj);
 
 		GtnUIFrameworkTabConfig displaySelectionTabConfig = new GtnUIFrameworkTabConfig();
 		displaySelectionTabConfig.setComponentId(nameSpace + "_" + "displaySelectionTabConfig");
@@ -128,7 +129,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
 		gtnTabSheetConfigList.add(displaySelectionTabConfig);
 		gtnTabSheetConfigList.add(filterOptionTab);
-		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
+		tabSheetAddDiscountProj.setGtnTabSheetConfigList(gtnTabSheetConfigList);
 			
 	}
 
@@ -218,18 +219,18 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionTabSheet.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(discountProjectionTabSheet);
 
-		GtnUIFrameworkTabConfig massUpdateTabConfig = new GtnUIFrameworkTabConfig();
-		massUpdateTabConfig.setComponentId(nameSpace + "_" + "massUpdateTab");
-		massUpdateTabConfig.setTabCaption("Mass Update");
+		GtnUIFrameworkTabConfig massUpdateTabConfigDiscountProjTab = new GtnUIFrameworkTabConfig();
+		massUpdateTabConfigDiscountProjTab.setComponentId(nameSpace + "_" + "massUpdateTab");
+		massUpdateTabConfigDiscountProjTab.setTabCaption("Mass Update");
 		List<GtnUIFrameworkComponentConfig> massUpdateComponentList = new ArrayList<>();
-		massUpdateTabConfig.setTabLayoutComponentConfigList(massUpdateComponentList);
+		massUpdateTabConfigDiscountProjTab.setTabLayoutComponentConfigList(massUpdateComponentList);
 		new MassUpdateTab().addMassUpdateTab(massUpdateComponentList, nameSpace);
 
-		GtnUIFrameworkTabConfig forecastTabConfig = new GtnUIFrameworkTabConfig();
-		forecastTabConfig.setComponentId(nameSpace + "_" + "forecastTab");
-		forecastTabConfig.setTabCaption("Forecast");
+		GtnUIFrameworkTabConfig forecastTabConfigDiscountProjTab = new GtnUIFrameworkTabConfig();
+		forecastTabConfigDiscountProjTab.setComponentId(nameSpace + "_" + "forecastTab");
+		forecastTabConfigDiscountProjTab.setTabCaption("Forecast");
 		List<GtnUIFrameworkComponentConfig> forecastComponentList = new ArrayList<>();
-		forecastTabConfig.setTabLayoutComponentConfigList(forecastComponentList);
+		forecastTabConfigDiscountProjTab.setTabLayoutComponentConfigList(forecastComponentList);
 	    addForecastTab(forecastComponentList, nameSpace);
 
 		GtnUIFrameworkTabConfig adjustmentTab = new GtnUIFrameworkTabConfig();
@@ -240,8 +241,8 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		addAdjustmentTab(adjustmentComponentList, nameSpace);
 
 		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
-		gtnTabSheetConfigList.add(massUpdateTabConfig);
-		gtnTabSheetConfigList.add(forecastTabConfig);
+		gtnTabSheetConfigList.add(massUpdateTabConfigDiscountProjTab);
+		gtnTabSheetConfigList.add(forecastTabConfigDiscountProjTab);
 		gtnTabSheetConfigList.add(adjustmentTab);
 		discountProjectionTabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
 	}
@@ -268,15 +269,6 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 	
 	private void addDiscountProjectionResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace){
 		
-	/*	GtnUIFrameworkComponentConfig discountProjectionResultPanel = new GtnUIFrameworkComponentConfig();
-		discountProjectionResultPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		discountProjectionResultPanel.setComponentId(nameSpace + "_" + "discountProjectionResultTablePanel");
-		discountProjectionResultPanel.setAddToParent(true);
-		discountProjectionResultPanel.setParentComponentId(parentComponentId);
-		discountProjectionResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(discountProjectionResultPanel);*/
-		
-		
 		GtnUIFrameworkComponentConfig discountProjectionResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
 		discountProjectionResultTableComponentConfig.setComponentId(nameSpace+"resultPagedTreeGrid");
@@ -298,10 +290,6 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 				GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 		discountProjectionGtnPagedTreeTableConfig.setRightHeader(
 				GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
-//            reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
-//                    GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
-//             reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
-//                    GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 		discountProjectionGtnPagedTreeTableConfig.setCountUrl("");
 		discountProjectionGtnPagedTreeTableConfig.setItemPerPage(10);
 
@@ -336,8 +324,6 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> resultDashboardCheckBoxClickActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resultDashboardGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
 		resultDashboardGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		//resultDashboardGtnUIFrameWorkGenerateActionConfig
-				//.addActionParameter(GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
 		resultDashboardCheckBoxClickActionList.add(resultDashboardGtnUIFrameWorkGenerateActionConfig);
 		resultDashboardGtnUIFrameWorkGenerateActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
@@ -355,12 +341,11 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
 		resultDashboardFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		//resultDashboardFieldFactoryCustomAction
-				//.addActionParameter(GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
 		resultDashboardTextFieldConfig.add(resultDashboardFieldFactoryCustomAction);
 		discountProjectionGtnPagedTreeTableConfig.setComponentconfigActionlist(resultDashboardTextFieldConfig);
 
-		discountProjectionGtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList("filterComboBox")); 
+		discountProjectionGtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList
+                                                      (GtnFrameworkScreenRegisteryConstants.ADD_DISCOUNT_PROJECTION_RESULT_TABLE)); 
 		List<GtnUIFrameWorkActionConfig> resultDashboardCheckAllConflist = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resultDashboardCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
 		resultDashboardCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -410,39 +395,39 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 	}
 	
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = {"filterComboBox", "filterTextBox"};
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMapDiscProjTab = new HashMap<>();
+		String[] propertyIds={GtnFrameworkScreenRegisteryConstants.ADD_DISCOUNT_PROJECTION_RESULT_TABLE, "filterTextBox"};
 	
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
 		
-		String[] comboboxIds={"filterComboBox"};
+		String[] comboboxIds={GtnFrameworkScreenRegisteryConstants.ADD_DISCOUNT_PROJECTION_RESULT_TABLE};
 		String[] comboboxType={"STATUS"};
 		int comboboxStart=0;
 		
 		for (int i = 0; i < propertyIds.length; i++) {
 			
-			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfigDiscProjTab = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			pagedTableCustomFilterConfigDiscProjTab.setPropertId(propertyIds[i]);
+			pagedTableCustomFilterConfigDiscProjTab.setGtnComponentType(componentType[i]);
+			customFilterConfigMapDiscProjTab.put(pagedTableCustomFilterConfigDiscProjTab.getPropertId(), pagedTableCustomFilterConfigDiscProjTab);
 			
 			//for comboBox 
 			if((comboboxStart<comboboxIds.length) && propertyIds[i].equals(comboboxIds[comboboxStart])){
-				GtnUIFrameworkComponentConfig companyMasterSearchFilterComponentConfig = new GtnUIFrameworkComponentConfig();
-				companyMasterSearchFilterComponentConfig.setComponentId("discountProjectionCustomFilterComboBox");
-				companyMasterSearchFilterComponentConfig.setComponentName("discountProjectionCustomFilterComboBox");
-				companyMasterSearchFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(comboboxType[comboboxStart]);
-				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig()
+				GtnUIFrameworkComponentConfig companyMasterSearchFilterComponentConfigDiscProjTab = new GtnUIFrameworkComponentConfig();
+				companyMasterSearchFilterComponentConfigDiscProjTab.setComponentId("discountProjectionCustomFilterComboBox");
+				companyMasterSearchFilterComponentConfigDiscProjTab.setComponentName("discountProjectionCustomFilterComboBox");
+				companyMasterSearchFilterComponentConfigDiscProjTab.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				companyMasterSearchFilterComponentConfigDiscProjTab.getGtnComboboxConfig().setComboBoxType(comboboxType[comboboxStart]);
+				companyMasterSearchFilterComponentConfigDiscProjTab.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				pagedTableCustomFilterConfig.setGtnComponentConfig(companyMasterSearchFilterComponentConfig);
+				pagedTableCustomFilterConfigDiscProjTab.setGtnComponentConfig(companyMasterSearchFilterComponentConfigDiscProjTab);
 				comboboxStart++;
 			}
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+			customFilterConfigMapDiscProjTab.put(pagedTableCustomFilterConfigDiscProjTab.getPropertId(), pagedTableCustomFilterConfigDiscProjTab);
 		}
 		
-		return customFilterConfigMap;
+		return customFilterConfigMapDiscProjTab;
 	}
 
 	
