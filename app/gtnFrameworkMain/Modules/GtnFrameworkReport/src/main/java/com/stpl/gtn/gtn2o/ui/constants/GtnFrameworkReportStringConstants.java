@@ -159,6 +159,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HUNDRED_ONE_PERCENT = "101%";
 
 	public static final String HUNDRED_PERCENT = "100%";
+	
+	public static final String EIGHTY_PERCENT = "80%";
 
 	public static final String ONE_FIFTY_PIXEL = "150px";
 

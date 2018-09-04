@@ -74,8 +74,8 @@ public class LivesDTO {
         return compName;
     }
 
-    public void setComp_Name(String comp_Name) {
-        this.compName = comp_Name;
+    public void setComp_Name(String compName) {
+        this.compName = compName;
     }
 
  

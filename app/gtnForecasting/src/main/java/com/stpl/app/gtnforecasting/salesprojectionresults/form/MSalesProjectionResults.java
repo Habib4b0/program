@@ -519,7 +519,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         projectionDTO.setIsCustomHierarchy(false);
         customDdlb.setEnabled(false);
         editBtn.setEnabled(false);
-        final ExtFilterTreeTable leftTable = resultsTable
+        final ExtFilterTreeTable leftTableViewChange = resultsTable
                 .getLeftFreezeAsTable();
         if (view.getValue() != null) {
             if (Constant.CUSTOM_LABEL.equals(String.valueOf(view.getValue()))) {
@@ -541,10 +541,10 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
                 loadCustomDDLB();
                 level.setEnabled(false);
                 levelFilter.setEnabled(false);
-                leftTable.setColumnHeader(Constant.LEVEL_VALUE_SMALL, Constant.CUSTOMER_SMALL);
-                leftTable.setFilterBarVisible(true);
-                leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-                leftTable.setFilterGenerator(new ComparisonFilterGenerator(projectionDTO, tableLogic));
+                leftTableViewChange.setColumnHeader(Constant.LEVEL_VALUE_SMALL, Constant.CUSTOMER_SMALL);
+                leftTableViewChange.setFilterBarVisible(true);
+                leftTableViewChange.setFilterDecorator(new ExtDemoFilterDecorator());
+                leftTableViewChange.setFilterGenerator(new ComparisonFilterGenerator(projectionDTO, tableLogic));
             } else {
 
                 customIdToSelect = customId;
@@ -559,7 +559,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
                     projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                     projectionDTO.setView(Constant.CUSTOMER_SMALL);
                     if (viewChange && firstGenerated) {
-                        leftTable.setColumnHeader(Constant.LEVEL_VALUE_SMALL, Constant.CUSTOMER_SMALL);
+                        leftTableViewChange.setColumnHeader(Constant.LEVEL_VALUE_SMALL, Constant.CUSTOMER_SMALL);
                         generateLogic();
 
                     }
@@ -567,7 +567,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
                     projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     projectionDTO.setView(Constant.PRODUCT_LABEL);
                     if (viewChange && firstGenerated) {
-                        leftTable.setColumnHeader(Constant.LEVEL_VALUE_SMALL, Constant.BRAND_CAPS);
+                        leftTableViewChange.setColumnHeader(Constant.LEVEL_VALUE_SMALL, Constant.BRAND_CAPS);
                         generateLogic();
                     }
                 }

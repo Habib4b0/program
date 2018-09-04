@@ -53,12 +53,11 @@ public class SummaryLookUp extends CustomComponent {
     public SummaryLookUp(List<ItemIndexDto> itemList, SelectionDTO selection) {
     }
 
-    public Component getContent(List<ItemIndexDto> itemList, SelectionDTO selection) {
+    public Component getContent(List<ItemIndexDto> itemListSummary, SelectionDTO selection) {
         LOGGER.debug("getContent method starts");
 
         this.selection = selection;
-        this.itemList.clear();
-        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
+        this.itemList = itemListSummary == null ? itemListSummary : new ArrayList<>(itemListSummary);
         Panel panel = new Panel();
         panel.setCaption(StringUtils.EMPTY);
         panel.setContent(mainTab);
@@ -73,8 +72,6 @@ public class SummaryLookUp extends CustomComponent {
             mainTab.addTab(sales.getContent(itemList, selection), "Sales", null, 1);
             mainTab.addTab(rebate.getContent(itemList, selection), "Rebates", null, NumericConstants.TWO);
             mainTab.addTab(salesAndRebate.getContent(itemList, selection), "Sales and Rebates", null, NumericConstants.THREE);
-            LOGGER.debug("{}", itemList == null ? new ArrayList<>(itemList) : itemList.get(0));
-            LOGGER.debug("{}", this.itemList == null ? new ArrayList<>(itemList) : itemList.get(0));
             configureFields();
         } catch (Exception ex) {
             LOGGER.error("",ex);

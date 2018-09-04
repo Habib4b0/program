@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.kernel.dao.orm.Session;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
@@ -114,7 +113,7 @@ public class NmDiscountImpl {
             String freq = "";
             String grpBy = "";
             String grpByData = "";
-            String freq_Actual = "";
+            String freqActual = "";
             String discType = "";
 
             int startFreq = 0;
@@ -199,7 +198,7 @@ public class NmDiscountImpl {
                     freq = "I.QUARTER,";
                     grpBy = "I.QUARTER,";
                     grpByData = "QUARTER,";
-                    freq_Actual = "AD.QUARTER,";
+                    freqActual = "AD.QUARTER,";
                 }
                 if (frequency.equals(ANNUALLY.getConstant())) {
                     startMonth = 1;
@@ -209,7 +208,7 @@ public class NmDiscountImpl {
                     freq = "NULL as ANNUAL,";
                     grpBy = "";
                     grpByData = "";
-                    freq_Actual = "AD.YEAR AS YEARP,";
+                    freqActual = "AD.YEAR AS YEARP,";
                 }
                 if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
                     switch (startFreq) {
@@ -239,7 +238,7 @@ public class NmDiscountImpl {
                     freq = "I.SEMI_ANNUAL,";
                     grpBy = "I.SEMI_ANNUAL,";
                     grpByData = "SEMI_ANNUAL,";
-                    freq_Actual = "AD.SEMI_ANNUAL,";
+                    freqActual = "AD.SEMI_ANNUAL,";
                 }
                 if (frequency.equals(MONTHLY.getConstant())) {
                     startMonth = startFreq;
@@ -250,7 +249,7 @@ public class NmDiscountImpl {
                     freq = "I.MONTH,";
                     grpBy = "I.MONTH,";
                     grpByData = "MONTH,";
-                    freq_Actual = "AD.MONTH,";
+                    freqActual = "AD.MONTH,";
                 }
 
                 declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
@@ -395,7 +394,7 @@ public class NmDiscountImpl {
                     genQuery = genQuery.replace("?FRE", freq);
                     genQuery = genQuery.replace("?GRP", grpBy);
                     genQuery = genQuery.replace("?GRDATA", grpByData);
-                    genQuery = genQuery.replace("?PERIOD_FREQ", freq_Actual);
+                    genQuery = genQuery.replace("?PERIOD_FREQ", freqActual);
                     if (grpBy.isEmpty()) {
                         genQuery = genQuery.replace("?GROUP_FREQUENCY", StringUtils.EMPTY);
                     } else {
@@ -1010,7 +1009,7 @@ public class NmDiscountImpl {
                 int startYear = 0;
                 int endYear = 0;
 
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     if (startAndEndPeriods.size() > 1) {
                         startYear = startAndEndPeriods.get(1);
@@ -1630,7 +1629,7 @@ public class NmDiscountImpl {
             if (discountString.equals("0")) {
                 discountString = "'" + discountString + "'";
             }
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String feYear = String.valueOf(startAndEndPeriods.get(6));
@@ -1788,7 +1787,7 @@ public class NmDiscountImpl {
                 }
             }
             idString = idStringBuilder.toString();
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 startFreq = startAndEndPeriods.get(0);
                 endFreq = startAndEndPeriods.get(1);
                 startYear = startAndEndPeriods.get(2);
@@ -2045,7 +2044,7 @@ public class NmDiscountImpl {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(2));
@@ -2171,7 +2170,7 @@ public class NmDiscountImpl {
                 String endPeriod = "";
                 String forecastStartPeriod = "";
                 String forecastEndPeriod = "";
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     String hsYear = String.valueOf(startAndEndPeriods.get(0));
                     String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                     String heYear = String.valueOf(startAndEndPeriods.get(2));
@@ -2280,7 +2279,7 @@ public class NmDiscountImpl {
                 String declareStatement = "";
                 int startMonth = 0;
                 int endMonth = 0;
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     endFreq = startAndEndPeriods.get(1);
                     startYear = startAndEndPeriods.get(2);
@@ -2417,7 +2416,7 @@ public class NmDiscountImpl {
         return null;
     }
 
-    public List getCCPDetailsID(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
+    public List getCCPDetailsID(int projectionMasterSid, String hierarchyNo, String levelNo) {
 
         String sql = StringUtils.EMPTY;
         try {
@@ -2426,16 +2425,16 @@ public class NmDiscountImpl {
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO,CCP.CCP_DETAILS_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD"
                     + " JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID "
                     + "JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
-                    + "AND PD.PROJECTION_MASTER_SID =" + ProjectionMasterSid
+                    + "AND PD.PROJECTION_MASTER_SID =" + projectionMasterSid
                     + "JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID"
-                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + ProjectionMasterSid + "') CCPMAP,"
+                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + projectionMasterSid + "') CCPMAP,"
                     + "(SELECT RLD1.HIERARCHY_NO,RLD1.RELATIONSHIP_LEVEL_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1 "
                     + "JOIN   PROJECTION_CUST_HIERARCHY PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
+                    + "AND PCH.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
                     + "WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%') LCCP WHERE "
                     + "LCCP.HIERARCHY_NO IN (SELECT RLD2.HIERARCHY_NO FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2 "
                     + "JOIN   PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
+                    + "AND PCH2.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
         } catch (Exception e) {
@@ -2445,7 +2444,7 @@ public class NmDiscountImpl {
         return null;
     }
 
-    public List getCCPDetailsIDForProductHierarchy(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
+    public List getCCPDetailsIDForProductHierarchy(int projectionMasterSid, String hierarchyNo, String levelNo) {
 
         String sql = StringUtils.EMPTY;
         try {
@@ -2454,16 +2453,16 @@ public class NmDiscountImpl {
                     + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO,CCP.CCP_DETAILS_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD"
                     + " JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID "
                     + "JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
-                    + "AND PD.PROJECTION_MASTER_SID =" + ProjectionMasterSid
+                    + "AND PD.PROJECTION_MASTER_SID =" + projectionMasterSid
                     + " JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID"
-                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + ProjectionMasterSid + "') CCPMAP,"
+                    + " WHERE  PM.PROJECTION_MASTER_SID ='" + projectionMasterSid + "') CCPMAP,"
                     + "(SELECT RLD1.HIERARCHY_NO,RLD1.RELATIONSHIP_LEVEL_SID FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1 "
                     + "JOIN   PROJECTION_PROD_HIERARCHY PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
+                    + "AND PCH.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "') HLD "
                     + "WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%') LCCP WHERE "
                     + "LCCP.HIERARCHY_NO IN (SELECT RLD2.HIERARCHY_NO FROM   RELATIONSHIP_LEVEL_DEFINITION RLD2 "
                     + "JOIN   PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID "
-                    + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
+                    + "AND PCH2.PROJECTION_MASTER_SID =" + projectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
@@ -2494,7 +2493,7 @@ public class NmDiscountImpl {
             String endPeriod = "";
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heMonth = String.valueOf(startAndEndPeriods.get(3));
