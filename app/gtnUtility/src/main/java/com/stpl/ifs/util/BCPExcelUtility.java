@@ -59,7 +59,8 @@ public class BCPExcelUtility {
         if (isWindows) {
             folderName = System.getProperty("java.io.tmpdir");
         } else {
-            folderName = System.getProperty("java.io.stpl.excel.dir");
+            folderName = System.getProperty("gtn.app.data.path");
+            folderName+="exceltransaction/";
         }
 
         if (!folderName.endsWith(File.separator)) {

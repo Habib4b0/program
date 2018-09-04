@@ -575,8 +575,8 @@ public class CommonUtils {
      * @return String - date in string format
      */
     public static final String getDateTime(final String aMask, final Date aDate) {
-        if (aDate == null) {
-        } else {
+        if (aDate != null) {
+        
             final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
             final String returnValue = dateFormat.format(aDate);
             return returnValue;

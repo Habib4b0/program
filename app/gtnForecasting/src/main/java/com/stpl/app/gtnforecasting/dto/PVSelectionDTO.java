@@ -703,8 +703,8 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         return rpu;
     }
 
-    public void setRPU(boolean RPU) {
-        this.rpu = RPU;
+    public void setRPU(boolean rPU) {
+        this.rpu = rPU;
     }
 
     public String getDiscountGroupName() {

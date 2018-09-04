@@ -97,8 +97,6 @@ public class NMProjectionVarianceLogic {
 	private PVSelectionDTO selectionDTO = new PVSelectionDTO();
 	private PVSelectionDTO baseVariables = new PVSelectionDTO();
 	public static final CommonDAO COMMONDAO = new CommonDAOImpl();
-
-	private List<Integer> pivotPriorProjIdList = new ArrayList<>();
 	private List<Object> pivotTotalList = new ArrayList<>();
 	private List<Object> pivotDiscountList = new ArrayList<>();
 	private int currentProjId;
@@ -1367,7 +1365,6 @@ public class NMProjectionVarianceLogic {
 		String discountId = pvsdto.getDeductionLevelFilter().isEmpty() ? null
 				: PVCommonLogic.removeBracesInList(pvsdto.getDeductionLevelFilter());
 		pivotTotalList = new ArrayList<>();
-		pivotPriorProjIdList = new ArrayList<>();
 		if (frequency.equals(Constant.QUARTERLY)) {
 			frequency = Constant.QUARTERLY1;
 		} else if (frequency.equals(Constant.SEMI_ANNUALLY) || frequency.equals(Constant.SEMI_ANNUALY)) {
@@ -1378,10 +1375,6 @@ public class NMProjectionVarianceLogic {
 			frequency = Constant.ANNUAL_CAPS;
 		}
 		projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
-		for (Integer projId : pvsdto.getProjIdList()) {
-			projectionIdList.add(String.valueOf(projId));
-			pivotPriorProjIdList.add(projId);
-		}
 		String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
 		String ccps = null;
 		if (pvsdto.getLevel().equals(Constant.DETAIL)) {
@@ -2694,13 +2687,14 @@ public class NMProjectionVarianceLogic {
 		return null;
 	}
 
-	public String getFormattedValue(DecimalFormat FORMAT, String value) {
-		if (value.contains(NULL.getConstant())) {
-			value = ZERO;
+	public String getFormattedValue(DecimalFormat formatPv, String value) {
+            String valueToFormat = value;
+		if (valueToFormat.contains(NULL.getConstant())) {
+			valueToFormat = ZERO;
 		} else {
-			value = FORMAT.format(Double.valueOf(value));
+			valueToFormat = formatPv.format(Double.valueOf(valueToFormat));
 		}
-		return value;
+		return valueToFormat;
 	}
 
 	public String isNull(String value) {

@@ -64,16 +64,12 @@ public class ContractMasterImpl {
         String sql = StringUtils.EMPTY;
         try {
 
-            if (StringUtils.isNotBlank(companyId)) {
-
-            } else {
+            if (!StringUtils.isNotBlank(companyId)) {
                 companyId = "%";
-            }
-            if (orederBy != null) {
-
-            } else {
+            } 
+            if (orederBy == null) {
                 orederBy = "ASC";
-            }
+            } 
 
             sql = "SELECT cm.COMPANY_MASTER_SID, cm.COMPANY_ID, cm.COMPANY_NO, cm.COMPANY_NAME, cm.COMPANY_STATUS, cm.COMPANY_TYPE, htype.DESCRIPTION as ctype, hstatus.DESCRIPTION as cstatus"
                     + " from COMPANY_MASTER cm LEFT JOIN HelPER_TABLE htype on htype.HELPER_TABLE_SID =  cm.COMPANY_TYPE"

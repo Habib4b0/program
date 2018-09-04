@@ -2146,10 +2146,7 @@ public class HeaderUtils {
         historyEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (historyEndPeriod == forecastStartPeriod && historyEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             historyEndPeriod--;
-            if (frequencyDivision == 1) {
-                historyEndMonth = NumericConstants.TWELVE;
-                historyEndYear = historyEndYear - 1;
-            } else if (historyEndPeriod < 1) {
+            if ((frequencyDivision == 1) || (historyEndPeriod < 1)) {
                 historyEndMonth = NumericConstants.TWELVE;
                 historyEndYear = historyEndYear - 1;
             } else if (frequencyDivision == NumericConstants.TWO) {
@@ -3957,10 +3954,7 @@ public class HeaderUtils {
         historyEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (historyEndPeriod == forecastStartPeriod && historyEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             historyEndPeriod--;
-            if (frequencyDivision == 1) {
-                historyEndMonth = NumericConstants.TWELVE;
-                historyEndYear = historyEndYear - 1;
-            } else if (historyEndPeriod < 1) {
+            if ((frequencyDivision == 1) || (historyEndPeriod < 1)) {
                 historyEndMonth = NumericConstants.TWELVE;
                 historyEndYear = historyEndYear - 1;
             } else if (frequencyDivision == NumericConstants.TWO) {

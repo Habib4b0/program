@@ -213,10 +213,6 @@ public class TransferContractPromote extends VerticalLayout implements View {
 				final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet()
 						.getTab(event.getTabSheet().getSelectedTab());
 				tabPosition = event.getTabSheet().getTabPosition(tab);
-				try {
-				} catch (Exception ex) {
-					LOGGER.error("",ex);
-				}
 			}
 		});
 	}

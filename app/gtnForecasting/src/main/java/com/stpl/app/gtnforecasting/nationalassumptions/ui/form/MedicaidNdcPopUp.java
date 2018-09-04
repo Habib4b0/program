@@ -485,8 +485,8 @@ public class MedicaidNdcPopUp extends CustomComponent {
         for (Map.Entry<Integer, String> key : ndc9Map.entrySet()) {
             String des = key.getValue();
             String[] value = des.split(",");
-            String NDC9 = value[1].trim();
-            if (selectedNDC.equals(NDC9)) {
+            String ndc9 = value[1].trim();
+            if (selectedNDC.equals(ndc9)) {
                 if (itemSid.length() == 0) {
                     itemSid.append('\'' ).append( value[0].trim() ).append( '\'');
                 } else {

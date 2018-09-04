@@ -154,7 +154,6 @@ public class NMPVExcelLogic {
     private static final String ALL = "ALL";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private static final String DF_LEVEL_NAME = "dfLevelName";
-    private static final int BASECOLUMN_HIERARCHYINDICATOR_INDEX = 2;
 
     public NMPVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto) {
@@ -2045,8 +2044,8 @@ public class NMPVExcelLogic {
                 break;
         }
         PVCommonLogic.customizePeriod(commonColumn, varibaleCat, selection, pvDTO, format, currentIndex, obj, format.equals(RATE_PER));
-        List<Integer> priorList = selection.getProjIdList();
-        for (int j = 0; j < priorList.size(); j++) {
+        List<Integer> priorListCalDiscount = selection.getProjIdList();
+        for (int j = 0; j < priorListCalDiscount.size(); j++) {
             PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn, currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
         }
         LOGGER.debug("discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
@@ -2343,9 +2342,9 @@ public class NMPVExcelLogic {
     
     public void customizePivot(String variableValue, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, DecimalFormat format, int index, Object[] obj) {
         try {
-            List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
+            List<Integer> priorListPivot = new ArrayList<>(pvsdto.getProjIdList());
             PVCommonLogic.customizePeriod(variableValue, variableCategory, pvsdto, projDTO, format, index, obj, format.equals(RATE));
-            for (int j = 0; j < priorList.size(); j++) {
+            for (int j = 0; j < priorListPivot.size(); j++) {
                 PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue, index, j, format.equals(RATE), COLUMN_COUNT_DISCOUNT, format);
             }
         } catch (Exception e) {
