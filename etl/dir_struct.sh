@@ -426,3 +426,7 @@ mkdir -p $base_path/staging/Inbound/DTX_ITEM_MASTER_INTERFACE
 mkdir -p $base_path/staging/Inbound/DTX_ITEM_MASTER_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/DTX_ITEM_MASTER_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/DTX_ITEM_MASTER_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE/Input
