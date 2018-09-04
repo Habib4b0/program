@@ -18,7 +18,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkForecastCustomerHierarchyConfig {
 	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
@@ -278,13 +277,13 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 				Arrays.asList("levelNo", "relationshipLevelValues", "parentNode", "levelName", "levelValuReference",
 						"tableName", "fieldName", "relationshipLevelSid", "hierarchyNo", "relationshipBuilderSid",
 						"hierarchyLevelDefSid", "hierarchyDefSid", "versionNo", "levelValue"));
-		customerSelectionDualListBoxConfig.setModuleType("");
+		customerSelectionDualListBoxConfig.setModuleType("report");
 		customerSelectionDualListBoxConfig
-				.setLeftTableURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
+				.setLeftTableURL("/loadAvailableTable");
 		customerSelectionDualListBoxConfig
-				.setMoveRightURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE);
+				.setMoveRightURL("/loadCustomerSelectedTable");
 		customerSelectionDualListBoxConfig
-				.setMoveAllDataURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
+				.setMoveAllDataURL("/loadBulkCustomerSelectedTable");
 
 		customerSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(customerSelectionDualListBoxConfig);
 	}

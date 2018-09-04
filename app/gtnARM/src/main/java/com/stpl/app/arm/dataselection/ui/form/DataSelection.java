@@ -2532,7 +2532,7 @@ public class DataSelection extends AbstractDataSelection {
                     } else {
                         notifier.getErrorNotification(ARMMessages.getDeleteErrorMessage(), ARMMessages.getDeleteErrorMessage_exclusion());
                     }
-                } catch (PortalException | SystemException ex) {
+                } catch (Exception ex) {
                     LOGGER.error(ex.getMessage());
                 }
             }

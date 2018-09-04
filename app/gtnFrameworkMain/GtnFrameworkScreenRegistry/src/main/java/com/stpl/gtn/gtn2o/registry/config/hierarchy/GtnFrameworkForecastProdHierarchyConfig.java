@@ -251,7 +251,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 				new String[] { "Product Hierarchy Group Builder" });
 		productSelectionDualListBoxConfig
 				.setRightVisibleColumns(new Object[] { "levelValue"});
-		productSelectionDualListBoxConfig.setModuleType("");
+		productSelectionDualListBoxConfig.setModuleType("report");
 		productSelectionDualListBoxConfig.setRecordHeader(Arrays.asList("parent_relationrelationship_level_values",
 				"parent_relationlevel_no", "parent_relationparent_node", "parent_relationrelationship_level_sid",
 				"parent_relationhierarchy_no", "parent_relationrelationship_builder_sid", "levelValue", "levelNo",
@@ -262,11 +262,11 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 						"tableName", "fieldName", "relationshipLevelSid", "hierarchyNo", "relationshipBuilderSid",
 						"hierarchyLevelDefSid", "hierarchyDefSid", "versionNo", "levelValue"));
 		productSelectionDualListBoxConfig
-				.setLeftTableURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
+				.setLeftTableURL("/loadAvailableTable");
 		productSelectionDualListBoxConfig
-				.setMoveRightURL(GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_RIGHT_TABLELOAD_SERVICE);
+				.setMoveRightURL("/loadProductSelectedTable");
 		productSelectionDualListBoxConfig
-				.setMoveAllDataURL(GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
+				.setMoveAllDataURL("/loadBulkProductSelectedTable");
 		productSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(productSelectionDualListBoxConfig);
 	}
 }
