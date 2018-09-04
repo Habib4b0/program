@@ -6,7 +6,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface ProjectionVarianceDAO.
  */
@@ -29,7 +29,7 @@ public interface ProjectionVarianceDAO {
   	 */
   	List getContractHolderSummary(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
-	    				throws SystemException, PortalException;
+	    				throws PortalException;
 	
 	 /**
  	 * Generate projection variance.
@@ -47,7 +47,7 @@ public interface ProjectionVarianceDAO {
  	 */
  	public List generateProjectionVariance(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel,int levelNo,String sales, List<Integer> periods,ProjectionSelectionDTO projSelDTO) 
-	    				throws SystemException, PortalException;
+	    				throws PortalException;
 	 
 
 	 /**
@@ -66,7 +66,7 @@ public interface ProjectionVarianceDAO {
 	 */
 	public List<ProjectionVarianceDTO> generatePivotProjectionVariance(final int projectionId, final String indicator,
 	    		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel) 
-	    				throws SystemException, PortalException;
+	    				throws PortalException;
 	 
  	
 	 /**
@@ -90,7 +90,7 @@ public interface ProjectionVarianceDAO {
  	 */
  	public List searchForProjections(final String workflowStatus, final String marketType, final String brand, 
 			 final String projName, final String contHldr, final String ndcNo, final String ndcName, final String desc, 
-			 final String contract, final String from, final String to) throws SystemException, PortalException;
+			 final String contract, final String from, final String to) throws PortalException;
  	
  	
  	

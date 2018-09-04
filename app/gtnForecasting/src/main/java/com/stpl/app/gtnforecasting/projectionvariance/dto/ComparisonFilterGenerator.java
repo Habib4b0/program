@@ -99,7 +99,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-            String indicator = StringUtils.EMPTY;
+            String indicator ;
             int levelNo = 0;
             MultiKey multikey;
 
@@ -136,7 +136,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 List<Leveldto> list;
                 if (!contractTypeList.containsKey(multikey)) {
                     
-                    list = CommonLogic.getAllHierarchyLevels(levelNo, pvSelectionDTO.getProjectionId(), indicator,pvSelectionDTO.getMandatedView());
+                    list = CommonLogic.getAllHierarchyLevels(levelNo, pvSelectionDTO.getProjectionId(), indicator);
                     contractTypeList.put(multikey, list);
                 } else {
                     list = contractTypeList.get(multikey);
@@ -155,7 +155,6 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        // TODO Auto-generated method stub
                         if (event.getProperty().getValue() != null && !DASH.equals(event.getProperty().getValue().toString())) {
                             pvSelectionDTO.setIsCustomerDdlb(true);
                             pvSelectionDTO.setHierarchyNo(event.getProperty().getValue().toString());
@@ -196,7 +195,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             if (!Constant.CUSTOM_LABEL.equals(sprProjectionDTO.getView())) {
                 contractType.addItem(ZERO);
                 contractType.setItemCaption(ZERO, SELECT_ONE);
-                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator,pvSelectionDTO.getMandatedView());
+                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator);
                 if (list != null && !list.isEmpty()) {
                     for (Leveldto dto : list) {
                         if (sprProjectionDTO.getLevelName().contains(dto.getLevel())) {
@@ -270,7 +269,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 pvSelectionDTO.setHierarchyIndicator(sprProjectionDTO.getHierarchyIndicator());
                 filterBox.addItem(ZERO);
                 filterBox.setItemCaption(ZERO, SELECT_ONE);
-                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator,pvSelectionDTO.getMandatedView());
+                List<Leveldto> list = CommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator);
                 if (list != null && !list.isEmpty()) {
                     for (Leveldto dto : list) {
                         if ((pvSelectionDTO.getLevelName().replaceAll("'", StringUtils.EMPTY)).equalsIgnoreCase(dto.getLevel())) {
@@ -284,7 +283,6 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        // TODO Auto-generated method stub
                         if (event.getProperty().getValue() != null && !DASH.equals(event.getProperty().getValue().toString())) {
                             sprProjectionDTO.setFilterDdlb(true);
                             sprProjectionDTO.setHierarchyNo(event.getProperty().getValue().toString());

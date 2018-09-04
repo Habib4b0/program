@@ -86,7 +86,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void excelExportLogic(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj,ErrorfulFieldGroup binder) throws PortalException,  NoSuchMethodException, SystemException, IllegalAccessException,  InvocationTargetException {
+    public void excelExportLogic(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj,ErrorfulFieldGroup binder) throws PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         createWorkSheet(moduleName,resultTable, obj, binder);
     }
     
@@ -101,7 +101,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void createWorkSheet(String moduleName,ExtFilterTable resultTable, AbstractSearchForm obj, ErrorfulFieldGroup binder) throws SystemException, PortalException,  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    private void createWorkSheet(String moduleName,ExtFilterTable resultTable, AbstractSearchForm obj, ErrorfulFieldGroup binder) throws PortalException,  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         long recordCount = 0;
         if (resultTable.size() != 0) {
@@ -109,7 +109,7 @@ public class AbstractSearchLogic {
         }
         this.binder=binder;
         this.moduleName=moduleName;
-           ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
+           ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         
           }
 
@@ -123,7 +123,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException {
         final List<SortByColumn> columns = new ArrayList<>();
 
         try {
@@ -239,7 +239,7 @@ public class AbstractSearchLogic {
      * @return
      * @throws Exception
      */
-    public int getCountBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException,  PortalException {
+    public int getCountBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException {
         int count;
         switch (moduleName) {
             case ConstantUtil.COMPLIANCE_DEDUCTION_RULES:   
@@ -270,7 +270,7 @@ public class AbstractSearchLogic {
      * @return
      * @throws Exception
      */
-    public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException {
+    public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException {
         List list;
         switch (moduleName) {
             case ConstantUtil.COMPLIANCE_DEDUCTION_RULES:   

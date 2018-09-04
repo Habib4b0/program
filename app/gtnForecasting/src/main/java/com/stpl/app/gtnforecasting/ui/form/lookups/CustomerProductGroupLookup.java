@@ -24,7 +24,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -139,7 +138,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	 * Select button logic.
      * @throws com.stpl.portal.kernel.exception.SystemException
 	 */
-	protected void btnLookupSelectLogic1() throws SystemException, PortalException {
+	protected void btnLookupSelectLogic1() throws PortalException {
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			List<String> sidsFromDetails;
@@ -187,12 +186,13 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 	/**
 	 * Select button logic.
+     * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws com.stpl.portal.kernel.exception.SystemException
      * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
-	protected void btnLookupSelectLogic() throws SystemException, PortalException {
-		List<String> sidsFromDetails = Collections.emptyList();
+	protected void btnLookupSelectLogic() {
+		List<String> sidsFromDetails;
 		if (results != null && results.getValue() != null) {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			try {
@@ -226,7 +226,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
-	protected void btnSearchLogic() throws SystemException, PortalException {
+	protected void btnSearchLogic() {
 		String noRecords = "No Records Found";
 		if ((StringUtils.EMPTY.equals(groupName.getValue()) || Constant.NULL.equals(groupName.getValue()))
 				&& (StringUtils.EMPTY.equals(groupNo.getValue()) || Constant.NULL.equals(groupNo.getValue()))) {

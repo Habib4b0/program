@@ -118,7 +118,7 @@ public class MProjectionVarianceLogic {
     }
     private boolean viewFlag = false;
 
-    public int getProjectionCount(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds, final Set<Container.Filter> filterValue) throws PortalException, SystemException{
+    public int getProjectionCount(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds, final Set<Container.Filter> filterValue) throws PortalException {
         char quotes = '\'';
         String marketTypeValue;
         String brandValue;
@@ -306,7 +306,7 @@ public class MProjectionVarianceLogic {
     }
 
     public List getProjection(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds,
-            int startIndex, int offset, List<SortByColumn> list, final Set<Container.Filter> filterValue) throws PortalException, SystemException {
+            int startIndex, int offset, List<SortByColumn> list, final Set<Container.Filter> filterValue) throws PortalException {
 
         char quotes = '\'';
         String marketTypeVal;
@@ -538,7 +538,7 @@ public class MProjectionVarianceLogic {
         return Collections.emptyList();
     }
 
-    public List<ComparisonLookupDTO> convertResultsToLookupDTO(List list) throws ParseException, PortalException, SystemException {
+    public List<ComparisonLookupDTO> convertResultsToLookupDTO(List list) throws ParseException, PortalException {
         List<ComparisonLookupDTO> resultList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -573,7 +573,7 @@ public class MProjectionVarianceLogic {
         return resultList;
     }
 
-    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate, String frequency) {
+    public void getDateRangeHeaders(final ExtFilterTreeTable rightTable, CustomTableHeaderDTO rightHeader, Object fromDate, Object toDate) {
         String fromValue = String.valueOf(fromDate);
         String toValue = String.valueOf(toDate);
         String[] fromArray = fromValue.split(" ");
@@ -590,8 +590,8 @@ public class MProjectionVarianceLogic {
         Map<Object, Object[]> doubleHeaderFinalMap = new HashMap<>();
         List<Object> finalVisColList = new ArrayList<>();
         List<String> finalVisHeaderList = new ArrayList<>();
-        String fromAtDateRangeHeaders = StringUtils.EMPTY;
-        String toAtDateRangeHeaders = StringUtils.EMPTY;
+        String fromAtDateRangeHeaders;
+        String toAtDateRangeHeaders;
         StringBuilder fromAtDateRange = new StringBuilder();
         StringBuilder toAtDateRange = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {
@@ -641,7 +641,7 @@ public class MProjectionVarianceLogic {
         return 0;
     }
 
-    public int getProjVarianceCount(PVSelectionDTO selectionDTOATCount, Object parentId, boolean isLevelsCount) throws PortalException,SystemException{
+    public int getProjVarianceCount(PVSelectionDTO selectionDTOATCount, Object parentId, boolean isLevelsCount) throws PortalException {
         int count = 0;
         ProjectionVarianceDTO parentDto = null;
         selectionDTOATCount.setIsLevel(false);
@@ -699,7 +699,7 @@ public class MProjectionVarianceLogic {
 
     }
 
-    public int getProjectionResultsCount(PVSelectionDTO pVSelectionDTO,  int levelNo, ProjectionVarianceDTO parentDto, boolean isLevelsCount) throws PortalException,SystemException {
+    public int getProjectionResultsCount(PVSelectionDTO pVSelectionDTO,  int levelNo, ProjectionVarianceDTO parentDto, boolean isLevelsCount) throws PortalException {
         int count = 0;
         if (parentDto != null) {
             count += getVarianceSalesCount(pVSelectionDTO);
@@ -776,7 +776,7 @@ public class MProjectionVarianceLogic {
         return count;
     }
 
-    public static String getLevelListQuery(int projectionId, String hierIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCount, int start, int offset, boolean isLimit, boolean isCustom, int customId, PVSelectionDTO projSelDTO) throws PortalException, SystemException {
+    public static String getLevelListQuery(int projectionId, String hierIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCount, int start, int offset, boolean isLimit, boolean isCustom, int customId, PVSelectionDTO projSelDTO) throws PortalException {
         if (isCustom) {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             String hierarchyIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CUSTOM_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
@@ -1000,7 +1000,7 @@ public class MProjectionVarianceLogic {
         return count;
     }
 
-    public int getVarianceDiscountCount(PVSelectionDTO pVSelectionDTO,  String levelNo, ProjectionVarianceDTO parentDto) throws PortalException,SystemException {
+    public int getVarianceDiscountCount(PVSelectionDTO pVSelectionDTO,  String levelNo, ProjectionVarianceDTO parentDto) throws PortalException {
 
         int varianceDiscountCount = 0;
         String group = parentDto.getGroup();
@@ -1021,7 +1021,7 @@ public class MProjectionVarianceLogic {
         return varianceDiscountCount;
     }
 
-    public int checkGroup(String group, PVSelectionDTO pVSelectionDTO, ProjectionVarianceDTO parentDto, String levelNo, int checkGroupCount) throws PortalException, SystemException {
+    public int checkGroup(String group, PVSelectionDTO pVSelectionDTO, ProjectionVarianceDTO parentDto, String levelNo, int checkGroupCount) throws PortalException {
         if (group.contains(Constant.MANDATED_DISCOUNT) || group.contains(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) || group.contains(Constant.MANDATED_RPU) || group.contains(SUPPLEMENTAL_RPU1)) {
             int pgCount = getProgramCodeCount(pVSelectionDTO, parentDto, levelNo);
             checkGroupCount = pgCount;
@@ -2053,7 +2053,7 @@ public class MProjectionVarianceLogic {
         return periodFilter;
     }
 
-    public int getProgramCodeCount(PVSelectionDTO projSelDTO, ProjectionVarianceDTO projectionVarianceDTO, String levelNo) throws PortalException,SystemException {
+    public int getProgramCodeCount(PVSelectionDTO projSelDTO, ProjectionVarianceDTO projectionVarianceDTO, String levelNo) throws PortalException {
         LOGGER.info(" inside getProgramCodeCount method--levelNo->= {}" , levelNo);
         int count = 0;
 
@@ -2163,19 +2163,6 @@ public class MProjectionVarianceLogic {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
-    }
-
-    private static String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
-                + Constant.CLOSE_BRACKET
-                + "     RELATIONSHIP_LEVEL_SID INT,\n"
-                + "     CCP_DETAILS_SID        INT,\n"
-                + "     HIERARCHY_NO           VARCHAR(50)\n"
-                + "  ) \n"
-                + " INSERT INTO @CCP\n"
-                + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
-
-        return tableQuery;
     }
 
     /**
@@ -6281,7 +6268,7 @@ public class MProjectionVarianceLogic {
         return pvDTO;
     }
 
-    public List getpcNames(PVSelectionDTO projectionVarianceSelectionDTO, ProjectionVarianceDTO projectionVarianceDTO, String levelNo, String currentOrPrior, boolean isNetSales, boolean isProgramCodeCount) throws PortalException,SystemException {
+    public List getpcNames(PVSelectionDTO projectionVarianceSelectionDTO, ProjectionVarianceDTO projectionVarianceDTO, String levelNo, String currentOrPrior, boolean isNetSales, boolean isProgramCodeCount) throws PortalException {
         int projectionId = 0;
         int projectionIdCCP = 0;
         if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(currentOrPrior)) {

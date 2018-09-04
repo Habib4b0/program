@@ -97,7 +97,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
 
             }
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error("Error in configureTabAddLineLogic :" , ex);
+            LOGGER.error("Error in configureTabAddLineLogic :", ex);
         }
     }
 
@@ -132,35 +132,19 @@ public class CopyAdjustmentReserve extends AbstractReserve {
     protected boolean saveToMaster() {
         boolean binderModified = binder.isModified();
         int revmasid = selection.getReserveMasterSid();
-        if (binderModified) {
-            try {
-                binder.commit();
-            } catch (FieldGroup.CommitException ex) {
-                LOGGER.error("Error in saveToMaster :" , ex);
-            }
-        }
+        commitBinder(binderModified);
+        return saveLogic(revmasid, binderModified);
+    }
+
+    private boolean saveLogic(int revmasid, boolean binderModified) {
         if (logic.combinationIsSelected(binderDto)) {
-            if (logic.isDuplicateCompany(binderDto) && !selection.isIsSaved()) {
-                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID002());
+            if (duplicateCheck()) {
                 return false;
             }
             if (!isFirst) {
-                int id = logic.addLineForMaster(selection, 1);
-                int id1 = logic.addLineForMaster(selection, 0);
-                if (id == 0 && id1 == 0) {
-                    AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+                if (copyFunctionalitySave(revmasid)) {
                     return false;
-                } else {
-                    selection.setReserveMasterSid(id1);
-                    selection.setGtnDetailsMasterSid(id);
-                    if (selection.isIsGTNDetails()) {
-                        selection.setMasterSID(selection.getGtnDetailsMasterSid());
-                    } else {
-                        selection.setMasterSID(selection.getReserveMasterSid());
-                    }
                 }
-                isFirst = true;
-                logic.updateMasterSid(selectedDto, selection, revmasid);
             } else if (binderModified) {
                 int masid = selection.getMasterSID();
                 selection.setMasterSID(selection.getGtnDetailsMasterSid());
@@ -180,6 +164,44 @@ public class CopyAdjustmentReserve extends AbstractReserve {
         } else {
             AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage001());
             return false;
+        }
+    }
+
+    private boolean copyFunctionalitySave(int revmasid) {
+        int id = logic.addLineForMaster(selection, 1);
+        int id1 = logic.addLineForMaster(selection, 0);
+        if (id == 0 && id1 == 0) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+            return true;
+        } else {
+            selection.setReserveMasterSid(id1);
+            selection.setGtnDetailsMasterSid(id);
+            if (selection.isIsGTNDetails()) {
+                selection.setMasterSID(selection.getGtnDetailsMasterSid());
+            } else {
+                selection.setMasterSID(selection.getReserveMasterSid());
+            }
+        }
+        isFirst = true;
+        logic.updateMasterSid(selectedDto, selection, revmasid);
+        return false;
+    }
+
+    private boolean duplicateCheck() {
+        if (logic.isDuplicateCompany(binderDto) && !selection.isIsSaved()) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID002());
+            return true;
+        }
+        return false;
+    }
+
+    private void commitBinder(boolean binderModified) {
+        if (binderModified) {
+            try {
+                binder.commit();
+            } catch (FieldGroup.CommitException ex) {
+                LOGGER.error("Error in saveToMaster :", ex);
+            }
         }
     }
 
@@ -245,17 +267,18 @@ public class CopyAdjustmentReserve extends AbstractReserve {
     }
 
     @UiHandler("resetBtnRes")
-    public void resetSelectionButtonLogic(Button.ClickEvent event) {
-        LOGGER.debug(event.toString());
+    public void resetSelectionButtonLogic(Button.ClickEvent copyEvent) {
+        LOGGER.debug(copyEvent.toString());
         new AbstractNotificationUtils() {
             @Override
             public void yesMethod() {
                 try {
+                    LOGGER.debug("Enters Reset Button Copy Mode");
                     binderDto = new AdjustmentReserveDTO();
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in resetSelectionButtonLogic :" , ex);
+                    LOGGER.error("Error in Copy resetSelectionButtonLogic :", ex);
                 }
             }
 
@@ -285,7 +308,7 @@ public class CopyAdjustmentReserve extends AbstractReserve {
             } catch (NullPointerException e) {
                 LOGGER.error("Error in resetConfigureTabLine :", e);
             } catch (Exception ex) {
-                LOGGER.error("Error in resetConfigureTabLine :" , ex);
+                LOGGER.error("Error in resetConfigureTabLine :", ex);
             }
             if (tempSelection != null) {
                 tempSelection.setReserveMasterSid(logic.getMasterSids(this.selection));

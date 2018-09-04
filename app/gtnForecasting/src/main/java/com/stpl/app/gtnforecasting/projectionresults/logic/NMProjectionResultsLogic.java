@@ -453,16 +453,10 @@ public class NMProjectionResultsLogic {
                             int valueIndex = isNetSales ? NumericConstants.SIX : NumericConstants.THREE;
                             String value = StringUtils.EMPTY + discountRow[valueIndex];
                             String value1 = StringUtils.EMPTY;
-                            if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
+                            if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS) || projSelDTO.getSales().contains("TOT")) {
                                 value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                                 value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                            } else if (projSelDTO.getSales().contains(Constant.RATE)) {
-                                value = getFormattedValue(PER_TWO, value);
-                                value1 = getFormattedValue(PER_TWO, "0.00");
-                            } else if (projSelDTO.getSales().contains("TOT")) {
-                                value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                                value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                            } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
+                            } else if (projSelDTO.getSales().contains(Constant.RATE) || projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                                 value = getFormattedValue(PER_TWO, value);
                                 value1 = getFormattedValue(PER_TWO, "0.00");
                             }
@@ -1373,16 +1367,17 @@ public class NMProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(Constant.NULL)) {
-            value = DASH.getConstant();
+        String valueNM = value;
+        if (valueNM.contains(Constant.NULL)) {
+            valueNM = DASH.getConstant();
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNM);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            valueNM = decFormat.format(newValue);
         }
-        return value;
+        return valueNM;
     }
 
     public void getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
@@ -2554,9 +2549,6 @@ public class NMProjectionResultsLogic {
                     if (parentDto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
                         projSelDTO.setCustomerHierarchyNo(projSelDTO.getHierarchyNo());
                         projSelDTO.setProductHierarchyNo(parentDto.getProductHierarchyNo());
-                    } else if (parentDto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                        projSelDTO.setProductHierarchyNo(projSelDTO.getHierarchyNo());
-                        projSelDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
                     }
                     else{
                      projSelDTO.setProductHierarchyNo(projSelDTO.getHierarchyNo());
@@ -3025,9 +3017,6 @@ public class NMProjectionResultsLogic {
         String groupBy = " I.\"YEAR\"\n" ;
         String customQuery;
         selectClause += "I.\"YEAR\" as YEARS,  ";
-        if (CommonUtils.isInteger(projSelDTO.getYear())) {
-
-        }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as PERIODS, \n";
             groupBy += Constant.IQUARTER;
@@ -3089,9 +3078,6 @@ public class NMProjectionResultsLogic {
         String groupBy = " I.\"YEAR\"\n" ;
         String customQuery;
         selectClause += "I.\"YEAR\" as YEARS, ";
-        if (CommonUtils.isInteger(projSelDTO.getYear())) {
-
-        }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += " I.QUARTER as PERIODS, \n";
             groupBy += Constant.IQUARTER;
@@ -3167,9 +3153,6 @@ public class NMProjectionResultsLogic {
         String groupBy = "  I.\"YEAR\"\n" ;
         String customQuery;
         selectClause += "I.\"YEAR\"  as YEARS, ";
-        if (CommonUtils.isInteger(projSelDTO.getYear())) {
-
-        }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as  PERIODS, \n";
             groupBy += Constant.IQUARTER;
@@ -4415,14 +4398,15 @@ public class NMProjectionResultsLogic {
     }
 
     public String getFormatTwoDecimalValue(DecimalFormat decFormat, String value, String appendChar) {
-        if (value.contains(Constant.NULL)) {
-            value = "...";
+        String valueTwo = value;
+        if (valueTwo.contains(Constant.NULL)) {
+            valueTwo = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+            valueTwo = appendChar.concat(decFormat.format(Double.valueOf(valueTwo)));
         } else {
-            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+            valueTwo = decFormat.format(Double.valueOf(valueTwo)).concat(appendChar);
         }
-        return value;
+        return valueTwo;
     }
 
     private String getProjectionResultsTotalDiscount(ProjectionSelectionDTO projSelDTO) {
@@ -4991,15 +4975,12 @@ public class NMProjectionResultsLogic {
                         value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                         
                         value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    } else if (projSelDTO.getSales().contains(Constant.RATE)) {
+                    } else if (projSelDTO.getSales().contains(Constant.RATE) || projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                         value = getFormattedValue(PER_TWO, value);
                         value1 = getFormattedValue(PER_TWO, "0.00");
                     } else if (projSelDTO.getSales().contains("TOT")) {
                         value = getFormatTwoDecimalValue(CUR_TWO, value, pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
                         value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
-                    } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
-                        value = getFormattedValue(PER_TWO, value);
-                        value1 = getFormattedValue(PER_TWO, "0.00");
                     }
                     projDTO.addStringProperties(column, discountRow[v]!=null && !"null".equals(discountRow[v]) ? value:value1);
                     columnList.remove(column);

@@ -103,7 +103,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
      * @param session SessionDTO
      * @param screenName Screen Name - Business Process Type as in Database.
      */
-    public NMProjectionResults(final SessionDTO session, final String screenName, ForecastForm form) throws SystemException, PortalException {
+    public NMProjectionResults(final SessionDTO session, final String screenName, ForecastForm form) throws PortalException {
         super(session, screenName);
         this.form = form;
         this.session = session;
@@ -452,7 +452,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         }
     }
 
-    private void security() throws PortalException, SystemException {
+    private void security() throws PortalException {
 
         final Map<String, AppPermission> functionPsHM = stplSec.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 
@@ -757,26 +757,28 @@ public class NMProjectionResults extends ForecastProjectionResults {
         frequencyDdlb.focus();
     }
     private String getParentKeyforCustom(ProjectionResultsDTO itemId, String key, String parentKey) {
+        String parentKeyCustom = parentKey;
         if (itemId.getParentHierarchyNo() == null) {
-            parentKey = key.substring(0, key.lastIndexOf('.'));
+            parentKeyCustom = key.substring(0, key.lastIndexOf('.'));
         } else {
-            parentKey = itemId.getParentHierarchyNo();
+            parentKeyCustom = itemId.getParentHierarchyNo();
             if (projectionSelectionDTO.isIsCustomHierarchy()) {
                 String var;
-                if (parentKey.contains("~")) {
-                    String[] str = parentKey.split("~");
+                if (parentKeyCustom.contains("~")) {
+                    String[] str = parentKeyCustom.split("~");
                     var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
+                    parentKeyCustom = var + parentKeyCustom.substring(0, parentKeyCustom.lastIndexOf('~'));
                 } else {
-                    parentKey = key.substring(key.lastIndexOf('$') + 1);
+                    parentKeyCustom = key.substring(key.lastIndexOf('$') + 1);
                 }
-            } else if (parentKey.contains("~")) {
-                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
+            } else if (parentKeyCustom.contains("~")) {
+                parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.lastIndexOf('~') + 1);
                 if (!projectionSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(projectionSelectionDTO.getPivotView())) {
-                    parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
+                    parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.indexOf('-') + 1);
                 }
             }
         }
-        return parentKey;
+        LOGGER.debug("parentKeyCustom{} ", parentKeyCustom);
+        return parentKeyCustom;
     }
 }

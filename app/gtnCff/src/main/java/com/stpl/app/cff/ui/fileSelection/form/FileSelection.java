@@ -66,7 +66,7 @@ public class FileSelection extends CustomComponent {
     private final Button excelExport = new Button();
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final CFFLogic cffLogic = new CFFLogic();
-    private final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat dBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSelection.class);
     private final ComboBox businessUnit;
     private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
@@ -198,12 +198,12 @@ public class FileSelection extends CustomComponent {
                         query = query.replace("@FILE_NAME", dto.getFileName());
                         query = query.replace("@VERSION", dto.getVersion());
                         if (dto.getActiveFromDate() != null) {
-                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "'" + DBDate.format(dto.getActiveFromDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "'" + dBDate.format(dto.getActiveFromDate()) + "'");
                         } else {
                             query = query.replace(StringConstantsUtil.ACTIVE_FROM, "null");
                         }
                         if (dto.getActiveToDate() != null) {
-                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "'" + DBDate.format(dto.getActiveToDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "'" + dBDate.format(dto.getActiveToDate()) + "'");
 
                         } else {
                             query = query.replace(StringConstantsUtil.ACTIVE_TO, "null");
@@ -229,12 +229,12 @@ public class FileSelection extends CustomComponent {
                         query = query.replace("@FILE_NAME", dto.getFileName());
                         query = query.replace("@VERSION", dto.getVersion());
                         if (dto.getActiveFromDate() != null) {
-                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "'" + DBDate.format(dto.getActiveFromDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "'" + dBDate.format(dto.getActiveFromDate()) + "'");
                         } else {
                             query = query.replace(StringConstantsUtil.ACTIVE_FROM, "null");
                         }
                         if (dto.getActiveToDate() != null) {
-                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "'" + DBDate.format(dto.getActiveToDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "'" + dBDate.format(dto.getActiveToDate()) + "'");
 
                         } else {
                             query = query.replace(StringConstantsUtil.ACTIVE_TO, "null");

@@ -42,7 +42,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 
     public CustomTreeBuild(SessionDTO session) {
         this(session, 0);
-        // TODO Auto-generated constructor stub
     }
 
     public CustomTreeBuild(SessionDTO session, int customId) {

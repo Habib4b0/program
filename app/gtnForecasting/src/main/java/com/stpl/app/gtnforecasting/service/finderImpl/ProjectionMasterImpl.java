@@ -617,8 +617,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
 
     public String deleteProjection(String screenName, int projectionID) {
-        String foreignKeyTableName = StringUtils.EMPTY;
-        String primarykeyTableName = StringUtils.EMPTY;
+        String foreignKeyTableName;
         if (screenName.equals("Non Mandated")) {
             foreignKeyTableName = SQlUtil.getQuery(getClass(),"NM_FK_TableNamesFordelete");
         } else if (screenName.equals("Mandated")) {
@@ -626,7 +625,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         } else {
             foreignKeyTableName = SQlUtil.getQuery(getClass(),"R_FK_TableNamesFordelete");
         }
-        primarykeyTableName = SQlUtil.getQuery(getClass(),"TableNamesFordelete");
+        String primarykeyTableName = SQlUtil.getQuery(getClass(),"TableNamesFordelete");
         String sql1 = StringUtils.EMPTY;
         StringBuilder sqlBuilder = new StringBuilder();
         String sql = StringUtils.EMPTY;
@@ -684,7 +683,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         }
     }
 
-    public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
+    public List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters) {
         StringBuilder queryBuilder = new StringBuilder();
 
         try {
@@ -1077,7 +1076,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 LOGGER.debug("End of saveCcp method");
             } else {
                 List list = null;
-                try {
                     List<String> relationshipBuilderSids = (List<String>) parameters.get("relationshipBuilderSids");
                     List<StringBuilder> logic = new ArrayList<>();
                     List<String> condition = new ArrayList<>();
@@ -1291,12 +1289,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         }
                     }
 
-                } catch (NumberFormatException ex) {
-                    LOGGER.error(ex.getMessage());
-                    LOGGER.error(hierarchyQuery);
-                    LOGGER.error(levelQuery);
-                    LOGGER.error(ccpQueryList.toString());
-                }
             }
         } catch (Exception e) {
             LOGGER.error("In saveCcp ->= {}" , e.getMessage());
@@ -1669,19 +1661,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         }
         try {
             if (parameters.get(Constant.INDICATOR) != null
-                    && (Constant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))
-                    || (Constant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.GET_REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.GET_FS_VALUE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.CHILD_LEVEL_RL_SID.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (String.valueOf(parameters.get(Constant.INDICATOR)).contains("searchView"))
-                    || (String.valueOf(parameters.get(Constant.INDICATOR)).contains("searchGroup"))
-                    || (String.valueOf(parameters.get(Constant.INDICATOR)).contains(Constant.GET_HIERARCHY_GROUP))
-                    || (Constant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))))) {
-            } 
-            if (parameters.get(Constant.INDICATOR) != null
                     && ((Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))))) {
                 List<Integer> list = new ArrayList<Integer>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString()) ;
@@ -1750,7 +1729,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             queryString.append(Constant.ORDER_BY);
 
             query = queryString.toString();
-            try {
                 if (parameters.get(Constant.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ACTION)))
                         && !Constant.COUNT.equals(String.valueOf(parameters.get(Constant.ACTION)))) {
                     if (parameters.get(Constant.GROUP_IDENTIFIER) != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(Constant.GROUP_IDENTIFIER)))) {
@@ -1891,10 +1869,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace(Constant.ORDER_BY, StringUtils.EMPTY);
                     query = query.replace(Constant.QUESTION_FILTER_QUESTION, StringUtils.EMPTY);
                 }
-            } catch (NumberFormatException ex) {
-                LOGGER.error("prepareSearchGroupQuery= {}", ex.getMessage());
-                LOGGER.error(query);
-            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(query);
@@ -1942,7 +1916,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             queryString.append(Constant.ORDER_BY);
             query = queryString.toString();
 
-            try {
                 if (parameters.get(Constant.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ACTION)))
                         && !Constant.COUNT.equals(String.valueOf(parameters.get(Constant.ACTION)))) {
                     query = query.replace(Constant.SELECTION, SQlUtil.getQuery(getClass(),"searchViewFindSelection"));
@@ -2219,10 +2192,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace(Constant.ORDER_BY, StringUtils.EMPTY);
                     query = query.replace(Constant.QUESTION_FILTER_QUESTION, StringUtils.EMPTY);
                 }
-            } catch (NumberFormatException | ParseException ex) {
-                LOGGER.error("prepareSearchViewQuery= {}", ex.getMessage());
-                LOGGER.error(query);
-            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(query);

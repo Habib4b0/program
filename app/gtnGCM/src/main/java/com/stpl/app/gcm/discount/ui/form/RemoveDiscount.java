@@ -171,7 +171,7 @@ public class RemoveDiscount extends CustomComponent {
     private final List<String> removeList = new ArrayList<>();
     private final List<Integer> rebateList = new ArrayList<>();
     private List<RemoveDiscountDto> selecteditemList;
-    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The table bean id.
@@ -190,7 +190,7 @@ public class RemoveDiscount extends CustomComponent {
     @UiField("fromCDName")
     private TextField fromCDName;
     private RemoveDiscount removeDiscount;
-    private final boolean remove = true;
+    private static final boolean REMOVE = true;
     private final ContractsDetailsDto contractDto = new ContractsDetailsDto();
     private int userId;
     private int sessionId;
@@ -243,7 +243,7 @@ public class RemoveDiscount extends CustomComponent {
             HorizontalLayout componentControls = ResponsiveUtils.getResponsiveControls(infoLogic.createControls());
             componentResultsLayout.addComponent(componentControls);
             configureTables();
-            LoadDashBoardTree();
+            loadDashBoardTree();
             loadComponentTable(Collections.EMPTY_LIST);
             fromCDNo.setEnabled(false);
             fromCDName.setEnabled(false);
@@ -385,7 +385,7 @@ public class RemoveDiscount extends CustomComponent {
         }
     }
 
-    public void LoadDashBoardTree() {
+    public void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         try {
             final CommonLogic commonLogic = new CommonLogic();
@@ -520,7 +520,7 @@ public class RemoveDiscount extends CustomComponent {
                         setProcessedTableHeader();
                         break;
                     case ContractsDetailsDto.LEVEL4:
-                        if (remove) {
+                        if (REMOVE) {
                             configureLevel(event.getItemId());
                             dashboardTreeTable.setContainerDataSource(commonLogic.getLevel5Hierarchy(contractDetails, dashBoardTreeContainer, null));
                             dashboardTreeTable.removeExpandListener(expandListener);
@@ -651,8 +651,8 @@ public class RemoveDiscount extends CustomComponent {
             contractNo.setValue(removeDiscountDto.getContractNo());
             contractName.setValue(removeDiscountDto.getContractName());
             contractType.setValue(removeDiscountDto.getMarketType());
-            contractStartDate.setValue(removeDiscountDto.getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.getContractstartDate()));
-            contractEndDate.setValue(removeDiscountDto.getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.getContractendDate()));
+            contractStartDate.setValue(removeDiscountDto.getContractstartDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.getContractstartDate()));
+            contractEndDate.setValue(removeDiscountDto.getContractendDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.getContractendDate()));
         }
     }
 
@@ -677,9 +677,9 @@ public class RemoveDiscount extends CustomComponent {
                     rsName.setValue(removeDiscountDTO.getRsName());
                     rsNumber.setValue(removeDiscountDTO.getRsNo());
                     status.setValue(removeDiscountDTO.getRsStatus());
-                    startDate.setValue(DBDate.parse(removeDiscountDTO.getRsStartDate()));
+                    startDate.setValue(dbDate.parse(removeDiscountDTO.getRsStartDate()));
                     if (removeDiscountDTO.getRsEndDate() != null && removeDiscountDTO.getRsEndDate() != Constants.NULL) {
-                        endDate.setValue(DBDate.parse(removeDiscountDTO.getRsEndDate()));
+                        endDate.setValue(dbDate.parse(removeDiscountDTO.getRsEndDate()));
                     }
                     rebateFrequency.setValue(removeDiscountDTO.getRebateFrequency());
                     rarType.setValue(removeDiscountDTO.getRarType());
@@ -713,10 +713,10 @@ public class RemoveDiscount extends CustomComponent {
             fromCDLabelNo.setValue(temp.getCategory() + " No: ");
             fromCDNo.setValue(temp.getNumber());
             fromCDName.setValue(temp.getName());
-            Object[] objColumn = HeaderUtil.getInstance().adComponentDetailsPsColumn;
+            Object[] objColumn = HeaderUtil.getAdcomponentDetailsPsColumn();
             if (Constants.IndicatorConstants.CFP.toString().equals(temp.getCategory())) {
                 loadCfpFromCD(temp);
-                objColumn = HeaderUtil.getInstance().adComponentDetailsCompanyColumn;
+                objColumn = HeaderUtil.getAdcomponentDetailsCompanyColumn();
 
             } else if (Constants.IndicatorConstants.IFP.toString().equals(temp.getCategory())) {
                 loadIfpFromCD(temp);
@@ -857,29 +857,29 @@ public class RemoveDiscount extends CustomComponent {
     private void loadCfpFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.CFP);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsCompanyColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().adComponentDetailsCompanyHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsCompanyColumn());
+        contractComponentTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsCompanyHeader());
     }
 
     private void loadIfpFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.IFP);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsPsColumn());
+        contractComponentTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsPsHeader());
     }
 
     private void loadPsFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.PS);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsPsColumn());
+        contractComponentTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsPsHeader());
     }
 
     private void loadRsFromCD(final ContractsDetailsDto parent) {
         contractLogic.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         contractLogic.loadSetData(parent, Constants.RS);
-        contractComponentTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
-        contractComponentTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
+        contractComponentTable.setVisibleColumns(HeaderUtil.getAdcomponentDetailsPsColumn());
+        contractComponentTable.setColumnHeaders(HeaderUtil.getAdcomponentDetailsPsHeader());
     }
 
     public int getUserId() {

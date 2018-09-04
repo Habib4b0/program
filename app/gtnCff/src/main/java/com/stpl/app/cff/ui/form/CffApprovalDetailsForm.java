@@ -77,7 +77,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     private TabSheet tabSheet;
     
     @UiField("BottomBtnLayout")
-    private HorizontalLayout BottomBtnLayout;
+    private HorizontalLayout bottomBtnLayout;
     private DataSelection dataSelection;
         
     @UiField("closeButton")
@@ -222,7 +222,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             notestab.setCaption("Additional Information");
             tabSheet.addTab(notestab, "Additional Information", null, NumericConstants.FIVE);
             if (tabSheet.getTab(0).getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
-                BottomBtnLayout.setVisible(false);
+                bottomBtnLayout.setVisible(false);
             }
             setTabSecurity();
             tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
@@ -300,9 +300,9 @@ public class CffApprovalDetailsForm extends CustomWindow {
                     }
 
                     if (event.getTabSheet().getSelectedTab().getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
-                        BottomBtnLayout.setVisible(false);
+                        bottomBtnLayout.setVisible(false);
                     } else {
-                        BottomBtnLayout.setVisible(true);
+                        bottomBtnLayout.setVisible(true);
                     }
                 }
             });

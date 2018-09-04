@@ -67,7 +67,7 @@ public class ViewLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static User getUserById(final String userId) throws PortalException, SystemException {
+    public static User getUserById(final String userId) throws PortalException {
         LOGGER.debug("Entering getUserById method with userId= {}", userId);
         return dataSelection.getUser(Long.valueOf(userId));
     }
@@ -82,7 +82,7 @@ public class ViewLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException, SystemException {
+    public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException {
         LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId= {} and viewId= {}", projectionId, String.valueOf(saveViewDTO.getViewId()));
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
         CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);

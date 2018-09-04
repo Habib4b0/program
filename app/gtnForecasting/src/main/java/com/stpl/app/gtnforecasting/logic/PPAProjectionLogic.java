@@ -710,10 +710,11 @@ public class PPAProjectionLogic {
     }
 
     private String replaceForWildCardSearch(String input) {
-        if (StringUtils.isNotBlank(input)) {
-            input = input.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        String inputSearch = input;
+        if (StringUtils.isNotBlank(inputSearch)) {
+            inputSearch = inputSearch.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        return input;
+        return inputSearch;
     }
 
     private String getFilterQuery(final Set<Container.Filter> filterSet) {

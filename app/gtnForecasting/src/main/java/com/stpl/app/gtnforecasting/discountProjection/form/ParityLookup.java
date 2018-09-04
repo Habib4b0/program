@@ -125,7 +125,6 @@ public class ParityLookup extends Window {
         
         private boolean populateFlag= false;
         private List<LookUpDTO> dtoListValue ;
-        private final HeaderUtils headerUtils = new HeaderUtils();
 
     public ParityLookup() {
 
@@ -355,9 +354,6 @@ public class ParityLookup extends Window {
                  Notification.show("Search Completed");
 
                 resultsContainer.addAll(parityDtoList);                 
-                }
-                else if(!valid)
-                {                  
                 }
                 else 
                 AbstractNotificationUtils.getErrorNotification("No Value Found", "There are no results that match the search criteria. ");

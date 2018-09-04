@@ -5,13 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.dto;
 
-// TODO: Auto-generated Javadoc
+
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class AlternateHistoryDTO.
  *

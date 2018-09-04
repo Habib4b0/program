@@ -128,8 +128,6 @@ public class DPRTableLogic extends PageTreeTableLogic {
     @Override
     public void setColumnIdToFilterValue(Object prop, Object value) {
         super.setColumnIdToFilterValue(prop, value);
-        if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {
-        }
         Object custFilter = getColumnIdToFilterValue(Constant.GROUP);
         if (custFilter != null) {
             String[] custHeirarchyNo = custFilter.toString().split("~");
@@ -191,7 +189,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         }
     }
 
-    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws SystemException, PortalException {
+    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
         switch (screenName) {
             case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
                 mandatedExpandData(parentId, treeLevel, expandLevelNo);
@@ -274,7 +272,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         }
     }
 
-    private void nmExpandData(Object parentId, String treeLevel, int expandLevelNo) throws SystemException, PortalException {
+    private void nmExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
         int count = commercialDPRLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
          CommonLogic commonLogic = new CommonLogic();     
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
@@ -306,7 +304,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             } else {
-                List<String> hierarchyNoList = Collections.EMPTY_LIST;
+                List<String> hierarchyNoList = Collections.emptyList();
                 if (projSelDTO.getLevelCount() != 0) {
                     if (projSelDTO.isIsCustomHierarchy()) {
                         hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());

@@ -147,23 +147,19 @@ public class VarianceTableLogic extends PageTreeTableLogic{
         int index = getItemIndex(count + levelIndex + levelValue);
         int levelStart = getStartIndex(count + levelIndex, index);
         int levelEnd = getPageLength();
-        LevelMap levelMap = new LevelMap(levelStart, levelEnd, page, getPageLength(), index, getColumnIdToFilterMap());
-        return levelMap;
+        return new LevelMap(levelStart, levelEnd, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - NumericConstants.TWO) / getPageLength()) + 1;
-        return curPage;
+        return ((pos - NumericConstants.TWO) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - NumericConstants.TWO) % getPageLength();
-        return index;
+        return (pos - NumericConstants.TWO) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return count - index;
     }
 
     public void loadExpandData(int levelNo) {
@@ -227,7 +223,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                         
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-                            Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+                            Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getCustomDescription();
                             List<String> list = nmProjectionVarianceLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();

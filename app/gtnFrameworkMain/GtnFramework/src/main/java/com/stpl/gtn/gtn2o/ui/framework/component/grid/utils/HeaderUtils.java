@@ -39,12 +39,10 @@ public class HeaderUtils {
 	}
 
 	public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {
-		int columnCount = pagedTreeGrid.getTableConfig().getColumnHeaders().size();
+                int columnCount=pagedTreeGrid.getTableConfig().getVisibleColumns().size();
 		int columnEndCount = columnEnd;
-		if (columnStart > columnEnd) {
-			return;
-		}
-		if (columnEnd > columnCount) {
+		
+		if ((columnStart+columnEnd) > columnCount) {
 			columnEndCount = columnCount;
 		}
 		repaintGrid(pagedTreeGrid);
@@ -77,8 +75,10 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header)
 					.setId(column).setWidth(170);
 		}
+                long start=Long.parseLong(String.valueOf(columnStart)) + leftColumns.size();
+                long limit=Long.parseLong(String.valueOf(columnEnd))-leftColumns.size();
 		List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream()
-				.skip(Long.parseLong(String.valueOf(columnStart)) + leftColumns.size()).limit(columnEnd).distinct()
+				.skip(start).limit(limit).distinct()
 				.collect(Collectors.toList());
 		for (int j = 0; j < currentSingleColumns.size(); j++) {
 			String column = (currentSingleColumns.get(j)).toString();

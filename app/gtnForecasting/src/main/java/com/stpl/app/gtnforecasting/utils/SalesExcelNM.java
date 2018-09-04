@@ -47,7 +47,7 @@ public class SalesExcelNM extends ExcelExport{
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesExcelNM.class);
-    private TableHolder tableHolder;
+    protected TableHolder tableHolder;
     private static final String UNIT_DECIMAL = "UNIT_DECIMAL";
     private static final String UNITTWODECIMAL = "UNITTWODECIMAL";
     private static final String PRODUCT_GROWTH_SUM = "PRODUCT_GROWTH_SUM";
@@ -152,7 +152,7 @@ public class SalesExcelNM extends ExcelExport{
         return getCellValue;
     }
 
-    private Double dataConverter(Object value) throws NumberFormatException {
+    private Double dataConverter(Object value) {
         Double d;
         String str = String.valueOf(value);
         if (str.contains("$") || str.contains(",") || str.contains("%")) {
@@ -178,14 +178,9 @@ public class SalesExcelNM extends ExcelExport{
             sheetCell.setCellStyle(style3);
             unitDecimal(rootItemId, sheetCell);
         }
-        //Added Formula to PG_SUM column  
-        else if (formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) {
-            sheetCell.setCellStyle(style3);
-            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
-            growthSum(rootItemId, sheetCell);
-        }
-        //Added Formula to AG_SUM column
-        else if (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM))) {
+        //Added Formula to PG_SUM, AG_SUM column  
+        else if ((formatter.get(PRODUCT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(PRODUCT_GROWTH_SUM))) ||
+                (formatter.get(ACCOUNT_GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(ACCOUNT_GROWTH_SUM)))) {
             sheetCell.setCellStyle(style3);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             growthSum(rootItemId, sheetCell);

@@ -396,8 +396,9 @@ public class UiUtils {
 		String finalValue = StringUtils.EMPTY;
                 StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
-		fieldName = fieldName.toLowerCase();
-		String[] splitArray = fieldName.split("_");
+                String hqlFieldName = fieldName;
+		hqlFieldName = hqlFieldName.toLowerCase();
+		String[] splitArray = hqlFieldName.split("_");
 		if (indicator.equals("table")) {
 			loop = 0;
 		} else {

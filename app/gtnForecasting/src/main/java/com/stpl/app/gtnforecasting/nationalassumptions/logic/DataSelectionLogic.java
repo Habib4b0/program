@@ -135,16 +135,11 @@ public class DataSelectionLogic {
                 }
                 naProjMaster.setModifiedBy(Integer.parseInt(session.getUserId()));
                 naProjMaster.setModifiedDate(new Date());
-                try {
                     naProjMaster = updateFlag ? NaProjMasterLocalServiceUtil.updateNaProjMaster(naProjMaster) : NaProjMasterLocalServiceUtil
                             .addNaProjMaster(naProjMaster);
                     if (!updateFlag) {
                       result= saveProducts(naProjMaster.getNaProjMasterSid(),selectedProducts);  
                     }
-                } catch (SystemException e) {
-                    LOGGER.error(e.getMessage());
-                    return Constant.FAIL;
-                }
                 
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
@@ -191,12 +186,8 @@ public class DataSelectionLogic {
                 }
                 DAO.executeBulkUpdateQuery(customSql);
                 for (Integer naProjID : removeList) {
-                    try {
                         NaProjDetailsLocalServiceUtil
                                 .deleteNaProjDetails(naProjID);
-                    } catch (PortalException | SystemException e) {
-                        LOGGER.error(e.getMessage());
-                    }
                 }
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
@@ -222,7 +213,7 @@ public class DataSelectionLogic {
         try {  
           List<Object[]> returnList= dsQueryUtils.loadResultsTable(projectionName,getSelectedProducts, companyValueId,thearupeticValueId, productGroupId,startIndex, offset,filters,sortByColumns,businessUnit);
            projectionResults= getCustomizedProjectionResults(returnList);
-        } catch (PortalException | SystemException | ParseException ex) {
+        } catch (SystemException | ParseException ex) {
                 LOGGER.error(ex.getMessage());
         }
          return projectionResults;
@@ -232,7 +223,7 @@ public class DataSelectionLogic {
         try {
             count = dsQueryUtils.loadResultsTableCount(projectionName, getSelectedProducts, companyValueId, thearupeticValueId, productGroupId, filters,businessUnit);
 
-        } catch (PortalException | SystemException | ParseException ex) {
+        } catch (SystemException | ParseException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -367,7 +358,7 @@ public class DataSelectionLogic {
             if (resultList != null && !resultList.isEmpty()) {
                 forecastConfig = (ForecastConfig) resultList.get(0);
             }
-        } catch (PortalException | SystemException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return forecastConfig;

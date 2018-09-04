@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -163,7 +162,7 @@ public class NationalAssumptionsForm extends CustomComponent {
     private boolean isDataSelectionupdatedPhs;
     
     
-    public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws SystemException, PortalException  {
+    public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws PortalException  {
         LOGGER.info("NationalAssumptionsForm Constructor initiated ");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/NationalAssumptionsForm.xml"), this));
         this.sessionDTO= sessionDTO;
@@ -534,7 +533,6 @@ public class NationalAssumptionsForm extends CustomComponent {
      */
     @UiHandler("saveBtn")
     public void saveBtn(Button.ClickEvent event)  {
-        final String projName = sessionDTO.getProjectionName();
         boolean updateflag = dataSelection.isChanged();
         if (updateflag) {
             new AbstractNotificationUtils() {
@@ -609,7 +607,7 @@ public class NationalAssumptionsForm extends CustomComponent {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage("Close Confirmation",
                 closeMsg);
@@ -649,7 +647,7 @@ public class NationalAssumptionsForm extends CustomComponent {
 
     }
 
-    private void setTabSecurity() throws PortalException, SystemException  {
+    private void setTabSecurity() throws PortalException  {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId =  sessionDTO.getUserId();
 

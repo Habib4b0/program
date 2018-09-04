@@ -102,15 +102,15 @@ public class RebateTab extends VerticalLayout {
     /*
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = NumericConstants.TWO_HUNDRED;
+    private static final float MIN_SPLIT_POSITION = NumericConstants.TWO_HUNDRED;
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION = 300;
     @UiField("mainPanel")
     public Panel panel;
     private final TabSelectionDTO selectionDTO = new TabSelectionDTO();
@@ -224,9 +224,9 @@ public class RebateTab extends VerticalLayout {
     private void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
@@ -246,7 +246,7 @@ public class RebateTab extends VerticalLayout {
     public void excelButtonLogic(Button.ClickEvent event) {
 
         configureExcelResultTable();
-        if (resultBean.size() > 0) {
+        if (!resultBean.isEmpty()) {
             loadExcelResultTable();
         }
         exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());

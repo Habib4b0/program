@@ -121,7 +121,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         setCurrentPage(1);
     }
 
-    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException, SystemException {
+    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException {
         int count = getCountByForecastName(parentId);               
         PageTreeLogicBase.LevelMap levelMap = new PageTreeLogicBase.LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
@@ -152,7 +152,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             } else {
-                 List<Leveldto> levelList =Collections.EMPTY_LIST;
+                 List<Leveldto> levelList =Collections.emptyList();
                 if(projSelDTO.getLevelCount()!=0){
                 levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), StringUtils.EMPTY, 0, projSelDTO.getLevelCount(), projSelDTO.getHierarchyIndicator(), levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(),projSelDTO.getCustRelationshipBuilderSid(),projSelDTO.getProdRelationshipBuilderSid(), false, true , projSelDTO.getDiscountNoList(),projSelDTO);
                 }
@@ -184,7 +184,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
             }
         }
     }
-    protected void recursivelyLoadExpandDataForNM(Object parentId, String treeLevel, int expandLevelNo) throws PortalException, SystemException  {
+    protected void recursivelyLoadExpandDataForNM(Object parentId, String treeLevel, int expandLevelNo) throws PortalException  {
         int count = getCountByForecastName(parentId);     
         CommonLogic commonLogic = new CommonLogic();        
         PageTreeLogicBase.LevelMap levelMap = new PageTreeLogicBase.LevelMap(count, getColumnIdToFilterMap());
@@ -217,10 +217,10 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 recursivelyLoadExpandDataForNM(dto, customTreeLevel, expandLevelNo);
             } else {
                  List<String> detailsList;
-                  List<String> hierarchyNoList = Collections.EMPTY_LIST;
+                  List<String> hierarchyNoList = Collections.emptyList();
                  String hierarchy;
                 String hierarchyIndicator=StringUtils.EMPTY;
-                 Map<String, List> relationshipLevelDetailsMap =Collections.EMPTY_MAP ;
+                 Map<String, List> relationshipLevelDetailsMap = Collections.emptyMap() ;
                 if(projSelDTO.getLevelCount()!=0){
                     if (projSelDTO.isIsCustomHierarchy()) {
 
@@ -264,7 +264,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         }
     }
 
-    public void loadExpandData(int levelNo) throws PortalException, SystemException {
+    public void loadExpandData(int levelNo) throws PortalException {
         if(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())){
         recursivelyLoadExpandData(new Object(), StringUtils.EMPTY, levelNo);
         }else{
@@ -307,7 +307,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
      * @param parentId
      * @return 
      */
-    private int getCountByForecastName(final Object parentId) throws PortalException, SystemException {
+    private int getCountByForecastName(final Object parentId) throws PortalException {
         int count;
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
         switch (screenName) {
@@ -326,7 +326,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         return count;
     }
     
-    private List<ProjectionResultsDTO> loadDataByForecastName(final Object parentId, final int start, final int offset) throws PortalException, SystemException {
+    private List<ProjectionResultsDTO> loadDataByForecastName(final Object parentId, final int start, final int offset) throws PortalException {
         List<ProjectionResultsDTO> list;
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
         LOGGER.debug("Screen Name is= {} ",screenName);

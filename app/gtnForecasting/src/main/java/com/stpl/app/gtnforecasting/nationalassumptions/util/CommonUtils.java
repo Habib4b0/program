@@ -364,7 +364,7 @@ public class CommonUtils {
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.THERAPEUTIC_CLASS));
         dynamicQuery.add(RestrictionsFactoryUtil.ne(Constant.THERAPEUTIC_CLASS,0));
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constant.THERAPEUTIC_CLASS)));
-        List<Integer> resultList = Collections.EMPTY_LIST;
+        List<Integer> resultList = Collections.emptyList();
         List<HelperDTO> finalList = new ArrayList<>();
         try {
             resultList = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -503,6 +503,7 @@ public class CommonUtils {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
+        userIdMap.clear();
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
@@ -560,20 +561,21 @@ public class CommonUtils {
         return userName;
     }
      public static String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
+         String valueNA = value;
+        if (valueNA.contains(Constant.NULL) || StringUtils.isBlank(valueNA)) {
             String newValue = "0";
             Double nullValue = Double.valueOf(newValue);
-            value = FORMAT.format(nullValue);
-        } else if (value.contains("- -")){
-             value = "- -";
+            valueNA = FORMAT.format(nullValue);
+        } else if (valueNA.contains("- -")){
+             valueNA = "- -";
         }else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueNA);
             if (FORMAT.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            valueNA = FORMAT.format(newValue);
         }
-        return value;
+        return valueNA;
     }
 
   /**
@@ -607,15 +609,15 @@ public class CommonUtils {
     public static double getDoubleValue(String value) {
         double doubleValue = 0;
         boolean doubleFlag = false;
-
-        value = value.replace("$", StringUtils.EMPTY);
-        if ((StringUtils.isNotBlank(value)) && (value.matches("^\\d{0,5}\\.?\\d{0,4}$"))) {
+        String valueDouble = value;
+        valueDouble = valueDouble.replace("$", StringUtils.EMPTY);
+        if ((StringUtils.isNotBlank(valueDouble)) && (valueDouble.matches("^\\d{0,5}\\.?\\d{0,4}$"))) {
                 doubleFlag = true;
 
         }
 
         if (doubleFlag) {
-            doubleValue = Double.parseDouble(value);
+            doubleValue = Double.parseDouble(valueDouble);
 
         } else {
             doubleValue = 0;
@@ -636,7 +638,7 @@ public class CommonUtils {
         return useridFromName;
     }
     
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();

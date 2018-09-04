@@ -38,6 +38,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.UI;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1951,4 +1952,15 @@ public class CommonLogic {
         return list == null ? null : new ArrayList<>(list);
     }
 
+    public static int getIntegerValue(int index, Object[] str) {
+        return str[index] == null ? 0 : (Integer) (str[index]);
+    }
+
+    public static String getStringValue(int index, Object[] str) {
+        return str[index] == null ? StringUtils.EMPTY : String.valueOf(str[index]);
+    }
+
+    public static String getDateValue(int index, Object[] str, DateFormat dateFormat) {
+        return str[index] == null ? null : dateFormat.format((Date) str[index]);
+    }
 }

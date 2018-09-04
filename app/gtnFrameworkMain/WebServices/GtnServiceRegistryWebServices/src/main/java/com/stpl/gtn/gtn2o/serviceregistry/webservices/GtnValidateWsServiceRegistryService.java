@@ -60,7 +60,7 @@ public class GtnValidateWsServiceRegistryService extends GtnCommonWebServiceImpl
 		GtnQueryEngineWebServiceResponse response = gtnCommonWebServiceImplClass
 				.callQueryEngineWithoutSecurityToken("/executeQuery", queryEngineWebServiceRequest);
 		List<Object[]> resultList = response.getQueryResponseBean().getResultList();
-		logger.info("Response:" + resultList.get(0));
+		logger.debug("Response:" + resultList.get(0));
 		return resultList;
 	}
 

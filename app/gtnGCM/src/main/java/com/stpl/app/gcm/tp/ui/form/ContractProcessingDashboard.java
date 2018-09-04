@@ -258,8 +258,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentDetailsTableLayout.addComponent(tablelogic.createControls());
         componentInformationTable.setContainerDataSource(componentInformationContainer);
         componentInformationTable.setFilterBarVisible(true);
-        componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-        componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+        componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+        componentInformationTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
         componentInformationTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
         componentInformationTable.setFilterGenerator(new ExtFilterGenerator() {
@@ -411,7 +411,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         addTradingPartnerTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-                LoadDashBoardTree();
+                loadDashBoardTree();
                 componentInformationContainer.removeAllItems();
                 tableBeanId = null;
             }
@@ -469,7 +469,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     }
 
-    private void LoadDashBoardTree() {
+    private void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         contractDashboardContainer.removeAllItems();
         contractDashboardContainer = logic.loadContainerData(logic.getDasboardResults(logic.getLevelOneHierarchy(session.getUserId(), session.getSessionId()), 1, 0, 0, 0, 0, null, null, null, null), contractDashboardContainer, null);
@@ -674,10 +674,10 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentInformationContainer.removeAllItems();
 
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+            componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+            componentInformationTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+            componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
         } else if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
             componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsCfp);
@@ -812,7 +812,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 checkedContracts.add(contract);
             }
         }
-        if (checkedContracts.size() > 0) {
+        if (!checkedContracts.isEmpty()) {
 
             new AbstractNotificationUtils() {
                 @Override
@@ -833,7 +833,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                             tpDetailsContainer.removeItem(contract);
                         }
                         csLogic.updateSubmitFlag(session.getModuleName(), StringUtils.EMPTY, session.getUserId(), session.getSessionId(), false);
-                        LoadDashBoardTree();
+                        loadDashBoardTree();
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }

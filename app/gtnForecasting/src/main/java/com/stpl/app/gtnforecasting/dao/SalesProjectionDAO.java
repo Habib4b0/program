@@ -12,7 +12,7 @@ import com.stpl.app.model.HelperTable;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface SalesProjectionDAO.
  *
@@ -27,7 +27,7 @@ public interface SalesProjectionDAO {
      * @return the pmpy trading partner list
      * @throws Exception the exception
      */
-    List<String> getPMPYTradingPartnerList(String tpName) throws SystemException, PortalException;
+    List<String> getPMPYTradingPartnerList(String tpName) throws  PortalException;
 
     /**
      * Gets the pmpy contract holder.
@@ -37,7 +37,7 @@ public interface SalesProjectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws SystemException, PortalException;
+    List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws  PortalException;
 /**
  * 
  * @param query
@@ -46,7 +46,7 @@ public interface SalesProjectionDAO {
  * @throws PortalException
  * @throws Exception
  */
-    public List getSalesProjection(Object[] inputs) throws SystemException, PortalException;
+    public List getSalesProjection(Object[] inputs) throws  PortalException;
 /**
  * 
  * @param query
@@ -55,7 +55,7 @@ public interface SalesProjectionDAO {
  * @throws PortalException
  * @throws Exception
  */
-    public List getSalesProjectionResult(DynamicQuery query) throws SystemException, PortalException;
+    public List getSalesProjectionResult(DynamicQuery query) throws  PortalException;
 
 
     /**
@@ -74,7 +74,7 @@ public interface SalesProjectionDAO {
      */
     List getContractHolderSummary(final int projectionId, final String indicator,
     		final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
-    				throws SystemException, PortalException;
+    				throws PortalException;
     
     /** Gets the group list.
      *
@@ -84,8 +84,8 @@ public interface SalesProjectionDAO {
      * @throws Exception the exception
      */
     List<String> getGroupList(DynamicQuery query) throws SystemException;
-    public List getSalesProjectionResults(Object[] inputs) throws SystemException, PortalException;
-    public List getSalesProjectionResultLevels(Object[] inputs) throws SystemException, PortalException;
+    public List getSalesProjectionResults(Object[] inputs) throws PortalException;
+    public List getSalesProjectionResultLevels(Object[] inputs) throws PortalException;
     
         /**
      *
@@ -95,14 +95,14 @@ public interface SalesProjectionDAO {
      * @throws PortalException
      * @throws Exception
      */
-    public List executeQuery(Map<String, Object> parameters) throws SystemException, PortalException;
+    public List executeQuery(Map<String, Object> parameters) throws  PortalException;
 
-   public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException;
+   public void executeUpdateQuery(List<StringBuilder> queryList) throws PortalException;
     
-    public Object executeSelectQuery(String query) throws SystemException, PortalException;
+    public Object executeSelectQuery(String query) throws PortalException;
     
-    public List executeUpdateQuery(String queryList) throws SystemException, PortalException;
+    public List executeUpdateQuery(String queryList) throws PortalException;
     
-    List<HelperTable> getHelperTableList(DynamicQuery query) throws PortalException, SystemException;
+    List<HelperTable> getHelperTableList(DynamicQuery query) throws SystemException;
 
 }

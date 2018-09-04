@@ -544,8 +544,8 @@ public class HeaderUtils {
                         String commonHeader = common.get(1);
                         if (!projectionColumnList.contains(commonColumn)) {
                             if (forecastYearList.add(yr) && frequencyDivision !=1) {
-                                forecastColumnList.add("" + yr);
-                                forecastHeaderList.add("" + yr);
+                                forecastColumnList.add(Integer.toBinaryString(yr));
+                                forecastHeaderList.add(Integer.toBinaryString(yr));
                             }
                             forecastColumnList.add(commonColumn);
                             forecastHeaderList.add(commonHeader);
@@ -926,8 +926,8 @@ public class HeaderUtils {
                         String commonHeader = common.get(1);
                          if (!projectionColumnList.contains(commonColumn)) {
                             if (forecastYearList.add(yr) && frequencyDivision !=1) {
-                                forecastColumnList.add("" + yr);
-                                forecastHeaderList.add("" + yr);
+                                forecastColumnList.add(Integer.toBinaryString(yr));
+                                forecastHeaderList.add(Integer.toBinaryString(yr));
                             }
                             forecastColumnList.add(commonColumn);
                             forecastHeaderList.add(commonHeader);

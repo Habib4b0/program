@@ -24,55 +24,55 @@ public class DPDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        List replaceList = new ArrayList();
-        List<String> reserveHeader = new ArrayList<>();
-        List<String> reserveProperty = new ArrayList<>();
-        List<List> finalList = new ArrayList<>();
+        List paymentsReplaceList = new ArrayList();
+        List<String> paymentsReserveHeader = new ArrayList<>();
+        List<String> paymentsReserveProperty = new ArrayList<>();
+        List<List> paymentsFinalList = new ArrayList<>();
         StringBuilder value;
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
-        replaceList.add(isReserveValue);
-        replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
-        StringBuilder query;
+        paymentsReplaceList.add(isReserveValue);
+        paymentsReplaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
+        paymentsReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
+        paymentsReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
+        paymentsReplaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
+        paymentsReplaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+        StringBuilder paymentsQuery;
         if (selection.getSessionDTO().isWorkFlow()) {
-            query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
+            paymentsQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
+            paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+            paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
-            query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
-            for (Object temp : replaceList) {
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
+            paymentsQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
+            for (Object temp : paymentsReplaceList) {
+                paymentsQuery.replace(paymentsQuery.indexOf("?"), paymentsQuery.indexOf("?") + 1, String.valueOf(temp));
             }
         }
-        List list = QueryUtils.executeSelect(query.toString());
+        List list = QueryUtils.executeSelect(paymentsQuery.toString());
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
+                Object[] paymentObj = (Object[]) list.get(i);
                 value = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
-                if (isValid(obj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
-                    property = new StringBuilder(String.valueOf(obj[0]));
+                if (isValid(paymentObj[0])) {
+                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(paymentObj[0]))));
+                    property = new StringBuilder(String.valueOf(paymentObj[0]));
                 }
-                if (isValid(obj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
-                    property.append(DASH).append(String.valueOf(obj[1]));
+                if (isValid(paymentObj[1])) {
+                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(paymentObj[1]))));
+                    property.append(DASH).append(String.valueOf(paymentObj[1]));
                 }
-                if (isValid(obj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
-                    property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                if (isValid(paymentObj[NumericConstants.TWO])) {
+                    value.append(DASH).append(String.valueOf(paymentObj[NumericConstants.TWO]));
+                    property.append(DASH).append(String.valueOf(paymentObj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
-                reserveProperty.add(property.toString());
+                paymentsReserveHeader.add(value.toString());
+                paymentsReserveProperty.add(property.toString());
             }
-            finalList.add(reserveHeader);
-            finalList.add(reserveProperty);
+            paymentsFinalList.add(paymentsReserveHeader);
+            paymentsFinalList.add(paymentsReserveProperty);
         }
-        return finalList;
+        return paymentsFinalList;
     }
 
     @Override

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -113,7 +114,7 @@ public class HeaderUtils {
             commonHeader = "S" + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -383,7 +384,7 @@ public class HeaderUtils {
             } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
-                commonColumn = commonColumn.toLowerCase();
+                commonColumn = commonColumn.toLowerCase(Locale.ENGLISH);
                 commonHeader = monthName + " " + syear;
             }
             if (isSalesFlag) {
@@ -432,7 +433,7 @@ public class HeaderUtils {
             } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
-                commonColumn = commonColumn.toLowerCase();
+                commonColumn = commonColumn.toLowerCase(Locale.ENGLISH);
                 commonHeader = monthName + " " + syear;
             }
             if (isSalesFlag) {

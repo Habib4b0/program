@@ -101,7 +101,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
             inputs.add(selection.getDataSelectionDTO().getProjectionId());
             inputs.add(selection.getFrequency());
             selection.setMasterSids(ARMUtils.getMasterIdsMap());
-            inputs = getNextLevel(inputs, dto, selection);
+            inputs = BSummaryDemandLogic.this.getNextLevelDemand(inputs, dto, selection);
             inputs.add(selection.getFromDate());
             inputs.add(selection.getToDate());
             inputs.add(selection.getSessionDTO().getUserId());
@@ -122,9 +122,9 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         return returnObj;
     }
 
-    public List getNextLevel(List inputs, Object dto, SummarySelection selection) {
+    public List getNextLevelDemand(List inputs, Object dto, SummarySelection selection) {
         if (dto instanceof AdjustmentDTO) {
-            inputs.add(getNextLevel(dto, selection));
+            inputs.add(getNextLevelDemand(dto, selection));
         } else {
             inputs.add(getNextLevelGen(selection));
         }
@@ -154,7 +154,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         return nextLevel;
     }
 
-    public String getNextLevel(Object dto, SummarySelection selection) {
+    public String getNextLevelDemand(Object dto, SummarySelection selection) {
         String nextLevel;
         TreeMap<String, Integer> masterSids;
         AdjustmentDTO val = (AdjustmentDTO) dto;

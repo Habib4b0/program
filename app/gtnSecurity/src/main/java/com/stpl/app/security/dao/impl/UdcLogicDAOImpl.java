@@ -44,7 +44,7 @@ public class UdcLogicDAOImpl implements UdcLogicDAO {
     }
 
     @Override
-    public HelperTable deleteHelperTableByCode(int code) throws SystemException, PortalException {
+    public HelperTable deleteHelperTableByCode(int code) throws PortalException {
         return HelperTableLocalServiceUtil.deleteHelperTable(code);
     }
     
@@ -54,12 +54,12 @@ public class UdcLogicDAOImpl implements UdcLogicDAO {
     }
     
     @Override
-     public BrandMaster deleteBrandTableByCode(BrandMaster code) throws SystemException, PortalException {
+     public BrandMaster deleteBrandTableByCode(BrandMaster code) throws  PortalException {
         return BrandMasterLocalServiceUtil.updateBrandMaster(code);
     }
      
     @Override
-     public BrandMaster getBrandMaster(int id) throws SystemException, PortalException  {
+     public BrandMaster getBrandMaster(int id) throws PortalException  {
         return BrandMasterLocalServiceUtil.getBrandMaster(id);
     }
 }

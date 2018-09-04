@@ -60,19 +60,17 @@ public class MSalesProjection extends ForecastSalesProjection {
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
     
     private static Map<String, Integer> rowCountMap = new HashMap<>();
-    private boolean generated = false;
-    private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
 
-    public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
+    public MSalesProjection(SessionDTO session, String screenName) throws PortalException  {
         super(session, screenName);
         enableDisableFields();
         this.scrnName = screenName;
         init();
     }
 
-    public final void init() throws PortalException, SystemException  {
+    public final void init() throws PortalException  {
         projectionDTO.setSessionDTO(session);
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -150,8 +148,8 @@ public class MSalesProjection extends ForecastSalesProjection {
         try {
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
-                generated = true;
-                firstGenerated = true;
+                boolean generated = true;
+                boolean firstGenerated = true;
                 tableLayout.removeAllComponents();
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
@@ -460,19 +458,19 @@ public class MSalesProjection extends ForecastSalesProjection {
 
         try {
             String salesOrUnitsProperty;
-
+            String updatePmpyPeriod= updatePeriod;
             if (StringUtils.isNotBlank(hierarchyNo) && StringUtils.isNotEmpty(hierarchyNo)) {
-                updatePeriod = updatePeriod.replace('Q', 'q');
-                updatePeriod = updatePeriod.replace(' ', '-');
+                updatePmpyPeriod = updatePmpyPeriod.replace('Q', 'q');
+                updatePmpyPeriod = updatePmpyPeriod.replace(' ', '-');
                 if (salesOrUnits) {
-                    updatePeriod = updatePeriod + "-ProjectedSales";
+                    updatePmpyPeriod = updatePmpyPeriod + "-ProjectedSales";
                     salesOrUnitsProperty = Constant.SALES_SMALL;
                 } else {
-                    updatePeriod = updatePeriod + "-ProjectedUnits";
+                    updatePmpyPeriod = updatePmpyPeriod + "-ProjectedUnits";
                     salesOrUnitsProperty = Constant.UNITS_SMALL;
                 }
 
-                salesLogic.saveEditedRecs(updatePeriod, updateValue, Double.NaN, salesOrUnitsProperty, salesRow, projectionDTO, false, true);
+                salesLogic.saveEditedRecs(updatePmpyPeriod, updateValue, Double.NaN, salesOrUnitsProperty, salesRow, projectionDTO, new boolean[]{false, true});
                 refreshTableData(getCheckedRecordsHierarchyNo());
 
             }
@@ -482,7 +480,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         }
     }
 
-    public void saveSalesProjection() throws PortalException, SystemException {
+    public void saveSalesProjection() throws PortalException {
         String userId = String.valueOf(projectionDTO.getUserId());
         String sessionId = String.valueOf(projectionDTO.getSessionId());
         salesLogic.saveMandatedSalesProjection(userId, sessionId);
@@ -503,7 +501,7 @@ public class MSalesProjection extends ForecastSalesProjection {
      * @param moduleAndTabName
      * @throws Exception
      */
-    public void setButtonSecurity() throws PortalException, SystemException {
+    public void setButtonSecurity() throws PortalException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION);

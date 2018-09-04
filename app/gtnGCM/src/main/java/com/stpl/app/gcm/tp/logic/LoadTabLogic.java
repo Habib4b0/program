@@ -66,7 +66,7 @@ public class LoadTabLogic {
      * The unit volume.
      */
     private static final DecimalFormat PER2DECIMAL = new DecimalFormat("#,##0.00%");
-    private final CommonDao DAO = CommonImpl.getInstance();
+    private final CommonDao dao = CommonImpl.getInstance();
 
     public LoadTabLogic() {
         super();
@@ -267,7 +267,7 @@ public class LoadTabLogic {
 
         for (int i = 0; i < list.size(); i++) {
 
-            Object obj[] = (Object[]) list.get(i);
+            Object[] obj = (Object[]) list.get(i);
             int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
             int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -542,7 +542,7 @@ public class LoadTabLogic {
 
         for (int i = 0; i < list.size(); i++) {
 
-            Object obj[] = (Object[]) list.get(i);
+            Object[] obj = (Object[]) list.get(i);
 
             int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
             int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
@@ -779,10 +779,10 @@ public class LoadTabLogic {
         List<SummaryTemDTO> resultList = new ArrayList<>();
         SummaryTemDTO dto = null;
 
-        list = (List) DAO.executeSelect(query);
+        list = (List) dao.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 dto = new SummaryTemDTO();
 
                 dto.setContractSid(Integer.parseInt(String.valueOf(obj[0])));

@@ -405,12 +405,13 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
+        String formatValue;
         if (value == null || value.contains(Constant.NULL) || value.isEmpty()) {
-            value = Constant.DASH;
+            formatValue = Constant.DASH;
         } else {
-            value = decFormat.format(Double.valueOf(value));
+            formatValue = decFormat.format(Double.valueOf(value));
         }
-        return value;
+        return formatValue;
     }
 
     private DiscountProjectionDTO loadProjectionValues(DiscountProjectionDTO dto, ProjectionSelectionDTO projSelDTO) {
@@ -957,7 +958,7 @@ public class SupplementalDiscountProjectionLogic {
         return procedureFlag;
     }
 
-    public void clearTemp(final SessionDTO inputDto) {
+    public void clearTemp() {
         Date tempDate = new Date();
         tempDate.setDate(tempDate.getDate() - NumericConstants.TWO);
         clearTempTables(tempDate);
@@ -978,7 +979,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public void insertInToTempTable(SessionDTO sessionDto) {
-        clearTemp(sessionDto);
+        clearTemp();
         try {
             List<StringBuilder> queryList = new ArrayList<>();
             StringBuilder query = new StringBuilder();

@@ -7,6 +7,7 @@ package com.stpl.app.security.service;
 
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.xmlparser.SQLUtil;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public class SecurityImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -84,7 +85,7 @@ public class SecurityImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -116,7 +117,7 @@ public class SecurityImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
     
@@ -129,7 +130,7 @@ public class SecurityImpl {
         } catch(Exception ex){
            LOGGER.error(ex.getMessage());
            LOGGER.error(query);
-           return null;           
+           return Collections.emptyList();           
         } 
         
     }
@@ -156,7 +157,7 @@ public class SecurityImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
     }
     @SuppressWarnings("rawtypes")
@@ -175,7 +176,7 @@ public class SecurityImpl {
         } catch (Exception e) {                            
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
     }
     @SuppressWarnings("rawtypes")
@@ -197,7 +198,7 @@ public class SecurityImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
     }
     @SuppressWarnings("rawtypes")
@@ -215,7 +216,7 @@ public class SecurityImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         } 
     }
 }

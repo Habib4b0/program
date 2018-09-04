@@ -131,20 +131,14 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * The split position.
      */
     private final float splitPosition = NumericConstants.THREE_HUNDRED;
-    /**
-     * The table control Layout.
-     */
-    private HorizontalLayout controlLayout;
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The result bean Container .
      */
     private ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtPagedTreeTable leftTable;
-    private ExtPagedTreeTable rightTable;
     private ExtCustomTreeTable exportPeriodViewTable;
 
     private boolean firstGenerated = false;
@@ -171,7 +165,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     private final BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
     private final DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
     private static final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
-    private final HeaderUtils headerUtils = new HeaderUtils();
     private Object formulaList;
     private boolean canLoad = true;
     static {
@@ -525,7 +518,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      */
     private void addResultTable() {
         resultsTableLayout.addComponent(periodTableId);
-        controlLayout = tableLogic.createControls();
+        HorizontalLayout controlLayout = tableLogic.createControls();
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTableLayout.addComponent(controlLayout);
         controlLayout.setSizeUndefined();
@@ -541,7 +534,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         List<Integer> pagelength = CommonLogic.getPageNumber();
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = HeaderUtils.getSupplementalLeftTableColumns(fullHeader, Constant.CUSTOMER_SMALL);
+        CustomTableHeaderDTO leftHeader = HeaderUtils.getSupplementalLeftTableColumns(fullHeader, Constant.CUSTOMER_SMALL);
         rightHeader = HeaderUtils.getSupplementalrightTableColumns(projectionDTO, fullHeader);
         resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
         tableLogic.setTreeNodeMultiClick(false);
@@ -550,7 +543,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         periodTableId.setContainerDataSource(resultBeanContainer);
 
         leftTable = periodTableId.getLeftFreezeAsTable();
-        rightTable = periodTableId.getRightFreezeAsTable();
+        ExtPagedTreeTable rightTable = periodTableId.getRightFreezeAsTable();
 
         periodTableId.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);
         leftTable.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);
@@ -1276,7 +1269,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     valueLookUp.setValue(dtoItemValue);
                     selectedValue = String.valueOf(valueLookUp.getValue());
                 } else {
-                    String lookUpValue = StringUtils.EMPTY;
                     StringBuilder lookUpValueBuilder = new StringBuilder();
                     List<String> emptyNdcList = returnList.get(1);
                     String emptyValue = StringUtils.EMPTY;
@@ -1289,7 +1281,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                             lookUpValueBuilder.append(emptyNdcList.get(k));
                         }
                     }
-                    lookUpValue = lookUpValueBuilder.toString();
+                    String lookUpValue = lookUpValueBuilder.toString();
                     int quatValue = 0;
                     List<List> emptyQuarList = returnList.get(NumericConstants.TWO);
                     final String[] quaterName = new String[emptyQuarList.size()];

@@ -540,16 +540,6 @@ public class DataSelection extends ForecastDataSelection {
 				&& !SELECT_ONE.equals(String.valueOf(event.getProperty().getValue()))) {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
 			setSelectedProductLevel(selectedLevel);
-			int hierarchyId = 0;
-			String hierarchyName;
-			if (productHierarchyDto != null && !StringUtils.isBlank(productHierarchyDto.getHierarchyName())) {
-				hierarchyName = productHierarchyDto.getHierarchyName();
-			}
-			if (productHierarchyDto == null) {
-				hierarchyId = UiUtils.parseStringToInteger(selectionDTO.getCustomerHierSid());
-			} else {
-				hierarchyId = productHierarchyDto.getHierarchyId();
-			}
 			String[] val = selectedLevel.split(" ");
 			int forecastLevel = Integer.parseInt(val[1]);
 			session.setProductLevelNumber(String.valueOf(forecastLevel));
@@ -1252,13 +1242,13 @@ public class DataSelection extends ForecastDataSelection {
 		this.dedCustomChange = dedCustomChange;
 	}
 
-	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
+	public void updateBasicsProjectionMaster() throws PortalException {
 		NonMandatedLogic logic = new NonMandatedLogic();
 		selectionDTO = bindDataselectionDtoToSave();
 		logic.updateBasicsProjectionMaster(selectionDTO, session.getProjectionId(), true);
 	}
 
-	public void updateDataSelection() throws SystemException, PortalException, ClassNotFoundException, IOException {
+	public void updateDataSelection() throws PortalException, ClassNotFoundException, IOException {
 		LOGGER.debug("updateDataSelection starts");
 		selectionDTO = bindDataselectionDtoToSave();
 		NonMandatedLogic logic = new NonMandatedLogic();
@@ -1759,7 +1749,6 @@ public class DataSelection extends ForecastDataSelection {
 		LOGGER.debug("customer inner Level - ValueChangeListener= {}  ", value);
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
-		int forecastLevel = 0;
 		int relationVersionNo = 0;
 		int hierarchyVersionNo = 0;
 		try {
@@ -2274,16 +2263,11 @@ public class DataSelection extends ForecastDataSelection {
 									|| Constant.COMPANY_SMALL.equals(levelName))) {
 						List<Leveldto> filteredValues = new ArrayList<>();
 						if (!groupFilteredCompanies.isEmpty()) {
-							try {
 								for (Leveldto leveldto : custVlues) {
 									if (groupFilteredCompanies.contains(leveldto.getRelationshipLevelValue().trim())) {
 										filteredValues.add(leveldto);
 									}
 								}
-							} catch (Exception ex) {
-								LOGGER.error(ex.getMessage());
-							}
-
 						}
 						availableCustomerContainer.addAll(filteredValues);
 					} else {

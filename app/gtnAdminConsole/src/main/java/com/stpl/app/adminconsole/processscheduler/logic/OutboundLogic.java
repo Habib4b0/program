@@ -64,7 +64,7 @@ public class OutboundLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(OutboundLogic.class);
     private static final HelperListUtil helperListUtil = HelperListUtil.getInstance();
-    public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    public final SimpleDateFormat dbDate = new SimpleDateFormat("yyyy-MM-dd");
     private static HashMap<String, String> hierarchySearchCriteria = new HashMap<>();
     private static HashMap<String, String> hierarchyFilterMap = new HashMap<>();
     private static HashMap<String, String> hierarchyTypeMap = new HashMap<>();
@@ -72,7 +72,7 @@ public class OutboundLogic {
     private static List<String> hierarchyCheckAllMap = new ArrayList<>();
     private static HashMap<String, String> rbMap = new HashMap<>();
     private static CommonDAO dao = new CommonDAOImpl();
-    private static HashMap<String, String> columnNames = new HashMap<String, String>();
+    private static HashMap<String, String> columnNames = new HashMap<>();
     public static final String RELATIONSHIP_DESCRIPTION = "relationshipDescription";
     
     static {
@@ -145,9 +145,9 @@ public class OutboundLogic {
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
 
                     } else if (ConstantsUtils.CREATED_DATE_FROM.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" > '").append(dbDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_TO.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" < '").append(dbDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else {
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                     }
@@ -584,9 +584,9 @@ public class OutboundLogic {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_FROM.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(dbDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_TO.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(dbDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else {
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                     }
@@ -853,9 +853,9 @@ public class OutboundLogic {
                         if (StringConstantUtils.RELATIONSHIP_TYPE_PROPERTY.equalsIgnoreCase(fields)) {
                             queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" = '").append(hierarchyTypeMap.get(String.valueOf(searchFields.getField(fields).getValue()))).append('\'');
                         } else if (StringConstantUtils.START_DATE_FROM.equalsIgnoreCase(fields) || StringConstantUtils.CREATION_DATE_FROM.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" > '").append(dbDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                         } else if (StringConstantUtils.START_DATE_TO.equalsIgnoreCase(fields) || StringConstantUtils.CREATION_DATE_TO.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(" < '").append(dbDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                         } else {
                             queryBuilder.append(StringConstantUtils.AND_SPACE).append(value).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                         }

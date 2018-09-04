@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ViewLogic.
  *
@@ -70,7 +70,7 @@ public class ViewLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static User getUserById(final String userId) throws SystemException, PortalException {
+    public static User getUserById(final String userId) throws PortalException {
         LOGGER.debug("Entering getUserById method with userId= {} " , userId);
         return dataSelection.getUser(Long.valueOf(userId));
     }
@@ -85,7 +85,7 @@ public class ViewLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws SystemException, PortalException {
+    public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException {
         LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId= {}, and view id= {}" , projectionId, String.valueOf(saveViewDTO.getViewId()));
         final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         ForecastingViewMaster viewMaster = ForecastingViewMasterLocalServiceUtil.createForecastingViewMaster(0);
@@ -147,13 +147,8 @@ public class ViewLogic {
             objects = (Object[]) result.get(0);
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-            ForecastingViewMaster viewMaster = ForecastingViewMasterLocalServiceUtil.createForecastingViewMaster(0);
-            try {
-                viewMaster = dataSelection.getForecastingViewMaster(viewId);
+            ForecastingViewMaster  viewMaster = dataSelection.getForecastingViewMaster(viewId);
                 dataSelection.deleteForecastingViewMaster(viewId);
-            } catch (PortalException | SystemException ex) {
-                LoggerFactory.getLogger(ViewLogic.class.getName()).error( StringUtils.EMPTY, ex);
-            }
             if (saveViewDTO.getViewName() != null
                     && !StringUtils.isEmpty(saveViewDTO.getViewName())) {
                 viewMaster.setViewName(saveViewDTO.getViewName());
@@ -170,7 +165,7 @@ public class ViewLogic {
             updatedViewMaster = dataSelection.addForecastingViewMaster(viewMaster);
             return updatedViewMaster;
 
-        } catch (SystemException | NumberFormatException e) {
+        } catch (SystemException |  PortalException | NumberFormatException e) {
            LOGGER.error(e.getMessage());
             return updatedViewMaster;
         }
