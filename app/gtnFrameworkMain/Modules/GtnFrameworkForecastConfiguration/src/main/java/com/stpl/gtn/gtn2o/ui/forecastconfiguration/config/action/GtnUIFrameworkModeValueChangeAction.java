@@ -15,8 +15,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction,GtnUIFrameworkDynamicClass {
-    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkModeValueChangeAction.class);
+public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkModeValueChangeAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -35,43 +35,41 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
 					.setComponentVisible(!visibility);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
 					.setComponentVisible(!visibility);
-                        int futureeFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_intervalFrequency")
+			int futureeFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_intervalFrequency")
 					.getIntegerFromField();
 			GtnUIFrameworkBaseComponent baseComponentInterval = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("FCView_futureInterval");
-                        if(("Interval".equals(value)) && baseComponentInterval.isValidFieldValue()){                        
-                            gtnLogger.info("frequency---------------"+futureeFrequency);                            
+			if (("Interval".equals(value)) && baseComponentInterval.isValidFieldValue()) {
+				gtnLogger.info("frequency---------------" + futureeFrequency);
 				String futureInterval = baseComponentInterval.getStringFromField();
-                                gtnLogger.info("interval-------------------"+futureInterval);
+				gtnLogger.info("interval-------------------" + futureInterval);
 				GtnWsForecastConfigurationRequest forecastConfigRequest = new GtnWsForecastConfigurationRequest();
 				forecastConfigRequest.setFutureFrequency(futureeFrequency);
 				forecastConfigRequest.setFutureInterval(futureInterval);
 
-                                GtnUIFrameworkWebserviceRequest futureRequest = new GtnUIFrameworkWebserviceRequest();
+				GtnUIFrameworkWebserviceRequest futureRequest = new GtnUIFrameworkWebserviceRequest();
 				futureRequest.setForecastConfigurationRequest(forecastConfigRequest);
 
-				GtnUIFrameworkWebserviceResponse responseFutureInterval = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE,
-						futureRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-                                String futureYear = responseFutureInterval.getGtnWsForecastConfigurationResponse().getForecastPeriod();
-                                gtnLogger.info("futureYear----------------->>>>"+futureYear);
-                        	GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(futureYear);
-                        }
-                        GtnWsForecastConfigurationRequest forecastConfigurationRequest = new GtnWsForecastConfigurationRequest();
+				GtnUIFrameworkWebserviceResponse responseFutureInterval = getResponseFutureInterval(futureRequest);
+				String futureYear = responseFutureInterval.getGtnWsForecastConfigurationResponse().getForecastPeriod();
+				gtnLogger.info("futureYear----------------->>>>" + futureYear);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(futureYear);
+			}
+			GtnWsForecastConfigurationRequest forecastConfigurationRequest = new GtnWsForecastConfigurationRequest();
 			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 			for (int pameterindex = 3; pameterindex < parameters.size() - 3; pameterindex++) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(pameterindex).toString())
 						.setComponentVisible(visibility);
-                                if(!"Interval".equals(value)){
-                                
-				request.setForecastConfigurationRequest(forecastConfigurationRequest);
+				if (!"Interval".equals(value)) {
 
-				GtnUIFrameworkWebserviceResponse response = getResponse(request);
-                                String forecastYear = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
-                                gtnLogger.info("year----------------->>>>"+forecastYear);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(forecastYear);
-                                }
+					request.setForecastConfigurationRequest(forecastConfigurationRequest);
+
+					GtnUIFrameworkWebserviceResponse response = getResponse(request);
+					String forecastYear = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
+					gtnLogger.info("year----------------->>>>" + forecastYear);
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod")
+							.setPropertyValue(forecastYear);
+				}
 			}
 			for (int pameterindex = parameters.size() - 3; pameterindex < parameters.size(); pameterindex++) {
 				GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
@@ -82,16 +80,25 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
 		}
 	}
 
+	public GtnUIFrameworkWebserviceResponse getResponseFutureInterval(GtnUIFrameworkWebserviceRequest futureRequest) {
+		return new GtnUIFrameworkWebServiceClient()
+				.callGtnWebServiceUrl(
+						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+								+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE,
+						futureRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
+	}
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
 
-    private GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
-        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-				+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-    }
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+						+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+	}
 
 }

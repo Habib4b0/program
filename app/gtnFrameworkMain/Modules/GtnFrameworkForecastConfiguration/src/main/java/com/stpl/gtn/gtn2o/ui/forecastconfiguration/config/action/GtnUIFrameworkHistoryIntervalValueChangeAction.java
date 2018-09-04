@@ -45,10 +45,7 @@ public class GtnUIFrameworkHistoryIntervalValueChangeAction implements GtnUIFram
 				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 				request.setForecastConfigurationRequest(forecastConfigurationRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-								+ GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getWsResponse(request);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
 						.setPropertyValue(response.getGtnWsForecastConfigurationResponse().getHistoryPeriod());
 				if (response.getGtnWsForecastConfigurationResponse().isErrorMessage()) {
@@ -62,6 +59,14 @@ public class GtnUIFrameworkHistoryIntervalValueChangeAction implements GtnUIFram
 			gtnLogger.error(exception.getMessage(), exception);
 			throw new GtnFrameworkGeneralException("HistoryIntervalValueChange Error", exception);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getWsResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+						+ GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	@Override

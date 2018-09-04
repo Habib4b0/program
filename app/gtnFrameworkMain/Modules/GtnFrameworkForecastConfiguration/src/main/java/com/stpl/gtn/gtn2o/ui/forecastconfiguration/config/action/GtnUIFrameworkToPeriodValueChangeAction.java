@@ -38,10 +38,7 @@ public class GtnUIFrameworkToPeriodValueChangeAction implements GtnUIFrameWorkAc
 				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 				request.setForecastConfigurationRequest(forecastConfigurationRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-								+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResponse(request);
 				if (response.getGtnWsForecastConfigurationResponse().isErrorMessage()) {
 					GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.INFO_ACTION,
 							GtnFrameworkCommonStringConstants.ERROR,
@@ -50,8 +47,14 @@ public class GtnUIFrameworkToPeriodValueChangeAction implements GtnUIFrameWorkAc
 			}
 		} catch (Exception exception) {
 			gtnLogger.error(exception.getMessage(), exception);
-			throw new GtnFrameworkGeneralException("IntervalFrequencyValueChangeAction Error", exception);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+						+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override
