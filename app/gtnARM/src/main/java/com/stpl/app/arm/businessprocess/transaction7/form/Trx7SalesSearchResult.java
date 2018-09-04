@@ -172,11 +172,6 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     }
 
     @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
-    }
-
-    @Override
     public Trx7SalesLogic getSummaryLogic() {
         return (Trx7SalesLogic) super.getSummaryLogic();
     }
