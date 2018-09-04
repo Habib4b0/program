@@ -397,17 +397,10 @@ public class ItemSelection extends CustomComponent implements View {
                             "There are no records that match the search criteria. Please try again");
                 }
 
-                if ((!altHistoryDTO.getItemIdentifier().equals("")) || (!"null".equals(altHistoryDTO.getItemIdentifierType()))) {
                     availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
                     availableItemsTable.setColumnHeaders(availableItemsHeaders);
                     selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
                     selectedItemsTable.setColumnHeaders(availableItemsHeaders);
-                } else {
-                    availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
-                    availableItemsTable.setColumnHeaders(availableItemsHeaders);
-                    selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
-                    selectedItemsTable.setColumnHeaders(availableItemsHeaders);
-                }
                 availableItemsTable.setColumnCheckBox(Constant.CHECK, true, false);
                 if (itemIdentifierType.getValue() != null && selectedItemsTable.size() > 0) {
                     selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, false);
