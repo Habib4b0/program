@@ -59,7 +59,7 @@ public class DiscountLogic {
      */
     private static final FileManagementLogicDAO FMDAO = new FileManagementLogicDAOImpl();
 
-    private static HashMap<String, String> columnNames = new HashMap<String, String>();
+    private static HashMap<String, String> columnNames = new HashMap<>();
 
     private SessionDTO sessionDTO;
 
@@ -206,7 +206,7 @@ public class DiscountLogic {
      * @return the search results
      * @throws SystemException the system exception
      */
-    public List<DiscountSearchDTO> getDeductionGroupDetails(final int deductionGroupSid) throws SystemException, PortalException {
+    public List<DiscountSearchDTO> getDeductionGroupDetails(final int deductionGroupSid) throws PortalException {
         List<DiscountSearchDTO> itemDetailsList;
         LOGGER.debug("saveItemGroupDetails started with P1:int deductionGroupSid= {}" , deductionGroupSid);
         List<DeductionGroupDetails> resultList;
@@ -306,7 +306,7 @@ public class DiscountLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public List<Integer> saveDiscount(final CustomFieldGroup binder, final List<DiscountSearchDTO> selectedRebates, final int version, final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public List<Integer> saveDiscount(final CustomFieldGroup binder, final List<DiscountSearchDTO> selectedRebates, final int version, final SessionDTO sessionDTO) throws PortalException {
         final List<Integer> idList = new ArrayList<>();
         final int userId = Integer.parseInt(sessionDTO.getUserId());
         int versionNo = version + 1;
@@ -437,7 +437,7 @@ public class DiscountLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private List<DiscountSearchDTO> getCustomizedDetailsResults(final List<RsModel> resultList, final Map resultList1) throws SystemException, PortalException {
+    private List<DiscountSearchDTO> getCustomizedDetailsResults(final List<RsModel> resultList, final Map resultList1) throws PortalException {
         LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList= {}, P2:HashMap resultList1 size= {}" , resultList.size(), resultList1.size());
         final List<DiscountSearchDTO> rebateDetailsList = new ArrayList<>();
         if (!resultList.isEmpty()) {
@@ -547,7 +547,7 @@ public class DiscountLogic {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public String deletedeductionGroup(final int deductionGroupSystemId) throws SystemException, PortalException {
+    public String deletedeductionGroup(final int deductionGroupSystemId) throws PortalException {
         LOGGER.debug("deletededuction started with P1:int itemdeductionSystemId= {}" , deductionGroupSystemId);
 
         DeductionGroup deductionGroup;

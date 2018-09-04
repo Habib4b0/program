@@ -147,8 +147,7 @@ public class ViewLogic {
             objects = (Object[]) result.get(0);
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-            ForecastingViewMaster viewMaster = ForecastingViewMasterLocalServiceUtil.createForecastingViewMaster(0);
-                viewMaster = dataSelection.getForecastingViewMaster(viewId);
+            ForecastingViewMaster  viewMaster = dataSelection.getForecastingViewMaster(viewId);
                 dataSelection.deleteForecastingViewMaster(viewId);
             if (saveViewDTO.getViewName() != null
                     && !StringUtils.isEmpty(saveViewDTO.getViewName())) {

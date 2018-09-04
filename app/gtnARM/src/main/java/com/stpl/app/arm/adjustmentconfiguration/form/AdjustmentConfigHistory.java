@@ -77,7 +77,7 @@ public class AdjustmentConfigHistory extends Window {
     /**
      * The Results Table
      */
-    protected ExtPagedTable resultsTable = new ExtPagedTable(configTableLogic);
+    protected ExtPagedTable historyResultsTable = new ExtPagedTable(configTableLogic);
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(AdjustmentConfigHistory.class);
     /**
@@ -125,29 +125,29 @@ public class AdjustmentConfigHistory extends Window {
     }
 
     private void loadResultsTable() {
-        resultsTableLayoutRes.addComponent(resultsTable);
+        resultsTableLayoutRes.addComponent(historyResultsTable);
         resultsTableLayoutRes.addComponent(getResponsiveControls(configTableLogic.createControls()));
         configTableLogic.setContainerDataSource(detailsTableContainer);
-        resultsTable.setSelectable(true);
-        resultsTable.setMultiSelect(true);
+        historyResultsTable.setSelectable(true);
+        historyResultsTable.setMultiSelect(true);
         configTableLogic.setPageLength(NumericConstants.TEN);
         configTableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(ARMUtils.getAdjustmentConfigColumn());
-        resultsTable.setColumnHeaders(ARMUtils.getAdjustmentConfigHeader());
-        resultsTable.setFilterBarVisible(true);
-        resultsTable.setSizeFull();
-        resultsTable.setImmediate(true);
-        resultsTable.setPageLength(NumericConstants.TEN);
-        resultsTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
-        resultsTable.addStyleName("table-header-normal");
-        resultsTable.addStyleName(ARMUtils.CENTER_CHECK);
+        historyResultsTable.setVisibleColumns(ARMUtils.getAdjustmentConfigColumn());
+        historyResultsTable.setColumnHeaders(ARMUtils.getAdjustmentConfigHeader());
+        historyResultsTable.setFilterBarVisible(true);
+        historyResultsTable.setSizeFull();
+        historyResultsTable.setImmediate(true);
+        historyResultsTable.setPageLength(NumericConstants.TEN);
+        historyResultsTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
+        historyResultsTable.addStyleName("table-header-normal");
+        historyResultsTable.addStyleName(ARMUtils.CENTER_CHECK);
 
-        resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
-        resultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
+        historyResultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
+        historyResultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
 
         configTableLogic.loadsetData(true, binderDTO);
 
-        resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+        historyResultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -156,17 +156,17 @@ public class AdjustmentConfigHistory extends Window {
 
             @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
-                String value = null;
+                String filterValue = null;
                 if ((originatingField.getValue() != null)) {
-                    value = String.valueOf(originatingField.getValue());
+                    filterValue = String.valueOf(originatingField.getValue());
                     if ("redemptionPeriod".equals(propertyId) && !originatingField.getValue().equals(StringUtils.EMPTY)) {
                         if ("yes".contains(originatingField.getValue().toString())) {
-                            value = "1";
+                            filterValue = "1";
                         } else {
-                            value = "0";
+                            filterValue = "0";
                         }
                     }
-                    return new SimpleStringFilter(propertyId, value, false, false);
+                    return new SimpleStringFilter(propertyId, filterValue, false, false);
 
                 }
                 return generateFilter(propertyId, originatingField.getValue());
@@ -174,26 +174,26 @@ public class AdjustmentConfigHistory extends Window {
 
             @Override
             public void filterRemoved(Object propertyId) {
-                LOGGER.debug("Inside filterRemoved Method");
+                LOGGER.debug("Inside History filterRemoved Method");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                LOGGER.debug("Inside filterAdded Method");
+                LOGGER.debug("Inside History filterAdded Method");
             }
 
             @Override
-            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
+            public Container.Filter filterGeneratorFailed(Exception reasons, Object property, Object val) {
                 return null;
             }
 
             @Override
-            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+            public AbstractField<?> getCustomFilterComponent(Object property) {
                 return null;
             }
         });
-        resultsTable.setFilterBarVisible(true);
-        resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        historyResultsTable.setFilterBarVisible(true);
+        historyResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
     }
 
     /**
@@ -203,29 +203,29 @@ public class AdjustmentConfigHistory extends Window {
      */
     @UiHandler("excelBtnRes")
     public void exportButtonLogic(Button.ClickEvent event) {
-        createWorkSheet("Adjustment Configuration - History", resultsTable);
+        createWorkSheet("Adjustment Configuration - History", historyResultsTable);
     }
 
     public void createWorkSheet(String moduleName, ExtPagedTable resultTable) {
         long recordCount = 0;
-        String[] visibleList = resultsTable.getColumnHeaders();
+        String[] visibleList = historyResultsTable.getColumnHeaders();
         if (resultTable.size() != 0) {
             try {
                 recordCount = logic.getAdjustmentConfigCountForHistory(configTableLogic.getFilters(), binderDTO);
             } catch (SQLException ex) {
-                LOGGER.error("Error in createWorkSheet :" , ex);
+                LOGGER.error("Error in createWorkSheet :", ex);
             }
         }
         try {
             ExcelExportforBB.createWorkSheet(visibleList, recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error("Error in createWorkSheet :" , ex);
+            LOGGER.error("Error in createWorkSheet :", ex);
         }
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
 
-        Object[] visibleList = resultsTable.getVisibleColumns();
+        Object[] visibleList = historyResultsTable.getVisibleColumns();
         try {
             if (end != 0) {
                 final List<AdjustmentReserveDTO> searchList = logic.getAdjustmentConfigDataForHistory(start, end, configTableLogic.getFilters(), configTableLogic.getSortByColumns(), binderDTO);
@@ -247,8 +247,8 @@ public class AdjustmentConfigHistory extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object adjustmentConfigHistoryobj) {
+        return super.equals(adjustmentConfigHistoryobj);
     }
 
     @Override
@@ -256,12 +256,12 @@ public class AdjustmentConfigHistory extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjustmentConfigHistoryout) throws IOException {
+        adjustmentConfigHistoryout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjustmentConfigHistoryin) throws IOException, ClassNotFoundException {
+        adjustmentConfigHistoryin.defaultReadObject();
     }
 
 }

@@ -24,6 +24,7 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -78,8 +79,6 @@ public class RemoveItemLogic {
         if (list != null && !list.isEmpty()) {
             Object obj = list.get(0);
             count = obj == null ? 0 : (Integer) obj;
-        }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
         }
         return count;
     }
@@ -213,7 +212,7 @@ public class RemoveItemLogic {
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
             if (frequencyDivision == NumericConstants.TWELVE) {
-                commonColumn = commonColumn.toLowerCase();
+                commonColumn = commonColumn.toLowerCase(Locale.ENGLISH);
             }
             if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {
                 tempCcpid = String.valueOf(obj[1]);
@@ -398,8 +397,6 @@ public class RemoveItemLogic {
             Object obj = list.get(0);
             count = obj == null ? 0 : (Integer) obj;
         }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
-        }
         return count;
     }
 
@@ -522,7 +519,7 @@ public class RemoveItemLogic {
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
             if (frequencyDivision == NumericConstants.TWELVE) {
-                commonColumn = commonColumn.toLowerCase();
+                commonColumn = commonColumn.toLowerCase(Locale.ENGLISH);
             }
 
             if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {

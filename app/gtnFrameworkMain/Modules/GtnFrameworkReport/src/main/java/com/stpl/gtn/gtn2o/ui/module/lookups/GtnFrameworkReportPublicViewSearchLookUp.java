@@ -282,6 +282,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		publicViewPagedTableConfig.setSelectable(true);
 		publicViewPagedTableConfig.setPageLength(10);
 		publicViewPagedTableConfig.setItemPerPage(10);
+		publicViewPagedTableConfig.setPaginationOff(true);
 		
 		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
 		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);

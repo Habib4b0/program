@@ -462,13 +462,13 @@ public class ItemSelection extends CustomComponent {
         }
         
     }
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    protected void excelExportLogic() throws PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    private void createWorkSheet() throws PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final int recordCount = isSelected ? selectionLogic.getSelectedTableCount(sessionDTO,null):selectionLogic.getAvailableTableCount(binder,null,null);
         ExcelExportforBB.createWorkSheet(HeaderUtils.getItemHeaders(), recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);

@@ -97,8 +97,6 @@ public class PPAFormulaLookup extends Window {
     private RSFormulaDTO rsFormulaDTO = new RSFormulaDTO();
 
     private CustomFieldGroup binder;
-
-    private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final CommonUIUtils commonUIUtils = new CommonUIUtils();
 
     private boolean isSelected;
