@@ -39,7 +39,7 @@ public class HeaderUtils {
 	}
 
 	public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {
-		int columnCount = pagedTreeGrid.getTableConfig().getColumnHeaders().size();
+                int columnCount=pagedTreeGrid.getTableConfig().getVisibleColumns().size();
 		int columnEndCount = columnEnd;
 		
 		if ((columnStart+columnEnd) > columnCount) {
