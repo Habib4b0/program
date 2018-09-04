@@ -16,8 +16,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

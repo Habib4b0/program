@@ -1,7 +1,6 @@
 package com.stpl.app.utils;
 
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.LabelConstants.SALES_PROJ;
 import com.stpl.gtn.gtn2o.ws.bean.bcp.GtnWsBcpServiceBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
