@@ -341,12 +341,12 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				Arrays.asList("levelNo", "relationshipLevelValues", "parentNode", "levelName", "levelValuReference",
 						"tableName", "fieldName", "relationshipLevelSid", "hierarchyNo", "relationshipBuilderSid",
 						"hierarchyLevelDefSid", "hierarchyDefSid", "versionNo", "levelValue"));
-		productSelectionDualListBoxConfig
-				.setLeftTableURL(GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
-		productSelectionDualListBoxConfig
-				.setMoveRightURL(GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_RIGHT_TABLELOAD_SERVICE);
-		productSelectionDualListBoxConfig
-				.setMoveAllDataURL(GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
+		productSelectionDualListBoxConfig.setLeftTableURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
+		productSelectionDualListBoxConfig.setMoveRightURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_RIGHT_TABLELOAD_SERVICE);
+		productSelectionDualListBoxConfig.setMoveAllDataURL(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
 		productSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(productSelectionDualListBoxConfig);
 	}
 
@@ -382,8 +382,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameWorkActionConfig customViewPopupAction = new GtnUIFrameWorkActionConfig();
 		customViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		customViewPopupAction.addActionParameter("dataSelection".equals(currentScreenNameSpace)
-				? GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS
-				: "reportCustomViewLookup");
+				? GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS : "reportCustomViewLookup");
 		customViewPopupAction.addActionParameter("Custom Tree View pop-up");
 		customViewPopupAction.addActionParameter("75%");
 		customViewPopupAction.addActionParameter(null);
@@ -408,7 +407,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 		customViewComboboxConfig.setComponentWsFieldId("customViewName");
 		customViewComboboxConfig.setVaadinComponentPlaceHolder("-Select one-");
-		customViewComboboxConfig.addComboComponentStyle("v-report-width-170");	
+		customViewComboboxConfig.addComboComponentStyle("v-report-width-170");
 		componentList.add(customViewComboboxConfig);
 
 		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig("REPORT_CUSTOM_VIEW",
