@@ -753,12 +753,12 @@ public final class AccrualRateProjectionLogic {
 
     }
 
-    public void removeFromTempTable(String CompanySid, AccrualRateSelectionDTO dto, boolean flag) {
+    public void removeFromTempTable(String companySid, AccrualRateSelectionDTO dto, boolean flag) {
 
         StringBuilder deleteQuery = new StringBuilder();
         deleteQuery.append("DELETE FROM ST_EXCLUSION_DETAILS WHERE");
         if (flag) {
-              deleteQuery.append(" COMPANY_MASTER_SID =" ).append( CompanySid);
+              deleteQuery.append(" COMPANY_MASTER_SID =" ).append( companySid);
         } else {
              deleteQuery.append(" PROJECTION_MASTER_SID = " ).append( dto.getProjectionId());
         }

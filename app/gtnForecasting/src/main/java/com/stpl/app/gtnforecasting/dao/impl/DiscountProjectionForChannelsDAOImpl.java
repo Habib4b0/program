@@ -473,8 +473,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             String selectedPeriodsToUpdate = CommonUtils.CollectionToString(selectedPeriodsList, false);
             selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
             selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace(Constant.Q, StringUtils.EMPTY).replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
-            String DiscountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
-           HelperTableLocalServiceUtil.executeUpdateQuery(DiscountProjectionTableUpdateQuery);
+            String discountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
+           HelperTableLocalServiceUtil.executeUpdateQuery(discountProjectionTableUpdateQuery);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

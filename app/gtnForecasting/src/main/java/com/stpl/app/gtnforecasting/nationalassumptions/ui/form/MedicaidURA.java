@@ -924,8 +924,8 @@ public class MedicaidURA extends CustomComponent implements View {
         tempVariables = tempVariables.substring(1, tempVariables.length() - 1);
         HelperDTO helperDTO = (HelperDTO) therapeuticDdlb.getValue();
         String therapy = helperDTO.getDescription() + "," + helperDTO.getId();
-        HelperDTO DTO = (HelperDTO) brandDdlb.getValue();
-        String brand = DTO.getDescription() + "," + DTO.getId();
+        HelperDTO dtoMedicaid = (HelperDTO) brandDdlb.getValue();
+        String brand = dtoMedicaid.getDescription() + "," + dtoMedicaid.getId();
         map.put(Constant.HISTORY, historyDdlb.getValue().toString());
         map.put("therapeutic", therapy);
         map.put(Constant.BRAND, brand);

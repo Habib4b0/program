@@ -1096,10 +1096,10 @@ public class DataSelectionIndex extends CustomComponent implements View {
             }
             if (targetItem != null) {
                 int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
-                String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
+                String projectionNameResults = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
                 modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
                 projectionId.setValue(String.valueOf(projectionSysId));
-                sessionDTO.setProjectionName(projectionName);
+                sessionDTO.setProjectionName(projectionNameResults);
             }
         } else {
             projectionId.setValue(null);

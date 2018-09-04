@@ -158,7 +158,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
 
     private List<DiscountProjectionDTO> loadLevelData(Object parentId, int start, int offset) {
         LOGGER.debug("inside discount projection loadData method ");
-        DiscountProjectionLogic logic = new DiscountProjectionLogic();
+        DiscountProjectionLogic logicDiscountProj = new DiscountProjectionLogic();
         List list = new ArrayList();
 
         try {
@@ -281,7 +281,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 isParentChecked = true;
             }
             if (levelNumber != 0 && treeLevelNo != 0) {
-                list = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
+                list = logicDiscountProj.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, start, offset, false, isParentChecked, customViewDetails, false, false,
                         StringUtils.EMPTY, relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.emptyList(), new HashMap<String, String>(), forecastConfigList, projectionSelection);
@@ -305,7 +305,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             return 0;
         }
         LOGGER.debug("inside discount projection getCount method");
-        DiscountProjectionLogic logic = new DiscountProjectionLogic();
+        DiscountProjectionLogic logicdisProjection = new DiscountProjectionLogic();
         try {
             int levelNumber = 0;
             String hierarchyNo = StringUtils.EMPTY;
@@ -423,10 +423,10 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             if (levelNumber != 0 && treeLevelNo != 0) {
                 setMaxExpandLevelNo(treeLevelNo);
                 if (isCustomHierarchy) {
-                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, userGroup,customViewDetails,isCustomHierarchy,customDetailsList);
+                    return logicdisProjection.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, userGroup,customViewDetails,isCustomHierarchy,customDetailsList);
                 } else {
 
-                    return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup, projectionSelection);
+                    return logicdisProjection.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup, projectionSelection);
                 }
 
             }
@@ -581,11 +581,11 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustomHierarchy = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustomHierarchyBulkData = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-                customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, rightDto, 0, 0, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
+                customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchyBulkData, rightDto, 0, 0, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                 customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), hierarchyNumbers,
                 relationshipBuilderSid, false, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.emptyList(), new HashMap<String, String>(), forecastConfigList, projectionSelection);
 

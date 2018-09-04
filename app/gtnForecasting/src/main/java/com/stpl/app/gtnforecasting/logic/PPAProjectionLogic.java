@@ -151,9 +151,9 @@ public class PPAProjectionLogic {
         List list = null;
         printselection();
         List<Object> finalList = (List) configureLevel(selection, start, offset, selection.getHierarchyNo(), ridhtdto);
-        List<PPAProjectionDTO> PPAList = (List<PPAProjectionDTO>) finalList.get(0);
+        List<PPAProjectionDTO> ppaList = (List<PPAProjectionDTO>) finalList.get(0);
         list = getPPAProjectionList(selection, selection.getHierarchyNo(), finalList);
-        list = getCustomizedPPA(list, selection, ridhtdto, PPAList);
+        list = getCustomizedPPA(list, selection, ridhtdto, ppaList);
         return list;
     }
 

@@ -377,8 +377,8 @@ public class ForecastUI extends UI {
 		return EXCEL_CLOSE;
 	}
 
-	public static void setEXCEL_CLOSE(boolean eXCEL_CLOSE) {
-		EXCEL_CLOSE = eXCEL_CLOSE;
+	public static void setEXCEL_CLOSE(boolean excelClose) {
+		EXCEL_CLOSE = excelClose;
 	}
 
     private String getDeductionCaptionWithSid(Object deductionValue,SessionDTO session) {

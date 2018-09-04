@@ -676,18 +676,19 @@ public class AlternateSummery extends CustomComponent {
     /**
      * Formats the given value based on the passed decimal format.
      *
-     * @param FORMAT
+     * @param formatAltSummary
      * @param value
      * @param appendChar
      * @return
      */
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatValue(DecimalFormat formatAltSummary, String value, String appendChar) {
+        String valueAltSummary = value;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            valueAltSummary = appendChar.concat(formatAltSummary.format(Double.valueOf(valueAltSummary)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            valueAltSummary = formatAltSummary.format(Double.valueOf(valueAltSummary)).concat(appendChar);
         }
-        return value;
+        return valueAltSummary;
     }
 
     /**
