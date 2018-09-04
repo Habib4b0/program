@@ -861,10 +861,10 @@ public class AlternateSummery extends CustomComponent {
                                 updateCheckForChildLevels(tableHierarchyNo, itemId, checkValue);
 
                                 if (!checkValue) {
-                                    ExtPagedTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-                                    leftTable.removeColumnCheckListener(checkListener);
-                                    leftTable.setColumnCheckBox(Constant.CHECK, true, false);
-                                    leftTable.addColumnCheckListener(checkListener);
+                                    ExtPagedTreeTable leftTableAlt = resultsTable.getLeftFreezeAsTable();
+                                    leftTableAlt.removeColumnCheckListener(checkListener);
+                                    leftTableAlt.setColumnCheckBox(Constant.CHECK, true, false);
+                                    leftTableAlt.addColumnCheckListener(checkListener);
                                     checkAll = false;
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);
@@ -1389,18 +1389,19 @@ public class AlternateSummery extends CustomComponent {
     /**
      * Formats the given value based on the passed decimal format.
      *
-     * @param FORMAT
+     * @param format
      * @param value
      * @param appendChar
      * @return
      */
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatValue(DecimalFormat format, String value, String appendChar) {
+        String appendCharNew = appendChar;
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            appendCharNew = appendChar.concat(format.format(Double.valueOf(appendCharNew)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            appendCharNew = format.format(Double.valueOf(appendCharNew)).concat(appendChar);
         }
-        return value;
+        return appendCharNew;
     }
 
     /**
@@ -1743,15 +1744,15 @@ public class AlternateSummery extends CustomComponent {
                     group.setWidth("100%");
                     return group;
                 } else if (Constant.METHODOLOGY.equals(propertyId)) {
-                    TextField metohdologyFilter = new TextField();
-                    metohdologyFilter.setReadOnly(true);
-                    metohdologyFilter.setWidth("100%");
-                    return metohdologyFilter;
+                    TextField metohdologyFilterAlt = new TextField();
+                    metohdologyFilterAlt.setReadOnly(true);
+                    metohdologyFilterAlt.setWidth("100%");
+                    return metohdologyFilterAlt;
                 } else if (Constant.BASELINE.equals(propertyId)) {
-                    TextField baseLineFilter = new TextField();
-                    baseLineFilter.setReadOnly(true);
-                    baseLineFilter.setWidth("100%");
-                    return baseLineFilter;
+                    TextField baseLineFilterAlt = new TextField();
+                    baseLineFilterAlt.setReadOnly(true);
+                    baseLineFilterAlt.setWidth("100%");
+                    return baseLineFilterAlt;
                 } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
@@ -1799,16 +1800,16 @@ public class AlternateSummery extends CustomComponent {
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                if (Constant.METHODOLOGY.equals(propertyId)) {
-                    TextField metohdologyFilter = new TextField();
-                    metohdologyFilter.setReadOnly(true);
-                    metohdologyFilter.setWidth("100%");
-                    return metohdologyFilter;
+                    TextField metohdologyFilterAltSum = new TextField();
+                    metohdologyFilterAltSum.setReadOnly(true);
+                    metohdologyFilterAltSum.setWidth("100%");
+                    return metohdologyFilterAltSum;
 
                 } else if (Constant.BASELINE.equals(propertyId)) {
-                    TextField baseLineFilter = new TextField();
-                    baseLineFilter.setReadOnly(true);
-                    baseLineFilter.setWidth("100%");
-                    return baseLineFilter;
+                    TextField baseLineFilterAltSum = new TextField();
+                    baseLineFilterAltSum.setReadOnly(true);
+                    baseLineFilterAltSum.setWidth("100%");
+                    return baseLineFilterAltSum;
 
                 } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();

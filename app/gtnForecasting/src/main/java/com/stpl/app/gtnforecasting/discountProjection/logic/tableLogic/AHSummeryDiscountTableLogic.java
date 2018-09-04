@@ -61,7 +61,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     private boolean checkAll = false;
     private String relationshipBuilderSid = StringUtils.EMPTY;
     private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
-    private final AltSummeryDiscount altSummeryDiscount;
+    protected final AltSummeryDiscount altSummeryDiscount;
     private ProjectionSelectionDTO projectionSelection;
     private int maxExpandLevelNo = 0;
     private ProjectionSelectionDTO alternateProjectionSelection;

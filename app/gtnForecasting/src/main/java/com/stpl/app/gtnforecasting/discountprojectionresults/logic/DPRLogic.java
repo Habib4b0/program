@@ -150,7 +150,7 @@ public class DPRLogic {
 
         if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
             DiscountProjectionResultsDTO mandatedDisc = null;
-            DiscountProjectionResultsDTO SupplDisc = null;
+            DiscountProjectionResultsDTO supplDisc = null;
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal()) {
                 setProjectionTotalList(getConfiguredResultsTotal(projSelDTO));
                 if (!getProjectionTotalList().isEmpty()) {
@@ -160,11 +160,11 @@ public class DPRLogic {
             }
             String discount = projSelDTO.getMandatedOrSupp();
             if (neededRecord > 0 && projSelDTO.isIsTotal() && !projSelDTO.isIsProjectionTotal()) {
-                if (mandatedDisc == null || SupplDisc == null) {
+                if (mandatedDisc == null || supplDisc == null) {
                     List<DiscountProjectionResultsDTO> mandOrSupplemental = getMandSuppDiscount(projSelDTO);
                     if (mandOrSupplemental != null && !mandOrSupplemental.isEmpty()) {
                         mandatedDisc = mandOrSupplemental.get(0);
-                        SupplDisc = mandOrSupplemental.get(1);
+                        supplDisc = mandOrSupplemental.get(1);
                     }
 
                 }
@@ -194,7 +194,7 @@ public class DPRLogic {
                         toadd = false;
                     }
                     if (toadd && !projSelDTO.isIsProjectionTotal()) {
-                        projDTOList.add(SupplDisc);
+                        projDTOList.add(supplDisc);
                         neededRecord--;
                         started++;
                     }
@@ -1307,12 +1307,12 @@ public class DPRLogic {
         return projDTOList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
-        String valueFormat;
+    public String getFormattedValue(DecimalFormat formatt, String value) {
+        String valueFormat = value;
         if (value.contains(Constant.NULL)) {
             valueFormat = "...";
         } else {
-            valueFormat = FORMAT.format(Double.valueOf(value));
+            valueFormat = formatt.format(Double.valueOf(valueFormat));
         }
         return valueFormat;
     }

@@ -394,9 +394,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public void configureTable() {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getVarianceLeftTableColumns(fullHeader);
-        List<Object> HeaderPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
-        rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
-        CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
+        List<Object> headerPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
+        rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+        CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
 
         alignRight();
@@ -672,8 +672,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
                     }
                 }
-            int ColSize = 252;
-            int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
+            int colSize = 252;
+            int maxColSize = colSize % columnSize == NumericConstants.ZERO ? 252 : 250;
             Object[] leftColumns = new Object[leftcolumnsize + maxColSize];
             String[] leftHeaders = new String[leftcolumnsize + maxColSize];
             System.arraycopy(fullHeader.getSingleColumns().toArray(), NumericConstants.ZERO, leftColumns, NumericConstants.ZERO, NumericConstants.ONE);
