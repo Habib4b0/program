@@ -18,7 +18,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
