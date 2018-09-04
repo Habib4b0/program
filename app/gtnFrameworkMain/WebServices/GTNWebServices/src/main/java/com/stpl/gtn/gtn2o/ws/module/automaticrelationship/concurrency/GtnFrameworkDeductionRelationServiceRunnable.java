@@ -66,8 +66,7 @@ public class GtnFrameworkDeductionRelationServiceRunnable {
 		Date date = new Date();
 		List<String> input = new ArrayList<>();
 		input.add(String.valueOf(productRelationBuilderBean.getRelationshipBuilderSid()));
-		List<Integer> resultset = (List<Integer>) gtnSqlQueryEngine
-				.executeSelectQuery(getQueryReplaced(input, "getProductRelationId"));
+		List<Integer> resultset = getResultSet(input);
 		if (resultset == null || resultset.isEmpty())
 		{
 			relationBuilder = new RelationshipBuilder();
@@ -83,6 +82,11 @@ public class GtnFrameworkDeductionRelationServiceRunnable {
 
 		return relationBuilder;
 	}
+
+    public List<Integer> getResultSet(List<String> input) throws GtnFrameworkGeneralException {
+        return (List<Integer>) gtnSqlQueryEngine
+                .executeSelectQuery(getQueryReplaced(input, "getProductRelationId"));
+    }
 
 	private GtnWsRelationshipBuilderBean customizeDeductionRelation(RelationshipBuilder deductionRelationshipBuilder) {
 		GtnWsRelationshipBuilderBean deductionRelationBean = new GtnWsRelationshipBuilderBean();

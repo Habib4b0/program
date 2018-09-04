@@ -220,7 +220,7 @@ public class BussinessProcessForm extends Window {
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error("Error in tabSheet addSelectedTabChangeListener" , ex);
+            LOGGER.error("Error in tabSheet addSelectedTabChangeListener", ex);
         }
 
     }
@@ -356,7 +356,7 @@ public class BussinessProcessForm extends Window {
                                                 }
 
                                             } catch (Exception ex) {
-                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER , ex);
+                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER, ex);
                                             }
                                         }
 
@@ -378,7 +378,7 @@ public class BussinessProcessForm extends Window {
                     }
                 } catch (Exception ex) {
 
-                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER , ex);
+                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER, ex);
                 }
             }
         });
@@ -462,7 +462,7 @@ public class BussinessProcessForm extends Window {
 
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error("Error in submitProjToWorkflow" , ex);
+            LOGGER.error("Error in submitProjToWorkflow", ex);
         }
     }
 
@@ -481,7 +481,7 @@ public class BussinessProcessForm extends Window {
             List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
             workflowStatus = result != null && !ARMUtils.NULL.equals(String.valueOf(result.get(0))) ? String.valueOf(result.get(0)) : StringUtils.EMPTY;
         } catch (Exception ex) {
-            LOGGER.error("Error in getWorkflowStatus" , ex);
+            LOGGER.error("Error in getWorkflowStatus", ex);
         }
         return workflowStatus;
     }
@@ -649,15 +649,15 @@ public class BussinessProcessForm extends Window {
         if (dataSelectionLogic.dateCheckforGLCompAndBu(dataselectionDTO, true)) {
             MessageBox.showPlain(Icon.QUESTION, "Confirm Approve", "Are you sure you want to approve the projection " + " ?", new MessageBoxListener() {
                 @Override
-                public void buttonClicked(ButtonId buttonId) {
-                    if (buttonId.name().equals(ARMUtils.YES)) {
+                public void buttonClicked(ButtonId approveButtonId) {
+                    if (approveButtonId.name().equals(ARMUtils.YES)) {
 
-                        final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                        getUI().getCurrent().addWindow(popup);
-                        popup.addCloseListener(new Window.CloseListener() {
+                        final WorkFlowNotesLookup approvePopup = new WorkFlowNotesLookup();
+                        getUI().getCurrent().addWindow(approvePopup);
+                        approvePopup.addCloseListener(new Window.CloseListener() {
 
                             @Override
-                            public void windowClose(Window.CloseEvent e) {
+                            public void windowClose(Window.CloseEvent approveEvent) {
                                 try {
                                     if (WorkFlowNotesLookup.getSubmitFlag().equals(CommonConstant.SUCCESS)) {
                                         int projectionId = sessionDTO.getProjectionId();
@@ -667,7 +667,7 @@ public class BussinessProcessForm extends Window {
                                         WorkflowLogic wfLogic = new WorkflowLogic();
                                         String workflowIdUpdate;
                                         WorkflowMasterDTO wfMasterDto;
-                                        wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getApprovedStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());
+                                        wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getApprovedStatus(), approvePopup.getNotes().getValue(), sessionDTO.getApprovalLevel());
                                         workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                         if (sessionDTO.getNoOfApproval() > sessionDTO.getApprovalLevel()) {
                                             wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getPendingStatus(), StringUtils.EMPTY, sessionDTO.getApprovalLevel() + 1);
@@ -696,19 +696,28 @@ public class BussinessProcessForm extends Window {
                                             callWorkflowInboxRefresh();
                                             AbstractNotificationUtils.getInfoNotification("Approved Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                                             // For Mail
-
-                                            btnApprove.setEnabled(false);
-                                            btnWithdraw.setEnabled(false);
-                                            btnCancel.setEnabled(false);
-                                            btnReject.setEnabled(false);
+                                            boolean approveFlag = getApproveFlag();
+                                            btnApprove.setEnabled(approveFlag);
+                                            btnWithdraw.setEnabled(approveFlag);
+                                            btnCancel.setEnabled(approveFlag);
+                                            btnReject.setEnabled(approveFlag);
                                         } else {
                                             CommonUIUtils.getMessageNotification("The projection not approved properly");
                                         }
-                                        WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
+                                        String approveMessage = getApproveMessage();
+                                        WorkFlowNotesLookup.setWorkFlowLookupFlag(approveMessage);
                                     }
                                 } catch (Exception ex) {
-                                    LOGGER.error("Error in btnApproveLogic" , ex);
+                                    LOGGER.error("Error in btnApprove Logic", ex);
                                 }
+                            }
+
+                            private boolean getApproveFlag() {
+                                return false;
+                            }
+
+                            private String getApproveMessage() {
+                                return CommonConstant.FAILED;
                             }
                         });
 
@@ -723,14 +732,14 @@ public class BussinessProcessForm extends Window {
     protected void btnRejectLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reject", "Are you sure you want to reject the projection " + " ?", new MessageBoxListener() {
             @Override
-            public void buttonClicked(ButtonId buttonId) {
-                if (buttonId.name().equals(ARMUtils.YES)) {
-                    final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
-                    popup.addCloseListener(new Window.CloseListener() {
+            public void buttonClicked(ButtonId rejectButtonId) {
+                if (rejectButtonId.name().equals(ARMUtils.YES)) {
+                    final WorkFlowNotesLookup rejectPopup = new WorkFlowNotesLookup();
+                    getUI().getCurrent().addWindow(rejectPopup);
+                    rejectPopup.addCloseListener(new Window.CloseListener() {
 
                         @Override
-                        public void windowClose(Window.CloseEvent e) {
+                        public void windowClose(Window.CloseEvent rejectEvent) {
                             try {
                                 if (WorkFlowNotesLookup.getSubmitFlag().equals(CommonConstant.SUCCESS)) {
                                     int projectionId = sessionDTO.getProjectionId();
@@ -738,29 +747,33 @@ public class BussinessProcessForm extends Window {
                                     int userIdInt = Integer.parseInt(sessionUserId);
                                     int workflowId = sessionDTO.getWorkflowId();
                                     WorkflowLogic wfLogic = new WorkflowLogic();
-                                    WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getRejectedStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());
+                                    WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getRejectedStatus(), rejectPopup.getNotes().getValue(), sessionDTO.getApprovalLevel());
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                        Map<String, Object> params = new HashMap<>();
-                                        params.put(CommonConstant.APPROVE_FLAG, "reject-RWC");
+                                        Map<String, Object> rejectParams = new HashMap<>();
+                                        rejectParams.put(CommonConstant.APPROVE_FLAG, "reject-RWC");
                                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         // For Mail
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Rejected Information ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-
-                                        btnApprove.setEnabled(false);
-                                        btnWithdraw.setEnabled(false);
-                                        btnCancel.setEnabled(false);
-                                        btnReject.setEnabled(false);
+                                        boolean rejectFlag = getRejectFlag();
+                                        btnApprove.setEnabled(rejectFlag);
+                                        btnWithdraw.setEnabled(rejectFlag);
+                                        btnCancel.setEnabled(rejectFlag);
+                                        btnReject.setEnabled(rejectFlag);
                                     } else {
                                         CommonUIUtils.getMessageNotification("The projection not rejected properly");
                                     }
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnRejectLogic" , ex);
+                                LOGGER.error("Error in btnRejectLogic", ex);
                             }
+                        }
+
+                        private boolean getRejectFlag() {
+                            return false;
                         }
                     });
                 }
@@ -771,14 +784,14 @@ public class BussinessProcessForm extends Window {
     protected void btnWithdrawLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Withdraw", "Are you sure you want to withdraw the projection " + " ?", new MessageBoxListener() {
             @Override
-            public void buttonClicked(ButtonId buttonId) {
-                if (buttonId.name().equals(ARMUtils.YES)) {
+            public void buttonClicked(ButtonId withdrawButtonId) {
+                if (withdrawButtonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
                     getUI().getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
-                        public void windowClose(Window.CloseEvent e) {
+                        public void windowClose(Window.CloseEvent withdrawEvent) {
                             try {
                                 if (WorkFlowNotesLookup.getSubmitFlag().equals(CommonConstant.SUCCESS)) {
                                     int projectionId = sessionDTO.getProjectionId();
@@ -790,25 +803,29 @@ public class BussinessProcessForm extends Window {
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                        Map<String, Object> params = new HashMap<>();
-                                        params.put(CommonConstant.APPROVE_FLAG, "withdraw-RWC");
+                                        Map<String, Object> withdrawParams = new HashMap<>();
+                                        withdrawParams.put(CommonConstant.APPROVE_FLAG, "withdraw-RWC");
                                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                                         // For Mail
-
-                                        btnApprove.setEnabled(false);
-                                        btnWithdraw.setEnabled(false);
-                                        btnCancel.setEnabled(false);
-                                        btnReject.setEnabled(false);
+                                        boolean withdrawFlag = getWithdrawFlag();
+                                        btnApprove.setEnabled(withdrawFlag);
+                                        btnWithdraw.setEnabled(withdrawFlag);
+                                        btnCancel.setEnabled(withdrawFlag);
+                                        btnReject.setEnabled(withdrawFlag);
                                     } else {
                                         CommonUIUtils.getMessageNotification("The projection not withdrawn properly");
                                     }
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnWithdrawLogic" , ex);
+                                LOGGER.error("Error in btnWithdrawLogic", ex);
                             }
+                        }
+
+                        private boolean getWithdrawFlag() {
+                            return false;
                         }
                     });
                 }
@@ -838,8 +855,8 @@ public class BussinessProcessForm extends Window {
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                        Map<String, Object> params = new HashMap<>();
-                                        params.put(CommonConstant.APPROVE_FLAG, "cancel-RWC");
+                                        Map<String, Object> cancelParams = new HashMap<>();
+                                        cancelParams.put(CommonConstant.APPROVE_FLAG, "cancel-RWC");
 
                                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
@@ -859,7 +876,7 @@ public class BussinessProcessForm extends Window {
                                     WorkFlowNotesLookup.setWorkFlowLookupFlag(CommonConstant.FAILED);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error("Error in btnCancelLogic" , ex);
+                                LOGGER.error("Error in btnCancelLogic", ex);
                             }
                         }
                     });
@@ -928,8 +945,8 @@ public class BussinessProcessForm extends Window {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object bpObj) {
+        return super.equals(bpObj);
     }
 
     @Override
@@ -937,11 +954,11 @@ public class BussinessProcessForm extends Window {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream bpOut) throws IOException {
+        bpOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream bpIn) throws IOException, ClassNotFoundException {
+        bpIn.defaultReadObject();
     }
 }

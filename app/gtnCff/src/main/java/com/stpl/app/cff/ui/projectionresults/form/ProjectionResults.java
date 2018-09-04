@@ -85,7 +85,7 @@ public class ProjectionResults extends ForecastProjectionResults {
     private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, discountMap);
     private final DataSelectionDTO dataSelectionDTO;
 
-    public ProjectionResults(final SessionDTO session, final String screenName, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
+    public ProjectionResults(final SessionDTO session, final String screenName, final DataSelectionDTO dataSelectionDTO) throws PortalException {
         super(session, screenName);
         this.session = session;
         this.dataSelectionDTO = dataSelectionDTO;
@@ -93,7 +93,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         configureOnNonMandated();
     }
 
-    private void configureOnNonMandated() throws PortalException, SystemException {
+    private void configureOnNonMandated() throws PortalException {
         configurePermission();
         loadFrequencyDdlb();
         historyDdlb.setValue(NumericConstants.FOUR);
@@ -232,11 +232,10 @@ public class ProjectionResults extends ForecastProjectionResults {
         if (levelNo == 0) {
             projectionSelectionDTO.setIsFilter(false);
         }
-        if (excelExport) {
-        } else {
+        if (!excelExport) {
             levelDdlb.setValue(SELECT_ONE);
             loadResultTable(levelNo, hierarchyNo);
-        }
+        } 
 
     }
 
@@ -504,7 +503,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         sessionDTO.setCustomId(customId);
     }
 
-    public void saveProjectionResultsSelection(SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void saveProjectionResultsSelection(SessionDTO sessionDTO) throws PortalException {
         LOGGER.debug("save Projection Results method starts");
         Map map = new HashMap();
         map.put("Frequency", frequencyDdlb.getValue().toString());

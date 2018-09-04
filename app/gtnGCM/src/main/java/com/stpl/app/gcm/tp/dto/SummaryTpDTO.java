@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author mohamed
  */
-public class SummaryDTO implements Serializable {
+public class SummaryTpDTO implements Serializable {
 
     private String companyNo = StringUtils.EMPTY;
     private String companyName = StringUtils.EMPTY;

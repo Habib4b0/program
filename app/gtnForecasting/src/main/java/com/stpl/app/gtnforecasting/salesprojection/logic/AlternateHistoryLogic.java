@@ -125,7 +125,7 @@ public class AlternateHistoryLogic {
     public List<AlternateHistoryDTO> searchCompany(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session) {
 
         Map<String, Object> parameters = new HashMap<>();
-        List list = Collections.EMPTY_LIST;
+        List list = Collections.emptyList();
         try {
             if (isValidCriteria(altHistoryDTO.getContractHolder())) {
                 String contractHolderParam = altHistoryDTO.getContractHolder();
@@ -1762,7 +1762,7 @@ public class AlternateHistoryLogic {
 
         List<String> months = Arrays.asList(dateFormatSymbols.getShortMonths());
 
-        String selectedPeriods = StringUtils.EMPTY;
+        String selectedPeriods;
         StringBuilder selectedPeriodsBuilder = new StringBuilder();
         for (Object object : allocatedPeriods) {
             String frequency = (StringUtils.EMPTY + object).substring(frequencyStartIndex, frequncyEndIndex);

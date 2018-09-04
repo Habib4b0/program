@@ -397,24 +397,10 @@ public class ItemSelection extends CustomComponent implements View {
                             "There are no records that match the search criteria. Please try again");
                 }
 
-                if ((!altHistoryDTO.getItemIdentifier().equals("")) || (!"null".equals(altHistoryDTO.getItemIdentifierType()))) {
                     availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
                     availableItemsTable.setColumnHeaders(availableItemsHeaders);
                     selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
                     selectedItemsTable.setColumnHeaders(availableItemsHeaders);
-                } else if ((!altHistoryDTO.getBusinessUnitNo().equals("")) || (!altHistoryDTO.getItemNo().equals(""))
-                        || (!altHistoryDTO.getItemName().equals("")) || (!altHistoryDTO.getBusinessUnitName().equals(""))
-                        || (!"null".equals(altHistoryDTO.getTheraputicClass())) || (!"null".equals(altHistoryDTO.getBrand()))) {
-                    availableItemsTable.setVisibleColumns(availableItemsColumns1);
-                    availableItemsTable.setColumnHeaders(availableItemHeaders1);
-                    selectedItemsTable.setVisibleColumns(availableItemsColumns1);
-                    selectedItemsTable.setColumnHeaders(availableItemHeaders1);
-                } else {
-                    availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
-                    availableItemsTable.setColumnHeaders(availableItemsHeaders);
-                    selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
-                    selectedItemsTable.setColumnHeaders(availableItemsHeaders);
-                }
                 availableItemsTable.setColumnCheckBox(Constant.CHECK, true, false);
                 if (itemIdentifierType.getValue() != null && selectedItemsTable.size() > 0) {
                     selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, false);

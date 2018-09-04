@@ -70,7 +70,8 @@ public class StChSalesProjectionImpl  {
                 query = query.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             queryString.append(query);
-        } else if (parameters.get(Constants.INDICATOR) != null && Constant.GENERATE_SALES_PROJECTION.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+        } else if ((parameters.get(Constants.INDICATOR) != null && Constant.GENERATE_SALES_PROJECTION.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR))))
+                || (parameters.get(Constants.INDICATOR) != null && "expandCollapseSalesProjection".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR))))) {
             parameters.put(Constants.QUERY_NAME, Constant.GENERATE_SALES_PROJECTION);
             queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && Constant.GENERATE_SALES_PROJECTION_COUNT.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
@@ -103,9 +104,6 @@ public class StChSalesProjectionImpl  {
                 query = query.replace(key.getKey(), String.valueOf(key.getValue()));
             }
             queryString.append(query);
-        } else if (parameters.get(Constants.INDICATOR) != null && "expandCollapseSalesProjection".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, Constant.GENERATE_SALES_PROJECTION);
-            queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && Constant.PREPARE_PROCEDURE_CALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             parameters.put(Constants.QUERY_NAME, Constant.PREPARE_PROCEDURE_CALL);
             queryString.append(generateQuery(parameters, true));

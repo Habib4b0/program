@@ -65,7 +65,7 @@ public class DiscountLogicDAOImpl implements DiscountLogicDAO{
 		DeductionGroupDetailsLocalServiceUtil.deleteDeductionGroupDetails(rebate);
     }
 
-    public DeductionGroup getDeductionGroup(int systemId) throws PortalException, SystemException {
+    public DeductionGroup getDeductionGroup(int systemId) throws PortalException {
        LOGGER.debug("In query-getdeductionGroup started with P1:int systemId= {}" , systemId);
 		return DeductionGroupLocalServiceUtil.getDeductionGroup(systemId);
     }
@@ -95,7 +95,7 @@ public class DiscountLogicDAOImpl implements DiscountLogicDAO{
        DeductionGroupDetailsLocalServiceUtil.deleteDeductionGroupDetails(item);
     }
 
-    public DeductionGroup deleteDeductionGroup(int systemId) throws PortalException, SystemException {
+    public DeductionGroup deleteDeductionGroup(int systemId) throws PortalException {
         return DeductionGroupLocalServiceUtil.deleteDeductionGroup(systemId);
     }
     

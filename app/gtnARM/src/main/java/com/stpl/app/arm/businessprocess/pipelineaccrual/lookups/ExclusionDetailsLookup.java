@@ -198,7 +198,7 @@ public class ExclusionDetailsLookup extends Window {
                 });
 
             } catch (Exception ex) {
-                LOGGER.error("Error in viewListener" , ex);
+                LOGGER.error("Error in viewListener", ex);
             }
         }
     };

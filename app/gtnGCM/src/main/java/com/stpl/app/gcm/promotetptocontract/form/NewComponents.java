@@ -93,6 +93,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.ArrayUtils;
@@ -982,7 +983,7 @@ public class NewComponents extends CustomComponent implements View {
                 Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 String query = queryUtils.getItemInfo(ids, ifps);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) itemList.get(i);
@@ -1030,7 +1031,7 @@ public class NewComponents extends CustomComponent implements View {
                 String query = queryUtils.getIFPInformation(ids);
                 Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) itemList.get(i);
@@ -1080,7 +1081,7 @@ public class NewComponents extends CustomComponent implements View {
             try {
                 String query = queryUtils.getIFPInformation(ids);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
@@ -1311,7 +1312,7 @@ public class NewComponents extends CustomComponent implements View {
                 String companySid = session.getCompanyMasterSid();
                 String componentQuery = queryUtils.getCompanyInformation(companySid);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     componentResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> companyList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -1743,7 +1744,7 @@ public class NewComponents extends CustomComponent implements View {
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*below loop is used to save value to ifp_model table */
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         Object[] obj = (Object[]) list.get(0);
                         ifpmodel.setIfpName(String.valueOf(obj[0]));
                         ifpmodel.setIfpId(String.valueOf(obj[1]));
@@ -1771,14 +1772,14 @@ public class NewComponents extends CustomComponent implements View {
                         List itemList = HelperTableLocalServiceUtil.executeSelectQuery(itemQuery);
 
                         /*Below loop is used to save the details in ifp_Details table */
-                        if (itemList != null && itemList.size() > 0) {
+                        if (itemList != null && !itemList.isEmpty()) {
                             for (int i = 0; i < itemList.size(); i++) {
                                 IfpDetails ifpDetails;
                                 ifpDetails = IfpDetailsLocalServiceUtil.createIfpDetails(0);
                                 int itemMasterId = Integer.parseInt(String.valueOf(itemList.get(i)));
                                 String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID ='" + itemMasterId + "'";
                                 List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
-                                if (detList != null && detList.size() > 0) {
+                                if (detList != null && !detList.isEmpty()) {
                                     Object[] obje = (Object[]) detList.get(0);
                                     ifpDetails.setIfpModelSid(ifpmodel.getIfpModelSid());
                                     ifpDetails.setItemMasterSid(itemMasterId);
@@ -1851,7 +1852,7 @@ public class NewComponents extends CustomComponent implements View {
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*Below loop is used to save ps value in ps_details table */
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         Object[] obj = (Object[]) list.get(0);
                         psModel.setPsName(String.valueOf(obj[NumericConstants.TWO]));
                         psModel.setPsNo(String.valueOf(obj[1]));
@@ -1882,13 +1883,13 @@ public class NewComponents extends CustomComponent implements View {
                     List itemList = HelperTableLocalServiceUtil.executeSelectQuery(itemQuery);
 
                     /*Below loop is used to save values in ps_details */
-                    if (itemList != null && itemList.size() > 0) {
+                    if (itemList != null && !itemList.isEmpty()) {
                         for (int i = 0; i < itemList.size(); i++) {
                             int itemMasterId = 0;
                             itemMasterId = Integer.parseInt(String.valueOf(itemList.get(i)));
                             String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID='" + itemMasterId + "'";
                             List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
-                            if (detList != null && detList.size() > 0) {
+                            if (detList != null && !detList.isEmpty()) {
                                 Object[] obje = (Object[]) detList.get(0);
                                 String query1 = "INSERT INTO dbo.PS_DETAILS(PS_MODEL_SID,IFP_MODEL_SID,ITEM_MASTER_SID,CONTRACT_PRICE_START_DATE,CONTRACT_PRICE_END_DATE,\"SOURCE\",INBOUND_STATUS,CREATED_DATE,MODIFIED_DATE,RECORD_LOCK_STATUS,CREATED_BY,MODIFIED_BY,PRICE) VALUES";
                                 query1 += "(?PS_MODEL_ID,?IFP_MODEL_ID,?ITEM_MASTER_ID,?START_DATE,?END_DATE,'GCM','A','?CREATED_DATE','?MODIFIED_DATE',?RECORD_LOCK_STATUS,?USER_ID,?USER_ID,?PRICE)";
@@ -1969,7 +1970,7 @@ public class NewComponents extends CustomComponent implements View {
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*Below loop is used to save ps value in ps_details table */
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         RsModel rsModel;
                         rsModel = RsModelLocalServiceUtil.createRsModel(0);
                         Object[] obj = (Object[]) list.get(0);
@@ -2003,12 +2004,12 @@ public class NewComponents extends CustomComponent implements View {
                         List itemList = HelperTableLocalServiceUtil.executeSelectQuery(rsQuery);
 
                         /*Below loop is used to save values in ps_details */
-                        if (itemList != null && itemList.size() > 0) {
+                        if (itemList != null && !itemList.isEmpty()) {
                             for (int i = 0; i < itemList.size(); i++) {
                                 String itemMasterId = String.valueOf(itemList.get(i));
                                 String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID='" + itemMasterId + "'";
                                 List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
-                                if (detList != null && detList.size() > 0) {
+                                if (detList != null && !detList.isEmpty()) {
                                     Object[] obje = (Object[]) detList.get(0);
                                     String rsquery = queryUtils.insertIntoRsDeatils(String.valueOf(rsModel.getRsModelSid()), ifpModelId, itemMasterId, obje[1]);
                                     HelperTableLocalServiceUtil.executeUpdateQuery(rsquery);
@@ -2081,7 +2082,7 @@ public class NewComponents extends CustomComponent implements View {
         } else {
             header = (String[]) ArrayUtils.removeElement(header, Constants.SPACE);
         }
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     /*

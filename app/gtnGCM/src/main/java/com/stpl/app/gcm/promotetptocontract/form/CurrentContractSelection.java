@@ -72,6 +72,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
+import java.util.Locale;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 
@@ -842,7 +843,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         LOGGER.debug("Contract selection submitButtonlogic initiated");
         List<Boolean> startDateAndEndDate = logic.startDateAndEndDateValidation(session.getUserId(), session.getSessionId(), screenName);
 
-        if (startDateAndEndDate.size() > 0 && startDateAndEndDate.get(0)) {
+        if (!startDateAndEndDate.isEmpty() && startDateAndEndDate.get(0)) {
             AbstractNotificationUtils.getErrorNotification("No Record Selected", "Please select any record to submit");
             return;
         }
@@ -1048,7 +1049,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {

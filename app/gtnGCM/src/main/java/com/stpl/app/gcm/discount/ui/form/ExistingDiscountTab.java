@@ -238,7 +238,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
             searchValueStatusDdlb.setVisible(false);
             configureTables();
-            LoadDashBoardTree();
+            loadDashBoardTree();
             for (RemoveDiscountDto remove : removeDiscountDto) {
                 rebateList.add(remove.getRsSid());
             }
@@ -297,7 +297,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
     }
 
-    private void LoadDashBoardTree() {
+    private void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();

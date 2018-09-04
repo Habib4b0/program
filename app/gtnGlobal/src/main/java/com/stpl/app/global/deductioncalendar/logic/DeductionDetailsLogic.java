@@ -43,7 +43,7 @@ public class DeductionDetailsLogic {
         try {
             String query = queryUtils.getForecastConfigQuery();
             List<Object> resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 Object[] obj = null;
                 for (int i = 0; i < resultList.size(); i++) {
                     obj = (Object[]) resultList.get(i);
@@ -136,8 +136,7 @@ public class DeductionDetailsLogic {
             String freq=deductionDTO.getFrequency();
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                if (StringUtils.isBlank(lastValue) || String.valueOf(obj[0]).equals(lastValue)) {
-                } else {
+                if (!StringUtils.isBlank(lastValue) || !String.valueOf(obj[0]).equals(lastValue)) {
                     resultList.add(dto);
                     dto = new TableDTO();
                 }

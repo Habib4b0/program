@@ -51,10 +51,7 @@ public class GtnUIFrameworkIntervalFrequencyValueChangeAction
 				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 				request.setForecastConfigurationRequest(forecastConfigurationRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-								+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getWsResponse(request);
 				String year = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
 				gtnLogger.info("year------------------->>>>" + year);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString()).setPropertyValue(year);
@@ -68,6 +65,14 @@ public class GtnUIFrameworkIntervalFrequencyValueChangeAction
 			gtnLogger.error(exception.getMessage(), exception);
 			throw new GtnFrameworkGeneralException("IntervalFrequencyValueChangeAction Error", exception);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getWsResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+						+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	@Override

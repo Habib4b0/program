@@ -357,7 +357,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public void removeBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered remove method {} " , selecteditemList.size());
         boolean check = true;
-        if (selecteditemList.size() > 0) {
+        if (!selecteditemList.isEmpty()) {
             int contractSys = selecteditemList.get(0).getContractSid();
             for (int i = 0; i < selecteditemList.size(); i++) {
                 if (contractSys != selecteditemList.get(i).getContractSid()) {
@@ -413,7 +413,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     @UiHandler("addBtn")
     public void addBtnClick(Button.ClickEvent event) {
         boolean check = true;
-        if (selecteditemList.size() > 0) {
+        if (!selecteditemList.isEmpty()) {
             int contractSys = selecteditemList.get(0).getContractSid();
             for (int i = 0; i < selecteditemList.size(); i++) {
                 if (contractSys != selecteditemList.get(i).getContractSid()) {

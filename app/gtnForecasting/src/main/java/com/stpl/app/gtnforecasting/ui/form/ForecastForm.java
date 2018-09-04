@@ -111,7 +111,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;
@@ -1536,8 +1535,6 @@ public class ForecastForm extends AbstractForm {
 		if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 			NonMandatedLogic nmLogic = new NonMandatedLogic();
-			Map<String, Object> params = new HashMap<>();
-			params.put(Constant.PROJECTION_ID, session.getProjectionId());
 			saveProjection(false);
 			if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED))
 					&& (!checkMandatedDiscountAvailablity(session))) {
@@ -1554,7 +1551,7 @@ public class ForecastForm extends AbstractForm {
                                  GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(session,userId);
 				if (response.isHasPermission()) {
                                       DSCalculationLogic.startAndCompleteTask(session, userId);
-				      submitProjToWorkflow(params, notes, screenName, getUploadedData);         
+				      submitProjToWorkflow( notes, screenName, getUploadedData);         
 				} else {
 					StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
 					if (!roleList.isEmpty()) {
@@ -1564,14 +1561,14 @@ public class ForecastForm extends AbstractForm {
 
 				}
 			} else {
-				submitProjToWorkflow(params, notes, screenName, getUploadedData);
+				submitProjToWorkflow( notes, screenName, getUploadedData);
 			}
 		} else {
 			NotificationUtils.getErrorNotification("Error", MessageUtils.WFP_SUBMIT_ERROR);
 		}
 	}
 
-	private void submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName,
+	private void submitProjToWorkflow(final String notes, final String screenName,
 			final List<NotesDTO> getUploadedData) {	
 		try {
 			Long processId = 0L;
@@ -2021,8 +2018,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Approved Information",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Approved Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2072,8 +2067,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Rejected Information ",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Rejected Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2127,8 +2120,6 @@ public class ForecastForm extends AbstractForm {
 															+ " withdrawn successfully");
 
 											
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Withdrawn Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2180,8 +2171,6 @@ public class ForecastForm extends AbstractForm {
 													Constant.WORKFLOW_ID + workflowIdUpdate
 															+ " cancelled successfully");
 
-//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-//													"Workflow Cancelled Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);

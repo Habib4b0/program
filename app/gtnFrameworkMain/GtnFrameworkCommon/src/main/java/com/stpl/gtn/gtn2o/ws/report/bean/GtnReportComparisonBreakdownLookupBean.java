@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GtnReportComparisonBreakdownLookupBean implements Serializable {
@@ -71,7 +72,7 @@ public class GtnReportComparisonBreakdownLookupBean implements Serializable {
 
 	public List getComparisonBreakdownSaveActionList() {
 		return comparisonBreakdownSaveActionList == null ? comparisonBreakdownSaveActionList
-				: new ArrayList<>(comparisonBreakdownSaveActionList);
+				: Collections.unmodifiableList(comparisonBreakdownSaveActionList);
 	}
 
 	public void setComparisonBreakdownSaveActionList(List comparisonBreakdownSaveActionList) {

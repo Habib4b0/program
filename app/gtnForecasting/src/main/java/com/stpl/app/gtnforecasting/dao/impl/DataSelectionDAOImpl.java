@@ -381,7 +381,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
      */
     @Override
     public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
-        return new HierarchyDefinitionImpl().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
+        return new HierarchyDefinitionImpl().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct);
     }
 
 
@@ -567,7 +567,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImp
 
     @Override
     public List getParentLevels(int levelNo, int relationshipLevelSid, final Map<String, Object> parameters) throws SystemException {
-        return new ProjectionMasterImpl().getParentLevels(levelNo, relationshipLevelSid, parameters);
+        return new ProjectionMasterImpl().getParentLevels(relationshipLevelSid, parameters);
     }
 
     @Override
