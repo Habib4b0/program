@@ -386,7 +386,7 @@ public class CDRLogic {
         NotesTabLogic notesLogic = new NotesTabLogic();
         try {
             LOGGER.debug("removeDetailsList.size() {}" , removeDetailsList.size());
-            if (removeDetailsList.size() != 0) {
+            if (!removeDetailsList.isEmpty()) {
                 for (int i = 0; i < removeDetailsList.size(); i++) {
                     NotesDTO dtoValue = removeDetailsList.get(i);
                     if (dtoValue.getDocDetailsId() != 0) {

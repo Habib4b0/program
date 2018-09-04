@@ -128,7 +128,6 @@ public class NonMandatedLogic {
 	 * the SALES_SMALL dao.
 	 */
 	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
-        private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Searh view.
@@ -1392,10 +1391,12 @@ public class NonMandatedLogic {
 	public List<GroupDTO> getCustomerGroup(String customerName, String customerNo, List<String> companySids)
 			throws SystemException {
 		Map<String, Object> parameters = new HashMap<>();
-		customerName = customerName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		customerNo = customerNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		parameters.put(Constant.CUSTOMER_NO, customerNo);
-		parameters.put(Constant.CUSTOMER_NAME, customerName);
+                String customerNamGroup  =customerName; 
+                String customerNoGroup  =customerNo; 
+		customerNamGroup = customerNamGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		customerNoGroup = customerNoGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+		parameters.put(Constant.CUSTOMER_NO, customerNoGroup);
+		parameters.put(Constant.CUSTOMER_NAME, customerNamGroup);
 		parameters.put("companySids", companySids);
 		parameters.put(Constant.INDICATOR, "CustomerGroup");
 
@@ -1416,12 +1417,14 @@ public class NonMandatedLogic {
 	 */
 	public List<GroupDTO> getProductGroup(String productName, String productNo, List<String> itemSids)
             throws SystemException {
+        String productNameGroup  =productName; 
+        String productNoGroup  =productNo; 
         Map<String, Object> parameters = new HashMap<>();
-        productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-        productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        productNameGroup = productNameGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        productNoGroup = productNoGroup.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 
-        parameters.put(Constant.PRODUCT_NAME, productName);
-        parameters.put(Constant.PRODUCT_NO, productNo);
+        parameters.put(Constant.PRODUCT_NAME, productNameGroup);
+        parameters.put(Constant.PRODUCT_NO, productNoGroup);
         parameters.put("itemSids", itemSids);
         parameters.put(Constant.INDICATOR, "ProductGroup");
         return Converters.convertItemGroupList(dataSelection.getProductGroup(parameters));
@@ -1440,7 +1443,7 @@ public class NonMandatedLogic {
         SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-        String customSql = StringUtils.EMPTY;
+        String customSql;
         if (isUpdate) {
             List input = new ArrayList();
             input.add(dataSelectionDTO.getProjectionId());
@@ -1731,7 +1734,8 @@ public class NonMandatedLogic {
 	 */
 	public List<HelperDTO> getCompanies(int startIndex, int endIndex, String filterText) throws SystemException {
 		DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
-		filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+		String filterTextCompanies = filterText;
+                       filterTextCompanies = StringUtils.trimToEmpty(filterTextCompanies) + Constant.PERCENT;
 		dynamicQuery.add(PropertyFactoryUtil.forName("companyType")
 				.in(HelperTableLocalServiceUtil.dynamicQuery()
 						.add(RestrictionsFactoryUtil.eq(Constant.DESCRIPTION, "GLCOMP"))
@@ -1740,7 +1744,7 @@ public class NonMandatedLogic {
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANYMASTERSID));
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterText));
+		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterTextCompanies));
 		dynamicQuery.setLimit(startIndex, endIndex);
 		List<Object[]> returnlist = dataSelection.getCompanies(dynamicQuery);
 		List<HelperDTO> companies = new ArrayList<>();
@@ -1770,7 +1774,8 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 */
 	public int getCompaniesCount(String filterText) throws SystemException {
-		filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+            String filterTextCompany = filterText;
+		filterTextCompany = StringUtils.trimToEmpty(filterTextCompany) + Constant.PERCENT;
 		DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(PropertyFactoryUtil.forName("companyType")
 				.in(HelperTableLocalServiceUtil.dynamicQuery()
@@ -1779,7 +1784,7 @@ public class NonMandatedLogic {
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANYMASTERSID));
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
-		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterText));
+		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterTextCompany));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
 		return dataSelection.getCompaniesCount(dynamicQuery);
 	}

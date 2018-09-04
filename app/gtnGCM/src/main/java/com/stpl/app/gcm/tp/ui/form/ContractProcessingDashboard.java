@@ -411,7 +411,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         addTradingPartnerTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-                LoadDashBoardTree();
+                loadDashBoardTree();
                 componentInformationContainer.removeAllItems();
                 tableBeanId = null;
             }
@@ -469,7 +469,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     }
 
-    private void LoadDashBoardTree() {
+    private void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         contractDashboardContainer.removeAllItems();
         contractDashboardContainer = logic.loadContainerData(logic.getDasboardResults(logic.getLevelOneHierarchy(session.getUserId(), session.getSessionId()), 1, 0, 0, 0, 0, null, null, null, null), contractDashboardContainer, null);
@@ -812,7 +812,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 checkedContracts.add(contract);
             }
         }
-        if (checkedContracts.size() > 0) {
+        if (!checkedContracts.isEmpty()) {
 
             new AbstractNotificationUtils() {
                 @Override
@@ -833,7 +833,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                             tpDetailsContainer.removeItem(contract);
                         }
                         csLogic.updateSubmitFlag(session.getModuleName(), StringUtils.EMPTY, session.getUserId(), session.getSessionId(), false);
-                        LoadDashBoardTree();
+                        loadDashBoardTree();
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }

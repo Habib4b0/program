@@ -133,7 +133,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     @Override
     public int getAttachedItemCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
-        String query = QUERYUTILS.GetIFPAttachedItems(IFPItemDTO);
+        String query = QUERYUTILS.getIfpAttachedItems(IFPItemDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("getAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
@@ -143,7 +143,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     @Override
     public List getIFPItemdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<IFPItemDTO> resultLists;
-        String query = QUERYUTILS.GetIFPAttachedItems(IFPItemDTO);
+        String query = QUERYUTILS.getIfpAttachedItems(IFPItemDTO);
         query = query + "  order by  im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH  NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<IFPItemDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;

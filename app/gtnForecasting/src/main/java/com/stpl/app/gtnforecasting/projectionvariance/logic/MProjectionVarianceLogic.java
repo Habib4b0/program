@@ -590,8 +590,8 @@ public class MProjectionVarianceLogic {
         Map<Object, Object[]> doubleHeaderFinalMap = new HashMap<>();
         List<Object> finalVisColList = new ArrayList<>();
         List<String> finalVisHeaderList = new ArrayList<>();
-        String fromAtDateRangeHeaders = StringUtils.EMPTY;
-        String toAtDateRangeHeaders = StringUtils.EMPTY;
+        String fromAtDateRangeHeaders;
+        String toAtDateRangeHeaders;
         StringBuilder fromAtDateRange = new StringBuilder();
         StringBuilder toAtDateRange = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {
@@ -2163,19 +2163,6 @@ public class MProjectionVarianceLogic {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
-    }
-
-    private static String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
-                + Constant.CLOSE_BRACKET
-                + "     RELATIONSHIP_LEVEL_SID INT,\n"
-                + "     CCP_DETAILS_SID        INT,\n"
-                + "     HIERARCHY_NO           VARCHAR(50)\n"
-                + "  ) \n"
-                + " INSERT INTO @CCP\n"
-                + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
-
-        return tableQuery;
     }
 
     /**

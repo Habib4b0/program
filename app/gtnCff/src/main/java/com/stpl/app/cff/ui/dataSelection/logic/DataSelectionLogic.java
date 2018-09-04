@@ -1183,7 +1183,7 @@ public class DataSelectionLogic {
 	}
 
 	public int getRelationshipSidCount(String filterText, final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		final int count = dataSelectionDaoImpl
 				.getRelationshipCount(getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid));
 		return count + 1;
@@ -1191,7 +1191,7 @@ public class DataSelectionLogic {
 
 	public List<RelationshipDdlbDto> getRelationshipSidLazy(int startIndex, int endIndex,
 			final RelationshipDdlbDto defaultRelationshipDdlbDto, String filterText, final int hierarchyDefinitionSid,
-			RelationshipDdlbDto selectedRelationshipDdlbDto) throws SystemException, PortalException {
+			RelationshipDdlbDto selectedRelationshipDdlbDto) throws PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		final DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid);
 		dynamicQuery.setLimit(startIndex, endIndex);
@@ -1237,7 +1237,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<RelationshipDdlbDto> getRelationshipSids(final RelationshipDdlbDto defaultRelationshipDdlbDto,
-			final int hierarchyDefinitionSid) throws SystemException, PortalException {
+			final int hierarchyDefinitionSid) throws PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		final DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 		dynamicQuery
@@ -1426,7 +1426,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<RelationshipDdlbDto> getRelationshipSid(final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		final DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(hierarchyDefinitionSid);
 		final List<Object[]> resultList = dataSelectionDaoImpl.getRelationship(dynamicQuery);

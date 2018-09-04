@@ -291,7 +291,7 @@ public class AlternateSummery extends CustomComponent {
     protected boolean isSalesCalculated;
 
     @UiField("GridLayoutProjection")
-    protected GridLayout GridLayoutProjection;
+    protected GridLayout gridLayoutProjection;
 
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;
@@ -1801,8 +1801,7 @@ public class AlternateSummery extends CustomComponent {
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (Constant.GROUP.equals(propertyId)) {
-                } else if (Constant.METHODOLOGY.equals(propertyId)) {
+               if (Constant.METHODOLOGY.equals(propertyId)) {
                     TextField metohdologyFilter = new TextField();
                     metohdologyFilter.setReadOnly(true);
                     metohdologyFilter.setWidth("100%");

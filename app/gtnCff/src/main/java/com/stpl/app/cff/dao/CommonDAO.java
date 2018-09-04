@@ -35,7 +35,7 @@ public interface CommonDAO {
      * @throws SystemException
      * @throws PortalException
      */
-    RelationshipLevelDefinition getRelationshipLevel(int relationshipLevelSid) throws SystemException, PortalException;
+    RelationshipLevelDefinition getRelationshipLevel(int relationshipLevelSid) throws PortalException;
 
     /**
      * Gets the Custom View list.
@@ -72,7 +72,7 @@ public interface CommonDAO {
      * @throws SystemException
      * @throws PortalException
      */
-    CffCustomViewMaster deleteCustomView(int customViewMasterId) throws SystemException, PortalException;
+    CffCustomViewMaster deleteCustomView(int customViewMasterId) throws PortalException;
 
     /**
      * Gets the Custom View.
@@ -82,7 +82,7 @@ public interface CommonDAO {
      * @throws SystemException
      * @throws PortalException
      */
-    CffCustomViewMaster getCustomView(int customViewMasterId) throws SystemException, PortalException;
+    CffCustomViewMaster getCustomView(int customViewMasterId) throws PortalException;
 
     /**
      * Update the Custom View.
@@ -128,7 +128,7 @@ public interface CommonDAO {
      * @throws SystemException
      * @throws PortalException
      */
-    CffCustomViewDetails deleteCustomViewDetails(int customViewDetailsId) throws SystemException, PortalException;
+    CffCustomViewDetails deleteCustomViewDetails(int customViewDetailsId) throws PortalException;
 
     /**
      * Gets the Custom View.
@@ -138,7 +138,7 @@ public interface CommonDAO {
      * @throws SystemException
      * @throws PortalException
      */
-    CffCustomViewDetails getCustomViewDetails(int customViewDetailsId) throws SystemException, PortalException;
+    CffCustomViewDetails getCustomViewDetails(int customViewDetailsId) throws PortalException;
 
     /**
      * Update the Custom View.

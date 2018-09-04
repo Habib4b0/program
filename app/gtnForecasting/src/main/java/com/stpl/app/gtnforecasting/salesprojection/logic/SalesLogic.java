@@ -1950,15 +1950,16 @@ public class SalesLogic {
     public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
         LOGGER.debug("Property Id->= {}, EditedValue-->= {}, incOrDecPer-->= {} " , propertyId, editedValue, incOrDecPer);
         Double actualAmount;
+        String editedValueReturns = editedValue;
         String detailsIdValues[];
-        if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
+        if (StringUtils.isNotBlank(editedValueReturns) && !Constant.NULL.equals(editedValueReturns)) {
             String saveQuery;
 
             saveQuery = SQlUtil.getQuery("RETURNS_MANNUAL_ENTRY_QUERY");
-            editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            editedValue = editedValue.replace("$", StringUtils.EMPTY);
-            editedValue = editedValue.replace(",", StringUtils.EMPTY);
-            editedValue = editedValue.trim();
+            editedValueReturns = editedValueReturns.replace(Constant.PERCENT, StringUtils.EMPTY);
+            editedValueReturns = editedValueReturns.replace("$", StringUtils.EMPTY);
+            editedValueReturns = editedValueReturns.replace(",", StringUtils.EMPTY);
+            editedValueReturns = editedValueReturns.trim();
             String returnDetailsId;
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
             int frequencyValue = 0;
@@ -2000,7 +2001,7 @@ public class SalesLogic {
                     amountValue = "PROJECTED_RETURN_AMOUNT+(PROJECTED_RETURN_AMOUNT*" + actualAmount + ")";
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 } else {
-                    actualAmount = Double.parseDouble(editedValue) / (detailsIdValues.length);
+                    actualAmount = Double.parseDouble(editedValueReturns) / (detailsIdValues.length);
                     if(frequencyValue != 0)
                     {
                     amountValue = String.valueOf(actualAmount / frequencyValue);
@@ -2013,7 +2014,7 @@ public class SalesLogic {
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, "PROJECTED_RPU");
                 if (salesDTO.getReturnDetailsSid().split(",").length == 1) {
                     saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
-                    actualAmount = Double.valueOf(editedValue);
+                    actualAmount = Double.valueOf(editedValueReturns);
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 } else {
@@ -2021,26 +2022,26 @@ public class SalesLogic {
                     Map<String, Double> salesAmount = mapList.get(0);
                     Map<String, Double> unitsMap = mapList.get(1);
 
-                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValue, saveQuery, salesAmount, unitsMap);
+                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValueReturns, saveQuery, salesAmount, unitsMap);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (propertyId.endsWith("ProjectedReturn%")) {
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, "PROJECTED_RETURN_PERCENT");
                 if (salesDTO.getReturnDetailsSid().split(",").length == 1) {
                     saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
-                    actualAmount = Double.valueOf(editedValue);
+                    actualAmount = Double.valueOf(editedValueReturns);
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 } else {
                     List<Map> mapList = getActiveExFactorySalesAndUnits(projectionSelectionDTO, year, quater);
                     Map<String, Double> salesAmount = mapList.get(0);
-                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValue, saveQuery, salesAmount, salesAmount);
+                    String bulkQuery = calculationLogic(projectionSelectionDTO, hierarchyNo, editedValueReturns, saveQuery, salesAmount, salesAmount);
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (propertyId.endsWith("GrowthRate")) {
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, "GROWTH_RATE");
                 saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
-                actualAmount = Double.valueOf(editedValue);
+                actualAmount = Double.valueOf(editedValueReturns);
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount);
                 salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             }
@@ -2052,21 +2053,22 @@ public class SalesLogic {
     }
 
     public void saveEditedRecs(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean[] dataArr) throws PortalException {
+        String editedValueRecs = editedValue;
         boolean checkAll =  dataArr[0];
         boolean isManualEntry = dataArr[1];
-        if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
+        if (StringUtils.isNotBlank(editedValueRecs) && !Constant.NULL.equals(editedValueRecs)) {
 
             StringBuilder saveQuery = new StringBuilder();
             StringBuilder updateQuery = new StringBuilder();
-            editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-            editedValue = editedValue.replace("$", StringUtils.EMPTY);
-            editedValue = editedValue.replace(",", StringUtils.EMPTY);
-            editedValue = editedValue.trim();
+            editedValueRecs = editedValueRecs.replace(Constant.PERCENT, StringUtils.EMPTY);
+            editedValueRecs = editedValueRecs.replace("$", StringUtils.EMPTY);
+            editedValueRecs = editedValueRecs.replace(",", StringUtils.EMPTY);
+            editedValueRecs = editedValueRecs.trim();
             int frequencyDivision = projectionSelectionDTO.getFrequencyDivision();
             int year = 0;
             int quator = 0;
 
-            BigDecimal value = new BigDecimal(editedValue);
+            BigDecimal value = new BigDecimal(editedValueRecs);
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
@@ -3555,7 +3557,6 @@ public class SalesLogic {
         String queryResult;
         String queryName = Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction()) ? "RETURNS_SALES_QUERY_RESULTS_VIEW" : "RETURNS_SALES_QUERY_RESULTS";
         String frequency = StringUtils.EMPTY;
-        String returnDetailsSID = StringUtils.EMPTY;
         StringBuilder returnDetailsSIDBuilder = new StringBuilder();
         Map<String, String> returnMap = projSelDTO.getSessionDTO().getReturnsDetailsMap();
         for (Map.Entry<String, String> entr : returnMap.entrySet()) {
@@ -3563,7 +3564,7 @@ public class SalesLogic {
                 returnDetailsSIDBuilder.append(entr.getValue() ).append( ',');
             }
         }
-        returnDetailsSID = returnDetailsSIDBuilder.toString();
+        String returnDetailsSID = returnDetailsSIDBuilder.toString();
         LOGGER.debug("ReturnDetailsSID= {} " , returnDetailsSID);
         StringBuilder query = new StringBuilder();
         query.append(SQlUtil.getQuery(queryName));

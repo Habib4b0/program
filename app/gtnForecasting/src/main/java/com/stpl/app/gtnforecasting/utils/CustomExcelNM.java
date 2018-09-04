@@ -49,8 +49,7 @@ public class CustomExcelNM extends ExcelExport {
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected final CellStyle style7 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomExcelNM.class);
-    private final TableHolder tableHolder;
+    protected final TableHolder tableHolder;
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
     public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     public static final String GROWTH = "Growth";
@@ -283,31 +282,6 @@ public class CustomExcelNM extends ExcelExport {
     }
 
     private String getFormula(Cell sheetCell, final Object rootItemId,int columnIndex) {
-        String columnLetter = CellReference.convertNumToColString(columnIndex);
-        final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
-                .getChildren(rootItemId);
-        int rowNo = sheetCell.getRowIndex() + 2;
-        StringBuilder formula = new StringBuilder();
-        int i = 0;
-        if (children.size() == 1) {
-            formula.append(columnLetter).append(rowNo);
-            return formula.toString();
-        }
-        for (Object object : children) {
-            
-            if (i == 0) {
-                formula.append(columnLetter).append(rowNo);
-            } else if (i == children.size() - 1) {
-                return formula.toString();
-            }
-            formula.append(',');
-            rowNo = displayNodeValues(object, rowNo) + 1;
-            formula.append(columnLetter).append(rowNo);
-            i++;
-        }
-        return formula.toString();
-    }
-    private String getFormulaExample(Cell sheetCell, final Object rootItemId,int columnIndex) {
         String columnLetter = CellReference.convertNumToColString(columnIndex);
         final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(rootItemId);

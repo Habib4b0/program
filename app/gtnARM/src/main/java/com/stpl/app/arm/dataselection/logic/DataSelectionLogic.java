@@ -1130,7 +1130,7 @@ public class DataSelectionLogic {
                 dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
                 dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.SEVEN])));
                 dto.setLevelValueReference(String.valueOf(objects[NumericConstants.EIGHT]));
-                dto.setRelationShipVersionNo(Integer.valueOf(objects[NumericConstants.NINE].toString()));
+                dto.setRelationShipVersionNo((Integer) (objects[NumericConstants.NINE]));
                 dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.TEN]));
                 LOGGER.debug("End of getRelationShipValues :: resultList ==>{}", resultList.size());
                 resultList.add(dto);

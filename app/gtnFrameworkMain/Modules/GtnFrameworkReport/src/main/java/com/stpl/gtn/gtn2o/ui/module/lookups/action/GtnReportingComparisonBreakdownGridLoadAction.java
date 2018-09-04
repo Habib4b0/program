@@ -49,6 +49,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownGridLoadAction.class);
 
+	private List<Object[]> comparisonBreakdownSaveActionList = new ArrayList<>();
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -60,6 +61,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
+			
+		
 			logger.info("------------GtnReportingComparisionBreakdownGridLoadAction----------------");
 			int i = 0;
 			List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
@@ -347,6 +350,8 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			ComboBox vaadinCombobox = (ComboBox) abstractVaadinComponent;
 			vaadinCombobox.addStyleName("stpl-comboBox-Inside-Grid-CustomStyle");
 			vaadinCombobox.setId(comparisonLookUpBean.getProperty() + String.valueOf(comparisonLookUpBean.getRowId()));
+			vaadinCombobox.setSelectedItem("0");
+			
 			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
 				@Override
 				public void valueChange(HasValue.ValueChangeEvent event) {
@@ -362,9 +367,9 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					obj[4] = projectionNameForWebService.getValue();
 					obj[5] = comparisonLookUpBean.getRowCount();
 					obj[6] = vaadinCombobox.getId();
-					comparisonLookUpBean.getComparisonBreakdownSaveActionList().add(obj);
+					comparisonBreakdownSaveActionList.add(obj);
 					comparisonBreakdownGridComponent
-							.setCustomData(comparisonLookUpBean.getComparisonBreakdownSaveActionList());
+							.setCustomData(comparisonBreakdownSaveActionList);
 				}
 			});
 

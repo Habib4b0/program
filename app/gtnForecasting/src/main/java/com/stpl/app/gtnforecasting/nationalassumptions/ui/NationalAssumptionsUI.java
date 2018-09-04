@@ -73,7 +73,6 @@ public class NationalAssumptionsUI extends UI {
             LOGGER.debug("Starting of init method");
             addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
             final String userId = request.getRemoteUser();
-            final String pageParameters = Page.getCurrent().getLocation().getQuery();
             PortletConfig portletConfig = (PortletConfig) request.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
             PortletRequest portletRequest = (PortletRequest) request.getAttribute(JavaConstants.JAVAX_PORTLET_REQUEST);
             com.stpl.app.gtnforecasting.utils.CommonUtils.setPortletSession(portletRequest.getPortletSession());

@@ -61,7 +61,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     private boolean checkAll = false;
     private String relationshipBuilderSid = StringUtils.EMPTY;
     private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
-    private final AltSummeryDiscount altSummeryDiscount;
+    public AltSummeryDiscount altSummeryDiscount;
     private ProjectionSelectionDTO projectionSelection;
     private int maxExpandLevelNo = 0;
     private ProjectionSelectionDTO alternateProjectionSelection;
@@ -195,7 +195,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                     }
                 }
                 if (Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView())) {
-                    alternateProjectionSelection.setAlternatePivotList(!discountProjDto.getAlternatePivotList().isEmpty() ? discountProjDto.getAlternatePivotList() : Collections.EMPTY_LIST);
+                    alternateProjectionSelection.setAlternatePivotList(!discountProjDto.getAlternatePivotList().isEmpty() ? discountProjDto.getAlternatePivotList() : Collections.emptyList());
                 }
                 alternateProjectionSelection.setIsTotal(false);
 
@@ -219,7 +219,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                         }
                     }
                 }
-                alternateProjectionSelection.setAlternatePivotList(Collections.EMPTY_LIST);
+                alternateProjectionSelection.setAlternatePivotList(Collections.emptyList());
                 alternateProjectionSelection.setIsTotal(true);
                 hierarchyNumber = StringUtils.EMPTY;
             }
@@ -404,8 +404,8 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, 0, 0,
                         BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
-                        StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST, 
-                        false, StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
+                        StringUtils.EMPTY, relationshipBuilderSid, true,Collections.emptyList(), 
+                        false, StringUtils.EMPTY, StringUtils.EMPTY,Collections.emptyList(),new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
             }
             if (alternateProjectionSelection.isIsTotal() && !alternateProjectionSelection.isIsFilter()) {
                 alternatePivotCount += 1;
@@ -510,9 +510,6 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     protected void saveCurrentPage() {
         LOGGER.debug(" Inside saveCurrentPage ");
         super.saveCurrentPage();
-        if (altSummeryDiscount != null) {
-
-        }
         LOGGER.debug(" Exiting saveCurrentPage ");
     }
 
@@ -580,8 +577,8 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                 isProgram, discountList, year,
                 customDetailsList, BooleanConstant.getTrueFlag(), isCustom, rightDto, 0, 0, 
                 BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(),
-                true, hierarchyNumbers, relationshipBuilderSid, true, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
-                Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
+                true, hierarchyNumbers, relationshipBuilderSid, true, Collections.emptyList(), false, StringUtils.EMPTY, StringUtils.EMPTY,
+                Collections.emptyList(),new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {
             bulkDataMap.put(tempMap.get(dto.getHierarchyNo()), dto);

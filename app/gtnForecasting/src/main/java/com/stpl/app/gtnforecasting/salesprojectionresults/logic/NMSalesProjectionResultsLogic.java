@@ -125,7 +125,7 @@ public class NMSalesProjectionResultsLogic {
 						unitsDTO = new SalesProjectionResultsDTO();
 						for (int i = 0; i < sprList.size(); i++) {
 							final Object[] obj = (Object[]) sprList.get(i);
-							String commonColumn = StringUtils.EMPTY;
+							String commonColumn;
 							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 								commonColumn = Constant.Q + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
@@ -228,7 +228,7 @@ public class NMSalesProjectionResultsLogic {
 						for (int i = 0; i < sprList.size(); i++) {
 							salesDTO = new SalesProjectionResultsDTO();
 							final Object[] obj = (Object[]) sprList.get(i);
-							String commonColumn = StringUtils.EMPTY;
+							String commonColumn;
 							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 								commonColumn = Constant.Q + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
@@ -261,7 +261,7 @@ public class NMSalesProjectionResultsLogic {
 												: "-");
 								for (int k = 0; k < gtsList.size(); k++) {
 									Object[] gtsObj = (Object[]) gtsList.get(k);
-									String gtsCommonColumn = StringUtils.EMPTY;
+									String gtsCommonColumn;
 									if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 										gtsCommonColumn = Constant.Q + gtsObj[NumericConstants.FIVE]
 												+ gtsObj[NumericConstants.SIX];
@@ -426,6 +426,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Quarter", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
 			current = curMonth / NumericConstants.SIX;
@@ -434,6 +435,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(MONTHLY.getConstant())) {
 			current = curMonth;
@@ -444,6 +446,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(ANNUALLY.getConstant())) {
 			current = curYear;
@@ -452,6 +455,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		}
 		projectFrequency = projectFrequency + 1;

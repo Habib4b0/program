@@ -73,6 +73,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -502,7 +503,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             input = getNewInput(input);
             getBinderDto().setIsCount(false);
             recordCount = getLogic().getContractCount(selection, input);
-            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
         }
     }
 

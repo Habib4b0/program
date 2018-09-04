@@ -243,7 +243,7 @@ public class RemoveDiscount extends CustomComponent {
             HorizontalLayout componentControls = ResponsiveUtils.getResponsiveControls(infoLogic.createControls());
             componentResultsLayout.addComponent(componentControls);
             configureTables();
-            LoadDashBoardTree();
+            loadDashBoardTree();
             loadComponentTable(Collections.EMPTY_LIST);
             fromCDNo.setEnabled(false);
             fromCDName.setEnabled(false);
@@ -385,7 +385,7 @@ public class RemoveDiscount extends CustomComponent {
         }
     }
 
-    public void LoadDashBoardTree() {
+    public void loadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         try {
             final CommonLogic commonLogic = new CommonLogic();

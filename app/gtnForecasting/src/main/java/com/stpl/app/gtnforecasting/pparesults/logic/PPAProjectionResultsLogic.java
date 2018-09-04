@@ -730,6 +730,7 @@ public class PPAProjectionResultsLogic {
                 }
             }
         }
+         LOGGER.debug("neededRecord{} ", neededRecord);
 
         return projDTOList;
     }
@@ -1134,12 +1135,13 @@ public class PPAProjectionResultsLogic {
     }
 
     public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+        String valueFor =value;
         if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            valueFor = appendChar.concat(FORMAT.format(Double.valueOf(valueFor)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            valueFor = FORMAT.format(Double.valueOf(valueFor)).concat(appendChar);
         }
-        return value;
+        return valueFor;
     }
 
     /**
