@@ -9,7 +9,7 @@ IF EXISTS (SELECT 'X'
 GO
 
 
-PROCEDURE [dbo].[PRC_CFF_PROJECTION_RESULTS_DISCOUNT] @CFF_MASTER_SID VARCHAR(500),
+CREATE PROCEDURE [dbo].[PRC_CFF_PROJECTION_RESULTS_DISCOUNT] @CFF_MASTER_SID VARCHAR(500),
 	                                                         @PROJ_FREQUENCY VARCHAR(20),
 	                                                         @FROM_PERIOD_SID INT,
 	                                                         @END_PERIOD_SID INT,
