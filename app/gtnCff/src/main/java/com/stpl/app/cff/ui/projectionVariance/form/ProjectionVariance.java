@@ -1654,6 +1654,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             getDate();
             configureExcelTable();
+            commonLogic.checkForCompletionALL(sessionDTO, Constants.CFF_EXCEL,pvSelectionDTO);
             excelLogic.getPVData();
             excelParentRecords.clear();
 

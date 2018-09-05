@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.logic;
 
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import org.apache.commons.lang.StringUtils;
 

@@ -48,7 +48,6 @@ import com.stpl.app.gcm.transfercontract.util.CommonUtil;
 import com.stpl.app.gcm.util.CommonUtils;
 import static com.stpl.app.gcm.util.CommonUtils.convertToInteger;
 import com.stpl.app.gcm.util.Constants;
-import static com.stpl.app.gcm.util.Constants.IndicatorConstants.COMPANY_FAMILY_PLAN;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ITEM_FAMILY_PLAN;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.PRICE_SCHEDULE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.REBATE_SCHEDULE;
@@ -268,8 +267,8 @@ public class PromoteTPLogic {
         containerData.setMinFilterLength(0);
     }
 
-    public int getDdlbCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public int getDdlbCount(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
             int count = obj == null ? 0 : (Integer) obj;
@@ -278,8 +277,8 @@ public class PromoteTPLogic {
         return 0;
     }
 
-    public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public List<HelperDTO> getDdlbList(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());

@@ -885,11 +885,11 @@ public class ExistingComponents extends CustomComponent implements View {
                     contractMasterSid = contractMasterExis.getContractMasterSid();
                     session.setContractMasterSid(String.valueOf(contractMasterSid));
                     returnList.add(contractMasterSid);
-                    String AliasType = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "type").getValue());
-                    String AliasNumber = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "number").getValue());
+                    String aliasType = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "type").getValue());
+                    String aliasNumber = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, "number").getValue());
                     ContractAliasMaster camInExis = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    camInExis.setContractAliasNo(AliasNumber);
-                    camInExis.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) && !StringUtils.EMPTY.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
+                    camInExis.setContractAliasNo(aliasNumber);
+                    camInExis.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) && !StringUtils.EMPTY.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
                     camInExis.setStartDate(new Date());
                     camInExis.setModifiedDate(new Date());
                     camInExis.setCreatedBy(1);
@@ -897,8 +897,8 @@ public class ExistingComponents extends CustomComponent implements View {
                     camInExis.setSource("BPI");
                     camInExis.setInboundStatus("A");
                     camInExis.setContractMasterSid(contractMasterSid);
-                    ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camInExis);
-                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
+                    ContractAliasMaster camMaster = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camInExis);
+                    LOGGER.debug("CAM1 {} " , camMaster.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 
@@ -1015,9 +1015,9 @@ public class ExistingComponents extends CustomComponent implements View {
 
                     String psModelId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(item, Constants.MODEL_ID).getValue());
                     Object parentItem = contractDashboardResultsTableInEC.getParent(item);
-                    String IFPsystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
+                    String ifpSystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTableInEC.getParent(parentItem);
-                    String CFPsystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
+                    String cfpSystemId = String.valueOf(contractDashboardResultsTableInEC.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
                     PsContract psContractExis;
                     psContractExis = PsContractLocalServiceUtil.createPsContract(0);
                     psContractExis.setPsModelSid(Integer.parseInt(psModelId));
@@ -1030,8 +1030,8 @@ public class ExistingComponents extends CustomComponent implements View {
                     psContractExis.setPsStartDate(psModelExis.getPsStartDate());
                     psContractExis.setPsEndDate(psModelExis.getPsEndDate());
                     psContractExis.setContractMasterSid(contractMasterSid);
-                    psContractExis.setCfpContractSid(CFPsystemId);
-                    psContractExis.setIfpContractSid(IFPsystemId);
+                    psContractExis.setCfpContractSid(cfpSystemId);
+                    psContractExis.setIfpContractSid(ifpSystemId);
                     psContractExis.setInboundStatus("A");
                     psContractExis.setRecordLockStatus(false);
                     psContractExis.setSource("GCM");

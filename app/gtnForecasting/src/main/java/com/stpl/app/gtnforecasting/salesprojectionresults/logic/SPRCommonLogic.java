@@ -1292,9 +1292,9 @@ public class SPRCommonLogic {
     }
 
     public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails,
-            String CCP) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP
-                + ".RELATIONSHIP_LEVEL_SID \n" + Constant.AND_SMALL_SPACE + CCP + ".CCP_DETAILS_SID="
+            String ccp) {
+        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
+                + ".RELATIONSHIP_LEVEL_SID \n" + Constant.AND_SMALL_SPACE + ccp + ".CCP_DETAILS_SID="
                 + projectionDetails + ".CCP_DETAILS_SID \n";
         return ccpWhereCond;
     }

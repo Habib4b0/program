@@ -23,8 +23,8 @@ public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
     public CompanySearchDAO() {
     }
 
-    public CompanySearchDAO(CFPCompanyDTO CFPCompanyDTO) {
-        this.cfpCompanyDTO = CFPCompanyDTO;
+    public CompanySearchDAO(CFPCompanyDTO cfpCompanyDto) {
+        this.cfpCompanyDTO = cfpCompanyDto;
     }
 
     @Override

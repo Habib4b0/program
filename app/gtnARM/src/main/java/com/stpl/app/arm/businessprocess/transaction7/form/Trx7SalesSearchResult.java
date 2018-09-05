@@ -123,6 +123,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setColumnProperties(properties);
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainer.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
@@ -168,11 +169,6 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     public void salesProcedureCall(Trx7SelectionDTO selection) {
         Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "0", selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getSalesResults(orderedArgs);
-    }
-
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
     }
 
     @Override

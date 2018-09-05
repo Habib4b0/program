@@ -6,7 +6,6 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
 import com.stpl.app.gcm.tp.logic.GcmtFilterLogic;
 import com.stpl.app.gcm.util.StringConstantsUtil;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -114,8 +113,8 @@ public class AbstractFilter {
         
     }
 
-    public void setFilterMap(String key, String Value) {
-        filterMap.put(key, Value);
+    public void setFilterMap(String key, String value) {
+        filterMap.put(key, value);
     }
 
     public void setFilterMap(Map m) {

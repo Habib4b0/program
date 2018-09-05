@@ -78,11 +78,6 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
         return getSummaryLogic();
     }
 
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
-    }
-
     private void configureExcel() {
         bbExport.setPrimaryStyleName("link");
         bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");

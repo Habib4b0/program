@@ -24,8 +24,8 @@ public class RSAttachedItemDAO implements BeanDAO {
     private final CopyContractLogic logic = new CopyContractLogic();
     private RsIfpDto rsIfpDto = new RsIfpDto();
 
-    public RSAttachedItemDAO(RsIfpDto RsIfpDto) {
-        this.rsIfpDto = RsIfpDto;
+    public RSAttachedItemDAO(RsIfpDto rsIfpDto) {
+        this.rsIfpDto = rsIfpDto;
     }
 
 @Override

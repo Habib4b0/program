@@ -2010,8 +2010,8 @@ public class ProjectionSelectionDTO {
         return filterFlag;
     }
 
-    public void setFilterFlag(boolean FilterFlag) {
-        this.filterFlag = FilterFlag;
+    public void setFilterFlag(boolean filterFlag) {
+        this.filterFlag = filterFlag;
     }
 
     public int getStart() {

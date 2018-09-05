@@ -71,23 +71,23 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
                 dto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
                 switch (dto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        dto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setDeductionSID((Integer)(obj[NumericConstants.THREE]));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
-                        dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setCustomerSID((Integer)(obj[NumericConstants.THREE]));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
 
                     case VariableConstants.CONTRACT_UPPERCASE:
-                        dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setContractSID((Integer)(obj[NumericConstants.THREE]));
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setBrandSID((Integer)(obj[NumericConstants.THREE]));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
