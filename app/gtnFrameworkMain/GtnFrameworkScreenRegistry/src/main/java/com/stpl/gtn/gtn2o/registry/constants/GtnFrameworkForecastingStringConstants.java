@@ -16,7 +16,6 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	}
 
-
 	public static final String VALUE = "value";
 
 	public static final String LEVEL = "Level";
@@ -30,9 +29,9 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String FORECAST = "forecast";
-	
+
 	public static final String HIER_NAME = "hierName";
-	
+
 	public static final String HIGHEST_LEVEL = "highestLevel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
@@ -115,7 +114,7 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String REMOVE_VARIABLES_BTN = "removeVariablesBtn";
 
-	public static final String MODULE_TYPE = "forecast";
+	public static final String MODULE_TYPE = FORECAST;
 
 	public static final String HUNDRED_ONE_PERCENT = "101%";
 
@@ -146,17 +145,17 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String CUST_SELECTION_MAINLAYOUT = "custSelectionMainlayout";
 
 	public static final String CUSTOMER_SELECTION_INNERLAYOUT = "customerSelectionInnerlayout";
-	
+
 	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP = "dataSelectionTab_customerSelectionRelationship";
-	
+
 	public static final String DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION = "dataSelectionTab_customerRelationshipVersion";
-	
+
 	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL = "dataSelectionTab_customerSelectionLevel";
 
 	public static final String DATA_SELECTION_TAB_RELATIONSHIP = "dataSelectionTab_relationship";
-	
+
 	public static final String DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION = "dataSelectionTab_productRelationshipVersion";
-	
+
 	public static final String DATA_SELECTION_TAB_LEVEL = "dataSelectionTab_level";
 
 	public static final String RESULTS_MAIN_LAYOUT_CONFIG = "resultsMainLayoutConfig";
