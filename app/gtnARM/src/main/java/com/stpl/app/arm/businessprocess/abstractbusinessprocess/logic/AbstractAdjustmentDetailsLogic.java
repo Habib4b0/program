@@ -13,7 +13,6 @@ import com.stpl.app.arm.supercode.Criteria;
 import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.arm.utils.ARMUtils.COMMA;
 import com.stpl.ifs.util.BCPExcelUtility;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;

@@ -821,7 +821,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     protected void securityForButtons() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing screen");
         getButtonVisiblity(functionHM, "addLineBtn", getAddLineBtn());
         getButtonVisiblity(functionHM, "resetLineBtn", getResetLineBtn());
         getButtonVisiblity(functionHM, "removeLineBtn", getRemoveLineBtn());
@@ -835,7 +835,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + "Landing Screen");
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing Screen");
         configureFieldPermission(functionHMforFields);
         if (functionHMforFields.get("massfieldDdlb") != null && !(functionHMforFields.get("massfieldDdlb")).isFunctionFlag()) {
             getMassfieldDdlb().setVisible(false);

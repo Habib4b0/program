@@ -243,12 +243,12 @@ public class Trx7ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + "," + null + "),");
+                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
                     }
                 }
             } else if (!StringUtils.EMPTY.equals(viewSid)) {
                 for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                    sbQuery.append("(" + viewSid + "," + null + "," + null + "," + null + "," + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                    sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                 }
             }
             sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");

@@ -203,7 +203,7 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
                     }
                 });
             } catch (Exception ex) {
-                LOGGER.error("Error in viewLookUp :" , ex);
+                LOGGER.error("Error in viewLookUp :", ex);
             }
         }
     };

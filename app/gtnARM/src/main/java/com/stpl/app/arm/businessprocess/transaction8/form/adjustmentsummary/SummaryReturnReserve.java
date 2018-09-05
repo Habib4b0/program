@@ -93,7 +93,7 @@ public class SummaryReturnReserve extends AbstractPipelineSummary {
                 try {
                     BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    logger.error("Error in loadDetails :" , ex);
+                    logger.error("Error in loadDetails :", ex);
 
                 }
 

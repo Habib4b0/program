@@ -11,7 +11,6 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAd
 import static com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic.LOGGER;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.arm.utils.ARMUtils.COMMA;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;

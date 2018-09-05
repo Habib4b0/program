@@ -185,14 +185,14 @@ public class ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + "," + null + "),");
+                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
 
                     }
                 }
             } else {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                        sbQuery.append("(" + viewSid + "," + null + "," + null + "," + null + "," + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                     }
                 }
 
@@ -234,7 +234,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic" , ex);
+            LOGGER.error("Error in deleteViewLogic", ex);
         }
     }
 
@@ -245,7 +245,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory" , ex);
+            LOGGER.error("Error in deleteViewLogicForInventory", ex);
         }
     }
 
@@ -436,7 +436,7 @@ public class ExclusionDetailsLogic {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" , ex);
+            LOGGER.error("Error in getAllUsers :", ex);
         }
     }
 

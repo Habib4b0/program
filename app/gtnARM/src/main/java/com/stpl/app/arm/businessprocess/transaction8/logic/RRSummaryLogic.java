@@ -247,7 +247,7 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             query = query.replace("@TABLE_NAME", isView ? CommonConstant.ARM_RETURN_RESERVE : CommonConstant.ST_ARM_RETURN_RESERVE);
             return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception ex) {
-            LOGGER.error("Error in getExcelResultList :" , ex);
+            LOGGER.error("Error in getExcelResultList :", ex);
             return Collections.emptyList();
         }
     }
