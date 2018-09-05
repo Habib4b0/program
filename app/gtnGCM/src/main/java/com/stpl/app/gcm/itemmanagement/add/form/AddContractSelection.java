@@ -576,8 +576,7 @@ public class AddContractSelection extends CustomComponent {
     public Boolean checkrecord() {
         List input = AbstractLogic.getResultsInput(selection);
         String queryname = "checkrecord condition check";
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
 
     }
 

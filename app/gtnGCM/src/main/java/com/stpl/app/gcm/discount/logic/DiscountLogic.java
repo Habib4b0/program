@@ -552,15 +552,14 @@ public class DiscountLogic {
         } else {
             projSelDTO.setLevelNo(1);
         }
-        List<DiscountDTO> salesList = configureLevel(projSelDTO);
-        return salesList;
+        return configureLevel(projSelDTO);
     }
 
     public List<DiscountDTO> configureLevel(RemoveDiscountDto projSelDTO) {
         List<DiscountDTO> resultList = new ArrayList<>();
         String query = queryUtils.getSummaryQuery(projSelDTO);
         try {
-            List list = (List<Object[]>) discountDAO.getValues(query);
+            List list = discountDAO.getValues(query);
             DiscountDTO dto = new DiscountDTO();
             String levelName = StringUtils.EMPTY;
             for (Object object : list) {
@@ -617,8 +616,7 @@ public class DiscountLogic {
         } else {
             projSelDTO.setLevelNo(1);
         }
-        int count = configureLevelCount(projSelDTO);
-        return count;
+        return configureLevelCount(projSelDTO);
     }
 
     public int configureLevelCount(RemoveDiscountDto projSelDTO) {
@@ -700,7 +698,7 @@ public class DiscountLogic {
 
     public List<RemoveDiscountDto> getItems(RemoveDiscountDto discountDto, int start, int offset, boolean flag)  {
         String query = queryUtils.getItems(discountDto.getContractSid(), discountDto.getRsSid(), flag, start, offset);
-        List itemList = (List<RemoveDiscountDto>) discountDAO.getRebates(query);
+        List itemList =  discountDAO.getRebates(query);
 
         return setItemValues(itemList);
     }
@@ -708,14 +706,14 @@ public class DiscountLogic {
     public int getItemsCount(RemoveDiscountDto discountDto, int start, int offset)  {
         int count = 0;
         String query = queryUtils.getItems(discountDto.getContractSid(), discountDto.getRsSid(), true, start, offset);
-        List itemList = (List<RemoveDiscountDto>) discountDAO.getRebates(query);
+        List itemList =  discountDAO.getRebates(query);
         count = itemList.isEmpty() ? 0 : itemList.size();
         return count;
     }
 
     public List<RemoveDiscountDto> getTreeItems(int contractSid, int rsId)  {
         String query = queryUtils.getItems(contractSid, rsId, true, 0, 0);
-        List itemList = (List<RemoveDiscountDto>) discountDAO.getRebates(query);
+        List itemList =  discountDAO.getRebates(query);
 
         return setItemValues(itemList);
     }
@@ -1219,8 +1217,7 @@ public class DiscountLogic {
                 LOGGER.error("",ex);
             }
         }
-        boolean ret = count > 0;
-        return ret;
+        return count > 0;
     }
 
     public List<ContractsDetailsDto> getCommonSearchList(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO)  {
@@ -2546,7 +2543,7 @@ public class DiscountLogic {
         List<PSComponentDetailsDTO> resultsList = new ArrayList<>();
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (int i = 0; i < list.size(); i++) {
-            Object[] temp = (Object[]) list.get(i);
+            Object[] temp = list.get(i);
             PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
             tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
             tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
@@ -2572,7 +2569,7 @@ public class DiscountLogic {
         List<PSComponentDetailsDTO> resultsList = new ArrayList<>();
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (int i = 0; i < list.size(); i++) {
-            Object[] temp = (Object[]) list.get(i);
+            Object[] temp =  list.get(i);
             PSComponentDetailsDTO tempDto = new PSComponentDetailsDTO();
             tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
             tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
@@ -2598,7 +2595,7 @@ public class DiscountLogic {
         String query = CommonUtil.getQuery(inputMap, "ad.selectedCompaniesForNewCFP");
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (int i = 0; i < list.size(); i++) {
-            Object[] temp = (Object[]) list.get(i);
+            Object[] temp =  list.get(i);
             CFPComponentDetailsDTO tempDto = new CFPComponentDetailsDTO();
             tempDto.setCompanyNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
             tempDto.setCompanyName(CommonUtil.getPureValue(String.valueOf(temp[1])));
@@ -2902,7 +2899,8 @@ public class DiscountLogic {
 
     }
     public String getRsContractFromRSContractList(ContractsDetailsDto dto) {
-        String rsSql = " AND RSC.RS_CONTRACT_SID IN (" + StringUtils.join(dto.getRemovedRsList(), ",") + ")"
+        String rsSql = StringUtils.EMPTY;
+        rsSql = rsSql + " AND RSC.RS_CONTRACT_SID IN (" + StringUtils.join(dto.getRemovedRsList(), ",") + ")"
                 + " AND CN.CONTRACT_MASTER_SID = " + dto.getContractSid();
         return rsSql;
     }

@@ -58,8 +58,7 @@ public class ItemIndexTableLogic extends PageTableLogic {
             binderDto.setEndIndex(offset);
             binderDto.setIsCount(true);
             selection.setFilters(getFilters());
-        List<ItemIndexDto> resultList = logic.getSearchResults(binderDto, selection, selecteditemList);
-         return resultList;
+         return logic.getSearchResults(binderDto, selection, selecteditemList);
     }
 
     /**

@@ -121,7 +121,7 @@ public class ItemQueries {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list =  ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);
             }
@@ -173,7 +173,7 @@ public class ItemQueries {
         List list = new ArrayList();
         try {
             String query = getQuery(sql, dto);
-            list = (List<Object[]>) ITEMDAO.executeSelect(query);
+            list =  ITEMDAO.executeSelect(query);
 
         } catch (Exception ex) {
             LOGGER.error("",ex);
@@ -215,8 +215,7 @@ public class ItemQueries {
     private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException,  IllegalAccessException {
         Field field = myDTO.getClass().getDeclaredField(variable);
         field.setAccessible(true);
-        Object value = field.get(myDTO);
-        return value;
+        return field.get(myDTO);
     }
 
     public static List getItemData(List input, String queryName, String quaryName2, Set<Container.Filter> filters) {
@@ -262,7 +261,7 @@ public class ItemQueries {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list = ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);
             }

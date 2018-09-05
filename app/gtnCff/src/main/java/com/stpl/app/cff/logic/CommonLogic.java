@@ -808,7 +808,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             list= HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj =  list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1235,7 +1235,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj =  list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -2600,7 +2600,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 for (int i = 0; i < currentHierarchy.size(); i++) {
-                    Object[] levelValues = (Object[]) currentHierarchy.get(i);
+                    Object[] levelValues =  currentHierarchy.get(i);
                         ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
                         ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
                 }

@@ -46,8 +46,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     public int getCount() {
         if (!firstTime) {
             try {
-                int count = logic.buildContractCountQuery(conSelDTO, session.getUserId(), session.getSessionId(), getFilters());
-                return count;
+                return logic.buildContractCountQuery(conSelDTO, session.getUserId(), session.getSessionId(), getFilters());
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
@@ -66,8 +65,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         LOGGER.debug("Loading current Contract data");
         try {
-            List list = logic.getContractSelectionResults(logic.buildContractSearchQuery(conSelDTO, session.getUserId(), session.getSessionId(), start, offset, getFilters()), false);
-            return list;
+            return logic.getContractSelectionResults(logic.buildContractSearchQuery(conSelDTO, session.getUserId(), session.getSessionId(), start, offset, getFilters()), false);
         } catch (ParseException pe) {
             LOGGER.error(pe.getMessage());
             return Collections.emptyList();

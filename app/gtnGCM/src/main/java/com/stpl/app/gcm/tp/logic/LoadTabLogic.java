@@ -779,7 +779,7 @@ public class LoadTabLogic {
         List<SummaryTemDTO> resultList = new ArrayList<>();
         SummaryTemDTO dto = null;
 
-        list = (List) dao.executeSelect(query);
+        list =  dao.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
