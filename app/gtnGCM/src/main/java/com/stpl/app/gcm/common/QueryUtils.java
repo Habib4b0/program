@@ -69,7 +69,7 @@ public class QueryUtils {
      */
     //This method will return the query for contract search in landing screem
     public String getDiscContract(ErrorfulFieldGroup removeDiscountDto, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
-        String Query = searchQuery(removeDiscountDto);
+        String query = searchQuery(removeDiscountDto);
         Map parameters = new HashMap();
         try {
             parameters.put(Constants.IS_ORDERED, StringConstantsUtil.STRING_FALSE);
@@ -89,68 +89,68 @@ public class QueryUtils {
             if (getNull(removeDiscountDto.getField(Constants.CONTRACT_HOLDER).getValue().toString())) {
                 String contractHolder = removeDiscountDto.getField(Constants.CONTRACT_HOLDER).getValue().toString();
                 contractHolder = contractHolder.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CM.COMPANY_NAME like '" + contractHolder + "'";
+                query = query + " AND CM.COMPANY_NAME like '" + contractHolder + "'";
             }
             if (getNull(String.valueOf(removeDiscountDto.getField(Constants.MARKET_TYPE).getValue()))
                     && !Constants.IndicatorConstants.SELECT_ONE.getConstant().equals(removeDiscountDto.getField(Constants.MARKET_TYPE).getValue().toString())) {
                 String marketType = removeDiscountDto.getField(Constants.MARKET_TYPE).getValue().toString();
 
                 marketType = marketType.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND HT.DESCRIPTION like '" + marketType
+                query = query + " AND HT.DESCRIPTION like '" + marketType
                         + "' and HT.LIST_NAME = 'CONTRACT_TYPE'";
             }
             if (getNull(removeDiscountDto.getField(Constants.CFP_NAME).getValue().toString())) {
                 String cfpName = removeDiscountDto.getField(Constants.CFP_NAME).getValue().toString();
                 cfpName = cfpName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CFC.CFP_NAME  like '" + cfpName + "'";
+                query = query + " AND CFC.CFP_NAME  like '" + cfpName + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.CONTRACT_NO).getValue().toString())) {
                 String contractNo = removeDiscountDto.getField(Constants.CONTRACT_NO).getValue().toString();
                 contractNo = contractNo.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CN.CONTRACT_NO like '" + contractNo + "'";
+                query = query + " AND CN.CONTRACT_NO like '" + contractNo + "'";
 
             }
             if (getNull(String.valueOf(removeDiscountDto.getField("contractstartDate").getValue()))) {
                 Date startDate = (Date) removeDiscountDto.getField("contractstartDate").getValue();
-                Query = Query + " AND CN.START_DATE = '" + dbDate.format(startDate) + "'";
+                query = query + " AND CN.START_DATE = '" + dbDate.format(startDate) + "'";
 
             }
             if (getNull(String.valueOf(removeDiscountDto.getField("contractendDate").getValue()))) {
                 Date endDate = (Date) removeDiscountDto.getField("contractendDate").getValue();
-                Query = Query + " AND CN.END_DATE = '" + dbDate.format(endDate) + "'";
+                query = query + " AND CN.END_DATE = '" + dbDate.format(endDate) + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.IFPNAME).getValue().toString())) {
                 String ifpName = removeDiscountDto.getField(Constants.IFPNAME).getValue().toString();
                 ifpName = ifpName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND IFC.IFP_NAME like '" + ifpName + "'";
+                query = query + " AND IFC.IFP_NAME like '" + ifpName + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.CONTRACT_NAME).getValue().toString())) {
                 String contractName = removeDiscountDto.getField(Constants.CONTRACT_NAME).getValue().toString();
                 contractName = contractName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND CN.CONTRACT_NAME like '" + contractName + "'";
+                query = query + " AND CN.CONTRACT_NAME like '" + contractName + "'";
 
             }
             if (getNull(removeDiscountDto.getField(Constants.PSNAME).getValue().toString())) {
                 String psName = removeDiscountDto.getField(Constants.PSNAME).getValue().toString();
                 psName = psName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND PSC.PS_NAME like '" + psName + "'";
+                query = query + " AND PSC.PS_NAME like '" + psName + "'";
 
             }
 
             if (getNull(removeDiscountDto.getField(Constants.RSNAME).getValue().toString())) {
                 String rsName = removeDiscountDto.getField(Constants.RSNAME).getValue().toString();
                 rsName = rsName.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + " AND RSC.RS_NAME like '" + rsName + "'";
+                query = query + " AND RSC.RS_NAME like '" + rsName + "'";
 
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField(StringConstantsUtil.ALIASTYPE).getValue()))
                     && !Constants.IndicatorConstants.SELECT_ONE.getConstant().equals(removeDiscountDto.getField(StringConstantsUtil.ALIASTYPE).getValue().toString())) {
                 String aliesType = String.valueOf(removeDiscountDto.getField(StringConstantsUtil.ALIASTYPE).getValue());
-                Query = Query + "AND CAM.CONTRACT_ALIAS_TYPE like '" + aliesType + "'";
+                query = query + "AND CAM.CONTRACT_ALIAS_TYPE like '" + aliesType + "'";
 
             }
 
@@ -158,17 +158,17 @@ public class QueryUtils {
                     && !Constants.IndicatorConstants.SELECT_ONE.getConstant().equals(removeDiscountDto.getField(StringConstantsUtil.ALIASNUMBER).getValue().toString())) {
                 String aliasnumber = removeDiscountDto.getField(StringConstantsUtil.ALIASNUMBER).getValue().toString();
                 aliasnumber = aliasnumber.replace(CHAR_ASTERISK, CHAR_PERCENT);
-                Query = Query + "AND CAM.CONTRACT_ALIAS_NO like '" + aliasnumber + "'";
+                query = query + "AND CAM.CONTRACT_ALIAS_NO like '" + aliasnumber + "'";
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField("aliasStartDate").getValue()))) {
                 Date startDate = (Date) removeDiscountDto.getField("aliasStartDate").getValue();
-                Query = Query + " AND CAM.START_DATE = '" + dbDate.format(startDate) + "'";
+                query = query + " AND CAM.START_DATE = '" + dbDate.format(startDate) + "'";
             }
 
             if (getNull(String.valueOf(removeDiscountDto.getField("aliasEndDate").getValue()))) {
                 Date aliasEndDate = (Date) removeDiscountDto.getField("aliasEndDate").getValue();
-                Query = Query + " AND CAM.END_DATE = '" + dbDate.format(aliasEndDate) + "'";
+                query = query + " AND CAM.END_DATE = '" + dbDate.format(aliasEndDate) + "'";
             }
             }
             if (!filters.isEmpty()) {
@@ -178,39 +178,39 @@ public class QueryUtils {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         if (Constants.CONTRACT_HOLDER.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CM.COMPANY_NAME like '" + filterString + "'";
+                            query = query + " AND CM.COMPANY_NAME like '" + filterString + "'";
                         }
                         if (Constants.CONTRACT_NO.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.CONTRACT_NO like '" + filterString + "'";
+                            query = query + " AND CN.CONTRACT_NO like '" + filterString + "'";
                         }
                         if (Constants.CFP_NAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND  CFC.CFP_NAME like '" + filterString + "'";
+                            query = query + " AND  CFC.CFP_NAME like '" + filterString + "'";
                         }
                         if (Constants.CONTRACT_NAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.CONTRACT_NAME like '" + filterString + "'";
+                            query = query + " AND CN.CONTRACT_NAME like '" + filterString + "'";
                         }
                         if (Constants.MARKET_TYPE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND HT.DESCRIPTION like '" + filterString
+                            query = query + " AND HT.DESCRIPTION like '" + filterString
                                     + "' and HT.LIST_NAME = 'CONTRACT_TYPE'";
                         }
                         if (Constants.IFPNAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND IFC.IFP_NAME like '" + filterString + "'";
+                            query = query + " AND IFC.IFP_NAME like '" + filterString + "'";
                         }
                         if (Constants.PSNAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND PSC.PS_NAME like '" + filterString + "'";
+                            query = query + " AND PSC.PS_NAME like '" + filterString + "'";
                         }
                         if (Constants.RSNAME.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND RSC.RS_NAME like '" + filterString + "'";
+                            query = query + " AND RSC.RS_NAME like '" + filterString + "'";
                         }
                     } else if (filter instanceof Between) {
                         Between stringFilter = (Between) filter;
                         Date filterString = (Date) stringFilter.getStartValue();
                         Date filterString1 = (Date) stringFilter.getEndValue();
                         if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.START_DATE BETWEEN  '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
+                            query = query + " AND CN.START_DATE BETWEEN  '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
                         }
                         if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.END_DATE = '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
+                            query = query + " AND CN.END_DATE = '" + dbDate.format(filterString) + "' AND '" + dbDate.format(filterString1) + "'";
                         }
                     } else if (filter instanceof Compare) {
                         Compare stringFilter = (Compare) filter;
@@ -225,71 +225,71 @@ public class QueryUtils {
                                 operator = "<=";
                             }
                             if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                                Query = Query + " AND CN.START_DATE " + operator + " '" + dbDate.format(value) + "'  ";
+                                query = query + " AND CN.START_DATE " + operator + " '" + dbDate.format(value) + "'  ";
 
                             }
                             if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                                Query = Query + " AND CN.END_DATE " + operator + " '" + dbDate.format(value) + "'  ";
+                                query = query + " AND CN.END_DATE " + operator + " '" + dbDate.format(value) + "'  ";
                             }
                         }
                 }
                 }
             }
-            Query = Query + " GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,\n"
+            query = query + " GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,\n"
                     + " CN.START_DATE,CN.END_DATE,\n"
                     + " CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,\n"
                     + " CN.CONTRACT_MASTER_SID,CFC.CFP_MODEL_SID,\n"
                     + " IFC.IFP_MODEL_SID,PSC.PS_MODEL_SID,\n"
                     + " RSC.RS_CONTRACT_SID,CM.COMPANY_MASTER_SID,CN.CONTRACT_ID,CN_ST.DESCRIPTION  ORDER BY  ";
             if (parameters.get(Constants.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
-                Query += "CN.CONTRACT_MASTER_SID ";
+                query += "CN.CONTRACT_MASTER_SID ";
             } else if (parameters.get(Constants.IS_ORDERED) != null && Constants.TRUE.equalsIgnoreCase(String.valueOf(parameters.get(Constants.IS_ORDERED)))) {
                 if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER)))) {
-                    Query += " CM.COMPANY_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER));
+                    query += " CM.COMPANY_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_HOLDER));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO)))) {
-                    Query += " CN.CONTRACT_NO ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO));
+                    query += " CN.CONTRACT_NO ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NO));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME)))) {
-                    Query += " CFC.CFP_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME));
+                    query += " CFC.CFP_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCFP_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)))) {
-                    Query += " CN.CONTRACT_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME));
+                    query += " CN.CONTRACT_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE)))) {
-                    Query += " HT.DESCRIPTION ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE));
+                    query += " HT.DESCRIPTION ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMARKET_TYPE));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE)))) {
-                    Query += " CN.START_DATE ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE));
+                    query += " CN.START_DATE ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYSTART_DATE));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYEND_DATE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE)))) {
-                    Query += " CN.END_DATE ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE));
+                    query += " CN.END_DATE ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYEND_DATE));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME)))) {
-                    Query += " IFC.IFP_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME));
+                    query += " IFC.IFP_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYIFP_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYPS_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME)))) {
-                    Query += " PSC.PS_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME));
+                    query += " PSC.PS_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYPS_NAME));
                 }
                 if (parameters.get(StringConstantsUtil.ORDER_BYRS_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME)))) {
-                    Query += " RSC.RS_NAME ";
-                    Query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME));
+                    query += " RSC.RS_NAME ";
+                    query += String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYRS_NAME));
                 }
             }
 
         } catch (Exception e) {
             LOGGER.error("",e);
         }
-        return Query;
+        return query;
     }
 
     public boolean getNull(String value) {
@@ -413,13 +413,13 @@ public class QueryUtils {
         return forecastDates;
     }
     
-    public String getCFPcount(CFPCompanyDTO CFPCompanyDTO) {
-        String CFPid;
-        String CFPName;
-        String CFPType;
-        String CFPStatus;
-        String CFPNO;
-        String Query = "select DISTINCT cfp.CFP_ID, cfp.CFP_NO, cfp.CFP_NAME, cfp.CFP_TYPE, cfp.CFP_STATUS, cfp.CFP_START_DATE, cfp.CFP_END_DATE, cfp.CFP_TRADE_CLASS, cfp.CFP_CATEGORY,\n"
+    public String getCFPcount(CFPCompanyDTO cfpCompanyDto) {
+        String cfpId;
+        String cfpName;
+        String cfpType;
+        String cfpStatus;
+        String cfpNo;
+        String query = "select DISTINCT cfp.CFP_ID, cfp.CFP_NO, cfp.CFP_NAME, cfp.CFP_TYPE, cfp.CFP_STATUS, cfp.CFP_START_DATE, cfp.CFP_END_DATE, cfp.CFP_TRADE_CLASS, cfp.CFP_CATEGORY,\n"
                 + "cfp.CFP_DESIGNATION,cfp.PARENT_CFP_NAME,parenCfp.CFP_ID as PARENT_ID,htype.DESCRIPTION as ctype,hstatus.DESCRIPTION as cstatus,htrade.DESCRIPTION as trade,\n"
                 + "hcategory.DESCRIPTION as category,cfp.CFP_MODEL_SID from CFP_MODEL cfp \n"
                 + "LEFT JOIN CFP_MODEL parenCfp on parenCfp.CFP_MODEL_SID = cfp.PARENT_CFP_ID"
@@ -429,45 +429,45 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cfp.CFP_STATUS "
                 + " JOIN CFP_DETAILS cfd on cfp.CFP_MODEL_SID=cfd.CFP_MODEL_SID  where cfp.INBOUND_STATUS <> 'D'";
 
-        if (CFPCompanyDTO.getCompanyFamilyPlanId() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanId().equals(StringUtils.EMPTY)) {
-            CFPid = CFPCompanyDTO.getCompanyFamilyPlanId();
-            Query = Query + " and  cfp.CFP_ID like '" + CFPid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (cfpCompanyDto.getCompanyFamilyPlanId() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanId().equals(StringUtils.EMPTY)) {
+            cfpId = cfpCompanyDto.getCompanyFamilyPlanId();
+            query = query + " and  cfp.CFP_ID like '" + cfpId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanNo() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanNo().equals(StringUtils.EMPTY)) {
-            CFPNO = CFPCompanyDTO.getCompanyFamilyPlanNo();
-            Query = Query + " and  cfp.CFP_NO like '" + CFPNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (cfpCompanyDto.getCompanyFamilyPlanNo() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanNo().equals(StringUtils.EMPTY)) {
+            cfpNo = cfpCompanyDto.getCompanyFamilyPlanNo();
+            query = query + " and  cfp.CFP_NO like '" + cfpNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanName() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanName().equals(StringUtils.EMPTY)) {
-            CFPName = CFPCompanyDTO.getCompanyFamilyPlanName();
-            Query = Query + " and  cfp.CFP_NAME like '" + CFPName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
-
-        }
-
-        if (CFPCompanyDTO.getCompanyFamilyPlanTypeValue() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanTypeValue().equals(StringUtils.EMPTY)) {
-            CFPType = CFPCompanyDTO.getCompanyFamilyPlanTypeValue();
-            Query = Query + " and  cfp.CFP_TYPE=" + CFPType;
-
-        }
-        if (CFPCompanyDTO.getCompanyFamilyPlanStatusValue() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanStatusValue().equals(StringUtils.EMPTY)) {
-            CFPStatus = CFPCompanyDTO.getCompanyFamilyPlanStatusValue();
-            Query = Query + " and  cfp.CFP_STATUS=" + CFPStatus;
+        if (cfpCompanyDto.getCompanyFamilyPlanName() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanName().equals(StringUtils.EMPTY)) {
+            cfpName = cfpCompanyDto.getCompanyFamilyPlanName();
+            query = query + " and  cfp.CFP_NAME like '" + cfpName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
 
-        return Query;
+        if (cfpCompanyDto.getCompanyFamilyPlanTypeValue() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanTypeValue().equals(StringUtils.EMPTY)) {
+            cfpType = cfpCompanyDto.getCompanyFamilyPlanTypeValue();
+            query = query + " and  cfp.CFP_TYPE=" + cfpType;
+
+        }
+        if (cfpCompanyDto.getCompanyFamilyPlanStatusValue() == null ? StringUtils.EMPTY != null : !cfpCompanyDto.getCompanyFamilyPlanStatusValue().equals(StringUtils.EMPTY)) {
+            cfpStatus = cfpCompanyDto.getCompanyFamilyPlanStatusValue();
+            query = query + " and  cfp.CFP_STATUS=" + cfpStatus;
+
+        }
+
+        return query;
     }
 
-    public String getCFPAttachedCompanies(CFPCompanyDTO CFPCompanyDTO) {
-        int sidvalue = CFPCompanyDTO.getCompanyFamilyPlanSystemId();
-        String Query = "select DISTINCT cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,hstatus.DESCRIPTION as cstatus from CFP_MODEL cfp"
+    public String getCFPAttachedCompanies(CFPCompanyDTO cfpCompanyDto) {
+        int sidvalue = cfpCompanyDto.getCompanyFamilyPlanSystemId();
+        String query = "select DISTINCT cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,hstatus.DESCRIPTION as cstatus from CFP_MODEL cfp"
         
                 + " JOIN CFP_DETAILS cfd on cfp.CFP_MODEL_SID=cfd.CFP_MODEL_SID \n"
                 + " JOIN COMPANY_MASTER cm on cfd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
                 + " JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cm.COMPANY_STATUS "
                 + "  where cfp.INBOUND_STATUS <> 'D' and cfd.CFP_MODEL_SID=" + sidvalue + StringUtils.EMPTY;
-        return Query;
+        return query;
     }
 
     public static String getDbColumnNames(String visibleColumnName) {
@@ -494,8 +494,8 @@ public class QueryUtils {
         return columnNames;
     }
 
-    public String getIfpAttachedItems(IFPItemDTO IFPItemDTO) {
-        int sidvalue = IFPItemDTO.getIfpDetailsSystemId();
+    public String getIfpAttachedItems(IFPItemDTO ifpItemDto) {
+        int sidvalue = ifpItemDto.getIfpDetailsSystemId();
         String sql = "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,\n"
                 + " itemsatus.DESCRIPTION "
                 + "                 from IFP_MODEL ifp JOIN IFP_DETAILS ifd on ifp.IFP_MODEL_SID=ifd.IFP_MODEL_SID JOIN ITEM_MASTER im on ifd.ITEM_MASTER_SID=im.ITEM_MASTER_SID\n"
@@ -511,12 +511,12 @@ public class QueryUtils {
         return sql;
     }
 
-    public String getIFPcount(IFPItemDTO IFPItemDTO) {
-        String IFPid;
-        String IFPName;
-        String IFPType;
-        String IFPStatus;
-        String IFPNO;
+    public String getIFPcount(IFPItemDTO ifpItemDto) {
+        String ifpId;
+        String ifpName;
+        String ifpType;
+        String ifpStatus;
+        String ifpNo;
 
         String sql = "SELECT DISTINCT ifp.IFP_MODEL_SID,ifp.IFP_ID,ifp.IFP_NO, ifp.IFP_NAME,ifp.IFP_STATUS,"
                 + "              ifp.IFP_TYPE,ifp.IFP_CATEGORY, ifp.IFP_START_DATE, ifp.IFP_END_DATE,ifp.IFP_DESIGNATION,"
@@ -533,41 +533,41 @@ public class QueryUtils {
               
                 + "                WHERE ifp.INBOUND_STATUS <> 'D'";
     
-        if (IFPItemDTO.getItemFamilyplanId() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanId().equals(StringUtils.EMPTY)) {
-            IFPid = IFPItemDTO.getItemFamilyplanId();
-            sql = sql + " and  ifp.IFP_ID like '" + IFPid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (ifpItemDto.getItemFamilyplanId() == null ? StringUtils.EMPTY != null : !ifpItemDto.getItemFamilyplanId().equals(StringUtils.EMPTY)) {
+            ifpId = ifpItemDto.getItemFamilyplanId();
+            sql = sql + " and  ifp.IFP_ID like '" + ifpId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getItemFamilyplanNo() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanNo().equals(StringUtils.EMPTY)) {
-            IFPNO = IFPItemDTO.getItemFamilyplanNo();
-            sql = sql + " and  ifp.IFP_NO like '" + IFPNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (ifpItemDto.getItemFamilyplanNo() == null ? StringUtils.EMPTY != null : !ifpItemDto.getItemFamilyplanNo().equals(StringUtils.EMPTY)) {
+            ifpNo = ifpItemDto.getItemFamilyplanNo();
+            sql = sql + " and  ifp.IFP_NO like '" + ifpNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getItemFamilyplanName() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanName().equals(StringUtils.EMPTY)) {
-            IFPName = IFPItemDTO.getItemFamilyplanName();
-            sql = sql + " and  ifp.IFP_NAME like '" + IFPName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (ifpItemDto.getItemFamilyplanName() == null ? StringUtils.EMPTY != null : !ifpItemDto.getItemFamilyplanName().equals(StringUtils.EMPTY)) {
+            ifpName = ifpItemDto.getItemFamilyplanName();
+            sql = sql + " and  ifp.IFP_NAME like '" + ifpName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getIFPtype() != 0) {
-            IFPType = IFPItemDTO.getIFPtype().toString();
-            sql = sql + " and   ifp.IFP_TYPE=" + IFPType;
+        if (ifpItemDto.getIFPtype() != 0) {
+            ifpType = ifpItemDto.getIFPtype().toString();
+            sql = sql + " and   ifp.IFP_TYPE=" + ifpType;
 
         }
-        if (IFPItemDTO.getItemFamilyplanStatus() != 0) {
-            IFPStatus = IFPItemDTO.getItemFamilyplanStatus().toString();
-            sql = sql + " and  ifp.IFP_STATUS=" + IFPStatus;
+        if (ifpItemDto.getItemFamilyplanStatus() != 0) {
+            ifpStatus = ifpItemDto.getItemFamilyplanStatus().toString();
+            sql = sql + " and  ifp.IFP_STATUS=" + ifpStatus;
 
         }
 
         return sql;
     }
 
-    public String getPScount(PSIFPDTO PSIFPDTO) {
-        String Pid;
-        String PName;
-        String PType;
-        String PStatus;
-        String PNO;
+    public String getPScount(PSIFPDTO psIfpDto) {
+        String pId;
+        String pName;
+        String pType;
+        String pStatus;
+        String pNo;
         String sql = "SELECT DISTINCT ps.PS_MODEL_SID,ps.PS_ID,ps.PS_NO,ps.PS_NAME,ps.PS_TYPE,ps.PS_STATUS,ps.PS_CATEGORY,ps.PS_START_DATE,ps.PS_END_DATE,"
                 + "ps.PS_DESIGNATION,ps.PARENT_PS_ID,ps.PARENT_PS_NAME,ps.PS_TRADE_CLASS,htype.DESCRIPTION as type,hstatus.DESCRIPTION as status,"
                 + "hcategory.DESCRIPTION as category,hdesign.DESCRIPTION as designation,htrade.DESCRIPTION as trade,ps.RECORD_LOCK_STATUS,ifp.IFP_NAME,ifp.IFP_MODEL_SID"
@@ -581,37 +581,37 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hdesign on hdesign.HELPER_TABLE_SID=ps.PS_DESIGNATION"
                 + " LEFT JOIN HELPER_TABLE htrade on htrade.HELPER_TABLE_SID=ps.PS_TRADE_CLASS"
                 + " WHERE ps.INBOUND_STATUS <> 'D' ";
-        if (PSIFPDTO.getPriceScheduleIdValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleIdValue().equals(StringUtils.EMPTY)) {
-            Pid = PSIFPDTO.getPriceScheduleIdValue();
-            sql = sql + " and  ps.PS_ID like '" + Pid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (psIfpDto.getPriceScheduleIdValue() == null ? StringUtils.EMPTY != null : !psIfpDto.getPriceScheduleIdValue().equals(StringUtils.EMPTY)) {
+            pId = psIfpDto.getPriceScheduleIdValue();
+            sql = sql + " and  ps.PS_ID like '" + pId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPriceScheduleNoValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleNoValue().equals(StringUtils.EMPTY)) {
-            PNO = PSIFPDTO.getPriceScheduleNoValue();
-            sql = sql + " and  ps.PS_NO like '" + PNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (psIfpDto.getPriceScheduleNoValue() == null ? StringUtils.EMPTY != null : !psIfpDto.getPriceScheduleNoValue().equals(StringUtils.EMPTY)) {
+            pNo = psIfpDto.getPriceScheduleNoValue();
+            sql = sql + " and  ps.PS_NO like '" + pNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPriceScheduleNameValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleNameValue().equals(StringUtils.EMPTY)) {
-            PName = PSIFPDTO.getPriceScheduleNameValue();
-            sql = sql + " and  ps.PS_NAME like '" + PName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (psIfpDto.getPriceScheduleNameValue() == null ? StringUtils.EMPTY != null : !psIfpDto.getPriceScheduleNameValue().equals(StringUtils.EMPTY)) {
+            pName = psIfpDto.getPriceScheduleNameValue();
+            sql = sql + " and  ps.PS_NAME like '" + pName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPtype() != 0) {
-            PType = PSIFPDTO.getPtype().toString();
-            sql = sql + " and  ps.PS_TYPE=" + PType;
+        if (psIfpDto.getPtype() != 0) {
+            pType = psIfpDto.getPtype().toString();
+            sql = sql + " and  ps.PS_TYPE=" + pType;
 
         }
-        if (PSIFPDTO.getPStatus() != 0) {
-            PStatus = PSIFPDTO.getPStatus().toString();
-            sql = sql + " and  ps.PS_STATUS=" + PStatus;
+        if (psIfpDto.getPStatus() != 0) {
+            pStatus = psIfpDto.getPStatus().toString();
+            sql = sql + " and  ps.PS_STATUS=" + pStatus;
 
         }
 
         return sql;
     }
 
-    public String getPSItemcount(PSIFPDTO PSIFPDTO) {
-        String psSid = PSIFPDTO.getPriceScheduleSystemId();
+    public String getPSItemcount(PSIFPDTO psIfpDto) {
+        String psSid = psIfpDto.getPriceScheduleSystemId();
         String sql = "SELECT DISTINCT  im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,itemsatus.DESCRIPTION,IPQ.ITEM_PRICING_QUALIFIER_NAME,psd.PRICE_PROTECTION_START_DATE"
                 + " FROM PS_MODEL ps"
                 + " JOIN PS_DETAILS psd on ps.PS_MODEL_SID=psd.PS_MODEL_SID"
@@ -630,8 +630,8 @@ public class QueryUtils {
         return sql;
     }
 
-    public String getRSAttachedItems(RsIfpDto RsIfpDto) {
-        int sidvalue = RsIfpDto.getRebateScheduleSystemId();
+    public String getRSAttachedItems(RsIfpDto rsIfpDto) {
+        int sidvalue = rsIfpDto.getRebateScheduleSystemId();
         String sql = "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,"
                 + "itemsatus.DESCRIPTION,rsd.FORMULA_ID,RPM.REBATE_PLAN_NAME\n"
                 + " from RS_MODEL rs"
@@ -651,12 +651,12 @@ public class QueryUtils {
         return sql;
     }
 
-    public String getRScount(RsIfpDto RsIfpDto) {
-        String Pid;
-        String PName;
-        String PType;
-        String PStatus;
-        String PNO;
+    public String getRScount(RsIfpDto rsIfpDto) {
+        String pId;
+        String pName;
+        String pType;
+        String pStatus;
+        String pNo;
         String sql = "SELECT DISTINCT rs.RS_MODEL_SID, rs.RS_ID, rs.RS_NO, rs.RS_NAME, rs.RS_STATUS, rs.RS_TYPE, rs.REBATE_PROGRAM_TYPE, htype.DESCRIPTION as rtype, hstatus.DESCRIPTION as rstatus, hpstatus.DESCRIPTION as rptype,hcategory.DESCRIPTION as rscategory,"
                 + "rs.RS_START_DATE,rs.RS_END_DATE,hdesignation.DESCRIPTION as rsdesignation,rs.PARENT_RS_ID,rs.PARENT_RS_NAME,rs.RECORD_LOCK_STATUS,ifp.IFP_NAME"
                 + " from RS_MODEL rs"
@@ -668,29 +668,29 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hcategory on hcategory.HELPER_TABLE_SID =  rs.RS_CATEGORY"
                 + " LEFT JOIN HELPER_TABLE hdesignation on hdesignation.HELPER_TABLE_SID =  rs.RS_DESIGNATION"
                 + " WHERE rs.INBOUND_STATUS != 'D'";
-        if (RsIfpDto.getRebateScheduleId() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleId().equals(StringUtils.EMPTY)) {
-            Pid = RsIfpDto.getRebateScheduleId();
-            sql = sql + " and  rs.RS_ID like '" + Pid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (rsIfpDto.getRebateScheduleId() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebateScheduleId().equals(StringUtils.EMPTY)) {
+            pId = rsIfpDto.getRebateScheduleId();
+            sql = sql + " and  rs.RS_ID like '" + pId.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebateScheduleNo() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleNo().equals(StringUtils.EMPTY)) {
-            PNO = RsIfpDto.getRebateScheduleNo();
-            sql = sql + " and  rs.RS_NO like '" + PNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (rsIfpDto.getRebateScheduleNo() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebateScheduleNo().equals(StringUtils.EMPTY)) {
+            pNo = rsIfpDto.getRebateScheduleNo();
+            sql = sql + " and  rs.RS_NO like '" + pNo.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebateScheduleName() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleName().equals(StringUtils.EMPTY)) {
-            PName = RsIfpDto.getRebateScheduleName();
-            sql = sql + " and  rs.RS_NAME like '" + PName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
+        if (rsIfpDto.getRebateScheduleName() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebateScheduleName().equals(StringUtils.EMPTY)) {
+            pName = rsIfpDto.getRebateScheduleName();
+            sql = sql + " and  rs.RS_NAME like '" + pName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebatetype() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebatetype().equals(StringUtils.EMPTY)) {
-            PType = RsIfpDto.getRebatetype();
-            sql = sql + " and  rs.RS_TYPE=" + PType;
+        if (rsIfpDto.getRebatetype() == null ? StringUtils.EMPTY != null : !rsIfpDto.getRebatetype().equals(StringUtils.EMPTY)) {
+            pType = rsIfpDto.getRebatetype();
+            sql = sql + " and  rs.RS_TYPE=" + pType;
 
         }
-        if (RsIfpDto.getRebateScheduleStatus() != 0) {
-            PStatus = RsIfpDto.getRebateScheduleStatus().toString();
-            sql = sql + " and  rs.RS_STATUS=" + PStatus;
+        if (rsIfpDto.getRebateScheduleStatus() != 0) {
+            pStatus = rsIfpDto.getRebateScheduleStatus().toString();
+            sql = sql + " and  rs.RS_STATUS=" + pStatus;
 
         }
         return sql;

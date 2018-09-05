@@ -598,15 +598,15 @@ public class DiscountLogic {
     /**
      * For Format
      *
-     * @param FORMAT
+     * @param format
      * @param value
      * @return String
      */
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat format, String value) {
         if (value.contains(Constants.NULL)) {
             value = Constants.ZEROSTRING;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = format.format(Double.valueOf(value));
         }
         return value;
     }
@@ -2291,16 +2291,16 @@ public class DiscountLogic {
             contractMember.setCfpContractId(list.get(0).getCfpContractSid());
         }
         List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
-        final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
+        final SimpleDateFormat dbDate = new SimpleDateFormat(MMDDYYYY.getConstant());
         input.add(cfpContract.getCfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        input.add(DBDate.format(new Date()));
+        input.add(dbDate.format(new Date()));
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        input.add(DBDate.format(new Date()));
+        input.add(dbDate.format(new Date()));
         input.add(cpdId);
-        input.add(DBDate.format(companyFamily.getCfpStartDate()));
+        input.add(dbDate.format(companyFamily.getCfpStartDate()));
         if (companyFamily.getCfpEndDate() != null) {
-            input.add(DBDate.format(companyFamily.getCfpEndDate()));
+            input.add(dbDate.format(companyFamily.getCfpEndDate()));
         } else {
             input.add(null);
         }
@@ -2536,11 +2536,11 @@ public class DiscountLogic {
         return new Date();
     }
     
-    public List<PSComponentDetailsDTO> getDiscountItemsForPS_RS(String UserId, String SessionId, List<String> itemsList) {
+    public List<PSComponentDetailsDTO> getDiscountItemsForPS_RS(String userId, String sessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForPS");
         Map<String, String> inputMap = new HashMap<>();
-        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, UserId);
-        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, SessionId);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?ITEM_MASTER_SIDs?", CommonUtils.getListToString(itemsList));
         String query = CommonUtil.getQuery(inputMap, "ad.selectedItemsForNewPS_RS");
         List<PSComponentDetailsDTO> resultsList = new ArrayList<>();
@@ -2562,11 +2562,11 @@ public class DiscountLogic {
         return resultsList;
     }
 
-    public List<PSComponentDetailsDTO> getDiscountItemsForIFP(String UserId, String SessionId, List<String> itemsList) {
+    public List<PSComponentDetailsDTO> getDiscountItemsForIFP(String userId, String sessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForIFP");
         Map<String, String> inputMap = new HashMap<>();
-        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, UserId);
-        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, SessionId);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?ITEM_MASTER_SIDs?", CommonUtils.getListToString(itemsList));
         String query = CommonUtil.getQuery(inputMap, "ad.selectedItemsForNewIFP");
         List<PSComponentDetailsDTO> resultsList = new ArrayList<>();
@@ -2588,12 +2588,12 @@ public class DiscountLogic {
         return resultsList;
     }
 
-    public List<CFPComponentDetailsDTO> getDiscountItemsForCFP(String UserId, String SessionId, List<String> companyList) {
+    public List<CFPComponentDetailsDTO> getDiscountItemsForCFP(String userId, String sessionId, List<String> companyList) {
         LOGGER.debug(" Inside getDiscountItemsForCFP");
         List<CFPComponentDetailsDTO> resultsList = new ArrayList<>();
         Map<String, String> inputMap = new HashMap<>();
-        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, UserId);
-        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, SessionId);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?COMPANY_MASTER_SIDs?", CommonUtils.getListToString(companyList));
         String query = CommonUtil.getQuery(inputMap, "ad.selectedCompaniesForNewCFP");
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);

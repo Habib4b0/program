@@ -564,7 +564,7 @@ public class ItemSelection extends CustomComponent {
         logic.loadComboBox(itemCategoryDto, "ITEM_CATEGORY", false);
     }
 
-    private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
+    private void loadPlaceHolder(ComboBox placeHolderDto, boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> placeHolderList = new ArrayList<>();
         HelperDTO dto = new HelperDTO(NumericConstants.ELEVEN, Constants.SELECT_ONE);
@@ -578,16 +578,16 @@ public class ItemSelection extends CustomComponent {
         }
         placeHolderList.add(yesDto);
         placeHolderList.add(noDto);
-        placeHolder_DTO.setContainerDataSource(container);
+        placeHolderDto.setContainerDataSource(container);
         if (!isFilter) {
-            placeHolder_DTO.setNullSelectionItemId(dto);
+            placeHolderDto.setNullSelectionItemId(dto);
         } else {
-            placeHolder_DTO.setNullSelectionItemId(showAll);
+            placeHolderDto.setNullSelectionItemId(showAll);
         }
-        placeHolder_DTO.setNullSelectionAllowed(true);
-        placeHolder_DTO.setItemCaptionPropertyId("description");
+        placeHolderDto.setNullSelectionAllowed(true);
+        placeHolderDto.setItemCaptionPropertyId("description");
         container.addAll(placeHolderList);
-        placeHolder_DTO.select(dto);
+        placeHolderDto.select(dto);
     }
 
     private void loadIdentifierType() {
