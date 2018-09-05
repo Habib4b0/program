@@ -31,7 +31,7 @@ public final class UISecurityUtil {
     /**
      * private constructor to make the class as utility class.
      */
-    public UISecurityUtil() {
+    private UISecurityUtil() {
 //Empty
     }
 

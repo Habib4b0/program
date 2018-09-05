@@ -54,7 +54,10 @@ import org.slf4j.LoggerFactory;
  * @author soundarrajan.l
  */
 public class DataSelectionUtil {
-
+    
+    private DataSelectionUtil() {
+        // DataSelectionUtil
+    }
 	/**
 	 * The Constant LOGGER.
 	 */

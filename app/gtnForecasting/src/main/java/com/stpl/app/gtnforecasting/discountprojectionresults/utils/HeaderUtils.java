@@ -24,6 +24,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class HeaderUtils {
     
+    private HeaderUtils() {
+        // HeaderUtils
+    }
+    
     public static final String PROJECTIONS_RPU = "ProjectionsRPU";
     public static final String PROJECTIONS_RATE = "ProjectionsRate";
 
