@@ -494,6 +494,8 @@ public class HomeController {
         private static final String DTX_ACCRUAL_ACTUAL_INTERFACE = "DtxAccrualActualInterface";
         private static final String DTX_ITEM_MASTER_INTERFACE = "DtxItemMasterInterface";
         private static final String DTX_ITEM_IDENTIFIER_INTERFACE = "DtxItemIdentifierInterface";
+        private static final String DTX_CUSTOMER_GTS_ACTUAL_INTERFACE = "DtxCustomerGTSActualInterface";
+        private static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DtxCustomerGTSForecastInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -743,6 +745,10 @@ public class HomeController {
             		new String[] { Constants.DTX_ITEM_MASTER_INTERFACE, FilePathUtil.DTX_ITEM_MASTER_INTERFACE });
                         loaddata.put(DTX_ITEM_IDENTIFIER_INTERFACE,
                     new String[] { Constants.DTX_ITEM_IDENTIFIER_INTERFACE, FilePathUtil.DTX_ITEM_IDENTIFIER_INTERFACE });
+                        loaddata.put(DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,
+                    new String[] { Constants.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE, FilePathUtil.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE });
+                        loaddata.put(DTX_CUSTOMER_GTS_FORECAST_INTERFACE,
+                                new String[] { Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE, FilePathUtil.DTX_CUSTOMER_GTS_FORECAST_INTERFACE });
             		
 		}
 		return loaddata.get(keyValue);
@@ -790,8 +796,8 @@ public class HomeController {
 					PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE, PSTG_CUSTOMER_GTS_FORECAST_INTERFACE, PSTG_RETURNS_INTERFACE,
 					CONSUMER_PRICE_INDEX_INTERFACE, PSTG_GL_COST_CENTER_INTERFACE, UNIT_OF_MEASURE_INTERFACE,
 					ACCRUALS_INTERFACE, PSTG_SALES_FORECAST_INTERFACE, PSTG_FORECAST_SALES_WAC_INTERFACE,
-					PSTG_GCC_PROD_HIERARCHY_INTERFACE,DTX_UOM_INTERFACE,DTX_CPI_INTERFACE,DTX_RETURN_RATE_INTERFACE,DTX_ACCRUAL_ACTUAL_INTERFACE
-
+					PSTG_GCC_PROD_HIERARCHY_INTERFACE,DTX_UOM_INTERFACE,DTX_CPI_INTERFACE,DTX_RETURN_RATE_INTERFACE,DTX_ACCRUAL_ACTUAL_INTERFACE,
+					DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,DTX_CUSTOMER_GTS_FORECAST_INTERFACE
 			);
 
 			if (Constants.APP_KEY.equals(apikey)) {
