@@ -636,23 +636,23 @@ public class DataSelectionUtil {
 	public static String getDateFromQuarter(String quarter) {
 		String slash = "/";
 		String dd = "01";
-		String MM = "01";
+		String mMonth = "01";
 		String date;
 		String split[] = quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
 		if (quarterValue == 1) {
-			MM = "01";
+			mMonth = "01";
 		} else if (quarterValue == NumericConstants.TWO) {
-			MM = "04";
+			mMonth = "04";
 		} else if (quarterValue == NumericConstants.THREE) {
-			MM = "07";
+			mMonth = "07";
 		} else if (quarterValue == NumericConstants.FOUR) {
-			MM = "10";
+			mMonth = "10";
 		}
 
-		date = MM + slash + dd + slash + yyyy;
+		date = mMonth + slash + dd + slash + yyyy;
 		return date;
 	}
 
@@ -831,27 +831,27 @@ public class DataSelectionUtil {
 	public static String getLastDateFromQuarter(String quarter) {
 		String slash = "/";
 		String dd = "30";
-		String MM = "01";
+		String mm = "01";
 		String date;
 		String split[] = quarter.split(" - ");
 		String splitQuarter = split[0];
 		int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
 		String yyyy = split[1];
 		if (quarterValue == 1) {
-			MM = "03";
+			mm = "03";
 			dd = "31";
 		} else if (quarterValue == NumericConstants.TWO) {
-			MM = "06";
+			mm = "06";
 			dd = "30";
 		} else if (quarterValue == NumericConstants.THREE) {
-			MM = "09";
+			mm = "09";
 			dd = "30";
 		} else if (quarterValue == NumericConstants.FOUR) {
-			MM = "12";
+			mm = "12";
 			dd = "31";
 		}
 
-		date = MM + slash + dd + slash + yyyy;
+		date = mm + slash + dd + slash + yyyy;
 		return date;
 	}
 

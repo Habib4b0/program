@@ -2920,7 +2920,7 @@ public class CommonLogic {
                 + "     , @PROJECTION_DATE DATE\n"
                 + "     , @START_PERIOD_SID INT\n"
                 + "     , @END_PERIOD_SID INT\n"
-                + "      ,  @PROGRAM_TYPE VARCHAR(50) = '" + pvsDTO.getDiscountLevel().toUpperCase() + "'"
+                + "      ,  @PROGRAM_TYPE VARCHAR(50) = '" + pvsDTO.getDiscountLevel().toUpperCase(Locale.ENGLISH) + "'"
                 + " \n"
                 + " SELECT TOP 1 @STARTFROM = DATEADD(YY, DATEDIFF(YY, 0, DATEADD(YY, - 3, GETDATE())), 0)\n"
                 + "     , @PROJECTION_DATE = DATEADD(M, DATEDIFF(M, 0, DATEADD(DAY, - 1, DATEADD(QQ, DATEDIFF(QQ, 0, TO_DATE) + 1, 0))), 0)\n"

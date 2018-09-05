@@ -327,7 +327,7 @@ public class UiUtils {
 	 * @return
 	 */
 	public static String capitalizeCaptions(String value) {
-		return value.toUpperCase();
+		return value.toUpperCase(Locale.ENGLISH);
 	}
 
 	/**
@@ -408,7 +408,7 @@ public class UiUtils {
 		}
 		for (int i = loop, j = splitArray.length; i < j; i++) {
                         finalValueBuilder.append(finalValue).append(splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
-					String.valueOf(splitArray[i].charAt(0)).toUpperCase()));
+					String.valueOf(splitArray[i].charAt(0)).toUpperCase(Locale.ENGLISH)));
 		}
                 finalValue = finalValueBuilder.toString();
 		return finalValue;

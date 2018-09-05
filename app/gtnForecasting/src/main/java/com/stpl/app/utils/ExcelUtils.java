@@ -158,27 +158,27 @@ public class ExcelUtils {
     }
 
     private static void getCustomizedDTO(final PPAProjectionResultsDTO dto, final Object[] obj, ProjectionSelectionDTO selection) {
-        DecimalFormat FORMAT = new DecimalFormat();
+        DecimalFormat formatDec = new DecimalFormat();
         int year = Integer.parseInt(String.valueOf(obj[NumericConstants.SIX]));
         int period = Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN]));
         int dataNo = NumericConstants.EIGHT;
         int dataProjNo = NumericConstants.EIGHT;
         String per = StringUtils.EMPTY;
         if (dto.getGroup().equalsIgnoreCase("Discount $ Per Unit")) {
-            FORMAT = MONEY;
+            formatDec = MONEY;
             dataNo = NumericConstants.TWELVE;
             dataProjNo = NumericConstants.THIRTEEN;
         } else if (dto.getGroup().equalsIgnoreCase(CommonUtils.VAR_DIS_RATE)) {
             per = "%";
-            FORMAT = PERCENT_FORMAT;
+            formatDec = PERCENT_FORMAT;
             dataNo = NumericConstants.TEN;
             dataProjNo = NumericConstants.ELEVEN;
         } else if (dto.getGroup().equalsIgnoreCase("Unit Volume")) {
-            FORMAT = UNITVOLUME;
+            formatDec = UNITVOLUME;
             dataNo = NumericConstants.FOURTEEN;
             dataProjNo = NumericConstants.FIFTEEN;
         } else if (dto.getGroup().equalsIgnoreCase("Total Discount Amount")) {
-            FORMAT = MONEY;
+            formatDec = MONEY;
             dataNo = NumericConstants.EIGHT;
             dataProjNo = NumericConstants.NINE;
         }
@@ -187,11 +187,11 @@ public class ExcelUtils {
         String vis = isProjColumn(String.valueOf(period), String.valueOf(year), selection.getFrequency());
         if (header != null) {
             Boolean isProj = CommonUtils.setProjectionZero(selection, vis);
-            dto.addStringProperties(header, (obj[dataProjNo] == null) ? FORMAT.format(Double.valueOf(Constant.DASH)) : isProj ? (FORMAT.format(0.0) + per) : (FORMAT.format(Double.valueOf(obj[dataProjNo].toString())) + per));
+            dto.addStringProperties(header, (obj[dataProjNo] == null) ? formatDec.format(Double.valueOf(Constant.DASH)) : isProj ? (formatDec.format(0.0) + per) : (formatDec.format(Double.valueOf(obj[dataProjNo].toString())) + per));
         }
         header = isColumn(selection, String.valueOf(period), String.valueOf(year), Constant.ACTUALS, selection.getFrequency());
         if (header != null) {
-            dto.addStringProperties(header, (obj[dataNo] == null) ? FORMAT.format(Double.valueOf(Constant.DASH)) : (FORMAT.format(Double.valueOf(obj[dataNo].toString())) + per));
+            dto.addStringProperties(header, (obj[dataNo] == null) ? formatDec.format(Double.valueOf(Constant.DASH)) : (formatDec.format(Double.valueOf(obj[dataNo].toString())) + per));
         }
     }
 

@@ -463,7 +463,7 @@ public class WorkFlowNotesLookup extends Window {
 		return SUBMIT_FLAG;
 	}
 
-	public static void setSUBMIT_FLAG(String sUBMIT_FLAG) {
-		SUBMIT_FLAG = sUBMIT_FLAG;
+	public static void setSUBMIT_FLAG(String sumbitFlag) {
+		SUBMIT_FLAG = sumbitFlag;
 	}
 }
