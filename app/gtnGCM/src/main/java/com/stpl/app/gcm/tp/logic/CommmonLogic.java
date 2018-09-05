@@ -2335,14 +2335,12 @@ public class CommmonLogic {
                 + "LEFT JOIN dbo.COMPANY_MASTER COM ON COM.COMPANY_MASTER_SID=CFP_D.COMPANY_MASTER_SID \n"
                 + "LEFT JOIN dbo.RS_CONTRACT_DETAILS RS_CD ON RS_C.RS_CONTRACT_SID=RS_CD.RS_CONTRACT_SID LEFT JOIN dbo.HELPER_TABLE HT1 ON CM.CONTRACT_STATUS=HT1.HELPER_TABLE_SID \n"
                 + " WHERE COM.COMPANY_MASTER_SID='" + companyId + "' AND CM.CONTRACT_MASTER_SID=" + contractId;
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
 
     }
 
     public static List<String> getCustomerName(List<String> companyMasterSids) {
         String query = "Select COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in(" + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
-        List<String> companyNamesList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return companyNamesList;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 }

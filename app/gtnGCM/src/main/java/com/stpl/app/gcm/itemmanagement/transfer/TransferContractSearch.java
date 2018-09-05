@@ -308,8 +308,7 @@ public class TransferContractSearch extends AbstractContractSearch {
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.add(selection.getSessionId());
         input.add(ConstantsUtil.TRANSFER_CONTRACT);
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     @Override
