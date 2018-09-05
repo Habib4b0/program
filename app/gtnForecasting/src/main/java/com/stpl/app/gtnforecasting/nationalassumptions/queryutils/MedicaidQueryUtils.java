@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -82,9 +83,9 @@ public class MedicaidQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase());
+                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase(Locale.ENGLISH));
             } else {
-                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase() ).append( ',');
+                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase(Locale.ENGLISH) ).append( ',');
             }
         }
         priceTypeString = priceTypeStringBuilder.toString();
@@ -397,7 +398,7 @@ public class MedicaidQueryUtils {
                 queryBuilder1 = new StringBuilder();
                 String formatedValue = values.getValue();
                 String tempValue[] = formatedValue.split("~");
-                String rowId = tempValue[1];
+                String rowId = tempValue[0];
                 Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
@@ -427,7 +428,7 @@ public class MedicaidQueryUtils {
                 Constant.FROM_ITEM_MASTER ).append(
                 Constant.WHERE_ITEM_ID ).append( ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + '\'');
+                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[0] : priceType) + '\'');
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);

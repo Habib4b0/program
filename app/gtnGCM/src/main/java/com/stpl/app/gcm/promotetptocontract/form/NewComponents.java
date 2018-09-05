@@ -1282,7 +1282,7 @@ public class NewComponents extends CustomComponent implements View {
         /* This loop is used to check atleast one record is selected at component Details-selected Item table or not */
         List<ComponentInfoDTO> list = componentDetailResultsContainer.getItemIds();
         for (int i = 0; i < list.size(); i++) {
-            ComponentInfoDTO dto = (ComponentInfoDTO) list.get(i);
+            ComponentInfoDTO dto = list.get(i);
             if (dto.getCheckRecord()) {
                 flag = true;
             }

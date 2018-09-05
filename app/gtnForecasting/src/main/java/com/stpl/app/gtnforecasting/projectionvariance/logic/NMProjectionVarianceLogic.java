@@ -61,6 +61,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -1502,8 +1503,8 @@ public class NMProjectionVarianceLogic {
 		from = fromBuilder.toString();
 		to = toBuilder.toString();
 		if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
-			from = from.toLowerCase();
-			to = to.toLowerCase();
+			from = from.toLowerCase(Locale.ENGLISH);
+			to = to.toLowerCase(Locale.ENGLISH);
 		}
 
 		int start = visibleDoubleCol.indexOf(from);
@@ -2909,7 +2910,7 @@ public class NMProjectionVarianceLogic {
 					commonColumn = StringUtils.EMPTY + obj[0];
 				} else if (frequencyDivision == NumericConstants.TWELVE) {
 					String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-					commonColumn = monthName.toLowerCase() + obj[0];
+					commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
 				}
 				PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO,
 						isPer ? RATE : Constant.AMOUNT, index, obj, isPer);
@@ -3097,7 +3098,7 @@ public class NMProjectionVarianceLogic {
 					break;
 				case NumericConstants.TWELVE:
 					String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-					commonColumn = monthName.toLowerCase() + obj[0];
+					commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
 					break;
 				default:
 					break;

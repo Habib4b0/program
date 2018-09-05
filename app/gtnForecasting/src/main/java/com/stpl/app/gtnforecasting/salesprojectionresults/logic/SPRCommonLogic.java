@@ -1039,11 +1039,7 @@ public class SPRCommonLogic {
             } else {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "NM_PROJECTION_SELECTION");
             }
-        } catch (SystemException ex) {
-			LOGGER.error(ex.getMessage());
         } catch (PortalException ex) {
-			LOGGER.error(StringUtils.EMPTY,ex);
-        } catch (Exception ex) {
 			LOGGER.error(StringUtils.EMPTY,ex);
         }
     }
@@ -1070,11 +1066,7 @@ public class SPRCommonLogic {
                         String.valueOf(projectionSelectionDTO.get(Constant.SCREEN_NAME)), Constant.UPDATE,
                         "CH_PROJECTION_SELECTION");
             }
-        } catch (SystemException ex) {
-			LOGGER.error(StringUtils.EMPTY,ex);
         } catch (PortalException ex) {
-			LOGGER.error(StringUtils.EMPTY,ex);
-        } catch (Exception ex) {
 			LOGGER.error(StringUtils.EMPTY,ex);
         }
     }
@@ -1852,11 +1844,7 @@ public class SPRCommonLogic {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE,
                         "RETURNS_PROJECTION_SELECTION");
             }
-        } catch (SystemException ex) {
-			LOGGER.error(StringUtils.EMPTY,ex);
         } catch (PortalException ex) {
-			LOGGER.error(StringUtils.EMPTY,ex);
-        } catch (Exception ex) {
 			LOGGER.error(StringUtils.EMPTY,ex);
         }
     }

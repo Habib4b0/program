@@ -35,8 +35,7 @@ public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
 
     @Override
     public List<PSIFPDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
-        List<PSIFPDTO> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<PSIFPDTO>();
 
     }
 }

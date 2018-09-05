@@ -487,8 +487,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.add(selection.getSessionId());
         input.add(ConstantsUtil.CURRENT_COONTRACT);
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     @Override

@@ -241,11 +241,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
-                            } catch (SystemException ex) {
-                                LOGGER.error(ex.getMessage());
                             } catch (PortalException ex) {
-                                LOGGER.error(ex.getMessage());
-                            } catch (Exception ex) {
                                 LOGGER.error(ex.getMessage());
                             }
                         }

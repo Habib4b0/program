@@ -29,6 +29,10 @@ import org.slf4j.LoggerFactory;
  * @author Nimisha.Rakesh
  */
 public class Utility {
+    
+        private Utility() {
+            // Utility
+        }
 
     /**
      * The Constant LOGGER.
