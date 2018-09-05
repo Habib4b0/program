@@ -94,9 +94,9 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
                         final CustomMenuBar custom = (CustomMenuBar) itemIdDto.getFieldFactoryComponent(ARMUtils.getAdjustmentSummaryAccountMap().get(propertyId));
                         CommonUtils.loadCustomMenubarAccount(custom, custom.getItems().get(0), adjustmentType, selection);
                         if (selection.isIsViewMode()) {
-                            custom.setEnabled(true);
-                        } else {
                             custom.setEnabled(false);
+                        } else {
+                            custom.setEnabled(true);
                         }
                     }
                 } catch (Exception ex) {
