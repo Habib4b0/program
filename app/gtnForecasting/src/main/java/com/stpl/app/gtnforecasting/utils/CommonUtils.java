@@ -1913,7 +1913,7 @@ public class CommonUtils {
 
     private static String trimMonth(int startMonth) {
         String monthString = new DateFormatSymbols().getMonths()[startMonth - 1];
-        String month = monthString.substring(0, NumericConstants.THREE).toLowerCase();
+        String month = monthString.substring(0, NumericConstants.THREE).toLowerCase(Locale.ENGLISH);
         return month;
     }
 

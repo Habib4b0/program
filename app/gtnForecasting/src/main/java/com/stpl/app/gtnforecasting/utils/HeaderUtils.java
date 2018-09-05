@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -1129,7 +1130,7 @@ public class HeaderUtils {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -1152,7 +1153,7 @@ public class HeaderUtils {
             commonHeader = period + Constant.S + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -1571,7 +1572,7 @@ public class HeaderUtils {
         CommonUtils.getHistoryAndProjectionDetails(selection);
         prepareCommonColumnHeaders(selection);
 
-        if (pivotView.toLowerCase().contains("variable")) {
+        if (pivotView.toLowerCase(Locale.ENGLISH).contains("variable")) {
             List<Object> dmap = new ArrayList<>();
             for (int i = 0; i < NumericConstants.FOUR; i++) {
                 String commonColumn = StringUtils.EMPTY;
@@ -2713,8 +2714,8 @@ public class HeaderUtils {
             currentPeriod = curMonth / NumericConstants.THREE;
             frequencyDivision = NumericConstants.FOUR;
             try {
-                historyNum = Integer.parseInt(hist.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase(Locale.ENGLISH).replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase(Locale.ENGLISH).replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -2722,8 +2723,8 @@ public class HeaderUtils {
             currentPeriod = curMonth / NumericConstants.SIX;
             frequencyDivision = NumericConstants.TWO;
             try {
-                historyNum = Integer.parseInt(hist.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase(Locale.ENGLISH).replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase(Locale.ENGLISH).replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -2731,8 +2732,8 @@ public class HeaderUtils {
             currentPeriod = curMonth;
             frequencyDivision = NumericConstants.TWELVE;
             try {
-                historyNum = Integer.parseInt(hist.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase(Locale.ENGLISH).replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase(Locale.ENGLISH).replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -2740,8 +2741,8 @@ public class HeaderUtils {
             currentPeriod = curYear;
             frequencyDivision = 1;
             try {
-                historyNum = Integer.parseInt(hist.toLowerCase().replace("year", StringUtils.EMPTY).trim());
-                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("year", StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase(Locale.ENGLISH).replace("year", StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase(Locale.ENGLISH).replace("year", StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -3083,7 +3084,7 @@ public class HeaderUtils {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -3368,7 +3369,7 @@ public class HeaderUtils {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -5239,7 +5240,7 @@ public class HeaderUtils {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
