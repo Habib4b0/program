@@ -50,7 +50,10 @@ import org.apache.commons.lang.StringUtils;
  * @author Jayaram
  */
 public class HeaderUtils {
-
+    
+    private HeaderUtils() {
+        // HeaderUtils
+    }
     public static String getMonthForInt(int num) {
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();

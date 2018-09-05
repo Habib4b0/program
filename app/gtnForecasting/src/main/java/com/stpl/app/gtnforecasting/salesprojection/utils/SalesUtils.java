@@ -36,7 +36,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SalesUtils {
     
-    
+  private SalesUtils() {
+        // SalesUtils
+    }
+   
     public static final String MANDATED_PRO_NAME = "{call Prc_mandated_sales_insert (?,?,?)}";
     public static final String NM_SALES_PRO_NAME = "{call PRC_NM_SALES_INSERT (?,?,?)}";
     public static final String RETURNS_SALES_INSERT_PRO_NAME = "{call PRC_RETURNS_INSERT (?,?,?)}";

@@ -283,7 +283,7 @@ public class ForecastForm extends AbstractForm {
 		DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
 	}
 
-	private void init() throws Exception {
+	private void init() throws PortalException {
 
 		session.setPpaIndicator(true);
 		forecastDTOConfiguration();

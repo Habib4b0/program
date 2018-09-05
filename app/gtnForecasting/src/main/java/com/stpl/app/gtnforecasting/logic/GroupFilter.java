@@ -17,6 +17,9 @@ import java.util.Set;
  */
 public class GroupFilter {
 
+    private GroupFilter() {
+        // GroupFilter
+    }
 
 
     public static void initSalesMap(final SessionDTO session) {
