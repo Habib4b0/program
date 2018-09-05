@@ -16,6 +16,9 @@ import org.asi.ui.custommenubar.MenuItemDTO;
  * @author vinodhini.palanisamy
  */
 public class ChangeCustomMenuBarValueUtil {
+     private ChangeCustomMenuBarValueUtil() {
+        // ChangeCustomMenuBarValueUtil
+    }
 
     public static String getMenuItemToDisplay(CustomMenuBar.CustomMenuItem customerFilterValues) {
         String defaultValue = "-Select Level-";

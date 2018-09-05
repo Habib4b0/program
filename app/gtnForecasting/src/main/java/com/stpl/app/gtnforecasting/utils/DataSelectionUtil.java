@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,7 +54,10 @@ import org.slf4j.LoggerFactory;
  * @author soundarrajan.l
  */
 public class DataSelectionUtil {
-
+    
+    private DataSelectionUtil() {
+        // DataSelectionUtil
+    }
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -861,7 +865,7 @@ public class DataSelectionUtil {
 		String userIds;
 		if (userMap != null) {
 			for (Map.Entry<String, String> entry : userMap.entrySet()) {
-				if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+				if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
 					keys.add(String.valueOf(entry.getKey()));
 				}
 			}
@@ -983,7 +987,7 @@ public class DataSelectionUtil {
 		String userIds;
 		if (userIdMap != null) {
 			for (Map.Entry<String, String> entry : userIdMap.entrySet()) {
-				if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+				if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
 					keys.add(String.valueOf(entry.getKey()));
 				}
 			}
@@ -1033,7 +1037,7 @@ public class DataSelectionUtil {
 		String discountIds;
 		if (discountMap != null) {
 			for (Map.Entry<String, String> entry : discountMap.entrySet()) {
-				if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+				if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
 					keys.add(String.valueOf(entry.getKey()));
 				}
 			}

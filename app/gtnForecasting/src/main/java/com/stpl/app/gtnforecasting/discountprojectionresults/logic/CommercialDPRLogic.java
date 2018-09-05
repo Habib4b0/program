@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -832,7 +833,7 @@ public class CommercialDPRLogic {
             column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
-            column = monthName.toLowerCase() + String.valueOf(object[1]);
+            column = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(object[1]);
         }
         return column;
     }  

@@ -21,4 +21,7 @@ public class PMPYUtils {
      * The Constant CHECK.
      */
     public static final String CHECK = "img/checked.png";
+     private PMPYUtils() {
+        //PMPYUtils
+    }
 }

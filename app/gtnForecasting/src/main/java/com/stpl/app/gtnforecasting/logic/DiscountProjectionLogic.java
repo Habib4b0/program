@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -339,7 +340,7 @@ public class DiscountProjectionLogic {
                             column = Constant.S_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
                         } else if (frequency.equals(MONTHLY.getConstant())) {
                             String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
-                            column = monthName.toLowerCase() + obj[NumericConstants.TWO];
+                            column = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.TWO];
                         } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
@@ -941,7 +942,7 @@ public class DiscountProjectionLogic {
                         commonColumn = Constant.S_SMALL + obj[1] + obj[0];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[0];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                     } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }

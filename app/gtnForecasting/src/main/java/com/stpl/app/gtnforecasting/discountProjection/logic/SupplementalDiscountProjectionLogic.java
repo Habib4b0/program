@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -425,7 +426,7 @@ public class SupplementalDiscountProjectionLogic {
                 int period = Integer.parseInt(String.valueOf(obj[NumericConstants.EIGHT]));
                 int suppIementLevelNo = projSelDTO.getSupplementalLevelNo();
                 List<String> common = HeaderUtils.getCommonColumnHeader(NumericConstants.FOUR, year, period);
-                String commonColumn = common.get(0).toLowerCase();
+                String commonColumn = common.get(0).toLowerCase(Locale.ENGLISH);
                 if (supplementalColumns.contains(METHODOLOGY.getConstant()) && (suppIementLevelNo == 0 || suppIementLevelNo == NumericConstants.FOUR)) {
                     supplemental = commonColumn + METHODOLOGY.getConstant();
 
