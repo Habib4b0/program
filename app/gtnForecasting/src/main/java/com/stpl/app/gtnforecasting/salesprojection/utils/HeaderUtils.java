@@ -1094,7 +1094,7 @@ public class HeaderUtils {
                 commonHeader = StringUtils.EMPTY + syear + "    ";
             } else if (frequency.contains(MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
-                commonColumn = (monthName + syear).toUpperCase();
+                commonColumn = (monthName + syear).toUpperCase(Locale.ENGLISH);
                 commonHeader = monthName + " " + syear + "    ";
             }
 

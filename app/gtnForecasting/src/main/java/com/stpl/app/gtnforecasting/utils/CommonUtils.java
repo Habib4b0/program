@@ -1612,13 +1612,13 @@ public class CommonUtils {
     }
 
     public static int getHelperCode(String listName, String description) throws PortalException {
-        final DataSelectionDAO DAO = new DataSelectionDAOImpl();
+        final DataSelectionDAO daoHelperCode = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = daoHelperCode.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(ZERO).toString());
         }
@@ -1662,7 +1662,7 @@ public class CommonUtils {
                 }
             }
         } else if (freq.equals(Constant.SEMI_ANNUALLY)) {
-            value = value.toUpperCase().replace(Constant.S, StringUtils.EMPTY);
+            value = value.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
             String semiAnnual = value.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {

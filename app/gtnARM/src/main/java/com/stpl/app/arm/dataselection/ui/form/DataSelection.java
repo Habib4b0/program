@@ -2879,7 +2879,7 @@ public class DataSelection extends AbstractDataSelection {
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));
 
-        final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.FIXED_DOLLAR_ADJUSTMENT + "," + com.stpl.app.utils.ConstantsUtils.LANDING_SCREEN);
+        final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.FIXED_DOLLAR_ADJUSTMENT + ARMUtils.COMMA_CHAR + com.stpl.app.utils.ConstantsUtils.LANDING_SCREEN);
         if (functionCfpHM.get("generateBtn") != null && !(functionCfpHM.get("generateBtn")).isFunctionFlag()) {
             generateBtn.setVisible(false);
         }

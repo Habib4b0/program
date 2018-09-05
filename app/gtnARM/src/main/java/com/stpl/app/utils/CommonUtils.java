@@ -175,7 +175,7 @@ public class CommonUtils {
         inputList.add(tempTableName);
         String accouontFilterValue = StringUtils.EMPTY;
         if (accountValue != null) {
-            accouontFilterValue = " WHERE ACCOUNT = '" + accountValue + "'";
+            accouontFilterValue = " WHERE ACCOUNT = '" + accountValue + ARMUtils.SINGLE_QUOTES;
         }
         inputList.add(accouontFilterValue);
         accountComboBox.removeAllItems();
@@ -759,7 +759,7 @@ public class CommonUtils {
                 userMap.put((int) user.getUserId(), formattedUN);
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getUserName :" , ex);
+            LOGGER.error("Error in getUserName :", ex);
         }
         LOGGER.debug("End of getUserName method");
         return userMap;
@@ -891,7 +891,7 @@ public class CommonUtils {
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
 
             if (toAddQuote) {
-                String quote = "'";
+                String quote = String.valueOf(ARMUtils.SINGLE_QUOTES);
                 if (isDoubleQuote) {
                     quote = "\"";
                 }

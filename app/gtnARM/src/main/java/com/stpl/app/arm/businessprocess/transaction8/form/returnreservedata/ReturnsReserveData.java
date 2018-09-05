@@ -193,9 +193,9 @@ public class ReturnsReserveData extends VerticalLayout {
     public void loadDetails() {
         try {
             StringBuilder variablesBuilder = new StringBuilder();
-            variablesBuilder.append(VariableConstants.RETURN_RESERVE_DATA_VARIABLES_FIELD).append(ARMUtils.COMMA)
-                    .append(VariableConstants.REMOVE_CLOSED_BATCHES_FIELD).append(ARMUtils.COMMA)
-                    .append(VariableConstants.EXCLUDE_BASED_ON_LOE_DATE_FIELD).append(ARMUtils.COMMA)
+            variablesBuilder.append(VariableConstants.RETURN_RESERVE_DATA_VARIABLES_FIELD).append(ARMUtils.COMMA_CHAR)
+                    .append(VariableConstants.REMOVE_CLOSED_BATCHES_FIELD).append(ARMUtils.COMMA_CHAR)
+                    .append(VariableConstants.EXCLUDE_BASED_ON_LOE_DATE_FIELD).append(ARMUtils.COMMA_CHAR)
                     .append(VariableConstants.ORIGINAL_SALE_LIMITER_VAL_FIELD);
             List<Object[]> list = CommonLogic.loadReturnReserve(selection.getDataSelectionDTO().getProjectionId(), variablesBuilder.toString());
             for (int i = 0; i < list.size(); i++) {

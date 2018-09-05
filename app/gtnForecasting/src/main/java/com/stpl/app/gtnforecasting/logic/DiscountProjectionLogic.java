@@ -412,7 +412,7 @@ public class DiscountProjectionLogic {
     private void discountProjectionSetTableValues(String frequency, List<String> forecastConfigList,
             DiscountProjectionDTO discountDto, List doubleProjectedAndHistoryCombinedUniqueList, String column,
             String commonColumn, String actualObject, String projectedObject, String actualAmountObject,
-            String projAmountObj, String actualRpObject, String ProjRpObject, String growthObject,
+            String projAmountObj, String actualRpObject, String projRpObject, String growthObject,
             Integer apIndicatorObject) {
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(commonColumn)) {
             if (apIndicatorObject == 0) {
@@ -433,12 +433,12 @@ public class DiscountProjectionLogic {
                         column, projectedObject);
                 projAmountObj = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
                         column, projAmountObj);
-                ProjRpObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, ProjRpObject);
+                projRpObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projRpObject);
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObject);
                 discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObj);
                 discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU,
-                        ProjRpObject);
+                        projRpObject);
                 discountDto.addStringProperties(commonColumn + Constant.GROWTH, growthObject);
             } else {
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, StringUtils.EMPTY);

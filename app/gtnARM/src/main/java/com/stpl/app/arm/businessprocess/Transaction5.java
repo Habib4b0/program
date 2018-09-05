@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
 public class Transaction5 extends AbstractTransaction {
 
     private DRSelectionDTO dRSelectionDTO;
-    private AdjustmentSummaryDemandReforecast summary;
-    private AdjustmentDetailReforecast details;
+    private AdjustmentSummaryDemandReforecast reforecastsummary;
+    private AdjustmentDetailReforecast reforecastDetails;
     public static final Logger LOGGER = LoggerFactory.getLogger(Transaction5.class);
 
     public Transaction5(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
@@ -45,12 +45,12 @@ public class Transaction5 extends AbstractTransaction {
 
             dRSelectionDTO.setDataSelectionDTO(getDataselectionDTO());
             dRSelectionDTO.setSessionDTO(getSessionDTO());
-            summary = new AdjustmentSummaryDemandReforecast(dRSelectionDTO);
-            details = new AdjustmentDetailReforecast(dRSelectionDTO);
-            TabSheet.Tab tab3 = getTabSheet().addTab(summary, "Adjustment Summary");
-            tab3.setDefaultFocusComponent(summary.getDefaultFocusComponent());
-            TabSheet.Tab tab4 = getTabSheet().addTab(details, "Adjustment Detail");
-            tab4.setDefaultFocusComponent(details.getDefaultFocusComponent());
+            reforecastsummary = new AdjustmentSummaryDemandReforecast(dRSelectionDTO);
+            reforecastDetails = new AdjustmentDetailReforecast(dRSelectionDTO);
+            TabSheet.Tab tab3 = getTabSheet().addTab(reforecastsummary, "Adjustment Summary");
+            tab3.setDefaultFocusComponent(reforecastsummary.getDefaultFocusComponent());
+            TabSheet.Tab tab4 = getTabSheet().addTab(reforecastDetails, "Adjustment Detail");
+            tab4.setDefaultFocusComponent(reforecastDetails.getDefaultFocusComponent());
             TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class Transaction5 extends AbstractTransaction {
 
     @Override
     public boolean isGenerated() {
-        return summary.isGenerated() && details.isGenerated();
+        return reforecastsummary.isGenerated() && reforecastDetails.isGenerated();
     }
 
     @Override
@@ -81,17 +81,19 @@ public class Transaction5 extends AbstractTransaction {
     @Override
     public boolean saveAssets() {
         CommonLogic.saveDemandPaymentsReforcastSelection(getDataselectionDTO().getProjectionId(), getName(), getSelection());
-        return summary.saveAssets();
-    }
-
-    @Override
-    public String getGtnQuery() {
-        return "Demand_Adjustment_details_Insert_GTN";
+        return reforecastsummary.saveAssets();
     }
 
     @Override
     public String getReserveQuery() {
+        LOGGER.debug("Transaction 5 gtn Outbound Insert Query");
         return "Demand_Adjustment_details_Insert_Reserve";
+    }
+
+    @Override
+    public String getGtnQuery() {
+        LOGGER.debug("Transaction 5 Reserve Outbound Insert Query");
+        return "Demand_Adjustment_details_Insert_GTN";
     }
 
     @Override
@@ -102,8 +104,8 @@ public class Transaction5 extends AbstractTransaction {
     @Override
     public void configurePermission() {
         String userId = String.valueOf(getSessionDTO().getUserId());
-        summary.configurePermission(userId, stplSecurity);
-        details.configurePermission(userId, stplSecurity);
+        reforecastsummary.configurePermission(userId, stplSecurity);
+        reforecastDetails.configurePermission(userId, stplSecurity);
     }
 
     @Override

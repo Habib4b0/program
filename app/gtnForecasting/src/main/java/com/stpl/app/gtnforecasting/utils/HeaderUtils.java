@@ -3454,7 +3454,7 @@ public class HeaderUtils {
                 String commonHeader = periodListMap.get(commonColumn1);
                 String commonColumn = commonColumn1;
                 if (frequencyDivision != NumericConstants.TWELVE) {
-                    commonColumn = commonColumn1.toUpperCase();
+                    commonColumn = commonColumn1.toUpperCase(Locale.ENGLISH);
                 }
                 if (variableCategory.contains(Constant.ACTUALS)) {
                     pvTableHeaderDto.addSingleColumn(commonColumn + Constant.ACTUAL + projSelDTO.getCurrentProjId(), Constant.ACTUALS, String.class);
@@ -3891,7 +3891,7 @@ public class HeaderUtils {
                 String comHeader = periodListMap.get(commonColumn1);
                 String comColumn = commonColumn1;
                 if (frequencyDivision != NumericConstants.TWELVE) {
-                    comColumn = commonColumn1.toUpperCase();
+                    comColumn = commonColumn1.toUpperCase(Locale.ENGLISH);
                 }
                 periodListUpper.add(comColumn);
                 periodListMapUpper.put(comColumn, comHeader);

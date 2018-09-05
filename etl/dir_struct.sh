@@ -430,3 +430,11 @@ mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE
 mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/DTX_ITEM_IDENTIFIER_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_ACTUAL_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_ACTUAL_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_ACTUAL_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_ACTUAL_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_FORECAST_INTERFACE
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_FORECAST_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_FORECAST_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/DTX_CUSTOMER_GTS_FORECAST_INTERFACE/Input

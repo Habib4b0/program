@@ -15,8 +15,8 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class ResultsLayout {
-	
-	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+
+	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addResultsLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
@@ -25,18 +25,18 @@ public class ResultsLayout {
 		resultsPanel.setComponentName("Results");
 		resultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(resultsPanel);
-		
-		GtnUIFrameworkComponentConfig resultsLayout=new GtnUIFrameworkComponentConfig();
+
+		GtnUIFrameworkComponentConfig resultsLayout = new GtnUIFrameworkComponentConfig();
 		resultsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		resultsLayout.setComponentId(nameSpace+"-"+"resultsLayout");
+		resultsLayout.setComponentId(nameSpace + "-" + "resultsLayout");
 		resultsLayout.setComponentWidth("115%");
 		resultsLayout.setAddToParent(true);
 		resultsLayout.setParentComponentId(resultsPanel.getComponentId());
-		
-		GtnUIFrameworkLayoutConfig resultsLayoutConfig=new GtnUIFrameworkLayoutConfig();
+
+		GtnUIFrameworkLayoutConfig resultsLayoutConfig = new GtnUIFrameworkLayoutConfig();
 		resultsLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		resultsLayout.setGtnLayoutConfig(resultsLayoutConfig);
-		componentList.add(resultsLayout);	
+		componentList.add(resultsLayout);
 
 		addLevelComboBox(componentList, resultsLayout.getComponentId(), nameSpace);
 		addExpandButton(componentList, resultsLayout.getComponentId(), nameSpace);
@@ -55,9 +55,10 @@ public class ResultsLayout {
 		levelComboBoxLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		levelComboBoxLayout.setSpacing(true);
 		componentList.add(levelComboBoxLayout);
-		
+
 		GtnUIFrameworkComponentConfig levelComboBox = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "level", true, levelComboBoxLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				nameSpace + "_" + "level", true, levelComboBoxLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		levelComboBox.setComponentName("Level:");
 		levelComboBox.setSpacing(true);
 		componentList.add(levelComboBox);
@@ -76,12 +77,13 @@ public class ResultsLayout {
 		expandButtonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		expandButtonLayout.setSpacing(true);
 		componentList.add(expandButtonLayout);
-		
+
 		GtnUIFrameworkComponentConfig expandButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "expand", true, expandButtonLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
+				nameSpace + "_" + "expand", true, expandButtonLayout.getComponentId(),
+				GtnUIFrameworkComponentType.BUTTON);
 		expandButton.setComponentName("EXPAND");
 		expandButton.setSpacing(true);
-		componentList.add(expandButton);		
+		componentList.add(expandButton);
 	}
 
 	private void addCollapseButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -91,12 +93,13 @@ public class ResultsLayout {
 		collapseButtonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		collapseButtonLayout.setSpacing(true);
 		componentList.add(collapseButtonLayout);
-		
+
 		GtnUIFrameworkComponentConfig collapseButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "collapse", true, collapseButtonLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
+				nameSpace + "_" + "collapse", true, collapseButtonLayout.getComponentId(),
+				GtnUIFrameworkComponentType.BUTTON);
 		collapseButton.setComponentName("COLLAPSE");
 		collapseButton.setSpacing(true);
-		componentList.add(collapseButton);		
+		componentList.add(collapseButton);
 	}
 
 	private void addLevelFilterComboBox(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -106,9 +109,10 @@ public class ResultsLayout {
 		levelFilterLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		levelFilterLayout.setSpacing(true);
 		componentList.add(levelFilterLayout);
-		
+
 		GtnUIFrameworkComponentConfig levelFilterComboBox = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "levelFilter", true, levelFilterLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				nameSpace + "_" + "levelFilter", true, levelFilterLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		levelFilterComboBox.setComponentName("Level Filter:");
 		levelFilterComboBox.setSpacing(true);
 		componentList.add(levelFilterComboBox);
@@ -117,7 +121,7 @@ public class ResultsLayout {
 		levelFilterConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		levelFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		levelFilterComboBox.setGtnComboboxConfig(levelFilterConfig);		
+		levelFilterComboBox.setGtnComboboxConfig(levelFilterConfig);
 	}
 
 	private void addViewOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -127,7 +131,7 @@ public class ResultsLayout {
 		viewOptionLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		viewOptionLayout.setSpacing(true);
 		componentList.add(viewOptionLayout);
-		
+
 		GtnUIFrameworkComponentConfig viewRadioGroup = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "view", true, viewOptionLayout.getComponentId(),
 				GtnUIFrameworkComponentType.OPTIONGROUP);
@@ -135,16 +139,15 @@ public class ResultsLayout {
 		viewRadioGroup.setComponentName("View:");
 
 		GtnUIFrameworkOptionGroupConfig adjustmentVariableRadioGroupConfig = new GtnUIFrameworkOptionGroupConfig();
-		adjustmentVariableRadioGroupConfig.setItemValues(Arrays.asList( "Customer", "Product", "Custom" ));
-		adjustmentVariableRadioGroupConfig.setValuesFromService(Boolean.FALSE);
-		adjustmentVariableRadioGroupConfig.setEnable(Boolean.TRUE);
-		viewRadioGroup
-				.setComponentStyle(Arrays.asList( GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE ));
+		adjustmentVariableRadioGroupConfig.setItemValues(Arrays.asList("Customer", "Product", "Custom"));
+		adjustmentVariableRadioGroupConfig.setValuesFromService(false);
+		adjustmentVariableRadioGroupConfig.setEnable(true);
+		viewRadioGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		viewRadioGroup.setGtnUIFrameworkOptionGroupConfig(adjustmentVariableRadioGroupConfig);
 
-		componentList.add(viewRadioGroup);		
+		componentList.add(viewRadioGroup);
 	}
-	
+
 	private void addCustomComboBox(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig customComboBoxLayout = configProvider
@@ -152,9 +155,10 @@ public class ResultsLayout {
 		customComboBoxLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		customComboBoxLayout.setSpacing(true);
 		componentList.add(customComboBoxLayout);
-		
+
 		GtnUIFrameworkComponentConfig customComboBox = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "customComboBox", true, customComboBoxLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				nameSpace + "_" + "customComboBox", true, customComboBoxLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customComboBox.setSpacing(true);
 		componentList.add(customComboBox);
 
@@ -164,7 +168,7 @@ public class ResultsLayout {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customComboBox.setGtnComboboxConfig(customComboBoxConfig);
 	}
-	
+
 	private void addNewButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig newButtonLayout = configProvider
@@ -172,14 +176,14 @@ public class ResultsLayout {
 		newButtonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		newButtonLayout.setSpacing(true);
 		componentList.add(newButtonLayout);
-		
-		GtnUIFrameworkComponentConfig newButton = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "new", true, newButtonLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
+
+		GtnUIFrameworkComponentConfig newButton = configProvider.getUIFrameworkComponentConfig(nameSpace + "_" + "new",
+				true, newButtonLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
 		newButton.setSpacing(true);
 		newButton.setComponentName("NEW");
 		componentList.add(newButton);
 	}
-	
+
 	private void addEditButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig editButtonLayout = configProvider
@@ -187,7 +191,7 @@ public class ResultsLayout {
 		editButtonLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		editButtonLayout.setSpacing(true);
 		componentList.add(editButtonLayout);
-		
+
 		GtnUIFrameworkComponentConfig editButton = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "edit", true, editButtonLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
 		editButton.setSpacing(true);
