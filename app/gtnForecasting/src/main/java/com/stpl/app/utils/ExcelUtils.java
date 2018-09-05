@@ -31,6 +31,7 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
@@ -201,7 +202,7 @@ public class ExcelUtils {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -219,7 +220,7 @@ public class ExcelUtils {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;
@@ -433,7 +434,7 @@ public class ExcelUtils {
             column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
-            column = monthName.toLowerCase() + String.valueOf(object[1]);
+            column = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(object[1]);
         }
         return column;
     }
