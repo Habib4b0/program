@@ -410,8 +410,9 @@ public class SalesLogic {
      * @param offset
      * @param projSelDTO
      * @return
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
-    public List<SalesRowDto> getConfiguredSalesProjection(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws Exception {
+    public List<SalesRowDto> getConfiguredSalesProjection(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException {
         List<SalesRowDto> resultList;
         if ((CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName()) || CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()))
                 && (projSelDTO.getPivotView() != null && Constant.VARIABLE.equals(projSelDTO.getPivotView()))) {
