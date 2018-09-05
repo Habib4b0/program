@@ -112,6 +112,10 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String TWENTYNINEPX = "29px";
     private static final String[] MONTH_ARRAY = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+      
+    private CommonUtils() {
+        // CommonUtils
+    }
     
     /**
      * Creates the clara.
