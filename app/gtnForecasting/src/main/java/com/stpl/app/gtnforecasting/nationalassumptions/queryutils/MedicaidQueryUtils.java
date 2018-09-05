@@ -397,7 +397,7 @@ public class MedicaidQueryUtils {
                 queryBuilder1 = new StringBuilder();
                 String formatedValue = values.getValue();
                 String tempValue[] = formatedValue.split("~");
-                String rowId = tempValue[1];
+                String rowId = tempValue[0];
                 Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
@@ -427,7 +427,7 @@ public class MedicaidQueryUtils {
                 Constant.FROM_ITEM_MASTER ).append(
                 Constant.WHERE_ITEM_ID ).append( ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + '\'');
+                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[0] : priceType) + '\'');
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);
