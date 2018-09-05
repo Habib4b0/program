@@ -343,7 +343,7 @@ public class DataSelectionLogic {
         return getComboBoxMap(prcomboBox, list);
     }
 
-    private Map<Integer, Integer> getComboBoxMap(ComboBox comboBox, List<Object[]> list) throws UnsupportedOperationException {
+    private Map<Integer, Integer> getComboBoxMap(ComboBox comboBox, List<Object[]> list) {
         Map<Integer, Integer> map = new HashMap<>();
         comboBox.removeAllItems();
         comboBox.addItem(GlobalConstants.getSelectOne());
