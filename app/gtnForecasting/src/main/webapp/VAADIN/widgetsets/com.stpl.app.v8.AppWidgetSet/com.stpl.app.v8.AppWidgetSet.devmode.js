@@ -199,7 +199,7 @@ function fireOnModuleLoadStart(className) {
  * Helper functions for the Development Mode startup code. Listed alphabetically
  *****************************************************************************/
 function doBrowserSpecificFixes() {
-  var ua = navigator.userAgent.toLowerCase(Locale.ENGLISH);
+  var ua = navigator.userAgent.toLowerCase();
   if (ua.indexOf("gecko") != -1) {
     // install eval wrapper on FF to avoid EvalError problem
     var __eval = window.eval;
