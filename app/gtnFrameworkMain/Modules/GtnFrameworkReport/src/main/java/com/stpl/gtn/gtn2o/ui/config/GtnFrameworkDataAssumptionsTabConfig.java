@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import static com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportDataSelectionTabConfig.getResetParameters;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;

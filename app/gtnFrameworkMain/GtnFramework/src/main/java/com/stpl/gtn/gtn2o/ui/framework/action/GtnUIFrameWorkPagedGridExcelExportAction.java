@@ -227,9 +227,9 @@ public class GtnUIFrameWorkPagedGridExcelExportAction implements GtnUIFrameWorkA
         ListDataProvider<GtnWsRecordBean> gridData = (ListDataProvider<GtnWsRecordBean>) pagedGrid.getGrid().getDataProvider();
         ArrayList<GtnWsRecordBean> gridItems = (ArrayList<GtnWsRecordBean>) gridData.getItems();
         List<GtnWsRecordBean> resultList = new ArrayList<>(gridItems);
-
+        int excelRowCount = rowCount;
         for (int i = 0; i < resultList.size(); i++) {
-            Row row = sheet.createRow(rowCount++);
+            Row row = sheet.createRow(excelRowCount++);
             GtnWsRecordBean recordBean = resultList.get(i);
             for (int j = 0; j < recordBean.getProperties().size(); j++) {
                 Cell cell = row.createCell(j);
