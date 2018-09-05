@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -397,7 +398,7 @@ public class UiUtils {
                 StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
                 String hqlFieldName = fieldName;
-		hqlFieldName = hqlFieldName.toLowerCase();
+		hqlFieldName = hqlFieldName.toLowerCase(Locale.ENGLISH);
 		String[] splitArray = hqlFieldName.split("_");
 		if (indicator.equals("table")) {
 			loop = 0;
@@ -505,7 +506,7 @@ public class UiUtils {
 			for (Object propertyId : table.getVisibleColumns()) {
 				table.setColumnWidth(propertyId, columnWidth);
 				if ((screenName.equals(TAB_PPA_PROJECTION.getConstant()))
-						&& (String.valueOf(propertyId).toLowerCase().contains("reset"))) {
+						&& (String.valueOf(propertyId).toLowerCase(Locale.ENGLISH).contains("reset"))) {
 					table.setColumnWidth(propertyId, 70);
 				}
 			}

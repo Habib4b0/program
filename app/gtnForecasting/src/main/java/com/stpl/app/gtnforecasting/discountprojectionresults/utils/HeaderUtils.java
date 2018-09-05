@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -1039,7 +1040,7 @@ public class HeaderUtils {
             }
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
