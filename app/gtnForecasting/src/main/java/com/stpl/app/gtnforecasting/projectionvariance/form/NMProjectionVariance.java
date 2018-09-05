@@ -78,6 +78,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -465,8 +466,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 String fromPeriod = fromDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 String toPeriod = toDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
-                    fromPeriod = fromPeriod.toLowerCase();
-                    toPeriod = toPeriod.toLowerCase();
+                    fromPeriod = fromPeriod.toLowerCase(Locale.ENGLISH);
+                    toPeriod = toPeriod.toLowerCase(Locale.ENGLISH);
                 }
 
                 int start = periodList.indexOf(fromPeriod);
@@ -1277,7 +1278,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", StringUtils.EMPTY);
             if ((pivotView.getValue().equals(Constant.PERIOD)) || (frequency.getValue().toString().equals(Constant.MONTHLY))) {
-                fromVal = fromVal.toLowerCase();
+                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
             }
             start = periodList.indexOf(fromVal);
         }

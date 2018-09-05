@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.collections.keyvalue.MultiKey;
@@ -1639,7 +1640,7 @@ public class NMDPRLogic {
             freq = Constant.S_SMALL + String.valueOf(obj[1]) + String.valueOf(obj[0]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-            freq = monthName.toLowerCase() + String.valueOf(obj[0]);
+            freq = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(obj[0]);
         }
         return freq;
     }

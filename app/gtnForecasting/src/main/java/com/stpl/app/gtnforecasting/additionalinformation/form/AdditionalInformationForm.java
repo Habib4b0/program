@@ -40,6 +40,7 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
@@ -180,7 +181,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
         try {
             String file = fileNameField.getValue();
             if (file.matches(ValidationUtils.SPECIAL_CHAR)) {
-                String filename = event.getFilename().toLowerCase();
+                String filename = event.getFilename().toLowerCase(Locale.ENGLISH);
                 if (event.getFilename().equals(StringUtils.EMPTY)) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
