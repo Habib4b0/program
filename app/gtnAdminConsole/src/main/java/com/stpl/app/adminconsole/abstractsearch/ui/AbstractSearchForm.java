@@ -414,9 +414,7 @@ public class AbstractSearchForm extends CustomComponent {
         try {
 
             final String userId = sessionDTO.getUserId();
-            boolean etlCheck = commonsUtil.checkETLUser(Integer.parseInt(userId));
-
-            return etlCheck;
+            return commonsUtil.checkETLUser(Integer.parseInt(userId));
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1015));

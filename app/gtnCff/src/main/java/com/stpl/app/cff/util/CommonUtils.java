@@ -951,8 +951,7 @@ public class CommonUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     public static int[] getQSPeriodDetails(ProjectionSelectionDTO projSelDTO, int freqDiv) {
@@ -1108,8 +1107,7 @@ public class CommonUtils {
     public static int getHistoryProjectionNum(String frequency, SessionDTO session) {
         Map<String, Integer> historyEndDetails = getHistoryEndDetails(session, frequency);
         Date dt = getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant()));
-        int endValue = getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
-        return endValue;
+        return getProjections(session.getForecastDTO().getProjectionStartDate(), dt, frequency);
     }
 
     public static Date getDate(int month, int year) {
