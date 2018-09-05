@@ -58,6 +58,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -741,7 +742,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 }
             }
         }else if (freq.equals(Constant.SEMI_ANNUALLY)) {
-            value = value.toUpperCase().replace(Constant.S, StringUtils.EMPTY);
+            value = value.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
             String semiAnnual = value.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {

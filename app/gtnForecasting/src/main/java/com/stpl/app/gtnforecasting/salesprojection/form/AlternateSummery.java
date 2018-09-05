@@ -85,6 +85,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1282,7 +1283,7 @@ public class AlternateSummery extends CustomComponent {
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -1333,7 +1334,7 @@ public class AlternateSummery extends CustomComponent {
                 }
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -1383,7 +1384,7 @@ public class AlternateSummery extends CustomComponent {
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**

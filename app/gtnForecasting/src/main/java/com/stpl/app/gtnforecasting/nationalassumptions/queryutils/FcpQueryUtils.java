@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -84,9 +85,9 @@ public class FcpQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceTypeBuilder.append(priceTypeList.get(i).toUpperCase());
+                priceTypeBuilder.append(priceTypeList.get(i).toUpperCase(Locale.ENGLISH));
             } else {
-                priceTypeBuilder.append(priceTypeList.get(i).toUpperCase() ).append( ',');
+                priceTypeBuilder.append(priceTypeList.get(i).toUpperCase(Locale.ENGLISH) ).append( ',');
             }
         }
         priceType = priceTypeBuilder.toString();

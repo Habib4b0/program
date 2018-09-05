@@ -1421,11 +1421,7 @@ public class ForecastForm extends AbstractForm {
 								WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
-						} catch (SystemException ex) {
-							LOGGER.error(ex.getMessage());
 						} catch (PortalException ex) {
-							LOGGER.error(ex.getMessage());
-						} catch (Exception ex) {
 							LOGGER.error(ex.getMessage());
 						}
 					}
@@ -1959,7 +1955,7 @@ public class ForecastForm extends AbstractForm {
 					}
 				}
 			}.getConfirmationMessage(CONFIRMATION.getConstant(), alertMsg.getString(
-					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase() + "_ACT_CHECK_MSG"));
+					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase(Locale.ENGLISH) + "_ACT_CHECK_MSG"));
 		} else {
 			if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 				callInsertProcedureOnGenerate(session, screenName);

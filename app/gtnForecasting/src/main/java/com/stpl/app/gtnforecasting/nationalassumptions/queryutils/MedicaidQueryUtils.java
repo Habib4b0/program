@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -82,9 +83,9 @@ public class MedicaidQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase());
+                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase(Locale.ENGLISH));
             } else {
-                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase() ).append( ',');
+                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase(Locale.ENGLISH) ).append( ',');
             }
         }
         priceTypeString = priceTypeStringBuilder.toString();

@@ -1662,7 +1662,7 @@ public class CommonUtils {
                 }
             }
         } else if (freq.equals(Constant.SEMI_ANNUALLY)) {
-            value = value.toUpperCase().replace(Constant.S, StringUtils.EMPTY);
+            value = value.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
             String semiAnnual = value.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
