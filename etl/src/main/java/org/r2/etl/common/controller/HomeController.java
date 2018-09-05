@@ -494,8 +494,8 @@ public class HomeController {
         private static final String DTX_ACCRUAL_ACTUAL_INTERFACE = "DtxAccrualActualInterface";
         private static final String DTX_ITEM_MASTER_INTERFACE = "DtxItemMasterInterface";
         private static final String DTX_ITEM_IDENTIFIER_INTERFACE = "DtxItemIdentifierInterface";
-        private static final String DTX_CUSTOMER_GTS_ACTUAL_INTERFACE = "DtxCustomerGTSActualInterface";
-        private static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DtxCustomerGTSForecastInterface";
+        private static final String DTX_CUSTOMER_GTS_ACTUAL_INTERFACE = "DtxCustomerGtsActualInterface";
+        private static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DtxCustomerGtsForecastInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
