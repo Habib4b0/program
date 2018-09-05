@@ -246,9 +246,9 @@ public class Trx7PASummaryLogic<T extends AdjustmentDTO> extends AbstractPipelin
             distributionValue = new Object[]{"C", "T", "B", "I"};
 
         }
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(distributionValue, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(distributionValue, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
-        query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));

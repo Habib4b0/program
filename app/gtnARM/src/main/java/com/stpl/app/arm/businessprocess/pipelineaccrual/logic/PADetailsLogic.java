@@ -24,26 +24,26 @@ import org.apache.commons.lang.StringUtils;
 public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
-        List pipelineReplaceList=  new ArrayList();
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO accrualSelection, Boolean isReserve) {
+        List pipelineReplaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
+        StringBuilder accrualValue;
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         pipelineReplaceList.add(isReserveValue);
-        if (selection.getDataSelectionDTO().getAdjustmentType() != null) {
-            pipelineReplaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
+        if (accrualSelection.getDataSelectionDTO().getAdjustmentType() != null) {
+            pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getAdjustmentId());
         }
-        pipelineReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        pipelineReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        pipelineReplaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        pipelineReplaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getProjectionId());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getProjectionId());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getCompanyMasterSid());
+        pipelineReplaceList.add(accrualSelection.getDataSelectionDTO().getBucompanyMasterSid());
         StringBuilder query;
-        if (selection.getSessionDTO().isWorkFlow()) {
+        if (accrualSelection.getSessionDTO().isWorkFlow()) {
             query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+            query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(accrualSelection.getDataSelectionDTO().getProjectionId()));
             query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
             query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
@@ -56,21 +56,21 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] pipelineObj = (Object[]) list.get(i);
-                value = new StringBuilder(StringUtils.EMPTY);
+                accrualValue = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(pipelineObj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID((Integer)(pipelineObj[0])));
+                    accrualValue = new StringBuilder(helperId.getDescriptionByID((Integer) (pipelineObj[0])));
                     property = new StringBuilder(String.valueOf(pipelineObj[0]));
                 }
                 if (isValid(pipelineObj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID((Integer)(pipelineObj[1])));
+                    accrualValue.append(DASH).append(helperId.getDescriptionByID((Integer) (pipelineObj[1])));
                     property.append(DASH).append(String.valueOf(pipelineObj[1]));
                 }
                 if (isValid(pipelineObj[NumericConstants.TWO])) {
-                    value.append(DASH).append(String.valueOf(pipelineObj[NumericConstants.TWO]));
+                    accrualValue.append(DASH).append(String.valueOf(pipelineObj[NumericConstants.TWO]));
                     property.append(DASH).append(String.valueOf(pipelineObj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value.toString());
+                reserveHeader.add(accrualValue.toString());
                 reserveProperty.add(property.toString());
             }
             finalList.add(reserveHeader);

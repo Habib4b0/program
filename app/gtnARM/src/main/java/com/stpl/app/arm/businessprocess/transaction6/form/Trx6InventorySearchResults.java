@@ -267,7 +267,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
         } catch (Exception ex) {
-            LOGGER.error("Error in excelExportLogic :" , ex);
+            LOGGER.error("Error in excelExportLogic :", ex);
         }
     }
 

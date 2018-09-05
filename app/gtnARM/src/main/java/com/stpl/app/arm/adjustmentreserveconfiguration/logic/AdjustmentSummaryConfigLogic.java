@@ -215,7 +215,7 @@ public class AdjustmentSummaryConfigLogic {
         inputList.add(column);
         String values = null;
         if (value != null) {
-            values = "'" + value.toString() + "'";
+            values = ARMUtils.SINGLE_QUOTES + value.toString() + ARMUtils.SINGLE_QUOTES;
         }
         inputList.add(values);
         inputList.add(dto.getAdjustmentSummarySid());
