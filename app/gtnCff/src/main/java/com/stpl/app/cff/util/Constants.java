@@ -88,8 +88,10 @@ public class Constants {
     public static final String FAIL = "fail";
     public static final String RUNNING_STATUS = "R";
     public static final String SALES = "SALES";
+    public static final String CFF_EXCEL = "CFF_EXCEL";
     public static final String DISCOUNT = "DISCOUNT";
     public static final String PRC_CFF_VIEW_POPULATION = "PRC_CFF_VIEWS_POPULATION";
+    public static final String PRC_CFF_HIERARCHY_DETAILS = "PRC_CFF_HIERARCHY_DETAILS";
 
     /**
      * Enum for label constants

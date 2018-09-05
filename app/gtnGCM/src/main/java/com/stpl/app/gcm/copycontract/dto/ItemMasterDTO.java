@@ -2028,7 +2028,7 @@ public class ItemMasterDTO implements Serializable {
         return systemId;
     }
 
-    public void setSystemId(String SystemId) {
-        this.systemId = SystemId;
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
     }
 }

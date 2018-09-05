@@ -151,8 +151,8 @@ public class ItemComponentDetailsDTO implements Cloneable {
         return uom;
     }
 
-    public void setUOM(String UOM) {
-        this.uom = UOM;
+    public void setUOM(String uom) {
+        this.uom = uom;
     }
 
     public String getPackageSize() {

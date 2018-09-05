@@ -139,12 +139,12 @@ public class CopyContractform extends CustomComponent implements View {
     private final CommonLogic commonLogic = new CommonLogic();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 
-    public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) {
+    public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String count) {
         this.editWindow = editWindow;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
-        this.count = Count;
+        this.count = count;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyContractform.xml"), this));
-        if (Integer.parseInt(Count) > 1) {
+        if (Integer.parseInt(count) > 1) {
             multiContractLayout.addComponent(multiContractTable);
         }
 
@@ -238,7 +238,7 @@ public class CopyContractform extends CustomComponent implements View {
         String cId = contractid.getValue();
         String cName = contractname.getValue();
         String cNo = contractno.getValue();
-        Date SDATE = startdate.getValue();
+        Date sDate = startdate.getValue();
         Date eDate = enddate.getValue();
         String mType = String.valueOf(markettype.getValue());
         String contHolder1 = String.valueOf(contracthHolder.getData());
@@ -253,10 +253,10 @@ public class CopyContractform extends CustomComponent implements View {
             listcNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
 
-        Date AliasSDATE = aliasStartDate.getValue();
-        String AliasNumber = aliasNumber.getValue();
-        Date AliasEDATE = aliasEndDate.getValue();
-        if (SDATE == null || StringUtils.EMPTY.equals(cId) || StringUtils.EMPTY.equals(cName) || StringUtils.EMPTY.equals(cNo) || mType.equals(Constants.NULL) || Constants.NULL.equals(contHolder1)) {
+        Date aliasSdate = aliasStartDate.getValue();
+        String aliasNumberr = aliasNumber.getValue();
+        Date aliasEdate = aliasEndDate.getValue();
+        if (sDate == null || StringUtils.EMPTY.equals(cId) || StringUtils.EMPTY.equals(cName) || StringUtils.EMPTY.equals(cNo) || mType.equals(Constants.NULL) || Constants.NULL.equals(contHolder1)) {
             AbstractNotificationUtils.getErrorNotification("Populate", "Please complete all mandatory Contract Header Details.");
         } else if (cId.length() > NumericConstants.THIRTY_EIGHT) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract ID length should be less than 38 characters.");
@@ -274,9 +274,9 @@ public class CopyContractform extends CustomComponent implements View {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract End date should be after Contract Start Date.");
         } else if (enddate.getValue() != null && startdate.getValue().getTime() == enddate.getValue().getTime()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Start date and Contract End date are equal.");
-        } else if (AliasNumber.length() > NumericConstants.FIFTY) {
+        } else if (aliasNumberr.length() > NumericConstants.FIFTY) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias No should be less than 50 characters.");
-        } else if (!AliasNumber.matches(StringConstantsUtil.SPECIAL_CHAR_REGEX)) {
+        } else if (!aliasNumberr.matches(StringConstantsUtil.SPECIAL_CHAR_REGEX)) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias No allows Special Characters like *,:,.,(,),',;,-,/,_");
         } else if (aliasEndDate.getValue() != null && aliasStartDate.getValue().after(aliasEndDate.getValue())) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias End date should be after Contract Alias Start Date.");
@@ -297,13 +297,13 @@ public class CopyContractform extends CustomComponent implements View {
             copyContractDashBoardTable.getContainerProperty(rootId, "levelNo").setValue("0");
             copyContractDashBoardTable.getContainerProperty(rootId, "marketType").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(markettype.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "contractHolder").setValue(contHolder);
-            copyContractDashBoardTable.getContainerProperty(rootId, "startDate").setValue(SDATE);
+            copyContractDashBoardTable.getContainerProperty(rootId, "startDate").setValue(sDate);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(contractStatus.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "endDate").setValue(eDate);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(aliastypecc.getValue().toString())));
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(AliasSDATE);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(AliasNumber);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_END_DATE).setValue(AliasEDATE);
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(aliasSdate);
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(aliasNumber);
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_END_DATE).setValue(aliasEdate);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("0");
             copyContractDashBoardTable.addItem(rootId);
             resetFields();

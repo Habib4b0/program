@@ -123,7 +123,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
      * SummarySelection is used to bind and pass through out the class
      * hierarchies
      */
-    private SummarySelection selection;
+    private SummarySelection summarySelection;
 
     protected CustomMenuBar.CustomMenuItem selecetedAdjustment;
 
@@ -135,21 +135,21 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     private SessionDTO sessionDTO;
 
     public AdjustmentSummary(SummarySelection selection, SessionDTO sessionDTO) {
-        this.selection = selection;
+        this.summarySelection = selection;
         this.sessionDTO = sessionDTO;
         init();
     }
 
     private void init() {
         loadInitialSelection();
-        adjustmentResults = new AdjustmentSummaryResults(new SummaryLogic(), selection);
+        adjustmentResults = new AdjustmentSummaryResults(new SummaryLogic(), summarySelection);
         adjustmentResults.getResults();
         adjustmentResults.init();
         addComponent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/adjustmentSummaryDetails.xml"), this));
         setWidth("100%");
         addComponent(adjustmentResults);
         configureFields();
-        List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
+        List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), summarySelection.getDataSelectionDTO().getFromDate(), summarySelection.getDataSelectionDTO().getToDate());
         loadFrequency(finalList);
         attachStatusDdlbListener();
         configureSecurity();
@@ -166,7 +166,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     }
 
     private void loadInitialSelection() {
-        selection.setFrequency(ARMUtils.frequencyVarables.QUARTERLY.toString());
+        summarySelection.setFrequency(ARMUtils.frequencyVarables.QUARTERLY.toString());
     }
 
     private boolean loadSeletion() {
@@ -174,23 +174,23 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         boolean isAdjustNotSelected = false;
         boolean isDeductionNotSelected = false;
         if (!adjustmentValues.isEmpty()) {
-            selection.setSelectedAdjustmentType(adjustmentValues.get(NumericConstants.TWO));
-            selection.setSelectedAdjustmentTypeValues(adjustmentValues.get(1));
+            summarySelection.setSelectedAdjustmentType(adjustmentValues.get(NumericConstants.TWO));
+            summarySelection.setSelectedAdjustmentTypeValues(adjustmentValues.get(1));
         } else {
             isAdjustNotSelected = true;
         }
         List<List> deductionValues = CommonUtils.getSelectedVariables(selecedVariablesMenuItem, Boolean.FALSE);
         if (!deductionValues.isEmpty()) {
-            selection.setDeductionVariableIds(deductionValues.get(NumericConstants.TWO));
-            selection.setDeductionVariablesValues(deductionValues.get(1));
-            selection.setDeductionVariablesName(deductionValues.get(0));
+            summarySelection.setDeductionVariableIds(deductionValues.get(NumericConstants.TWO));
+            summarySelection.setDeductionVariablesValues(deductionValues.get(1));
+            summarySelection.setDeductionVariablesName(deductionValues.get(0));
         } else {
             isDeductionNotSelected = true;
         }
-        selection.setSummarydeductionLevel((int) deductionlevelDdlb.getValue());
-        selection.setSummarydeductionLevelDes(String.valueOf(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
+        summarySelection.setSummarydeductionLevel((int) deductionlevelDdlb.getValue());
+        summarySelection.setSummarydeductionLevelDes(String.valueOf(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
         String deductions;
-        List<String> listSize = selection.getDeductionVariablesName();
+        List<String> listSize = summarySelection.getDeductionVariablesName();
         List finalDeductionList = new ArrayList();
         if (!listSize.isEmpty()) {
             for (int i = 0; i < listSize.size(); i++) {
@@ -199,32 +199,32 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             }
         }
         deductions = "'" + StringUtils.join(finalDeductionList.toArray(), "','") + "'";
-        selection.setSummarydeductionValues(deductions);
+        summarySelection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || VariableConstants.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {
-            CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
+            AdjustmentSummaryCustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             return false;
         }
-        selection.setFrequency(frequencyDdlb.getItemCaption(frequencyDdlb.getValue()));
-        selection.setSummaryFrequencyName(selection.getFrequency());
-        selection.setFromDate(String.valueOf(fromDate.getValue()));
+        summarySelection.setFrequency(frequencyDdlb.getItemCaption(frequencyDdlb.getValue()));
+        summarySelection.setSummaryFrequencyName(summarySelection.getFrequency());
+        summarySelection.setFromDate(String.valueOf(fromDate.getValue()));
         if (toDate.getValue() != null && !VariableConstants.SELECT_ONE.equals(String.valueOf(toDate.getValue()))) {
-            selection.setToDate(String.valueOf(toDate.getValue()));
+            summarySelection.setToDate(String.valueOf(toDate.getValue()));
         } else {
-            selection.setToDate(defaultToDate);
+            summarySelection.setToDate(defaultToDate);
         }
         LOGGER.debug("String.valueOf(fromDate.getValue()---->>{}", fromDate.getValue().toString());
         LOGGER.debug("String.valueOf(toDate.getValue()---->>{}", toDate.getValue().toString());
         List<List> statusValues = CommonUtils.getSelectedVariables(adjustmentResults.statusMenuItem, Boolean.FALSE);
-        selection.setStatus(statusValues.get(1).toString().toUpperCase(Locale.ENGLISH));
-        selection.setSummaryStatusID(statusValues.get(NumericConstants.TWO).toString());
+        summarySelection.setStatus(statusValues.get(1).toString().toUpperCase(Locale.ENGLISH));
+        summarySelection.setSummaryStatusID(statusValues.get(NumericConstants.TWO).toString());
         return true;
     }
 
     private boolean checkMandatoryFields() {
         if (Integer.valueOf(frequencyDdlb.getValue().toString()) == 0 || Integer.valueOf(deductionlevelDdlb.getValue().toString()) == 0
-                || selection.getSelectedAdjustmentTypeValues().isEmpty() || selection.getDeductionVariableIds().isEmpty()
-                || VariableConstants.SELECT_ONE.equals(selection.getStatus())) {
+                || summarySelection.getSelectedAdjustmentTypeValues().isEmpty() || summarySelection.getDeductionVariableIds().isEmpty()
+                || VariableConstants.SELECT_ONE.equals(summarySelection.getStatus())) {
             return Boolean.TRUE;
         }
 
@@ -262,11 +262,11 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         }
     }
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class AdjustmentSummaryCustomNotification extends AbstractNotificationUtils {
 
-        private String buttonName;
+        private String summaryButtonName;
 
-        CustomNotification() {
+        AdjustmentSummaryCustomNotification() {
 
         }
 
@@ -277,9 +277,9 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :{}", buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
+            LOGGER.debug("buttonName :{}", summaryButtonName);
+            if (null != summaryButtonName) {
+                switch (summaryButtonName) {
                     case CommonConstant.RESET:
                         break;
                     case "save":
@@ -290,14 +290,14 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         }
 
         public void setButtonName(String buttonName) {
-            this.buttonName = buttonName;
+            this.summaryButtonName = buttonName;
         }
 
     }
 
     public void configureFields() {
         CommonUtils.loadComboBoxWithIntegerForComboBox(frequencyDdlb, "PAYMENT_FREQUENCY", false);
-        selecedVariablesMenuItem = CommonUtils.loadSummaryDeductionsDdlb(deductionlevelDdlb, deductionValue, selection.getDataSelectionDTO().getProjectionId());
+        selecedVariablesMenuItem = CommonUtils.loadSummaryDeductionsDdlb(deductionlevelDdlb, deductionValue, summarySelection.getDataSelectionDTO().getProjectionId());
         selecetedAdjustment = adjustmentType.addItem("  - Select Value -  ", null);
         CommonUtils.loadAdjustmentTypeDdlb(adjustmentType, selecetedAdjustment);
 
@@ -436,7 +436,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     @UiHandler("frequencyDdlb")
     public void frequencyChangeLogic(Property.ValueChangeEvent event) {
         if ((int) frequencyDdlb.getValue() != 0) {
-            List<String> finalList = CommonUtils.getToAndFromByFrequency(frequencyDdlb.getItemCaption(frequencyDdlb.getValue()), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
+            List<String> finalList = CommonUtils.getToAndFromByFrequency(frequencyDdlb.getItemCaption(frequencyDdlb.getValue()), summarySelection.getDataSelectionDTO().getFromDate(), summarySelection.getDataSelectionDTO().getToDate());
             if (!finalList.isEmpty()) {
                 loadFrequency(finalList);
             }
@@ -481,8 +481,8 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object summaryobj) {
+        return super.equals(summaryobj);
     }
 
     @Override
@@ -490,11 +490,11 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream summaryobj) throws IOException {
+        summaryobj.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream summaryobj) throws IOException, ClassNotFoundException {
+        summaryobj.defaultReadObject();
     }
 }

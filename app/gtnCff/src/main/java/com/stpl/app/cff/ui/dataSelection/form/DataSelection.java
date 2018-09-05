@@ -524,6 +524,7 @@ public class DataSelection extends AbstractDataSelection {
                                 sessionDTO.setDeductionLevelDescription(cffLogic.getRelationshipDetailsDeductionCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
                                 cffLogic.loadSalesTempTableInThread(sessionDTO,true);
                                 cffLogic.loadDiscountTempTableInThread(sessionDTO, true);
+                                cffLogic.callCFFHierarachyDetailsProcedure(sessionDTO, true);
 
 			}
 

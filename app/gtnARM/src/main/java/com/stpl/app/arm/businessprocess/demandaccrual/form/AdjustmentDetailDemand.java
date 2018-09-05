@@ -74,10 +74,6 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
         }
     }
 
-    @Override
-    protected void resetBtn() {
-        super.resetBtn();
-    }
 
     @Override
     protected void loadReserveAccount() {
