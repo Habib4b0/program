@@ -146,8 +146,8 @@ public class CommonUtils {
     }
 
     public static String getCurrentTimestamp() {
-        DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        return DATE_FORMAT.format(new Date());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return dateFormat.format(new Date());
     }
 
     public static Object getDBinput(String identifier) {
@@ -175,8 +175,8 @@ public class CommonUtils {
         return outputDateFormatter.format(date);
     }
 
-    public static int getDataCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public static int getDataCount(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
             int count = obj == null ? 0 : (Integer) obj;

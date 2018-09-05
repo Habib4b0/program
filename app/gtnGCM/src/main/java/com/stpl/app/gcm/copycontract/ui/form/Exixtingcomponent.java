@@ -756,8 +756,8 @@ public class Exixtingcomponent extends CustomComponent {
                     if (NumericConstants.THREE - levelNumber == 1) {
 
                         String psId = selectedItemDto.getPriceScheduleSystemId();
-                        String Parent = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
-                        String conditionQuery = "select * from PS_DETAILS where PS_MODEL_SID=" + psId + " and IFP_MODEL_SID=" + Parent;
+                        String parent = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
+                        String conditionQuery = "select * from PS_DETAILS where PS_MODEL_SID=" + psId + " and IFP_MODEL_SID=" + parent;
                         List conditionList = HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
                         if (conditionList != null && !conditionList.isEmpty()) {
                             String query = "select PS_ID,PS_NO,PS_NAME from dbo.PS_MODEL where PS_MODEL_SID=" + psId;
@@ -920,10 +920,10 @@ public class Exixtingcomponent extends CustomComponent {
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], Constants.END_DATE).getValue();
                 String contractHolder = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "contractHolder").getValue());
                 int status1 = ((HelperDTO) dashboardResultsTable.getContainerProperty(itemIds[i], "status").getValue()).getId();
-                int AliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasType").getValue()).getId();
-                Date AliasSDATE = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasstartdate").getValue();
-                String AliasNumber = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "aliasNumber").getValue());
-                Date AliasEDATE = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasenddate").getValue();
+                int aliasType = ((HelperDTO) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasType").getValue()).getId();
+                Date aliasSdate = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasstartdate").getValue();
+                String aliasNumber = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], "aliasNumber").getValue());
+                Date aliasEdate = (Date) dashboardResultsTable.getContainerProperty(itemIds[i], "aliasenddate").getValue();
                 ContractMaster cm;
                 cm = ContractMasterLocalServiceUtil.createContractMaster(0);
                 cm.setContractId(contractId);
@@ -944,18 +944,18 @@ public class Exixtingcomponent extends CustomComponent {
                 ContractMaster cm1 = ContractMasterLocalServiceUtil.addContractMaster(cm);
                 contractsidvalue = String.valueOf(cm1.getContractMasterSid());
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(contractsidvalue);
-                ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                CAM.setContractAliasNo(AliasNumber);
-                CAM.setContractAliasType(AliasType);
-                CAM.setStartDate(AliasSDATE);
-                CAM.setEndDate(AliasEDATE);
-                CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(Integer.parseInt(userID));
-                CAM.setCreatedDate(new Date());
-                CAM.setSource("BPI");
-                CAM.setInboundStatus("A");
-                CAM.setContractMasterSid(cm1.getContractMasterSid());
-                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
+                ContractAliasMaster camaster = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                camaster.setContractAliasNo(aliasNumber);
+                camaster.setContractAliasType(aliasType);
+                camaster.setStartDate(aliasSdate);
+                camaster.setEndDate(aliasEdate);
+                camaster.setModifiedDate(new Date());
+                camaster.setCreatedBy(Integer.parseInt(userID));
+                camaster.setCreatedDate(new Date());
+                camaster.setSource("BPI");
+                camaster.setInboundStatus("A");
+                camaster.setContractMasterSid(cm1.getContractMasterSid());
+                ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camaster);
             }
             if (level.equalsIgnoreCase("1")) {
                 String category = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.CATEGORY).getValue());
@@ -1145,23 +1145,23 @@ public class Exixtingcomponent extends CustomComponent {
         
     }
     
-    public void saveCfp(String cfpId, Integer CFPmodelid) {
-        copyContractLogic.saveCfp(cfpId, CFPmodelid);
+    public void saveCfp(String cfpId, Integer cfpModelId) {
+        copyContractLogic.saveCfp(cfpId, cfpModelId);
         
     }
     
-    public void saveIfp(String ifpId, Integer IFPmodelid) {
-        copyContractLogic.saveIfp(ifpId, IFPmodelid);
+    public void saveIfp(String ifpId, Integer ifpModelid) {
+        copyContractLogic.saveIfp(ifpId, ifpModelid);
         
     }
     
-    public void savePs(String psid, Integer IFPmodelid) {
-        copyContractLogic.savePs(psid, IFPmodelid);
+    public void savePs(String psid, Integer ifpModelId) {
+        copyContractLogic.savePs(psid, ifpModelId);
         
     }
     
-    public void saveRs(String rsid, Integer RSmodalid) {
-        copyContractLogic.saveRs(rsid, RSmodalid);
+    public void saveRs(String rsid, Integer rsModalId) {
+        copyContractLogic.saveRs(rsid, rsModalId);
         
     }
     

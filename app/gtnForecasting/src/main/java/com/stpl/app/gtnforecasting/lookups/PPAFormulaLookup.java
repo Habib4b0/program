@@ -13,10 +13,10 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.ResponsiveUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -159,7 +159,7 @@ public class PPAFormulaLookup extends Window {
         resultsTable.setSelectable(true);
         resultsTable.setWidth("744px");
         tablelayout.addComponent(resultsTable);
-        ResponsiveUtils.getResponsiveControls(tableLogic.createControls(), controlLayout);
+        getResponsiveControls(tableLogic.createControls(), controlLayout);
         if (propertyId.equals(Constant.PPAVariables.NEP_FORMULA.getConstant())) {
             resultsTable.setFilterFieldVisible(Constant.FORMULA_TYPE, false);
             formulaType.setEnabled(false);
@@ -179,7 +179,7 @@ public class PPAFormulaLookup extends Window {
         detailsTable.setWidth("744px");
         detailsTableLayout.addComponent(detailsTable);
 
-        ResponsiveUtils.getResponsiveControls(detailstableLogic.createControls(), detailsControlLayout);
+        getResponsiveControls(detailstableLogic.createControls(), detailsControlLayout);
     }
 
     /**
@@ -368,4 +368,18 @@ public class PPAFormulaLookup extends Window {
         }
     }
 
+    private void getResponsiveControls(HorizontalLayout tempLayout, HorizontalLayout controlBar) {
+        controlBar.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
+        HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
+        HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
+
+        CssLayout cssLayout = new CssLayout();
+        cssLayout.setSizeFull();
+        cssLayout.addComponent(pageSize.getComponent(0));
+        cssLayout.addComponent(pageSize.getComponent(0));
+        for (int index = 0; index < NumericConstants.EIGHT; index++) {
+            cssLayout.addComponent(pageManagement.getComponent(0));
+        }
+        controlBar.addComponent(cssLayout);
+    }
 }

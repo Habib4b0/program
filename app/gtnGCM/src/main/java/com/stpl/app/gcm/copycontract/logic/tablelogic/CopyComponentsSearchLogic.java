@@ -66,9 +66,9 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
         return dto;
     }
 
-    public boolean setData(String Component, String value) {
+    public boolean setData(String component, String value) {
         this.query = value;
-        this.component = Component;
+        this.component = component;
         generate = true;
         clearAll();
         setRequiredCount(true);

@@ -59,11 +59,11 @@ public class PADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 value = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(pipelineObj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(pipelineObj[0]))));
+                    value = new StringBuilder(helperId.getDescriptionByID((Integer)(pipelineObj[0])));
                     property = new StringBuilder(String.valueOf(pipelineObj[0]));
                 }
                 if (isValid(pipelineObj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(pipelineObj[1]))));
+                    value.append(DASH).append(helperId.getDescriptionByID((Integer)(pipelineObj[1])));
                     property.append(DASH).append(String.valueOf(pipelineObj[1]));
                 }
                 if (isValid(pipelineObj[NumericConstants.TWO])) {

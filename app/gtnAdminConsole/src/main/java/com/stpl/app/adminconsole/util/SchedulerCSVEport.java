@@ -114,7 +114,7 @@ public class SchedulerCSVEport {
 
 	public static void createFileContent(Object[] visibleColumns, List searchList, PrintWriter printWriter)
 			throws NoSuchFieldException, IllegalAccessException {
-            final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		for (Object value : searchList) {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < visibleColumns.length; i++) {
@@ -122,7 +122,7 @@ public class SchedulerCSVEport {
 				Object methodValue = getFieldValue(value, visibleColumns[i].toString());
 				if (methodValue != null && (methodValue.getClass().equals(Timestamp.class)
 						|| methodValue.getClass().equals(Date.class))) {
-					methodStringValue = DATE_FORMAT.format(methodValue);
+					methodStringValue = dateFormat.format(methodValue);
 				} else if (methodValue != null && StringUtils.isNotBlank(String.valueOf(methodValue))
 						&& !"-Select One-".equals(String.valueOf(methodValue))) {
 					methodStringValue = String.valueOf(methodValue);

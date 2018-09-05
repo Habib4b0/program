@@ -410,7 +410,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
         }
         selectionDTO.setSummarydeductionValues(deductionValues.toString());
         selectionDTO.setSummarydeductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
-        String frequencyString = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(String.valueOf(frequencyDdlb.getValue())));
+        String frequencyString = HelperListUtil.getInstance().getIdDescMap().get((Integer)(frequencyDdlb.getValue()));
         selectionDTO.setSummarydemandfrequency(frequencyString);
         selectionDTO.setSummaryfrequency((int) frequencyDdlb.getValue());
         adjustmentResults.configureLevelDDLBs();

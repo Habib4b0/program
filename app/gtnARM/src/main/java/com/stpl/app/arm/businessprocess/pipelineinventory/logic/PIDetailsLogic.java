@@ -60,11 +60,11 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                     value = new StringBuilder(StringUtils.EMPTY);
                     property = new StringBuilder(StringUtils.EMPTY);
                     if (isValid(inventoryObj[0])) {
-                        value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(inventoryObj[0]))));
+                        value = new StringBuilder(helperId.getDescriptionByID((Integer)(inventoryObj[0])));
                         property = new StringBuilder(String.valueOf(inventoryObj[0]));
                     }
                     if (isValid(inventoryObj[1])) {
-                        value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(inventoryObj[1]))));
+                        value.append(DASH).append(helperId.getDescriptionByID((Integer)(inventoryObj[1])));
                         property.append(DASH).append(String.valueOf(inventoryObj[1]));
                     }
                     if (isValid(inventoryObj[NumericConstants.TWO])) {

@@ -492,6 +492,8 @@ public class HomeController {
         private static final String DTX_RETURN_RATE_INTERFACE = "DtxReturnRateInterface";
         private static final String DTX_ITEM_PRICING_INTERFACE = "DtxItemPricingInterface";
         private static final String DTX_ACCRUAL_ACTUAL_INTERFACE = "DtxAccrualActualInterface";
+        private static final String DTX_ITEM_MASTER_INTERFACE = "DtxItemMasterInterface";
+        private static final String DTX_ITEM_IDENTIFIER_INTERFACE = "DtxItemIdentifierInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -737,6 +739,11 @@ public class HomeController {
 					new String[] { Constants.DTX_ITEM_PRICING_INTERFACE, FilePathUtil.DTX_ITEM_PRICING_INTERFACE });
                         loaddata.put(DTX_ACCRUAL_ACTUAL_INTERFACE,
 					new String[] { Constants.DTX_ACCRUAL_ACTUAL_INTERFACE, FilePathUtil.DTX_ACCRUAL_ACTUAL_INTERFACE });
+                        loaddata.put(DTX_ITEM_MASTER_INTERFACE,
+            		new String[] { Constants.DTX_ITEM_MASTER_INTERFACE, FilePathUtil.DTX_ITEM_MASTER_INTERFACE });
+                        loaddata.put(DTX_ITEM_IDENTIFIER_INTERFACE,
+                    new String[] { Constants.DTX_ITEM_IDENTIFIER_INTERFACE, FilePathUtil.DTX_ITEM_IDENTIFIER_INTERFACE });
+            		
 		}
 		return loaddata.get(keyValue);
 	}
@@ -758,7 +765,8 @@ public class HomeController {
 					COMPANY_TRADE_HIS, COMPANY_TRADE, COMPANY_IDEN, COMPANY_IDEN_HIS, ITEM_MASTER, ITEM_MASTER_HIS,
 					ITEM_IDEN, ITEM_IDEN_HIS, ITEM_PRICING, ITEM_PRICING_HISTORY, COMPANY_BUID_INTERFACE,
 					COMPANY_BUNIT_INTERFACE, COMPANY_BUTYPE_INTERFACE, PRODUCT_PRODID_INTERFACE, PRODUCT_PROD_INTERFACE,
-					PRICING_INTERFACE, PRODUCT_PROD_BW_INTERFACE, PRODUCT_PROD_HIERARCHY_INTERFACE,DTX_ITEM_PRICING_INTERFACE);
+					PRICING_INTERFACE, PRODUCT_PROD_BW_INTERFACE, PRODUCT_PROD_HIERARCHY_INTERFACE,DTX_ITEM_PRICING_INTERFACE,
+					DTX_ITEM_MASTER_INTERFACE,DTX_ITEM_IDENTIFIER_INTERFACE);
 
 			List<String> contract = Arrays.asList(CONTRACT_HEADER, CONTRACT_HIS, CFP, CFP_HISTORY, IFP, IFP_HISTORY,
 					PRICE_SCHEDULE, PRICE_SCHEDULE_HISTORY, REBATE_SCHEDULE, REBATE_SCHEDULE_HISTORY, REBATE_PLAN,
