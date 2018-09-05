@@ -101,8 +101,7 @@ public class CopyContractLogic {
     }
 
     public List loadSearchFieldDDLB(String tableName) {
-        final List items = dao.getColumnNames(tableName);
-        return items;
+        return dao.getColumnNames(tableName);
     }
 
     public int getContractSearchCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc) {
@@ -259,7 +258,7 @@ public class CopyContractLogic {
             ifpItemDto.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
             ifpItemDto.setItemStatus(Constants.NULL.equals(String.valueOf(objects[NumericConstants.SIX])) ? StringUtils.EMPTY : objects[NumericConstants.SIX].toString());
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date = dbDateFormat.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = dateFormat.format(date);
                 ifpItemDto.setItemStartDate(finalString);
                 ifpItemDto.setStartDate(finalString);

@@ -267,12 +267,12 @@ public class PromoteTPLogic {
         containerDataTP.setMinFilterLength(0);
     }
 
+
     public int getDdlbCount(String queryNameTp, final List<String> inputTp) {
         List<Object[]> listTp = ItemQueries.getItemData(inputTp, queryNameTp, null);
         if (!listTp.isEmpty()) {
             Object objTp = listTp.get(0);
-            int countTp = objTp == null ? 0 : (Integer) objTp;
-            return countTp;
+            return objTp == null ? 0 : (Integer) objTp;
         }
         return 0;
     }
@@ -319,8 +319,7 @@ public class PromoteTPLogic {
     private int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -1639,8 +1638,7 @@ public class PromoteTPLogic {
     }
 
     public int getItemsFromRsCount(ComponentInfoDTO newDiscountTabDto) {
-        int count = queryUtils.getTpItemsFromRsCount(newDiscountTabDto);
-        return count;
+        return queryUtils.getTpItemsFromRsCount(newDiscountTabDto);
     }
 
     public List<ComponentInfoDTO> getItemsFromRs(ComponentInfoDTO newDiscountTabDto)  {
