@@ -51,9 +51,9 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         String query = SQlUtil.getQuery("getExcelRateTx8");
         Object[] value = selection.getExcelHierarchy();
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
@@ -189,7 +189,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 String value = ARMConstants.getDeductionProduct().equals(selection.getRateDeductionView())
                         ? VariableConstants.BRAND_UPPERCASE : customerValue;
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), value, selection.getTableName())));
-                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()), parentDTO.getDeductionSID(), "'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()), parentDTO.getDeductionSID(), ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
 
             case VariableConstants.CUSTOMER_UPPERCASE:
@@ -201,7 +201,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 input.add(ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView()) ? "%" : parentDTO.getContractSID());
                 input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
                 input.add(parentDTO.getDeductionSID());
-                input.addAll(new ArrayList<>(Arrays.asList("'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
 
             case VariableConstants.CONTRACT_UPPERCASE:
@@ -212,7 +212,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 input.add(parentDTO.getContractSID());
                 input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
                 input.add(parentDTO.getDeductionSID());
-                input.addAll(new ArrayList<>(Arrays.asList("'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
             case VariableConstants.BRAND_UPPERCASE:
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), VariableConstants.PRODUCT_RETURNS, selection.getTableName())));
@@ -224,7 +224,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
                 input.add(parentDTO.getDeductionSID());
 
-                input.addAll(new ArrayList<>(Arrays.asList("'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
             default:
         }

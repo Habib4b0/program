@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractDemandSummaryLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 
 import com.stpl.app.utils.CommonUtils;
@@ -402,9 +403,9 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 String value = listSize.get(i)[0];
                 listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
                 if (i != listSize.size() - 1) {
-                    deductionValues.append("'").append(value).append("',");
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                 } else {
-                    deductionValues.append("'").append(value).append("'");
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                 }
             }
         }

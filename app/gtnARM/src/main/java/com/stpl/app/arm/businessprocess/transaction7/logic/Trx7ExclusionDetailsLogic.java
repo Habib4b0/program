@@ -86,7 +86,7 @@ public class Trx7ExclusionDetailsLogic {
         saveQuery = saveQuery.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(" + projectionSid + ",'" + dtoList.getExcludedField() + "'" + ",'" + dtoList.getValues() + "'),");
+            sbQuery.append("(" + projectionSid + ",'" + dtoList.getExcludedField() + ARMUtils.SINGLE_QUOTES + ",'" + dtoList.getValues() + "'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -233,7 +233,7 @@ public class Trx7ExclusionDetailsLogic {
             if (saveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : saveViewDTO.getCustGrpList()) {
-                        sbQuery.append("(" + viewSid + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ",").append(dtoValue.isInclude() == true ? 1 : 0).append(",");
+                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
                         if (dtoValue.getIndicator() != null) {
                             if (dtoValue.getIndicator() == true) {
                                 sbQuery.append(1);
@@ -336,7 +336,7 @@ public class Trx7ExclusionDetailsLogic {
             }
 
             String queryVal = query.toString().replace("@VIEW_NAME", viewValue);
-            String helperSidQuery = "SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION like '" + ("privateView".equalsIgnoreCase(exRateDTO.getViewType()) ? "Private" : "Public") + "'";
+            String helperSidQuery = "SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION like '" + ("privateView".equalsIgnoreCase(exRateDTO.getViewType()) ? "Private" : "Public") + ARMUtils.SINGLE_QUOTES;
             List<Object> viewSid = HelperTableLocalServiceUtil.executeSelectQuery(helperSidQuery);
             queryVal = queryVal.replace("@View_Type", String.valueOf(viewSid.get(0)));
             query = new StringBuilder(queryVal);
@@ -365,7 +365,7 @@ public class Trx7ExclusionDetailsLogic {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))).append(" like '");
-                        filterQuery.append(filterString).append("'");
+                        filterQuery.append(filterString).append(ARMUtils.SINGLE_QUOTES);
 
                     } else if (filter instanceof Between) {
                         Between betweenFilter = (Between) filter;

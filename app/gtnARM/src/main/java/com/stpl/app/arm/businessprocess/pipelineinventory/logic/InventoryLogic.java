@@ -118,7 +118,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, ",''");
 
         } else {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ")");
+            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
             sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
         }
@@ -140,7 +140,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         StringBuilder sb = new StringBuilder();
         for (String[] strings : custList) {
             if (strings[0].contains("~")) {
-                sb.append(strings[0].split("~")[1]).append(",");
+                sb.append(strings[0].split("~")[1]).append(ARMUtils.COMMA_CHAR);
             }
         }
         if (sb.length() > 0) {
@@ -188,7 +188,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, "''");
 
         } else {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ")");
+            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
             sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, "AI.COMP_CUST_MASTER_SID");
         }

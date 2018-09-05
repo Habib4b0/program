@@ -64,9 +64,9 @@ public class SummaryReturnReserve extends AbstractPipelineSummary {
     @Override
     public void loadDetails() {
         StringBuilder variablesBuilder = new StringBuilder();
-        variablesBuilder.append(VariableConstants.SUMMARY_DEDUCTION_VALUES_FIELD).append(ARMUtils.COMMA)
-                .append(VariableConstants.SUMMARY_VARIABLES_FIELD).append(ARMUtils.COMMA)
-                .append(VariableConstants.SUMMARY_DEDUCTION_LEVEL_FIELD).append(ARMUtils.COMMA)
+        variablesBuilder.append(VariableConstants.SUMMARY_DEDUCTION_VALUES_FIELD).append(ARMUtils.COMMA_CHAR)
+                .append(VariableConstants.SUMMARY_VARIABLES_FIELD).append(ARMUtils.COMMA_CHAR)
+                .append(VariableConstants.SUMMARY_DEDUCTION_LEVEL_FIELD).append(ARMUtils.COMMA_CHAR)
                 .append(VariableConstants.SUMMARY_GL_DATE_FIELD);
         List<Object[]> list = CommonLogic.loadReturnReserve(selectionDto.getProjectionMasterSid(), variablesBuilder.toString());
         for (int i = 0; i < list.size(); i++) {

@@ -475,11 +475,11 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
         accountContractId = new StringBuilder(StringUtils.EMPTY);
         for (ExclusionLookupDTO dto : selectedResultsContainer.getItemIds()) {
             if (ARMConstants.getAccountId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountId.append("'").append(dto.getValues()).append("',");
+                accountId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             } else if (ARMConstants.getAccountName().equalsIgnoreCase(dto.getExcludedField())) {
-                accountName.append("'").append(dto.getValues()).append("',");
+                accountName.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             } else if (ARMConstants.getContractId().equalsIgnoreCase(dto.getExcludedField())) {
-                accountContractId.append("'").append(dto.getValues()).append("',");
+                accountContractId.append(ARMUtils.SINGLE_QUOTES).append(dto.getValues()).append("',");
             }
         }
         accountId.replace(accountId.length() > 0 ? (accountId.length() - 1) : 0, accountId.length(), "");

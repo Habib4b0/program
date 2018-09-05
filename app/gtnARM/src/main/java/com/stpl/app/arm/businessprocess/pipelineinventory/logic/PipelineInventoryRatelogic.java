@@ -325,7 +325,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
 
         LOGGER.debug("selection.getRate_DeductionValue()========{}", selection.getRateDeductionValue());
         String query;
-        String deductionValue = selection.getRateDeductionValue().startsWith("'") ? selection.getRateDeductionValue() : "'" + selection.getRateDeductionValue() + "'";
+        String deductionValue = selection.getRateDeductionValue().startsWith(String.valueOf(ARMUtils.SINGLE_QUOTES)) ? selection.getRateDeductionValue() : ARMUtils.SINGLE_QUOTES + selection.getRateDeductionValue() + ARMUtils.SINGLE_QUOTES;
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getExcelRatePipelineInventoryView");
@@ -346,9 +346,9 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
         } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", deductionValue.replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", deductionValue.replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));

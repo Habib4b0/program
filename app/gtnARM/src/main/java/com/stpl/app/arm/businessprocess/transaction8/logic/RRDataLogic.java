@@ -160,7 +160,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
                 String value = ARMUtils.CUSTOMER_CONTRACT.equals(selection.getReturnReserveDataDeductionView())
                         ? VariableConstants.CUSTOMER_UPPERCASE : VariableConstants.CONTRACT_UPPERCASE;
                 input.addAll(new ArrayList<>(Arrays.asList(value, tableName)));
-                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", "%", "'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", "%", ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
 
             case VariableConstants.CUSTOMER_UPPERCASE:
@@ -170,7 +170,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
                 input.add(parentDTO.getDeductionSID());
                 input.add(parentDTO.getCustomerSID());
                 input.add(ARMUtils.CUSTOMER_CONTRACT.equals(selection.getReturnReserveDataDeductionView()) ? "%" : parentDTO.getContractSID());
-                input.add("'" + parentDTO.getDeductionName() + "'");
+                input.add(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES);
                 break;
 
             case VariableConstants.CONTRACT_UPPERCASE:
@@ -180,7 +180,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
                 input.add(parentDTO.getDeductionSID());
                 input.add(ARMUtils.CONTRACT_CUSTOMER.equals(selection.getReturnReserveDataDeductionView()) ? "%" : parentDTO.getCustomerSID());
                 input.add(parentDTO.getContractSID());
-                input.add("'" + parentDTO.getDeductionName() + "'");
+                input.add(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES);
                 break;
             case VariableConstants.BRAND_UPPERCASE:
                 input.addAll(new ArrayList<>(Arrays.asList(VariableConstants.PRODUCT_RETURNS, tableName)));
@@ -188,7 +188,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
                 input.add(parentDTO.getDeductionSID());
                 input.add(parentDTO.getCustomerSID());
                 input.add(parentDTO.getContractSID());
-                input.add("'" + parentDTO.getDeductionName() + "'");
+                input.add(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES);
                 break;
             default:
         }
@@ -205,9 +205,9 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
         } else {
             value = new Object[]{"D", "C", "T", "B", "I"};
         }
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));

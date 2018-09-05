@@ -147,10 +147,7 @@ public class PipelineInventoryLookupLogic {
                 if (dtoValue.getIndicator() != null) {
                     indicator = String.valueOf(dtoValue.getIndicator() ? 1 : 0);
                 }
-                saveQuery.append("(" + projectionId + "," + include + ","
-                        + (dtoValue.getIndicator() != null ? indicator : "null") + ","
-                        + customerGroupSid
-                        + "," + companyMasterSid + "),");
+                saveQuery.append("(").append(projectionId).append(ARMUtils.COMMA_CHAR).append(include).append(ARMUtils.COMMA_CHAR).append(dtoValue.getIndicator() != null ? indicator : "null").append(ARMUtils.COMMA_CHAR).append(customerGroupSid).append(ARMUtils.COMMA_CHAR).append(companyMasterSid).append("),");
             }
             saveQuery.replace(saveQuery.length() - 1, saveQuery.length(), "");
             LOGGER.debug("saveQuery--{}", saveQuery);

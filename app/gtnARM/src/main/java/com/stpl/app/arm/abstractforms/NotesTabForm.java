@@ -204,7 +204,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
                 sb.replace(0, index, file);
                 Date date = new Date();
                 long value = date.getTime();
-                sb.insert(sb.lastIndexOf("."), "_" + value);
+                sb.insert(sb.lastIndexOf("."), ARMUtils.UNDERSCORE + value);
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 attachmentDTO.setDocumentName(name);

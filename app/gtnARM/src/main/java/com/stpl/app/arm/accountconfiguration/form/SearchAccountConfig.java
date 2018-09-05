@@ -553,7 +553,7 @@ public class SearchAccountConfig extends CustomComponent {
                 binderDto.setFilters(accountConfigSearchTableLogic.getFilters());
                 recordCount = logic.getAccountConfigCount(binderDto);
             }
-            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
+            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
             GTNLOGGER.error("Error in createWorkSheet :", ex);
         }

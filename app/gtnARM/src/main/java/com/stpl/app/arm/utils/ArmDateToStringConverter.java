@@ -23,7 +23,7 @@ public class ArmDateToStringConverter implements Converter<String, Date> {
         if (targetType != getModelType()) {
             throw new ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
-                    + targetType.getName() + ")");
+                    + targetType.getName() + ARMUtils.CLOSE_BRACES);
         }
 
         if (value == null) {

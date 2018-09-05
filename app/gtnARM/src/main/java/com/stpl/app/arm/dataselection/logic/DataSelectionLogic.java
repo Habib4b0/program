@@ -125,7 +125,7 @@ public class DataSelectionLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     filterString = "%" + stringFilter.getFilterString() + "%";
                     filterQuery.append(filterQuery).append(CommonConstant.AND).append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
-                    filterQuery.append(" like '").append(filterString).append("'");
+                    filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                     StringBuilder dateStartstr = new StringBuilder("AND ( * >='?')");
@@ -791,29 +791,29 @@ public class DataSelectionLogic {
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(")");
+                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(")");
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
                     }
                 }
             }
             if (ARMUtils.UPDATE.equals(indicator)) {
                 for (String rsId : addLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(")");
+                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(")");
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
 
                     }
                 }
             } else if (ARMUtils.SAVE.equals(indicator)) {
                 for (LevelDTO dto : levelList) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(")");
+                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(")");
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
 
                     }
                 }
@@ -861,20 +861,20 @@ public class DataSelectionLogic {
             if (ARMUtils.UPDATE.equals(indicator)) {
                 for (String rsId : addLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(")");
+                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(")");
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(rsId))).append(ARMUtils.CLOSE_BRACES);
 
                     }
                 }
             } else if (ARMUtils.SAVE.equals(indicator)) {
                 for (LevelDTO dto : levelList) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(")");
+                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(")");
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(dto.getRelationshipLevelSid()).append(ARMUtils.CLOSE_BRACES);
 
                     }
                 }
@@ -882,10 +882,10 @@ public class DataSelectionLogic {
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
                     if (values.length() == 0) {
-                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(")");
+                        values.append("(").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
 
                     } else {
-                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(")");
+                        values.append(ARMUtils.COMMA).append(" (").append(projectionId).append(ARMUtils.COMMA).append(CommonLogic.parseStringToInteger(String.valueOf(relationshipLevelSid))).append(ARMUtils.CLOSE_BRACES);
 
                     }
                 }
@@ -923,7 +923,7 @@ public class DataSelectionLogic {
             if (!rsModelSidList.isEmpty()) {
                 insertDeductionQuery.append(SQlUtil.getQuery("DEDUCTION_SAVED_PROJECTION"));
                 for (Integer rsModelSid : rsModelSidList) {
-                    insertDeductionQuery.append("(").append(projectionSid).append(",").append(rsModelSid).append("),");
+                    insertDeductionQuery.append("(").append(projectionSid).append(ARMUtils.COMMA_CHAR).append(rsModelSid).append("),");
                 }
                 insertDeductionQuery.replace(insertDeductionQuery.length() - 1, insertDeductionQuery.length(), StringUtils.EMPTY);
             }
@@ -956,17 +956,17 @@ public class DataSelectionLogic {
         SimpleDateFormat dateFormat = new SimpleDateFormat(ARMUtils.YYYY_M_MDD_H_HMMSS_S);
         try {
             String updateQuery = SQlUtil.getQuery("updateProjectionMaster");
-            updateQuery = updateQuery.replace("@PROJECTION_DESCRIPTION", "'" + dto.getProjectionDescription() + "'");
-            updateQuery = updateQuery.replace("@FORECASTING_TYPE", "'" + dto.getForecastingType() + "'");
-            updateQuery = updateQuery.replace("@COMPANY_MASTER_SID", dto.getCompanyMasterSid() == 0 ? ARMUtils.NULL_CAPS : "'" + dto.getCompanyMasterSid() + "'");
-            updateQuery = updateQuery.replace("@CUSTOMER_HIERARCHY_SID", dto.getCustomerHierarchySid() == 0 ? ARMUtils.NULL_CAPS : "'" + dto.getCustomerHierarchySid() + "'");
-            updateQuery = updateQuery.replace("@PRODUCT_HIERARCHY_SID", dto.getProductHierarchySid() == 0 ? ARMUtils.NULL_CAPS : "'" + dto.getProductHierarchySid() + "'");
-            updateQuery = updateQuery.replace("@CUSTOMER_HIERARCHY_LEVEL", "0".equals(dto.getCustomerHierarchyLevel()) ? ARMUtils.NULL_CAPS : "'" + dto.getCustomerHierarchyLevel() + "'");
-            updateQuery = updateQuery.replace("@PRODUCT_HIERARCHY_LEVEL", "0".equals(dto.getProductHierarchyLevel()) ? ARMUtils.NULL_CAPS : "'" + dto.getProductHierarchyLevel() + "'");
-            updateQuery = updateQuery.replace("@CUST_RELATIONSHIP_BUILDER_SID", dto.getCustRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : "'" + dto.getCustRelationshipBuilderSid() + "'");
-            updateQuery = updateQuery.replace("@PROD_RELATIONSHIP_BUILDER_SID", dto.getProdRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : "'" + dto.getProdRelationshipBuilderSid() + "'");
-            updateQuery = updateQuery.replace("@FROM_DATE", dto.getFromDate() == null ? "''" : "'" + ARMUtils.getInstance().getDateFormatter().format(dto.getFromDate()) + "'");
-            updateQuery = updateQuery.replace("@TO_DATE", dto.getToDate() == null ? "''" : "'" + ARMUtils.getInstance().getDateFormatter().format(dto.getToDate()) + "'");
+            updateQuery = updateQuery.replace("@PROJECTION_DESCRIPTION", ARMUtils.SINGLE_QUOTES + dto.getProjectionDescription() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@FORECASTING_TYPE", ARMUtils.SINGLE_QUOTES + dto.getForecastingType() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@COMPANY_MASTER_SID", dto.getCompanyMasterSid() == 0 ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getCompanyMasterSid() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@CUSTOMER_HIERARCHY_SID", dto.getCustomerHierarchySid() == 0 ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getCustomerHierarchySid() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@PRODUCT_HIERARCHY_SID", dto.getProductHierarchySid() == 0 ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getProductHierarchySid() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@CUSTOMER_HIERARCHY_LEVEL", "0".equals(dto.getCustomerHierarchyLevel()) ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getCustomerHierarchyLevel() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@PRODUCT_HIERARCHY_LEVEL", "0".equals(dto.getProductHierarchyLevel()) ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getProductHierarchyLevel() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@CUST_RELATIONSHIP_BUILDER_SID", dto.getCustRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getCustRelationshipBuilderSid() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@PROD_RELATIONSHIP_BUILDER_SID", dto.getProdRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + dto.getProdRelationshipBuilderSid() + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@FROM_DATE", dto.getFromDate() == null ? "''" : ARMUtils.SINGLE_QUOTES + ARMUtils.getInstance().getDateFormatter().format(dto.getFromDate()) + ARMUtils.SINGLE_QUOTES);
+            updateQuery = updateQuery.replace("@TO_DATE", dto.getToDate() == null ? "''" : ARMUtils.SINGLE_QUOTES + ARMUtils.getInstance().getDateFormatter().format(dto.getToDate()) + ARMUtils.SINGLE_QUOTES);
             updateQuery = updateQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(dto.getProjectionId()));
             updateQuery = updateQuery.replace("@MODIFIED_DATE", dateFormat.format(new Date()));
             LOGGER.debug("updateQuery --{}", updateQuery);
@@ -980,11 +980,11 @@ public class DataSelectionLogic {
         LOGGER.debug("Inside saveProjection --{} ", dataSelectionDTO.getProjectionId());
         String finalQuery = SQlUtil.getQuery("insertProjectionMaster");
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("'").append(dataSelectionDTO.getProjectionName()).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(dataSelectionDTO.getProjectionDescription()).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(dataSelectionDTO.getForecastingType()).append("'").append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getProjectionName()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getProjectionDescription()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getForecastingType()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCreatedBy()).append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(new Timestamp(new Date().getTime())).append("'").append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(new Timestamp(new Date().getTime())).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCustomerHierarchySid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustomerHierarchySid()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getProductHierarchySid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getProductHierarchySid()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCustomerHierarchyLevel().equals("0") ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustomerHierarchyLevel()).append(ARMUtils.COMMA);
@@ -992,9 +992,9 @@ public class DataSelectionLogic {
         queryBuilder.append(dataSelectionDTO.getCustomerHierarchyVersionNo() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustomerHierarchyVersionNo()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getProductHierarchyVersionNo() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getProductHierarchyVersionNo()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCompanyMasterSid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCompanyMasterSid()).append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getFromPeriod())) ? ARMUtils.DEFAULT_FROM_TO_DATE : dataSelectionDTO.getFromPeriod()).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getToPeriod())) ? ARMUtils.DEFAULT_FROM_TO_DATE : dataSelectionDTO.getToPeriod()).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(dataSelectionDTO.getSaveFlag()).append("'").append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getFromPeriod())) ? ARMUtils.DEFAULT_FROM_TO_DATE : dataSelectionDTO.getFromPeriod()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getToPeriod())) ? ARMUtils.DEFAULT_FROM_TO_DATE : dataSelectionDTO.getToPeriod()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getSaveFlag()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCustRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustRelationshipBuilderSid()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getProdRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getProdRelationshipBuilderSid());
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
@@ -1007,11 +1007,11 @@ public class DataSelectionLogic {
         LOGGER.debug("Inside saveProjection -- {}", dataSelectionDTO.getProjectionId());
         String finalQuery = SQlUtil.getQuery("insertProjectionMaster");
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("'").append(dataSelectionDTO.getProjectionName()).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(dataSelectionDTO.getProjectionDescription()).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(dataSelectionDTO.getForecastingType()).append("'").append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getProjectionName()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getProjectionDescription()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getForecastingType()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCreatedBy()).append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(new Timestamp(new Date().getTime())).append("'").append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(new Timestamp(new Date().getTime())).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCustomerHierarchySid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustomerHierarchySid()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getProductHierarchySid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getProductHierarchySid()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCustomerHierarchyLevel().equals("0") ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustomerHierarchyLevel()).append(ARMUtils.COMMA);
@@ -1019,9 +1019,9 @@ public class DataSelectionLogic {
         queryBuilder.append(dataSelectionDTO.getCustomerHierarchyVersionNo() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustomerHierarchyVersionNo()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getProductHierarchyVersionNo() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getProductHierarchyVersionNo()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCompanyMasterSid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCompanyMasterSid()).append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getFromDate())) ? ARMUtils.DEFAULT_FROM_TO_DATE : ARMUtils.getInstance().getDateFormatter().format(dataSelectionDTO.getFromDate())).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getToDate())) ? ARMUtils.DEFAULT_FROM_TO_DATE : ARMUtils.getInstance().getDateFormatter().format(dataSelectionDTO.getToDate())).append("'").append(ARMUtils.COMMA);
-        queryBuilder.append("'").append(dataSelectionDTO.getSaveFlag()).append("'").append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getFromDate())) ? ARMUtils.DEFAULT_FROM_TO_DATE : ARMUtils.getInstance().getDateFormatter().format(dataSelectionDTO.getFromDate())).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.NULL.equals(String.valueOf(dataSelectionDTO.getToDate())) ? ARMUtils.DEFAULT_FROM_TO_DATE : ARMUtils.getInstance().getDateFormatter().format(dataSelectionDTO.getToDate())).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
+        queryBuilder.append(ARMUtils.SINGLE_QUOTES).append(dataSelectionDTO.getSaveFlag()).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getCustRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getCustRelationshipBuilderSid()).append(ARMUtils.COMMA);
         queryBuilder.append(dataSelectionDTO.getProdRelationshipBuilderSid() == 0 ? ARMUtils.NULL_CAPS : dataSelectionDTO.getProdRelationshipBuilderSid());
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
@@ -1234,7 +1234,7 @@ public class DataSelectionLogic {
                 rsContractSids.addAll(Arrays.asList(Arrays.copyOf(returnList.toArray(), returnList.size(), Integer[].class)));
             }
             if (rsContractSids.isEmpty()) {
-                query = query.replace("@RS_CONTRACT_SID", rsContractSids.toString().replace("[", "'").replace("]", "'"));
+                query = query.replace("@RS_CONTRACT_SID", rsContractSids.toString().replace('[', ARMUtils.SINGLE_QUOTES).replace(']', ARMUtils.SINGLE_QUOTES));
             } else {
                 query = query.replace("@RS_CONTRACT_SID", rsContractSids.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
             }
@@ -1543,7 +1543,7 @@ public class DataSelectionLogic {
     }
 
     public boolean getVersionCount(String date) {
-        String query = "SELECT COUNT(*) FROM RETURNS_MASTER WHERE VERSION LIKE '" + date + "'";
+        String query = "SELECT COUNT(*) FROM RETURNS_MASTER WHERE VERSION LIKE '" + date + ARMUtils.SINGLE_QUOTES;
         LOGGER.debug("query --{}", query);
         int count = (int) ((HelperTableLocalServiceUtil.executeSelectQuery(query)).get(0));
         return !date.equals(GlobalConstants.getSelectOne()) ? count == 0 : false;

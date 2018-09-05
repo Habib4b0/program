@@ -198,7 +198,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                 finalDeductionList.add(arr[0]);
             }
         }
-        deductions = "'" + StringUtils.join(finalDeductionList.toArray(), "','") + "'";
+        deductions = ARMUtils.SINGLE_QUOTES + StringUtils.join(finalDeductionList.toArray(), "','") + ARMUtils.SINGLE_QUOTES;
         summarySelection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || VariableConstants.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {

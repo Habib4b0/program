@@ -277,10 +277,10 @@ public class Trx6SummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineS
             } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
                 value = new Object[]{"B", "I"};
             }
-            query = query.replace("@LEVEL_VAL", "'" + org.apache.commons.lang.StringUtils.join(value, ",") + "'");
+            query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
 
-            query = query.replace("@DEDCONDITION", "'" + selection.getSummarydeductionLevelDes() + "'");
-            query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+            query = query.replace("@DEDCONDITION", ARMUtils.SINGLE_QUOTES + selection.getSummarydeductionLevelDes() + ARMUtils.SINGLE_QUOTES);
+            query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
             query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
             query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
             query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));

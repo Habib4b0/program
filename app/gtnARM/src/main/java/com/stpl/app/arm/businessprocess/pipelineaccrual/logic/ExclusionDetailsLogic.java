@@ -82,7 +82,7 @@ public class ExclusionDetailsLogic {
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append("'" + ",'").append(dtoList.getValues()).append("'),");
+            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -303,7 +303,7 @@ public class ExclusionDetailsLogic {
                             }
                         } else {
                             filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
-                            filterQuery.append(" like '").append(filterString).append("'");
+                            filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                         }
 
                     } else if (filter instanceof Between) {
