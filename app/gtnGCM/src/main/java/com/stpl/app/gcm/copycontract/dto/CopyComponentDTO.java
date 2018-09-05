@@ -490,24 +490,24 @@ public class CopyComponentDTO implements Serializable {
         return cfpName;
     }
 
-    public void setCFPname(String CFPname) {
-        this.cfpName = CFPname;
+    public void setCFPname(String cfpName) {
+        this.cfpName = cfpName;
     }
 
     public String getIFPname() {
         return ifpName;
     }
 
-    public void setIFPname(String IFPname) {
-        this.ifpName = IFPname;
+    public void setIFPname(String ifpName) {
+        this.ifpName = ifpName;
     }
 
     public String getPSname() {
         return psName;
     }
 
-    public void setPSname(String PSname) {
-        this.psName = PSname;
+    public void setPSname(String psName) {
+        this.psName = psName;
     }
 
     public String getContractStartDate() {
@@ -554,40 +554,40 @@ public class CopyComponentDTO implements Serializable {
         return rsName;
     }
 
-    public void setRSname(String RSname) {
-        this.rsName = RSname;
+    public void setRSname(String rsName) {
+        this.rsName = rsName;
     }
 
     public Integer getCFPId() {
         return cfpId;
     }
 
-    public void setCFPId(Integer CFPId) {
-        this.cfpId = CFPId;
+    public void setCFPId(Integer cfpId) {
+        this.cfpId = cfpId;
     }
 
     public Integer getIFPId() {
         return ifpId;
     }
 
-    public void setIFPId(Integer IFPId) {
-        this.ifpId = IFPId;
+    public void setIFPId(Integer ifpId) {
+        this.ifpId = ifpId;
     }
 
     public Integer getPSId() {
         return psId;
     }
 
-    public void setPSId(Integer PSId) {
-        this.psId = PSId;
+    public void setPSId(Integer psId) {
+        this.psId = psId;
     }
 
     public Integer getRSId() {
         return rsId;
     }
 
-    public void setRSId(Integer RSId) {
-        this.rsId = RSId;
+    public void setRSId(Integer rsId) {
+        this.rsId = rsId;
     }
 
     public Boolean getCheck() {
@@ -738,8 +738,8 @@ public class CopyComponentDTO implements Serializable {
         return companyId;
     }
 
-    public void setCompanyId(String CompanyId) {
-        this.companyId = CompanyId;
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
     public String getContractId() {

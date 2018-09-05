@@ -737,13 +737,13 @@ public class ItemQueries {
     }
 
     public static int getHelperCode(String listName, String description) {
-        ContractHeaderDAO DAO = new ContractHeaderLogicDAOImpl();
+        ContractHeaderDAO dao = new ContractHeaderLogicDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = dao.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(0).toString());
         }

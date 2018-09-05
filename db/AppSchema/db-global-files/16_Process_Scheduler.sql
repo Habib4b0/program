@@ -9588,3 +9588,111 @@ BEGIN
 END
 GO
 
+--------------------------------------DTX_ITEM_MASTER_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_ITEM_MASTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_ITEM_MASTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Item_Master_Intf.sh'
+		,'DTX_ITEM_MASTER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_ITEM_MASTER_INTERFACE'
+		,'DTX_ITEM_MASTER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_ITEM_MASTER_INTERFACE '
+		,'DTX_ITEM_MASTER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+--------------------------------------DTX_ITEM_IDENTIFIER_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_ITEM_IDENTIFIER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_ITEM_IDENTIFIER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Item_Identifier_Intf.sh'
+		,'DTX_ITEM_IDENTIFIER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_ITEM_IDENTIFIER_INTERFACE'
+		,'DTX_ITEM_IDENTIFIER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_ITEM_IDENTIFIER_INTERFACE '
+		,'DTX_ITEM_IDENTIFIER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+

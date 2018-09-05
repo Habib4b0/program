@@ -20,8 +20,8 @@ public class CFPSearchDAO implements BeanDAO<CFPCompanyDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
     private final CFPCompanyDTO cfpCompanyDTO;
 
-    public CFPSearchDAO(CFPCompanyDTO CFPCompanyDTO) {
-        this.cfpCompanyDTO = CFPCompanyDTO;
+    public CFPSearchDAO(CFPCompanyDTO cfpCompanyDto) {
+        this.cfpCompanyDTO = cfpCompanyDto;
     }
 
     @Override

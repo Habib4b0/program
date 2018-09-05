@@ -1128,7 +1128,7 @@ public class DPRQueryUtils {
 
             String forecastStartPeriod = StringUtils.EMPTY;
             String forecastEndPeriod = StringUtils.EMPTY;
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));
@@ -1273,7 +1273,7 @@ public class DPRQueryUtils {
 
             String forecastStartPeriod = StringUtils.EMPTY;
             String forecastEndPeriod = StringUtils.EMPTY;
-            if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+            if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
                 String heYear = String.valueOf(startAndEndPeriods.get(NumericConstants.TWO));

@@ -2428,18 +2428,18 @@ public class CommonLogic {
     }
 
     public int getInternalIds(ContractsDetailsDto parent) {
-        String Query = null;
+        String query = null;
         if (parent.getCategory().equals("IFP")) {
-            Query = "select IFP_CONTRACT_SID from dbo.IFP_CONTRACT where IFP_MODEL_SID=" + parent.getInternalId() + ";";
+            query = "select IFP_CONTRACT_SID from dbo.IFP_CONTRACT where IFP_MODEL_SID=" + parent.getInternalId() + ";";
         } else if (parent.getCategory().equals("CFP")) {
-            Query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId() + ";";
+            query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId() + ";";
         } else if (parent.getCategory().equals("PS")) {
-            Query = "select PS_CONTRACT_SID from dbo.PS_CONTRACT where PS_MODEL_SID=" + parent.getInternalId() + ";";
+            query = "select PS_CONTRACT_SID from dbo.PS_CONTRACT where PS_MODEL_SID=" + parent.getInternalId() + ";";
         } else {
-            Query = "select RS_CONTRACT_SID from dbo.RS_CONTRACT where RS_MODEL_SID=" + parent.getInternalId() + ";";
+            query = "select RS_CONTRACT_SID from dbo.RS_CONTRACT where RS_MODEL_SID=" + parent.getInternalId() + ";";
         }
         List<Object> results;
-        results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
+        results = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return Integer.parseInt(String.valueOf(results.get(0)));
     }
 
@@ -2531,11 +2531,11 @@ public class CommonLogic {
     }
 
     public List<Object> cfpDuplicateCheck(ContractsDetailsDto parent, int contractmasterSid) {
-        String Query = null;
-        Query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId()
+        String query = null;
+        query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId()
                 + " and CONTRACT_MASTER_SID = " + contractmasterSid + ";";
         List<Object> results;
-        results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
+        results = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return results;
     }
 
