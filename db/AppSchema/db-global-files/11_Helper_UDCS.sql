@@ -18214,6 +18214,7 @@ IF EXISTS (
 		UPDATE HELPER_TABLE
 		SET list_name = 'CategoryName'
 		WHERE list_name = 'CATEGORYNAME'
+		COLLATE  sql_latin1_general_cp1_cs_as
 	END
 	GO
 -----------------------------------------------------
