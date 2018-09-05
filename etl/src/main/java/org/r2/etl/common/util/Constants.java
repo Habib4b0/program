@@ -399,6 +399,10 @@ public final class Constants {
         
         public static final String DTX_ITEM_IDENTIFIER_INTERFACE = "DTX_ITEM_IDENTIFIER_INTERFACE";
 
+        public static final String DTX_CUSTOMER_GTS_ACTUAL_INTERFACE = "DTX_CUSTOMER_GTS_ACTUAL_INTERFACE";
+
+        public static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DTX_CUSTOMER_GTS_FORECAST_INTERFACE";
+
 	private Constants() {
 	}
 }
