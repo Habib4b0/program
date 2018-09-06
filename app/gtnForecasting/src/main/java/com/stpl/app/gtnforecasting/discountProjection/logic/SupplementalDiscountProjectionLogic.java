@@ -373,23 +373,53 @@ public class SupplementalDiscountProjectionLogic {
             if (str[0] == null) {
 
                 if (!ddlbFlag) {
-
-                    str[0] = projSelDTO.getSupplementalLevelNo() == 0 ? Constant.COMPANY_MASTER : projSelDTO.getSupplementalLevelNo() == 1 ? Constant.CONTRACT_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO ? Constant.ITEM_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.THREE ? BRAND_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag ? Constant.ITEM_MASTER : BRAND_MASTER;
-
+                    if (projSelDTO.getSupplementalLevelNo() == 0) {
+                        str[0] = Constant.COMPANY_MASTER;
+                    } else if (projSelDTO.getSupplementalLevelNo() == 1) {
+                        str[0] = Constant.CONTRACT_MASTER;
+                    } else if (projSelDTO.getSupplementalLevelNo() == 2 || (projSelDTO.getSupplementalLevelNo() == 4 && !flag)) {
+                        str[0] = Constant.ITEM_MASTER;
+                    } else {
+                        str[0] = BRAND_MASTER;
+                    }
                 } else {
-                    str[0] = "THERAPEUTIC CLASS".equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? Constant.ITEM_MASTER : Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? BRAND_MASTER
-                            : Constant.PRODUCT_LABEL.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? Constant.ITEM_MASTER : null;
+                    if ((THERAPEUTIC_CLASS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName())) || (Constant.PRODUCT_LABEL.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()))) {
+                        str[0] = Constant.ITEM_MASTER;
+                    } else if (Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName())) {
+                        str[0] = BRAND_MASTER;
+                    } else if (projSelDTO.getSupplementalLevelNo() == 2 || (projSelDTO.getSupplementalLevelNo() == 4 && !flag)) {
+                        str[0] = Constant.ITEM_MASTER;
+                    } else {
+                        str[0] = null;
+                    }
 
                 }
             }
             if (str[1] == null) {
                 if (!ddlbFlag) {
-                    str[1] = projSelDTO.getSupplementalLevelNo() == 0 ? "COMPANY_NO" : projSelDTO.getSupplementalLevelNo() == 1 ? "CONTRACT_NO" : projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO ? "THERAPEUTIC_CLASS" : projSelDTO.getSupplementalLevelNo() == NumericConstants.THREE ? BRAND_NAME : projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag ? "ITEM_ID" : BRAND_NAME;
-
+                    if (projSelDTO.getSupplementalLevelNo() == 0) {
+                        str[1] = "COMPANY_NO";
+                    } else if (projSelDTO.getSupplementalLevelNo() == 1) {
+                        str[1] = "CONTRACT_NO";
+                    } else if (projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO) {
+                        str[1] = THERAPEUTIC_CLASS;
+                    } else if (projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag) {
+                        str[1] = ITEM_ID;
+                    } else {
+                        str[1] = BRAND_MASTER;
+                    }
+                    
                 } else {
-                    str[1] = "THERAPEUTIC CLASS".equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "THERAPEUTIC_CLASS" : Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? BRAND_NAME
-                            : Constant.PRODUCT_LABEL.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "ITEM_ID" : null;
-
+                    if (THERAPEUTIC_CLASS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName())) {
+                        str[1] = THERAPEUTIC_CLASS;
+                    } else if (Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName())) {
+                        str[1] = BRAND_NAME;
+                    } else if (Constant.PRODUCT_LABEL.equalsIgnoreCase(projSelDTO.getSupplementalLevelName())) {
+                        str[1] = ITEM_ID;
+                    } else {
+                        str[1] = null;
+                    }
+                    
                 }
             }
         }
@@ -397,6 +427,8 @@ public class SupplementalDiscountProjectionLogic {
     }
     public static final String BRAND_NAME = "BRAND_NAME";
     public static final String BRAND_MASTER = "BRAND_MASTER";
+    public static final String THERAPEUTIC_CLASS = "THERAPEUTIC_CLASS";
+    public static final String ITEM_ID = "ITEM_ID";
 
     public List<Object> getLevelList(int  customerHierId,int prodHierId) {
 
