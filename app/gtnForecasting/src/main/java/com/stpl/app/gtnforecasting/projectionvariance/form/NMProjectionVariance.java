@@ -1152,7 +1152,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     public void setBaseVariables(String columns, String varriables) {
         LOGGER.info("Entering setBaseVariables method");
-
+        String columnsBaseVariables = columns;
+        String baseVariables = varriables;
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1175,10 +1176,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setNetExFactorySales(false);
         pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsBaseVariables = columnsBaseVariables.substring(1, columnsBaseVariables.length() - 1);
+        baseVariables = baseVariables.substring(1, baseVariables.length() - 1);
+        final String[] col = columnsBaseVariables.split(",");
+        final String[] var = baseVariables.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);
@@ -1887,6 +1888,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void setPvSelection(String columns, String varriables) {
+        String columnsPvSelection = columns;
+        String variablesPvSelection = varriables;
+        
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1909,10 +1913,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setNetExFactorySales(false);
         pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsPvSelection = columnsPvSelection.substring(1, columnsPvSelection.length() - 1);
+        variablesPvSelection = variablesPvSelection.substring(1, variablesPvSelection.length() - 1);
+        final String[] col = columnsPvSelection.split(",");
+        final String[] var = variablesPvSelection.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);

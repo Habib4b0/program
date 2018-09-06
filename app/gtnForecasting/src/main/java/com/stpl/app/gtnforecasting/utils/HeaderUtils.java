@@ -2893,6 +2893,8 @@ public class HeaderUtils {
      */
     public static void setBaseVariables(String columns, String varriables, PVSelectionDTO projSelDTO) {
         LOGGER.debug("Entering setBaseVariables method");
+        String columnsBase = columns ;
+        String varriablesBase = varriables;
         projSelDTO.setColValue(false);
         projSelDTO.setColVariance(false);
         projSelDTO.setColPercentage(false);
@@ -2911,10 +2913,10 @@ public class HeaderUtils {
         projSelDTO.setVarRPU(false);
         projSelDTO.setVarNetProfit(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsBase = columnsBase.substring(1, columnsBase.length() - 1);
+        varriablesBase = varriablesBase.substring(1, varriablesBase.length() - 1);
+        final String[] col = columnsBase.split(",");
+        final String[] var = varriablesBase.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);
@@ -4178,18 +4180,19 @@ public class HeaderUtils {
 
     static String loadDiscountHeader(String commonColumn, CustomTableHeaderDTO tableHeaderDTO, PVSelectionDTO selection, List<Object> dmap, String commonHeader) {
         String column = commonColumn;
+        String commonHeaderDiscount = commonHeader;
         List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
         if (!discountNames.isEmpty()) {
             for (int i = 0; i < discountNames.size(); i++) {
-                commonHeader = discountNames.get(i);
-                commonColumn = column + commonHeader.replace(" ", StringUtils.EMPTY);
+                commonHeaderDiscount = discountNames.get(i);
+                commonColumn = column + commonHeaderDiscount.replace(" ", StringUtils.EMPTY);
                 tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT + selection.getCurrentProjId(), selection.getCurrentProjectionName(), String.class);
                 dmap.add(commonColumn + Constant.CURRENT + selection.getCurrentProjId());
                 if (!projList.isEmpty()) {
                     for (int j = 0; j < projList.size(); j++) {
-                        commonColumn = column + commonHeader.replace(" ", StringUtils.EMPTY);
+                        commonColumn = column + commonHeaderDiscount.replace(" ", StringUtils.EMPTY);
                         tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
                         dmap.add(commonColumn + projList.get(j));
                     }

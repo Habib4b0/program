@@ -283,6 +283,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     protected final List<String> loadHistory(String frequency, String period) {
         LOGGER.info("loadHistory method starts");
         List<String> history = new ArrayList<>();
+        String periodStr =  period;
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.getConstant().equals(frequency)) {
@@ -307,8 +308,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             if ((i == 1)
                     && (QUARTERS.getConstant().equals(freq) || MONTHS
                     .getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
-                period = freq.replace(Constant.S_SMALL, StringUtils.EMPTY);
-                history.add(String.valueOf(i) + SPACE.getConstant() + period);
+                periodStr = freq.replace(Constant.S_SMALL, StringUtils.EMPTY);
+                history.add(String.valueOf(i) + SPACE.getConstant() + periodStr);
             } else {
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             }

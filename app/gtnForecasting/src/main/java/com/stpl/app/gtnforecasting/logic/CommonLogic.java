@@ -632,8 +632,10 @@ public class CommonLogic {
     public static final String FROM_SPACE = " from ";
 
     public static String getCustomViewLevelListQuery(int projectionId, String tabName, int sessionId, int customId, String hierarchyIndicator, int levelNo, String productHierarchyNo, String customerHierarchyNo, String custRelSid, String prodRelSid, List<String> discountList, String action) {
-        customerHierarchyNo += Constant.PERCENT;
-        productHierarchyNo += Constant.PERCENT;
+       String customerHierarchNumber =customerHierarchyNo;
+       String productHierarchyNumber =productHierarchyNo;
+        customerHierarchNumber += Constant.PERCENT;
+        productHierarchyNumber += Constant.PERCENT;
         String customerLevelNo = Constant.PERCENT;
         String productLevelNo = Constant.PERCENT;
 
@@ -664,14 +666,14 @@ public class CommonLogic {
                 + Constant.AND_CVDCUSTOM_VIEW_MASTER_SID + customId + Constant.AND_CVDLEVEL_NO_LIKE + customerLevelNo + "'"
                 + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
                 + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
+                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + customerHierarchNumber + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
                 + " LEFT JOIN "
                 + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME FROM dbo.CUSTOM_VIEW_DETAILS  CVD "
                 + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
                 + Constant.AND_CVDCUSTOM_VIEW_MASTER_SID + customId + Constant.AND_CVDLEVEL_NO_LIKE + productLevelNo + "'"
                 + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
                 + " JOIN  PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE
+                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + productHierarchyNumber + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE
                 + " where HLD" + hierarchyIndicator + ".RELATIONSHIP_LEVEL_VALUES is not null";
     }
 

@@ -1042,7 +1042,8 @@ public class HeaderUtils {
     }
 
     public static CustomTableHeaderDTO getPMPYCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, String frequency, int frequencyRange, boolean isExcelExport) {
-
+        int frequencyRangePMPY  = frequencyRange;
+        boolean isExcelExp = isExcelExport;
         Calendar ob = Calendar.getInstance();
         int curMonth = ob.get(Calendar.MONTH);
         int curYear = ob.get(Calendar.YEAR);
@@ -1064,21 +1065,21 @@ public class HeaderUtils {
         int pastYear = curYear;
         pastYear = pastYear - NumericConstants.THREE;
         if (!frequency.equals(ANNUALLY)) {
-            int tempFreq = frequencyRange + current - 1;
-            frequencyRange = tempFreq + 1;
+            int tempFreq = frequencyRangePMPY + current - 1;
+            frequencyRangePMPY = tempFreq + 1;
         } else {
-            frequencyRange = NumericConstants.THREE;
+            frequencyRangePMPY = NumericConstants.THREE;
         }
         int squr = 1;
         int syear = pastYear;
         List<Object> doubleHeaderMap = new ArrayList<>();
         List<Object> tripleHeaderMap = new ArrayList<>();
 
-        for (int i = 0; i < frequencyRange; i++) {
+        for (int i = 0; i < frequencyRangePMPY; i++) {
 
-            if (isExcelExport) {
+            if (isExcelExp) {
                 tableHeaderDTO.addSingleColumn("firstColumn", StringUtils.EMPTY, String.class);
-                isExcelExport = false;
+                isExcelExp = false;
             }
 
             String commonColumn = StringUtils.EMPTY;
