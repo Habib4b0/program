@@ -1055,12 +1055,13 @@ public class HeaderUtils {
     public static String getMonthForInt(int num) {
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();
+        int number = num;
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE || num == -1) {
-            num = 0;
+        if (number == NumericConstants.TWELVE || number == -1) {
+            number = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (number >= 0 && number <= NumericConstants.ELEVEN) {
+            month = months[number];
         }
         return month;
     }
