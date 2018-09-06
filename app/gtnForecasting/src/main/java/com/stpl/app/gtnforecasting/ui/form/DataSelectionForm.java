@@ -163,7 +163,7 @@ public class DataSelectionForm extends ForecastDataSelection {
         public static HierarchyLookup customerHierarchyLookupWindow;
 
         public static HierarchyLookup productHierarchyLookupWindow;
-        private static List<Object> queryParametersForSelectedTable; 
+        private static List<Object> queryParametersForSelectedTable = new ArrayList<>(); 
 	public static final String NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN = "No record was selected.  Please try again.";
 
 	public String getPublicViewName() {
@@ -1106,7 +1106,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
                                                                         Integer.parseInt(String.valueOf(level.getValue())),
-									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomerContainer);
+									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer);
 						}
  //                                               else {
 //							newChildLevels = logic.getChildLevelsWithHierarchyNo(
