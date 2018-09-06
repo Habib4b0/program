@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.registry.action.GtnCallForecastingAction;
-import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAction;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
@@ -445,40 +444,16 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		componentList.add(generateBtn);
 
-//		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
-//		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-//		gtnUIFrameWorkGeneratePopupAction.addActionParameter("forecastGenerateLookupView");
-//		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Forecast Generate Lookup View");
-//		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-//		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-//		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
-		
-		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
-		generateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		generateAction.addActionParameter(GtnCallForecastingAction.class.getName());
-		generateAction.addActionParameter("Commercial Forecasting_customerDualListBox");
-		generateAction.addActionParameter("Commercial Forecasting_productDualListBox");
-		generateAction.addActionParameter("forecastLandingScreen_customerHierarchy");
-		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
-		generateAction.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
-		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
-		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
-		generateAction.addActionParameter("Commercial Forecasting_prodhierarchyName");
-		generateAction.addActionParameter("Commercial Forecasting_prodrelationship");
-		generateAction.addActionParameter("Commercial Forecasting_prodforecastLevel");
-		generateAction.addActionParameter("Commercial_Forecasting_productRelationshipVersion");
-		generateAction.addActionParameter("Commercial Forecasting_productGroup");
-		generateAction.addActionParameter("Commercial Forecasting_company");
-		generateAction.addActionParameter("Commercial Forecasting_businessUnit");
-		generateAction.addActionParameter("Commercial Forecasting_from");
-		generateAction.addActionParameter("Commercial Forecasting_productLevel");
-		generateAction.addActionParameter("Commercial Forecasting_to");
-		generateAction.addActionParameter("Commercial Forecasting_projectionName");
-		generateAction.addActionParameter("Commercial Forecasting_projectionDescription");
-		generateAction.addActionParameter("Commercial Forecasting_customerGroup");
-		generateAction.addActionParameter("Commercial_Forecasting_customerSelectionLevel");
-		generateAction.addActionParameter("Commercial Forecasting_privateViewLookup");
-		generateAction.addActionParameter("Commercial Forecasting_publicView");
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter("forecastGenerateLookupView");
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Forecast Generate Lookup View");
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		gtnUIFrameWorkGeneratePopupAction
+				.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
+		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
 	}
 
 	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
