@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkNewToOldArchitectureGenerateAction;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
@@ -449,6 +450,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Forecast Generate Lookup View");
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
 		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
 	}
 
