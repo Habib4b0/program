@@ -323,8 +323,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		return customFilterConfigMap;
 	}
 
-	private void addForecastProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
+	private void addForecastProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig controlPopUpLayout = new GtnUIFrameworkComponentConfig();
 		GtnUIFrameworkLayoutConfig layoutConf = new GtnUIFrameworkLayoutConfig();
 		controlPopUpLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
@@ -345,17 +344,24 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		selectButton.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		selectButton.setAddToParent(true);
-		selectButton.addDependentComponent("Commercial_Forecasting_prodrelationship"); // need to change
-		selectButton.addDependentComponent("Commercial_Forecasting_prodforecastLevel"); // need to change
+		selectButton.addDependentComponent("Commercial_Forecasting_prodrelationship"); // need
+																						// to
+																						// change
+		selectButton.addDependentComponent("Commercial_Forecasting_prodforecastLevel"); // need
+																						// to
+																						// change
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
 		selectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionParameter.add("reportLandingScreen_producthierarchy"); // need to change
+		actionParameter.add("reportLandingScreen_producthierarchy"); // need to
+																		// change
 		actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.SCREEN_REGISTRY_HIERACHY_NAME));
-		actionParameter.add(Arrays.asList("reportLandingScreen_producthierarchy")); // need to change
+		actionParameter.add(Arrays.asList("reportLandingScreen_producthierarchy")); // need
+																					// to
+																					// change
 
 		selectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(selectAction);

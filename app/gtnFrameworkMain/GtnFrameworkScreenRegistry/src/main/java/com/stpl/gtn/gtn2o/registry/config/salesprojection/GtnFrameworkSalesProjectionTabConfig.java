@@ -34,7 +34,6 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 public class GtnFrameworkSalesProjectionTabConfig {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-
 	private String[] propertyIds = { "filterTextBox1", "filterTextBox2", "filterTextBox3", "filterTextBox4" };
 	private GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
@@ -98,14 +97,12 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		filterOptionTabSalesProjection.setTabLayoutComponentConfigList(filterComponentList);
 		addFilterTab(filterComponentList, nameSpace);
 
-
 		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigListSalesProjection = new ArrayList<>();
 		gtnTabSheetConfigListSalesProjection.add(displaySelectionTabConfigSalesProjection);
 		gtnTabSheetConfigListSalesProjection.add(filterOptionTabSalesProjection);
 		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigListSalesProjection);
-			
-	}
 
+	}
 
 	private void addDisplaySelectionTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		DisplaySelectionTab displaySelectionTab = new DisplaySelectionTab();
@@ -268,7 +265,6 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		componentList.add(refreshButton);
 
 	}
-
 
 	private void addSalesProjectionTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
