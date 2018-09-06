@@ -35,33 +35,24 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @Service
 public class GtnWsReportWebsevice {
 
+	public GtnWsReportWebsevice() {
+		super();
+	}
+
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
-
-	@Autowired
-	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
-	@Autowired
-	private GtnWsReportSqlService sqlService;
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
-	private GtnReportJsonService gtnReportJsonService;
-
-	@Autowired 
-    private org.hibernate.SessionFactory sysSessionFactory;
-	
-	public org.hibernate.SessionFactory getSysSessionFactory() {
-		return sysSessionFactory;
-	}
+	private org.hibernate.SessionFactory sysSessionFactory;
 
 	public void setSysSessionFactory(org.hibernate.SessionFactory sysSessionFactory) {
 		this.sysSessionFactory = sysSessionFactory;
 	}
 
-	public GtnWsReportWebsevice() {
-		super();
+	public org.hibernate.SessionFactory getSysSessionFactory() {
+		return sysSessionFactory;
 	}
 
 	public org.hibernate.SessionFactory getSessionFactory() {
@@ -72,6 +63,9 @@ public class GtnWsReportWebsevice {
 		this.sessionFactory = sessionFactory;
 	}
 
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
 	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
 		return gtnSqlQueryEngine;
 	}
@@ -79,6 +73,12 @@ public class GtnWsReportWebsevice {
 	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
+
+	@Autowired
+	private GtnWsReportSqlService sqlService;
+
+	@Autowired
+	private GtnReportJsonService gtnReportJsonService;
 
 	public List<Object[]> loadHierarchyResults(GtnUIFrameworkWebserviceRequest request, boolean isCustomerHierarchy)
 			throws GtnFrameworkGeneralException {
@@ -92,16 +92,17 @@ public class GtnWsReportWebsevice {
 		}
 		if (isCustomerHierarchy) {
 			inputList.add("'Customer Hierarchy'");
-			String hierarchyName = criteriaMap.get("hierarchyName");
+			String hierarchyName = criteriaMap.get(GtnWsQueryConstants.HIERARCHY_NAME);
 			inputList.add("'" + hierarchyName + "'");
 		} else {
 			inputList.add("'Product Hierarchy'");
-			String hierarchyName = criteriaMap.get("hierarchyName");
+			String hierarchyName = criteriaMap.get(GtnWsQueryConstants.HIERARCHY_NAME);
 			inputList.add("'" + hierarchyName + "'");
 		}
 		inputList.add("'" + criteriaMap.get("hierarchyType") + "'");
 		String hierarchyLoadQuery = sqlService.getQuery(inputList, "getHierarchyResults");
-		hierarchyLoadQuery = hierarchyLoadQuery.replace("@filter", setFilterForHierarchy(request));
+		hierarchyLoadQuery = hierarchyLoadQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
+				setFilterForHierarchy(request));
 		List<Object[]> hierarchyResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(hierarchyLoadQuery);
 		return resultListCustomization(hierarchyResultList);
 	}
@@ -112,7 +113,7 @@ public class GtnWsReportWebsevice {
 		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0)
 				: null;
 	}
-	
+
 	public List<Object[]> getLoadViewResultsCount(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
 			boolean viewMode, int viewCheck) {
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
@@ -121,50 +122,55 @@ public class GtnWsReportWebsevice {
 			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
 			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
 			String viewName = "";
+			boolean viewModeType = viewMode;
 			Map<String, String> criteriaMap = new HashMap<>();
-			for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
-					.getGtnWebServiceSearchCriteriaList()) {
-				if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
-					criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
-				}
-			}
+			addValuesToCriteriaMap(criteriaMap,
+					gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
 			if (viewCheck == 1) {
-				viewType = criteriaMap.get("reportProfileLookup_viewType");
-				viewName = criteriaMap.get("reportProfileLookup_viewName");
-				if(viewName==null) 
+				viewType = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_TYPE);
+				viewName = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_NAME);
+				if (viewName == null)
 					viewName = "%";
 				if (viewType.startsWith("Priv")) {
-					viewMode = true;
+					viewModeType = true;
 				} else {
-					viewMode = false;
+					viewModeType = false;
 				}
 			}
 			inputList.add(connection.getCatalog());
 			inputList.add("'" + viewType + "'");
-			if (viewMode) {
+			if (viewModeType) {
 				if (viewCheck == 0) {
-					viewName = criteriaMap.get("privateViewName");
+					viewName = criteriaMap.get(GtnWsQueryConstants.PRIVATE_VIEW_NAME);
 				}
 				inputList.add("'" + viewName + "'");
 				inputList.add(" AND CREATED_BY = " + userId);
 				inputList.add(viewCheck);
 			} else {
 				if (viewCheck == 0) {
-					viewName = criteriaMap.get("publicViewName");
+					viewName = criteriaMap.get(GtnWsQueryConstants.PUBLIC_VIEW_NAME);
 				}
 				inputList.add("'" + viewName + "'");
 				inputList.add(StringUtils.EMPTY);
 				inputList.add(viewCheck);
 			}
-			
+
 			String viewQuery = sqlService.getQuery(inputList, "getLoadViewResultsCount");
-			return executeGetLoadViewResultsQueryCount(viewQuery,gtnUIFrameworkWebserviceRequest);
+			return executeGetLoadViewResultsQueryCount(viewQuery, gtnUIFrameworkWebserviceRequest);
 		} catch (Exception ex) {
 			gtnLogger.error(ex.getMessage(), ex);
-			return null;
+			return Collections.emptyList();
 		}
 	}
-	
+
+	private void addValuesToCriteriaMap(Map<String, String> criteriaMap,
+			List<GtnWebServiceSearchCriteria> searchCriteria) {
+		for (GtnWebServiceSearchCriteria criteria : searchCriteria) {
+			if (criteria.getFilterValue1() != null && !criteria.getFilterValue1().isEmpty()) {
+				criteriaMap.put(criteria.getFieldId(), getCriteria(criteria));
+			}
+		}
+	}
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
 			boolean viewMode, int viewCheck) {
@@ -174,79 +180,78 @@ public class GtnWsReportWebsevice {
 			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
 			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
 			String viewName = "";
+			boolean viewModeType = viewMode;
 			Map<String, String> criteriaMap = new HashMap<>();
-			for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
-					.getGtnWebServiceSearchCriteriaList()) {
-				if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
-					criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
-				}
-			}
+			addValuesToCriteriaMap(criteriaMap,
+					gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList());
 			if (viewCheck == 1) {
-				viewType = criteriaMap.get("reportProfileLookup_viewType");
-				viewName = criteriaMap.get("reportProfileLookup_viewName");
-				if(viewName==null) 
+				viewType = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_TYPE);
+				viewName = criteriaMap.get(GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_NAME);
+				if (viewName == null)
 					viewName = "%";
 				if (viewType.startsWith("Priv")) {
-					viewMode = true;
+					viewModeType = true;
 				} else {
-					viewMode = false;
+					viewModeType = false;
 				}
 			}
 			inputList.add(connection.getCatalog());
 			inputList.add("'" + viewType + "'");
-			if (viewMode) {
+			if (viewModeType) {
 				if (viewCheck == 0) {
-					viewName = criteriaMap.get("privateViewName");
+					viewName = criteriaMap.get(GtnWsQueryConstants.PRIVATE_VIEW_NAME);
 				}
 				inputList.add("'" + viewName + "'");
 				inputList.add(" AND CREATED_BY = " + userId);
 				inputList.add(viewCheck);
 			} else {
 				if (viewCheck == 0) {
-					viewName = criteriaMap.get("publicViewName");
+					viewName = criteriaMap.get(GtnWsQueryConstants.PUBLIC_VIEW_NAME);
 				}
 				inputList.add("'" + viewName + "'");
 				inputList.add(StringUtils.EMPTY);
 				inputList.add(viewCheck);
 			}
 			int noOfRowsForFetchClause = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
-			if(noOfRowsForFetchClause==0)
+			if (noOfRowsForFetchClause == 0)
 				noOfRowsForFetchClause = 10;
 			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart());
 			inputList.add(noOfRowsForFetchClause);
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
-			return executeLoadViewResultsQuery(viewQuery,gtnUIFrameworkWebserviceRequest);
+			return executeLoadViewResultsQuery(viewQuery, gtnUIFrameworkWebserviceRequest);
 		} catch (Exception ex) {
 			gtnLogger.error(ex.getMessage(), ex);
-			return null;
+			return Collections.emptyList();
 		}
 	}
 
-	private List<Object[]> executeLoadViewResultsQuery(String viewQuery, GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		try(Session session = sessionFactory.openSession()){
-			viewQuery = viewQuery.replace("@filter", setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
-		SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
-				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
-				.addScalar("CREATED_BY", new StringType()).addScalar("VIEW_ID", new IntegerType())
-				.addScalar("VIEW_DATA", new StringType());
-		List<Object[]> resultList = query.list();
-		return resultList;
-		}catch (Exception ex) {
+	private List<Object[]> executeLoadViewResultsQuery(String viewQuery,
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		try (Session session = sessionFactory.openSession()) {
+			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
+					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
+			SQLQuery query = session.createSQLQuery(viewQueryStr).addScalar("VIEW_NAME", new StringType())
+					.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
+					.addScalar("CREATED_BY", new StringType()).addScalar("VIEW_ID", new IntegerType())
+					.addScalar("VIEW_DATA", new StringType());
+			return query.list();
+		} catch (Exception ex) {
 			gtnLogger.error(ex.getMessage(), ex);
-			return null;
+			return Collections.emptyList();
 		}
 	}
-	
-	private List<Object[]> executeGetLoadViewResultsQueryCount(String viewQuery, GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		try(Session session = sessionFactory.openSession()){
-			viewQuery = viewQuery.replace("@filter", setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
-		SQLQuery query = session.createSQLQuery(viewQuery);
-		List<Object[]> resultList = query.list();
-		return resultList;
-		}catch (Exception ex) {
+
+	private List<Object[]> executeGetLoadViewResultsQueryCount(String viewQuery,
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		try (Session session = sessionFactory.openSession()) {
+			String viewQueryStr = viewQuery.replace(GtnWsQueryConstants.FILTER_CONSTANT,
+					setFilterForHierarchy(gtnUIFrameworkWebserviceRequest));
+			SQLQuery query = session.createSQLQuery(viewQueryStr);
+			return query.list();
+		} catch (Exception ex) {
 			gtnLogger.error(ex.getMessage(), ex);
-			return null;
+			return Collections.emptyList();
 		}
 	}
 
@@ -260,17 +265,20 @@ public class GtnWsReportWebsevice {
 				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 			}
 		}
-		if (criteriaMap.get("customViewName") == null) {
+		if (criteriaMap.get(GtnWsQueryConstants.CUSTOM_VIEW_NAME) == null) {
 			return Collections.emptyList();
 		} else {
-			comparisonResults = criteriaMap.get("projectionType").equals("F")
-					? loadProjectionComparisonResults(criteriaMap,gtnUIFrameworkWebserviceRequest,"loadResult") : loadCFFComparisonResults(criteriaMap,gtnUIFrameworkWebserviceRequest,"loadResult");
+			comparisonResults = criteriaMap.get(GtnWsQueryConstants.PROJECTION_TYPE).equals("F")
+					? loadProjectionComparisonResults(criteriaMap, gtnUIFrameworkWebserviceRequest,
+							GtnWsQueryConstants.LOAD_RESULT)
+					: loadCFFComparisonResults(criteriaMap, gtnUIFrameworkWebserviceRequest,
+							GtnWsQueryConstants.LOAD_RESULT);
 			return comparisonResults;
 		}
 	}
-	
-	public List<Object[]> getComparisonAvailableTableCount(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException {
+
+	public List<Object[]> getComparisonAvailableTableCount(
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
 		Map<String, String> criteriaMap = new HashMap<>();
 		List<Object[]> comparisonResults = null;
 		for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
@@ -279,39 +287,43 @@ public class GtnWsReportWebsevice {
 				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 			}
 		}
-		if (criteriaMap.get("customViewName") == null) {
+		if (criteriaMap.get(GtnWsQueryConstants.CUSTOM_VIEW_NAME) == null) {
 			return Collections.emptyList();
 		} else {
-			comparisonResults = criteriaMap.get("projectionType").equals("F")
-					? loadProjectionComparisonResults(criteriaMap,gtnUIFrameworkWebserviceRequest,"count") : loadCFFComparisonResults(criteriaMap,gtnUIFrameworkWebserviceRequest,"count");
+			comparisonResults = criteriaMap.get(GtnWsQueryConstants.PROJECTION_TYPE).equals("F")
+					? loadProjectionComparisonResults(criteriaMap, gtnUIFrameworkWebserviceRequest, "count")
+					: loadCFFComparisonResults(criteriaMap, gtnUIFrameworkWebserviceRequest, "count");
 			return comparisonResults;
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap, GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest , String queryType)
+	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap,
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest, String queryType)
 			throws GtnFrameworkGeneralException {
-		List<String> inputList = getInputList(criteriaMap, gtnUIFrameworkWebserviceRequest,queryType);
-               
-		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				queryType.equals("loadResult") ? sqlService.getQuery(inputList, "loadProjectionComparisonResults")
-						: sqlService.getQuery(inputList, "getProjectionComparisonResultsCount"));
-		
-		return queryType.equals("loadResult") ?resultListCustomization(resultList):resultList;
-	}
-	
-	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap,GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest , String queryType)
-			throws GtnFrameworkGeneralException {
-		
-		List<String> inputList = getCffInputList(criteriaMap,gtnUIFrameworkWebserviceRequest,queryType);
-		if(!inputList.isEmpty()) {
+		List<String> inputList = getInputList(criteriaMap, gtnUIFrameworkWebserviceRequest, queryType);
+
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
-				.executeSelectQuery(queryType.equals("loadResult")?sqlService.getQuery(inputList, "loadCFFComparisonResults"):sqlService.getQuery(inputList, "getCFFComparisonResultsCount"));
-		return resultList;
+				.executeSelectQuery(queryType.equals(GtnWsQueryConstants.LOAD_RESULT)
+						? sqlService.getQuery(inputList, "loadProjectionComparisonResults")
+						: sqlService.getQuery(inputList, "getProjectionComparisonResultsCount"));
+
+		return queryType.equals(GtnWsQueryConstants.LOAD_RESULT) ? resultListCustomization(resultList) : resultList;
+	}
+
+	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap,
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest, String queryType)
+			throws GtnFrameworkGeneralException {
+
+		List<String> inputList = getCffInputList(criteriaMap, gtnUIFrameworkWebserviceRequest, queryType);
+		if (!inputList.isEmpty()) {
+			return (List<Object[]>) gtnSqlQueryEngine
+					.executeSelectQuery(queryType.equals(GtnWsQueryConstants.LOAD_RESULT)
+							? sqlService.getQuery(inputList, "loadCFFComparisonResults")
+							: sqlService.getQuery(inputList, "getCFFComparisonResultsCount"));
 		}
 		return Collections.emptyList();
 	}
-	
 
 	private List<String> getInputList(Map<String, String> criteriaMap,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest, String queryType) {
@@ -319,30 +331,29 @@ public class GtnWsReportWebsevice {
 				.getService(ConnectionProvider.class).getConnection()) {
 			List<String> inputList = new ArrayList<>();
 			boolean isProjectionStatus = false;
-			if (criteriaMap.get("workflowStatus").equals("Saved")) {
+			if (criteriaMap.get(GtnWsQueryConstants.WORKFLOW_STATUS).equals("Saved")) {
 				isProjectionStatus = true;
 			}
 			String workflowJoinQuery = isProjectionStatus ? "" : (sqlService.getQuery("workflowJoinQuery"));
-			String customViewMasterSid = criteriaMap.get("customViewName");
-			String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
-			String comparisonBrand = criteriaMap.get("brand") == null ? "%" : criteriaMap.get("brand");
-			String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
-			String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
-			String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
-			String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
-			String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
-			String projectionDescription = criteriaMap.get("description") == null ? "%"
-					: criteriaMap.get("description");
-			String fromPeriod = criteriaMap.get("fromPeriod") == null ? "" : criteriaMap.get("fromPeriod");
-			String toPeriod = criteriaMap.get("toPeriod") == null ? "" : criteriaMap.get("toPeriod");
-			String createdDate = criteriaMap.get("createdDate") == null || criteriaMap.get("createdDate").equals("null")
-					? "%"
-					: criteriaMap.get("createdDate");
-			String createdBy = criteriaMap.get("createdBy") == null ? "%" : criteriaMap.get("createdBy");
+			String customViewMasterSid = criteriaMap.get(GtnWsQueryConstants.CUSTOM_VIEW_NAME);
+			String marketType = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.MARKET_TYPE);
+			String comparisonBrand = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.BRAND);
+			String projectionName = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.PROJECTION_NAME);
+			String contractHolder = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT_HOLDER);
+			String ndcName = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.NDC_NAME);
+			String comparisonNDC = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.COMPARISON_NDC);
+			String contract = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT2);
+			String projectionDescription = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.DESCRIPTION);
+			String fromPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
+			String toPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
+			String createdDate = criteriaMap.get(GtnWsQueryConstants.CREATED_DATE) == null
+					|| criteriaMap.get(GtnWsQueryConstants.CREATED_DATE).equals("null") ? "%"
+							: criteriaMap.get(GtnWsQueryConstants.CREATED_DATE);
+			String createdBy = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CREATED_BY);
 			String whereCondition = isProjectionStatus
 					? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1"
-					: "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus")
-							+ "'";
+					: "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'"
+							+ criteriaMap.get(GtnWsQueryConstants.WORKFLOW_STATUS) + "'";
 			int tableRecordStart = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart();
 			int tableRecordOffset = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			inputList.add(workflowJoinQuery);
@@ -360,9 +371,9 @@ public class GtnWsReportWebsevice {
 			inputList.add("'" + createdDate + "'");
 			getFromAndToPeriod(inputList, fromPeriod, toPeriod);
 			inputList.add("'" + createdBy + "'");
-			if (queryType.equals("loadResult")) {
-				inputList.add("" + tableRecordStart + "");
-				inputList.add("" + tableRecordOffset + "");
+			if (queryType.equals(GtnWsQueryConstants.LOAD_RESULT)) {
+				inputList.add(Integer.toString(tableRecordStart));
+				inputList.add(Integer.toString(tableRecordOffset));
 			}
 			return inputList;
 		} catch (SQLException e) {
@@ -370,57 +381,56 @@ public class GtnWsReportWebsevice {
 			return Collections.emptyList();
 		}
 	}
-	
+
 	private void getFromAndToPeriod(List<String> inputList, String fromPeriod, String toPeriod) {
 		if (!fromPeriod.isEmpty() && !toPeriod.isEmpty()) {
-			inputList.add("'" + fromPeriod + "'"); 
-			inputList.add("'" + toPeriod + "'"); 
+			inputList.add("'" + fromPeriod + "'");
+			inputList.add("'" + toPeriod + "'");
 			inputList.add(null);
 			inputList.add(null);
 		} else if (fromPeriod.isEmpty() && !toPeriod.isEmpty()) {
-			inputList.add(null); 
-			inputList.add(null); 
 			inputList.add(null);
-			inputList.add("'" + toPeriod + "'"); 
+			inputList.add(null);
+			inputList.add(null);
+			inputList.add("'" + toPeriod + "'");
 		} else if (!fromPeriod.isEmpty() && toPeriod.isEmpty()) {
-			inputList.add(null); 
-			inputList.add(null); 
-			inputList.add("'" + fromPeriod + "'"); 
-			inputList.add(null); 
+			inputList.add(null);
+			inputList.add(null);
+			inputList.add("'" + fromPeriod + "'");
+			inputList.add(null);
 		} else {
-			inputList.add("''"); 
-			inputList.add("''"); 
-			inputList.add("''"); 
-			inputList.add("''"); 
+			inputList.add("''");
+			inputList.add("''");
+			inputList.add("''");
+			inputList.add("''");
 		}
 	}
-	
+
 	private List<String> getCffInputList(Map<String, String> criteriaMap,
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest, String queryType) {
 		List<String> cffInputList = new ArrayList<>();
 
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 				.getService(ConnectionProvider.class).getConnection()) {
-			String workFlowStatus = criteriaMap.get("workflowStatus");
+			String workFlowStatus = criteriaMap.get(GtnWsQueryConstants.WORKFLOW_STATUS);
 			if (workFlowStatus.equals("Submitted")) {
 				workFlowStatus = "Pending";
 			}
-			String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
-			String projectionDescription = criteriaMap.get("description") == null ? "%"
-					: criteriaMap.get("description");
-			String fromPeriod = criteriaMap.get("fromPeriod") == null ? "" : criteriaMap.get("fromPeriod");
-			String toPeriod = criteriaMap.get("toPeriod") == null ? "" : criteriaMap.get("toPeriod");
-			String customViewMasterSid = criteriaMap.get("customViewName");
-			String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
-			String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
-			String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
-			String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
-			String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
-			String comparisonBrand = criteriaMap.get("brand") == null ? "%" : criteriaMap.get("brand");
-			String createdDate = criteriaMap.get("createdDate") == null || criteriaMap.get("createdDate").equals("null")
-					? "%"
-					: criteriaMap.get("createdDate");
-			String createdBy = criteriaMap.get("createdBy") == null ? "%" : criteriaMap.get("createdBy");
+			String projectionName = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.PROJECTION_NAME);
+			String projectionDescription = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.DESCRIPTION);
+			String fromPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.FROM_PERIOD);
+			String toPeriod = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.TO_PERIOD);
+			String customViewMasterSid = criteriaMap.get(GtnWsQueryConstants.CUSTOM_VIEW_NAME);
+			String contract = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT2);
+			String marketType = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.MARKET_TYPE);
+			String contractHolder = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CONTRACT_HOLDER);
+			String ndcName = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.NDC_NAME);
+			String comparisonNDC = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.COMPARISON_NDC);
+			String comparisonBrand = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.BRAND);
+			String createdDate = criteriaMap.get(GtnWsQueryConstants.CREATED_DATE) == null
+					|| criteriaMap.get(GtnWsQueryConstants.CREATED_DATE).equals("null") ? "%"
+							: criteriaMap.get(GtnWsQueryConstants.CREATED_DATE);
+			String createdBy = getFromCriteriaMap(criteriaMap, GtnWsQueryConstants.CREATED_BY);
 			int tableRecordStart = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart();
 			int tableRecordOffset = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			cffInputList.add("'" + workFlowStatus + "'");
@@ -437,65 +447,66 @@ public class GtnWsReportWebsevice {
 			cffInputList.add("'" + comparisonBrand + "'");
 			cffInputList.add("'" + createdDate + "'");
 			cffInputList.add("'" + createdBy + "'");
-			if (queryType.equals("loadResult")) {
-				cffInputList.add("" + tableRecordStart + "");
-				cffInputList.add("" + tableRecordOffset + "");
+			if (queryType.equals(GtnWsQueryConstants.LOAD_RESULT)) {
+				cffInputList.add(Integer.toString(tableRecordStart));
+				cffInputList.add(Integer.toString(tableRecordOffset));
 			}
 			return cffInputList;
 		} catch (SQLException e) {
 			gtnLogger.error(e + " ");
 			return cffInputList;
 		}
-
 	}
 
-	
+	private String getFromCriteriaMap(Map<String, String> criteriaMap, String key) {
+		return criteriaMap.get(key) == null ? "%" : criteriaMap.get(key);
+	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
 		switch (searchCriteria.getFieldId()) {
-		
-case "privateViewName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "publicViewName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "hierarchyName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
+
+		case GtnWsQueryConstants.PRIVATE_VIEW_NAME:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.PUBLIC_VIEW_NAME:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.HIERARCHY_NAME:
+			return searchCriteria.getFilterValue1().replace('*', '%');
 		case "hierarchyType":
 			return searchCriteria.getFilterValue1();
-		case "projectionType":
+		case GtnWsQueryConstants.PROJECTION_TYPE:
 			return searchCriteria.getFilterValue1();
-		case "workflowStatus":
+		case GtnWsQueryConstants.WORKFLOW_STATUS:
 			return searchCriteria.getFilterValue1();
-		case "projectionName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "marketType":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "brand":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "contractHolder":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "comparisonNDC":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "description":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "contract":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "ndcName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "fromPeriod":
+		case GtnWsQueryConstants.PROJECTION_NAME:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.MARKET_TYPE:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.BRAND:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.CONTRACT_HOLDER:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.COMPARISON_NDC:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.DESCRIPTION:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.CONTRACT2:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.NDC_NAME:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.FROM_PERIOD:
 			return searchCriteria.getFilterValue1();
-		case "toPeriod":
+		case GtnWsQueryConstants.TO_PERIOD:
 			return searchCriteria.getFilterValue1();
-		case "customViewName":
+		case GtnWsQueryConstants.CUSTOM_VIEW_NAME:
 			return searchCriteria.getFilterValue1();
-		case "reportProfileLookup_viewName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
-		case "reportProfileLookup_viewType":
+		case GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_NAME:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.REPORT_PROFILE_LOOKUP_VIEW_TYPE:
 			return searchCriteria.getFilterValue1();
-                case "createdDate":
-			return searchCriteria.getFilterValue1().replace("*", "%");     
-                case "createdBy":
-			return searchCriteria.getFilterValue1().replace("*", "%"); 
+		case GtnWsQueryConstants.CREATED_DATE:
+			return searchCriteria.getFilterValue1().replace('*', '%');
+		case GtnWsQueryConstants.CREATED_BY:
+			return searchCriteria.getFilterValue1().replace('*', '%');
 		default:
 			return null;
 		}
@@ -514,23 +525,23 @@ case "privateViewName":
 		return recordCount;
 	}
 
-	public int checkUpdateViewRecordCount(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
+	public int checkUpdateViewRecordCount(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		int recordCount = 0;
 		String query = sqlService.getQuery("getUpdateViewCount");
 		Object[] params = { dataSelectionBean.getViewId() };
-		GtnFrameworkDataType[] paramsType = {GtnFrameworkDataType.INTEGER};
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER };
 		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
 		recordCount = resultList.get(0);
 		return recordCount;
 	}
 
 	public int checkUpdateViewRecordCountForReportProfile(
-			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean)
 			throws GtnFrameworkGeneralException {
 		int recordCount = 0;
 		String query = sqlService.getQuery("getUpdateViewCount");
-		Object[] params = { reportingDashboardSaveProfileLookupBean.getReportProfileViewId()};
+		Object[] params = { reportingDashboardSaveProfileLookupBean.getReportProfileViewId() };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER };
 		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
 		recordCount = resultList.get(0);
@@ -563,8 +574,7 @@ case "privateViewName":
 		inputList.add("'" + viewData + "'");
 		inputList.add(0);
 		String query = sqlService.getQuery(inputList, "insertView");
-		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
-		return count;
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 	}
 
 	public int updateReportingViewMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
@@ -578,8 +588,7 @@ case "privateViewName":
 		inputList.add(dataSelectionBean.getViewId());
 		inputList.add(userId);
 		String query = sqlService.getQuery(inputList, "updatePrivatePublicView");
-		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
-		return count;
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 	}
 
 	public int saveReportProfileMaster(
@@ -595,8 +604,7 @@ case "privateViewName":
 		reportProfileInputList.add("'" + reportProfileViewData + "'");
 		reportProfileInputList.add(1);
 		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "insertView");
-		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
-		return reportProfileCount;
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
 	}
 
 	public int updateReportProfileMaster(
@@ -614,8 +622,7 @@ case "privateViewName":
 		reportProfileUpdateInputList.add(reportingDashboardSaveProfileLookupBean.getReportProfileViewId());
 		reportProfileUpdateInputList.add(userId);
 		String query = sqlService.getQuery(reportProfileUpdateInputList, "updatePrivatePublicView");
-		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
-		return count;
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 	}
 
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
@@ -662,22 +669,26 @@ case "privateViewName":
 			Map<String, String> dbColumnIdMap, Map<String, String> dbColumnDataTypeMap) {
 		List<GtnWebServiceSearchCriteria> searchCriteriaList = gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList();
+		String filterStr = StringUtils.EMPTY;
 		if (!searchCriteriaList.isEmpty()) {
 			for (GtnWebServiceSearchCriteria searchCriteria : searchCriteriaList) {
-				filter = getFilterValuesForDataAssumptions(filter, dbColumnIdMap, dbColumnDataTypeMap, searchCriteria);
+				filterStr = getFilterValuesForDataAssumptions(filter, dbColumnIdMap, dbColumnDataTypeMap,
+						searchCriteria);
 			}
 		}
-		return filter;
+		return filterStr;
 	}
 
 	private String getFilterValuesForDataAssumptions(String filter, Map<String, String> dbColumnIdMap,
 			Map<String, String> dbColumnDataTypeMap, GtnWebServiceSearchCriteria searchCriteria) {
 		String filterString = filter;
-		String filterId = Optional.ofNullable(dbColumnIdMap.get(searchCriteria.getFieldId())).isPresent() == true
-				? dbColumnIdMap.get(searchCriteria.getFieldId()) : "";
-		String filterValue = searchCriteria.getFilterValue1().equals("null")?"":searchCriteria.getFilterValue1();
-		String filterDataType = Optional.ofNullable(dbColumnDataTypeMap.get(searchCriteria.getFieldId()))
-				.isPresent() == true ? dbColumnDataTypeMap.get(searchCriteria.getFieldId()) : "";
+		String filterId = Optional.ofNullable(dbColumnIdMap.get(searchCriteria.getFieldId())).isPresent()
+				? dbColumnIdMap.get(searchCriteria.getFieldId())
+				: "";
+		String filterValue = searchCriteria.getFilterValue1().equals("null") ? "" : searchCriteria.getFilterValue1();
+		String filterDataType = Optional.ofNullable(dbColumnDataTypeMap.get(searchCriteria.getFieldId())).isPresent()
+				? dbColumnDataTypeMap.get(searchCriteria.getFieldId())
+				: "";
 		String filterExpression = searchCriteria.getExpression();
 		if (filterDataType.equals("")) {
 			return filterString;
@@ -695,21 +706,21 @@ case "privateViewName":
 	private String getFilterValueForDateFields(String filter, String filterValue, String[] splitedArray,
 			String filterId) {
 		String filterString = filter;
-		if ("Show all".equals(filterValue)|| filterValue.equals(" - ")) {
+		if ("Show all".equals(filterValue) || filterValue.equals(" - ")) {
 			filterString = filterString + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 
 			filterString = filterString + " AND" + " CONVERT(date," + filterId + ") >= CONVERT(date, '"
-					+ splitedArray[0] + "')" + " AND" + " CONVERT(date, " + filterId + ") <= CONVERT(date, '"
-					+ splitedArray[2] + "')";
+					+ splitedArray[0] + "')" + " AND" + GtnWsQueryConstants.CONVERT_DATE + filterId
+					+ ") <= CONVERT(date, '" + splitedArray[2] + "')";
 
 		} else if (!filterValue.startsWith(" ") && splitedArray.length < 3) {
 
-			filterString = filterString + " AND" + " CONVERT(date, " + filterId + ") >= CONVERT(date, '"
+			filterString = filterString + " AND" + GtnWsQueryConstants.CONVERT_DATE + filterId + ") >= CONVERT(date, '"
 					+ splitedArray[0] + "')";
 
 		} else {
-			filterString = filterString + " AND" + " CONVERT(date, " + filterId + ") <= CONVERT(date, '"
+			filterString = filterString + " AND" + GtnWsQueryConstants.CONVERT_DATE + filterId + ") <= CONVERT(date, '"
 					+ splitedArray[2] + "')";
 		}
 		return filterString;
@@ -722,9 +733,9 @@ case "privateViewName":
 		dbColumnIdMap.put("businessUnit", "A.BUSINESS_UNIT");
 		dbColumnIdMap.put("type", "A.FILE_TYPE");
 		dbColumnIdMap.put("version", "VERSION");
-		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");		
-		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
-                dbColumnIdMap.put("activeFile", "ACTIVE_FILE");
+		dbColumnIdMap.put("activeFrom", "FROM_PERIOD");
+		dbColumnIdMap.put(GtnWsQueryConstants.TO_PERIOD, "TO_PERIOD");
+		dbColumnIdMap.put("activeFile", "ACTIVE_FILE");
 		return dbColumnIdMap;
 	}
 
@@ -738,7 +749,7 @@ case "privateViewName":
 		dbColumnIdMap.put("productHierarchyName", "c.HIERARCHY_NAME");
 		dbColumnIdMap.put("highestLevel", "a.LEVEL_NO");
 		dbColumnIdMap.put("lowestLevel", "b.LEVEL_NO");
-		dbColumnIdMap.put("createdDate", "c.CREATED_DATE");
+		dbColumnIdMap.put(GtnWsQueryConstants.CREATED_DATE, "c.CREATED_DATE");
 		dbColumnIdMap.put("modifiedDate", "c.MODIFIED_DATE");
 		dbColumnIdMap.put("viewNameFilter", "VIEW_NAME");
 		dbColumnIdMap.put("createdDateFilter", "CREATED_DATE");
@@ -755,7 +766,7 @@ case "privateViewName":
 		dbColumnDataTypeMap.put("type", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("version", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("activeFrom", GtnWsQueryConstants.CONSTANT_DATE);
-		dbColumnDataTypeMap.put("toPeriod", GtnWsQueryConstants.CONSTANT_DATE);
+		dbColumnDataTypeMap.put(GtnWsQueryConstants.TO_PERIOD, GtnWsQueryConstants.CONSTANT_DATE);
 		dbColumnDataTypeMap.put("activeFile", GtnWsQueryConstants.CONSTANT_STRING);
 		return dbColumnDataTypeMap;
 	}
@@ -770,7 +781,7 @@ case "privateViewName":
 		dbColumnDataTypeMap.put("productHierarchyName", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("highestLevel", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("lowestLevel", GtnWsQueryConstants.CONSTANT_STRING);
-		dbColumnDataTypeMap.put("createdDate", GtnWsQueryConstants.CONSTANT_DATE);
+		dbColumnDataTypeMap.put(GtnWsQueryConstants.CREATED_DATE, GtnWsQueryConstants.CONSTANT_DATE);
 		dbColumnDataTypeMap.put("modifiedDate", GtnWsQueryConstants.CONSTANT_DATE);
 		dbColumnDataTypeMap.put("viewNameFilter", GtnWsQueryConstants.CONSTANT_STRING);
 		dbColumnDataTypeMap.put("createdDateFilter", GtnWsQueryConstants.CONSTANT_DATE);
@@ -803,40 +814,39 @@ case "privateViewName":
 		try {
 			int id = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, paramsType);
 			response.getGtnWsGeneralResponse().setSucess(true);
-			if(id==0) {
+			if (id == 0) {
 				response.getGtnWsGeneralResponse().setSucess(false);
 			}
-		} catch (GtnFrameworkGeneralException e) {
-			response.getGtnWsGeneralResponse().setSucess(false);
-		}
-		return response;
-	}
-        
-        public GtnUIFrameworkWebserviceResponse deleteValidation(GtnWsReportDataSelectionBean dataSelectionBean, int userId) {
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		String query = sqlService.getQuery("deleteValidation");
-		Object[] params = { dataSelectionBean.getViewId(), userId };
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
-		try {
-			List<Object> count = (List<Object>)gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);			
-			if(count.get(0).equals(0)) {
-				response.getGtnWsGeneralResponse().setSucess(false);
-			}
-                        else{
-                            response.getGtnWsGeneralResponse().setSucess(true);
-                        }
 		} catch (GtnFrameworkGeneralException e) {
 			response.getGtnWsGeneralResponse().setSucess(false);
 		}
 		return response;
 	}
 
+	public GtnUIFrameworkWebserviceResponse deleteValidation(GtnWsReportDataSelectionBean dataSelectionBean,
+			int userId) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		String query = sqlService.getQuery("deleteValidation");
+		Object[] params = { dataSelectionBean.getViewId(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		try {
+			List<Object> count = (List<Object>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
+			if (count.get(0).equals(0)) {
+				response.getGtnWsGeneralResponse().setSucess(false);
+			} else {
+				response.getGtnWsGeneralResponse().setSucess(true);
+			}
+		} catch (GtnFrameworkGeneralException e) {
+			response.getGtnWsGeneralResponse().setSucess(false);
+		}
+		return response;
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Object[]> getUOMDDLBValues(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
-		List<Object[]> uomResultSet = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(sqlService.getQuery("getUOMDetails"),
-						dataSelectionBean.getSessionTableMap()));
-		return uomResultSet;
+		return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(GtnWsReportDataSelectionSqlGenerateServiceImpl
+				.replaceTableNames(sqlService.getQuery("getUOMDetails"), dataSelectionBean.getSessionTableMap()));
 	}
 
 }
