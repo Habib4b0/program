@@ -126,46 +126,46 @@ public class PromoteTPLogic {
      * @
      */
     public int searchCompanyCount(final PromoteTpToChDto promoteTpToChDto) {
-        Map<String, Object> parameters = new HashMap<>();
+        Map<String, Object> parametersTp = new HashMap<>();
         List resultList;
-        parameters.put(LAZY_LOAD_RESULTS, null);
-        String compName;
-        String compId;
-        String compNo;
-        String compType;
+        parametersTp.put(LAZY_LOAD_RESULTS, null);
+        String compNameTp;
+        String compIdTp;
+        String compNoTp;
+        String compTypeTp;
         if (isValidCriteria(promoteTpToChDto.getCompanyName())) {
-            compName = promoteTpToChDto.getCompanyName();
-            compName = compName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("companyName", compName);
+            compNameTp = promoteTpToChDto.getCompanyName();
+            compNameTp = compNameTp.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            parametersTp.put("companyName", compNameTp);
         }
         if (isValidCriteria(promoteTpToChDto.getCompanyId())) {
-            compId = promoteTpToChDto.getCompanyId();
-            compId = compId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("companyId", compId);
+            compIdTp = promoteTpToChDto.getCompanyId();
+            compIdTp = compIdTp.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            parametersTp.put("companyId", compIdTp);
         }
 
         if (isValidCriteria(promoteTpToChDto.getCompanyNo())) {
-            compNo = promoteTpToChDto.getCompanyNo();
-            compNo = compNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("companyNo", compNo);
+            compNoTp = promoteTpToChDto.getCompanyNo();
+            compNoTp = compNoTp.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            parametersTp.put("companyNo", compNoTp);
         }
         if (isValidCriteria(promoteTpToChDto.getCompanyType())) {
-            compType = promoteTpToChDto.getCompanyType();
-            compType = compType.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("companyType", compType);
+            compTypeTp = promoteTpToChDto.getCompanyType();
+            compTypeTp = compTypeTp.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            parametersTp.put("companyType", compTypeTp);
         }
         if (isValidCriteria(promoteTpToChDto.getCompanyCategory())) {
-            String compCategory = promoteTpToChDto.getCompanyCategory();
-            compCategory = compCategory.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("companyCategory", compCategory);
+            String compCategoryTp = promoteTpToChDto.getCompanyCategory();
+            compCategoryTp = compCategoryTp.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            parametersTp.put("companyCategory", compCategoryTp);
         }
         if (isValidCriteria(promoteTpToChDto.getTradeClass())) {
-            String tradeClas = promoteTpToChDto.getTradeClass();
-            tradeClas = tradeClas.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("tradeClass", tradeClas);
+            String tradeClasTp = promoteTpToChDto.getTradeClass();
+            tradeClasTp = tradeClasTp.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            parametersTp.put("tradeClass", tradeClasTp);
         }
 
-        resultList = promoteTpDAO.searchTPCompanies(parameters);
+        resultList = promoteTpDAO.searchTPCompanies(parametersTp);
         return Integer.parseInt(String.valueOf(resultList.get(0)));
     }
 
@@ -257,28 +257,28 @@ public class PromoteTPLogic {
         return returnList;
     }
 
-    public void LazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag) {
-        LazyContainer containerData = new LazyContainer(HelperDTO.class, new LoadDropdownListDAO(countFlag, findFlag), new DropdownListCriteria());
-        comboBox.setPageLength(NumericConstants.SEVEN);
-        comboBox.setContainerDataSource(containerData);
-        comboBox.setNullSelectionItemId(ddlbDefaultValue);
-        comboBox.setNullSelectionAllowed(true);
-        comboBox.setItemCaptionPropertyId("description");
-        containerData.setMinFilterLength(0);
+    public void LazyLoadDdlb(final ComboBox comboBoxTpLogic, String countFlag, String findFlag) {
+        LazyContainer containerDataTP = new LazyContainer(HelperDTO.class, new LoadDropdownListDAO(countFlag, findFlag), new DropdownListCriteria());
+        comboBoxTpLogic.setPageLength(NumericConstants.SEVEN);
+        comboBoxTpLogic.setContainerDataSource(containerDataTP);
+        comboBoxTpLogic.setNullSelectionItemId(ddlbDefaultValue);
+        comboBoxTpLogic.setNullSelectionAllowed(true);
+        comboBoxTpLogic.setItemCaptionPropertyId("description");
+        containerDataTP.setMinFilterLength(0);
     }
 
-    public int getDdlbCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
-        if (!list.isEmpty()) {
-            Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+
+    public int getDdlbCount(String queryNameTp, final List<String> inputTp) {
+        List<Object[]> listTp = ItemQueries.getItemData(inputTp, queryNameTp, null);
+        if (!listTp.isEmpty()) {
+            Object objTp = listTp.get(0);
+            return objTp == null ? 0 : (Integer) objTp;
         }
         return 0;
     }
 
-    public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public List<HelperDTO> getDdlbList(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -319,8 +319,7 @@ public class PromoteTPLogic {
     private int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -461,29 +460,29 @@ public class PromoteTPLogic {
         } else {
             contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
         }
-        final List<CurrentContractDTO> contractList = new ArrayList<>();
+        final List<CurrentContractDTO> contractListTp = new ArrayList<>();
         try {
             final List<ContractMaster> contractML = dao.contractMasterDynamicQuery(getProcessedQuery(contract, start, end));
 
-            CurrentContractDTO contractDetails;
-            ContractMaster contractMaster;
+            CurrentContractDTO contractDetailsTp;
+            ContractMaster contractMasterTp;
             for (final Iterator<ContractMaster> iterator = contractML.iterator(); iterator.hasNext();) {
-                contractMaster = (ContractMaster) iterator.next();
-                contractDetails = new CurrentContractDTO();
-                contractDetails.setSystemId(contractMaster.getContractMasterSid());
-                contractDetails.setContractName(contractMaster.getContractName());
-                contractDetails.setContractId(contractMaster.getContractId());
-                contractDetails.setContractNo(contractMaster.getContractNo());
-                contractDetails.setCategory(Constants.IndicatorConstants.CONTRACT.getConstant());
-                contractDetails.setLevel(level);
-                contractDetails.setInternalId(contractMaster.getContractMasterSid());
-                contractList.add(contractDetails);
+                contractMasterTp = (ContractMaster) iterator.next();
+                contractDetailsTp = new CurrentContractDTO();
+                contractDetailsTp.setSystemId(contractMasterTp.getContractMasterSid());
+                contractDetailsTp.setContractName(contractMasterTp.getContractName());
+                contractDetailsTp.setContractId(contractMasterTp.getContractId());
+                contractDetailsTp.setContractNo(contractMasterTp.getContractNo());
+                contractDetailsTp.setCategory(Constants.IndicatorConstants.CONTRACT.getConstant());
+                contractDetailsTp.setLevel(level);
+                contractDetailsTp.setInternalId(contractMasterTp.getContractMasterSid());
+                contractListTp.add(contractDetailsTp);
             }
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }
         LOGGER.debug("End of getContractList method");
-        return contractList;
+        return contractListTp;
     }
 
     /**
@@ -826,125 +825,125 @@ public class PromoteTPLogic {
         return getPsList;
     }
 
-    private List<CurrentContractDTO> getRSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final CurrentContractDTO parent4, final int level, final int start, final int end)
+    private List<CurrentContractDTO> getRSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2Rs, final CurrentContractDTO parent3Rs, final CurrentContractDTO parent4Rs, final int level, final int startRs, final int endRs)
             throws PortalException {
         LOGGER.debug("Entering getRSList method");
 
-        final List<CurrentContractDTO> rsList = new ArrayList<>();
-        final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
-        rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
-        rsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-        if (parent2 != null) {
+        final List<CurrentContractDTO> rsListTrading = new ArrayList<>();
+        final DynamicQuery rsDynamicQueryTp = RsContractLocalServiceUtil.dynamicQuery();
+        rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
+        rsDynamicQueryTp.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        if (parent2Rs != null) {
 
-            if (parent2.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
-                if (parent2.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+            if (parent2Rs.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
+                if (parent2Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
                 } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant(), String.valueOf(parent2.getInternalId())));
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant(), String.valueOf(parent2Rs.getInternalId())));
                 }
             }
-            if (parent2.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
+            if (parent2Rs.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
 
-                if (parent2.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
+                if (parent2Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
                 } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant(), String.valueOf(parent2.getInternalId())));
-                }
-
-            }
-            if (parent2.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
-
-                if (parent2.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant()));
-                } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant(), String.valueOf(parent2.getInternalId())));
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant(), String.valueOf(parent2Rs.getInternalId())));
                 }
 
             }
-        }
-        if (parent3 != null) {
+            if (parent2Rs.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
 
-            if (parent3.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
-                if (parent3.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+                if (parent2Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant()));
                 } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant(), String.valueOf(parent3.getInternalId())));
-                }
-
-            }
-            if (parent3.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
-                if (parent3.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
-                } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant(), String.valueOf(parent3.getInternalId())));
-                }
-
-            }
-            if (parent3.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
-
-                if (parent3.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant()));
-                } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant(), String.valueOf(parent3.getInternalId())));
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant(), String.valueOf(parent2Rs.getInternalId())));
                 }
 
             }
         }
-        if (parent4 != null) {
+        if (parent3Rs != null) {
 
-            if (parent4.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
-                if (parent4.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+            if (parent3Rs.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
+                if (parent3Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
                 } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant(), String.valueOf(parent4.getInternalId())));
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant(), String.valueOf(parent3Rs.getInternalId())));
                 }
 
             }
-            if (parent4.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
-                if (parent4.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
+            if (parent3Rs.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
+                if (parent3Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
                 } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant(), String.valueOf(parent4.getInternalId())));
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant(), String.valueOf(parent3Rs.getInternalId())));
                 }
 
             }
-            if (parent4.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
+            if (parent3Rs.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
 
-                if (parent4.getInternalId() == 0) {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant()));
+                if (parent3Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant()));
                 } else {
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant(), String.valueOf(parent4.getInternalId())));
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant(), String.valueOf(parent3Rs.getInternalId())));
+                }
+
+            }
+        }
+        if (parent4Rs != null) {
+
+            if (parent4Rs.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
+                if (parent4Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CFP_CONTRACT_SID.getConstant(), String.valueOf(parent4Rs.getInternalId())));
+                }
+
+            }
+            if (parent4Rs.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
+                if (parent4Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.IFP_CONTRACT_SID.getConstant(), String.valueOf(parent4Rs.getInternalId())));
+                }
+
+            }
+            if (parent4Rs.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
+
+                if (parent4Rs.getInternalId() == 0) {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.isNull(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQueryTp.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.PS_CONTRACT_SID.getConstant(), String.valueOf(parent4Rs.getInternalId())));
                 }
 
             }
         }
 
-        rsDynamicQuery.setLimit(start, end);
-        final List<RsContract> rsMasterList = dao.rsMasterDynamicQuery(rsDynamicQuery);
+        rsDynamicQueryTp.setLimit(startRs, endRs);
+        final List<RsContract> rsMasterListRs = dao.rsMasterDynamicQuery(rsDynamicQueryTp);
 
-        CurrentContractDTO contractMember;
-        RsContract rsMaster;
-        for (final Iterator<RsContract> iterator = rsMasterList.iterator(); iterator.hasNext();) {
-            rsMaster = (RsContract) iterator.next();
-            contractMember = new CurrentContractDTO();
-            contractMember.setSystemId(rsMaster.getContractMasterSid());
-            contractMember.setContractName(rsMaster.getRsName());
-            RsModel rsModel = RsModelLocalServiceUtil.getRsModel(rsMaster.getRsModelSid());
-            contractMember.setContractId(rsModel.getRsId());
-            contractMember.setContractNo(rsModel.getRsNo());
-            contractMember.setModelSysId(rsModel.getRsModelSid());
-            contractMember.setCategory(Constants.IndicatorConstants.RS_VALUE.getConstant());
-            contractMember.setLevel(level);
-            contractMember.setParent1(parent1);
-            contractMember.setParent2(parent2);
-            contractMember.setParent3(parent3);
-            contractMember.setParent4(parent4);
-            contractMember.setInternalId(rsMaster.getRsContractSid());
+        CurrentContractDTO contractMemberRs;
+        RsContract rsMasterRs;
+        for (final Iterator<RsContract> iterator = rsMasterListRs.iterator(); iterator.hasNext();) {
+            rsMasterRs = (RsContract) iterator.next();
+            contractMemberRs = new CurrentContractDTO();
+            contractMemberRs.setSystemId(rsMasterRs.getContractMasterSid());
+            contractMemberRs.setContractName(rsMasterRs.getRsName());
+            RsModel rsModelRs = RsModelLocalServiceUtil.getRsModel(rsMasterRs.getRsModelSid());
+            contractMemberRs.setContractId(rsModelRs.getRsId());
+            contractMemberRs.setContractNo(rsModelRs.getRsNo());
+            contractMemberRs.setModelSysId(rsModelRs.getRsModelSid());
+            contractMemberRs.setCategory(Constants.IndicatorConstants.RS_VALUE.getConstant());
+            contractMemberRs.setLevel(level);
+            contractMemberRs.setParent1(parent1);
+            contractMemberRs.setParent2(parent2Rs);
+            contractMemberRs.setParent3(parent3Rs);
+            contractMemberRs.setParent4(parent4Rs);
+            contractMemberRs.setInternalId(rsMasterRs.getRsContractSid());
 
-            rsList.add(contractMember);
+            rsListTrading.add(contractMemberRs);
         }
         LOGGER.debug("End of getRSList method");
-        return rsList;
+        return rsListTrading;
     }
 
     /**
@@ -1049,41 +1048,41 @@ public class PromoteTPLogic {
      * to get Level 4 Hierarchy
      *
      * @param parent3
-     * @param container
+     * @param containerLevel
      * @return
      * @
      */
-    public ExtTreeContainer<CurrentContractDTO> getLevel4Hierarchy(final CurrentContractDTO parent3, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws PortalException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel4Hierarchy(final CurrentContractDTO parent3, final ExtTreeContainer<CurrentContractDTO> containerLevel, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel4Hierarchy method");
 
-        container.removeAllItems();
-        container.addBean(parent3.getParent1());
-        container.setChildrenAllowed(parent3.getParent1(), true);
-        container.addBean(parent3.getParent2());
-        container.setChildrenAllowed(parent3.getParent2(), true);
-        container.setParent(parent3.getParent2(), parent3.getParent1());
-        container.addBean(parent3);
-        container.setChildrenAllowed(parent3, true);
-        container.setParent(parent3, parent3.getParent2());
+        containerLevel.removeAllItems();
+        containerLevel.addBean(parent3.getParent1());
+        containerLevel.setChildrenAllowed(parent3.getParent1(), true);
+        containerLevel.addBean(parent3.getParent2());
+        containerLevel.setChildrenAllowed(parent3.getParent2(), true);
+        containerLevel.setParent(parent3.getParent2(), parent3.getParent1());
+        containerLevel.addBean(parent3);
+        containerLevel.setChildrenAllowed(parent3, true);
+        containerLevel.setParent(parent3, parent3.getParent2());
 
-        final List<CurrentContractDTO> contractList = getLevel4List(parent3.getParent1(), parent3.getParent2(), parent3, start, end);
-        CurrentContractDTO contractMember;
-        for (final Iterator<CurrentContractDTO> iterator = contractList.iterator(); iterator.hasNext();) {
-            contractMember = iterator.next();
+        final List<CurrentContractDTO> contractListLevel = getLevel4List(parent3.getParent1(), parent3.getParent2(), parent3, start, end);
+        CurrentContractDTO contractMemberLevel;
+        for (final Iterator<CurrentContractDTO> iterator = contractListLevel.iterator(); iterator.hasNext();) {
+            contractMemberLevel = iterator.next();
 
-            container.addBean(contractMember);
+            containerLevel.addBean(contractMemberLevel);
 
-            if (!Constants.IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory()) && isLevel4ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
-                container.setChildrenAllowed(contractMember, true);
+            if (!Constants.IndicatorConstants.RS_VALUE.getConstant().equals(contractMemberLevel.getCategory()) && isLevel4ListAvlbl(contractMemberLevel.getSystemId(), contractMemberLevel.getCategory())) {
+                containerLevel.setChildrenAllowed(contractMemberLevel, true);
             } else {
-                container.setChildrenAllowed(contractMember, false);
+                containerLevel.setChildrenAllowed(contractMemberLevel, false);
             }
 
-            container.setParent(contractMember, parent3);
+            containerLevel.setParent(contractMemberLevel, parent3);
 
         }
         LOGGER.debug("End of getLevel4Hierarchy method");
-        return container;
+        return containerLevel;
     }
 
     /**
@@ -1114,41 +1113,41 @@ public class PromoteTPLogic {
      * to get Level 5 Hierarchy
      *
      * @param parent4
-     * @param container
+     * @param containerLevelHier
      * @return
      * @
      */
-    public ExtTreeContainer<CurrentContractDTO> getLevel5Hierarchy(final CurrentContractDTO parent4, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws PortalException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel5Hierarchy(final CurrentContractDTO parent4, final ExtTreeContainer<CurrentContractDTO> containerLevelHier, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel5Hierarchy method");
 
-        container.removeAllItems();
-        container.addBean(parent4.getParent1());
-        container.setChildrenAllowed(parent4.getParent1(), true);
-        container.addBean(parent4.getParent2());
-        container.setChildrenAllowed(parent4.getParent2(), true);
-        container.setParent(parent4.getParent2(), parent4.getParent1());
-        container.addBean(parent4.getParent3());
-        container.setChildrenAllowed(parent4.getParent3(), true);
-        container.setParent(parent4.getParent3(), parent4.getParent2());
-        container.addBean(parent4);
-        container.setChildrenAllowed(parent4, true);
-        container.setParent(parent4, parent4.getParent3());
+        containerLevelHier.removeAllItems();
+        containerLevelHier.addBean(parent4.getParent1());
+        containerLevelHier.setChildrenAllowed(parent4.getParent1(), true);
+        containerLevelHier.addBean(parent4.getParent2());
+        containerLevelHier.setChildrenAllowed(parent4.getParent2(), true);
+        containerLevelHier.setParent(parent4.getParent2(), parent4.getParent1());
+        containerLevelHier.addBean(parent4.getParent3());
+        containerLevelHier.setChildrenAllowed(parent4.getParent3(), true);
+        containerLevelHier.setParent(parent4.getParent3(), parent4.getParent2());
+        containerLevelHier.addBean(parent4);
+        containerLevelHier.setChildrenAllowed(parent4, true);
+        containerLevelHier.setParent(parent4, parent4.getParent3());
 
         if (!Constants.IndicatorConstants.RS_VALUE.getConstant().equals(parent4.getCategory()) && isLevel5ListAvlbl(parent4.getSystemId())) {
             final List<CurrentContractDTO> contractList = getLevel5List(parent4.getParent1(), parent4.getParent2(), parent4.getParent3(), parent4, start, end);
-            CurrentContractDTO contractMember;
+            CurrentContractDTO contractMemberLevelHier;
             for (final Iterator<CurrentContractDTO> iterator = contractList.iterator(); iterator.hasNext();) {
-                contractMember = iterator.next();
-                container.addBean(contractMember);
+                contractMemberLevelHier = iterator.next();
+                containerLevelHier.addBean(contractMemberLevelHier);
 
-                container.setChildrenAllowed(contractMember, false);
+                containerLevelHier.setChildrenAllowed(contractMemberLevelHier, false);
 
-                container.setParent(contractMember, parent4);
+                containerLevelHier.setParent(contractMemberLevelHier, parent4);
 
             }
         }
         LOGGER.debug("End of getLevel5Hierarchy method");
-        return container;
+        return containerLevelHier;
     }
 
     /**
@@ -1451,27 +1450,27 @@ public class PromoteTPLogic {
      * @return
      */
     public boolean massUpdate(String fieldName, String userId, String sessionId, Object value) {
-        boolean updateStatus = false;
+        boolean updateStatusMass = false;
 
-        SimpleDateFormat dateFormater = new SimpleDateFormat(StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS);
-        StringBuilder query = new StringBuilder("   ");
-        query.append("UPDATE IMTD_ITEM_PRICE_REBATE_DETAILS SET   ");
+        SimpleDateFormat dateFormaterMassUpdate = new SimpleDateFormat(StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS);
+        StringBuilder queryMassUpdate = new StringBuilder("   ");
+        queryMassUpdate.append("UPDATE IMTD_ITEM_PRICE_REBATE_DETAILS SET   ");
         if (fieldName.equals("Status")) {
 
-            query.append(" ATTACHED_STATUS='" ).append( (Integer) value ).append( "' ");
+            queryMassUpdate.append(" ATTACHED_STATUS='" ).append( (Integer) value ).append( "' ");
         } else if (fieldName.equals("Company Start Date")) {
 
-            query.append(" START_DATE='" ).append( dateFormater.format((Date) value) ).append( "' ");
+            queryMassUpdate.append(" START_DATE='" ).append( dateFormaterMassUpdate.format((Date) value) ).append( "' ");
         } else if (fieldName.equals("Company End Date")) {
-            query.append(" END_DATE='" ).append( dateFormater.format((Date) value) ).append( "' ");
+            queryMassUpdate.append(" END_DATE='" ).append( dateFormaterMassUpdate.format((Date) value) ).append( "' ");
         }
-        query.append("WHERE CHECK_RECORD='1'");
+        queryMassUpdate.append("WHERE CHECK_RECORD='1'");
 
-        query.append("AND USERS_SID='" ).append( userId ).append( "'  ");
-        query.append("AND SESSION_ID= '" ).append( sessionId ).append( "'  ");
-        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+        queryMassUpdate.append("AND USERS_SID='" ).append( userId ).append( "'  ");
+        queryMassUpdate.append("AND SESSION_ID= '" ).append( sessionId ).append( "'  ");
+        HelperTableLocalServiceUtil.executeUpdateQuery(queryMassUpdate.toString());
 
-        return updateStatus;
+        return updateStatusMass;
     }
 
     public int getRebateScheduleCount(ComponentInfoDTO newDiscountTabDto) {
@@ -1639,8 +1638,7 @@ public class PromoteTPLogic {
     }
 
     public int getItemsFromRsCount(ComponentInfoDTO newDiscountTabDto) {
-        int count = queryUtils.getTpItemsFromRsCount(newDiscountTabDto);
-        return count;
+        return queryUtils.getTpItemsFromRsCount(newDiscountTabDto);
     }
 
     public List<ComponentInfoDTO> getItemsFromRs(ComponentInfoDTO newDiscountTabDto)  {

@@ -27,11 +27,11 @@ public class CopyContractWindow extends CustomWindow {
      * The Constant LOGGER.
      */
 
-    public CopyContractWindow(final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count)  {
+    public CopyContractWindow(final SessionDTO session, List<ContractSelectionDTO> selectedList, String count)  {
         super("Copy Contract");
         this.session = session;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
-        this.count = Count;
+        this.count = count;
         init();
 
         setClosable(false);

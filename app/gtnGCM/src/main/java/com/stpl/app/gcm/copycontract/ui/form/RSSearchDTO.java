@@ -23,8 +23,8 @@ class RSSearchDTO implements BeanDAO {
     private final CopyContractLogic logic = new CopyContractLogic();
     private RsIfpDto rsIfpDto = new RsIfpDto();
 
-    RSSearchDTO(RsIfpDto RsIfpDto) {
-        this.rsIfpDto = RsIfpDto;
+    RSSearchDTO(RsIfpDto rsIfpDto) {
+        this.rsIfpDto = rsIfpDto;
     }
 
  @Override
@@ -36,7 +36,6 @@ class RSSearchDTO implements BeanDAO {
 
  @Override
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
-        List<RsIfpDto> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<>();
     }
 }

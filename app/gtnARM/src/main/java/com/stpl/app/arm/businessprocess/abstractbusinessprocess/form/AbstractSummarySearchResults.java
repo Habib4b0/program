@@ -53,7 +53,7 @@ public abstract class AbstractSummarySearchResults extends AbstractSearchResults
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in calculateLogic :" , ex);
+            LOGGER.error("Error in calculateLogic :", ex);
         }
         return calculateFlag;
     }

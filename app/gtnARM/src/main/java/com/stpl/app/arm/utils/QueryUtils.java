@@ -209,7 +209,7 @@ public class QueryUtils {
                 if (subQuery.length() == 0) {
                     subQuery.append(sub);
                 } else {
-                    subQuery.append(",").append(sub);
+                    subQuery.append(ARMUtils.COMMA_CHAR).append(sub);
                 }
             }
             LOGGER.debug("--finalSql Query --{}", finalSql.toString());
@@ -248,7 +248,7 @@ public class QueryUtils {
                 if (subQuery.length() == 0) {
                     subQuery.append(sub);
                 } else {
-                    subQuery.append(",").append(sub);
+                    subQuery.append(ARMUtils.COMMA_CHAR).append(sub);
                 }
             }
             sql = SQlUtil.getQuery(queryName);
@@ -304,13 +304,13 @@ public class QueryUtils {
                 String fieldValue = values.get(fieldName);
                 String sub = SQlUtil.getQuery("ADJUSTMENT_SELECTION_SAVE_SUB_QUERY");
                 sub = sub.replace("[$PROJECTION_MASTER_SID]", String.valueOf(projectionId));
-                sub = sub.replace("[$SCREEN_NAME]", "'" + screenName + "'");
-                sub = sub.replace("[$FIELD_NAME]", "'" + fieldName + "'");
-                sub = sub.replace("[$FIELD_VALUES]", "'" + fieldValue + "'");
+                sub = sub.replace("[$SCREEN_NAME]", ARMUtils.SINGLE_QUOTES + screenName + ARMUtils.SINGLE_QUOTES);
+                sub = sub.replace("[$FIELD_NAME]", ARMUtils.SINGLE_QUOTES + fieldName + ARMUtils.SINGLE_QUOTES);
+                sub = sub.replace("[$FIELD_VALUES]", ARMUtils.SINGLE_QUOTES + fieldValue + ARMUtils.SINGLE_QUOTES);
                 if (subQuery.length() == 0) {
                     subQuery.append(sub);
                 } else {
-                    subQuery.append(",").append(sub);
+                    subQuery.append(ARMUtils.COMMA_CHAR).append(sub);
                 }
             }
             LOGGER.debug("--subQuery --{}", subQuery);

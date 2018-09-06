@@ -79,23 +79,23 @@ public class CommercialForecastingProjectionVarianceMain {
 
 	private void addProjectionPivoteViewTablePanelComponents(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
-		
-		GtnUIFrameworkComponentConfig ppvComponetsLayout = configProvider
-				.getVerticalLayoutConfig(nameSpace + "_" + 
-                GtnCommercialForecastProjectionVarianceClassConstants.PPV_COMP_LAYOUT, true, parentComponentId);
+
+		GtnUIFrameworkComponentConfig ppvComponetsLayout = configProvider.getVerticalLayoutConfig(
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_PPV_COMPONETS_LAYOUT, true,
+				parentComponentId);
 		ppvComponetsLayout.setComponentWidth("100%");
 		componentList.add(ppvComponetsLayout);
 
-		addProjectionPivoteViewTable(componentList, nameSpace + "_" + 
-                GtnCommercialForecastProjectionVarianceClassConstants.PPV_COMP_LAYOUT, nameSpace);
-		addProjectionVarianceExcelGraphButton(componentList, nameSpace + "_" + 
-                        GtnCommercialForecastProjectionVarianceClassConstants.PPV_COMP_LAYOUT, nameSpace);
-		
+		addProjectionPivoteViewTable(componentList,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_PPV_COMPONETS_LAYOUT, nameSpace);
+		addProjectionVarianceExcelGraphButton(componentList,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_PPV_COMPONETS_LAYOUT, nameSpace);
+
 	}
 
 	private void addProjectionPivoteViewTable(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
-		
+
 		GtnUIFrameworkComponentConfig ppvComponetsLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "ppvTableLayout", true, parentComponentId);
 		ppvComponetsLayout.setComponentWidth("100%");
@@ -116,7 +116,8 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionVarianceProjectPivotViewActionConfigList.add(parentComponentId);
 
 		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-		projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig.setActionParameterList(projectionVarianceProjectPivotViewActionConfigList);
+		projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig
+				.setActionParameterList(projectionVarianceProjectPivotViewActionConfigList);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
 				.setGtnUIFrameWorkActionConfig(projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig);
 
@@ -136,21 +137,15 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setSplitPosition(493);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setTableHeight("650px");
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-		
+
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightTableEditable(true);
 
-		List<String> projectionVarianceProjectPivotViewFieldFactoryColumn = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
+		List<String> projectionVarianceProjectPivotViewFieldFactoryColumn = Arrays
+				.asList(GtnFrameworkCommonConstants.CHECK);
 		List<GtnUIFrameworkComponentConfig> projectionVarianceProjectPivotViewFieldFactoryComponent = new ArrayList<>();
-		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftTableEditableColumnList(projectionVarianceProjectPivotViewFieldFactoryColumn);
-		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewCheckBoxClickActionList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
-		
-		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		projectionVarianceProjectPivotViewCheckBoxClickActionList.add(projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig);
-		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig
-				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
-						GtnFrameworkCommonConstants.RESULT_TABLE));
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
+				.setLeftTableEditableColumnList(projectionVarianceProjectPivotViewFieldFactoryColumn);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
 				.setLeftTableEditableComponentConfig(projectionVarianceProjectPivotViewFieldFactoryComponent);
 
@@ -161,16 +156,20 @@ public class CommercialForecastingProjectionVarianceMain {
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
-		projectionVarianceProjectPivotViewFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		projectionVarianceProjectPivotViewTextFieldConfig.add(projectionVarianceProjectPivotViewFieldFactoryCustomAction);
-		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setComponentconfigActionlist(projectionVarianceProjectPivotViewTextFieldConfig);
+		projectionVarianceProjectPivotViewFieldFactoryCustomAction
+				.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		projectionVarianceProjectPivotViewTextFieldConfig
+				.add(projectionVarianceProjectPivotViewFieldFactoryCustomAction);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
+				.setComponentconfigActionlist(projectionVarianceProjectPivotViewTextFieldConfig);
 		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewCheckAllConflist = new ArrayList<>();
 		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
 		projectionVarianceProjectPivotViewCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		projectionVarianceProjectPivotViewCheckAllActionConfig.addActionParameter(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
 		projectionVarianceProjectPivotViewCheckAllConflist.add(projectionVarianceProjectPivotViewCheckAllActionConfig);
-		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCheckBoxActionConfigList(projectionVarianceProjectPivotViewCheckAllConflist);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
+				.setCheckBoxActionConfigList(projectionVarianceProjectPivotViewCheckAllConflist);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCountUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_COUNT_ACTION);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
@@ -204,34 +203,35 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
-		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
+				.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
-		
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-		projectionpivoteViewResultTableComponentConfig.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
-		
+		projectionpivoteViewResultTableComponentConfig
+				.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
+
 		componentList.add(projectionpivoteViewResultTableComponentConfig);
 
 	}
+
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
 		String[] propertyIds = { "leftSingleHeader" };
-		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
-		
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(
+				propertyIds.length);
 		for (int i = 0; i < propertyIds.length; i++) {
-			
 			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
 			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
 			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
-			
+
 		}
 		return customFilterConfigMap;
 	}
 
 	private void addProjectionVarianceExcelGraphButton(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
-		
+
 		GtnUIFrameworkComponentConfig pvExcelBtnLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "pvExcelButtonlayout", true, parentComponentId);
 		pvExcelBtnLayout.setSpacing(false);

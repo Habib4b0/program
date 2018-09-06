@@ -25,35 +25,35 @@ import org.apache.commons.lang.StringUtils;
 public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO returnReserveSelection, Boolean isReserve) {
         LOGGER.debug("--Inside getReserveAccountDetails --{}", isReserve);
         List replaceList = new ArrayList();
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
+        StringBuilder retResvalue;
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         try {
-            if (selection.getSessionDTO().isWorkFlow()) {
-                replaceList.add(selection.getDataSelectionDTO().getProjectionId());
+            if (returnReserveSelection.getSessionDTO().isWorkFlow()) {
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getProjectionId());
                 replaceList.add(isReserveValue);
-                replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-                replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-                replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-                replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getProjectionId());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getProjectionId());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getCompanyMasterSid());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getBucompanyMasterSid());
             } else {
                 replaceList.add(isReserveValue);
-                replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-                replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-                replaceList.add(selection.getDataSelectionDTO().getProjectionId());
-                replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-                replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getAdjustmentId());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getProjectionId());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getProjectionId());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getCompanyMasterSid());
+                replaceList.add(returnReserveSelection.getDataSelectionDTO().getBucompanyMasterSid());
             }
             StringBuilder query;
-            if (selection.getSessionDTO().isWorkFlow()) {
+            if (returnReserveSelection.getSessionDTO().isWorkFlow()) {
                 query = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+                query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(returnReserveSelection.getDataSelectionDTO().getProjectionId()));
                 query.replace(query.indexOf("?"), query.indexOf("?") + 1, isReserve ? "0" : "1");
             } else {
                 query = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
@@ -67,23 +67,23 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
-                    value = new StringBuilder(StringUtils.EMPTY);
+                    retResvalue = new StringBuilder(StringUtils.EMPTY);
                     property = new StringBuilder(StringUtils.EMPTY);
                     if (isValid(obj[0])) {
-                        value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                        retResvalue = new StringBuilder(helperId.getDescriptionByID((Integer) (obj[0])));
 
                         property.append(String.valueOf(obj[0]));
                     }
                     if (isValid(obj[1])) {
-                        value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                        retResvalue.append(DASH).append(helperId.getDescriptionByID((Integer) (obj[1])));
 
                         property.append(DASH).append(String.valueOf(obj[1]));
                     }
                     if (isValid(obj[NumericConstants.TWO])) {
-                        value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                        retResvalue.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                         property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                     }
-                    reserveHeader.add(value.toString());
+                    reserveHeader.add(retResvalue.toString());
                     reserveProperty.add(property.toString());
                 }
                 finalList.add(reserveHeader);
@@ -91,7 +91,7 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 LOGGER.debug("--Exit getReserveAccountDetails --{}", finalList.size());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getReserveAccountDetails :" , ex);
+            LOGGER.error("Error in getReserveAccountDetails :", ex);
         }
         return finalList;
     }
@@ -112,14 +112,14 @@ public class RRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> retResCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (retResCondition != null && !retResCondition.isEmpty() && retResCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < retResCondition.size(); i++) {
+                String str = retResCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (retResCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

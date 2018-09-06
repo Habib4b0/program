@@ -50,16 +50,20 @@ import org.apache.commons.lang.StringUtils;
  * @author Jayaram
  */
 public class HeaderUtils {
-
+    
+    private HeaderUtils() {
+        // HeaderUtils
+    }
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int numMonthInt = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numMonthInt == NumericConstants.TWELVE) {
+            numMonthInt = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numMonthInt >= 0 && numMonthInt <= NumericConstants.ELEVEN) {
+            month = months[numMonthInt];
         }
         return month;
     }
@@ -943,7 +947,7 @@ public class HeaderUtils {
 
     static CustomTableHeaderDTO loadSingleDiscountHeader(String commonColumn, String commonHeader, final PVSelectionDTO selection, final CustomTableHeaderDTO tableHeaderDTO, Map<String, Object> headerMap) {
         String column = commonColumn;
-
+        String commonHeaderPvar  = commonHeader;
         List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
@@ -951,8 +955,8 @@ public class HeaderUtils {
         List<Object> dmap = new ArrayList<>();
         if (!discountNames.isEmpty()) {
             for (int i = 0; i < discountNames.size(); i++) {
-                commonHeader = discountNames.get(i);
-                commonColumn = column + commonHeader.replace(" ", StringUtils.EMPTY) + i;
+                commonHeaderPvar = discountNames.get(i);
+                commonColumn = column + commonHeaderPvar.replace(" ", StringUtils.EMPTY) + i;
                 tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID(), selection.getCurrentProjectionName(), String.class);
                 dmap.add(commonColumn + Constant.CURRENT + selection.getCurrentProjectionID());
                 if (!projList.isEmpty()) {
@@ -962,7 +966,7 @@ public class HeaderUtils {
                     }
                 }
                 if (!dmap.isEmpty()) {
-                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
+                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeaderPvar);
                     tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
                 }
                 commonColumnList.add(commonColumn);

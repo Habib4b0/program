@@ -347,64 +347,64 @@ public class ContractSelectionDTO implements Serializable {
         return cfpName;
     }
 
-    public void setCFPname(String CFPname) {
-        this.cfpName = CFPname;
+    public void setCFPname(String cfpName) {
+        this.cfpName = cfpName;
     }
 
     public String getIFPname() {
         return ifpName;
     }
 
-    public void setIFPname(String IFPname) {
-        this.ifpName = IFPname;
+    public void setIFPname(String ifpName) {
+        this.ifpName = ifpName;
     }
 
     public String getPSname() {
         return psName;
     }
 
-    public void setPSname(String PSname) {
-        this.psName = PSname;
+    public void setPSname(String psName) {
+        this.psName = psName;
     }
 
     public String getRSname() {
         return rsName;
     }
 
-    public void setRSname(String RSname) {
-        this.rsName = RSname;
+    public void setRSname(String rsName) {
+        this.rsName = rsName;
     }
 
     public int getCFPId() {
         return cfpId;
     }
 
-    public void setCFPId(int CFPId) {
-        this.cfpId = CFPId;
+    public void setCFPId(int cfpId) {
+        this.cfpId = cfpId;
     }
 
     public int getIFPId() {
         return ifpId;
     }
 
-    public void setIFPId(int IFPId) {
-        this.ifpId = IFPId;
+    public void setIFPId(int ifpId) {
+        this.ifpId = ifpId;
     }
 
     public int getPSId() {
         return psId;
     }
 
-    public void setPSId(int PSId) {
-        this.psId = PSId;
+    public void setPSId(int psId) {
+        this.psId = psId;
     }
 
     public int getRSId() {
         return rsId;
     }
 
-    public void setRSId(int RSId) {
-        this.rsId = RSId;
+    public void setRSId(int rsId) {
+        this.rsId = rsId;
     }
 
     public List<String> getCompanyMasterSids() {

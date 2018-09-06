@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -342,7 +343,7 @@ public class WorkFlowNotesLookup extends Window {
         try {
             String file = fileNameField.getValue();
             if (file.matches(ValidationUtils.SPECIAL_CHAR)) {
-                String filename = event.getFilename().toLowerCase();
+                String filename = event.getFilename().toLowerCase(Locale.ENGLISH);
                 if (event.getFilename().equals(StringUtils.EMPTY)) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
@@ -462,7 +463,7 @@ public class WorkFlowNotesLookup extends Window {
 		return SUBMIT_FLAG;
 	}
 
-	public static void setSUBMIT_FLAG(String sUBMIT_FLAG) {
-		SUBMIT_FLAG = sUBMIT_FLAG;
+	public static void setSUBMIT_FLAG(String sumbitFlag) {
+		SUBMIT_FLAG = sumbitFlag;
 	}
 }

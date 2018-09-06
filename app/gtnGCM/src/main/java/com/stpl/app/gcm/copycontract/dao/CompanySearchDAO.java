@@ -23,8 +23,8 @@ public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
     public CompanySearchDAO() {
     }
 
-    public CompanySearchDAO(CFPCompanyDTO CFPCompanyDTO) {
-        this.cfpCompanyDTO = CFPCompanyDTO;
+    public CompanySearchDAO(CFPCompanyDTO cfpCompanyDto) {
+        this.cfpCompanyDTO = cfpCompanyDto;
     }
 
     @Override
@@ -36,7 +36,6 @@ public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
 
     @Override
     public List<CFPCompanyDTO> find(BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
-        List<CFPCompanyDTO> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<>();
     }
 }

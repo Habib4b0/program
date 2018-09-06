@@ -139,8 +139,7 @@ public class UiUtils {
 	 * @return Label with empty space
 	 */
 	public static Label addSpaceLabel() {
-		final Label space = new Label("&nbsp;", ContentMode.HTML);
-		return space;
+		return new Label("&nbsp;", ContentMode.HTML);
 	}
 
 	/**

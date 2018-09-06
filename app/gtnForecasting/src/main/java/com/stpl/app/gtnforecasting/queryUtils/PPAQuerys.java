@@ -21,6 +21,9 @@ import org.slf4j.LoggerFactory;
  * @author srithar
  */
 public class PPAQuerys {
+    private PPAQuerys() {
+        // PPAQuerys
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAQuerys.class);
     private static final PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();

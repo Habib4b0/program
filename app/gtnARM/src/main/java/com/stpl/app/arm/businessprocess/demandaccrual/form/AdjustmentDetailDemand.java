@@ -70,13 +70,8 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in generateBtn :" , ex);
+            LOGGER.error("Error in generateBtn :", ex);
         }
-    }
-
-    @Override
-    protected void resetBtn() {
-        super.resetBtn();
     }
 
     @Override
@@ -159,7 +154,7 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }

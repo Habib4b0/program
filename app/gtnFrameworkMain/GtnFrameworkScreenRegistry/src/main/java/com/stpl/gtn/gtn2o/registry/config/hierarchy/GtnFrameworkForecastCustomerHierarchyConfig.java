@@ -19,10 +19,11 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 public class GtnFrameworkForecastCustomerHierarchyConfig {
-	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public List<GtnUIFrameworkComponentConfig> getCustomerSelectionLayoutCompoents(String nameSpace) {
 
@@ -33,7 +34,9 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 	private void addCustomerSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customerSelectionLayout = configProvider.getVerticalLayoutConfig(
-				nameSpace + "_" + "customerSelectionLayout", true, nameSpace + "_" + "customerSelectionPanel");
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_LAYOUT, true,
+				nameSpace + "_" + "customerSelectionPanel");
+		customerSelectionLayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		customerSelectionLayout.setSpacing(true);
 		componentList.add(customerSelectionLayout);
 
@@ -44,11 +47,13 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 	private void addComponents(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customerSelectionHorizontalLayout = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "customerSelectionHorizontalLayout", true,
-				nameSpace + "_" + "customerSelectionLayout");
+
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_LAYOUT);
+		customerSelectionHorizontalLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(customerSelectionHorizontalLayout);
 
 		GtnUIFrameworkComponentConfig customerSelectionCssLayout = configProvider.getCssLayoutConfig(
-				nameSpace + "_" + "customerSelectionCssLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT, true,
 				nameSpace + "_" + "customerSelectionHorizontalLayout");
 		componentList.add(customerSelectionCssLayout);
 
@@ -62,14 +67,15 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 	private void addHierarchy(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
 		GtnUIFrameworkComponentConfig hierarchyLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "hierarchyLayout", true, nameSpace + "_" + "customerSelectionCssLayout");
+				nameSpace + "_" + "hierarchyLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT);
 		componentList.add(hierarchyLayout);
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
 		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchyName.setComponentId("forecastLandingScreen_customerHierarchy");
 		hierarchyName.setComponentName("Hierarchy");
-		hierarchyName.setAddToParent(Boolean.TRUE);
+		hierarchyName.setAddToParent(true);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "hierarchyLayout");
 
 		GtnUIFrameWorkActionConfig forecastCustomerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
@@ -85,14 +91,15 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 	private void addRelationship(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig relationshipLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "relationshipLayout", true, nameSpace + "_" + "customerSelectionCssLayout");
+				nameSpace + "_" + "relationshipLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT);
 		componentList.add(relationshipLayout);
 
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		relationship.setComponentId("Commercial_Forecasting_customerSelectionRelationship");
+		relationship.setComponentId(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
 		relationship.setComponentName("Relationship");
-		relationship.setAddToParent(Boolean.TRUE);
+		relationship.setAddToParent(true);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
 
 		GtnUIFrameworkComboBoxConfig relationshipConfig = new GtnUIFrameworkComboBoxConfig();
@@ -140,14 +147,15 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 	private void addForecastLevel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig forecastLevelLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "forecastLevelLayout", true, nameSpace + "_" + "customerSelectionCssLayout");
+				nameSpace + "_" + "forecastLevelLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT);
 		componentList.add(forecastLevelLayout);
 
 		GtnUIFrameworkComponentConfig forecastLevel = new GtnUIFrameworkComponentConfig();
 		forecastLevel.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		forecastLevel.setComponentId("Commercial_Forecasting_customerSelectionForecastLevel");
 		forecastLevel.setComponentName("Forecast Level");
-		forecastLevel.setAddToParent(Boolean.TRUE);
+		forecastLevel.setAddToParent(true);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "forecastLevelLayout");
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
@@ -165,33 +173,35 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 	private void addCustomerGroupLookup(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customerGroupLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "customerGroupLayout", true, nameSpace + "_" + "customerSelectionCssLayout");
+				nameSpace + "_" + "customerGroupLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT);
 		componentList.add(customerGroupLayout);
 
 		GtnUIFrameworkComponentConfig customerGroup = new GtnUIFrameworkComponentConfig();
 		customerGroup.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		customerGroup.setComponentId(nameSpace + "_" + "customerGroup");
 		customerGroup.setComponentName("Customer Group");
-		customerGroup.setAddToParent(Boolean.TRUE);
+		customerGroup.setAddToParent(true);
 		customerGroup.setParentComponentId(nameSpace + "_" + "customerGroupLayout");
 		componentList.add(customerGroup);
 	}
 
 	private void addForecastEligibleDate(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig forecastEligibleDateLayout = configProvider.getHorizontalLayoutConfig(
-				nameSpace + "_" + "forecastEligibleDateLayout", true, nameSpace + "_" + "customerSelectionLayout");
+				nameSpace + "_" + "forecastEligibleDateLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_LAYOUT);
 		componentList.add(forecastEligibleDateLayout);
 
 		GtnUIFrameworkComponentConfig forecastEligibleDate = new GtnUIFrameworkComponentConfig();
 		forecastEligibleDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		forecastEligibleDate.setComponentId("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
 		forecastEligibleDate.setComponentName("Forecast Eligible Date");
-		forecastEligibleDate.setAddToParent(Boolean.TRUE);
+		forecastEligibleDate.setAddToParent(true);
 		forecastEligibleDate.setParentComponentId(nameSpace + "_" + "forecastEligibleDateLayout");
 		componentList.add(forecastEligibleDate);
 
 		List<GtnUIFrameWorkActionConfig> levelactionConfigList = availableLoadActionList();
-		
+
 		GtnUIFrameWorkActionConfig dateValueChangeAction = new GtnUIFrameWorkActionConfig();
 		dateValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		dateValueChangeAction.addActionParameter(GtnFrameworkForecastDateValueChangeAction.class.getName());
@@ -199,24 +209,25 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkDateFieldConfig dateFieldConfig = new GtnUIFrameworkDateFieldConfig();
 		dateFieldConfig.addValueChangeActionConfig(dateValueChangeAction);
-//		forecastEligibleDate.setGtnDateFieldConfig(dateFieldConfig);
+		// forecastEligibleDate.setGtnDateFieldConfig(dateFieldConfig);
 	}
 
 	private void addCustomerSelectionInnerPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customerSelectionInnerPanel = configProvider.getPanelConfig(
-				nameSpace + "_" + "customerSelectionInnerPanel", true, nameSpace + "_" + "customerSelectionLayout");
+				nameSpace + "_" + "customerSelectionInnerPanel", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_LAYOUT);
 		customerSelectionInnerPanel.setSpacing(true);
 		componentList.add(customerSelectionInnerPanel);
 
 		GtnUIFrameworkComponentConfig customerSelectionInnerLayout = configProvider.getVerticalLayoutConfig(
-				nameSpace + "_" + "customerSelectionInnerLayout", true,
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_INNER_LAYOUT, true,
 				nameSpace + "_" + "customerSelectionInnerPanel");
 		customerSelectionInnerLayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		componentList.add(customerSelectionInnerLayout);
 
 		GtnUIFrameworkComponentConfig customerSelectionInnerCssLayout = configProvider.getCssLayoutConfig(
 				nameSpace + "_" + "customerSelectionInnerCssLayout", true,
-				nameSpace + "_" + "customerSelectionInnerLayout");
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_INNER_LAYOUT);
 		customerSelectionInnerCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
 		componentList.add(customerSelectionInnerCssLayout);
 		addLevelComponent(componentList, nameSpace);
@@ -232,7 +243,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentId("Commercial_Forecasting_customerSelectionLevel");
 		level.setComponentName("Level");
-		level.setAddToParent(Boolean.TRUE);
+		level.setAddToParent(true);
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
@@ -250,8 +261,10 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		customerSelectionDualListBoxComponent.setComponentType(GtnUIFrameworkComponentType.V8_DUALLISTBOX);
 		customerSelectionDualListBoxComponent.setComponentId(nameSpace + "_" + "customerDualListBox");
 		customerSelectionDualListBoxComponent.setComponentName("Customer Selection");
-		customerSelectionDualListBoxComponent.setParentComponentId(nameSpace + "_" + "customerSelectionInnerLayout");
 		customerSelectionDualListBoxComponent.setAddToParent(true);
+		customerSelectionDualListBoxComponent.setParentComponentId(
+				nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_CUSTOMER_SELECTION_INNER_LAYOUT);
+		componentList.add(customerSelectionDualListBoxComponent);
 
 		GtnUIFrameworkValidationConfig customerSelectionDualListBoxValidationConfig = new GtnUIFrameworkValidationConfig();
 		customerSelectionDualListBoxValidationConfig

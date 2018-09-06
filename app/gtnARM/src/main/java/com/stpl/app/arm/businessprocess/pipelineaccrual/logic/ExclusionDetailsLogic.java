@@ -82,7 +82,7 @@ public class ExclusionDetailsLogic {
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append("'" + ",'").append(dtoList.getValues()).append("'),");
+            sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append(ARMUtils.SINGLE_QUOTES).append(",'").append(dtoList.getValues()).append("'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -185,14 +185,14 @@ public class ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + "," + null + "),");
+                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
 
                     }
                 }
             } else {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                        sbQuery.append("(" + viewSid + "," + null + "," + null + "," + null + "," + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                     }
                 }
 
@@ -234,7 +234,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic" , ex);
+            LOGGER.error("Error in deleteViewLogic", ex);
         }
     }
 
@@ -245,7 +245,7 @@ public class ExclusionDetailsLogic {
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory" , ex);
+            LOGGER.error("Error in deleteViewLogicForInventory", ex);
         }
     }
 
@@ -303,7 +303,7 @@ public class ExclusionDetailsLogic {
                             }
                         } else {
                             filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
-                            filterQuery.append(" like '").append(filterString).append("'");
+                            filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                         }
 
                     } else if (filter instanceof Between) {
@@ -436,7 +436,7 @@ public class ExclusionDetailsLogic {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" , ex);
+            LOGGER.error("Error in getAllUsers :", ex);
         }
     }
 
