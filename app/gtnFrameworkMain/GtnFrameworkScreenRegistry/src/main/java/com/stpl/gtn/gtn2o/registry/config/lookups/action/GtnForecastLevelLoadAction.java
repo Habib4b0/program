@@ -45,8 +45,8 @@ public class GtnForecastLevelLoadAction
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 				relationshipComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_FORCAST_LEVEL);
 
-				GtnUIFrameworkComboBoxComponent comboboxForecastLevelLoad = new GtnUIFrameworkComboBoxComponent();
-				comboboxForecastLevelLoad.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+				combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 						(String) gtnUIFrameWorkActionConfig.getActionParameterList().get(2), componentId,
 						Arrays.asList(dataSelectionrelationshipBuilderSid));
 			}

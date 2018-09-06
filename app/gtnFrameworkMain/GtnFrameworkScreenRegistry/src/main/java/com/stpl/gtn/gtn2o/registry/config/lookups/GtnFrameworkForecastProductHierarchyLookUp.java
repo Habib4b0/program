@@ -323,8 +323,7 @@ public class GtnFrameworkForecastProductHierarchyLookUp {
 		return customFilterConfigMap;
 	}
 
-	private void addForecastProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
+	private void addForecastProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig controlPopUpLayout = new GtnUIFrameworkComponentConfig();
 		GtnUIFrameworkLayoutConfig layoutConf = new GtnUIFrameworkLayoutConfig();
 		controlPopUpLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);

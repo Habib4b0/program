@@ -97,10 +97,10 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		filterOptionTabSalesProjection.setTabLayoutComponentConfigList(filterComponentList);
 		addFilterTab(filterComponentList, nameSpace);
 
-		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
-		gtnTabSheetConfigList.add(displaySelectionTabConfigSalesProjection);
-		gtnTabSheetConfigList.add(filterOptionTabSalesProjection);
-		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
+		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigListSalesProjection = new ArrayList<>();
+		gtnTabSheetConfigListSalesProjection.add(displaySelectionTabConfigSalesProjection);
+		gtnTabSheetConfigListSalesProjection.add(filterOptionTabSalesProjection);
+		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigListSalesProjection);
 
 	}
 

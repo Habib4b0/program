@@ -273,7 +273,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		GtnUIFrameworkComponentConfig businessUnit = new GtnUIFrameworkComponentConfig();
 		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-
 		businessUnit.setComponentId(nameSpace + "_" + GtnFrameworkCommonConstants.SCREEN_REGISTRY_BUSINESSUNIT);
 		businessUnit.setComponentName("Business Unit");
 		businessUnit.setAddToParent(true);
@@ -350,20 +349,18 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(fromPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
-		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 		fromPeriod.setComponentId(nameSpace + "_" + "from");
 		fromPeriod.setComponentName("From ");
 		fromPeriod.setAddToParent(true);
 		fromPeriod.setParentComponentId(nameSpace + "_" + "fromPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-		fromPeriodConfig.setItemCaptionValues(new ArrayList<>());
-		fromPeriodConfig.setItemValues(new ArrayList<>());
-		fromPeriodConfig.setHasDefaultValue(true);
-		fromPeriodConfig.setDefaultDesc("next");
+		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		fromPeriodConfig.setComboBoxType("TimePeriodFromDate");
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 		componentList.add(fromPeriod);
-		
 	}
 
 	private void addToPeriod(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -381,35 +378,18 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(toPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
-		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 		toPeriod.setComponentId(nameSpace + "_" + "to");
 		toPeriod.setComponentName("To ");
 		toPeriod.setAddToParent(true);
 		toPeriod.setParentComponentId(nameSpace + "_" + "toPeriodLayout");
-		toPeriod.setEnable(false);
 
 		GtnUIFrameworkComboBoxConfig toPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-		toPeriodConfig.setItemCaptionValues(new ArrayList<>());
-		toPeriodConfig.setItemValues(new ArrayList<>());
-		toPeriodConfig.setHasDefaultValue(true);
-		toPeriodConfig.setDefaultDesc("next");
+		toPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		toPeriodConfig.setComboBoxType("TimePeriodToDate");
 		toPeriod.setGtnComboboxConfig(toPeriodConfig);
-		
-
-		GtnUIFrameWorkActionConfig fromAndToPeriodAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		fromAndToPeriodAction.addActionParameter(GtnLandingScreenFromAndToPeriodLoadAction.class.getName());
-		fromAndToPeriodAction.addActionParameter("/GtnWsPeriodConfigurationWebService");
-		fromAndToPeriodAction.addActionParameter("/gtnPeriodConfigurationController/loadDate");
-		fromAndToPeriodAction.addActionParameter("periodConfiguration");
-		fromAndToPeriodAction.addActionParameter(nameSpace + "_" + "from");
-		fromAndToPeriodAction.addActionParameter(nameSpace + "_" + "to");
-		
-		toPeriod.setReloadActionConfig(fromAndToPeriodAction);
-		toPeriod.setReloadLogicActionClassName(GtnLandingScreenFromAndToPeriodLoadAction.class.getName());
-				
 		componentList.add(toPeriod);
-		
-
 	}
 
 	private void addCustomerSelectionPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
@@ -605,7 +585,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"Created Date", "Modified Date", "Company", "Business Unit"));
 		projectionResultsTableConfig.setTableColumnMappingId(new String[] { "projactionName", "description",
 				"customerHierarchy", "customerLevel", "productHierarchy", "productLevel", "createdBy", "createdDate",
-
 				"modifiedDate", GtnFrameworkCommonConstants.SCREEN_REGISTRY_COMPANY,
 				GtnFrameworkCommonConstants.SCREEN_REGISTRY_BUSINESSUNIT });
 
