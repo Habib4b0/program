@@ -612,8 +612,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
         @UiField("forecastEligibleDate")
         protected PopupDateField forecastEligibleDate;
 
-
-
+    public ForecastDataSelection() {
+        LOGGER.info("ForecastDataSelection--------------------");
+    }
 
 	public ForecastDataSelection(CustomFieldGroup dataSelectionBinder, String screenName, boolean landingScreenFlag) {
 		setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/forecast/dataSelectionIndex.xml"), this));

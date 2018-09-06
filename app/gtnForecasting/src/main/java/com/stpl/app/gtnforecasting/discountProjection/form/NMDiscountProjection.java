@@ -416,12 +416,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             loadDeductionInclusion();
             loadDisplayFormatDdlb();
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
-            deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
+            //deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
 
         }
-        securityForButton();
-        addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
-                levelFilterDdlb);
+//        securityForButton();
+//        addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
+//                levelFilterDdlb);
     }
 
     /**

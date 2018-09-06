@@ -155,13 +155,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
      */
     public final void init() {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
-        configureProjectionDTO();
+        //configureProjectionDTO();
         Utility.loadHierarchyList(session);
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
         nmFrequencyDdlb.setValue(session.getDsFrequency());
-        generateBtnLogic(null);
+        //generateBtnLogic(null);
         configureGroupDDLB();
         super.configureGraph();
         securityForButton();
