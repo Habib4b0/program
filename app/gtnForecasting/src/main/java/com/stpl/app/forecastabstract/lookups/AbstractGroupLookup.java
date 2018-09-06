@@ -5,7 +5,6 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;

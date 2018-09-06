@@ -355,8 +355,8 @@ public class MProjectionVariance extends ForecastProjectionVariance {
 
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getLeftTableColumns(fullHeader, view.getValue().toString());
-        List<Object> HeaderPropertyIds = HeaderUtils.getPVRightTableColumns(pvSelectionDTO, fullHeader);
-        rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
+        List<Object> headerPropertyIds = HeaderUtils.getPVRightTableColumns(pvSelectionDTO, fullHeader);
+        rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeader);
         alignRight();
         setBeanContainerResult(new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP));
@@ -397,13 +397,13 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         rightTable.setDoubleHeaderVisibleColumns(rightHeader.getDoubleColumns().toArray());
         rightTable.setDoubleHeaderColumnHeaders(rightHeader.getDoubleHeaders().toArray(new String[rightHeader.getDoubleHeaders().size()]));
         resultsTable.getRightFreezeAsTable().setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
-        final List<String> programCodeNameList = (List<String>) HeaderPropertyIds.get(4);
+        final List<String> programCodeNameList = (List<String>) headerPropertyIds.get(4);
         pvSelectionDTO.setProgramCodeNameList(programCodeNameList);
         loadPeriods(rightHeader.getDoubleHeaders());
         if ("Variable".equals(pvSelectionDTO.getPivotView()) && Constant.COMPONENT.equals(pvSelectionDTO.getDiscountLevel())) {
-            final List<String> listCollapseIcon1st = (List<String>) HeaderPropertyIds.get(1);
-            final List<String> listCollapse2nd = (List<String>) HeaderPropertyIds.get(NumericConstants.TWO);
-            final List<String> programCodeListCollapse = (List<String>) HeaderPropertyIds.get(NumericConstants.THREE);
+            final List<String> listCollapseIcon1st = (List<String>) headerPropertyIds.get(1);
+            final List<String> listCollapse2nd = (List<String>) headerPropertyIds.get(NumericConstants.TWO);
+            final List<String> programCodeListCollapse = (List<String>) headerPropertyIds.get(NumericConstants.THREE);
             rightTable.setColumnCollapsingAllowed(true);
             for (int i = 0; i < listCollapseIcon1st.size(); i++) {
                 rightTable.setDoubleHeaderColumnExpandIcon(listCollapseIcon1st.get(i), false);

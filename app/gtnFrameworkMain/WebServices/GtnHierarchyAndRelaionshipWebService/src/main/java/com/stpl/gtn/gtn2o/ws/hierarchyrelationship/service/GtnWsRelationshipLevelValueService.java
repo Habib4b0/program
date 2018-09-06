@@ -228,6 +228,19 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 		return gtnWsHierarchyAndRelationshipSqlService.getReplacedQuery(inputList, queryBean.generateQuery());
 	}
 	
+	public List<Object[]> getAvailableTableCustomerLevelValues(GtnForecastHierarchyInputBean inputBean)
+			throws GtnFrameworkGeneralException {
+		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+		queryExecutorBean.setSqlQuery(inputBean.getHieraryQuery());
+		queryExecutorBean.setQueryType("SELECT");
+		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
+		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
+				gtnQueryEngineWebServiceRequest);
+		return response.getQueryResponseBean().getResultList();
+	}
+	
 	public List<Object[]> loadCustHierarchyAvailableTable(String query) throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
 		queryExecutorBean.setSqlQuery(query);

@@ -177,9 +177,9 @@ public class SalesProjectionResultsTree {
     }
 
     private SalesPRBaseNode generateCPForLevelFilter(int levelFiltered, List<Object[]> availableHierarachies) {
-        SalesPRCP apex = new SalesPRCP("");
+        SalesPRCP salesProjectionRes = new SalesPRCP("");
         if (!availableHierarachies.isEmpty()) {
-            apex.setApex(true);
+            salesProjectionRes.setApex(true);
             List<String> child = new ArrayList<>();
             for (Object availableHierarachy : availableHierarachies) {
                 String hierarchy = String.valueOf(availableHierarachy);
@@ -188,9 +188,9 @@ public class SalesProjectionResultsTree {
                     child.add(hierarchy);
                 }
             }
-            addChildrenToParent(apex, child, levelFiltered, new HashMap(), new HashMap<String, String>());
+            addChildrenToParent(salesProjectionRes, child, levelFiltered, new HashMap(), new HashMap<String, String>());
         }
-        return apex;
+        return salesProjectionRes;
     }
 
     private List<Object[]> getAvailableHierarchiesCP(ProjectionSelectionDTO projSelDTO) {
@@ -201,15 +201,15 @@ public class SalesProjectionResultsTree {
     }
 
     private SalesPRBaseNode generateCPTree(List<Object[]> availableHierarachies, Map<String, String> salesGroupRelation) {
-        SalesPRCP apex = new SalesPRCP("");
+        SalesPRCP salesNode = new SalesPRCP("");
         HashMap dataMap = new HashMap<>(availableHierarachies.size());
-        apex.setApex(true);
-        addStaticLinesToTree(apex);
+        salesNode.setApex(true);
+        addStaticLinesToTree(salesNode);
         if (!availableHierarachies.isEmpty()) {
             int startLevel = StringUtils.countMatches(Arrays.toString(availableHierarachies.get(0)), ".");
             List<String> child = new ArrayList<>();
             int currentLevel = startLevel;
-            SalesPRCP parent = apex;
+            SalesPRCP parent = salesNode;
             for (Object availableHierarachy : availableHierarachies) {
                 String hierarchy = String.valueOf(availableHierarachy);
                 int level = StringUtils.countMatches(hierarchy, ".");
@@ -217,12 +217,12 @@ public class SalesProjectionResultsTree {
                     child.add(hierarchy);
                 } else {
                     if (currentLevel == startLevel) {
-                        parent = addChildrenToParent(apex, child, currentLevel, dataMap, salesGroupRelation);
+                        parent = addChildrenToParent(salesNode, child, currentLevel, dataMap, salesGroupRelation);
                     } else {
                         parent = addChildrenToParent(parent, child, currentLevel, dataMap, salesGroupRelation);
                     }
                     if (level < currentLevel) {
-                        parent = (SalesPRCP) getParent(hierarchy, dataMap, currentLevel, startLevel, apex);
+                        parent = (SalesPRCP) getParent(hierarchy, dataMap, currentLevel, startLevel, salesNode);
                     }
                     child = new ArrayList<>();
                     child.add(hierarchy);
@@ -231,7 +231,7 @@ public class SalesProjectionResultsTree {
             }
             addChildrenToParent(parent, child, currentLevel, dataMap, salesGroupRelation);
         }
-        return apex;
+        return salesNode;
     }
 
     private SalesPRCP addChildrenToParent(SalesPRCP parent, List<String> child, int currentLevel, HashMap dataMap, Map<String, String> salesGroupRelation) {

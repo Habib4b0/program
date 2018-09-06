@@ -895,10 +895,20 @@ public class DataSelectionForm extends ForecastDataSelection {
 	protected void moveLeftButtonLogic() {
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
-			int customerHierarchyVersionNo = Integer
-					.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-			int customerRelationVersionNo = Integer.parseInt(
-					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+//                        int customerHierarchyVersionNo = Integer
+//					.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+//			int customerRelationVersionNo = Integer.parseInt(
+//					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+                         List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = getRelationshipBuilderBeanList();
+                        int customerRelationVersionNo = 0;
+                            for(GtnWsRelationshipBuilderBean relationshipBuiderBean:relationshipBuilderBeanList){
+                                if(relationshipBuiderBean.getRelationshipBuilderSid() == (int)customerRelationComboBox.getValue()){
+                                    customerRelationVersionNo = relationshipBuiderBean.getVersionNo();
+                                    break;
+                                }
+                            }
+                        int customerHierarchyVersionNo = customerHierarchyLookupWindow.getHierarchyDto().getVersionNo();
+                                 
 			if (availableCustomer.getValue() != null) {
 				int forecastLevel = 0;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
@@ -1061,16 +1071,25 @@ public class DataSelectionForm extends ForecastDataSelection {
 									UiUtils.getDataSelectionFormattedLevelNo(
 											String.valueOf(level.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), false);
-						} else {
+						} 
+                                                else {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
-											String.valueOf(customerLevel.getValue()).split("-")[0]),
+											String.valueOf(customerLevel.getValue())),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
-									UiUtils.getDataSelectionFormattedLevelNo(
-											String.valueOf(level.getValue()).split("-")[0]),
+                                                                        Integer.parseInt(String.valueOf(level.getValue())),
 									forecastEligibleDate.getValue(), false);
 						}
+ //                                               else {
+//							newChildLevels = logic.getChildLevelsWithHierarchyNo(
+//									UiUtils.parseStringToInteger(
+//											String.valueOf(customerLevel.getValue())),
+//									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
+//									customerHierarchyVersionNo, customerRelationVersionNo,
+//                                                                        Integer.parseInt(String.valueOf(level.getValue())),
+//									forecastEligibleDate.getValue(), false);
+//						}
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -4134,12 +4153,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                     int relationVersionNo =0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
-                            ObjectMapper mapper = new ObjectMapper();
-                            Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMapper = customerHierarchyLookupWindow.getHierarchyDto().getRelationshipMap();
-                            Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = mapper.convertValue(
-					relationshipMapper, new TypeReference<Map<Integer, List<GtnWsRelationshipBuilderBean>>>() {});
-			
-                            List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = relationshipMap.get(customerHierarchyLookupWindow.getHierarchyDto().getHierarchyId());
+                            List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = getRelationshipBuilderBeanList();
                         
                             for(GtnWsRelationshipBuilderBean relationshipBuiderBean:relationshipBuilderBeanList){
                                 if(relationshipBuiderBean.getRelationshipBuilderSid() == (int)customerRelationComboBox.getValue()){
@@ -4242,6 +4256,15 @@ public class DataSelectionForm extends ForecastDataSelection {
 			LOGGER.error(" level  ValueChangeListener= {} ",ex);
 		}
 	}
+
+    private List<GtnWsRelationshipBuilderBean> getRelationshipBuilderBeanList() throws IllegalArgumentException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMapper = customerHierarchyLookupWindow.getHierarchyDto().getRelationshipMap();
+        Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = mapper.convertValue(
+                relationshipMapper, new TypeReference<Map<Integer, List<GtnWsRelationshipBuilderBean>>>() {});
+        List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList = relationshipMap.get(customerHierarchyLookupWindow.getHierarchyDto().getHierarchyId());
+        return relationshipBuilderBeanList;
+    }
 
 	private String getDedutionLevel(String deductionLevel) {
 		switch (deductionLevel) {

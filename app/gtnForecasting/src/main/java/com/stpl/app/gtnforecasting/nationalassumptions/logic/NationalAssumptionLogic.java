@@ -1353,8 +1353,8 @@ public class NationalAssumptionLogic {
             String sql = SQlUtil.getQuery("isAFSS_PriceType_Available").replace("?", projectionId);
             
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
-            int count = getCount(resultsList);
-            return count == 0 ? Boolean.TRUE : Boolean.FALSE;
+            int countIsAFSSPriceTypeAvailable = getCount(resultsList);
+            return countIsAFSSPriceTypeAvailable == 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
