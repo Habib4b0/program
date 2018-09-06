@@ -1596,6 +1596,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.addItem(Constant.GROUPFCAPS);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -1619,6 +1620,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -3668,7 +3670,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     || String.valueOf(propertyId).contains("ProjectedAmount")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, getConverter(propertyId.toString()));
 
-            } else if (String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
+            } else if (String.valueOf(propertyId).endsWith("RPU")) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
             } else {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, percentFormat);

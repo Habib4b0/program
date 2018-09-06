@@ -19,17 +19,17 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 @Service
 public class GtnWsReportCustomViewService {
 
-	// @Autowired
-	// GtnWsMongoDBConnectionService connection;
-
+	@Autowired
+	private GtnWsReportSqlService sqlStringService;
 
 	@Autowired
-	GtnWsReportSqlService sqlStringService;
-
-	@Autowired
-	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportCustomViewService.class);
+
+	public GtnWsReportCustomViewService() {
+		super();
+	}
 
 	public GtnUIFrameworkDataTable loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF)
 			throws GtnFrameworkGeneralException {
@@ -81,58 +81,4 @@ public class GtnWsReportCustomViewService {
 		return gtnUIFrameworkDataTable;
 	}
 
-	// private GtnWsReportDataSelectionBean getDataSelectionBean(String
-	// reportTempName) {
-	// MongoCollection<GtnWsReportDataSelectionBean> collection =
-	// connection.getDBInstance()
-	// .getCollection(MongoStringConstants.REPORT_COLLECTION,
-	// GtnWsReportDataSelectionBean.class);
-	// FindIterable<GtnWsReportDataSelectionBean> selectionBean =
-	// collection.find(and(eq("name", reportTempName)));
-	// return selectionBean.first();
-	// }
-
-	// public void saveCustomViewTree(GtnUIFrameworkWebserviceRequest gtnWsRequestF)
-	// {
-	// MongoCollection<GtnWsReportCustomViewDataBean> collection =
-	// connection.getDBInstance()
-	// .getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION,
-	// GtnWsReportCustomViewDataBean.class);
-	// GtnWsReportCustomViewDataBean viewDataBean =
-	// gtnWsRequestF.getGtnWsReportRequest().getReportBean()
-	// .getCustomViewBean().getCustomViewDataBean();
-	// if
-	// (gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean().isEdit())
-	// {
-	// collection.replaceOne(eq("customViewName", viewDataBean.getCustomViewName()),
-	// viewDataBean);
-	// } else {
-	// collection.insertOne(viewDataBean);
-	// }
-	// }
-
-	// public List<String> loadCustomViewString() {
-	// MongoCollection<Document> collection = connection.getDBInstance()
-	// .getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION);
-	// FindIterable<Document> foundData =
-	// collection.find().projection(include("customViewName"));
-	// MongoIterable<String> customViewNameIterable = foundData.map(document ->
-	// document.getString("customViewName"));
-	// return StreamSupport.stream(customViewNameIterable.spliterator(),
-	// false).collect(Collectors.toList());
-	//
-	// }
-
-	// public GtnWsReportCustomViewDataBean
-	// loadCustomView(GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
-	// MongoCollection<GtnWsReportCustomViewDataBean> mongoCollection =
-	// connection.getDBInstance()
-	// .getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION,
-	// GtnWsReportCustomViewDataBean.class);
-	// String customViewName =
-	// gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean()
-	// .getCustomViewDataBean().getCustomViewName();
-	// return mongoCollection.find(eq("customViewName", customViewName)).first();
-	//
-	// }
 }

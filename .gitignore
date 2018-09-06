@@ -130,3 +130,10 @@ GtnVaadinWidgetSet/
 .scannerwork/
 app/Resources/stpl-theme/.sass-cache/
 *.jar
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

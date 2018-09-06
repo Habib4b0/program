@@ -1083,19 +1083,21 @@ public class NMPVExcelLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueNMPV = value;
+        if (valueNMPV.contains(NULL.getConstant())) {
+            valueNMPV = ZERO;
         } else {
-            value = decFormat.format(Double.valueOf(value));
+            valueNMPV = decFormat.format(Double.valueOf(valueNMPV));
         }
-        return value;
+        return valueNMPV;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String isNullNMPV = value;
+        if (isNullNMPV.contains(NULL.getConstant())) {
+            isNullNMPV = ZERO;
         }
-        return value;
+        return isNullNMPV;
     }
 
     public void getTotalRawData() {

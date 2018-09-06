@@ -30,13 +30,17 @@ public class GtnWsReportRightTableLoadDataService {
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportRightTableLoadDataService.class);
 
 	@Autowired
-	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	GtnWsReportRightTableResultTransformer columnTransFormer;
+	private GtnWsReportRightTableResultTransformer columnTransFormer;
 
 	@Autowired
-	GtnWsReportVaribleRowResultTransformer rowTransformer;
+	private GtnWsReportVaribleRowResultTransformer rowTransformer;
+
+	public GtnWsReportRightTableLoadDataService() {
+		super();
+	}
 
 	public Map<String, Map<String, Double>> getDataFromBackend(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnWsReportCustomCCPListDetails bean, String[] customViewTypeDataArray) {
@@ -61,11 +65,9 @@ public class GtnWsReportRightTableLoadDataService {
 					transformer);
 			return (Map<String, Map<String, Double>>) object.get(0);
 		} catch (GtnFrameworkGeneralException e) {
-			e.printStackTrace();
+			gtnLogger.error(e.getErrorMessage(), e);
 		}
-
 		return Collections.emptyMap();
-
 	}
 
 	public String getQueryFromProcedure(GtnUIFrameworkWebserviceRequest gtnWsRequest, String hierarchyNo, int levelNo,
@@ -99,7 +101,7 @@ public class GtnWsReportRightTableLoadDataService {
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 
-
+		@SuppressWarnings("unchecked")
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,
 						gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid(), levelNo,
@@ -116,8 +118,7 @@ public class GtnWsReportRightTableLoadDataService {
 		StringBuilder queryBuilder = new StringBuilder(declareStatement);
 		for (Object tempData : stringData) {
 			Clob dataClob = (Clob) tempData;
-			queryBuilder.append(clobToString(dataClob)).append(" ");
-			;
+			queryBuilder.append(clobToString(dataClob)).append(Character.MIN_VALUE);
 		}
 
 		return queryBuilder.toString();
@@ -131,10 +132,11 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String line;
 			while (null != (line = br.readLine())) {
-				sb.append(line).append(" ");
+				sb.append(line).append(Character.MIN_VALUE);
 			}
 			br.close();
 		} catch (SQLException | IOException ex) {
+			gtnLogger.error(ex.getMessage(), ex);
 		}
 		return sb.toString();
 	}

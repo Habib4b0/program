@@ -26,6 +26,10 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE)
 public class GtnWsReportDashboardFilterOptionController {
 
+	public GtnWsReportDashboardFilterOptionController() {
+		super();
+	}
+
 	@Autowired
 	private GtnWsReportDashboardFilterOptionService reportFilterOptionService;
 
@@ -64,7 +68,7 @@ public class GtnWsReportDashboardFilterOptionController {
 				.getFilterBean();
 		if (filterBean.getHierarchyType().equals("D") && filterBean.getDeductionLevelNo() != 0) {
 			resultList = reportFilterOptionService.loadDeductionFilter(gtnUIFrameworkWebserviceRequest);
-		} else if(filterBean.getHierarchyType().equals("D") && filterBean.getDeductionLevelNo() == 0){
+		} else if (filterBean.getHierarchyType().equals("D") && filterBean.getDeductionLevelNo() == 0) {
 			resultList = Collections.emptyList();
 		} else {
 			resultList = reportFilterOptionService.loadCustomerLevelFilter(gtnUIFrameworkWebserviceRequest);

@@ -632,8 +632,10 @@ public class CommonLogic {
     public static final String FROM_SPACE = " from ";
 
     public static String getCustomViewLevelListQuery(int projectionId, String tabName, int sessionId, int customId, String hierarchyIndicator, int levelNo, String productHierarchyNo, String customerHierarchyNo, String custRelSid, String prodRelSid, List<String> discountList, String action) {
-        customerHierarchyNo += Constant.PERCENT;
-        productHierarchyNo += Constant.PERCENT;
+       String customerHierarchNumber =customerHierarchyNo;
+       String productHierarchyNumber =productHierarchyNo;
+        customerHierarchNumber += Constant.PERCENT;
+        productHierarchyNumber += Constant.PERCENT;
         String customerLevelNo = Constant.PERCENT;
         String productLevelNo = Constant.PERCENT;
 
@@ -664,14 +666,14 @@ public class CommonLogic {
                 + Constant.AND_CVDCUSTOM_VIEW_MASTER_SID + customId + Constant.AND_CVDLEVEL_NO_LIKE + customerLevelNo + "'"
                 + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
                 + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
+                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + customerHierarchNumber + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
                 + " LEFT JOIN "
                 + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME FROM dbo.CUSTOM_VIEW_DETAILS  CVD "
                 + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
                 + Constant.AND_CVDCUSTOM_VIEW_MASTER_SID + customId + Constant.AND_CVDLEVEL_NO_LIKE + productLevelNo + "'"
                 + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
                 + " JOIN  PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE
+                + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + productHierarchyNumber + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE
                 + " where HLD" + hierarchyIndicator + ".RELATIONSHIP_LEVEL_VALUES is not null";
     }
 
@@ -705,8 +707,9 @@ public class CommonLogic {
     public static String getHierarchyTreeQuery(int projectionId, String hierarchyIndicator, final int levelNo, final int versionNo) {
 
         List<Object> queryInputs = new ArrayList<>();
+        String relationshipColumnName = getRelationshipTableColumn(hierarchyIndicator);
         queryInputs.add(hierarchyIndicator);
-        queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator) ? "PROD_RELATIONSHIP_BUILDER_SID" : "DED_RELATIONSHIP_BULDER_SID");
+        queryInputs.add(relationshipColumnName);
         queryInputs.add(versionNo);
         queryInputs.add(projectionId);
         queryInputs.add(levelNo);
@@ -2615,8 +2618,8 @@ public class CommonLogic {
      */
     public static void saveProjectionSelection(final Map<String, String> map, final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
-        String screenName = projectionSelectionDTO.getScreenName();
-        String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
+        String screenNameProjSelection = projectionSelectionDTO.getScreenName();
+        String tableName = getProjectionResultsTableName(screenNameProjSelection);
         StringBuilder query = new StringBuilder();
         query.append("DELETE\n" + "FROM\n" + " ").append(tableName).append("\n" + "WHERE\n" + "PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n" + "AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
 
@@ -2628,7 +2631,7 @@ public class CommonLogic {
         salesProjectionDAO.executeUpdateQuery(query.toString());
 
     }
-
+    
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
@@ -2659,11 +2662,10 @@ public class CommonLogic {
 
     public static Map editProjectionResults(final String tabName, final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException {
 
-        String screenName = projectionSelectionDTO.getScreenName();
-        String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) ? "NM_PROJECTION_SELECTION" : CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName) ? Constant.M_PROJECTION_SELECTION : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName) ? "CH_PROJECTION_SELECTION" : StringUtils.EMPTY;
-
+        String screenNameEdit = projectionSelectionDTO.getScreenName();
+        String tableNameEdit = getProjectionResultsTableName(screenNameEdit);
         StringBuilder query = new StringBuilder();
-        query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableName).append("\n" + "WHERE PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
+        query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableNameEdit).append("\n" + "WHERE PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
         List<Object[]> resultlist = (List) dao.executeSelectQuery(query.toString());
         Map<String, String> resultmap = new HashMap<>();
@@ -5433,6 +5435,32 @@ public class CommonLogic {
     public List<Object[]> getCustomViewSids(int projectionSid) {
         String query = "select CUSTOM_VIEW_MASTER_SID,CUSTOM_VIEW_MASTER_DEDUCTION_SID from projection_master where projection_master_sid=" + projectionSid;
         return (List<Object[]>)HelperTableLocalServiceUtil.executeSelectQuery(query);
+    }
+    
+    private static String getProjectionResultsTableName(String screenName) {
+        String name;
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
+            name = "NM_PROJECTION_SELECTION";
+        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
+            name = Constant.M_PROJECTION_SELECTION;
+        } else if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
+            name = "CH_PROJECTION_SELECTION";
+        } else {
+            name = StringUtils.EMPTY;
+        }
+        return name;
+    }
+
+    private static String getRelationshipTableColumn(String hierarchyIndicator) {
+        String queryTerna;
+        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
+            queryTerna = "CUST_RELATIONSHIP_BUILDER_SID";
+        } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
+            queryTerna = "PROD_RELATIONSHIP_BUILDER_SID";
+        } else {
+            queryTerna = "DED_RELATIONSHIP_BULDER_SID";
+        }
+        return queryTerna;
     }
     
 }
