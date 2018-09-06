@@ -47,26 +47,26 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     }
 
     @Override
-    public List<Object> generateHeader(AbstractSelectionDTO selection, String[] columns) {
+    public List<Object> generateHeader(AbstractSelectionDTO rrSelection, String[] rrColumns) {
         List<Object> finalList = new ArrayList<>();
         List<String> doubleSingleColumn;
         List<String> excelDoubleSingleColumn;
-        List<String> singleVisibleColumn = new ArrayList<>();
-        List<String> excelVisibleColumn = new ArrayList<>();
-        List<String> excelVisibleHeader = new ArrayList<>();
-        List<String> doubleVisibleColumn = new ArrayList<>();
-        List<String> excelSingleColumn = new ArrayList<>();
-        Map<Object, Object[]> doubleSingleVisibleColumn = new HashMap<>();
-        Map<Object, Object[]> excelDoubleSingleVisibleColumn = new HashMap<>();
-        excelDoubleSingleVisibleColumn.put("month", new Object[]{"month"});
-        List<String> singleVisibleHeader = new ArrayList<>();
-        List<String> doubleVisibleHeader = new ArrayList<>();
+        List<String> rrSingleVisibleColumn = new ArrayList<>();
+        List<String> rrExcelVisibleColumn = new ArrayList<>();
+        List<String> rrExcelVisibleHeader = new ArrayList<>();
+        List<String> rrDoubleVisibleColumn = new ArrayList<>();
+        List<String> rrExcelSingleColumn = new ArrayList<>();
+        Map<Object, Object[]> rrDoubleSingleVisibleColumn = new HashMap<>();
+        Map<Object, Object[]> rrExcelDoubleSingleVisibleColumn = new HashMap<>();
+        rrExcelDoubleSingleVisibleColumn.put("month", new Object[]{"month"});
+        List<String> rrSingleVisibleHeader = new ArrayList<>();
+        List<String> rrDoubleVisibleHeader = new ArrayList<>();
 
         List<String> singleColumn = new ArrayList<>();
         int index = 0;
-        List<String> columnList = getColumns(selection.getSummaryvariables());
+        List<String> columnList = getColumns(rrSelection.getSummaryvariables());
 
-        List<String[]> doubleHeaderVariables = selection.getSummarydeductionVariables();
+        List<String[]> doubleHeaderVariables = rrSelection.getSummarydeductionVariables();
         List<String[]> doublecolumnList = new ArrayList<>();
         doublecolumnList.addAll(doubleHeaderVariables);
         String[] doublecolumn = getTotalColumn();
@@ -77,38 +77,38 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         for (String[] detection : doubleHeaderVariables) {
             doubleSingleColumn = new ArrayList<>();
             excelDoubleSingleColumn = new ArrayList<>();
-            for (int i = 0; i < columns.length; i++, index++) {
-                String column = columns[i];
+            for (int i = 0; i < rrColumns.length; i++, index++) {
+                String column = rrColumns[i];
                 singleColumn.add(column + "." + index);
-                excelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
+                rrExcelSingleColumn.add((detection[0].equalsIgnoreCase(ARMUtils.TOTAL) ? ARMUtils.TOTAL : detection[0].replace(" ", StringUtils.EMPTY)) + ARMUtils.DOUBLE_HIPHEN + column + "." + (index));
                 if (columnList.contains(column)) {
                     int listIndex = columnList.indexOf(column);
-                    String visibleColumn = selection.getSummaryvariables().get(listIndex)[0] + "." + index;
-                    String header = selection.getSummaryvariables().get(listIndex)[1];
-                    singleVisibleColumn.add(visibleColumn);
-                    singleVisibleHeader.add(header);
+                    String visibleColumn = rrSelection.getSummaryvariables().get(listIndex)[0] + "." + index;
+                    String header = rrSelection.getSummaryvariables().get(listIndex)[1];
+                    rrSingleVisibleColumn.add(visibleColumn);
+                    rrSingleVisibleHeader.add(header);
                     doubleSingleColumn.add(visibleColumn);
-                    excelVisibleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
-                    excelVisibleHeader.add(header);
+                    rrExcelVisibleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
+                    rrExcelVisibleHeader.add(header);
                     excelDoubleSingleColumn.add(detection[0] + ARMUtils.DOUBLE_HIPHEN + visibleColumn);
                 }
             }
 
-            doubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
-            doubleVisibleHeader.add(detection[1]);
-            doubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
-            excelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
+            rrDoubleVisibleColumn.add(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY));
+            rrDoubleVisibleHeader.add(detection[1]);
+            rrDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), doubleSingleColumn.toArray());
+            rrExcelDoubleSingleVisibleColumn.put(detection[2] + "~" + detection[1].replace(" ", StringUtils.EMPTY), excelDoubleSingleColumn.toArray());
         }
-        selection.setSummarycolumnList(singleColumn);
-        finalList.add(singleVisibleColumn);
-        finalList.add(doubleVisibleColumn);
-        finalList.add(singleVisibleHeader);
-        finalList.add(doubleVisibleHeader);
-        finalList.add(doubleSingleVisibleColumn);
-        finalList.add(excelVisibleColumn);
-        finalList.add(excelVisibleHeader);
-        finalList.add(excelDoubleSingleVisibleColumn);
-        finalList.add(excelSingleColumn);
+        rrSelection.setSummarycolumnList(singleColumn);
+        finalList.add(rrSingleVisibleColumn);
+        finalList.add(rrDoubleVisibleColumn);
+        finalList.add(rrSingleVisibleHeader);
+        finalList.add(rrDoubleVisibleHeader);
+        finalList.add(rrDoubleSingleVisibleColumn);
+        finalList.add(rrExcelVisibleColumn);
+        finalList.add(rrExcelVisibleHeader);
+        finalList.add(rrExcelDoubleSingleVisibleColumn);
+        finalList.add(rrExcelSingleColumn);
         return finalList;
     }
 
@@ -143,19 +143,19 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         return (resultList == null || resultList.isEmpty()) ? 0 : (int) resultList.get(0);
     }
 
-    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO selection, TreeMap<String, Integer> masterSids) {
+    private DataResult<T> cutomize(List<Object[]> data, SelectionDTO rrSelection, TreeMap<String, Integer> masterSids) {
         List resultList = new ArrayList();
-        List<String> variables = selection.getSummarycolumnList();
+        List<String> variables = rrSelection.getSummarycolumnList();
         Map<String, Integer> indexMap = new HashMap();
         int indexAdd = 0;
-        for (String[] summary_deductionVariable : selection.getSummarydeductionVariables()) {
+        for (String[] summary_deductionVariable : rrSelection.getSummarydeductionVariables()) {
             indexMap.put(summary_deductionVariable[0], indexAdd);
             indexAdd++;
         }
         int index = 0;
         String lastBrand = "";
         String levelName = "";
-        AdjustmentDTO dto = null;
+        AdjustmentDTO rrAdjustmentDto = null;
 
         DecimalFormat decimalformat = new DecimalFormat("#,##0.00");
         boolean isTotal = false;
@@ -164,30 +164,30 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             levelName = String.valueOf(get[NumericConstants.ELEVEN]);
             String brand = get[1] == null ? StringUtils.EMPTY : get[1].toString();
             if (!brand.equals(lastBrand)) {
-                dto = new AdjustmentDTO();
+                rrAdjustmentDto = new AdjustmentDTO();
                 if (!levelName.equals("null")) {
-                    dto.setMonth(brand + " - " + get[NumericConstants.ELEVEN]);
+                    rrAdjustmentDto.setMonth(brand + " - " + get[NumericConstants.ELEVEN]);
                 } else {
-                    dto.setMonth(brand);
+                    rrAdjustmentDto.setMonth(brand);
                 }
-                dto.setLevelNo((int) get[NumericConstants.EIGHT]);
+                rrAdjustmentDto.setLevelNo((int) get[NumericConstants.EIGHT]);
                 isTotal = ARMUtils.TOTAL.equalsIgnoreCase(brand);
-                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
-                dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
+                rrAdjustmentDto.setChildrenAllowed((rrSelection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.NINE]);
+                rrAdjustmentDto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TEN]));
                 if (masterSids != null) {
-                    dto.setMasterIds(masterSids);
+                    rrAdjustmentDto.setMasterIds(masterSids);
                 }
-                dto = clearVariables(variables, dto);
-                resultList.add(dto);
+                rrAdjustmentDto = clearVariables(variables, rrAdjustmentDto);
+                resultList.add(rrAdjustmentDto);
             }
             index = indexMap.get(get[0].toString().replace(" ", org.apache.commons.lang.StringUtils.EMPTY)) * NumericConstants.SIX;
-            if (dto != null) {
-                dto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
-                dto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
-                dto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FOUR]))) + DataFormatConverter.INDICATOR_PERCENT);
-                dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
-                dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
-                dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
+            if (rrAdjustmentDto != null) {
+                rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.TWO] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.TWO]))));
+                rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.THREE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.THREE]))));
+                rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.FOUR] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FOUR]))) + DataFormatConverter.INDICATOR_PERCENT);
+                rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
+                rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null || rrAdjustmentDto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))));
+                rrAdjustmentDto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : DataFormatConverter.INDICATOR_DOLLAR + decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
             }
             logger.debug("index-------{}", index);
             lastBrand = brand;
@@ -225,27 +225,27 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO rrSelection ){
         try {
             String query;
-            boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+            boolean isView = rrSelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
             query = SQlUtil.getQuery("getRRAdjustmentSummaryExcelQuery");
             Object[] value = null;
-            if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "T", "C", "B", "I"} : new Object[]{"T", "C", "B", "I"};
-            } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionContract())) {
-                value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "C", "T", "B", "I"} : new Object[]{"C", "T", "B", "I"};
-            } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
-                value = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : new Object[]{"B", "I"};
+            if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "T", "C", "B", "I"} : new Object[]{"T", "C", "B", "I"};
+            } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionContract())) {
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "C", "T", "B", "I"} : new Object[]{"C", "T", "B", "I"};
+            } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
+                value = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? new Object[]{"D", "B", "I"} : new Object[]{"B", "I"};
             }
             query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
-            query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
-            query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
-            query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-            query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-            query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+            query = query.replace("@DEDCONDITION", rrSelection.getSummarydeductionLevelDes());
+            query = query.replace("@CONDITIONVALUE", rrSelection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+            query = query.replace("@PROJECTIONMASTERSID", String.valueOf(rrSelection.getProjectionMasterSid()));
+            query = query.replace("@USERID", String.valueOf(rrSelection.getSessionDTO().getUserId()));
+            query = query.replace("@SESSIONID", String.valueOf(rrSelection.getSessionDTO().getSessionId()));
             query = query.replace("@TABLE_NAME", isView ? CommonConstant.ARM_RETURN_RESERVE : CommonConstant.ST_ARM_RETURN_RESERVE);
-            return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
+            return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, rrSelection.getSessionDTO().getCurrentTableNames()));
         } catch (Exception ex) {
             LOGGER.error("Error in getExcelResultList :", ex);
             return Collections.emptyList();
@@ -253,11 +253,11 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
     }
 
     @Override
-    protected Object[] generateInputs(Object dto, SelectionDTO selection) {
+    protected Object[] generateInputs(Object dto, SelectionDTO rrSelection) {
         Object[] returnObj = new Object[NumericConstants.TWO];
-        List<Object> inputs = new ArrayList<>();
-        inputs.add(selection.getProjectionMasterSid());
-        inputs.add(selection.getSummarydeductionLevelDes());
+        List<Object> retResInputs = new ArrayList<>();
+        retResInputs.add(rrSelection.getProjectionMasterSid());
+        retResInputs.add(rrSelection.getSummarydeductionLevelDes());
         String viewType = "";
         String currentViewType = "";
         TreeMap<String, Integer> masterSids = null;
@@ -265,14 +265,14 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             AdjustmentDTO val = (AdjustmentDTO) dto;
             int levelNo = val.getLevelNo();
             masterSids = val.getMasterIds();
-            if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
-                Map<Integer, String> map = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? ARMUtils.getDemandSummaryLevelsinglePeriod() : ARMUtils.getPipelineSummaryLevelSinglePeriod();
+            if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
+                Map<Integer, String> map = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getDemandSummaryLevelsinglePeriod() : ARMUtils.getPipelineSummaryLevelSinglePeriod();
                 currentViewType = map.get(levelNo);
                 viewType = map.get(++levelNo);
-            } else if (selection.getSummaryviewType().equals(CommonConstant.DEDUCTION_CONTRACT)) {
+            } else if (rrSelection.getSummaryviewType().equals(CommonConstant.DEDUCTION_CONTRACT)) {
                 currentViewType = ARMUtils.getSummaryLevel().get(levelNo);
                 viewType = ARMUtils.getSummaryLevel().get(++levelNo);
-            } else if (levelNo == NumericConstants.ONE && selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
+            } else if (levelNo == NumericConstants.ONE && rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
                 currentViewType = ARMUtils.getTYrx8LevelAndLevelFilter(ARMConstants.getDeductionProduct()).get(levelNo);
                 viewType = ARMUtils.getTYrx8LevelAndLevelFilter(ARMConstants.getDeductionProduct()).get(++levelNo);
             } else {
@@ -285,37 +285,37 @@ public class RRSummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
             masterSids.put(currentViewType, Integer.valueOf(val.getBranditemmasterSid()));
         } else {
             masterSids = new TreeMap<>();
-            if (selection.getSummarylevelFilterNo() == 0) {
-                viewType = getView(selection.getSummarydeductionLevelDes(), selection.getSummaryviewType());
-            } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
+            if (rrSelection.getSummarylevelFilterNo() == 0) {
+                viewType = getView(rrSelection.getSummarydeductionLevelDes(), rrSelection.getSummaryviewType());
+            } else if (rrSelection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer())) {
 
-                viewType = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? ARMUtils.getReturnsDemandSummaryLevelsinglePeriod().get(selection.getSummarylevelFilterNo()) : ARMUtils.getPipelineSummaryLevelSinglePeriod().get(selection.getSummarylevelFilterNo());
+                viewType = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getReturnsDemandSummaryLevelsinglePeriod().get(rrSelection.getSummarylevelFilterNo()) : ARMUtils.getPipelineSummaryLevelSinglePeriod().get(rrSelection.getSummarylevelFilterNo());
 
-            } else if (selection.getSummaryviewType().equals(CommonConstant.DEDUCTION_CONTRACT)) {
+            } else if (rrSelection.getSummaryviewType().equals(CommonConstant.DEDUCTION_CONTRACT)) {
 
-                viewType = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? ARMUtils.getSummaryLevel().get(selection.getSummarylevelFilterNo()) : ARMUtils.getTrx7SummaryLevelSinglePeriod().get(selection.getSummarylevelFilterNo());
+                viewType = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getSummaryLevel().get(rrSelection.getSummarylevelFilterNo()) : ARMUtils.getTrx7SummaryLevelSinglePeriod().get(rrSelection.getSummarylevelFilterNo());
 
             } else {
-                String view = selection.getSummaryviewType();
+                String view = rrSelection.getSummaryviewType();
 
-                viewType = ARMConstants.getDeduction().equals(selection.getSummarydeductionLevelDes()) ? ARMUtils.getTYrx8LevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo()) : ARMUtils.getReturnsLevelAndLevelFilter(view).get(selection.getSummarylevelFilterNo());
+                viewType = ARMConstants.getDeduction().equals(rrSelection.getSummarydeductionLevelDes()) ? ARMUtils.getTYrx8LevelAndLevelFilter(view).get(rrSelection.getSummarylevelFilterNo()) : ARMUtils.getReturnsLevelAndLevelFilter(view).get(rrSelection.getSummarylevelFilterNo());
             }
         }
         if (viewType.equals(ARMConstants.getDeduction())) {
-            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
+            viewType = ARMUtils.getDeductionLevelQueryName(rrSelection.getSummarydeductionLevelDes());
         }
-        inputs.add(viewType);
-        inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
-        inputs.add(StringUtils.EMPTY);
-        inputs.add(StringUtils.EMPTY);
-        inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
-        inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
-        inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-        inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.BRAND.toString()));
-        inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.ITEM.toString()));
+        retResInputs.add(viewType);
+        retResInputs.add(ARMUtils.getSummaryViewType(rrSelection.getSummaryviewType()));
+        retResInputs.add(StringUtils.EMPTY);
+        retResInputs.add(StringUtils.EMPTY);
+        retResInputs.add(masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+        retResInputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
+        retResInputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
+        retResInputs.add(masterSids.get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.BRAND.toString()));
+        retResInputs.add(masterSids.get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.ITEM.toString()));
 
-        inputs.add(selection.getSummarydeductionValues());
-        returnObj[0] = inputs;
+        retResInputs.add(rrSelection.getSummarydeductionValues());
+        returnObj[0] = retResInputs;
         returnObj[1] = masterSids;
 
         return returnObj;
