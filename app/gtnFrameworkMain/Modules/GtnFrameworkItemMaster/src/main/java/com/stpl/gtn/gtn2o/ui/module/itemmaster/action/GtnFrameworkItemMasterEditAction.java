@@ -112,9 +112,14 @@ public class GtnFrameworkItemMasterEditAction
 
 	public void configureInformationTabComponents(String sourceComponentId, GtnWsItemMasterInfoBean imEditBean)
 			throws GtnFrameworkGeneralException {
-            double value = imEditBean.getUpps() ;
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
-        String intValue = decimalFormat.format(value);
+		
+		String intValue = "";
+		if(imEditBean.getUpps()!=null){
+			double value = (imEditBean.getUpps());
+			DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+	        intValue = decimalFormat.format(value);
+		}
+
 		List<Object> imFielsValues = Arrays.asList(new Object[] { imEditBean.getItemId(), imEditBean.getItemNo(),
 				imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemId(), imEditBean.getItemNo(),
 				imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemStatus(),

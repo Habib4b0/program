@@ -46,7 +46,7 @@ public class GtnFrameworkQueryEngineMain {
 			}
 		}
 		if (currentQuery.isUpdateOrDeleteQuery()) {
-			doUpdateOrDelete(sqlQuery, currentQuery, mainConfig);
+			doUpdateOrDelete(sqlQuery);
 		} else {
 			if (currentQuery.isInsertOrSelectQuery()) {
 				doInsert(session, sqlQuery, currentQuery, mainConfig);
@@ -117,8 +117,7 @@ public class GtnFrameworkQueryEngineMain {
 
 	}
 
-	private int doUpdateOrDelete(Query sqlQuery, GtnFrameworkQueryConfig currentQuery,
-			GtnFrameworkQueryEngineMainConfig mainConfig) {
+	private int doUpdateOrDelete(Query sqlQuery) {
 		logger.queryLog("Executing query : " + sqlQuery);
 		int updateOrDeletedRecordCount = 0;
 		updateOrDeletedRecordCount = sqlQuery.executeUpdate();

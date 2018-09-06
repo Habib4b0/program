@@ -27,8 +27,8 @@ public class Transaction1 extends AbstractTransaction {
     private PipelineAccrualSelectionDTO paSelectionDto;
     private Sales sales;
     private PipelineAccrualRates rates;
-    private AdjustmentSummaryPipelineAccrual summary;
-    private AdjustmentDetailAccural details;
+    private AdjustmentSummaryPipelineAccrual pipelineSummary;
+    private AdjustmentDetailAccural pipelineDetails;
     public static final Logger LOGGER = LoggerFactory.getLogger(Transaction1.class);
 
     public Transaction1(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
@@ -46,16 +46,16 @@ public class Transaction1 extends AbstractTransaction {
             paSelectionDto.setModuleName(ARMConstants.getPipelineAccrual());
             sales = new Sales(getDataselectionDTO(), paSelectionDto);
             rates = new PipelineAccrualRates(paSelectionDto);
-            summary = new AdjustmentSummaryPipelineAccrual(paSelectionDto);
-            details = new AdjustmentDetailAccural(paSelectionDto);
+            pipelineSummary = new AdjustmentSummaryPipelineAccrual(paSelectionDto);
+            pipelineDetails = new AdjustmentDetailAccural(paSelectionDto);
             Tab tab1 = getTabSheet().addTab(sales, "Sales");
             tab1.setDefaultFocusComponent(sales.getDefaultFocusComponent());
             Tab tab2 = getTabSheet().addTab(rates, "Rates");
             tab2.setDefaultFocusComponent(rates.getDefaultFocusComponent());
-            Tab tab3 = getTabSheet().addTab(summary, "Adjustment Summary");
-            tab3.setDefaultFocusComponent(summary.getDefaultFocusComponent());
-            Tab tab4 = getTabSheet().addTab(details, "Adjustment Detail");
-            tab4.setDefaultFocusComponent(details.getDefaultFocusComponent());
+            Tab tab3 = getTabSheet().addTab(pipelineSummary, "Adjustment Summary");
+            tab3.setDefaultFocusComponent(pipelineSummary.getDefaultFocusComponent());
+            Tab tab4 = getTabSheet().addTab(pipelineDetails, "Adjustment Detail");
+            tab4.setDefaultFocusComponent(pipelineDetails.getDefaultFocusComponent());
             Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class Transaction1 extends AbstractTransaction {
 
     @Override
     public boolean isGenerated() {
-        return sales.isGenerated() && rates.isGenerated() && summary.isGenerated() && details.isGenerated();
+        return sales.isGenerated() && rates.isGenerated() && pipelineSummary.isGenerated() && pipelineDetails.isGenerated();
     }
 
     @Override
@@ -86,16 +86,18 @@ public class Transaction1 extends AbstractTransaction {
     @Override
     public boolean saveAssets() {
         CommonLogic.savePipeAccrualSelection(getDataselectionDTO().getProjectionId(), getName(), getSelection());
-        return summary.saveAssets();
+        return pipelineSummary.saveAssets();
     }
 
     @Override
     public String getGtnQuery() {
+        LOGGER.debug("Transaction 1 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
+        LOGGER.debug("Transaction 1 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
@@ -109,8 +111,8 @@ public class Transaction1 extends AbstractTransaction {
         String userId = String.valueOf(getSessionDTO().getUserId());
         sales.configurePermission(userId, stplSecurity);
         rates.configurePermission(userId, stplSecurity);
-        summary.configurePermission(userId, stplSecurity);
-        details.configurePermission(userId, stplSecurity);
+        pipelineSummary.configurePermission(userId, stplSecurity);
+        pipelineDetails.configurePermission(userId, stplSecurity);
     }
 
     @Override

@@ -191,7 +191,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             groupDdlbLabel.setVisible(false);
             groupDdlb.setVisible(false);
         }
-        configureProjectionDTO();
+        //configureProjectionDTO();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(sessionDTO.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(sessionDTO.getAction())) {
             loadOnEdit();
         }

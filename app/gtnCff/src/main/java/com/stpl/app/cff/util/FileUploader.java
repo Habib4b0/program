@@ -89,8 +89,7 @@ public class FileUploader implements Upload.Receiver {
 					isFileExists=file.delete();
 				}
 				isFileCreated=file.createNewFile();
-				FileOutputStream outputStream = new FileOutputStream(file);
-				return outputStream;// Return the output stream to write to
+				return new FileOutputStream(file);// Return the output stream to write to
 			}
 			LOGGER.info("File is deleted successfully : {} ", isFileExists);
 			LOGGER.info("File is created successfully : {} ", isFileCreated);

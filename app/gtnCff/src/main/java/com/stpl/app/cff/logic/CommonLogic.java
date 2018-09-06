@@ -808,7 +808,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             list= HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj =  list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1235,7 +1235,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj =  list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1280,7 +1280,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 + "'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,"
                 + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
         String from = StringConstantsUtil.FROM_SMALL + getViewTableName(hierarchyIndicator);
-        String customSql = selectClause + from + " as HC,"
+        String customSql = StringUtils.EMPTY;
+        customSql = customSql + selectClause + from + " as HC,"
                 + " RELATIONSHIP_LEVEL_DEFINITION as  RLD "
                 + StringConstantsUtil.CFF_MASTER_WHERE + projectionId
                 + " and HC.RELATIONSHIP_LEVEL_SID= RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID='" + rbID + "';";
@@ -1357,27 +1358,32 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static String getGroupFilterDiscountQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_DISCOUNT_PROJ_MASTER D ON D.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  D.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "D");
+        String query = StringUtils.EMPTY;
+        query = query + "JOIN ST_M_DISCOUNT_PROJ_MASTER D ON D.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  D.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "D");
         return query;
     }
 
     public static String getGroupFilterPPAQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "P");
+        String query = StringUtils.EMPTY;
+        query = query + "JOIN ST_M_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "P");
         return query;
     }
 
     public static String getGroupFilterSalesQuery(String userGroup, int userId, int sessionId) {
-        String query = "JOIN ST_M_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "S");
+        String query = StringUtils.EMPTY;
+        query = query + "JOIN ST_M_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup + getUserSessionQueryCondition(userId, sessionId, "S");
         return query;
     }
 
     public static String getUserSessionQueryConditionForPR(int userId, int sessionId, String table) {
-        String user = " " + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " \n";
+        String user = StringUtils.EMPTY;
+        user = user + " " + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " \n";
         return user;
     }
 
     public static String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+         String ccpWhereCond = StringUtils.EMPTY;
+         ccpWhereCond = ccpWhereCond + StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 
@@ -1632,12 +1638,13 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     } 
 
     public static String getHierarchyTreeQueryMan(int projectionId, String hierarchyIndicator, final int levelNo) {
+         String customSql = StringUtils.EMPTY;
         String selectClause = "select distinct RLD.LEVEL_NO, "
                 + " RLD.LEVEL_NO as TREE_LEVEL_NO,"
                 + "'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,"
                 + " RLD.LEVEL_NAME , RLD.HIERARCHY_LEVEL_DEFINITION_SID";
         String from = StringConstantsUtil.FROM_SMALL + getViewTableName(hierarchyIndicator);
-        String customSql = selectClause + from + "  as HC,"
+        customSql = customSql + selectClause + from + "  as HC,"
                 + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
                 + StringConstantsUtil.CFF_MASTER_WHERE + projectionId
                 + " and HC.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo;
@@ -1709,7 +1716,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static String getTempCCPQueryForCOGS(PVSelectionDTO pvsDTO) {
-        String query = " DECLARE @FROM_DATE DATE\n"
+         String query = StringUtils.EMPTY;
+         query = query + " DECLARE @FROM_DATE DATE\n"
                 + "     , @STARTFROM DATE\n"
                 + "     , @PROJECTION_DATE DATE\n"
                 + "     , @START_PERIOD_SID INT\n"
@@ -1767,8 +1775,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static String getTempRetrunsQuery() {
-
-        String query = " DECLARE @COUNT INT\n"
+        String query = StringUtils.EMPTY;
+        query = query + " DECLARE @COUNT INT\n"
                 + " \n"
                 + "IF OBJECT_ID('TEMPDB..#ITEM') IS NOT NULL\n"
                 + "       DROP TABLE #ITEM\n"
@@ -2148,14 +2156,14 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public String getHierarchyJoinQuery(ProjectionSelectionDTO projSelDTO) {
 
         String currentHierarchyIndicator;
-
+        String joinQuery = StringUtils.EMPTY;
         if (projSelDTO.isIsCustomHierarchy()) {
             currentHierarchyIndicator = getHiearchyIndicatorFromCustomView(projSelDTO);
         } else {
             currentHierarchyIndicator = projSelDTO.getHierarchyIndicator();
         }
 
-        String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);
+        joinQuery = joinQuery + getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);
         return joinQuery;
     }    
     /**
@@ -2454,12 +2462,13 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public String getHierarchyJoinQuery(final SessionDTO sessionDTO, final int customId, final int treeLevelNo,final boolean isCustom, final String hierarchyIndicator
                     , final String customerHierarchyNo,final String productHierarchyNo) {
         String currentHierarchyIndicator;
+        String joinQuery = StringUtils.EMPTY;
         if (isCustom) {
             currentHierarchyIndicator = getHiearchyIndicatorFromCustomView(sessionDTO, customId, treeLevelNo);
         } else {
             currentHierarchyIndicator = hierarchyIndicator;
         }
-        String joinQuery = getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, currentHierarchyIndicator);
+         joinQuery = joinQuery + getHierarchyJoinQuery(isCustom, customerHierarchyNo, productHierarchyNo, currentHierarchyIndicator);
         return joinQuery;
     }
      /**
@@ -2600,7 +2609,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 for (int i = 0; i < currentHierarchy.size(); i++) {
-                    Object[] levelValues = (Object[]) currentHierarchy.get(i);
+                    Object[] levelValues =  currentHierarchy.get(i);
                         ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
                         ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
                 }

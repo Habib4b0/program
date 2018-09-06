@@ -416,12 +416,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             loadDeductionInclusion();
             loadDisplayFormatDdlb();
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
-            deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
+            //deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
 
         }
-        securityForButton();
-        addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
-                levelFilterDdlb);
+//        securityForButton();
+//        addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
+//                levelFilterDdlb);
     }
 
     /**
@@ -1596,6 +1596,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.addItem(Constant.GROUPFCAPS);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }
@@ -1619,6 +1620,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     levelDdlb.setValue(SELECT_ONE.getConstant());
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
+                    projectionSelection.setIsCustomHierarchy(false);
                     if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
                         generateListView(true);
                     }

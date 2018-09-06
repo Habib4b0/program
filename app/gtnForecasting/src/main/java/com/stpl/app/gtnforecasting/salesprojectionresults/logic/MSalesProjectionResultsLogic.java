@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -651,7 +652,7 @@ public class MSalesProjectionResultsLogic {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -772,14 +773,15 @@ public class MSalesProjectionResultsLogic {
     }
 
     public static String getMonthForInt(int num) {
+        int numberMonth = num;
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numberMonth == NumericConstants.TWELVE) {
+            numberMonth = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numberMonth >= 0 && numberMonth <= NumericConstants.ELEVEN) {
+            month = months[numberMonth];
         }
         return month;
     }

@@ -25,38 +25,38 @@ public interface ContractHeaderDAO {
 
     List getColumnNames(String tableName);
 
-    public int getCFPCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc);
+    public int getCFPCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc);
 
     public List<CFPCompanyDTO> getCFPdetails(CFPCompanyDTO removeDiscountDto, BeanSearchCriteria bsc,
             int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getCompanyCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc);
+    public int getCompanyCount(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc);
 
-    public List getCompanydetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getCompanydetails(CFPCompanyDTO cfpCompanyDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getIFPCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc);
+    public int getIFPCount(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc);
 
-    public List getIFPdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getIFPdetails(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getPSCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc);
+    public int getPSCount(PSIFPDTO psIfpDto, BeanSearchCriteria bsc);
 
-    public List getPSdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getPSdetails(PSIFPDTO psIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getRSCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc);
+    public int getRSCount(RsIfpDto rsIfpDto, BeanSearchCriteria bsc);
 
-    public List getRsdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getRsdetails(RsIfpDto rsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getAttachedItemCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc);
+    public int getAttachedItemCount(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc);
 
-    public List getIFPItemdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getIFPItemdetails(IFPItemDTO ifpItemDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getPSAttachedItemCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc);
+    public int getPSAttachedItemCount(PSIFPDTO psIfpDto, BeanSearchCriteria bsc);
 
-    public List getPSAttachedItemdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getPSAttachedItemdetails(PSIFPDTO psIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
-    public int getRSAttachedItemCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc);
+    public int getRSAttachedItemCount(RsIfpDto rsIfpDto, BeanSearchCriteria bsc);
 
-    public List getRsItemdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
+    public List getRsItemdetails(RsIfpDto rsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc);
 
     public void updateCFP(List<Object> input);
 

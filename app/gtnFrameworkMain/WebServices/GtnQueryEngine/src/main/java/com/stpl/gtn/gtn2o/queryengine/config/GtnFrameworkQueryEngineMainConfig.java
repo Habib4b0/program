@@ -16,11 +16,11 @@ public class GtnFrameworkQueryEngineMainConfig {
 	}
 
 	public Object[] getQueryMemoryArray() {
-		return queryMemoryArray;
+		return queryMemoryArray != null ? queryMemoryArray.clone() : null;
 	}
 
 	public void setQueryMemoryArray(Object[] queryMemoryArray) {
-		this.queryMemoryArray = queryMemoryArray;
+		this.queryMemoryArray = queryMemoryArray != null ? queryMemoryArray.clone() : null;
 	}
 
 	public GtnFrameworkQueryEngineConfig getRootEngineConfig() {

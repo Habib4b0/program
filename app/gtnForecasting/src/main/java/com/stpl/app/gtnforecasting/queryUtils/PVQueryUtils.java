@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -317,7 +318,7 @@ public class PVQueryUtils {
             if (parameters.get(Constant.FILTERBRAND) != null) {
                 String value = String.valueOf(parameters.get(Constant.FILTERBRAND));
                 value = value.replace(Constant.PERCENT, StringUtils.EMPTY);
-                if (Constant.MULTIPLE_SMALL.contains(value.toLowerCase())) {
+                if (Constant.MULTIPLE_SMALL.contains(value.toLowerCase(Locale.ENGLISH))) {
                     customSql.append(" AND BM.BRAND_NAME IS NOT NULL ");
                 } else {
                     customSql.append(" AND (BM.BRAND_NAME LIKE '").append(parameters.get(Constant.FILTERBRAND)).append("') ");

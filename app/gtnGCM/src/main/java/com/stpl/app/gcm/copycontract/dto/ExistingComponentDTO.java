@@ -280,16 +280,16 @@ public class ExistingComponentDTO {
         return pStatus;
     }
 
-    public void setPStatus(Integer PStatus) {
-        this.pStatus = PStatus;
+    public void setPStatus(Integer pStatus) {
+        this.pStatus = pStatus;
     }
 
     public Integer getPtype() {
         return ptype;
     }
 
-    public void setPtype(Integer Ptype) {
-        this.ptype = Ptype;
+    public void setPtype(Integer pType) {
+        this.ptype = pType;
     }
 
     public int getIfpDetailsSystemId() {
@@ -312,8 +312,8 @@ public class ExistingComponentDTO {
         return ifpType;
     }
 
-    public void setIFPtype(Integer IFPtype) {
-        this.ifpType = IFPtype;
+    public void setIFPtype(Integer ifpType) {
+        this.ifpType = ifpType;
     }
 
     public Integer getItemFamilyplanStatus() {

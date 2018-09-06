@@ -24,26 +24,26 @@ import org.apache.commons.lang.StringUtils;
 public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO inventorySelection, Boolean isReserve) {
         LOGGER.debug("--Inside getReserveAccountDetails--");
         List<List> finalList = new ArrayList<>();
         List inventoryReplaceList = new ArrayList();
         List<String> inventoryReserveHeader = new ArrayList<>();
         List<String> inventoryReserveProperty = new ArrayList<>();
         try {
-            StringBuilder value;
+            StringBuilder inventoryValue;
             StringBuilder property;
             String isReserveValue = isReserve ? "0" : "1";
             inventoryReplaceList.add(isReserveValue);
-            inventoryReplaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-            inventoryReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
-            inventoryReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
-            inventoryReplaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-            inventoryReplaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+            inventoryReplaceList.add(inventorySelection.getDataSelectionDTO().getAdjustmentId());
+            inventoryReplaceList.add(inventorySelection.getDataSelectionDTO().getProjectionId());
+            inventoryReplaceList.add(inventorySelection.getDataSelectionDTO().getProjectionId());
+            inventoryReplaceList.add(inventorySelection.getDataSelectionDTO().getCompanyMasterSid());
+            inventoryReplaceList.add(inventorySelection.getDataSelectionDTO().getBucompanyMasterSid());
             StringBuilder inventoryQuery;
-            if (selection.getSessionDTO().isWorkFlow()) {
+            if (inventorySelection.getSessionDTO().isWorkFlow()) {
                 inventoryQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-                inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+                inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
                 inventoryQuery.replace(inventoryQuery.indexOf("?"), inventoryQuery.indexOf("?") + 1, isReserve ? "0" : "1");
             } else {
                 inventoryQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
@@ -57,21 +57,21 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
                 for (int i = 0; i < list.size(); i++) {
                     Object[] inventoryObj = (Object[]) list.get(i);
-                    value = new StringBuilder(StringUtils.EMPTY);
+                    inventoryValue = new StringBuilder(StringUtils.EMPTY);
                     property = new StringBuilder(StringUtils.EMPTY);
                     if (isValid(inventoryObj[0])) {
-                        value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(inventoryObj[0]))));
+                        inventoryValue = new StringBuilder(helperId.getDescriptionByID((Integer) (inventoryObj[0])));
                         property = new StringBuilder(String.valueOf(inventoryObj[0]));
                     }
                     if (isValid(inventoryObj[1])) {
-                        value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(inventoryObj[1]))));
+                        inventoryValue.append(DASH).append(helperId.getDescriptionByID((Integer) (inventoryObj[1])));
                         property.append(DASH).append(String.valueOf(inventoryObj[1]));
                     }
                     if (isValid(inventoryObj[NumericConstants.TWO])) {
-                        value.append(DASH).append(String.valueOf(inventoryObj[NumericConstants.TWO]));
+                        inventoryValue.append(DASH).append(String.valueOf(inventoryObj[NumericConstants.TWO]));
                         property.append(DASH).append(String.valueOf(inventoryObj[NumericConstants.TWO]));
                     }
-                    inventoryReserveHeader.add(value.toString());
+                    inventoryReserveHeader.add(inventoryValue.toString());
                     inventoryReserveProperty.add(property.toString());
                 }
                 finalList.add(inventoryReserveHeader);
@@ -105,14 +105,14 @@ public class PIDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     }
 
     @Override
-    protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
+    protected String getAmountFilterCondition(List<String> invenotoryCondition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
-        if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
+        if (invenotoryCondition != null && !invenotoryCondition.isEmpty() && invenotoryCondition.size() < NumericConstants.THREE) {
             StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
-            for (int i = 0; i < condition.size(); i++) {
-                String str = condition.get(i);
+            for (int i = 0; i < invenotoryCondition.size(); i++) {
+                String str = invenotoryCondition.get(i);
                 grlStr.append(tableAliasName).append("ACCRUAL_AMOUNT ").append(str.charAt(0)).append(" 0.00");
-                if (condition.size() > 1 && i != 1) {
+                if (invenotoryCondition.size() > 1 && i != 1) {
                     grlStr.append(" OR ");
                 }
             }

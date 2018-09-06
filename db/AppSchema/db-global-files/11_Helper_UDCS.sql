@@ -8332,7 +8332,7 @@ IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'Business_Month'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -8342,7 +8342,7 @@ IF NOT EXISTS (
 				)
 			VALUES (
 				'Business_Month'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9246,7 +9246,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_DATE_TYPE'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9256,7 +9256,7 @@ GO
 				)
 			VALUES (
 				'ARM_DATE_TYPE'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9342,7 +9342,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_INVENTORY_CUSTOMER'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9352,7 +9352,7 @@ GO
 				)
 			VALUES (
 				'ARM_INVENTORY_CUSTOMER'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9400,7 +9400,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_RATE_BASIS'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9410,7 +9410,7 @@ GO
 				)
 			VALUES (
 				'ARM_RATE_BASIS'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9534,7 +9534,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_ADJUSTMENT_TYPE'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9544,7 +9544,7 @@ GO
 				)
 			VALUES (
 				'ARM_ADJUSTMENT_TYPE'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9687,7 +9687,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ACCOUNT_CATEGORY'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9697,7 +9697,7 @@ GO
 				)
 			VALUES (
 				'ACCOUNT_CATEGORY'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9745,7 +9745,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_ACCOUNT_TYPE'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9755,7 +9755,7 @@ GO
 				)
 			VALUES (
 				'ARM_ACCOUNT_TYPE'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9803,7 +9803,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ACCOUNT_INDICTOR'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9813,7 +9813,7 @@ GO
 				)
 			VALUES (
 				'ACCOUNT_INDICTOR'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9861,7 +9861,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_UDC_1'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9871,7 +9871,7 @@ GO
 				)
 			VALUES (
 				'ARM_UDC_1'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9880,7 +9880,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_UDC_2'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9890,7 +9890,7 @@ GO
 				)
 			VALUES (
 				'ARM_UDC_2'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9899,7 +9899,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_UDC_3'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9909,7 +9909,7 @@ GO
 				)
 			VALUES (
 				'ARM_UDC_3'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9918,7 +9918,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_UDC_4'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9928,7 +9928,7 @@ GO
 				)
 			VALUES (
 				'ARM_UDC_4'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9937,7 +9937,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_UDC_5'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9947,7 +9947,7 @@ GO
 				)
 			VALUES (
 				'ARM_UDC_5'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9956,7 +9956,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_UDC_6'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9966,7 +9966,7 @@ GO
 				)
 			VALUES (
 				'ARM_UDC_6'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -9976,7 +9976,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'CURRENCY'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -9986,7 +9986,7 @@ GO
 				)
 			VALUES (
 				'CURRENCY'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -10034,7 +10034,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'REVERSAL_PERIOD'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -10044,7 +10044,7 @@ GO
 				)
 			VALUES (
 				'REVERSAL_PERIOD'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -10054,7 +10054,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_CONFIGURATION_TYPE'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -10064,7 +10064,7 @@ GO
 				)
 			VALUES (
 				'ARM_CONFIGURATION_TYPE'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -10112,7 +10112,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_PERIOD_BASIS'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -10122,7 +10122,7 @@ GO
 				)
 			VALUES (
 				'ARM_PERIOD_BASIS'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11063,7 +11063,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_MODE'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11073,7 +11073,7 @@ GO
 				)
 			VALUES (
 				'ARM_MODE'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11124,7 +11124,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_CALENDAR'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11134,7 +11134,7 @@ GO
 				)
 			VALUES (
 				'ARM_CALENDAR'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11182,7 +11182,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_MINUTE'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11192,7 +11192,7 @@ GO
 				)
 			VALUES (
 				'ARM_MINUTE'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11278,7 +11278,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_STATUS'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11288,7 +11288,7 @@ GO
 				)
 			VALUES (
 				'ARM_STATUS'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11336,7 +11336,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'DEDUCTION_LEVELS'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11346,7 +11346,7 @@ GO
 				)
 			VALUES (
 				'DEDUCTION_LEVELS'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11415,19 +11415,7 @@ GO
 				AND LIST_NAME = 'DEDUCTION_LEVELS'
 		END
 				GO
-			IF EXISTS (
-				SELECT 1
-				FROM HELPER_TABLE
-				WHERE DESCRIPTION = 'DEDUCTION PROGRAM' collate SQL_Latin1_General_CP1_CS_AS
-					AND LIST_NAME = 'DEDUCTION_LEVELS'
-				)
-		BEGIN
-			UPDATE HELPER_TABLE
-			SET DESCRIPTION = 'Deduction Program'
-			WHERE DESCRIPTION = 'Deduction Program'
-				AND LIST_NAME = 'DEDUCTION_LEVELS'
-		END
-				GO
+			
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11447,6 +11435,21 @@ GO
 				)
 		END
 				GO
+				
+			IF EXISTS (
+				SELECT 1
+				FROM HELPER_TABLE
+				WHERE DESCRIPTION = 'DEDUCTION PROGRAM' collate SQL_Latin1_General_CP1_CS_AS
+					AND LIST_NAME = 'DEDUCTION_LEVELS'
+				)
+		BEGIN
+			UPDATE HELPER_TABLE
+			SET DESCRIPTION = 'Deduction Program'
+			WHERE DESCRIPTION = 'Deduction Program'
+				AND LIST_NAME = 'DEDUCTION_LEVELS'
+		END
+				GO
+				
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11466,6 +11469,19 @@ GO
 				)
 		END
 				GO
+
+            IF EXISTS (SELECT 1 
+				FROM   HELPER_TABLE 
+					WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 2' COLLATE sql_latin1_general_cp1_cs_as 
+					AND LIST_NAME = 'DEDUCTION_LEVELS') 
+		BEGIN 
+			UPDATE HELPER_TABLE 
+				SET    DESCRIPTION = 'Deduction Category 2' 
+			WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 2' 
+				AND LIST_NAME = 'DEDUCTION_LEVELS' 
+		END 
+				GO 
+
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11485,6 +11501,19 @@ GO
 				)
 		END
 				GO
+				
+			IF EXISTS (SELECT 1 
+				FROM   HELPER_TABLE 
+					WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 3' COLLATE sql_latin1_general_cp1_cs_as 
+					AND LIST_NAME = 'DEDUCTION_LEVELS') 
+		BEGIN 
+			UPDATE HELPER_TABLE 
+				SET    DESCRIPTION = 'Deduction Category 3' 
+			WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 3' 
+				AND LIST_NAME = 'DEDUCTION_LEVELS' 
+		END 
+				GO
+				
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11504,6 +11533,19 @@ GO
 				)
 		END
 				GO
+				
+		IF EXISTS (SELECT 1 
+				FROM   HELPER_TABLE 
+					WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 4' COLLATE sql_latin1_general_cp1_cs_as 
+					AND LIST_NAME = 'DEDUCTION_LEVELS') 
+		BEGIN 
+			UPDATE HELPER_TABLE 
+				SET    DESCRIPTION = 'Deduction Category 4' 
+			WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 4' 
+				AND LIST_NAME = 'DEDUCTION_LEVELS' 
+		END 
+		GO 
+				
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11523,6 +11565,19 @@ GO
 				)
 		END
 				GO
+				
+			IF EXISTS (SELECT 1 
+				FROM   HELPER_TABLE 
+					WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 5' COLLATE sql_latin1_general_cp1_cs_as 
+					AND LIST_NAME = 'DEDUCTION_LEVELS') 
+		BEGIN 
+			UPDATE HELPER_TABLE 
+				SET    DESCRIPTION = 'Deduction Category 5' 
+			WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 5' 
+				AND LIST_NAME = 'DEDUCTION_LEVELS' 
+		END 
+				GO 
+				
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11542,6 +11597,19 @@ GO
 				)
 		END
 				GO
+				
+			IF EXISTS (SELECT 1 
+				FROM   HELPER_TABLE 
+					WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 6' COLLATE sql_latin1_general_cp1_cs_as 
+					AND LIST_NAME = 'DEDUCTION_LEVELS') 
+		BEGIN 
+			UPDATE HELPER_TABLE 
+				SET    DESCRIPTION = 'Deduction Category 6' 
+			WHERE  DESCRIPTION = 'DEDUCTION CATEGORY 6' 
+				AND LIST_NAME = 'DEDUCTION_LEVELS' 
+		END 
+				GO 
+				
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
@@ -11561,12 +11629,26 @@ GO
 				)
 		END
 				GO
+				
+				IF EXISTS (
+				SELECT 1
+				FROM HELPER_TABLE
+				WHERE DESCRIPTION = 'DEDUCTION' collate SQL_Latin1_General_CP1_CS_AS
+					AND LIST_NAME = 'DEDUCTION_LEVELS'
+				)
+		BEGIN
+			UPDATE HELPER_TABLE
+			SET DESCRIPTION = 'Deduction'
+			WHERE DESCRIPTION = 'DEDUCTION'
+				AND LIST_NAME = 'DEDUCTION_LEVELS'
+		END
+                    GO
 				--------------------------------------------------------------------- 
 			IF NOT EXISTS (
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_INVENTORY_DETAILS'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11576,7 +11658,7 @@ GO
 				)
 			VALUES (
 				'ARM_INVENTORY_DETAILS'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11776,7 +11858,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_RES_ADJUSTMENT_LEVEL'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11786,7 +11868,7 @@ GO
 				)
 			VALUES (
 				'ARM_RES_ADJUSTMENT_LEVEL'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -11833,7 +11915,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_GTN_ADJUSTMENT_LEVEL'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -11843,7 +11925,7 @@ GO
 				)
 			VALUES (
 				'ARM_GTN_ADJUSTMENT_LEVEL'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0
 				)
 		END
@@ -12011,7 +12093,7 @@ GO
 				SELECT 1
 				FROM HELPER_TABLE
 				WHERE DESCRIPTION = 'ARM_TRX_METHDOLOGY'
-					AND LIST_NAME = 'CATEGORYNAME'
+					AND LIST_NAME = 'CategoryName'
 				)
 		BEGIN
 			INSERT INTO HELPER_TABLE (
@@ -12021,7 +12103,7 @@ GO
 				)
 			VALUES (
 				'ARM_TRX_METHDOLOGY'
-				,'CATEGORYNAME'
+				,'CategoryName'
 				,0)
 				end 
 				go
@@ -12256,7 +12338,7 @@ GO
 					SELECT 1
 					FROM HELPER_TABLE
 					WHERE DESCRIPTION = 'Balance_Summary_Report_Type'
-						AND LIST_NAME = 'CATEGORYNAME'
+						AND LIST_NAME = 'CategoryName'
 					)
 			BEGIN
 				INSERT INTO HELPER_TABLE (
@@ -12266,7 +12348,7 @@ GO
 					)
 				VALUES (
 					'Balance_Summary_Report_Type'
-					,'CATEGORYNAME'
+					,'CategoryName'
 					,0
 					)
 			END
@@ -13783,7 +13865,7 @@ GO
 					SELECT 1
 					FROM HELPER_TABLE
 					WHERE DESCRIPTION = 'ARM_REPORT_TYPE'
-						AND LIST_NAME = 'CATEGORYNAME'
+						AND LIST_NAME = 'CategoryName'
 					)
 			BEGIN
 				INSERT INTO HELPER_TABLE (
@@ -13793,7 +13875,7 @@ GO
 					)
 				VALUES (
 					'ARM_REPORT_TYPE'
-					,'CATEGORYNAME'
+					,'CategoryName'
 					,0
 					)
 			END
@@ -15478,7 +15560,7 @@ IF NOT EXISTS (SELECT 1
 					SELECT 1
 					FROM HELPER_TABLE
 					WHERE DESCRIPTION = 'WORKFLOW_DEDUCTION_LEVELS'
-						AND LIST_NAME = 'CATEGORYNAME'
+						AND LIST_NAME = 'CategoryName'
 					)
 			BEGIN
 				INSERT INTO HELPER_TABLE (
@@ -15488,7 +15570,7 @@ IF NOT EXISTS (SELECT 1
 					)
 				VALUES (
 					'WORKFLOW_DEDUCTION_LEVELS'
-					,'CATEGORYNAME'
+					,'CategoryName'
 					,0
 					)
 			END
@@ -16890,7 +16972,7 @@ GO
 IF NOT EXISTS (
 		SELECT 1
 		FROM HELPER_TABLE
-		WHERE DESCRIPTION = 'CATEGORYNAME'
+		WHERE DESCRIPTION = 'CategoryName'
 			AND LIST_NAME = 'CategoryName'
 		)
 BEGIN
@@ -16900,7 +16982,7 @@ BEGIN
 		,REF_COUNT
 		)
 	VALUES (
-		'CATEGORYNAME'
+		'CategoryName'
 		,'CategoryName'
 		,0
 		)
@@ -17481,14 +17563,14 @@ END
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ARM_CONFIGURATION_TYPE' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ARM_CONFIGURATION_TYPE', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -17548,14 +17630,14 @@ END
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ARM_MODE' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ARM_MODE', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -17612,14 +17694,14 @@ END
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ARM_CALENDAR' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ARM_CALENDAR', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -17643,14 +17725,14 @@ IF NOT EXISTS (SELECT 1
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ARM_STATUS' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ARM_STATUS', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -17688,14 +17770,14 @@ IF NOT EXISTS (SELECT 1
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ARM_RES_ADJUSTMENT_LEVEL' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ARM_RES_ADJUSTMENT_LEVEL', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -17752,14 +17834,14 @@ IF EXISTS(SELECT 1
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ARM_GTN_ADJUSTMENT_LEVEL' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ARM_GTN_ADJUSTMENT_LEVEL', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -17944,14 +18026,14 @@ GO
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ACCOUNT_CATEGORY' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ACCOUNT_CATEGORY', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -18001,14 +18083,14 @@ IF NOT EXISTS (SELECT 1
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'ACCOUNT_INDICTOR' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('ACCOUNT_INDICTOR', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -18067,14 +18149,14 @@ END
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'CURRENCY' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('CURRENCY', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
@@ -18110,15 +18192,28 @@ IF NOT EXISTS (SELECT 1
 IF NOT EXISTS (SELECT 1 
                FROM   HELPER_TABLE 
                WHERE  DESCRIPTION = 'REVERSAL_PERIOD' 
-                      AND LIST_NAME = 'CATEGORYNAME') 
+                      AND LIST_NAME = 'CategoryName') 
   BEGIN 
       INSERT INTO HELPER_TABLE 
                   (DESCRIPTION, 
                    LIST_NAME, 
                    REF_COUNT) 
       VALUES     ('REVERSAL_PERIOD', 
-                  'CATEGORYNAME', 
+                  'CategoryName', 
                   0) 
   END 
 
---------------------------- 
+--------------------------- update CategoryName------
+IF EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE LIST_NAME = 'CATEGORYNAME' 
+		COLLATE  sql_latin1_general_cp1_cs_as
+			)
+	BEGIN
+		UPDATE HELPER_TABLE
+		SET list_name = 'CategoryName'
+		WHERE list_name = 'CATEGORYNAME'
+	END
+	GO
+-----------------------------------------------------

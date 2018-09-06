@@ -798,10 +798,10 @@ public class DiscountQueryBuilder {
     }
     
     public static List getDiscountProjectionCustomExcel(SessionDTO session,final boolean isProgram,ProjectionSelectionDTO projectionSelection) {
-        String CustExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
+        String custExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
         String dedQuery = NINE_LEVELS_DED_EXCEL_CUSTOM;
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
-        CustExcelQuery = CustExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
+        custExcelQuery = custExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(projectionSelection.getFrequency().charAt(0))) //Selected Frequency initial char
                 .replace("?P", StringUtils.EMPTY) //Selected Frequency initial char
                 .replace(DPMDEDINCLLUSION, replaceDPMDEDINCLLUSIONEXCEL(session)) // Selected RS
@@ -810,7 +810,7 @@ public class DiscountQueryBuilder {
                 .replace(DEDINCLNWHR, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
                 .replace("@UNIONALL", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY : dedQuery + oppositeDed)
                 ;
-        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(CustExcelQuery, session.getCurrentTableNames()));
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(custExcelQuery, session.getCurrentTableNames()));
     }
 
 

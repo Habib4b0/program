@@ -49,6 +49,9 @@ public class Converters {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws com.stpl.portal.kernel.exception.SystemException
      */
+    private Converters() {
+        // Converters
+    }
     public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException {
         final List<ViewDTO> results = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedViews method with list size= {}  " , list.size());

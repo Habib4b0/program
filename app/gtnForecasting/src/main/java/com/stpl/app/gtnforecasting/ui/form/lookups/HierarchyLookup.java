@@ -174,7 +174,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
             GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
             GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
             serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
-            serviceRegistryBean.setUrl("/loadHierarchyResults");
+            serviceRegistryBean.setUrl("/gtnWsHierarchyRelationshipController/loadHierarchyResults");
             serviceRegistryBean.setModuleName("hierarchyRelationship");
             serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
             serviceRequest.setGtnServiceRegistryWsRequest(serviceRegistryRequest);

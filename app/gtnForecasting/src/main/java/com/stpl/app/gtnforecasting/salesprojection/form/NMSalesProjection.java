@@ -155,13 +155,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
      */
     public final void init() {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
-        configureProjectionDTO();
+        //configureProjectionDTO();
         Utility.loadHierarchyList(session);
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
         nmFrequencyDdlb.setValue(session.getDsFrequency());
-        generateBtnLogic(null);
+        //generateBtnLogic(null);
         configureGroupDDLB();
         super.configureGraph();
         securityForButton();
@@ -579,17 +579,19 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     private void customerFilterGenerate(boolean customerFlag, boolean productFlag) {
-        if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+        boolean customerFilterFlag = customerFlag;
+        boolean productFilterFlag = productFlag;
+        if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFilterFlag || !productFilterFlag) {
             LOGGER.info("generateBtn :Inside Filter Option");
             session.setFunctionMode("F");
             CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
             CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
             dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
             CommonUtil.getInstance().waitForSeconds();
-            customerFlag = true;
-            productFlag = true;
+            customerFilterFlag = true;
+            productFilterFlag = true;
         }
-        LOGGER.debug("customerFlag{} , productFlag{} ", customerFlag, productFlag);
+        LOGGER.debug("customerFlag{} , productFlag{} ", customerFilterFlag, productFilterFlag);
     }
 
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {

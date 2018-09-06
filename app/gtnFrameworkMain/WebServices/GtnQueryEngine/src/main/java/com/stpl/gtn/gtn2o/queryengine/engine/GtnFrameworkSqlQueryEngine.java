@@ -52,25 +52,25 @@ public class GtnFrameworkSqlQueryEngine {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public SessionFactory getSessionFactory() {
+	public synchronized SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public synchronized void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public GtnQueryLogger getQueryLogger() {
+	public synchronized GtnQueryLogger getQueryLogger() {
 		return queryLogger;
 	}
 
-	public void setQueryLogger(GtnQueryLogger queryLogger) {
+	public synchronized void setQueryLogger(GtnQueryLogger queryLogger) {
 		this.queryLogger = queryLogger;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery) throws GtnFrameworkGeneralException {
+	public List executeSelectQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
-		List<?> list = null;
+		List list = null;
 		try (Session session = getSessionFactory().openSession()) {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
@@ -102,11 +102,11 @@ public class GtnFrameworkSqlQueryEngine {
 		return list;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
+	public List executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
 			throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		Session session = getSessionFactory().openSession();
-		List<?> queyValuelist = null;
+		List queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
@@ -122,11 +122,11 @@ public class GtnFrameworkSqlQueryEngine {
 		return queyValuelist;
 	}
 
-	public List<?> executeSelectQueryList(String sqlQuery, String queryParameterListids, List<?> queryParameterList)
+	public List executeSelectQueryList(String sqlQuery, String queryParameterListids, List<?> queryParameterList)
 			throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		Session session = getSessionFactory().openSession();
-		List<?> queyValuelist = null;
+		List queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
@@ -143,11 +143,11 @@ public class GtnFrameworkSqlQueryEngine {
 		return queyValuelist;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type, String fileName)
+	public List executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type, String fileName)
 			throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		Session session = getSessionFactory().openSession();
-		List<?> queyValuelist = null;
+		List queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
@@ -164,11 +164,11 @@ public class GtnFrameworkSqlQueryEngine {
 		return queyValuelist;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type,
+	public List executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type,
 			ResultTransformer transformer) throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		Session session = getSessionFactory().openSession();
-		List<?> queyValuelist = null;
+		List queyValuelist = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
@@ -225,42 +225,40 @@ public class GtnFrameworkSqlQueryEngine {
 	}
 
 	private void debugQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
+		String query = sqlQuery;
 		for (int i = 0; i < params.length; i++) {
 			switch (type[i]) {
 			case STRING:
-				sqlQuery = sqlQuery.replace("?", "'" + params[i] + "'");
+				query = query.replace("?", "'" + params[i] + "'");
 				break;
 			case DATE:
-                            if(params[i]!="null"){
-				java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
-				sqlQuery = sqlQuery.replace("?", "'" + sql.toString() + "'");
-                                return;
-                            }
-                            else{
-                                sqlQuery = null;
-                            }				
+				if (params[i] != "null") {
+					java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
+					query = query.replace("?", "'" + sql + "'");
+				}
+				break;
 			case INTEGER:
-				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 			case DOUBLE:
-				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 			case NULL_ALLOWED:
-				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 
 			case IN_LIST:
-				sqlQuery = sqlQuery.replace("inParameter", String.valueOf(params[i]));
+				query = query.replace("inParameter", String.valueOf(params[i]));
 				break;
 			case BIG_DECIMAL:
-				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 				break;
 
 			default:
-				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				query = query.replace("?", String.valueOf(params[i]));
 			}
 		}
-		logger.debug(sqlQuery);
+		logger.debug(query);
 	}
 
 	public int executeInsertOrUpdateQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
@@ -310,9 +308,9 @@ public class GtnFrameworkSqlQueryEngine {
 		return updateOrDeletedRecordCount;
 	}
 
-	public List<?> executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList)
+	public List executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList)
 			throws GtnFrameworkGeneralException {
-		List<?> dataList = null;
+		List dataList = null;
 		try (Session session = sessionFactory.openSession()) {
 			Criteria criteria = generateCriteria(modelClass, restictionCriterionList, session);
 			dataList = criteria.list();
@@ -323,9 +321,9 @@ public class GtnFrameworkSqlQueryEngine {
 		return dataList;
 	}
 
-	public List<?> executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList, Session session)
+	public List executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList, Session session)
 			throws GtnFrameworkGeneralException {
-		List<?> dataList = null;
+		List dataList = null;
 		try {
 			Criteria criteria = generateCriteria(modelClass, restictionCriterionList, session);
 			dataList = criteria.list();
@@ -336,9 +334,9 @@ public class GtnFrameworkSqlQueryEngine {
 		return dataList;
 	}
 
-	public List<?> executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList,
-			Projection projection) throws GtnFrameworkGeneralException {
-		List<?> dataList = null;
+	public List executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList, Projection projection)
+			throws GtnFrameworkGeneralException {
+		List dataList = null;
 		try (Session session = sessionFactory.openSession()) {
 			Criteria criteria = generateCriteria(modelClass, restictionCriterionList, session);
 			criteria.setProjection(projection);
@@ -350,9 +348,9 @@ public class GtnFrameworkSqlQueryEngine {
 		return dataList;
 	}
 
-	public List<?> executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList,
-			Projection projection, Session session) throws GtnFrameworkGeneralException {
-		List<?> dataList = null;
+	public List executeSelectQuery(Class<?> modelClass, List<Criterion> restictionCriterionList, Projection projection,
+			Session session) throws GtnFrameworkGeneralException {
+		List dataList = null;
 		try {
 			Criteria criteria = generateCriteria(modelClass, restictionCriterionList, session);
 			criteria.setProjection(projection);
@@ -375,14 +373,15 @@ public class GtnFrameworkSqlQueryEngine {
 	}
 
 	public void createQueryFile(String fileName, String queryString) throws GtnFrameworkGeneralException {
-		if (fileName.contains(GtnFrameworkCommonStringConstants.SERIALIZATION_EXTENSION)) {
-			fileName = fileName.replace(GtnFrameworkCommonStringConstants.SERIALIZATION_EXTENSION,
+		String file = fileName;
+		if (file.contains(GtnFrameworkCommonStringConstants.SERIALIZATION_EXTENSION)) {
+			file = file.replace(GtnFrameworkCommonStringConstants.SERIALIZATION_EXTENSION,
 					GtnFrameworkCommonStringConstants.QUERY
 							+ GtnFrameworkCommonStringConstants.SERIALIZATION_EXTENSION);
 		}
-		fileName = fileName.replace(GtnFrameworkCommonStringConstants.STPL_EXTENSION,
+		file = file.replace(GtnFrameworkCommonStringConstants.STPL_EXTENSION,
 				GtnFrameworkCommonStringConstants.QUERY + GtnFrameworkCommonStringConstants.STPL_EXTENSION);
-		try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+		try (FileOutputStream fileOutputStream = new FileOutputStream(file);
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
 			objectOutputStream.writeObject(queryString);
 			objectOutputStream.flush();
@@ -424,10 +423,10 @@ public class GtnFrameworkSqlQueryEngine {
 		return id;
 	}
 
-	public List<?> executeSelectQuery(String sqlQuery, List<Object> paramList) throws GtnFrameworkGeneralException {
+	public List executeSelectQuery(String sqlQuery, List<Object> paramList) throws GtnFrameworkGeneralException {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		Session session = getSessionFactory().openSession();
-		List<?> queryValueList = null;
+		List queryValueList = null;
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
@@ -481,7 +480,7 @@ public class GtnFrameworkSqlQueryEngine {
 		return count;
 	}
 
-	public List<?> executeProcedureGet(String procedureName, Object[] params, GtnFrameworkDataType[] type)
+	public List executeProcedureGet(String procedureName, Object[] params, GtnFrameworkDataType[] type)
 			throws GtnFrameworkGeneralException {
 		String procedure = "EXEC " + procedureName;
 		return executeSelectQuery(procedure, params, type);

@@ -40,7 +40,7 @@ public class ForecastEditWindow extends CustomWindow {
         setMinimizeToTray();
     }
 
-    private void init() throws Exception {
+    private void init()  {
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(Constant.ZERO);

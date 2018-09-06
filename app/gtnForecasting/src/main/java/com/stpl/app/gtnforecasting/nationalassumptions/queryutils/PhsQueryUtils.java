@@ -18,6 +18,7 @@ import com.vaadin.server.VaadinSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
@@ -39,9 +40,9 @@ public class PhsQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceType.append(priceTypeList.get(i).toUpperCase());
+                priceType.append(priceTypeList.get(i).toUpperCase(Locale.ENGLISH));
             } else {
-                priceType.append(priceTypeList.get(i).toUpperCase()).append(',');
+                priceType.append(priceTypeList.get(i).toUpperCase(Locale.ENGLISH)).append(',');
             }
         }
 

@@ -8,7 +8,7 @@ IF EXISTS (SELECT 'X'
 
 GO 
 
-CREATE PROCEDURE [DBO].[PRC_CFF_RESULTS] (@CFF_MASTER_SID VARCHAR(100),
+CREATE PROCEDURE [dbo].[PRC_CFF_RESULTS] (@CFF_MASTER_SID VARCHAR(100),
                                           @HIERARCHY_NO NVARCHAR(MAX),
 		                                  @FREQUENCY VARCHAR(20),
 		                                  @FROM_PERIOD_SID INT,
@@ -148,6 +148,8 @@ HIERARCHY_NO        VARCHAR(8000),ROW_ID int
 
 IF @indicator IN ( 'c', 'p' )
             BEGIN
+			if nullif(@HIERARCHY_NO,'') is not null
+			begin
 SET @SQL_C = CONCAT('INSERT INTO #CUSTOMER_DETAILS_TEMP (
 	COMPANY_MASTER_SID
 	,ITEM_MASTER_SID
@@ -163,8 +165,25 @@ JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
                                          WHEN 'C' THEN 'ch.CUST_HIERARCHY_NO'
                                          WHEN 'P' THEN 'ch.PROD_HIERARCHY_NO'
                                        END, ' like ''',@HIERARCHY_NO, ''' +''%''')
-
-
+									   end
+									   else 
+begin
+SET @SQL_C = CONCAT('INSERT INTO #CUSTOMER_DETAILS_TEMP (
+	COMPANY_MASTER_SID
+	,ITEM_MASTER_SID
+	 ,HIERARCHY_NO
+	)
+SELECT DISTINCT 
+	 COMPANY_MASTER_SID
+	,ITEM_MASTER_SID,
+	',CASE @indicator
+                                         WHEN 'C' THEN 'substring(ch.CUST_HIERARCHY_NO,1,charindex(''-'',ch.CUST_HIERARCHY_NO,1)-1)'
+                                         WHEN 'P' THEN 'substring(ch.PROD_HIERARCHY_NO,1,charindex(''-'',ch.PROD_HIERARCHY_NO,1)-1) '
+                                       END, ' 
+FROM ', @CCP_HIERARCHY, ' CH
+JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID')
+									   end
+									  
 		EXEC Sp_executesql @SQL_C
 
 	END
@@ -189,8 +208,9 @@ FROM ',@CUSTOM_CCP_SALES,' C
                      on  ch.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
 
-			--WHERE HIERARCHY_NO  LIKE ''',@HIERARCHY_NO, ''' +''%''
-			WHERE HIERARCHY_NO  = ''',@HIERARCHY_NO, ''' 
+',case when nullif(@HIERARCHY_NO,'') is not null then concat('		WHERE HIERARCHY_NO  = ''',@HIERARCHY_NO, '''')
+else ' WHERE LEVEL_NO=1' end
+,'
 AND  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
  ')
           
@@ -576,7 +596,8 @@ SET @SQL_OUT_C=CONCAT('
    LEFT JOIN ' , @discount_table ,' SPD
 	ON SPD.PERIOD = S.PERIOD AND S.YEAR = SPD.YEAR AND S.CFF_MASTER_SID = SPD.CFF_MASTER_SID AND S.HIERARCHY_NO = SPD.HIERARCHY_NO 
 	AND SPD.INDICATOR=0 AND (SPD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND SPD.DISCOUNT_TYPE=2 AND SPD.FILTER_CCP = 1
-	WHERE S.HIERARCHY_NO = ', @ROW_ID , '
+	--WHERE S.HIERARCHY_NO = ', @ROW_ID , '
+	WHERE exists (select 1 from #CUSTOMER_DETAILS_TEMP cdt where S.HIERARCHY_NO=cdt.ROW_ID  )
 	GROUP BY S.CFF_MASTER_SID,
 	         S.YEAR,
 			 S.PERIOD
@@ -642,7 +663,8 @@ SET @SQL_OUT_C=CONCAT('
    LEFT JOIN ' , @discount_table ,' SPD
 	ON SPD.PERIOD = S.PERIOD AND S.YEAR = SPD.YEAR AND S.CFF_MASTER_SID = SPD.CFF_MASTER_SID AND S.HIERARCHY_NO = SPD.HIERARCHY_NO 
 	AND SPD.INDICATOR=1 AND (SPD.DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION  OR @DEDUCTION_INCLUSION IS NULL) AND SPD.DISCOUNT_TYPE=2 AND SPD.FILTER_CCP = 1
-	WHERE S.HIERARCHY_NO = ', @ROW_ID , '
+	--WHERE S.HIERARCHY_NO = ', @ROW_ID , '
+	WHERE exists (select 1 from #CUSTOMER_DETAILS_TEMP cdt where S.HIERARCHY_NO=cdt.ROW_ID  )
 	GROUP BY S.CFF_MASTER_SID,
 	         S.YEAR,
 			 S.PERIOD ')

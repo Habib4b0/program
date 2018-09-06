@@ -121,7 +121,7 @@ public class RelationShipFilterLogic {
 		return resultDtoList;
 	}
 
-	   public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
+	   public List<Object> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
             List<String> groupFilteredCompanies, String dedLevel,
             String dedValue, int relationVersionNo, Date forecastEligibleDate, Map<String, String> customerDescMap)
             throws CloneNotSupportedException {
@@ -147,7 +147,12 @@ public class RelationShipFilterLogic {
                 request, getGsnWsSecurityToken());
 
         String query = availableTableCustomerLevelQueryResponse.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
-        return customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false);
+                 
+        List<Object> availableTableLoadAction = new ArrayList<>();
+        availableTableLoadAction.add(customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false));
+        availableTableLoadAction.add(query);
+        
+        return availableTableLoadAction;
     }
 
 	private List<Leveldto> customizeRelation(String query, Leveldto selectedHierarchyLevelDto,

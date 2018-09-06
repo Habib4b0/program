@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTreeTableAct
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkManageTableRecordTypeAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkNavigationAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkNotificationAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkPagedGridExcelExportAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkPopUpAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkResetAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkSaveConfirmationAction;
@@ -210,7 +211,10 @@ public enum GtnUIFrameworkActionType {
 	V8_CONFIRMED_RESET_ACTION(new GtnUIFrameWorkV8ConfirmedResetAction()), 
 	
 	V8_VALUE_CHANGE_ACTION(new GtnUIFrameworkV8ValueChangeAction()),
+        
 	TREEGRID_EXCEL_EXPORT_ACTION(new GtnUIFrameWorkTreeGridExcelExportAction()),
+        
+        PAGEDGRID_EXCEL_EXPORT_ACTION(new GtnUIFrameWorkPagedGridExcelExportAction()),
 	
 	V8_ADD_RECORD_ACTION(new GtnUIFrameworkV8AddRecordAction());
 
