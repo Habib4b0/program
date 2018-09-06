@@ -53,11 +53,13 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Abhiram.Giri
  */
+@Service
 public class GtnWsContractDashboardLogic {
 
 	private static final String CM_COMPANY_NAME = "cm.COMPANY_NAME";

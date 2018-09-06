@@ -173,7 +173,7 @@ public class Trx7SalesTab extends VerticalLayout implements View, DefaultFocusab
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:

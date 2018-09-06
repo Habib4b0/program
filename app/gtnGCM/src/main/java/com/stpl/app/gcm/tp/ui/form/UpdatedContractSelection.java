@@ -179,7 +179,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("status")
     private TextField status;
     @UiField("rebateFrequency")
-    private TextField rebateFrequency;
+    private TextField rebateFrequencyCS;
     @UiField("startDate")
     private TextField startDate;
     @UiField("cId")
@@ -187,9 +187,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("cName")
     private TextField cName;
     @UiField("type")
-    private TextField type;
+    private TextField typeCS;
     @UiField("basis")
-    private TextField basis;
+    private TextField basisCS;
     @UiField("endDate")
     private TextField endDate;
 
@@ -212,30 +212,30 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("rsTypeLabel")
     private Label rsTypeLabel;
     @UiField("rsType")
-    private TextField rsType;
+    private TextField rsTypeCS;
 
     @UiField("rsProgramTypeLabel")
     private Label rsProgramTypeLabel;
     @UiField("rsProgramType")
-    private TextField rsProgramType;
+    private TextField rsProgramTypeCS;
 
     @UiField("rsCategoryLabel")
     private Label rsCategoryLabel;
     @UiField("rsCategory")
-    private TextField rsCategory;
+    private TextField rsCategoryCS;
 
     @UiField("paymentFrequencyLabel")
     private Label paymentFrequencyLabel;
     @UiField("paymentFrequency")
-    private TextField paymentFrequency;
+    private TextField paymentFrequencyCS;
 
     @UiField("rebatePlanLevelLabel")
     private Label rebatePlanLevelLabel;
     @UiField("rebatePlanLevel")
-    private TextField rebatePlanLevel;
+    private TextField rebatePlanLevelCS;
 
     @UiField("NextBtn")
-    private Button NextBtn;
+    private Button nextBtn;
 
     @UiField("closeBtn")
     private Button closeBtn;
@@ -298,8 +298,8 @@ public class UpdatedContractSelection extends VerticalLayout {
      * The excel export image
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private final CurrentContractTableLogic ContractTableLogic = new CurrentContractTableLogic();
-    private final ExtPagedTable pagedTable = new ExtPagedTable(ContractTableLogic);
+    private final CurrentContractTableLogic contractTableLogic = new CurrentContractTableLogic();
+    private final ExtPagedTable pagedTable = new ExtPagedTable(contractTableLogic);
     private final BeanItemContainer<ContractResultDTO> pagedContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private final BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private ContractSelectionDTO contractSeletion = null;
@@ -493,7 +493,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             contractHolder.setStyleName("searchicon");
             currentTradingPartnerTableLayout.addComponent(pagedTable);
             HorizontalLayout hLayout;
-            hLayout = ContractTableLogic.createControls();
+            hLayout = contractTableLogic.createControls();
             currentTradingPartnerTableLayout.addComponent(hLayout);
 
             componentInformationTableLayout.addComponent(componentInformationTable);
@@ -597,7 +597,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         });
 
         pagedTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        ContractTableLogic.setContainerDataSource(pagedContainer);
+        contractTableLogic.setContainerDataSource(pagedContainer);
 
         if (ADD_TRADING_PARTNER.getConstant().equals(session.getModuleName())) {
             pagedTable.setVisibleColumns(Constants.getInstance().contractSelectionColumns);
@@ -633,7 +633,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             }
         }
         );
-        ContractTableLogic.sinkItemPerPageWithPageLength(false);
+        contractTableLogic.sinkItemPerPageWithPageLength(false);
         pagedTable.addColumnCheckListener(checkListener);
         pagedTable.setColumnWidth(Constants.CHECK_RECORD, NumericConstants.HUNDRED);
         for (Object object : pagedTable.getVisibleColumns()) {
@@ -877,23 +877,23 @@ public class UpdatedContractSelection extends VerticalLayout {
 
                 if (propertyId.equals(
                         "contEndDate")) {
-                    final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat(Constants.MM_DD_YYYY);
-                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-                    contEndDate.setEnabled(false);
+                    final PopupDateField contEndDateUp = new PopupDateField();
+                    contEndDateUp.setDateFormat(Constants.MM_DD_YYYY);
+                    contEndDateUp.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contEndDateUp.addStyleName(Constants.DATE_FIELD_CENTERED);
+                    contEndDateUp.setEnabled(false);
 
-                    return contEndDate;
+                    return contEndDateUp;
                 }
 
                 if (propertyId.equals(
                         "contStartDate")) {
-                    final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat(Constants.MM_DD_YYYY);
-                    contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-                    contStartDate.setEnabled(false);
-                    return contStartDate;
+                    final PopupDateField contStartDateUp = new PopupDateField();
+                    contStartDateUp.setDateFormat(Constants.MM_DD_YYYY);
+                    contStartDateUp.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contStartDateUp.addStyleName(Constants.DATE_FIELD_CENTERED);
+                    contStartDateUp.setEnabled(false);
+                    return contStartDateUp;
                 }
 
                 return null;
@@ -912,8 +912,8 @@ public class UpdatedContractSelection extends VerticalLayout {
         componentInformationTable.setPageLength(NumericConstants.FIVE);
         tablelogic.setContainerDataSource(componentInformationContainer);
 
-        componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-        componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+        componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+        componentInformationTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
         componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -968,14 +968,14 @@ public class UpdatedContractSelection extends VerticalLayout {
                 endDate.setValue(formatDate(getFromList(fieldData, NumericConstants.FIVE)));
                 startDate.addStyleName("align-center");
                 endDate.addStyleName("align-center");
-                type.setValue(getFromList(fieldData, NumericConstants.SIX));
-                rebateFrequency.setValue(getFromList(fieldData, NumericConstants.SEVEN));
-                basis.setValue(getFromList(fieldData, NumericConstants.EIGHT));
-                rsType.setValue(getFromList(fieldData, NumericConstants.NINE));
-                rsProgramType.setValue(getFromList(fieldData, NumericConstants.TEN));
-                rsCategory.setValue(getFromList(fieldData, NumericConstants.ELEVEN));
-                paymentFrequency.setValue(getFromList(fieldData, NumericConstants.TWELVE));
-                rebatePlanLevel.setValue(getFromList(fieldData, NumericConstants.THIRTEEN));
+                typeCS.setValue(getFromList(fieldData, NumericConstants.SIX));
+                rebateFrequencyCS.setValue(getFromList(fieldData, NumericConstants.SEVEN));
+                basisCS.setValue(getFromList(fieldData, NumericConstants.EIGHT));
+                rsTypeCS.setValue(getFromList(fieldData, NumericConstants.NINE));
+                rsProgramTypeCS.setValue(getFromList(fieldData, NumericConstants.TEN));
+                rsCategoryCS.setValue(getFromList(fieldData, NumericConstants.ELEVEN));
+                paymentFrequencyCS.setValue(getFromList(fieldData, NumericConstants.TWELVE));
+                rebatePlanLevelCS.setValue(getFromList(fieldData, NumericConstants.THIRTEEN));
 
             } catch (ParseException ex) {
                 LOGGER.error("",ex);
@@ -992,13 +992,13 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void loadComponentInformationTable(String componentSelectionValue) {
 
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
-            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
+            componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsRs());
+            componentInformationTable.setColumnHeaders(Constants.getTpComponentInformationHeadersRs());
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+            componentInformationTable.setVisibleColumns(Constants.getTpComponentInformationColumnsPs());
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
@@ -1169,7 +1169,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
         }
         contractSeletion.setReset(false);
-        if (!ContractTableLogic.loadSetData(contractSeletion, session)) {
+        if (!contractTableLogic.loadSetData(contractSeletion, session)) {
             AbstractNotificationUtils.getErrorNotification("No Records",
                     "There are no Company records that match the search criteria. Please try again.");
         } else {
@@ -1179,20 +1179,20 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     }
 
-    private String getFromList(List<Object> fieldList, int number) {
-        String fieldvalue = StringUtils.EMPTY;
+    private String getFromList(List<Object> fieldListCS, int numberCS) {
+        String fieldvalueCS = StringUtils.EMPTY;
         try {
-            if (fieldList != null && fieldList.get(number) != null) {
-                fieldvalue = String.valueOf(fieldList.get(number));
-                if (Constants.SELECT_ONE.equals(fieldvalue)) {
-                    fieldvalue = StringUtils.EMPTY;
+            if (fieldListCS != null && fieldListCS.get(numberCS) != null) {
+                fieldvalueCS = String.valueOf(fieldListCS.get(numberCS));
+                if (Constants.SELECT_ONE.equals(fieldvalueCS)) {
+                    fieldvalueCS = StringUtils.EMPTY;
                 }
             }
         } catch (IndexOutOfBoundsException ie) {
             LOGGER.error("",ie);
 
         }
-        return fieldvalue;
+        return fieldvalueCS;
     }
 
     /**
@@ -1399,8 +1399,8 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     public void refreshContractSelectionTable() {
         LOGGER.debug("Contract Selection Refreshed");
-        int currentPage = ContractTableLogic.getCurrentPage();
-        ContractTableLogic.setCurrentPage(currentPage);
+        int currentPage = contractTableLogic.getCurrentPage();
+        contractTableLogic.setCurrentPage(currentPage);
     }
 
     public boolean isSummaryRefreshed() {
@@ -1473,7 +1473,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     contractSeletion.setReset(true);
                     CommmonLogic.resetContractListView(session.getSessionId(), screenName);
 
-                    ContractTableLogic.loadSetData(contractSeletion, session);
+                    contractTableLogic.loadSetData(contractSeletion, session);
                 } catch (Exception ex) {
                     LOGGER.error("",ex);
                 }
@@ -1518,7 +1518,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             if (end > 0) {
                 if (!isComponentInformationExport) {
                     searchList = logic.getContractSelectionResults(logic.buildContractSearchQuery(contractSeletion, session.getUserId(), session.getSessionId(),
-                            0, end, ContractTableLogic.getFilters()), true);
+                            0, end, contractTableLogic.getFilters()), true);
 
                     if (!TRADING_PARTNER_REMOVE.getConstant().equals(session.getModuleName())) {
                         visibleColumns = Constants.getInstance().excelContractSelectionColumns;
@@ -1598,25 +1598,25 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     private void setComponentInformationVisibility(boolean value) {
         basisLabel.setVisible(value);
-        basis.setVisible(value);
+        basisCS.setVisible(value);
 
         rebateFrequencyLabel.setVisible(value);
-        rebateFrequency.setVisible(value);
+        rebateFrequencyCS.setVisible(value);
 
         rsTypeLabel.setVisible(value);
-        rsType.setVisible(value);
+        rsTypeCS.setVisible(value);
 
         rsProgramTypeLabel.setVisible(value);
-        rsProgramType.setVisible(value);
+        rsProgramTypeCS.setVisible(value);
 
         rsCategoryLabel.setVisible(value);
-        rsCategory.setVisible(value);
+        rsCategoryCS.setVisible(value);
 
         paymentFrequencyLabel.setVisible(value);
-        paymentFrequency.setVisible(value);
+        paymentFrequencyCS.setVisible(value);
 
         rebatePlanLevelLabel.setVisible(value);
-        rebatePlanLevel.setVisible(value);
+        rebatePlanLevelCS.setVisible(value);
     }
 
     @UiHandler("contractHolder")
@@ -1685,7 +1685,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     public boolean submitAndNextLogic(final boolean isNextButtonClicked) {
         LOGGER.debug("Contract selection submitAndNextLogic initiated");
         List<String> checkData = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
-        if (checkData.size() > 0 && checkData.get(0).equals(Constants.ZEROSTRING)) {
+        if (!checkData.isEmpty() && checkData.get(0).equals(Constants.ZEROSTRING)) {
             AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select any record to submit");
             return false;
         }
@@ -1802,7 +1802,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     public void noMethod() {
 
                         contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
-                        ContractTableLogic.handleFilterChange();
+                        contractTableLogic.handleFilterChange();
                     }
 
                     @Override
@@ -1814,7 +1814,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                         + "Are you sure you want to continue with this transfer process? ");
             } else {
                 contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
-                ContractTableLogic.handleFilterChange();
+                contractTableLogic.handleFilterChange();
                 LOGGER.debug("No common products");
             }
         } else if (isHavingDifferentProducts()) {
@@ -1823,7 +1823,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 @Override
                 public void noMethod() {
                     contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
-                    ContractTableLogic.handleFilterChange();
+                    contractTableLogic.handleFilterChange();
                 }
 
                 @Override
@@ -1913,9 +1913,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void submition(boolean isNextButtonClicked) {
         LOGGER.debug("Inside Submition");
         summaryRefreshed = true;
-        int currentPage = ContractTableLogic.getCurrentPage();
+        int currentPage = contractTableLogic.getCurrentPage();
         contractSelectionLogic.updateSubmitFlag(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
-        ContractTableLogic.setCurrentPage(currentPage);
+        contractTableLogic.setCurrentPage(currentPage);
         if (!isNextButtonClicked) {
             AbstractNotificationUtils.getAlertNotification("Submit Details", "Selected Contract Holder has been submitted successfully.");
         }
@@ -1965,15 +1965,15 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     private void configureSecurityPermissionsAddTransfer() {
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Add Customer", "ContractSelectionTab");
-            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
-            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
-            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
-            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
-            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
-            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
-            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
+            String userIdTransfer = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+            Map<String, AppPermission> functionHMTransfer = stplSecurity.getBusinessFunctionPermission(userIdTransfer, Constants.GCM_CUSTOMER_MANAGEMENT, "Add Customer", "ContractSelectionTab");
+            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHMTransfer));
+            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHMTransfer));
+            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHMTransfer));
+            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHMTransfer));
+            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHMTransfer));
+            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHMTransfer));
+            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHMTransfer));
         } catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
@@ -1987,7 +1987,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
             submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
             resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
-            NextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
+            nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
         } catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
@@ -1998,24 +1998,24 @@ public class UpdatedContractSelection extends VerticalLayout {
         try {
             if (!isTransfer) {
                 String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "CurrentContractTab");
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
-                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
-                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
-                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
-                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
-                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
-                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));                
+                Map<String, AppPermission> functionHMTrans = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "CurrentContractTab");
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHMTrans));
+                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHMTrans));
+                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHMTrans));
+                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHMTrans));
+                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHMTrans));
+                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHMTrans));
+                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHMTrans));                
             } else {
                 String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "TranferContractTab");
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
-                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
-                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
-                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
-                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
-                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
-                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
+                Map<String, AppPermission> functionHMTransf = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "TranferContractTab");
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHMTransf));
+                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHMTransf));
+                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHMTransf));
+                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHMTransf));
+                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHMTransf));
+                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHMTransf));
+                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHMTransf));
 
             }
 
@@ -2026,14 +2026,14 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void configureSecurityPermissionsRemoveTransfer() {
         try {
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Remove Customer", "ContractSelectionTab");
-            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
-            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
-            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
-            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
-            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
-            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
-            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
+            Map<String, AppPermission> functionHMRemoveTrans = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Remove Customer", "ContractSelectionTab");
+            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHMRemoveTrans));
+            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHMRemoveTrans));
+            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHMRemoveTrans));
+            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHMRemoveTrans));
+            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHMRemoveTrans));
+            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHMRemoveTrans));
+            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHMRemoveTrans));
         }
             catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);

@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -903,27 +904,27 @@ public class DiscountProjectionResultsLogic {
                                 aRateQuarter = aRateQuarter * NumericConstants.HUNDRED;
                                 String actRate = String.valueOf(aRateQuarter);
                                 discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                                Double actualAmt = aRateQuarter * actualSales;
-                                actualAmt = actualAmt / NumericConstants.HUNDRED;
-                                if (actualAmt.isNaN()) {
-                                    actualAmt = 0.0;
+                                Double actualQuarterAmt = aRateQuarter * actualSales;
+                                actualQuarterAmt = actualQuarterAmt / NumericConstants.HUNDRED;
+                                if (actualQuarterAmt.isNaN()) {
+                                    actualQuarterAmt = 0.0;
                                 }
-                                String actAmt = String.valueOf(actualAmt);
-                                discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                                Double prate = projectedAmount / projectedSales;
-                                if (prate.isNaN() || prate.isInfinite()) {
-                                    prate = 0.0;
+                                String actDiscountAmt = String.valueOf(actualQuarterAmt);
+                                discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actDiscountAmt != null && !NULL.equals(String.valueOf(actDiscountAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actDiscountAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actDiscountAmt)))) : HYPHEN);
+                                Double projectionRate = projectedAmount / projectedSales;
+                                if (projectionRate.isNaN() || projectionRate.isInfinite()) {
+                                    projectionRate = 0.0;
                                 }
-                                prate = prate * NumericConstants.HUNDRED;
-                                String proRate = String.valueOf(prate);
-                                discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                                Double projectedAmtAmt = prate * projectedSales;
-                                projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
-                                if (projectedAmtAmt.isNaN()) {
-                                    projectedAmtAmt = 0.0;
+                                projectionRate = projectionRate * NumericConstants.HUNDRED;
+                                String projRate = String.valueOf(projectionRate);
+                                discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSRATE, projRate != null && !NULL.equals(String.valueOf(projRate)) && !StringUtils.EMPTY.equals(String.valueOf(projRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(projRate)))).concat(PERCENTAGE) : HYPHEN);
+                                Double projectedDiscountAmtAmt = projectionRate * projectedSales;
+                                projectedDiscountAmtAmt = projectedDiscountAmtAmt / NumericConstants.HUNDRED;
+                                if (projectedDiscountAmtAmt.isNaN()) {
+                                    projectedDiscountAmtAmt = 0.0;
                                 }
-                                String proAmount = String.valueOf(projectedAmtAmt);
-                                discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
+                                String projecAmount = String.valueOf(projectedDiscountAmtAmt);
+                                discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projecAmount != null && !NULL.equals(String.valueOf(projecAmount)) && !StringUtils.EMPTY.equals(String.valueOf(projecAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projecAmount)))) : HYPHEN);
                                 discountProjList.add(discountQuarterlyDto);
                             } else {
                                 for (int i = 1; i < list.size(); i++) {
@@ -1006,34 +1007,34 @@ public class DiscountProjectionResultsLogic {
                                     } else {
                                         String column = discountQuarterlyDto.getGroup().replace(" ", StringUtils.EMPTY);
                                         if (periodList.contains(column.replace('Q', 'q'))) {
-                                            Double arate = actualAmount / actualSales;
-                                            if (arate.isNaN()) {
-                                                arate = 0.0;
+                                            Double aAmountrate = actualAmount / actualSales;
+                                            if (aAmountrate.isNaN()) {
+                                                aAmountrate = 0.0;
                                             }
-                                            arate = arate * NumericConstants.HUNDRED;
-                                            String actRate = String.valueOf(arate);
+                                            aAmountrate = aAmountrate * NumericConstants.HUNDRED;
+                                            String actRate = String.valueOf(aAmountrate);
                                             discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                                            Double actualAmt = arate * actualSales;
-                                            actualAmt = actualAmt / NumericConstants.HUNDRED;
-                                            if (actualAmt.isNaN()) {
-                                                actualAmt = 0.0;
+                                            Double actualSaleAmt = aAmountrate * actualSales;
+                                            actualSaleAmt = actualSaleAmt / NumericConstants.HUNDRED;
+                                            if (actualSaleAmt.isNaN()) {
+                                                actualSaleAmt = 0.0;
                                             }
-                                            String actAmt = String.valueOf(actualAmt);
-                                            discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                                            Double prate = projectedAmount / projectedSales;
-                                            if (prate.isNaN() || prate.isInfinite()) {
-                                                prate = 0.0;
+                                            String actOrginalSalesAmt = String.valueOf(actualSaleAmt);
+                                            discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actOrginalSalesAmt != null && !NULL.equals(String.valueOf(actOrginalSalesAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actOrginalSalesAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actOrginalSalesAmt)))) : HYPHEN);
+                                            Double projSalesrate = projectedAmount / projectedSales;
+                                            if (projSalesrate.isNaN() || projSalesrate.isInfinite()) {
+                                                projSalesrate = 0.0;
                                             }
-                                            prate = prate * NumericConstants.HUNDRED;
-                                            String proRate = String.valueOf(prate);
-                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                                            Double projectedAmtAmt = prate * projectedSales;
-                                            projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
-                                            if (projectedAmtAmt.isNaN()) {
-                                                projectedAmtAmt = 0.0;
+                                            projSalesrate = projSalesrate * NumericConstants.HUNDRED;
+                                            String projectionSalesRate = String.valueOf(projSalesrate);
+                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSRATE, projectionSalesRate != null && !NULL.equals(String.valueOf(projectionSalesRate)) && !StringUtils.EMPTY.equals(String.valueOf(projectionSalesRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(projectionSalesRate)))).concat(PERCENTAGE) : HYPHEN);
+                                            Double projectedAmtOriginalAmt = projSalesrate * projectedSales;
+                                            projectedAmtOriginalAmt = projectedAmtOriginalAmt / NumericConstants.HUNDRED;
+                                            if (projectedAmtOriginalAmt.isNaN()) {
+                                                projectedAmtOriginalAmt = 0.0;
                                             }
-                                            String proAmount = String.valueOf(projectedAmtAmt);
-                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
+                                            String proSalesDiscountAmount = String.valueOf(projectedAmtOriginalAmt);
+                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proSalesDiscountAmount != null && !NULL.equals(String.valueOf(proSalesDiscountAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proSalesDiscountAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proSalesDiscountAmount)))) : HYPHEN);
                                             discountProjList.add(discountQuarterlyDto);
                                             periodList.remove(column.replace('Q', 'q'));
                                         }
@@ -1075,27 +1076,27 @@ public class DiscountProjectionResultsLogic {
                                             arate = arate * NumericConstants.HUNDRED;
                                             String actRate = String.valueOf(arate);
                                             discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                                            Double actualAmt = arate * actualSales;
-                                            actualAmt = actualAmt / NumericConstants.HUNDRED;
-                                            if (actualAmt.isNaN()) {
-                                                actualAmt = 0.0;
+                                            Double actualOriginalAmt = arate * actualSales;
+                                            actualOriginalAmt = actualOriginalAmt / NumericConstants.HUNDRED;
+                                            if (actualOriginalAmt.isNaN()) {
+                                                actualOriginalAmt = 0.0;
                                             }
-                                            String actAmt = String.valueOf(actualAmt);
-                                            discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                                            Double prate = projectedAmount / projectedSales;
-                                            if (prate.isNaN() || prate.isInfinite()) {
-                                                prate = 0.0;
+                                            String actOrgAmt = String.valueOf(actualOriginalAmt);
+                                            discountQuarterlyDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actOrgAmt != null && !NULL.equals(String.valueOf(actOrgAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actOrgAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actOrgAmt)))) : HYPHEN);
+                                            Double projOriginalrate = projectedAmount / projectedSales;
+                                            if (projOriginalrate.isNaN() || projOriginalrate.isInfinite()) {
+                                                projOriginalrate = 0.0;
                                             }
-                                            prate = prate * NumericConstants.HUNDRED;
-                                            String proRate = String.valueOf(prate);
-                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                                            Double projectedAmtAmt = prate * projectedSales;
-                                            projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
-                                            if (projectedAmtAmt.isNaN()) {
-                                                projectedAmtAmt = 0.0;
+                                            projOriginalrate = projOriginalrate * NumericConstants.HUNDRED;
+                                            String proOriginalRate = String.valueOf(projOriginalrate);
+                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSRATE, proOriginalRate != null && !NULL.equals(String.valueOf(proOriginalRate)) && !StringUtils.EMPTY.equals(String.valueOf(proOriginalRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proOriginalRate)))).concat(PERCENTAGE) : HYPHEN);
+                                            Double projectedOrgAmtAmt = projOriginalrate * projectedSales;
+                                            projectedOrgAmtAmt = projectedOrgAmtAmt / NumericConstants.HUNDRED;
+                                            if (projectedOrgAmtAmt.isNaN()) {
+                                                projectedOrgAmtAmt = 0.0;
                                             }
-                                            String proAmount = String.valueOf(projectedAmtAmt);
-                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
+                                            String proOrgAmount = String.valueOf(projectedOrgAmtAmt);
+                                            discountQuarterlyDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proOrgAmount != null && !NULL.equals(String.valueOf(proOrgAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proOrgAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proOrgAmount)))) : HYPHEN);
                                             discountProjList.add(discountQuarterlyDto);
                                             periodList.remove(column.replace('Q', 'q'));
                                         }
@@ -4132,12 +4133,13 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public DiscountProjectionResultsDTO getChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO, List ccp) {
+        DiscountProjectionResultsDTO dprDto = dto;
         try {
               boolean viewFlag=Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction());
             int projectionMasterId = projSelDTO.getProjectionId();
-            dto.setIsParent(Constant.STRING_ONE);
-            dto.setParent(1);
-            String hierachyNumber = String.valueOf(dto.getHierarchyNo());
+            dprDto.setIsParent(Constant.STRING_ONE);
+            dprDto.setParent(1);
+            String hierachyNumber = String.valueOf(dprDto.getHierarchyNo());
             hierachyNumber = hierachyNumber + PERCENTAGE;
             List<Integer> yearList = new ArrayList<>();
             yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
@@ -4177,10 +4179,10 @@ public class DiscountProjectionResultsLogic {
             List ccpId = null;
             if (ccp == null) {
                 if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                    ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                    ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dprDto.getTreeLevelNo()));
                 }
                 if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                    ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                    ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dprDto.getTreeLevelNo()));
                 }
                 if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                     projSelDTO.setIsCustomHierarchy(true);
@@ -4221,16 +4223,16 @@ public class DiscountProjectionResultsLogic {
                     List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
                     if (list != null && !list.isEmpty()) {
                         if (frequency.equals(QUARTERLY.getConstant())) {
-                            dto = getValueForDTO(projSelDTO, list, dto, Constant.Q_SMALL);
+                            dprDto = getValueForDTO(projSelDTO, list, dprDto, Constant.Q_SMALL);
                         }
                         if (frequency.equals(Constant.SEMI_ANNUALLY)) {
-                            dto = getValueForDTO(projSelDTO, list, dto, Constant.S_SMALL);
+                            dprDto = getValueForDTO(projSelDTO, list, dprDto, Constant.S_SMALL);
                         }
                         if (frequency.equals(Constant.ANNUALLY)) {
-                            dto = getValueForYearDTO(projSelDTO, list, dto);
+                            dprDto = getValueForYearDTO(projSelDTO, list, dprDto);
                         }
                         if (frequency.equals(MONTHLY.getConstant())) {
-                            dto = getValueForMonthDTO(projSelDTO, list, dto);
+                            dprDto = getValueForMonthDTO(projSelDTO, list, dprDto);
                         }
                     }
                 }
@@ -4238,7 +4240,7 @@ public class DiscountProjectionResultsLogic {
         } catch (SystemException | NumberFormatException e) {
             LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
         }
-        return dto;
+        return dprDto;
     }
 
     /**
@@ -4560,16 +4562,17 @@ public class DiscountProjectionResultsLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(Constant.NULL)) {
-            value = DASH.getConstant();
+        String valueDpResults = value;
+        if (valueDpResults.contains(Constant.NULL)) {
+            valueDpResults = DASH.getConstant();
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueDpResults);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            valueDpResults = decFormat.format(newValue);
         }
-        return value;
+        return valueDpResults;
     }
 
     private String createColumn(String group) {
@@ -4809,9 +4812,6 @@ public class DiscountProjectionResultsLogic {
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
-            if (i == 0) {
-
-            }
             int selectedYear = 0;
             if (obj[0] != null) {
                 selectedYear = (Integer) obj[0];
@@ -4954,8 +4954,6 @@ public class DiscountProjectionResultsLogic {
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
-            if (i == 0) {
-            }
             int selectedYear = 0;
             int selectedMonth = 0;
             if (obj[0] != null) {
@@ -4987,7 +4985,7 @@ public class DiscountProjectionResultsLogic {
                     year = selectedYear;
                     month = selectedMonth;
                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
                         Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
@@ -5037,7 +5035,7 @@ public class DiscountProjectionResultsLogic {
                     projectedSales = 0;
                     projectedAmount = 0;
                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     year = (Integer) obj[0];
                     month = (Integer) obj[1];
@@ -5090,7 +5088,7 @@ public class DiscountProjectionResultsLogic {
                 projectedSales = 0;
                 projectedAmount = 0;
                 String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                monthName = monthName.toLowerCase();
+                monthName = monthName.toLowerCase(Locale.ENGLISH);
                 commonColumn = monthName + obj[0];
                 year = (Integer) obj[0];
                 month = (Integer) obj[1];
@@ -5591,7 +5589,7 @@ public class DiscountProjectionResultsLogic {
         int currentYear = (Integer) object[0];
         int currentMonth = (Integer) object[NumericConstants.SEVEN];
         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[NumericConstants.SEVEN]) - 1);
-        monthName = monthName.toLowerCase();
+        monthName = monthName.toLowerCase(Locale.ENGLISH);
         commonColumn = monthName + object[0];
         dto.setIsParent(ZERO_SYMBOL);
         dto.setGroup(currentDiscount);
@@ -5701,7 +5699,7 @@ public class DiscountProjectionResultsLogic {
                         projectedSales = 0;
                         projectedAmount = 0;
                         monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
-                        monthName = monthName.toLowerCase();
+                        monthName = monthName.toLowerCase(Locale.ENGLISH);
                         commonColumn = monthName + obj[0];
                         currentYear = selectedYear;
                         currentMonth = selectedMonth;
@@ -5766,7 +5764,7 @@ public class DiscountProjectionResultsLogic {
                     dto.setGroup(currentDiscount);
                     discountList.remove(currentDiscount);
                     monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     currentYear = selectedYear;
                     currentMonth = selectedMonth;

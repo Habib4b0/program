@@ -166,6 +166,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainertRX6.setColumnProperties(properties);
         resultBeanContainertRX6.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainertRX6.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
@@ -266,7 +267,7 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
         } catch (Exception ex) {
-            LOGGER.error("Error in excelExportLogic :" , ex);
+            LOGGER.error("Error in excelExportLogic :", ex);
         }
     }
 
@@ -278,11 +279,6 @@ public class Trx6InventorySearchResults extends AbstractSearchResults<Trx6Select
     @Override
     protected void valueDdlbValueChange(int masterSids) {
         LOGGER.debug("inside valueDdlbValueChange Method");
-    }
-
-    @Override
-    public Trx6SelectionDTO getSelection() {
-        return super.getSelection();
     }
 
     @Override

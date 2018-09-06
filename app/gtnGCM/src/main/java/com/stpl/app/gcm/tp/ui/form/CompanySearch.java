@@ -58,6 +58,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -642,7 +643,7 @@ public class CompanySearch extends VerticalLayout {
         if (resultTable.size() != 0) {
             recordCount = companySearchLogic.companySearchCount(tpDto, parentCompanyNo, parentCompanyName, companyLogic.getFilters(), recordLockStatus, searchSessionId);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
 
     }
 

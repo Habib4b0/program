@@ -25,7 +25,7 @@ public interface BaseRateDAO {
      * @throws PortalException
      * @throws Exception
      */
-    public Object executeSelectQuery(String query) throws SystemException, PortalException;
+    public Object executeSelectQuery(String query) throws PortalException;
 
     public int getCompaniesCount(DynamicQuery dynamicQuery) throws SystemException;
 
@@ -35,5 +35,5 @@ public interface BaseRateDAO {
 
     public void setWorkflow(String status, int masterId);
    
-    User getUser(Long systemId) throws SystemException, PortalException;
+    User getUser(Long systemId) throws PortalException;
 }

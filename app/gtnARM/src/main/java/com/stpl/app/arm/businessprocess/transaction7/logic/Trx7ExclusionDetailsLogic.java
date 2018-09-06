@@ -52,7 +52,7 @@ public class Trx7ExclusionDetailsLogic {
     protected static Map<String, String> userMap = new HashMap<>();
 
     public List<ExclusionLookupDTO> getCompanySid(String viewSid) {
-        LOGGER.debug("--Inside getCompanySid--" + viewSid);
+        LOGGER.debug("--Inside getCompanySid--{}", viewSid);
         List<ExclusionLookupDTO> finalList = Collections.emptyList();
         try {
             String query = SQlUtil.getQuery("getExclusionViewDetails");
@@ -68,7 +68,7 @@ public class Trx7ExclusionDetailsLogic {
                     finalList.add(dto);
                 }
             }
-            LOGGER.debug("--Inside getCompanySid--" + viewSid);
+            LOGGER.debug("--Inside getCompanySid--{}", viewSid);
             return finalList;
         } catch (Exception e) {
             LOGGER.error("Error in getCompanySid :", e);
@@ -77,7 +77,7 @@ public class Trx7ExclusionDetailsLogic {
     }
 
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
-        LOGGER.debug("--Inside saveORUpdate_Exclusion_Details_LookUp--" + projectionSid + "--accountId--" + accountId + "--contractId--" + contractId);
+        LOGGER.debug("--Inside saveORUpdate_Exclusion_Details_LookUp--{}", projectionSid);
         StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
@@ -86,7 +86,7 @@ public class Trx7ExclusionDetailsLogic {
         saveQuery = saveQuery.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
-            sbQuery.append("(" + projectionSid + ",'" + dtoList.getExcludedField() + "'" + ",'" + dtoList.getValues() + "'),");
+            sbQuery.append("(" + projectionSid + ",'" + dtoList.getExcludedField() + ARMUtils.SINGLE_QUOTES + ",'" + dtoList.getValues() + "'),");
         }
         sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
         String query = isView ? SQlUtil.getQuery("saveORUpdateQueryPipeline") : SQlUtil.getQuery("saveORUpdateQueryPipelineEdit");
@@ -97,16 +97,16 @@ public class Trx7ExclusionDetailsLogic {
         query = query.replace("@USER_ID", "" + sessionDTO.getUserId());
         query = query.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
         sbQuery.append(" ; " + query);
-        LOGGER.debug("--Exit saveORUpdate_Exclusion_Details_LookUp--" + sbQuery);
+        LOGGER.debug("--Exit saveORUpdate_Exclusion_Details_LookUp--{}", sbQuery);
         DAO.executeUpdate(sbQuery.toString());
     }
 
     public List<ExclusionLookupDTO> getFieldListValue(String fieldValue, String prevSelectedValues) {
-        LOGGER.debug("--Inside getFieldListValue--" + fieldValue + "--prevSelectedValues--" + prevSelectedValues);
+        LOGGER.debug("--Inside getFieldListValue--{}", fieldValue);
         try {
             String query = QueryUtils.buildFieldNameselectQuery(fieldValue, prevSelectedValues);
             List<ExclusionLookupDTO> finalList = new ArrayList<>();
-            LOGGER.debug("query --> " + query);
+            LOGGER.debug("query --> {}", query);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (rawList == null || rawList.isEmpty()) {
                 return Collections.emptyList();
@@ -119,7 +119,7 @@ public class Trx7ExclusionDetailsLogic {
                     finalList.add(dtoValue);
                 }
             }
-            LOGGER.debug("--Inside getFieldListValue--" + finalList.size());
+            LOGGER.debug("--Inside getFieldListValue--{}", finalList.size());
             return finalList;
         } catch (Exception e) {
             LOGGER.error("Error in getFieldListValue :", e);
@@ -128,7 +128,7 @@ public class Trx7ExclusionDetailsLogic {
     }
 
     public List<ExclusionLookupDTO> getIntialLoadValue(int rateDetailsSid) {
-        LOGGER.debug("--Inside getIntialLoadValue--" + rateDetailsSid);
+        LOGGER.debug("--Inside getIntialLoadValue--{}", rateDetailsSid);
         List<ExclusionLookupDTO> finalList = new ArrayList<>();
         try {
             String query = SQlUtil.getQuery("getIntialLoadQuery");
@@ -146,7 +146,7 @@ public class Trx7ExclusionDetailsLogic {
                     finalList.add(dtoValue);
                 }
             }
-            LOGGER.debug("--Exit getIntialLoadValue--" + query);
+            LOGGER.debug("--Exit getIntialLoadValue--{}", query);
             return finalList;
         } catch (Exception e) {
             LOGGER.error("Error in getIntialLoadValue :", e);
@@ -162,7 +162,7 @@ public class Trx7ExclusionDetailsLogic {
             query = query.replace("@GL_COMPANY_MASTER_SID", String.valueOf(dataSelectionDTO.getCompanyMasterSid()));
             query = query.replace("@BU_COMPANY_MASTER_SID", String.valueOf(dataSelectionDTO.getBucompanyMasterSid()));
             List rawList = QueryUtils.executeSelect(query);
-            LOGGER.debug("--Exit LoadView_RateConfig--" + query);
+            LOGGER.debug("--Exit LoadView_RateConfig--{}", query);
             return rawList == null || rawList.isEmpty() || rawList.get(0) == null ? 0 : Integer.parseInt(String.valueOf(rawList.get(0)));
         } catch (Exception e) {
             LOGGER.error("Error in loadViewRateConfig :", e);
@@ -171,7 +171,7 @@ public class Trx7ExclusionDetailsLogic {
     }
 
     public ViewLookupDTO loadViewViewName(int viewMasterSid) {
-        LOGGER.debug("--Inside LoadView_ViewName--" + viewMasterSid);
+        LOGGER.debug("--Inside LoadView_ViewName--{}", viewMasterSid);
         ViewLookupDTO dtoValue = new ViewLookupDTO();
         try {
 
@@ -190,7 +190,7 @@ public class Trx7ExclusionDetailsLogic {
                     dtoValue.setViewSid(String.valueOf(viewMasterSid));
                 }
             }
-            LOGGER.debug("--Exit LoadView_ViewName--" + query);
+            LOGGER.debug("--Exit LoadView_ViewName--{}", query);
             return dtoValue;
         } catch (Exception e) {
             LOGGER.error("Error in loadViewViewName :", e);
@@ -199,12 +199,12 @@ public class Trx7ExclusionDetailsLogic {
     }
 
     public boolean isDuplicateName(String viewName) {
-        LOGGER.debug("--Inside isDuplicateName--" + viewName);
+        LOGGER.debug("--Inside isDuplicateName--{}", viewName);
         try {
             String query = SQlUtil.getQuery("getIntialViewLoad");
             query = query.replace("@View_Name", viewName);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
-            LOGGER.debug("--Inside isDuplicateName--" + query);
+            LOGGER.debug("--Inside isDuplicateName--{}", query);
             return !rawList.isEmpty();
         } catch (Exception e) {
             LOGGER.error("Error in isDuplicateName :", e);
@@ -213,7 +213,7 @@ public class Trx7ExclusionDetailsLogic {
     }
 
     public boolean isAddORUpdateView(ExclusionLookupDTO saveViewDTO) {
-        LOGGER.debug("--Inside isAdd_OR_UpdateView--" + saveViewDTO.getViewMasterSid());
+        LOGGER.debug("--Inside isAdd_OR_UpdateView--{}", saveViewDTO.getViewMasterSid());
         StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
@@ -233,7 +233,7 @@ public class Trx7ExclusionDetailsLogic {
             if (saveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : saveViewDTO.getCustGrpList()) {
-                        sbQuery.append("(" + viewSid + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ",").append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ",").append(dtoValue.isInclude() == true ? 1 : 0).append(",");
+                        sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid() + ARMUtils.COMMA_CHAR).append(StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid() + ARMUtils.COMMA_CHAR).append(dtoValue.isInclude() == true ? 1 : 0).append(ARMUtils.COMMA_CHAR);
                         if (dtoValue.getIndicator() != null) {
                             if (dtoValue.getIndicator() == true) {
                                 sbQuery.append(1);
@@ -243,27 +243,27 @@ public class Trx7ExclusionDetailsLogic {
                         } else {
                             sbQuery.append("null");
                         }
-                        sbQuery.append("," + null + "," + null + "),");
+                        sbQuery.append("," + null + ARMUtils.COMMA_CHAR + null + "),");
                     }
                 }
             } else if (!StringUtils.EMPTY.equals(viewSid)) {
                 for (ExclusionLookupDTO idValue : saveViewDTO.getFieldList()) {
-                    sbQuery.append("(" + viewSid + "," + null + "," + null + "," + null + "," + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
+                    sbQuery.append("(" + viewSid + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ARMUtils.COMMA_CHAR + null + ",'" + idValue.getExcludedField() + "','" + idValue.getValues() + "'),");
                 }
             }
             sbQuery.replace(sbQuery.length() - 1, sbQuery.length(), "");
-            LOGGER.debug("--Exit isAdd_OR_UpdateView--" + sbQuery);
+            LOGGER.debug("--Exit isAdd_OR_UpdateView--{}", sbQuery);
             DAO.executeUpdate(sbQuery.toString());
             return true;
         } catch (Exception e) {
-            LOGGER.debug("sbQuery:===========>" + sbQuery.toString());
+            LOGGER.debug("sbQuery:===========>{}", sbQuery.toString());
             LOGGER.error("Error in isAddORUpdateView :", e);
             return false;
         }
     }
 
     public String isSaveView(ExclusionLookupDTO saveViewDTO) {
-        LOGGER.debug("--Inside isSaveView--" + saveViewDTO.getViewName());
+        LOGGER.debug("--Inside isSaveView--{}", saveViewDTO.getViewName());
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String query = SQlUtil.getQuery("insertSaveViewQuery");
@@ -273,7 +273,7 @@ public class Trx7ExclusionDetailsLogic {
             query = query.replace("@Created_By", "" + saveViewDTO.getUserID());
             query = query.replace("@Created_Date", dateFormat.format(new Date()));
             List<Object[]> rawList = QueryUtils.executeSelect(query);
-            LOGGER.debug("--Exit isSaveView--" + query);
+            LOGGER.debug("--Exit isSaveView--{}", query);
             if (!rawList.isEmpty()) {
                 return String.valueOf(rawList.get(0));
             }
@@ -286,28 +286,28 @@ public class Trx7ExclusionDetailsLogic {
     }
 
     public void deleteViewLogic(String viewMasterSid) {
-        LOGGER.debug("--Inside deleteViewLogic--" + viewMasterSid);
+        LOGGER.debug("--Inside deleteViewLogic--{}", viewMasterSid);
         try {
             String deleteQuery = SQlUtil.getQuery("deleteViewMasterQuery");
             deleteQuery = deleteQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewMasterSid);
 
             DAO.executeUpdate(deleteQuery);
-            LOGGER.debug("--Exit deleteViewLogic--" + deleteQuery);
+            LOGGER.debug("--Exit deleteViewLogic--{}", deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogic :" , ex);
+            LOGGER.error("Error in deleteViewLogic :", ex);
         }
     }
 
     public void deleteViewLogicForInventory(String viewMasterSid) {
-        LOGGER.debug("--Inside deleteViewLogicForInventory--" + viewMasterSid);
+        LOGGER.debug("--Inside deleteViewLogicForInventory--{}", viewMasterSid);
         try {
             String deleteQuery = SQlUtil.getQuery("deleteViewMasterQueryForInventory");
             deleteQuery = deleteQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewMasterSid);
 
             DAO.executeUpdate(deleteQuery);
-            LOGGER.debug("--Exit deleteViewLogicForInventory--" + deleteQuery);
+            LOGGER.debug("--Exit deleteViewLogicForInventory--{}", deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteViewLogicForInventory :" , ex);
+            LOGGER.error("Error in deleteViewLogicForInventory :", ex);
         }
     }
 
@@ -336,7 +336,7 @@ public class Trx7ExclusionDetailsLogic {
             }
 
             String queryVal = query.toString().replace("@VIEW_NAME", viewValue);
-            String helperSidQuery = "SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION like '" + ("privateView".equalsIgnoreCase(exRateDTO.getViewType()) ? "Private" : "Public") + "'";
+            String helperSidQuery = "SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION like '" + ("privateView".equalsIgnoreCase(exRateDTO.getViewType()) ? "Private" : "Public") + ARMUtils.SINGLE_QUOTES;
             List<Object> viewSid = HelperTableLocalServiceUtil.executeSelectQuery(helperSidQuery);
             queryVal = queryVal.replace("@View_Type", String.valueOf(viewSid.get(0)));
             query = new StringBuilder(queryVal);
@@ -365,7 +365,7 @@ public class Trx7ExclusionDetailsLogic {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))).append(" like '");
-                        filterQuery.append(filterString).append("'");
+                        filterQuery.append(filterString).append(ARMUtils.SINGLE_QUOTES);
 
                     } else if (filter instanceof Between) {
                         Between betweenFilter = (Between) filter;
@@ -440,7 +440,7 @@ public class Trx7ExclusionDetailsLogic {
                 finalQuery = new StringBuilder();
                 finalQuery.append(query.toString()).append(filterQuery.toString()).append(order);
             }
-            LOGGER.debug("-- finalQuery--" + finalQuery);
+            LOGGER.debug("-- finalQuery--{}", finalQuery);
             if (isCount) {
                 return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
             }
@@ -463,7 +463,7 @@ public class Trx7ExclusionDetailsLogic {
                     dtoList.add(dto);
                 }
             }
-            LOGGER.debug("--Exit getSavedViewList--" + dtoList.size());
+            LOGGER.debug("--Exit getSavedViewList--{}", dtoList.size());
             return dtoList;
         } catch (Exception e) {
             LOGGER.error("Error in getSavedViewList :", e);
@@ -488,9 +488,9 @@ public class Trx7ExclusionDetailsLogic {
                 Object[] array = (Object[]) userList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + array[1]);
             }
-            LOGGER.debug("--Exit getCompanySid--" + userMap.size());
+            LOGGER.debug("--Exit getCompanySid--{}", userMap.size());
         } catch (Exception ex) {
-            LOGGER.error("Error in getAllUsers :" , ex);
+            LOGGER.error("Error in getAllUsers :", ex);
         }
     }
 }

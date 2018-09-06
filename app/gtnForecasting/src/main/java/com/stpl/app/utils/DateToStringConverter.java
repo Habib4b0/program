@@ -20,21 +20,22 @@ public class DateToStringConverter implements Converter<String, Date> {
     public Date convertToModel(String value, Class<? extends Date> targetType,
             Locale locale)
              {
+                 String valueMod = value;
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
                     + targetType.getName() + ")");
         }
 
-        if (value == null) {
+        if (valueMod == null) {
             return null;
         }
 
-        value = value.trim();
+        valueMod = valueMod.trim();
         ParsePosition parsePosition = new ParsePosition(0);
-        Date parsedValue = getFormat(locale).parse(value, parsePosition);
-        if (parsePosition.getIndex() != value.length()) {
-            throw new Converter.ConversionException("Could not convert '" + value
+        Date parsedValue = getFormat(locale).parse(valueMod, parsePosition);
+        if (parsePosition.getIndex() != valueMod.length()) {
+            throw new Converter.ConversionException("Could not convert '" + valueMod
                     + "' to " + getModelType().getName());
         }
 
@@ -82,12 +83,13 @@ public class DateToStringConverter implements Converter<String, Date> {
      * @return A DateFormat instance
      */
     protected DateFormat getFormat(Locale locale) {
-        if (locale == null) {
-            locale = Locale.getDefault();
+        Locale localeFormat = locale;
+        if (localeFormat == null) {
+            localeFormat = Locale.getDefault();
         }
 
         DateFormat f = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-                DateFormat.MEDIUM, locale);
+                DateFormat.MEDIUM, localeFormat);
         f.setLenient(false);
         return f;
     }

@@ -20,8 +20,8 @@ public interface NotificationMgmtLogicDAO {
     public List<HelperTable> getBusinessProcess(DynamicQuery dynamicQuery)throws SystemException;
     public List<HelperTable> getCategory(DynamicQuery dynamicQuery)throws SystemException;
     public MailNotificationMaster saveMailNotificationMaster(MailNotificationMaster mailNotificationMaster)throws SystemException;
-    public MailNotificationMaster getMailNotificationMaster(int systemId)throws SystemException,PortalException;
+    public MailNotificationMaster getMailNotificationMaster(int systemId)throws PortalException;
      public MailNotificationMaster updateMailNotificationMaster(MailNotificationMaster mailNotificationMaster)throws SystemException;
-     public MailNotificationMaster deleteNotification(int mailNotificationSystemId)throws SystemException,PortalException;
+     public MailNotificationMaster deleteNotification(int mailNotificationSystemId)throws PortalException;
      public List<MailNotificationMaster> getAllMailNotification(DynamicQuery query)throws SystemException;
 }

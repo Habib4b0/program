@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -63,9 +64,9 @@ public class NMProjectionResultsXLLogic {
     private static final int BASECOLUMN_YEAR_INDEX = 4;
     private static final int BASECOLUMN_PERIODDISC_INDEX = 5;
     private static final int BASECOLUMN_YRDISC_INDEX = 4;
-    private final List<Object[]> procRawList_total = new ArrayList();
-    private final List<Object[]> procRawList_detail = new ArrayList();
-    private final List<Object[]> procRawList_detail_discount = new ArrayList();
+    private final List<Object[]> procRawListTotal = new ArrayList();
+    private final List<Object[]> procRawListDetail = new ArrayList();
+    private final List<Object[]> procRawListDetailDiscount = new ArrayList();
     private final List<Integer> priorList = new ArrayList();
     private boolean isTotal = false;
     private String levelFilterValue = StringUtils.EMPTY;
@@ -78,7 +79,7 @@ public class NMProjectionResultsXLLogic {
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     public static final String ASSUMPTIONS1 = "ASSUMPTIONS";
     private final Map<String, PVParameters> parameters = new HashMap();
-    private final Map<String, String> customView_relationship_hierarchy = new HashMap();
+    private final Map<String, String> customViewRelationshipHierarchy = new HashMap();
     private final PVParameters parameterDto;
     private boolean discountFlag;
     private boolean isCustomView;
@@ -119,7 +120,7 @@ public class NMProjectionResultsXLLogic {
         discountFlag = !"Total Discount".equalsIgnoreCase(selection.getDiscountLevel());
         isCustomView = selection.isIsCustomHierarchy();
         if (isCustomView) {
-            customView_relationship_hierarchy.putAll(getGroup_customViewNM());
+            customViewRelationshipHierarchy.putAll(getGroup_customViewNM());
         }
         frequencyDivision = selection.getFrequencyDivision();
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
@@ -128,7 +129,7 @@ public class NMProjectionResultsXLLogic {
             isTotal = true;
             getTotalRawData();
             getTotalPivotVariance(selection);
-            calculateAndCustomize_total_period(procRawList_total);
+            calculateAndCustomize_total_period(procRawListTotal);
 
             isTotal = false;
             executeProcedure_PRC_PV_SELECTION();
@@ -137,9 +138,9 @@ public class NMProjectionResultsXLLogic {
                 executeProcedure_PRC_PV_SELECTION();
             }
             if (isCustomView) {
-                calculateAndCustomize_periodForCustomView(procRawList_detail, procRawList_detail_discount);
+                calculateAndCustomize_periodForCustomView(procRawListDetail, procRawListDetailDiscount);
             } else {
-                calculateAndCustomize_detail_period(procRawList_detail, procRawList_detail_discount);
+                calculateAndCustomize_detail_period(procRawListDetail, procRawListDetailDiscount);
             }
         } else {
             isTotal = true;
@@ -153,7 +154,7 @@ public class NMProjectionResultsXLLogic {
                 parameterDto.setHierarchyNo("1");
                 executeProcedure_PRC_PV_SELECTION();
             }
-                calculateAndCustomize_detail_pivot(procRawList_detail, procRawList_detail_discount);
+                calculateAndCustomize_detail_pivot(procRawListDetail, procRawListDetailDiscount);
             }
         }
 
@@ -217,6 +218,8 @@ public class NMProjectionResultsXLLogic {
                 || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELVAL_INDEX]))) {
             tradingPartnerKeys.add(key);
         }
+        LOGGER.debug("tradingPartnerKeysPR ={}", tradingPartnerKeys.isEmpty() ? tradingPartnerKeys : 0);
+        LOGGER.debug("hierarchyKeysPR ={}", hierarchyKeys.isEmpty() ? hierarchyKeys : 0);
     }
 
     private void addList(final Object[] obj) {
@@ -231,7 +234,7 @@ public class NMProjectionResultsXLLogic {
 
                 String groupName;
                 if (isCustomView) {
-                    groupName = customView_relationship_hierarchy.get(obj[BASECOLUMN_HIERARCHY_INDEX] == null ? "" : obj[BASECOLUMN_HIERARCHY_INDEX].toString());
+                    groupName = customViewRelationshipHierarchy.get(obj[BASECOLUMN_HIERARCHY_INDEX] == null ? "" : obj[BASECOLUMN_HIERARCHY_INDEX].toString());
                     groupName = groupName == null ? "" : groupName;
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[NumericConstants.FIFTY_THREE] == null ? null : obj[NumericConstants.FIFTY_THREE].toString());
@@ -336,7 +339,7 @@ public class NMProjectionResultsXLLogic {
             commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YEAR_INDEX];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
-            commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : BASECOLUMN_YEAR_INDEX];
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : BASECOLUMN_YEAR_INDEX];
         }
 
         if (varibaleCat.equals(Constant.VALUE)) {
@@ -346,38 +349,37 @@ public class NMProjectionResultsXLLogic {
             projvalue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[actIndex + 1])));
             baseValue = getFormattedValue(format, projvalue);
             pvDTO.addStringProperties(commonColumn + ACTUALS, varaibleName.contains(PERCENT) ? baseValue + PERCENT : baseValue);
-            if (varaibleName.contains("Percent")) {
-
-            }
         }
 
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueXL = value;
+        if (valueXL.contains(NULL.getConstant())) {
+            valueXL = ZERO;
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueXL);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            valueXL = decFormat.format(newValue);
         }
-        return value;
+        return valueXL;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueisNull = value;
+        if (valueisNull.contains(NULL.getConstant())) {
+            valueisNull = ZERO;
         }
-        return value;
+        return valueisNull;
     }
 
     public void getTotalRawData() {
         String frequency = selection.getFrequency();
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
         List<Integer> projectionIdList = new ArrayList();
-        procRawList_total.clear();
+        procRawListTotal.clear();
         priorList.clear();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY;
@@ -392,7 +394,7 @@ public class NMProjectionResultsXLLogic {
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId()};
         List< Object[]> rawList = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
-        procRawList_total.addAll(rawList);
+        procRawListTotal.addAll(rawList);
         rawList.clear();
     }
 
@@ -423,11 +425,11 @@ public class NMProjectionResultsXLLogic {
                
               List< Object[]> rawList  = CommonLogic.callProcedure(PRC_PR_EXCEL, orderedArg);
             if (parameterDto.getViewName().equals("DETAIL_TOTAL_DISCOUNT")) {
-                procRawList_detail.clear();
-                procRawList_detail.addAll(rawList);
+                procRawListDetail.clear();
+                procRawListDetail.addAll(rawList);
             } else {
-                procRawList_detail_discount.clear();
-                procRawList_detail_discount.addAll(rawList);
+                procRawListDetailDiscount.clear();
+                procRawListDetailDiscount.addAll(rawList);
             }
 
             rawList.clear();
@@ -483,7 +485,7 @@ public class NMProjectionResultsXLLogic {
             //Group Column projSelDTO
             String groupName;
             if (isCustomView) {
-                groupName = customView_relationship_hierarchy.get(obj[BASECOLUMN_HIERARCHY_INDEX] == null ? "" : obj[BASECOLUMN_HIERARCHY_INDEX].toString());
+                groupName = customViewRelationshipHierarchy.get(obj[BASECOLUMN_HIERARCHY_INDEX] == null ? "" : obj[BASECOLUMN_HIERARCHY_INDEX].toString());
                 groupName = groupName == null ? "" : groupName;
                 detail.setHierarchyNo(obj[1].toString());
                 detail.setParentHierarchyNo(obj[NumericConstants.FIFTY_THREE] == null ? null : obj[NumericConstants.FIFTY_THREE].toString());
@@ -637,7 +639,7 @@ public class NMProjectionResultsXLLogic {
                     commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
                 } else if (freqDivision == NumericConstants.TWELVE) {
                     String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
-                    commonColumn = monthName.toLowerCase() + obj[1];
+                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[1];
                 }
                 String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
                 String actvalue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[actIndex])));
@@ -686,7 +688,7 @@ public class NMProjectionResultsXLLogic {
                         commonColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequencyDiv == NumericConstants.TWELVE) {
                         String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FIVE];
                     }
                     column1 = commonColumn + CURRENT;
                     String value = "" + obj[NumericConstants.FIVE];
@@ -707,7 +709,7 @@ public class NMProjectionResultsXLLogic {
                         commonColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequencyDiv == NumericConstants.TWELVE) {
                         String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FIVE];
                     }
                     String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
                     String baseValue = getFormattedValue(AMOUNT, value);
@@ -760,7 +762,7 @@ public class NMProjectionResultsXLLogic {
                             annualActRetIndex = actRetIndex - 1;
                         } else if (freqDiv == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[discountIndex];
+                            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[discountIndex];
                         }
                         column1 = commonColumn + CURRENT;
                         String value = "" + obj[NumericConstants.FOUR];
@@ -791,7 +793,7 @@ public class NMProjectionResultsXLLogic {
                             commonColumn = StringUtils.EMPTY + obj[discountIndex - 1];
                         } else if (freqDiv == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[discountIndex];
+                            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[discountIndex];
                         }
                         if (freqDiv != 1) {
                             String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
@@ -825,36 +827,6 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void commonCustomizationForTotalDiscount(String group, List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, boolean isPer) {
-        LOGGER.debug("Inside commonCustomizationForTotalDiscount");
-
-        int indexValue = 0;
-        int actIndex = 0;
-        if (group.equals("D$")) {
-            actIndex = NumericConstants.FOUR;
-            indexValue = NumericConstants.FIVE;
-        } else if (group.equals("D%")) {
-            actIndex = NumericConstants.SIX;
-            indexValue = NumericConstants.SEVEN;
-        } else if (group.equals("Dis%Ex")) { 
-            actIndex = NumericConstants.ELEVEN;
-            indexValue = NumericConstants.TWELVE;
-        } else {
-            actIndex = NumericConstants.EIGHT;
-            indexValue = NumericConstants.NINE;
-        }
-        String parentGroup;
-        if (!isDetail) {
-            parentGroup = group + "value";
-            if (!selection.getDiscountNameList().isEmpty()) {
-
-                getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, actIndex, isPer, parentGroup);
-            }
-
-        }
-        LOGGER.debug("Ending commonCustomizationForTotalDiscount");
-    }
-
     private void calculate_discount(String varaibleName, String varibaleCat, String masterKey, Object[] obj, int actIndex, ProjectionResultsDTO pvDTO,
             DecimalFormat format, boolean isAdd, int listIndex) {
         actIndex++;
@@ -885,7 +857,7 @@ public class NMProjectionResultsXLLogic {
             commonColumn = StringUtils.EMPTY + obj[BASECOLUMN_YRDISC_INDEX];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[BASECOLUMN_PERIODDISC_INDEX])) - 1);
-            commonColumn = monthName.toLowerCase() + obj[BASECOLUMN_YRDISC_INDEX];
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[BASECOLUMN_YRDISC_INDEX];
         }
 
         if (varibaleCat.equals(Constant.VALUE)) {
@@ -897,6 +869,7 @@ public class NMProjectionResultsXLLogic {
             pvDTO.addStringProperties(commonColumn + ACTUALS, varaibleName.contains(PERCENT) ? baseValue + PERCENT : baseValue);
 
         }
+        LOGGER.debug("calculate_discount discountKeys ={}",discountKeys.isEmpty() ? discountKeys : 0);
     }
 
     private void addList_detail_discount(String key, final Object[] obj) {
@@ -1021,24 +994,5 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void customhierarchyAndTP_keys(Object[] obj, String key, List<ProjectionResultsDTO> pvList) {
-        String parentKey = obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString().substring(obj[obj.length - 1].toString().indexOf('-') + 1);
-        String newKey;
-        if (parentKey == null) {
-            hierarchyKeys.add(key);
-            resultMap.put(key, pvList);
-        } else {
-            if (key.contains("$")) {
-                key = (key.split("\\$"))[0];
-            }
-            newKey = key + "$" + parentKey; //$ delimiter for key and parent key
-            hierarchyKeys.add(newKey);
-            resultMap.put(newKey, pvList);
-        }
-        if ("Customer".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))
-                || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
-            tradingPartnerKeys.add(key);
-        }
-    }
             }
 

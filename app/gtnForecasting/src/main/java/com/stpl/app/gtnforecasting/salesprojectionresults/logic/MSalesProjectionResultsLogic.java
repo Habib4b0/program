@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -622,17 +623,18 @@ public class MSalesProjectionResultsLogic {
         return projDtoList;
     }
 
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
-        if (value.contains(Constant.NULL)) {
-            value = "...";
+    public String getFormatValue(DecimalFormat formatManded, String value, String appendChar) {
+        String valueManded = value;
+        if (valueManded.contains(Constant.NULL)) {
+            valueManded = "...";
         } else {
             if (CURRENCY.equals(appendChar)) {
-                value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+                valueManded = appendChar.concat(formatManded.format(Double.valueOf(valueManded)));
             } else {
-                value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+                valueManded = formatManded.format(Double.valueOf(valueManded)).concat(appendChar);
             }
         }
-        return value;
+        return valueManded;
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
@@ -650,7 +652,7 @@ public class MSalesProjectionResultsLogic {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -658,8 +660,8 @@ public class MSalesProjectionResultsLogic {
         return common;
     }
 
-    public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID and " + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+    public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
+        String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp + ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 
@@ -771,14 +773,15 @@ public class MSalesProjectionResultsLogic {
     }
 
     public static String getMonthForInt(int num) {
+        int numberMonth = num;
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numberMonth == NumericConstants.TWELVE) {
+            numberMonth = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numberMonth >= 0 && numberMonth <= NumericConstants.ELEVEN) {
+            month = months[numberMonth];
         }
         return month;
     }

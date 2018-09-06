@@ -122,19 +122,6 @@ public interface DiscountProjectionForChannelsDAO {
     boolean updateInputsForAdjustment(SessionDTO session, String frequency, String adjustmentType, String adjustmentBasis,
             String adjustmentValue, String allocationMethodology, List<String> baselinePeriods, List<String> selectedPeriods);
 
-    /**
-     * To load the level filter values
-     *
-     * @param projectionId
-     * @param hierarchyIndicator
-     * @param startLevelNo
-     * @param endLevelNo
-     * @param customId
-     * @param isCustomHierarchy
-     * @param isLevelFilter
-     * @return
-     */
-    List loadLevels(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, int customId, boolean isCustomHierarchy, boolean isLevelFilter);
 
     /**
      * Query for the alternate contract history

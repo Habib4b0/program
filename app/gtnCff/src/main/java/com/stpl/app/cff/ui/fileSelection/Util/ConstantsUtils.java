@@ -961,7 +961,6 @@ public final class ConstantsUtils {
      * The Constant DEDUCTION_GROUP_SYS_ID.
      */
     public static final String DEDUCTION_GROUP_SYS_ID = "DeductionGroupSid";
-    public final String[] MANUAL_PROCESS_SCHEDULAR_HEADER = { "isSelected", PROCESS_NAME, "lastRunDate"};
 
     /**
      *

@@ -42,11 +42,13 @@ import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.CFFIndexTableLogic;
 import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
+import com.stpl.app.cff.ui.dataSelection.form.DataSelection;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
@@ -532,10 +534,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         List inputList=new ArrayList();
                                         inputList.add(sessionDto.getProjectionId());
                                         final List<String> loadFrequency = CommonQueryUtils.getAppData(inputList, "loadEditFrequency", null);
-                                        sessionDto.setFrequency(loadFrequency.get(0));
+                                        sessionDto.setFrequency(!loadFrequency.isEmpty() ? loadFrequency.get(0) : ConstantsUtil.QUARTERLY);
                                         final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
-                                        sessionDto.setDeductionNo(loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
-					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
+                                        sessionDto.setDeductionNo(loadDeduction.isEmpty() ? 1 : loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
+                                        dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
 					dataSelectionDto
 							.setCustRelationshipBuilderSid(String.valueOf(sessionDto.getCustRelationshipBuilderSid()));
 					dataSelectionDto
@@ -590,10 +592,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
 								BooleanConstant.getFalseFlag());
 					}
-                                        sessionDto.setStatusName("E");
+                                        sessionDto.setStatusName("G");
+                                        sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
-                                        cffLogic.loadDiscountCustomTempTableInThread(sessionDto,false);
+                                        cffLogic.callCFFHierarachyDetailsProcedure(sessionDto, false);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);
@@ -628,7 +631,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to EDIT.");
 			}
 
-		} catch (final PortalException | SystemException | IllegalArgumentException | InterruptedException | NullPointerException | ExecutionException ex) {
+		} catch (final Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}
@@ -981,18 +984,28 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				addBtn.setVisible(false);
 			} else {
 				addBtn.setVisible(true);
-			}
-		} catch (final PortalException | SystemException ex) {
-			LOGGER.error(ex.getMessage());
-		}
-	}
-	
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
-		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId, sessionDTO.getUserId());
-		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-		Future future = customerExecutorService.submit(wsClientRunnableTarget);
-		customerExecutorService.shutdown();
-		return future;
-	}
+            }
+        } catch (final PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
+        GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
+                hierarchyId, sessionDTO.getUserId());
+        ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
+        Future future = customerExecutorService.submit(wsClientRunnableTarget);
+        customerExecutorService.shutdown();
+        return future;
+    }
+
+    private String getDeductionCaptionWithSid(SessionDTO session) {
+        Map<String, String> levelCaption = new HashMap<>();
+        List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
+        for (Object[] strings : deductionLevel) {
+            String keyValue=String.valueOf(strings[1]).startsWith("UDC")?String.valueOf(strings[1]).replace(" ", StringUtils.EMPTY):String.valueOf(strings[1]);
+            levelCaption.put(String.valueOf(strings[0]), keyValue);
+        }
+        return levelCaption.get(String.valueOf(session.getDeductionNo()));
+    }
 }

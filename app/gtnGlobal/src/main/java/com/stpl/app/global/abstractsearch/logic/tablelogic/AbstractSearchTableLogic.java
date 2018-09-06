@@ -60,7 +60,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 list = searchLogic.getSearchResultsBasedOnModules(binder, abstractSearchForm, start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName);
-            } catch (PortalException | SystemException ex) {   
+            } catch (SystemException ex) {   
                 LOGGER.error(ex.getMessage());
             }
         }

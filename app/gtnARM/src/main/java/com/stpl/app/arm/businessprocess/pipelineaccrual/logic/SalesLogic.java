@@ -96,7 +96,7 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         }
         sql = sql.replace("[$VIEW]", level);
         sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getProjectionMasterSid()));
-        LOGGER.debug("brandMasterSid----" + brandMasterSid);
+        LOGGER.debug("brandMasterSid----{}", brandMasterSid);
         sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
         if ("ITEM".equals(level)) {
             if (VariableConstants.PRODUCT.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
@@ -108,12 +108,12 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
             sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
         }
         List<Integer> result = QueryUtils.executeSelect(sql);
-        LOGGER.debug("count--------------------" + result.get(0));
+        LOGGER.debug("count--------------------{}", result.get(0));
         return result.get(0);
     }
 
     public DataResult<T> getSalesData(Object parentId, SelectionDTO selection, int start, int offset) {
-        LOGGER.debug("selection.getDataSelectionDTO().getProjectionId() ******!!!!!!!" + selection.getProjectionMasterSid());
+        LOGGER.debug("selection.getDataSelectionDTO().getProjectionId() ******!!!!!!!{}", selection.getProjectionMasterSid());
 
         String sql = "";
         String level = "BRAND";

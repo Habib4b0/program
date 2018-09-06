@@ -21,7 +21,7 @@ import com.vaadin.ui.UI;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class FileManagementUI.
  *

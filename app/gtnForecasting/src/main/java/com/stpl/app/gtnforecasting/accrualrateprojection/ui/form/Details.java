@@ -97,13 +97,9 @@ public class Details extends CustomComponent {
 
     private AccrualRateProjectionTableLogic tableLogic = new AccrualRateProjectionTableLogic();
 
-    private ExtContainer<AccrualRateProjectionDTO> resultBeanContainer;
-
     private FreezePagedTable table = new FreezePagedTable(tableLogic);
 
     private CustomTableHeaderDTO rightHeaderDTO;
-
-    private CustomTableHeaderDTO leftHeaderDTO;
 
     protected SessionDTO session;
 
@@ -203,7 +199,8 @@ public class Details extends CustomComponent {
         ExtPagedTable leftTable = table.getLeftFreezeAsTable();
         ExtPagedTable rightTable = table.getRightFreezeAsTable();
         rightHeaderDTO = new CustomTableHeaderDTO();
-        leftHeaderDTO = new CustomTableHeaderDTO();
+        
+        CustomTableHeaderDTO leftHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO recordHeaderDTO = new CustomTableHeaderDTO();
         AccrualRateUtils.getRightHeadersForAccrual(rightHeaderDTO, historyDdlb.getValue(), accrualRateSelectionDTO, AccrualRateUtils.DETAILS, null, recordHeaderDTO);
         AccrualRateUtils.getLeftHeadersForDetails(leftHeaderDTO);
@@ -212,7 +209,7 @@ public class Details extends CustomComponent {
         leftTable.setSortEnabled(false);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableLogic.setPageLength(NumericConstants.TEN);
-        resultBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
+        ExtContainer<AccrualRateProjectionDTO> resultBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
         tableLogic.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setRecordHeader(rightHeaderDTO.getSingleColumns());
         resultBeanContainer.setColumnProperties(rightHeaderDTO.getProperties());

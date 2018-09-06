@@ -33,7 +33,7 @@ public class PromoteTpToChDto implements Serializable {
     private String state = StringUtils.EMPTY;
     private String zip = StringUtils.EMPTY;
     private boolean reset = false;
-    private HelperDTO tradeClass_DTO;
+    private HelperDTO tradeClassDto;
 
     public PromoteTpToChDto() {
         super();
@@ -192,11 +192,11 @@ public class PromoteTpToChDto implements Serializable {
     }
 
     public HelperDTO getTradeClass_DTO() {
-        return tradeClass_DTO;
+        return tradeClassDto;
     }
 
-    public void setTradeClass_DTO(HelperDTO tradeClass_DTO) {
-        this.tradeClass_DTO = tradeClass_DTO;
+    public void setTradeClass_DTO(HelperDTO tradeClassDto) {
+        this.tradeClassDto = tradeClassDto;
     }
     
 }

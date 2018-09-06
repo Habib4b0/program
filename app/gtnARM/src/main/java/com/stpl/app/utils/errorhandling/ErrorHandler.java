@@ -57,7 +57,7 @@ public class ErrorHandler extends DefaultErrorHandler {
             for (Throwable t = event.getThrowable(); t != null;
                     t = t.getCause()) {
                 if (t.getCause() == null) {
-                    LOGGER.error(t.getClass().getName() + t);
+                    LOGGER.error(t.getClass().getName(), t);
                 }
             }
 

@@ -76,23 +76,8 @@ public class AdjustmentSummaryWindow extends Window {
             AdjustmentSummary adjustmentsummary;
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
-            if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
-                nextBtn.setVisible(false);
-            } else {
-                nextBtn.setVisible(true);
-            }
-            if (functionHM.get(CommonConstant.CLOSE_BTN) != null && !(functionHM.get(CommonConstant.CLOSE_BTN)).isFunctionFlag()) {
-                closeBtn.setVisible(false);
-            } else {
-                closeBtn.setVisible(true);
-            }
-
-            if (functionHM.get(CommonConstant.PREVIOUS_BTN) != null && !(functionHM.get(CommonConstant.PREVIOUS_BTN)).isFunctionFlag()) {
-                previousBtn.setVisible(false);
-            } else {
-                previousBtn.setVisible(true);
-            }
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + ARMUtils.COMMA_CHAR + "Landing screen");
+            getButtonSecurity(functionHM);
             if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
                 nextBtn.setVisible(false);
             } else {
@@ -120,41 +105,68 @@ public class AdjustmentSummaryWindow extends Window {
             TabSheet.Tab tab = tabSheet.addTab(adjustmentsummary, ARMConstants.getAdjustmentSummary());
             tab.setDefaultFocusComponent(adjustmentsummary.getDefaultFocusComponent());
             tabSheet.addTab(adjustmentDetail, "Adjustment Detail");
-            if (tabSheet.getTab(0).getCaption().equals(ARMConstants.getDataSelection())) {
-                nextBtn.setVisible(true);
-                previousBtn.setVisible(false);
-            } else if (tabSheet.getTab(1).getCaption().equals(ARMConstants.getAdjustmentSummary())) {
-                nextBtn.setVisible(true);
-                previousBtn.setVisible(true);
-            } else {
-                previousBtn.setVisible(true);
-                nextBtn.setVisible(false);
-            }
-            tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
-                @Override
-                public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
-                    final TabSheet.Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
-                    tabPosition = event.getTabSheet().getTabPosition(tab);
-                    if (tabPosition == 0) {
-                        nextBtn.setVisible(true);
-                        previousBtn.setVisible(false);
-                    } else if (tabPosition == 1) {
-                        nextBtn.setVisible(true);
-                        previousBtn.setVisible(true);
-                    } else if (tabPosition == NumericConstants.TWO) {
-                        adjustmentDetail.loadReserveAccount();
-                        previousBtn.setVisible(true);
-                        nextBtn.setVisible(false);
-                    }
-
-                }
-            });
+            getButtonVisiblity();
+            tabChangeLitener();
         } catch (NullPointerException ex) {
-            LOGGER.error("Error in " + getClass(), ex);
+            LOGGER.error("Error in ", ex);
         } catch (Exception ex) {
-            LOGGER.error("Error in " + getClass(), ex);
+            LOGGER.error("Error in ", ex);
         }
 
+    }
+
+    private void getButtonSecurity(Map<String, AppPermission> functionHM) {
+        if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
+            nextBtn.setVisible(false);
+        } else {
+            nextBtn.setVisible(true);
+        }
+        if (functionHM.get(CommonConstant.CLOSE_BTN) != null && !(functionHM.get(CommonConstant.CLOSE_BTN)).isFunctionFlag()) {
+            closeBtn.setVisible(false);
+        } else {
+            closeBtn.setVisible(true);
+        }
+        
+        if (functionHM.get(CommonConstant.PREVIOUS_BTN) != null && !(functionHM.get(CommonConstant.PREVIOUS_BTN)).isFunctionFlag()) {
+            previousBtn.setVisible(false);
+        } else {
+            previousBtn.setVisible(true);
+        }
+    }
+
+    private void tabChangeLitener() {
+        tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
+            public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
+                final TabSheet.Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
+                tabPosition = event.getTabSheet().getTabPosition(tab);
+                if (tabPosition == 0) {
+                    nextBtn.setVisible(true);
+                    previousBtn.setVisible(false);
+                } else if (tabPosition == 1) {
+                    nextBtn.setVisible(true);
+                    previousBtn.setVisible(true);
+                } else if (tabPosition == NumericConstants.TWO) {
+                    adjustmentDetail.loadReserveAccount();
+                    previousBtn.setVisible(true);
+                    nextBtn.setVisible(false);
+                }
+
+            }
+        });
+    }
+
+    private void getButtonVisiblity() {
+        if (tabSheet.getTab(0).getCaption().equals(ARMConstants.getDataSelection())) {
+            nextBtn.setVisible(true);
+            previousBtn.setVisible(false);
+        } else if (tabSheet.getTab(1).getCaption().equals(ARMConstants.getAdjustmentSummary())) {
+            nextBtn.setVisible(true);
+            previousBtn.setVisible(true);
+        } else {
+            previousBtn.setVisible(true);
+            nextBtn.setVisible(false);
+        }
     }
 
     private final CustomNotification notifier = new CustomNotification();
@@ -176,7 +188,7 @@ public class AdjustmentSummaryWindow extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":

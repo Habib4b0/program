@@ -307,46 +307,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             inputs.add(selection.getDataSelectionDTO().getProjectionId());
             inputs.add(selection.getFrequency());
             selection.setMasterSids(ARMUtils.getMasterIdsMap());
-            String nextLevel;
-            if (dto instanceof AdjustmentDTO) {
-                TreeMap<String, Integer> masterSids;
-                AdjustmentDTO val = (AdjustmentDTO) dto;
-                int levelNo = val.getLevelNo();
-                masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
-                selection.setMasterSids(masterSids);
-                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
-                    nextLevel = selection.getSummarydeductionLevelDes();
-                } else {
-                    nextLevel = selection.getSummaryLevel().get(levelNo);
-                }
-                selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
-                selection.setLevelNo(levelNo);
-            } else {
-                selection.setLevelNo(1);
-                // Do not change the order of the below code
-                // This condition will work when Level filter is not used
-                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
-                    nextLevel = selection.getSummarydeductionLevelDes();
-                } else {
-                    nextLevel = selection.getSummaryLevel().get(1);
-                }
-                // This condition will work for Value Ddlb
-                if (selection.getSummaryvalueSid() != 0) {
-                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
-                } else if (selection.getSummarylevelFilterNo() != 0) {
-                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
-                }
-                //This will ovverride the default first Level (For Level Filter)
-                if (selection.getSummarylevelFilterNo() != 0) {
-                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
-                        nextLevel = selection.getSummarydeductionLevelDes();
-                    } else {
-                        nextLevel = selection.getSummarylevelFilterValue();
-                    }
-                }
-
-            }
+            String nextLevel = getNextLevel(dto, selection);
             inputs.add(nextLevel);
             inputs.add(selection.getDataSelectionFromDate());
             inputs.add(selection.getDataSelectionToDate());
@@ -365,9 +326,68 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
         } catch (Exception ex) {
-            LOGGER.error("Error in generateInputs:" , ex);
+            LOGGER.error("Error in generateInputs:", ex);
         }
         return returnObj;
+    }
+
+    private String getNextLevel(Object dto, SummarySelection selection) {
+        String nextLevel;
+        if (dto instanceof AdjustmentDTO) {
+            TreeMap<String, Integer> masterSids;
+            AdjustmentDTO val = (AdjustmentDTO) dto;
+            int levelNo = val.getLevelNo();
+            masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+            masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
+            selection.setMasterSids(masterSids);
+            if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
+                nextLevel = selection.getSummarydeductionLevelDes();
+            } else {
+                nextLevel = selection.getSummaryLevel().get(levelNo);
+            }
+            selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
+            selection.setLevelNo(levelNo);
+        } else {
+            selection.setLevelNo(1);
+            nextLevel = getnextLevelLevelFilter(selection);
+            getNextLevelValueMethod(selection);
+            nextLevel = getNextLevelFirstLevel(selection, nextLevel);
+        }
+        return nextLevel;
+    }
+
+    private String getNextLevelFirstLevel(SummarySelection selection, String newLevel) {
+        //This will ovverride the default first Level (For Level Filter)
+        String nextLevel = newLevel;
+        if (selection.getSummarylevelFilterNo() != 0) {
+            if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
+                nextLevel = selection.getSummarydeductionLevelDes();
+            } else {
+                nextLevel = selection.getSummarylevelFilterValue();
+            }
+        }
+        return nextLevel;
+    }
+
+    private void getNextLevelValueMethod(SummarySelection selection) {
+        // This condition will work for Value Ddlb
+        if (selection.getSummaryvalueSid() != 0) {
+            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
+        } else if (selection.getSummarylevelFilterNo() != 0) {
+            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
+        }
+    }
+
+    private String getnextLevelLevelFilter(SummarySelection selection) {
+        String nextLevel;
+        // Do not change the order of the below code
+        // This condition will work when Level filter is not used
+        if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
+            nextLevel = selection.getSummarydeductionLevelDes();
+        } else {
+            nextLevel = selection.getSummaryLevel().get(1);
+        }
+        return nextLevel;
     }
 
     @Override
@@ -435,7 +455,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
         Object[] value = selection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
         query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", selection.getDataSelectionFromDate());
         query = query.replace("@ENDPERIOD", selection.getDataSelectionToDate());
@@ -449,7 +469,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
         query = SQlUtil.getQuery(getExcelTotalQueryName());
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
         query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", selection.getFromDate());
         query = query.replace("@ENDPERIOD", selection.getToDate());

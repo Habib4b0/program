@@ -47,7 +47,7 @@ public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
             }
             dto.setCalculateFlag(true);
         } catch (NumberFormatException e) {
-            LOGGER.debug("User is supposed to give Double value " + e.getMessage());
+            LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
             return;
         }
         String period;
@@ -71,7 +71,7 @@ public class Trx7DemandSummaryFieldFactory extends Trx7SummaryFieldFactory {
         input.add(selection.getSummarydemandfrequency().substring(0, 1));
         input.add(period);
 
-        service.submit(new UpdateOverride(input));
+        service.submit(new Tr7SummaryUpdateOverride(input));
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

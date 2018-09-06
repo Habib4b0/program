@@ -27,8 +27,8 @@ public class PSIFPDTO implements Serializable {
     private String priceScheduleStartDate = StringUtils.EMPTY;
     private String priceScheduleIdValue = StringUtils.EMPTY;
     private String therapeuticClass = StringUtils.EMPTY;
-    private Integer PStatus = 0;
-    private Integer Ptype = 0;
+    private Integer pStatus = 0;
+    private Integer ptype = 0;
     /**
      * Item Family plan No Field
      */
@@ -780,18 +780,18 @@ public class PSIFPDTO implements Serializable {
     }
 
     public Integer getPStatus() {
-        return PStatus;
+        return pStatus;
     }
 
-    public void setPStatus(Integer PStatus) {
-        this.PStatus = PStatus;
+    public void setPStatus(Integer pStatus) {
+        this.pStatus = pStatus;
     }
 
     public Integer getPtype() {
-        return Ptype;
+        return ptype;
     }
 
-    public void setPtype(Integer Ptype) {
-        this.Ptype = Ptype;
+    public void setPtype(Integer pType) {
+        this.ptype = pType;
     }
 }

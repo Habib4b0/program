@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  *
- * @author Sathya.Seelan
+ * @author Sathya.S
  */
 public class GtnFrameworkAdjustmentDetailsSaveViewAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 

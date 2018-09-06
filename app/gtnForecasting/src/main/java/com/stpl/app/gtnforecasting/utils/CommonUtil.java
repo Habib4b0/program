@@ -51,10 +51,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CommonUtil {
 
-    /**
-     * The object.
-     */
-    private static CommonUtil object;
+    
     public static final String OPEN_PARANTHESIS = "(";
     public static final String CLOSE_PARANTHESIS = ")";
     public static final String BUSINESS_PROCESS = "businessProcess";
@@ -76,17 +73,17 @@ public class CommonUtil {
     private CommonUtil() {
 
     }
-
+    
+    static class INNER{
+        private static final CommonUtil INSTANCE=new CommonUtil();
+    }
     /**
      * Gets the single instance of CommonUtil.
      *
      * @return single instance of CommonUtil
      */
     public static CommonUtil getInstance() {
-        if (object == null) {
-            object = new CommonUtil();
-        }
-        return object;
+        return INNER.INSTANCE;
     }
     /**
      * To get the combo box select.
@@ -547,7 +544,7 @@ public class CommonUtil {
         return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
     }
     
-    public static String getDisplayFormattedName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
+    public static String getDisplayFormattedName(String hierarchyNumber, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
         StringBuilder formattedName = new StringBuilder();
         try {
             List<Object> relationshipValues = relationshipDetails.get(hierarchyNumber);
@@ -764,7 +761,7 @@ public class CommonUtil {
         return formattedNameValue;
     }
         
-    public static List<String> getFormattedDisplayName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
+    public static List<String> getFormattedDisplayName(String hierarchyNumber, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
         List<String> formattedNameList = new ArrayList();
         try {
             List<Object> relationshipListValues = relationshipDetails.get(hierarchyNumber);

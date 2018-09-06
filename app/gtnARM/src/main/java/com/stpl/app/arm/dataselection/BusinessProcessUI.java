@@ -97,8 +97,8 @@ public class BusinessProcessUI extends CommonUI {
         String configType = null;
         BussinessProcessForm editWindow = null;
         LOGGERVALUE.info("Inside BusinessProcessUI :");
-        LOGGERVALUE.info("USER_ID :" + userId);
-        LOGGERVALUE.info("SESSION_ID :" + sessionId);
+        LOGGERVALUE.info("USER_ID :{}", userId);
+        LOGGERVALUE.info("SESSION_ID :{}", sessionId);
         if (pageParameters != null) {
             pageParameters = pageParameters.contains("///&") ? pageParameters.replace("///&", "///") : pageParameters;
             String[] parameters = pageParameters.split("&");

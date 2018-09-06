@@ -75,7 +75,7 @@ public class StplSecurity {
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) {
         try {
-            LOGGER.debug(StringUtils.EMPTY + userId);
+            LOGGER.debug(userId);
             Map<String, AppPermission> functionHm;
 
             final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
@@ -215,7 +215,7 @@ public class StplSecurity {
     public String getBusinessRoleIds(final Collection<Object> userGroupId) {
         try {
             String businessRoleIds = StringUtils.EMPTY;
-            String query = "SELECT BUSINESSROLE_MASTER_SID FROM dbo.USERGROUP_BUSINESSROLE WHERE USERGROUP_ID IN (" + StringUtils.join(userGroupId, ARMUtils.COMMA) + ")";
+            String query = "SELECT BUSINESSROLE_MASTER_SID FROM dbo.USERGROUP_BUSINESSROLE WHERE USERGROUP_ID IN (" + StringUtils.join(userGroupId, ARMUtils.COMMA) + ARMUtils.CLOSE_BRACES;
             final List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             for (int i = 0; i < list.size(); i++) {
                 if (StringUtils.EMPTY.equals(businessRoleIds)) {
@@ -275,7 +275,7 @@ public class StplSecurity {
             editPermission = getModePermission(businessRoleIds, moduleName, false, false, true, false);
         }
         final Map<String, AppPermission> fieldHm = listOfFieldAppPermissionMap(tabPermissionList, addPermission, viewPermission, editPermission, FIELD_VALUE);
-        LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size=" + fieldHm.size());
+        LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size={}", fieldHm.size());
         return fieldHm;
     }
 
@@ -300,7 +300,7 @@ public class StplSecurity {
                 + "            and spm.CATEGORY_NAME IN ('List view Header')";
         if (businessRoleIds.length() != 0) {
             query += CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
-                    + businessRoleIds + ")";
+                    + businessRoleIds + ARMUtils.CLOSE_BRACES;
         }
         if (mod.length() != 0) {
             query += " AND spm.MODULE_NAME in ('" + mod + "') ";
@@ -337,7 +337,7 @@ public class StplSecurity {
         }
         if (businessRoleIds.length() != 0) {
             query += CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
-                    + businessRoleIds + ")";
+                    + businessRoleIds + ARMUtils.CLOSE_BRACES;
         }
 
         if (mod.length() != 0) {
@@ -384,7 +384,7 @@ public class StplSecurity {
 
             }
         }
-        LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size=" + permissionHm.size());
+        LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size={}", permissionHm.size());
         return permissionHm;
     }
 
@@ -396,7 +396,7 @@ public class StplSecurity {
         input.add(tabName);
         if (businessRoleId.length() != 0) {
             String sql = CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
-                    + businessRoleId + ")";
+                    + businessRoleId + ARMUtils.CLOSE_BRACES;
             input.add(sql);
         } else {
             input.add(StringUtils.EMPTY);

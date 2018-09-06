@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
@@ -81,6 +80,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
+import java.util.concurrent.ExecutorService;
 import org.asi.ui.customtextfield.CustomTextField;
 
 /**
@@ -112,7 +112,7 @@ public class DataSelection extends AbstractDataSelection {
 	private final CFFLogic cffLogic = new CFFLogic();
 	private final TabSheet tabSheet;
 	private String topLevelName = StringUtils.EMPTY;
-	private final ExecutorService service = ThreadPool.getInstance().getService();
+	private final ThreadPool service = ThreadPool.getInstance();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	private Future customerFuture;
@@ -515,13 +515,16 @@ public class DataSelection extends AbstractDataSelection {
                                 }
                                 sessionDTO.setPriorProjectionId(br.replace(br.lastIndexOf(Constants.COMMA), br.length(), StringUtils.EMPTY).toString());
                                 }
-                                
-                                sessionDTO.setDeductionName(deductionDdlb.getItemCaption(deductionDdlb.getValue()));
+                                String keyValue = deductionDdlb.getItemCaption(deductionDdlb.getValue());
+                                keyValue = keyValue.startsWith("UDC") ? keyValue.replace(" ", StringUtils.EMPTY) : keyValue;
+
+                                sessionDTO.setDeductionName(keyValue);
                                 sessionDTO.setDeductionNo(Integer.parseInt(String.valueOf(deductionDdlb.getValue())));
                                 sessionDTO.setCustomDescription(cffLogic.getRelationshipDetailsCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
                                 sessionDTO.setDeductionLevelDescription(cffLogic.getRelationshipDetailsDeductionCustom(sessionDTO, String.valueOf(customViewDdlb.getValue())));
                                 cffLogic.loadSalesTempTableInThread(sessionDTO,true);
                                 cffLogic.loadDiscountTempTableInThread(sessionDTO, true);
+                                cffLogic.callCFFHierarachyDetailsProcedure(sessionDTO, true);
 
 			}
 
@@ -2221,8 +2224,7 @@ public class DataSelection extends AbstractDataSelection {
 					levelInString = String.valueOf(level.getValue());
 				}
 				int currentLevel = UiUtils.parseStringToInteger(levelInString);
-				if (currentLevel != 0 && DataSelectionUtil.getBeanFromId(selectedItem).getLevelNo() == currentLevel) {
-				}
+				
 				DataSelectionUtil.removeItemsRecursively(selectedItem, selectedCustomer, availableCustomer,
 						selectedCustomerContainer, availableCustomerContainer, currentLevel);
 				selectedCustomerContainer.removeItem(DataSelectionUtil.getBeanFromId(selectedItem));
@@ -3704,8 +3706,7 @@ public class DataSelection extends AbstractDataSelection {
 	private List<Leveldto> getInitialHierarchy(final int projectionId, String indicator, final String level,
 			final Map<String, String> descriptionMap) {
 		DataSelectionLogic logic = new DataSelectionLogic();
-		List<Leveldto> initialHierarchy = logic.getRelationShipValues(projectionId, indicator, level, descriptionMap);
-		return initialHierarchy;
+		return logic.getRelationShipValues(projectionId, indicator, level, descriptionMap);
 	}
 
 	public final void configureOnTabLoad(int projectionId, SessionDTO session) {
@@ -3853,7 +3854,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	public void insertCffDetailsUsingExecutorService(final int projectionIdValue,
 			final GtnSmallHashMap tempTableNames) {
-		Future future = service.submit(new CFFDetailsInsertJobRun(projectionIdValue, tempTableNames));
+		Future future = service.submitRunnable(new CFFDetailsInsertJobRun(projectionIdValue, tempTableNames));
 		sessionDTO.setFuture(future);
 	}
 
@@ -4020,4 +4021,4 @@ public class DataSelection extends AbstractDataSelection {
             customViewDdlb.setNullSelectionAllowed(false);
             customViewDdlb.setInputPrompt(SELECT_ONE);
         }
-}
+    }

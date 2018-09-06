@@ -58,6 +58,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -102,7 +103,6 @@ public class AltHistorySelection extends CustomComponent implements View {
     private HorizontalLayout gridLayout;
     private AlternateHistoryAllocationTableLogic tableLogic = new AlternateHistoryAllocationTableLogic();
     private FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
-    private CustomTableHeaderDTO rightDTO;
     private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private AlternateHistoryDTO altHistoryDTO;
     private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
@@ -136,7 +136,6 @@ public class AltHistorySelection extends CustomComponent implements View {
     /**
      * The map right visible columns.
      */
-    private ExtPagedTable leftTable;
     private ExtPagedTable rightTable;
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
 
@@ -361,7 +360,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 
         projectionDTO.getVariableList().clear();
         projectionDTO.getVariableList().addAll((Set)variables.getValue());        
-        rightDTO = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
+        CustomTableHeaderDTO rightDTO = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
 
         resultBean = new ExtContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
@@ -370,7 +369,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         List<Integer> pagelength = CommonLogic.getPageNumber();
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         tableLogic.setContainerDataSource(resultBean);
-        leftTable = resultsTable.getLeftFreezeAsTable();
+        ExtPagedTable leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.markAsDirty();
         rightTable.markAsDirty();
@@ -710,10 +709,11 @@ public class AltHistorySelection extends CustomComponent implements View {
     private String formDate(String value, String freq, boolean isFromDate) {
         LOGGER.debug("formDate method Starts");
         String date = StringUtils.EMPTY;
-        String year = value.substring(value.length() - NumericConstants.FOUR, value.length());
+        String valueDate = value;
+        String year = valueDate.substring(valueDate.length() - NumericConstants.FOUR, valueDate.length());
         if (freq.equals(Constant.QUARTERLY)) {
-            value = value.replace(Constant.Q, StringUtils.EMPTY);
-            String quarter = value.substring(0, 1);
+            valueDate = valueDate.replace(Constant.Q, StringUtils.EMPTY);
+            String quarter = valueDate.substring(0, 1);
             if (quarter.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
                     date = year + Constant.ONE_ONE;
@@ -743,8 +743,8 @@ public class AltHistorySelection extends CustomComponent implements View {
                 }
             }
         }else if (freq.equals(Constant.SEMI_ANNUALLY)) {
-            value = value.toUpperCase().replace(Constant.S, StringUtils.EMPTY);
-            String semiAnnual = value.substring(0, 1);
+            valueDate = valueDate.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
+            String semiAnnual = valueDate.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
                     date = year + Constant.ONE_ONE;
@@ -771,7 +771,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 
                 Map<String, Integer> monthMap = getMonthMap();
                
-                int period = monthMap.get(StringUtils.capitalize(value.substring(value.length() - NumericConstants.SEVEN, value.length() - NumericConstants.FOUR)));
+                int period = monthMap.get(StringUtils.capitalize(valueDate.substring(valueDate.length() - NumericConstants.SEVEN, valueDate.length() - NumericConstants.FOUR)));
                 
                int startMonth = period + 1;
               
@@ -937,7 +937,7 @@ public class AltHistorySelection extends CustomComponent implements View {
             }
         if ((!isChecked && !isHeaderChecked)||!checkboxList.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "Please select Time Period.");
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         if (isChecked) {
             datePeriodUnchecked.deleteCharAt(datePeriodUnchecked.lastIndexOf(","));
@@ -946,7 +946,7 @@ public class AltHistorySelection extends CustomComponent implements View {
             } else if (TabNameUtil.SALES_PROJECTION.equals(session.getForecastName())) {
                 AbstractNotificationUtils.getErrorNotification("Not all required fields selected", "The following Time Period " + datePeriodUnchecked + " must have either the ‘Actual Units’ or ‘Projected Units’ check box selected.");
             }
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         
         if (datePeriod.size() > 0) {

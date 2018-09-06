@@ -12,6 +12,9 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
  * @author sooriya.lakshmanan
  */
 public class QueryUtils {
+    private QueryUtils() {
+        // QueryUtils
+    }
 
     public static String addDeclareQueryJoin(final boolean isCustomHierarchy, final boolean isUpdate) {
         if (isUpdate) {

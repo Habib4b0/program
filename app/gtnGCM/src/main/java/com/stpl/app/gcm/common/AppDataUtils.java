@@ -41,7 +41,7 @@ public class AppDataUtils {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list =  ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);
             }

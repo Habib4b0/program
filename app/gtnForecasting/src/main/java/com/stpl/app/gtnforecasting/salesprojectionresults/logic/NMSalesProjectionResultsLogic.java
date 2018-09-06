@@ -50,6 +50,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -125,7 +126,7 @@ public class NMSalesProjectionResultsLogic {
 						unitsDTO = new SalesProjectionResultsDTO();
 						for (int i = 0; i < sprList.size(); i++) {
 							final Object[] obj = (Object[]) sprList.get(i);
-							String commonColumn = StringUtils.EMPTY;
+							String commonColumn;
 							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 								commonColumn = Constant.Q + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
@@ -228,7 +229,7 @@ public class NMSalesProjectionResultsLogic {
 						for (int i = 0; i < sprList.size(); i++) {
 							salesDTO = new SalesProjectionResultsDTO();
 							final Object[] obj = (Object[]) sprList.get(i);
-							String commonColumn = StringUtils.EMPTY;
+							String commonColumn;
 							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 								commonColumn = Constant.Q + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
@@ -261,7 +262,7 @@ public class NMSalesProjectionResultsLogic {
 												: "-");
 								for (int k = 0; k < gtsList.size(); k++) {
 									Object[] gtsObj = (Object[]) gtsList.get(k);
-									String gtsCommonColumn = StringUtils.EMPTY;
+									String gtsCommonColumn;
 									if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
 										gtsCommonColumn = Constant.Q + gtsObj[NumericConstants.FIVE]
 												+ gtsObj[NumericConstants.SIX];
@@ -426,6 +427,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Quarter", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
 			current = curMonth / NumericConstants.SIX;
@@ -434,6 +436,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(MONTHLY.getConstant())) {
 			current = curMonth;
@@ -444,6 +447,7 @@ public class NMSalesProjectionResultsLogic {
 				projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		} else if (freq.equals(ANNUALLY.getConstant())) {
 			current = curYear;
@@ -452,6 +456,7 @@ public class NMSalesProjectionResultsLogic {
 				frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 				projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
 			}
 		}
 		projectFrequency = projectFrequency + 1;
@@ -576,7 +581,7 @@ public class NMSalesProjectionResultsLogic {
 			projSelDTO.setIsProjectionTotal(false);
 			projSelDTO.setLevelNo(projSelDTO.getFilterLevelNo());
 			projSelDTO.setTreeLevelNo(projSelDTO.getFilterLevelNo());
-			resultList = configureLevels(start, offset, start, projSelDTO);
+			resultList = configureLevels(start, offset, projSelDTO);
 		}
 		return resultList;
 	}
@@ -606,8 +611,7 @@ public class NMSalesProjectionResultsLogic {
 		return resultList;
 	}
 
-	public List<SalesProjectionResultsDTO> configureLevels(int start, int offset, int started,
-			ProjectionSelectionDTO projSelDTO) {
+	public List<SalesProjectionResultsDTO> configureLevels(int start, int offset,ProjectionSelectionDTO projSelDTO) {
 		int neededRecord = offset;
 		CommonLogic comm = new CommonLogic();
 		List<SalesProjectionResultsDTO> resultList = new ArrayList<>();
@@ -671,7 +675,6 @@ public class NMSalesProjectionResultsLogic {
 				dto.setOnExpandTotalRow(1);
 				dto.setParent(1);
 				resultList.add(dto);
-				started++;
 			}
 		}
 		return resultList;
@@ -992,7 +995,7 @@ public class NMSalesProjectionResultsLogic {
 				}
 				projSelDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo() + 1);
 				List<SalesProjectionResultsDTO> nextLevelValueList = configureLevels(mayBeAddedRecord, neededRecord,
-						started, projSelDTO);
+						 projSelDTO);
 				projDTOList.addAll(nextLevelValueList);
 			}
 		}
@@ -1142,14 +1145,15 @@ public class NMSalesProjectionResultsLogic {
 	}
 
 	public String getFormattedValue(DecimalFormat decFormat, String value) {
-		if (value.contains(Constant.NULL)) {
-			value = SPRDASH.getConstant();
+            String valueformatter = value; 
+		if (valueformatter.contains(Constant.NULL)) {
+			valueformatter = SPRDASH.getConstant();
 		} else if (decFormat.equals(CUR_PER)) {
-			value = decFormat.format(Double.valueOf(value)) + PERCENT;
+			valueformatter = decFormat.format(Double.valueOf(valueformatter)) + PERCENT;
 		} else {
-			value = decFormat.format(Double.valueOf(value));
+			valueformatter = decFormat.format(Double.valueOf(valueformatter));
 		}
-		return value;
+		return valueformatter;
 	}
 
 	public List<SalesProjectionResultsDTO> getContractSalesAndUnits(ProjectionSelectionDTO projSelDTO) {
@@ -1207,32 +1211,32 @@ public class NMSalesProjectionResultsLogic {
 
 	public String getContractsAndUnit(String sql, ProjectionSelectionDTO projSelDTO) {
 		CommonLogic commonLogic = new CommonLogic();
-
+                String sqlQuery = sql;
 		switch (projSelDTO.getFrequencyDivision()) {
 
 		case 1:
-			sql = sql.replace(Constant.FREQ_AT, "year");
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "year");
 			break;
 		case NumericConstants.TWO:
-			sql = sql.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
 			break;
 		case NumericConstants.FOUR:
-			sql = sql.replace(Constant.FREQ_AT, Constant.QUARTER);
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, Constant.QUARTER);
 			break;
 		case NumericConstants.TWELVE:
-			sql = sql.replace(Constant.FREQ_AT, "MONTH");
+			sqlQuery = sqlQuery.replace(Constant.FREQ_AT, "MONTH");
 			break;
 		default:
 			break;
 		}
-		sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(projSelDTO));
-		sql = sql.replace("@USER_ID", projSelDTO.getSessionDTO().getUserId());
-		sql = sql.replace("@SESSION_ID", projSelDTO.getSessionDTO().getSessionId());
-		sql = sql.replace("@LEVEL_NO", String.valueOf(projSelDTO.getTreeLevelNo()));
-		sql = sql.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
-		sql = sql.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
+		sqlQuery = sqlQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(projSelDTO));
+		sqlQuery = sqlQuery.replace("@USER_ID", projSelDTO.getSessionDTO().getUserId());
+		sqlQuery = sqlQuery.replace("@SESSION_ID", projSelDTO.getSessionDTO().getSessionId());
+		sqlQuery = sqlQuery.replace("@LEVEL_NO", String.valueOf(projSelDTO.getTreeLevelNo()));
+		sqlQuery = sqlQuery.replace("@HIERARCHY_INDICATOR", projSelDTO.getHierarchyIndicator());
+		sqlQuery = sqlQuery.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
 
-		return sql;
+		return sqlQuery;
 	}
 
 	public int getFrequencyNumber(String frequency) {
@@ -2965,14 +2969,15 @@ public class NMSalesProjectionResultsLogic {
 	}
 
 	public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
-		if (value.contains(Constant.NULL)) {
-			value = "...";
+            String valueFormatVal = value ;
+		if (valueFormatVal.contains(Constant.NULL)) {
+			valueFormatVal = "...";
 		} else if (CURRENCY.equals(appendChar)) {
-			value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+			valueFormatVal = appendChar.concat(decFormat.format(Double.valueOf(valueFormatVal)));
 		} else {
-			value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+			valueFormatVal = decFormat.format(Double.valueOf(valueFormatVal)).concat(appendChar);
 		}
-		return value;
+		return valueFormatVal;
 	}
 
 	public static List<String> getCommonColumnHeaderMandated(int frequencyDivision, int year, int period) {
@@ -2990,7 +2995,7 @@ public class NMSalesProjectionResultsLogic {
 			commonHeader = Constant.S + period + " " + year;
 		} else if (frequencyDivision == NumericConstants.TWELVE) {
 			String monthName = getMonthForInt(period - 1);
-			commonColumn = monthName.toLowerCase() + year;
+			commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
 			commonHeader = monthName + " " + year;
 		}
 		common.add(commonColumn);

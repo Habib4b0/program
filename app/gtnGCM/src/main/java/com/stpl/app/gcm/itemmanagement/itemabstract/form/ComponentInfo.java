@@ -50,11 +50,11 @@ public class ComponentInfo extends AbstractComponentInfo {
         while (itrList.hasNext()) {
             itemSrGrid.addComponent(itrList.next());
         }
-        itemSrGrid.replaceComponent(rsType_DTO, rsTypeText);
-        itemSrGrid.replaceComponent(rsProgramType_DTO, rsProgramTypeText);
-        itemSrGrid.replaceComponent(rsCategory_DTO, rsCategoryText);
-        itemSrGrid.replaceComponent(paymentFrequency_DTO, paymentFrequencyText);
-        itemSrGrid.replaceComponent(rebatePlanLevel_DTO, rebatePlanLevelText);
+        itemSrGrid.replaceComponent(rsTypeDTO, rsTypeText);
+        itemSrGrid.replaceComponent(rsProgramTypeDTO, rsProgramTypeText);
+        itemSrGrid.replaceComponent(rsCategoryDTO, rsCategoryText);
+        itemSrGrid.replaceComponent(paymentFrequencyDTO, paymentFrequencyText);
+        itemSrGrid.replaceComponent(rebatePlanLevelDTO, rebatePlanLevelText);
         setRsReadOnlyField(false);
         ComponentInfoDTO rsDTO = getComponentDto();
         rsTypeText.setValue(rsDTO.getRsType_Value());

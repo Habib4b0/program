@@ -51,7 +51,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SalesProjectionLogic.
  *
@@ -263,15 +263,6 @@ public class SalesProjectionLogic {
         return String.valueOf(lives);
     }
 
-    public List<PeriodDTO> loadAlternateHistory(final Object[] inputs) throws SystemException, SQLException {
-
-        List<PeriodDTO> list = new ArrayList<>();
-        if (callAlternateHistoryProcedure(inputs)) {
-
-        }
-
-        return list;
-    }
 
     public boolean callAlternateHistoryProcedure(final Object[] inputs) throws SystemException, SQLException {
 
@@ -467,13 +458,9 @@ public class SalesProjectionLogic {
                 }
                 if (values != null) {
                     finalMap.put(tempCompanyName, values);
-                } else {
-
                 }
 
             }
-        } else {
-
         }
 
         return finalMap;
@@ -706,8 +693,8 @@ public class SalesProjectionLogic {
             numberofQuators = (toQuator - fromQuator) + 1;
 
         } else if (toYear - fromYear == 1) {
-            fromQuator = NumericConstants.FIVE - fromQuator;
-            numberofQuators = fromQuator + toQuator;
+            int fromQuatorr = NumericConstants.FIVE - fromQuator;
+            numberofQuators = fromQuatorr + toQuator;
 
         } else if (toYear - fromYear > 1) {
 

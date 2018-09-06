@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class PMPYUtils.
  *
@@ -21,4 +21,7 @@ public class PMPYUtils {
      * The Constant CHECK.
      */
     public static final String CHECK = "img/checked.png";
+     private PMPYUtils() {
+        //PMPYUtils
+    }
 }

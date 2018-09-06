@@ -9,7 +9,7 @@ package com.stpl.app.gtnforecasting.dto;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NonMandatedDTO.
  *

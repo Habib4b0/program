@@ -14,6 +14,7 @@ import com.stpl.app.arm.accountconfiguration.dto.AccountConfigDTO;
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigSelection;
 import com.stpl.app.arm.common.CommonFilterLogic;
 import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.CommonUtils;
@@ -70,9 +71,9 @@ public class AccountConfigLogic {
         List<Object> resultList = new ArrayList<>();
         try {
             resultList = new QueryUtils().fetchFieldsForSecurity(moduleName, tabName);
-            LOGGER.debug("resultList -- >>" + resultList.size());
+            LOGGER.debug("resultList -- >>{}", resultList.size());
         } catch (Exception ex) {
-            LOGGER.error("Error in getFieldsForSecurity :" , ex);
+            LOGGER.error("Error in getFieldsForSecurity :", ex);
         }
         return resultList;
     }
@@ -87,10 +88,10 @@ public class AccountConfigLogic {
                 userMap.put((int) user.getUserId(), user.getFullName());
             }
             CommonUtils.setUserMap(userMap);
-            LOGGER.debug("userMap -->" + userMap.size());
+            LOGGER.debug("userMap -->{}", userMap.size());
             LOGGER.info("End of getUserName method");
         } catch (Exception ex) {
-            LOGGER.error("Error in getUserName :" , ex);
+            LOGGER.error("Error in getUserName :", ex);
         }
         return userMap;
     }
@@ -147,28 +148,28 @@ public class AccountConfigLogic {
         if (resultList != null && !resultList.isEmpty()) {
             for (Object[] str : resultList) {
                 AccountConfigDTO dto = new AccountConfigDTO();
-                dto.setCompanyNo(str[NumericConstants.ZERO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ZERO]));
-                dto.setCompanyName(str[NumericConstants.ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ONE]));
-                dto.setBusinessUnitNo(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-                dto.setBusinessUnitName(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
-                dto.setAccount(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
-                dto.setCostCentre(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
-                dto.setBrand(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
-                dto.setCreatedBy(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
-                dto.setCreatedDate(str[NumericConstants.EIGHT] == null ? null : dbDate.format((Date) str[NumericConstants.EIGHT]));
-                dto.setModifiedDate(str[NumericConstants.NINE] == null ? null : dbDate.format((Date) str[NumericConstants.NINE]));
-                dto.setSource(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-                dto.setCompanySid(str[NumericConstants.ELEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.ELEVEN])));
-                dto.setBuSid(str[NumericConstants.TWELVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWELVE])));
-                dto.setBrandSid(str[NumericConstants.THIRTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTEEN])));
-                dto.setMasterId(str[NumericConstants.FOURTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOURTEEN])));
-                dto.setCompanyIdWithName(str[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTEEN]));
-                dto.setBuIdWithName(str[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTEEN]));
-                dto.setBrandWithIdName(str[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVENTEEN]));
+                dto.setCompanyNo(getStringValue(NumericConstants.ZERO, str));
+                dto.setCompanyName(getStringValue(NumericConstants.ONE, str));
+                dto.setBusinessUnitNo(getStringValue(NumericConstants.TWO, str));
+                dto.setBusinessUnitName(getStringValue(NumericConstants.THREE, str));
+                dto.setAccount(getStringValue(NumericConstants.FOUR, str));
+                dto.setCostCentre(getStringValue(NumericConstants.FIVE, str));
+                dto.setBrand(getStringValue(NumericConstants.SIX, str));
+                dto.setCreatedBy(getStringValue(NumericConstants.SEVEN, str));
+                dto.setCreatedDate(getDateValue(NumericConstants.EIGHT, str));
+                dto.setModifiedDate(getDateValue(NumericConstants.NINE, str));
+                dto.setSource(getStringValue(NumericConstants.TEN, str));
+                dto.setCompanySid(getIntegerValue(NumericConstants.ELEVEN, str));
+                dto.setBuSid(getIntegerValue(NumericConstants.TWELVE, str));
+                dto.setBrandSid(getIntegerValue(NumericConstants.THIRTEEN, str));
+                dto.setMasterId(getIntegerValue(NumericConstants.FOURTEEN, str));
+                dto.setCompanyIdWithName(getStringValue(NumericConstants.FIFTEEN, str));
+                dto.setBuIdWithName(getStringValue(NumericConstants.SIXTEEN, str));
+                dto.setBrandWithIdName(getStringValue(NumericConstants.SEVENTEEN, str));
                 fullDataList.add(dto);
             }
         }
-        LOGGER.debug("fullDataList--" + fullDataList.size());
+        LOGGER.debug("fullDataList--{}", fullDataList.size());
         return fullDataList;
     }
 
@@ -189,19 +190,19 @@ public class AccountConfigLogic {
     }
 
     private Map<String, String> getSortingMap() {
-        Map<String, String> filterMap = new HashMap<>();
-        filterMap.put(CommonConstant.COMPANY_NO, "CM.COMPANY_NO");
-        filterMap.put(CommonConstant.COMPANY_NAME, "cm.COMPANY_NAME");
-        filterMap.put(CommonConstant.BUSINESS_UNIT_NO, "BU.COMPANY_NO");
-        filterMap.put(CommonConstant.BUSINESS_UNIT_NAME, "BU.COMPANY_NAME");
-        filterMap.put(CommonConstant.ACCOUNT, "ACC.ACCOUNT");
-        filterMap.put(CommonConstant.COST_CENTRE, "ACC.COST_CENTER");
-        filterMap.put(CommonConstant.BRAND, CommonConstant.BM_BRAND_NAME);
-        filterMap.put(CommonConstant.CREATED_BY, VariableConstants.CRFIRST_NAME_CRLAST_NAME);
-        filterMap.put(CommonConstant.CREATED_DATE, "ACC.CREATED_DATE");
-        filterMap.put(CommonConstant.MODIFIED_DATE, "ACC.MODIFIED_DATE");
-        filterMap.put(CommonConstant.SOURCE, "ACC.\"SOURCE\"");
-        return filterMap;
+        Map<String, String> sortingMap = new HashMap<>();
+        sortingMap.put(CommonConstant.COMPANY_NO, "CM.COMPANY_NO");
+        sortingMap.put(CommonConstant.COMPANY_NAME, "cm.COMPANY_NAME");
+        sortingMap.put(CommonConstant.BUSINESS_UNIT_NO, "BU.COMPANY_NO");
+        sortingMap.put(CommonConstant.BUSINESS_UNIT_NAME, "BU.COMPANY_NAME");
+        sortingMap.put(CommonConstant.ACCOUNT, "ACC.ACCOUNT");
+        sortingMap.put(CommonConstant.COST_CENTRE, "ACC.COST_CENTER");
+        sortingMap.put(CommonConstant.BRAND, CommonConstant.BM_BRAND_NAME);
+        sortingMap.put(CommonConstant.CREATED_BY, VariableConstants.CRFIRST_NAME_CRLAST_NAME);
+        sortingMap.put(CommonConstant.CREATED_DATE, "ACC.CREATED_DATE");
+        sortingMap.put(CommonConstant.MODIFIED_DATE, "ACC.MODIFIED_DATE");
+        sortingMap.put(CommonConstant.SOURCE, "ACC.\"SOURCE\"");
+        return sortingMap;
     }
 
     public List<Object[]> loadAccountDdlb(List inputList) {
@@ -242,7 +243,7 @@ public class AccountConfigLogic {
     public int getAccountConfigCount(AccountConfigSelection selection, Set<Container.Filter> filters) throws SQLException {
         List<Object> input = new ArrayList();
         List<Object> inputtemp = new ArrayList();
-        List<Object[]> data = new ArrayList<>();
+        List<Object[]> data;
         StringBuilder account = new StringBuilder();
         StringBuilder brand = new StringBuilder();
         try (Connection con = SysDataSourceConnection.getConnection()) {
@@ -253,39 +254,45 @@ public class AccountConfigLogic {
             if (selection.isCurrentView()) {
                 data = QueryUtils.getItemData(input, "AccoutConfig-Count", null);
             } else {
-                if (!"ADD".equals(selection.getSession().getMode()) && !"Copy".equalsIgnoreCase(selection.getSession().getMode())) {
-                    input.remove(selection.getTempTableName());
-                    input.add(0, "HIST_ARM_ACC_CONFIG");
-                    inputtemp.add(selection.getTempTableName());
-
-                    input.add(selection.getSearchAccConfigDTO().getCompanySid());
-                    input.add(selection.getSearchAccConfigDTO().getBuSid());
-                    if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
-                        account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
-                        input.add(account);
-                        input.add(selection.getSearchAccConfigDTO().getBrandSid());
-                    } else {
-                        List<Object> list = QueryUtils.getItemData(inputtemp, "temptable-Account", null);
-                        List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
-
-                        for (Object obj1 : list1) {
-                            brand.append(obj1).append(",");
-                        }
-                        brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
-                        for (Object obj1 : list) {
-                            account.append("'").append(obj1).append("'").append(",");
-                        }
-                        account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
-                        input.add(account);
-                        input.add(brand);
-                    }
-                    input.remove(2);
-                    input.add(filterQuery != null ? filterQuery.toString() : StringUtils.EMPTY);
-                    data = QueryUtils.getItemData(input, "AccoutConfig-Count-History", null);
-                }
+                data = getDataforAccountConfig(selection, input, inputtemp, account, brand, filterQuery);
             }
             return CommonLogic.getCount(data);
         }
+    }
+
+    private List<Object[]> getDataforAccountConfig(AccountConfigSelection selection, List<Object> accInput, List<Object> inputtemp, StringBuilder account, StringBuilder brand, StringBuilder filterQuery) {
+        List<Object[]> data = new ArrayList<>();
+        if (!"ADD".equals(selection.getSession().getMode()) && !"Copy".equalsIgnoreCase(selection.getSession().getMode())) {
+            accInput.remove(selection.getTempTableName());
+            accInput.add(0, "HIST_ARM_ACC_CONFIG");
+            inputtemp.add(selection.getTempTableName());
+
+            accInput.add(selection.getSearchAccConfigDTO().getCompanySid());
+            accInput.add(selection.getSearchAccConfigDTO().getBuSid());
+            if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
+                account.append(ARMUtils.SINGLE_QUOTES).append(selection.getSearchAccConfigDTO().getAccount()).append(ARMUtils.SINGLE_QUOTES);
+                accInput.add(account);
+                accInput.add(selection.getSearchAccConfigDTO().getBrandSid());
+            } else {
+                List<Object> list = QueryUtils.getItemData(inputtemp, "temptable-Account", null);
+                List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
+
+                for (Object obj1 : list1) {
+                    brand.append(obj1).append(ARMUtils.COMMA_CHAR);
+                }
+                brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
+                for (Object obj1 : list) {
+                    account.append(ARMUtils.SINGLE_QUOTES).append(obj1).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA_CHAR);
+                }
+                account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
+                accInput.add(account);
+                accInput.add(brand);
+            }
+            accInput.remove(2);
+            accInput.add(filterQuery != null ? filterQuery.toString() : StringUtils.EMPTY);
+            data = QueryUtils.getItemData(accInput, "AccoutConfig-Count-History", null);
+        }
+        return data;
     }
 
     /**
@@ -302,10 +309,7 @@ public class AccountConfigLogic {
      */
     public List getAccountConfigData(AccountConfigSelection selection, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SQLException {
         List<Object> input = new ArrayList();
-        List<Object> inputtemp = new ArrayList();
         List<Object[]> data = new ArrayList<>();
-        StringBuilder account = new StringBuilder();
-        StringBuilder brand = new StringBuilder();
         try (Connection con = SysDataSourceConnection.getConnection()) {
             input.add(selection.getTempTableName());
             input.add(con.getCatalog());
@@ -320,40 +324,49 @@ public class AccountConfigLogic {
                 data = QueryUtils.getItemData(input, "AccoutConfig-LoadData", null);
             } else {
                 if (!"ADD".equals(selection.getSession().getMode()) && !"Copy".equalsIgnoreCase(selection.getSession().getMode())) {
-                    input.remove(selection.getTempTableName());
-                    input.add(0, "HIST_ARM_ACC_CONFIG");
-                    inputtemp.add(selection.getTempTableName());
-                    input.add(selection.getSearchAccConfigDTO().getCompanySid());
-                    input.add(selection.getSearchAccConfigDTO().getBuSid());
-                    if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
-                        account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
-                        input.add(account);
-                        input.add(selection.getSearchAccConfigDTO().getBrandSid());
-                    } else {
-                        List<Object> list = QueryUtils.getItemData(inputtemp, "temptable-Account", null);
-                        List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
-
-                        for (Object obj1 : list1) {
-                            brand.append(obj1).append(",");
-                        }
-                        brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
-                        for (Object obj1 : list) {
-                            account.append("'").append(obj1).append("'").append(",");
-                        }
-                        account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
-                        input.add(account);
-                        input.add(brand);
-                    }
-                    input.add(filterQuery != null ? filterQuery.toString().replace(CommonConstant.WHERE, CommonConstant.AND) : StringUtils.EMPTY);
-                    StringBuilder sortByQuery = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, loadSortedQueryMap(), selection.isCurrentView() ? "ARM_ACC_CONFIG_SID" : "GL_COMPANY_MASTER_SID");
-                    input.add(sortByQuery);
-                    input.add(start);
-                    input.add(offset);
-                    data = QueryUtils.getItemData(input, "AccoutConfig-LoadData-History", null);
+                    data = getAccountConfigHistoryData(input, selection, filterQuery, sortByColumns, start, offset);
                 }
             }
             return customizeAccConfig(data);
         }
+    }
+
+    private List<Object[]> getAccountConfigHistoryData(List<Object> histInput, AccountConfigSelection selection, StringBuilder filterQuery, List<SortByColumn> sortByColumns, int start, int offset) {
+        List<Object[]> data;
+        List<Object> inputtemp = new ArrayList();
+        StringBuilder account = new StringBuilder();
+        StringBuilder brand = new StringBuilder();
+        histInput.remove(selection.getTempTableName());
+        histInput.add(0, "HIST_ARM_ACC_CONFIG");
+        inputtemp.add(selection.getTempTableName());
+        histInput.add(selection.getSearchAccConfigDTO().getCompanySid());
+        histInput.add(selection.getSearchAccConfigDTO().getBuSid());
+        if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
+            account.append(ARMUtils.SINGLE_QUOTES).append(selection.getSearchAccConfigDTO().getAccount()).append(ARMUtils.SINGLE_QUOTES);
+            histInput.add(account);
+            histInput.add(selection.getSearchAccConfigDTO().getBrandSid());
+        } else {
+            List<Object> list = QueryUtils.getItemData(inputtemp, "temptable-Account", null);
+            List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
+
+            for (Object obj1 : list1) {
+                brand.append(obj1).append(ARMUtils.COMMA_CHAR);
+            }
+            brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
+            for (Object obj1 : list) {
+                account.append(ARMUtils.SINGLE_QUOTES).append(obj1).append(ARMUtils.SINGLE_QUOTES).append(ARMUtils.COMMA_CHAR);
+            }
+            account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
+            histInput.add(account);
+            histInput.add(brand);
+        }
+        histInput.add(filterQuery != null ? filterQuery.toString().replace(CommonConstant.WHERE, CommonConstant.AND) : StringUtils.EMPTY);
+        StringBuilder sortByQuery = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, loadSortedQueryMap(), selection.isCurrentView() ? "ARM_ACC_CONFIG_SID" : "GL_COMPANY_MASTER_SID");
+        histInput.add(sortByQuery);
+        histInput.add(start);
+        histInput.add(offset);
+        data = QueryUtils.getItemData(histInput, "AccoutConfig-LoadData-History", null);
+        return data;
     }
 
     /**
@@ -371,34 +384,46 @@ public class AccountConfigLogic {
             dto.setMasterId(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
             dto.setCheckRecord(str[NumericConstants.ONE] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.ONE]);
             companyDto = new HelperDTO();
-            companyDto.setId(str[NumericConstants.TWO] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWO])));
+            companyDto.setId(getIntegerValue(NumericConstants.TWO, str));
             companyDto.setDescription(str[NumericConstants.THREE] == null ? GlobalConstants.getSelectOne() : String.valueOf(str[NumericConstants.THREE]));
             dto.setCompanyNoHelperDto(companyDto);
-            dto.setCompanySid(str[NumericConstants.TWO] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWO])));
-            dto.setCompanyName(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+            dto.setCompanySid(getIntegerValue(NumericConstants.TWO, str));
+            dto.setCompanyName(getStringValue(NumericConstants.THREE, str));
             businessUnitDto = new HelperDTO();
-            businessUnitDto.setId(str[NumericConstants.FOUR] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOUR])));
+            businessUnitDto.setId(getIntegerValue(NumericConstants.FOUR, str));
             businessUnitDto.setDescription(str[NumericConstants.FIVE] == null ? GlobalConstants.getSelectOne() : String.valueOf(str[NumericConstants.FIVE]));
             dto.setBusinessNoHelperDto(businessUnitDto);
-            dto.setBuSid(str[NumericConstants.FOUR] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOUR])));
-            dto.setBusinessUnitName(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
+            dto.setBuSid(getIntegerValue(NumericConstants.FOUR, str));
+            dto.setBusinessUnitName(getStringValue(NumericConstants.FIVE, str));
             dto.setAccount(str[NumericConstants.SIX] == null ? GlobalConstants.getSelectOne() : String.valueOf(str[NumericConstants.SIX]));
-            dto.setBrandSid(str[NumericConstants.SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVEN])));
-            dto.setBrandDdlb(str[NumericConstants.SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVEN])));
-            dto.setCostCentre(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-            dto.setCreatedBy(str[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTEEN]));
-            dto.setCreatedDate(str[NumericConstants.TEN] == null ? null : dbDate.format((Date) str[NumericConstants.TEN]));
-            dto.setModifiedDate(str[NumericConstants.ELEVEN] == null ? null : dbDate.format((Date) str[NumericConstants.ELEVEN]));
-            dto.setSource(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWELVE]));
-            dto.setCompanyNo(str[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
-            dto.setBusinessUnitNo(str[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTEEN]));
-            dto.setBrand(str[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTEEN]));
-            dto.setCompanyIdWithName(str[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVENTEEN]));
-            dto.setBuIdWithName(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
-            dto.setBrandWithIdName(str[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINETEEN]));
+            dto.setBrandSid(getIntegerValue(NumericConstants.SEVEN, str));
+            dto.setBrandDdlb(getIntegerValue(NumericConstants.SEVEN, str));
+            dto.setCostCentre(getStringValue(NumericConstants.EIGHT, str));
+            dto.setCreatedBy(getStringValue(NumericConstants.THIRTEEN, str));
+            dto.setCreatedDate(getDateValue(NumericConstants.TEN, str));
+            dto.setModifiedDate(getDateValue(NumericConstants.ELEVEN, str));
+            dto.setSource(getStringValue(NumericConstants.TWELVE, str));
+            dto.setCompanyNo(getStringValue(NumericConstants.FOURTEEN, str));
+            dto.setBusinessUnitNo(getStringValue(NumericConstants.FIFTEEN, str));
+            dto.setBrand(getStringValue(NumericConstants.SIXTEEN, str));
+            dto.setCompanyIdWithName(getStringValue(NumericConstants.SEVENTEEN, str));
+            dto.setBuIdWithName(getStringValue(NumericConstants.EIGHTEEN, str));
+            dto.setBrandWithIdName(getStringValue(NumericConstants.NINETEEN, str));
             finalResult.add(dto);
         }
         return finalResult;
+    }
+
+    private int getIntegerValue(int index, Object[] str) {
+        return str[index] == null ? 0 : (Integer) (str[index]);
+    }
+
+    private String getStringValue(int index, Object[] str) {
+        return str[index] == null ? StringUtils.EMPTY : String.valueOf(str[index]);
+    }
+
+    private String getDateValue(int index, Object[] str) {
+        return str[index] == null ? null : dbDate.format((Date) str[index]);
     }
 
     /**
@@ -697,26 +722,26 @@ public class AccountConfigLogic {
     }
 
     private Map<String, String> loadFilterQueryMapForLoad() {
-        Map<String, String> filterQueryMap = new HashMap<>();
-        filterQueryMap.put(VariableConstants.COMPANY_NO_HELPER_DTO, "(comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME)");
-        filterQueryMap.put(CommonConstant.COMPANY_NO, VariableConstants.COMP_COMPANY_MASTER_SID);
-        filterQueryMap.put(VariableConstants.BUSINESS_NO_HELPER_DTO, "(bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME)");
-        filterQueryMap.put(CommonConstant.BUSINESS_UNIT_NO, VariableConstants.BU_COMPANY_MASTER_SID);
-        filterQueryMap.put(CommonConstant.ACCOUNT, VariableConstants.ACCOUNT);
-        filterQueryMap.put(VariableConstants.BRAND_DDLB, "(bm.BRAND_ID + ' - ' + bm.BRAND_NAME)");
-        filterQueryMap.put(CommonConstant.BRAND, "TEMP.BRAND_MASTER_SID");
-        filterQueryMap.put(CommonConstant.COST_CENTRE, VariableConstants.COST_CENTER);
-        filterQueryMap.put(VariableConstants.CHECK_RECORD, VariableConstants.CHECK_RECORD1);
-        filterQueryMap.put(CommonConstant.COMPANY_NAME, "COMP.COMPANY_NAME");
-        filterQueryMap.put(CommonConstant.BUSINESS_UNIT_NAME, "bU.COMPANY_NAME");
-        filterQueryMap.put(CommonConstant.CREATED_BY, VariableConstants.CRFIRST_NAME_CRLAST_NAME);
-        filterQueryMap.put(CommonConstant.MODIFIED_DATE, "convert(varchar(10),temp.MODIFIED_DATE, 101) + ' ' + right(convert(varchar(32),temp.MODIFIED_DATE,108),8)");
-        filterQueryMap.put(CommonConstant.CREATED_DATE, "convert(varchar(10),temp.CREATED_DATE, 101) + ' ' + right(convert(varchar(32),temp.CREATED_DATE,108),8)");
-        filterQueryMap.put(CommonConstant.SOURCE, "TEMP.SOURCE");
-        filterQueryMap.put(VariableConstants.COMPANY_ID_WITH_NAME, "(comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME)");
-        filterQueryMap.put(VariableConstants.BU_ID_WITH_NAME, "(bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME)");
-        filterQueryMap.put(VariableConstants.BRAND_WITH_ID_NAME, "(bm.BRAND_ID + ' - ' + bm.BRAND_NAME)");
-        return filterQueryMap;
+        Map<String, String> filterLoadDataMap = new HashMap<>();
+        filterLoadDataMap.put(VariableConstants.COMPANY_NO_HELPER_DTO, "(comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME)");
+        filterLoadDataMap.put(CommonConstant.COMPANY_NO, VariableConstants.COMP_COMPANY_MASTER_SID);
+        filterLoadDataMap.put(VariableConstants.BUSINESS_NO_HELPER_DTO, "(bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME)");
+        filterLoadDataMap.put(CommonConstant.BUSINESS_UNIT_NO, VariableConstants.BU_COMPANY_MASTER_SID);
+        filterLoadDataMap.put(CommonConstant.ACCOUNT, VariableConstants.ACCOUNT);
+        filterLoadDataMap.put(VariableConstants.BRAND_DDLB, "(bm.BRAND_ID + ' - ' + bm.BRAND_NAME)");
+        filterLoadDataMap.put(CommonConstant.BRAND, "TEMP.BRAND_MASTER_SID");
+        filterLoadDataMap.put(CommonConstant.COST_CENTRE, VariableConstants.COST_CENTER);
+        filterLoadDataMap.put(VariableConstants.CHECK_RECORD, VariableConstants.CHECK_RECORD1);
+        filterLoadDataMap.put(CommonConstant.COMPANY_NAME, "COMP.COMPANY_NAME");
+        filterLoadDataMap.put(CommonConstant.BUSINESS_UNIT_NAME, "bU.COMPANY_NAME");
+        filterLoadDataMap.put(CommonConstant.CREATED_BY, VariableConstants.CRFIRST_NAME_CRLAST_NAME);
+        filterLoadDataMap.put(CommonConstant.MODIFIED_DATE, "convert(varchar(10),temp.MODIFIED_DATE, 101) + ' ' + right(convert(varchar(32),temp.MODIFIED_DATE,108),8)");
+        filterLoadDataMap.put(CommonConstant.CREATED_DATE, "convert(varchar(10),temp.CREATED_DATE, 101) + ' ' + right(convert(varchar(32),temp.CREATED_DATE,108),8)");
+        filterLoadDataMap.put(CommonConstant.SOURCE, "TEMP.SOURCE");
+        filterLoadDataMap.put(VariableConstants.COMPANY_ID_WITH_NAME, "(comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME)");
+        filterLoadDataMap.put(VariableConstants.BU_ID_WITH_NAME, "(bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME)");
+        filterLoadDataMap.put(VariableConstants.BRAND_WITH_ID_NAME, "(bm.BRAND_ID + ' - ' + bm.BRAND_NAME)");
+        return filterLoadDataMap;
     }
 
     private List getInputs(AccountConfigDTO binderDto, List inputList) throws SQLException {

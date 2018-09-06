@@ -187,7 +187,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         @Override
         public void yesMethod() {
-            loggerBal.debug("buttonName :" + buttonName);
+            loggerBal.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "reset":

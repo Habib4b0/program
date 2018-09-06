@@ -56,7 +56,7 @@ public class DemandSummaryFieldFactory extends SummaryFieldFactory {
                 if (!isEmptied) {
                     return;
                 }
-                LOGGER.debug("User is supposed to give Double value " + e.getMessage());
+                LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
             }
             String period = getPeriod(doubleVisibleHeader);
             List input = getParameterList(dto, isEmptied, value, period);

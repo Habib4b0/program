@@ -179,7 +179,7 @@ public class DeductionDetails extends CustomComponent {
     private  HorizontalLayout controlLayout;
     private final ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class, ExtContainer.DataStructureMode.MAP);
 
-    private final DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
+    private final DecimalFormat decFormatDD = new DecimalFormat("###0.00");
 
     private String oldValue;
 
@@ -188,7 +188,7 @@ public class DeductionDetails extends CustomComponent {
     private String generatedView;
 
     private String filterValue;
-    private final DataFormatConverter DEC_TWO = new DataFormatConverter("##0.00", true);
+    private final DataFormatConverter decTwoDD = new DataFormatConverter("##0.00", true);
 
 
     public DeductionDetails(final SessionDTO sessionDTO) {
@@ -557,7 +557,7 @@ public class DeductionDetails extends CustomComponent {
                     textField.setImmediate(true);
                     textField.setWidth("100%");
                     textField.setEnabled(true);
-                    textField.setConverter(DEC_TWO);
+                    textField.setConverter(decTwoDD);
                     textField.addFocusListener(new FieldEvents.FocusListener() {
                         @Override
                         public void focus(FieldEvents.FocusEvent event) {
@@ -574,7 +574,7 @@ public class DeductionDetails extends CustomComponent {
                                     String val = String.valueOf(((TextField) event.getComponent()).getValue());
                                     String getData = String.valueOf(((TextField) event.getComponent()).getData());
                                     logic.updateTempTable(detailsDto, val, getData, getBeanFromId(itemId), sessionDTO);
-                                    getBeanFromId(itemId).addStringProperties(propertyId, DEC_FORMAT.format(Double.valueOf(val)));
+                                    getBeanFromId(itemId).addStringProperties(propertyId, decFormatDD.format(Double.valueOf(val)));
                                     setRefreshSet(itemId, propertyId);
                                 } else {
                                     MessageBox.showPlain(Icon.ERROR, "Refresh", "Please click refresh button", new MessageBoxListener() {
@@ -874,7 +874,7 @@ public class DeductionDetails extends CustomComponent {
                         } else if (allocationMethododlogyDdlb.getValue() == null) {
                             AbstractNotificationUtils.getErrorNotification("Adjustment", "Please select Adjustment methododlogy");
                         } else if (ConstantsUtils.SELECT1.equals(String.valueOf(adjustmentPeriods.getValue()))) {
-                            if (checkBoxList.size() > 0) {
+                            if (!checkBoxList.isEmpty()) {
                                 adjustmentLogic();
                             } else {
                                 AbstractNotificationUtils.getErrorNotification("No period selected", "Please select which periods need to be included in the adjustment. ");

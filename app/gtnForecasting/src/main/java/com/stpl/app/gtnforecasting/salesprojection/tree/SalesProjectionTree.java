@@ -77,7 +77,7 @@ public class SalesProjectionTree {
 
     private List<String> getAvailableHierarchiesCP(ProjectionSelectionDTO projSelDTO) {
         if (projSelDTO.getSessionDTO().getHierarchyLevelDetails().isEmpty()) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         } else {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO);
@@ -110,15 +110,15 @@ public class SalesProjectionTree {
     }
 
     private SalesBaseNode generateCPTree(List<String> availableHierarachies) {
-        SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
+        SalesProjectionNodeCP salesProjNodeCp = new SalesProjectionNodeCP("");
         HashMap dataMap = new HashMap<>(availableHierarachies.size());
 
         if (!availableHierarachies.isEmpty()) {
             int startLevel = StringUtils.countMatches(String.valueOf(availableHierarachies.get(0)), ".");
-            apex.setApex(true);
+            salesProjNodeCp.setApex(true);
             List<String> child = new ArrayList<>();
             int currentLevel = startLevel;
-            SalesProjectionNodeCP parent = apex;
+            SalesProjectionNodeCP parent = salesProjNodeCp;
             for (Object availableHierarachy : availableHierarachies) {
                 String hierarchy = String.valueOf(availableHierarachy);
                 String hierarchyNo = hierarchy.contains(",") ? hierarchy.split(",")[0] : hierarchy;
@@ -127,12 +127,12 @@ public class SalesProjectionTree {
                     child.add(hierarchy);
                 } else {
                     if (currentLevel == startLevel) {
-                        parent = addChildrenToParent(apex, child, currentLevel, dataMap);
+                        parent = addChildrenToParent(salesProjNodeCp, child, currentLevel, dataMap);
                     } else {
                         parent = addChildrenToParent(parent, child, currentLevel, dataMap);
                     }
                     if (level < currentLevel) {
-                        parent = (SalesProjectionNodeCP) getParent(hierarchy, dataMap, currentLevel, startLevel, apex);
+                        parent = (SalesProjectionNodeCP) getParent(hierarchy, dataMap, currentLevel, startLevel, salesProjNodeCp);
                     }
                     child = new ArrayList<>();
                     child.add(hierarchy);
@@ -141,7 +141,7 @@ public class SalesProjectionTree {
             }
             addChildrenToParent(parent, child, currentLevel, dataMap);
         }
-        return apex;
+        return salesProjNodeCp;
     }
 
     private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
@@ -167,9 +167,9 @@ public class SalesProjectionTree {
         }
     }
     private SalesBaseNode generateCPForLevelFilter(int levelFiltered, List<String> availableHierarachies) {
-        SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
+        SalesProjectionNodeCP salesCpForLevelFilter = new SalesProjectionNodeCP("");
         if (!availableHierarachies.isEmpty()) {
-            apex.setApex(true);
+            salesCpForLevelFilter.setApex(true);
             Map<String, String> childMap = new HashMap<>();
             for (String availableHierarachy : availableHierarachies) {
                 String hierarchy = String.valueOf(availableHierarachy);
@@ -181,9 +181,9 @@ public class SalesProjectionTree {
                     childMap.put(masterId, hierarchy);
                 }
             }
-            addChildrenToParent(apex, new ArrayList<>(childMap.values()), levelFiltered, new HashMap());
+            addChildrenToParent(salesCpForLevelFilter, new ArrayList<>(childMap.values()), levelFiltered, new HashMap());
         }
-        return apex;
+        return salesCpForLevelFilter;
     }
 
     private TreeNode getParent(String hierarchy, HashMap dataMap, int currentLevel, int startLevel, TreeNode apex) {

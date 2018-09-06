@@ -150,13 +150,13 @@ public class CommonConstant {
     public static final String FILTER = "@FILTER";
     public static final String BECOZ_OF_THE_QUERY = "  Becoz of the query :";
     public static final String CUSTOMER_INDEX = "@CUSTOMER";
-    public static final String ERROR_QUERY = "Error :";
+    public static final String ERROR_QUERY = "Error : {}";
     public static final String HIERARCHY_DETAILS = "@HIERARCHY_DETAILS";
     public static final String HIERARCHY_NO = "HIERARCHY_NO";
     public static final String PRODUCT_INDEX = "@PRODUCT";
     public static final String ST_CCP_HIERARCHY = "?ST_CCP_HIERARCHY";
     public static final String RELATION_SID = "@RELATION_SID";
-    public static final String SQL_QUERY = "--sql Query --";
+    public static final String SQL_QUERY = "--sql Query --{}";
     public static final String RL_SIDS = "rlSids";
     public static final String HIERARCHY_ID = "hierarchyId";
     public static final String END_OF_FIND_VIEW_BY_NAME_METHOD = "End of findViewByName method";
@@ -292,7 +292,7 @@ public class CommonConstant {
     public static final String CUSTOMER_HIERARCHY_NAME_VISIBLE_COLUMN = "customerHierarchyName";
     public static final String ADJUSTED_PRICE_HEADER = "Adjusted Price";
     public static final String BASELINE_PRICE_HEADER = "Baseline Price";
-    public static final String VISIBLE_COLUMN_NAME = "Visible Column name ";
+    public static final String VISIBLE_COLUMN_NAME = "Visible Column name {}";
     public static final String ST_ARM_ADJUSTMENTS = "ST_ARM_ADJUSTMENTS";
     public static final String ARM_ADJUSTMENTS = "ARM_ADJUSTMENTS";
     public static final String ADJUSTMENT_RESERVE_DETAILS_COMMON_QUERY = "Adjustment Reserve Details common query ";

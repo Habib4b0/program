@@ -61,7 +61,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         String version = criteria.getSelectionDto().getDataSelectionDTO().getFromPeriodMonth().replace(" ", "-");
         query = query.replace("?", version);
         query = query + getFilters(criteria);
-        logger.debug("query--" + query);
+        logger.debug("query--{}", query);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return (Integer) list.get(0);
     }
@@ -74,7 +74,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         query = query.replace("?", version);
         query = query + getFilters(criteria) + getOrder(criteria);
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        logger.debug("--Exit getData--" + query);
+        logger.debug("--Exit getData--{}", query);
         return customizier(criteria.getSelectionDto().getReturnsdatavariables(), list);
     }
 
@@ -84,7 +84,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
     }
 
     public DataResult<T> customizier(List<String> varibales, List<Object[]> resultList) {
-        logger.debug("--Inside customizier --" + varibales.size() + "--resultList--" + resultList.size());
+        logger.debug("--Inside customizier --{}", (varibales.size() + "--resultList--" + resultList.size()));
         List customizedList = new ArrayList();
         AdjustmentDTO obj;
         int variableSize = varibales.size();
@@ -134,9 +134,9 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            logger.error("Error while setting property for given Inputs :" , ex);
+            logger.error("Error while setting property for given Inputs :", ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Error in customizier :" , ex);
+            logger.error("Error in customizier :", ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
@@ -154,18 +154,18 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
                     String propertyId = String.valueOf(stringFilter.getPropertyId());
                     filterQuery.append(filterQuery).append(" AND ");
                     filterQuery.append(propertyId.substring(0, propertyId.indexOf('.')));
-                    filterQuery.append(" like '").append(filterString).append("'");
+                    filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                 }
 
             }
         }
-        logger.debug("--Exit getFilters --" + filterQuery);
+        logger.debug("--Exit getFilters --{}", filterQuery);
         return filterQuery.toString();
     }
 
     private String getOrder(Criteria criteria) {
         String order = StringUtils.EMPTY;
-        logger.debug("Inside getOrder  " + order);
+        logger.debug("Inside getOrder  {}", order);
         boolean sortOrder = false;
         String orderByColumn = null;
         if (criteria.getSortByColumns() != null) {
@@ -185,7 +185,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
         order = order + criteria.getStart();
         order = order + " ROWS FETCH NEXT " + criteria.getOffset();
         order = order + " ROWS ONLY;";
-        logger.debug("Exit getOrder  " + order);
+        logger.debug("Exit getOrder {} ", order);
         return order;
     }
 

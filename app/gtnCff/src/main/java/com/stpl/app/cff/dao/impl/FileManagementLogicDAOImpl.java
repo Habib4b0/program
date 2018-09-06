@@ -20,7 +20,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+   
 /**
  * The Class FileManagementLogicDAOImpl.
  *
@@ -118,13 +118,13 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
     }
     
     @Override
-       public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException,SystemException{
+       public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws SystemException{
         return ItemQualifierLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
       
 
     @Override
-    public List getBrandList(final DynamicQuery ifpDynamicQuery) throws PortalException, SystemException {
+    public List getBrandList(final DynamicQuery ifpDynamicQuery) throws SystemException {
         return BrandMasterLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
     
@@ -135,7 +135,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @throws SystemException 
      */
     @Override
-    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException,SystemException {
+    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
     /**

@@ -150,7 +150,7 @@ public class DPRLogic {
 
         if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
             DiscountProjectionResultsDTO mandatedDisc = null;
-            DiscountProjectionResultsDTO SupplDisc = null;
+            DiscountProjectionResultsDTO supplDisc = null;
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal()) {
                 setProjectionTotalList(getConfiguredResultsTotal(projSelDTO));
                 if (!getProjectionTotalList().isEmpty()) {
@@ -160,11 +160,11 @@ public class DPRLogic {
             }
             String discount = projSelDTO.getMandatedOrSupp();
             if (neededRecord > 0 && projSelDTO.isIsTotal() && !projSelDTO.isIsProjectionTotal()) {
-                if (mandatedDisc == null || SupplDisc == null) {
+                if (mandatedDisc == null || supplDisc == null) {
                     List<DiscountProjectionResultsDTO> mandOrSupplemental = getMandSuppDiscount(projSelDTO);
                     if (mandOrSupplemental != null && !mandOrSupplemental.isEmpty()) {
                         mandatedDisc = mandOrSupplemental.get(0);
-                        SupplDisc = mandOrSupplemental.get(1);
+                        supplDisc = mandOrSupplemental.get(1);
                     }
 
                 }
@@ -194,7 +194,7 @@ public class DPRLogic {
                         toadd = false;
                     }
                     if (toadd && !projSelDTO.isIsProjectionTotal()) {
-                        projDTOList.add(SupplDisc);
+                        projDTOList.add(supplDisc);
                         neededRecord--;
                         started++;
                     }
@@ -239,9 +239,8 @@ public class DPRLogic {
             }
 
             List<DiscountProjectionResultsDTO> projectionDtoList = new ArrayList<>();
-            if (projSelDTO.isIsProjectionTotal()) {
+            if (!projSelDTO.isIsProjectionTotal()) {
 
-            } else {
                 projectionDtoList = getCustomizedPivotChildNodes(projectionDtoList, projSelDTO);
                 for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(projectionDtoList.get(k));
@@ -1308,27 +1307,29 @@ public class DPRLogic {
         return projDTOList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat formatt, String value) {
+        String valueFormat = value;
         if (value.contains(Constant.NULL)) {
-            value = "...";
+            valueFormat = "...";
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            valueFormat = formatt.format(Double.valueOf(valueFormat));
         }
-        return value;
+        return valueFormat;
     }
 
     public String getFormatValue(int numberOfDecimal, String value, String appendChar) {
-        if (value.contains(Constant.NULL)) {
-            value = "...";
+        String formattedValue = value;
+        if (formattedValue.contains(Constant.NULL)) {
+            formattedValue = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            value = getFormattedValue(CUR_TWO, value);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(formattedValue)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(CUR_TWO, formattedValue);
 
         } else if (Constant.PERCENT.equals(appendChar)) {
-            value = String.valueOf(new BigDecimal(String.valueOf(value)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
-            value = getFormattedValue(PER_THREE, value).concat(appendChar);
+            formattedValue = String.valueOf(new BigDecimal(String.valueOf(formattedValue)).setScale(numberOfDecimal, BigDecimal.ROUND_DOWN));
+            formattedValue = getFormattedValue(PER_THREE, formattedValue).concat(appendChar);
         }
-        return value;
+        return formattedValue;
     }
 
     private String getProgramCodeQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {
@@ -2309,7 +2310,7 @@ public class DPRLogic {
         return null;
     }
 
-    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException {
 
         LOGGER.debug("Session--->= {}, {}, {}" , sessionDTO.getUserId(), sessionDTO.getSessionId(), sessionDTO.getProjectionId());
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();

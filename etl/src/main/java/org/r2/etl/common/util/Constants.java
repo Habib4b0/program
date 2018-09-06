@@ -381,6 +381,27 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_GCC_PROD_HIERARCHY_INTERFACE = "PSTG_GCC_PROD_HIERARCHY_INTERFACE";
+        
+        /**
+	 * variable for the DTX ETL Interface.
+	 */
+	public static final String DTX_UOM_INTERFACE = "DTX_UOM_INTERFACE";
+        
+        public static final String DTX_CPI_INTERFACE = "DTX_CPI_INTERFACE";
+        
+        public static final String DTX_RETURN_RATE_INTERFACE = "DTX_RETURN_RATE_INTERFACE";
+        
+        public static final String DTX_ITEM_PRICING_INTERFACE = "DTX_ITEM_PRICING_INTERFACE";
+        
+        public static final String DTX_ACCRUAL_ACTUAL_INTERFACE = "DTX_ACCRUAL_ACTUAL_INTERFACE";
+        
+        public static final String DTX_ITEM_MASTER_INTERFACE = "DTX_ITEM_MASTER_INTERFACE";
+        
+        public static final String DTX_ITEM_IDENTIFIER_INTERFACE = "DTX_ITEM_IDENTIFIER_INTERFACE";
+
+        public static final String DTX_CUSTOMER_GTS_ACTUAL_INTERFACE = "DTX_CUSTOMER_GTS_ACTUAL_INTERFACE";
+
+        public static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DTX_CUSTOMER_GTS_FORECAST_INTERFACE";
 
 	private Constants() {
 	}

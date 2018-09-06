@@ -40,6 +40,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
@@ -577,8 +578,14 @@ public class GtnWsCustomViewService {
 				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
 		for (Object[] object : variablesData) {
 			gtnWsRecordBean = new GtnWsRecordBean();
-			configureReportBean(gtnWsRecordBean, object[1].toString(), Integer.parseInt(object[0].toString()),
-					detailsData);
+			gtnWsRecordBean.addProperties(object[1].toString());
+			gtnWsRecordBean.addProperties(detailsData.getLevelNo());
+			int index = GtnWsReportVariablesType.fromString(object[1].toString()).ordinal();
+			gtnWsRecordBean.addProperties((65 + index));
+			gtnWsRecordBean.addProperties(detailsData.getHierarchyIndicator());
+			gtnWsRecordBean.addProperties(Integer.valueOf(String.valueOf(object[0])));
+			gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
+			gtnWsRecordBean.setRecordHeader(Arrays.asList("levelValue"));
 			recordTreeData.add(gtnWsRecordBean);
 		}
 	}
@@ -602,13 +609,25 @@ public class GtnWsCustomViewService {
 				for (int j = 0; j < variablesData.size(); j++) {
 					Object[] subDataArray = new Object[6];
 					Object[] result = variablesData.get(j);
+					int index = GtnWsReportVariablesType.fromString(result[0].toString()).ordinal();
 					subDataArray[0] = result[0];
-					subDataArray[1] = j;
-					subDataArray[2] = result[1].toString().charAt(0) + 0;
+					subDataArray[1] = index;
+					subDataArray[2] = (65 + index);
 					subDataArray[3] = GtnWsHierarchyType.VARIABLES.toString();
 					subDataArray[4] = result[2];
 					selectedVariablesValues.add(subDataArray);
 				}
+				Collections.sort(selectedVariablesValues, (ob1, ob2) -> {
+					int object1 = (int) ob1[1];
+					int object2 = (int) ob2[1];
+					if (object1 > object2) {
+						return 1;
+					} else if (object1 < object2) {
+						return -1;
+					} else {
+						return 0;
+					}
+				});
 				gtnWsRecordBean.addProperties(selectedVariablesValues);
 			}
 		}

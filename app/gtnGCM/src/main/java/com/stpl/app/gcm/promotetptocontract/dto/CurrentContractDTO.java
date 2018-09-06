@@ -60,7 +60,7 @@ public class CurrentContractDTO implements Serializable {
     private Integer hiddenId = 0;
     private String screenName = StringUtils.EMPTY;
     private Integer cfpId = 0;
-    private Integer IFPId = 0;
+    private Integer ifpId = 0;
     private Integer psId = 0;
     private Integer rsId = 0;
     private boolean search = false;
@@ -81,11 +81,11 @@ public class CurrentContractDTO implements Serializable {
     }
 
     public Integer getIFPId() {
-        return IFPId;
+        return ifpId;
     }
 
-    public void setIFPId(Integer IFPId) {
-        this.IFPId = IFPId;
+    public void setIFPId(Integer ifpId) {
+        this.ifpId = ifpId;
     }
 
     public Integer getPsId() {

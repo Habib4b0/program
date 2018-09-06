@@ -20,7 +20,7 @@ public class LivesDTO {
     private int endQuator=0;
    private int endYear=0;
    private double lives=0.0;
-   private String comp_Name="empty";
+   private String compName="empty";
 
     public Date getStartDate() {
         return startDate == null ? null : (Date) startDate.clone();
@@ -71,11 +71,11 @@ public class LivesDTO {
     }
 
     public String getComp_Name() {
-        return comp_Name;
+        return compName;
     }
 
-    public void setComp_Name(String comp_Name) {
-        this.comp_Name = comp_Name;
+    public void setComp_Name(String compName) {
+        this.compName = compName;
     }
 
  

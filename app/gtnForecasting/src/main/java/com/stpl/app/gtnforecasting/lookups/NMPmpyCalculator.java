@@ -54,7 +54,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,16 +198,6 @@ public class NMPmpyCalculator extends Window {
     private final DecimalFormat dfUnits = new DecimalFormat("#.0");
 
     /**
-     * The calculated SALES_SMALL value.
-     */
-    private Double calculatedSalesValue = 0.0;
-
-    /**
-     * The calculated UNITS_SMALL value.
-     */
-    private Double calculatedUnitsValue = 0.0;
-
-    /**
      * The excel export ch.
      */
     @UiField("excelExportCh")
@@ -256,11 +245,6 @@ public class NMPmpyCalculator extends Window {
      * The regex.
      */
     public static final String REGEX = "(^[0-9]+(\\.[0-9])?$)";
-
-    /**
-     * The calendar.
-     */
-    private final Calendar calendar = CommonUtils.getCalendar();
     private final ExtFilterTable contractHolderTable = new ExtFilterTable();
     private final ExtFilterTable tradingHistoryTable = new ExtFilterTable();
     private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
@@ -811,9 +795,9 @@ public class NMPmpyCalculator extends Window {
     private void populateButtonLogic( boolean chValue, boolean tpValue) {
 
         LOGGER.debug("Entering populateButtonLogic method");
-        calculatedSalesValue = 0.0;
-        calculatedUnitsValue = 0.0;
-
+    
+        Double calculatedSalesValue = 0.0;
+        Double calculatedUnitsValue = 0.0;
         if (chValue && tpValue) {
             AbstractNotificationUtils.getErrorNotification("Periods in Both List Views Selected",
                     "Historical periods can only be selected from either the Contract Holder list view or the Trading Partner list view.  " + "\nPlease try again.");
@@ -1144,13 +1128,13 @@ public class NMPmpyCalculator extends Window {
             Double gtsValue = Double.valueOf(PPAQuerys.getPPAData(input, queryName, null).get(0).toString());
             if (gtsValue == 0) {
                 List input1 = new ArrayList();
-                List NDcs = new ArrayList();
+                List ndcsImportLogic = new ArrayList();
                 input1.add(CommonUtils.getListToString((List) inputs[0]));
                 List<String> ndcs = PPAQuerys.getPPAData(input1, "Get NDC Values", null);
                 for (String str : ndcs) {
-                    NDcs.add(str == null ? StringUtils.EMPTY : str);
+                    ndcsImportLogic.add(str == null ? StringUtils.EMPTY : str);
                 }
-                MessageBox.showPlain(Icon.INFO, "Error", "The following NDC's " + CommonUtils.getListToString(NDcs) + "is/are not on the current GTS File", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, "Error", "The following NDC's " + CommonUtils.getListToString(ndcsImportLogic) + "is/are not on the current GTS File", ButtonId.OK);
 
             } else {
                 MessageBox.showPlain(Icon.QUESTION, "Replace sales confirmation", "Are you sure you want to use the calculated Sales/Units value for the selected Trading Partner" + " ?",
@@ -1203,10 +1187,6 @@ public class NMPmpyCalculator extends Window {
             exporter.export(exporterDto);
             LOGGER.debug("End of exportCalculatedExcel method");
         } catch (SystemException e) {
- 
-            LOGGER.error(e.getMessage());
-
-        } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
 
@@ -1342,7 +1322,7 @@ public class NMPmpyCalculator extends Window {
 
     @UiHandler("totalLivesChartCh")
     public void totalLivesChartCh(Button.ClickEvent event) {
-        final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chContainer.getBeans(), (String) contract.getValue(), rightDto.getDoubleHistoryColumns());
+        final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart((String) contract.getValue(), rightDto.getDoubleHistoryColumns());
         final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
         UI.getCurrent().addWindow(salesGraphWindow);
     }

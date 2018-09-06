@@ -108,18 +108,17 @@ public class AbstractLogic {
         containerData.setMinFilterLength(0);
     }
 
-    public int getDdlbCount(String QueryName, final List<String> input) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public int getDdlbCount(String queryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
 
-    public List<HelperDTO> getDdlbList(String QueryName, final List<String> input, final Boolean isFilter) {
-        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+    public List<HelperDTO> getDdlbList(String queryName, final List<String> input, final Boolean isFilter) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             if (isFilter) {
@@ -145,8 +144,7 @@ public class AbstractLogic {
         List input = getInput(selection, binderDto);
         List<Object[]> list = ItemQueries.getItemData(input, selection.getCountQueryName(), null);
         Object obj = list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     public List getContractResults(SelectionDTO selection, int start, int offset, AddItemTableDTO binderDto) {
@@ -557,8 +555,7 @@ public class AbstractLogic {
     public static int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -566,8 +563,7 @@ public class AbstractLogic {
     public static int getDataCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object[] obj = list.get(0);
-            int count = obj[0] == null ? 0 : 1;
-            return count;
+            return obj[0] == null ? 0 : 1;
         }
         return 0;
     }
@@ -606,8 +602,7 @@ public class AbstractLogic {
     public int getFormulaIdCount(FormulaDTO binderDto, SelectionDTO selection) {
         List<Object[]> list = ItemQueries.getItemData(getFormulaIdInput(binderDto), selection.getCountQueryName(), null);
         Object obj = list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     public List<FormulaDTO> getFormulaIdRecords(FormulaDTO binderDto, SelectionDTO selection) {
@@ -648,10 +643,10 @@ public class AbstractLogic {
         return input;
     }
 
-    public void LazyTableLoadDdlb(ComboBox comboBox, String load_Item_Status_Count, String load_Item_Status) {
+    public void LazyTableLoadDdlb(ComboBox comboBox, String loadItemStatusCount, String loadItemStatus) {
         final List inputList = new ArrayList();
-        inputList.add(load_Item_Status_Count);
-        inputList.add(load_Item_Status);
+        inputList.add(loadItemStatusCount);
+        inputList.add(loadItemStatus);
         LazyContainer containerData = new LazyContainer(HelperDTO.class, new LoadDdlbDAO(inputList, true), new DdlbCriteria());
         comboBox.setPageLength(NumericConstants.SEVEN);
         comboBox.setContainerDataSource(containerData);
@@ -676,8 +671,7 @@ public class AbstractLogic {
                 queryname = "Abstract Data update CheckRecord";
             }
         }
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
     }
 
     public Boolean getEditedPopulateItemDetails(final AbstractContractSearchDTO compDTO, final SelectionDTO selection) {
@@ -700,9 +694,8 @@ public class AbstractLogic {
             }
             input = getEditedItemInput(compDTO, selection);
         }
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
 
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
     }
 
     public List getEditedItemInput(AbstractContractSearchDTO compDTO, SelectionDTO selection) {
@@ -903,8 +896,7 @@ public class AbstractLogic {
     }
 
     public boolean getItemDetails(AddItemTableDTO dto, SelectionDTO selection) {
-        Boolean isUpdated = ItemQueries.itemUpdate(getEditedInput(dto, selection), "Abstract Data update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(getEditedInput(dto, selection), "Abstract Data update");
     }
 
     private List getEditedInput(AddItemTableDTO dto, SelectionDTO selection) {
@@ -1065,26 +1057,25 @@ public class AbstractLogic {
     }
 
     public Boolean massUpdateItemDetails(final List input) {
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     private List getInput(SelectionDTO selection, AddItemTableDTO binderDto) {
         List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
-        if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
-            input.add(binderDto.getContractNo_SID().replace('*', '%'));
+        if (binderDto.getContractNoSid() != null && !binderDto.getContractNoSid().isEmpty()) {
+            input.add(binderDto.getContractNoSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getContractName_SID() != null && !binderDto.getContractName_SID().isEmpty()) {
-            input.add(binderDto.getContractName_SID().replace('*', '%'));
+        if (binderDto.getContractNameSid() != null && !binderDto.getContractNameSid().isEmpty()) {
+            input.add(binderDto.getContractNameSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getContractHolder_SID() != null && !binderDto.getContractHolder_SID().isEmpty()) {
-            input.add(binderDto.getContractHolder_SID().replace('*', '%'));
+        if (binderDto.getContractHolderSid() != null && !binderDto.getContractHolderSid().isEmpty()) {
+            input.add(binderDto.getContractHolderSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1100,40 +1091,40 @@ public class AbstractLogic {
             input.add(" ");
         }
 
-        if (binderDto.getMarketType_DTO() != null) {
-            input.add(binderDto.getMarketType_DTO().getId());
+        if (binderDto.getMarketTypeDto() != null) {
+            input.add(binderDto.getMarketTypeDto().getId());
         } else {
             input.add(Constants.PERCENT);
         }
 
-        if (binderDto.getCfp_SID() != null && !binderDto.getCfp_SID().isEmpty()) {
-            input.add(binderDto.getCfp_SID().replace('*', '%'));
+        if (binderDto.getCfpSid() != null && !binderDto.getCfpSid().isEmpty()) {
+            input.add(binderDto.getCfpSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace('*', '%'));
+        if (binderDto.getCustomerSid() != null && !binderDto.getCustomerSid().isEmpty()) {
+            input.add(binderDto.getCustomerSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace('*', '%'));
+        if (binderDto.getCustomerSid() != null && !binderDto.getCustomerSid().isEmpty()) {
+            input.add(binderDto.getCustomerSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
 
-        if (binderDto.getIfp_SID() != null && !binderDto.getIfp_SID().isEmpty()) {
-            input.add(binderDto.getIfp_SID().replace('*', '%'));
+        if (binderDto.getIfpSid() != null && !binderDto.getIfpSid().isEmpty()) {
+            input.add(binderDto.getIfpSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getPs_SID() != null && !binderDto.getPs_SID().isEmpty()) {
-            input.add(binderDto.getPs_SID().replace('*', '%'));
+        if (binderDto.getPsSid() != null && !binderDto.getPsSid().isEmpty()) {
+            input.add(binderDto.getPsSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
-        if (binderDto.getRs_SID() != null && !binderDto.getRs_SID().isEmpty()) {
-            input.add(binderDto.getRs_SID().replace('*', '%'));
+        if (binderDto.getRsSid() != null && !binderDto.getRsSid().isEmpty()) {
+            input.add(binderDto.getRsSid().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1160,8 +1151,7 @@ public class AbstractLogic {
     public int getContractCount(SelectionDTO selection, List input) {
         List<Object[]> list = ItemQueries.getItemData(input, selection.getCountQueryName(), null);
         Object obj = list.isEmpty() ? 0 : list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     public static List getIfpIdsWithAllItems(List input, String queryName) {
@@ -1206,8 +1196,7 @@ public class AbstractLogic {
     public int getLookUpSearchCount(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         List<Object[]> list = getLookUpRecords(binderDto, selection, selection.getCountQueryName());
         Object obj = list.get(0);
-        int count = obj == null ? 0 : (Integer) obj;
-        return count;
+        return obj == null ? 0 : (Integer) obj;
     }
 
     /**
@@ -1497,8 +1486,7 @@ public class AbstractLogic {
         } else if (selection.getOperation().equals(Constants.RS)) {
             input = getRSLookUpInput(binderDto, selection);
         }
-        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
-        return list;
+        return ItemQueries.getItemData(input, queryName, null);
     }
 
     /**
@@ -1870,8 +1858,7 @@ public class AbstractLogic {
 
     public List lookupResultsQuery(final FormulaDTO dto, int start, int offset, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, boolean isCount) {
         List<Object[]> searchResultsList = ItemQueries.getAppData(getViewInput(dto, start, offset, columns, filterSet, isCount), "formulaIdRecord", null);
-        List<FormulaDTO> resultsList = getCustomizedViewData(searchResultsList);
-        return resultsList;
+        return getCustomizedViewData(searchResultsList);
     }
 
     private List getViewInput(FormulaDTO binderDto, int start, int offset, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, boolean isCount) {

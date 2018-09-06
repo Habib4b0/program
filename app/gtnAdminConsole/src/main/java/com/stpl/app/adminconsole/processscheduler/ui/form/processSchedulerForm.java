@@ -149,7 +149,7 @@ public class processSchedulerForm extends CustomComponent {
     public static final String MSG_ID_061 = "MSG_ID_061";
     private String key = "processscheduler";
     private boolean isload = false;
-    private ProcessSchedulerDTO ProcessDTO;
+    private ProcessSchedulerDTO processDTO;
     private Date date = new Date();
     @UiField("updateBtn")
     private Button updateBtn;
@@ -399,7 +399,7 @@ public class processSchedulerForm extends CustomComponent {
                         int sid = ((ProcessSchedulerDTO) event.getItemId()).getProcessSid();
                         final ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
                         ProcessSchedulerDTO dto = logic.getProcessScheduleByID(sid);
-                        ProcessDTO = setFieldValue(dto);
+                        processDTO = setFieldValue(dto);
                         updateBtn.setEnabled(true);
 
                         LOGGER.debug("Ending Double click event");
@@ -513,10 +513,10 @@ public class processSchedulerForm extends CustomComponent {
     public void updateBtn(Button.ClickEvent event) {
         try {
             if ((StringConstantUtils.INACTIVE).equals(String.valueOf(status.getValue()))) {
-                ProcessDTO.setStartDate((Date) (startDate.getValue() == null ? date : startDate.getValue()));
-                ProcessDTO.setEndDate((Date) (endDate.getValue() == null ? date : endDate.getValue()));
-                getFieldValueInactive(ProcessDTO);
-                ProcessSchedulerLogic.update(ProcessDTO);
+                processDTO.setStartDate((Date) (startDate.getValue() == null ? date : startDate.getValue()));
+                processDTO.setEndDate((Date) (endDate.getValue() == null ? date : endDate.getValue()));
+                getFieldValueInactive(processDTO);
+                ProcessSchedulerLogic.update(processDTO);
                 Notification notif = null;
                 notif = new Notification(confirmationMessage.getString("MSG_ID_034"), Notification.Type.HUMANIZED_MESSAGE);
                 notif.setPosition(Position.MIDDLE_CENTER);
@@ -532,8 +532,8 @@ public class processSchedulerForm extends CustomComponent {
                 updateBtn.setEnabled(false);
             } else if (check()) {
                 if (checkStartDateValidation() && hourAndMinValidation()) {
-                    getFieldValue(ProcessDTO);
-                    ProcessSchedulerLogic.update(ProcessDTO);
+                    getFieldValue(processDTO);
+                    ProcessSchedulerLogic.update(processDTO);
                     Notification notif = null;
                     notif = new Notification(confirmationMessage.getString("MSG_ID_034"), Notification.Type.HUMANIZED_MESSAGE);
                     notif.setPosition(Position.MIDDLE_CENTER);

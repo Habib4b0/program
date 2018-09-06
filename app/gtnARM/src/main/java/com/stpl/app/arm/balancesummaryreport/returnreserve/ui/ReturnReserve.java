@@ -16,8 +16,10 @@ import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
 public class ReturnReserve extends AbstractBSummaryReportSummary {
 
     private final ReturnReserveResults results;
-    private String[] defaultColumns = {"Starting_Balance", "Return_Reserve", "Ending_Balance", "Total"};
-    private String[] defaultColumnsHeader = {"Starting Balance", "Return Reserve", "Ending Balance", "Total"};
+    private String[] returnReservedefaultColumns = {"Starting_Balance", "Return_Reserve", "Ending_Balance", "Total"};
+    private String[] returnReserveDefaultColumnsHeader = {"Starting Balance", "Return Reserve", "Ending Balance", "Total"};
+    private static final String PRC_ARM_BSR_RETURN_RESERVE = "PRC_ARM_BSR_RETURN_RESERVE";
+    private static final String ARM_BSR_RETURN_RESERVE = "ARM_BSR_RETURN_RESERVE";
 
     public ReturnReserve(SummarySelection tselection, ReturnReserveLogic logic) {
         super(logic, tselection);
@@ -32,27 +34,27 @@ public class ReturnReserve extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getDefaultColumnsHeader() {
-        return defaultColumnsHeader.clone();
+        return returnReserveDefaultColumnsHeader.clone();
     }
 
     @Override
     public String[] getDefaultColumns() {
-        return defaultColumns.clone();
+        return returnReservedefaultColumns.clone();
     }
 
     @Override
     public String getProcedureName() {
-        return "PRC_ARM_BSR_RETURN_RESERVE";
+        return PRC_ARM_BSR_RETURN_RESERVE;
     }
 
     @Override
     public String getTempTablesPropertyName() {
-        return "ARM_BSR_RETURN_RESERVE";
+        return ARM_BSR_RETURN_RESERVE;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object retresObj) {
+        return super.equals(retresObj);
     }
 
     @Override
@@ -62,11 +64,11 @@ public class ReturnReserve extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getAdjustmentTypeHeader() {
-        return defaultColumnsHeader.clone();
+        return returnReserveDefaultColumnsHeader.clone();
     }
 
     @Override
     public String[] getAdjustmentTypeColumn() {
-        return defaultColumns.clone();
+        return returnReservedefaultColumns.clone();
     }
 }

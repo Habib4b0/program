@@ -86,7 +86,7 @@ public class DataSelectionTab extends AbstractDataSelection {
     }
 
     public void loadAvailableCustProd(int hierSid, int relSid, Property.ValueChangeEvent event) {
-        LOGGER.debug("Inside loadAvailableCustProd Method" + hierSid + relSid + event);
+        LOGGER.debug("Inside loadAvailableCustProd Method {}", (hierSid + StringUtils.EMPTY + relSid + event));
     }
 
     @Override
@@ -363,7 +363,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         try {
             innerCustLevels = logic.loadCustomerForecastLevel(selection.getCustomerHierarchySid(), selection.getCustomerHierarchyName());
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadCustomerLevel");
+            LOGGER.error(" in loadCustomerLevel", ex);
         }
 
     }
@@ -372,7 +372,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         try {
             innerProdLevels = logic.loadCustomerForecastLevel(selection.getProductHierarchySid(), selection.getProductHierarchyName());
         } catch (Exception ex) {
-            LOGGER.error(ex + " loadProductLevel");
+            LOGGER.error(" loadProductLevel", ex);
         }
     }
 

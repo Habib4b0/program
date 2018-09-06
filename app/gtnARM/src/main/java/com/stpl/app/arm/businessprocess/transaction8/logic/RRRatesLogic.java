@@ -51,9 +51,9 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         String query = SQlUtil.getQuery("getExcelRateTx8");
         Object[] value = selection.getExcelHierarchy();
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
@@ -63,7 +63,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
     }
 
     protected Object getRateQuery(AbstractSelectionDTO selection, Object lastParent, boolean isCount, int start, int offset, int currentPage, int lastPage) {
-        LOGGER.debug("currentPage " + currentPage + " " + lastPage);
+        LOGGER.debug("currentPage {} ", currentPage + " " + lastPage);
         List<AdjustmentDTO> resultDTO;
         int startindex = start + 1;
         int endindex = start + offset;
@@ -116,16 +116,16 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 switch (dto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
                         dto.setDeductionName(String.valueOf(obj[0]));
-                        dto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                        dto.setDeductionSID((Integer) (obj[NumericConstants.FIVE]));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
                         if (ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                            dto.setCustomerSID((Integer) (obj[NumericConstants.FIVE]));
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                            dto.setCustomerSID((Integer) (obj[NumericConstants.FIVE]));
                             dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
@@ -134,19 +134,19 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
 
                     case VariableConstants.CONTRACT_UPPERCASE:
                         if (ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                            dto.setContractSID((Integer) (obj[NumericConstants.FIVE]));
                             dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                         } else {
-                            dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                            dto.setContractSID((Integer) (obj[NumericConstants.FIVE]));
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                             dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                        dto.setBrandSID((Integer) (obj[NumericConstants.FIVE]));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionName(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionName() : StringUtils.EMPTY);
@@ -163,7 +163,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                     default:
                 }
 
-                LOGGER.debug("----dto.getLevelName()----" + dto.getLevelName());
+                LOGGER.debug("----dto.getLevelName()----{}", dto.getLevelName());
                 dto.setChildrenAllowed(!VariableConstants.PRODUCT_RETURNS.equalsIgnoreCase(dto.getLevelName()) && !"TOTAL".equalsIgnoreCase(dto.getGroup()) && (selection.getRateslevelFilterNo() == 0));
                 dto.setLevelNo(selection.getLevelNo());
             }
@@ -189,7 +189,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 String value = ARMConstants.getDeductionProduct().equals(selection.getRateDeductionView())
                         ? VariableConstants.BRAND_UPPERCASE : customerValue;
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), value, selection.getTableName())));
-                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()), parentDTO.getDeductionSID(), "'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()), parentDTO.getDeductionSID(), ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
 
             case VariableConstants.CUSTOMER_UPPERCASE:
@@ -201,7 +201,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 input.add(ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView()) ? "%" : parentDTO.getContractSID());
                 input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
                 input.add(parentDTO.getDeductionSID());
-                input.addAll(new ArrayList<>(Arrays.asList("'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
 
             case VariableConstants.CONTRACT_UPPERCASE:
@@ -212,7 +212,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 input.add(parentDTO.getContractSID());
                 input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
                 input.add(parentDTO.getDeductionSID());
-                input.addAll(new ArrayList<>(Arrays.asList("'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
             case VariableConstants.BRAND_UPPERCASE:
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), VariableConstants.PRODUCT_RETURNS, selection.getTableName())));
@@ -224,7 +224,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                 input.add(ARMUtils.getInstance().getSidValue(selection.getRateDeductionLevelName()));
                 input.add(parentDTO.getDeductionSID());
 
-                input.addAll(new ArrayList<>(Arrays.asList("'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList(ARMUtils.SINGLE_QUOTES + parentDTO.getDeductionName() + ARMUtils.SINGLE_QUOTES)));
                 break;
             default:
         }

@@ -23,11 +23,9 @@ import org.apache.commons.lang.StringUtils;
 public class FileUploader implements Receiver {
 
     private FileOutputStream outputStream;
-    private File file;
     public static final String FILE_PATH = getFilePath();
     private String moduleName = StringUtils.EMPTY;
     private boolean isFileExists;
-    private boolean isFileCreated;
     public FileUploader(String moduleName) {
         this.moduleName = moduleName;
     }
@@ -48,11 +46,11 @@ public class FileUploader implements Receiver {
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                file = CommonUtil.getFile(dir, filename);
+                File file = CommonUtil.getFile(dir, filename);
                 if (file.exists()) {
                     isFileExists=file.delete();
                 }
-                isFileCreated=file.createNewFile();
+                boolean isFileCreated=file.createNewFile();
                 outputStream = new FileOutputStream(file);
                 LOGGER.info("File deleted successfully= {}",isFileExists);
                 LOGGER.info("File created successfully= {}",isFileCreated);
@@ -81,18 +79,5 @@ public class FileUploader implements Receiver {
     /**
      * method should be called at the end
      */
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-            new Notification("IOException ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-        } finally {
-            super.finalize();
-        }
-    }
+    
 }

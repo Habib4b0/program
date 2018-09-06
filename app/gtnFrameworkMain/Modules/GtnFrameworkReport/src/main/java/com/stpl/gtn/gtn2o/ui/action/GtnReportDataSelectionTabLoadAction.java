@@ -66,7 +66,6 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
 
@@ -146,7 +145,7 @@ public class GtnReportDataSelectionTabLoadAction
 
 			TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 
-			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
+			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkHierarchyTreeBuilder = dualListBoxBean.getTreeBuilder();
 			gtnUIFrameworkHierarchyTreeBuilder.buildTree(reportDataSelectionBean.getSelectedCustomerHierarchyList());
 			gtnUIFrameworkHierarchyTreeBuilder.loadRightTreeTable(rightTable, 1);
 			rightTable.getDataProvider().refreshAll();
@@ -217,7 +216,8 @@ public class GtnReportDataSelectionTabLoadAction
 
 			TreeGrid<GtnWsRecordBean> dsProductRightTable = dsProductDualListBoxBean.getRightTable();
 
-			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkProductHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
+			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkProductHierarchyTreeBuilder = dsProductDualListBoxBean
+					.getTreeBuilder();
 			gtnUIFrameworkProductHierarchyTreeBuilder
 					.buildTree(reportDataSelectionBean.getSelectedProductHierarchyList());
 			gtnUIFrameworkProductHierarchyTreeBuilder.loadRightTreeTable(dsProductRightTable, 1);
@@ -226,7 +226,7 @@ public class GtnReportDataSelectionTabLoadAction
 
 			loadComparisonInReportingDashboard("dataSelectionTab_comparisonLookup", componentId,
 					reportDataSelectionBean);
-			
+
 			GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
 					GtnWsReportVariablesType.values().length - 1);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
@@ -260,8 +260,6 @@ public class GtnReportDataSelectionTabLoadAction
 
 			loadComparisonInReportingDashboard("reportingDashboardTab_reportingDashboardComparisonConfig", componentId,
 					reportDataSelectionBean);
-
-
 
 		} catch (Exception exception) {
 			gtnLogger.error("Error message", exception);

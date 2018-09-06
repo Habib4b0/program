@@ -54,7 +54,7 @@ public class ExcelUtils {
         int keyParam = j;
         String oldC = StringUtils.EMPTY;
         String newC;
-        AdjustmentDTO dto = null;
+        AdjustmentDTO excelAdjustmentDto = null;
         List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
         int size;
@@ -88,28 +88,28 @@ public class ExcelUtils {
             }
             size = mapList.size();
             for (int l = 0; l < size; l++) {
-                dto = mapList.get(l).get(key);
-                if (dto != null) {
+                excelAdjustmentDto = mapList.get(l).get(key);
+                if (excelAdjustmentDto != null) {
                     break;
                 }
             }
 
-            if (dto == null) {
-                dto = new AdjustmentDTO();
+            if (excelAdjustmentDto == null) {
+                excelAdjustmentDto = new AdjustmentDTO();
                 Map<String, AdjustmentDTO> map = mapList.get(size - 1);
                 if (map.size() >= NumericConstants.THOUSAND) {
                     map = new HashMap<>();
                     mapList.add(map);
                 }
-                map.put(key, dto);
-                for (int k = dto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
+                map.put(key, excelAdjustmentDto);
+                for (int k = excelAdjustmentDto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
                     String column = visibleColumns.get(k).replace(" ", "");
-                    dto.addStringProperties(column, StringUtils.EMPTY);
+                    excelAdjustmentDto.addStringProperties(column, StringUtils.EMPTY);
                 }
             }
             int index = 0;
             int dedIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded;
-            for (int k = dto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
+            for (int k = excelAdjustmentDto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
                 String column = visibleColumns.get(k).replace(" ", "");
                 boolean columnCheck = true;
                 if (column.contains(ARMUtils.DOUBLE_HIPHEN)) {
@@ -123,89 +123,89 @@ public class ExcelUtils {
                         if (column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
                             if (column.matches(CommonConstant.ALPHA)) {
                                 if (value instanceof BigInteger) {
-                                    dto.addProperties(column, value);
+                                    excelAdjustmentDto.addProperties(column, value);
                                 } else {
-                                    dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                                    excelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                                 }
                                 index++;
                             } else {
-                                BeanUtils.setProperty(dto, column, value);
+                                BeanUtils.setProperty(excelAdjustmentDto, column, value);
                                 index++;
                             }
-                            setTotalDTOValue(dto, value, column);
-                            setTotalValue(newC, value, dto, isTrx3);
-                            dto.setVisibleColumnIndex(0);
+                            setTotalDTOValue(excelAdjustmentDto, value, column);
+                            setTotalValue(newC, value, excelAdjustmentDto, isTrx3);
+                            excelAdjustmentDto.setVisibleColumnIndex(0);
                         }
                     } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
                         if (column.matches(CommonConstant.ALPHA)) {
                             if (value instanceof BigInteger) {
-                                dto.addProperties(column, value);
+                                excelAdjustmentDto.addProperties(column, value);
                             } else {
-                                dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                                excelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                             }
                             index++;
                         } else {
-                            BeanUtils.setProperty(dto, column, value);
+                            BeanUtils.setProperty(excelAdjustmentDto, column, value);
                             index++;
                         }
-                        setTotalDTOValue(dto, value, column);
+                        setTotalDTOValue(excelAdjustmentDto, value, column);
                         if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-                            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                            excelAdjustmentDto.setTotalColumnValue(excelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
                         }
-                        dto.setVisibleColumnIndex(0);
+                        excelAdjustmentDto.setVisibleColumnIndex(0);
                     } else if (!(Boolean) list.get(0)) {
                         if (column.matches("[a-zA-Z0-9-\\s]+\\.\\d+$")) {
                             if (value instanceof BigInteger) {
-                                dto.addProperties(column, value);
+                                excelAdjustmentDto.addProperties(column, value);
                             } else {
-                                dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                                excelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                             }
                             index++;
                         } else {
-                            BeanUtils.setProperty(dto, column, value);
+                            BeanUtils.setProperty(excelAdjustmentDto, column, value);
                         }
-                        dto.setVisibleColumnIndex(0);
+                        excelAdjustmentDto.setVisibleColumnIndex(0);
                     } else if ((Boolean) list.get(1)) {
-                        dto.addStringProperties(column, StringUtils.EMPTY);
+                        excelAdjustmentDto.addStringProperties(column, StringUtils.EMPTY);
                     }
                     if ((Boolean) list.get(0) && interval == index) {
                         index = 0;
                     }
-                    setTotalProperity(dto, column);
-                    dto.setTotalColumn(String.valueOf(dto.getTotalColumnValue()));
+                    setTotalProperity(excelAdjustmentDto, column);
+                    excelAdjustmentDto.setTotalColumn(String.valueOf(excelAdjustmentDto.getTotalColumnValue()));
                 }
             }
-            dto.setGroup(obj[(keyParam * NumericConstants.TWO) - 1].toString());
-            dto.setMonth(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+            excelAdjustmentDto.setGroup(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+            excelAdjustmentDto.setMonth(obj[(keyParam * NumericConstants.TWO) - 1].toString());
         }
         return mapList;
     }
 
     public static List<Map<String, AdjustmentDTO>> returnReserveCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final int interval, final int discountColumnNeeded, List<Object> list) throws IllegalAccessException, InvocationTargetException {
         int j = 1;
-        int doubleHeaderIndex = 0;
+        int excelDoubleHeaderIndex = 0;
         int keyParam = j;
         String oldC = StringUtils.EMPTY;
         String newC;
-        AdjustmentDTO dto = null;
+        AdjustmentDTO retResExcelAdjustmentDto = null;
         List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
         int size;
         if ((Boolean) list.get(2) && (Boolean) list.get(1)) {
-            doubleHeaderIndex = 1;
+            excelDoubleHeaderIndex = 1;
         } else {
-            doubleHeaderIndex = object.length * NumericConstants.TWO;
+            excelDoubleHeaderIndex = object.length * NumericConstants.TWO;
         }
         String key = "0.";
         for (int i = 0; i < resultList.size(); i++) {
-            Object[] obj = (Object[]) resultList.get(i);
-            newC = String.valueOf(obj[j * NumericConstants.TWO]);
+            Object[] excelobj = (Object[]) resultList.get(i);
+            newC = String.valueOf(excelobj[j * NumericConstants.TWO]);
             if (!"0".equals(newC)) {
                 if (!newC.equals("null")) {
                     if (!oldC.equals(newC) && object.length > keyParam) {
 
                         keyParam++;
-                        if (String.valueOf(obj[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
+                        if (String.valueOf(excelobj[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
                             j++;
                         }
                     }
@@ -215,98 +215,98 @@ public class ExcelUtils {
                     j = 1;
                     keyParam = 1;
                 }
-                key = getKey(obj, keyParam);
-                newC = String.valueOf(obj[j * NumericConstants.TWO]);
+                key = getKey(excelobj, keyParam);
+                newC = String.valueOf(excelobj[j * NumericConstants.TWO]);
                 oldC = newC;
             }
             size = mapList.size();
 
             for (int l = 0; l < size; l++) {
-                dto = mapList.get(l).get(key);
-                if (dto != null) {
+                retResExcelAdjustmentDto = mapList.get(l).get(key);
+                if (retResExcelAdjustmentDto != null) {
                     break;
                 }
             }
 
-            if (dto == null) {
-                dto = new AdjustmentDTO();
+            if (retResExcelAdjustmentDto == null) {
+                retResExcelAdjustmentDto = new AdjustmentDTO();
                 Map<String, AdjustmentDTO> map = mapList.get(size - 1);
                 if (map.size() >= NumericConstants.THOUSAND) {
                     map = new HashMap<>();
                     mapList.add(map);
                 }
-                map.put(key, dto);
+                map.put(key, retResExcelAdjustmentDto);
             }
             int index = 0;
-            for (int k = dto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
+            for (int k = retResExcelAdjustmentDto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
                 String column = visibleColumns.get(k).replace(" ", "");
                 int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
-                Object value = obj[dataIndex];
-                if ("null".equals(String.valueOf(obj[object.length * NumericConstants.TWO - 1]))) {
-                    dto.addStringProperties(column, StringUtils.EMPTY);
+                Object value = excelobj[dataIndex];
+                if ("null".equals(String.valueOf(excelobj[object.length * NumericConstants.TWO - 1]))) {
+                    retResExcelAdjustmentDto.addStringProperties(column, StringUtils.EMPTY);
                     index++;
                 } else if ("0.".equals(key)) {
-                    if (column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                    if (column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(" ", ""))) {
                         if (column.matches(CommonConstant.ALPHA)) {
 
                             if (value instanceof BigInteger) {
-                                dto.addProperties(column, value);
+                                retResExcelAdjustmentDto.addProperties(column, value);
                             } else {
-                                dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                                retResExcelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                             }
                             index++;
                         } else {
-                            BeanUtils.setProperty(dto, column, value);
+                            BeanUtils.setProperty(retResExcelAdjustmentDto, column, value);
                             index++;
                         }
-                        setTotalDTOValue(dto, value, column);
+                        setTotalDTOValue(retResExcelAdjustmentDto, value, column);
                         if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && String.valueOf(value).matches("^[\\d.]+$")) {
-                            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                            retResExcelAdjustmentDto.setTotalColumnValue(retResExcelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
                         }
-                        dto.setVisibleColumnIndex(0);
+                        retResExcelAdjustmentDto.setVisibleColumnIndex(0);
                     }
-                } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                } else if ((Boolean) list.get(0) && column.startsWith(excelobj[excelDoubleHeaderIndex].toString().replace(" ", ""))) {
 
                     if (column.matches(CommonConstant.ALPHA)) {
                         if (value instanceof BigInteger) {
-                            dto.addProperties(column, value);
+                            retResExcelAdjustmentDto.addProperties(column, value);
                         } else {
-                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                            retResExcelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                         }
                         index++;
                     } else {
-                        BeanUtils.setProperty(dto, column, value);
+                        BeanUtils.setProperty(retResExcelAdjustmentDto, column, value);
                         index++;
                     }
-                    setTotalDTOValue(dto, value, column);
+                    setTotalDTOValue(retResExcelAdjustmentDto, value, column);
                     if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-                        dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                        retResExcelAdjustmentDto.setTotalColumnValue(retResExcelAdjustmentDto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
                     }
-                    dto.setVisibleColumnIndex(0);
+                    retResExcelAdjustmentDto.setVisibleColumnIndex(0);
                 } else if (!(Boolean) list.get(0)) {
                     if (column.matches("[a-zA-Z0-9-\\s]+\\.\\d+$")) {
                         if (value instanceof BigInteger) {
-                            dto.addProperties(column, value);
+                            retResExcelAdjustmentDto.addProperties(column, value);
                         } else {
-                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                            retResExcelAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                         }
                         index++;
                     } else {
-                        BeanUtils.setProperty(dto, column, value);
+                        BeanUtils.setProperty(retResExcelAdjustmentDto, column, value);
                     }
-                    dto.setVisibleColumnIndex(0);
+                    retResExcelAdjustmentDto.setVisibleColumnIndex(0);
                 } else if ((Boolean) list.get(1)) {
-                    dto.addStringProperties(column, StringUtils.EMPTY);
+                    retResExcelAdjustmentDto.addStringProperties(column, StringUtils.EMPTY);
                 }
 
                 if ((Boolean) list.get(0) && interval == index) {
                     index = 0;
                 }
-                setTotalProperity(dto, column);
-                dto.setTotalColumn(String.valueOf(dto.getTotalColumnValue()));
+                setTotalProperity(retResExcelAdjustmentDto, column);
+                retResExcelAdjustmentDto.setTotalColumn(String.valueOf(retResExcelAdjustmentDto.getTotalColumnValue()));
             }
-            dto.setGroup(obj[(keyParam * NumericConstants.TWO) - 1].toString());
-            dto.setMonth(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+            retResExcelAdjustmentDto.setGroup(excelobj[(keyParam * NumericConstants.TWO) - 1].toString());
+            retResExcelAdjustmentDto.setMonth(excelobj[(keyParam * NumericConstants.TWO) - 1].toString());
         }
         return mapList;
     }
@@ -508,7 +508,7 @@ public class ExcelUtils {
         String oldC = StringUtils.EMPTY;
         String newC;
         String column;
-        AdjustmentDTO dto = null;
+        AdjustmentDTO inventoryAdjustmentDto = null;
         List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
         int size;
@@ -535,19 +535,19 @@ public class ExcelUtils {
                 String key = getKey(resultSet, keyParam);
                 size = mapList.size();
                 for (int l = 0; l < size; l++) {
-                    dto = mapList.get(l).get(key);
-                    if (dto != null) {
+                    inventoryAdjustmentDto = mapList.get(l).get(key);
+                    if (inventoryAdjustmentDto != null) {
                         break;
                     }
                 }
-                if (dto == null) {
-                    dto = new AdjustmentDTO();
-                    Map<String, AdjustmentDTO> map = mapList.get(size - 1);
-                    if (map.size() >= NumericConstants.THOUSAND) {
-                        map = new HashMap<>();
-                        mapList.add(map);
+                if (inventoryAdjustmentDto == null) {
+                    inventoryAdjustmentDto = new AdjustmentDTO();
+                    Map<String, AdjustmentDTO> inventoryMap = mapList.get(size - 1);
+                    if (inventoryMap.size() >= NumericConstants.THOUSAND) {
+                        inventoryMap = new HashMap<>();
+                        mapList.add(inventoryMap);
                     }
-                    map.put(key, dto);
+                    inventoryMap.put(key, inventoryAdjustmentDto);
                 }
                 int index = 0;
                 for (int k = 0; k < visibleColumns.size(); k++) {
@@ -556,10 +556,10 @@ public class ExcelUtils {
                     Object value = resultSet[dataIndex];
                     String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]);
                     if (column.contains("~" + company)) {
-                        dto.addStringProperties(column, String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]));
+                        inventoryAdjustmentDto.addStringProperties(column, String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]));
                     } else if (!column.contains("~")) {
                         if (column.matches(CommonConstant.ALPHA)) {
-                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                            inventoryAdjustmentDto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
                         }
                         index++;
                         if (isFixedColumns && interval == index) {
@@ -567,8 +567,8 @@ public class ExcelUtils {
                         }
                     }
                 }
-                dto.setGroup(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
-                dto.setMonth(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+                inventoryAdjustmentDto.setGroup(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+                inventoryAdjustmentDto.setMonth(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
             }
         }
         return mapList;
@@ -576,11 +576,11 @@ public class ExcelUtils {
 
     public static List<Map<String, AdjustmentDTO>> adjustmentSummaryModuleCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final boolean isFixedColumns, final int interval, final int discountColumnNeeded) {
         int j = 1;
-        int keyParam = j;
-        String oldC = StringUtils.EMPTY;
+        int summaryKeyParam = j;
+        String summaryOldC = StringUtils.EMPTY;
         String newC;
-        String column;
-        AdjustmentDTO dto = null;
+        String summaryColumn;
+        AdjustmentDTO summaryAdjustmentDto = null;
         List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
         int size;
@@ -591,48 +591,48 @@ public class ExcelUtils {
                 newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(newC)) {
                     if (!newC.equals("null")) {
-                        if (!oldC.equals(newC) && object.length > keyParam) {
+                        if (!summaryOldC.equals(newC) && object.length > summaryKeyParam) {
 
-                            keyParam++;
+                            summaryKeyParam++;
                             if (String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
                                 j++;
                             }
                         }
-                    } else if (!oldC.equals("null")) {
+                    } else if (!summaryOldC.equals("null")) {
 
                         j = 1;
-                        keyParam = 1;
+                        summaryKeyParam = 1;
                     }
-                    key = getKey(resultSet, keyParam);
+                    key = getKey(resultSet, summaryKeyParam);
                     newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
-                    oldC = newC;
+                    summaryOldC = newC;
                 }
                 size = mapList.size();
                 for (int l = 0; l < size; l++) {
-                    dto = mapList.get(l).get(key);
-                    if (dto != null) {
+                    summaryAdjustmentDto = mapList.get(l).get(key);
+                    if (summaryAdjustmentDto != null) {
                         break;
                     }
                 }
-                if (dto == null) {
-                    dto = new AdjustmentDTO();
+                if (summaryAdjustmentDto == null) {
+                    summaryAdjustmentDto = new AdjustmentDTO();
                     Map<String, AdjustmentDTO> map = mapList.get(size - 1);
                     if (map.size() >= NumericConstants.THOUSAND) {
                         map = new HashMap<>();
                         mapList.add(map);
                     }
-                    map.put(key, dto);
+                    map.put(key, summaryAdjustmentDto);
                 }
                 int index = 0;
                 for (int k = 0; k < visibleColumns.size(); k++) {
 
-                    column = visibleColumns.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    summaryColumn = visibleColumns.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
                     Object value = resultSet[dataIndex];
                     String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]).replace(" ", "").replace("-", StringUtils.EMPTY) + String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]).replace(" ", "").replace("-", StringUtils.EMPTY);
-                    if (column.startsWith(company)) {
-                        if (column.matches(CommonConstant.ALPHA)) {
-                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                    if (summaryColumn.startsWith(company)) {
+                        if (summaryColumn.matches(CommonConstant.ALPHA)) {
+                            summaryAdjustmentDto.addStringProperties(summaryColumn, value == null ? StringUtils.EMPTY : String.valueOf(value));
                         }
                         index++;
                         if (isFixedColumns && interval == index) {
@@ -640,8 +640,8 @@ public class ExcelUtils {
                         }
                     }
                 }
-                dto.setGroup(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
-                dto.setMonth(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+                summaryAdjustmentDto.setGroup(resultSet[(summaryKeyParam * NumericConstants.TWO) - 1].toString());
+                summaryAdjustmentDto.setMonth(resultSet[(summaryKeyParam * NumericConstants.TWO) - 1].toString());
             }
         }
         return mapList;

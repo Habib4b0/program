@@ -9,6 +9,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +133,7 @@ public class IfpContractDetailsImpl {
         } catch (Exception e) {
            LOGGER.error("",e);
            LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } 
     }
     

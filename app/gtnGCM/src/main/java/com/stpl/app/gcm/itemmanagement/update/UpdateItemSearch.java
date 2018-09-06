@@ -74,8 +74,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
     public Boolean checkrecord() {
         List input = AbstractLogic.getResultsInput(selectionDto);
         String queryname = "checkrecord condition check";
-        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, queryname);
 
     }
 

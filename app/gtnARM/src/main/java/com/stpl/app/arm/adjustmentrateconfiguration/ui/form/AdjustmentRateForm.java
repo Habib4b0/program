@@ -291,7 +291,7 @@ public class AdjustmentRateForm extends CustomComponent {
             rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowSalesRateRightHeaders());
             reLoadTable(ARMConstants.getPipelineAccrual());
         } catch (Exception ex) {
-            LOGGER.error("Error in configureResultTable :" , ex);
+            LOGGER.error("Error in configureResultTable :", ex);
         }
     }
 
@@ -549,53 +549,7 @@ public class AdjustmentRateForm extends CustomComponent {
     public void massFieldVlaueChange(Property.ValueChangeEvent event) {
         Object val = event.getProperty().getValue();
         if (val != null) {
-            if (VariableConstants.EXCLUSION_DETAILS.equals(val)) {
-                valueTxt.setVisible(true);
-                valueTxt.setReadOnly(false);
-                valueDdlbRate.setVisible(false);
-                valueTxt.addClickListener(massupdateListener);
-            } else if (VariableConstants.INVENTORYCAL_CULATION.equals(val)) {
-                valueTxt.setVisible(true);
-                valueTxt.setReadOnly(false);
-                valueTxt.setEnabled(true);
-                valueTxt.setDescription("InventCal");
-                valueTxt.setValue(StringUtils.EMPTY);
-                valueDdlbRate.setVisible(false);
-                lastPopulatedInventCustomer = lastPopulatedInventCustomer == 0 ? findCustomerValue() : lastPopulatedInventCustomer;
-                if (lastPopulatedInventCustomer == 0) {
-                    AbstractNotificationUtils.getErrorNotification("Inventory Customer Error", "The selected Inventory Customer values do not match for all the selected records.  The Inventory Calculation options are dependent on the Inventory Customer values.");
-                    valueTxt.setEnabled(false);
-                    return;
-                }
-                valueTxt.addClickListener(massupdateListener);
-            } else if (VariableConstants.RATE_PERIOD.equals(val)) {
-                valueTxt.setVisible(false);
-                valueDdlbRate.setVisible(true);
-                lastPopulatedFrequency = lastPopulatedFrequency == 0 ? findFrequency() : lastPopulatedFrequency;
-                if (lastPopulatedFrequency == 0) {
-                    AbstractNotificationUtils.getErrorNotification("Rate Frequency Error", "The selected Rate Frequencies do not match for all the selected records.  The Rate Period options are dependent on the Rate Frequencies.");
-                    return;
-                }
-                CommonUtils.loadRatePeriodComboBox(valueDdlbRate, findFrequency(lastPopulatedFrequency), listNameMapper.get(val.toString()));
-            } else if (VariableConstants.RESERVE_DATE.equals(val)) {
-                valueTxt.setVisible(false);
-                valueDdlbRate.setVisible(true);
-                CommonUtils.loadRatePeriodComboBox(valueDdlbRate, NumericConstants.TWO, listNameMapper.get(val.toString()));
-            } else if (VariableConstants.ADJUSTED_PRICE.equals(val) || VariableConstants.BASELINE_PRICE.equals(val) || VariableConstants.PRICE.equals(val)) {
-                valueTxt.setVisible(false);
-                valueDdlbRate.setVisible(true);
-                CommonUtils.loadPriceComboBox(valueDdlbRate, priceList, -NumericConstants.TWELVE);
-            } else {
-                valueTxt.setVisible(false);
-                valueDdlbRate.setVisible(true);
-                CommonUtils.loadComboBoxWithIntegerRateBasis(valueDdlbRate, listNameMapper.get(val.toString()), false, selection.getAdjustmentType());
-                if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
-                    lastPopulatedFrequency = valueDdlbRate.getValue() == null ? 0 : (int) valueDdlbRate.getValue();
-                }
-                if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
-                    lastPopulatedInventCustomer = valueDdlbRate.getValue() == null ? 0 : (int) valueDdlbRate.getValue();
-                }
-            }
+            valueChangeLogic(val);
         } else {
             valueTxt.setVisible(false);
             valueDdlbRate.setVisible(true);
@@ -606,12 +560,66 @@ public class AdjustmentRateForm extends CustomComponent {
 
     }
 
+    private void valueChangeLogic(Object val) throws Property.ReadOnlyException {
+        if (VariableConstants.EXCLUSION_DETAILS.equals(val)) {
+            valueTxt.setVisible(true);
+            valueTxt.setReadOnly(false);
+            valueDdlbRate.setVisible(false);
+            valueTxt.addClickListener(massupdateListener);
+        } else if (VariableConstants.INVENTORYCAL_CULATION.equals(val)) {
+            valueTxt.setVisible(true);
+            valueTxt.setReadOnly(false);
+            valueTxt.setEnabled(true);
+            valueTxt.setDescription("InventCal");
+            valueTxt.setValue(StringUtils.EMPTY);
+            valueDdlbRate.setVisible(false);
+            lastPopulatedInventCustomer = lastPopulatedInventCustomer == 0 ? findCustomerValue() : lastPopulatedInventCustomer;
+            if (lastPopulatedInventCustomer == 0) {
+                AbstractNotificationUtils.getErrorNotification("Inventory Customer Error", "The selected Inventory Customer values do not match for all the selected records.  The Inventory Calculation options are dependent on the Inventory Customer values.");
+                valueTxt.setEnabled(false);
+                return;
+            }
+            valueTxt.addClickListener(massupdateListener);
+        } else if (VariableConstants.RATE_PERIOD.equals(val)) {
+            valueTxt.setVisible(false);
+            valueDdlbRate.setVisible(true);
+            lastPopulatedFrequency = lastPopulatedFrequency == 0 ? findFrequency() : lastPopulatedFrequency;
+            if (lastPopulatedFrequency == 0) {
+                AbstractNotificationUtils.getErrorNotification("Rate Frequency Error", "The selected Rate Frequencies do not match for all the selected records.  The Rate Period options are dependent on the Rate Frequencies.");
+                return;
+            }
+            CommonUtils.loadRatePeriodComboBox(valueDdlbRate, findFrequency(lastPopulatedFrequency), listNameMapper.get(val.toString()));
+        } else if (VariableConstants.RESERVE_DATE.equals(val)) {
+            valueTxt.setVisible(false);
+            valueDdlbRate.setVisible(true);
+            CommonUtils.loadRatePeriodComboBox(valueDdlbRate, NumericConstants.TWO, listNameMapper.get(val.toString()));
+        } else if (VariableConstants.ADJUSTED_PRICE.equals(val) || VariableConstants.BASELINE_PRICE.equals(val) || VariableConstants.PRICE.equals(val)) {
+            valueTxt.setVisible(false);
+            valueDdlbRate.setVisible(true);
+            CommonUtils.loadPriceComboBox(valueDdlbRate, priceList, -NumericConstants.TWELVE);
+        } else {
+            valueTxt.setVisible(false);
+            valueDdlbRate.setVisible(true);
+            CommonUtils.loadComboBoxWithIntegerRateBasis(valueDdlbRate, listNameMapper.get(val.toString()), false, selection.getAdjustmentType());
+            loadLastUpdateFrequencyandInventory();
+        }
+    }
+
+    private void loadLastUpdateFrequencyandInventory() {
+        if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
+            lastPopulatedFrequency = valueDdlbRate.getValue() == null ? 0 : (int) valueDdlbRate.getValue();
+        }
+        if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
+            lastPopulatedInventCustomer = valueDdlbRate.getValue() == null ? 0 : (int) valueDdlbRate.getValue();
+        }
+    }
+
     public void populateBtnRate() {
         populateBtnRate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getValue());
-                LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()));
+                LOGGER.debug("Inside populateButtonClick Btn :{}", fieldDdlbRate.getValue());
+                LOGGER.debug("Inside populateButtonClick Btn :{}", fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()));
                 try {
 
                     Object val;
@@ -619,7 +627,7 @@ public class AdjustmentRateForm extends CustomComponent {
                     if (VariableConstants.EXCLUSION_DETAILS.equals(fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals(fieldDdlbRate.getValue())) {
                         val = valueTxt.getValue();
                         mandatory = val.equals(StringUtils.EMPTY);
-                    } else if (VariableConstants.PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.ADJUSTED_PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.BASELINE_PRICE.equals(fieldDdlbRate.getValue())) {
+                    } else if (getRateCondition()) {
                         val = valueDdlbRate.getValue();
                         mandatory = val == null || "-Select One-".equals(val.toString());
                     } else {
@@ -631,44 +639,60 @@ public class AdjustmentRateForm extends CustomComponent {
                     } else {
 
                         List<AdjustmentRateDTO> list = resultBeanContainer.getItemIds();
-                        boolean checkFlag = true;
-                        for (AdjustmentRateDTO adjustmentRateDTO : list) {
-                            if (adjustmentRateDTO.getCheckRecord()) {
-                                checkFlag = false;
-                            }
-                        }
+                        boolean checkFlag = getCheckFlag(list);
                         if (checkFlag) {
                             AbstractNotificationUtils.getErrorNotification("Populate Error", "Please select at least one item to populate. Please try again.");
                             return;
                         }
-
-                        for (AdjustmentRateDTO adjustmentRateDTO : list) {
-                            boolean checkAll = resultsTable.getLeftFreezeAsTable().getColumnCheckBox(VariableConstants.CHECK_RECORD);
-                            if (checkAll || adjustmentRateDTO.getCheckRecord()) {
-
-                                if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
-                                    if ((int) val > 0) {
-                                        CommonUtils.loadRatePeriodComboBox((CustomComboBox) adjustmentRateDTO.getComponent(VariableConstants.RATE_PERIOD), findFrequency(val == null ? 0 : (int) val), listNameMapper.get(VariableConstants.RATE_PERIOD));
-                                    }
-                                } else if (VariableConstants.EXCLUSION_DETAILS.equals((String) fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals((String) fieldDdlbRate.getValue())) {
-                                    LookUpDTO viewSidDTO = (LookUpDTO) valueTxt.getData();
-                                    adjustmentRateDTO.setViewMasterSid(viewSidDTO.getViewMasterSid());
-                                } else if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
-                                    resultBeanContainer.getContainerProperty(adjustmentRateDTO, "inventoryCalculation").setValue(StringUtils.EMPTY);
-                                } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getPrice())) {
-                                    val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
-                                } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getRateBasis())) {
-                                    val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
-                                }
-                                resultBeanContainer.getContainerProperty(adjustmentRateDTO, fieldDdlbRate.getValue()).setValue(val);
-                            }
-                        }
+                        populateBtnFunctionality(list, val);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Error While Mass populate for the feild :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :", e);
+                    LOGGER.error("Error While Mass populate for the feild :{}", (fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :" + e.getMessage()));
                 }
             }
         });
+    }
+
+    private boolean getCheckFlag(List<AdjustmentRateDTO> list) {
+        boolean checkFlag = true;
+        for (AdjustmentRateDTO adjustmentRateDTO : list) {
+            if (adjustmentRateDTO.getCheckRecord()) {
+                checkFlag = false;
+            }
+        }
+        return checkFlag;
+    }
+
+    private boolean getRateCondition() {
+        return VariableConstants.PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.ADJUSTED_PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.BASELINE_PRICE.equals(fieldDdlbRate.getValue());
+    }
+
+    private void populateBtnFunctionality(List<AdjustmentRateDTO> list, Object val) throws Property.ReadOnlyException {
+        for (AdjustmentRateDTO adjustmentRateDTO : list) {
+            boolean checkAll = resultsTable.getLeftFreezeAsTable().getColumnCheckBox(VariableConstants.CHECK_RECORD);
+            if (checkAll || adjustmentRateDTO.getCheckRecord()) {
+                Object value = getValue(val, adjustmentRateDTO);
+                resultBeanContainer.getContainerProperty(adjustmentRateDTO, fieldDdlbRate.getValue()).setValue(value);
+            }
+        }
+    }
+
+    private Object getValue(Object val, AdjustmentRateDTO adjustmentRateDTO) throws Property.ReadOnlyException {
+        if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
+            if ((int) val > 0) {
+                CommonUtils.loadRatePeriodComboBox((CustomComboBox) adjustmentRateDTO.getComponent(VariableConstants.RATE_PERIOD), findFrequency(val == null ? 0 : (int) val), listNameMapper.get(VariableConstants.RATE_PERIOD));
+            }
+        } else if (VariableConstants.EXCLUSION_DETAILS.equals((String) fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals((String) fieldDdlbRate.getValue())) {
+            LookUpDTO viewSidDTO = (LookUpDTO) valueTxt.getData();
+            adjustmentRateDTO.setViewMasterSid(viewSidDTO.getViewMasterSid());
+        } else if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
+            resultBeanContainer.getContainerProperty(adjustmentRateDTO, "inventoryCalculation").setValue(StringUtils.EMPTY);
+        } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getPrice())) {
+            return String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
+        } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getRateBasis())) {
+            return String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
+        }
+        return val;
     }
 
     public boolean checkValidFrequency() {
@@ -690,8 +714,8 @@ public class AdjustmentRateForm extends CustomComponent {
     public void resetButtonClick(Button.ClickEvent event) {
         LOGGER.debug("Inside populateButtonClick Btn");
         try {
-            notifier.setButtonName("reset");
-            notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessageID002());
+            rateConfignotifier.setButtonName("reset");
+            rateConfignotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessageID002());
         } catch (Exception e) {
             LOGGER.error("Error in resetButtonClick :", e);
         }
@@ -699,7 +723,7 @@ public class AdjustmentRateForm extends CustomComponent {
 
     @UiHandler("saveBtn")
     public void saveButtonClick(Button.ClickEvent event) {
-        LOGGER.debug("Inside saveBtn : selection" + selection.toString());
+        LOGGER.debug("Inside saveBtn : selection {}", selection.toString());
         try {
             /**
              * Seems Selected Adjustment selection is different from Generated
@@ -712,20 +736,12 @@ public class AdjustmentRateForm extends CustomComponent {
             List<HelperDTO> rateBasisList = HelperListUtil.getInstance().getListNameMap().get("ARM_RATE_BASIS");
 
             List<AdjustmentRateDTO> list = resultBeanContainer.getItemIds();
-            LOGGER.debug("resultBeanContainer.getItemIds()-------------" + resultBeanContainer.getItemIds());
+            LOGGER.debug("resultBeanContainer.getItemIds()-------------{}", resultBeanContainer.getItemIds());
             if (list.isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getRateSaveErrorMsg());
             } else {
                 if (Trx8Constants.getTransaction8().equals(selection.getAdjustmentType())) {
-                    Map<Integer, String> rateBasisMap = new HashMap<>();
-                    if (rateBasisList != null && !rateBasisList.isEmpty()) {
-                        for (HelperDTO helperDTO : rateBasisList) {
-                            rateBasisMap.put(helperDTO.getId(), helperDTO.getDescription());
-                            LOGGER.debug("helperDTO.getId()----" + helperDTO.getId());
-                            LOGGER.debug("helperDTO.getId()----" + helperDTO.getDescription());
-
-                        }
-                    }
+                    Map<Integer, String> rateBasisMap = loadRateBasisMap(rateBasisList);
                     for (AdjustmentRateDTO dto : list) {
                         if (dto.getRateBasis() != 0 && !"Calculated".equals(rateBasisMap.get(dto.getRateBasis()))) {
                             AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveErrorMsg());
@@ -733,12 +749,25 @@ public class AdjustmentRateForm extends CustomComponent {
                         }
                     }
                 }
-                notifier.setButtonName("save");
-                notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getSaveMessageID004());
+                rateConfignotifier.setButtonName("save");
+                rateConfignotifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getSaveMessageID004());
             }
         } catch (Exception e) {
             LOGGER.error("Error in saveButtonClick :", e);
         }
+    }
+
+    private Map<Integer, String> loadRateBasisMap(List<HelperDTO> rateBasisList) {
+        Map<Integer, String> rateBasisMap = new HashMap<>();
+        if (rateBasisList != null && !rateBasisList.isEmpty()) {
+            for (HelperDTO helperDTO : rateBasisList) {
+                rateBasisMap.put(helperDTO.getId(), helperDTO.getDescription());
+                LOGGER.debug("helperDTO.getId()----{}", helperDTO.getId());
+                LOGGER.debug("helperDTO.getId()----{}", helperDTO.getDescription());
+
+            }
+        }
+        return rateBasisMap;
     }
 
     @UiHandler("exportBtn")
@@ -808,13 +837,13 @@ public class AdjustmentRateForm extends CustomComponent {
             LOGGER.error("Error in configureAndLoadDataForExcel :", e);
         }
     }
-    private final CustomNotification notifier = new CustomNotification();
+    private final RateConfigNotification rateConfignotifier = new RateConfigNotification();
 
-    class CustomNotification extends AbstractNotificationUtils {
+    class RateConfigNotification extends AbstractNotificationUtils {
 
         private String buttonName;
 
-        public CustomNotification() {
+        public RateConfigNotification() {
             /*
                 THE DEFAULT CONSTRUCTOR
              */
@@ -829,7 +858,7 @@ public class AdjustmentRateForm extends CustomComponent {
         public void yesMethod() {
 
             if (null != buttonName) {
-                LOGGER.debug("buttonName :" + buttonName);
+                LOGGER.debug("buttonName :{}", buttonName);
                 switch (buttonName) {
                     case "reset":
                         adjustmentTypeDdlbRate.select(null);
@@ -1064,22 +1093,22 @@ public class AdjustmentRateForm extends CustomComponent {
         @Override
         public void click(CustomTextField.ClickEvent event) {
             final CustomTextField exclusionDetails = (CustomTextField) event.getComponent();
-            final AdjustmentRateDTO exclusionDetailsDto = (AdjustmentRateDTO) exclusionDetails.getData();
-            String invenCalculationValue = StringUtils.EMPTY;
+            final AdjustmentRateDTO exclDetailsDto = (AdjustmentRateDTO) exclusionDetails.getData();
+            String invenCalcValue = StringUtils.EMPTY;
             if (lookup == null) {
-                lookup = new ExclusionAndInventoryRateLookUp(exclusionDetails.getDescription(), invenCalculationValue);
+                lookup = new ExclusionAndInventoryRateLookUp(exclusionDetails.getDescription(), invenCalcValue);
             } else {
-                lookup.reloadScreen(invenCalculationValue);
+                lookup.reloadScreen(invenCalcValue);
             }
             getUI().addWindow(lookup);
             lookup.addCloseListener(new CloseListener() {
 
                 @Override
                 public void windowClose(CloseEvent e) {
-                    if (exclusionDetailsDto == null) {
+                    if (exclDetailsDto == null) {
                         exclusionDetails.setData(lookup.getExRateDTO());
                     } else {
-                        exclusionDetailsDto.setViewMasterSid(lookup.getExRateDTO().getViewMasterSid());
+                        exclDetailsDto.setViewMasterSid(lookup.getExRateDTO().getViewMasterSid());
                     }
                     if (ExclusionAndInventoryRateLookUp.getFlag()) {
                         exclusionDetails.setValue(lookup.getExRateDTO().getViewName());
@@ -1095,25 +1124,25 @@ public class AdjustmentRateForm extends CustomComponent {
         @Override
         public void click(CustomTextField.ClickEvent event) {
             final CustomTextField exclusionDetails = (CustomTextField) event.getComponent();
-            final AdjustmentRateDTO exclusionDetailsDto = (AdjustmentRateDTO) exclusionDetails.getData();
-            String invenCalculationValue;
-            int inventoryCusHelpValue = resultBeanContainer.getContainerProperty(exclusionDetailsDto, VariableConstants.INVENTORY_CUSTOMER).getValue() == null ? 0 : (int) resultBeanContainer.getContainerProperty(exclusionDetailsDto, VariableConstants.INVENTORY_CUSTOMER).getValue();
-            invenCalculationValue = HelperListUtil.getInstance().getIdDescMap().get(inventoryCusHelpValue);
+            final AdjustmentRateDTO exclusionDetDto = (AdjustmentRateDTO) exclusionDetails.getData();
+            String inventoryCalculationValue;
+            int inventoryCusHelpValue = resultBeanContainer.getContainerProperty(exclusionDetDto, VariableConstants.INVENTORY_CUSTOMER).getValue() == null ? 0 : (int) resultBeanContainer.getContainerProperty(exclusionDetDto, VariableConstants.INVENTORY_CUSTOMER).getValue();
+            inventoryCalculationValue = HelperListUtil.getInstance().getIdDescMap().get(inventoryCusHelpValue);
 
             if (lookup == null) {
-                lookup = new ExclusionAndInventoryRateLookUp(exclusionDetails.getDescription(), invenCalculationValue);
+                lookup = new ExclusionAndInventoryRateLookUp(exclusionDetails.getDescription(), inventoryCalculationValue);
             } else {
-                lookup.reloadScreen(invenCalculationValue);
+                lookup.reloadScreen(inventoryCalculationValue);
             }
             getUI().addWindow(lookup);
             lookup.addCloseListener(new CloseListener() {
 
                 @Override
                 public void windowClose(CloseEvent e) {
-                    if (exclusionDetailsDto == null) {
+                    if (exclusionDetDto == null) {
                         exclusionDetails.setData(lookup.getExRateDTO());
                     } else {
-                        exclusionDetailsDto.setViewMasterSid(lookup.getExRateDTO().getViewMasterSid());
+                        exclusionDetDto.setViewMasterSid(lookup.getExRateDTO().getViewMasterSid());
                     }
                     if (lookup.getExRateDTO().isSelectFlag()) {
                         exclusionDetails.setValue(lookup.getExRateDTO().getViewName());
@@ -1169,7 +1198,7 @@ public class AdjustmentRateForm extends CustomComponent {
 
         final StplSecurity stplSecurity = new StplSecurity();
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_RATE_CONFIGURATION + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_RATE_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing screen");
         if (functionHM.get("resetBtn") != null && !(functionHM.get("resetBtn")).isFunctionFlag()) {
             resetBtn.setVisible(false);
         } else {
@@ -1199,8 +1228,8 @@ public class AdjustmentRateForm extends CustomComponent {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object adjRateobj) {
+        return super.equals(adjRateobj);
     }
 
     @Override
@@ -1208,12 +1237,12 @@ public class AdjustmentRateForm extends CustomComponent {
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjRateOut) throws IOException {
+        adjRateOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjRateIn) throws IOException, ClassNotFoundException {
+        adjRateIn.defaultReadObject();
     }
 
 }

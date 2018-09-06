@@ -79,15 +79,15 @@ public class AbstractFilter {
     /**
      * Method to sort the collections from the container.
      *
-     * @param sortByColumns
-     * @param container
+     * @param sortColumns
+     * @param resultsContainer
      */
-    public void orderByQueryForContainer(List<SortByColumn> sortByColumns, Container.Sortable container) {
-        if (sortByColumns != null && !sortByColumns.isEmpty()) {
-            Object[] propIds = new Object[sortByColumns.size()];
-            boolean[] value = new boolean[sortByColumns.size()];
+    public void orderByQueryForContainer(List<SortByColumn> sortColumns, Container.Sortable resultsContainer) {
+        if (sortColumns != null && !sortColumns.isEmpty()) {
+            Object[] propIds = new Object[sortColumns.size()];
+            boolean[] value = new boolean[sortColumns.size()];
             int i = 0;
-            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+            for (final Iterator<SortByColumn> iterator = sortColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn sortByColumn = iterator.next();
                 String columnName = sortByColumn.getName();
                 propIds[i] = columnName;
@@ -97,7 +97,7 @@ public class AbstractFilter {
                     value[i] = false;
                 }
             }
-            container.sort(propIds, value);
+            resultsContainer.sort(propIds, value);
         }
     }
 
@@ -160,36 +160,12 @@ public class AbstractFilter {
                                 String initial;
                                 initial = "where ( ( * LIKE '?' )";
                                 StringBuilder temp = new StringBuilder(initial);
-                                String filterStr;
-                                if (stringFilter.getFilterString().contains("%")) {
-                                    filterStr = "[" + stringFilter.getFilterString() + "]";
-                                } else {
-                                    filterStr = stringFilter.getFilterString();
-                                }
-                                String filterString;
-                                if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
-                                        && "0".equals(filterStr)) {
-                                    filterString = "%";
-                                } else {
-                                    filterString = "%" + filterStr + "%";
-                                }
+                                String filterString = getFilterVal(stringFilter);
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);
                             } else {
-                                String filterStr;
-                                if (stringFilter.getFilterString().contains("%")) {
-                                    filterStr = "[" + stringFilter.getFilterString() + "]";
-                                } else {
-                                    filterStr = stringFilter.getFilterString();
-                                }
-                                String filterString;
-                                if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
-                                        && "0".equals(filterStr)) {
-                                    filterString = "%";
-                                } else {
-                                    filterString = "%" + filterStr + "%";
-                                }
+                                String filterString = getFilterVal(stringFilter);
                                 StringBuilder temp = new StringBuilder(str);
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
@@ -209,27 +185,27 @@ public class AbstractFilter {
                             String initialStart = "where ( ( * >= '?' )";
                             String initialEnd = "where ( ( * <= '?' )";
                             if (!betweenFilter.getStartValue().toString().isEmpty()) {
-                                StringBuilder tempStart;
+                                StringBuilder tempstart;
                                 if (sql.length() == 0) {
-                                    tempStart = new StringBuilder(initialStart);
+                                    tempstart = new StringBuilder(initialStart);
                                 } else {
-                                    tempStart = new StringBuilder(dateStartstr);
+                                    tempstart = new StringBuilder(dateStartstr);
                                 }
-                                tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
-                                sql.append(tempStart);
+                                tempstart.replace(tempstart.indexOf("*"), tempstart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
+                                tempstart.replace(tempstart.indexOf("?"), tempstart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                                sql.append(tempstart);
                             }
                             if (!betweenFilter.getEndValue().toString().isEmpty()) {
-                                StringBuilder tempEnd;
+                                StringBuilder tempend;
                                 if (sql.length() == 0) {
-                                    tempEnd = new StringBuilder(initialEnd);
+                                    tempend = new StringBuilder(initialEnd);
                                 } else {
-                                    tempEnd = new StringBuilder(dateEndstr);
+                                    tempend = new StringBuilder(dateEndstr);
                                 }
 
-                                tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
-                                sql.append(tempEnd);
+                                tempend.replace(tempend.indexOf("*"), tempend.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
+                                tempend.replace(tempend.indexOf("?"), tempend.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                                sql.append(tempend);
                             }
                         }
                     } else if (filter instanceof Compare) {
@@ -258,35 +234,52 @@ public class AbstractFilter {
 
                 }
                 if (sql.length() != 0) {
-                    sql.append(")");
+                    sql.append(ARMUtils.CLOSE_BRACES);
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in filterQueryGenerator :" , ex);
+            LOGGER.error("Error in filterQueryGenerator :", ex);
         }
         return sql;
     }
 
-    public StringBuilder orderByQueryGenerator(List<SortByColumn> sortByColumns, Map<String, String> queryMap) {
+    private String getFilterVal(SimpleStringFilter stringFilter) {
+        String filterVal;
+        if (stringFilter.getFilterString().contains("%")) {
+            filterVal = "[" + stringFilter.getFilterString() + "]";
+        } else {
+            filterVal = stringFilter.getFilterString();
+        }
+        String filterString;
+        if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
+                && "0".equals(filterVal)) {
+            filterString = "%";
+        } else {
+            filterString = "%" + filterVal + "%";
+        }
+        return filterString;
+    }
+
+    public StringBuilder orderByQueryGenerator(List<SortByColumn> orderByColumns, Map<String, String> orderMap) {
         boolean asc = false;
         StringBuilder tempStart = new StringBuilder("ORDER BY * ?");
-        if (sortByColumns != null && !sortByColumns.isEmpty()) {
-            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+        if (orderByColumns != null && !orderByColumns.isEmpty()) {
+            for (final Iterator<SortByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn sortByColumn = iterator.next();
                 String columnName = sortByColumn.getName();
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
                     asc = false;
-                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(columnName));
+                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, orderMap.get(columnName));
                 } else {
                     asc = true;
-                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(columnName));
+                    tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, orderMap.get(columnName));
                 }
             }
         } else {
-            for (Map.Entry<String, String> entry : queryMap.entrySet()) {
+            for (Map.Entry<String, String> entry : orderMap.entrySet()) {
                 final String key = entry.getKey();
                 if (key.contains("sid")) {
-                    String value = queryMap.get(key);
+                    String value = orderMap.get(key);
                     tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, value);
                 }
             }

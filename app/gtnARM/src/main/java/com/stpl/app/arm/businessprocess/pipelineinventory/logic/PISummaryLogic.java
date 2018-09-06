@@ -171,7 +171,7 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
                 dto.addStringProperties(variables.get(totalColumnIndex + NumericConstants.FIVE), flag[NumericConstants.FIVE] ? decimalformat.format(totalColumnValue[NumericConstants.FIVE]) : StringUtils.EMPTY);
             }
             lastBrand = brand;
-            logger.debug("index-------" + index);
+            logger.debug("index-------{}", index);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
@@ -217,13 +217,13 @@ public class PISummaryLogic<T extends AdjustmentDTO> extends AbstractPipelineSum
         } else if (selection.getSummaryviewType().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
-        query = query.replace("@LEVEL_VAL", "'" + org.apache.commons.lang.StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + org.apache.commons.lang.StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getSummarydeductionLevelDes());
-        query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-        LOGGER.debug("query--" + query);
+        LOGGER.debug("query--{}", query);
         return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 

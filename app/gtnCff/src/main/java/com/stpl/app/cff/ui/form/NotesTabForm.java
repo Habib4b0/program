@@ -362,7 +362,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	}
 
 	public void saveAdditionalInformation(int cffmastersystemid, String userid, SessionDTO sessionDTO)
-			throws SystemException, PortalException {
+			throws PortalException {
 		LOGGER.debug("Entering saveAdditionalInformation");
 		int projectionId = cffmastersystemid;
 		String vUserId = userid;

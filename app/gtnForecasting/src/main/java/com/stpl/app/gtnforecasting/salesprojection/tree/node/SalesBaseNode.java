@@ -150,7 +150,7 @@ public abstract class SalesBaseNode implements TreeNode, Comparable<SalesBaseNod
     
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof SalesBaseNode) {
+        if (obj!=null && obj.getClass() == this.getClass()) {
             SalesBaseNode node = (SalesBaseNode) obj;
             return ((this.hierachyNo.equals(node.getHierachyNo())) && (this.hierarchyForTable.equals(node.getHierarchyForTable())));
         } else {

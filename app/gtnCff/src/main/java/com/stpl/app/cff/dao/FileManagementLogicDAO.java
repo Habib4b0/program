@@ -14,7 +14,7 @@ import com.stpl.app.model.ForecastingMaster;
 import com.stpl.app.model.HelperTable;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+   
 /**
  * The Interface FileManagementLogicDAO.
  *
@@ -111,7 +111,7 @@ public interface FileManagementLogicDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List itemIrtQualifierNameList(DynamicQuery cfpDynamicQuery)
-			throws PortalException, SystemException;
+			throws SystemException;
         /** 
 	 * <!-- begin-UML-doc -->
 	 * <!-- end-UML-doc -->
@@ -121,7 +121,7 @@ public interface FileManagementLogicDAO {
 	 * @throws SystemException
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	List getBrandList(DynamicQuery ifpDynamicQuery) throws PortalException,
+	List getBrandList(DynamicQuery ifpDynamicQuery) throws 
 			SystemException;
         
         /** 
@@ -135,7 +135,7 @@ public interface FileManagementLogicDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List<HelperTable> getHelperTableList(DynamicQuery query)
-			throws PortalException, SystemException;
+			throws SystemException;
         /**
         * To get a list of companies from the companyMaster Table
         *

@@ -539,7 +539,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             customerHierarchyCloseListener();
             getUI().addWindow(customerHierarchyLookup);
         } catch (Exception ex) {
-            LOGGER.error("Error in customerHierarchyClickListener :" , ex);
+            LOGGER.error("Error in customerHierarchyClickListener :", ex);
         }
     }
 
@@ -557,7 +557,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             productHierarchyCloseListener();
             getUI().addWindow(productHierarchyLookup);
         } catch (Exception ex) {
-            LOGGER.error("Error in productHierarchyClickListener :" , ex);
+            LOGGER.error("Error in productHierarchyClickListener :", ex);
         }
     }
 

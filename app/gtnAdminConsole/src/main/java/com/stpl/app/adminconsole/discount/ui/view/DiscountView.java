@@ -15,7 +15,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class DiscountView.
  */
@@ -57,7 +57,6 @@ public class DiscountView extends VerticalLayout implements View{
 	 */
     @Override
     public void enter(final ViewChangeEvent event) {
-        // TODO Auto-generated method stub
         try {
             DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO(); 
             final DiscountLogic logic = new DiscountLogic();

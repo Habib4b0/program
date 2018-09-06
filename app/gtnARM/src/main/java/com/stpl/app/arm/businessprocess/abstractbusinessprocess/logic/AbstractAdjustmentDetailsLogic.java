@@ -13,14 +13,12 @@ import com.stpl.app.arm.supercode.Criteria;
 import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.arm.utils.ARMUtils.COMMA;
 import com.stpl.ifs.util.BCPExcelUtility;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.VariableConstants;
-import static com.stpl.app.utils.VariableConstants.SINGLE_QUOTE;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
@@ -130,16 +128,16 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     if (GlobalConstants.getReserveDetail().equals(selection.getDetailLevel())) {
                         account.append(str[NumericConstants.TWO].trim());
                     } else {
-                        account = new StringBuilder(SINGLE_QUOTE);
-                        account.append(str[NumericConstants.TWO].trim()).append(SINGLE_QUOTE);
+                        account = new StringBuilder(ARMUtils.SINGLE_QUOTES);
+                        account.append(str[NumericConstants.TWO].trim()).append(ARMUtils.SINGLE_QUOTES);
                     }
                 } else {
-                    category.append(COMMA).append(str[0].trim());
-                    type.append(COMMA).append(str[NumericConstants.ONE].trim());
+                    category.append(ARMUtils.COMMA_CHAR).append(str[0].trim());
+                    type.append(ARMUtils.COMMA_CHAR).append(str[NumericConstants.ONE].trim());
                     if (GlobalConstants.getReserveDetail().equals(selection.getDetailLevel())) {
-                        account.append(COMMA).append(str[NumericConstants.TWO].trim());
+                        account.append(ARMUtils.COMMA_CHAR).append(str[NumericConstants.TWO].trim());
                     } else {
-                        account.append(COMMA).append(SINGLE_QUOTE).append(str[NumericConstants.TWO].trim()).append(SINGLE_QUOTE);
+                        account.append(ARMUtils.COMMA_CHAR).append(ARMUtils.SINGLE_QUOTES).append(str[NumericConstants.TWO].trim()).append(ARMUtils.SINGLE_QUOTES);
                     }
                 }
             }
@@ -170,8 +168,8 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
             sb = sb.replace("@SESSION_DECLARE", StringUtils.EMPTY)
                     .replace("@SESSION_INCLUDE", StringUtils.EMPTY)
                     .replace("@TABLE_1", isView ? CommonConstant.ARM_ADJUSTMENTS : selection.getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_ADJUSTMENTS))
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ")")
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ")")
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
                     .replace("@ACC_VAL1", account)
                     .replace("@ACCOUNT_CONDITION", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (SELECT ACC_ID FROM #ARM_ACC)")
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
@@ -212,9 +210,9 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
                     .replace("@ADJUSTMENT_TYPE", String.valueOf(selection.getDataSelectionDTO().getAdjustmentId()))
                     .replace("@USER_REF", "" + selection.getSessionDTO().getUserId())
                     .replace("@SESSION_REF", "" + selection.getSessionDTO().getSessionId())
-                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ")")
-                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ")")
-                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ")")
+                    .replace("@CATEGORY", StringUtils.EMPTY.equalsIgnoreCase(category.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_CATEGORY IN (" + category + ARMUtils.CLOSE_BRACES)
+                    .replace("@TYPE", StringUtils.EMPTY.equalsIgnoreCase(type.toString()) ? StringUtils.EMPTY : "AND AAD.ACCOUNT_TYPE IN (" + type + ARMUtils.CLOSE_BRACES)
+                    .replace("@ACCOUNT", StringUtils.EMPTY.equalsIgnoreCase(account.toString()) ? StringUtils.EMPTY : " AND AAD.ACCOUNT IN (" + account + ARMUtils.CLOSE_BRACES)
                     .replace(CONFIGTYPETEMPTABLE, selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_ADJ_GTN_DETAIL_EXCEL))
                     .replace("?AMOUNTCONDITION", StringUtils.EMPTY.equals(getAmountFilterCondition(selection.getDetailamountFilter(), "TP.")) ? StringUtils.EMPTY : getAmountFilterCondition(selection.getDetailamountFilter(), "TP."));
         }
@@ -362,7 +360,7 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         long exportBeginTime = System.currentTimeMillis();
         fileName = BCPExcelUtility.excelExportBcpUtility("ADJUSTMENT_DETAILS", visibleHeaders, query, outputFilePath);
         long exportEndTime = System.currentTimeMillis();
-        LOGGER.info("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
+        LOGGER.info("BCP Export took {}", (exportEndTime - exportBeginTime) + " milliseconds");
         file = new CommonUtil().getFileName(fileName);
         List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
         if (fileList == null) {
@@ -373,5 +371,20 @@ public abstract class AbstractAdjustmentDetailsLogic<T extends AdjustmentDTO> ex
         fileList.add(tempFileName);
         VaadinSession.getCurrent().setAttribute(dirName, fileList);
         ExcelExportforBB.sendConvertedFileToUser(UI.getCurrent(), file, outputFilePath);
+        deleteTempFolder(fileName);
+        LOGGER.info("--->Temp Folder Deleted....");
+    }
+
+    private void deleteTempFolder(String fileName) {
+        File file = CommonUtil.getFilePath(fileName.substring(0, fileName.lastIndexOf('/')));
+        if (file.isDirectory()) {
+            File[] listFiles = file.listFiles();
+            for (File file1 : listFiles) {
+                boolean value = file1.delete();
+                LOGGER.debug("File Deleted {}", value);
+            }
+        }
+        boolean deleteValue = file.delete();
+        LOGGER.debug("Directory Deleted {}", deleteValue);
     }
 }

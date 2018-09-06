@@ -317,13 +317,13 @@ public class WorkFlowNotesLookup extends Window {
                 sb.replace(0, index, file);
                 Date date = new Date();
                 long value = date.getTime();
-                sb.insert(sb.lastIndexOf("."), "_" + value);
+                sb.insert(sb.lastIndexOf("."), ARMUtils.UNDERSCORE + value);
                 File destFileUpload = new CommonUtil().getFileName(fileUploadPath + event.getFilename());
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = new File(FilenameUtils.getName(fileUploadPath + name));
                 boolean val = destFileUpload.renameTo(renameFileUpload);
-                LOGGER.debug("FILE RENAMED" + val);
+                LOGGER.debug("FILE RENAMED {}", val);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
                 } else {

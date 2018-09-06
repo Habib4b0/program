@@ -75,7 +75,7 @@ public class CopyContractindex extends VerticalLayout {
     @UiField("copyBtn")
     public Button copyBtn;
     @UiField("Btnsearch")
-    public Button Btnsearch;
+    public Button btnsearch;
     @UiField("btnreset")
     public Button btnreset;
     @UiField("aliasType")
@@ -171,16 +171,16 @@ public class CopyContractindex extends VerticalLayout {
             tablelogic.setContainerDataSource(resultContainer);
             copycontractTableLayout.addComponent(copycontractResultsTable);
             copycontractTableLayout.addComponent(tablelogic.createControls());
-            copycontractResultsTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
-            copycontractResultsTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
+            copycontractResultsTable.setVisibleColumns(HeaderUtil.getContractSearchColumn());
+            copycontractResultsTable.setColumnHeaders(HeaderUtil.getContractSearchHeader());
             copycontractResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             copycontractResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getContractSearchColumn()[0], BooleanConstant.getTrueFlag());
             copycontractResultsTable.setTableFieldFactory(new TableFieldFactory() {
                 @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     Field field;
-                    if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
+                    if (String.valueOf(HeaderUtil.getContractSearchColumn()[0]).equals(propertyId)) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
@@ -270,8 +270,8 @@ public class CopyContractindex extends VerticalLayout {
                 AbstractNotificationUtils.getErrorNotification("Copy", "Selected contracts should have same contract No .");
                 return;
             }
-            Contractselectionpopup ContractselectionpopupWindow = new Contractselectionpopup(selectedList);
-            UI.getCurrent().addWindow(ContractselectionpopupWindow);
+            Contractselectionpopup contractSelectionpopupWindow = new Contractselectionpopup(selectedList);
+            UI.getCurrent().addWindow(contractSelectionpopupWindow);
         }
     }
 
@@ -292,7 +292,7 @@ public class CopyContractindex extends VerticalLayout {
                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias Start date and Contract Alias End date are equal.");
 
             } else if (logic.isSearch(binder)) {
-                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
+                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getContractSearchColumn()[0], BooleanConstant.getTrueFlag());
                 if (tablelogic.loadSetDate(binderDTO, true)) {
                     CommonUIUtils.successNotification(Constants.MessageConstants.SEARCH_COMPLETED.getConstant());
 
@@ -386,7 +386,7 @@ public class CopyContractindex extends VerticalLayout {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "Landing screen");
-            Btnsearch.setVisible(CommonLogic.isButtonVisibleAccess("Btnsearch", functionHM));
+            btnsearch.setVisible(CommonLogic.isButtonVisibleAccess("Btnsearch", functionHM));
             btnreset.setVisible(CommonLogic.isButtonVisibleAccess("btnreset", functionHM));
             copyBtn.setVisible(CommonLogic.isButtonVisibleAccess("copyBtn", functionHM));
         } catch (Exception ex) {

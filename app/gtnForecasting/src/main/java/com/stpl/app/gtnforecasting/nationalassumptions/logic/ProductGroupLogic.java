@@ -38,15 +38,17 @@ public class ProductGroupLogic {
         DataSelectionQueryUtils dsUtils = new DataSelectionQueryUtils();
         List<ProductGroupLookUpDTO> resultList;
         List obtainedResultList;
+        String productGroupsNo = StringUtils.EMPTY;
+        String productGroupsName = StringUtils.EMPTY;
         if (productGroupNo != null && !StringUtils.EMPTY.equals(productGroupNo)) {
-            productGroupNo = productGroupNo.replace(
+            productGroupsNo = productGroupNo.replace(
                     CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
         if (productGroupName != null && !StringUtils.EMPTY.equals(productGroupName)) {
-            productGroupName = productGroupName.replace(
+            productGroupsName = productGroupName.replace(
                     CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        obtainedResultList = dsUtils.getProductGroups(productGroupNo, productGroupName, startIndex, offset, filters, sortByColumns);
+        obtainedResultList = dsUtils.getProductGroups(productGroupsNo, productGroupsName, startIndex, offset, filters, sortByColumns);
         resultList = convertToProductGroupDTO(obtainedResultList);
 
         return resultList;
@@ -56,16 +58,18 @@ public class ProductGroupLogic {
             String productGroupNo, String productGroupName, Set<Container.Filter> filters) {
 
         int count = 0;
+        String productGroupsNoCount = StringUtils.EMPTY;
+        String productGroupsNameCount = StringUtils.EMPTY;
         try {
             if (productGroupNo != null && !StringUtils.EMPTY.equals(productGroupNo)) {
-                productGroupNo = productGroupNo.replace(
+                productGroupsNoCount = productGroupNo.replace(
                         CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             }
             if (productGroupName != null && !StringUtils.EMPTY.equals(productGroupName)) {
-                productGroupName = productGroupName.replace(
+                productGroupsNameCount = productGroupName.replace(
                         CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             }
-            count = DataSelectionQueryUtils.loadProductGroupsCount(productGroupNo, productGroupName, filters);
+            count = DataSelectionQueryUtils.loadProductGroupsCount(productGroupsNoCount, productGroupsNameCount, filters);
 
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());

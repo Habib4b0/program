@@ -308,7 +308,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * Override this to customize search logic in the extending classes
 	 */
-	protected abstract void btnSearchLogic() throws PortalException, SystemException;
+	protected abstract void btnSearchLogic() throws PortalException;
 
 	/**
 	 * Override this to customize reset logic in the extending classes

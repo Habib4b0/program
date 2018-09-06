@@ -44,7 +44,7 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
 	private boolean contentsChangedEventPending;
 	Map<Object, Class> propertiesMap;
 	Map<Object, Object> valueMap;
-	private boolean indexable = true;
+    private boolean indexable = false;
 
 	/**
 	 * The Enum ColumnHeaderMode.
@@ -197,25 +197,30 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
 								&& getDataStructureMode() == DataStructureMode.LIST && getRecordHeader() != null
 								&& descriptior.getName().equalsIgnoreCase(getDescriptorName())) {//
 							List results = (List) descriptior.getReadMethod().invoke(itemId);
-							for (int j = 0; j < getRecordHeader().size(); j++) {
-								Object key = getRecordHeader().get(j);
-								setProperty(key, getColumnProperty(key));
-								Object value = null;
-								if (j > -1 && j < results.size()) {
-									value = results.get(j);
-								}
-								Class a = getType(key);
-								Property pro = item.getItemProperty(key);
-								if (pro != null && value != null && a != null) {
-									pro.setValue(value);
-								}
-							}
-							item.getItemProperty(descriptior.getName())
-									.setValue(descriptior.getReadMethod().invoke(itemId));
+                            for (int j = 0; j < getRecordHeader().size(); j++) {
+                                int pos = j;
+                                Object key = getRecordHeader().get(j);
+                                if (isIndexable()) {
+                                    j = ExtListDTO.getIndexOfProperty(key.toString());
+                                }
+                                setProperty(key, getColumnProperty(key));
+                                                        Object value = null;
+                                if (j > -1 && j < results.size()) {
+                                    value = results.get(j);
+                                                        }
+                                                        Class a = getType(key);
+                                Property pro = item.getItemProperty(key);
+                                                        if (pro != null && value != null && a != null) {
+                                                            pro.setValue(value);
+                                                        }
+                                j = pos;
+                            }
+                            item.getItemProperty(descriptior.getName())
+                                    .setValue(descriptior.getReadMethod().invoke(itemId));
 						} else {
 							item.getItemProperty(descriptior.getName())
 									.setValue(descriptior.getReadMethod().invoke(itemId));
-						}
+                                                }
 					}
 				} catch (NullPointerException ex) {
 					Logger.getLogger(ExtContainer.class.getName()).log(Level.WARNING,

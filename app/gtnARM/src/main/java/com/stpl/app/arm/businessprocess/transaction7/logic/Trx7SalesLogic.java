@@ -81,7 +81,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
     public int getSalesCount(Object parentId, SelectionDTO selection) {
         int countRes = NumericConstants.ZERO;
         try {
-            LOGGERTRX7.debug("Inside getSalesCount--" + selection.getProjectionMasterSid());
+            LOGGERTRX7.debug("Inside getSalesCount--{}", selection.getProjectionMasterSid());
             String level = CommonConstant.CUSTOMER_LEVEL;
             String parentLevel = "";
             String brandMasterSid = "";
@@ -117,7 +117,7 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
             sql = sql.replace("[$VIEW]", level);
 
             sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getProjectionMasterSid()));
-            LOGGERTRX7.debug("brandMasterSid----" + brandMasterSid);
+            LOGGERTRX7.debug("brandMasterSid----{}", brandMasterSid);
             sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
             if ("ITEM".equals(level)) {
                 if (CommonConstant.PRODUCT_LEVEL.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
@@ -142,18 +142,18 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
                 sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
             }
             sql = CommonLogic.replaceTableNames(sql, selection.getSessionDTO().getCurrentTableNames());
-            LOGGERTRX7.debug("sql----" + sql);
+            LOGGERTRX7.debug("sql----{}", sql);
             List<Integer> result = QueryUtils.executeSelect(sql);
             countRes = (result != null && !result.isEmpty()) ? result.get(0) : 0;
-            LOGGERTRX7.debug("Exit getSalesCount--" + countRes);
+            LOGGERTRX7.debug("Exit getSalesCount--{}", countRes);
         } catch (Exception ex) {
-            LOGGERTRX7.error("Error in getSalesCount :" , ex);
+            LOGGERTRX7.error("Error in getSalesCount :", ex);
         }
         return countRes;
     }
 
     public DataResult<T> getSalesData(Object parentId, SelectionDTO selection, int start, int offset) {
-        LOGGERTRX7.debug("Inside getSalesData--" + selection.getProjectionMasterSid());
+        LOGGERTRX7.debug("Inside getSalesData--{}", selection.getProjectionMasterSid());
         String sql = "";
         String level = CommonConstant.CUSTOMER_LEVEL;
         String parentLevel = "";
@@ -222,9 +222,9 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         sql += " ORDER BY PRODUCT_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
         sql = CommonLogic.replaceTableNames(sql, selection.getSessionDTO().getCurrentTableNames());
         List<Object[]> result = QueryUtils.executeSelect(sql);
-        LOGGERTRX7.debug("sql==============" + sql);
+        LOGGERTRX7.debug("sql=============={}", sql);
         DataResult<T> resultList = customizier(ARMUtils.getTrx7SalesVariables(), result);
-        LOGGERTRX7.debug("Exit getSalesData--" + result.size());
+        LOGGERTRX7.debug("Exit getSalesData--{}", result.size());
         return resultList;
     }
 
@@ -257,9 +257,9 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionId()));
-        LOGGERTRX7.debug("query --" + query);
+        LOGGERTRX7.debug("query --{}", query);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
-        LOGGERTRX7.debug("Exit of getExcelResultList --" + list.size());
+        LOGGERTRX7.debug("Exit of getExcelResultList --{}", list.size());
         return list;
     }
 }

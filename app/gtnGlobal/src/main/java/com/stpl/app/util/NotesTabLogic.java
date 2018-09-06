@@ -58,7 +58,7 @@ public class NotesTabLogic {
 		try {
 			docDetailsList = MasterDataFilesLocalServiceUtil.dynamicQuery(docDetailsDynamicQuery);
 
-			if (docDetailsList != null && docDetailsList.size() > 0) {
+			if (docDetailsList != null && !docDetailsList.isEmpty()) {
 				for (MasterDataFiles docDetails : docDetailsList) {
 					NotesDTO attachmentDTO = new NotesDTO();
 					attachmentDTO.setDocDetailsId(docDetails.getMasterTableSid());
@@ -99,7 +99,7 @@ public class NotesTabLogic {
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
-	public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException, SystemException {
+	public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException{
 		if (docDetailsId != 0) {
 			MasterDataFilesLocalServiceUtil.deleteMasterDataFiles(docDetailsId);
 		}
@@ -109,9 +109,9 @@ public class NotesTabLogic {
 	}
 
 	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName,
-			int moduleSystemId) throws SystemException, PortalException {
+			int moduleSystemId) throws PortalException {
 
-		if (availableUploadedInformation != null && availableUploadedInformation.size() > 0) {
+		if (availableUploadedInformation != null && !availableUploadedInformation.isEmpty()) {
 
 			for (NotesDTO uploadDetails : availableUploadedInformation) {
 				MasterDataFiles masterDataFiles;

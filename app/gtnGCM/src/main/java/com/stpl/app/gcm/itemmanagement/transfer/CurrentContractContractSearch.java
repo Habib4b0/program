@@ -58,7 +58,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     @UiField("exportLayout")
     protected HorizontalLayout exportLayout;
     private SelectionDTO selectionDto;
-    private Label Label = new Label("Transfer Sales Projection :");
+    private Label label = new Label("Transfer Sales Projection :");
     private OptionGroup transferSales = new OptionGroup();
     private CheckBox removeProjection = new CheckBox("Remove Projection Details");
     private Object[] visibleColumn = {ConstantsUtil.CHECK_RECORD, Constants.PROJ_ID_LINK, Constants.WORKFLOW_STATUS, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, 
@@ -117,7 +117,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(BooleanConstant.getTrueFlag());
+        massUpdatePanelOne.setVisible(BooleanConstant.getTrueFlag());
         allItems.setEnabled(BooleanConstant.getFalseFlag());
         ConfigureTable();
         getBinder();
@@ -469,7 +469,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         getTransferSales().addItems("Yes", "No");
         getTransferSales().setValue("Yes");
         getTransferSales().addStyleName("horizontal");
-        exportLayout.addComponent(Label);
+        exportLayout.addComponent(label);
         exportLayout.addComponent(getTransferSales());
         exportLayout.addComponent(removeProjection);
 
@@ -487,8 +487,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.add(selection.getSessionId());
         input.add(ConstantsUtil.CURRENT_COONTRACT);
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     @Override

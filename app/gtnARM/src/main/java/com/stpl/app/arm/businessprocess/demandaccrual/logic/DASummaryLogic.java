@@ -221,7 +221,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             dto.setUserId(selection.getSessionDTO().getUserId());
             dto.setSessionId(selection.getSessionDTO().getSessionId());
         }
-        LOGGER.debug("index-------" + index);
+        LOGGER.debug("index-------{}", index);
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
         return dataResult;
@@ -257,7 +257,7 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             if (dto instanceof AdjustmentDTO) {
                 AdjustmentDTO val = (AdjustmentDTO) dto;
                 int levelNo = val.getLevelNo();
-                LOGGER.debug("levelNo----" + levelNo);
+                LOGGER.debug("levelNo----{}", levelNo);
                 masterSids = val.getMasterIds();
 
                 if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
@@ -328,13 +328,13 @@ public class DASummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         }
         List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] value = selection.getExcelHierarchy();
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         String val = selection.getSummarydeductionLevelDes();
         if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION_PROGRAM.toString())) {
             val += " TYPE";
         }
         query = query.replace("@DEDUCTIONLEVEL", val);
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@FREQUENCYSELECTED", selection.getSummarydemandfrequency());
         query = query.replace("@STARTPERIOD", frequency.get(0)[1]);
         query = query.replace("@ENDPERIOD", frequency.get(frequency.size() - 1)[1]);

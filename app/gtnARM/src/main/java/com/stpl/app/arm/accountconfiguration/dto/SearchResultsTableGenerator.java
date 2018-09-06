@@ -37,32 +37,32 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
     }
 
     @Override
-    public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+    public Container.Filter generateFilter(Object searchPropertyId, Field<?> originatingField) {
         String value = null;
         if (originatingField.getValue() != null) {
-            return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
+            return new SimpleStringFilter(searchPropertyId, String.valueOf(originatingField.getValue()), false, false);
         }
-        return generateFilter(propertyId, value);
+        return generateFilter(searchPropertyId, value);
     }
 
     @Override
-    public void filterRemoved(Object propertyId) {
+    public void filterRemoved(Object searchPropertyId) {
         LOGGER.debug("Inside filterRemoved");
     }
 
     @Override
-    public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+    public void filterAdded(Object searchPropertyId, Class<? extends Container.Filter> filterType, Object value) {
         LOGGER.debug("Inside filterAdded Override Method");
     }
 
     @Override
-    public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
+    public Container.Filter filterGeneratorFailed(Exception reason, Object searchPropertyId, Object value) {
         return null;
     }
 
     @Override
-    public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-        if ("brandDdlb".equals(propertyId.toString())) {
+    public AbstractField<?> getCustomFilterComponent(Object searchPropertyId) {
+        if ("brandDdlb".equals(searchPropertyId.toString())) {
             TextField text = new TextField();
             text.setImmediate(true);
             return text;
@@ -70,11 +70,11 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
         return null;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream searchout) throws IOException {
+        searchout.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream searchin) throws IOException, ClassNotFoundException {
+        searchin.defaultReadObject();
     }
 }

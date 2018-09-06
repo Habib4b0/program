@@ -7,6 +7,7 @@
 package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.dto.SessionDTO;
+import static com.stpl.app.cff.logic.CommonLogic.LOGGER;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
@@ -31,6 +32,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
@@ -74,6 +76,7 @@ public class DataSelectionUtil {
             cal1.setTime(date);
 
         } catch (ParseException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return date;
     }
@@ -104,6 +107,7 @@ public class DataSelectionUtil {
             cal1.setTime(date);
 
         } catch (ParseException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return date;
     }
@@ -493,7 +497,7 @@ public class DataSelectionUtil {
         String userIds;
         if (userMap != null) {
             for (Map.Entry<String, String> entry : userMap.entrySet()) {
-                if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+                if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
@@ -613,7 +617,7 @@ public class DataSelectionUtil {
         String userIds;
         if (userIdMap != null) {
             for (Map.Entry<String, String> entry : userIdMap.entrySet()) {
-                if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+                if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
@@ -663,7 +667,7 @@ public class DataSelectionUtil {
         String discountIds;
         if (discountMap != null) {
             for (Map.Entry<String, String> entry : discountMap.entrySet()) {
-                if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+                if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }

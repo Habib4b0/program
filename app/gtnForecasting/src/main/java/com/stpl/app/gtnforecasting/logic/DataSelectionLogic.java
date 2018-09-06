@@ -514,7 +514,6 @@ public class DataSelectionLogic {
 		parameters.put(Constant.PROJECTION_ID, projectionId);
 		parameters.put(Constant.TABLE_NAME, PROJECTION_PROD_HIERARCHY);
 		parameters.put(BUSINESS_UNIT_PROPERTY, dataSelectionDTO.getBusinessUnitSystemId());
-		// String insertQuery = prepareRelationShipQuery(parameters, false);
 		String insertQuery;
 		StringBuilder insertQueryBuilder = new StringBuilder();
 		insertQueryBuilder.append(prepareRelationShipQuery(parameters, false));
@@ -1140,7 +1139,7 @@ public class DataSelectionLogic {
 		return resultList;
 	}
 
-	public ForecastConfig getTimePeriod(String screenName) throws PortalException, SystemException {
+	public ForecastConfig getTimePeriod(String screenName) throws PortalException {
 		List<ForecastConfig> resultList = null;
 		int businessProcessType = 0;
 		DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
@@ -1257,7 +1256,7 @@ public class DataSelectionLogic {
 	}
 
 	public int getRelationshipSidCount(String filterText, final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		int count = dataSelectionDao
 				.getRelationshipCount(getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid));
 		return count + 1;
@@ -1265,7 +1264,7 @@ public class DataSelectionLogic {
 
 	public List<RelationshipDdlbDto> getRelationshipSidLazy(int startIndex, int endIndex,
 			final RelationshipDdlbDto defaultRelationshipDdlbDto, String filterText, final int hierarchyDefinitionSid,
-			RelationshipDdlbDto selectedRelationshipDdlbDto) throws SystemException, PortalException {
+			RelationshipDdlbDto selectedRelationshipDdlbDto) throws PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid);
 		dynamicQuery.setLimit(startIndex, endIndex);
@@ -1313,7 +1312,7 @@ public class DataSelectionLogic {
 	public static final String RELATIONSHIP_NAME_PROPERTY = "relationshipName";
 
 	public List<RelationshipDdlbDto> getRelationshipSids(final RelationshipDdlbDto defaultRelationshipDdlbDto,
-			final int hierarchyDefinitionSid) throws SystemException, PortalException {
+			final int hierarchyDefinitionSid) throws PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
@@ -1504,7 +1503,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<RelationshipDdlbDto> getRelationshipSid(final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(hierarchyDefinitionSid);
 		List<Object[]> resultList = dataSelectionDao.getRelationship(dynamicQuery);
@@ -1846,7 +1845,7 @@ public class DataSelectionLogic {
 	 * @throws Exception
 	 */
 	public int searchGroupCount(final GroupDTO dto, final Boolean isCompanyGroup, Set<Container.Filter> filters,
-			List<SortByColumn> sortByColumns) throws SystemException, PortalException {
+			List<SortByColumn> sortByColumns) throws PortalException {
 		List countList;
 		if (isCompanyGroup) {
 			countList = getCustomerList(dto, isCompanyGroup, filters, sortByColumns, Boolean.TRUE, 0, 0);
@@ -1966,7 +1965,7 @@ public class DataSelectionLogic {
 
 	public List getProductList(final GroupDTO dto, final Boolean isCompanyGroup, Set<Container.Filter> filters,
 			List<SortByColumn> sortByColumns, Boolean isCount, int startIndex, int offset)
-			throws SystemException, PortalException {
+			throws PortalException {
 		String sql = QueryUtils.getQuery(getGroupInput(dto, isCompanyGroup), "getProdGroupSearch");
 		String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, filterMap(isCompanyGroup))
 				.toString();
@@ -1991,7 +1990,7 @@ public class DataSelectionLogic {
 
 	public List getCustomerList(final GroupDTO dto, final Boolean indicator, Set<Container.Filter> filters,
 			List<SortByColumn> sortByColumns, Boolean isCount, int startIndex, int offset)
-			throws SystemException, PortalException {
+			throws PortalException {
 		String sql = QueryUtils.getQuery(getGroupInput(dto, indicator), "getCustGroupSearch");
 		String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, filterMap(indicator))
 				.toString();
@@ -2153,25 +2152,6 @@ public class DataSelectionLogic {
 	}
 
 	public static final String FILTER_AT = "@FILTER";
-
-	/**
-	 * Used to form the query from selection container of customer and product
-	 *
-	 * @param contractList
-	 * @return the string having SELECT [HIERARCHY_NO] AS STRING AND
-	 *         RELATIONSHIP_LEVEL_VALUES AS INT EXAMPLE: SELECT '12.1.1.2', 543
-	 *         UNION ALL SELECT '12.1.1.3', 234
-	 */
-	private String formQueryWithUnionAllForARP(List<Object[]> contractList) {
-		StringBuilder queryBuilder = new StringBuilder();
-		String unionAll = StringUtils.EMPTY;
-		for (Object[] objects : contractList) {
-			queryBuilder.append(unionAll).append(SELECT_CAPS).append(objects[1])
-					.append(" as RELATIONSHIP_LEVEL_VALUES ");
-			unionAll = UNION_ALL;
-		}
-		return queryBuilder.toString();
-	}
 
 	/**
 	 * Used to insert the selected Customer and product hierarchy in
@@ -2805,62 +2785,6 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
             }
 	}
     
-	/**
-	 * To insert the Accural_proj_details table in edit and add mode
-	 *
-	 * @param ccpHierarchyQuery
-	 * @param tempTableNames
-	 * @param topLevelName
-	 * @param isDataSelectionTab
-	 *            -- It will be true if its called from data selection tab
-	 */
-	private void callARPCCPInsertion(String[] ccpHierarchyQuery, GtnSmallHashMap tempTableNames, String topLevelName,
-			boolean isDataSelectionTab, DataSelectionDTO dtoValue, boolean isAdd) {
-		String dedLevel = "Deduction Program Type".equalsIgnoreCase(dtoValue.getDeductionLevel())
-				? "REBATE_PROGRAM_TYPE"
-				: "Deduction Category".equalsIgnoreCase(dtoValue.getDeductionLevel()) ? "RS_CATEGORY"
-						: "Deduction Schedule Type".equalsIgnoreCase(dtoValue.getDeductionLevel()) ? Constant.RS_TYPE
-								: StringUtils.EMPTY;
-		String filter = StringUtils.EMPTY;
-		if (StringUtils.isNotBlank(dedLevel)) {
-			if (isAdd) {
-				filter = " AND R1." + dedLevel + " = " + dtoValue.getDeductionValueId();
-			} else {
-				List<Object> list = new ArrayList<>();
-				list.add(dtoValue.getDeductionValue());
-				List<Object> sid = QueryUtils.getAppData(list, "get-helper-table-query", null);
-				filter = " AND R1." + dedLevel + " = " + sid.get(0);
-			}
-		}
-		StringBuilder builder = new StringBuilder();
-		if (isDataSelectionTab) {
-			builder.append(QueryUtil.replaceTableNames(
-					SQlUtil.getQuery(Constant.DELETION).replace(Constant.AT_TABLE_NAME, "ACCRUAL_PROJ_DETAILS"),
-					tempTableNames));
-		}
-		builder.append(SQlUtil.getQuery("InsertAccrualCCPValue"));
-		builder.replace(builder.indexOf(Constant.CONTRACT_AT),
-				Constant.CONTRACT_AT.length() + builder.lastIndexOf(Constant.CONTRACT_AT), ccpHierarchyQuery[0]);
-		builder.replace(builder.indexOf(Constant.CUSTOMER_AT),
-				Constant.CUSTOMER_AT.length() + builder.lastIndexOf(Constant.CUSTOMER_AT), ccpHierarchyQuery[1]);
-		builder.replace(builder.indexOf(Constant.PRODUCT_AT),
-				Constant.PRODUCT_AT.length() + builder.lastIndexOf(Constant.PRODUCT_AT),
-				ccpHierarchyQuery[NumericConstants.TWO].replace("HIERARCHY_NO,", StringUtils.EMPTY));
-		builder.replace(builder.indexOf(Constant.PROJECTION_MASTER_SID_AT),
-				Constant.PROJECTION_MASTER_SID_AT.length() + builder.lastIndexOf(Constant.PROJECTION_MASTER_SID_AT),
-				String.valueOf(dtoValue.getProjectionId()));
-		builder.replace(builder.indexOf(SELECTION_AT), SELECTION_AT.length() + builder.lastIndexOf(SELECTION_AT),
-				filter);
-		if (Constant.CONTRACT_SMALL.equalsIgnoreCase(topLevelName)) {
-			builder.replace(builder.indexOf(FILTER_AT), FILTER_AT.length() + builder.lastIndexOf(FILTER_AT),
-					"COM.HIERARCHY_NO LIKE C.HIERARCHY_NO");
-		} else {
-			builder.replace(builder.indexOf(FILTER_AT), FILTER_AT.length() + builder.lastIndexOf(FILTER_AT),
-					"C.HIERARCHY_NO LIKE COM.HIERARCHY_NO");
-		}
-		HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
-	}
-
 	/**
 	 * Used to insert accrual projection details table
 	 *

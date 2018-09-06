@@ -91,33 +91,33 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
     }
 
     public void loadDetails() throws InvocationTargetException {
-        List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDTO.getProjectionMasterSid());
-        for (int i = 0; i < list.size(); i++) {
-            Object[] obj = list.get(i);
-            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
+        List<Object[]> reforecastList = CommonLogic.loadPipelineAccrual(selectionDTO.getProjectionMasterSid());
+        for (int i = 0; i < reforecastList.size(); i++) {
+            Object[] object = reforecastList.get(i);
+            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(object[0]))) {
                 deductionLevelDdlb.setValue(selectionDTO.getSummarydeductionLevel());
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
+                String str = (String) object[1];
+                String[] refStr2 = str.split(",");
                 String str3 = null;
-                for (String strings : str2) {
+                for (String strings : refStr2) {
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(getDeductionCustomMenuItem(), str3);
                 }
-            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(obj[0]))) {
-                String str1 = (String) obj[1];
-                String[] str2 = str1.split(",");
-                String str3 = null;
+            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(object[0]))) {
+                String refStr1 = (String) object[1];
+                String[] str2 = refStr1.split(",");
+                String refStr3 = null;
                 for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItem(customMenuItem, str3);
+                    refStr3 = strings;
+                    CommonUtils.checkMenuBarItem(customMenuItem, refStr3);
                 }
-            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(object[0])) {
                 try {
-                    BeanUtils.setProperty(selectionDTO, String.valueOf(obj[0]), obj[1]);
+                    BeanUtils.setProperty(selectionDTO, String.valueOf(object[0]), object[1]);
                 } catch (IllegalAccessException | InvocationTargetException ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }
@@ -141,7 +141,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
             glImpactDate.setValue(resetWorkFlowDate);
             glImpactDate.addValueChangeListener(glWorkflowListener);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadSelection :" , ex);
+            LOGGER.error("Error in loadSelection :", ex);
         }
     }
 

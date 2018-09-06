@@ -82,9 +82,9 @@ public class NEPLookup extends Window {
     private final CustomTextField componentTextField;
     private final SelectionDTO selection = new SelectionDTO();
 
-    public final Object[] formulaSearchColumns = new Object[]{
+    private static final Object[] FORMULA_SEARCH_COLUMNS = new Object[]{
         "netSalesformulaType", "formulaId", "formulaNo", "formulaName"};
-    public final String[] formulaSearchHeaders = new String[]{
+    private static final String[] FORMULA_SEARCH_HEADERS = new String[]{
         "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula NO", "Net Sales Formula Name"};
 
     public NEPLookup(CustomTextField componentTextField, String lookupName) {
@@ -132,8 +132,8 @@ public class NEPLookup extends Window {
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setFilterGenerator(new FormulaLookupTableGenerator());
         tablelogic.setContainerDataSource(forumulaLookupBean);
-        resultTable.setVisibleColumns(formulaSearchColumns);
-        resultTable.setColumnHeaders(formulaSearchHeaders);
+        resultTable.setVisibleColumns(FORMULA_SEARCH_COLUMNS);
+        resultTable.setColumnHeaders(FORMULA_SEARCH_HEADERS);
         resultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultTable.setPageLength(NumericConstants.TEN);
         tablelogic.sinkItemPerPageWithPageLength(false);

@@ -66,9 +66,7 @@ public class SelectionTableLogic extends PageTableLogic {
         try {
             if (Constants.CUSTOMER_SELECTION.equals(tabName)) {
                     resultList = (List) selectionLogic.getCustomerSearchResult(selectionDTO,start,offset,false,this.getFilters(),this.getSortByColumns(),availableOrselected);
-                } else {
-                    
-                }
+                } 
         } catch (Exception ex) {
             LOGGER.error("{} in loadData", ex);
         }

@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractDemandSummaryLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 
 import com.stpl.app.utils.CommonUtils;
@@ -129,7 +130,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
 
@@ -156,7 +157,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                             customizeResetButtonLogic();
                         } catch (Exception ex) {
-                            LOGGER.error("Error in reset" , ex);
+                            LOGGER.error("Error in reset", ex);
                         }
                         break;
                     case "save":
@@ -312,7 +313,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             }
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in view" , ex);
+                        logger.error("Error in view", ex);
                     }
                 }
             });
@@ -352,7 +353,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequency));
                         }
                     } catch (Exception ex) {
-                        logger.error("Error in todate" , ex);
+                        logger.error("Error in todate", ex);
                     }
                 }
 
@@ -402,15 +403,15 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 String value = listSize.get(i)[0];
                 listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
                 if (i != listSize.size() - 1) {
-                    deductionValues.append("'").append(value).append("',");
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                 } else {
-                    deductionValues.append("'").append(value).append("'");
+                    deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                 }
             }
         }
         selectionDTO.setSummarydeductionValues(deductionValues.toString());
         selectionDTO.setSummarydeductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
-        String frequencyString = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(String.valueOf(frequencyDdlb.getValue())));
+        String frequencyString = HelperListUtil.getInstance().getIdDescMap().get((Integer) (frequencyDdlb.getValue()));
         selectionDTO.setSummarydemandfrequency(frequencyString);
         selectionDTO.setSummaryfrequency((int) frequencyDdlb.getValue());
         adjustmentResults.configureLevelDDLBs();
@@ -466,7 +467,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glListener" , ex);
+                logger.error("Error in glListener", ex);
             }
         }
     };
@@ -498,7 +499,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glWorkflowListener :" , ex);
+                logger.error("Error in glWorkflowListener :", ex);
             }
         }
     };

@@ -99,18 +99,18 @@ public class SalesTab extends VerticalLayout {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = NumericConstants.TWO_HUNDRED;
+    private static final float MIN_SPLIT_POSITION = NumericConstants.TWO_HUNDRED;
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION = 300;
     private final TabSelectionDTO selectionDTO = new TabSelectionDTO();
-    private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
+    private ExtCustomTreeTable exportSalesPeriodViewTable;
+    private ExtTreeContainer<SalesTabDTO> excelSalesBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
     private final LoadTabLogic tabLogic = new LoadTabLogic();
     final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     private final SessionDTO session;
@@ -217,9 +217,9 @@ public class SalesTab extends VerticalLayout {
     private void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
@@ -241,17 +241,17 @@ public class SalesTab extends VerticalLayout {
     @UiHandler("excelBtn")
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
-        if (resultBean.size() > 0) {
+        if (!resultBean.isEmpty()) {
             loadExcelResultTable();
         }
-        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
+        exportSalesPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, Constants.TRUE);
-        CustomExcelExport exp = new CustomExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), "Sales Projection", "Sales Projection", "Sales_Projection.xls", false, formatter);
+        CustomExcelExport exp = new CustomExcelExport(new ExtCustomTableHolder(exportSalesPeriodViewTable), "Sales Projection", "Sales Projection", "Sales_Projection.xls", false, formatter);
         exp.export();
-        tradingPartnerSalesTableLayout.removeComponent(exportPeriodViewTable);
+        tradingPartnerSalesTableLayout.removeComponent(exportSalesPeriodViewTable);
 
     }
 
@@ -260,41 +260,39 @@ public class SalesTab extends VerticalLayout {
      */
     @SuppressWarnings("serial")
     private void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
-        exportPeriodViewTable = new ExtFilterTreeTable();
-        tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
-        excelResultBean.setColumnProperties(leftDTO.getProperties());
-        excelResultBean.setColumnProperties(rightDTO.getProperties());
-        exportPeriodViewTable.setContainerDataSource(excelResultBean);
-        exportPeriodViewTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
-        exportPeriodViewTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
-        exportPeriodViewTable.setDoubleHeaderVisible(true);
-        exportPeriodViewTable.setDoubleHeaderVisibleColumns(fullHeader.getDoubleColumns().toArray());
-        exportPeriodViewTable.setDoubleHeaderColumnHeaders(fullHeader.getDoubleHeaders().toArray(new String[fullHeader.getDoubleHeaders().size()]));
-        exportPeriodViewTable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
+        excelSalesBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+        exportSalesPeriodViewTable = new ExtFilterTreeTable();
+        tradingPartnerSalesTableLayout.addComponent(exportSalesPeriodViewTable);
+        excelSalesBean.setColumnProperties(leftDTO.getProperties());
+        excelSalesBean.setColumnProperties(rightDTO.getProperties());
+        exportSalesPeriodViewTable.setContainerDataSource(excelSalesBean);
+        exportSalesPeriodViewTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
+        exportSalesPeriodViewTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
+        exportSalesPeriodViewTable.setDoubleHeaderVisible(true);
+        exportSalesPeriodViewTable.setDoubleHeaderVisibleColumns(fullHeader.getDoubleColumns().toArray());
+        exportSalesPeriodViewTable.setDoubleHeaderColumnHeaders(fullHeader.getDoubleHeaders().toArray(new String[fullHeader.getDoubleHeaders().size()]));
+        exportSalesPeriodViewTable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
     }
 
-    /**
-     * Loads the Excel Results.
-     */
+ 
     @SuppressWarnings("serial")
     private void loadExcelResultTable() {
-        excelResultBean.removeAllItems();
+        excelSalesBean.removeAllItems();
         List<SalesTabDTO> resultList = tabLogic.getConfiguredSalesTabResults(new Object(), selectionDTO, true);
         loadDataToContainer(resultList, null);
     }
 
     public void loadDataToContainer(List<SalesTabDTO> resultList, Object parentId) {
         for (SalesTabDTO dto : resultList) {
-            excelResultBean.addBean(dto);
+            excelSalesBean.addBean(dto);
             if (parentId != null) {
-                excelResultBean.setParent(dto, parentId);
+                excelSalesBean.setParent(dto, parentId);
             }
             if (dto.getParent() == 1) {
-                excelResultBean.setChildrenAllowed(dto, true);
+                excelSalesBean.setChildrenAllowed(dto, true);
                 addLowerLevelsForExport(dto);
             } else {
-                excelResultBean.setChildrenAllowed(dto, false);
+                excelSalesBean.setChildrenAllowed(dto, false);
             }
         }
     }

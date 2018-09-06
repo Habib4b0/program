@@ -50,16 +50,16 @@ public class CrossReferencePricing extends VerticalLayout {
     private void configureTables() {
 
         toResultTablePricing.setContainerDataSource(toResultContainer);
-        toResultTablePricing.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
-        toResultTablePricing.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
+        toResultTablePricing.setVisibleColumns(HeaderUtil.getTransferToColumn());
+        toResultTablePricing.setColumnHeaders(HeaderUtil.getTransferToHeader());
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getComponentDetailsItemColumn());
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getComponentDetailsItemHeader());
 
         psResults.setContainerDataSource(psResultsContainer);
-        psResults.setVisibleColumns(HeaderUtil.getInstance().psDetailsColumn);
-        psResults.setColumnHeaders(HeaderUtil.getInstance().psDetailsHeader);
+        psResults.setVisibleColumns(HeaderUtil.getPsDetailsColumn());
+        psResults.setColumnHeaders(HeaderUtil.getPsDetailsHeader());
 
     }
      public final void configureFields(){

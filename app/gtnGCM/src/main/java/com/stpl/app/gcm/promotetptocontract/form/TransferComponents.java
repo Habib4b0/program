@@ -83,6 +83,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.ArrayUtils;
@@ -466,8 +467,8 @@ public class TransferComponents extends CustomComponent implements View {
         componentDetailsTable.setHeight("230px");
         componentDetailsTable.setPageLength(NumericConstants.FIVE);
         componentDetailsTable.setContainerDataSource(componentDetailResultsContainer);
-        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+        componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumns());
+        componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
     }
 
     public void configureContractComponentDetailsTable() {
@@ -513,18 +514,17 @@ public class TransferComponents extends CustomComponent implements View {
             String ifpContractId = String.valueOf(transferCompContainer1.getContainerProperty(item, "ifpContSid").getValue());
             String query = queryUtils.getIFP(ifpContractId);
             List ifpList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (ifpList != null && ifpList.size() > 0) {
+            if (ifpList != null && !ifpList.isEmpty()) {
                 Object[] obj = (Object[]) ifpList.get(0);
                 ifpId.setValue(String.valueOf(obj[0]));
                 ifpNo.setValue(String.valueOf(obj[1]));
                 ifpName.setValue(String.valueOf(obj[NumericConstants.TWO]));
             }
 
-            if (ifpContractId.equals(Constants.EMPTY)) {
-            } else {
+             else {
                 String componentQuery = queryUtils.getItemMasterDetailsTransContract(ifpContractId);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> itemList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -574,11 +574,11 @@ public class TransferComponents extends CustomComponent implements View {
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (!(ids.equals(Constants.EMPTY))) {
+            
                 String componentQuery = queryUtils.getPSDetailsTransContract(ids);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> priceList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -639,12 +639,12 @@ public class TransferComponents extends CustomComponent implements View {
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (! ids.equals(Constants.EMPTY)) {
+           
                 String componentQuery = queryUtils.getRSDetailsTransContract(ids);
 
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> rebateList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -695,9 +695,9 @@ public class TransferComponents extends CustomComponent implements View {
 
         List<CurrentContractDTO> list = transferCompContainer1.getItemIds();
 
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                CurrentContractDTO dto = (CurrentContractDTO) list.get(i);
+                CurrentContractDTO dto = list.get(i);
                 if (Integer.parseInt(dto.getIfpContSid()) != 0) {
                     set.add(Integer.valueOf(dto.getIfpContSid()));
                 }
@@ -742,7 +742,7 @@ public class TransferComponents extends CustomComponent implements View {
                 }
 
                 if (level.equals(Constants.ITEM_FAMILY_PLAN)) {
-                    int Duplicatealert = 0;
+                    int duplicateAlert = 0;
                     if (NumericConstants.TWO - levelNumber == 1) {
                         Collection<?> returnList = transferCompTable1.getItemIds();
                         Set setA = new HashSet();
@@ -766,13 +766,13 @@ public class TransferComponents extends CustomComponent implements View {
                                     Object[] obj = (Object[]) ifpList.get(0);
                                     String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                     if (modelId.equals(listidvalue)) {
-                                        Duplicatealert++;
+                                        duplicateAlert++;
                                     }
 
                                 }
                             }
 
-                            if (ifpList != null && ifpList.size() > 0 && Duplicatealert == 0) {
+                            if (ifpList != null && !ifpList.isEmpty() && duplicateAlert == 0) {
                                 Object[] obj = (Object[]) ifpList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
 
@@ -792,14 +792,14 @@ public class TransferComponents extends CustomComponent implements View {
                             }
 
                         }
-                        if (Duplicatealert != 0) {
+                        if (duplicateAlert != 0) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Same IFP(s) already available.Please select different IFP");
                         }
                     } else {
                         AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
-                    int Duplicatealert = 0;
+                    int duplicateAlert = 0;
                     if (NumericConstants.THREE - levelNumber == 1) {
                         Collection<?> returnList = transferCompTable1.getItemIds();
                         Set setA = new HashSet();
@@ -834,20 +834,20 @@ public class TransferComponents extends CustomComponent implements View {
                                         Object[] obj = (Object[]) psList.get(0);
                                         String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                         if (modelId.equals(listidvalue)) {
-                                            Duplicatealert++;
+                                            duplicateAlert++;
                                         }
 
                                     }
                                 }
                             }
-                            if (psList != null && psList.size() > 0) {
+                            if (psList != null && !psList.isEmpty()) {
                                 Object[] obj = (Object[]) psList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
 
                                 if (!tmp.contains(modelId)) {
                                     String conditionQuery = "select * from dbo.PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
                                     HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
-                                    if (Duplicatealert == 0) {
+                                    if (duplicateAlert == 0) {
                                         tmp.add(modelId);
                                         final Object rootId = contractDashboardResultsTable.addItem();
                                         contractDashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.PS);
@@ -893,7 +893,7 @@ public class TransferComponents extends CustomComponent implements View {
                                     + "WHERE\n"
                                     + "	RS_CONTRACT_SID in (" + id + ")";
                             List rsList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                            if (rsList != null && rsList.size() > 0) {
+                            if (rsList != null && !rsList.isEmpty()) {
                                 Object[] obj = (Object[]) rsList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
                                 if (!tmp.contains(modelId)) {
@@ -949,7 +949,7 @@ public class TransferComponents extends CustomComponent implements View {
                 String componentQuery = queryUtils.getCompanyInformation(companySid);
                 LOGGER.debug(" populate btn  query {} " , componentQuery);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     contractInfoContainer.removeAllItems();
                     List<ComponentInfoDTO> companyList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -999,7 +999,7 @@ public class TransferComponents extends CustomComponent implements View {
                 }
                 LOGGER.debug(" Populate button query 2 {} " , componentQuery);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     contractInfoContainer.removeAllItems();
                     List<ComponentInfoDTO> itemList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -1111,19 +1111,19 @@ public class TransferComponents extends CustomComponent implements View {
                     contractMasterSid = contractMaster.getContractMasterSid();
                     session.setContractMasterSid(String.valueOf(contractMasterSid));
                     returnList.add(contractMasterSid);
-                    String AliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
-                    String AliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
-                    ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    CAM.setContractAliasNo(AliasNumber);
-                    CAM.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
-                    CAM.setStartDate(new Date());
-                    CAM.setModifiedDate(new Date());
-                    CAM.setCreatedBy(1);
-                    CAM.setCreatedDate(new Date());
-                    CAM.setSource("BPI");
-                    CAM.setInboundStatus("A");
-                    CAM.setContractMasterSid(contractMasterSid);
-                    ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
+                    String aliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
+                    String aliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
+                    ContractAliasMaster cam = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                    cam.setContractAliasNo(aliasNumber);
+                    cam.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
+                    cam.setStartDate(new Date());
+                    cam.setModifiedDate(new Date());
+                    cam.setCreatedBy(1);
+                    cam.setCreatedDate(new Date());
+                    cam.setSource("BPI");
+                    cam.setInboundStatus("A");
+                    cam.setContractMasterSid(contractMasterSid);
+                    ContractAliasMasterLocalServiceUtil.addContractAliasMaster(cam);
 
                 } else if (level.equals(Constants.ONE)) {
 
@@ -1241,9 +1241,9 @@ public class TransferComponents extends CustomComponent implements View {
 
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
                     Object parentItem = contractDashboardResultsTable.getParent(item);
-                    String IFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
+                    String ifpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTable.getParent(parentItem);
-                    String CFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
+                    String cfpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
 
                     PsContract psContract;
                     psContract = PsContractLocalServiceUtil.createPsContract(0);
@@ -1257,8 +1257,8 @@ public class TransferComponents extends CustomComponent implements View {
                     psContract.setPsStartDate(psmodel.getPsStartDate());
                     psContract.setPsEndDate(psmodel.getPsEndDate());
                     psContract.setContractMasterSid(contractMasterSid);
-                    psContract.setCfpContractSid(CFPsystemId);
-                    psContract.setIfpContractSid(IFPsystemId);
+                    psContract.setCfpContractSid(cfpSystemId);
+                    psContract.setIfpContractSid(ifpSystemId);
                     psContract.setInboundStatus("A");
                     psContract.setRecordLockStatus(false);
                     psContract.setSource("GCM");
@@ -1418,7 +1418,7 @@ public class TransferComponents extends CustomComponent implements View {
     public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws   NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.toUpperCase(Locale.ENGLISH));
 
     }
 
@@ -1457,7 +1457,7 @@ public class TransferComponents extends CustomComponent implements View {
             int ifpIdValue = Integer.parseInt(dto.getIfpContSid());
             String query = queryUtils.getIFPDetails(ifpIdValue);
             List ifpList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (ifpList != null && ifpList.size() > 0) {
+            if (ifpList != null && !ifpList.isEmpty()) {
                 Object[] object = (Object[]) ifpList.get(0);
                 ifpId.setValue(String.valueOf(object[0]));
                 ifpNo.setValue(String.valueOf(object[1]));
@@ -1477,7 +1477,7 @@ public class TransferComponents extends CustomComponent implements View {
             int psIdValue = Integer.parseInt(dto.getPsContSid());
             String query = queryUtils.getPSDetails(psIdValue);
             List psList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            if (psList != null && psList.size() > 0) {
+            if (psList != null && !psList.isEmpty()) {
                 Object[] object = (Object[]) psList.get(0);
                 psId.setValue(String.valueOf(object[0]));
                 psNo.setValue(String.valueOf(object[1]));
@@ -1499,7 +1499,7 @@ public class TransferComponents extends CustomComponent implements View {
                 + " on h1.HELPER_TABLE_SID=rm.REBATE_FREQUENCY join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=rm.REBATE_PROGRAM_TYPE"
                 + " join HELPER_TABLE h3 ON rm.RS_TYPE=h3.HELPER_TABLE_SID";
         List rsList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        if (rsList != null && rsList.size() > 0) {
+        if (rsList != null && !rsList.isEmpty()) {
             Object[] object = (Object[]) rsList.get(0);
             rebateScheduleId.setValue(String.valueOf(object[0]));
             status.setValue(String.valueOf(object[1]));

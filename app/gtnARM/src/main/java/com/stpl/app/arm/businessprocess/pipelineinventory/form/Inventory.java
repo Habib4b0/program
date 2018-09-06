@@ -112,7 +112,6 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         this.dataselection = dataselection;
         this.selectionDto = selectionDto;
         this.projectionId = projectionId;
-        LOGGER.debug("dataselection.getAdjustmentType()==========" + dataselection.getAdjustmentType() + "projectionId==========" + projectionId);
         init();
         configureWorkFlow();
 
@@ -325,7 +324,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:
@@ -523,7 +522,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     try {
                         BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                     } catch (IllegalAccessException | InvocationTargetException ex) {
-                        LOGGER.error("Error in configureWorkFlow :" , ex);
+                        LOGGER.error("Error in configureWorkFlow :", ex);
                     }
                 }
             }

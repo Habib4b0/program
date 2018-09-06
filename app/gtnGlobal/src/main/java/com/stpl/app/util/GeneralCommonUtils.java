@@ -10,7 +10,6 @@ import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.search.ParseException;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -464,12 +463,12 @@ public class GeneralCommonUtils {
              return select;
        }
      
-    public static String getHelperDescription(int code) throws PortalException, SystemException {
+    public static String getHelperDescription(int code) throws PortalException {
         HelperTable helperTable = HelperTableLocalServiceUtil.getHelperTable(code);
         return helperTable.getDescription();
     }
     
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws PortalException {
         
         int code=0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
@@ -483,7 +482,7 @@ public class GeneralCommonUtils {
         return code;
     }
     
-    public static Map<Integer, String> getCodeDescription() throws PortalException, SystemException{
+    public static Map<Integer, String> getCodeDescription() throws PortalException {
         Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName();
         for(HelperTable helperTable: list){
@@ -517,7 +516,7 @@ public class GeneralCommonUtils {
      * @throws java.lang.Exception
      */
     public ComboBox loadComboBox(final ComboBox select,
-            String listName) throws SystemException, PortalException {
+            String listName) throws PortalException {
         
         final HelperDTO defaultValue=new HelperDTO(ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
@@ -547,7 +546,7 @@ public class GeneralCommonUtils {
      * @param listType the list type
      * @return the item type
      */
-    public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
+    public List<HelperDTO> getHelperResults(final String listType) throws PortalException {
         
         CommonDao daoImpl = CommonDaoImpl.getInstance();
         final List<HelperDTO> helperList = new ArrayList<>();

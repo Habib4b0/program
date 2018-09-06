@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Interface FileManagementLogicDAO.
  *
@@ -115,7 +115,7 @@ public interface FileManagementLogicDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List itemIrtQualifierNameList(DynamicQuery cfpDynamicQuery)
-			throws PortalException, SystemException;
+			throws PortalException;
         /** 
 	 * <!-- begin-UML-doc -->
 	 * <!-- end-UML-doc -->
@@ -125,8 +125,7 @@ public interface FileManagementLogicDAO {
 	 * @throws SystemException
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
-	List getBrandList(DynamicQuery ifpDynamicQuery) throws PortalException,
-			SystemException;
+	List getBrandList(DynamicQuery ifpDynamicQuery) throws PortalException ;
         
         /** 
 	 * <!-- begin-UML-doc -->
@@ -139,7 +138,7 @@ public interface FileManagementLogicDAO {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	List<HelperTable> getHelperTableList(DynamicQuery query)
-			throws PortalException, SystemException;
+			throws PortalException;
         /**
         * To get a list of companies from the companyMaster Table
         *

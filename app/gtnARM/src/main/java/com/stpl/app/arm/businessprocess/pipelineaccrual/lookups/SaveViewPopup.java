@@ -132,9 +132,9 @@ public class SaveViewPopup extends Window {
                     saveViewDTO.setViewType(String.valueOf(viewOption.getValue()));
                     isSaveView(saveViewDTO);
                     if (viewOption.getValue().equals(ARMUtils.PRIVATE)) {
-                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + saveViewDTO.getViewName() + ")");
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
                     } else {
-                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + saveViewDTO.getViewName() + ")");
+                        AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
                     }
                 }
             }
@@ -173,9 +173,9 @@ public class SaveViewPopup extends Window {
                 close();
                 isSaveView(saveViewDTO);
                 if (viewOption.getValue().equals(ARMUtils.PRIVATE)) {
-                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated private view (" + saveViewDTO.getViewName() + ")");
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated private view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
                 } else {
-                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated public view (" + saveViewDTO.getViewName() + ")");
+                    AbstractNotificationUtils.getInfoNotification("View UPDATED Successfully", "You have successfully updated public view (" + saveViewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
                 }
 
             }

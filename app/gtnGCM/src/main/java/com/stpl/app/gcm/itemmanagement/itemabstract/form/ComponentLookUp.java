@@ -60,9 +60,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
     @UiField("componentName")
     public TextField componentName;
     @UiField("componentStatus")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType")
-    public ComboBox componentType_DTO;
+    public ComboBox componentTypeDto;
     @UiField("labelId")
     public Label lableId;
     @UiField("labelNo")
@@ -113,15 +113,15 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
 
     public final void configureFields() {
         componentId.focus();
-        String[] CFP_SEARCH_HEADERS = new String[]{
+        String[] cfpSearchHeaders = new String[]{
             component + " ID", component + " No", component + " Name", component + " Status", component + " Type"};
         addTableLayout();
         setFlag();
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(Constants.getInstance().CFP_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(CFP_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().cfpSearchColumnsArr);
+        resultsTable.setColumnHeaders(cfpSearchHeaders);
         resultsTable.addStyleName("filterbar");
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.setSelectable(true);
@@ -229,8 +229,8 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
                     componentId.setValue(StringUtils.EMPTY);
                     componentName.setValue(StringUtils.EMPTY);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentStatus_DTO.setValue(null);
-                    componentType_DTO.setValue(null);
+                    componentStatusDto.setValue(null);
+                    componentTypeDto.setValue(null);
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
                     LOGGER.error("",ex);
@@ -267,11 +267,11 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {
-        logic.LazyLoadDdlb(componentType_DTO, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentTypeDto, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getFalseFlag());
     }
 
   

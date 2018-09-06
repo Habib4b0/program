@@ -36,7 +36,7 @@ public class ItemContractSelectionDTO implements Cloneable {
     private Date companyEndDate;
     private Integer contractSid;
     private String cfp = StringUtils.EMPTY;
-    private HelperDTO marketType_DTO;
+    private HelperDTO marketTypeDto;
     private String ifp = StringUtils.EMPTY;
     private String priceSchedule = StringUtils.EMPTY;
     private String customerNo = StringUtils.EMPTY;
@@ -71,11 +71,11 @@ public class ItemContractSelectionDTO implements Cloneable {
     }
 
     public HelperDTO getMarketType_DTO() {
-        return marketType_DTO;
+        return marketTypeDto;
     }
 
-    public void setMarketType_DTO(HelperDTO marketType_DTO) {
-        this.marketType_DTO = marketType_DTO;
+    public void setMarketType_DTO(HelperDTO marketTypeDto) {
+        this.marketTypeDto = marketTypeDto;
     }
 
     public String getIfp() {

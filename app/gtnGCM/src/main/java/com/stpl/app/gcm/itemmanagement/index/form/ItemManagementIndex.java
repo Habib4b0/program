@@ -61,6 +61,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.MinimizeTray;
@@ -90,23 +91,23 @@ public class ItemManagementIndex extends CustomComponent {
     @UiField("therapeuticClass")
     private ComboBox therapeuticClass;
     @UiField("form")
-    private ComboBox form_DTO;
+    private ComboBox formDTO;
     @UiField("identifierType")
-    private ComboBox identifierType_DTO;
+    private ComboBox identifierTypeDTO;
     @UiField("itemNo")
     private TextField itemNo; 
     @UiField("itemDesc")
     private TextField itemDesc;
     @UiField("brand")
-    private ComboBox brand_DTO;
+    private ComboBox brandDTO;
     @UiField("strength")
-    private ComboBox strength_DTO;
+    private ComboBox strengthDTO;
     @UiField("identifier")
     private TextField identifier;
     @UiField("company")
-    private ComboBox company_DTO;
+    private ComboBox companyDTO;
     @UiField("placeHolder")
-    private ComboBox placeHolder_DTO;
+    private ComboBox placeHolderDTO;
     @UiField("ndc9")
     private TextField ndc9;
     @UiField("itemCategory")
@@ -176,30 +177,30 @@ public class ItemManagementIndex extends CustomComponent {
         therapeuticClass.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass.select(IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        form_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        identifierType_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        brand_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        strength_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        company_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        placeHolder_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
-        placeHolder_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
-        placeHolder_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
-        placeHolder_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
+        formDTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        formDTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
+        formDTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
+        formDTO.select(IndicatorConstants.SELECT_ONE.getConstant());
+        identifierTypeDTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        identifierTypeDTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
+        identifierTypeDTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
+        identifierTypeDTO.select(IndicatorConstants.SELECT_ONE.getConstant());
+        brandDTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        brandDTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
+        brandDTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
+        brandDTO.select(IndicatorConstants.SELECT_ONE.getConstant());
+        strengthDTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        strengthDTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
+        strengthDTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
+        strengthDTO.select(IndicatorConstants.SELECT_ONE.getConstant());
+        companyDTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        companyDTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
+        companyDTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
+        companyDTO.select(IndicatorConstants.SELECT_ONE.getConstant());
+        placeHolderDTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
+        placeHolderDTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
+        placeHolderDTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
+        placeHolderDTO.select(IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         itemCategory.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory.addItem(IndicatorConstants.SELECT_ONE.getConstant());
@@ -374,7 +375,7 @@ public class ItemManagementIndex extends CustomComponent {
         loadCategory();
         loadItemTherapeuticClass();
         loadCompany();
-        loadPlaceHolder(placeHolder_DTO, false);
+        loadPlaceHolder(placeHolderDTO, false);
         loadIdentifierType();
     }
 
@@ -437,7 +438,7 @@ public class ItemManagementIndex extends CustomComponent {
             selection.setFilters(tableLogic.getFilters());
             recordCount = logic.getSearchCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
@@ -599,7 +600,7 @@ public class ItemManagementIndex extends CustomComponent {
 
     @UiHandler("identifierType")
     public void identifierTypeDdlbChange(Property.ValueChangeEvent event) {
-        if (identifierType_DTO.getValue() != null) {
+        if (identifierTypeDTO.getValue() != null) {
             identifier.setValue(StringUtils.EMPTY);
             identifier.setEnabled(true);
         } else {
@@ -609,15 +610,15 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadForm() {
-        abstractLogic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(formDTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        abstractLogic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(brandDTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        abstractLogic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(strengthDTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -634,10 +635,10 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadCompany() {
-        abstractLogic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(companyDTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
-    private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
+    private void loadPlaceHolder(ComboBox placeHolderDto, boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> placeHolderList = new ArrayList<>();
         HelperDTO dto = new HelperDTO(NumericConstants.ELEVEN, Constants.SELECT_ONE);
@@ -651,17 +652,17 @@ public class ItemManagementIndex extends CustomComponent {
         }
         placeHolderList.add(yesDto);
         placeHolderList.add(noDto);
-        placeHolder_DTO.setContainerDataSource(container);
+        placeHolderDto.setContainerDataSource(container);
         if (!isFilter) {
-            placeHolder_DTO.setNullSelectionItemId(dto);
+            placeHolderDto.setNullSelectionItemId(dto);
         } else {
-            placeHolder_DTO.setNullSelectionItemId(showAll);
+            placeHolderDto.setNullSelectionItemId(showAll);
         }
-        placeHolder_DTO.setNullSelectionAllowed(true);
-        placeHolder_DTO.setImmediate(true);
-        placeHolder_DTO.setItemCaptionPropertyId("description");
+        placeHolderDto.setNullSelectionAllowed(true);
+        placeHolderDto.setImmediate(true);
+        placeHolderDto.setItemCaptionPropertyId("description");
         container.addAll(placeHolderList);
-        placeHolder_DTO.select(dto);
+        placeHolderDto.select(dto);
     }
 
     private ErrorfulFieldGroup getBinder() {
@@ -703,7 +704,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        abstractLogic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(identifierTypeDTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     private boolean checkOneContract() {

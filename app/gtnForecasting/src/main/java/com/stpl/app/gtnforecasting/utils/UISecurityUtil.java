@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Class contains the constants and method related to security.
  *
@@ -31,12 +31,11 @@ public final class UISecurityUtil {
     /**
      * private constructor to make the class as utility class.
      */
-    public UISecurityUtil() {
+    private UISecurityUtil() {
 //Empty
     }
 
     public static TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
-        TableResultCustom tableResultCustom = new TableResultCustom();
             List<Object> strList = Arrays.asList(obj);
             List<String> columnList = new ArrayList<>();
             List<Object> columnList1 = new ArrayList<>();
@@ -58,7 +57,7 @@ public final class UISecurityUtil {
             }
             String[] headerArray = new String[headerList2.size()];
             headerArray = headerList2.toArray(headerArray);
-            tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
+            TableResultCustom tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
 
 
         return tableResultCustom;

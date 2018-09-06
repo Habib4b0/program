@@ -60,8 +60,8 @@ public class DataSelectionSummaryUI extends CommonUI {
         sessionDTO.setSessionId(Integer.valueOf(sessionId));
         CommonUtils.beforeUnloadCloseUi(this);
         CommonUtils.getUserName();
-        dataSelectionSummaryUILogger.info("USER_ID :" + userId);
-        dataSelectionSummaryUILogger.info("SESSION_ID :" + sessionId);
+        dataSelectionSummaryUILogger.info("USER_ID :{}", userId);
+        dataSelectionSummaryUILogger.info("SESSION_ID :{}", sessionId);
         navigator = new Navigator(this, this);
         navigator.addView(DataSelectionView.NAME, new DataSelectionView(sessionDTO, ARMConstants.getAdjustmentSummary()));
         ExecutorService service = Executors.newSingleThreadExecutor();

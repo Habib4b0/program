@@ -137,7 +137,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private boolean dismantleCustSelection = true;
 	private boolean dismantleProdSelection = true;
 	private final CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
-	private final CompanyDdlbDto discountDTO = null;
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final DataSelectionSearchLogic tableLogic = new DataSelectionSearchLogic();
 	protected ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
@@ -190,7 +189,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 * @throws java.lang.Exception
 	 */
 	public DataSelectionForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, String screenName)
-			throws SystemException, PortalException {
+			throws  PortalException {
 		super(dataSelectionBinder, screenName, true);
 		LOGGER.debug("DataSelectionIndex Initializing... ");
 		this.dataSelectionDTO = dataSelectionDTO;
@@ -1730,7 +1729,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 						if (hierarchyNo.length() > 0 && hierarchyNo.charAt(hierarchyNo.length() - 1) == '.') {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
-						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(levelBean).getHierarchyNo();
 						List<String> hierarchyNos = new ArrayList<>();
 						List<Leveldto> newParentLevels = null;
 						List<Leveldto> newChildLevels = null;
@@ -3330,7 +3328,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					tempSession.setDeductionValue(dto.getDeductionValue());
 					tempSession.setIsFileNotChanged(DSLogic.getFileStatus(projectionIdValue));
 					if (!tempSession.isFileNotChanged()) {
-						try {
 							MessageBox.showPlain(Icon.QUESTION, "Alert",
 									"A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
 									new MessageBoxListener() {
@@ -3349,13 +3346,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 											}
 										}
 									}, ButtonId.YES, ButtonId.NO);
-
-						} catch (
-
-						Exception e) {
-
-							LOGGER.error(e.getMessage());
-						}
 					} else {
 						tempSession.setIsNewFileCalculationNeeded(false);
 						callARPView(dto, tempSession);

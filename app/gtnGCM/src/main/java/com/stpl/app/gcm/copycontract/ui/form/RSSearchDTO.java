@@ -21,22 +21,21 @@ class RSSearchDTO implements BeanDAO {
  public static final Logger LOGGER = LoggerFactory.getLogger(RSSearchDTO.class);
    
     private final CopyContractLogic logic = new CopyContractLogic();
-    private RsIfpDto RsIfpDto = new RsIfpDto();
+    private RsIfpDto rsIfpDto = new RsIfpDto();
 
-    RSSearchDTO(RsIfpDto RsIfpDto) {
-        this.RsIfpDto = RsIfpDto;
+    RSSearchDTO(RsIfpDto rsIfpDto) {
+        this.rsIfpDto = rsIfpDto;
     }
 
  @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
-        count = logic.getRSSearchCount(RsIfpDto, bsc);
+        count = logic.getRSSearchCount(rsIfpDto, bsc);
         return count;
     }
 
  @Override
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
-        List<RsIfpDto> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<>();
     }
 }

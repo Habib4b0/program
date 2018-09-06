@@ -12,6 +12,7 @@ import com.stpl.app.util.xmlparser.SQLUtil;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public class GlobalImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
     public static final String AND_SPM_MODULE_NAME_IN = " AND spm.MODULE_NAME in ('";
@@ -86,7 +87,7 @@ public class GlobalImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -118,7 +119,7 @@ public class GlobalImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
-            return null;
+            return Collections.emptyList();
         }
     }
     
@@ -131,7 +132,7 @@ public class GlobalImpl {
         } catch(Exception ex){
            LOGGER.error(ex.getMessage());
            LOGGER.error(query);
-           return null;           
+           return Collections.emptyList();           
         } 
         
     }

@@ -211,7 +211,7 @@ public class InventoryCustomerGroupLookup extends Window {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in btnSearchLogic :" , ex);
+            LOGGER.error("Error in btnSearchLogic :", ex);
         }
     }
 
@@ -263,7 +263,7 @@ public class InventoryCustomerGroupLookup extends Window {
             }.getConfirmationMessage(ARMMessages.getInventoryCustomerGroupADDALLErrorMsg1(), ARMMessages.getInventoryCustomerGroupADDALLErrorMsg2());
 
         } catch (Exception ex) {
-            LOGGER.error("Error in btnAddLineLogic :" , ex);
+            LOGGER.error("Error in btnAddLineLogic :", ex);
         }
     }
 
@@ -428,7 +428,7 @@ public class InventoryCustomerGroupLookup extends Window {
             }.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
 
         } catch (Exception ex) {
-            LOGGER.error("Error in deleteButtonClick :" , ex);
+            LOGGER.error("Error in deleteButtonClick :", ex);
         }
     }
 
@@ -543,7 +543,7 @@ public class InventoryCustomerGroupLookup extends Window {
             indicator.setItemCaption(false, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
-            LOGGER.error("Error while loading Drop down :" + indicator + " with :", e);
+            LOGGER.error("Error while loading Drop down with :", e);
         }
         return indicator;
     }
@@ -593,7 +593,7 @@ public class InventoryCustomerGroupLookup extends Window {
                 });
 
             } catch (Exception ex) {
-                LOGGER.error("Error in viewListener :" , ex);
+                LOGGER.error("Error in viewListener :", ex);
             }
         }
     };

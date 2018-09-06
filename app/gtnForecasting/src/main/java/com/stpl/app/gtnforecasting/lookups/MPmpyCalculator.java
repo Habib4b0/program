@@ -700,7 +700,7 @@ public class MPmpyCalculator extends Window {
 
     }
 
-    public void loadCustomerDDLB() throws PortalException, SystemException  {
+    public void loadCustomerDDLB() throws PortalException  {
         customerDDLB.setImmediate(true);
         customerDDLB.addItem(Constant.SELECT_ONE);
         customerDDLB.setNullSelectionAllowed(true);
@@ -713,7 +713,7 @@ public class MPmpyCalculator extends Window {
         }
     }
 
-    public void loadContractDDLB(int customerSid) throws PortalException, SystemException {
+    public void loadContractDDLB(int customerSid) throws PortalException {
         contractDDLB.removeAllItems();
         contractDDLB.addItem(Constant.SELECT_ONE);
         contractDDLB.setNullSelectionAllowed(true);
@@ -726,7 +726,7 @@ public class MPmpyCalculator extends Window {
         }
     }
 
-    public List<MPmpyDTO> loadProductsTable(int customerSid, int contractSid) throws PortalException, SystemException  {
+    public List<MPmpyDTO> loadProductsTable(int customerSid, int contractSid) throws PortalException  {
         List list = pmpyLogic.loadProduct( customerSid, contractSid);
         return list;
     }
@@ -741,7 +741,7 @@ public class MPmpyCalculator extends Window {
         selectedProductsBean.addBean(getBeanFromId(itemId));        
     }
 
-    public void moveAllProducts() throws PortalException, SystemException {
+    public void moveAllProducts() throws PortalException {
         
         int customerSid = Integer.parseInt(String.valueOf(customerDDLB.getValue()));
         int contractSid = Integer.parseInt(String.valueOf(contractDDLB.getValue()));
@@ -870,17 +870,6 @@ public class MPmpyCalculator extends Window {
         
     }
     
-    
-    public int getHistoryRange(String frequency) {
-        
-        if (FrequencyConstants.SEMI_ANNUALLY.getConstant().equals(frequency)) {
-            frequency = FrequencyConstants.SEMI_ANNUALLY.getConstant();
-        } else if (FrequencyConstants.ANNUALLY.getConstant().equals(frequency)) {
-            frequency = FrequencyConstants.ANNUALLY.getConstant();
-        }
-        return CommonUtils.getProjections(sessionDTO.getFromDate(), new Date(), frequency);
-        
-    }
 
     public String calculateValuePerLife(int lives) {
         int valuePerLife = 0;

@@ -17,11 +17,9 @@ import static com.stpl.app.utils.Constants.CalendarConstants.CURRENT_YEAR;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.CommonConstantsForChannels.HORIZONTAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
-import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
-import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACCESS;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
 import static com.stpl.app.utils.Constants.LabelConstants.AMOUNT;
@@ -70,6 +68,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -510,8 +509,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
-        frequencyDdlb.addItem(SELECT_ONE.getConstant());
-        frequencyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         frequencyDdlb.addItem(MONTHLY.getConstant());
         frequencyDdlb.addItem(QUARTERLY.getConstant());
         frequencyDdlb.addItem(SEMI_ANNUAL.getConstant());
@@ -520,7 +517,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         frequencyDdlb.focus();
 
         loadFrequency(String.valueOf(frequencyDdlb.getValue()));
-        historyDdlb.setNullSelectionAllowed(false);
         frequencyDdlb.setData("frequencyDdlb");
 
         periodOrder.addItem(ASCENDING.getConstant());
@@ -905,7 +901,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         LOGGER.info("session.getDsFrequency() {} frequencyDdlb.getValue()------ {} " , session.getDsFrequency() , frequencyDdlb.getValue());
         LOGGER.info("session.getDeductionLevel()-{} deductionlevelDdlb.getValue()----- {} " , session.getDataSelectionDeductionLevel() ,deductionlevelDdlb.getValue());
         if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
-            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+            session.setFunctionMode(session.getAction().toLowerCase(Locale.ENGLISH).equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
             session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
             session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
             logic.nmDiscountViewsPopulationProcedure(session);

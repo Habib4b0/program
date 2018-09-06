@@ -64,12 +64,12 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
          * Will execute,when we click an uploader.
          */
         @Override
-        public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
-            ((Field) event.getComponent()).addValueChangeListener(valueChange);
-            if (event.getComponent() instanceof ComboBox) {
-                ((ComboBox) event.getComponent()).removeFocusListener(this);
-            } else if (event.getComponent() instanceof TextField) {
-                ((TextField) event.getComponent()).removeFocusListener(this);
+        public void focus(com.vaadin.event.FieldEvents.FocusEvent focusEvent) {
+            ((Field) focusEvent.getComponent()).addValueChangeListener(focusValueChange);
+            if (focusEvent.getComponent() instanceof ComboBox) {
+                ((ComboBox) focusEvent.getComponent()).removeFocusListener(this);
+            } else if (focusEvent.getComponent() instanceof TextField) {
+                ((TextField) focusEvent.getComponent()).removeFocusListener(this);
             }
         }
     };
@@ -78,25 +78,25 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
      * This is the Value change listener used to attache the value change
      * listener.
      */
-    private Property.ValueChangeListener valueChange = new Property.ValueChangeListener() {
+    private Property.ValueChangeListener focusValueChange = new Property.ValueChangeListener() {
         @Override
-        public void valueChange(Property.ValueChangeEvent event) {
-            if (event.getProperty() instanceof ComboBox) {
+        public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+            if (valueChangeEvent.getProperty() instanceof ComboBox) {
                 try {
-                    ComboBox combo = (ComboBox) event.getProperty();
-                    Map dataMap = (Map) combo.getData();
+                    ComboBox comboBox = (ComboBox) valueChangeEvent.getProperty();
+                    Map dataMap = (Map) comboBox.getData();
                     final String propertyId = dataMap.get(ARMUtils.PROPERTY_ID).toString();
                     final AdjustmentReserveDTO itemIdDto = (AdjustmentReserveDTO) dataMap.get(ARMUtils.ITEM_ID);
-                    logic.updateTableValues(itemIdDto, combo.getValue(), ARMUtils.getAdjustmentSummaryVisibleToDBColumnMap().get(propertyId), selection.getAdjustmentSummaryTempTableName());
+                    logic.updateTableValues(itemIdDto, comboBox.getValue(), ARMUtils.getAdjustmentSummaryVisibleToDBColumnMap().get(propertyId), selection.getAdjustmentSummaryTempTableName());
 
                     if (ARMUtils.getAdjustmentSummaryAccountMap().containsKey(propertyId)) {
-                        int adjustmentType = combo.getValue() != null ? (Integer) combo.getValue() : 0;
+                        int adjustmentType = comboBox.getValue() != null ? (Integer) comboBox.getValue() : 0;
                         final CustomMenuBar custom = (CustomMenuBar) itemIdDto.getFieldFactoryComponent(ARMUtils.getAdjustmentSummaryAccountMap().get(propertyId));
                         CommonUtils.loadCustomMenubarAccount(custom, custom.getItems().get(0), adjustmentType, selection);
                         if (selection.isIsViewMode()) {
-                            custom.setEnabled(true);
-                        } else {
                             custom.setEnabled(false);
+                        } else {
+                            custom.setEnabled(true);
                         }
                     }
                 } catch (Exception ex) {
@@ -117,7 +117,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
                 if (customMenuItem1.isChecked()) {
-                    value.append(customMenuItem1.getMenuItem().getCaption()).append(",");
+                    value.append(customMenuItem1.getMenuItem().getCaption()).append(ARMUtils.COMMA_CHAR);
                 }
             }
             String values;
@@ -133,14 +133,14 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
 
     @Override
     public Field<?> createField(Container container, final Object itemId, final Object propertyId, Component uiContext) {
-        final AdjustmentReserveDTO fieldFactoryValuesDTO = (AdjustmentReserveDTO) itemId;
-        Map<String, Object> map = new HashMap<>();
-        map.put(ARMUtils.PROPERTY_ID, propertyId);
-        map.put(ARMUtils.ITEM_ID, itemId);
-        map.put(ARMUtils.CONTAINER, container);
+        final AdjustmentReserveDTO fieldValuesDTO = (AdjustmentReserveDTO) itemId;
+        Map<String, Object> summaryMap = new HashMap<>();
+        summaryMap.put(ARMUtils.PROPERTY_ID, propertyId);
+        summaryMap.put(ARMUtils.ITEM_ID, itemId);
+        summaryMap.put(ARMUtils.CONTAINER, container);
         if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant())) {
             final ExtCustomCheckBox check = new ExtCustomCheckBox();
-            fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), check);
+            fieldValuesDTO.addFieldFactoryMap(propertyId.toString(), check);
             if (selection.isIsViewMode()) {
                 check.setEnabled(false);
             } else {
@@ -151,7 +151,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
                         if (!check.getValue()) {
                             resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, check.getValue());
                         }
-                        logic.updateTableValues(fieldFactoryValuesDTO, value, "CHECK_RECORD", selection.getAdjustmentSummaryTempTableName());
+                        logic.updateTableValues(fieldValuesDTO, value, "CHECK_RECORD", selection.getAdjustmentSummaryTempTableName());
                         List list = logic.isAllCheckBoxesAreChecked(selection);
                         resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
 
@@ -163,7 +163,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
         }
         if (ArrayUtils.contains(ARMUtils.getArmAdjSummaryConfComboHeaders(), propertyId.toString())) {
             ComboBox combo = new ComboBox();
-            loadTransactionNameForCurrentSession(combo, propertyId, map, fieldFactoryValuesDTO);
+            loadTransactionNameForCurrentSession(combo, propertyId, summaryMap, fieldValuesDTO);
             return combo;
         }
         return null;

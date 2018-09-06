@@ -40,7 +40,7 @@ public class AccountConfigSearchTableLogic extends PageTableLogic {
                 binderDto.setFilters(getFilters());
                 return logic.getAccountConfigCount(binderDto);
             } catch (Exception ex) {
-                LOGGER.error("Error in getCount :" , ex);
+                LOGGER.error("Error in getCount :", ex);
                 return 0;
             }
         }
@@ -56,7 +56,7 @@ public class AccountConfigSearchTableLogic extends PageTableLogic {
             binderDto.setSortByColumns(getSortByColumns());
             return logic.getAccountConfigData(binderDto);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadData :" , ex);
+            LOGGER.error("Error in loadData :", ex);
             return new ArrayList<>();
         }
     }

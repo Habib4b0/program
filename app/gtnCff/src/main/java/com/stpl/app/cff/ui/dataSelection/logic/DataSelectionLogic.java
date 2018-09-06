@@ -152,10 +152,7 @@ public class DataSelectionLogic {
 			}
 			hdto.setVersionNo(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN].toString())));
 
-			if (obj[NumericConstants.TWO] != null) {
-			}
-			if (obj[NumericConstants.THREE] != null) {
-			}
+			
 			resultList.add(hdto);// Sanityrelat0090
 
 		}
@@ -352,8 +349,7 @@ public class DataSelectionLogic {
 
 		final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID, sids));
-		final List<CompanyMaster> companies = dataSelectionDaoImpl.getCompanyMasterList(dynamicQuery);
-		return companies;
+		return dataSelectionDaoImpl.getCompanyMasterList(dynamicQuery);
 	}
 
 	/**
@@ -818,7 +814,7 @@ public class DataSelectionLogic {
 	 * @return the list
 	 */
 	public List loadSavedCustomerHierarchy() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -1183,7 +1179,7 @@ public class DataSelectionLogic {
 	}
 
 	public int getRelationshipSidCount(String filterText, final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		final int count = dataSelectionDaoImpl
 				.getRelationshipCount(getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid));
 		return count + 1;
@@ -1191,7 +1187,7 @@ public class DataSelectionLogic {
 
 	public List<RelationshipDdlbDto> getRelationshipSidLazy(int startIndex, int endIndex,
 			final RelationshipDdlbDto defaultRelationshipDdlbDto, String filterText, final int hierarchyDefinitionSid,
-			RelationshipDdlbDto selectedRelationshipDdlbDto) throws SystemException, PortalException {
+			RelationshipDdlbDto selectedRelationshipDdlbDto) throws PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		final DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(filterText, hierarchyDefinitionSid);
 		dynamicQuery.setLimit(startIndex, endIndex);
@@ -1237,7 +1233,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<RelationshipDdlbDto> getRelationshipSids(final RelationshipDdlbDto defaultRelationshipDdlbDto,
-			final int hierarchyDefinitionSid) throws SystemException, PortalException {
+			final int hierarchyDefinitionSid) throws PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		final DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 		dynamicQuery
@@ -1426,7 +1422,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<RelationshipDdlbDto> getRelationshipSid(final int hierarchyDefinitionSid)
-			throws SystemException, PortalException {
+			throws PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		final DynamicQuery dynamicQuery = getRelationshipSidDynamicQuery(hierarchyDefinitionSid);
 		final List<Object[]> resultList = dataSelectionDaoImpl.getRelationship(dynamicQuery);
@@ -1541,8 +1537,7 @@ public class DataSelectionLogic {
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			str = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
 					+ definedValue + " and LEVEL_NAME='Market Type'";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
-			return list;
+			return (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 		} catch (final Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
@@ -1866,8 +1861,7 @@ public class DataSelectionLogic {
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			str = "select FIELD_NAME from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID=" + definedValue
 					+ " and  LEVEL_NAME in('Customer','Trading Partner')";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
-			return list;
+			return (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 		} catch (final Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();

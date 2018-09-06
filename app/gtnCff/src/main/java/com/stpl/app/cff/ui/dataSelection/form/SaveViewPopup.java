@@ -164,9 +164,10 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      *
      * Saves or updates the current view.
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     @Override
-    protected void btnAddLogic() {
+    protected void btnAddLogic() throws PortalException {
         LOGGER.debug("Entering btnAddLogic method");
         try {
             if (StringUtils.isBlank(viewName.getValue()) || Constants.NULL.equals(String.valueOf(viewName.getValue()))) {
@@ -217,7 +218,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @throws Exception the exception
      */
     public void saveView(final List<Leveldto> selectedCustomersList, final List<Leveldto> selectedProductsList,
-            final String actionFlag, int projectionIdValue) {
+            final String actionFlag, int projectionIdValue) throws PortalException {
         try {
 
             LOGGER.debug("Entering saveView method");
@@ -260,14 +261,14 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     }
                 }
             }
-        } catch (PortalException | SystemException | Property.ReadOnlyException | FieldGroup.CommitException ex) {
+        } catch (SystemException | Property.ReadOnlyException | FieldGroup.CommitException ex) {
             LOGGER.error(" in saveView= {} ", ex);
         }
         LOGGER.debug("End of saveView");
     }
 
     @Override
-    protected void btnUpdateLogic() {
+    protected void btnUpdateLogic() throws PortalException {
         int nonCreatorAlert = 0;
         if (!dataselectionDtoToSave.getViewType().equals("") && dataselectionDtoToSave.getViewType().equals("public") && !sessionDTO.getUserId().equals(viewDTO.getCreatedUserid())) {
                     nonCreatorAlert++;

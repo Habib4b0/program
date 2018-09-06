@@ -157,14 +157,14 @@ public class NmPpaProjectionMasterImpl {
               {
                    sql.append("PA.NM_PPA_PROJECTION_SID);");
               }
-            int a = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
+            HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
     }
     
-    public List getPPAResults(Integer projectionId, int levelNo, String parent, boolean last, int startIndex, int endIndex, boolean isCount, List<String> input, String levelName) {
+    public List getPPAResults(Integer projectionId, int levelNo, String parent, int startIndex, int endIndex, boolean isCount, List<String> input, String levelName) {
        
         StringBuilder sql = new StringBuilder();
         Integer startFrequency = null;

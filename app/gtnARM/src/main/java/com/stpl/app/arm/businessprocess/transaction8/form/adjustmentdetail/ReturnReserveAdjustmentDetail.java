@@ -61,13 +61,8 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in generateBtn :" , ex);
+            LOGGER.error("Error in generateBtn :", ex);
         }
-    }
-
-    @Override
-    protected void resetBtn() {
-        super.resetBtn();
     }
 
     @Override
@@ -116,7 +111,7 @@ public class ReturnReserveAdjustmentDetail extends AbstractAdjustmentDetails {
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        LOGGER.debug("inside configurePermission Method" + userId + stplSecurity);
+        LOGGER.debug("inside configurePermission Method{}", userId + stplSecurity);
 
     }
 

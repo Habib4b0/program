@@ -37,7 +37,7 @@ public class RelationshipOutboundDTO implements Serializable {
     private int hierarchyVersionNo;
     private String resultCreatedBy;
     private String rbSystemId = StringUtils.EMPTY;
-    private int SystemID;
+    private int systemID;
     private boolean check;
 
     public RelationshipOutboundDTO(){
@@ -45,11 +45,11 @@ public class RelationshipOutboundDTO implements Serializable {
     }
     
     public int getSystemID() {
-        return SystemID;
+        return systemID;
     }
 
     public void setSystemID(int systemID) {
-        this.SystemID = systemID;
+        this.systemID = systemID;
     }
     private Date createdDate;
     private Date modifiedDate;

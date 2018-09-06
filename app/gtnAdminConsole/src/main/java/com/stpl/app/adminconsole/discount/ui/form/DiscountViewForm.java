@@ -24,7 +24,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class DiscountViewForm.
  */

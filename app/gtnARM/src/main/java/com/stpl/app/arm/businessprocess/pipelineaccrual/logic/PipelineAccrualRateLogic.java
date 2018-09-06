@@ -71,23 +71,23 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
                 dto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
                 switch (dto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        dto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
-                        dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
 
                     case VariableConstants.CONTRACT_UPPERCASE:
-                        dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
@@ -187,8 +187,8 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
      */
     @Override
     protected List getQueryInput(AdjustmentDTO parentDTO, AbstractSelectionDTO selection, List input, String queryName) {
-        LOGGER.debug("parentDTO.getLevelName()=====" + parentDTO.getLevelName());
-        LOGGER.debug("selection.getRate_Basis()" + selection.getRateBasisValue());
+        LOGGER.debug("parentDTO.getLevelName()====={}", parentDTO.getLevelName());
+        LOGGER.debug("selection.getRate_Basis(){}", selection.getRateBasisValue());
         switch (parentDTO.getLevelName()) {
             case VariableConstants.DEDUCTION_UPPERCASE:
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) ? VariableConstants.CUSTOMER_UPPERCASE
@@ -250,8 +250,8 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
     private String getDeductionList(String deductionValue) {
         List<String> listSize = new ArrayList<>(Arrays.asList(deductionValue));
         String value = listSize.get(0);
-        if (!listSize.isEmpty() && !listSize.get(0).contains("'")) {
-            value = "'" + value.replace(",", "','") + "'";
+        if (!listSize.isEmpty() && !listSize.get(0).contains(String.valueOf(ARMUtils.SINGLE_QUOTES))) {
+            value = ARMUtils.SINGLE_QUOTES + value.replace(",", "','") + ARMUtils.SINGLE_QUOTES;
         }
         return value;
     }
@@ -279,9 +279,9 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
         } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", selection.getRateDeductionValue().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));

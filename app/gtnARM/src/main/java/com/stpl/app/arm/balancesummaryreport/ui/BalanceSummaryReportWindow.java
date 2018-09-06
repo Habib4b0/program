@@ -179,7 +179,7 @@ public class BalanceSummaryReportWindow extends Window {
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":
@@ -251,7 +251,7 @@ public class BalanceSummaryReportWindow extends Window {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent()
                 .getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.BALANCE_SUMMARY_REPORT + "," + ConstantsUtils.SUMMARY);
+        final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.BALANCE_SUMMARY_REPORT + ARMUtils.COMMA_CHAR + ConstantsUtils.SUMMARY);
         if (functionCfpHM.get("previousBtn") != null && !(functionCfpHM.get("previousBtn")).isFunctionFlag()) {
             previousBtn.setVisible(false);
 

@@ -153,6 +153,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
         resultBeanContainer.setColumnProperties(properties);
+        resultBeanContainer.setIndexable(true);
         rightTable.setContainerDataSource(tableLogic.getContainerDataSource());
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(NumericConstants.TWO)).toArray(),
@@ -227,7 +228,7 @@ public abstract class AbstractPipelineSummaryResults extends AbstractSummarySear
     protected void customerProductValueChange() {
         LOGGER.debug("customerProductView value change listener starts");
         String viewType = String.valueOf(customerProductView.getValue());
-        LOGGER.debug("selectedView----" + viewType);
+        LOGGER.debug("selectedView----{}", viewType);
         leftTable.setColumnHeaders(ARMConstants.getDeductionProduct().equalsIgnoreCase(viewType) ? ARMUtils.PRODUCT
                 : ARMUtils.CUSTOMER_SMALL);
         getSelection().setSummaryviewType(viewType);

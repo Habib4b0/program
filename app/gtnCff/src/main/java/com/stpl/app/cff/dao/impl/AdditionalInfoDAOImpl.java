@@ -88,7 +88,7 @@ public class AdditionalInfoDAOImpl implements AdditionalInfoDAO{
      * @throws Exception the exception
      */
     @Override
-    public void deleteCffDocDetails(final int docDetailsId) throws SystemException, PortalException {
+    public void deleteCffDocDetails(final int docDetailsId) throws PortalException {
         CffDocDetailsLocalServiceUtil.deleteCffDocDetails(docDetailsId);
     }
     }

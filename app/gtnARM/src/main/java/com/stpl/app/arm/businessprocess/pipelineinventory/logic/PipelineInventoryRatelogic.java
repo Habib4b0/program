@@ -84,16 +84,16 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                 dto.setLevelName(String.valueOf(obj[NumericConstants.FOUR]));
                 switch (dto.getLevelName()) {
                     case VariableConstants.DEDUCTION_UPPERCASE:
-                        dto.setDeductionSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setDeductionSID((Integer) (obj[NumericConstants.THREE]));
                         break;
 
                     case VariableConstants.CUSTOMER_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
                             dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setCustomerSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            dto.setCustomerSID((Integer) (obj[NumericConstants.THREE]));
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
 
@@ -101,17 +101,17 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
 
                     case VariableConstants.CONTRACT_UPPERCASE:
                         if (ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView())) {
-                            dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         } else {
-                            dto.setContractSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                            dto.setContractSID((Integer) (obj[NumericConstants.THREE]));
                             dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                             dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
                         }
                         break;
 
                     case VariableConstants.BRAND_UPPERCASE:
-                        dto.setBrandSID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                        dto.setBrandSID((Integer) (obj[NumericConstants.THREE]));
                         dto.setContractSID(lastParent != null && lastParent.getContractSID() != null ? lastParent.getContractSID() : 0);
                         dto.setCustomerSID(lastParent != null && lastParent.getCustomerSID() != null ? lastParent.getCustomerSID() : 0);
                         dto.setDeductionSID(lastParent != null && lastParent.getDeductionSID() != null ? lastParent.getDeductionSID() : 0);
@@ -125,7 +125,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
                         break;
                     default:
                 }
-                LOGGER.debug("----dto.getLevelName()----" + dto.getLevelName());
+                LOGGER.debug("----dto.getLevelName()----{}", dto.getLevelName());
                 dto.setChildrenAllowed(!VariableConstants.PRODUCT_UPPER.equalsIgnoreCase(dto.getLevelName()) && !"TOTAL".equalsIgnoreCase(dto.getGroup()) && (selection.getRateslevelFilterNo() == 0));
                 dto.setLevelNo(selection.getLevelNo());
             }
@@ -150,8 +150,6 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     protected Object getRateQuery(Criteria criteria, boolean isCount, int start, int offset) {
         AbstractSelectionDTO selection = (AbstractSelectionDTO) criteria.getSelectionDto();
         Object lastParent = criteria.getParent();
-        LOGGER.debug("------start----" + start + "------offset----" + offset);
-
         List input = new ArrayList<>(Arrays.asList(selection.getDataSelectionDTO().getProjectionId()));
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (!isView) {
@@ -162,7 +160,7 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
         String queryNameProduct = isView ? "customerproductview" : "customerproductedit";
         String queryName = ARMConstants.getDeductionCustomerContract().equals(selection.getRateDeductionView()) || ARMConstants.getDeductionContractCustomer().equals(selection.getRateDeductionView()) ? queryNameCustomer
                 : queryNameProduct;
-        LOGGER.debug("queryName => " + queryName);
+        LOGGER.debug("queryName => {}", queryName);
         if (isCount) {
             List count = null;
             if (lastParent != null && (lastParent instanceof AdjustmentDTO)) {
@@ -325,9 +323,9 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
 
-        LOGGER.debug("selection.getRate_DeductionValue()========" + selection.getRateDeductionValue());
+        LOGGER.debug("selection.getRate_DeductionValue()========{}", selection.getRateDeductionValue());
         String query;
-        String deductionValue = selection.getRateDeductionValue().startsWith("'") ? selection.getRateDeductionValue() : "'" + selection.getRateDeductionValue() + "'";
+        String deductionValue = selection.getRateDeductionValue().startsWith(String.valueOf(ARMUtils.SINGLE_QUOTES)) ? selection.getRateDeductionValue() : ARMUtils.SINGLE_QUOTES + selection.getRateDeductionValue() + ARMUtils.SINGLE_QUOTES;
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getExcelRatePipelineInventoryView");
@@ -348,9 +346,9 @@ public class PipelineInventoryRatelogic<T extends AdjustmentDTO, E extends Abstr
         } else if (selection.getRateDeductionView().equals(ARMConstants.getDeductionProduct())) {
             value = new Object[]{"B", "I"};
         }
-        query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
+        query = query.replace("@LEVEL_VAL", ARMUtils.SINGLE_QUOTES + StringUtils.join(value, ",") + ARMUtils.SINGLE_QUOTES);
         query = query.replace("@DEDCONDITION", selection.getRateDeductionLevelName());
-        query = query.replace("@CONDITIONVALUE", deductionValue.replace("'", "''"));
+        query = query.replace("@CONDITIONVALUE", deductionValue.replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));

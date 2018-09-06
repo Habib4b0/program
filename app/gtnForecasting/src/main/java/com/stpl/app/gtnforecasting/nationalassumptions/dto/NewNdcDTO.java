@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NewNdcDTO.
  */
@@ -34,12 +34,12 @@ public class NewNdcDTO implements Serializable {
 
         // New Ndc Setup
         private List<String> listNDC9 = new ArrayList<>();
-        private List<Integer> DeletedItems = new ArrayList();
+        private List<Integer> deletedItems = new ArrayList();
         private Map<String, String> wacHashMap = new HashMap<>();
         private Map<String, String> cpiHashMap = new HashMap<>();
 
         private Map<Integer, String> ndc9Map = new HashMap<>();
-        private Map<Integer, String> ItemMasterSidMap = new HashMap<>();
+        private Map<Integer, String> itemMasterSidMap = new HashMap<>();
         private Map<String, String> itemNoMap = new HashMap<>();
         private Map<String, String> ampHashMap = new HashMap<>();
         private List<String> listItemNo = new ArrayList<>();
@@ -161,11 +161,11 @@ public class NewNdcDTO implements Serializable {
     }
 
     public Map<Integer, String> getItemMasterSidMap() {
-        return ItemMasterSidMap;
+        return itemMasterSidMap;
     }
 
-    public void setItemMasterSidMap(Map<Integer, String> ItemMasterSidMap) {
-        this.ItemMasterSidMap = ItemMasterSidMap;
+    public void setItemMasterSidMap(Map<Integer, String> itemMasterSidMap) {
+        this.itemMasterSidMap = itemMasterSidMap;
     }
 
     public Map<String, String> getItemNoMap() {
@@ -257,11 +257,11 @@ public class NewNdcDTO implements Serializable {
     }
 
     public List<Integer> getDeletedItems() {
-        return DeletedItems == null ? DeletedItems : new ArrayList<>(DeletedItems) ;
+        return deletedItems == null ? deletedItems : new ArrayList<>(deletedItems) ;
     }
 
-    public void setDeletedItems(List<Integer> DeletedItems) {
-        this.DeletedItems = DeletedItems == null ? DeletedItems : new ArrayList<>(DeletedItems);
+    public void setDeletedItems(List<Integer> deletedItems) {
+        this.deletedItems = deletedItems == null ? deletedItems : new ArrayList<>(deletedItems);
     }
 
     }

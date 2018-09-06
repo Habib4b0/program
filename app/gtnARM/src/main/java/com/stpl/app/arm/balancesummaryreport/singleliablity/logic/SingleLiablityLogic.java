@@ -82,19 +82,19 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO singleLiablitySelection) {
         BalanceSummaryReportUI.setExcelClose(true);
         String query = SQlUtil.getQuery(getExcelQueryName());
-        Object[] value = selection.getExcelHierarchy();
+        Object[] value = singleLiablitySelection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
-        query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
-        query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
-        query = query.replace("@STARTPERIOD", selection.getFromDate());
-        query = query.replace("@ENDPERIOD", selection.getToDate());
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+        query = query.replace("@DEDUCTIONLEVEL", singleLiablitySelection.getSummarydeductionLevelDes());
+        query = query.replace("@DEDUCTIONVALUE", singleLiablitySelection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
+        query = query.replace("@FREQUENCYSELECTED", singleLiablitySelection.getSummaryFrequencyName());
+        query = query.replace("@STARTPERIOD", singleLiablitySelection.getFromDate());
+        query = query.replace("@ENDPERIOD", singleLiablitySelection.getToDate());
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(singleLiablitySelection.getDataSelectionDTO().getProjectionId()));
+        query = query.replace("@USERID", String.valueOf(singleLiablitySelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(singleLiablitySelection.getSessionDTO().getSessionId()));
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
@@ -105,7 +105,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
         String lastMasterSid = StringUtils.EMPTY;
         String mastersId;
         List finalList = new ArrayList();
-        AdjustmentDTO dto = null;
+        AdjustmentDTO singleLiablityAdjustmentdto = null;
         boolean isChild = !Collections.max(selection.getSummaryLevel().keySet()).equals(selection.getLevelNo());
         int size = listObj.size();
         Double[] total = new Double[8];
@@ -114,18 +114,18 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
             Object[] list1 = listObj.get(i);
             mastersId = String.valueOf(list1[1]);
             index = (i + 1) % (selection.getSummaryPeriods() + 1);
-            if (!lastMasterSid.equals(mastersId) || dto == null) {
-                dto = new AdjustmentDTO();
-                finalList.add(dto);
-                dto.setBranditemmasterSid(mastersId);
-                dto.setMasterIds(selection.getMasterSids());
-                dto.setLevelNo(selection.getLevelNo());
-                dto.setGroup(String.valueOf(list1[0]));
-                dto.setChildrenAllowed((!CommonConstant.TOTAL.equalsIgnoreCase(dto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);
+            if (!lastMasterSid.equals(mastersId) || singleLiablityAdjustmentdto == null) {
+                singleLiablityAdjustmentdto = new AdjustmentDTO();
+                finalList.add(singleLiablityAdjustmentdto);
+                singleLiablityAdjustmentdto.setBranditemmasterSid(mastersId);
+                singleLiablityAdjustmentdto.setMasterIds(selection.getMasterSids());
+                singleLiablityAdjustmentdto.setLevelNo(selection.getLevelNo());
+                singleLiablityAdjustmentdto.setGroup(String.valueOf(list1[0]));
+                singleLiablityAdjustmentdto.setChildrenAllowed((!CommonConstant.TOTAL.equalsIgnoreCase(singleLiablityAdjustmentdto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);
             }
-            dto = customizeListView(dto, list1, selection, total);
+            singleLiablityAdjustmentdto = customizeListView(singleLiablityAdjustmentdto, list1, selection, total);
             if (index == 0) {
-                dto = customizeTotal(dto, total, selection);
+                singleLiablityAdjustmentdto = customizeTotal(singleLiablityAdjustmentdto, total, selection);
                 total = new Double[8];
             }
             lastMasterSid = mastersId;
@@ -136,7 +136,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
     }
 
     @Override
-    public List bsExcelCustomizer(List deductionList, Object[] object, List visibleColumns, boolean isFixedColumns, int interval, int discountColumnNeeded, AbstractSelectionDTO selection) throws IllegalAccessException, InvocationTargetException {
+    public List bsExcelCustomizer(List deductionList, Object[] object, List visibleColumns, boolean isFixedColumns, int interval, int discountColumnNeeded, AbstractSelectionDTO singleLiablitySelection) throws IllegalAccessException, InvocationTargetException {
         List<String> visibleColumnsList = new ArrayList<>(visibleColumns);
         int j = 1;
         int keyParam = j;
@@ -153,7 +153,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
         if (deductionList != null && !deductionList.isEmpty()) {
             for (int i = 0; i < deductionList.size(); i++) {
                 Object[] resultSet = (Object[]) deductionList.get(i);
-                totalListModIndex = (i + 1) % (selection.getSummaryPeriods() + 1);
+                totalListModIndex = (i + 1) % (singleLiablitySelection.getSummaryPeriods() + 1);
                 newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(newC)) {
                     if (!"null".equals(newC)) {
@@ -190,13 +190,13 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                 int indicator = 0;
                 Object value = null;
                 Object result = null;
-                if (ARMConstants.getDeductionProduct().equals(selection.getSummaryDeductionView())) {
+                if (ARMConstants.getDeductionProduct().equals(singleLiablitySelection.getSummaryDeductionView())) {
                     result = resultSet[6];
                     indicator = (Integer) resultSet[resultSet.length - 1];
-                } else if (ARMConstants.getDeductionCustomer().equals(selection.getSummaryDeductionView()) || ARMConstants.getCustomerDedection().equals(selection.getSummaryDeductionView())) {
+                } else if (ARMConstants.getDeductionCustomer().equals(singleLiablitySelection.getSummaryDeductionView()) || ARMConstants.getCustomerDedection().equals(singleLiablitySelection.getSummaryDeductionView())) {
                     result = resultSet[8];
                     indicator = (Integer) resultSet[resultSet.length - 1];
-                } else if (ARMConstants.getDeductionCustomerContract().equals(selection.getSummaryDeductionView())) {
+                } else if (ARMConstants.getDeductionCustomerContract().equals(singleLiablitySelection.getSummaryDeductionView())) {
                     result = resultSet[10];
                     indicator = (Integer) resultSet[resultSet.length - 1];
                 }
@@ -212,11 +212,11 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
                         int index = l % 8;
                         if (column.contains(columnList.get(l))) {
                             gatheredColumn = getGatheredColumn(indicator, headerKey, column, totalListModIndex, columnList.get(l));
-                            if (ARMConstants.getDeductionProduct().equals(selection.getSummaryDeductionView())) {
+                            if (ARMConstants.getDeductionProduct().equals(singleLiablitySelection.getSummaryDeductionView())) {
                                 value = column.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 7];
-                            } else if (ARMConstants.getDeductionCustomer().equals(selection.getSummaryDeductionView()) || ARMConstants.getCustomerDedection().equals(selection.getSummaryDeductionView())) {
+                            } else if (ARMConstants.getDeductionCustomer().equals(singleLiablitySelection.getSummaryDeductionView()) || ARMConstants.getCustomerDedection().equals(singleLiablitySelection.getSummaryDeductionView())) {
                                 value = column.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 9];
-                            } else if (ARMConstants.getDeductionCustomerContract().equals(selection.getSummaryDeductionView())) {
+                            } else if (ARMConstants.getDeductionCustomerContract().equals(singleLiablitySelection.getSummaryDeductionView())) {
                                 value = column.contains(totalColumnList.get(l)) ? getNullTotalExcel(total[index]) : resultSet[index + 11];
                             }
                         }
@@ -248,69 +248,84 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
     protected Object[] generateInputs(Object dto, SelectionDTO data) {
         Object[] returnObj = new Object[2];
         try {
-            SummarySelection selection = (SummarySelection) data;
+            SummarySelection singleLiablitySelection = (SummarySelection) data;
             String rebateRecord;
 
             List<Object> inputs = new ArrayList<>();
-            inputs.add(selection.getDataSelectionDTO().getProjectionId());
-            inputs.add(selection.getFrequency());
-            selection.setMasterSids(ARMUtils.getMasterIdsMap());
-            String nextLevel;
-            if (dto instanceof AdjustmentDTO) {
-                TreeMap<String, Integer> masterSids;
-                AdjustmentDTO val = (AdjustmentDTO) dto;
-                int levelNo = val.getLevelNo();
-                masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
-                selection.setMasterSids(masterSids);
-                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
-                    nextLevel = selection.getSummarydeductionLevelDes();
-                } else {
-                    nextLevel = selection.getSummaryLevel().get(levelNo);
-                }
-                selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
-                selection.setLevelNo(levelNo);
-            } else {
-                selection.setLevelNo(1);
-                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
-                    nextLevel = selection.getSummarydeductionLevelDes();
-                } else {
-                    nextLevel = selection.getSummaryLevel().get(1);
-                }
-                if (selection.getSummaryvalueSid() != 0) {
-                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
-                } else if (selection.getSummarylevelFilterNo() != 0) {
-                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
-                }
-                //This will ovverride the default first Level (For Level Filter)
-                if (selection.getSummarylevelFilterNo() != 0) {
-                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
-                        nextLevel = selection.getSummarydeductionLevelDes();
-                    } else {
-                        nextLevel = selection.getSummarylevelFilterValue();
-                    }
-                }
-
-            }
+            inputs.add(singleLiablitySelection.getDataSelectionDTO().getProjectionId());
+            inputs.add(singleLiablitySelection.getFrequency());
+            singleLiablitySelection.setMasterSids(ARMUtils.getMasterIdsMap());
+            String nextLevel = getNextLevelSingleLiablity(dto, singleLiablitySelection);
             inputs.add(nextLevel);
-            inputs.add(selection.getFromDate());
-            inputs.add(selection.getToDate());
-            inputs.add(selection.getSessionDTO().getUserId());
-            inputs.add(selection.getSessionDTO().getSessionId());
-            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(selection.getSummarydeductionLevelDes()) + " IN ('" + StringUtils.join(selection.getDeductionVariableIds(), "','") + "' )";
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(selection.getSummarydeductionLevelDes()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
-            inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()));
+            inputs.add(singleLiablitySelection.getFromDate());
+            inputs.add(singleLiablitySelection.getToDate());
+            inputs.add(singleLiablitySelection.getSessionDTO().getUserId());
+            inputs.add(singleLiablitySelection.getSessionDTO().getSessionId());
+            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(singleLiablitySelection.getSummarydeductionLevelDes()) + " IN ('" + StringUtils.join(singleLiablitySelection.getDeductionVariableIds(), "','") + "' )";
+            inputs.add(singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
+            inputs.add(singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
+            inputs.add(singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
+            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(singleLiablitySelection.getSummarydeductionLevelDes()));
+            inputs.add(singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+            inputs.add(singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : singleLiablitySelection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()));
             inputs.add(rebateRecord);
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
         } catch (NumberFormatException ex) {
-            LOGGER.error("Error in generateInputs:" , ex);
+            LOGGER.error("Error in generateInputs:", ex);
         }
         return returnObj;
+    }
+
+    private String getNextLevelSingleLiablity(Object dto, SummarySelection singleLiablitySelection) {
+        String nextLevel;
+        if (dto instanceof AdjustmentDTO) {
+            TreeMap<String, Integer> masterSids;
+            AdjustmentDTO val = (AdjustmentDTO) dto;
+            int levelNo = val.getLevelNo();
+            masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
+            masterSids.put(singleLiablitySelection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
+            singleLiablitySelection.setMasterSids(masterSids);
+            if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(singleLiablitySelection.getSummaryLevel().get(++levelNo))) {
+                nextLevel = singleLiablitySelection.getSummarydeductionLevelDes();
+            } else {
+                nextLevel = singleLiablitySelection.getSummaryLevel().get(levelNo);
+            }
+            singleLiablitySelection.setSummaryviewType(singleLiablitySelection.getSummaryLevel().get(levelNo));
+            singleLiablitySelection.setLevelNo(levelNo);
+        } else {
+            singleLiablitySelection.setLevelNo(1);
+            nextLevel = getNextLevelDeduction(singleLiablitySelection);
+            getNextLevelMasterSid(singleLiablitySelection);
+            //This will ovverride the default first Level (For Level Filter)
+            if (singleLiablitySelection.getSummarylevelFilterNo() != 0) {
+                if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(singleLiablitySelection.getSummarylevelFilterValue())) {
+                    nextLevel = singleLiablitySelection.getSummarydeductionLevelDes();
+                } else {
+                    nextLevel = singleLiablitySelection.getSummarylevelFilterValue();
+                }
+            }
+
+        }
+        return nextLevel;
+    }
+
+    private void getNextLevelMasterSid(SummarySelection selection) {
+        if (selection.getSummaryvalueSid() != 0) {
+            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
+        } else if (selection.getSummarylevelFilterNo() != 0) {
+            selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
+        }
+    }
+
+    private String getNextLevelDeduction(SummarySelection selection) {
+        String nextLevel;
+        if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
+            nextLevel = selection.getSummarydeductionLevelDes();
+        } else {
+            nextLevel = selection.getSummaryLevel().get(1);
+        }
+        return nextLevel;
     }
 
     public AdjustmentDTO customizeListView(AdjustmentDTO dto, Object[] list1, SummarySelection selection, Double[] total) {
@@ -350,14 +365,14 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
     }
 
     private String getGatheredColumn(int indicator, String headerKey, String column, int totListModIndex, String colValue) {
-        boolean begBalFlag = indicator == 2;
-        boolean totalFlag = totListModIndex == 0;
+        boolean singleLiablityBegBalFlag = indicator == 2;
+        boolean singleLiablityTotalFlag = totListModIndex == 0;
         String value;
-        if (begBalFlag && totalFlag) {
+        if (singleLiablityBegBalFlag && singleLiablityTotalFlag) {
             value = column.contains(ARMUtils.TOTAL) ? column : VariableConstants.BEGINNING_BALANCE + colValue;
         } else {
-            String columnValue = totalFlag && column.contains(ARMUtils.TOTAL) ? column : headerKey + colValue;
-            value = begBalFlag ? VariableConstants.BEGINNING_BALANCE + colValue
+            String columnValue = singleLiablityTotalFlag && column.contains(ARMUtils.TOTAL) ? column : headerKey + colValue;
+            value = singleLiablityBegBalFlag ? VariableConstants.BEGINNING_BALANCE + colValue
                     : columnValue;
         }
         return value;

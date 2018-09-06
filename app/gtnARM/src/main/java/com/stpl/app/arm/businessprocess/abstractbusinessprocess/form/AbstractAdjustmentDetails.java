@@ -208,7 +208,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName && "reset".equals(buttonName)) {
                 resetBtn();
             }
@@ -269,6 +269,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         }
         resultsContainer.setColumnProperties(properties);
         resultsContainer.setRecordHeader(Arrays.asList(visibleColumns));
+        resultsContainer.setIndexable(true);
         resultsTable.setVisibleColumns(visibleColumns);
         resultsTable.setColumnHeaders(visibleHeaders);
         for (int i = 0; i < visibleColumns.length; i++) {
@@ -340,11 +341,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
             } else if (VariableConstants.DETAIL_VARIABLE.equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
-                String str3 = null;
-                for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItem(customMenuItem, str3);
-                }
+                getCheckedMenuItem(str2);
                 selection.setSavedetailvariables(Arrays.asList(str2));
             } else if (VariableConstants.DETAIL_RESERVER_ACCOUNT.equals(String.valueOf(obj[0]))) {
                 reserveMenuItem.removeChildren();
@@ -352,11 +349,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 loadReserveAccount();
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
-                String str3 = null;
-                for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItem(reserveMenuItem, str3);
-                }
+                getCheckedMenuItem(str2);
                 selection.setDetailreserveAcount(Arrays.asList(str2));
 
             } else if (VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
@@ -365,22 +358,30 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 CommonUtils.unCheckMenuBarItem(amountFilterItem);
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
-                String str3 = null;
-                for (String strings : str2) {
-                    str3 = strings;
-                    CommonUtils.checkMenuBarItemCaption(amountFilterItem, str3);
-                }
+                getCheckedMenuItemCaption(str2);
                 selection.setDetailamountFilter(Arrays.asList(str2));
 
             } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loaddetail" , ex);
+                    LOGGER.error("Error in loaddetail", ex);
                 }
             }
         }
 
+    }
+
+    private void getCheckedMenuItemCaption(String[] str2) {
+        for (String strings : str2) {
+            CommonUtils.checkMenuBarItemCaption(amountFilterItem, strings);
+        }
+    }
+
+    private void getCheckedMenuItem(String[] str2) {
+        for (String strings : str2) {
+            CommonUtils.checkMenuBarItem(reserveMenuItem, strings);
+        }
     }
 
     private void configureWorkFlow() {

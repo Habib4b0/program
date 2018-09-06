@@ -306,7 +306,7 @@ public class FederalNdcPopup extends CustomComponent {
 
     }
 
-    public int addLogic() throws SystemException, PortalException {
+    public int addLogic() throws PortalException {
         if (!listNDC.isEmpty()) {
             int ndcItems = ndc.getItemIds().size();
             if (ndcItems == 1) {
@@ -321,7 +321,7 @@ public class FederalNdcPopup extends CustomComponent {
         return 0;
     }
 
-    void saveAll() throws SystemException, PortalException {
+    void saveAll() throws PortalException {
         final List<NewNdcDTO> newNDCList = federalBean.getItemIds();
         for (NewNdcDTO ndcDTO : newNDCList) {
             String customSQL="SELECT * from ST_FEDERAL_NEW_NDC where ITEM_MASTER_SID="+ ndcDTO.getItemMasterSid();
@@ -370,7 +370,7 @@ public class FederalNdcPopup extends CustomComponent {
 
             @Override
             public void noMethod() {
-                // TODO Auto-generated method stub
+                //noMethod()
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(),
                 "Are you sure you want to reset the page to default/previous values?");

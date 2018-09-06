@@ -87,14 +87,14 @@ public class GtnReportDataAssumptionsTabLoadAction
 			Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = getDataAssumptionsGridComponent(
 					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId);
 
-			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i), reportDataSourceValue, "/gtnWsReportLoadDataAssumptionsMultipleTabs");
+			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i), reportDataSourceValue, "/gtnWsReportLoadDataAssumptionsMultipleTabs",sourceComponentId);
 
 			dataAssumptionsCurrentTabComponent.setItems(dsLoadResults);
 		}
 		// Current Tab must load by default
 		Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent1 = getDataAssumptionsGridComponent(
 				"dataAssumptionsPagedTableComponentcurrentTabdataAssumptionsTab", sourceComponentId);
-		List<GtnWsRecordBean> dsLoadResults1 = getDataAssumptionGridLoadValues(0, reportDataSourceValue, "/gtnWsReportLoadDataAssumptions");
+		List<GtnWsRecordBean> dsLoadResults1 = getDataAssumptionGridLoadValues(0, reportDataSourceValue, "/gtnWsReportLoadDataAssumptions", sourceComponentId);
 		dataAssumptionsCurrentTabComponent1.setItems(dsLoadResults1);
 	}
 
@@ -116,21 +116,30 @@ public class GtnReportDataAssumptionsTabLoadAction
 		}
 	}
 
-	private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid, Integer reportDataSourceValue, String url) {
+	private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid, Integer reportDataSourceValue, String url, String sourceComponentId) {
 
 
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		
 		if(url.equals("/gtnWsReportLoadDataAssumptions"))
 		{
-			GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+			GtnWsReportDataSelectionBean reportDataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+
+			dataSelectionBean.setCompanyReport(reportDataSelectionBean.getCompanyReport());
+			dataSelectionBean.setBusinessUnitReport(reportDataSelectionBean.getBusinessUnitReport());
+			GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();			
+			reportRequest.setDataSelectionBean(dataSelectionBean);
+			request.setGtnWsReportRequest(reportRequest);
 			gtnWsSearchRequest.setCount(true);
 			request.setGtnWsSearchRequest(gtnWsSearchRequest);
 		}
 		
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
+		//GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		//GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		
 		dataSelectionBean.setReportDataSource(reportDataSourceValue);
 		reportRequest.setDataSelectionBean(dataSelectionBean);

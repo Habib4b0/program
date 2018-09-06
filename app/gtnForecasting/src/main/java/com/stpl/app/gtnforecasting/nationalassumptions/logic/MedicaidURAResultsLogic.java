@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
@@ -32,7 +31,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,7 +195,7 @@ public class MedicaidURAResultsLogic {
                     projDTOList = getCustomizedProjectionTotal(medicaidList);
                 }
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaid method ends ");
@@ -222,7 +220,7 @@ public class MedicaidURAResultsLogic {
                 projDTOList = getPriceTypeChild(projSelDTO, parentSid, session);
 
             }
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaidChild method ends ");
@@ -240,7 +238,7 @@ public class MedicaidURAResultsLogic {
                 medicaidList = queryUtil.loadMedicaidResultsChild(session, parentSid, projSelDTO.getPriceTypeList(), false);
             }
             projDTOList = getCustPriceTypeChild(medicaidList, projSelDTO);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPriceTypeChild method ends ");
@@ -673,7 +671,7 @@ public class MedicaidURAResultsLogic {
         try {
             List<Object[]> medicaidList = queryUtil.loadMedicaidWorksheet(sessionDTO, projSelDTO.getNdc9(), projSelDTO.isAdjust());
             projDTOList = getCustMedicaidWorksheetChild(projSelDTO, medicaidList, priceTypeList);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaidChild method ends ");
@@ -816,7 +814,7 @@ public class MedicaidURAResultsLogic {
         try {
             List<Object[]> medicaidList = queryUtil.loadMedicaidWorksheet(sessionDTO, projSelDTO.getNdc9(), projSelDTO.isAdjust());
             projDTOList = getCustomizedMedicaidWorksheet(projSelDTO, medicaidList, priceTypeList);
-        } catch (PortalException | SystemException e) {
+        } catch (SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaidWorksheet method ends ");

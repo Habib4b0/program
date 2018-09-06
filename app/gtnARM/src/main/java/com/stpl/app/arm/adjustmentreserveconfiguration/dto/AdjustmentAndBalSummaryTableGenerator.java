@@ -74,7 +74,7 @@ public class AdjustmentAndBalSummaryTableGenerator implements ExtFilterGenerator
 
     @Override
     public void filterRemoved(Object propertyId) {
-        LOGGER.debug("filterRemoved Method" + selection);
+        LOGGER.debug("filterRemoved Method{}", selection);
     }
 
     @Override

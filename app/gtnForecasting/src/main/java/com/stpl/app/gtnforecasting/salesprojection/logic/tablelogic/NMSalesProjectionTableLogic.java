@@ -211,8 +211,6 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
             if (!paginatedSalesNode.contains(node)) {
                 if (i >= start && i <= offset) {
                     SalesBaseNode parentNode = (SalesBaseNode) node.getParentNode();
-                    if (!paginatedSalesNode.add(node)) {
-                    }
                     while (!parentNode.isApex()) {
                         paginatedSalesNode.add(parentNode);
                         parentNode = (SalesBaseNode) parentNode.getParentNode();

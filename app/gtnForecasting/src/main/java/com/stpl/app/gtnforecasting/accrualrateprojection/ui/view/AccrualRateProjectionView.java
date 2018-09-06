@@ -16,8 +16,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,6 @@ import org.slf4j.LoggerFactory;
  */
 public class AccrualRateProjectionView extends VerticalLayout implements View {
 
-    private AccrualRateProjectionForm accrualRateProjectionForm;
 
     public static final String ARP_VIEW = "ARPVIEW";
     protected String projectionName = StringUtils.EMPTY;
@@ -67,7 +64,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             if (this.getComponentCount() != 0) {
                 this.removeAllComponents();
             }
-            accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
+            AccrualRateProjectionForm accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
             this.addComponent(accrualRateProjectionForm);
             accrualRateProjectionForm.getSales().historyDdlb.focus();
         } catch (ParseException e) {
@@ -80,19 +77,14 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             int projectionId = session.getProjectionId();
             NonMandatedLogic logic = new NonMandatedLogic();
             if (projectionId != 0) {
-                try {
                     dataSelectionDTO = logic.getProjection(projectionId);
                     session.setProjectionName(dataSelectionDTO.getProjectionName());
                     session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                     session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-                } catch (ParseException ex) {
-
-                    LOGGER.error(ex.getMessage());
-                }
             } else {
                 dataSelectionDTO = new DataSelectionDTO();
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             LOGGER.error(e.getMessage());
 
         }

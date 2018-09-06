@@ -62,13 +62,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType_DTO")
-    public ComboBox componentType_DTO;
+    public ComboBox componentTypeDto;
     @UiField("componentCategory_DTO")
-    public ComboBox componentCategory_DTO;
+    public ComboBox componentCategoryDto;
     @UiField("rsProgramType_DTO")
-    public ComboBox rsProgramType_DTO;
+    public ComboBox rsProgramTypeDto;
     @UiField("searchBtn")
     public Button searchBtn;
     @UiField("resetBtn")
@@ -90,9 +90,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final CustomTextField componentTextField;
     public static final String REBATE_PROGRAM_TYPE_HEADER = "REBATE_PROGRAM_TYPE";
-    private final Object[] RS_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] RS_SEARCH_COLUMNS = new Object[]{
         "componentId", "componentNo", "componentName", "componentType", "rsProgramType", "category", "tradeClass", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    private final String[] RS_SEARCH_HEADERS = new String[]{"REBATE_SCHEDULE ID", "REBATE_SCHEDULE No", "REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_TYPE", REBATE_PROGRAM_TYPE_HEADER, "REBATE_SCHEDULE_CATEGORY", "TRADE_CLASS", "REBATE_SCHEDULE_DESIGNATION", "PARENT_REBATE_SCHEDULE_ID", "PARENT_REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_STATUS", "REBATE_SCHEDULE_START_DATE", "REBATE_SCHEDULE_END_DATE"};
+    private static final String[] RS_SEARCH_HEADERS = new String[]{"REBATE_SCHEDULE ID", "REBATE_SCHEDULE No", "REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_TYPE", REBATE_PROGRAM_TYPE_HEADER, "REBATE_SCHEDULE_CATEGORY", "TRADE_CLASS", "REBATE_SCHEDULE_DESIGNATION", "PARENT_REBATE_SCHEDULE_ID", "PARENT_REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_STATUS", "REBATE_SCHEDULE_START_DATE", "REBATE_SCHEDULE_END_DATE"};
     
 
     public RSLookUp(final CustomTextField componentTextField) {
@@ -250,12 +250,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
 
                     componentId.setValue(StringUtils.EMPTY);
                     componentName.setValue(StringUtils.EMPTY);
-                    rsProgramType_DTO.setValue(null);
-                    componentStatus_DTO.setValue(null);
+                    rsProgramTypeDto.setValue(null);
+                    componentStatusDto.setValue(null);
                     startDate.setValue(null);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentType_DTO.setValue(null);
-                    componentCategory_DTO.setValue(null);
+                    componentTypeDto.setValue(null);
+                    componentCategoryDto.setValue(null);
                     endDate.setValue(null);
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
@@ -295,21 +295,21 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {
-       logic.loadComboBox(componentType_DTO, "RS_TYPE", false);
+       logic.loadComboBox(componentTypeDto, "RS_TYPE", false);
 
     }
 
     private void loadRsCategory() {
-        logic.loadComboBox(componentCategory_DTO, "RS_CATEGORY", false);
+        logic.loadComboBox(componentCategoryDto, "RS_CATEGORY", false);
      
     }
 
     private void loadRptype() {
-      logic.loadComboBox(rsProgramType_DTO, REBATE_PROGRAM_TYPE_HEADER, false);
+      logic.loadComboBox(rsProgramTypeDto, REBATE_PROGRAM_TYPE_HEADER, false);
      
     }
 

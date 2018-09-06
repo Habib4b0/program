@@ -93,6 +93,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.ArrayUtils;
@@ -566,8 +567,8 @@ public class NewComponents extends CustomComponent implements View {
                         compItemSearchTable.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfp);
                         compItemSearchTable.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfp);
                         componentDetailsTable.removeAllItems();
-                        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsIfp);
-                        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersIfp);
+                        componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumnsIfp());
+                        componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeadersIfp());
 
                     } else if (compType.equals(PRICE_SCHEDULE.getConstant())) {
                         componentInfoRebateLayout.setVisible(false);
@@ -584,8 +585,8 @@ public class NewComponents extends CustomComponent implements View {
                         compItemSearchTable.setVisibleColumns(Constants.getInstance().componentItemSearchColumnsPs);
                         compItemSearchTable.setColumnHeaders(Constants.getInstance().componentItemSearchHeadersPs);
                         componentDetailsTable.removeAllItems();
-                        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsPs);
-                        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersPs);
+                        componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumnSps());
+                        componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeadersPs());
                     } else {
                         componentInfoRebateLayout.setVisible(true);
                         componentInfoIfpLayout.setVisible(false);
@@ -601,8 +602,8 @@ public class NewComponents extends CustomComponent implements View {
                         compItemSearchTable.setVisibleColumns(Constants.getInstance().componentItemSearchColumnsRs);
                         compItemSearchTable.setColumnHeaders(Constants.getInstance().componentItemSearchHeadersRs);
                         componentDetailsTable.removeAllItems();
-                        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-                        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+                        componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumnsIfp());
+                        componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
                     }
 
                 }
@@ -713,8 +714,8 @@ public class NewComponents extends CustomComponent implements View {
         componentDetailsTable.setHeight("230px");
         componentDetailsTable.setPageLength(NumericConstants.FIVE);
         componentDetailsTable.setContainerDataSource(componentDetailResultsContainer);
-        componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-        componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+        componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumns());
+        componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
         componentDetailsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
 
         componentDetailsTable.setTableFieldFactory(new TableFieldFactory() {
@@ -982,7 +983,7 @@ public class NewComponents extends CustomComponent implements View {
                 Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 String query = queryUtils.getItemInfo(ids, ifps);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) itemList.get(i);
@@ -1017,8 +1018,8 @@ public class NewComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.addAll(list);
                     compInfo.addAll(list);
                 }
-                componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
-                componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
+                componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumns());
+                componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeaders());
                 componentDetailsTable.setEditable(true);
                 componentDetailsTable.setSelectable(true);
 
@@ -1030,7 +1031,7 @@ public class NewComponents extends CustomComponent implements View {
                 String query = queryUtils.getIFPInformation(ids);
                 Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) itemList.get(i);
@@ -1068,8 +1069,8 @@ public class NewComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.addAll(list);
                     compInfo.addAll(list);
                 }
-                componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsIfp);
-                componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersIfp);
+                componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumnsIfp());
+                componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeadersIfp());
                 componentDetailsTable.setEditable(true);
                 componentDetailsTable.setSelectable(true);
 
@@ -1080,7 +1081,7 @@ public class NewComponents extends CustomComponent implements View {
             try {
                 String query = queryUtils.getIFPInformation(ids);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (itemList != null && itemList.size() > 0) {
+                if (itemList != null && !itemList.isEmpty()) {
                     Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
@@ -1119,8 +1120,8 @@ public class NewComponents extends CustomComponent implements View {
                     componentDetailResultsContainer.addAll(list);
                     compInfo.addAll(list);
                 }
-                componentDetailsTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumnsPs);
-                componentDetailsTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeadersPs);
+                componentDetailsTable.setVisibleColumns(Constants.getPtpComponentInfoColumnSps());
+                componentDetailsTable.setColumnHeaders(Constants.getPtpComponentInfoHeadersPs());
                 componentDetailsTable.setEditable(true);
                 componentDetailsTable.setSelectable(true);
 
@@ -1281,7 +1282,7 @@ public class NewComponents extends CustomComponent implements View {
         /* This loop is used to check atleast one record is selected at component Details-selected Item table or not */
         List<ComponentInfoDTO> list = componentDetailResultsContainer.getItemIds();
         for (int i = 0; i < list.size(); i++) {
-            ComponentInfoDTO dto = (ComponentInfoDTO) list.get(i);
+            ComponentInfoDTO dto = list.get(i);
             if (dto.getCheckRecord()) {
                 flag = true;
             }
@@ -1311,7 +1312,7 @@ public class NewComponents extends CustomComponent implements View {
                 String companySid = session.getCompanyMasterSid();
                 String componentQuery = queryUtils.getCompanyInformation(companySid);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
-                if (componentList != null && componentList.size() > 0) {
+                if (componentList != null && !componentList.isEmpty()) {
                     componentResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> companyList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
@@ -1637,22 +1638,22 @@ public class NewComponents extends CustomComponent implements View {
                     contractMasterSid = contractMaster.getContractMasterSid();
                     session.setContractMasterSid(String.valueOf(contractMasterSid));
                     returnList.add(contractMasterSid);
-                    String AliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
-                    String AliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
+                    String aliasType = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "type").getValue());
+                    String aliasNumber = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, "number").getValue());
 
                     /* Used to save At Contract Alias Master table */
-                    ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
-                    CAM.setContractAliasNo(AliasNumber);
-                    CAM.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) && !StringUtils.EMPTY.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
-                    CAM.setStartDate(new Date());
-                    CAM.setModifiedDate(new Date());
-                    CAM.setCreatedBy(1);
-                    CAM.setCreatedDate(new Date());
-                    CAM.setSource("BPI");
-                    CAM.setInboundStatus("A");
-                    CAM.setContractMasterSid(contractMasterSid);
-                    ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
-                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
+                    ContractAliasMaster cam = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
+                    cam.setContractAliasNo(aliasNumber);
+                    cam.setContractAliasType(aliasType != null && !Constants.NULL.equals(aliasType) && !StringUtils.EMPTY.equals(aliasType) ? Integer.parseInt(aliasType) : 0);
+                    cam.setStartDate(new Date());
+                    cam.setModifiedDate(new Date());
+                    cam.setCreatedBy(1);
+                    cam.setCreatedDate(new Date());
+                    cam.setSource("BPI");
+                    cam.setInboundStatus("A");
+                    cam.setContractMasterSid(contractMasterSid);
+                    ContractAliasMaster camAlias = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(cam);
+                    LOGGER.debug("CAM1 {} " , camAlias.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 
@@ -1743,7 +1744,7 @@ public class NewComponents extends CustomComponent implements View {
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*below loop is used to save value to ifp_model table */
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         Object[] obj = (Object[]) list.get(0);
                         ifpmodel.setIfpName(String.valueOf(obj[0]));
                         ifpmodel.setIfpId(String.valueOf(obj[1]));
@@ -1771,14 +1772,14 @@ public class NewComponents extends CustomComponent implements View {
                         List itemList = HelperTableLocalServiceUtil.executeSelectQuery(itemQuery);
 
                         /*Below loop is used to save the details in ifp_Details table */
-                        if (itemList != null && itemList.size() > 0) {
+                        if (itemList != null && !itemList.isEmpty()) {
                             for (int i = 0; i < itemList.size(); i++) {
                                 IfpDetails ifpDetails;
                                 ifpDetails = IfpDetailsLocalServiceUtil.createIfpDetails(0);
                                 int itemMasterId = Integer.parseInt(String.valueOf(itemList.get(i)));
                                 String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID ='" + itemMasterId + "'";
                                 List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
-                                if (detList != null && detList.size() > 0) {
+                                if (detList != null && !detList.isEmpty()) {
                                     Object[] obje = (Object[]) detList.get(0);
                                     ifpDetails.setIfpModelSid(ifpmodel.getIfpModelSid());
                                     ifpDetails.setItemMasterSid(itemMasterId);
@@ -1851,7 +1852,7 @@ public class NewComponents extends CustomComponent implements View {
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*Below loop is used to save ps value in ps_details table */
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         Object[] obj = (Object[]) list.get(0);
                         psModel.setPsName(String.valueOf(obj[NumericConstants.TWO]));
                         psModel.setPsNo(String.valueOf(obj[1]));
@@ -1882,13 +1883,13 @@ public class NewComponents extends CustomComponent implements View {
                     List itemList = HelperTableLocalServiceUtil.executeSelectQuery(itemQuery);
 
                     /*Below loop is used to save values in ps_details */
-                    if (itemList != null && itemList.size() > 0) {
+                    if (itemList != null && !itemList.isEmpty()) {
                         for (int i = 0; i < itemList.size(); i++) {
                             int itemMasterId = 0;
                             itemMasterId = Integer.parseInt(String.valueOf(itemList.get(i)));
                             String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID='" + itemMasterId + "'";
                             List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
-                            if (detList != null && detList.size() > 0) {
+                            if (detList != null && !detList.isEmpty()) {
                                 Object[] obje = (Object[]) detList.get(0);
                                 String query1 = "INSERT INTO dbo.PS_DETAILS(PS_MODEL_SID,IFP_MODEL_SID,ITEM_MASTER_SID,CONTRACT_PRICE_START_DATE,CONTRACT_PRICE_END_DATE,\"SOURCE\",INBOUND_STATUS,CREATED_DATE,MODIFIED_DATE,RECORD_LOCK_STATUS,CREATED_BY,MODIFIED_BY,PRICE) VALUES";
                                 query1 += "(?PS_MODEL_ID,?IFP_MODEL_ID,?ITEM_MASTER_ID,?START_DATE,?END_DATE,'GCM','A','?CREATED_DATE','?MODIFIED_DATE',?RECORD_LOCK_STATUS,?USER_ID,?USER_ID,?PRICE)";
@@ -1919,9 +1920,9 @@ public class NewComponents extends CustomComponent implements View {
                     }
 
                     Object parentItem = contractDashboardResultsTable.getParent(item);
-                    String IFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
+                    String ifpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentItem, Constants.HIDDEN_ID).getValue());
                     Object parentCFPItem = contractDashboardResultsTable.getParent(parentItem);
-                    String CFPsystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
+                    String cfpSystemId = String.valueOf(contractDashboardResultsTable.getContainerProperty(parentCFPItem, Constants.HIDDEN_ID).getValue());
 
                     /* Used to save value in ps_contract table */
                     PsContract psContract;
@@ -1936,8 +1937,8 @@ public class NewComponents extends CustomComponent implements View {
                     psContract.setPsStartDate(psmodel.getPsStartDate());
                     psContract.setPsEndDate(psmodel.getPsEndDate());
                     psContract.setContractMasterSid(contractMasterSid);
-                    psContract.setCfpContractSid(CFPsystemId);
-                    psContract.setIfpContractSid(IFPsystemId);
+                    psContract.setCfpContractSid(cfpSystemId);
+                    psContract.setIfpContractSid(ifpSystemId);
                     psContract.setInboundStatus("A");
                     psContract.setRecordLockStatus(false);
                     psContract.setSource("GCM");
@@ -1969,7 +1970,7 @@ public class NewComponents extends CustomComponent implements View {
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*Below loop is used to save ps value in ps_details table */
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         RsModel rsModel;
                         rsModel = RsModelLocalServiceUtil.createRsModel(0);
                         Object[] obj = (Object[]) list.get(0);
@@ -2003,12 +2004,12 @@ public class NewComponents extends CustomComponent implements View {
                         List itemList = HelperTableLocalServiceUtil.executeSelectQuery(rsQuery);
 
                         /*Below loop is used to save values in ps_details */
-                        if (itemList != null && itemList.size() > 0) {
+                        if (itemList != null && !itemList.isEmpty()) {
                             for (int i = 0; i < itemList.size(); i++) {
                                 String itemMasterId = String.valueOf(itemList.get(i));
                                 String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID='" + itemMasterId + "'";
                                 List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
-                                if (detList != null && detList.size() > 0) {
+                                if (detList != null && !detList.isEmpty()) {
                                     Object[] obje = (Object[]) detList.get(0);
                                     String rsquery = queryUtils.insertIntoRsDeatils(String.valueOf(rsModel.getRsModelSid()), ifpModelId, itemMasterId, obje[1]);
                                     HelperTableLocalServiceUtil.executeUpdateQuery(rsquery);
@@ -2081,7 +2082,7 @@ public class NewComponents extends CustomComponent implements View {
         } else {
             header = (String[]) ArrayUtils.removeElement(header, Constants.SPACE);
         }
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase(Locale.ENGLISH));
     }
 
     /*

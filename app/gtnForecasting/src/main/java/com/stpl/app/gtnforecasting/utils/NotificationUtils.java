@@ -5,7 +5,7 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Used to show Notifications in all market type classes.
  *

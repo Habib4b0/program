@@ -29,7 +29,7 @@ public interface CFFDAO {
      * @throws PortalException
      * @throws Exception 
      */
-    public Object executeUpdateQuery(String query) throws SystemException, PortalException;
+    public Object executeUpdateQuery(String query) throws  PortalException;
     
     /**
      * Executes select query
@@ -40,7 +40,7 @@ public interface CFFDAO {
      * @throws PortalException
      * @throws Exception 
      */    
-    public Object executeSelectQuery(String query) throws SystemException, PortalException;
+    public Object executeSelectQuery(String query) throws PortalException;
     
     /**
      * Gets Helper table list
@@ -52,7 +52,7 @@ public interface CFFDAO {
      */
     
     List<HelperTable> getHelperTableList(DynamicQuery query)
-			throws PortalException, SystemException;
+			throws SystemException;
     
     /**
      * Gets helper table details using list name
@@ -63,7 +63,7 @@ public interface CFFDAO {
      * @throws SystemException 
      */
     List<HelperTable> getHelperTableDetailsByListName(String listName)
-            throws PortalException, SystemException;
+            throws SystemException;
     /**
      * Adds the cff master.
      *
@@ -72,7 +72,7 @@ public interface CFFDAO {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-     CffMaster addCffMaster(final CffMaster cffMaster)throws SystemException , PortalException;
+     CffMaster addCffMaster(final CffMaster cffMaster)throws PortalException;
      /**
      * Gets the cff master.
      *
@@ -81,7 +81,7 @@ public interface CFFDAO {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-     CffMaster getCffMaster(final int cffMasterSid)throws SystemException,PortalException;
+     CffMaster getCffMaster(final int cffMasterSid)throws PortalException;
      
      /**
      * Update cff master.
@@ -91,7 +91,7 @@ public interface CFFDAO {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-     CffMaster updateCffMaster(final CffMaster cffMaster) throws SystemException , PortalException;
+     CffMaster updateCffMaster(final CffMaster cffMaster) throws PortalException;
      
      /**
      * Adds the cff details.

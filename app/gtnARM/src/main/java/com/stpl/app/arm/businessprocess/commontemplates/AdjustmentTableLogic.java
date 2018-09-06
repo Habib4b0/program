@@ -53,7 +53,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             criteria.setLastPage(getTotalAmountOfPages());
             count = getCount(criteria);
         }
-        LOGGER.debug("count-->>" + count);
+        LOGGER.debug("count-->>{}", count);
         return count;
     }
 
@@ -108,14 +108,13 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
-        LOGGER.debug("recursivelyLoadExpandData for treeLevel=" + treeLevel + " and expandLevelNo=" + expandLevelNo);
         try {
             selection.setLevelNo(selection.getLevelNo() + 1);
             SelectionCriteria criteria = new SelectionCriteria();
             criteria.setSelectionDto(selection);
             criteria.setParent(parentId);
             int count = getCount(criteria);
-            LOGGER.debug("recursivelyLoadExpandData count=" + count);
+            LOGGER.debug("recursivelyLoadExpandData count={}", count);
             LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
             addlevelMap(treeLevel, levelMap);
             if (count > 0) {
@@ -131,20 +130,24 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
                     if (levelList != null) {
                         int size = levelList.size();
                         int index = count - size + 1;
-                        for (int j = 0; j < size; j++) {
-                            selection.setLevelNo(levelNo);
-                            AdjustmentDTO levelDto = levelList.get(j);
-                            if (levelDto.getChildrenAllowed()) {
-                                String customTreeLevel = treeLevel + (index + j) + ".";
-                                addExpandedTreeList(customTreeLevel, levelDto);
-                                recursivelyLoadExpandData(levelDto, customTreeLevel, expandLevelNo);
-                            }
-                        }
+                        recursiveLoadExpand(size, levelNo, levelList, treeLevel, index, expandLevelNo);
                     }
                 }
             }
         } catch (Exception e) {
             LOGGER.error("Error in recursivelyLoadExpandData :", e);
+        }
+    }
+
+    private void recursiveLoadExpand(int size, int levelNo, List<AdjustmentDTO> levelList, String treeLevel, int index, int expandLevelNo) {
+        for (int j = 0; j < size; j++) {
+            selection.setLevelNo(levelNo);
+            AdjustmentDTO levelDto = levelList.get(j);
+            if (levelDto.getChildrenAllowed()) {
+                String customTreeLevel = treeLevel + (index + j) + ".";
+                addExpandedTreeList(customTreeLevel, levelDto);
+                recursivelyLoadExpandData(levelDto, customTreeLevel, expandLevelNo);
+            }
         }
     }
 

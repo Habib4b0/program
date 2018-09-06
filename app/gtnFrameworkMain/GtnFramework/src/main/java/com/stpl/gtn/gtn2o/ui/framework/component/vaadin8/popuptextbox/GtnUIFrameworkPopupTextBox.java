@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -27,6 +28,7 @@ import com.vaadin.ui.TextField;
 public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
+    private LocalDateTime lastClick= LocalDateTime.now();
 
 	public GtnUIFrameworkPopupTextBox() {
             //Overridden method
@@ -83,26 +85,32 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		popupTextField.setVisible(componentConfig.isVisible());
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
 		final String componentId = componentData.getComponentIdInMap();
-			postCreateHorizontalLayout.addLayoutClickListener(new LayoutClickListener() {
+		postCreateHorizontalLayout.addLayoutClickListener(new LayoutClickListener() {
 
-				@Override
-				public void layoutClick(LayoutClickEvent event) {
-					try {
-						if (event.getChildComponent() == popupTextField) {
-							for (GtnUIFrameWorkActionConfig popupActionConfig : componentConfig
-									.getGtnUIFrameWorkActionConfigList()) {
-								final GtnUIFrameWorkAction popupAction = popupActionConfig.getActionType()
-										.getGtnUIFrameWorkAction();
-								popupAction.configureParams(popupActionConfig);
-								popupAction.doAction(componentId, popupActionConfig);
-							}
-						}
-
-					} catch (GtnFrameworkGeneralException e) {
-						gtnLogger.error(e.getMessage(), e);
+			@Override
+			public void layoutClick(LayoutClickEvent event) {
+				try {
+					LocalDateTime now = LocalDateTime.now();
+					long diffInMilli = java.time.Duration.between(lastClick, now).toMillis();
+					lastClick = now;
+					if (diffInMilli < 1000) {
+						return;
 					}
+					if (event.getChildComponent() == popupTextField) {
+						for (GtnUIFrameWorkActionConfig popupActionConfig : componentConfig
+								.getGtnUIFrameWorkActionConfigList()) {
+							final GtnUIFrameWorkAction popupAction = popupActionConfig.getActionType()
+									.getGtnUIFrameWorkAction();
+							popupAction.configureParams(popupActionConfig);
+							popupAction.doAction(componentId, popupActionConfig);
+						}
+					}
+
+				} catch (GtnFrameworkGeneralException e) {
+					gtnLogger.error(e.getMessage(), e);
 				}
-			});
+			}
+		});
 	}
 
 	@Override

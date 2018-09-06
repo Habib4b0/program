@@ -99,7 +99,7 @@ public class ItemSelection extends CustomComponent implements View {
     private VerticalLayout selectedItemsTableLayout;
     
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    private final String screen_Name = "Item_Selection";
+    private final String screenName = "Item_Selection";
     
     @UiField("excelBtn")
     private Button excelBtn;
@@ -126,11 +126,6 @@ public class ItemSelection extends CustomComponent implements View {
         StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
     private final Object[] availableItemsVisibleColumns = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName", "itemIdentifierType", "itemIdentifier"};
-    private final String[] availableItemHeaders1 = new String[]{
-        StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name"};
-    private final Object[] availableItemsColumns1 = new Object[]{
-        Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName"};
-
     private final SessionDTO session;
 
     public ItemSelection(SessionDTO session) {
@@ -384,7 +379,7 @@ public class ItemSelection extends CustomComponent implements View {
                 altHistoryDTO.setReset(Boolean.FALSE);
                 altHistoryDTO.setItemName(String.valueOf(itemName.getValue()));
                 altHistoryDTO.setItemNo(String.valueOf(itemNo.getValue()));
-                altHistoryDTO.setScreenName(screen_Name);
+                altHistoryDTO.setScreenName(screenName);
                 altHistoryDTO.setBusinessUnitName(String.valueOf(businessUnitName.getValue()));
                 altHistoryDTO.setBusinessUnitNo(String.valueOf(businessUnitNo.getValue()));
                 altHistoryDTO.setTheraputicClass(String.valueOf(theraputicClass.getValue()));
@@ -397,24 +392,10 @@ public class ItemSelection extends CustomComponent implements View {
                             "There are no records that match the search criteria. Please try again");
                 }
 
-                if ((!altHistoryDTO.getItemIdentifier().equals("")) || (!"null".equals(altHistoryDTO.getItemIdentifierType()))) {
                     availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
                     availableItemsTable.setColumnHeaders(availableItemsHeaders);
                     selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
                     selectedItemsTable.setColumnHeaders(availableItemsHeaders);
-                } else if ((!altHistoryDTO.getBusinessUnitNo().equals("")) || (!altHistoryDTO.getItemNo().equals(""))
-                        || (!altHistoryDTO.getItemName().equals("")) || (!altHistoryDTO.getBusinessUnitName().equals(""))
-                        || (!"null".equals(altHistoryDTO.getTheraputicClass())) || (!"null".equals(altHistoryDTO.getBrand()))) {
-                    availableItemsTable.setVisibleColumns(availableItemsColumns1);
-                    availableItemsTable.setColumnHeaders(availableItemHeaders1);
-                    selectedItemsTable.setVisibleColumns(availableItemsColumns1);
-                    selectedItemsTable.setColumnHeaders(availableItemHeaders1);
-                } else {
-                    availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
-                    availableItemsTable.setColumnHeaders(availableItemsHeaders);
-                    selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
-                    selectedItemsTable.setColumnHeaders(availableItemsHeaders);
-                }
                 availableItemsTable.setColumnCheckBox(Constant.CHECK, true, false);
                 if (itemIdentifierType.getValue() != null && selectedItemsTable.size() > 0) {
                     selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, false);
@@ -447,7 +428,7 @@ public class ItemSelection extends CustomComponent implements View {
                 itemSearchBinder.commit();
                 altHistoryDTO.setReset(Boolean.FALSE);
                 altHistoryDTO.setItemName(String.valueOf(itemName.getValue()));
-                altHistoryDTO.setScreenName(screen_Name);
+                altHistoryDTO.setScreenName(screenName);
                 logic.addItems(session);
                 selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO,  session, false);
                 availableItemTableLoic.loadSetData(itemSearchBinder, altHistoryDTO,  session, true);
@@ -474,7 +455,7 @@ public class ItemSelection extends CustomComponent implements View {
         if (logic.checkForAtleastOneCheckedItem(session, true)) {
             altHistoryDTO.setReset(Boolean.FALSE);
             altHistoryDTO.setItemName(String.valueOf(itemName.getValue()));
-            altHistoryDTO.setScreenName(screen_Name);
+            altHistoryDTO.setScreenName(screenName);
             altHistoryDTO.getSelectedProductSet().clear();
             logic.addItems(session);
             selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, false);

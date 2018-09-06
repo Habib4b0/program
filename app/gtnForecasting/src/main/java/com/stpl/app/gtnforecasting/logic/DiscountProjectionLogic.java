@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -81,7 +82,6 @@ public class DiscountProjectionLogic {
     private static final String DF_LEVEL_NAME  = "dfLevelName";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private final QueryUtils utils = new QueryUtils();
-    private String baselinePeriods = "";
     
     /**
      * To load Discount Programs in discount selection lookup
@@ -197,7 +197,7 @@ public class DiscountProjectionLogic {
         LOGGER.debug(" relationshipBuilderSid= {} " , relationshipBuilderSid);
         LOGGER.debug(" isRefresh= {} " , isRefresh);
         LOGGER.debug("Offset= {}" , offset);
-        List discountProjectionList = Collections.EMPTY_LIST;
+        List discountProjectionList = Collections.emptyList();
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionLastLevel(frequency, discountList, session, hierarchyNo,
@@ -245,9 +245,9 @@ public class DiscountProjectionLogic {
                             }
                             String levelName;
                             if(isCustom){
-                            levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
                             }else{
-                            levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            levelName = CommonUtil.getDisplayFormattedName(relValue,  session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
                                                         }
                             discountDto.setLevelName(levelName);
                             if (levelName.contains("-")) {
@@ -340,40 +340,40 @@ public class DiscountProjectionLogic {
                             column = Constant.S_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
                         } else if (frequency.equals(MONTHLY.getConstant())) {
                             String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
-                            column = monthName.toLowerCase() + obj[NumericConstants.TWO];
+                            column = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.TWO];
                         } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
-                        String commonColumn = StringUtils.EMPTY;
+                        String commonColumn;
                         if (!isCustom) {
                             commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + column;
                         } else {
                             commonColumn = column;
                         }
 
-                        String ACTUAL_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIVE])) ? DASH : String.valueOf(obj[NumericConstants.FIVE]);
-                        String PROJECTED_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIX])) ? DASH : String.valueOf(obj[NumericConstants.SIX]);
-                        String ACTUAL_CONVERTED_AMT = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.ELEVEN], false);
-                        String ACTUAL_AMT_OBJ = Constant.NULL.equals(ACTUAL_CONVERTED_AMT) ? DASH : ACTUAL_CONVERTED_AMT;
-                        ACTUAL_CONVERTED_AMT = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.THIRTEEN], false);
-                        String PROJECTED_AMT_OBJ = Constant.NULL.equals(ACTUAL_CONVERTED_AMT) ? DASH : ACTUAL_CONVERTED_AMT;
-                        String ACTUAL_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? DASH : String.valueOf(obj[NumericConstants.TWELVE]);
-                        String PROJECTED_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
-                        String GROWTH_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIFTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FIFTEEN]);
+                        String actualObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIVE])) ? DASH : String.valueOf(obj[NumericConstants.FIVE]);
+                        String projObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIX])) ? DASH : String.valueOf(obj[NumericConstants.SIX]);
+                        String actualConvertedObj = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.ELEVEN], false);
+                        String actualAmountObj = Constant.NULL.equals(actualConvertedObj) ? DASH : actualConvertedObj;
+                        actualConvertedObj = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.THIRTEEN], false);
+                        String projectedAmoutObj = Constant.NULL.equals(actualConvertedObj) ? DASH : actualConvertedObj;
+                        String actualRpObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? DASH : String.valueOf(obj[NumericConstants.TWELVE]);
+                        String projectedRpObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
+                        String growthObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIFTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FIFTEEN]);
                         discountDto.setDeductionInclusion(String.valueOf(obj[obj.length - 2]));
                         if (isExcelExport) {
-                            ACTUAL_OBJ = getFormattedValue(PERCENTAGE_FORMAT, ACTUAL_OBJ);
-                            PROJECTED_OBJ = getFormattedValue(PERCENTAGE_FORMAT, PROJECTED_OBJ);
+                            actualObj = getFormattedValue(PERCENTAGE_FORMAT, actualObj);
+                            projObj = getFormattedValue(PERCENTAGE_FORMAT, projObj);
                         }
                         
-                          Integer AP_INDICATOR = obj[NumericConstants.SEVEN] != null ? Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : null;
-                        if (AP_INDICATOR == null) {
+                          Integer apIndicator = obj[NumericConstants.SEVEN] != null ? Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : null;
+                        if (apIndicator == null) {
                             customizeDiscountForDeductionInclusion(doubleProjectedAndHistoryCombinedUniqueList, discountDto);
                         } else {
                             discountProjectionSetTableValues(frequency, forecastConfigList, discountDto,
-                                    doubleProjectedAndHistoryCombinedUniqueList, column, commonColumn, ACTUAL_OBJ,
-                                    PROJECTED_OBJ, ACTUAL_AMT_OBJ, PROJECTED_AMT_OBJ, ACTUAL_RP_OBJ, PROJECTED_RP_OBJ,
-                                    GROWTH_OBJ, AP_INDICATOR);
+                                    doubleProjectedAndHistoryCombinedUniqueList, column, commonColumn, actualObj,
+                                    projObj, actualAmountObj, projectedAmoutObj, actualRpObj, projectedRpObj,
+                                    growthObj, apIndicator);
                         }
 
                         if (i == discountProjectionList.size() - 1) {
@@ -411,15 +411,19 @@ public class DiscountProjectionLogic {
 
     private void discountProjectionSetTableValues(String frequency, List<String> forecastConfigList,
             DiscountProjectionDTO discountDto, List doubleProjectedAndHistoryCombinedUniqueList, String column,
-            String commonColumn, String ACTUAL_OBJ, String PROJECTED_OBJ, String ACTUAL_AMT_OBJ,
-            String PROJ_AMT_OBJ, String ACTUAL_RP_OBJ, String PROJ_RP_OBJ, String GROWTH_OBJ,
-            Integer AP_INDICATOR) {
+            String commonColumn, String actualObject, String projectedObject, String actualAmountObject,
+            String projAmountObj, String actualRpObject, String projRpObject, String growthObject,
+            Integer apIndicatorObject) {
+        String projectedObjectNew = projectedObject;
+        String projAmountObjNew = projAmountObj;
+        String projRpObjectNew  = projRpObject;   
+                
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(commonColumn)) {
-            if (AP_INDICATOR == 0) {
+            if (apIndicatorObject == 0) {
                 if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                    discountDto.addStringProperties(commonColumn + ACTUAL_RATE, ACTUAL_OBJ);
-                    discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, ACTUAL_AMT_OBJ);
-                    discountDto.addStringProperties(commonColumn + Constant.ACTUALRPU, ACTUAL_RP_OBJ);
+                    discountDto.addStringProperties(commonColumn + ACTUAL_RATE, actualObject);
+                    discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, actualAmountObject);
+                    discountDto.addStringProperties(commonColumn + Constant.ACTUALRPU, actualRpObject);
                 } else {
                     discountDto.addStringProperties(commonColumn + ACTUAL_RATE, StringUtils.EMPTY);
                     discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, StringUtils.EMPTY);
@@ -429,17 +433,17 @@ public class DiscountProjectionLogic {
             }
 
             if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                PROJECTED_OBJ = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, PROJECTED_OBJ);
-                PROJ_AMT_OBJ = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, PROJ_AMT_OBJ);
-                PROJ_RP_OBJ = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, PROJ_RP_OBJ);
-                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, PROJECTED_OBJ);
-                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, PROJ_AMT_OBJ);
+                projectedObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projectedObjectNew);
+                projAmountObjNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projAmountObjNew);
+                projRpObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projRpObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObjNew);
                 discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU,
-                        PROJ_RP_OBJ);
-                discountDto.addStringProperties(commonColumn + Constant.GROWTH, GROWTH_OBJ);
+                        projRpObjectNew);
+                discountDto.addStringProperties(commonColumn + Constant.GROWTH, growthObject);
             } else {
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, StringUtils.EMPTY);
                 discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, StringUtils.EMPTY);
@@ -449,7 +453,7 @@ public class DiscountProjectionLogic {
 
             }
         } else {
-            if (AP_INDICATOR == 0) {
+            if (apIndicatorObject == 0) {
                 discountDto.addStringProperties(commonColumn + ACTUAL_RATE, StringUtils.EMPTY);
                 discountDto.addStringProperties(commonColumn + ACTUAL_AMOUNT, StringUtils.EMPTY);
                 discountDto.addStringProperties(commonColumn + Constant.ACTUALRPU, StringUtils.EMPTY);
@@ -509,6 +513,7 @@ public class DiscountProjectionLogic {
         List<String> selectedPeriodsList;
         String baselineIndicator;
         String selectedPeriods;
+        String baselinePeriods = "";
 
         if ("Historical % of Business".equals(allocationMethodology)) {
             baselineIndicator = "H";
@@ -529,6 +534,7 @@ public class DiscountProjectionLogic {
             if (frequency.equals(MONTHLY.getConstant())) {
                 baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                 selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
+                LOGGER.debug(" baselinePeriods {} , baselinePeriods{} " , baselinePeriods, selectedPeriods);
             }
 
         }
@@ -550,7 +556,7 @@ public class DiscountProjectionLogic {
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo, String hierarchyIndicator,
             boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy) {
         session.setSelectedRsForCustom(queryBuilderAndExecutor.getRsContractSid(session, hierarchyNo, hierarchyIndicator,
-                isCustomView, customViewDetails, isProgram, discountNamesList));
+                isCustomView, customViewDetails, discountNamesList));
         return queryBuilderAndExecutor.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
                 isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy);
     }
@@ -579,9 +585,9 @@ public class DiscountProjectionLogic {
      * @param fieldValue
      * @return
      */
-    public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String fieldValue, boolean isProgram, List<String> discountList, String deductionHierarchy, String hierindicator) {
+    public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String fieldValue, boolean isProgram, List<String> discountList, String deductionHierarchy) {
 
-        return queryBuilderAndExecutor.saveGroupValues(session, hierarchyNo, fieldValue, isProgram, discountList, deductionHierarchy, hierindicator);
+        return queryBuilderAndExecutor.saveGroupValues(session, hierarchyNo, fieldValue, isProgram, discountList, deductionHierarchy);
     }
 
     /**
@@ -655,6 +661,7 @@ public class DiscountProjectionLogic {
                         break;
                     }
                 } catch (Exception e) {
+                    LOGGER.error(e.getMessage());
                 }
             }
         } else {
@@ -711,16 +718,17 @@ public class DiscountProjectionLogic {
      * @return
      */
     public String getFormattedValue(DecimalFormat format, String value) {
-        if (value.contains(Constant.NULL) || value.equals("-")) {
-            value = DASH;
+        String valueDpLogic = value;
+        if (valueDpLogic.contains(Constant.NULL) || valueDpLogic.equals("-")) {
+            valueDpLogic = DASH;
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueDpLogic);
             if (format.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
+            valueDpLogic = format.format(newValue);
         }
-        return value;
+        return valueDpLogic;
     }
 
     /**
@@ -758,8 +766,8 @@ public class DiscountProjectionLogic {
         queryBuilderAndExecutor.checkClearAll(session, userGroup, checkClear);
     }
 
-    public boolean isAnyRecordChecked(SessionDTO session, boolean isProgram, List<String> discountProgramsList, boolean isCustomHierarchy) {
-        int count = queryBuilderAndExecutor.getCheckedRecordCount(session, isProgram, discountProgramsList);
+    public boolean isAnyRecordChecked(SessionDTO session, List<String> discountProgramsList, boolean isCustomHierarchy) {
+        int count = queryBuilderAndExecutor.getCheckedRecordCount(session);
         if (count != 0) {
             if (count == -1) {
                 LOGGER.error("Check Count is not retrieved properly{}", isCustomHierarchy);
@@ -892,8 +900,7 @@ public class DiscountProjectionLogic {
      * @param selectedPeriods
      * @return
      */
-    public void calcDataUpdate(SessionDTO session, ProjectionSelectionDTO projectionSelection, String levelType,
-            Map<String, Map<String, List<String>>> selectedPeriods, List selectedDiscount, Boolean isProgram, Boolean isCustom) {
+    public void calcDataUpdate(SessionDTO session, ProjectionSelectionDTO projectionSelection, Map<String, Map<String, List<String>>> selectedPeriods, List selectedDiscount, Boolean isProgram, Boolean isCustom) {
         projectionSelection.setSessionDTO(session);
         utils.updateDiscProjMasterCalc(projectionSelection, selectedPeriods, selectedDiscount, isProgram, isCustom);
 
@@ -939,15 +946,15 @@ public class DiscountProjectionLogic {
                         commonColumn = Constant.S_SMALL + obj[1] + obj[0];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[0];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                     } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
                     commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + commonColumn;
-                    String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.THREE])) ? DASH : String.valueOf(obj[NumericConstants.THREE]);
-                    String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOUR])) ? DASH : String.valueOf(obj[NumericConstants.FOUR]);
-                    totalDTO.addStringProperties(commonColumn + ACTUAL_AMOUNT, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
-                    totalDTO.addStringProperties(commonColumn + PROJECTED_AMOUNT, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                    String actualAmtObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.THREE])) ? DASH : String.valueOf(obj[NumericConstants.THREE]);
+                    String projeAmoutObj = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOUR])) ? DASH : String.valueOf(obj[NumericConstants.FOUR]);
+                    totalDTO.addStringProperties(commonColumn + ACTUAL_AMOUNT, getFormattedValue(AMOUNT, actualAmtObj));
+                    totalDTO.addStringProperties(commonColumn + PROJECTED_AMOUNT, getFormattedValue(AMOUNT, projeAmoutObj));
                 }
             }
         }
@@ -960,23 +967,25 @@ public class DiscountProjectionLogic {
             int neededRecord = offset;
             int started = start;
             int mayBeAdded = 0;
+            String discountNamePivot = discountName;
+            String levelIdPivot = levelId;
             GtnSmallHashMap ccpCountForDiscount = new GtnSmallHashMap();
             if (!pivotList.isEmpty()) {
                 getParentGroupValue(frequency, pivotList, discountDto, discountProjList, ahPeriodList, hashMapValues);
             }
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
 
-                    if (!levelId.equals(String.valueOf(obj[NumericConstants.THREE]))) {
+                    if (!levelIdPivot.equals(String.valueOf(obj[NumericConstants.THREE]))) {
                         if (i != 0) {
                             discountProjList.add(discountDto);
                         }
                         discountDto = new DiscountProjectionDTO();
-                        discountName = StringUtils.EMPTY;
-                        levelId = String.valueOf(obj[NumericConstants.THREE]);
+                        discountNamePivot = StringUtils.EMPTY;
+                        levelIdPivot = String.valueOf(obj[NumericConstants.THREE]);
                         discountDto.setHierarchyNo(String.valueOf(obj[NumericConstants.TWO]));
-                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                        discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                         discountDto.setAlternatePivotList(discountProjectionList);
                         if (isCustom) {
                             discountDto.setTreeLevelNo(treeLevelNo);
@@ -1001,9 +1010,9 @@ public class DiscountProjectionLogic {
                             discountDto.addStringProperties(Constant.GROUP, group);
                         }
                     }
-                    if (!discountName.equals(String.valueOf(obj[NumericConstants.SEVEN]))) {
-                        discountName = String.valueOf(obj[NumericConstants.SEVEN]);
-                        ccpCountForDiscount.put(discountName, Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
+                    if (!discountNamePivot.equals(String.valueOf(obj[NumericConstants.SEVEN]))) {
+                        discountNamePivot = String.valueOf(obj[NumericConstants.SEVEN]);
+                        ccpCountForDiscount.put(discountNamePivot, Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
                         discountDto.setCcpCount(discountDto.getCcpCount() + Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE])));
                         discountDto.setCcpCountForDiscount(ccpCountForDiscount);
                         discountDto.setUncheckCount(discountDto.getUncheckCount() + Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])));
@@ -1026,7 +1035,7 @@ public class DiscountProjectionLogic {
             return discountProj;
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
 
@@ -1035,7 +1044,7 @@ public class DiscountProjectionLogic {
         try {
             Map<String, Object> mapValue = new HashMap<>();
             List<String> periodList = new ArrayList<>();
-            if (discountProjectionList != null && discountProjectionList.size() != 0) {
+            if (discountProjectionList != null && !discountProjectionList.isEmpty()) {
                 for (int i = 0; i < discountProjectionList.size(); i++) {
                     final Object[] obj = (Object[]) discountProjectionList.get(i);
                     String headerColumn = StringUtils.EMPTY;
@@ -1053,22 +1062,22 @@ public class DiscountProjectionLogic {
                         periodList.add(headerColumn);
                     }
 
-                    String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
-                    String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIXTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SIXTEEN]);
+                    String actualAmtParentGroupValue = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
+                    String projAmtParentGroupValue = Constant.NULL.equals(String.valueOf(obj[NumericConstants.SIXTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SIXTEEN]);
                     if (mapValue.containsKey(headerColumn)) {
                         discountDto = (DiscountProjectionDTO) mapValue.get(headerColumn);
-                        int AP_INDICATOR = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
-                        if (AP_INDICATOR == 0) {
-                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
+                        int apIndicatorParentGroupValue = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
+                        if (apIndicatorParentGroupValue == 0) {
+                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, actualAmtParentGroupValue));
                         }
-                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, projAmtParentGroupValue));
                     } else {
                         discountDto = new DiscountProjectionDTO();
-                        int AP_INDICATOR = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
-                        if (AP_INDICATOR == 0) {
-                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, ACTUAL_AMT_OBJ));
+                        int apIndicParentGroupValue = Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
+                        if (apIndicParentGroupValue == 0) {
+                            discountDto.addStringProperties(PAYMENT1 + Constant.ACTUALS, getFormattedValue(AMOUNT, actualAmtParentGroupValue));
                         }
-                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, PROJ_AMT_OBJ));
+                        discountDto.addStringProperties(PAYMENT1 + Constant.PROJECTIONS, getFormattedValue(AMOUNT, projAmtParentGroupValue));
                         mapValue.put(headerColumn, discountDto);
                     }
                 }
@@ -1151,9 +1160,9 @@ public class DiscountProjectionLogic {
 
     public int getDiscountCount(final SessionDTO sessionDTO, final String hierarchyNo, final int levelNo, final String hierarchyIndicator,
             boolean isProgram, final List<String> discountList, final String userGroup, final ProjectionSelectionDTO projselection) {
-        String query = StringUtils.EMPTY;
+        String query;
         if (CommonUtil.isValueEligibleForLoading()) {
-            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup, projselection);
+            query = queryBuilderAndExecutor.getDiscountCountQueryForAllLevel(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, discountList, userGroup, projselection);
         } else {
             query = queryBuilderAndExecutor.getDiscountCountQuery(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup);
         }
@@ -1221,7 +1230,7 @@ public class DiscountProjectionLogic {
     public List<String> getRsAllList(ProjectionSelectionDTO projdto) {
         List<String> rebateList = new ArrayList<>();
         try {
-            String queryAllRebate = StringUtils.EMPTY;
+            String queryAllRebate;
 
             if (Constant.PROGRAM_CATEGORY_LABEL.equals(projdto.getDiscountLevel())) {
                 queryAllRebate = "SELECT DISTINCT DPM.PRICE_GROUP_TYPE FROM  ST_NM_DISCOUNT_PROJ_MASTER DPM JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID"

@@ -113,7 +113,7 @@ public class PipelineInventoryLogic {
         } else {
             returnValue = String.valueOf(value);
         }
-        LOGGER.debug("Exit convertNullToEmpty Method" + returnValue);
+        LOGGER.debug("Exit convertNullToEmpty Method{}", returnValue);
         return returnValue;
     }
 

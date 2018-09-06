@@ -5871,6 +5871,20 @@ BEGIN
 END
 GO
 
+-----------------------------------	ALG-5656-----------------------------------
+IF EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE SCRIPT_NAME IS NULL
+			AND PROCESS_NAME = 'RETURN_RATE_FORECAST_INTERFACE'
+		)
+BEGIN
+	UPDATE WORKFLOW_PROFILE
+	SET SCRIPT_NAME = 'Return_Rate_Forecast_Intf.sh' -- varchar(100)
+	WHERE PROCESS_NAME = 'RETURN_RATE_FORECAST_INTERFACE'
+END
+GO
+
 --------Insert for ITEM UOM INTERFACE
 
 
@@ -9305,5 +9319,487 @@ END
 GO
 ----------------------------AGN-914 ENDS------------------------------------------
 
+--------------------------------------DTX_UOM_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_UOM_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_UOM_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_UOM_Intf.sh'
+		,'DTX_UOM_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_UOM_INTERFACE'
+		,'DTX_UOM_INTERFACE SUCCESS'
+		,'FAILURE - DTX_UOM_INTERFACE '
+		,'DTX_UOM_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
 
+----------------------------------------------DTX_CPI_INTERFACE----------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CPI_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CPI_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_CPI_Intf.sh'
+		,'DTX_CPI_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CPI_INTERFACE'
+		,'DTX_CPI_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CPI_INTERFACE '
+		,'DTX_CPI_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
 
+---------------------------------------------------DTX_RETURN_RATE_INTERFACE--------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_RETURN_RATE_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_RETURN_RATE_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Return_Rate_Intf.sh'
+		,'DTX_RETURN_RATE_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_RETURN_RATE_INTERFACE'
+		,'DTX_RETURN_RATE_INTERFACE SUCCESS'
+		,'FAILURE - DTX_RETURN_RATE_INTERFACE '
+		,'DTX_RETURN_RATE_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+----------------------------------------------DTX_ITEM_PRICING_INTERFACE-----------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_ITEM_PRICING_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_ITEM_PRICING_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Item_Pricing_Intf.sh'
+		,'DTX_ITEM_PRICING_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_ITEM_PRICING_INTERFACE'
+		,'DTX_ITEM_PRICING_INTERFACE SUCCESS'
+		,'FAILURE - DTX_ITEM_PRICING_INTERFACE '
+		,'DTX_ITEM_PRICING_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+--------------------------------------------DTX_ACCRUAL_ACTUAL_INTERFACE-------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_ACCRUAL_ACTUAL_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_ACCRUAL_ACTUAL_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Accrual_Actual_Intf.sh'
+		,'DTX_ACCRUAL_ACTUAL_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_ACCRUAL_ACTUAL_INTERFACE'
+		,'DTX_ACCRUAL_ACTUAL_INTERFACE SUCCESS'
+		,'FAILURE - DTX_ACCRUAL_ACTUAL_INTERFACE '
+		,'DTX_ACCRUAL_ACTUAL_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+--------------------------------------DTX_ITEM_MASTER_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_ITEM_MASTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_ITEM_MASTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Item_Master_Intf.sh'
+		,'DTX_ITEM_MASTER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_ITEM_MASTER_INTERFACE'
+		,'DTX_ITEM_MASTER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_ITEM_MASTER_INTERFACE '
+		,'DTX_ITEM_MASTER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+--------------------------------------DTX_ITEM_IDENTIFIER_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_ITEM_IDENTIFIER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_ITEM_IDENTIFIER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Item_Identifier_Intf.sh'
+		,'DTX_ITEM_IDENTIFIER_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_ITEM_IDENTIFIER_INTERFACE'
+		,'DTX_ITEM_IDENTIFIER_INTERFACE SUCCESS'
+		,'FAILURE - DTX_ITEM_IDENTIFIER_INTERFACE '
+		,'DTX_ITEM_IDENTIFIER_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+--------------------------------------DTX_CUSTOMER_GTS_ACTUAL_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CUSTOMER_GTS_ACTUAL_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CUSTOMER_GTS_ACTUAL_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Customer_GTS_Actual_Intf.sh'
+		,'DTX_CUSTOMER_GTS_ACTUAL_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CUSTOMER_GTS_ACTUAL_INTERFACE'
+		,'DTX_CUSTOMER_GTS_ACTUAL_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CUSTOMER_GTS_ACTUAL_INTERFACE '
+		,'DTX_CUSTOMER_GTS_ACTUAL_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO
+
+--------------------------------------DTX_CUSTOMER_GTS_FORECAST_INTERFACE---------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'DTX_CUSTOMER_GTS_FORECAST_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
+		)
+	VALUES (
+		'DTX_CUSTOMER_GTS_FORECAST_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Dtx_Customer_GTS_Forecast_Intf.sh'
+		,'DTX_CUSTOMER_GTS_FORECAST_INTERFACE'
+		,'N'
+		,'SUCCESS - DTX_CUSTOMER_GTS_FORECAST_INTERFACE'
+		,'DTX_CUSTOMER_GTS_FORECAST_INTERFACE SUCCESS'
+		,'FAILURE - DTX_CUSTOMER_GTS_FORECAST_INTERFACE '
+		,'DTX_CUSTOMER_GTS_FORECAST_INTERFACE FAILURE'
+		,'support@bpitechnologies.com'
+		,'support@bpitechnologies.com' 
+		)
+END
+GO

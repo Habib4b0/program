@@ -49,7 +49,7 @@ public class QueryUtils {
     }
 
     public static List executeSelect(String query) {
-        LOGGER.debug("query in executeSelect--" + query);
+        LOGGER.debug("query in executeSelect--{}", query);
         return DAO.executeSelect(query);
     }
 
@@ -57,8 +57,8 @@ public class QueryUtils {
         LOGGER.debug("Inside  item get  data");
         List list = Collections.emptyList();
         try {
-            LOGGER.debug("queryName-->>" + queryName);
-            LOGGER.debug("queryName2-->>" + quaryName2);
+            LOGGER.debug("queryName-->>{}", queryName);
+            LOGGER.debug("queryName2-->>{}", quaryName2);
             StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
             if (queryName != null && !queryName.isEmpty()) {
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
@@ -90,10 +90,10 @@ public class QueryUtils {
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-            LOGGER.debug("sql QUERY -->>" + sql);
+            LOGGER.debug("sql QUERY -->>{}", sql);
             list = executeSelect(sql.toString());
         } catch (Exception ex) {
-            LOGGER.error(CommonConstant.ERROR_QUERY + ex + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString());
+            LOGGER.error(CommonConstant.ERROR_QUERY, (ex.getMessage() + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString()));
         }
         return list;
     }
@@ -121,7 +121,7 @@ public class QueryUtils {
                     sql.replace(sql.indexOf("$$$$TABLE_NAME$$$$"), sql.indexOf("$$$$TABLE_NAME$$$$") + NumericConstants.EIGHTEEN, tableName);
                 }
             } catch (Exception ex) {
-                LOGGER.error(CommonConstant.ERROR_QUERY + ex + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString());
+                LOGGER.error(CommonConstant.ERROR_QUERY, (ex.getMessage() + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString()));
             }
         }
 
@@ -140,7 +140,7 @@ public class QueryUtils {
         LOGGER.debug("Inside Item Update");
         StringBuilder sql = new StringBuilder();
         try {
-            LOGGER.info("queryName-->>" + queryName);
+            LOGGER.info("queryName-->>{}", queryName);
             if (!queryName.isEmpty()) {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 for (Object temp : input) {
@@ -156,7 +156,7 @@ public class QueryUtils {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(CommonConstant.ERROR_QUERY + ex + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString());
+            LOGGER.error(CommonConstant.ERROR_QUERY, (ex.getMessage() + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString()));
         }
         LOGGER.debug("End of Item Update");
         return Boolean.FALSE;
@@ -172,7 +172,7 @@ public class QueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error("Error in getQuery :" , ex);
+            LOGGER.error("Error in getQuery :", ex);
         }
         return sql == null ? null : sql.toString();
     }
@@ -209,11 +209,11 @@ public class QueryUtils {
                 if (subQuery.length() == 0) {
                     subQuery.append(sub);
                 } else {
-                    subQuery.append(",").append(sub);
+                    subQuery.append(ARMUtils.COMMA_CHAR).append(sub);
                 }
             }
-            LOGGER.debug("--finalSql Query --" + finalSql.toString());
-            LOGGER.debug("--subQuery Query --" + subQuery.toString());
+            LOGGER.debug("--finalSql Query --{}", finalSql.toString());
+            LOGGER.debug("--subQuery Query --{}", subQuery.toString());
             finalSql.append(subQuery);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -248,12 +248,12 @@ public class QueryUtils {
                 if (subQuery.length() == 0) {
                     subQuery.append(sub);
                 } else {
-                    subQuery.append(",").append(sub);
+                    subQuery.append(ARMUtils.COMMA_CHAR).append(sub);
                 }
             }
             sql = SQlUtil.getQuery(queryName);
             sql = sql.replace("[$UPDATE_RATE_DETAILS_SUB_QUERY]", subQuery.toString());
-            LOGGER.debug(CommonConstant.SQL_QUERY + sql);
+            LOGGER.debug(CommonConstant.SQL_QUERY, sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -268,7 +268,7 @@ public class QueryUtils {
             sql = sql.replace("[$GL_COMPANY_MASTER_SID]", String.valueOf(selection.getGlcompanyMasterSid()));
             sql = sql.replace("[$BU_COMPANY_MASTER_SID]", String.valueOf(selection.getBucompanyMasterSid()));
             sql = sql.replace("[$ADJUSTMENT_TYPE]", String.valueOf(selection.getAdjustmentId()));
-            LOGGER.debug(CommonConstant.SQL_QUERY + sql);
+            LOGGER.debug(CommonConstant.SQL_QUERY, sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -288,7 +288,7 @@ public class QueryUtils {
                         + "Join COMPANY_MASTER CM ON CGA.ACCOUNT_ID=CM.COMPANY_ID \n"
                         + "where CGA." + fieldValue + " NOT IN(" + selectedValue + ");";
             }
-            LOGGER.debug(CommonConstant.SQL_QUERY + sql);
+            LOGGER.debug(CommonConstant.SQL_QUERY, sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -304,18 +304,18 @@ public class QueryUtils {
                 String fieldValue = values.get(fieldName);
                 String sub = SQlUtil.getQuery("ADJUSTMENT_SELECTION_SAVE_SUB_QUERY");
                 sub = sub.replace("[$PROJECTION_MASTER_SID]", String.valueOf(projectionId));
-                sub = sub.replace("[$SCREEN_NAME]", "'" + screenName + "'");
-                sub = sub.replace("[$FIELD_NAME]", "'" + fieldName + "'");
-                sub = sub.replace("[$FIELD_VALUES]", "'" + fieldValue + "'");
+                sub = sub.replace("[$SCREEN_NAME]", ARMUtils.SINGLE_QUOTES + screenName + ARMUtils.SINGLE_QUOTES);
+                sub = sub.replace("[$FIELD_NAME]", ARMUtils.SINGLE_QUOTES + fieldName + ARMUtils.SINGLE_QUOTES);
+                sub = sub.replace("[$FIELD_VALUES]", ARMUtils.SINGLE_QUOTES + fieldValue + ARMUtils.SINGLE_QUOTES);
                 if (subQuery.length() == 0) {
                     subQuery.append(sub);
                 } else {
-                    subQuery.append(",").append(sub);
+                    subQuery.append(ARMUtils.COMMA_CHAR).append(sub);
                 }
             }
-            LOGGER.debug("--subQuery --" + subQuery);
+            LOGGER.debug("--subQuery --{}", subQuery);
             sql.append(subQuery);
-            LOGGER.debug(CommonConstant.SQL_QUERY + sql);
+            LOGGER.debug(CommonConstant.SQL_QUERY, sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -325,7 +325,7 @@ public class QueryUtils {
     public static String buildadjustmentselectiondeletequery(int projectionId) {
         LOGGER.debug("--Inside build_adjustment_selection_delete_query --");
         StringBuilder sql = new StringBuilder("DELETE FROM ARM_PROJ_SELECTION WHERE PROJECTION_MASTER_SID=" + projectionId);
-        LOGGER.debug(CommonConstant.SQL_QUERY + sql.toString());
+        LOGGER.debug(CommonConstant.SQL_QUERY, sql.toString());
         return sql.toString();
     }
 
@@ -346,7 +346,7 @@ public class QueryUtils {
             queryValue = query.replace("@SESSION_DECLARE", ",@USER_ID INT = @USER_REF,@SESSION_ID INT = @SESSION_REF")
                     .replace("@SESSION_INCLUDE", "AND B.USER_ID = @USER_ID AND B.SESSION_ID = @SESSION_ID");
         }
-        LOGGER.debug("-- Query --" + queryValue);
+        LOGGER.debug("-- Query --{}", queryValue);
         return queryValue;
     }
 
@@ -361,7 +361,6 @@ public class QueryUtils {
      * @return
      */
     public static Map createTempTables(String screenName, int projectionId, String userId, String sessionId) {
-        LOGGER.debug("--Inside createTempTables projectionId --" + projectionId + "---Screen Name --" + screenName);
         Map map = new HashMap();
         try {
             List<Object> createdTablesList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.buildDynamicTempTableCreationQuery(screenName, projectionId, userId, sessionId));
@@ -370,7 +369,7 @@ public class QueryUtils {
                 Object[] ob = (Object[]) createdTablesList1;
                 map.put(ob[0].toString(), ob[1].toString());
             }
-            LOGGER.debug("-- map --" + map.size());
+            LOGGER.debug("-- map --{} ", map.size());
         } catch (Exception e) {
             LOGGER.error("Error in createTempTables :", e);
         }
@@ -391,7 +390,7 @@ public class QueryUtils {
                     }
                 }
             }
-            LOGGER.debug("queryString " + queryString.toString());
+            LOGGER.debug("queryString {}", queryString.toString());
             count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
         } catch (Exception e) {
             LOGGER.error("Error in updateDataFromMap :", e);
@@ -440,10 +439,10 @@ public class QueryUtils {
             } else {
                 ccpHierarchyQuery[NumericConstants.TWO] = formQueryWithUnionAll(productList);
             }
-            LOGGER.debug("ccpHierarchyQuery -- " + ccpHierarchyQuery);
-            LOGGER.debug("isDataSelectionTab -- " + isDataSelectionTab);
-            LOGGER.debug("tempTableNames -- " + tempTableNames.entrySet());
-            LOGGER.debug("topLevelName -- " + topLevelName);
+            LOGGER.debug("ccpHierarchyQuery -- {}",  ccpHierarchyQuery.length);
+            LOGGER.debug("isDataSelectionTab -- {}", isDataSelectionTab);
+            LOGGER.debug("tempTableNames -- {}", tempTableNames.entrySet());
+            LOGGER.debug("topLevelName -- {}", topLevelName);
             callCCPHierarchyInsertion(ccpHierarchyQuery, tempTableNames, topLevelName, isDataSelectionTab);
         } catch (Exception e) {
             LOGGER.error("Error in ccpHierarchyInsert", e);
@@ -483,7 +482,7 @@ public class QueryUtils {
                 hierarchyNoList.add(dto.getHierarchyNo());
             }
         }
-        LOGGER.debug("hierarchyNoList -- " + hierarchyNoList.size());
+        LOGGER.debug("hierarchyNoList -- {}", hierarchyNoList.size());
 
     }
 
@@ -510,7 +509,7 @@ public class QueryUtils {
                 hierarchyNoList.add(dto.getHierarchyNo());
             }
         }
-        LOGGER.debug("hierarchyNoList -- " + hierarchyNoList.size());
+        LOGGER.debug("hierarchyNoList -- {}", hierarchyNoList.size());
     }
 
     /**
@@ -526,7 +525,7 @@ public class QueryUtils {
         List<LevelDTO> resultList = new ArrayList<>();
         try {
             String sql = SQlUtil.getQuery(queryName).replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId));
-            LOGGER.debug("sql -- " + sql);
+            LOGGER.debug("sql -- {}", sql);
             List results = HelperTableLocalServiceUtil.executeSelectQuery(sql);
             LevelDTO dto;
             for (int j = 0; j < results.size() - 1; j++) {
@@ -537,7 +536,7 @@ public class QueryUtils {
                 dto.setLevelNo(Integer.valueOf(object[NumericConstants.TWO].toString()));
                 resultList.add(dto);
             }
-            LOGGER.debug("resultList -- " + resultList.size());
+            LOGGER.debug("resultList -- {}", resultList.size());
         } catch (Exception e) {
             LOGGER.error("Error in getCustandProdSelection", e);
         }
@@ -571,7 +570,7 @@ public class QueryUtils {
                 builder.replace(builder.indexOf(CommonConstant.FILTER), CommonConstant.FILTER.length() + builder.lastIndexOf(CommonConstant.FILTER), "C.HIERARCHY_NO LIKE COM.HIERARCHY_NO");
             }
             builder.replace(builder.indexOf(CommonConstant.ST_CCP_HIERARCHY), CommonConstant.ST_CCP_HIERARCHY.length() + builder.lastIndexOf(CommonConstant.ST_CCP_HIERARCHY), tempTableNames.get("ST_CCP_HIERARCHY"));
-            LOGGER.debug("builder -- " + builder.toString());
+            LOGGER.debug("builder -- {}", builder.toString());
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
         } catch (Exception e) {
             LOGGER.error("Error in callCCPHierarchyInsertion", e);
@@ -595,7 +594,7 @@ public class QueryUtils {
                 queryBuilder.append(unionAll).append(" SELECT '").append(objects[0]).append("' as HIERARCHY_NO ,").append(objects[1]).append(" as RELATIONSHIP_LEVEL_VALUES ");
                 unionAll = " UNION ALL ";
             }
-            LOGGER.debug("queryBuilder -- " + queryBuilder.toString());
+            LOGGER.debug("queryBuilder -- {}", queryBuilder.toString());
         } catch (Exception e) {
             LOGGER.error("Error in formQueryWithUnionAll", e);
         }
@@ -618,7 +617,7 @@ public class QueryUtils {
                 value.append(comma).append(coloumnName).append(" like '").append(string).append("%'");
                 comma = " or ";
             }
-            LOGGER.debug("value Builder -- " + value.toString());
+            LOGGER.debug("value Builder -- {}", value.toString());
         } catch (Exception e) {
             LOGGER.error("Error in formInqueryStringValue", e);
         }
@@ -639,7 +638,7 @@ public class QueryUtils {
         try {
             builder.replace(builder.indexOf(CommonConstant.RELATION_SID), CommonConstant.RELATION_SID.length() + builder.lastIndexOf(CommonConstant.RELATION_SID), value);
             builder.replace(builder.indexOf(CommonConstant.HIERARCHY_DETAILS), CommonConstant.HIERARCHY_DETAILS.length() + builder.lastIndexOf(CommonConstant.HIERARCHY_DETAILS), formInqueryStringValue);
-            LOGGER.debug("Query Builder -- " + builder.toString());
+            LOGGER.debug("Query Builder -- {}", builder.toString());
         } catch (Exception e) {
             LOGGER.error("Error in getCCPValues", e);
         }
@@ -648,8 +647,8 @@ public class QueryUtils {
 
     public static boolean itemUpdate(List input, String mainQuery, String fetchQueryName) {
         LOGGER.debug("Inside item get data");
-        LOGGER.debug("Query Name--------------------" + mainQuery);
-        LOGGER.debug("Fetch Query Name--------------" + fetchQueryName);
+        LOGGER.debug("Query Name--------------------{}", mainQuery);
+        LOGGER.debug("Fetch Query Name--------------{}", fetchQueryName);
         boolean val = false;
         StringBuilder sql = new StringBuilder(SQlUtil.getQuery(mainQuery));
         if (mainQuery != null && !mainQuery.isEmpty()) {
@@ -661,14 +660,14 @@ public class QueryUtils {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                LOGGER.debug("sql QUERY -->>" + sql);
+                LOGGER.debug("sql QUERY -->>{}", sql);
                 Integer count = (Integer) DAO.executeUpdate(sql.toString());
                 if (count > 0) {
                     LOGGER.debug("End of Item Update - Updated");
                     val = Boolean.TRUE;
                 }
             } catch (Exception ex) {
-                LOGGER.error(CommonConstant.ERROR_QUERY + ex + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString());
+                LOGGER.error(CommonConstant.ERROR_QUERY, (ex.getMessage() + CommonConstant.BECOZ_OF_THE_QUERY + sql.toString()));
             }
         }
         LOGGER.debug("End of item get  Data");

@@ -26,13 +26,13 @@ public class PPAProjectionResultsDAOImpl implements PPAPrjectionResultsDAO {
      * @throws Exception
      */
     @Override
-    public void savePPAProjectionView(String indicater, String projectionId) throws SystemException, PortalException {
+    public void savePPAProjectionView(String indicater, String projectionId) throws PortalException {
         return;
     }
 
     @Override
     public List<Object[]> getPPAResultsData(Integer projectionId, int levelNo, String parent, boolean last, int startIndex, int endIndex, boolean isCount, List input, String levelName) {
-        return new NmPpaProjectionMasterImpl().getPPAResults(projectionId, levelNo, parent, last, startIndex, endIndex, isCount, input, levelName);
+        return new NmPpaProjectionMasterImpl().getPPAResults(projectionId, levelNo, parent,  startIndex, endIndex, isCount, input, levelName);
     }
 
     @Override

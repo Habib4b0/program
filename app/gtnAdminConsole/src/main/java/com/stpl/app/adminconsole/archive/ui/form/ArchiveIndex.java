@@ -426,7 +426,7 @@ public class ArchiveIndex extends CustomComponent implements View {
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
                                     if (buttonId.name().equals(ConstantsUtils.YES)) {
-
+                                        Notification.show("Record Deleted sucessfully");
                                     }
                                 }
                             }, ButtonId.YES, ButtonId.NO);

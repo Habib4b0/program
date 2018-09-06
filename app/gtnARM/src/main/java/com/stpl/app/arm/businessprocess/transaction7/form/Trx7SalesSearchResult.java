@@ -2,7 +2,6 @@ package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentTableLogic;
 import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SelectionDTO;
 import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SalesFieldFactory;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7SalesLogic;
@@ -109,7 +108,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     }
 
     public void generateButtonLogic(Trx7SelectionDTO selection, boolean isEditButtonClick) {
-        LOGGER.debug("Inside generate ButtonClick Btn" + selection.getSalesVariables().size());
+        LOGGER.debug("Inside generate ButtonClick Btn{}", selection.getSalesVariables().size());
         List<Object> header = getSummaryLogic().generateHeader(selection);
         List rightSingleVisibleColumn = (ArrayList) header.get(0);
         Map properties = new HashMap();
@@ -123,6 +122,7 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setColumnProperties(properties);
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainer.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
@@ -168,11 +168,6 @@ public class Trx7SalesSearchResult extends AbstractSearchResults {
     public void salesProcedureCall(Trx7SelectionDTO selection) {
         Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "0", selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getSalesResults(orderedArgs);
-    }
-
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
     }
 
     @Override

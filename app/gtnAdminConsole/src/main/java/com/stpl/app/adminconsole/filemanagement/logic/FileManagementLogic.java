@@ -68,7 +68,7 @@ import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.ComboBox;
 
-// TODO: Auto-generated Javadoc
+ 
 /**
  * The Class FileManagementLogic.
  *
@@ -500,7 +500,7 @@ public class FileManagementLogic {
 	}
 
 	public void populateAll(String clickEvent, final BeanItemContainer<FileMananagementResultDTO> detailsBean,
-			ExtFilterTable detailsTable) throws PortalException, SystemException {
+			ExtFilterTable detailsTable) throws PortalException {
 		if (ConstantsUtils.CHECK.equalsIgnoreCase(clickEvent)) {
 			final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
 			for (int i = 0; i < itemIds.size(); i++) {
@@ -972,7 +972,7 @@ public class FileManagementLogic {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	public List<HelperDTO> getItemQualifierNameResults() throws PortalException, SystemException {
+	public List<HelperDTO> getItemQualifierNameResults() throws PortalException {
 		final List<HelperDTO> list = new ArrayList<>();
 		final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -1009,7 +1009,7 @@ public class FileManagementLogic {
 	 * @throws PortalException
 	 * @throws SystemException
 	 */
-	public List<HelperDTO> getBrandResults() throws PortalException, SystemException {
+	public List<HelperDTO> getBrandResults() throws PortalException {
 		List<Object[]> qualifierList;
 		final List<HelperDTO> list = new ArrayList<>();
 
@@ -1506,8 +1506,7 @@ public class FileManagementLogic {
 		final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
 		if (source != null) {
 			try {
-				Date parseDate = dateFormatToParse.parse((String) source);
-				return parseDate;
+				return dateFormatToParse.parse((String) source);
 			} catch (ParseException ex) {
 				LOGGER.error(ex.getMessage());
 			}
@@ -2811,7 +2810,8 @@ public class FileManagementLogic {
 	}
 
 	private String insertQueryForInventoryDetails() {
-		String query = "INSERT INTO INVENTORY_WD_PROJ_DT (\n" + "YEAR, \n" + "MONTH, \n" + "DAY, \n" + "WEEK, \n"
+            String query = StringUtils.EMPTY;
+            query = query + "INSERT INTO INVENTORY_WD_PROJ_DT (\n" + "YEAR, \n" + "MONTH, \n" + "DAY, \n" + "WEEK, \n"
 				+ "COMPANY_ID, \n" + "IDENTIFIER_CODE_QUALIFIER, \n" + "COMPANY_IDENTIFIER, \n" + "ITEM_ID, \n"
 				+ "ITEM_IDENTIFIER_CODE_QUALIFIER, \n" + "ITEM_IDENTIFIER,\n" + "UNITS_WITHDRAWN, \n"
 				+ "AMOUNT_WITHDRAWN, \n" + "PRICE, \n" + "CREATED_DATE, \n" + "MODIFIED_DATE, \n" + "BATCH_ID, \n"
@@ -3087,8 +3087,7 @@ public class FileManagementLogic {
 				+ "                  join HELPER_TABLE ht6 on vv.UDC2 = ht6.HELPER_TABLE_SID\n"
 				+ "                  where CUSTOMER_GTS_FORECAST_SID = '" + systemId + "'";
 
-		List resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		return resultsLists;
+		return HelperTableLocalServiceUtil.executeSelectQuery(query);
 	}
 
 	public String getMaxVersion(String forecastName, String fileType) {
@@ -3138,7 +3137,7 @@ public class FileManagementLogic {
 		businessUnit.setImmediate(true);
 		String query = "select Company_Master_Sid,Company_Name from dbo.company_master cm\n"
 				+ "Join dbo.HELPER_TABLE ht ON Cm.COmpany_Type=ht.HELPER_TABLE_SID  \n"
-				+ "where ht.List_Name like 'Company_type' and ht.description like '%Business Unit%'";
+				+ "where ht.List_Name like 'Company_type' and ht.description like '%Business Unit%' and cm.INBOUND_STATUS <> 'D'";
 		List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		for (Object[] object : list) {
 			if (object != null && !String.valueOf(object).isEmpty()) {
@@ -3189,9 +3188,8 @@ public class FileManagementLogic {
 		} else {
 			query = query.replace("@GLCOMP", StringUtils.EMPTY + companyId);
 		}
-		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
-		return list;
+		return HelperTableLocalServiceUtil.executeSelectQuery(query);
 	}
 
 	public Object getForecastDetails_Excel(FileMananagementResultDTO detailsResultDTO, final int startIndex,

@@ -47,6 +47,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -62,12 +63,12 @@ public class HeaderUtils {
     /**
      * The comparison columns.
      */
-    public final Object[] COMPARISON_COLUMNS = new Object[]{"projectionName", "projectionDescription",
+    public final Object[] comparisionColumns = new Object[]{"projectionName", "projectionDescription",
         "marketType", "customer", "contract", "brand", "ndcNo", "ndcName", "createdDate", "createdBy"};
     /**
      * The parity header.
      */
-    public final String[] COMPARISON_HEADER = new String[]{"Projection Name", "Description",
+    public final String[] comparisionHeader = new String[]{"Projection Name", "Description",
         "Market Type", "Customer", "Contract", "Brand", "NDC #", "NDC Name", "Created Date", "Created By"};
     
     public static final String BP_NAME = "ALLERGAN";
@@ -291,8 +292,7 @@ public class HeaderUtils {
     static int getEndDay(int monthNo, int year) {
         Calendar ob = Calendar.getInstance();
         ob.set(year, monthNo - 1, 1);
-        int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
-        return daysInMonth;
+        return ob.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     /**
@@ -1214,7 +1214,7 @@ public class HeaderUtils {
             commonHeader = "S" + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);

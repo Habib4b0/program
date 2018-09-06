@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
@@ -28,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Converters.
  *
@@ -50,7 +49,10 @@ public class Converters {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws com.stpl.portal.kernel.exception.SystemException
      */
-    public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException, SystemException {
+    private Converters() {
+        // Converters
+    }
+    public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException {
         final List<ViewDTO> results = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedViews method with list size= {}  " , list.size());
         NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
@@ -384,7 +386,7 @@ public class Converters {
         return date;
     }
 
-    public static String getUserFLName(String userId) throws PortalException, SystemException {
+    public static String getUserFLName(String userId) throws PortalException {
         String name = StringUtils.EMPTY;
         User userInfo = CommonUtils.getUser(userId);
         if (userInfo != null) {

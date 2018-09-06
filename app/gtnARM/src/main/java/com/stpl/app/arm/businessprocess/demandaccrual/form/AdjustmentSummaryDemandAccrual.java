@@ -115,7 +115,7 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
                 try {
                     BeanUtils.setProperty(selectionDTO, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }
@@ -136,14 +136,14 @@ public class AdjustmentSummaryDemandAccrual extends AbstractDemandSummarySelecti
             selectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
             fromDate.setValue(selectionDTO.getSummarydemandfromDate());
             toDate.setValue(selectionDTO.getSummarydemandtoDate());
-            LOGGER.debug("selectionDTO.getSummary_glDate()" + selectionDTO.getSummaryglDate());
+            LOGGER.debug("selectionDTO.getSummary_glDate(){}", selectionDTO.getSummaryglDate());
             glImpactDate.removeValueChangeListener(glListener);
             defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
             glImpactDate.setValue(resetWorkFlowDate);
             glImpactDate.addValueChangeListener(glWorkflowListener);
         } catch (Exception ex) {
-            LOGGER.error("Error in loadSelection :" , ex);
+            LOGGER.error("Error in loadSelection :", ex);
         }
     }
 

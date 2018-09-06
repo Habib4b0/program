@@ -52,7 +52,7 @@ public class StplSecurity {
 
     private static final List<String> DOMAINIDS1 = null;
 
-    private static final Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    private static final Map<Integer, String> userMap = new ConcurrentHashMap<>();
 
     public StplSecurityDAO getDto() {
         return dto;
@@ -66,7 +66,7 @@ public class StplSecurity {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Collection<Object> getUserGroupId(final long userId) throws PortalException, SystemException {
+    public Collection<Object> getUserGroupId(final long userId) throws PortalException{
         final Collection<Object> userGroupId = new ArrayList<>();
         final User user = dto.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
@@ -84,7 +84,7 @@ public class StplSecurity {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException, SystemException {
+    public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException {
         String businessRoleIds = StringUtils.EMPTY;
         final DynamicQuery ugBusRoleDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
         ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
@@ -113,7 +113,7 @@ public class StplSecurity {
      * @return List<String>
      */
     public List<String> getDomainIds(final Collection<Object> userGroupId) {
-        List<String> domainIds = new ArrayList<String>();
+        List<String> domainIds = new ArrayList<>();
         final DynamicQuery ugDomainDynamicQuery = UsergroupDomainMasterLocalServiceUtil.dynamicQuery();
         ugDomainDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         try {
@@ -149,7 +149,7 @@ public class StplSecurity {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessTabPermission(final String userId, final String moduleName) throws PortalException, SystemException {
+    public Map<String, AppPermission> getBusinessTabPermission(final String userId, final String moduleName) throws PortalException {
         Map<String, AppPermission> tabHm = null;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -167,7 +167,7 @@ public class StplSecurity {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) throws PortalException, SystemException {
+    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) throws PortalException {
         LOGGER.debug("{}.",userId);
         Map<String, AppPermission> functionHm;
 
@@ -187,7 +187,7 @@ public class StplSecurity {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessFieldPermission(final String userId, final String moduleName) throws PortalException, SystemException {
+    public Map<String, AppPermission> getBusinessFieldPermission(final String userId, final String moduleName) throws PortalException {
         Map<String, AppPermission> fieldHm;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -204,7 +204,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public List<String> getDomainPermission(final String userId) throws SystemException, PortalException {
+    public List<String> getDomainPermission(final String userId) throws PortalException {
         Collection<Object> userGroupId;
         List<String> domainIds = null;
         if (null != userId) {
@@ -223,7 +223,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public DynamicQuery addDomainRestrictions(final DynamicQuery companyDynamicQuery, final String userId) throws SystemException, PortalException {
+    public DynamicQuery addDomainRestrictions(final DynamicQuery companyDynamicQuery, final String userId) throws PortalException {
         List<String> domainIds;
         domainIds = getDomainPermission(userId);
         final Disjunction disJunction = RestrictionsFactoryUtil.disjunction();
@@ -243,7 +243,7 @@ public class StplSecurity {
      * @return HashMap<String, AppPermission>
      */
     public Map<String, AppPermission> listToAppPermissionMap(final List permissionList, final int type) {
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
         final int listSize = permissionList.size();
         AppPermission appPermission;
@@ -317,7 +317,7 @@ public class StplSecurity {
         return userMap;
     }
 
-    public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName, final boolean column) throws PortalException, SystemException {
+    public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName, final boolean column) throws PortalException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
         List tabPermissionList;
         Set addPermission;
@@ -343,7 +343,7 @@ public class StplSecurity {
 
     public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList, final Set addpermission, final Set viewpermission, final Set editpermission, final int type) {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
         if (type == ConstantsUtils.ZERO_INT || type == ConstantsUtils.ONE_INT || type == ConstantsUtils.TWO_INT) {

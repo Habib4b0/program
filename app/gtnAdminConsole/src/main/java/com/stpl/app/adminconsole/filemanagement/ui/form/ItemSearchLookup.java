@@ -13,7 +13,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
-import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementFilterGenerator;
 import com.stpl.app.adminconsole.filemanagement.dto.ItemSearchDTO;
 import com.stpl.app.adminconsole.filemanagement.logic.FileManagementLogic;
@@ -25,7 +24,6 @@ import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.app.adminconsole.util.ValidationUtils;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -140,7 +138,7 @@ public class ItemSearchLookup extends Window {
         return itemId;
     }
 
-    public void init() throws PortalException, SystemException {
+    public void init() throws PortalException {
         setId("COMPANY");
         setStyleName("bootstrap-ui");
         addStyleName("bootstrap-company");
@@ -193,7 +191,7 @@ public class ItemSearchLookup extends Window {
         LOGGER.debug(" addItemsButtonClick method Ended");
     }
 
-    private void configureFields() throws PortalException, SystemException{
+    private void configureFields() throws PortalException {
         
         CommonUtils commonUtil = CommonUtils.getInstance();
         HelperListUtil helperListUtil = HelperListUtil.getInstance();

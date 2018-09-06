@@ -23,7 +23,7 @@ public class AddItemTableDTO {
     private String contractNo = StringUtils.EMPTY;
     private String contractName = StringUtils.EMPTY;
     private String marketType = StringUtils.EMPTY;
-    private HelperDTO marketType_DTO=new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private HelperDTO marketTypeDTO=new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private Date startDate;
     private Date endDate;
     private HelperDTO status;
@@ -70,22 +70,22 @@ public class AddItemTableDTO {
     private HelperDTO priceToleranceFrequency;
     private HelperDTO priceToleranceInterval;
     private String basePrice = StringUtils.EMPTY;
-    private Date RSStartDate;
-    private Date RSEndDate;
+    private Date rsStartDate;
+    private Date rsEndDate;
     private String formulaId = StringUtils.EMPTY;
     private String rebatePlan = StringUtils.EMPTY;
     private String formulaMethodId = StringUtils.EMPTY;
     private String rebateAmount = StringUtils.EMPTY;
     private String columnName = StringUtils.EMPTY;
     private Integer caseNo = 0;
-    private String contractHolder_SID = StringUtils.EMPTY;
-    private String contractNo_SID = StringUtils.EMPTY;
-    private String contractName_SID = StringUtils.EMPTY;
-    private String cfp_SID = StringUtils.EMPTY;
-    private String ifp_SID = StringUtils.EMPTY;
-    private String ps_SID = StringUtils.EMPTY;
-    private String rs_SID = StringUtils.EMPTY;
-    private String customer_SID = StringUtils.EMPTY;
+    private String contractHolderSID = StringUtils.EMPTY;
+    private String contractNoSID = StringUtils.EMPTY;
+    private String contractNameSID = StringUtils.EMPTY;
+    private String cfpSid = StringUtils.EMPTY;
+    private String ifpSid = StringUtils.EMPTY;
+    private String psSid = StringUtils.EMPTY;
+    private String rsSid = StringUtils.EMPTY;
+    private String customerSid = StringUtils.EMPTY;
     
     private HelperDTO priceType;
     private HelperDTO priceProtectionStatus;
@@ -278,12 +278,12 @@ public class AddItemTableDTO {
         this.rarCategory = rarCategory;
     }
 
-    public HelperDTO getMarketType_DTO() {
-        return marketType_DTO;
+    public HelperDTO getMarketTypeDto() {
+        return marketTypeDTO;
     }
 
-    public void setMarketType_DTO(HelperDTO marketType_DTO) {
-        this.marketType_DTO = marketType_DTO;
+    public void setMarketTypeDto(HelperDTO marketTypeDto) {
+        this.marketTypeDTO = marketTypeDto;
     }
 
     public String getCfp() {
@@ -543,19 +543,19 @@ public class AddItemTableDTO {
     }
 
     public Date getRSStartDate() {
-        return RSStartDate == null ? null : (Date) RSStartDate.clone();
+        return rsStartDate == null ? null : (Date) rsStartDate.clone();
     }
 
-    public void setRSStartDate(Date RSStartDate) {
-        this.RSStartDate = RSStartDate == null ? null : (Date) RSStartDate.clone();
+    public void setRSStartDate(Date rsStartDate) {
+        this.rsStartDate = rsStartDate == null ? null : (Date) rsStartDate.clone();
     }
 
     public Date getRSEndDate() {
-        return RSEndDate == null ? null : (Date) RSEndDate.clone();
+        return rsEndDate == null ? null : (Date) rsEndDate.clone();
     }
 
-    public void setRSEndDate(Date RSEndate) {
-        this.RSEndDate = RSEndate == null ? null : (Date) RSEndate.clone();
+    public void setRSEndDate(Date rsEndate) {
+        this.rsEndDate = rsEndate == null ? null : (Date) rsEndate.clone();
     }
 
     public String getFormulaId() {
@@ -590,68 +590,68 @@ public class AddItemTableDTO {
         this.rebateAmount = rebateAmount;
     }
 
-    public String getContractHolder_SID() {
-        return contractHolder_SID;
+    public String getContractHolderSid() {
+        return contractHolderSID;
     }
 
-    public void setContractHolder_SID(String contractHolder_SID) {
-        this.contractHolder_SID = contractHolder_SID;
+    public void setContractHolderSid(String contractHolderSid) {
+        this.contractHolderSID = contractHolderSid;
     }
 
-    public String getContractNo_SID() {
-        return contractNo_SID;
+    public String getContractNoSid() {
+        return contractNoSID;
     }
 
-    public void setContractNo_SID(String contractNo_SID) {
-        this.contractNo_SID = contractNo_SID;
+    public void setContractNoSid(String contractNoSid) {
+        this.contractNoSID = contractNoSid;
     }
 
-    public String getContractName_SID() {
-        return contractName_SID;
+    public String getContractNameSid() {
+        return contractNameSID;
     }
 
-    public void setContractName_SID(String contractName_SID) {
-        this.contractName_SID = contractName_SID;
+    public void setContractNameSid(String contractNameSid) {
+        this.contractNameSID = contractNameSid;
     }
 
-    public String getCfp_SID() {
-        return cfp_SID;
+    public String getCfpSid() {
+        return cfpSid;
     }
 
-    public void setCfp_SID(String cfp_SID) {
-        this.cfp_SID = cfp_SID;
+    public void setCfpSid(String cfpSid) {
+        this.cfpSid = cfpSid;
     }
 
-    public String getIfp_SID() {
-        return ifp_SID;
+    public String getIfpSid() {
+        return ifpSid;
     }
 
-    public void setIfp_SID(String ifp_SID) {
-        this.ifp_SID = ifp_SID;
+    public void setIfpSid(String ifpSid) {
+        this.ifpSid = ifpSid;
     }
 
-    public String getPs_SID() {
-        return ps_SID;
+    public String getPsSid() {
+        return psSid;
     }
 
-    public void setPs_SID(String ps_SID) {
-        this.ps_SID = ps_SID;
+    public void setPsSid(String psSid) {
+        this.psSid = psSid;
     }
 
-    public String getRs_SID() {
-        return rs_SID;
+    public String getRsSid() {
+        return rsSid;
     }
 
-    public void setRs_SID(String rs_SID) {
-        this.rs_SID = rs_SID;
+    public void setRsSid(String rsSid) {
+        this.rsSid = rsSid;
     }
 
-    public String getCustomer_SID() {
-        return customer_SID;
+    public String getCustomerSid() {
+        return customerSid;
     }
 
-    public void setCustomer_SID(String customer_SID) {
-        this.customer_SID = customer_SID;
+    public void setCustomerSid(String customerSid) {
+        this.customerSid = customerSid;
     }
 
     public HelperDTO getPriceType() {

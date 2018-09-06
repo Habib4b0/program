@@ -138,7 +138,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * Select button logic.
      */
     @Override
-    protected void btnLookupSelectLogic() throws SystemException, PortalException {
+    protected void btnLookupSelectLogic() throws SystemException {
         if (results != null && results.getValue() != null) {
             DataSelectionLogic logic = new DataSelectionLogic();
             List<String> sidsFromDetails;
@@ -186,7 +186,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      * Overload and Customize search logic here.
      */
     @Override
-    protected void btnSearchLogic() throws SystemException, PortalException {
+    protected void btnSearchLogic() throws PortalException {
         String noRecords = "No Records Found";
         if ((StringUtils.EMPTY.equals(groupName.getValue()) || Constants.NULL.equals(groupName.getValue()))
                 && (StringUtils.EMPTY.equals(groupNo.getValue()) || Constants.NULL.equals(groupNo.getValue()))) {

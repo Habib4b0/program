@@ -78,6 +78,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -394,9 +395,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public void configureTable() {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getVarianceLeftTableColumns(fullHeader);
-        List<Object> HeaderPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
-        rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
-        CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
+        List<Object> headerPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
+        rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+        CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
 
         alignRight();
@@ -465,8 +466,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 String fromPeriod = fromDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 String toPeriod = toDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
-                    fromPeriod = fromPeriod.toLowerCase();
-                    toPeriod = toPeriod.toLowerCase();
+                    fromPeriod = fromPeriod.toLowerCase(Locale.ENGLISH);
+                    toPeriod = toPeriod.toLowerCase(Locale.ENGLISH);
                 }
 
                 int start = periodList.indexOf(fromPeriod);
@@ -672,8 +673,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
                     }
                 }
-            int ColSize = 252;
-            int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
+            int colSize = 252;
+            int maxColSize = colSize % columnSize == NumericConstants.ZERO ? 252 : 250;
             Object[] leftColumns = new Object[leftcolumnsize + maxColSize];
             String[] leftHeaders = new String[leftcolumnsize + maxColSize];
             System.arraycopy(fullHeader.getSingleColumns().toArray(), NumericConstants.ZERO, leftColumns, NumericConstants.ZERO, NumericConstants.ONE);
@@ -848,11 +849,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     }
 
-    public void resetForAdd() throws IllegalStateException {
-        pvSelectionDTO.setDeductionLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setDeductionLevelCaptions(Collections.EMPTY_LIST);
-        pvSelectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
-        pvSelectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+    public void resetForAdd() {
+        pvSelectionDTO.setDeductionLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setDeductionLevelCaptions(Collections.emptyList());
+        pvSelectionDTO.setProductLevelFilter(Collections.emptyList());
+        pvSelectionDTO.setCustomerLevelFilter(Collections.emptyList());
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
         CommonLogic.unCheckMultiSelect(deductionFilterValues);
@@ -966,11 +967,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 CommonLogic.updateForFilter(pvSelectionDTO, "DEDUCTION", true);
                 session.setDiscountRSlist(logic.getRsIdsForDiscountAndUdcs(session));
-                boolean customerFlag = (generateCustomerToBeLoaded.containsAll(pvSelectionDTO.getCustomerLevelFilter())
-                        && generateCustomerToBeLoaded.size() == pvSelectionDTO.getCustomerLevelFilter().size());
-                boolean productFlag = (generateProductToBeLoaded.containsAll(pvSelectionDTO.getProductLevelFilter())
-                        && generateProductToBeLoaded.size() == pvSelectionDTO.getProductLevelFilter().size());
-
                     LOGGER.info("generateBtn :Inside Filter Option");
                     dsLogic.nmPvViewsPopulationProcedure(session);
                     CommonLogic.procedureCompletionCheck(session, Constant.VARIANCE_SCREEN, String.valueOf(view.getValue()));
@@ -1156,7 +1152,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     public void setBaseVariables(String columns, String varriables) {
         LOGGER.info("Entering setBaseVariables method");
-
+        String columnsBaseVariables = columns;
+        String baseVariables = varriables;
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1179,10 +1176,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setNetExFactorySales(false);
         pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsBaseVariables = columnsBaseVariables.substring(1, columnsBaseVariables.length() - 1);
+        baseVariables = baseVariables.substring(1, baseVariables.length() - 1);
+        final String[] col = columnsBaseVariables.split(",");
+        final String[] var = baseVariables.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);
@@ -1282,7 +1279,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", StringUtils.EMPTY);
             if ((pivotView.getValue().equals(Constant.PERIOD)) || (frequency.getValue().toString().equals(Constant.MONTHLY))) {
-                fromVal = fromVal.toLowerCase();
+                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
             }
             start = periodList.indexOf(fromVal);
         }
@@ -1569,8 +1566,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             tradingPartnerNo = CommonLogic.getTradingPartnerLevelNo(false, projectionId);
             session.setTradingPartner(tradingPartnerNo);
         }
-        if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
-        }
     }
 
     @Override
@@ -1837,7 +1832,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
 
-    private void security() throws PortalException, SystemException {
+    private void security() throws PortalException {
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_VARIANCE);
 
@@ -1893,6 +1888,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void setPvSelection(String columns, String varriables) {
+        String columnsPvSelection = columns;
+        String variablesPvSelection = varriables;
+        
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1915,10 +1913,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setNetExFactorySales(false);
         pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsPvSelection = columnsPvSelection.substring(1, columnsPvSelection.length() - 1);
+        variablesPvSelection = variablesPvSelection.substring(1, variablesPvSelection.length() - 1);
+        final String[] col = columnsPvSelection.split(",");
+        final String[] var = variablesPvSelection.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);
@@ -2187,7 +2185,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             it1.remove();
                             resultExcelContainer.addBean(itemId);
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2246,7 +2244,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             resultExcelContainer.addBean(itemId);
 
                             if (index++ == 0) {
-                                String parentKey = StringUtils.EMPTY;
+                                String parentKey;
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2355,7 +2353,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
 
-    private void loadDisplayFormatDdlb() throws IllegalStateException {
+    private void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
@@ -2442,7 +2440,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
+            deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
             if (CommonUtil.isValueEligibleForLoading() && Constant.TEN_STRING.equals(levelNo)) {
                 CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
             } else {
@@ -2499,7 +2497,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
-    private void loadDeductionInclusion() throws IllegalStateException {
+    private void loadDeductionInclusion() {
         String[] deductionValues = {"Yes", "No"};
         deductionInclusionDdlb.removeSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionDdlb.removeItems();
@@ -2548,7 +2546,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return results;
     }
 
-    private void loadSalesInclusion() throws IllegalStateException {
+    private void loadSalesInclusion() {
         String[] variablesalesInclusion = {"Yes", "No"};
         salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
         salesInclusionDdlb.removeItems();

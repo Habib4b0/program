@@ -67,7 +67,7 @@ public class NAAdditionalInfoDAOImpl implements NAAdditionalInfoDAO {
      * @throws Exception the exception
      */
     @Override
-    public void deleteDocDetails(final int docDetailsId) throws SystemException, PortalException {
+    public void deleteDocDetails(final int docDetailsId) throws PortalException {
         DocDetailsLocalServiceUtil.deleteDocDetails(docDetailsId);
     }
 

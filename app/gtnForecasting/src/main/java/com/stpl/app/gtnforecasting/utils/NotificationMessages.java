@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class NotificationMessages.
  *
@@ -24,4 +24,8 @@ public class NotificationMessages {
     
     /** From date and To date should not be equal error message. */
     public static final String FT_DATE_EQUALITY_MESSAGE = "From date and To date should not be equal";
+    
+    private NotificationMessages() {
+        //NotificationMessages
+    }
 }

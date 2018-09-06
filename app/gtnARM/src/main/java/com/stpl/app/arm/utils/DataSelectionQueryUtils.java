@@ -90,14 +90,14 @@ public class DataSelectionQueryUtils {
                     && StringUtils.isNotBlank(String.valueOf(parameters.get(CommonConstant.HIERARCHY_ID)))) {
                 customSql = customSql.replace("?", String.valueOf(parameters.get(CommonConstant.HIERARCHY_ID)).trim());
             }
-            LOGGER.debug("customSql ---" + customSql);
+            LOGGER.debug("customSql ---{}", customSql);
             List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-            LOGGER.debug("list ---" + list.size());
+            LOGGER.debug("list ---{}", list.size());
             LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);
             return list;
         } catch (Exception e) {
             LOGGER.error("Error in getLevelsFromHierarchy :", e);
-            LOGGER.error("Error in getLevelsFromHierarchy :" + customSql);
+            LOGGER.error("Error in getLevelsFromHierarchy :{}", customSql);
             return Collections.emptyList();
         }
     }
@@ -106,13 +106,13 @@ public class DataSelectionQueryUtils {
         String query = StringUtils.EMPTY;
         try {
             query = getLoadDataQuery(inputBean, GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL);
-            LOGGER.debug("query ---" + query);
+            LOGGER.debug("query ---{}", query);
             List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            LOGGER.debug("returnList ---" + returnList.size());
+            LOGGER.debug("returnList ---{}", returnList.size());
             return returnList;
         } catch (Exception ex) {
-            LOGGER.error(ex + " in getInnerLevel()");
-            LOGGER.error("Error Because of Query" + query);
+            LOGGER.error(" in getInnerLevel()", ex);
+            LOGGER.error("Error Because of Query{}", query);
             return Collections.emptyList();
         }
     }
@@ -143,7 +143,7 @@ public class DataSelectionQueryUtils {
     public static List getProductInnerLevel(GtnARMHierarchyInputBean inputBean) {
         String query = getLoadDataQuery(inputBean, GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_PRODUCT_LEVEL);
         List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("returnList ---" + returnList.size());
+        LOGGER.debug("returnList ---{}", returnList.size());
         return returnList;
     }
 
@@ -168,12 +168,12 @@ public class DataSelectionQueryUtils {
                 }
                 queryBuilder.append(" ORDER by RLD.level_No desc");
             }
-            LOGGER.debug("queryBuilder ---" + queryBuilder);
+            LOGGER.debug("queryBuilder ---{}", queryBuilder);
             List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
-            LOGGER.debug("list ---" + list.size());
+            LOGGER.debug("list ---{}", list.size());
             return list;
         } catch (Exception ex) {
-            LOGGER.error("In getParentLevels ->" , ex);
+            LOGGER.error("In getParentLevels ->{}", ex);
             LOGGER.error(queryBuilder.toString());
             return Collections.emptyList();
         }
@@ -186,23 +186,23 @@ public class DataSelectionQueryUtils {
             queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
             queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
             queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("lowestLevelNo")));
-            LOGGER.debug("getChildLevels: " + queryBuilder.toString());
+            LOGGER.debug("getChildLevels: {}", queryBuilder.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
-            LOGGER.error("In getChildLevels ->" , ex);
+            LOGGER.error("In getChildLevels ->", ex);
             LOGGER.error(queryBuilder.toString());
             return Collections.emptyList();
         }
     }
 
     public static List executeQuery(final Map<String, Object> parameters) {
-        LOGGER.debug("----inside executeQuery in finder Impl--------Indicator value---" + parameters.get(CommonConstant.INDICATOR));
+        LOGGER.debug("----inside executeQuery in finder Impl--------Indicator value---{}", parameters.get(CommonConstant.INDICATOR));
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.HAS_TRADING_PARTNER));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
             queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
@@ -223,7 +223,7 @@ public class DataSelectionQueryUtils {
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonLogic.stringListToString(rlSids));
-                    queryString.append(")");
+                    queryString.append(ARMUtils.CLOSE_BRACES);
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get("tableName")));
 
@@ -233,7 +233,7 @@ public class DataSelectionQueryUtils {
                         queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     }
                     queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-                    queryString.append(")");
+                    queryString.append(ARMUtils.CLOSE_BRACES);
                 }
             }
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
@@ -282,13 +282,13 @@ public class DataSelectionQueryUtils {
             queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + NumericConstants.FIVE, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.COMPANY_FILTER));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
             queryString.append(String.valueOf(parameters.get("companySid")));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
         } else {
             queryString.append(String.valueOf(parameters.get("query")));
         }
-        LOGGER.debug("queryString: " + queryString.toString());
+        LOGGER.debug("queryString: {}", queryString.toString());
         try {
             List<Object[]> list;
             list = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
@@ -303,7 +303,7 @@ public class DataSelectionQueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error("In executeQuery  ->" , ex);
+            LOGGER.error("In executeQuery  ->", ex);
             LOGGER.error(queryString.toString());
             return Collections.emptyList();
         }
@@ -312,7 +312,6 @@ public class DataSelectionQueryUtils {
     public static List findViewByName(List<String> viewNameInputs, String viewName, boolean isCount, Set<Container.Filter> filters, List<SortByColumn> sortByColumns, int start, int offset) {
         String customSql = StringUtils.EMPTY;
         Connection connection = null;
-        LOGGER.debug("Entering findViewByName method with viewName " + viewName + " adjustmentType " + viewNameInputs.get(2) + " userId " + viewNameInputs.get(3) + " viewType " + viewNameInputs.get(1));
         if (StringUtils.isNotBlank(viewNameInputs.get(1))) {
             try {
 
@@ -354,18 +353,18 @@ public class DataSelectionQueryUtils {
                 if (!isCount) {
                     customSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
                 }
-                LOGGER.debug("Custom SQL --" + customSql);
+                LOGGER.debug("Custom SQL --{}", customSql);
                 List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
                 LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);
                 return sqlList;
             } catch (Exception e) {
-                LOGGER.error("Error :" + e + " While Executing " + customSql);
+                LOGGER.error("Error :{}", (e.getMessage() + " While Executing " + customSql));
                 return Collections.emptyList();
             } finally {
                 try {
                     connection.close();
                 } catch (Exception ex) {
-                    LOGGER.error("Error in findViewByName: " , ex);
+                    LOGGER.error("Error in findViewByName: ", ex);
                 }
             }
         }
@@ -374,7 +373,6 @@ public class DataSelectionQueryUtils {
 
     public static List loadCalculationViewSearch(List<String> viewNameInputs, String viewName, boolean isCount, Set<Container.Filter> filters, List<SortByColumn> sortByColumns, int start, int offset) {
         String customSql = StringUtils.EMPTY;
-        LOGGER.debug("Entering loadCalculationViewSearch method with viewName " + viewName + " adjustmentType " + viewNameInputs.get(2) + " userId " + viewNameInputs.get(3) + " viewType " + viewNameInputs.get(1));
         if (StringUtils.isNotBlank(viewNameInputs.get(1))) {
 
             if (isCount) {
@@ -410,12 +408,12 @@ public class DataSelectionQueryUtils {
                 if (!isCount) {
                     customSql += " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
                 }
-                LOGGER.debug("Custom SQL --" + customSql);
+                LOGGER.debug("Custom SQL --{}", customSql);
                 List<Object[]> sqlList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
                 LOGGER.debug(CommonConstant.END_OF_FIND_VIEW_BY_NAME_METHOD);
                 return sqlList;
             } catch (Exception e) {
-                LOGGER.error("Error :" + e + " While Executing " + customSql);
+                LOGGER.error("Error :{}", (e.getMessage() + " While Executing " + customSql));
                 return Collections.emptyList();
             }
         }
@@ -444,7 +442,7 @@ public class DataSelectionQueryUtils {
         } else {
             query = query.replace("@Product_relation", prodRel);
         }
-        LOGGER.debug("query --" + query);
+        LOGGER.debug("query --{}", query);
         return query;
     }
 

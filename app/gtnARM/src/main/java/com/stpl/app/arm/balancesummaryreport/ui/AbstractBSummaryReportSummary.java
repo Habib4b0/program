@@ -18,7 +18,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
@@ -50,8 +49,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author Srithar.Raju
  */
-
-
 public abstract class AbstractBSummaryReportSummary extends VerticalLayout implements DefaultFocusable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBSummaryReportSummary.class);
@@ -202,7 +199,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                 finalDeductionList.add(arr[0]);
             }
         }
-        deductions = "'" + StringUtils.join(finalDeductionList.toArray(), "','") + "'";
+        deductions = ARMUtils.SINGLE_QUOTES + StringUtils.join(finalDeductionList.toArray(), "','") + ARMUtils.SINGLE_QUOTES;
         selection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || (CommonConstant.SELECT_ONE).equals(String.valueOf(fromDate.getValue()))) {
@@ -242,11 +239,17 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     }
 
     private Object[] getProcedureInput() {
-        Object[] inputs = new Object[3];
-        inputs[0] = selection.getDataSelectionDTO().getProjectionId();
-        inputs[1] = selection.getSessionDTO().getUserId();
-        inputs[2] = selection.getSessionDTO().getSessionId();
-        return inputs;
+        List<Object> inputList = new ArrayList<>();
+
+        inputList.add(selection.getDataSelectionDTO().getProjectionId());
+        inputList.add(selection.getSessionDTO().getUserId());
+        inputList.add(selection.getSessionDTO().getSessionId());
+        if (selection.getDataSelectionDTO().getAdjustmentCaption().equalsIgnoreCase("Demand") || selection.getDataSelectionDTO().getAdjustmentCaption().equalsIgnoreCase("Single Liability")) {
+            inputList.add(selection.getFrequency().substring(0, 1));
+            inputList.add(selection.getFromDate());
+            inputList.add(selection.getToDate());
+        }
+        return inputList.toArray();
     }
 
     private void createTempTables() {
@@ -271,7 +274,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGER.debug("buttonName :{}", buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case CommonConstant.RESET:
@@ -315,7 +318,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                                 List<String> finalList = CommonUtils.getToAndFromByFrequency(ARMUtils.frequencyVarables.MONTHLY.toString(), selection.getDataSelectionDTO().getFromDate(), selection.getDataSelectionDTO().getToDate());
                                 loadFrequency(finalList);
                             } catch (Exception ex) {
-                                LOGGER.error("Error in resetBtn :" , ex);
+                                LOGGER.error("Error in resetBtn :", ex);
                             }
                         }
 
@@ -348,10 +351,10 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
     protected List<String> getCheckedValues() {
         if (selecetedAdjustment != null && selecetedAdjustment.getSize() > 0) {
             List<String> result = new ArrayList<>();
-            List<CustomMenuBar.CustomMenuItem> items = selecetedAdjustment.getChildren();
-            for (CustomMenuBar.CustomMenuItem customMenuItem1 : items) {
-                if (customMenuItem1.isChecked()) {
-                    result.add(customMenuItem1.getMenuItem().getCaption());
+            List<CustomMenuBar.CustomMenuItem> custom = selecetedAdjustment.getChildren();
+            for (CustomMenuBar.CustomMenuItem customMenuItem : custom) {
+                if (customMenuItem.isChecked()) {
+                    result.add(customMenuItem.getMenuItem().getCaption());
                 }
             }
             return result;
@@ -366,21 +369,29 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
      */
     protected Map<Integer, String> getDeductionValue() {
         if (deductionValue.getItems() != null) {
-            Map<Integer, String> result = new HashMap<>();
+            Map<Integer, String> results = new HashMap<>();
             if (deductionValue.getItems() != null) {
-                for (CustomMenuBar.CustomMenuItem item : deductionValue.getItems()) {
-                    if (item != null) {
-                        for (CustomMenuBar.CustomMenuItem child : item.getChildren()) {
-                            if (child.isChecked()) {
-                                result.put(child.getMenuItem().getId(), child.getMenuItem().getCaption());
-                            }
-                        }
-                    }
-                }
+                getResultsMenuBar(results);
             }
-            return result;
+            return results;
         }
         return Collections.emptyMap();
+    }
+
+    private void getResultsMenuBar(Map<Integer, String> result) {
+        for (CustomMenuBar.CustomMenuItem customItem : deductionValue.getItems()) {
+            if (customItem != null) {
+                getCheckedResultsMenuBar(customItem, result);
+            }
+        }
+    }
+
+    private void getCheckedResultsMenuBar(CustomMenuBar.CustomMenuItem item, Map<Integer, String> result) {
+        for (CustomMenuBar.CustomMenuItem child : item.getChildren()) {
+            if (child.isChecked()) {
+                result.put(child.getMenuItem().getId(), child.getMenuItem().getCaption());
+            }
+        }
     }
 
     @UiHandler("frequencyDdlb")

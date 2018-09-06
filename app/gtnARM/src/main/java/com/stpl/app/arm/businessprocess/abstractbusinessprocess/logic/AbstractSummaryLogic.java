@@ -166,8 +166,6 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
     }
 
     public Map<Integer, String> getLevelFilterValueData(String selectedLevel, int projectionId, int deductionType, String deductionValues) {
-        LOGGER.debug("getLevelFilterValueData " + selectedLevel + " - " + projectionId);
-        LOGGER.debug("deductionType - " + deductionType + " deductionValues - " + deductionValues);
         String queryName = StringUtils.EMPTY;
         String deductionTypeDescription = HelperListUtil.getInstance().getDescriptionByID(deductionType);
         if (selectedLevel.equals(levelVariablesVarables.DEDUCTION.toString())) {
@@ -188,15 +186,15 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
 
         Map<Integer, String> levelFilterValueMap = new HashMap<>();
         if (queryName.isEmpty()) {
-            LOGGER.debug("Query not available for " + selectedLevel);
+            LOGGER.debug("Query not available for {}", selectedLevel);
             return levelFilterValueMap;
         }
 
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[@PROJECTION_ID]", String.valueOf(projectionId));
-        LOGGER.debug(" deductionTypeDescription " + deductionTypeDescription);
+        LOGGER.debug(" deductionTypeDescription {}", deductionTypeDescription);
         if (deductionTypeDescription.equalsIgnoreCase(ARMConstants.getDeduction())) {
-            query = query + "and RC.RS_ID in (" + deductionValues + ")";
+            query = query + "and RC.RS_ID in (" + deductionValues + ARMUtils.CLOSE_BRACES;
         } else {
             query = query + SQlUtil.getQuery("levelFilterDdlbLoad-DeductionJoin");
             query = query.replace("[@DEDUCTION_ID]", String.valueOf(deductionType));

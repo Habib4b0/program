@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
@@ -111,6 +112,10 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String TWENTYNINEPX = "29px";
     private static final String[] MONTH_ARRAY = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+      
+    private CommonUtils() {
+        // CommonUtils
+    }
     
     /**
      * Creates the clara.
@@ -364,7 +369,7 @@ public class CommonUtils {
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.THERAPEUTIC_CLASS));
         dynamicQuery.add(RestrictionsFactoryUtil.ne(Constant.THERAPEUTIC_CLASS,0));
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constant.THERAPEUTIC_CLASS)));
-        List<Integer> resultList = Collections.EMPTY_LIST;
+        List<Integer> resultList = Collections.emptyList();
         List<HelperDTO> finalList = new ArrayList<>();
         try {
             resultList = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -503,6 +508,7 @@ public class CommonUtils {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
+        userIdMap.clear();
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
@@ -519,7 +525,7 @@ public class CommonUtils {
         
         if (getUserMap() != null) {
             for (Map.Entry<Integer, String> entry : getUserMap().entrySet()) {
-                if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
+                if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
@@ -559,21 +565,22 @@ public class CommonUtils {
             }
         return userName;
     }
-     public static String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
+     public static String getFormattedValue(DecimalFormat formatter, String value) {
+         String valueNA = value;
+        if (valueNA.contains(Constant.NULL) || StringUtils.isBlank(valueNA)) {
             String newValue = "0";
             Double nullValue = Double.valueOf(newValue);
-            value = FORMAT.format(nullValue);
-        } else if (value.contains("- -")){
-             value = "- -";
+            valueNA = formatter.format(nullValue);
+        } else if (valueNA.contains("- -")){
+             valueNA = "- -";
         }else {
-            Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+            Double newValue = Double.valueOf(valueNA);
+            if (formatter.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            valueNA = formatter.format(newValue);
         }
-        return value;
+        return valueNA;
     }
 
   /**
@@ -607,15 +614,15 @@ public class CommonUtils {
     public static double getDoubleValue(String value) {
         double doubleValue = 0;
         boolean doubleFlag = false;
-
-        value = value.replace("$", StringUtils.EMPTY);
-        if ((StringUtils.isNotBlank(value)) && (value.matches("^\\d{0,5}\\.?\\d{0,4}$"))) {
+        String valueDouble = value;
+        valueDouble = valueDouble.replace("$", StringUtils.EMPTY);
+        if ((StringUtils.isNotBlank(valueDouble)) && (valueDouble.matches("^\\d{0,5}\\.?\\d{0,4}$"))) {
                 doubleFlag = true;
 
         }
 
         if (doubleFlag) {
-            doubleValue = Double.parseDouble(value);
+            doubleValue = Double.parseDouble(valueDouble);
 
         } else {
             doubleValue = 0;
@@ -636,14 +643,14 @@ public class CommonUtils {
         return useridFromName;
     }
     
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
-        final DataSelectionDAO DAO = new DataSelectionDAOImpl();
+    public static int getHelperCode(String listName, String description) throws SystemException {
+        final DataSelectionDAO daoHelperCode = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = daoHelperCode.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(ZERO).toString());
         }

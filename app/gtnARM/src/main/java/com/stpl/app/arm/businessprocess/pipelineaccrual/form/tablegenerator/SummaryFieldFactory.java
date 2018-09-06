@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,7 +111,7 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
                 }
                 value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
             } catch (NumberFormatException e) {
-                LOGGER.debug("User is supposed to give Double value " + e.getMessage());
+                LOGGER.debug("User is supposed to give Double value {}", e.getMessage());
                 if (!isEmptied) {
                     return;
                 }

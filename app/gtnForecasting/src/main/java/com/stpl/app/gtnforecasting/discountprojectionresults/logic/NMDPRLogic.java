@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.collections.keyvalue.MultiKey;
@@ -1263,16 +1264,17 @@ public class NMDPRLogic {
 
 
     public String getFormattedValue(DecimalFormat format, String value) {
+        String valueToFormat;
         if (value.contains(NULL)) {
-            value = DASH.getConstant();
+            valueToFormat = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
             if (format.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = format.format(newValue);
+            valueToFormat = format.format(newValue);
         }
-        return value;
+        return valueToFormat;
     }
 
 
@@ -1373,10 +1375,11 @@ public class NMDPRLogic {
         String startPeriod = "";
         String forecastStartPeriod = "";
         String forecastEndPeriod = "";
+        String discountStringValue = StringUtils.EMPTY;
         if (discountString.equals("0")) {
-            discountString = "'" + discountString + "'";
+            discountStringValue = "'" + discountString + "'";
         }
-        if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+        if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
             String hsYear = String.valueOf(startAndEndPeriods.get(0));
             String hsMonth = String.valueOf(startAndEndPeriods.get(1));
             String feYear = String.valueOf(startAndEndPeriods.get(NumericConstants.SIX));
@@ -1428,7 +1431,7 @@ public class NMDPRLogic {
             query += SQlUtil.getQuery(totalQueryName);
 
             //For replacing in main select query
-            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountString)
+            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountStringValue)
                     .replaceAll("\\?RSNAME", rsName).replaceAll("\\?GRSNAME", getGroupByCondition(frequency, isPivotHier, rsRequired))
                     .replaceAll("\\?PERIODCOND", getPeriodCondition(isPivotHier, forecastStartPeriod, forecastEndPeriod));
         } else if (proSelDTO.getCustomId() != 0) {
@@ -1438,7 +1441,7 @@ public class NMDPRLogic {
             query += SQlUtil.getQuery(queryName);
 
             //For replacing in main select query
-            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountString)
+            query = query.replaceAll("\\?FREQUENCY", getFrequencyCondition(frequency, isPivotHier)).replaceAll("\\?DISCOUNTNAME", discountStringValue)
                     .replaceAll("\\?RSNAME", rsName).replaceAll("\\?GRSNAME", getGroupByCondition(frequency, isPivotHier, rsRequired))
                     .replaceAll("\\?PERIODCOND", getPeriodCondition(isPivotHier, forecastStartPeriod, forecastEndPeriod));
         } else {
@@ -1637,7 +1640,7 @@ public class NMDPRLogic {
             freq = Constant.S_SMALL + String.valueOf(obj[1]) + String.valueOf(obj[0]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
             String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-            freq = monthName.toLowerCase() + String.valueOf(obj[0]);
+            freq = monthName.toLowerCase(Locale.ENGLISH) + String.valueOf(obj[0]);
         }
         return freq;
     }

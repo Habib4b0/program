@@ -122,7 +122,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
     protected List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
-    private boolean isFileCreated;
     /**
      * The module name.
      */
@@ -480,6 +479,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      *
      */
     private void createExportDocs() {
+        boolean isFileCreated;
         if (filePath.isDirectory() == false) {
             filePath.mkdirs();
         }

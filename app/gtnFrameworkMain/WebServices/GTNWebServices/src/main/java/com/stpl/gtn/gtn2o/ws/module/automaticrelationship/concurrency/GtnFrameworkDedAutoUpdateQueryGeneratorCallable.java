@@ -58,8 +58,6 @@ public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable
 	@Override
 	public String call() throws Exception {
 		HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
-		GtnFrameworkQueryGeneratorBean querygeneratorBean = queryGeneratorService.getQuerybySituationNameAndLevel(
-				hierarchyLevelBean, "AUTO_UPDATE_DEDUCTION", hierarchyLevelDefinitionList);
 		List<Object> firstInput = new ArrayList<>();
 		firstInput.add(relationBean.getRelationshipBuilderSid());
 		firstInput.add(hierarchyLevelBean.getHierarchyLevelDefinitionSid());
@@ -71,6 +69,10 @@ public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable
 		firstInput.add(customertUpdatedVersionNo);
 		firstInput.add(relationBean.getRelationshipBuilderSid());
 		firstInput.add(getListToString(itemMastersidList));
+                
+                GtnFrameworkQueryGeneratorBean querygeneratorBean = queryGeneratorService.getQuerybySituationNameAndLevel(
+				hierarchyLevelBean, "AUTO_UPDATE_DEDUCTION", hierarchyLevelDefinitionList);
+                
 		String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput, querygeneratorBean.generateQuery());
 		List<String> insertQueryInput = new ArrayList<>();
 		insertQueryInput.add(insertQuery);

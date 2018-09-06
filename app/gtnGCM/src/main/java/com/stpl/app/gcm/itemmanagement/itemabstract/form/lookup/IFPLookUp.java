@@ -63,7 +63,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")
-    public ComboBox componentStatus_DTO;
+    public ComboBox componentStatusDto;
     @UiField("componentType")
     public TextField componentType;
     @UiField("searchBtn")
@@ -86,9 +86,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     private final SelectionDTO selection = new SelectionDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final CustomTextField componentTextField;
-    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private static final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    private final String[] CFP_SEARCH_HEADERS = new String[]{Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan ID", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
+    private static final String[] CFP_SEARCH_HEADERS = new String[]{Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan ID", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
 
     public IFPLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;
@@ -219,7 +219,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
 
                     componentName.setValue(StringUtils.EMPTY);
                     componentNo.setValue(StringUtils.EMPTY);
-                    componentStatus_DTO.setValue(null);
+                    componentStatusDto.setValue(null);
                     componentType.setValue(StringUtils.EMPTY);
                     category.setValue(StringUtils.EMPTY);
                     startDate.setValue(null);
@@ -259,7 +259,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "ifpStatus count", "ifpStatus", BooleanConstant.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatusDto, "ifpStatus count", "ifpStatus", BooleanConstant.getFalseFlag());
     }
 
   

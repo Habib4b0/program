@@ -40,7 +40,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 
 	public UserGrpBsnsRoleDTO getBsnsRoles(UserGrpBsnsRoleDTO usrDto) {
 		try {
-			List<String> selList = new ArrayList<String>();
+			List<String> selList = new ArrayList<>();
 			List brmIdList = new ArrayList();
 			String userGroup = usrDto.getSelUserGroupId();
 			Long userGroupId = usrDto.getUserGroupMap().get(userGroup);
@@ -75,12 +75,12 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 	public UserGrpBsnsRoleDTO getUserGroups() {
 		UserGrpBsnsRoleDTO userDto = new UserGrpBsnsRoleDTO();
 		try {
-			List<String> usrGrpList = new ArrayList<String>();
+			List<String> usrGrpList = new ArrayList<>();
 			DynamicQuery ugDynamicQuery = UserGroupLocalServiceUtil.dynamicQuery();
 			// Removed this where condition since there is no groupType column in UserGroup
 			// Model
 			List<UserGroup> usrGrp = dao.getUserGroups(ugDynamicQuery);
-			HashMap<String, Long> map = new HashMap<String, Long>();
+			HashMap<String, Long> map = new HashMap<>();
 			Iterator<UserGroup> iterate = usrGrp.iterator();
 			while (iterate.hasNext()) {
 				UserGroup userGroup = (UserGroup) iterate.next();
@@ -90,9 +90,9 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 			usrGrpList.addAll(map.keySet());
 			userDto.setUserGroup(usrGrpList);
 
-			List<String> brmList = new ArrayList<String>();
+			List<String> brmList = new ArrayList<>();
 			int count2 = dao.count();
-			HashMap<String, Integer> map2 = new HashMap<String, Integer>();
+			HashMap<String, Integer> map2 = new HashMap<>();
 			List<BusinessroleMaster> businessRoleMaster = dao.getBusinessroleMasters(0, count2);
 			Iterator<BusinessroleMaster> iterate1 = businessRoleMaster.iterator();
 			while (iterate1.hasNext()) {

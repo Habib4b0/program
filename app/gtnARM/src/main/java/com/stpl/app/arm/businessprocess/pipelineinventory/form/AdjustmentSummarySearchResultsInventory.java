@@ -85,7 +85,7 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
     }
 
     protected void valueDdlbValueChange(String levelFilterValue, int masterSids) {
-        LOGGER.debug("Inside valueDdlbValueChange Method" + levelFilterValue + masterSids);
+        LOGGER.debug("Inside valueDdlbValueChange Method{}", levelFilterValue + masterSids);
 
     }
 }

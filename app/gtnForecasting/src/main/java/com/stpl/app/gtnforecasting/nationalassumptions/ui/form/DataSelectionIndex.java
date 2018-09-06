@@ -76,7 +76,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DataSelectionIndex.
  */
@@ -219,7 +219,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
     private Object companyValueId;
 
-    private Object thearupeticValue;
     private Object thearupeticValueId;
 
     private Integer productGroupId = 0;
@@ -655,6 +654,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * To load data depends on the selection
      */
     private void loadData() {
+        Object thearupeticValue;
         if (company.getValue() != null) {
             companyValueId =  company.getValue();
         } else {
@@ -669,6 +669,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             thearupeticValue = StringUtils.EMPTY;
         }
         productGroupValue = productGroup.getValue();
+        LOGGER.debug(" thearupeticValue {} " , thearupeticValue);
     }
 
     /**
@@ -724,7 +725,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
         final ProductGroupLookup lookUp = new ProductGroupLookup(sessionDTO);
         UI.getCurrent().addWindow(lookUp);
-        // TODO Auto-generated method stub
         lookUp.addCloseListener(new Window.CloseListener() {
 
             private static final long serialVersionUID = 1L;
@@ -891,11 +891,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
                         selProducts.add(dataSelectionDto);
                     }
-                    try {
                         dataSelectionBinder.commit();
-                    } catch (FieldGroup.CommitException e) {
-                        LOGGER.error(e.getMessage());
-                    }
                     Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                         thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                     msg = logic.saveProjection(values, selProducts, false,sessionDTO);
@@ -911,8 +907,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
                     }
                 } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.getConstant().equals(modeOption.getValue())) {
-                    if (projectionId.getValue() == null || StringUtils.EMPTY.equals(projectionId.getValue())) {
-                    } else {
+                    if (projectionId.getValue() != null || !StringUtils.EMPTY.equals(projectionId.getValue())) {
                         msg = projectionId.getValue();
                     }
                 }
@@ -928,7 +923,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
             }
             LOGGER.debug("GenerateBtn ClickEvent ends");
-        } catch (NumberFormatException | SQLException | NamingException e) {
+        } catch (FieldGroup.CommitException |NumberFormatException | SQLException | NamingException e) {
             LOGGER.error(e.getMessage());
         }
 
@@ -1101,10 +1096,10 @@ public class DataSelectionIndex extends CustomComponent implements View {
             }
             if (targetItem != null) {
                 int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
-                String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
+                String projectionNameResults = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
                 modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
                 projectionId.setValue(String.valueOf(projectionSysId));
-                sessionDTO.setProjectionName(projectionName);
+                sessionDTO.setProjectionName(projectionNameResults);
             }
         } else {
             projectionId.setValue(null);

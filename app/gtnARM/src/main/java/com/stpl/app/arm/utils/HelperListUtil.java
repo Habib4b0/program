@@ -90,10 +90,9 @@ public class HelperListUtil {
         try {
             String query = SQlUtil.getQuery("HELPER_TABLE_LOAD");
             StringBuilder replaceQuery = new StringBuilder();
-            replaceQuery.append("'").append(listNameBundle.getString(moduleName).replace(",", "','")).append("'");
+            replaceQuery.append(ARMUtils.SINGLE_QUOTES).append(listNameBundle.getString(moduleName).replace(",", "','")).append(ARMUtils.SINGLE_QUOTES);
             query = query.replace("?", replaceQuery);
             List<HelperDTO> helperList = null;
-            System.out.println("QUERY--------------" + query);
             final List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (list != null) {
                 String currentListName = StringUtils.EMPTY;

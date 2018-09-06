@@ -23,7 +23,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class GcmtFilterLogic {
 
-    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private static GcmtFilterLogic instance;
 
     private GcmtFilterLogic() {
@@ -103,7 +103,7 @@ public class GcmtFilterLogic {
             }
             
             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
+            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, dbDate.format(endValue));
             sql.append(tempEnd);
         }
     }
@@ -117,7 +117,7 @@ public class GcmtFilterLogic {
                 tempStart = new StringBuilder(dateStartstr);
             }
             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
+            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(startValue));
             sql.append(tempStart);
         }
     }
@@ -138,7 +138,7 @@ public class GcmtFilterLogic {
                 tempStart = new StringBuilder("AND ( * <='?' )");
             }
             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(value));
+            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dbDate.format(value));
             sql.append(tempStart);
         }
     }
@@ -199,7 +199,7 @@ public class GcmtFilterLogic {
 
     public void equalOperator(Compare.Operation operation, Compare stringFilter, StringBuilder sql, Map<String, String> queryMap) {
         if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
             StringBuilder tempStart;
             String value;
@@ -213,7 +213,7 @@ public class GcmtFilterLogic {
                 if (sql.length() == 0) {
                     tempStart = new StringBuilder(intStartstr);
                 } else {
-                    tempStart = new StringBuilder(Startstr);
+                    tempStart = new StringBuilder(startStr);
                 }
                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);

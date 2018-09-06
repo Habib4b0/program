@@ -50,32 +50,33 @@ public class AdjustmentReserveView extends VerticalLayout implements View {
     /**
      * The Override Method for the View Change
      *
-     * @param event
+     * @param reserveViewEvent
      */
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        LOGGER.debug("Enters in the View with mode" + sessionDTO.getMode());
+    public void enter(ViewChangeListener.ViewChangeEvent reserveViewEvent) {
+        LOGGER.debug("Enters in the View with mode{}", sessionDTO.getMode());
         this.removeAllComponents();
-        AdjustmentReserveSearchForm adjustmentReserveSearchForm = new AdjustmentReserveSearchForm(sessionDTO);
-        addComponent(adjustmentReserveSearchForm);
+        AdjustmentReserveSearchForm adjResSearchForm = new AdjustmentReserveSearchForm(sessionDTO);
+        addComponent(adjResSearchForm);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object adjResObj) {
+        return super.equals(adjResObj);
     }
 
     @Override
     public int hashCode() {
+        LOGGER.debug("Inside Adjustment Reserve View");
         return super.hashCode();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    private void writeObject(ObjectOutputStream adjResOut) throws IOException {
+        adjResOut.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+    private void readObject(ObjectInputStream adjResIn) throws IOException, ClassNotFoundException {
+        adjResIn.defaultReadObject();
     }
 
 }

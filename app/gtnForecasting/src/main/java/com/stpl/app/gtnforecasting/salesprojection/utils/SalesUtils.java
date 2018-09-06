@@ -36,7 +36,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SalesUtils {
     
-    
+  private SalesUtils() {
+        // SalesUtils
+    }
+   
     public static final String MANDATED_PRO_NAME = "{call Prc_mandated_sales_insert (?,?,?)}";
     public static final String NM_SALES_PRO_NAME = "{call PRC_NM_SALES_INSERT (?,?,?)}";
     public static final String RETURNS_SALES_INSERT_PRO_NAME = "{call PRC_RETURNS_INSERT (?,?,?)}";
@@ -95,9 +98,10 @@ public class SalesUtils {
         return quarter + " " + year;
     }
        public static int[] getQuarterAndYear(String period) {
+           String periodQuaterAndyear = period;
         int[] quarterAndYear = new int[NumericConstants.TWO];
-        period = period.replace(Constant.Q, StringUtils.EMPTY);
-        String[] splitPeriod = period.split(" ");
+        periodQuaterAndyear = periodQuaterAndyear.replace(Constant.Q, StringUtils.EMPTY);
+        String[] splitPeriod = periodQuaterAndyear.split(" ");
         quarterAndYear[0] = Integer.parseInt(splitPeriod[0]);
         quarterAndYear[1] = Integer.parseInt(splitPeriod[1]);
         return quarterAndYear;

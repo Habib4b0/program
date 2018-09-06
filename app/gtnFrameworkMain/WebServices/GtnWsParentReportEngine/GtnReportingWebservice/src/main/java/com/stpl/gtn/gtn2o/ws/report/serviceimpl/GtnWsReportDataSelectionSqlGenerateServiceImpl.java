@@ -279,13 +279,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			return gtnWsReportCustomCCPListDetails.stream().filter(row -> row.getLevelNo() == levelNo
 					&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo(), row.getData()[5].toString())
 					&& filterCustomViewVariable(customviewData, reportDashboardBean.getSelectedVariableType(), row)
-					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit).map(
-							row -> aggregate(
-									convertToRecordbean(gtnWsRequest, row,
-											gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-											gtnWsReportCustomCCPListDetails.indexOf(row),
-											reportDashboardBean.getDisplayFormat(), customviewData),
-									row, customviewData))
+					&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start).limit(limit)
+					.map(row -> aggregate(
+							convertToRecordbean(gtnWsRequest, row,
+									gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
+									gtnWsReportCustomCCPListDetails.indexOf(row),
+									reportDashboardBean.getDisplayFormat(), customviewData),
+							row, customviewData, gtnWsRequest))
 					.collect(Collectors.toList());
 
 		} catch (IOException | NumberFormatException ex) {
@@ -296,7 +296,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	@SuppressWarnings("unchecked")
 	GtnWsRecordBean aggregate(GtnWsRecordBean bean, GtnWsReportCustomCCPListDetails hierachyBean,
-			List<Object[]> customviewData) {
+			List<Object[]> customviewData, GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		bean.getRecordHeader().stream().filter(e -> e != null && e.toString().contains("Total")).forEach(object -> {
 
 			Double total = bean.getRecordHeader().stream()
@@ -306,8 +306,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			String customViewTypeInBackend = String.valueOf(customviewData.get(0));
 			String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
 			boolean isTotalSpecialCondition = !"V".equals(indicator) && !customViewTypeDataArray[2].equals("Columns");
-			dataConvertors(bean, object.toString(), total, indicator, bean.getStringProperty("levelValue"),
-					isTotalSpecialCondition);
+			String levelName = "levelValue";
+			String currencyConversionType = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean()
+					.getCurrencyConversion();
+			if (!"0".equals(currencyConversionType)) {
+				dataConvertors(bean, object.toString(), total, indicator, bean.getStringProperty(levelName),
+						isTotalSpecialCondition);
+			} else {
+				currencyTypeNoConversionDataConverters(bean, object.toString(), total, indicator,
+						bean.getStringProperty(levelName), isTotalSpecialCondition);
+			}
+
 		});
 		return bean;
 	}
@@ -370,7 +379,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			dataForHierarchy.entrySet().stream()
 					.forEach(entry -> Optional.ofNullable(entry.getValue())
 							.ifPresent(data -> currencyTypeNoConversionDataConverters(recordBean, entry.getKey(), data,
-									bean.getData()[5].toString(), levelName)));
+									bean.getData()[5].toString(), levelName, false)));
 		}
 
 		return recordBean;
@@ -585,12 +594,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	// Method to format values to non-decimal if user has selected Currency Display
 	// = No Conversion
 	private void currencyTypeNoConversionDataConverters(GtnWsRecordBean gtnWsRecordBean, String mapKey,
-			Double dataValue, String variableIndicator, String levelName) {
+			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition) {
 		if (("V".equals(variableIndicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| mapKey.contains("PER") || mapKey.contains("RATE")) {
 			gtnWsRecordBean.addProperties(mapKey, GtnWsReportDecimalFormat.PERCENT.getFormattedValue(dataValue)
 					+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
-		} else if ("V".equals(variableIndicator) && levelName.contains("Unit")) {
+		} else if (("V".equals(variableIndicator) && levelName.contains("Unit")) || mapKey.contains("UNIT")
+				|| isTotalSpecialCondition) {
 			gtnWsRecordBean.addProperties(mapKey,
 					GtnWsReportDecimalFormat.UNITS_NO_CONVERSION.getFormattedValue(dataValue));
 		} else {
@@ -601,7 +611,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public static Double extractDouble(Object value) {
 		return Optional.ofNullable(value).isPresent()
-				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]", ""))
+				? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""))
 				: 0.0;
 	}
 

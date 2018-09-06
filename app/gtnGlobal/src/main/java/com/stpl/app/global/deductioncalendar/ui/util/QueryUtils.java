@@ -136,8 +136,8 @@ public class QueryUtils {
      * @return
      */
     public String getDeductionDataQuery(DeductionDetailsDTO deductionDTO, TableDTO tableDTO, int start, int offset) {
-        String fromDate[] = deductionDTO.getDetailsFromDate() == null || "".equals(deductionDTO.getDetailsFromDate()) || ConstantsUtils.NULL.equals(deductionDTO.getDetailsFromDate()) ? String.valueOf(deductionDTO.getForecastFromDate()).split("-") : deductionDTO.getDetailsFromDate().split("-");
-        String toDate[] = deductionDTO.getDetailsToDate() == null || "".equals(deductionDTO.getDetailsToDate()) || ConstantsUtils.NULL.equals(deductionDTO.getDetailsToDate()) ? String.valueOf(deductionDTO.getForecastToDate()).split("-") : deductionDTO.getDetailsToDate().split("-");
+        String[] fromDate = deductionDTO.getDetailsFromDate() == null || "".equals(deductionDTO.getDetailsFromDate()) || ConstantsUtils.NULL.equals(deductionDTO.getDetailsFromDate()) ? String.valueOf(deductionDTO.getForecastFromDate()).split("-") : deductionDTO.getDetailsFromDate().split("-");
+        String[] toDate = deductionDTO.getDetailsToDate() == null || "".equals(deductionDTO.getDetailsToDate()) || ConstantsUtils.NULL.equals(deductionDTO.getDetailsToDate()) ? String.valueOf(deductionDTO.getForecastToDate()).split("-") : deductionDTO.getDetailsToDate().split("-");
         String query = "";
         if (deductionDTO.getDataView().equals(ConstantsUtils.CUSTOMER)) {
             if (deductionDTO.getFilterDdlb() != null && !ConstantsUtils.NULL.equals(deductionDTO.getFilterDdlb())) {

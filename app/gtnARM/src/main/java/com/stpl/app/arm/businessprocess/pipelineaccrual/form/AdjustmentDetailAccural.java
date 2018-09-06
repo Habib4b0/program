@@ -48,10 +48,10 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
     public void setSelection() {
         selection.setDetailLevel(level.getValue().toString());
         selection.setDetailvariables(Arrays.asList(variableValue));
-        List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
-        List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
+        List<List> paAccount = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
+        selection.setDetailreserveAcount(!paAccount.isEmpty() ? paAccount.get(0) : null);
+        List<String> paAmtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
+        selection.setDetailamountFilter(!paAmtFilter.isEmpty() ? paAmtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
 
         selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
@@ -62,29 +62,26 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
     protected void generateBtn() {
         try {
             setSelection();
-            if (logic.generateButtonCheck(selection) && !creditFlag) {
+            boolean paCondition1 = logic.generateButtonCheck(selection) && !creditFlag;
+            boolean paCondition2 = creditFlag && isGenerateFlag();
+            if (paCondition1) {
                 super.generateBtn();
                 tableLogic.loadSetData(Boolean.TRUE);
-            } else if (creditFlag && isGenerateFlag()) {
+            } else if (paCondition2) {
                 AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageMsgHeader003(), ARMMessages.getGenerateMessageMsgId006());
             } else if (isGenerateFlag()) {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error("Error in generateBtn :" , ex);
+            LOGGER.error("Error in generateBtn :", ex);
         }
     }
 
     @Override
-    protected void resetBtn() {
-        super.resetBtn();
-    }
-
-    @Override
     protected void loadReserveAccount() {
-        List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
-        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
-                Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
+        List<List> paList = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
+        CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(paList.get(0).toArray(), paList.get(0).size(), String[].class),
+                Arrays.copyOf(paList.get(1).toArray(), paList.get(1).size(), String[].class));
         CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
@@ -99,11 +96,11 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
      */
     @Override
     protected void variableDefaultSelection() {
-        List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
+        List paList = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
                 ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
                 : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-            if (list.contains(object.getMenuItem().getWindow())) {
+            if (paList.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);
             }
         }
@@ -116,17 +113,17 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
 
     @Override
     protected void columnAlignmentChanges() {
-        for (Object obj : resultsTable.getVisibleColumns()) {
-            if (obj.toString().contains("deductionAmount") || obj.toString().contains("deductionRate")) {
-                resultsTable.setColumnAlignment(obj, ExtCustomTable.Align.LEFT);
+        for (Object paobj : resultsTable.getVisibleColumns()) {
+            if (paobj.toString().contains("deductionAmount") || paobj.toString().contains("deductionRate")) {
+                resultsTable.setColumnAlignment(paobj, ExtCustomTable.Align.LEFT);
             }
         }
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) {
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction1", "Adjustment Details");
-        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
-        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
+        Map<String, AppPermission> paFunctionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction1", "Adjustment Details");
+        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", paFunctionHM));
+        generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", paFunctionHM));
 
     }
 

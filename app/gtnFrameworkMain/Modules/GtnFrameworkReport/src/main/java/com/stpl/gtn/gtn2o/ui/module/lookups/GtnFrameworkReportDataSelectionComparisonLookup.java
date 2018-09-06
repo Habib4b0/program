@@ -691,7 +691,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				"Market Type", "Contract Holder", "Contract", "Brand", "Created Date", "Created By"));
 		comparisonLookupResultsPagedTableConfig.setTableColumnMappingId(new Object[] { "projectionName", "description",
 				"marketType", "contractHolder", "contract", "brand", "createdDate", "createdBy" });
-		comparisonLookupResultsPagedTableConfig.setCountUrl("");
+		comparisonLookupResultsPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_COUNTSERVICE);
 		comparisonLookupResultsPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE);
 		comparisonLookupResultsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());

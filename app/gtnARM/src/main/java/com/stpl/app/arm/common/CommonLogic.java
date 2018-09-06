@@ -38,6 +38,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.UI;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -154,7 +155,7 @@ public class CommonLogic {
     public static void loadReserveRateDropdowns(ComboBox comboBox, boolean companyBusinessUnitFlag, String sqlID) {
         String sqlQuery = SQlUtil.getQuery(sqlID);
         if (companyBusinessUnitFlag) {
-            LOGGER.info("QUERY----------------" + sqlQuery);
+            LOGGER.info("QUERY----------------{}", sqlQuery);
             List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
 
             for (Object[] obj : arr) {
@@ -424,9 +425,9 @@ public class CommonLogic {
         StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-                builder.append("'");
+                builder.append(ARMUtils.SINGLE_QUOTES);
                 builder.append(stringList.get(loop));
-                builder.append("'");
+                builder.append(ARMUtils.SINGLE_QUOTES);
                 if (loop != (limit - 1)) {
                     builder.append(", ");
                 }
@@ -490,7 +491,7 @@ public class CommonLogic {
         try {
             loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
         } catch (PortalException | SystemException noSuchUserException) {
-            LOGGER.error("Error in getUser :" + noSuchUserException);
+            LOGGER.error("Error in getUser :", noSuchUserException);
             loggedUserDetails = null;
         }
 
@@ -617,7 +618,7 @@ public class CommonLogic {
      * @throws Exception the exception
      */
     public static void saveNotes(final int projectionId, final String createdBy, final List<String> notes, final String moduleName, final String reasonCode) {
-        LOGGER.debug("Entering saveNotes method with with projectionId " + projectionId + " createdBy " + createdBy + " notes " + notes + " moduleName " + moduleName);
+        LOGGER.debug("Entering saveNotes method with with projectionId {}", projectionId);
         String baseQuery = SQlUtil.getQuery("insertAdditionalNotes");
         Date date = new Date();
         String param = "(" + projectionId + " , '" + moduleName + "' , " + createdBy + " , '" + new Timestamp(date.getTime()) + "' , " + "@NOTES" + " , '" + reasonCode + "')";
@@ -627,7 +628,7 @@ public class CommonLogic {
         parameters.append(CommonConstant.COMMA).append(notes.get(0)).append("', '").append(reasonCode).append("' )");
         for (int i = 1; i < notes.size(); i++) {
             parameters.append(", ");
-            parameters.append((param.replace("@NOTES", "'" + notes.get(i) + "'")));
+            parameters.append((param.replace("@NOTES", ARMUtils.SINGLE_QUOTES + notes.get(i) + ARMUtils.SINGLE_QUOTES)));
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(baseQuery + parameters.toString());
         LOGGER.debug("End of saveNotes method");
@@ -673,8 +674,8 @@ public class CommonLogic {
         Date date = new Date();
         StringBuilder param = new StringBuilder();
         param.append("( '").append(fileName).append(CommonConstant.COMMA).append(fileType).append(CommonConstant.COMMA);
-        param.append(formatter.format(fileSize)).append("' , ").append("'").append(uploadedBy).append(CommonConstant.COMMA);
-        param.append(moduleName).append(CommonConstant.COMMA).append(new Timestamp(date.getTime())).append("' , ").append(projectionId).append(")");
+        param.append(formatter.format(fileSize)).append("' , ").append(ARMUtils.SINGLE_QUOTES).append(uploadedBy).append(CommonConstant.COMMA);
+        param.append(moduleName).append(CommonConstant.COMMA).append(new Timestamp(date.getTime())).append("' , ").append(projectionId).append(ARMUtils.CLOSE_BRACES);
 
         for (int i = 1; i < fileNames.size(); i++) {
             String fileNameStr = fileNames.get(i).getDocumentName();
@@ -692,9 +693,9 @@ public class CommonLogic {
 
             param.append(" , ").append("( '").append(fileName.toString()).append(CommonConstant.COMMA);
 
-            param.append(fileType).append(CommonConstant.COMMA).append(formatter.format(fileSize)).append("' , ").append("'");
+            param.append(fileType).append(CommonConstant.COMMA).append(formatter.format(fileSize)).append("' , ").append(ARMUtils.SINGLE_QUOTES);
             param.append(uploadedBy).append(CommonConstant.COMMA).append(moduleName).append(CommonConstant.COMMA).append(new Timestamp(date.getTime()));
-            param.append("' , ").append(projectionId).append(")");
+            param.append("' , ").append(projectionId).append(ARMUtils.CLOSE_BRACES);
 
         }
         insertQuery = (insertQuery.replace("@Values", param)) + ";";
@@ -749,7 +750,7 @@ public class CommonLogic {
     public static boolean savePipeAccrualSelection(int projectionId, String moduleName, AbstractSelectionDTO dto) {
         StringBuilder builder = new StringBuilder();
         String var = null;
-        Map<String, String> pipeLineMap = new HashMap<>();
+        Map<String, String> pipeLineAccrualMap = new HashMap<>();
         List<String> pipeLineList = new ArrayList<>();
 //-----------------------SALES--------------------------------------------------
         if (dto.getSalesVariables() != null && !dto.getSalesVariables().isEmpty()) {
@@ -757,53 +758,53 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
 
-            pipeLineMap.put(VariableConstants.SALES_VARIABLE, var);
+            pipeLineAccrualMap.put(VariableConstants.SALES_VARIABLE, var);
             pipeLineList.add(VariableConstants.SALES_VARIABLE);
             builder = new StringBuilder();
         }
         if (dto.getDateType() != null) {
-            pipeLineMap.put(VariableConstants.DATE_TYPE, dto.getDateType());
+            pipeLineAccrualMap.put(VariableConstants.DATE_TYPE, dto.getDateType());
             pipeLineList.add(VariableConstants.DATE_TYPE);
         }
         if (!"null".equals(dto.getPrice()) || !StringUtils.isBlank(dto.getPrice())) {
-            pipeLineMap.put(VariableConstants.PRICE, dto.getPrice());
+            pipeLineAccrualMap.put(VariableConstants.PRICE, dto.getPrice());
             pipeLineList.add(VariableConstants.PRICE);
         }
 //-----------------------------------RATES--------------------------------------
         if (dto.getRateDeductionLevel() != 0) {
-            pipeLineMap.put(VariableConstants.RATE_DEDUCTION_LEVEL, String.valueOf(dto.getRateDeductionLevel()));
+            pipeLineAccrualMap.put(VariableConstants.RATE_DEDUCTION_LEVEL, String.valueOf(dto.getRateDeductionLevel()));
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getRateDeductionValue()) || !StringUtils.isBlank(dto.getRateDeductionValue())) {
-            pipeLineMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace("'", "")));
+            pipeLineAccrualMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_VALUE);
         }
         if (dto.getRateBasisValue() != 0) {
-            pipeLineMap.put(VariableConstants.RATE_BASIS, String.valueOf(dto.getRateBasisValue()));
+            pipeLineAccrualMap.put(VariableConstants.RATE_BASIS, String.valueOf(dto.getRateBasisValue()));
             pipeLineList.add(VariableConstants.RATE_BASIS);
         }
         if (dto.getRateFrequencyValue() != 0) {
-            pipeLineMap.put(VariableConstants.RATE_FREQUENCY, String.valueOf(dto.getRateFrequencyValue()));
+            pipeLineAccrualMap.put(VariableConstants.RATE_FREQUENCY, String.valueOf(dto.getRateFrequencyValue()));
             pipeLineList.add(VariableConstants.RATE_FREQUENCY);
         }
         if (!"null".equals(dto.getRatePeriodValue()) || !StringUtils.isBlank(dto.getRatePeriodValue())) {
-            pipeLineMap.put(VariableConstants.RATE_PERIOD, String.valueOf(dto.getRatePeriodValue()));
+            pipeLineAccrualMap.put(VariableConstants.RATE_PERIOD, String.valueOf(dto.getRatePeriodValue()));
             pipeLineList.add(VariableConstants.RATE_PERIOD);
         }
-        pipeLineMap.put(VariableConstants.RATES_OVERRIDE_FLAG, String.valueOf(dto.getRatesOverrideFlag()));
+        pipeLineAccrualMap.put(VariableConstants.RATES_OVERRIDE_FLAG, String.valueOf(dto.getRatesOverrideFlag()));
         pipeLineList.add(VariableConstants.RATES_OVERRIDE_FLAG);
 //----------------------------------ADJUSTMENT SUMMARY--------------------------
         if (dto.getSummarydeductionLevel() != 0) {
-            pipeLineMap.put(VariableConstants.SUMMARY_DEDUCTION_LEVEL, String.valueOf(dto.getSummarydeductionLevel()));
+            pipeLineAccrualMap.put(VariableConstants.SUMMARY_DEDUCTION_LEVEL, String.valueOf(dto.getSummarydeductionLevel()));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) || !StringUtils.isBlank(dto.getSummarydeductionValues())) {
-            pipeLineMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace("'", "")));
+            pipeLineAccrualMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -812,23 +813,23 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
-            pipeLineMap.put(VariableConstants.SUMMARY_VARIABLES, var);
+            pipeLineAccrualMap.put(VariableConstants.SUMMARY_VARIABLES, var);
             pipeLineList.add(VariableConstants.SUMMARY_VARIABLES);
             builder = new StringBuilder();
         }
 
         if (!"null".equals(dto.getSummaryglDate()) || !StringUtils.isBlank(dto.getSummaryglDate())) {
-            pipeLineMap.put(VariableConstants.SUMMARY_GL_DATE, String.valueOf(dto.getSummaryglDate()));
+            pipeLineAccrualMap.put(VariableConstants.SUMMARY_GL_DATE, String.valueOf(dto.getSummaryglDate()));
             pipeLineList.add(VariableConstants.SUMMARY_GL_DATE);
 
         }
 //--------------------------------ADJUSTMENT DETAILS----------------------------
         if (!"null".equals(dto.getDetailLevel()) || !StringUtils.isBlank(dto.getDetailLevel())) {
-            pipeLineMap.put(VariableConstants.DETAIL_LEVEL, String.valueOf(dto.getDetailLevel()));
+            pipeLineAccrualMap.put(VariableConstants.DETAIL_LEVEL, String.valueOf(dto.getDetailLevel()));
             pipeLineList.add(VariableConstants.DETAIL_LEVEL);
         }
         if (dto.getSavedetailvariables() != null && !dto.getSavedetailvariables().isEmpty()) {
@@ -836,12 +837,12 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
 
-            pipeLineMap.put(VariableConstants.DETAIL_VARIABLE, var);
+            pipeLineAccrualMap.put(VariableConstants.DETAIL_VARIABLE, var);
             pipeLineList.add(VariableConstants.DETAIL_VARIABLE);
             builder = new StringBuilder();
         }
@@ -851,12 +852,12 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
 
-            pipeLineMap.put(VariableConstants.DETAIL_RESERVER_ACCOUNT, var);
+            pipeLineAccrualMap.put(VariableConstants.DETAIL_RESERVER_ACCOUNT, var);
             pipeLineList.add(VariableConstants.DETAIL_RESERVER_ACCOUNT);
             builder = new StringBuilder();
         }
@@ -866,18 +867,18 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
 
-            pipeLineMap.put(VariableConstants.DETAIL_AMOUNT_FILTER, var);
+            pipeLineAccrualMap.put(VariableConstants.DETAIL_AMOUNT_FILTER, var);
             pipeLineList.add(VariableConstants.DETAIL_AMOUNT_FILTER);
         }
 
         deleteAdjustmentSelection(projectionId);
 
-        return saveAdjustmentSelection(projectionId, moduleName, pipeLineMap, pipeLineList);
+        return saveAdjustmentSelection(projectionId, moduleName, pipeLineAccrualMap, pipeLineList);
     }
 
     public static void getDataSelectionForWorkFlow(DataSelectionDTO result) throws ParseException {
@@ -926,7 +927,7 @@ public class CommonLogic {
     }
 
     public static void saveToTemp(SessionDTO sessionDTO, String adjType) {
-        String adjTypes = adjType.replace("~", "_");
+        String adjTypes = adjType.replace('~', ARMUtils.UNDERSCORE);
         String query = SQlUtil.getQuery(adjTypes + "_Wf_Edit_Query");
         query = query.replaceAll("@PROJECTION_MASTER_SID", Integer.toString(sessionDTO.getProjectionId()) + "");
         query = replaceTableNames(query, sessionDTO.getCurrentTableNames());
@@ -934,7 +935,7 @@ public class CommonLogic {
     }
 
     public static void saveTempToMain(int projId, Map<String, String> currentTableNames, String adjType) {
-        String adjTypes = adjType.trim().replace(" ", "_");
+        String adjTypes = adjType.trim().replace(" ", String.valueOf(ARMUtils.UNDERSCORE));
         String query = SQlUtil.getQuery(adjTypes + "_Wf_Save_Query");
         query = query.replaceAll("@PROJECTION_MASTER_SID", Integer.toString(projId) + "");
         query = QueryUtil.replaceTableNames(query, currentTableNames);
@@ -962,19 +963,19 @@ public class CommonLogic {
     public static void saveDemandPaymentsReforcastSelection(int projectionId, String adjustmentType, AbstractSelectionDTO dto) {
         StringBuilder builder = new StringBuilder();
         String var = null;
-        Map<String, String> pipeLineMap = new HashMap<>();
+        Map<String, String> demandPaymentsMap = new HashMap<>();
         List<String> pipeLineList = new ArrayList<>();
         //-------------Adjustment Summary Variables--------------
         if (dto.getSummaryfrequency() != 0) {
-            pipeLineMap.put(VariableConstants.SUMMARY_FREQUENCY, String.valueOf(dto.getSummaryfrequency()));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_FREQUENCY, String.valueOf(dto.getSummaryfrequency()));
             pipeLineList.add(VariableConstants.SUMMARY_FREQUENCY);
         }
         if (dto.getSummarydeductionLevel() != 0) {
-            pipeLineMap.put(VariableConstants.SUMMARY_DEDUCTION_LEVEL, String.valueOf(dto.getSummarydeductionLevel()));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_DEDUCTION_LEVEL, String.valueOf(dto.getSummarydeductionLevel()));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) || !StringUtils.isBlank(dto.getSummarydeductionValues())) {
-            pipeLineMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace("'", "")));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
         if (dto.getSummaryvariables() != null && !dto.getSummaryvariables().isEmpty()) {
@@ -982,33 +983,33 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
-            pipeLineMap.put(VariableConstants.SUMMARY_VARIABLES, var);
+            demandPaymentsMap.put(VariableConstants.SUMMARY_VARIABLES, var);
             pipeLineList.add(VariableConstants.SUMMARY_VARIABLES);
             builder = new StringBuilder();
         }
         if (dto.getSummarydemandview() != null && !dto.getSummaryviewType().isEmpty()) {
-            pipeLineMap.put(VariableConstants.SUMMARY_VIEW_TYPE, String.valueOf(dto.getSummarydemandview()));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_VIEW_TYPE, String.valueOf(dto.getSummarydemandview()));
             pipeLineList.add(VariableConstants.SUMMARY_VIEW_TYPE);
         }
         if (dto.getSummaryglDate() != null && !dto.getSummaryglDate().isEmpty()) {
-            pipeLineMap.put(VariableConstants.SUMMARY_GL_DATE, String.valueOf(dto.getSummaryglDate()));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_GL_DATE, String.valueOf(dto.getSummaryglDate()));
             pipeLineList.add(VariableConstants.SUMMARY_GL_DATE);
         }
         if (dto.getSummarydemandfromDate() != null && !dto.getSummarydemandfromDate().isEmpty()) {
-            pipeLineMap.put(VariableConstants.SUMMARY_FROM_DATE, String.valueOf(dto.getSummarydemandfromDate()));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_FROM_DATE, String.valueOf(dto.getSummarydemandfromDate()));
             pipeLineList.add(VariableConstants.SUMMARY_FROM_DATE);
         }
         if (dto.getSummarydemandtoDate() != null && !dto.getSummarydemandtoDate().isEmpty()) {
-            pipeLineMap.put(VariableConstants.SUMMARY_TO_DATE, String.valueOf(dto.getSummarydemandtoDate()));
+            demandPaymentsMap.put(VariableConstants.SUMMARY_TO_DATE, String.valueOf(dto.getSummarydemandtoDate()));
             pipeLineList.add(VariableConstants.SUMMARY_TO_DATE);
         }
         //--------------------------------ADJUSTMENT DETAILS----------------------------
         if (!"null".equals(dto.getDetailLevel()) || !StringUtils.isBlank(dto.getDetailLevel())) {
-            pipeLineMap.put(VariableConstants.DETAIL_LEVEL, String.valueOf(dto.getDetailLevel()));
+            demandPaymentsMap.put(VariableConstants.DETAIL_LEVEL, String.valueOf(dto.getDetailLevel()));
             pipeLineList.add(VariableConstants.DETAIL_LEVEL);
         }
         if (dto.getSavedetailvariables() != null && !dto.getSavedetailvariables().isEmpty()) {
@@ -1016,12 +1017,12 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
             pipeLineList.add(VariableConstants.DETAIL_VARIABLE);
-            pipeLineMap.put(VariableConstants.DETAIL_VARIABLE, var);
+            demandPaymentsMap.put(VariableConstants.DETAIL_VARIABLE, var);
             builder = new StringBuilder();
         }
 
@@ -1030,12 +1031,12 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
             pipeLineList.add(VariableConstants.DETAIL_RESERVER_ACCOUNT);
-            pipeLineMap.put(VariableConstants.DETAIL_RESERVER_ACCOUNT, var);
+            demandPaymentsMap.put(VariableConstants.DETAIL_RESERVER_ACCOUNT, var);
             builder = new StringBuilder();
         }
         if (dto.getDetailamountFilter() != null && !dto.getDetailamountFilter().isEmpty()) {
@@ -1043,37 +1044,37 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
             pipeLineList.add(VariableConstants.DETAIL_AMOUNT_FILTER);
-            pipeLineMap.put(VariableConstants.DETAIL_AMOUNT_FILTER, var);
+            demandPaymentsMap.put(VariableConstants.DETAIL_AMOUNT_FILTER, var);
         }
         deleteAdjustmentSelection(projectionId);
-        saveAdjustmentSelection(projectionId, adjustmentType, pipeLineMap, pipeLineList);
+        saveAdjustmentSelection(projectionId, adjustmentType, demandPaymentsMap, pipeLineList);
     }
 
     public static boolean savePipelineInventorySelection(int projectionId, String moduleName, PipelineInventorySelectionDTO dto) {
         StringBuilder builder = new StringBuilder();
         String var = null;
-        Map<String, String> pipeLineMap = new HashMap<>();
+        Map<String, String> pipeLineinventoryMap = new HashMap<>();
         List<String> pipeLineList = new ArrayList<>();
 //-----------------------INVENTORY--------------------------------------------------
         if (dto.getInventoryDetails() != null) {
-            pipeLineMap.put(VariableConstants.INVENTORY_DETAIL, String.valueOf(dto.getInventoryDetails()));
+            pipeLineinventoryMap.put(VariableConstants.INVENTORY_DETAIL, String.valueOf(dto.getInventoryDetails()));
             pipeLineList.add(VariableConstants.INVENTORY_DETAIL);
         }
         if (!"null".equals(dto.getInventoryOptionGroup()) || !StringUtils.isBlank(dto.getInventoryOptionGroup())) {
-            pipeLineMap.put(VariableConstants.INVENTORY_OPTION_GROUP, String.valueOf(dto.getInventoryOptionGroup()));
+            pipeLineinventoryMap.put(VariableConstants.INVENTORY_OPTION_GROUP, String.valueOf(dto.getInventoryOptionGroup()));
             pipeLineList.add(VariableConstants.INVENTORY_OPTION_GROUP);
         }
         if (!"null".equals(dto.getPrice()) || !StringUtils.isBlank(dto.getPrice())) {
-            pipeLineMap.put(VariableConstants.PRICE, dto.getPrice());
+            pipeLineinventoryMap.put(VariableConstants.PRICE, dto.getPrice());
             pipeLineList.add(VariableConstants.PRICE);
         }
         if (dto.getInventoryreserveDate() != null) {
-            pipeLineMap.put(VariableConstants.INVENTORY_RESERVE_DATE, String.valueOf(dto.getInventoryreserveDate()));
+            pipeLineinventoryMap.put(VariableConstants.INVENTORY_RESERVE_DATE, String.valueOf(dto.getInventoryreserveDate()));
             pipeLineList.add(VariableConstants.INVENTORY_RESERVE_DATE);
         }
         if (dto.getSalesVariables() != null && !dto.getSalesVariables().isEmpty()) {
@@ -1081,46 +1082,46 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
-            pipeLineMap.put(VariableConstants.SALES_VARIABLE, var);
+            pipeLineinventoryMap.put(VariableConstants.SALES_VARIABLE, var);
             pipeLineList.add(VariableConstants.SALES_VARIABLE);
             builder = new StringBuilder();
         }
 //-----------------------------------RATES--------------------------------------
         if (dto.getRateDeductionLevel() != 0) {
-            pipeLineMap.put(VariableConstants.RATE_DEDUCTION_LEVEL, String.valueOf(dto.getRateDeductionLevel()));
+            pipeLineinventoryMap.put(VariableConstants.RATE_DEDUCTION_LEVEL, String.valueOf(dto.getRateDeductionLevel()));
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getRateDeductionValue()) || !StringUtils.isBlank(dto.getRateDeductionValue())) {
-            pipeLineMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace("'", "")));
+            pipeLineinventoryMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             pipeLineList.add(VariableConstants.RATE_DEDUCTION_VALUE);
         }
         if (dto.getRateBasisValue() != 0) {
-            pipeLineMap.put(VariableConstants.RATE_BASIS, String.valueOf(dto.getRateBasisValue()));
+            pipeLineinventoryMap.put(VariableConstants.RATE_BASIS, String.valueOf(dto.getRateBasisValue()));
             pipeLineList.add(VariableConstants.RATE_BASIS);
         }
         if (dto.getRateFrequencyValue() != 0) {
-            pipeLineMap.put(VariableConstants.RATE_FREQUENCY, String.valueOf(dto.getRateFrequencyValue()));
+            pipeLineinventoryMap.put(VariableConstants.RATE_FREQUENCY, String.valueOf(dto.getRateFrequencyValue()));
             pipeLineList.add(VariableConstants.RATE_FREQUENCY);
         }
 
         if (!"null".equals(dto.getRatePeriodValue()) || !StringUtils.isBlank(dto.getRatePeriodValue())) {
-            pipeLineMap.put(VariableConstants.RATE_PERIOD, String.valueOf(dto.getRatePeriodValue()));
+            pipeLineinventoryMap.put(VariableConstants.RATE_PERIOD, String.valueOf(dto.getRatePeriodValue()));
             pipeLineList.add(VariableConstants.RATE_PERIOD);
         }
 
-        pipeLineMap.put(VariableConstants.RATES_OVERRIDE_FLAG, String.valueOf(dto.getRatesOverrideFlag()));
+        pipeLineinventoryMap.put(VariableConstants.RATES_OVERRIDE_FLAG, String.valueOf(dto.getRatesOverrideFlag()));
         pipeLineList.add(VariableConstants.RATES_OVERRIDE_FLAG);
 //----------------------------------ADJUSTMENT SUMMARY--------------------------
         if (dto.getSummarydeductionLevel() != 0) {
-            pipeLineMap.put(VariableConstants.SUMMARY_DEDUCTION_LEVEL, String.valueOf(dto.getSummarydeductionLevel()));
+            pipeLineinventoryMap.put(VariableConstants.SUMMARY_DEDUCTION_LEVEL, String.valueOf(dto.getSummarydeductionLevel()));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) && !StringUtils.isBlank(dto.getSummarydeductionValues()) && dto.getSummarydeductionValues() != null) {
-            pipeLineMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace("'", "")));
+            pipeLineinventoryMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -1129,23 +1130,23 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
-            pipeLineMap.put(VariableConstants.SUMMARY_VARIABLES, var);
+            pipeLineinventoryMap.put(VariableConstants.SUMMARY_VARIABLES, var);
             pipeLineList.add(VariableConstants.SUMMARY_VARIABLES);
             builder = new StringBuilder();
         }
 
         if (dto.getSummaryglDate() != null && !dto.getSummaryglDate().isEmpty()) {
-            pipeLineMap.put(VariableConstants.SUMMARY_GL_DATE, String.valueOf(dto.getSummaryglDate()));
+            pipeLineinventoryMap.put(VariableConstants.SUMMARY_GL_DATE, String.valueOf(dto.getSummaryglDate()));
             pipeLineList.add(VariableConstants.SUMMARY_GL_DATE);
         }
 
 //--------------------------------ADJUSTMENT DETAILS----------------------------
         if (!"null".equals(dto.getDetailLevel()) || !StringUtils.isBlank(dto.getDetailLevel())) {
-            pipeLineMap.put(VariableConstants.DETAIL_LEVEL, String.valueOf(dto.getDetailLevel()));
+            pipeLineinventoryMap.put(VariableConstants.DETAIL_LEVEL, String.valueOf(dto.getDetailLevel()));
             pipeLineList.add(VariableConstants.DETAIL_LEVEL);
         }
         if (dto.getSavedetailvariables() != null && !dto.getSavedetailvariables().isEmpty()) {
@@ -1153,12 +1154,12 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
 
-            pipeLineMap.put(VariableConstants.DETAIL_VARIABLE, var);
+            pipeLineinventoryMap.put(VariableConstants.DETAIL_VARIABLE, var);
             pipeLineList.add(VariableConstants.DETAIL_VARIABLE);
             builder = new StringBuilder();
         }
@@ -1168,12 +1169,12 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
 
-            pipeLineMap.put(VariableConstants.DETAIL_RESERVER_ACCOUNT, var);
+            pipeLineinventoryMap.put(VariableConstants.DETAIL_RESERVER_ACCOUNT, var);
             pipeLineList.add(VariableConstants.DETAIL_RESERVER_ACCOUNT);
             builder = new StringBuilder();
         }
@@ -1182,16 +1183,16 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
             pipeLineList.add(VariableConstants.DETAIL_AMOUNT_FILTER);
-            pipeLineMap.put(VariableConstants.DETAIL_AMOUNT_FILTER, var);
+            pipeLineinventoryMap.put(VariableConstants.DETAIL_AMOUNT_FILTER, var);
         }
 
         deleteAdjustmentSelection(projectionId);
-        return saveAdjustmentSelection(projectionId, moduleName, pipeLineMap, pipeLineList);
+        return saveAdjustmentSelection(projectionId, moduleName, pipeLineinventoryMap, pipeLineList);
     }
 
     /**
@@ -1442,7 +1443,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
@@ -1457,7 +1458,7 @@ public class CommonLogic {
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) && !StringUtils.isBlank(dto.getSummarydeductionValues()) && dto.getSummarydeductionValues() != null) {
-            inflationAdjMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace("'", "")));
+            inflationAdjMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             pipeLineList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -1471,7 +1472,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
@@ -1490,7 +1491,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1505,7 +1506,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1519,7 +1520,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1578,7 +1579,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1596,7 +1597,7 @@ public class CommonLogic {
             returnReserveList.add(VariableConstants.RATE_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getRateDeductionValue()) || !StringUtils.isBlank(dto.getRateDeductionValue())) {
-            returnReserveMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace("'", "")));
+            returnReserveMap.put(VariableConstants.RATE_DEDUCTION_VALUE, String.valueOf(dto.getRateDeductionValue().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             returnReserveList.add(VariableConstants.RATE_DEDUCTION_VALUE);
         }
 //-----------------------------------RETURN RESERVE DATA--------------------------------------
@@ -1605,7 +1606,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1630,7 +1631,7 @@ public class CommonLogic {
             returnReserveList.add(VariableConstants.SUMMARY_DEDUCTION_LEVEL);
         }
         if (!"null".equals(dto.getSummarydeductionValues()) || !StringUtils.isBlank(dto.getSummarydeductionValues())) {
-            returnReserveMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace("'", "")));
+            returnReserveMap.put(VariableConstants.SUMMARY_DEDUCTION_VALUE, String.valueOf(dto.getSummarydeductionValues().replace(ARMUtils.SINGLE_QUOTES,ARMUtils.EMPTY_CHARACTER )));
             returnReserveList.add(VariableConstants.SUMMARY_DEDUCTION_VALUE);
         }
 
@@ -1644,7 +1645,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s[0]);
                 } else {
-                    builder.append(",").append(s[0]);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s[0]);
                 }
             }
             var = builder.toString();
@@ -1663,7 +1664,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1678,7 +1679,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1693,7 +1694,7 @@ public class CommonLogic {
                 if (builder.length() == 0) {
                     builder.append(s);
                 } else {
-                    builder.append(",").append(s);
+                    builder.append(ARMUtils.COMMA_CHAR).append(s);
                 }
             }
             var = builder.toString();
@@ -1951,4 +1952,15 @@ public class CommonLogic {
         return list == null ? null : new ArrayList<>(list);
     }
 
+    public static int getIntegerValue(int index, Object[] str) {
+        return str[index] == null ? 0 : (Integer) (str[index]);
+    }
+
+    public static String getStringValue(int index, Object[] str) {
+        return str[index] == null ? StringUtils.EMPTY : String.valueOf(str[index]);
+    }
+
+    public static String getDateValue(int index, Object[] str, DateFormat dateFormat) {
+        return str[index] == null ? null : dateFormat.format((Date) str[index]);
+    }
 }

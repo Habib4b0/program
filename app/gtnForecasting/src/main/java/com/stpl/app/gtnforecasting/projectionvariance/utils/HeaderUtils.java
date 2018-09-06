@@ -50,16 +50,20 @@ import org.apache.commons.lang.StringUtils;
  * @author Jayaram
  */
 public class HeaderUtils {
-
+    
+    private HeaderUtils() {
+        // HeaderUtils
+    }
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int numMonthInt = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numMonthInt == NumericConstants.TWELVE) {
+            numMonthInt = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numMonthInt >= 0 && numMonthInt <= NumericConstants.ELEVEN) {
+            month = months[numMonthInt];
         }
         return month;
     }
@@ -121,6 +125,7 @@ public class HeaderUtils {
         int startPeriod = projSelDTO.getStartPeriod();
         int endYear = projSelDTO.getEndYear();
         int endPeriod = projSelDTO.getEndPeriod();
+        CustomTableHeaderDTO tableHeaderDto = tableHeaderDTO;
 
         int projectionOrder = 0;
         if (projOrder.contains(Constant.ASCENDING)) {
@@ -128,17 +133,17 @@ public class HeaderUtils {
         } else {
             projectionOrder = NumericConstants.TWO;
         }
-        tableHeaderDTO.setFrequency(freq);
-        tableHeaderDTO.setFrequencyDivision(frequencyDivision);
-        tableHeaderDTO.setHistoryNum(historyNum);
-        tableHeaderDTO.setProjectionNum(projectionNum);
-        tableHeaderDTO.setCurrentPeriod(currentPeriod);
-        tableHeaderDTO.setCurrentYear(currentYear);
-        tableHeaderDTO.setStartYear(startYear);
-        tableHeaderDTO.setStartPeriod(startPeriod);
-        tableHeaderDTO.setEndYear(endYear);
-        tableHeaderDTO.setEndPeriod(endPeriod);
-        tableHeaderDTO.setProjectionOrder(projectionOrder);
+        tableHeaderDto.setFrequency(freq);
+        tableHeaderDto.setFrequencyDivision(frequencyDivision);
+        tableHeaderDto.setHistoryNum(historyNum);
+        tableHeaderDto.setProjectionNum(projectionNum);
+        tableHeaderDto.setCurrentPeriod(currentPeriod);
+        tableHeaderDto.setCurrentYear(currentYear);
+        tableHeaderDto.setStartYear(startYear);
+        tableHeaderDto.setStartPeriod(startPeriod);
+        tableHeaderDto.setEndYear(endYear);
+        tableHeaderDto.setEndPeriod(endPeriod);
+        tableHeaderDto.setProjectionOrder(projectionOrder);
 
         projSelDTO.setFrequency(freq);
         projSelDTO.setFrequencyDivision(frequencyDivision);
@@ -228,50 +233,50 @@ public class HeaderUtils {
                 if ("Period".equalsIgnoreCase(pivotView) && "Descending".equalsIgnoreCase(projOrder)) {
                 if (!projList.isEmpty()) {
                     for (int j = 0; j < projList.size(); j++) {
-                        tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
+                        tableHeaderDto.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
  excelHeaderDTO.addSingleColumn(commonColumn + projList.get(j), commonHeader + " " + priorMap.get(projList.get(j)), String.class);
                         if (flag) {
                             visibleColumns.add(commonColumn + projList.get(j));
                             columnHeaders.add(priorMap.get(projList.get(j)));
                         }
-                        tableHeaderDTO.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
+                        tableHeaderDto.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
                         dmap.add(commonColumn + projList.get(j));
                     }
                 }
-                    tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
+                    tableHeaderDto.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
                     if (flag) {
                         visibleColumns.add(commonColumn + Constant.CURRENT);
                         columnHeaders.add(currentProjName);
                     }
                     excelHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, commonHeader + " " + currentProjName, String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
+                    tableHeaderDto.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
                     dmap.add(commonColumn + Constant.CURRENT);
                 } else {
-                    tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
+                    tableHeaderDto.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
                     if (flag) {
                         visibleColumns.add(commonColumn + Constant.CURRENT);
                         columnHeaders.add(currentProjName);
                     }
                     excelHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, commonHeader + " " + currentProjName, String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
+                    tableHeaderDto.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
                     dmap.add(commonColumn + Constant.CURRENT);
                     if (!projList.isEmpty()) {
                         for (int j = 0; j < projList.size(); j++) {
-                            tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
+                            tableHeaderDto.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
                             if (flag) {
                                 visibleColumns.add(commonColumn + projList.get(j));
                                 columnHeaders.add(priorMap.get(projList.get(j)));
                             }
                             excelHeaderDTO.addSingleColumn(commonColumn + projList.get(j), commonHeader + " " + priorMap.get(projList.get(j)), String.class);
-                            tableHeaderDTO.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
+                            tableHeaderDto.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
                             dmap.add(commonColumn + projList.get(j));
                         }
                     }
                 }
                 if (!dmap.isEmpty()) {
-                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                    tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
+                    tableHeaderDto.addDoubleColumn(commonColumn, commonHeader);
+                    tableHeaderDto.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                    tableHeaderDto.addDoubleProjectedColumn(commonColumn, commonHeader);
                     excelHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                     excelHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
                     excelHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
@@ -303,50 +308,50 @@ public class HeaderUtils {
                         if ("Period".equalsIgnoreCase(pivotView) && "Descending".equalsIgnoreCase(projOrder)) {
                         if (!projList.isEmpty()) {
                             for (int j = 0; j < projList.size(); j++) {
-                                tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
+                                tableHeaderDto.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
                                 if (flag) {
                                     visibleColumns.add(commonColumn + projList.get(j));
                                     columnHeaders.add(priorMap.get(projList.get(j)));
                                 }
                                 excelHeaderDTO.addSingleColumn(commonColumn + projList.get(j), commonHeader + " " + priorMap.get(projList.get(j)), String.class);
-                                    tableHeaderDTO.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
+                                    tableHeaderDto.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
                                 dmap.add(commonColumn + projList.get(j));
                             }
                         }
-                            tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
+                            tableHeaderDto.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
                             if (flag) {
                                 visibleColumns.add(commonColumn + Constant.CURRENT);
                                 columnHeaders.add(currentProjName);
                             }
                             excelHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, commonHeader + " " + currentProjName, String.class);
-                            tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
+                            tableHeaderDto.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
                             dmap.add(commonColumn + Constant.CURRENT);
                         } else {
-                            tableHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
+                            tableHeaderDto.addSingleColumn(commonColumn + Constant.CURRENT, currentProjName, String.class);
                             if (flag) {
                                 visibleColumns.add(commonColumn + Constant.CURRENT);
                                 columnHeaders.add(currentProjName);
                             }
                             excelHeaderDTO.addSingleColumn(commonColumn + Constant.CURRENT, commonHeader + " " + currentProjName, String.class);
-                            tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
+                            tableHeaderDto.addSingleProjectedColumn(commonColumn + Constant.CURRENT, Constant.CURRENT);
                             dmap.add(commonColumn + Constant.CURRENT);
                             if (!projList.isEmpty()) {
                                 for (int j = 0; j < projList.size(); j++) {
-                                    tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
+                                    tableHeaderDto.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
                                     if (flag) {
                                         visibleColumns.add(commonColumn + projList.get(j));
                                         columnHeaders.add(priorMap.get(projList.get(j)));
                                     }
                                     excelHeaderDTO.addSingleColumn(commonColumn + projList.get(j), commonHeader + " " + priorMap.get(projList.get(j)), String.class);
-                                    tableHeaderDTO.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
+                                    tableHeaderDto.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
                                     dmap.add(commonColumn + projList.get(j));
                                 }
                             }
                         }
                         if (!dmap.isEmpty()) {
-                            tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                            tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                            tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
+                            tableHeaderDto.addDoubleColumn(commonColumn, commonHeader);
+                            tableHeaderDto.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                            tableHeaderDto.addDoubleProjectedColumn(commonColumn, commonHeader);
                             excelHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                             excelHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
                             excelHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
@@ -362,12 +367,12 @@ public class HeaderUtils {
             }
             Map<String, String> periodListMap = new HashMap<>();
             List<String> period = new ArrayList<>();
-            for (int i = 0; i < tableHeaderDTO.getDoubleColumns().size(); i++) {
-                period.add(String.valueOf(tableHeaderDTO.getDoubleColumns().get(i)));
+            for (int i = 0; i < tableHeaderDto.getDoubleColumns().size(); i++) {
+                period.add(String.valueOf(tableHeaderDto.getDoubleColumns().get(i)));
             }
             projSelDTO.setPeriodHeaderList(period);
-            for (int pr = 0; pr < tableHeaderDTO.getDoubleColumns().size(); pr++) {
-                periodListMap.put(String.valueOf(tableHeaderDTO.getDoubleColumns().get(pr)), tableHeaderDTO.getDoubleHeaders().get(pr));
+            for (int pr = 0; pr < tableHeaderDto.getDoubleColumns().size(); pr++) {
+                periodListMap.put(String.valueOf(tableHeaderDto.getDoubleColumns().get(pr)), tableHeaderDto.getDoubleHeaders().get(pr));
             }
             projSelDTO.setPeriodListMap(periodListMap);
             if (flag) {
@@ -376,7 +381,7 @@ public class HeaderUtils {
             
         } else {
             if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
-                if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().size() == 0) {
+                if (projSelDTO.getProgramCodeNameList() == null || projSelDTO.getProgramCodeNameList().isEmpty()) {
                     programCodeName = MProjectionVarianceLogic.getProgramCodeName(projSelDTO.getProjectionId());
                 } else {
                     programCodeName = projSelDTO.getProgramCodeNameList();
@@ -391,17 +396,17 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "ExFacValue";
                     commonHeader = "Ex-Factory Sales Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "ExFacVariance";
                     commonHeader = "Ex-Factory Sales variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "ExFacPer";
                     commonHeader = "Ex-Factory Sales % change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             //Demand sales
@@ -409,17 +414,17 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "DemandSalesValue";
                     commonHeader = "Demand Sales Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "DemandSalesVariance";
                     commonHeader = "Demand Sales variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "DemandSalesPer";
                     commonHeader = "Demand Sales  % change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             //Inventory Sales
@@ -427,17 +432,17 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "InvWithValue";
                     commonHeader = "Inventory Withdrawal Sales value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "InvWithVariance";
                     commonHeader = "Inventory Withdrawal Sales variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "InvWithPer";
                     commonHeader = "Inventory Withdrawal Sales % change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             // % Of Ex Fact
@@ -445,17 +450,17 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "PerExFacValue";
                     commonHeader = "% Of Ex-Factory Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "PerExFacVariance";
                     commonHeader = "% Of  Ex-Factory variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "PerExFacPer";
                     commonHeader = "% Of Ex-Factory % change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             //% of Demand sales
@@ -463,17 +468,17 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "PerDemandSalesValue";
                     commonHeader = "% Of Demand Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "PerDemandSalesVariance";
                     commonHeader = "% Of Demand variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "PerDemandSalesPer";
                     commonHeader = "% Of Demand change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             //% of Inventory Sales
@@ -481,17 +486,17 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "PerInvWithValue";
                     commonHeader = "% Of Inventory Withdrawal value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "PerInvWithVariance";
                     commonHeader = "% Of Inventory Withdrawal variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "PerInvWithPer";
                     commonHeader = "% Of Inventory Withdrawal % change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
 
@@ -499,19 +504,19 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "ContractSalesWACValue";
                     commonHeader = "Contract Sales @ WAC Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "ContractSalesWACVar";
                     commonHeader = "Contract Sales @ WAC Variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "ContractSalesWACVarPer";
                     commonHeader = "Contract Sales @ WAC Change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             if (projSelDTO.isVarContractUnits()) {
@@ -519,19 +524,19 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "ContractUnitsValue";
                     commonHeader = "Contract Units Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "ContractUnitsVar";
                     commonHeader = "Contract Units Variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "ContractUnitsPer";
                     commonHeader = "Contract Units Change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             if (projSelDTO.isVarDisAmount()) {
@@ -540,25 +545,25 @@ public class HeaderUtils {
                     commonColumn = "DiscountAmountValue";
                     commonHeader = "Discount $ Value";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountAmountValue";
                         commonHeader = "Mandated Discount $ Value";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeAmountValue" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalDiscountAmountValue";
                         commonHeader = "Supplemental Discount $ Value";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeAmountValue" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -567,24 +572,24 @@ public class HeaderUtils {
                     commonColumn = "DiscountAmountVar";
                     commonHeader = "Discount $ Variance";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountAmountVar";
                         commonHeader = "Mandated Discount $ Variance";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeAmountVar" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalDiscountAmountVar";
                         commonHeader = "Supplemental Discount $ Variance";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeAmountVar" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
 
@@ -594,25 +599,25 @@ public class HeaderUtils {
                     commonColumn = "DiscountAmountPer";
                     commonHeader = "Discount $ % change";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountAmountPer";
                         commonHeader = "Mandated Discount $ % change";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeAmountper" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalDiscountAmountPer";
                         commonHeader = "Supplemental Discount $ % change";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeAmountPer" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -625,25 +630,25 @@ public class HeaderUtils {
                     commonColumn = "DiscountSalesValue";
                     commonHeader = "Discount % Value";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountSalesValue";
                         commonHeader = "Mandated Discount % % Value";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeSalesValue" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalDiscountSalesValue";
                         commonHeader = "Supplemental Discount % % Value";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeSalesValue" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -653,26 +658,26 @@ public class HeaderUtils {
                     commonColumn = "DiscountSalesVar";
                     commonHeader = "Discount % Variance";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountSalesVar";
                         commonHeader = "Mandated Discount % % Variance";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeSalesVar" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
 
                         commonColumn = "supplementalDiscountSalesVar";
                         commonHeader = "Supplemental Discount % % Variance";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeSalesVar" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -681,25 +686,25 @@ public class HeaderUtils {
                     commonColumn = "DiscountSalesPer";
                     commonHeader = "Discount % % Change";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountSalesPer";
                         commonHeader = "Mandated Discount % % change";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeSalesPer" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalDiscountSalesPer";
                         commonHeader = "Supplemental Discount % % change";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeSalesPer" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -710,24 +715,24 @@ public class HeaderUtils {
                     commonColumn = "RPUValue";
                     commonHeader = "RPU Value";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountRPUValue";
                         commonHeader = "Mandated PRU Value";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeRPUValue" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalRPUValue";
                         commonHeader = "Supplemental RPU Value";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeRPUValue" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -737,24 +742,24 @@ public class HeaderUtils {
                     commonColumn = "RPUVariance";
                     commonHeader = "RPU Variance";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountRPUVar";
                         commonHeader = "Mandated RPU Variance";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeRPUVar" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalRPUVar";
                         commonHeader = "Supplemental RPU Variance";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeRPUVar" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -764,24 +769,24 @@ public class HeaderUtils {
                     commonColumn = "RPUPer";
                     commonHeader = "RPU %Change";
                     collapseIconList.add(commonColumn);
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                     if (Constant.COMPONENT.equals(projSelDTO.getDiscountLevel())) {
                         commonColumn = "mandatedDiscountRPUPer";
                         commonHeader = "Mandated PRU %Change";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "mdProgramCodeRPUPer" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                         commonColumn = "supplementalRPUPer";
                         commonHeader = "Supplemental RPU %Change";
                         collapsedList.add(commonColumn);
-                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                        tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                         for (int i = 0; i < programCodeName.size(); i++) {
                             commonColumn = "sdProgramCodeRPUPer" + programCodeName.get(i);
-                            tableHeaderDTO = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                            tableHeaderDto = loadSingleHeader(commonColumn, programCodeName.get(i), projSelDTO, tableHeaderDto, excelHeaderDTO);
                             programCodeCollapsedList.add(commonColumn);
                         }
                     }
@@ -791,57 +796,57 @@ public class HeaderUtils {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "NetSalesValue";
                     commonHeader = "Net Sales Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "NetSalesVariance";
                     commonHeader = "Net Sales Variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "NetSalesPer";
                     commonHeader = "Net Sales %Change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             if (projSelDTO.isVarCOGC()) {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "COGCValue";
                     commonHeader = "COGS Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "COGCVariance";
                     commonHeader = "COGS Variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "COGCPer";
                     commonHeader = "COGS %Change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             if (projSelDTO.isVarNetProfit()) {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "NetProfitValue";
                     commonHeader = "Net Profit Value";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColVariance()) {
                     commonColumn = "NetProfitVariance";
                     commonHeader = "Net Profit Variance";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
 
                 }
                 if (projSelDTO.isColPercentage()) {
                     commonColumn = "NetProfitPer";
                     commonHeader = "Net Profit %Change";
-                    tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, excelHeaderDTO);
+                    tableHeaderDto = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDto, excelHeaderDTO);
                 }
             }
             List<String> periodList = new ArrayList<>();
@@ -897,18 +902,18 @@ public class HeaderUtils {
             projSelDTO.setPivotList(pivotList);
             projSelDTO.setPeriodList(periodList);
             projSelDTO.setPeriodListMap(periodListMap);
-            projSelDTO.setRightHeader(tableHeaderDTO);
+            projSelDTO.setRightHeader(tableHeaderDto);
             projSelDTO.setPeriodHeaderList(projSelDTO.getPeriodList());
         }
 
         List<Object> headerContents = new ArrayList<>();
-        headerContents.add(tableHeaderDTO);
+        headerContents.add(tableHeaderDto);
 
         headerContents.add(collapseIconList);
         headerContents.add(collapsedList);
         headerContents.add(programCodeCollapsedList);
         headerContents.add(programCodeName);
-        projSelDTO.setColumns(CommonUtils.objectListToStringList(tableHeaderDTO.getSingleColumns()));
+        projSelDTO.setColumns(CommonUtils.objectListToStringList(tableHeaderDto.getSingleColumns()));
         return headerContents;
     }
 
@@ -942,7 +947,6 @@ public class HeaderUtils {
 
     static CustomTableHeaderDTO loadSingleDiscountHeader(String commonColumn, String commonHeader, final PVSelectionDTO selection, final CustomTableHeaderDTO tableHeaderDTO, Map<String, Object> headerMap) {
         String column = commonColumn;
-
         List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
@@ -1021,10 +1025,7 @@ public class HeaderUtils {
         historyEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (historyEndPeriod == forecastStartPeriod && historyEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             historyEndPeriod--;
-            if (frequencyDivision == 1) {
-                historyEndMonth = NumericConstants.TWELVE;
-                historyEndYear = historyEndYear - 1;
-            } else if (historyEndPeriod < 1) {
+            if ((frequencyDivision == 1)  || (historyEndPeriod < 1)) {
                 historyEndMonth = NumericConstants.TWELVE;
                 historyEndYear = historyEndYear - 1;
             } else if (frequencyDivision == NumericConstants.TWO) {

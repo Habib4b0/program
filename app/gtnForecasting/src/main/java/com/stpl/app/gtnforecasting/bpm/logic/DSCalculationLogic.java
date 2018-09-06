@@ -1,6 +1,5 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
-import com.liferay.portal.kernel.model.User;
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
@@ -16,10 +15,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.DroolsProperties;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 public class DSCalculationLogic {
@@ -28,12 +25,8 @@ public class DSCalculationLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
-    private static final Properties properties = DroolsProperties.getPropertiesData();
-
-    public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
-        boolean returnflag = false;
-
-        return returnflag;
+    private DSCalculationLogic() {
+        // DSCalculationLogic
     }
 
     public static GtnWsCommonWorkflowResponse startWorkflow(SessionDTO session, String userId) {
@@ -75,14 +68,6 @@ public class DSCalculationLogic {
         GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
         session.setProcessId(workFlowResponse.getProcessInstanceId());
         return workFlowResponse;
-    }
-
-    public static boolean startARPWorkflow(SessionDTO session, String userId) {
-        try {
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-        }
-        return false;
     }
 
     public static List<ForecastingRulesDTO> getProjectionValues(int projectionId, String userId, String sessionId, String screenName, SessionDTO sessionDto) {
