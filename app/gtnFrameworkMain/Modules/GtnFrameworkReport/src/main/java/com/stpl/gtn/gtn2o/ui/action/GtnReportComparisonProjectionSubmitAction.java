@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -53,6 +54,10 @@ public class GtnReportComparisonProjectionSubmitAction
 
 	private void submitAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException, ParseException {
+		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromParent(
+						gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
+				.getComponentData();
 		GtnReportComparisonProjectionBean comparisonProjectionBean;
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
@@ -86,17 +91,7 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setCreatedBy(Integer.parseInt(recordBean.getStringPropertyByIndex(8)));
 				comparisonProjectionBean.setProjectionType(String.valueOf(recordBean.getAdditionalPropertyByIndex(0)));
 				comparisonProjectionBeanList.add(comparisonProjectionBean);
-			}
-			GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(
-							gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
-					.getComponentData();
-			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(idComponentData.getViewId()).getComponentData().getSharedPopupData();
-			if (Optional.ofNullable(dataSelectionBean).isPresent()) {
-				dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
-			}
-
+			}			
 			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
 			idComponentData.setCustomData(comparisonProjectionBeanList);
 			if (comparisonProjectionBeanList.isEmpty()) {
@@ -134,9 +129,31 @@ public class GtnReportComparisonProjectionSubmitAction
 			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 			combobox.reloadComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis", componentId,
 					Arrays.asList(""));
+			
+			/*GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(idComponentData.getViewId()).getComponentData().getSharedPopupData();
+			if (Optional.ofNullable(dataSelectionBean).isPresent()) {
+				dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
+			}*/
+			//addTabInDataAssumptions(dataSelectionBean , componentId);
+			
 		}
 	}
 
+	/*private void addTabInDataAssumptions(GtnWsReportDataSelectionBean dataSelectionBean, String componentId) {
+		try {
+			GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+			actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			actionConfig.setActionParameterList(Arrays.asList(GtnReportDataAssumptionsTabLoadAction.class.getName(),
+					GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump",
+					GtnFrameworkReportStringConstants.CURRENT_TAB,
+					GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD, dataSelectionBean , "Report_Dashboard_Comparison_Lookup"));
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+		} catch (GtnFrameworkGeneralException e) {
+			logger.error(" " +e);
+		}
+	}*/
+	
 	private String getRecordDisplayValue(List<GtnWsRecordBean> selectedRecords) {
 		if (selectedRecords.size() > 1) {
 			return "MULTIPLE";
