@@ -7,8 +7,15 @@ and open the template in the editor.
 
 
 <sql>
+    <entity id="trx7_PA_sales_updatePriceOverrideBasedOnProductLevelFilterValue">
+        <query>
     
-     
+     <![CDATA[
+      UPDATE  ? set PRICE_OVERRIDE = ? where ITEM_MASTER_SID = ? 
+            and PROJECTION_MASTER_SID = ?
+        ]]>  
+        </query>
+    </entity>
     
     <entity id="trx7_PA_sales_updatePriceOverride">
         <query>

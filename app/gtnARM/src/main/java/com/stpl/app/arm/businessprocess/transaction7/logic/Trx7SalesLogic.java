@@ -228,10 +228,14 @@ public class Trx7SalesLogic<T extends AdjustmentDTO, E extends AbstractSelection
         return resultList;
     }
 
-    public boolean updatePriceOverride(List input) {
+    public boolean updatePriceOverride(List input, String levelFilterValue) {
         LOGGERTRX7.debug("Inside update price override");
         try {
-            QueryUtils.itemUpdate(input, "trx7_PA_sales_updatePriceOverride");
+            if (levelFilterValue.equalsIgnoreCase(ARMUtils.levelVariablesVarables.ITEM.toString())) {
+                QueryUtils.itemUpdate(input, "trx7_PA_sales_updatePriceOverrideBasedOnProductLevelFilterValue");
+            } else {
+                QueryUtils.itemUpdate(input, "trx7_PA_sales_updatePriceOverride");
+            }
         } catch (Exception e) {
             LOGGERTRX7.error("Error in updatePriceOverride :", e);
             return false;
