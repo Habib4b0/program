@@ -200,9 +200,9 @@ public class DataSelectionQueryUtils {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.HAS_TRADING_PARTNER));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
             queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
@@ -223,7 +223,7 @@ public class DataSelectionQueryUtils {
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonLogic.stringListToString(rlSids));
-                    queryString.append(")");
+                    queryString.append(ARMUtils.CLOSE_BRACES);
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get("tableName")));
 
@@ -233,7 +233,7 @@ public class DataSelectionQueryUtils {
                         queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     }
                     queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-                    queryString.append(")");
+                    queryString.append(ARMUtils.CLOSE_BRACES);
                 }
             }
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
@@ -282,9 +282,9 @@ public class DataSelectionQueryUtils {
             queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + NumericConstants.FIVE, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(CommonConstant.COMPANY_FILTER));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
             queryString.append(String.valueOf(parameters.get("companySid")));
-            queryString.append("'");
+            queryString.append(ARMUtils.SINGLE_QUOTES);
         } else {
             queryString.append(String.valueOf(parameters.get("query")));
         }

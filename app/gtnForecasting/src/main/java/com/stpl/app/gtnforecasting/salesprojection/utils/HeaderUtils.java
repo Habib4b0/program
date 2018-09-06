@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -653,7 +654,7 @@ public class HeaderUtils {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -1093,7 +1094,7 @@ public class HeaderUtils {
                 commonHeader = StringUtils.EMPTY + syear + "    ";
             } else if (frequency.contains(MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
-                commonColumn = (monthName + syear).toUpperCase();
+                commonColumn = (monthName + syear).toUpperCase(Locale.ENGLISH);
                 commonHeader = monthName + " " + syear + "    ";
             }
 

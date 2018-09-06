@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -425,7 +426,7 @@ public class SupplementalDiscountProjectionLogic {
                 int period = Integer.parseInt(String.valueOf(obj[NumericConstants.EIGHT]));
                 int suppIementLevelNo = projSelDTO.getSupplementalLevelNo();
                 List<String> common = HeaderUtils.getCommonColumnHeader(NumericConstants.FOUR, year, period);
-                String commonColumn = common.get(0).toLowerCase();
+                String commonColumn = common.get(0).toLowerCase(Locale.ENGLISH);
                 if (supplementalColumns.contains(METHODOLOGY.getConstant()) && (suppIementLevelNo == 0 || suppIementLevelNo == NumericConstants.FOUR)) {
                     supplemental = commonColumn + METHODOLOGY.getConstant();
 
@@ -558,7 +559,7 @@ public class SupplementalDiscountProjectionLogic {
         } else {
             ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
         }
-        if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase())) {
+        if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
             populateMethodologyWithFormulaDetails(checkedDto, value, session);
         } else {
             populateUpadteQuery(checkedDto, value, fieldSelection, session, ccpDetailsId);

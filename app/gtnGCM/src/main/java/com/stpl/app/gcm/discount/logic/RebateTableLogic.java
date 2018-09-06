@@ -50,8 +50,7 @@ public class RebateTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        List<RemoveDiscountDto> resultList = logic.getContractSearch(discountChBinder, start, offset, getFilters(), getSortByColumns());
-        return resultList;
+        return logic.getContractSearch(discountChBinder, start, offset, getFilters(), getSortByColumns());
     }
 
     /**

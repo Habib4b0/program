@@ -72,42 +72,42 @@ public class LoadTabLogic {
         super();
     }
 
-    public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId, SessionDTO session) {
+    public int getLevelCount(Object parentIdLoad, TabSelectionDTO tabSelectionDTOLoad, int projectionIdLoad, SessionDTO sessionLoad) {
         LOGGER.debug("Inside getLevelCount");
-        int count = 0;
-        if (parentId instanceof SalesTabDTO) {
-            SalesTabDTO pDto = (SalesTabDTO) parentId;
-            tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
-            if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
-                tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
-                tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
-                tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
+        int countLevelCount = 0;
+        if (parentIdLoad instanceof SalesTabDTO) {
+            SalesTabDTO pDto = (SalesTabDTO) parentIdLoad;
+            tabSelectionDTOLoad.setParentLevel(pDto.getParentLevel());
+            tabSelectionDTOLoad.setIsProjectionTotal(BooleanConstant.getFalseFlag());
+            if (CONTRACT.equals(tabSelectionDTOLoad.getParentLevel())) {
+                tabSelectionDTOLoad.setContractMasterSid(pDto.getContractMasterSid());
+            } else if (COMPANY.equals(tabSelectionDTOLoad.getParentLevel())) {
+                tabSelectionDTOLoad.setCompanyMasterSid(pDto.getCompanyMasterSid());
+                tabSelectionDTOLoad.setContractMasterSid(pDto.getContractMasterSid());
+            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTOLoad.getParentLevel())) {
+                tabSelectionDTOLoad.setBrandMasterSid(pDto.getBrandMasterSid());
+                tabSelectionDTOLoad.setCompanyMasterSid(pDto.getCompanyMasterSid());
+                tabSelectionDTOLoad.setContractMasterSid(pDto.getContractMasterSid());
             }
 
         } else {
-            tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
+            tabSelectionDTOLoad.setParentLevel("new");
+            tabSelectionDTOLoad.setContractMasterSid(sessionLoad.getContMasteSid());
         }
-        this.projectionId = projectionId;
-        setParentLevels(tabSelectionDTO);
+        this.projectionId = projectionIdLoad;
+        setParentLevels(tabSelectionDTOLoad);
         setForecastingType(this.projectionId);
 
-        List<Object> list = getCountQuery(tabSelectionDTO);
-        if (list != null && !list.isEmpty()) {
-            Object obj = list.get(0);
-            count = obj == null ? 0 : (Integer) obj;
+        List<Object> listLoad = getCountQuery(tabSelectionDTOLoad);
+        if (listLoad != null && !listLoad.isEmpty()) {
+            Object obj = listLoad.get(0);
+            countLevelCount = obj == null ? 0 : (Integer) obj;
         }
-        if (tabSelectionDTO.isIsProjectionTotal()) {
-            count = count + NumericConstants.FOUR;
+        if (tabSelectionDTOLoad.isIsProjectionTotal()) {
+            countLevelCount = countLevelCount + NumericConstants.FOUR;
         }
         LOGGER.debug("Exiting getLevelCount");
-        return count;
+        return countLevelCount;
     }
 
     public void setParentLevels(TabSelectionDTO tabSelectionDTO) {
@@ -221,219 +221,219 @@ public class LoadTabLogic {
         return value;
     }
 
-    public List<SalesTabDTO> getConfiguredSalesTabResults(Object parentId, TabSelectionDTO tabSelectionDTO, boolean excelExport) {
+    public List<SalesTabDTO> getConfiguredSalesTabResults(Object parentIdSales, TabSelectionDTO tabSelectionDTOSales, boolean excelExportSales) {
         LOGGER.debug("Inside getConfiguredSalesTabResults");
-        List<SalesTabDTO> salesRowList = new ArrayList<>();
-        if (parentId instanceof SalesTabDTO) {
-            SalesTabDTO pDto = (SalesTabDTO) parentId;
-            tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
-            if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
-                tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
-                tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
-                tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
+        List<SalesTabDTO> salesRowListResults = new ArrayList<>();
+        if (parentIdSales instanceof SalesTabDTO) {
+            SalesTabDTO pDto = (SalesTabDTO) parentIdSales;
+            tabSelectionDTOSales.setParentLevel(pDto.getParentLevel());
+            tabSelectionDTOSales.setIsProjectionTotal(BooleanConstant.getFalseFlag());
+            if (CONTRACT.equals(tabSelectionDTOSales.getParentLevel())) {
+                tabSelectionDTOSales.setContractMasterSid(pDto.getContractMasterSid());
+            } else if (COMPANY.equals(tabSelectionDTOSales.getParentLevel())) {
+                tabSelectionDTOSales.setCompanyMasterSid(pDto.getCompanyMasterSid());
+                tabSelectionDTOSales.setContractMasterSid(pDto.getContractMasterSid());
+            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTOSales.getParentLevel())) {
+                tabSelectionDTOSales.setBrandMasterSid(pDto.getBrandMasterSid());
+                tabSelectionDTOSales.setCompanyMasterSid(pDto.getCompanyMasterSid());
+                tabSelectionDTOSales.setContractMasterSid(pDto.getContractMasterSid());
             }
         } else {
-            tabSelectionDTO.setParentLevel("new");
+            tabSelectionDTOSales.setParentLevel("new");
         }
-        List<Object> list;
-        setParentLevels(tabSelectionDTO);
-        List<String> tableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
-        if (!tableAndColumn.isEmpty()) {
-            tabSelectionDTO.setTableName(tableAndColumn.get(0));
-            tabSelectionDTO.setTempTableName("ST_" + tableAndColumn.get(0));
-            tabSelectionDTO.setSalesField(tableAndColumn.get(1));
-            tabSelectionDTO.setUnitField(tableAndColumn.get(NumericConstants.TWO));
+        List<Object> listSalesResults;
+        setParentLevels(tabSelectionDTOSales);
+        List<String> tableAndColumnSales = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
+        if (!tableAndColumnSales.isEmpty()) {
+            tabSelectionDTOSales.setTableName(tableAndColumnSales.get(0));
+            tabSelectionDTOSales.setTempTableName("ST_" + tableAndColumnSales.get(0));
+            tabSelectionDTOSales.setSalesField(tableAndColumnSales.get(1));
+            tabSelectionDTOSales.setUnitField(tableAndColumnSales.get(NumericConstants.TWO));
         }
-        list = getLevelListQuery(tabSelectionDTO);
-        String tempCcpid = EMPTY_STRING;
-        String levelNo = StringUtils.EMPTY;
-        SalesTabDTO salesTabDTO = null;
-        int frequencyDivision = 0;
-        if ("quarter".equalsIgnoreCase(tabSelectionDTO.getFrequency())) {
-            frequencyDivision = NumericConstants.FOUR;
-        } else if ("month".equalsIgnoreCase(tabSelectionDTO.getFrequency())) {
-            frequencyDivision = NumericConstants.TWELVE;
-        } else if ("semi_annual".equalsIgnoreCase(tabSelectionDTO.getFrequency())) {
-            frequencyDivision = NumericConstants.TWO;
+        listSalesResults = getLevelListQuery(tabSelectionDTOSales);
+        String tempCcpidSales = EMPTY_STRING;
+        String levelNoSales = StringUtils.EMPTY;
+        SalesTabDTO salesTabDTOSales = null;
+        int frequencyDivisionSales = 0;
+        if ("quarter".equalsIgnoreCase(tabSelectionDTOSales.getFrequency())) {
+            frequencyDivisionSales = NumericConstants.FOUR;
+        } else if ("month".equalsIgnoreCase(tabSelectionDTOSales.getFrequency())) {
+            frequencyDivisionSales = NumericConstants.TWELVE;
+        } else if ("semi_annual".equalsIgnoreCase(tabSelectionDTOSales.getFrequency())) {
+            frequencyDivisionSales = NumericConstants.TWO;
         } else {
-            frequencyDivision = 1;
+            frequencyDivisionSales = 1;
         }
 
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < listSalesResults.size(); i++) {
 
-            Object[] obj = (Object[]) list.get(i);
+            Object[] obj = (Object[]) listSalesResults.get(i);
             int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
             int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
-            List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
+            List<String> common = getCommonColumnHeader(frequencyDivisionSales, year, period);
             String commonColumn = common.get(0);
 
-            if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {
-                tempCcpid = String.valueOf(obj[1]);
-                salesTabDTO = new SalesTabDTO();
+            if (tempCcpidSales.equalsIgnoreCase(EMPTY_STRING)) {
+                tempCcpidSales = String.valueOf(obj[1]);
+                salesTabDTOSales = new SalesTabDTO();
             }
 
-            if (tempCcpid.equalsIgnoreCase(String.valueOf(obj[1]))) {
+            if (tempCcpidSales.equalsIgnoreCase(String.valueOf(obj[1]))) {
 
-                if (CONTRACT.equals(tabSelectionDTO.getParentLevel()) || "item".equals(tabSelectionDTO.getParentLevel())) {
-                    if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                        salesTabDTO.setContractMasterSid((Integer) obj[0]);
+                if (CONTRACT.equals(tabSelectionDTOSales.getParentLevel()) || "item".equals(tabSelectionDTOSales.getParentLevel())) {
+                    if (CONTRACT.equals(tabSelectionDTOSales.getParentLevel())) {
+                        salesTabDTOSales.setContractMasterSid((Integer) obj[0]);
                     }
-                    levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SIX]));
-                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
-                    salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
-                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setBrandMasterSid((Integer) obj[0]);
-                    salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    levelNo = String.valueOf(String.valueOf(obj[NumericConstants.EIGHT]));
+                    levelNoSales = String.valueOf(String.valueOf(obj[NumericConstants.SIX]));
+                } else if (COMPANY.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    levelNoSales = String.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setBrandMasterSid((Integer) obj[0]);
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    salesTabDTOSales.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    levelNoSales = String.valueOf(String.valueOf(obj[NumericConstants.EIGHT]));
                 }
 
-                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setLevelValue(TOTAL_VARIANCE);
+                if (VARIANCE.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                    salesTabDTOSales.setLevelValue(levelNoSales + "-" + String.valueOf(obj[1]));
                 }
 
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
-                salesTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
-                if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setParent(0);
+                salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExportSales));
+                salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExportSales));
+                salesTabDTOSales.setParentLevel(tabSelectionDTOSales.getParentLevel());
+                if ("item".equalsIgnoreCase(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setParent(0);
                 } else {
-                    salesTabDTO.setParent(1);
+                    salesTabDTOSales.setParent(1);
                 }
             } else {
 
-                salesTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
-                if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setParent(0);
+                salesTabDTOSales.setParentLevel(tabSelectionDTOSales.getParentLevel());
+                if ("item".equalsIgnoreCase(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setParent(0);
                 } else {
-                    salesTabDTO.setParent(1);
+                    salesTabDTOSales.setParent(1);
                 }
-                salesRowList.add(salesTabDTO);
-                tempCcpid = String.valueOf(obj[1]);
+                salesRowListResults.add(salesTabDTOSales);
+                tempCcpidSales = String.valueOf(obj[1]);
 
-                salesTabDTO = new SalesTabDTO();
-                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setContractMasterSid((Integer) obj[0]);
-                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
-                    salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setBrandMasterSid((Integer) obj[0]);
-                    salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                salesTabDTOSales = new SalesTabDTO();
+                if (CONTRACT.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[0]);
+                } else if (COMPANY.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setBrandMasterSid((Integer) obj[0]);
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    salesTabDTOSales.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                 }
-                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setLevelValue(TOTAL_VARIANCE);
+                if (VARIANCE.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                    salesTabDTOSales.setLevelValue(levelNoSales + "-" + String.valueOf(obj[1]));
                 }
 
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExportSales));
+                salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExportSales));
 
             }
-            if (i == (list.size() - 1)) {
-                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setContractMasterSid((Integer) obj[0]);
-                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
-                    salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setBrandMasterSid((Integer) obj[0]);
-                    salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+            if (i == (listSalesResults.size() - 1)) {
+                if (CONTRACT.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[0]);
+                } else if (COMPANY.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setBrandMasterSid((Integer) obj[0]);
+                    salesTabDTOSales.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    salesTabDTOSales.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                 }
-                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setLevelValue(TOTAL_VARIANCE);
+                if (VARIANCE.equals(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                    salesTabDTOSales.setLevelValue(levelNoSales + "-" + String.valueOf(obj[1]));
                 }
 
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExportSales));
+                salesTabDTOSales.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExportSales));
 
-                if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setParent(0);
+                if ("item".equalsIgnoreCase(tabSelectionDTOSales.getParentLevel())) {
+                    salesTabDTOSales.setParent(0);
                 } else {
-                    salesTabDTO.setParent(1);
+                    salesTabDTOSales.setParent(1);
                 }
-                salesTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
-                salesRowList.add(salesTabDTO);
+                salesTabDTOSales.setParentLevel(tabSelectionDTOSales.getParentLevel());
+                salesRowListResults.add(salesTabDTOSales);
             }
         }
         LOGGER.debug("Exiting getConfiguredSalesTabResults");
-        return salesRowList;
+        return salesRowListResults;
     }
 
     public List<Object> getCountQuery(TabSelectionDTO tabSelectionDTO) {
         LOGGER.debug("getCountQuery");
-        String query =" ";
-        List input = new ArrayList();
+        String queryCountQuery =" ";
+        List inputCountQuery = new ArrayList();
         if (VARIANCE.equals(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "contractCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(projectionId);
+            queryCountQuery = "contractCount";
+            inputCountQuery.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputCountQuery.add(tabSelectionDTO.getContractMasterSid());
+            inputCountQuery.add(projectionId);
         } else if (COMPANY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "companyCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            queryCountQuery = "companyCount";
+            inputCountQuery.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
         } else if (Constants.BRAND_PROPERTY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "brandCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(projectionId);
+            queryCountQuery = "brandCount";
+            inputCountQuery.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputCountQuery.add(tabSelectionDTO.getContractMasterSid());
+            inputCountQuery.add(projectionId);
         } else if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "itemCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(projectionId);
-            input.add(tabSelectionDTO.getBrandMasterSid());
+            queryCountQuery = "itemCount";
+            inputCountQuery.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputCountQuery.add(tabSelectionDTO.getContractMasterSid());
+            inputCountQuery.add(projectionId);
+            inputCountQuery.add(tabSelectionDTO.getBrandMasterSid());
         }
         LOGGER.debug("Exiting getCountQuery");
-        return ItemQueries.getItemData(input, query, null);
+        return ItemQueries.getItemData(inputCountQuery, queryCountQuery, null);
     }
 
     public List<Object> getRebateCountQuery(TabSelectionDTO tabSelectionDTO) {
-        String query = StringUtils.EMPTY;
-        List input = new ArrayList();
+        String queryRebate = StringUtils.EMPTY;
+        List inputRebate = new ArrayList();
         if (VARIANCE.equals(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "contractCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(projectionId);
+            queryRebate = "contractCount";
+            inputRebate.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputRebate.add(tabSelectionDTO.getContractMasterSid());
+            inputRebate.add(projectionId);
         } else if (COMPANY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "companyCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            queryRebate = "companyCount";
+            inputRebate.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
         } else if (Constants.BRAND_PROPERTY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "brandCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(projectionId);
+            queryRebate = "brandCount";
+            inputRebate.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputRebate.add(tabSelectionDTO.getContractMasterSid());
+            inputRebate.add(projectionId);
         } else if (REBATE.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "rebateCount";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(tabSelectionDTO.getBrandMasterSid());
-            input.add(projectionId);
+            queryRebate = "rebateCount";
+            inputRebate.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputRebate.add(tabSelectionDTO.getContractMasterSid());
+            inputRebate.add(tabSelectionDTO.getBrandMasterSid());
+            inputRebate.add(projectionId);
         } else if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-            query = "itemCountForRebate";
-            input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-            input.add(tabSelectionDTO.getContractMasterSid());
-            input.add(tabSelectionDTO.getBrandMasterSid());
-            input.add(tabSelectionDTO.getRebateProgramType());
-            input.add(projectionId);
+            queryRebate = "itemCountForRebate";
+            inputRebate.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
+            inputRebate.add(tabSelectionDTO.getContractMasterSid());
+            inputRebate.add(tabSelectionDTO.getBrandMasterSid());
+            inputRebate.add(tabSelectionDTO.getRebateProgramType());
+            inputRebate.add(projectionId);
         }
-        return ItemQueries.getItemData(input, query, null);
+        return ItemQueries.getItemData(inputRebate, queryRebate, null);
     }
 
     public int getRebateLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId,SessionDTO session) {
@@ -526,9 +526,9 @@ public class LoadTabLogic {
         }
 
         List<Object> list = getLevelListQueryForRebate(tabSelectionDTO);
-        String tempCcpid = EMPTY_STRING;
-        RebateTabDTO rebateTabDTO = null;
-        String levelNo = StringUtils.EMPTY;
+        String tempCcpidRebate = EMPTY_STRING;
+        RebateTabDTO rebateTabResultsDTO = null;
+        String levelNoRebateResults = StringUtils.EMPTY;
         int frequencyDivision = 0;
         if ("quarter".equalsIgnoreCase(tabSelectionDTO.getFrequency())) {
             frequencyDivision = NumericConstants.FOUR;
@@ -548,125 +548,125 @@ public class LoadTabLogic {
             int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
-            if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {
-                tempCcpid = String.valueOf(obj[1]);
-                levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                rebateTabDTO = new RebateTabDTO();
+            if (tempCcpidRebate.equalsIgnoreCase(EMPTY_STRING)) {
+                tempCcpidRebate = String.valueOf(obj[1]);
+                levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
+                rebateTabResultsDTO = new RebateTabDTO();
             }
 
-            if (tempCcpid.equalsIgnoreCase(String.valueOf(obj[1]))) {
+            if (tempCcpidRebate.equalsIgnoreCase(String.valueOf(obj[1]))) {
                 if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setLevelValue(TOTAL_VARIANCE);
+                    rebateTabResultsDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" + String.valueOf(obj[1]));
                 }
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setContractMasterSid((Integer) obj[0]);
-                    levelNo = String.valueOf(obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[0]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    levelNo = String.valueOf(obj[NumericConstants.SEVEN]);
+                    rebateTabResultsDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SEVEN]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    levelNo = String.valueOf(obj[NumericConstants.EIGHT]);
+                    rebateTabResultsDTO.setBrandMasterSid((Integer) obj[0]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.EIGHT]);
                 } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setRebateProgramType((Integer) obj[0]);
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    rebateTabDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
-                    levelNo = String.valueOf(obj[NumericConstants.NINE]);
+                    rebateTabResultsDTO.setRebateProgramType((Integer) obj[0]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    rebateTabResultsDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.NINE]);
                 }
 
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
 
-                rebateTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
+                rebateTabResultsDTO.setParentLevel(tabSelectionDTO.getParentLevel());
                 if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-                    levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                    rebateTabDTO.setParent(0);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setParent(0);
                 } else {
-                    rebateTabDTO.setParent(1);
+                    rebateTabResultsDTO.setParent(1);
                 }
             } else {
 
-                rebateTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
+                rebateTabResultsDTO.setParentLevel(tabSelectionDTO.getParentLevel());
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setContractMasterSid((Integer) obj[0]);
-                    levelNo = String.valueOf(obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[0]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    levelNo = String.valueOf(obj[NumericConstants.SEVEN]);
+                    rebateTabResultsDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SEVEN]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    levelNo = String.valueOf(obj[NumericConstants.EIGHT]);
+                    rebateTabResultsDTO.setBrandMasterSid((Integer) obj[0]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.EIGHT]);
                 } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setRebateProgramType((Integer) obj[0]);
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    rebateTabDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
-                    levelNo = String.valueOf(obj[NumericConstants.NINE]);
+                    rebateTabResultsDTO.setRebateProgramType((Integer) obj[0]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    rebateTabResultsDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.NINE]);
                 }
                 if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-                    levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                    rebateTabDTO.setParent(0);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setParent(0);
                 } else {
-                    rebateTabDTO.setParent(1);
+                    rebateTabResultsDTO.setParent(1);
                 }
-                rebateRowList.add(rebateTabDTO);
-                tempCcpid = String.valueOf(obj[1]);
+                rebateRowList.add(rebateTabResultsDTO);
+                tempCcpidRebate = String.valueOf(obj[1]);
 
-                rebateTabDTO = new RebateTabDTO();
+                rebateTabResultsDTO = new RebateTabDTO();
                 if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setLevelValue(TOTAL_VARIANCE);
+                    rebateTabResultsDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" + String.valueOf(obj[1]));
                 }
 
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
             }
             if (i == (list.size() - 1)) {
                 if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setLevelValue(TOTAL_VARIANCE);
+                    rebateTabResultsDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
-                    rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
+                    rebateTabResultsDTO.setLevelValue(levelNoRebateResults + "-" + String.valueOf(obj[1]));
                 }
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setContractMasterSid((Integer) obj[0]);
-                    levelNo = String.valueOf(obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[0]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    levelNo = String.valueOf(obj[NumericConstants.SEVEN]);
+                    rebateTabResultsDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SEVEN]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    levelNo = String.valueOf(obj[NumericConstants.EIGHT]);
+                    rebateTabResultsDTO.setBrandMasterSid((Integer) obj[0]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.EIGHT]);
                 } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setRebateProgramType((Integer) obj[0]);
-                    rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                    rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
-                    rebateTabDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
-                    levelNo = String.valueOf(obj[NumericConstants.NINE]);
+                    rebateTabResultsDTO.setRebateProgramType((Integer) obj[0]);
+                    rebateTabResultsDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
+                    rebateTabResultsDTO.setBrandMasterSid((Integer) obj[NumericConstants.EIGHT]);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.NINE]);
                 }
 
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                rebateTabResultsDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
                 if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
-                    levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                    rebateTabDTO.setParent(0);
+                    levelNoRebateResults = String.valueOf(obj[NumericConstants.SIX]);
+                    rebateTabResultsDTO.setParent(0);
                 } else {
-                    rebateTabDTO.setParent(1);
+                    rebateTabResultsDTO.setParent(1);
                 }
-                rebateTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
-                rebateRowList.add(rebateTabDTO);
+                rebateTabResultsDTO.setParentLevel(tabSelectionDTO.getParentLevel());
+                rebateRowList.add(rebateTabResultsDTO);
             }
 
         }
@@ -779,7 +779,7 @@ public class LoadTabLogic {
         List<SummaryTemDTO> resultList = new ArrayList<>();
         SummaryTemDTO dto = null;
 
-        list = (List) dao.executeSelect(query);
+        list =  dao.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);

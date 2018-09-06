@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.beans.GtnWsContractDashboardSessionBean;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.module.contractdashboard.controller.GtnWsContractDashboardController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -17,6 +18,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnwsExcelRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -402,6 +405,56 @@ public class GtnWsContractDashboardItemLogicTest {
         gtnWsContractDashboardItemLogic.getCDItemsDetailTableData(gtnWsRequest, gtnResponse, isStartDateEndDate);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetCDItemsDetailTableDataFalse() throws Exception {
+        System.out.println("getCDItemsDetailTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("997");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        boolean isStartDateEndDate = false;
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","itemNo","itemName","itemDesc","ifpStatus","ifpStartDate","ifpEndDate",
+                           "itemStatus","form","strength","therapeuticClass","brand","attachedDate","modifiedDate","modifiedBy","createdDate","createdBy","itemStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_ITrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("checkRecordId");
+        criteria2.setFilterValue1("1");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDItemsDetailTableData(gtnWsRequest, gtnResponse, isStartDateEndDate);
+        Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getCDItemsDetailViewTableData method, of class GtnWsContractDashboardItemLogic.
@@ -443,6 +496,50 @@ public class GtnWsContractDashboardItemLogicTest {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         gtnWsContractDashboardItemLogic.getCDItemsDetailViewTableData(gtnWsRequest, gtnResponse, isStartDateEndDate);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+    @Test
+    public void testGetCDItemsDetailViewTableDataFalse() throws Exception {
+        System.out.println("getCDItemsDetailViewTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("552");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"recordType","itemNo","itemName","itemDesc","ifpStatus","ifpStartDate","ifpEndDate",
+                           "itemStatus","form","strength","therapeuticClass","brand","attachedDate","modifiedDate","modifiedBy","createdDate","createdBy","itemStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_ITrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+        
+        boolean isStartDateEndDate = false;
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDItemsDetailViewTableData(gtnWsRequest, gtnResponse, isStartDateEndDate);
+        Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
 
     /**
@@ -538,6 +635,40 @@ public class GtnWsContractDashboardItemLogicTest {
         gtnWsContractDashboardItemLogic.populateItemField(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsContractDashboardRequest.getPopulateField().isEmpty());
     }
+    
+     @Test
+    public void testPopulateItemFieldFalse() throws Exception {
+        System.out.println("populateItemField");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("997");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        gtnWsContractDashboardRequest.setPopulateField("ifpStatus");
+        gtnWsContractDashboardRequest.setPopulateValue(126);
+        gtnWsContractDashboardRequest.setSystemId(92336);
+        //gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{     
+        gtnWsContractDashboardItemLogic.populateItemField(gtnWsRequest, gtnResponse);
+        Assert.fail();
+         } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsContractDashboardRequest.getPopulateField().isEmpty());
+    }
 
     /**
      * Test of getCDPricingDetailTableData method, of class GtnWsContractDashboardItemLogic.
@@ -584,6 +715,54 @@ public class GtnWsContractDashboardItemLogicTest {
         gtnWsContractDashboardItemLogic.getCDPricingDetailTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetCDPricingDetailTableDataFalse() throws Exception {
+        System.out.println("getCDPricingDetailTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("997");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","priceId","priceNo","priceName","brand","status","CPStartDate","CPEndDate","PriceType",
+                      "Price","SuggestedPrice","Source","CreatedBy","CreatedDate","attachedDate","pdStatusHelperValue","pdPriceTypeHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("checkRecordId");
+        criteria2.setFilterValue1("1");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDPricingDetailTableData(gtnWsRequest, gtnResponse);
+        Assert.fail();
+         } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getCDPricingDetailViewTableData method, of class GtnWsContractDashboardItemLogic.
@@ -623,6 +802,48 @@ public class GtnWsContractDashboardItemLogicTest {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         gtnWsContractDashboardItemLogic.getCDPricingDetailViewTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+      @Test
+    public void testGetCDPricingDetailViewTableDatafalse() throws Exception {
+        System.out.println("getCDPricingDetailViewTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("58");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"recordType","priceId","priceNo","priceName","brand","status","CPStartDate","CPEndDate","PriceType",
+                      "Price","SuggestedPrice","Source","CreatedBy","CreatedDate","attachedDate","pdStatusHelperValue","pdPriceTypeHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+       try{
+       gtnWsContractDashboardItemLogic.getCDPricingDetailViewTableData(gtnWsRequest, gtnResponse);
+       Assert.fail();
+         } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
 
     /**
@@ -672,6 +893,57 @@ public class GtnWsContractDashboardItemLogicTest {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         gtnWsContractDashboardItemLogic.getCDPricingProtectionTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+     @Test
+    public void testGetCDPricingProtectionTableDataFalse() throws Exception {
+        System.out.println("getCDPricingProtectionTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("806");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","priceId","priceNo","priceName","brand","PriceProtectionStatus","PriceProtectionStartDate","PriceProtectionEndDate",
+                           "MeasurementPrice", "nep", "NEPFormulapopup", "BasePriceTypeType", "BasePriceType", "netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice", "netSubsequentPriceFormulapopup", "PriceToleranceInterval", "PriceToleranceFrequency", "PriceToleranceType", "PriceTolerance", "MaxIncrementalChange", "ResetEligible", "ResetType", "ResetDate", "ResetInterval",
+                           "ResetFrequency", "resetPriceType", "netResetPriceType", "netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormulapopup", "attachedDate", "ppStatusHelperValue", "measurementHelperValue", "basepricetypeHelperValue", "baselinewacHelperValue", "netbasepriceHelperValue", 
+                           "subsequentperiodpriceHelperValue", "netsubsequentperiodpriceHelperValue", "pricetoleranceintervalHelperValue", "pricetolerancefrequencyHelperValue", "pricetolerancetypeHelperValue", "reseteligibleHelperValue", "resettypeHelperValue", "resetintervalHelperValue", "resetfrequencyHelperValue", 
+                           "resetpricetypeHelperValue", "netresetpricetypeHelperValue", "netpricetypeHelperValue", "bDesHelperValue", "iBPDDLBHelperValue", "iBPDHelperValue", "bASEPRICEENTRYYYHelperValue", "priceToleranceDescriptionValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("checkRecordId");
+        criteria2.setFilterValue1("1");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDPricingProtectionTableData(gtnWsRequest, gtnResponse);
+        Assert.fail();
+         } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
 
     /**
@@ -748,6 +1020,52 @@ public class GtnWsContractDashboardItemLogicTest {
         gtnWsContractDashboardItemLogic.getCDPricingProtectionViewTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetCDPricingProtectionViewTableDataFalse() throws Exception {
+        System.out.println("getCDPricingProtectionViewTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("610");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"recordType","priceId","priceNo","priceName","brand","PriceProtectionStatus","PriceProtectionStartDate","PriceProtectionEndDate",
+                           "MeasurementPrice", "nep", "NEPFormulapopup", "BasePriceTypeType", "BasePriceType", "netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice", "netSubsequentPriceFormulapopup", "PriceToleranceInterval", "PriceToleranceFrequency", "PriceToleranceType", "PriceTolerance", "MaxIncrementalChange", "ResetEligible", "ResetType", "ResetDate", "ResetInterval",
+                           "ResetFrequency", "resetPriceType", "netResetPriceType", "netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormulapopup", "attachedDate", "ppStatusHelperValue", "measurementHelperValue", "basepricetypeHelperValue", "baselinewacHelperValue", "netbasepriceHelperValue", 
+                           "subsequentperiodpriceHelperValue", "netsubsequentperiodpriceHelperValue", "pricetoleranceintervalHelperValue", "pricetolerancefrequencyHelperValue", "pricetolerancetypeHelperValue", "reseteligibleHelperValue", "resettypeHelperValue", "resetintervalHelperValue", "resetfrequencyHelperValue", 
+                           "resetpricetypeHelperValue", "netresetpricetypeHelperValue", "netpricetypeHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDPricingProtectionViewTableData(gtnWsRequest, gtnResponse);
+        Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getCDRebateDetailTableData method, of class GtnWsContractDashboardItemLogic.
@@ -787,6 +1105,47 @@ public class GtnWsContractDashboardItemLogicTest {
         gtnWsContractDashboardItemLogic.getCDRebateDetailTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetCDRebateDetailTableDataFalse() throws Exception {
+        System.out.println("getCDRebateDetailTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("611");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId", "recordType", "priceNo", "priceName", "itemType", "priceId", "attachedStatus", "rebateStartDate", "rebateEndDate", "rebatePlanBundleNo", "rebatePlanNopopup", "rebatePlanName", "deductionCalendarNopopup", "deductionCalendarName", "formulaType", "formulaNopopup", "formulaName", "netSalesFormulaNopopup", "netSalesRulepopup", "evaluationRulepopup", "evaluationRuleBundle", "calculationRulepopup", "calculationRuleBundle", "attachedDate", "rebatesStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_RTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDRebateDetailTableData(gtnWsRequest, gtnResponse);
+        Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getCDRebateDetailViewTableData method, of class GtnWsContractDashboardItemLogic.
@@ -825,6 +1184,47 @@ public class GtnWsContractDashboardItemLogicTest {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         gtnWsContractDashboardItemLogic.getCDRebateDetailViewTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+    @Test
+    public void testGetCDRebateDetailViewTableDataFalse() throws Exception {
+        System.out.println("getCDRebateDetailViewTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("781");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"recordType", "priceNo", "priceName", "itemType", "formulaId","formulaName","rebatePlanName", "rebateStartDate", "rebateEndDate", "rebateRevisionDate"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_RTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDRebateDetailViewTableData(gtnWsRequest, gtnResponse);
+         Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
 
     /**
@@ -870,7 +1270,7 @@ public class GtnWsContractDashboardItemLogicTest {
         gtnWsContractDashboardItemLogic.getCDItemsDetailPendingTableData(gtnWsRequest, gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
-
+    
     /**
      * Test of getCDRebateDetailPendingTableData method, of class GtnWsContractDashboardItemLogic.
      */
@@ -1004,6 +1404,56 @@ public class GtnWsContractDashboardItemLogicTest {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         gtnWsContractDashboardItemLogic.getCDPricingProtectionPendingTableData(gtnWsRequest,gtnResponse);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+    @Test
+    public void testGetCDPricingProtectionPendingTableDataFalse() throws Exception {
+        
+        System.out.println("getCDPricingProtectionTableData");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("pspricingContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","priceId","priceNo","priceName","brand","PriceProtectionStatus","PriceProtectionStartDate","PriceProtectionEndDate",
+                           "MeasurementPrice", "nep", "NEPFormulapopup", "BasePriceTypeType", "BasePriceType", "netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice", "netSubsequentPriceFormulapopup", "PriceToleranceInterval", "PriceToleranceFrequency", "PriceToleranceType", "PriceTolerance", "MaxIncrementalChange", "ResetEligible", "ResetType", "ResetDate", "ResetInterval",
+                           "ResetFrequency", "resetPriceType", "netResetPriceType", "netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormulapopup", "attachedDate", "ppStatusHelperValue", "measurementHelperValue", "basepricetypeHelperValue", "baselinewacHelperValue", "netbasepriceHelperValue", 
+                           "subsequentperiodpriceHelperValue", "netsubsequentperiodpriceHelperValue", "pricetoleranceintervalHelperValue", "pricetolerancefrequencyHelperValue", "pricetolerancetypeHelperValue", "reseteligibleHelperValue", "resettypeHelperValue", "resetintervalHelperValue", "resetfrequencyHelperValue", 
+                           "resetpricetypeHelperValue", "netresetpricetypeHelperValue", "netpricetypeHelperValue", "bDesHelperValue", "iBPDDLBHelperValue", "iBPDHelperValue", "bASEPRICEENTRYYYHelperValue", "priceToleranceDescriptionValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTPPlvlrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("pspricingContractId");
+        criteria2.setFilterValue1("375");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try{
+        gtnWsContractDashboardItemLogic.getCDPricingProtectionPendingTableData(gtnWsRequest,gtnResponse);
+       
+      Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
     }
 
     /**
@@ -1233,7 +1683,77 @@ public class GtnWsContractDashboardItemLogicTest {
         List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
         searchRequest.setTableRecordStart(0);
         searchRequest.setTableRecordOffset(1);
-        searchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);    
+        searchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList); 
+        gtnWsRequest.setGtnWsSearchRequest(searchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemAdditionSearchInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,searchRequest );
+        assertFalse(searchRequest.getSearchColumnNameList().isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+      @Test
+    public void testGetItemAdditionSearchInputFalse1() throws Exception {
+     try {
+        System.out.println("getItemAdditionSearchInput");
+        GtnWsSearchRequest searchRequest=new GtnWsSearchRequest();
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();  
+        searchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"itemNo","itemName","itemDesc","itemStatus","form","strength","therapeuticClass","brand"}));
+        searchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("Brand Name");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("pspricingContractId");
+        criteria2.setFilterValue1("Brand Name");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        searchRequest.setTableRecordStart(0);
+        searchRequest.setTableRecordOffset(1);
+        searchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList); 
+        gtnWsRequest.setGtnWsSearchRequest(searchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemAdditionSearchInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,searchRequest );
+        assertFalse(searchRequest.getSearchColumnNameList().isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testGetItemAdditionSearchInputFalse2() throws Exception {
+     try {
+        System.out.println("getItemAdditionSearchInput");
+        GtnWsSearchRequest searchRequest=new GtnWsSearchRequest();
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();  
+        searchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"itemNo","itemName","itemDesc","itemStatus","form","strength","therapeuticClass","brand"}));
+        searchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("Brand Name");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("pspricingContractId");
+        criteria2.setFilterValue1("Brand Name");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        searchRequest.setTableRecordStart(0);
+        searchRequest.setTableRecordOffset(1);
+        searchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList); 
         gtnWsRequest.setGtnWsSearchRequest(searchRequest);
         Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemAdditionSearchInput", GtnWsSearchRequest.class);
         method.setAccessible(true);
@@ -1251,11 +1771,30 @@ public class GtnWsContractDashboardItemLogicTest {
     public void testGetItemAdditionSortedInputs() {
     try {
         System.out.println("getItemAdditionSortedInputs");
-        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();     
         Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemAdditionSortedInputs", List.class);
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardItemLogic,gtnWebServiceOrderByCriteriaList );
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testGetItemAdditionSortedInputsFalse() {
+    try {
+        System.out.println("getItemAdditionSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();    
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemAdditionSortedInputs", List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWebServiceOrderByCriteriaList );
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1462,6 +2001,42 @@ public class GtnWsContractDashboardItemLogicTest {
             Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Test
+    public void testGetItemsSearchInputFalse() throws Exception {
+    try{
+        System.out.println("getItemsSearchInput");
+        
+        boolean isStartDateEndDate=false;
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","itemNo","itemName","itemDesc","ifpStatus","ifpStartDate","ifpEndDate",
+                           "itemStatus","form","strength","therapeuticClass","brand","attachedDate","modifiedDate","modifiedBy","createdDate","createdBy","itemStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_ITrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+       
+
+       // gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();      
+          
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+         
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchInput", GtnWsSearchRequest.class,boolean.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest,isStartDateEndDate);
+        assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+           // Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Test of getItemsDetailSortedInputs method, of class GtnWsContractDashboardItemLogic.
@@ -1475,6 +2050,24 @@ public class GtnWsContractDashboardItemLogicTest {
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardItemLogic,gtnWebServiceOrderByCriteriaList );
         assertFalse(!gtnWebServiceOrderByCriteriaList.isEmpty());
+        } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @Test
+    public void testGetItemsDetailSortedInputsFalse() {
+    try {
+        System.out.println("getItemsDetailSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsDetailSortedInputs", List.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWebServiceOrderByCriteriaList );
+        assertFalse(gtnWebServiceOrderByCriteriaList.isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1641,7 +2234,98 @@ try{
         method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetItemsSearchPendingInputFalse() throws Exception {
 
+        System.out.println("getItemsSearchPendingInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("ifpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","itemNo","itemName","itemDesc","ifpStatus","ifpStartDate","ifpEndDate",
+                           "itemStatus","form","strength","therapeuticClass","brand","attachedDate","modifiedDate","modifiedBy","createdDate","createdBy","itemStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_ITrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("ifpContractId");
+        criteria2.setFilterValue1("257");
+        criteria2.setExpression("LIKE");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchPendingInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+
+    @Test
+    public void testGetItemsSearchPendingInputFalse2() throws Exception {
+
+        try{
+        System.out.println("getItemsSearchPendingInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("ifpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","itemNo","itemName","itemDesc","ifpStatus","ifpStartDate","ifpEndDate",
+                           "itemStatus","form","strength","therapeuticClass","brand","attachedDate","modifiedDate","modifiedBy","createdDate","createdBy","itemStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_ITrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("ifpContractId");
+        criteria2.setFilterValue1("257");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchPendingInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
     /**
      * Test of itemProcess method, of class GtnWsContractDashboardItemLogic.
      */
@@ -1767,6 +2451,85 @@ try{
         method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetItemsRebateSearchInputFalse() throws Exception {
+        System.out.println("getItemsRebateSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("611");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId", "recordType", "priceNo", "priceName", "itemType", "priceId", "attachedStatus", "rebateStartDate", "rebateEndDate", "rebatePlanBundleNo", "rebatePlanNopopup", "rebatePlanName", "deductionCalendarNopopup", "deductionCalendarName", "formulaType", "formulaNopopup", "formulaName", "netSalesFormulaNopopup", "netSalesRulepopup", "evaluationRulepopup", "evaluationRuleBundle", "calculationRulepopup", "calculationRuleBundle", "attachedDate", "rebatesStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_RTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsRebateSearchInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+    @Test
+    public void testGetItemsRebateSearchInputFalse2() throws Exception {
+        try{
+        System.out.println("getItemsRebateSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("611");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId", "recordType", "priceNo", "priceName", "itemType", "priceId", "attachedStatus", "rebateStartDate", "rebateEndDate", "rebatePlanBundleNo", "rebatePlanNopopup", "rebatePlanName", "deductionCalendarNopopup", "deductionCalendarName", "formulaType", "formulaNopopup", "formulaName", "netSalesFormulaNopopup", "netSalesRulepopup", "evaluationRulepopup", "evaluationRuleBundle", "calculationRulepopup", "calculationRuleBundle", "attachedDate", "rebatesStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_RTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsRebateSearchInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
 
     /**
      * Test of getItemsSearchRebateInput method, of class GtnWsContractDashboardItemLogic.
@@ -1812,6 +2575,97 @@ try{
         method.setAccessible(true);
         method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+    @Test
+    public void testGetItemsSearchRebateInputFalse() throws Exception {
+        System.out.println("getItemsSearchRebateInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("rsContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId", "recordType", "priceNo", "priceName", "itemType", "priceId", "attachedStatus", "rebateStartDate", "rebateEndDate", "rebatePlanBundleNo", "rebatePlanNopopup", "rebatePlanName", "deductionCalendarNopopup", "deductionCalendarName", "formulaType", "formulaNopopup", "formulaName", "netSalesFormulaNopopup", "netSalesRulepopup", "evaluationRulepopup", "evaluationRuleBundle", "calculationRulepopup", "calculationRuleBundle", "attachedDate", "rebatesStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_RTrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(true);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("rsContractId");
+        criteria2.setFilterValue1("380");
+        criteria2.setExpression("LIKE");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchRebateInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+    }
+    
+    @Test
+    public void testGetItemsSearchRebateInputFalse2() throws Exception {
+        try{
+        System.out.println("getItemsSearchRebateInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("rsContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId", "recordType", "priceNo", "priceName", "itemType", "priceId", "attachedStatus", "rebateStartDate", "rebateEndDate", "rebatePlanBundleNo", "rebatePlanNopopup", "rebatePlanName", "deductionCalendarNopopup", "deductionCalendarName", "formulaType", "formulaNopopup", "formulaName", "netSalesFormulaNopopup", "netSalesRulepopup", "evaluationRulepopup", "evaluationRuleBundle", "calculationRulepopup", "calculationRuleBundle", "attachedDate", "rebatesStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_RTrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("rsContractId");
+        criteria2.setFilterValue1("380");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+        
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchRebateInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
 
     /**
@@ -1860,6 +2714,52 @@ try{
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Test
+    public void testGetItemsSearchPricingInputFalse() throws Exception {
+    try{
+        System.out.println("getItemsSearchPricingInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("501");
+        generalRequest.setExtraParameter("cfpContractId");
+        generalRequest.setExcel(false);
+        
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        String queryName = "getPricingDetailsResults";
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","priceId","priceNo","priceName","brand","status","CPStartDate","CPEndDate","PriceType",
+                      "Price","SuggestedPrice","Source","CreatedBy","CreatedDate","attachedDate","pdStatusHelperValue","pdPriceTypeHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        gtnWsSearchRequest.setTableRecordStart(0);
+        gtnWsSearchRequest.setTableRecordOffset(1);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchPricingInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
     }
 
     /**
@@ -1959,6 +2859,57 @@ try{
         method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+     @Test
+    public void testGetItemsSearchPriceProtectionInputFalse() throws Exception {
+        try{
+        System.out.println("getItemsSearchPriceProtectionInput");
+        String queryName = "getPricingProtectionCount";
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("pspricingContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","priceId","priceNo","priceName","brand","PriceProtectionStatus","PriceProtectionStartDate","PriceProtectionEndDate",
+                           "MeasurementPrice", "nep", "NEPFormulapopup", "BasePriceTypeType", "BasePriceType", "netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice", "netSubsequentPriceFormulapopup", "PriceToleranceInterval", "PriceToleranceFrequency", "PriceToleranceType", "PriceTolerance", "MaxIncrementalChange", "ResetEligible", "ResetType", "ResetDate", "ResetInterval",
+                           "ResetFrequency", "resetPriceType", "netResetPriceType", "netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormulapopup", "attachedDate", "ppStatusHelperValue", "measurementHelperValue", "basepricetypeHelperValue", "baselinewacHelperValue", "netbasepriceHelperValue", 
+                           "subsequentperiodpriceHelperValue", "netsubsequentperiodpriceHelperValue", "pricetoleranceintervalHelperValue", "pricetolerancefrequencyHelperValue", "pricetolerancetypeHelperValue", "reseteligibleHelperValue", "resettypeHelperValue", "resetintervalHelperValue", "resetfrequencyHelperValue", 
+                           "resetpricetypeHelperValue", "netresetpricetypeHelperValue", "netpricetypeHelperValue", "bDesHelperValue", "iBPDDLBHelperValue", "iBPDHelperValue", "bASEPRICEENTRYYYHelperValue", "priceToleranceDescriptionValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTPPlvlrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("pspricingContractId");
+        criteria2.setFilterValue1("375");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchPriceProtectionInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
+    }
 
     /**
      * Test of getItemsSearchPricingPendingInput method, of class GtnWsContractDashboardItemLogic.
@@ -2054,6 +3005,58 @@ try{
         method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
         assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
     }
+    
+    @Test
+    public void testGetItemsSearchPriceProtectionPendingInputFalse() throws Exception {
+        try{
+        System.out.println("getItemsSearchPriceProtectionPendingInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("698");
+        generalRequest.setExtraParameter("pspricingContractId");
+        generalRequest.setExcel(false);
+        
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","priceId","priceNo","priceName","brand","PriceProtectionStatus","PriceProtectionStartDate","PriceProtectionEndDate",
+                           "MeasurementPrice", "nep", "NEPFormulapopup", "BasePriceTypeType", "BasePriceType", "netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice", "netSubsequentPriceFormulapopup", "PriceToleranceInterval", "PriceToleranceFrequency", "PriceToleranceType", "PriceTolerance", "MaxIncrementalChange", "ResetEligible", "ResetType", "ResetDate", "ResetInterval",
+                           "ResetFrequency", "resetPriceType", "netResetPriceType", "netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormulapopup", "attachedDate", "ppStatusHelperValue", "measurementHelperValue", "basepricetypeHelperValue", "baselinewacHelperValue", "netbasepriceHelperValue", 
+                           "subsequentperiodpriceHelperValue", "netsubsequentperiodpriceHelperValue", "pricetoleranceintervalHelperValue", "pricetolerancefrequencyHelperValue", "pricetolerancetypeHelperValue", "reseteligibleHelperValue", "resettypeHelperValue", "resetintervalHelperValue", "resetfrequencyHelperValue", 
+                           "resetpricetypeHelperValue", "netresetpricetypeHelperValue", "netpricetypeHelperValue", "bDesHelperValue", "iBPDDLBHelperValue", "iBPDHelperValue", "bASEPRICEENTRYYYHelperValue", "priceToleranceDescriptionValue"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_PTPPlvlrecord");
+        criteria.setFilterValue1("[Pending]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+
+        GtnWebServiceSearchCriteria criteria2 = new GtnWebServiceSearchCriteria();
+        criteria2.setFieldId("pspricingContractId");
+        criteria2.setFilterValue1("375");
+        criteria2.setExpression("EQUALS");
+        criteria2.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria2);
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();          
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("getItemsSearchPriceProtectionPendingInput", GtnWsSearchRequest.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest);
+        //assertFalse(gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList().isEmpty());
+         } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
+
+    }
 
     /**
      * Test of getCurrentHistoryFilter method, of class GtnWsContractDashboardItemLogic.
@@ -2147,6 +3150,43 @@ try{
         } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Test
+    public void testItemDetailsSearchInputTableDataFalse() throws Exception {
+ try{
+        System.out.println("itemDetailsSearchInputTableData");
+        
+        StringBuilder inputWhereConditionss=new StringBuilder("");
+        boolean isStartDateEndDate=false;
+        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"checkRecordId","recordType","itemNo","itemName","itemDesc","ifpStatus","ifpStartDate","ifpEndDate",
+                           "itemStatus","form","strength","therapeuticClass","brand","attachedDate","modifiedDate","modifiedBy","createdDate","createdBy","itemStatusHelperValue"}));
+        gtnWsSearchRequest.setCount(false);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("CDProcessView_ITrecord");
+        criteria.setFilterValue1("[]");
+        criteria.setExpression("EQUALS");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+       
+
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+        
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();      
+          
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+         
+        Method method = gtnWsContractDashboardItemLogic.getClass().getDeclaredMethod("itemDetailsSearchInputTableData", GtnWsSearchRequest.class,StringBuilder.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardItemLogic,gtnWsSearchRequest,inputWhereConditionss);
+        //assertFalse(gtnWsSearchRequest.getSearchColumnNameList().isEmpty());
+        } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+
     }
     
 

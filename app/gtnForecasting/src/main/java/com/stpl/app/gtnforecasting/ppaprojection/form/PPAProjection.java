@@ -90,6 +90,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -1740,17 +1741,17 @@ public class PPAProjection extends CustomComponent implements View {
         if (!initial) {
             String frd = StringUtils.EMPTY;
             if (fromDate != null) {
-                frd = fromDate.toString().replace(" ", StringUtils.EMPTY).toLowerCase().trim();
+                frd = fromDate.toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH).trim();
             }
                 if ((fromDateDdlb != null) && (fromDateDdlb.getValue() != null)) {
-                    frd = fromDateDdlb.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase().trim();
+                    frd = fromDateDdlb.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH).trim();
                 }
             String trd = StringUtils.EMPTY;
             if (toDate != null) {
-                trd = toDate.toString().replace(" ", StringUtils.EMPTY).toLowerCase().trim();
+                trd = toDate.toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH).trim();
             }
                 if ((toDateDdlb != null) && (toDateDdlb.getValue() != null)) {
-                    trd = toDateDdlb.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase().trim();
+                    trd = toDateDdlb.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH).trim();
                 }
             if (!frd.isEmpty()) {
                 startmonth = getQuarterStartMonth(Integer.parseInt(frd.substring(1, frd.length() - NumericConstants.FOUR)));

@@ -39,11 +39,11 @@ public class GtnFrameworkQueryConfig {
 	}
 
 	public String[] getDataTypeArray() {
-		return dataTypeArray;
+		return dataTypeArray != null ? dataTypeArray.clone() : null;
 	}
 
 	public void setDataTypeArray(String[] dataTypeArray) {
-		this.dataTypeArray = dataTypeArray;
+		this.dataTypeArray = dataTypeArray != null ? dataTypeArray.clone() : null;
 	}
 
 	public boolean isInsertOrSelectQuery() {
@@ -55,19 +55,20 @@ public class GtnFrameworkQueryConfig {
 	}
 
 	public int[] getResultStoragePositionArray() {
-		return resultStoragePositionArray;
+		return resultStoragePositionArray != null ? resultStoragePositionArray.clone() : null;
 	}
 
 	public void setResultStoragePositionArray(int[] resultStoragePositionArray) {
-		this.resultStoragePositionArray = resultStoragePositionArray;
+		this.resultStoragePositionArray = resultStoragePositionArray != null ? resultStoragePositionArray.clone()
+				: null;
 	}
 
 	public int[] getParamPositionArray() {
-		return paramPositionArray;
+		return paramPositionArray != null ? paramPositionArray.clone() : null;
 	}
 
 	public void setParamPositionArray(int[] paramPositionArray) {
-		this.paramPositionArray = paramPositionArray;
+		this.paramPositionArray = paramPositionArray != null ? paramPositionArray.clone() : null;
 	}
 
 	public int setParamPositionArray(int startPos, int endPos) {

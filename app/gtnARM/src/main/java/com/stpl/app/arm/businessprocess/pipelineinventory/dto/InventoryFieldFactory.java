@@ -111,7 +111,7 @@ public class InventoryFieldFactory implements TableFieldFactory {
 
         @Override
         public void run() {
-            updateSuccess = logic.updatePriceOverride(input);
+            updateSuccess = logic.updateInventoryPriceOverride(input);
         }
 
         public boolean isUpdateSuccess() {

@@ -154,7 +154,7 @@ public class ReturnsDataLogic<T extends AdjustmentDTO> implements LogicAble<T>, 
                     String propertyId = String.valueOf(stringFilter.getPropertyId());
                     filterQuery.append(filterQuery).append(" AND ");
                     filterQuery.append(propertyId.substring(0, propertyId.indexOf('.')));
-                    filterQuery.append(" like '").append(filterString).append("'");
+                    filterQuery.append(" like '").append(filterString).append(ARMUtils.SINGLE_QUOTES);
                 }
 
             }

@@ -150,7 +150,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList(new String[] { "File", "Company",
 				"Business Unit", "Type", "Version", "Active From", "Active To","Active File?" }));
-		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
+              		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "toPeriod" ,"activeFile" });
 		dataAssumptionsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
@@ -217,14 +217,15 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		excelButtonConfig.setParentComponentId(parentId);
 		excelButtonConfig.setAddToParent(true);                
 		excelButtonConfig.setAuthorizationIncluded(true);
-                excelButtonConfig.setDefaultFocus(true);                
+                excelButtonConfig.setDefaultFocus(true);  
                 excelButtonConfig.addComponentStyle("v-report-data-assumption-excel");
 		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonInput = new GtnUIFrameworkExcelButtonConfig();
 		gtnUIFrameworkExcelButtonInput.setIsTreeTable(true);
-		gtnUIFrameworkExcelButtonInput.setExportFileName("Report");
-		gtnUIFrameworkExcelButtonInput.setExportTableId("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);              
+                gtnUIFrameworkExcelButtonInput.setExportFileName("Report");		
+                gtnUIFrameworkExcelButtonInput.setExportTableId("dataAssumptionsPagedTableComponentcurrentTabdataAssumptionsTab"); 
+                
 		GtnUIFrameWorkActionConfig resultTableExcelAction = new GtnUIFrameWorkActionConfig();
-		resultTableExcelAction.setActionType(GtnUIFrameworkActionType.TREEGRID_EXCEL_EXPORT_ACTION);
+		resultTableExcelAction.setActionType(GtnUIFrameworkActionType.PAGEDGRID_EXCEL_EXPORT_ACTION);
 		resultTableExcelAction.addActionParameter(gtnUIFrameworkExcelButtonInput);
 
 		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonInput);

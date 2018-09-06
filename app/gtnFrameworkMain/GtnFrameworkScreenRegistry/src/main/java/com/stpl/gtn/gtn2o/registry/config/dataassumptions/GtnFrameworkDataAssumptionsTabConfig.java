@@ -22,6 +22,13 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private String[] propertyIds = { "file", "company", "businessUnit", "type", "version", "activeFrom", "fromPeriod",
+			"toPeriod" };
+	private GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+			GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
+			GtnUIFrameworkComponentType.CALENDAR_FIELD };
 
 	public void addDataAssumptionsTabComponents(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		addDataAssumptionsRootLayout(componentList, nameSpace);
@@ -52,23 +59,23 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		dataAssumptionsPanel.setComponentName("File Information");
 		dataAssumptionsPanel.setComponentId(nameSpace + "_" + "fileInformation");
 		dataAssumptionsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		dataAssumptionsPanel.setAddToParent(Boolean.TRUE);
+		dataAssumptionsPanel.setAddToParent(true);
 		dataAssumptionsPanel.setParentComponentId(parentComponentId);
 
 		dataAssumptionsPanel.setSpacing(true);
 		componentList.add(dataAssumptionsPanel);
-		
+
 		addDataAssumptionsPanelLayout(componentList, dataAssumptionsPanel.getComponentId(), nameSpace);
 	}
 
-	private void addDataAssumptionsPanelLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
-			String nameSpace) {
+	private void addDataAssumptionsPanelLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentComponentId, String nameSpace) {
 		gtnLogger.info("started executing addDataAssumptionsPanelLayout()");
 		GtnUIFrameworkComponentConfig dataAssumptionsPanelLayout = new GtnUIFrameworkComponentConfig();
 		dataAssumptionsPanelLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		dataAssumptionsPanelLayout.setAuthorizationIncluded(true);
 		dataAssumptionsPanelLayout.setComponentId(nameSpace + "_" + "panelLayout");
-		dataAssumptionsPanelLayout.setAddToParent(Boolean.TRUE);
+		dataAssumptionsPanelLayout.setAddToParent(true);
 		dataAssumptionsPanelLayout.setParentComponentId(parentComponentId);
 		GtnUIFrameworkLayoutConfig layoutConfig = new GtnUIFrameworkLayoutConfig();
 		layoutConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -80,7 +87,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		addDataAssumptionsPagedTableComponent(componentList, dataAssumptionsPanelLayout.getComponentId(), nameSpace);
 
 		addDataAssumptionsExcelButtonComponent(componentList, dataAssumptionsPanelLayout.getComponentId(), nameSpace);
-		
+
 	}
 
 	private void addDataAssumptionsPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -90,7 +97,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		dataAssumptionsResultsTable.setAuthorizationIncluded(true);
 		dataAssumptionsResultsTable.setComponentName("Data Assumptions Paged Table");
 		dataAssumptionsResultsTable.setComponentId(nameSpace + "_" + "resultsTable");
-		dataAssumptionsResultsTable.setAddToParent(Boolean.TRUE);
+		dataAssumptionsResultsTable.setAddToParent(true);
 		dataAssumptionsResultsTable.setParentComponentId(parentComponentId);
 		dataAssumptionsResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
@@ -100,7 +107,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		tableStyle.add("v-table-filterbar");
 		tableStyle.add("table-header-normal");
 		dataAssumptionsResultsTable.setComponentStyle(tableStyle);
-		
+
 		componentList.add(dataAssumptionsResultsTable);
 
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -115,28 +122,22 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
-		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList( "File", "Company", "Business Unit", "Type",
-				"Version", "Active From", "From Period", "To Period" ));
+		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList("File", "Company", "Business Unit", "Type",
+				"Version", "Active From", "From Period", "To Period"));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
 		dataAssumptionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
 	}
-	
+
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = {"file", "company", "businessUnit",
-				"type", "version", "activeFrom", "fromPeriod", "toPeriod"};
-		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8
-				,GtnUIFrameworkComponentType.CALENDAR_FIELD,GtnUIFrameworkComponentType.CALENDAR_FIELD,  GtnUIFrameworkComponentType.CALENDAR_FIELD};
-		
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(
+				propertyIds.length);
 		for (int i = 0; i < propertyIds.length; i++) {
-			
 			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
 			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
 			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
-			
 		}
 		return customFilterConfigMap;
 	}
@@ -145,7 +146,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 			String parentComponentId, String nameSpace) {
 		gtnLogger.info("started executing addDataAssumptionsExcelButtonComponent()");
 
-		GtnUIFrameworkComponentConfig excelBtnLayout = configProvider.getHorizontalLayoutConfig(nameSpace + "_" + "excelButtonlayout", true, parentComponentId);
+		GtnUIFrameworkComponentConfig excelBtnLayout = configProvider
+				.getHorizontalLayoutConfig(nameSpace + "_" + "excelButtonlayout", true, parentComponentId);
 		componentList.add(excelBtnLayout);
 
 		GtnUIFrameworkComponentConfig excelButton = configProvider.getUIFrameworkComponentConfig(
@@ -156,17 +158,16 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	}
 
-	private void addDataAssumptionsButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
-			String nameSpace) {
-		UpdatePreviousNextCloseSubmitButton buttonLayout=new UpdatePreviousNextCloseSubmitButton();
-		buttonLayout.addCommonButtonLayout(componentList,  parentComponentId, nameSpace);
+	private void addDataAssumptionsButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentComponentId, String nameSpace) {
+		UpdatePreviousNextCloseSubmitButton buttonLayout = new UpdatePreviousNextCloseSubmitButton();
+		buttonLayout.addCommonButtonLayout(componentList, parentComponentId, nameSpace);
 		buttonLayout.addUpdateButton(componentList, nameSpace);
 		buttonLayout.addPreviousButton(componentList, nameSpace);
 		buttonLayout.addNextButton(componentList, nameSpace);
 		buttonLayout.addCloseButton(componentList, nameSpace);
 		buttonLayout.addSubmitButton(componentList, nameSpace);
-		
+
 	}
 
-	
 }
