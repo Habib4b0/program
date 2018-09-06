@@ -247,6 +247,12 @@ public class GtnWsHierarchyAndRelationshipController {
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
 		searchResponse.setResultSet(dataTable);
 		gtnResponse.setGtnSerachResponse(searchResponse);
+		
+		inputBean.setResultList(results);
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		gtnResponse.setGtnWsForecastResponse(forecastResponse);
+		
 		return gtnResponse;
 	}
 

@@ -1859,7 +1859,7 @@ public class DataSelection extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(value);
 			String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 			//String[] val = selectedLevel.split(" ");
-			if (selectedLevel.length() > 1) {
+			if (selectedLevel.length() > 0) {
 				forecastLevel = (int)value;
 				dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
 				List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
@@ -2703,7 +2703,6 @@ public class DataSelection extends ForecastDataSelection {
 							selectedCustomerContainer.setChildrenAllowed(selectedParent, false);
 						}
 					}
-
 					newChildLevels = logic.getChildLevelsWithHierarchyNo(
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
