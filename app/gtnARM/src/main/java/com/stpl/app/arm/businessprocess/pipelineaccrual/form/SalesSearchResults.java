@@ -2,7 +2,6 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentTableLogic;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.PipelineAccrualSelectionDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.SalesFieldFactory;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.SalesLogic;
@@ -170,7 +169,6 @@ public class SalesSearchResults extends AbstractSearchResults {
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getSalesResults(orderedArgs);
     }
-
 
     @Override
     public SalesLogic getSummaryLogic() {

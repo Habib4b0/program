@@ -117,7 +117,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
                 if (customMenuItem1.isChecked()) {
-                    value.append(customMenuItem1.getMenuItem().getCaption()).append(",");
+                    value.append(customMenuItem1.getMenuItem().getCaption()).append(ARMUtils.COMMA_CHAR);
                 }
             }
             String values;

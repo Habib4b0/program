@@ -524,7 +524,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void securityForButtons() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN);
         if (functionHM.get("deleteBtnRes") != null && !(functionHM.get("deleteBtnRes")).isFunctionFlag()) {
             deleteBtnRes.setVisible(false);
         } else {
@@ -541,7 +541,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void securityForFields() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN);
         configureFieldPermission(functionHMforFields);
         if (functionHMforFields.get("modeDdlb") != null && !(functionHMforFields.get("modeDdlb")).isFunctionFlag()) {
             modeDdlb.setVisible(false);
@@ -578,7 +578,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void securityForTables() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN, false);
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN, false);
         List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ADJUSTMENT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
         Object[] obj = ARMUtils.getAdjustmentConfigColumn();
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, obj, fieldIfpHM, CommonSecurityLogic.ADD);

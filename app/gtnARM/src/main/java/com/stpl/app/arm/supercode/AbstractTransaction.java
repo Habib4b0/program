@@ -7,6 +7,9 @@ package com.stpl.app.arm.supercode;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.arm.abstractforms.NotesTabForm;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractDemandSummarySelection;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineSummary;
+import com.stpl.app.arm.businessprocess.pipelineaccrual.form.AdjustmentDetailAccural;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.dataselection.ui.form.DataSelectionTab;
@@ -137,4 +140,21 @@ public abstract class AbstractTransaction extends AbstractModule implements Subm
 
     public abstract void configurePermission();
 
+    public void getSummaryDetailsTab(AbstractPipelineSummary pipelineSummary, AdjustmentDetailAccural pipelineDetails) {
+        TabSheet.Tab tab3 = getTabSheet().addTab(pipelineSummary, "Adjustment Summary");
+        tab3.setDefaultFocusComponent(pipelineSummary.getDefaultFocusComponent());
+        TabSheet.Tab tab4 = getTabSheet().addTab(pipelineDetails, "Adjustment Detail");
+        tab4.setDefaultFocusComponent(pipelineDetails.getDefaultFocusComponent());
+        TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
+        tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
+    }
+
+    public void getSummaryDetailsTab(AbstractDemandSummarySelection demandSummary, AdjustmentDetailAccural demandDetails) {
+        TabSheet.Tab tab3 = getTabSheet().addTab(demandSummary, "Adjustment Summary");
+        tab3.setDefaultFocusComponent(demandSummary.getDefaultFocusComponent());
+        TabSheet.Tab tab4 = getTabSheet().addTab(demandDetails, "Adjustment Detail");
+        tab4.setDefaultFocusComponent(demandDetails.getDefaultFocusComponent());
+        TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
+        tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
+    }
 }
