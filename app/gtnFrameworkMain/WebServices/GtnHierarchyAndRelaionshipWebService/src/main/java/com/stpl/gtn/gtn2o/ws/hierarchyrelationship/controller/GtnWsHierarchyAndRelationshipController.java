@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 
 @RestController
-@RequestMapping(value = "/gtnWsHierarchyRelationshipController")
 public class GtnWsHierarchyAndRelationshipController {
 
 	@Autowired
@@ -218,9 +216,8 @@ public class GtnWsHierarchyAndRelationshipController {
 			inputQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			inputQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}
-		List<String> resultList = ((List<Object[]>) relationshipLevelValueService
-				.getResultForSelectedCustomer(inputQuery, inputValuesList)).stream().map(result -> result[0].toString())
-						.collect(Collectors.toList());
+		List<String> resultList = relationshipLevelValueService.getResultForSelectedCustomer(inputQuery,
+				inputValuesList);
 		List<Object> inputsForRelationQuery = new ArrayList<>();
 		String hierarchyNo = StringUtils.join(resultList, "','");
 		hierarchyNo += "'," + selectedHierarchyLevelDto.getHierarchyNo();
@@ -359,9 +356,8 @@ public class GtnWsHierarchyAndRelationshipController {
 			dsInputQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			dsInputQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}
-		List<String> resultList = ((List<Object[]>) relationshipLevelValueService
-				.getResultForSelectedCustomer(dsInputQuery, dsInputValuesList)).stream()
-						.map(result -> result[0].toString()).collect(Collectors.toList());
+		List<String> resultList = relationshipLevelValueService.getResultForSelectedCustomer(dsInputQuery,
+				dsInputValuesList);
 		List<Object> dsInputsForRelationQuery = new ArrayList<>();
 		String dsHierarchyNo = filterHierarchyNos(getAvailableTableHierarchys(beanList), resultList);
 		dsHierarchyNo += "'," + selectedHierarchyLevelDto.getHierarchyNo();
