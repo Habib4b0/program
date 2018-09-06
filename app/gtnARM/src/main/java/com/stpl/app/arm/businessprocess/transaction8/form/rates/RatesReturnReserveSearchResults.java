@@ -8,7 +8,6 @@ package com.stpl.app.arm.businessprocess.transaction8.form.rates;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
-import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentTableLogic;
 import com.stpl.app.arm.businessprocess.transaction8.logic.RRRatesLogic;
 import com.stpl.app.arm.businessprocess.transaction8.tablegenerator.RatesTableGenerator;
 import com.stpl.app.arm.supercode.ExcelInterface;
@@ -76,11 +75,6 @@ public class RatesReturnReserveSearchResults extends AbstractRatesSearchResults 
     @Override
     public ExcelInterface getExcelLogic() {
         return getSummaryLogic();
-    }
-
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
     }
 
     private void configureExcel() {

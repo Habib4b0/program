@@ -20,8 +20,8 @@ public class CFPSearchDAO implements BeanDAO<CFPCompanyDTO> {
     private final CopyContractLogic logic = new CopyContractLogic();
     private final CFPCompanyDTO cfpCompanyDTO;
 
-    public CFPSearchDAO(CFPCompanyDTO CFPCompanyDTO) {
-        this.cfpCompanyDTO = CFPCompanyDTO;
+    public CFPSearchDAO(CFPCompanyDTO cfpCompanyDto) {
+        this.cfpCompanyDTO = cfpCompanyDto;
     }
 
     @Override
@@ -33,7 +33,6 @@ public class CFPSearchDAO implements BeanDAO<CFPCompanyDTO> {
 
     @Override
     public List<CFPCompanyDTO> find(BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
-        List<CFPCompanyDTO> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<>();
     }
 }

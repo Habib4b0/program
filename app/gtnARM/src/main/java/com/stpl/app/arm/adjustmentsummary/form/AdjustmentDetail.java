@@ -75,11 +75,6 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
     }
 
     @Override
-    protected void resetBtn() {
-        super.resetBtn();
-    }
-
-    @Override
     protected void loadReserveAccount() {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         if (!list.isEmpty()) {
@@ -124,7 +119,7 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
     private void configureSecurity() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + ARMUtils.COMMA_CHAR + "Landing screen");
         if (functionHM.get("reset") != null && !(functionHM.get("reset")).isFunctionFlag()) {
             getReset().setVisible(false);
         } else {

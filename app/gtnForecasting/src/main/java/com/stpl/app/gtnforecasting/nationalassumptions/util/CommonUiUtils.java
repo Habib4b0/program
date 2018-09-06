@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -189,7 +190,7 @@ public class CommonUiUtils {
             commonHeader = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -330,7 +331,7 @@ public class CommonUiUtils {
                         break;
                 }
 
-                String commonColumn = String.valueOf(priceTypeColumns.get(i)).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY).toLowerCase();
+                String commonColumn = String.valueOf(priceTypeColumns.get(i)).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY).toLowerCase(Locale.ENGLISH);
                 dmap = new ArrayList<>();
                 if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();

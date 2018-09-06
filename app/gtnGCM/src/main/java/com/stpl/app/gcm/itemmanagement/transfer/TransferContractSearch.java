@@ -308,8 +308,7 @@ public class TransferContractSearch extends AbstractContractSearch {
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.add(selection.getSessionId());
         input.add(ConstantsUtil.TRANSFER_CONTRACT);
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     @Override
@@ -513,7 +512,7 @@ public class TransferContractSearch extends AbstractContractSearch {
     }
 
     private String ValidationForItemInContract() {
-        StringBuilder ConfirmationMsg = new StringBuilder();
+        StringBuilder confirmationMsg = new StringBuilder();
         String contractMsg = StringUtils.EMPTY;
         Integer masterSid = 0;
         Integer psSid = 0;
@@ -537,42 +536,42 @@ public class TransferContractSearch extends AbstractContractSearch {
             }
         }
         Map<String, String> itemName = new HashMap<>();
-        List SelectedItemIds = new ArrayList();
+        List selectedItemIds = new ArrayList();
         List itemIds = selectionDto.getTransterItemIds();
         for (Object object : itemIds) {
             ItemIndexDto itemDto = (ItemIndexDto) object;
-            SelectedItemIds.add(itemDto.getSystemId());
+            selectedItemIds.add(itemDto.getSystemId());
             itemName.put(itemDto.getSystemId(), itemDto.getItemNoTo() + "," + itemDto.getItemNameTo());
         }
-        for (int j = 0; j < SelectedItemIds.size(); j++) {
+        for (int j = 0; j < selectedItemIds.size(); j++) {
             List input1 = new ArrayList();
             input1.add(contractQuery.toString());
             input1.add(query.toString());
 
-            input1.add(SelectedItemIds.get(j));
+            input1.add(selectedItemIds.get(j));
 
             contractMsg = getContractNAmesCheck("contractItemCheck", input1);
             if (!contractMsg.isEmpty()) {
-                if (ConfirmationMsg.length() > 0) {
-                    ConfirmationMsg.append(',');
+                if (confirmationMsg.length() > 0) {
+                    confirmationMsg.append(',');
                 } else {
                     String[] str;
-                    String item = itemName.get(SelectedItemIds.get(j));
+                    String item = itemName.get(selectedItemIds.get(j));
                     str = item.split(",");
 
-                    ConfirmationMsg.append('<').append(str[0]).append(',').
+                    confirmationMsg.append('<').append(str[0]).append(',').
                             append(str[1]).append('>');
 
                 }
 
             }
         }
-        if (ConfirmationMsg.length() > 0) {
-            ConfirmationMsg.append(" Are not currently on the selected contract(s): ");
-            ConfirmationMsg.append(contractMsg);
-            ConfirmationMsg.append("\n Are you sure you want to add these Items to this contract?");
+        if (confirmationMsg.length() > 0) {
+            confirmationMsg.append(" Are not currently on the selected contract(s): ");
+            confirmationMsg.append(contractMsg);
+            confirmationMsg.append("\n Are you sure you want to add these Items to this contract?");
         }
-        return ConfirmationMsg.toString();
+        return confirmationMsg.toString();
     }
 
     public boolean submitLogic() {

@@ -277,7 +277,7 @@ public class InventorySearchResults extends AbstractSearchResults {
             getExcelContainer().removeAllItems();
             tableLayout.removeComponent(getExcelTable());
         } catch (Exception ex) {
-            LOGGER.error("Error in excelExportLogic :" , ex);
+            LOGGER.error("Error in excelExportLogic :", ex);
         }
     }
 

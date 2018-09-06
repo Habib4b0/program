@@ -25,10 +25,10 @@ public class CopyContractView extends VerticalLayout {
      * @param addWindow
      * @param session
      * @param selectedList
-     * @param Count
+     * @param count
      */
-    public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) {
-        CopyContractform addDiscountForm = new CopyContractform(addWindow, selectedList, Count);
+    public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String count) {
+        CopyContractform addDiscountForm = new CopyContractform(addWindow, selectedList, count);
         addComponent(addDiscountForm);
     }
 

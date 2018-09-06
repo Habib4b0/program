@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -466,7 +467,7 @@ public class MMDPRLogic {
             commonHeaderOne = Constant.S + period + " " + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthNameOne = getMonthForInt(period - 1);
-            commonColumnOne = monthNameOne.toLowerCase() + year;
+            commonColumnOne = monthNameOne.toLowerCase(Locale.ENGLISH) + year;
             commonHeaderOne = monthNameOne + " " + year;
         }
         commonList.add(commonColumnOne);
@@ -489,7 +490,7 @@ public class MMDPRLogic {
             commonPivotHeader = period + Constant.S + year;
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonPivotColumn = monthName.toLowerCase() + year;
+            commonPivotColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonPivotHeader = monthName + year;
         }
         pivotCommonList.add(commonPivotColumn);
@@ -614,7 +615,7 @@ public class MMDPRLogic {
                 } else if (projSelDTO.getGroup().equals(Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT)) {
                     List list = dqLogic.getSumNMPivotValue(projSelDTO.getProjectionId(), projSelDTO.getFrequency(), projSelDTO);
                     String checkYear = StringUtils.EMPTY;
-                    if (list.size() != 0) {
+                    if (!list.isEmpty()) {
                         DiscountProjectionResultsDTO dto = null;
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);
@@ -1568,7 +1569,7 @@ public class MMDPRLogic {
                                 year = selectedYear;
                                 month = selectedMonth;
                                 String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                                monthName = monthName.toLowerCase();
+                                monthName = monthName.toLowerCase(Locale.ENGLISH);
                                 commonColumn = monthName + obj[0];
                                 if (obj[NumericConstants.TWO] != null) {
                                     Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
@@ -1616,7 +1617,7 @@ public class MMDPRLogic {
                                 projectedSales = 0;
                                 projectedAmount = 0;
                                 String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                                monthName = monthName.toLowerCase();
+                                monthName = monthName.toLowerCase(Locale.ENGLISH);
                                 commonColumn = monthName + obj[0];
                                 year = (Integer) obj[0];
                                 month = (Integer) obj[1];
@@ -1667,7 +1668,7 @@ public class MMDPRLogic {
                                 projectedSales = 0;
                                 projectedAmount = 0;
                                 String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                                monthName = monthName.toLowerCase();
+                                monthName = monthName.toLowerCase(Locale.ENGLISH);
                                 commonColumn = monthName + obj[0];
                                 year = (Integer) obj[0];
                                 month = (Integer) obj[1];

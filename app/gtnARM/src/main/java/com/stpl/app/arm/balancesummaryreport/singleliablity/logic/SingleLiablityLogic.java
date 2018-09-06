@@ -88,7 +88,7 @@ public class SingleLiablityLogic extends AbstractBSummaryLogic {
         Object[] value = singleLiablitySelection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
         query = query.replace("@DEDUCTIONLEVEL", singleLiablitySelection.getSummarydeductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", singleLiablitySelection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@DEDUCTIONVALUE", singleLiablitySelection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@FREQUENCYSELECTED", singleLiablitySelection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", singleLiablitySelection.getFromDate());
         query = query.replace("@ENDPERIOD", singleLiablitySelection.getToDate());

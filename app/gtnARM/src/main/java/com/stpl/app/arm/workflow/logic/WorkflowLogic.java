@@ -426,7 +426,7 @@ public class WorkflowLogic {
      */
     public static int getCodeFromHelperTable(String description, String listName) {
         int helperTableId = 0;
-        String query = "SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME LIKE '" + listName.trim() + "' AND DESCRIPTION LIKE '" + description.trim() + "'";
+        String query = "SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME LIKE '" + listName.trim() + "' AND DESCRIPTION LIKE '" + description.trim() + ARMUtils.SINGLE_QUOTES;
         List resultList;
         try {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -465,7 +465,7 @@ public class WorkflowLogic {
                 docDetails.setUploadedBy(attached.getUserName());
 
                 DocDetails id = DocDetailsLocalServiceUtil.addDocDetails(docDetails);
-                docdetailsSids.append(id.getDocDetailsId()).append(",");
+                docdetailsSids.append(id.getDocDetailsId()).append(ARMUtils.COMMA_CHAR);
 
             }
 

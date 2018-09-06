@@ -42,33 +42,34 @@ import java.util.Locale;
 /**
  *
  * @author srithar
+ * @param <T>
  */
 public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<T> {
 
     public Object[] getLeftTableHeaders() {
-        Object[] finalList = new Object[NumericConstants.FIVE];
-        Object[] doubleColumns = {ARMUtils.CUSTOMERORPRODUCT_COLUMN};
-        String[] doubleHeaders = {StringUtils.EMPTY};
-        Object[] columns = {ARMUtils.CUSTOMERORPRODUCT_COLUMN};
-        String[] headers = {ARMUtils.CUSTOMER_SMALL};
+        Object[] summaryFinalList = new Object[NumericConstants.FIVE];
+        Object[] summaryDoubleColumns = {ARMUtils.CUSTOMERORPRODUCT_COLUMN};
+        String[] summaryDoubleHeaders = {StringUtils.EMPTY};
+        Object[] summaryColumns = {ARMUtils.CUSTOMERORPRODUCT_COLUMN};
+        String[] summaryHeaders = {ARMUtils.CUSTOMER_SMALL};
         Map<String, Object[]> headerMap = new HashMap<>();
         Object[] visibleList = new Object[1];
         visibleList[0] = ARMUtils.CUSTOMERORPRODUCT_COLUMN;
         headerMap.put(ARMUtils.CUSTOMERORPRODUCT_COLUMN, visibleList);
-        finalList[0] = columns;
-        finalList[1] = headers;
-        finalList[NumericConstants.TWO] = doubleColumns;
-        finalList[NumericConstants.THREE] = doubleHeaders;
-        finalList[NumericConstants.FOUR] = headerMap;
-        return finalList;
+        summaryFinalList[0] = summaryColumns;
+        summaryFinalList[1] = summaryHeaders;
+        summaryFinalList[NumericConstants.TWO] = summaryDoubleColumns;
+        summaryFinalList[NumericConstants.THREE] = summaryDoubleHeaders;
+        summaryFinalList[NumericConstants.FOUR] = headerMap;
+        return summaryFinalList;
     }
 
     public List getRightTableHeaders(SummarySelection selection) {
 
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
-        String[] months = dateFormatSymbols.getShortMonths();
-        Date frmDate = new Date();
-        Date toDate = new Date();
+        String[] summaryMonths = dateFormatSymbols.getShortMonths();
+        Date summaryFrmDate = new Date();
+        Date summaryToDate = new Date();
         int startMonth = 0;
         int endMonth = 0;
         int endtYear = 0;
@@ -88,8 +89,8 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             starttYear = Integer.valueOf(selection.getFromDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             endtYear = Integer.valueOf(selection.getToDate().substring(NumericConstants.THREE, NumericConstants.SEVEN));
         } else if (ARMUtils.frequencyVarables.MONTHLY.toString().equals(selection.getFrequency())) {
-            startMonth = ArrayUtils.indexOf(months, selection.getFromDate().substring(0, NumericConstants.THREE));
-            endMonth = ArrayUtils.indexOf(months, selection.getToDate().substring(0, NumericConstants.THREE));
+            startMonth = ArrayUtils.indexOf(summaryMonths, selection.getFromDate().substring(0, NumericConstants.THREE));
+            endMonth = ArrayUtils.indexOf(summaryMonths, selection.getToDate().substring(0, NumericConstants.THREE));
             starttYear = Integer.valueOf(selection.getFromDate().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
             endtYear = Integer.valueOf(selection.getToDate().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
         } else if (ARMUtils.frequencyVarables.ANNUALLY.toString().equals(selection.getFrequency())) {
@@ -98,16 +99,16 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             starttYear = Integer.valueOf(selection.getFromDate());
             endtYear = Integer.valueOf(selection.getToDate());
         }
-        frmDate.setDate(1);
-        toDate.setDate(NumericConstants.TWENTY_EIGHT);
-        frmDate.setMonth(startMonth - 1);
-        toDate.setMonth(endMonth - 1);
-        frmDate.setYear(starttYear - NumericConstants.ONE_NINE_ZERO_ZERO);
-        toDate.setYear(endtYear - NumericConstants.ONE_NINE_ZERO_ZERO);
-        int totalMonth = getMonthsDifference(frmDate, toDate);
-        if (isHeaderIsAvail(frmDate, toDate, totalMonth, selection.getSelectedAdjustmentTypeValues())) {
-            List finalList;
-            finalList = new ArrayList();
+        summaryFrmDate.setDate(1);
+        summaryToDate.setDate(NumericConstants.TWENTY_EIGHT);
+        summaryFrmDate.setMonth(startMonth - 1);
+        summaryToDate.setMonth(endMonth - 1);
+        summaryFrmDate.setYear(starttYear - NumericConstants.ONE_NINE_ZERO_ZERO);
+        summaryToDate.setYear(endtYear - NumericConstants.ONE_NINE_ZERO_ZERO);
+        int totalMonth = getMonthsDifference(summaryFrmDate, summaryToDate);
+        if (isHeaderIsAvail(summaryFrmDate, summaryToDate, totalMonth, selection.getSelectedAdjustmentTypeValues())) {
+            List summaryFinalList;
+            summaryFinalList = new ArrayList();
             List doubleColumns = new ArrayList();
             List doubleHeaders = new ArrayList();
             List visibleHeaders = new ArrayList();
@@ -120,7 +121,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             List tempList = new ArrayList<>();
             String column = null;
             String doubleColumn = null;
-            int year = frmDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+            int year = summaryFrmDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
             int tempPeriod = (startMonth / frequencyDivision) + 1;
             HashMap<Object, String> headerVlaueMap = new HashMap<>();
             List adjustMentIds = selection.getSelectedAdjustmentType();
@@ -139,8 +140,8 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                         doubleHeaders.add(ARMUtils.S + tempPeriod + " " + year);
                         break;
                     case 1:
-                        doubleColumn = months[tempPeriod - 1] + year;
-                        doubleHeaders.add(months[tempPeriod - 1] + " " + year);
+                        doubleColumn = summaryMonths[tempPeriod - 1] + year;
+                        doubleHeaders.add(summaryMonths[tempPeriod - 1] + " " + year);
                         break;
                     case NumericConstants.TWELVE:
                         doubleColumn = String.valueOf(year);
@@ -163,7 +164,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                             break;
 
                         case 1:
-                            column = getRightTableHeadersColumn(months[tempPeriod - 1], year, selection, index, 0, j);
+                            column = getRightTableHeadersColumn(summaryMonths[tempPeriod - 1], year, selection, index, 0, j);
                             break;
 
                         case NumericConstants.TWELVE:
@@ -186,13 +187,13 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             }
             selection.setHeaderVisibleColumnMap(headerVlaueMap);
             selection.setExcelVisibleColumn(visibleColumn);
-            finalList.add(visibleColumn);
-            finalList.add(visibleHeaders);
-            finalList.add(doubleColumns);
-            finalList.add(doubleHeaders);
-            finalList.add(headerMap);
-            finalList.add(excelHeaderMap);
-            return finalList;
+            summaryFinalList.add(visibleColumn);
+            summaryFinalList.add(visibleHeaders);
+            summaryFinalList.add(doubleColumns);
+            summaryFinalList.add(doubleHeaders);
+            summaryFinalList.add(headerMap);
+            summaryFinalList.add(excelHeaderMap);
+            return summaryFinalList;
         }
         return Collections.emptyList();
     }
@@ -256,7 +257,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     }
 
     private String getNextLevel(Object dto, SummarySelection selection) {
-        String nextLevel;
+        String summaryNextLevel;
         if (dto instanceof AdjustmentDTO) {
             TreeMap<String, Integer> masterSids;
             AdjustmentDTO val = (AdjustmentDTO) dto;
@@ -265,39 +266,39 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
             selection.setMasterSids(masterSids);
             if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
-                nextLevel = selection.getSummarydeductionLevelDes();
+                summaryNextLevel = selection.getSummarydeductionLevelDes();
             } else {
-                nextLevel = selection.getSummaryLevel().get(levelNo);
+                summaryNextLevel = selection.getSummaryLevel().get(levelNo);
             }
             selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
             selection.setLevelNo(levelNo);
         } else {
             selection.setLevelNo(1);
 
-            nextLevel = getNextLevelAdjustmentDto(selection);
+            summaryNextLevel = getNextLevelAdjustmentDto(selection);
             // This condition will work for Value Ddlb
             if (selection.getSummaryvalueSid() != 0) {
                 selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
             } else if (selection.getSummarylevelFilterNo() != 0) {
                 selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
             }
-            nextLevel = getNextLevelFilter(selection, nextLevel);
+            summaryNextLevel = getNextLevelFilter(selection, summaryNextLevel);
 
         }
-        return nextLevel;
+        return summaryNextLevel;
     }
 
-    private String getNextLevelFilter(SummarySelection selection, String newLevel) {
-        String nextLevel = newLevel;
+    private String getNextLevelFilter(SummarySelection selection, String summarynewLevel) {
+        String summaryNextLevel = summarynewLevel;
         //This will ovverride the default first Level (For Level Filter)
         if (selection.getSummarylevelFilterNo() != 0) {
             if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
-                nextLevel = selection.getSummarydeductionLevelDes();
+                summaryNextLevel = selection.getSummarydeductionLevelDes();
             } else {
-                nextLevel = selection.getSummarylevelFilterValue();
+                summaryNextLevel = selection.getSummarylevelFilterValue();
             }
         }
-        return nextLevel;
+        return summaryNextLevel;
     }
 
     private String getNextLevelAdjustmentDto(SummarySelection selection) {
@@ -398,7 +399,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         Object[] value = selection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
         query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", selection.getFromDate());
         query = query.replace("@ENDPERIOD", selection.getToDate());

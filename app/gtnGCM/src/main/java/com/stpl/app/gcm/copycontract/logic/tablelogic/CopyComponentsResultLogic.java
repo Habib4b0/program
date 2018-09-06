@@ -76,18 +76,15 @@ public class CopyComponentsResultLogic extends PageTableLogic {
     }
 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - NumericConstants.TWO) / getPageLength()) + 1;
-        return curPage;
+        return ((pos - NumericConstants.TWO) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - NumericConstants.TWO) % getPageLength();
-        return index;
+        return (pos - NumericConstants.TWO) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return count - index;
     }
 
     @Override

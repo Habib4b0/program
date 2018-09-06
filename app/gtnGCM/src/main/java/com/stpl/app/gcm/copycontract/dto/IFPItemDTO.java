@@ -985,8 +985,8 @@ public class IFPItemDTO implements Serializable {
         return ifpType;
     }
 
-    public void setIFPtype(Integer IFPtype) {
-        this.ifpType = IFPtype;
+    public void setIFPtype(Integer ifpType) {
+        this.ifpType = ifpType;
     }
 
 }

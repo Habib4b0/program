@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
 
     @Override
-    public List<List> getReserveAccountDetails(AbstractSelectionDTO selection, Boolean isReserve) {
+    public List<List> getReserveAccountDetails(AbstractSelectionDTO reforecastSelection, Boolean isReserve) {
         List reforecastReplaceList = new ArrayList();
         List<String> reforecastReserveHeader = new ArrayList<>();
         List<String> reforecastReserveProperty = new ArrayList<>();
@@ -32,15 +32,15 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         reforecastReplaceList.add(isReserveValue);
-        reforecastReplaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
-        reforecastReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        reforecastReplaceList.add(selection.getDataSelectionDTO().getProjectionId());
-        reforecastReplaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-        reforecastReplaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getAdjustmentId());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getProjectionId());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getProjectionId());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getCompanyMasterSid());
+        reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getBucompanyMasterSid());
         StringBuilder reforecastQuery;
-        if (selection.getSessionDTO().isWorkFlow()) {
+        if (reforecastSelection.getSessionDTO().isWorkFlow()) {
             reforecastQuery = new StringBuilder(SQlUtil.getQuery("getloadworflowViewData"));
-            reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+            reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, String.valueOf(reforecastSelection.getDataSelectionDTO().getProjectionId()));
             reforecastQuery.replace(reforecastQuery.indexOf("?"), reforecastQuery.indexOf("?") + 1, isReserve ? "0" : "1");
         } else {
             reforecastQuery = new StringBuilder(SQlUtil.getQuery("getReserveAccountPipeline"));
@@ -55,11 +55,11 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 value = new StringBuilder(StringUtils.EMPTY);
                 property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(reforecastObj[0])) {
-                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(reforecastObj[0]))));
+                    value = new StringBuilder(helperId.getDescriptionByID((Integer) (reforecastObj[0])));
                     property = new StringBuilder(String.valueOf(reforecastObj[0]));
                 }
                 if (isValid(reforecastObj[1])) {
-                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(reforecastObj[1]))));
+                    value.append(DASH).append(helperId.getDescriptionByID((Integer) (reforecastObj[1])));
                     property.append(DASH).append(String.valueOf(reforecastObj[1]));
                 }
                 if (isValid(reforecastObj[NumericConstants.TWO])) {

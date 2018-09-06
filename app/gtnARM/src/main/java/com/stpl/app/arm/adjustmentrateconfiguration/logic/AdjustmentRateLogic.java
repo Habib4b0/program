@@ -115,7 +115,7 @@ public class AdjustmentRateLogic {
                 int rateConfigDetailsSid = CommonLogic.getIntegerValue(0, obj);
                 int month = CommonLogic.getIntegerValue(NumericConstants.TWO, obj);
                 int dateType = CommonLogic.getIntegerValue(NumericConstants.THREE, obj);
-                String value = (String.valueOf(obj[NumericConstants.FOUR]).matches("^[-+]?\\d+(\\.\\d+)?$") ? getHelpDescriptionValue(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]))) : String.valueOf(obj[NumericConstants.FOUR]));
+                String value = (String.valueOf(obj[NumericConstants.FOUR]).matches("^[-+]?\\d+(\\.\\d+)?$") ? getHelpDescriptionValue((Integer)(obj[NumericConstants.FOUR])) : String.valueOf(obj[NumericConstants.FOUR]));
                 String price = obj[NumericConstants.FOUR] == null || StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOUR])) || "0".equals(obj[NumericConstants.FOUR]) ? GlobalConstants.getSelectOne()
                         : value;
                 int rateBasis = CommonLogic.getIntegerValue(NumericConstants.SEVEN, obj);
@@ -405,7 +405,7 @@ public class AdjustmentRateLogic {
                         filterQuery.append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
                         filterQuery.append(" like '");
                         filterQuery.append(filterString);
-                        filterQuery.append("'");
+                        filterQuery.append(ARMUtils.SINGLE_QUOTES);
 
                     } else if (filter instanceof Between) {
                         Between betweenFilter = (Between) filter;
@@ -483,9 +483,9 @@ public class AdjustmentRateLogic {
             List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
             for (Object[] obj : list) {
                 LookUpDTO exRateDTO = new LookUpDTO();
-                exRateDTO.setViewMasterSid(Integer.valueOf(String.valueOf(obj[0])));
+                exRateDTO.setViewMasterSid((Integer)(obj[0]));
                 exRateDTO.setViewName(String.valueOf(obj[1]));
-                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? CommonUtils.getUserMap().get(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]))) : StringUtils.EMPTY);
+                exRateDTO.setCreatedBy(StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TWO])) ? CommonUtils.getUserMap().get((Integer)(obj[NumericConstants.TWO])) : StringUtils.EMPTY);
                 exRateDTO.setCreatedDate(CommonUtils.convertStringToDate(String.valueOf(obj[NumericConstants.THREE])));
                 resultList.add(exRateDTO);
             }

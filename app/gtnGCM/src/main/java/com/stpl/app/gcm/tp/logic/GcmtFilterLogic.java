@@ -199,7 +199,7 @@ public class GcmtFilterLogic {
 
     public void equalOperator(Compare.Operation operation, Compare stringFilter, StringBuilder sql, Map<String, String> queryMap) {
         if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
             StringBuilder tempStart;
             String value;
@@ -213,7 +213,7 @@ public class GcmtFilterLogic {
                 if (sql.length() == 0) {
                     tempStart = new StringBuilder(intStartstr);
                 } else {
-                    tempStart = new StringBuilder(Startstr);
+                    tempStart = new StringBuilder(startStr);
                 }
                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);

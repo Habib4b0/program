@@ -120,9 +120,9 @@ public class SaveViewLookUp extends Window {
                 viewDTO.setCreatedDate(dateFormat.format(dataSelectionDTO.getCreatedDate()));
                 logic.saveViewLogic(viewDTO);
                 if (viewType.getValue().equals(ARMUtils.PRIVATE)) {
-                    AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + viewDTO.getViewName() + ")");
+                    AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added private view (" + viewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
                 } else {
-                    AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + viewDTO.getViewName() + ")");
+                    AbstractNotificationUtils.getInfoNotification("View Added Successfully", "You have successfully added public view (" + viewDTO.getViewName() + ARMUtils.CLOSE_BRACES);
                 }
                 this.close();
             }
@@ -153,9 +153,9 @@ public class SaveViewLookUp extends Window {
                 saveSelectionValue(dataSelectionDTO, dataSelectionDTO.getProjectionId());
                 logic.updateModifiedDateLogic(dataSelectionDTO.getProjectionId());
                 if (viewType.getValue().equals(ARMUtils.PRIVATE)) {
-                    AbstractNotificationUtils.getInfoNotification("View updated Successfully", "You have successfully updated private view (" + viewName.getValue() + ")");
+                    AbstractNotificationUtils.getInfoNotification("View updated Successfully", "You have successfully updated private view (" + viewName.getValue() + ARMUtils.CLOSE_BRACES);
                 } else {
-                    AbstractNotificationUtils.getInfoNotification("View Updated Successfully", "You have successfully updated public view (" + viewName.getValue() + ")");
+                    AbstractNotificationUtils.getInfoNotification("View Updated Successfully", "You have successfully updated public view (" + viewName.getValue() + ARMUtils.CLOSE_BRACES);
                 }
             }
         } catch (Exception e) {

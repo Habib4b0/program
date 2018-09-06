@@ -36,7 +36,10 @@ public class PVCommonLogic {
     private static final String COMPARISON_CURRENT = "Current Projection";
     private static final Logger LOGGER = LoggerFactory.getLogger(PVCommonLogic.class);
     private static boolean priorComparison = false;
-
+    private PVCommonLogic() {
+        // PVCommonLogic
+    }
+    
     public static void customizePeriod(String commonColumn, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, DecimalFormat format, int index, Object[] obj, boolean isPer) {
         try {
             String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index - 2])));
@@ -124,10 +127,11 @@ public class PVCommonLogic {
     }
 
     public static String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueString = value;
+        if (valueString.contains(NULL.getConstant())) {
+            valueString = ZERO;
         }
-        return value;
+        return valueString;
     }
 
     public static Boolean nullCheck(String value) {

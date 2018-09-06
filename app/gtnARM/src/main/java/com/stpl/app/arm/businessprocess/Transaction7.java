@@ -36,8 +36,8 @@ public class Transaction7 extends AbstractTransaction {
 
     private Trx7SelectionDTO trx7SelectionDTO;
 
-    private Trx7AdjustmentSummary summary;
-    private Trx7AdjustmentDetail details;
+    private Trx7AdjustmentSummary distributionSummary;
+    private Trx7AdjustmentDetail distributionDetails;
     public static final Logger LOGGER = LoggerFactory.getLogger(Transaction7.class);
 
     public Transaction7(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
@@ -56,16 +56,16 @@ public class Transaction7 extends AbstractTransaction {
 
             trx7SalesTab = new Trx7SalesTab(getDataselectionDTO(), trx7SelectionDTO);
             trx7RatesTab = new Trx7RatesTab(trx7SelectionDTO);
-            summary = new Trx7AdjustmentSummary(trx7SelectionDTO);
-            details = new Trx7AdjustmentDetail(trx7SelectionDTO);
+            distributionSummary = new Trx7AdjustmentSummary(trx7SelectionDTO);
+            distributionDetails = new Trx7AdjustmentDetail(trx7SelectionDTO);
             Tab tab1 = getTabSheet().addTab(trx7SalesTab, "Sales");
             tab1.setDefaultFocusComponent(trx7SalesTab.getDefaultFocusComponent());
             Tab tab2 = getTabSheet().addTab(trx7RatesTab, "Rates");
             tab2.setDefaultFocusComponent(trx7RatesTab.getDefaultFocusComponent());
-            Tab tab3 = getTabSheet().addTab(summary, "Adjustment Summary");
-            tab3.setDefaultFocusComponent(summary.getDefaultFocusComponent());
-            Tab tab4 = getTabSheet().addTab(details, "Adjustment Detail");
-            tab4.setDefaultFocusComponent(details.getDefaultFocusComponent());
+            Tab tab3 = getTabSheet().addTab(distributionSummary, "Adjustment Summary");
+            tab3.setDefaultFocusComponent(distributionSummary.getDefaultFocusComponent());
+            Tab tab4 = getTabSheet().addTab(distributionDetails, "Adjustment Detail");
+            tab4.setDefaultFocusComponent(distributionDetails.getDefaultFocusComponent());
             Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
@@ -80,7 +80,7 @@ public class Transaction7 extends AbstractTransaction {
 
     @Override
     public boolean isGenerated() {
-        return trx7SalesTab.isGenerated() && trx7RatesTab.isGenerated() && summary.isGenerated() && details.isGenerated();
+        return trx7SalesTab.isGenerated() && trx7RatesTab.isGenerated() && distributionSummary.isGenerated() && distributionDetails.isGenerated();
     }
 
     @Override
@@ -96,16 +96,18 @@ public class Transaction7 extends AbstractTransaction {
     @Override
     public boolean saveAssets() {
         CommonLogic.savePipeAccrualSelection(getDataselectionDTO().getProjectionId(), getName(), getSelection());
-        return summary.saveAssets();
+        return distributionSummary.saveAssets();
     }
 
     @Override
     public String getGtnQuery() {
+        LOGGER.debug("Transaction 7 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
+        LOGGER.debug("Transaction 7 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
@@ -119,8 +121,8 @@ public class Transaction7 extends AbstractTransaction {
         String userId = String.valueOf(getSessionDTO().getUserId());
         trx7SalesTab.configurePermission(userId, stplSecurity);
         trx7RatesTab.configurePermission(userId, stplSecurity);
-        summary.configurePermission(userId, stplSecurity);
-        details.configurePermission(userId, stplSecurity);
+        distributionSummary.configurePermission(userId, stplSecurity);
+        distributionDetails.configurePermission(userId, stplSecurity);
     }
 
     @Override

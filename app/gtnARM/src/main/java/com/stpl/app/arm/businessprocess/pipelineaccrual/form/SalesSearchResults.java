@@ -2,7 +2,6 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentTableLogic;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.PipelineAccrualSelectionDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.dto.SalesFieldFactory;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.SalesLogic;
@@ -124,6 +123,7 @@ public class SalesSearchResults extends AbstractSearchResults {
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setColumnProperties(properties);
         resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
+        resultBeanContainer.setIndexable(true);
         rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
@@ -168,11 +168,6 @@ public class SalesSearchResults extends AbstractSearchResults {
         Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "0",
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
         getSummaryLogic().getSalesResults(orderedArgs);
-    }
-
-    @Override
-    public AdjustmentTableLogic getTableLogic() {
-        return super.getTableLogic();
     }
 
     @Override
