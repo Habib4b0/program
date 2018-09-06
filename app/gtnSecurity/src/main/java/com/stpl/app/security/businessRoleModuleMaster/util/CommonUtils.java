@@ -181,7 +181,7 @@ public class CommonUtils {
 			 boolean xflag = true;
 			 try{
 			 while(count<memList.size()){
-	         			Object o = (Object) memList.get(count);
+	         			Object o =  memList.get(count);
 	         			memberIdArraytemp[a]=(String)o;
 
 	         			if(a==NumericConstants.NINE_NINTY_NINE){
@@ -213,7 +213,7 @@ public class CommonUtils {
 	        	      if(memList.size()<NumericConstants.NINE_NINTY_NINE){
 	 					count=0;
 						while(count<memList.size()){
-		            			Object o = (Object) memList.get(count);
+		            			Object o =  memList.get(count);
 		            			memberIdArraytemp[a]=(String)o;
 		            			count= count + 1;
 						}
@@ -255,7 +255,7 @@ public class CommonUtils {
 				 boolean xflag = true;
 				 try{
 				 while(count<memList.size()){
-		         			Object o = (Object) memList.get(count);
+		         			Object o =  memList.get(count);
 		         			memberIdArraytemp[a]=(String)o;
 
 		         			if(a==NumericConstants.NINE_NINTY_NINE){
@@ -285,7 +285,7 @@ public class CommonUtils {
 		        	      if(memList.size()<NumericConstants.NINE_NINTY_NINE){
 							count=0;
 							while(count<memList.size()){
-			            			Object o = (Object) memList.get(count);
+			            			Object o =  memList.get(count);
 			            			memberIdArraytemp[a]=(String)o;
 			            			count= count + 1;
 							}

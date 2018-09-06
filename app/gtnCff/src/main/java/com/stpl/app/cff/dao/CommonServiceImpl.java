@@ -51,7 +51,7 @@ public class CommonServiceImpl {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
-    public List getDetailsResults(String fileName, String version, String fileType, String country, int year) {
+    public List getDetailsResults(String fileName, String version, String fileType, String country) {
         String sqlString = StringUtils.EMPTY;
         try {
             sqlString = SQlUtil.getQuery("getDetailsResults");
@@ -312,7 +312,7 @@ public class CommonServiceImpl {
         }
     }
 
-    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
+    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct) {
         StringBuilder queryBuilder = new StringBuilder();
         try {
             queryBuilder.append("SELECT distinct c.hierarchy_Definition_Sid,c.hierarchy_Name,a.level_Name, a.level_No , ");
@@ -348,7 +348,7 @@ public class CommonServiceImpl {
         }
     }
 
-    public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
+    public List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters) {
         StringBuilder queryBuilder = new StringBuilder();
 
         try {

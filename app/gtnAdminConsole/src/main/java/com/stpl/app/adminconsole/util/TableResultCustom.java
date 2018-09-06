@@ -20,9 +20,8 @@ public class TableResultCustom {
     }
 
     public Object[] getObjResult() {
-        final Object[] copyValue = objResult;
 
-        return copyValue;
+        return objResult;
 
     }
 
@@ -31,9 +30,7 @@ public class TableResultCustom {
     }
 
     public String[] getObjResultHeader() {
-        final String[] cpyResultHeader = objResultHeader;
-
-        return cpyResultHeader;
+        return objResultHeader;
 
     }
 

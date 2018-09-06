@@ -46,7 +46,7 @@ public class QueryUtils {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
                 LOGGER.debug("sql-->> {}" , sql);
-                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+                list =  ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
