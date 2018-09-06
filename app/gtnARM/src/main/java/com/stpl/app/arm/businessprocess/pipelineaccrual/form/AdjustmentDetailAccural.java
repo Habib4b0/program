@@ -77,7 +77,6 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
         }
     }
 
-
     @Override
     protected void loadReserveAccount() {
         List<List> paList = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));

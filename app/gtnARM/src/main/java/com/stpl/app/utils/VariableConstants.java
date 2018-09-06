@@ -43,7 +43,6 @@ public class VariableConstants {
     public static final String INVENTORY = "inventory";
     public static final String RATE = "rates";
     public static final String SEARCH_ICON = "searchicon";
-    public static final String SINGLE_QUOTE = "'";
     public static final String DASH = " - ";
     public static final String COMMA = ",";
     public static final String GROUP = "group";

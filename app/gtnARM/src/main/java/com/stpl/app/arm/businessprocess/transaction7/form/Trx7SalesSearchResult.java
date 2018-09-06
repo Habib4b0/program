@@ -2,7 +2,6 @@ package com.stpl.app.arm.businessprocess.transaction7.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.commontemplates.AdjustmentTableLogic;
 import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SelectionDTO;
 import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SalesFieldFactory;
 import com.stpl.app.arm.businessprocess.transaction7.logic.Trx7SalesLogic;

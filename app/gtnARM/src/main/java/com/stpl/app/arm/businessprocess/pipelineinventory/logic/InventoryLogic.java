@@ -46,27 +46,27 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
     }
 
     @Override
-    public DataResult<T> getData(Criteria criteria) {
+    public DataResult<T> getData(Criteria inventoryCriteria) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    List<AdjustmentDTO> list = 
-        List list = getSalesData(criteria.getParent(), criteria.getSelectionDto(), criteria.getStart(), criteria.getOffset());
-        OriginalDataResult<T> dataResult = new OriginalDataResult<>();
-        dataResult.setDataResults(list);
-        return dataResult;
+        List list = getSalesData(inventoryCriteria.getParent(), inventoryCriteria.getSelectionDto(), inventoryCriteria.getStart(), inventoryCriteria.getOffset());
+        OriginalDataResult<T> inventoryDataResult = new OriginalDataResult<>();
+        inventoryDataResult.setDataResults(list);
+        return inventoryDataResult;
     }
 
     @Override
     public List<Object> getMonthYear() {
-        String sql = SQlUtil.getQuery("getMonthYear");
-        List result = HelperTableLocalServiceUtil.executeSelectQuery(sql);
-        List<Object> defaultValues = new ArrayList<>();
-        if (!result.isEmpty()) {
-            Object[] value = (Object[]) result.get(0);
+        String inventorySql = SQlUtil.getQuery("getMonthYear");
+        List inventoryResult = HelperTableLocalServiceUtil.executeSelectQuery(inventorySql);
+        List<Object> inventoryDefaultValues = new ArrayList<>();
+        if (!inventoryResult.isEmpty()) {
+            Object[] value = (Object[]) inventoryResult.get(0);
             for (Object value1 : value) {
-                defaultValues.add(String.valueOf(value1));
+                inventoryDefaultValues.add(String.valueOf(value1));
             }
         }
-        return defaultValues;
+        return inventoryDefaultValues;
     }
 
     /**
@@ -75,42 +75,42 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
      * @param monthName
      * @return Jan-1........Dec-12
      */
-    public static String getMonthName(int monthNo) {
+    public static String getMonthName(int monthNum) {
         String monthName = StringUtils.EMPTY;
         try {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             String[] months = dateFormatSymbols.getShortMonths();
-            monthName = months[monthNo - 1];
+            monthName = months[monthNum - 1];
         } catch (Exception e) {
-            LOGGER.error("Error in getMonthName :", e);
+            LOGGER.error("Error in Inventory getMonthName :", e);
 
         }
         return monthName;
     }
 
-    public int getSalesCount(Object parentId, SelectionDTO selection) {
+    public int getSalesCount(Object invnentoryParentId, SelectionDTO inventorySelection) {
         String sql = "";
         String level = "BRAND";
         String brandMasterSid = "0";
-        if (parentId instanceof AdjustmentDTO) {
+        if (invnentoryParentId instanceof AdjustmentDTO) {
             level = "ITEM";
-            brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
+            brandMasterSid = ((AdjustmentDTO) invnentoryParentId).getBranditemmasterSid();
         }
 
-        if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSaleslevelFilterValue()))) {
+        if (VariableConstants.PRODUCT.equals(String.valueOf(inventorySelection.getSaleslevelFilterValue()))) {
             level = "ITEM";
         }
-        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+        if (inventorySelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             sql = SQlUtil.getQuery("getInventoryCount");
         } else {
             sql = SQlUtil.getQuery("getInventoryCountEdit");
-            sql = sql.replace("[TABLE]", selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INVENTORY"));
+            sql = sql.replace("[TABLE]", inventorySelection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INVENTORY"));
         }
         sql = sql.replace("[$VIEW]", level);
 //        String.valueOf(selection.getProjectionMasterSid())
-        sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+        sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
         sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
-        List<String[]> custList = selection.getSalesVariables();
+        List<String[]> custList = inventorySelection.getSalesVariables();
         String ids = getSelectedCustomerOrCustomerGrp(custList);
         if (ids.isEmpty()) {
             sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, "");
@@ -118,13 +118,13 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, ",''");
 
         } else {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ")");
+            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
             sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
         }
         if ("ITEM".equals(level)) {
 
-            if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSaleslevelFilterValue()))) {
+            if (VariableConstants.PRODUCT.equals(String.valueOf(inventorySelection.getSaleslevelFilterValue()))) {
                 sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
                 sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND IM.BRAND_MASTER_SID  = " + brandMasterSid + "");
@@ -140,7 +140,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         StringBuilder sb = new StringBuilder();
         for (String[] strings : custList) {
             if (strings[0].contains("~")) {
-                sb.append(strings[0].split("~")[1]).append(",");
+                sb.append(strings[0].split("~")[1]).append(ARMUtils.COMMA_CHAR);
             }
         }
         if (sb.length() > 0) {
@@ -149,29 +149,29 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         return sb.toString();
     }
 
-    public List<AdjustmentDTO> getSalesData(Object parentId, SelectionDTO selection, int start, int offset) {
+    public List<AdjustmentDTO> getSalesData(Object inventoryparentId, SelectionDTO inventorySelection, int start, int offset) {
         String sql = "";
         String level = "BRAND";
         String brandMasterSid = "0";
-        if (parentId instanceof AdjustmentDTO) {
+        if (inventoryparentId instanceof AdjustmentDTO) {
             level = "ITEM";
-            brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
+            brandMasterSid = ((AdjustmentDTO) inventoryparentId).getBranditemmasterSid();
         }
-        if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSaleslevelFilterValue()))) {
+        if (VariableConstants.PRODUCT.equals(String.valueOf(inventorySelection.getSaleslevelFilterValue()))) {
             level = "ITEM";
         }
-        if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+        if (inventorySelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
             sql = SQlUtil.getQuery("getSalesBrandInventory");
         } else {
             sql = SQlUtil.getQuery("getSalesBrandInventoryEdit");
-            sql = sql.replace("[TABLE]", selection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INVENTORY"));
+            sql = sql.replace("[TABLE]", inventorySelection.getSessionDTO().getCurrentTableNames().get("ST_ARM_INVENTORY"));
         }
         sql = sql.replace("[$VIEW]", level);
-        sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+        sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(inventorySelection.getDataSelectionDTO().getProjectionId()));
         sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
-        sql = sql.replace("[LEVEL_FILTER]", String.valueOf(selection.getSaleslevelFilterValue()));
+        sql = sql.replace("[LEVEL_FILTER]", String.valueOf(inventorySelection.getSaleslevelFilterValue()));
         if ("ITEM".equals(level)) {
-            if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSaleslevelFilterValue()))) {
+            if (VariableConstants.PRODUCT.equals(String.valueOf(inventorySelection.getSaleslevelFilterValue()))) {
                 sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
                 sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND IM.BRAND_MASTER_SID  = " + brandMasterSid + "");
@@ -179,7 +179,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         } else {
             sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
         }
-        List<String[]> custList = selection.getSalesVariables();
+        List<String[]> custList = inventorySelection.getSalesVariables();
 
         String ids = getSelectedCustomerOrCustomerGrp(custList);
         if (ids.isEmpty()) {
@@ -188,7 +188,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, "''");
 
         } else {
-            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ")");
+            sql = sql.replace(CommonConstant.COMP_CUST_MASTER_SID, " AND AI.COMP_CUST_MASTER_SID in (" + ids + ARMUtils.CLOSE_BRACES);
             sql = sql.replace(CommonConstant.AICOMP_CUST_MASTER_SID, CommonConstant.AICOMP_CUST_MASTER_SID_COLUMN);
             sql = sql.replace(CommonConstant.AIREF_CUST_MASTER_SID, "AI.COMP_CUST_MASTER_SID");
         }
@@ -197,7 +197,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         sql = sql.replace("[OFFSET]", String.valueOf(offset));
         List<Object[]> result = QueryUtils.executeSelect(sql);
 
-        return cutomize(result, selection);
+        return cutomize(result, inventorySelection);
     }
 
     public static List<String> getInventoryVariables(SelectionDTO selection) {
@@ -256,9 +256,9 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
         return resultList;
     }
 
-    public boolean updatePriceOverride(List input) {
+    public boolean updateInventoryPriceOverride(List inventoryCalcInput) {
         try {
-            QueryUtils.itemUpdate(input, "PI_Inventory_updatePriceOverride");
+            QueryUtils.itemUpdate(inventoryCalcInput, "PI_Inventory_updatePriceOverride");
         } catch (Exception e) {
             LOGGER.error("Error in updatePriceOverride :", e);
             return false;
@@ -267,23 +267,23 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
 
     }
 
-    public void getInventoryResults(Object[] orderedArgs) {
-        QueryUtil.callProcedure("PRC_ARM_INVENTORY_SALES", orderedArgs);
+    public void getInventoryResults(Object[] inventoryOrderedArgs) {
+        QueryUtil.callProcedure("PRC_ARM_INVENTORY_SALES", inventoryOrderedArgs);
 
     }
 
     @Override
-    public List getExcelResultList(AbstractSelectionDTO selection) {
+    public List getExcelResultList(AbstractSelectionDTO inventorySelection) {
         String query;
-        boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+        boolean isView = inventorySelection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getPIInventoryExcelQueryView");
         } else {
             query = SQlUtil.getQuery("getPIInventoryExcelQuery");
         }
-        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
-        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(inventorySelection.getProjectionMasterSid()));
+        query = query.replace("@USERID", String.valueOf(inventorySelection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(inventorySelection.getSessionDTO().getSessionId()));
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
@@ -310,7 +310,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             }
 
         } catch (Exception ex) {
-            LOGGER.error("Error in getCustomerGroupView :" , ex);
+            LOGGER.error("Error in getCustomerGroupView :", ex);
         }
         return customerGroupList;
     }
@@ -333,7 +333,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
             }
             return customerList;
         } catch (Exception ex) {
-            LOGGER.error("Error in getCustomerView :" , ex);
+            LOGGER.error("Error in getCustomerView :", ex);
             return customerList;
         }
     }
@@ -346,7 +346,7 @@ public class InventoryLogic<T extends AdjustmentDTO, E extends AbstractSelection
 
             HelperTableLocalServiceUtil.executeUpdateQuery(resetQuery.toString());
         } catch (Exception ex) {
-            LOGGER.error("Error in resetCustomerGroupValue :" , ex);
+            LOGGER.error("Error in resetCustomerGroupValue :", ex);
         }
 
     }

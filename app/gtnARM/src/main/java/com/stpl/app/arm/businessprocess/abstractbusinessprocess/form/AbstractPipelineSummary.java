@@ -185,9 +185,9 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     String value = listSize.get(i)[0];
                     listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
                     if (i != listSize.size() - 1) {
-                        deductionValues.append("'").append(value).append("',");
+                        deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                     } else {
-                        deductionValues.append("'").append(value).append("'");
+                        deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                     }
                 }
             }
@@ -302,9 +302,9 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                         String value = listSize.get(i)[0];
                         listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
                         if (i != listSize.size() - 1) {
-                            deductionValues.append("'").append(value).append("',");
+                            deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                         } else {
-                            deductionValues.append("'").append(value).append("'");
+                            deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                         }
                     }
                 }
@@ -317,7 +317,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     configureFieldsOnViewMode();
                 }
             } catch (ParseException ex) {
-                logger.error("Error in configureworkflow" , ex);
+                logger.error("Error in configureworkflow", ex);
             }
         }
     }
@@ -353,7 +353,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 try {
                     BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    logger.error("Error in loadDetails :" , ex);
+                    logger.error("Error in loadDetails :", ex);
 
                 }
 
@@ -427,7 +427,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     selectionDto.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glListener :" , ex);
+                logger.error("Error in glListener :", ex);
             }
         }
     };
@@ -459,7 +459,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     selectionDto.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                logger.error("Error in glWorkflowListener :" , ex);
+                logger.error("Error in glWorkflowListener :", ex);
             }
         }
     };

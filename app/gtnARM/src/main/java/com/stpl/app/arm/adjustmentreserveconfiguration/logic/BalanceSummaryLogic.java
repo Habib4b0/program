@@ -215,7 +215,7 @@ public class BalanceSummaryLogic {
         inputList.add(column);
         Object values;
         if (value != null) {
-            values = "'" + value + "'";
+            values = StringUtils.EMPTY + ARMUtils.SINGLE_QUOTES + value + ARMUtils.SINGLE_QUOTES;
         } else {
             values = value;
         }
