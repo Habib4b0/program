@@ -114,18 +114,22 @@ public class CustomExcelNM extends ExcelExport {
 
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
-                Double cellValue = d;
-                boolean isGrowth = propId.toString().endsWith(GROWTH) || propId.toString().endsWith(GROWTH_SUM);
-                if (!isCustom  && ((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId) || isGrowth) {
-                    cellValue = cellValue / NumericConstants.HUNDRED;
-                }
-                sheetCell.setCellValue(cellValue);
+                valueForcells(d, propId, rootItemId, sheetCell);
                 formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
                 nonFormatterCustomExcel(prop, value, sheetCell);
             }
         }
+    }
+
+    private void valueForcells(Double d, Object propId, final Object rootItemId, Cell sheetCell) {
+        Double cellValue = d;
+        boolean isGrowth = propId.toString().endsWith(GROWTH) || propId.toString().endsWith(GROWTH_SUM);
+        if (!isCustom  && ((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId) || isGrowth) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        sheetCell.setCellValue(cellValue);
     }
 
     private void nonFormatterCustomExcel(Property prop, Object value, Cell sheetCell) {
