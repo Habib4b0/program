@@ -187,13 +187,14 @@ public class PVCommonLogic {
         return (double) Math.round(x * fraction) / fraction;
     }
 
-    public static String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+    public static String getFormattedValue(DecimalFormat formatterPv, String value) {
+        String valueProj = value;
+        if (valueProj.contains(NULL.getConstant())) {
+            valueProj = ZERO;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            valueProj = formatterPv.format(Double.valueOf(valueProj));
         }
-        return value;
+        return valueProj;
     }
 
     public static void comparisonBasisCustomization(String varibaleCat, String commonValue, String currentValue, DecimalFormat format, String commonColumn, PVSelectionDTO pvsdto, ProjectionVarianceDTO pvDTO, boolean isPer) {

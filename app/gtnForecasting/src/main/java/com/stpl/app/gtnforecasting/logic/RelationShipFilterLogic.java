@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
@@ -48,17 +49,60 @@ public class RelationShipFilterLogic {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Leveldto> getHierarchyLevelDefinition(int hierarchyDefinitionSid, int hierarchyVersionNo) {
-		List<String> input = new ArrayList<>();
-		List<Leveldto> resultDtoList;
-		input.add(String.valueOf(hierarchyDefinitionSid));
-		input.add(String.valueOf(hierarchyVersionNo));
-		List<Object[]> results = QueryUtils.getAppData(input, "getHierarchyLevelVlaues", null);
-		resultDtoList = cutomizeHierarchyBean(results, hierarchyVersionNo);
-		Collections.sort(resultDtoList);
+        public List<Leveldto> getHierarchyLevelDefinition(int hierarchyDefinitionSid, int hierarchyVersionNo) {
+        GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+        inputBean.setHierarchyDefinitionSid(hierarchyDefinitionSid);
+        inputBean.setHierarchyVersionNo(hierarchyVersionNo);
+
+        GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+        forecastRequest.setInputBean(inputBean);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsForecastRequest(forecastRequest);
+        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+        serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+        serviceRegistryBean.setUrl("/getHierarchyLevelValues");
+        serviceRegistryBean.setModuleName("hierarchyRelationship");
+        serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+        request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+
+        GtnUIFrameworkWebserviceResponse hierarchyLevelDefinitionResponse = client.callGtnWebServiceUrl(
+                "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                request, getGsnWsSecurityToken());
+        List<GtnReportHierarchyLevelBean> levelList = hierarchyLevelDefinitionResponse.getGtnWsForecastResponse().getInputBean().getLevelList();
+         List<Leveldto> resultDtoList;
+         resultDtoList = cutomizeHierarchyBeanLevelList(levelList);
+        Collections.sort(resultDtoList);
+        return resultDtoList;
+//        List<String> input = new ArrayList<>();
+//        List<Leveldto> resultDtoList;
+//        input.add(String.valueOf(hierarchyDefinitionSid));
+//        input.add(String.valueOf(hierarchyVersionNo));
+//        List<Object[]> results = QueryUtils.getAppData(input, "getHierarchyLevelVlaues", null);
+//        resultDtoList = cutomizeHierarchyBean(results, hierarchyVersionNo);
+//        Collections.sort(resultDtoList);
+//        return resultDtoList;
+    }
+
+        public List<Leveldto> cutomizeHierarchyBeanLevelList(List<GtnReportHierarchyLevelBean> levelList ) {
+		List<Leveldto> resultDtoList = new ArrayList<>();
+		for (GtnReportHierarchyLevelBean hierarchyLevelBean : levelList) {
+			Leveldto levelDto = new Leveldto();
+			levelDto.setLevelNo(hierarchyLevelBean.getLevelNo());
+			levelDto.setLevelValueReference(hierarchyLevelBean.getLevelValueReference());
+			levelDto.setTableName(hierarchyLevelBean.getTableName());
+			levelDto.setFieldName(hierarchyLevelBean.getFieldName());
+			levelDto.setLevel(hierarchyLevelBean.getLevel());
+			levelDto.setHierarchyLevelDefnId(hierarchyLevelBean.getHierarchyLevelDefSid());
+			levelDto.setHierarchyId(hierarchyLevelBean.getHierarchyDefSid());
+			levelDto.setHierarchyType(hierarchyLevelBean.getHierarchyType());
+			levelDto.setHierarchyVersionNo(hierarchyLevelBean.getHierarchyVersionNo());
+			resultDtoList.add(levelDto);
+		}
 		return resultDtoList;
 	}
-
+        
 	public List<Leveldto> cutomizeHierarchyBean(List<Object[]> results, int hierarchyVersionNo) {
 		List<Leveldto> resultDtoList = new ArrayList<>();
 		for (Object[] objects : results) {
@@ -77,22 +121,59 @@ public class RelationShipFilterLogic {
 		return resultDtoList;
 	}
 
-	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-			List<String> groupFilteredCompanies, String dedLevel,
-			String dedValue, int relationVersionNo, Date forecastEligibleDate, Map<String, String> customerDescMap)
-			throws CloneNotSupportedException {
-		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
-				groupFilteredCompanies, dedLevel, dedValue, relationVersionNo,
-				forecastEligibleDate, false);
-		String query = getLoadDataQuery(inputBean);
-		return customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false);
-	}
+	   public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
+            List<String> groupFilteredCompanies, String dedLevel,
+            String dedValue, int relationVersionNo, Date forecastEligibleDate, Map<String, String> customerDescMap)
+            throws CloneNotSupportedException {
+             GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
+                groupFilteredCompanies, dedLevel, dedValue, relationVersionNo,
+                forecastEligibleDate, false);
+
+        GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+        forecastRequest.setInputBean(inputBean);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsForecastRequest(forecastRequest);
+        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+        serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+        serviceRegistryBean.setUrl("/dataSelectionLoadCustomerHierarcy");
+        serviceRegistryBean.setModuleName("hierarchyRelationship");
+        serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+        request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+
+        GtnUIFrameworkWebserviceResponse availableTableCustomerLevelQueryResponse = client.callGtnWebServiceUrl(
+                "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                request, getGsnWsSecurityToken());
+
+        String query = availableTableCustomerLevelQueryResponse.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
+        return customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false);
+    }
 
 	private List<Leveldto> customizeRelation(String query, Leveldto selectedHierarchyLevelDto,
 			Map<String, String> customerDescMap, int relationVersionNo, boolean isNdc)
 			throws CloneNotSupportedException {
+            GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+            inputBean.setHieraryQuery(query);
+            GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+        forecastRequest.setInputBean(inputBean);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsForecastRequest(forecastRequest);
+        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+        serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+        serviceRegistryBean.setUrl("/loadAvailableTableCustomerLevel");
+        serviceRegistryBean.setModuleName("hierarchyRelationship");
+        serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+        request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+
+        GtnUIFrameworkWebserviceResponse availableTableCustomerLevelResponse = client.callGtnWebServiceUrl(
+                "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                request, getGsnWsSecurityToken());
+        
 		List<Leveldto> resultList = new ArrayList<>();
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(query, null, null);
+		List<Object[]> resultsDataList = availableTableCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -164,6 +245,31 @@ public class RelationShipFilterLogic {
 		return outputBean.getHieraryQuery();
 	}
 
+        @SuppressWarnings("unchecked")
+	public List<Object[]> getChildLevelsHierarchyNo(List<Object> inputs) {
+            GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+            inputBean.setInputList(inputs);
+            
+            GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+            forecastRequest.setInputBean(inputBean);
+            GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+            request.setGtnWsForecastRequest(forecastRequest);
+            GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+            serviceRegistryBean.setUrl("/childLevelsWithHierarchyNo");
+            serviceRegistryBean.setModuleName("hierarchyRelationship");
+            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            
+            GtnUIFrameworkWebserviceResponse childLevelsHierarchyNoResponse = client.callGtnWebServiceUrl(
+                    "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                    request, getGsnWsSecurityToken());
+            
+            return childLevelsHierarchyNoResponse.getGtnWsForecastResponse().getInputBean().getResultList();
+        }
+        
 	@SuppressWarnings("unchecked")
 	public List<String> getSelectedCustomerLevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
@@ -172,11 +278,33 @@ public class RelationShipFilterLogic {
 		String finalQuery = getQueryForCustomer(selectedHierarchyLevelDto, relationshipSid, groupFilteredCompanies,
 				dedLevel, dedValue, relationVersionNo, forecastEligibleDate, levelHierarchyLevelDefinitionList,
 				lastLevelNo);
-		List<String> resultsDataList = (List<String>) daoImpl.executeSelectQuery(finalQuery, null, null);
-		for (String data : resultsDataList) {
-			commaSeperatedList.add("'".concat(data).concat("'"));
-		}
-		return commaSeperatedList;
+            
+            GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+            inputBean.setHieraryQuery(finalQuery);
+            
+            GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+            forecastRequest.setInputBean(inputBean);
+            GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+            request.setGtnWsForecastRequest(forecastRequest);
+            GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+            GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+            serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+            serviceRegistryBean.setUrl("/selectedCustomerLevel");
+            serviceRegistryBean.setModuleName("hierarchyRelationship");
+            serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+            request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            
+            GtnUIFrameworkWebserviceResponse selectedCustomerLevelResponse = client.callGtnWebServiceUrl(
+                    "/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
+                    request, getGsnWsSecurityToken());
+            
+            List<Object[]> resultsDataList = selectedCustomerLevelResponse.getGtnWsForecastResponse().getInputBean().getResultList();
+           // List<String> resultsDataList = (List<String>) daoImpl.executeSelectQuery(finalQuery, null, null);
+//            for (String data : resultsDataList) {
+//                commaSeperatedList.add("'".concat(data).concat("'"));
+//            }
+            return commaSeperatedList;
 	}
 
 
@@ -184,13 +312,13 @@ public class RelationShipFilterLogic {
 	private String getQueryForCustomer(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, String dedLevel, String dedValue, int relationVersionNo,
 			Date forecastEligibleDate, List<Leveldto> levelHierarchyLevelDefinitionList, int lastLevelNo) {
-		Leveldto LastHierarchyLevelDto = Leveldto.getLastLinkedLevel(levelHierarchyLevelDefinitionList);
+		Leveldto lastHiearchyLevelDto = Leveldto.getLastLinkedLevel(levelHierarchyLevelDefinitionList);
 		String queryString = getQueryFroSelectedCustomer(selectedHierarchyLevelDto,
 				groupFilteredCompanies, dedLevel, dedValue);
 		List<String> inputList = new ArrayList<>();
 		StringBuilder query = new StringBuilder(queryString);
 		inputList.add(String.valueOf(relationshipSid));
-		inputList.add(String.valueOf(LastHierarchyLevelDto.getLevelNo()));
+		inputList.add(String.valueOf(lastHiearchyLevelDto.getLevelNo()));
 		inputList.add(String.valueOf(relationVersionNo));
 		inputList.add(String.valueOf("'" + selectedHierarchyLevelDto.getHierarchyNo() + "%'"));
 		inputList.add(String.valueOf(relationVersionNo));
@@ -212,17 +340,36 @@ public class RelationShipFilterLogic {
 				groupFilteredCompanies, dedLevel, dedValue);
 		inputBean.setSelectedHierarchyLevelDto(
 				LevelDtoToRelationShipBeanConverter.convertLevelDtoToRelationBean(selectedHierarchyLevelDto));
+               
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_SELECTED_CUSTOMER,
+                 GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
+                GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+                serviceRegistryBean.setRegisteredWebContext("/GtnHierarchyAndRelaionshipWebService");
+                serviceRegistryBean.setUrl("/dataSelectionSelectedLevelValueMap");
+                serviceRegistryBean.setModuleName("hierarchyRelationship");
+                serviceRegistryRequest.setGtnWsServiceRegistryBean(serviceRegistryBean);
+                request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
+            
+                 GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+				"/gtnServiceRegistry/serviceRegistryUIControllerMappingWs", "serviceRegistry",
 				request, getGsnWsSecurityToken());
-		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
-		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
+                GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
+                GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
+//		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+//		forecastRequest.setInputBean(inputBean);
+//		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+//		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+//		request.setGtnWsForecastRequest(forecastRequest);
+//		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+//				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+//						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_SELECTED_CUSTOMER,
+//				request, getGsnWsSecurityToken());
+//		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
+//		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
 	}
 

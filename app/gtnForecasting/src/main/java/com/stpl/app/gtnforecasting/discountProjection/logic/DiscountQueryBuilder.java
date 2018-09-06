@@ -317,7 +317,7 @@ public class DiscountQueryBuilder {
                 int startYear = 0;
                 int endYear = 0;
 
-                if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+                if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                     startFreq = startAndEndPeriods.get(0);
                     if (startAndEndPeriods.size() > 1) {
                         startYear = startAndEndPeriods.get(1);

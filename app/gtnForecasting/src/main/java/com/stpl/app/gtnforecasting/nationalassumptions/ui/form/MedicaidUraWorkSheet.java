@@ -1087,9 +1087,9 @@ public class MedicaidUraWorkSheet extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 public void yesMethod() {
-                    MedicaidQueryUtils QueryUtil = new MedicaidQueryUtils();
+                    MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
                     try {
-                        QueryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
+                        queryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;
                     } catch (PortalException | SystemException ex) {
