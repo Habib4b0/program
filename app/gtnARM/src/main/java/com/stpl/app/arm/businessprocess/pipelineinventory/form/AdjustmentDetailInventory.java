@@ -68,7 +68,6 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
         }
     }
 
-
     @Override
     protected void loadReserveAccount() {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));

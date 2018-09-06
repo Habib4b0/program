@@ -34,7 +34,6 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
 
     @Override
     public List<IFPItemDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
-        List<IFPItemDTO> resultList = new ArrayList<>();
-        return resultList;
+        return new ArrayList<>();
     }
 }

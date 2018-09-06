@@ -156,9 +156,9 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException ex) {
-            LOGGER.error("Error while setting property for given Inputs :" , ex);
+            LOGGER.error("Error while setting property for given Inputs :", ex);
         } catch (IllegalArgumentException ex) {
-            LOGGER.error("Error in customizier " , ex);
+            LOGGER.error("Error in customizier ", ex);
         }
         OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);

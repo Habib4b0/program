@@ -17,6 +17,9 @@ public class BPMCommonUtils {
     public static final String GROUP_ID = "com.stpl.app.bpm";
     public static final String ARTIFACT_ID = "Non-Mandated";
     public static final String VERSION = "1.0";
+    private BPMCommonUtils() {
+        // BPMCommonUtils
+    }
 
     public static List<Date> getPreviousQuarterDates() {
         Calendar cal = Calendar.getInstance();

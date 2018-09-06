@@ -138,6 +138,7 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
+import java.util.Locale;
 
 /**
  *
@@ -2614,7 +2615,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2666,7 +2667,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**
@@ -2717,7 +2718,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 selectedPeriods = selectedPeriods + value;
             }
         }
-        return selectedPeriods.toUpperCase();
+        return selectedPeriods.toUpperCase(Locale.ENGLISH);
     }
 
     /**

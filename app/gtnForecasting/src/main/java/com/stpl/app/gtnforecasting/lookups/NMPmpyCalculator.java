@@ -1187,10 +1187,6 @@ public class NMPmpyCalculator extends Window {
             exporter.export(exporterDto);
             LOGGER.debug("End of exportCalculatedExcel method");
         } catch (SystemException e) {
- 
-            LOGGER.error(e.getMessage());
-
-        } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
 

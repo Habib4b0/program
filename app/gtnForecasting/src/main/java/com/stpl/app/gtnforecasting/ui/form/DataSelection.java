@@ -1841,12 +1841,15 @@ public class DataSelection extends ForecastDataSelection {
 	private void setAvailableCustomer(Object value, String dedLevel, String dedValue, String levelName,
 			int relationVersionNo, int hierarchyVersionNo) {
 		int forecastLevel;
+                String dedLevelCustomer = dedLevel;
+                String dedValueCustomer = dedValue;
+                String levelNameCustomer = levelName;
 		try {
 
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
-					dedLevel = getDedutionLevel();
-					dedValue = String.valueOf(deductionValue.getValue());
+					dedLevelCustomer = getDedutionLevel();
+					dedValueCustomer = String.valueOf(deductionValue.getValue());
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -1864,19 +1867,22 @@ public class DataSelection extends ForecastDataSelection {
 				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
+
                                 List<Object> availableCustomersList = new ArrayList<>();
+				
+
 				availableCustomersList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevel, dedValue, relationVersionNo,
+						Integer.parseInt(relationshipSid), tempGroupFileter, dedLevelCustomer, dedValueCustomer, relationVersionNo,
 						forecastEligibleDate.getValue(), customerDescriptionMap);
                                 List<Leveldto> resultedLevelsList = new ArrayList<>((List<Leveldto>)availableCustomersList.get(0));
 				if (selectedHierarchyLevelDto.getLevel() != null) {
-					levelName = selectedHierarchyLevelDto.getLevel();
+					levelNameCustomer = selectedHierarchyLevelDto.getLevel();
 				}
 
 				availableCustomerContainer.addAll(resultedLevelsList);
 				availableCustomer.setContainerDataSource(availableCustomerContainer);
 				availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
-				availableCustomer.setColumnHeaders(levelName);
+				availableCustomer.setColumnHeaders(levelNameCustomer);
 				availableCustomer.setFilterBarVisible(true);
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);

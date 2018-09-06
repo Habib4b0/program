@@ -10,6 +10,9 @@ package com.stpl.app.gtnforecasting.bpm.util;
  * @author harlin
  */
 public class MessageUtils {
+    private MessageUtils() {
+        // MessageUtils
+    }
 
     public static final String CH_ERROR = "Customer Hierarchy has been changed from Version [$OV] to Version [$NV].\n";
     public static final String PH_ERROR = "Product Hierarchy has been changed from Version [$OV] to Version [$NV].\n";

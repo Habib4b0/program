@@ -30,8 +30,8 @@ public class Transaction6 extends AbstractTransaction {
 
     private Trx6SelectionDTO trx6Selection;
     private Trx6Inventory inventory;
-    private Trx6AdjustmentSummary summary;
-    private Trx6AdjustmentDetail details;
+    private Trx6AdjustmentSummary inflationSummary;
+    private Trx6AdjustmentDetail inflationdetails;
     public static final Logger LOGGER = LoggerFactory.getLogger(Transaction6.class);
 
     public Transaction6(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
@@ -46,15 +46,15 @@ public class Transaction6 extends AbstractTransaction {
             trx6Selection.setDataSelectionDTO(getDataselectionDTO());
             trx6Selection.setSessionDTO(getSessionDTO());
             inventory = new Trx6Inventory(trx6Selection, getDataselectionDTO().getProjectionId());
-            summary = new Trx6AdjustmentSummary(trx6Selection);
-            details = new Trx6AdjustmentDetail(trx6Selection);
+            inflationSummary = new Trx6AdjustmentSummary(trx6Selection);
+            inflationdetails = new Trx6AdjustmentDetail(trx6Selection);
 
             TabSheet.Tab tab1 = getTabSheet().addTab(inventory, "Inventory");
             tab1.setDefaultFocusComponent(inventory.getDefaultFocusComponent());
-            TabSheet.Tab tab3 = getTabSheet().addTab(summary, "Adjustment Summary");
-            tab3.setDefaultFocusComponent(summary.getDefaultFocusComponent());
-            TabSheet.Tab tab4 = getTabSheet().addTab(details, "Adjustment Detail");
-            tab4.setDefaultFocusComponent(details.getDefaultFocusComponent());
+            TabSheet.Tab tab3 = getTabSheet().addTab(inflationSummary, "Adjustment Summary");
+            tab3.setDefaultFocusComponent(inflationSummary.getDefaultFocusComponent());
+            TabSheet.Tab tab4 = getTabSheet().addTab(inflationdetails, "Adjustment Detail");
+            tab4.setDefaultFocusComponent(inflationdetails.getDefaultFocusComponent());
             TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class Transaction6 extends AbstractTransaction {
 
     @Override
     public boolean isGenerated() {
-        return inventory.isGenerated() && summary.isGenerated() && details.isGenerated();
+        return inventory.isGenerated() && inflationSummary.isGenerated() && inflationdetails.isGenerated();
     }
 
     @Override
@@ -85,16 +85,18 @@ public class Transaction6 extends AbstractTransaction {
     @Override
     public boolean saveAssets() {
         CommonLogic.saveInflationAdjustmentSelection(getDataselectionDTO().getProjectionId(), getName(), getSelection());
-        return summary.saveAssets();
+        return inflationSummary.saveAssets();
     }
 
     @Override
     public String getGtnQuery() {
+        LOGGER.debug("Transaction 6 Gtn Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
+        LOGGER.debug("Transaction 6 Reserve Outbound Insert Query");
         return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
@@ -107,8 +109,8 @@ public class Transaction6 extends AbstractTransaction {
     public void configurePermission() {
         String userId = String.valueOf(getSessionDTO().getUserId());
         inventory.configurePermission(userId, stplSecurity);
-        summary.configurePermission(userId, stplSecurity);
-        details.configurePermission(userId, stplSecurity);
+        inflationSummary.configurePermission(userId, stplSecurity);
+        inflationdetails.configurePermission(userId, stplSecurity);
     }
 
     @Override

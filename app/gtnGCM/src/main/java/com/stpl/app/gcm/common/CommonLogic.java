@@ -136,7 +136,7 @@ public class CommonLogic {
         final List<ContractsDetailsDto> contractList = getContractList(contractId, ContractsDetailsDto.LEVEL1, cfpList);
         container.removeAllItems();
         for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
-            final ContractsDetailsDto contractMember = (ContractsDetailsDto) iterator.next();
+            final ContractsDetailsDto contractMember =  iterator.next();
             container.addBean(contractMember);
             if (!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
                     && isLevel2ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
@@ -2174,7 +2174,7 @@ public class CommonLogic {
         String query = "select FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID = '" + toProjectionId
                 + "'";
 
-        return String.valueOf(((List) DAO.executeSelect(query)).get(0));
+        return String.valueOf((DAO.executeSelect(query)).get(0));
     }
 
     public List<String> copyProjection(int oldProjectionId, boolean isDiscountModule, List<String> contractList,

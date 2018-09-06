@@ -302,7 +302,8 @@ public class QueryUtils {
 
     public String getLatestCCPQuery(List contractSid, List rsSid) {
         CommonUtils.CollectionToString(contractSid, true);
-        String query = "select top 1 PROJECTION_MASTER_SID,FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID in\n"
+        String query = StringUtils.EMPTY;
+         query = query + "select top 1 PROJECTION_MASTER_SID,FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID in\n"
                 + " (select distinct PD.PROJECTION_MASTER_SID  from PROJECTION_DETAILS PD\n"
                 + "JOIN CCP_DETAILS CCP ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND\n"
                 + "CCP.CONTRACT_MASTER_SID IN (" + CommonUtils.CollectionToString(contractSid, true) + ") \n"
@@ -324,6 +325,7 @@ public class QueryUtils {
         String groupBy = StringUtils.EMPTY;
         String orderBy;
         String prjQuery = StringUtils.EMPTY;
+        String finalQuery  = StringUtils.EMPTY;
 
         if ("Channel".equals(dto.getForecastingType())) {
             prjQuery = " join CH_SALES_PROJECTION NMSP \n";
@@ -371,7 +373,7 @@ public class QueryUtils {
                 + "') AND CONVERT(DATE, '" + dbDate.format(dto.getToDate()) + "')"
                 + "group by I.\"YEAR\", I.QUARTER," + groupBy;
 
-        String finalQuery = "select LEVEL_NAME,YEARS,PERIODS,Sales,Units,LEVEL_NO from(" + query + ") MAINQ where MAINQ.ROW_NUM>" + dto.getStartIndex() + " AND MAINQ.ROW_NUM<=" + (dto.getStartIndex() + dto.getOffSet()) + " " + orderBy;
+         finalQuery = finalQuery + "select LEVEL_NAME,YEARS,PERIODS,Sales,Units,LEVEL_NO from(" + query + ") MAINQ where MAINQ.ROW_NUM>" + dto.getStartIndex() + " AND MAINQ.ROW_NUM<=" + (dto.getStartIndex() + dto.getOffSet()) + " " + orderBy;
         return finalQuery;
     }
 
@@ -379,6 +381,7 @@ public class QueryUtils {
         LOGGER.debug("Entering getSummaryCountQuery {} {} " , dto.getFromDate() , dto.getToDate());
         String select = StringUtils.EMPTY;
         String where = StringUtils.EMPTY;
+        String query = StringUtils.EMPTY;
         if (dto.getLevelNo() == 1) {
             select = "CM.COMPANY_NAME ";
             where = " join CONTRACT_MASTER CTM ON CCPD.CONTRACT_MASTER_SID = CTM.CONTRACT_MASTER_SID\n "
@@ -396,7 +399,7 @@ public class QueryUtils {
             where = " join ITEM_MASTER IM ON CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID\n ";
         }
 
-        String query = "select count ( DISTINCT " + select + ")  \n"
+         query = query + "select count ( DISTINCT " + select + ")  \n"
                 + "from \n"
                 + " PROJECTION_DETAILS PD\n"
                 + "join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID \n"
@@ -408,7 +411,8 @@ public class QueryUtils {
     }
 
     public String getForecastDates(String type) {
-        String forecastDates = "SELECT TOP 1 FROM_DATE,TO_DATE FROM FORECAST_CONFIG FC JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FC.BUSINESS_PROCESS_TYPE \n" +
+        String forecastDates  = StringUtils.EMPTY;
+        forecastDates = forecastDates + "SELECT TOP 1 FROM_DATE,TO_DATE FROM FORECAST_CONFIG FC JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FC.BUSINESS_PROCESS_TYPE \n" +
          " WHERE ht.DESCRIPTION ='"+type + "'ORDER BY VERSION_NO DESC";
         return forecastDates;
     }
@@ -461,7 +465,8 @@ public class QueryUtils {
 
     public String getCFPAttachedCompanies(CFPCompanyDTO cfpCompanyDto) {
         int sidvalue = cfpCompanyDto.getCompanyFamilyPlanSystemId();
-        String query = "select DISTINCT cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,hstatus.DESCRIPTION as cstatus from CFP_MODEL cfp"
+         String query = StringUtils.EMPTY;
+         query = query + "select DISTINCT cm.COMPANY_ID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,hstatus.DESCRIPTION as cstatus from CFP_MODEL cfp"
         
                 + " JOIN CFP_DETAILS cfd on cfp.CFP_MODEL_SID=cfd.CFP_MODEL_SID \n"
                 + " JOIN COMPANY_MASTER cm on cfd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
@@ -496,7 +501,8 @@ public class QueryUtils {
 
     public String getIfpAttachedItems(IFPItemDTO ifpItemDto) {
         int sidvalue = ifpItemDto.getIfpDetailsSystemId();
-        String sql = "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,\n"
+         String sql =StringUtils.EMPTY;
+         sql = sql + "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,\n"
                 + " itemsatus.DESCRIPTION "
                 + "                 from IFP_MODEL ifp JOIN IFP_DETAILS ifd on ifp.IFP_MODEL_SID=ifd.IFP_MODEL_SID JOIN ITEM_MASTER im on ifd.ITEM_MASTER_SID=im.ITEM_MASTER_SID\n"
                 + "                LEFT JOIN HELPER_TABLE htype on htype.HELPER_TABLE_SID =  ifp.IFP_TYPE​\n"
@@ -612,7 +618,8 @@ public class QueryUtils {
 
     public String getPSItemcount(PSIFPDTO psIfpDto) {
         String psSid = psIfpDto.getPriceScheduleSystemId();
-        String sql = "SELECT DISTINCT  im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,itemsatus.DESCRIPTION,IPQ.ITEM_PRICING_QUALIFIER_NAME,psd.PRICE_PROTECTION_START_DATE"
+        String sql= StringUtils.EMPTY;
+        sql = sql + "SELECT DISTINCT  im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,itemsatus.DESCRIPTION,IPQ.ITEM_PRICING_QUALIFIER_NAME,psd.PRICE_PROTECTION_START_DATE"
                 + " FROM PS_MODEL ps"
                 + " JOIN PS_DETAILS psd on ps.PS_MODEL_SID=psd.PS_MODEL_SID"
                 + "  JOIN IFP_MODEL ifp on ifp.IFP_MODEL_SID=psd.IFP_MODEL_SID"
@@ -632,7 +639,8 @@ public class QueryUtils {
 
     public String getRSAttachedItems(RsIfpDto rsIfpDto) {
         int sidvalue = rsIfpDto.getRebateScheduleSystemId();
-        String sql = "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,"
+        String sql = StringUtils.EMPTY;
+        sql = sql + "SELECT DISTINCT im.ITEM_NO,im.ITEM_NAME,theclass.DESCRIPTION as tclass,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,"
                 + "itemsatus.DESCRIPTION,rsd.FORMULA_ID,RPM.REBATE_PLAN_NAME\n"
                 + " from RS_MODEL rs"
                 + " LEFT JOIN RS_DETAILS rsd on rsd.RS_MODEL_SID=rs.RS_MODEL_SID"
@@ -892,7 +900,8 @@ public class QueryUtils {
 
     public String updateDate(String rsSid) {
         Date date = new Date();
-        String query = "UPDATE RS_CONTRACT SET RS_END_DATE = '" + dbDate.format(date) + "' from"
+        String query = StringUtils.EMPTY;
+        query = query + "UPDATE RS_CONTRACT SET RS_END_DATE = '" + dbDate.format(date) + "' from"
                 + " RS_CONTRACT WHERE RS_CONTRACT_SID in (" + rsSid + ")";
 
         return query;
@@ -991,34 +1000,40 @@ public class QueryUtils {
     }
 
     public String getCFPDetails(int cfpIdValue) {
-        String query = " select cfpm.CFP_ID,cfpc.CFP_NO,cfpc.CFP_NAME,h.DESCRIPTION,cfpc.CFP_START_DATE,mdf.FILE_PATH from dbo.CFP_MODEL cfpm join dbo.CFP_CONTRACT cfpc on cfpm.CFP_MODEL_SID=cfpc.CFP_MODEL_SID and cfpc.CFP_CONTRACT_SID=" + cfpIdValue + " join dbo.HELPER_TABLE h on cfpm.CFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on cfpm.CFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='CFP_MODEL' ";
+        String query = StringUtils.EMPTY;
+        query = query + " select cfpm.CFP_ID,cfpc.CFP_NO,cfpc.CFP_NAME,h.DESCRIPTION,cfpc.CFP_START_DATE,mdf.FILE_PATH from dbo.CFP_MODEL cfpm join dbo.CFP_CONTRACT cfpc on cfpm.CFP_MODEL_SID=cfpc.CFP_MODEL_SID and cfpc.CFP_CONTRACT_SID=" + cfpIdValue + " join dbo.HELPER_TABLE h on cfpm.CFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on cfpm.CFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='CFP_MODEL' ";
         return query;
     }
 
     public String getIFPDetails(int ifpIdValue) {
-        String query = "select ifpm.IFP_ID,ifpc.IFP_NO,ifpc.IFP_NAME,h.DESCRIPTION,ifpc.IFP_START_DATE,mdf.FILE_PATH from dbo.IFP_MODEL ifpm join dbo.IFP_CONTRACT ifpc on ifpm.IFP_MODEL_SID=ifpc.IFP_MODEL_SID and ifpc.IFP_CONTRACT_SID=" + ifpIdValue + " join dbo.HELPER_TABLE h on ifpm.IFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on ifpm.IFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='IFP_MODEL'";
+        String query = StringUtils.EMPTY;
+        query = query + "select ifpm.IFP_ID,ifpc.IFP_NO,ifpc.IFP_NAME,h.DESCRIPTION,ifpc.IFP_START_DATE,mdf.FILE_PATH from dbo.IFP_MODEL ifpm join dbo.IFP_CONTRACT ifpc on ifpm.IFP_MODEL_SID=ifpc.IFP_MODEL_SID and ifpc.IFP_CONTRACT_SID=" + ifpIdValue + " join dbo.HELPER_TABLE h on ifpm.IFP_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on ifpm.IFP_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='IFP_MODEL'";
         return query;
     }
 
     public String getPSDetails(int psIdValue) {
-        String query = "select pm.PS_ID,pc.PS_NO,pc.PS_NAME,h.DESCRIPTION,pc.PS_START_DATE,mdf.FILE_PATH from dbo.PS_MODEL pm join dbo.PS_CONTRACT pc on pm.PS_MODEL_SID=pc.PS_MODEL_SID and pc.PS_CONTRACT_SID=" + psIdValue + " left join dbo.HELPER_TABLE h on pm.PS_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on pm.PS_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='PS_MODEL'";
+        String query = StringUtils.EMPTY;
+        query = query + "select pm.PS_ID,pc.PS_NO,pc.PS_NAME,h.DESCRIPTION,pc.PS_START_DATE,mdf.FILE_PATH from dbo.PS_MODEL pm join dbo.PS_CONTRACT pc on pm.PS_MODEL_SID=pc.PS_MODEL_SID and pc.PS_CONTRACT_SID=" + psIdValue + " left join dbo.HELPER_TABLE h on pm.PS_STATUS = h.HELPER_TABLE_SID left join dbo.MASTER_DATA_FILES mdf on pm.PS_MODEL_SID=mdf.MASTER_TABLE_SID and mdf.MASTER_TABLE_NAME='PS_MODEL'";
         return query;
     }
 
     public String getCompanyMasterSid(String ids) {
-        String query = "select distinct COMPANY_MASTER_SID from dbo.CFP_CONTRACT_DETAILS where CFP_CONTRACT_SID in (" + ids + ")";
+        String query = StringUtils.EMPTY;
+        query = query + "select distinct COMPANY_MASTER_SID from dbo.CFP_CONTRACT_DETAILS where CFP_CONTRACT_SID in (" + ids + ")";
         return query;
     }
 
     public String getItemMasterDetails(String ids) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_CONTRACT_DETAILS icd "
+        String query = StringUtils.EMPTY;
+        query = query + "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_CONTRACT_DETAILS icd "
                 + " on im.ITEM_MASTER_SID=icd.ITEM_MASTER_SID and icd.IFP_CONTRACT_SID in (" + ids + ") join dbo.HELPER_TABLE h on im.ITEM_STATUS=h.HELPER_TABLE_SID join dbo.HELPER_TABLE h1 on im.THERAPEUTIC_CLASS=h1.HELPER_TABLE_SID "
                 + " join dbo.BRAND_MASTER bm on im.BRAND_MASTER_SID=bm.BRAND_MASTER_SID ";
 
         return query;
     }
      public String getItemMasterDetailsTransContract(String ids) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_DETAILS icd "
+          String query = StringUtils.EMPTY;
+          query = query + "select im.ITEM_NO,im.ITEM_NAME,h1.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IFP_DETAILS icd "
                 + " on im.ITEM_MASTER_SID=icd.ITEM_MASTER_SID join IFP_CONTRACT ic on icd.IFP_MODEL_SID = ic.IFP_MODEL_SID and ic.IFP_CONTRACT_SID in (" + ids + ") join dbo.HELPER_TABLE h on im.ITEM_STATUS=h.HELPER_TABLE_SID join dbo.HELPER_TABLE h1 on im.THERAPEUTIC_CLASS=h1.HELPER_TABLE_SID "
                 + " join dbo.BRAND_MASTER bm on im.BRAND_MASTER_SID=bm.BRAND_MASTER_SID ";
 
@@ -1026,7 +1041,8 @@ public class QueryUtils {
     }
 
     public String getPSDetails(String ids) {
-        String query = "SELECT distinct \n " +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT distinct \n " +
                     "    im.ITEM_NO,\n" +
                     "    im.ITEM_NAME, \n" +
                     "    h.DESCRIPTION AS THERAPHY, \n" +
@@ -1072,7 +1088,8 @@ public class QueryUtils {
     }
     
     public String getPSDetailsTransContract(String ids) {
-        String query = "SELECT\n " +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT\n " +
                     "     im.ITEM_NO,\n" +
                     "    im.ITEM_NAME, \n" +
                     "    h.DESCRIPTION AS THERAPHY, \n" +
@@ -1119,7 +1136,8 @@ public class QueryUtils {
     }
 
     public String getRSDetails(String ids) {
-        String query = "SELECT distinct\n " +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT distinct\n " +
                     "    im.ITEM_NO,  \n" +
                     "    im.ITEM_NAME,\n" +
                     "    h.DESCRIPTION AS THERAPHY,\n" +
@@ -1147,7 +1165,8 @@ public class QueryUtils {
     }
     
      public String getRSDetailsTransContract(String ids) {
-        String query = "SELECT \n" +
+         String query = StringUtils.EMPTY;
+         query = query + "SELECT \n" +
                     "    im.ITEM_NO,\n" +
                     "    im.ITEM_NAME,\n" +
                     "    h.DESCRIPTION AS THERAPHY,\n" +
@@ -1176,13 +1195,15 @@ public class QueryUtils {
     }
 
     public String getCompanyDetails(String id) {
-        String query = "select cm.COMPANY_NO,COMPANY_NAME,h.DESCRIPTION AS STATUS,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cfpd on cfpd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
+        String query = StringUtils.EMPTY;
+        query = query + "select cm.COMPANY_NO,COMPANY_NAME,h.DESCRIPTION AS STATUS,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cfpd on cfpd.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID"
                 + " and cfpd.CFP_MODEL_SID=" + id + " left join dbo.HELPER_TABLE h on cm.COMPANY_STATUS=h.HELPER_TABLE_SID";
         return query;
     }
 
     public String getIFP(String id) {
-        String query = "SELECT \n" +
+         String query = StringUtils.EMPTY;
+         query = query + "SELECT \n" +
 "	IFP_M.IFP_ID,\n" +
 "	ifp_c.IFP_NO,\n" +
 "	ifp_c.IFP_NAME,\n" +
@@ -1195,28 +1216,32 @@ public class QueryUtils {
     }
 
     public String getCompanyValues(String cfpModelId) {
-        String componentQuery = "select cm.COMPANY_NO,cm.COMPANY_NAME,h1.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cd on cm.COMPANY_MASTER_SID=cd.COMPANY_MASTER_SID"
+        String componentQuery = StringUtils.EMPTY;
+        componentQuery = componentQuery + "select cm.COMPANY_NO,cm.COMPANY_NAME,h1.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from dbo.COMPANY_MASTER cm join dbo.CFP_DETAILS cd on cm.COMPANY_MASTER_SID=cd.COMPANY_MASTER_SID"
                 + " and cd.CFP_MODEL_SID =" + cfpModelId + " join dbo.HELPER_TABLE h1 on h1.HELPER_TABLE_SID=cm.COMPANY_STATUS";
 
         return componentQuery;
     }
 
     public String getItemsForIFPName(String searchValue) {
-        String query = "select distinct im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,im.ITEM_STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID,im.ITEM_MASTER_SID  from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_MODEL_SID in ( " + searchValue + ")\n"
+        String query = StringUtils.EMPTY;
+        query = query + "select distinct im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,im.ITEM_STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID,im.ITEM_MASTER_SID  from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_MODEL_SID in ( " + searchValue + ")\n"
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID \n"
                 + " left join dbo.PS_DETAILS psd on psd.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpd.ITEM_MASTER_SID=psd.ITEM_MASTER_SID left join dbo.HELPER_TABLE h3 on h3.HELPER_TABLE_SID=psd.PRICE_TOLERANCE_TYPE";
         return query;
     }
 
     public String getItemsForIFPID(String searchValue) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_ID like '" + searchValue + "'\n"
+        String query = StringUtils.EMPTY;
+        query = query + "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_ID like '" + searchValue + "'\n"
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=im.ITEM_STATUS\n"
                 + " left join dbo.PS_DETAILS psd on psd.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpd.ITEM_MASTER_SID=psd.ITEM_MASTER_SID left join dbo.HELPER_TABLE h3  on h3.HELPER_TABLE_SID=psd.PRICE_TOLERANCE_TYPE";
         return query;
     }
 
     public String getItemsForIFPNO(String searchValue) {
-        String query = "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_NO like '" + searchValue + "'\n"
+        String query = StringUtils.EMPTY;
+         query = query + "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h2.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE,h3.DESCRIPTION AS PRICETYPE,psd.PRICE_PROTECTION_START_DATE,ifpd.IFP_MODEL_SID from dbo.ITEM_MASTER im join dbo.IFP_DETAILS ifpd on im.ITEM_MASTER_SID=ifpd.ITEM_MASTER_SID join dbo.IFP_MODEL ifpm on ifpm.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpm.IFP_NO like '" + searchValue + "'\n"
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=im.ITEM_STATUS\n"
                 + " left join dbo.PS_DETAILS psd on psd.IFP_MODEL_SID=ifpd.IFP_MODEL_SID and ifpd.ITEM_MASTER_SID=psd.ITEM_MASTER_SID left join dbo.HELPER_TABLE h3 on h3.HELPER_TABLE_SID=psd.PRICE_TOLERANCE_TYPE";
         return query;
@@ -2059,7 +2084,8 @@ public class QueryUtils {
     }
 
     public String LoadmassupdateCompany(String sid) {
-        String query = "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_STATUS as status ,"
+        String query = StringUtils.EMPTY;
+        query = query + "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_STATUS as status ,"
                 + " cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,Status.DESCRIPTION as statusdescription from  COMPANY_MASTER cm "
                 + " inner join HELPER_TABLE Status on Status.HELPER_TABLE_SID=cm.COMPANY_STATUS "
                 + " inner join HELPER_TABLE COMPANY_TYPE on COMPANY_TYPE.HELPER_TABLE_SID=cm.COMPANY_TYPE  "
@@ -2072,7 +2098,8 @@ public class QueryUtils {
     }
 
     public String loadMassUpdateItem(String sid) {
-        String query = "select ITEM_NAME,ITEM_NO,im.ITEM_STATUS as status,br.BRAND_NAME,ITEM_START_DATE,ITEM_END_DATE,im.ITEM_MASTER_SID,tc.DESCRIPTION as tc,status.DESCRIPTION as statusdescription from ITEM_MASTER im\n"
+        String query = StringUtils.EMPTY;
+        query = query + "select ITEM_NAME,ITEM_NO,im.ITEM_STATUS as status,br.BRAND_NAME,ITEM_START_DATE,ITEM_END_DATE,im.ITEM_MASTER_SID,tc.DESCRIPTION as tc,status.DESCRIPTION as statusdescription from ITEM_MASTER im\n"
                 + "inner join HELPER_TABLE HT on HT.HELPER_TABLE_SID=im.FORM inner join HELPER_TABLE status on\n"
                 + "status.HELPER_TABLE_SID=im.ITEM_STATUS inner join HELPER_TABLE str on str.HELPER_TABLE_SID=im.STRENGTH\n"
                 + "left join HELPER_TABLE  itype on itype.HELPER_TABLE_SID=im.ITEM_TYPE left join HELPER_TABLE tc on tc.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS\n"
@@ -2082,12 +2109,14 @@ public class QueryUtils {
     }
 
     public String getTempTableValue(String temptableSId) {
-        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
+        String query = StringUtils.EMPTY;
+         query = query + " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
         return query;
     }
 
     public String getActuals(RemoveDiscountDto dto) {
-        String query = StringConstantsUtil.SELECT +
+        String query = StringUtils.EMPTY;
+        query = query + StringConstantsUtil.SELECT +
                         "  MAX(AM.SALES_AMOUNT) AS Sales,\n" +
                         "  MAX(AM.QUANTITY) AS Units\n" +
                         "  FROM CONTRACT_MASTER CM\n" +
@@ -2189,7 +2218,8 @@ public class QueryUtils {
     }
 
     public String getTempTableValueForPS(String temptableSId) {
-        String query = " select\n"
+        String query = StringUtils.EMPTY;
+        query = query + " select\n"
                 + "ITEM_ID,\n"
                 + "ITEM_NO,\n"
                 + "ITEM_NAME,\n"
@@ -2208,13 +2238,15 @@ public class QueryUtils {
     }
 
     public String getTempTableIFP(String temptableSId) {
-        String query = " select iiprd.ITEM_ID,iiprd.ITEM_NAME,iiprd.ITEM_NO,h.DESCRIPTION AS STATUS,iiprd.START_DATE,iiprd.END_DATE,h1.DESCRIPTION AS TYPE,iiprd.IMTD_ITEM_PRICE_REBATE_SID from dbo.IMTD_ITEM_PRICE_REBATE_DETAILS iiprd "
+        String query = StringUtils.EMPTY;
+         query = query + " select iiprd.ITEM_ID,iiprd.ITEM_NAME,iiprd.ITEM_NO,h.DESCRIPTION AS STATUS,iiprd.START_DATE,iiprd.END_DATE,h1.DESCRIPTION AS TYPE,iiprd.IMTD_ITEM_PRICE_REBATE_SID from dbo.IMTD_ITEM_PRICE_REBATE_DETAILS iiprd "
                 + " left join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=iiprd.PS_STATUS join dbo.HELPER_TABLE h1 on h1.HELPER_TABLE_SID=iiprd.ITEM_TYPE and iiprd.IMTD_ITEM_PRICE_REBATE_SID in ( " + temptableSId + ")";
         return query;
     }
 
     public String contractSearch(final ErrorfulFieldGroup binder) {
-        String query = "SELECT DISTINCT CM.CONT_HOLD_COMPANY_MASTER_SID,COMP.COMPANY_NAME,CM.CONTRACT_NAME,CM.CONTRACT_NO,H1.DESCRIPTION AS MARKET_TYPE,CM.START_DATE,CM.END_DATE,CCT.CFP_NAME,IFP_CONT.IFP_NAME,PSC.PS_NAME,\n"
+        String query = StringUtils.EMPTY;
+         query = query + "SELECT DISTINCT CM.CONT_HOLD_COMPANY_MASTER_SID,COMP.COMPANY_NAME,CM.CONTRACT_NAME,CM.CONTRACT_NO,H1.DESCRIPTION AS MARKET_TYPE,CM.START_DATE,CM.END_DATE,CCT.CFP_NAME,IFP_CONT.IFP_NAME,PSC.PS_NAME,\n"
                 + "                RSC.RS_NAME,CM.CONTRACT_MASTER_SID,CCT.CFP_CONTRACT_SID,IFP_CONT.IFP_CONTRACT_SID,PSC.PS_CONTRACT_SID,RSC.RS_CONTRACT_SID FROM   CONTRACT_ALIAS_MASTER CAM JOIN CONTRACT_MASTER CM\n"
                 + "         ON CAM.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID INNER JOIN CFP_CONTRACT CCT ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID  AND CM.INBOUND_STATUS <> 'D'\n"
                 + "                  AND CCT.INBOUND_STATUS <> 'D' LEFT JOIN CFP_CONTRACT_DETAILS CCD ON CCT.CFP_CONTRACT_SID = CCD.CFP_CONTRACT_SID LEFT JOIN COMPANY_MASTER CMP_MAS ON CMP_MAS.COMPANY_MASTER_SID = CCD.COMPANY_MASTER_SID\n"
@@ -2296,7 +2328,8 @@ public class QueryUtils {
     public String getIFPInformation(String searchValue) {
 
         searchValue = searchValue.replace(CHAR_ASTERISK, CHAR_PERCENT);
-        String query2 = "select distinct\n"
+        String query2 = StringUtils.EMPTY;
+        query2 = query2 + "select distinct\n"
                 + "IM.ITEM_MASTER_SID,\n"
                 + "IM.ITEM_ID,\n"
                 + "IM.ITEM_NAME,\n"
@@ -2321,14 +2354,16 @@ public class QueryUtils {
     }
 
     public String rsValue(int rsIdValue) {
-        String query = "select rm.RS_ID,h.DESCRIPTION AS STATUS,rm.RS_NO,rm.RS_START_DATE,rm.RS_NAME,rm.RS_END_DATE,h1.DESCRIPTION AS FREQ,h2.DESCRIPTION AS TYPE "
+        String query = StringUtils.EMPTY;
+        query = query + "select rm.RS_ID,h.DESCRIPTION AS STATUS,rm.RS_NO,rm.RS_START_DATE,rm.RS_NAME,rm.RS_END_DATE,h1.DESCRIPTION AS FREQ,h2.DESCRIPTION AS TYPE "
                 + " from RS_MODEL rm join RS_CONTRACT rc on rm.RS_MODEL_SID=rc.RS_MODEL_SID and rc.RS_CONTRACT_SID=" + rsIdValue + " left join HELPER_TABLE h on rm.RS_STATUS=h.HELPER_TABLE_SID join HELPER_TABLE h1 "
                 + " on h1.HELPER_TABLE_SID=rm.REBATE_FREQUENCY join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=rm.REBATE_PROGRAM_TYPE";
         return query;
     }
 
     public String compValue(String value) {
-        String query = "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,tradeclass.DESCRIPTION as tradeclass from dbo.COMPANY_MASTER cm "
+        String query = StringUtils.EMPTY;
+         query = query + "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,tradeclass.DESCRIPTION as tradeclass from dbo.COMPANY_MASTER cm "
                 + "INNER JOIN COMPANY_TRADE_CLASS CT\n"
                 + "  ON CT.COMPANY_MASTER_SID = cm.COMPANY_MASTER_SID\n"
                 + "INNER JOIN HELPER_TABLE tradeclass\n"
@@ -2338,7 +2373,8 @@ public class QueryUtils {
     }
 
     public String cfpValue(String id) {
-        String query = StringConstantsUtil.SELECT +
+        String query = StringUtils.EMPTY;
+        query = query + StringConstantsUtil.SELECT +
 "	CFP_ID,\n" +
 "	CFP_C.CFP_NO,\n" +
 "	CFP_C.CFP_NAME,\n" +
@@ -2352,7 +2388,8 @@ public class QueryUtils {
     }
 
     public String psValue(String id) {
-        String query = "SELECT distinct\n" +
+        String query = StringUtils.EMPTY;
+        query = query + "SELECT distinct\n" +
 "	PS_M.PS_ID,\n" +
 "	PS_C.PS_NO,\n" +
 "	PS_C.PS_NAME,\n" +
@@ -2367,12 +2404,14 @@ public class QueryUtils {
     }
 
     public String conditionQuery(String modelId, String modelSId) {
-        String query = "select * from PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
+        String query = StringUtils.EMPTY;
+        query = query + "select * from PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
         return query;
     }
 
     public String rsValue(String id) {
-        String query = StringConstantsUtil.SELECT +
+        String query = StringUtils.EMPTY;
+         query = query + StringConstantsUtil.SELECT +
 "	RS_M.RS_ID,\n" +
 "	Rs_C.RS_NO,\n" +
 "	Rs_C.RS_NAME,\n" +
@@ -2387,13 +2426,15 @@ public class QueryUtils {
     }
 
     public String populateQuery(String value) {
-        String query = "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from COMPANY_MASTER cm join HELPER_TABLE H"
+        String query = StringUtils.EMPTY;
+         query = query + "select cm.COMPANY_NO,cm.COMPANY_NAME,H.DESCRIPTION,cm.COMPANY_START_DATE,cm.COMPANY_END_DATE from COMPANY_MASTER cm join HELPER_TABLE H"
                 + " ON H.HELPER_TABLE_SID = cm.COMPANY_STATUS and COMPANY_MASTER_SID in (" + value + ")";
         return query;
     }
 
     public String cfpContractDetailsInsert(String contractSid, String createdDate, String cfpContractSId) {
-        String query = "INSERT INTO CFP_CONTRACT (CFP_MODEL_SID,CFP_NAME,CFP_TYPE,CFP_CATEGORY,CFP_DESIGNATION,CFP_STATUS,CFP_TRADE_CLASS,CFP_START_DATE,CFP_END_DATE,"
+        String query = StringUtils.EMPTY;
+        query = query + "INSERT INTO CFP_CONTRACT (CFP_MODEL_SID,CFP_NAME,CFP_TYPE,CFP_CATEGORY,CFP_DESIGNATION,CFP_STATUS,CFP_TRADE_CLASS,CFP_START_DATE,CFP_END_DATE,"
                 + " CONTRACT_MASTER_SID,CFP_CONTRACT_ATTACHED_STATUS,CFP_CONTRACT_ATTACHED_DATE,PARENT_CFP_ID,PARENT_CFP_NAME,INBOUND_STATUS,RECORD_LOCK_STATUS,"
                 + " BATCH_ID,SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,CFP_NO,SALES_INCLUSION) SELECT CFP_MODEL_SID,CFP_NAME,CFP_TYPE,CFP_CATEGORY,CFP_DESIGNATION,CFP_STATUS,CFP_TRADE_CLASS,CFP_START_DATE,CFP_END_DATE," + contractSid + ", CFP_CONTRACT_ATTACHED_STATUS,"
                 + " CFP_CONTRACT_ATTACHED_DATE,PARENT_CFP_ID,PARENT_CFP_NAME,'A',RECORD_LOCK_STATUS,BATCH_ID,SOURCE," + 1 + "," + createdDate + ",1,1,CFP_NO,SALES_INCLUSION FROM   CFP_CONTRACT WHERE  CFP_CONTRACT_SID =" + cfpContractSId;
@@ -2401,32 +2442,38 @@ public class QueryUtils {
     }
 
     public String idenCFPQuery() {
-        String query = " select IDENT_CURRENT('CFP_CONTRACT')";
+        String query = StringUtils.EMPTY;
+        query = query + " select IDENT_CURRENT('CFP_CONTRACT')";
         return query;
     }
 
     public String cfpModelQuery(String id) {
-        String query = " select CFP_MODEL_SID from CFP_CONTRACT where CFP_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select CFP_MODEL_SID from CFP_CONTRACT where CFP_CONTRACT_SID=" + id;
         return query;
     }
 
     public String ifpModelQuery(String id) {
-        String query = " select IFP_MODEL_SID from dbo.IFP_CONTRACT where IFP_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select IFP_MODEL_SID from dbo.IFP_CONTRACT where IFP_CONTRACT_SID=" + id;
         return query;
     }
 
     public String psModelQuery(String id) {
-        String query = " select PS_MODEL_SID from dbo.PS_CONTRACT where PS_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select PS_MODEL_SID from dbo.PS_CONTRACT where PS_CONTRACT_SID=" + id;
         return query;
     }
 
     public String rsModelQuery(String id) {
-        String query = " select RS_MODEL_SID from dbo.RS_CONTRACT where RS_CONTRACT_SID=" + id;
+        String query = StringUtils.EMPTY;
+        query = query + " select RS_MODEL_SID from dbo.RS_CONTRACT where RS_CONTRACT_SID=" + id;
         return query;
     }
 
     public String ifpContractDetailsInsert(String parentCFPId, String contractSid, String createdDate, String ifpContractSId) {
-        String query = "INSERT INTO IFP_CONTRACT (IFP_MODEL_SID,IFP_NAME,IFP_TYPE,IFP_CATEGORY,IFP_DESIGNATION,IFP_STATUS,IFP_START_DATE,IFP_END_DATE,CFP_CONTRACT_SID,"
+        String query = StringUtils.EMPTY;
+         query = query + "INSERT INTO IFP_CONTRACT (IFP_MODEL_SID,IFP_NAME,IFP_TYPE,IFP_CATEGORY,IFP_DESIGNATION,IFP_STATUS,IFP_START_DATE,IFP_END_DATE,CFP_CONTRACT_SID,"
                 + " CONTRACT_MASTER_SID,IFP_CONTRACT_ATTACHED_STATUS,IFP_CONTRACT_ATTACHED_DATE,PARENT_IFP_ID,PARENT_IFP_NAME,"
                 + " INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,SOURCE,CREATED_BY,CREATED_DATE, MODIFIED_BY,MODIFIED_DATE,IFP_NO)"
                 + " SELECT IFP_MODEL_SID,IFP_NAME,IFP_TYPE,IFP_CATEGORY,IFP_DESIGNATION,IFP_STATUS,IFP_START_DATE,IFP_END_DATE," + parentCFPId + ", " + contractSid + ",IFP_CONTRACT_ATTACHED_STATUS,IFP_CONTRACT_ATTACHED_DATE,PARENT_IFP_ID,PARENT_IFP_NAME,INBOUND_STATUS,"
@@ -2436,7 +2483,8 @@ public class QueryUtils {
     }
 
     public String psContractDetailsInsert(String contractSid, String parentCFPId, String parentIFPId, String createdDate, String psContractSId) {
-        String query = "INSERT INTO PS_CONTRACT (PS_MODEL_SID,PS_NAME,PS_TYPE,PS_CATEGORY,PS_STATUS,PS_DESIGNATION,PS_START_DATE,PS_END_DATE,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,PS_CONTRACT_ATTACHED_STATUS,"
+        String query = StringUtils.EMPTY;
+         query = query + "INSERT INTO PS_CONTRACT (PS_MODEL_SID,PS_NAME,PS_TYPE,PS_CATEGORY,PS_STATUS,PS_DESIGNATION,PS_START_DATE,PS_END_DATE,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,PS_CONTRACT_ATTACHED_STATUS,"
                 + " PS_CONTRACT_ATTACHED_DATE,PARENT_PS_ID,PARENT_PS_NAME,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,PS_NO)"
                 + " SELECT PS_MODEL_SID,PS_NAME,PS_TYPE,PS_CATEGORY,PS_STATUS,PS_DESIGNATION,PS_START_DATE,PS_END_DATE," + contractSid + "," + parentCFPId + "," + parentIFPId + ",PS_CONTRACT_ATTACHED_STATUS,PS_CONTRACT_ATTACHED_DATE,PARENT_PS_ID,PARENT_PS_NAME,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,SOURCE,1," + createdDate + ",1,1,PS_NO"
                 + " FROM   PS_CONTRACT WHERE  PS_CONTRACT_SID =" + psContractSId;
@@ -2445,7 +2493,8 @@ public class QueryUtils {
 
     public String rsContractDetailsInsert(String contractSid, String parentCFPId, String parentIFPId, String parentPSId, String createdDate, String rsContractSId) {
         String bpi = "BPI";
-        String query = "INSERT INTO RS_CONTRACT (RS_MODEL_SID,RS_ID,RS_NO,RS_NAME,RS_TYPE,REBATE_PROGRAM_TYPE,RS_CATEGORY,RS_STATUS,RS_DESIGNATION,RS_START_DATE,RS_END_DATE,RS_TRADE_CLASS,PARENT_RS_ID,PARENT_RS_NAME,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,"
+        String query = StringUtils.EMPTY;
+         query = query + "INSERT INTO RS_CONTRACT (RS_MODEL_SID,RS_ID,RS_NO,RS_NAME,RS_TYPE,REBATE_PROGRAM_TYPE,RS_CATEGORY,RS_STATUS,RS_DESIGNATION,RS_START_DATE,RS_END_DATE,RS_TRADE_CLASS,PARENT_RS_ID,PARENT_RS_NAME,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,"
                 + " IFP_CONTRACT_SID,PS_CONTRACT_SID,RS_CONTRACT_ATTACHED_STATUS,RS_CONTRACT_ATTACHED_DATE,RS_TRANS_REF_ID,RS_TRANS_REF_NO,RS_TRANS_REF_NAME,REBATE_RULE_TYPE,REBATE_RULE_ASSOCIATION,REBATE_PLAN_LEVEL,"
                 + " INTEREST_BEARING_INDICATOR,INTEREST_BEARING_BASIS,REBATE_PROCESSING_TYPE,REBATE_FREQUENCY,PAYMENT_METHOD,PAYMENT_FREQUENCY,PAYMENT_TERMS,PAYMENT_GRACE_PERIOD,RS_CALENDAR,RS_VALIDATION_PROFILE,MAKE_PAYABLE_TO,"
                 + " ADDRESS_1,ADDRESS_2,CITY,STATE,ZIP_CODE,RS_ALIAS,FORMULA_METHOD_ID,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID, SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,CALCULATION_TYPE,DEDUCTION_INCLUSION,CALCULATION_LEVEL)"
@@ -2458,22 +2507,26 @@ public class QueryUtils {
     }
 
     public String idenIFPQuery() {
-        String query = " select IDENT_CURRENT('IFP_CONTRACT')";
+        String query = StringUtils.EMPTY;
+         query = query + " select IDENT_CURRENT('IFP_CONTRACT')";
         return query;
     }
 
     public String idenPSQuery() {
-        String query = " select IDENT_CURRENT('PS_CONTRACT')";
+        String query = StringUtils.EMPTY;
+         query = query + " select IDENT_CURRENT('PS_CONTRACT')";
         return query;
     }
 
     public String idenRSQuery() {
-        String query = " select IDENT_CURRENT('RS_CONTRACT')";
+        String query = StringUtils.EMPTY;
+         query = query + " select IDENT_CURRENT('RS_CONTRACT')";
         return query;
     }
 
     public String getItemInfo(String ids, String ifpIds) {
-        String query = "SELECT IFP_MODEL_SID,\n" +
+         String query = StringUtils.EMPTY;
+         query = query + "SELECT IFP_MODEL_SID,\n" +
                         "       ITEM_MASTER_SID,\n" +
                         "       ITEM_NO,\n" +
                         "       ITEM_NAME,\n" +
@@ -2509,13 +2562,15 @@ public class QueryUtils {
     }
 
     public String getCompanyInformation(String companySid) {
-        String query = "select CM.COMPANY_ID,CM.COMPANY_NO,CM.COMPANY_NAME,CM.COMPANY_START_DATE,CM.COMPANY_END_DATE,HT.DESCRIPTION AS STATUS from dbo.COMPANY_MASTER CM\n"
+         String query = StringUtils.EMPTY;
+         query = query + "select CM.COMPANY_ID,CM.COMPANY_NO,CM.COMPANY_NAME,CM.COMPANY_START_DATE,CM.COMPANY_END_DATE,HT.DESCRIPTION AS STATUS from dbo.COMPANY_MASTER CM\n"
                 + "LEFT JOIN DBO.HELPER_TABLE HT ON CM.COMPANY_STATUS=HT.HELPER_TABLE_SID WHERE CM.COMPANY_MASTER_SID='" + companySid + "'";
         return query;
     }
 
     public String getRsValueFromTempTable(String tempTableSid) {
-        String query = "select COMPONENT_NAME,COMPONENT_ID,COMPONENT_NO,START_DATE,END_DATE,COMPONENT_TYPE,COMPONENT_STATUS,PROGRAM_TYPE,"
+         String query = StringUtils.EMPTY;
+         query = query + "select COMPONENT_NAME,COMPONENT_ID,COMPONENT_NO,START_DATE,END_DATE,COMPONENT_TYPE,COMPONENT_STATUS,PROGRAM_TYPE,"
                 + "PLAN_LEVEL,PAYMENT_FREQUENCY,PAYMENT_METHOD from dbo.GCM_CONTRACT_DETAILS WHERE GCM_CONTRACT_DETAILS_SID='" + tempTableSid + "'";
         return query;
     }

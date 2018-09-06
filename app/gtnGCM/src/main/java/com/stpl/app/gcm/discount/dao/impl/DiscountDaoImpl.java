@@ -51,9 +51,7 @@ public class DiscountDaoImpl implements DiscountDAO {
     @Override
     public List<String> getMarketType() {
         String query = queryUtils.getRdMarketType();
-        List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-
-        return list;
+        return (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     @Override
@@ -155,8 +153,7 @@ public class DiscountDaoImpl implements DiscountDAO {
     @Override
     public List getSearchValues(ErrorfulFieldGroup discountChBinder, int start, int offset, String moduleName, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
         String query = queryUtils.getSearchValues(discountChBinder, moduleName, start, offset, filters, sortByColumns);
-        List resultLists = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return resultLists;
+        return (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     @Override

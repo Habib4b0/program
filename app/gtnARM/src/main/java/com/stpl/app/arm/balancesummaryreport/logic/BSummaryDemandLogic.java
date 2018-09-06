@@ -249,7 +249,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         Object[] value = selection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
         query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace(String.valueOf(ARMUtils.SINGLE_QUOTES), "''"));
         query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", selection.getFromDate());
         query = query.replace("@ENDPERIOD", selection.getToDate());

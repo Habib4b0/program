@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -339,7 +340,7 @@ public class DiscountProjectionLogic {
                             column = Constant.S_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
                         } else if (frequency.equals(MONTHLY.getConstant())) {
                             String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
-                            column = monthName.toLowerCase() + obj[NumericConstants.TWO];
+                            column = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.TWO];
                         } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
@@ -411,8 +412,12 @@ public class DiscountProjectionLogic {
     private void discountProjectionSetTableValues(String frequency, List<String> forecastConfigList,
             DiscountProjectionDTO discountDto, List doubleProjectedAndHistoryCombinedUniqueList, String column,
             String commonColumn, String actualObject, String projectedObject, String actualAmountObject,
-            String projAmountObj, String actualRpObject, String ProjRpObject, String growthObject,
+            String projAmountObj, String actualRpObject, String projRpObject, String growthObject,
             Integer apIndicatorObject) {
+        String projectedObjectNew = projectedObject;
+        String projAmountObjNew = projAmountObj;
+        String projRpObjectNew  = projRpObject;   
+                
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(commonColumn)) {
             if (apIndicatorObject == 0) {
                 if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
@@ -428,16 +433,16 @@ public class DiscountProjectionLogic {
             }
 
             if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                projectedObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projectedObject);
-                projAmountObj = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projAmountObj);
-                ProjRpObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, ProjRpObject);
-                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObject);
-                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObj);
+                projectedObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projectedObjectNew);
+                projAmountObjNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projAmountObjNew);
+                projRpObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projRpObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObjNew);
                 discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU,
-                        ProjRpObject);
+                        projRpObjectNew);
                 discountDto.addStringProperties(commonColumn + Constant.GROWTH, growthObject);
             } else {
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, StringUtils.EMPTY);
@@ -941,7 +946,7 @@ public class DiscountProjectionLogic {
                         commonColumn = Constant.S_SMALL + obj[1] + obj[0];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[0];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                     } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }

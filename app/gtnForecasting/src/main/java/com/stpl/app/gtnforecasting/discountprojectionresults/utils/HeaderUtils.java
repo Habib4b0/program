@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,10 @@ import org.apache.commons.lang.StringUtils;
  * @author pvinoth
  */
 public class HeaderUtils {
+    
+    private HeaderUtils() {
+        // HeaderUtils
+    }
     
     public static final String PROJECTIONS_RPU = "ProjectionsRPU";
     public static final String PROJECTIONS_RATE = "ProjectionsRate";
@@ -1039,7 +1044,7 @@ public class HeaderUtils {
             }
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = getMonthForInt(period - 1);
-            commonColumn = monthName.toLowerCase() + year;
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
             commonHeader = monthName + " " + year;
         }
         common.add(commonColumn);
@@ -1050,12 +1055,13 @@ public class HeaderUtils {
     public static String getMonthForInt(int num) {
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();
+        int number = num;
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE || num == -1) {
-            num = 0;
+        if (number == NumericConstants.TWELVE || number == -1) {
+            number = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (number >= 0 && number <= NumericConstants.ELEVEN) {
+            month = months[number];
         }
         return month;
     }

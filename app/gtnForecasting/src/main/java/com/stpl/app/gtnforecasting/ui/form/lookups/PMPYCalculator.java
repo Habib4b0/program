@@ -1635,10 +1635,6 @@ public class PMPYCalculator extends Window {
 
             LOGGER.error(e.getMessage());
 
-        } catch (Exception e) {
-
-            LOGGER.error(e.getMessage());
-
         }
     }
 

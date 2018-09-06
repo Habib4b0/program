@@ -697,7 +697,7 @@ public class TransferComponents extends CustomComponent implements View {
 
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                CurrentContractDTO dto = (CurrentContractDTO) list.get(i);
+                CurrentContractDTO dto = list.get(i);
                 if (Integer.parseInt(dto.getIfpContSid()) != 0) {
                     set.add(Integer.valueOf(dto.getIfpContSid()));
                 }

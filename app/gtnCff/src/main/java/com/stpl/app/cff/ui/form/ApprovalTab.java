@@ -951,7 +951,7 @@ public class ApprovalTab extends CustomComponent {
         final List<CFFResultsDTO> reultList = cffLogic.loadLatestCCP(sessionDTO);
         if (resultTable.size() > 0) {
             for (int rowCount = 0; rowCount < reultList.size(); rowCount++) {
-                cffResultsDTO = (CFFResultsDTO) reultList.get(rowCount);
+                cffResultsDTO =  reultList.get(rowCount);
                 printWriter.print(ConstantsUtil.QUOTE + cffResultsDTO.getWorkflowId() + ConstantsUtil.QUOTE + ExcelExportUtil.COMMA);
 
                 printWriter.print(ConstantsUtil.QUOTE + cffResultsDTO.getProjectionName() + ConstantsUtil.QUOTE + ExcelExportUtil.COMMA);

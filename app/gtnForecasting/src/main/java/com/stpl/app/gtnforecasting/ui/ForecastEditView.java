@@ -13,6 +13,8 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,6 +23,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 public class ForecastEditView extends VerticalLayout {
 
     protected SessionDTO session;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastEditView.class);
 
     /**
      * View name for navigation.
@@ -44,7 +47,7 @@ public class ForecastEditView extends VerticalLayout {
      * @throws Exception
      */
     public ForecastEditView(final SessionDTO session, final DataSelectionDTO dataSelectionDTO, final ForecastEditWindow editWindow,
-            final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) throws Exception {
+            final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) {
         this.session = session;
        
         this.editWindow = editWindow;
@@ -52,7 +55,11 @@ public class ForecastEditView extends VerticalLayout {
         this.screenName = screenName;
         this.dataSelectionForm = dataSelectionForm;
 
-        forecastName = new ForecastForm(new CustomFieldGroup(new BeanItem<>(dataSelectionDTO)), dataSelectionDTO, this.session, this.editWindow, this.resultTable, screenName, dataSelectionForm, null);
+        try {
+            forecastName = new ForecastForm(new CustomFieldGroup(new BeanItem<>(dataSelectionDTO)), dataSelectionDTO, this.session, this.editWindow, this.resultTable, screenName, dataSelectionForm, null);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
         addComponent(forecastName);
     }
     

@@ -4,6 +4,7 @@
  */
 package com.stpl.app.arm.security.logic;
 
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import java.util.List;
@@ -33,7 +34,7 @@ public class StplSecurityLogic {
             sql = SQlUtil.getQuery("BusinessRoleModuleFinder.functionPermission");
             if (businessRoleId.length() != 0) {
                 sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                        + businessRoleId + ")";
+                        + businessRoleId + ARMUtils.CLOSE_BRACES;
             }
             if (mod.length() != 0) {
                 sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
@@ -71,7 +72,7 @@ public class StplSecurityLogic {
 
             if (businessRoleId.length() != 0) {
                 sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                        + businessRoleId + ")";
+                        + businessRoleId + ARMUtils.CLOSE_BRACES;
             }
 
             if (mod.length() != 0) {
