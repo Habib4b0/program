@@ -491,11 +491,12 @@ public class UiUtils {
 
 	public static Date parseDate(String value, String format) throws ParseException {
 		LOGGER.debug("UiUtils - parseDate period= {}, format= {} " , value, format);
+                String valueparseDate = value;
 		Date date = null;
-		value = convertNullToEmpty(value);
+		valueparseDate = convertNullToEmpty(valueparseDate);
 		SimpleDateFormat parse = new SimpleDateFormat(format);
-		if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
-			date = parse.parse(value);
+		if (valueparseDate != null && !StringUtils.EMPTY.equals(valueparseDate) && !CommonConstants.NULL.getConstant().equals(valueparseDate)) {
+			date = parse.parse(valueparseDate);
 		}
 		return date;
 	}
