@@ -88,7 +88,7 @@ public class NmDiscountImpl {
     public List getDiscountProjection(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String hierarchyNo, boolean isProgram, List<String> discountList,
             String year, int historyNumber, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
             List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid, boolean isAltHistory, String action) {
-
+        String hierarchyNoDP  = hierarchyNo;
         String customQuery = StringUtils.EMPTY;
         String genQuery;
         boolean viewFlag = "view".equalsIgnoreCase(action);
@@ -288,15 +288,15 @@ public class NmDiscountImpl {
                 if (!isCustom) {
                     if (isRefresh) {
                         hierarchyNumbers = refreshHierarchyNumbers;
-                        hierarchyNo = StringUtils.EMPTY;
+                        hierarchyNoDP = StringUtils.EMPTY;
                     } else {
-                        List<String> hierarchyNoList = getHierarchyList(projectionId, hierarchy, hierarchyNo, relationshipBuilderSid, levelNo, userGroup, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
-                        hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
+                        List<String> hierarchyNoDPList = getHierarchyList(projectionId, hierarchy, hierarchyNoDP, relationshipBuilderSid, levelNo, userGroup, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
+                        hierarchyNumbers = intermediate + hierarchyNoDPList.get(0) + ") as  HierarchyNos ";
                     }
                 } else {
-                    List<String> hierarchyNoList = getHierarchyListForCustomView(projectionId, hierarchyIndicator, userGroup, customViewDetails, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
-                    if (hierarchyNoList != null) {
-                        hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
+                    List<String> hierarchyNoDPList = getHierarchyListForCustomView(projectionId, hierarchyIndicator, userGroup, customViewDetails, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
+                    if (hierarchyNoDPList != null) {
+                        hierarchyNumbers = intermediate + hierarchyNoDPList.get(0) + ") as  HierarchyNos ";
                     }
                 }
 
@@ -334,7 +334,7 @@ public class NmDiscountImpl {
                             + Constant.RL_D1_LEVEL
                             + Constant.FROM_RELATIONSHIP_RELATION
                             + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
-                            + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
+                            + Constant.AND_RL_D1HIERARC + hierarchyNoDP + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + connector + " HLD.HIERARCHY_NO in(" + hierarchyNumbers + ")\n";
                     if (isAltHistory) {
                         ccpDetails = ccpDetails + Constant.CCP;
@@ -548,7 +548,7 @@ public class NmDiscountImpl {
                             + Constant.FROM_RELATIONSHIP_RELATION
                             + Constant.SPACE_JOIN_SPACE + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID \n"
                             + "                              AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                            + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
+                            + Constant.AND_RL_D1HIERARC + hierarchyNoDP + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + " \n"
                             + Constant.CCP;
 
@@ -1610,6 +1610,7 @@ public class NmDiscountImpl {
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
         String frequencyDpr = frequency;
+        String discountStr = discountString;
         try {
             String idString = "";
             StringBuilder idStringBuilder = new StringBuilder();
@@ -1626,8 +1627,8 @@ public class NmDiscountImpl {
 
             String forecastStartPeriod = "";
             String forecastEndPeriod = "";
-            if (discountString.equals("0")) {
-                discountString = "'" + discountString + "'";
+            if (discountStr.equals("0")) {
+                discountStr = "'" + discountStr + "'";
             }
             if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
@@ -1702,7 +1703,7 @@ public class NmDiscountImpl {
 
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
-                    + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountStr + ")"
                     + " GROUP BY PR.YEAR,PR." + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
                     + Constant.UNION_ALL
                     + Constant.SELECT_PR_YEAR_PR + frequencyDpr + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
@@ -1744,7 +1745,7 @@ public class NmDiscountImpl {
             }
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
-                    + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountStr + ")"
                     + Constant.GROUP_BY_PR_YEAR + frequencyDpr + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
             if (view.equalsIgnoreCase("parent")) {
                 if (frequencyDpr.equals("YEAR") || frequencyDpr.equals(Constant.MONTH_WITHOUT_SPACE)) {

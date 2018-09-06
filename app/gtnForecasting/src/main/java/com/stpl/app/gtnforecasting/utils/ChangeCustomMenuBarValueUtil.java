@@ -39,12 +39,13 @@ public class ChangeCustomMenuBarValueUtil {
     }
 
     private static String getCheckedRecordResult(String defaultValue, List<Object> recordList) {
+        String checkDefaultValue =defaultValue; 
         if (recordList.size() == 1) {
-            defaultValue = (String) recordList.get(0);
+            checkDefaultValue = (String) recordList.get(0);
         } else if (recordList.size() > 1) {
-            defaultValue = "Multiple";
+            checkDefaultValue = "Multiple";
         }
-        return defaultValue;
+        return checkDefaultValue;
     }
 
     public static String getInclusionMenuItemToDisplay(CustomMenuBar.CustomMenuItem salesInclusionValues) {
@@ -65,12 +66,13 @@ public class ChangeCustomMenuBarValueUtil {
     }
 
     private static String getInclusionCheckedResult(String inclusionValue, List<Object> captionList) {
+       String value = inclusionValue;
         if (captionList.size() == 1) {
-            inclusionValue = (String) captionList.get(0);
+            value = (String) captionList.get(0);
         } else if (captionList.size() > 1) {
-            inclusionValue = "Both";
+            value = "Both";
         }
-        return inclusionValue;
+        return value;
     }
 
     public static void setMenuItemToDisplay(CustomMenuBar menuBar, String caption) {

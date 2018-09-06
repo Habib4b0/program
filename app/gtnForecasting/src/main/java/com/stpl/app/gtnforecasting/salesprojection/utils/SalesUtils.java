@@ -98,9 +98,10 @@ public class SalesUtils {
         return quarter + " " + year;
     }
        public static int[] getQuarterAndYear(String period) {
+           String periodQuaterAndyear = period;
         int[] quarterAndYear = new int[NumericConstants.TWO];
-        period = period.replace(Constant.Q, StringUtils.EMPTY);
-        String[] splitPeriod = period.split(" ");
+        periodQuaterAndyear = periodQuaterAndyear.replace(Constant.Q, StringUtils.EMPTY);
+        String[] splitPeriod = periodQuaterAndyear.split(" ");
         quarterAndYear[0] = Integer.parseInt(splitPeriod[0]);
         quarterAndYear[1] = Integer.parseInt(splitPeriod[1]);
         return quarterAndYear;

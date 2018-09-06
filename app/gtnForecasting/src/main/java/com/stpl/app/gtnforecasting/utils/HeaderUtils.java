@@ -2893,6 +2893,8 @@ public class HeaderUtils {
      */
     public static void setBaseVariables(String columns, String varriables, PVSelectionDTO projSelDTO) {
         LOGGER.debug("Entering setBaseVariables method");
+        String columnsBase = columns ;
+        String varriablesBase = varriables;
         projSelDTO.setColValue(false);
         projSelDTO.setColVariance(false);
         projSelDTO.setColPercentage(false);
@@ -2911,10 +2913,10 @@ public class HeaderUtils {
         projSelDTO.setVarRPU(false);
         projSelDTO.setVarNetProfit(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsBase = columnsBase.substring(1, columnsBase.length() - 1);
+        varriablesBase = varriablesBase.substring(1, varriablesBase.length() - 1);
+        final String[] col = columnsBase.split(",");
+        final String[] var = varriablesBase.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);
