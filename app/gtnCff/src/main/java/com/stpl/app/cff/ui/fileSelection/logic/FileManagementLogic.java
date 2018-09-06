@@ -2489,7 +2489,8 @@ public class FileManagementLogic {
 	}
 
 	private String insertQueryForInventoryDetails() {
-		String query = "INSERT INTO INVENTORY_WD_PROJ_DT (\n" + "YEAR, \n" + "MONTH, \n" + "DAY, \n" + "WEEK, \n"
+            String query = StringUtils.EMPTY;
+		 query = query + "INSERT INTO INVENTORY_WD_PROJ_DT (\n" + "YEAR, \n" + "MONTH, \n" + "DAY, \n" + "WEEK, \n"
 				+ "COMPANY_ID, \n" + "IDENTIFIER_CODE_QUALIFIER, \n" + "COMPANY_IDENTIFIER, \n" + "ITEM_ID, \n"
 				+ "ITEM_IDENTIFIER_CODE_QUALIFIER, \n" + "ITEM_IDENTIFIER,\n" + "UNITS_WITHDRAWN, \n"
 				+ "AMOUNT_WITHDRAWN, \n" + "PRICE, \n" + "CREATED_DATE, \n" + "MODIFIED_DATE, \n" + "BATCH_ID, \n"
@@ -2718,8 +2719,7 @@ public class FileManagementLogic {
 				+ fileName + "' AND  HT.[DESCRIPTION] ='" + fileType
 				+ "' AND HT.LIST_NAME = 'FILE_TYPE' ORDER BY VERSION DESC";
 
-		List result = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		return result;
+		return HelperTableLocalServiceUtil.executeSelectQuery(query);
 	}
 
 	public Object getAdjustedDemandDetailsResults(FileMananagementResultDTO detailsResultDTO, final int startIndex,

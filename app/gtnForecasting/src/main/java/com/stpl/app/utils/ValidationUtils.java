@@ -22,6 +22,8 @@ public final class ValidationUtils {
     public static final String NDC_VALIDATION_MSG = "NDC# can contain only only be Alphanumeric";
     public static final String BRAND_NAME_VALIDATION_MSG = "Brand Name can contain only Text";
     public static final String NDC_DESC_VALIDATION_MSG = "Ndc Desc can contain only Text";
-
-    
+    private ValidationUtils() {
+        //Empty
+    }
+ 
 }

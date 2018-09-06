@@ -817,8 +817,8 @@ public class SelectionDTO {
         return psDRA;
     }
 
-    public void setDRA(String DRA) {
-        this.psDRA = DRA;
+    public void setDRA(String dra) {
+        this.psDRA = dra;
     }
 
     public String getDosesperUnit() {

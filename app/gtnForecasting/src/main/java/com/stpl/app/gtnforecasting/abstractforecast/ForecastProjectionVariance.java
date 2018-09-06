@@ -52,6 +52,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -592,7 +593,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     public void generate(Button.ClickEvent event)  {
         try {
             if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
-                sessionDTO.setFunctionMode(sessionDTO.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                sessionDTO.setFunctionMode(sessionDTO.getAction().toLowerCase(Locale.ENGLISH).equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 sessionDTO.setDsFrequency(String.valueOf(frequency.getValue()));
                 sessionDTO.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                 new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);
@@ -825,15 +826,15 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             Collections.reverse(periodList);
         }
         for (int i = 0; i < periodList.size(); i++) {
-            periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+            periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
         }
         for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-            listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+            listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
         }
         if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", "");
-            fromVal = fromVal.toLowerCase();
+            fromVal = fromVal.toLowerCase(Locale.ENGLISH);
             start = periodList.indexOf(fromVal);
         }
         int end = periodList.size() - 1;
@@ -852,10 +853,10 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
              Collections.reverse(periodList);
          }
          for (int i = 0; i < periodList.size(); i++) {
-             periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+             periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
          }
          for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-             listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+             listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
          }
          if (!periodList.isEmpty()) {
              for (int i = 0; i < periodList.size(); i++) {

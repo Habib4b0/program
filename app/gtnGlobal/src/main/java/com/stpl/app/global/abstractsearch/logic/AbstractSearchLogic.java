@@ -135,7 +135,7 @@ public class AbstractSearchLogic {
                         final List<SearchResultsDTO> reultList = (List) deductionLogic.getCountAndResultsForDeductionCalendar(binder, start, end, null, null, false);
                         List printableDto= new ArrayList<>();
                         for (int rowCount = 0; rowCount < reultList.size(); rowCount++) {
-                            searchResultsDTO = (SearchResultsDTO) reultList.get(rowCount);
+                            searchResultsDTO =  reultList.get(rowCount);
                             printableDto.add(getStringRows(searchResultsDTO,EXCEL_PROPERTIES.getString("deductionExcelHeader").split(",")));
                          }                    
                         printCsv(printableDto,printWriter);                         
@@ -147,7 +147,7 @@ public class AbstractSearchLogic {
                     final List<SearchResultsDTO> resultList = new CDRLogic().loadCDRResults(binder, start, end, columns, null);
                     List printableDto= new ArrayList<>();
                     for (int rowCount = 0; rowCount < resultList.size(); rowCount++) {
-                        searchResultsDTO = (SearchResultsDTO) resultList.get(rowCount);
+                        searchResultsDTO =  resultList.get(rowCount);
                         printableDto.add(getStringRows(searchResultsDTO,EXCEL_PROPERTIES.getString("cdrExcelHeader").split(",")));
                      }                    
                     printCsv(printableDto,printWriter);                     

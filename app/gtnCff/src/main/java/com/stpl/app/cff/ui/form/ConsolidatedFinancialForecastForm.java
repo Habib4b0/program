@@ -596,6 +596,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                         sessionDto.setDeductionName(getDeductionCaptionWithSid(sessionDto));
                                         cffLogic.loadSalesTempTableInThread(sessionDto,false);
                                         cffLogic.loadDiscountTempTableInThread(sessionDto,false);
+                                        cffLogic.callCFFHierarachyDetailsProcedure(sessionDto);
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 							sessionDto, dataSelectionDto);

@@ -786,6 +786,8 @@ public class AlternateHistoryLogic {
 
     public List<AlternateHistoryDTO> getAlloc(AlternateHistoryDTO altHistoryDTO, SessionDTO session, boolean addToQueue, Set<Container.Filter> filters, int start, int offset, boolean iscount) {
         List<AlternateHistoryDTO> allocationList = new ArrayList<>();
+        int startAlloc = start;
+        int offsetAlloc =  offset;
         List<AlternateHistoryDTO> totalList = new ArrayList<>();
         AlternateHistoryDTO altDTO = new AlternateHistoryDTO();
         AlternateHistoryDTO totDTO = new AlternateHistoryDTO();
@@ -920,17 +922,17 @@ public class AlternateHistoryLogic {
                 + (addToQueue ? " ST.SELECTED_CHECKBOX " : " ST.AVAILABLE_CHECKBOX  ") + " ) A ";
         if (!iscount) {
             if (!addToQueue) {
-                if (start > 0) {
-                    start = start - 1;
+                if (startAlloc > 0) {
+                    startAlloc = startAlloc - 1;
                 }
-                offset = offset - 1;
+                offsetAlloc = offsetAlloc - 1;
             }
-            query = query + " WHERE ROW_ID >" + start + " AND ROW_ID <= " + (start + offset) + " ORDER BY A.CCP_DETAILS_SID ";
+            query = query + " WHERE ROW_ID >" + startAlloc + " AND ROW_ID <= " + (startAlloc + offsetAlloc) + " ORDER BY A.CCP_DETAILS_SID ";
         }
 
         totalLevelList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(totalQuery, session.getCurrentTableNames()));
         list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-        if ((!addToQueue) && (totalLevelList != null && !totalLevelList.isEmpty() && start == 0)) {
+        if ((!addToQueue) && (totalLevelList != null && !totalLevelList.isEmpty() && startAlloc == 0)) {
             int count = totalLevelList.size();
             for (int i = 0; i < count; i++) {
                 Object[] obj = (Object[]) totalLevelList.get(i);

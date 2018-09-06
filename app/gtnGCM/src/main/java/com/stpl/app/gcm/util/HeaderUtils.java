@@ -18,13 +18,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Lokeshwari
  */
 public class HeaderUtils {
-
+ private static final Logger LOGGER = LoggerFactory.getLogger(Converters.class);
+    
+    public HeaderUtils()
+    {
+        LOGGER.debug("HeaderUtils");
+    }
     public static CustomTableHeaderDTO getSalesTabLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constants.LEVEL_VALUE_PROPERTY, "Customer/Contract/Product", String.class);

@@ -105,6 +105,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
@@ -282,7 +283,7 @@ public class ForecastForm extends AbstractForm {
 		DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
 	}
 
-	private void init() throws Exception {
+	private void init() throws PortalException {
 
 		session.setPpaIndicator(true);
 		forecastDTOConfiguration();
@@ -1420,11 +1421,7 @@ public class ForecastForm extends AbstractForm {
 								WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
-						} catch (SystemException ex) {
-							LOGGER.error(ex.getMessage());
 						} catch (PortalException ex) {
-							LOGGER.error(ex.getMessage());
-						} catch (Exception ex) {
 							LOGGER.error(ex.getMessage());
 						}
 					}
@@ -1958,7 +1955,7 @@ public class ForecastForm extends AbstractForm {
 					}
 				}
 			}.getConfirmationMessage(CONFIRMATION.getConstant(), alertMsg.getString(
-					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase() + "_ACT_CHECK_MSG"));
+					"F_" + screenName.replaceAll("\\s", StringUtils.EMPTY).toUpperCase(Locale.ENGLISH) + "_ACT_CHECK_MSG"));
 		} else {
 			if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 				callInsertProcedureOnGenerate(session, screenName);
@@ -2302,7 +2299,7 @@ public class ForecastForm extends AbstractForm {
 	 * also in Discount projection tab load.
 	 */
 	   private void commercialConfiguration() {
-        switch (session.getAction().toLowerCase()) {
+        switch (session.getAction().toLowerCase(Locale.ENGLISH)) {
             case Constant.ADD_FULL_SMALL:
 
                 session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(
@@ -2371,7 +2368,7 @@ public class ForecastForm extends AbstractForm {
     }
         
 	private void governmentConfiguration() {
-		switch (session.getAction().toLowerCase()) {
+		switch (session.getAction().toLowerCase(Locale.ENGLISH)) {
 		case Constant.ADD_FULL_SMALL:
 
 			session.addFutureMap(Constant.FILE_INSERT, new Future[] { service.submit(

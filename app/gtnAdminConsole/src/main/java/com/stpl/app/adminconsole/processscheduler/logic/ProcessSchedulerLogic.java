@@ -93,7 +93,7 @@ public class ProcessSchedulerLogic {
 			loadDbColumnName();
 			if (!count) {
 				for (final Iterator<SortByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
-					final SortByColumn orderByColumn = (SortByColumn) iterator.next();
+					final SortByColumn orderByColumn =  iterator.next();
 
 					columnName = orderByColumn.getName();
 					dbColumnName = getDBColumnName(columnName);
@@ -482,8 +482,7 @@ public class ProcessSchedulerLogic {
 	private int getCount(List<Object[]> list) {
 		if (!list.isEmpty()) {
 			Object obj = list.get(0);
-			int count = obj == null ? 0 : (Integer) obj;
-			return count;
+			return obj == null ? 0 : (Integer) obj;
 		}
 		return 0;
 	}

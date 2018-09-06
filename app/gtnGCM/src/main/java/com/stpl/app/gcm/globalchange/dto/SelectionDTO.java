@@ -177,8 +177,8 @@ public class SelectionDTO implements Cloneable {
         return internalSessionid;
     }
 
-    public void setInternalSessionid(String InternalSessionid) {
-        this.internalSessionid = InternalSessionid;
+    public void setInternalSessionid(String internalSessionId) {
+        this.internalSessionid = internalSessionId;
     }
 
     public Integer getSessionId() {
@@ -307,8 +307,8 @@ public class SelectionDTO implements Cloneable {
         return brand;
     }
 
-    public void setBrand(Integer Brand) {
-        this.brand = Brand;
+    public void setBrand(Integer brand) {
+        this.brand = brand;
     }
 
     public Integer getStrength() {
@@ -323,8 +323,8 @@ public class SelectionDTO implements Cloneable {
         return identifier;
     }
 
-    public void setIdentifier(String Identifier) {
-        this.identifier = Identifier;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public Integer getPlaceHolder() {
@@ -651,16 +651,16 @@ public class SelectionDTO implements Cloneable {
         return frequencyAndQuater;
     }
 
-    public void setFrequencyAndQuater(Map<String, List> FrequencyAndQuater) {
-        this.frequencyAndQuater = FrequencyAndQuater;
+    public void setFrequencyAndQuater(Map<String, List> frequencyAndQuater) {
+        this.frequencyAndQuater = frequencyAndQuater;
     }
 
     public List getFrequencyAndQuaterValue(String frequency) {
         return frequencyAndQuater.get(frequency);
     }
 
-    public void addFrequencyAndQuater(String frequency, List HistoryCount) {
-        this.frequencyAndQuater.put(frequency, HistoryCount);
+    public void addFrequencyAndQuater(String frequency, List historyCount) {
+        this.frequencyAndQuater.put(frequency, historyCount);
     }
 
     public Map<String, Map<String, Integer>> getHistoryEndDetails() {

@@ -1145,19 +1145,20 @@ public class CommonUtils {
 
     public static List getHistoryDdlbList(int endValue, String period) {
         List history = new ArrayList();
-        if (period.equals(Constant.YEAR)) {
-            period = YEARS1;
-        } else if (period.equals(SEMI_ANNUAL.getConstant())) {
-            period = "Semi-Annual Periods";
+        String periodhistory = period;
+        if (periodhistory.equals(Constant.YEAR)) {
+            periodhistory = YEARS1;
+        } else if (periodhistory.equals(SEMI_ANNUAL.getConstant())) {
+            periodhistory = "Semi-Annual Periods";
         }
         for (int i = 1; i <= endValue; i++) {
             if ((i == 1)
-                    && (QUARTERS.getConstant().equals(period) || MONTHS
-                    .getConstant().equals(period) || YEARS1.equals(period) || "Semi-Annual Periods".equals(period))) {
-                String freq = period.replace(Constant.S_SMALL, StringUtils.EMPTY);
+                    && (QUARTERS.getConstant().equals(periodhistory) || MONTHS
+                    .getConstant().equals(periodhistory) || YEARS1.equals(periodhistory) || "Semi-Annual Periods".equals(periodhistory))) {
+                String freq = periodhistory.replace(Constant.S_SMALL, StringUtils.EMPTY);
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             } else {
-                history.add(i + Constant.SPACE + period);
+                history.add(i + Constant.SPACE + periodhistory);
             }
         }
         return history;
@@ -1612,13 +1613,13 @@ public class CommonUtils {
     }
 
     public static int getHelperCode(String listName, String description) throws PortalException {
-        final DataSelectionDAO DAO = new DataSelectionDAOImpl();
+        final DataSelectionDAO daoHelperCode = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = daoHelperCode.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(ZERO).toString());
         }
@@ -1629,10 +1630,11 @@ public class CommonUtils {
     public String formDate(String value, String freq, boolean isFromDate) {
         LOGGER.debug("formDate method Starts----->= {}" , freq);
         String date = StringUtils.EMPTY;
-        String year = value.substring(value.length() - NumericConstants.FOUR, value.length());
+        String valueFromDate = value;
+        String year = valueFromDate.substring(valueFromDate.length() - NumericConstants.FOUR, valueFromDate.length());
         if (freq.equals(Constant.QUARTERLY)) {
-            value = value.replace(Constant.Q, StringUtils.EMPTY);
-            String quarter = value.substring(0, 1);
+            valueFromDate = valueFromDate.replace(Constant.Q, StringUtils.EMPTY);
+            String quarter = valueFromDate.substring(0, 1);
             if (quarter.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
                     date = year + ONE_ONE;
@@ -1662,8 +1664,8 @@ public class CommonUtils {
                 }
             }
         } else if (freq.equals(Constant.SEMI_ANNUALLY)) {
-            value = value.toUpperCase().replace(Constant.S, StringUtils.EMPTY);
-            String semiAnnual = value.substring(0, 1);
+            valueFromDate = valueFromDate.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
+            String semiAnnual = valueFromDate.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
                     date = year + ONE_ONE;
@@ -1690,7 +1692,7 @@ public class CommonUtils {
 
             Map<String, Integer> monthMap = getMonthMap();
 
-            int period = monthMap.get(StringUtils.capitalize(value.substring(value.length() - NumericConstants.SEVEN, value.length() - NumericConstants.FOUR)));
+            int period = monthMap.get(StringUtils.capitalize(valueFromDate.substring(valueFromDate.length() - NumericConstants.SEVEN, valueFromDate.length() - NumericConstants.FOUR)));
 
             int startMonth = period + 1;
 
@@ -1913,7 +1915,7 @@ public class CommonUtils {
 
     private static String trimMonth(int startMonth) {
         String monthString = new DateFormatSymbols().getMonths()[startMonth - 1];
-        String month = monthString.substring(0, NumericConstants.THREE).toLowerCase();
+        String month = monthString.substring(0, NumericConstants.THREE).toLowerCase(Locale.ENGLISH);
         return month;
     }
 

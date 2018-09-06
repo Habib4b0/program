@@ -5,6 +5,8 @@
  */
 package com.stpl.sso.saml.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.opensaml.xml.security.x509.BasicX509Credential;
 
 /**
@@ -20,6 +22,8 @@ public class StplSamlPropertyBean {
     private String issuer;
     private String relayState;
     private String[] specialCharArray;
+    private String isSAMLRequestNeeded;
+    private String assertionConsumerServiceUrl;
 
     public String getCertificatePath() {
         return certificatePath;
@@ -76,5 +80,32 @@ public class StplSamlPropertyBean {
     public void setSpecialCharArray(String[] specialCharArray) {
         this.specialCharArray = specialCharArray;
     }
-    
+
+     /**
+     * @return the isSAMLRequestNeeded
+     */
+    public String getIsSAMLRequestNeeded() {
+        return isSAMLRequestNeeded;
+    }
+
+    /**
+     * @param isSAMLRequestNeeded the isSAMLRequestNeeded to set
+     */
+    public void setIsSAMLRequestNeeded(String isSAMLRequestNeeded) {
+        this.isSAMLRequestNeeded = isSAMLRequestNeeded;
+    }
+
+    /**
+     * @return the assertionConsumerServiceUrl
+     */
+    public String getAssertionConsumerServiceUrl() {
+        return assertionConsumerServiceUrl;
+    }
+
+    /**
+     * @param assertionConsumerServiceUrl the assertionConsumerServiceUrl to set
+     */
+    public void setAssertionConsumerServiceUrl(String assertionConsumerServiceUrl) {
+        this.assertionConsumerServiceUrl = assertionConsumerServiceUrl;
+    }
 }

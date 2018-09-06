@@ -25,7 +25,7 @@ public class GtnUIFrameworkForecastConfigurationSaveAction implements GtnUIFrame
 		if (!modeValue.isEmpty()) {
 			boolean visibility = GtnWsForecastConfigurationConstants.MODE_VALUE_INTERVAL.equals(modeValue);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
-					.setComponentVisible(!visibility);
+			.setComponentVisible(!visibility);
 			for (int pameterindex = 2; pameterindex < parameters.size(); pameterindex++) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(pameterindex).toString())
 						.setComponentVisible(visibility);

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+<gtnSSOConfig>
+	<ssotype>saml</ssotype> <!-- specify saml or spnego -->
+	<saml>
+		<idp.url>https://sso.connect.pingidentity.com/sso/idp/SSO.saml2?idpid=5a9276de-365e-4d72-a2be-e729d050503a</idp.url>
+		<issuer.public.cert>/opt/bpigtn/conf/okta-allergan.cert</issuer.public.cert>
+		<log.saml.response>true</log.saml.response>
+		<issuer>https://fedlogin.jnj.com</issuer>
+		<relaystate>BPIGTNRelay</relaystate>
+		<specialchar.email>_,'</specialchar.email>
+	</saml>
+
+</gtnSSOConfig>

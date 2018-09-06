@@ -61,6 +61,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -1155,21 +1156,21 @@ public class NMProjectionVarianceLogic {
 	 */
 	public List<ProjectionVarianceDTO> configureLevels(int start, int offset, PVSelectionDTO projSelDTO,
 			int maxRecord) {
-
+            int startNMPV = start;
 		CommonLogic commonLogicForConfigureLevels = new CommonLogic();
 		List<ProjectionVarianceDTO> resultList = new ArrayList<>();
-		int resultStart = start;
+		int resultStart = startNMPV;
 		if (maxRecord == -1) {
-			resultStart = start;
+			resultStart = startNMPV;
 		} else {
-			resultStart = (start <= maxRecord) ? start : start - maxRecord;
+			resultStart = (startNMPV <= maxRecord) ? startNMPV : startNMPV - maxRecord;
 		}
 		if (projSelDTO.isIsCustomHierarchy()) {
 			if (maxRecord == -1) {
-				resultStart = start;
+				resultStart = startNMPV;
 			} else {
-				start = projSelDTO.getPivotView().equals(Constant.PERIOD) ? start : NumericConstants.ZERO;
-				resultStart = (start <= maxRecord) ? start : start - maxRecord;
+				startNMPV = projSelDTO.getPivotView().equals(Constant.PERIOD) ? startNMPV : NumericConstants.ZERO;
+				resultStart = (startNMPV <= maxRecord) ? startNMPV : startNMPV - maxRecord;
 			}
 
 			String hierarchyIndicator = commonLogicForConfigureLevels.getHiearchyIndicatorFromCustomView(projSelDTO);
@@ -1502,8 +1503,8 @@ public class NMProjectionVarianceLogic {
 		from = fromBuilder.toString();
 		to = toBuilder.toString();
 		if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
-			from = from.toLowerCase();
-			to = to.toLowerCase();
+			from = from.toLowerCase(Locale.ENGLISH);
+			to = to.toLowerCase(Locale.ENGLISH);
 		}
 
 		int start = visibleDoubleCol.indexOf(from);
@@ -2698,18 +2699,11 @@ public class NMProjectionVarianceLogic {
 	}
 
 	public String isNull(String value) {
-		if (value.contains(NULL.getConstant())) {
-			value = ZERO;
+            String strValue = value;
+		if (strValue.contains(NULL.getConstant())) {
+			strValue = ZERO;
 		}
-		return value;
-	}
-
-	public boolean isNullActual(String value) {
-		boolean actualValue = false;
-		if (value.contains(NULL.getConstant())) {
-			actualValue = true;
-		}
-		return actualValue;
+		return strValue;
 	}
 
 	public Integer getComparisonCount(ComparisonLookupDTO comparisonLookup, Set<Filter> filter, String screenName) {
@@ -2840,10 +2834,11 @@ public class NMProjectionVarianceLogic {
 	 */
 	public List<List> getComparisonProjections(String projectionIds) {
 		List<Object[]> resultList = null;
-		if (StringUtils.isNotBlank(projectionIds)) {
-			projectionIds = projectionIds.substring(1, projectionIds.length() - 1);
+                String projIds  = projectionIds;
+		if (StringUtils.isNotBlank(projIds)) {
+			projIds = projIds.substring(1, projIds.length() - 1);
 			String query = "SELECT PROJECTION_MASTER_SID,PROJECTION_NAME FROM PROJECTION_MASTER WHERE PROJECTION_MASTER_SID IN ("
-					+ projectionIds + ");";
+					+ projIds + ");";
 			resultList = (List) COMMONDAO.executeSelectQuery(query, null, null);
 		}
 		List<List> list = new ArrayList<>();
@@ -2909,7 +2904,7 @@ public class NMProjectionVarianceLogic {
 					commonColumn = StringUtils.EMPTY + obj[0];
 				} else if (frequencyDivision == NumericConstants.TWELVE) {
 					String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-					commonColumn = monthName.toLowerCase() + obj[0];
+					commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
 				}
 				PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO,
 						isPer ? RATE : Constant.AMOUNT, index, obj, isPer);
@@ -3097,7 +3092,7 @@ public class NMProjectionVarianceLogic {
 					break;
 				case NumericConstants.TWELVE:
 					String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
-					commonColumn = monthName.toLowerCase() + obj[0];
+					commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
 					break;
 				default:
 					break;

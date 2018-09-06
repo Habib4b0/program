@@ -68,6 +68,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -900,7 +901,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         LOGGER.info("session.getDsFrequency() {} frequencyDdlb.getValue()------ {} " , session.getDsFrequency() , frequencyDdlb.getValue());
         LOGGER.info("session.getDeductionLevel()-{} deductionlevelDdlb.getValue()----- {} " , session.getDataSelectionDeductionLevel() ,deductionlevelDdlb.getValue());
         if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
-            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+            session.setFunctionMode(session.getAction().toLowerCase(Locale.ENGLISH).equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
             session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
             session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
             logic.nmDiscountViewsPopulationProcedure(session);
