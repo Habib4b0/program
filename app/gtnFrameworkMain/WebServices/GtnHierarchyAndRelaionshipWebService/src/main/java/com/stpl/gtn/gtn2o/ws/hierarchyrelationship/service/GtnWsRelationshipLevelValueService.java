@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -42,6 +43,9 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 
 	@Autowired
 	private GtnFrameworkQueryGeneratorService queryGeneratorService;
+	
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnFrameworkSqlQueryEngine;
 
 	private static final String RELATIONSHIP_BUILD_VERSION = "RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO";
 	private static final String RELATIONSHIP_BUILD_HIERARCHY_NO = "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO";
@@ -263,18 +267,10 @@ public class GtnWsRelationshipLevelValueService extends GtnCommonWebServiceImplC
 		return queryBean.generateQuery();
 	}
 	
-	public List<Object[]> getResultForSelectedCustomer(StringBuilder inputQuery, List<Object> inputValuesList)
+	public List<String> getResultForSelectedCustomer(StringBuilder inputQuery, List<Object> inputValuesList)
 			throws GtnFrameworkGeneralException {
 		String query = getQuery(inputQuery.toString(), inputValuesList);
-		GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
-		queryExecutorBean.setSqlQuery(query);
-		queryExecutorBean.setQueryType("SELECT");
-		GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
-		gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
-		GtnCommonWebServiceImplClass webServiceImpl = new GtnWsRelationshipLevelValueService();
-		GtnQueryEngineWebServiceResponse response = webServiceImpl.callQueryEngineWithoutSecurityToken("/executeQuery",
-				gtnQueryEngineWebServiceRequest);
-		return response.getQueryResponseBean().getResultList();
+		return (List<String>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
 	}
 	
 	public String getQuery(String query, List input) {

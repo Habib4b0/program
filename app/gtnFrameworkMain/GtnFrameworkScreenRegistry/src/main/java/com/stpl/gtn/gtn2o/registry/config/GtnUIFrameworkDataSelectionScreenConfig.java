@@ -446,7 +446,8 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
+		gtnUIFrameWorkGeneratePopupAction
+				.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
 		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
 	}
 
@@ -635,7 +636,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(deleteBtn);
 	}
 
-	// Load Forecast eligible date
 	private GtnUIFrameWorkActionConfig loadForecastEligibleDate() {
 		GtnUIFrameWorkActionConfig loadDateAction = new GtnUIFrameWorkActionConfig();
 		loadDateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
