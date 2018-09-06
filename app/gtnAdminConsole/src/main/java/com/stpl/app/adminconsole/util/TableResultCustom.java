@@ -21,7 +21,7 @@ public class TableResultCustom {
 
     public Object[] getObjResult() {
 
-        return objResult;
+        return objResult.clone();
 
     }
 
@@ -30,7 +30,7 @@ public class TableResultCustom {
     }
 
     public String[] getObjResultHeader() {
-        return objResultHeader;
+        return objResultHeader.clone();
 
     }
 
