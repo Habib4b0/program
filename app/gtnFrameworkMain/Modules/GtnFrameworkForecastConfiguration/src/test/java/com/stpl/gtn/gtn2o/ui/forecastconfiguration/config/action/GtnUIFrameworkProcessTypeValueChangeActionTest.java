@@ -66,9 +66,9 @@ public class GtnUIFrameworkProcessTypeValueChangeActionTest {
 		//case 2
 		object.loadFieldValue("");
 		object.setEnable(false);
-		object.setVisible(false);
+		object.setVisible(true);
 		instance.doAction(componentId, gtnUIFrameWorkActionConfig);
-		
+
 		PowerMockito.verifyStatic(times(4));
 	}
 
