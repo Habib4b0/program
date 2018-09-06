@@ -4939,6 +4939,7 @@ public class NMProjectionResultsLogic {
      * @return List<ProjectionResultsDTO>
      */
     public List<ProjectionResultsDTO> loadDiscounts(List<Object> list, String discountName, ProjectionSelectionDTO projSelDTO, int pos) {
+        String discountNameNew = discountName;
         List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         List<ProjectionResultsDTO> projDtoList = new ArrayList<>();
@@ -4953,12 +4954,12 @@ public class NMProjectionResultsLogic {
                 projSelDTO.setDiscountIndex(i);
                 Object[] discountRow = (Object[]) list.get(i);
 
-                if (StringUtils.isBlank(discountName) || !discountName.equals(String.valueOf(discountRow[NumericConstants.NINE]))) {
+                if (StringUtils.isBlank(discountNameNew) || !discountNameNew.equals(String.valueOf(discountRow[NumericConstants.NINE]))) {
                     projDTO = new ProjectionResultsDTO();
                     projDtoList.add(projDTO);
-                    discountName = String.valueOf(discountRow[NumericConstants.NINE]);
+                    discountNameNew = String.valueOf(discountRow[NumericConstants.NINE]);
                     projDTO.setGroup(String.valueOf(discountRow[NumericConstants.TWO]));
-                    projDTO.setRelationshipLevelName(discountName);
+                    projDTO.setRelationshipLevelName(discountNameNew);
                 }
 
                 String column;
@@ -5073,6 +5074,8 @@ public class NMProjectionResultsLogic {
     }
 
     private List<ProjectionResultsDTO> getLevelListforNonmandated(int start, int offset, int started, ProjectionSelectionDTO projSelDTO,int neededRecord) {
+        int neededRecordNew = neededRecord;
+        int startedNew = started;
          CommonLogic commonLogic = new CommonLogic();        
         List<ProjectionResultsDTO> resultList = new ArrayList<>();
 
@@ -5081,25 +5084,25 @@ public class NMProjectionResultsLogic {
                 String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                 Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);                
-               for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
+               for (int i = 0; i < hierarchyNoList.size() && neededRecordNew > 0; neededRecordNew--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
-                    if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
+                    if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (startedNew + i))) {
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(),i));
                      
                     }
-                started++;
+                startedNew++;
                    }
                 
             } else {
                 Map<String, List> relationshipLevelDetailsMap =  projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
-            for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
+            for (int i = 0; i < hierarchyNoList.size() && neededRecordNew > 0; neededRecordNew--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
-                    if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
+                    if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (startedNew + i))) {
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
                 }
-                    started++;
+                    startedNew++;
                    }
             }
 

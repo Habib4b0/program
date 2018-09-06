@@ -127,10 +127,11 @@ public class PVCommonLogic {
     }
 
     public static String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueString = value;
+        if (valueString.contains(NULL.getConstant())) {
+            valueString = ZERO;
         }
-        return value;
+        return valueString;
     }
 
     public static Boolean nullCheck(String value) {

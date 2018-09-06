@@ -414,6 +414,10 @@ public class DiscountProjectionLogic {
             String commonColumn, String actualObject, String projectedObject, String actualAmountObject,
             String projAmountObj, String actualRpObject, String projRpObject, String growthObject,
             Integer apIndicatorObject) {
+        String projectedObjectNew = projectedObject;
+        String projAmountObjNew = projAmountObj;
+        String projRpObjectNew  = projRpObject;   
+                
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(commonColumn)) {
             if (apIndicatorObject == 0) {
                 if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
@@ -429,16 +433,16 @@ public class DiscountProjectionLogic {
             }
 
             if (!Constant.NULL.equals(discountDto.getDeductionInclusion())) {
-                projectedObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projectedObject);
-                projAmountObj = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projAmountObj);
-                projRpObject = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
-                        column, projRpObject);
-                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObject);
-                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObj);
+                projectedObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projectedObjectNew);
+                projAmountObjNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projAmountObjNew);
+                projRpObjectNew = CommonUtils.forecastConfigDataHide(frequency, forecastConfigList,
+                        column, projRpObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_RATE, projectedObjectNew);
+                discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, projAmountObjNew);
                 discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU,
-                        projRpObject);
+                        projRpObjectNew);
                 discountDto.addStringProperties(commonColumn + Constant.GROWTH, growthObject);
             } else {
                 discountDto.addStringProperties(commonColumn + PROJECTED_RATE, StringUtils.EMPTY);
