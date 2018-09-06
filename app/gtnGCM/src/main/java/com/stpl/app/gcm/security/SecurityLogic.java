@@ -8,6 +8,8 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.ui.Component;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,7 +17,12 @@ import java.util.Map;
  */
 public class SecurityLogic {
 
+      private static final Logger LOGGER = LoggerFactory.getLogger(SecurityLogic.class);
     
+    private SecurityLogic()
+    {
+        LOGGER.debug("SecurityLogic");
+    }
     
     public static Boolean isPermitted(final Map<String, AppPermission> functionHM, final String propertyName) {
         if (functionHM.get(propertyName) != null && ((AppPermission) functionHM.get(propertyName)).isFunctionFlag()) {

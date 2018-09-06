@@ -23,7 +23,11 @@ public class DroolsProperties {
      *
      * @return
      */
-    public static Properties getPropertiesData() {
+    private DroolsProperties()
+    {
+    logger.debug("DroolsProperties");
+            }
+     public static Properties getPropertiesData() {
         String path = StringUtils.EMPTY;
         try {
             path = System.getProperty("jboss.server.config.dir");

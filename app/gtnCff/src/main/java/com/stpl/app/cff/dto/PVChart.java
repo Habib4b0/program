@@ -5,7 +5,6 @@
 package com.stpl.app.cff.dto;
 
 import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.ui.Window;
 import java.util.Collections;
 import java.util.List;
@@ -61,7 +60,7 @@ public class PVChart extends Window {
      * @param frequency the frequency
      * @param history the history
      */
-    public PVChart(final List<ProjectionVarianceDTO> dto, final String frequency, final String history, CustomTableHeaderDTO rightDto, PVSelectionDTO projSelDTO) {
+    public PVChart(final List<ProjectionVarianceDTO> dto, final String frequency, final String history) {
         LOGGER.debug("Entering PPAChart method ");
         this.frequency = frequency;
         this.history = history;

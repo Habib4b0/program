@@ -6,6 +6,8 @@
 package com.stpl.app.gcm.util;
 
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,6 +15,16 @@ import java.util.HashMap;
  */
 public class FieldNameUtil {
     private static final HashMap<String, String> companyColumnName=new HashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(FieldNameUtil.class);
+
+    /**
+     * method will return properties class
+     *
+     * @return
+     */
+    private FieldNameUtil() {
+        logger.debug("FieldNameUtil");
+    }
     
     public static String getDBColumnName(String visibleColumnName) {
          return companyColumnName.get(visibleColumnName);  

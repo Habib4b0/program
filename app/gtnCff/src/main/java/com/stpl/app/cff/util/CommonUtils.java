@@ -391,7 +391,7 @@ public class CommonUtils {
 
     public CFFResultsDTO getCustomisedLatestApprovedCff(List<Object[]> list) {
         CFFResultsDTO cffResultsDTO;
-        Object[] obj = (Object[]) list.get(0);
+        Object[] obj =  list.get(0);
 
         cffResultsDTO = new CFFResultsDTO();
 
@@ -1542,7 +1542,7 @@ public class CommonUtils {
 		this.cffQueryUtils = cffQueryUtils;
 	}
     
-    public static List<String> getFormattedDisplayName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
+    public static List<String> getFormattedDisplayName(String hierarchyNumber, Map<String, List> relationshipDetails, Object[] displayFormatIndexValue) {
         List<String> formattedNameList = new ArrayList();
         try {
             List<Object> relationshipListValues = relationshipDetails.get(hierarchyNumber);
