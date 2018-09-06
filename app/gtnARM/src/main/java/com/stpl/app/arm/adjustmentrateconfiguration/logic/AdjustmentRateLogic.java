@@ -405,7 +405,7 @@ public class AdjustmentRateLogic {
                         filterQuery.append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
                         filterQuery.append(" like '");
                         filterQuery.append(filterString);
-                        filterQuery.append("'");
+                        filterQuery.append(ARMUtils.SINGLE_QUOTES);
 
                     } else if (filter instanceof Between) {
                         Between betweenFilter = (Between) filter;

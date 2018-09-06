@@ -76,7 +76,7 @@ public class AdjustmentSummaryWindow extends Window {
             AdjustmentSummary adjustmentsummary;
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + ARMUtils.COMMA_CHAR + "Landing screen");
             getButtonSecurity(functionHM);
             if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
                 nextBtn.setVisible(false);

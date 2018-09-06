@@ -1,5 +1,6 @@
 package com.stpl.app.arm.bpm.persistance;
 
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import java.util.List;
@@ -11,7 +12,7 @@ public class WorkflowPersistance {
     public static boolean insertWFInstanceInfo(int projectionId, long processInstanceId) {
         try {
 
-            String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(" + projectionId + "," + processInstanceId + ")";
+            String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(" + projectionId + ARMUtils.COMMA_CHAR + processInstanceId + ARMUtils.CLOSE_BRACES;
             int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
             return count > 0;
 

@@ -994,6 +994,12 @@ public class ARMUtils {
     public static final String YES = "YES";
     public static final String REPORT_INDICATOR_YES = "Yes";
     public static final String REPORT_INDICATOR_NO = "No";
+    
+    public static final char CLOSE_BRACES = ')';
+    public static final char UNDERSCORE = '_';
+    public static final char COMMA_CHAR = ',';
+    public static final char SINGLE_QUOTES = '\'';
+    public static final char EMPTY_CHARACTER = '\0';
 
     public static enum frequencyVarables {
 

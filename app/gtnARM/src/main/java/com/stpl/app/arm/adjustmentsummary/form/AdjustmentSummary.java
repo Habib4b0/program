@@ -198,7 +198,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                 finalDeductionList.add(arr[0]);
             }
         }
-        deductions = "'" + StringUtils.join(finalDeductionList.toArray(), "','") + "'";
+        deductions = ARMUtils.SINGLE_QUOTES + StringUtils.join(finalDeductionList.toArray(), "','") + ARMUtils.SINGLE_QUOTES;
         summarySelection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || VariableConstants.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {
@@ -461,7 +461,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     private void configureSecurity() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + ARMUtils.COMMA_CHAR + "Landing screen");
         if (functionHM.get(CommonConstant.RESET) != null && !(functionHM.get(CommonConstant.RESET)).isFunctionFlag()) {
             reset.setVisible(false);
         } else {

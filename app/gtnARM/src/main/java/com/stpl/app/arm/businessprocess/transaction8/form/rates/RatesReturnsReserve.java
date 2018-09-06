@@ -143,9 +143,9 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
                     }
                     listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
                     if (i != listSize.size() - 1) {
-                        deductionValues.append("'").append(value).append("',");
+                        deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append("',");
                     } else {
-                        deductionValues.append("'").append(value).append("'");
+                        deductionValues.append(ARMUtils.SINGLE_QUOTES).append(value).append(ARMUtils.SINGLE_QUOTES);
                     }
                 }
             }
@@ -169,8 +169,8 @@ public class RatesReturnsReserve extends AbstractPipelineRates {
     public void loadDetails() {
         try {
             StringBuilder variablesBuilder = new StringBuilder();
-            variablesBuilder.append(VariableConstants.RATE_DEDUCTION_LEVEL_FIELD).append(ARMUtils.COMMA)
-                    .append(VariableConstants.RATE_DEDUCTION_VALUE_FIELD).append(ARMUtils.COMMA)
+            variablesBuilder.append(VariableConstants.RATE_DEDUCTION_LEVEL_FIELD).append(ARMUtils.COMMA_CHAR)
+                    .append(VariableConstants.RATE_DEDUCTION_VALUE_FIELD).append(ARMUtils.COMMA_CHAR)
                     .append(VariableConstants.RATE_BASIS_FIELD);
             List<Object[]> list = CommonLogic.loadReturnReserve(selection.getDataSelectionDTO().getProjectionId(), variablesBuilder.toString());
             for (Object[] obj : list) {

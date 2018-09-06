@@ -45,8 +45,7 @@ public class CFFQueryUtils {
         String query = SQlUtil.getQuery("getLatestCCPProjection");
         query = query.replace("?", String.valueOf(projectionId));
         try {
-            List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            return list;
+            return HelperTableLocalServiceUtil.executeSelectQuery(query);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
