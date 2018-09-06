@@ -333,7 +333,6 @@ public class FileManagementLookup extends Window {
 	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
-	private ExtFilterTable excelDetailsTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelDetailsBean;
 	private FileManagementLogic vFileMgmtLogic = new FileManagementLogic();
 	private String helperFileType;
