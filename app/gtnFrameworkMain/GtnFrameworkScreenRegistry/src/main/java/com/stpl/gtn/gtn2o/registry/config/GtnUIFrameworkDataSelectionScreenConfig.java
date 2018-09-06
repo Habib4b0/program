@@ -445,11 +445,6 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(generateBtn);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter("forecastGenerateLookupView");
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Forecast Generate Lookup View");
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkNewToOldArchitectureGenerateAction.class.getName());
 		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
