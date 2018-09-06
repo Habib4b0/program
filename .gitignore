@@ -130,3 +130,5 @@ GtnVaadinWidgetSet/
 .scannerwork/
 app/Resources/stpl-theme/.sass-cache/
 *.jar
+
+/.vscode/**
