@@ -117,7 +117,8 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo, String productHierarchyNo, String customerHierarchyNo) {
-
+        String customerHierarchyNoStr = customerHierarchyNo; 
+        String productHierarchyNoStr =  productHierarchyNo;
         int count = getSprLogic().getConfiguredSalesProjectionResultsCountMandated(parentId, projSelDTO, true);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
@@ -132,7 +133,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         }
 
         if (expandLevelNo >= levelNo) {
-            List<Leveldto> levelList = SPRCommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), 0, projSelDTO.getLevelCount(), projSelDTO.getHierarchyIndicator(), levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), false, StringUtils.EMPTY);
+            List<Leveldto> levelList = SPRCommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), 0, projSelDTO.getLevelCount(), projSelDTO.getHierarchyIndicator(), levelNo, hierarchyNo, productHierarchyNoStr, customerHierarchyNoStr, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), false, StringUtils.EMPTY);
             int size = levelList.size();
             int index = count - size + 1;
             for (int j = 0; j < size; j++) {
@@ -149,17 +150,17 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
                 dto.setHierarchyNo(levelDto.getHierarchyNo());
                 if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
                     dto.setCustomerHierarchyNo(dto.getHierarchyNo());
-                    customerHierarchyNo = dto.getCustomerHierarchyNo();
-                    dto.setProductHierarchyNo(productHierarchyNo);
+                    customerHierarchyNoStr = dto.getCustomerHierarchyNo();
+                    dto.setProductHierarchyNo(productHierarchyNoStr);
                 } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
                     dto.setProductHierarchyNo(dto.getHierarchyNo());
-                    productHierarchyNo = dto.getProductHierarchyNo();
-                    dto.setCustomerHierarchyNo(customerHierarchyNo);
+                    productHierarchyNoStr = dto.getProductHierarchyNo();
+                    dto.setCustomerHierarchyNo(customerHierarchyNoStr);
                 }
                 dto.setOnExpandTotalRow(1);
                 dto.setParent(1);
                 addExpandedTreeList(customTreeLevel, dto);
-                recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo, productHierarchyNo, customerHierarchyNo);
+                recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo, productHierarchyNoStr, customerHierarchyNoStr);
             }
         }
     }

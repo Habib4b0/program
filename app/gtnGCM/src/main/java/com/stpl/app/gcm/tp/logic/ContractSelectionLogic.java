@@ -55,7 +55,7 @@ public class ContractSelectionLogic {
             ComponentInformationDTO dto;
                 for (Object[] componentInformationList1 : componentInformationList) {
                     try {
-                        final Object[] obj = (Object[]) componentInformationList1;
+                        final Object[] obj =  componentInformationList1;
                         dto = new ComponentInformationDTO();
 
                         if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
@@ -212,7 +212,7 @@ public class ContractSelectionLogic {
         List<String> resultList = new ArrayList<>();
 
         String query = " SELECT COMPANY_MASTER_SID FROM GCM_COMPANY_DETAILS where CHECK_RECORD = '1' AND SESSION_ID = '" + searchSessionId + "'";
-        List list = (List) daoImpl.executeSelect(query);
+        List list = daoImpl.executeSelect(query);
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 resultList.add(String.valueOf(list.get(i)));
@@ -225,13 +225,13 @@ public class ContractSelectionLogic {
     public static boolean isStartDateGreaterThanEndDate(String userId, String sessionId, String date) {
         String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID ='" + userId + "' and TEMP.SESSION_ID  = '" + sessionId + "' and TEMP.CHECK_RECORD = '1' and TEMP.START_DATE > '" + date + "'";
 
-        int count = CommonUtils.convertToInteger(String.valueOf(((List) daoImpl.executeSelect(query)).get(0)));
+        int count = CommonUtils.convertToInteger(String.valueOf(( daoImpl.executeSelect(query)).get(0)));
         return count > 0;
     }
 
     public static boolean isTCStartDateGreaterThanEndDate(String userId, String sessionId, String date, String startDate) {
         String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID='" + userId + "' and TEMP.SESSION_ID='" + sessionId + "' and TEMP.CHECK_RECORD = '1' and '" + startDate + "' > '" + date + "'";
-        int count = CommonUtils.convertToInteger(String.valueOf(((List) daoImpl.executeSelect(query)).get(0)));
+        int count = CommonUtils.convertToInteger(String.valueOf(( daoImpl.executeSelect(query)).get(0)));
         return count > 0;
     }
 
@@ -256,7 +256,7 @@ public class ContractSelectionLogic {
                 + "JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID \n"
                 + "WHERE CCP.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ") and CCP.CONTRACT_MASTER_SID = '" + contractMasterSid + "'";
 
-        int count = CommonUtils.convertToInteger(String.valueOf(((List) daoImpl.executeSelect(query)).get(0)));
+        int count = CommonUtils.convertToInteger(String.valueOf((daoImpl.executeSelect(query)).get(0)));
         return count > 0;
     }
 
@@ -269,7 +269,7 @@ public class ContractSelectionLogic {
         }
         String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID='" + userId + "' and TEMP.SESSION_ID='" + sessionId + "' and TEMP.OPERATION = '" + udc + "'";
 
-        int count = CommonUtils.convertToInteger(String.valueOf(((List) daoImpl.executeSelect(query)).get(0)));
+        int count = CommonUtils.convertToInteger(String.valueOf(( daoImpl.executeSelect(query)).get(0)));
         return count > 0;
     }
 

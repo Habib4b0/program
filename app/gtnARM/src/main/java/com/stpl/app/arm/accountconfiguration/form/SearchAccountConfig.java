@@ -553,7 +553,7 @@ public class SearchAccountConfig extends CustomComponent {
                 binderDto.setFilters(accountConfigSearchTableLogic.getFilters());
                 recordCount = logic.getAccountConfigCount(binderDto);
             }
-            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase(Locale.ENGLISH));
+            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", String.valueOf(ARMUtils.UNDERSCORE)).toUpperCase(Locale.ENGLISH));
         } catch (Exception ex) {
             GTNLOGGER.error("Error in createWorkSheet :", ex);
         }
@@ -578,7 +578,7 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForButtons() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + "Landing screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + "Landing screen");
         if (functionHM.get("addBtn") != null && !(functionHM.get("addBtn")).isFunctionFlag()) {
             addBtn.setVisible(false);
         } else {
@@ -610,7 +610,7 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForFields() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN);
         configureFieldPermission(functionHMforFields);
         if (functionHMforFields.get("companyDdlb") != null && !(functionHMforFields.get("companyDdlb")).isFunctionFlag()) {
             companyDdlb.setVisible(false);
@@ -657,7 +657,7 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForTables() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN, false);
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + ARMUtils.COMMA_CHAR + CommonConstant.LANDING_SCREEN, false);
         List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
         Object[] obj = ARMUtils.getAccountConfigSearchColumns();
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, obj, fieldIfpHM, CommonSecurityLogic.ADD);

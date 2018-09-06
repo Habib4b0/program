@@ -199,7 +199,7 @@ public abstract class AbstractBSummaryReportSummary extends VerticalLayout imple
                 finalDeductionList.add(arr[0]);
             }
         }
-        deductions = "'" + StringUtils.join(finalDeductionList.toArray(), "','") + "'";
+        deductions = ARMUtils.SINGLE_QUOTES + StringUtils.join(finalDeductionList.toArray(), "','") + ARMUtils.SINGLE_QUOTES;
         selection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || (CommonConstant.SELECT_ONE).equals(String.valueOf(fromDate.getValue()))) {

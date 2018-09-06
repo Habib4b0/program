@@ -121,6 +121,8 @@ public class FileNameUtil {
                         map.put(Constants.DTX_ACCRUAL_ACTUAL_INTERFACE, Constants.DTX_ACCRUAL_ACTUAL_INTERFACE);
                         map.put(Constants.DTX_ITEM_MASTER_INTERFACE, Constants.DTX_ITEM_MASTER_INTERFACE);
                         map.put(Constants.DTX_ITEM_IDENTIFIER_INTERFACE, Constants.DTX_ITEM_IDENTIFIER_INTERFACE);
+                        map.put(Constants.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE, Constants.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE);
+                        map.put(Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE, Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE);
 
 		}
 		return map;
@@ -282,6 +284,10 @@ public class FileNameUtil {
             		Constants.DTX_ITEM_MASTER_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_ITEM_IDENTIFIER_INTERFACE,
                     Constants.DTX_ITEM_IDENTIFIER_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,
+                    Constants.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE,
+                    Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE);
 		}
 		return interfaceNameMap;
 	}

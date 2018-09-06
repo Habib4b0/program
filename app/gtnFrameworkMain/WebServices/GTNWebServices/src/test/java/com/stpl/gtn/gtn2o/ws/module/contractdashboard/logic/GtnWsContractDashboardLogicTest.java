@@ -9,9 +9,9 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
-import static com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant.CONTRACT_MASTER;
 import com.stpl.gtn.gtn2o.ws.entity.contract.RsContract;
 import com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsModel;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.module.contractdashboard.controller.GtnWsContractDashboardController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -20,21 +20,19 @@ import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -250,6 +248,69 @@ public class GtnWsContractDashboardLogicTest {
         gtnWsContractDashboardLogic.getSearchInput(gtnWsSearchRequest,comp,leftSearch);
         assertFalse(!gtnWebServiceSearchCriteriaList.isEmpty());
     }
+    
+    @Test
+    public void testGetSearchInputFalse() throws Exception {
+        System.out.println("getSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("921");
+        generalRequest.setExcel(false);
+
+        String comp="1";
+        boolean leftSearch=true;        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"no", "name", "type", "category", "status", "startDate", "endDate"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria();
+        criteria.setFieldId("hiddenID");
+        criteria.setFilterValue1("*");
+        criteria.setExpression("LIKE");
+        criteria.setFilter(false);
+        gtnWebServiceSearchCriteriaList.add(criteria);
+        gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnUIFrameworkWebserviceResponse gtnResponse=new GtnUIFrameworkWebserviceResponse();
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        gtnWsContractDashboardLogic.getSearchInput(gtnWsSearchRequest,comp,leftSearch);
+        assertFalse(gtnWebServiceSearchCriteriaList.isEmpty());
+    }
+    
+    @Test
+    public void testGetSearchInputFalse2() throws Exception {
+        System.out.println("getSearchInput");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("921");
+        generalRequest.setExcel(false);
+
+        String comp="1";
+        boolean leftSearch=true;        
+        GtnWsSearchRequest gtnWsSearchRequest = new GtnWsSearchRequest();
+        gtnWsSearchRequest.setSearchColumnNameList(Arrays.asList(new Object[]{"no", "name", "type", "category", "status", "startDate", "endDate"}));
+        gtnWsSearchRequest.setCount(true);
+        List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList = new ArrayList<>();
+        //gtnWsSearchRequest.setGtnWebServiceSearchCriteriaList(gtnWebServiceSearchCriteriaList);
+
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnUIFrameworkWebserviceResponse gtnResponse=new GtnUIFrameworkWebserviceResponse();
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnWsRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
+        try{
+        gtnWsContractDashboardLogic.getSearchInput(gtnWsSearchRequest,comp,leftSearch);
+        Assert.fail();
+        } catch (GtnFrameworkGeneralException e) {
+			
+	}
+        //assertFalse(gtnWebServiceSearchCriteriaList.isEmpty());
+    }
 
     /**
      * Test of addInputWhereConditions method, of class GtnWsContractDashboardLogic.
@@ -310,6 +371,28 @@ public class GtnWsContractDashboardLogicTest {
         }
     }
 
+    @Test
+    public void testGetSortedInputsFalse() {
+        try{
+        System.out.println("getSortedInputs");
+        List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new ArrayList<>();
+        GtnWebServiceOrderByCriteria e = new GtnWebServiceOrderByCriteria();
+        gtnWebServiceOrderByCriteriaList.add(e);
+        String orderByCriteria = "itemId";
+        e.setOrderByCriteria(orderByCriteria);
+        e.setPropertyId(orderByCriteria);
+        String comp = "1";
+        boolean details = true;
+        boolean leftSearch = true;
+        Method method = gtnWsContractDashboardLogic.getClass().getDeclaredMethod("getSortedInputs", List.class,String.class,boolean.class,boolean.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLogic,gtnWebServiceOrderByCriteriaList, comp, details, leftSearch);
+        assertFalse(comp.isEmpty());
+         } catch (Exception ex) {
+            Logger.getLogger(GtnWsContractDashboardItemLogicTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * Test of filterAndSortingCriteriaMap method, of class GtnWsContractDashboardLogic.
      */
@@ -403,6 +486,47 @@ public class GtnWsContractDashboardLogicTest {
         gtnWsContractDashboardLogic.checkAddToTree(gtnWsContractDashboardRequest,cdResponse);
         assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
     }
+    
+    @Test
+    public void testCheckAddToTreefalse() throws Exception {
+        System.out.println("checkAddToTree");
+
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        
+        GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1391);
+			tableBean.addProperties(null);
+			tableBean.addProperties(1L);
+			tableBean.addProperties("2");
+			tableBean.addProperties("CFP");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			treeBean.addProperties("1038-AZ");
+			treeBean.addProperties("1038-AZ");
+			treeBean.addProperties("Arizana Aids Drug Assistance Program");
+			treeBean.addProperties("Mc Commercial");
+			treeBean.addProperties(1425);
+			treeBean.addProperties(null);
+			treeBean.addProperties(1L);
+			treeBean.addProperties("1");
+			treeBean.addProperties("Contract");
+			treeBean.addProperties(1425);
+			treeBean.addProperties(222);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        gtnWsContractDashboardLogic.checkAddToTree(gtnWsContractDashboardRequest,cdResponse);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
 
     /**
      * Test of addToTreeValidation method, of class GtnWsContractDashboardLogic.
@@ -414,7 +538,8 @@ public class GtnWsContractDashboardLogicTest {
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
         GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
         GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
-        List<Object> list=new ArrayList<>();
+        List<Object> list=Arrays.asList("1","2","3");
+        
         
         GtnWsRecordBean tableBean = new GtnWsRecordBean();
 			tableBean.addProperties("14JUN2018");
@@ -561,6 +686,79 @@ public class GtnWsContractDashboardLogicTest {
         gtnWsContractDashboardLogic.getTreeValidationValues(cdResponse);
         assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
     }
+    
+    @Test
+    public void testGetTreeValidationValuesFalse() throws Exception {
+        System.out.println("getTreeValidationValues");
+
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        List<Object> list=new ArrayList<>();
+        
+        GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1422);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(2L);
+			tableBean.addProperties("3");
+			tableBean.addProperties("IFP");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1391);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("2");
+			tableBean.addProperties("CFP");
+			tableBean.addProperties(1425);
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(1422);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(2L);
+			tableBean2.addProperties("3");
+			tableBean2.addProperties("IFP");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(1391);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties("2");
+			treeBean2.addProperties("CFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        cdResponse.setValues(list);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsContractDashboardLogic.getTreeValidationValues(cdResponse);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
 
     /**
      * Test of getPsAssociatedIfpId method, of class GtnWsContractDashboardLogic.
@@ -572,6 +770,14 @@ public class GtnWsContractDashboardLogicTest {
         int result = gtnWsContractDashboardLogic.getPsAssociatedIfpId(psModelId);
         assertFalse(result==0);
     }
+    
+    @Test
+    public void testGetPsAssociatedIfpIdFalse() throws Exception {
+        System.out.println("getPsAssociatedIfpId");
+        int psModelId = 171;
+        int result = gtnWsContractDashboardLogic.getPsAssociatedIfpId(psModelId);
+        assertFalse(result!=0);
+    }
 
     /**
      * Test of getRsAssociatedIfpId method, of class GtnWsContractDashboardLogic.
@@ -582,6 +788,14 @@ public class GtnWsContractDashboardLogicTest {
         int rsModelId = 2609;
         int result = gtnWsContractDashboardLogic.getRsAssociatedIfpId(rsModelId);
         assertFalse(result==0);
+    }
+    
+    @Test
+    public void testGetRsAssociatedIfpIdFalse() throws Exception {
+        System.out.println("getRsAssociatedIfpId");
+        int rsModelId = 260;
+        int result = gtnWsContractDashboardLogic.getRsAssociatedIfpId(rsModelId);
+        assertFalse(result!=0);
     }
 
     /**
@@ -658,6 +872,156 @@ public class GtnWsContractDashboardLogicTest {
         GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
         int systemId= 1422;
         int ifpSystemId=1422;             
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        cdResponse.setValues(list);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsContractDashboardLogic.doValidationWithRsOrPs(gtnWsContractDashboardRequest,cdResponse,systemId,ifpSystemId);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
+    
+    @Test
+    public void testDoValidationWithRsOrPsFalse() {
+        System.out.println("doValidationWithRsOrPs");
+
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        List<Object> list=new ArrayList<>();
+        
+        GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1713);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("4");
+			tableBean.addProperties("PS");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1422);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("3");
+			tableBean.addProperties("IFP");
+			tableBean.addProperties(1425);
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(1713);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(null);
+			tableBean2.addProperties("4");
+			tableBean2.addProperties("PS");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(1422);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties("3");
+			treeBean2.addProperties("IFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        int systemId= 0;
+        int ifpSystemId=1422;             
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        cdResponse.setValues(list);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsContractDashboardLogic.doValidationWithRsOrPs(gtnWsContractDashboardRequest,cdResponse,systemId,ifpSystemId);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
+    
+    @Test
+    public void testDoValidationWithRsOrPsFalse2() {
+        System.out.println("doValidationWithRsOrPs");
+
+        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        List<Object> list=new ArrayList<>();
+        
+        GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1713);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("4");
+			tableBean.addProperties("PS");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(1422);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("3");
+			tableBean.addProperties("IFP");
+			tableBean.addProperties(1425);
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(1713);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(null);
+			tableBean2.addProperties("4");
+			tableBean2.addProperties("PS");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(1422);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties("3");
+			treeBean2.addProperties("IFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        int systemId= 1422;
+        int ifpSystemId=142;             
         gtnWsContractDashboardRequest.setTableBean(tableBean);
         gtnWsContractDashboardRequest.setTreeBean(treeBean);
         cdResponse.setTableBean(tableBean2);
@@ -749,6 +1113,318 @@ public class GtnWsContractDashboardLogicTest {
         gtnWsContractDashboardLogic.addToTree(gtnWsContractDashboardRequest,cdResponse);
         assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
     }
+    
+    @Test
+    public void testAddToTreeFalse() throws Exception {
+        System.out.println("addToTree");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("11");
+        generalRequest.setExcel(false);
+
+       GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+       GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        
+       GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(4);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("1");
+			tableBean.addProperties("PS");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("");
+			treeBean.addProperties(3);
+			treeBean.addProperties(15L);
+			treeBean.addProperties(null);
+			treeBean.addProperties("4");
+			treeBean.addProperties("PS");
+			treeBean.addProperties(1425);
+			treeBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(4);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(null);
+			tableBean2.addProperties("1");
+			tableBean2.addProperties("PS");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(3);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties(3);
+			treeBean2.addProperties("IFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);  
+        gtnWsContractDashboardLogic.addToTree(gtnWsContractDashboardRequest,cdResponse);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
+    
+    @Test
+    public void testAddToTreeFalse2() throws Exception {
+        System.out.println("addToTree");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("11");
+        generalRequest.setExcel(false);
+
+       GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+       GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        
+       GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(4);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("4");
+			tableBean.addProperties("PS");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("");
+			treeBean.addProperties(3);
+			treeBean.addProperties(15L);
+			treeBean.addProperties(null);
+			treeBean.addProperties("3");
+			treeBean.addProperties("PS");
+			treeBean.addProperties(1425);
+			treeBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(4);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(null);
+			tableBean2.addProperties("4");
+			tableBean2.addProperties("PS");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(3);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties(3);
+			treeBean2.addProperties("IFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);  
+        gtnWsContractDashboardLogic.addToTree(gtnWsContractDashboardRequest,cdResponse);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
+    
+    @Test
+    public void testAddToTreeFalse3() throws Exception {
+        System.out.println("addToTree");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("11");
+        generalRequest.setExcel(false);
+
+       GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+       GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        
+       GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(5);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("5");
+			tableBean.addProperties("PS");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("");
+			treeBean.addProperties(3);
+			treeBean.addProperties(15L);
+			treeBean.addProperties(null);
+			treeBean.addProperties("3");
+			treeBean.addProperties("PS");
+			treeBean.addProperties(1425);
+			treeBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(5);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(null);
+			tableBean2.addProperties("5");
+			tableBean2.addProperties("PS");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(3);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties(3);
+			treeBean2.addProperties("IFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);  
+        gtnWsContractDashboardLogic.addToTree(gtnWsContractDashboardRequest,cdResponse);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
+    
+    @Test
+    public void testAddToTreeFalse4() throws Exception {
+        System.out.println("addToTree");
+
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setComboBoxType("COMPANY_TYPE");
+        generalRequest.setUserId("20156");
+        generalRequest.setSessionId("11");
+        generalRequest.setExcel(false);
+
+       GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
+       GtnUIFrameworkWebserviceResponse frameworkWebserviceResponse=new GtnUIFrameworkWebserviceResponse();
+        
+       GtnWsRecordBean tableBean = new GtnWsRecordBean();
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("14JUN2018");
+			tableBean.addProperties("");
+			tableBean.addProperties(5);
+			tableBean.addProperties(15L);
+			tableBean.addProperties(null);
+			tableBean.addProperties("5");
+			tableBean.addProperties("PS");
+			tableBean.addProperties("0");
+			tableBean.addProperties(0);
+                        
+        GtnWsRecordBean treeBean = new GtnWsRecordBean();
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("14JUN2018");
+			treeBean.addProperties("");
+			treeBean.addProperties(3);
+			treeBean.addProperties(15L);
+			treeBean.addProperties(null);
+			treeBean.addProperties("4");
+			treeBean.addProperties("PS");
+			treeBean.addProperties(1425);
+			treeBean.addProperties(0);
+                        
+        GtnWsRecordBean tableBean2 = new GtnWsRecordBean();
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("14JUN2018");
+			tableBean2.addProperties("");
+			tableBean2.addProperties(5);
+			tableBean2.addProperties(15L);
+			tableBean2.addProperties(null);
+			tableBean2.addProperties("5");
+			tableBean2.addProperties("PS");
+			tableBean2.addProperties("0");
+			tableBean2.addProperties(0);
+                        
+        GtnWsRecordBean treeBean2 = new GtnWsRecordBean();
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("14JUN2018");
+			treeBean2.addProperties("");
+			treeBean2.addProperties(3);
+			treeBean2.addProperties(15L);
+			treeBean2.addProperties(null);
+			treeBean2.addProperties(3);
+			treeBean2.addProperties("IFP");
+			treeBean2.addProperties(1425);
+			treeBean2.addProperties(0);
+                        
+        GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
+        GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
+        gtnWsContractDashboardRequest.setTableBean(tableBean);
+        gtnWsContractDashboardRequest.setTreeBean(treeBean);
+        cdResponse.setTableBean(tableBean2);
+        cdResponse.setTreeBean(treeBean2);
+        gtnWsRequest.setGtnWsContractDashboardRequest(gtnWsContractDashboardRequest);
+        frameworkWebserviceResponse.setGtnWsContractDashboardResponse(cdResponse);
+        gtnWsRequest.setGtnWsGeneralRequest(generalRequest);  
+        gtnWsContractDashboardLogic.addToTree(gtnWsContractDashboardRequest,cdResponse);
+        assertFalse(gtnWsContractDashboardRequest.getCfpContractId()!=0);
+    }
 
     /**
      * Test of isDuplicate method, of class GtnWsContractDashboardLogic.
@@ -788,6 +1464,7 @@ public class GtnWsContractDashboardLogicTest {
 			treeBean2.addProperties(0);
                         
         List<GtnWsRecordBean> recordBeanList=new ArrayList<>();
+        recordBeanList.add(treeBean2);
         GtnWsContractDashboardRequest gtnWsContractDashboardRequest=new GtnWsContractDashboardRequest();
         GtnWsContractDashboardResponse cdResponse=new GtnWsContractDashboardResponse();
         gtnWsContractDashboardRequest.setTableBean(null);
@@ -1027,6 +1704,18 @@ public class GtnWsContractDashboardLogicTest {
         assertFalse(propertyId.isEmpty());
         session.close();
     }
+    
+     @Test
+    public void testAddContractSearchCriteriaFalse() {
+        System.out.println("addContractSearchCriteria");
+        Session session = getController().getSessionFactory().openSession();
+        Criteria cr = session.createCriteria(RsContract.class);
+        Object object = null;
+        String propertyId = "cfpContractId";
+        gtnWsContractDashboardLogic.addContractSearchCriteria(cr, object, propertyId);
+        assertFalse(propertyId.isEmpty());
+        session.close();
+    }
 
     /**
      * Test of setRSContractValues method, of class GtnWsContractDashboardLogic.
@@ -1059,6 +1748,25 @@ public class GtnWsContractDashboardLogicTest {
           } catch (Exception ex) {
             Logger.getLogger(GtnWsContractDashboardLogicTest.class.getName()).log(Level.SEVERE, null, ex);
         }       
+    }
+    
+    @Test
+    public void testSaveRsUdcFalse() throws Exception {
+        try{
+        System.out.println("saveRsUdc");
+        Session session = getController().getSessionFactory().openSession();
+        RsContract rsContract = new RsContract();
+        //rsContract.setRsContractSid(365);
+        int rsId = 36;       
+        Method method = gtnWsContractDashboardLogic.getClass().getDeclaredMethod("saveRsUdc",Session.class,RsContract.class,int.class);
+        method.setAccessible(true);
+        method.invoke(gtnWsContractDashboardLogic,session, rsContract, rsId);
+        session.close();
+        assertFalse(rsId==0);
+           } catch (Exception ex) {
+            assertEquals(InvocationTargetException.class, ex.getClass());
+        }
+    
     }
 
     /**

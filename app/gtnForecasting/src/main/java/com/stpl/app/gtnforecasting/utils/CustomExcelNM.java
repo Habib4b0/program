@@ -46,6 +46,7 @@ public class CustomExcelNM extends ExcelExport {
     protected final CellStyle style5 = this.workbook.createCellStyle();
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected final CellStyle style7 = this.workbook.createCellStyle();
+    protected final CellStyle style4Custom = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     protected final TableHolder tableHolder;
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
@@ -86,6 +87,7 @@ public class CustomExcelNM extends ExcelExport {
        style4.setDataFormat(hssfDataFormat.getFormat("0.000%"));
        style5.setDataFormat(hssfDataFormat.getFormat("$#,##0.00"));
        style6.setDataFormat(hssfDataFormat.getFormat("$#,##0.00"));
+       style4Custom.setDataFormat(hssfDataFormat.getFormat("$0.000"));
 
         for (int col = 0; col < getPropIds().size(); col++) {
 
@@ -113,7 +115,10 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
                 Double cellValue = d;
-                cellValue = cellValue / NumericConstants.HUNDRED;
+                boolean isGrowth = propId.toString().endsWith(GROWTH) || propId.toString().endsWith(GROWTH_SUM);
+                if (!isCustom  && ((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId) || isGrowth) {
+                    cellValue = cellValue / NumericConstants.HUNDRED;
+                }
                 sheetCell.setCellValue(cellValue);
                 formatForCurrency(propId, sheetCell, rootItemId);
 
@@ -212,7 +217,7 @@ public class CustomExcelNM extends ExcelExport {
         if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
             sheetCell.setCellStyle(style1);
         } else if (formatter.get(CURRENCY_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(CURRENCY_TWO_DECIMAL))) {
-            sheetCell.setCellStyle(style4);
+            sheetCell.setCellStyle(style4Custom);
         } else if (formatter.get(AMOUNT_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(AMOUNT_TWO_DECIMAL))) {
             sheetCell.setCellStyle(style6);
         } else if (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) {

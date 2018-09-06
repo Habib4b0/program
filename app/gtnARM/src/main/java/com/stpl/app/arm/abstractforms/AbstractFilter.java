@@ -234,7 +234,7 @@ public class AbstractFilter {
 
                 }
                 if (sql.length() != 0) {
-                    sql.append(")");
+                    sql.append(ARMUtils.CLOSE_BRACES);
                 }
             }
         } catch (Exception ex) {

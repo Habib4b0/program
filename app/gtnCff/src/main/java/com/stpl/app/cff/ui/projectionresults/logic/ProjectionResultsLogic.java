@@ -2503,8 +2503,8 @@ public class ProjectionResultsLogic {
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
-
-        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
+        String customQuery = StringUtils.EMPTY;
+        customQuery = customQuery + "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
                 + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS\n"
                 + "          , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
                 + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
@@ -2638,8 +2638,8 @@ public class ProjectionResultsLogic {
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
-
-        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
+        String customQuery = StringUtils.EMPTY;
+        customQuery = customQuery + "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
                 + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS\n"
                 + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
                 + "             , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
@@ -2730,8 +2730,8 @@ public class ProjectionResultsLogic {
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
-
-        String customQuery = "SELECT    ISNULL(HISTORY.YEARS, FUTURE.YEARS)                                   AS YEARS,\n"
+        String customQuery = StringUtils.EMPTY;
+         customQuery = customQuery + "SELECT    ISNULL(HISTORY.YEARS, FUTURE.YEARS)                                   AS YEARS,\n"
                 + "                     ISNULL(HISTORY.PERIODS, FUTURE.PERIODS)                               AS PERIODS,\n"
                 + "                     ISNULL(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES)         AS SALES_ACTUAL_SALES,\n"
                 + "                     ISNULL(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES,\n"
@@ -3140,8 +3140,8 @@ public class ProjectionResultsLogic {
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
             selectPeriod = ", I.MONTH AS PERIODS";
         }
-
-        String query = "IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
+        String query = StringUtils.EMPTY;
+         query = query + "IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
                 + "       DROP TABLE #TEMP_CCP;\n"
                 + "\n"
                 + "CREATE TABLE #TEMP_CCP (\n"
@@ -4165,8 +4165,7 @@ public class ProjectionResultsLogic {
             input.add(inQuery);
         }
         List<Object[]> list = CommonQueryUtils.getAppData(input, "getCffDiscountExpandCount", "getCffDiscountExpandCount_PROGRAM");
-        int count = CFFLogic.getCount(list);
-        return count;
+        return CFFLogic.getCount(list);
     }
 
     public static List<String> getRSName(int cffSid) {

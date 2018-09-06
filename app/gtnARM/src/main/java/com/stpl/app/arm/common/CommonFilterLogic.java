@@ -255,7 +255,7 @@ public class CommonFilterLogic {
                 }
             }
             if (sql.length() != 0) {
-                sql.append(")");
+                sql.append(ARMUtils.CLOSE_BRACES);
             }
         }
         return sql;
@@ -349,7 +349,7 @@ public class CommonFilterLogic {
                 }
             }
             if (sql.length() != 0) {
-                sql.append(")");
+                sql.append(ARMUtils.CLOSE_BRACES);
             }
         }
         count = 0;

@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import javax.naming.NamingException;
@@ -382,7 +383,7 @@ public class PmpyLogic {
                 key = StringUtils.EMPTY + obj[NumericConstants.FIVE];
             } else if (frequency.contains(Constants.FrequencyConstants.MONTHLY.getConstant())) {
                 String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE])));
-                key = String.valueOf(monthName + String.valueOf(obj[NumericConstants.SIX])).toUpperCase();
+                key = String.valueOf(monthName + String.valueOf(obj[NumericConstants.SIX])).toUpperCase(Locale.ENGLISH);
             }
 
             if (StringUtils.isNotEmpty(key) && StringUtils.isNotBlank(key)) {

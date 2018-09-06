@@ -144,7 +144,7 @@ public class AdjustmentDetailReforecast extends AbstractAdjustmentDetails {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error("Error in loadDetails :" , ex);
+                    LOGGER.error("Error in loadDetails :", ex);
                 }
 
             }

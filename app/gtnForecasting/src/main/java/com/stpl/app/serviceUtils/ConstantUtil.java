@@ -1942,6 +1942,8 @@ public class ConstantUtil {
      */
     public static final String BATCH_ID = "itemBatchId";
 
-
+       private ConstantUtil() {
+//Empty
+    }
 
 }
