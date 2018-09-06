@@ -16,8 +16,12 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 
 public class AppDataUtils {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
-	private static final CommonDao ITEMDAO = CommonImpl.getInstance();
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
+    private static final CommonDao ITEMDAO = CommonImpl.getInstance();
+
+    private AppDataUtils() {
+        // AppDataUtils
+    }
 
 	public static List getAppData(List input, String queryName, String queryName2) {
 		LOGGER.debug("Inside item get data");

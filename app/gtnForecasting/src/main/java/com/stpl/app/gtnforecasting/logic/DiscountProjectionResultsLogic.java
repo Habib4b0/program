@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -4984,7 +4985,7 @@ public class DiscountProjectionResultsLogic {
                     year = selectedYear;
                     month = selectedMonth;
                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
                         Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
@@ -5034,7 +5035,7 @@ public class DiscountProjectionResultsLogic {
                     projectedSales = 0;
                     projectedAmount = 0;
                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     year = (Integer) obj[0];
                     month = (Integer) obj[1];
@@ -5087,7 +5088,7 @@ public class DiscountProjectionResultsLogic {
                 projectedSales = 0;
                 projectedAmount = 0;
                 String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
-                monthName = monthName.toLowerCase();
+                monthName = monthName.toLowerCase(Locale.ENGLISH);
                 commonColumn = monthName + obj[0];
                 year = (Integer) obj[0];
                 month = (Integer) obj[1];
@@ -5588,7 +5589,7 @@ public class DiscountProjectionResultsLogic {
         int currentYear = (Integer) object[0];
         int currentMonth = (Integer) object[NumericConstants.SEVEN];
         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[NumericConstants.SEVEN]) - 1);
-        monthName = monthName.toLowerCase();
+        monthName = monthName.toLowerCase(Locale.ENGLISH);
         commonColumn = monthName + object[0];
         dto.setIsParent(ZERO_SYMBOL);
         dto.setGroup(currentDiscount);
@@ -5698,7 +5699,7 @@ public class DiscountProjectionResultsLogic {
                         projectedSales = 0;
                         projectedAmount = 0;
                         monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
-                        monthName = monthName.toLowerCase();
+                        monthName = monthName.toLowerCase(Locale.ENGLISH);
                         commonColumn = monthName + obj[0];
                         currentYear = selectedYear;
                         currentMonth = selectedMonth;
@@ -5763,7 +5764,7 @@ public class DiscountProjectionResultsLogic {
                     dto.setGroup(currentDiscount);
                     discountList.remove(currentDiscount);
                     monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
-                    monthName = monthName.toLowerCase();
+                    monthName = monthName.toLowerCase(Locale.ENGLISH);
                     commonColumn = monthName + obj[0];
                     currentYear = selectedYear;
                     currentMonth = selectedMonth;

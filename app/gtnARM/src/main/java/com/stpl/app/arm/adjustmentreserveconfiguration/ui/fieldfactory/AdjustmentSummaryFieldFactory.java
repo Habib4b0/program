@@ -94,9 +94,9 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
                         final CustomMenuBar custom = (CustomMenuBar) itemIdDto.getFieldFactoryComponent(ARMUtils.getAdjustmentSummaryAccountMap().get(propertyId));
                         CommonUtils.loadCustomMenubarAccount(custom, custom.getItems().get(0), adjustmentType, selection);
                         if (selection.isIsViewMode()) {
-                            custom.setEnabled(true);
-                        } else {
                             custom.setEnabled(false);
+                        } else {
+                            custom.setEnabled(true);
                         }
                     }
                 } catch (Exception ex) {
@@ -117,7 +117,7 @@ public class AdjustmentSummaryFieldFactory implements TableFieldFactory {
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
                 if (customMenuItem1.isChecked()) {
-                    value.append(customMenuItem1.getMenuItem().getCaption()).append(",");
+                    value.append(customMenuItem1.getMenuItem().getCaption()).append(ARMUtils.COMMA_CHAR);
                 }
             }
             String values;

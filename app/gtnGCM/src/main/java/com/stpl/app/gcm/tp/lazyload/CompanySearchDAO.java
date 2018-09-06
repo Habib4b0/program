@@ -38,15 +38,13 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     @Override
     public int count(BeanSearchCriteria bsc) {
-        int count = 0;
-        return count;
+        return 0;
     }
 
     @Override
     public List<TradingPartnerDTO> find(BeanSearchCriteria sc, int startIndex, int offset, List<OrderByColumn> orderByColumns) {
-        List<TradingPartnerDTO> resultList = new ArrayList<>();
         
-        return resultList;
+        return new ArrayList<>();
     }
 
 	public int getParentCompanySid() {

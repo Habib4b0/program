@@ -210,13 +210,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
                 }
 
             }
-        } catch (CommitException e) {
-
-            LOGGER.error(e.getMessage());
-        } catch (SystemException e) {
-
-            LOGGER.error(e.getMessage());
-        } catch (Exception e) {
+        } catch (SystemException | CommitException e) {
 
             LOGGER.error(e.getMessage());
         }

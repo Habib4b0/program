@@ -70,8 +70,7 @@ public class ItemLogic {
         List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
@@ -312,8 +311,7 @@ public class ItemLogic {
     private int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }
