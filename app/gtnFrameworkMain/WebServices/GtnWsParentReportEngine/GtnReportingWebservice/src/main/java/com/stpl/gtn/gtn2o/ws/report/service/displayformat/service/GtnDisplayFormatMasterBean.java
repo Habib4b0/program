@@ -26,6 +26,10 @@ public class GtnDisplayFormatMasterBean {
 		displayFormatList.add(format);
 	}
 
+	public GtnDisplayFormatMasterBean() {
+		super();
+	}
+
 	public void init() {
 		String query = " SELECT TABLE_NAME, COLUMN_NAME, SELECTED_COLUMN_NAME FROM dbo.HIERARCHY_DISPLAY_FORMAT ";
 		List<Object[]> results;
