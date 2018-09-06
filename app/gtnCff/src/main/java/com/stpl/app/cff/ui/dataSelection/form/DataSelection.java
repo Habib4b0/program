@@ -3703,11 +3703,7 @@ public class DataSelection extends AbstractDataSelection {
 		productlevelDdlb.select(StringConstantsUtil.LEVEL_SPACE + innerLevel + " - " + selectedLevelName);
 	}
 
-	private List<Leveldto> getInitialHierarchy(final int projectionId, String indicator, final String level,
-			final Map<String, String> descriptionMap) {
-		DataSelectionLogic logic = new DataSelectionLogic();
-		return logic.getRelationShipValues(projectionId, indicator, level, descriptionMap);
-	}
+	
 
 	public final void configureOnTabLoad(int projectionId, SessionDTO session) {
 		try {
