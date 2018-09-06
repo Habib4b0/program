@@ -3,11 +3,24 @@ package com.stpl.gtn.gtn2o.ui.forecastconfiguration.constants;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+
 /*
  * @author praveen.kumar
  */
 public class GtnFrameworkForecastConfigurationContantsTest {
 
+	@Test
+	public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+	  Constructor<GtnFrameworkForecastConfigurationContants> constructor = GtnFrameworkForecastConfigurationContants.class.getDeclaredConstructor();
+	  assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+	  constructor.setAccessible(true);
+	  constructor.newInstance();
+	}
+	
+	
 	@Test
 	public void testGetForecastConfigurationTableColumnType_1()
 		throws Exception {
@@ -15,7 +28,7 @@ public class GtnFrameworkForecastConfigurationContantsTest {
 		@SuppressWarnings("unchecked")
 		Class<Object>[] result = (Class<Object>[]) GtnFrameworkForecastConfigurationContants.getForecastConfigurationTableColumnType();
 
-		// add additional test code here
+	
 		assertNotNull(result);
 		assertEquals(14, result.length);
 		assertNotNull(result[0]);
@@ -369,8 +382,6 @@ public class GtnFrameworkForecastConfigurationContantsTest {
 		throws Exception {
 
 		Object[] result = GtnFrameworkForecastConfigurationContants.getForecastConfigurationTableColumns();
-
-		// add additional test code here
 		assertNotNull(result);
 		assertEquals(14, result.length);
 		assertNotNull(result[0]);
@@ -412,20 +423,6 @@ public class GtnFrameworkForecastConfigurationContantsTest {
 		assertEquals("To Period", result[11]);
 		assertEquals("Created By", result[12]);
 		assertEquals("Active Flag", result[13]);
-	}
-
-
-	@Before
-	public void setUp()
-		throws Exception {
-		// add additional set up code here
-	}
-
-
-	@After
-	public void tearDown()
-		throws Exception {
-		// Add additional tear down code here
 	}
 
 
