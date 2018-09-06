@@ -21,16 +21,16 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author anandh.karuppusamy
  */
-public class Companies extends GtnCommonWebServiceImplClass implements SearchInterface {
-    public Companies()
-    {
+public class CommonForSelect extends GtnCommonWebServiceImplClass implements SearchInterface {
+
+    public CommonForSelect() {
         super();
         initializeLogger();
     }
 
     @PostConstruct
     public void initializeLogger() {
-        super.logInformation(Companies.class);
+        super.logInformation(CommonForSelect.class);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class Companies extends GtnCommonWebServiceImplClass implements SearchInt
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
         try
         {
-        String query=gtnGeneralSearchBean.getQuery();
-        logger.debug("Companies query" + query);
+        String query = gtnGeneralSearchBean.getQuery();
+        logger.debug("Businnes unit query:" + query);
         GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
         queryExecutorBean.setSqlQuery(query);
         queryExecutorBean.setQueryType("SELECT");
@@ -55,12 +55,12 @@ public class Companies extends GtnCommonWebServiceImplClass implements SearchInt
         GtnQueryEngineWebServiceResponse response1 = restTemplate1.postForObject(
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
-                List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-                response.setGtnGeneralSearchWsList(resultList);
+        List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+        response.setGtnGeneralSearchWsList(resultList);
         }
         catch(Exception e)
         {
-            logger.error("Exception in loading companies"+e);
+            logger.error("Exception in loading business units"+e);
         }
         return response;
     }
