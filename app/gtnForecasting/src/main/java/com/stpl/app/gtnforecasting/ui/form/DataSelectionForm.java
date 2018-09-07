@@ -1219,13 +1219,21 @@ public class DataSelectionForm extends ForecastDataSelection {
 										String.valueOf(level.getValue()).split("-")[0]),
 								forecastEligibleDate.getValue(), false);
 					} else {
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(
-								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
-								customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
-								customerHierarchyVersionNo, customerRelationVersionNo,
-								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]),
-								forecastEligibleDate.getValue(), false);
+                                            newChildLevels = logic.getChildLevelsWithHierarchyNoNewArch(
+									UiUtils.parseStringToInteger(
+											String.valueOf(customerLevel.getValue())),
+									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
+									customerHierarchyVersionNo, customerRelationVersionNo,
+                                                                        Integer.parseInt(String.valueOf(level.getValue())),
+									forecastEligibleDate.getValue(), false,queryParametersForSelectedTable,availableCustomer);
+                                            
+//						newChildLevels = logic.getChildLevelsWithHierarchyNo(
+//								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
+//								customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
+//								customerHierarchyVersionNo, customerRelationVersionNo,
+//								UiUtils.getDataSelectionFormattedLevelNo(
+//										String.valueOf(level.getValue()).split("-")[0]),
+//								forecastEligibleDate.getValue(), false);
 					}
 					if (newParentLevels != null) {
 						for (Leveldto newLevel : newParentLevels) {
@@ -4247,7 +4255,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
                                 
-                                queryParametersForSelectedTable.add((String)resultedLevelsGenericList.get(1));
+                                queryParametersForSelectedTable.add((String)resultedLevelsGenericList.get(resultedLevelsGenericList.size()-1));
                                 queryParametersForSelectedTable.add(customerDescMap);
                                 GtnReportHierarchyLevelBean selectedHierarchyLevelBean = getSelectedHierarchyLevelBean(selectedHierarchyLevelDto);
                                 queryParametersForSelectedTable.add(selectedHierarchyLevelBean);
