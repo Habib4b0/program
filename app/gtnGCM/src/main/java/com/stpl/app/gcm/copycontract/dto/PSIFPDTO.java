@@ -783,15 +783,15 @@ public class PSIFPDTO implements Serializable {
         return pStatus;
     }
 
-    public void setPStatus(Integer PStatus) {
-        this.pStatus = PStatus;
+    public void setPStatus(Integer pStatus) {
+        this.pStatus = pStatus;
     }
 
     public Integer getPtype() {
         return ptype;
     }
 
-    public void setPtype(Integer Ptype) {
-        this.ptype = Ptype;
+    public void setPtype(Integer pType) {
+        this.ptype = pType;
     }
 }

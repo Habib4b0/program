@@ -18,7 +18,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnForecastLevelLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnRelationshipVersionLoadAction.class);
+	private GtnWSLogger gtnForecastLevelLogger = GtnWSLogger.getGTNLogger(GtnRelationshipVersionLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -30,28 +30,28 @@ public class GtnForecastLevelLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			List<Object> actionParamsListForecastLevelLoad = gtnUIFrameWorkActionConfig.getActionParameterList();
-			String relationshipValueForecastLevelLoad = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParamsListForecastLevelLoad.get(1).toString(), componentId)
+			List<Object> inputActionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+			String dataSelectionRelationshipValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(inputActionParamsList.get(1).toString(), componentId)
 					.getStringCaptionFromV8ComboBox();
-			Integer relationshipBuilderSidForecastLevelLoad = Integer.valueOf(
-					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsListForecastLevelLoad.get(1).toString(), componentId)
+			Integer dataSelectionrelationshipBuilderSid = Integer.valueOf(
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(inputActionParamsList.get(1).toString(), componentId)
 							.getCaptionFromV8ComboBox());
-			if (relationshipValueForecastLevelLoad != "") {
-				GtnUIFrameworkComboBoxConfig relationComboboxConfigForecastLevelLoad = GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(actionParamsListForecastLevelLoad.get(2).toString(), componentId).getComponentConfig()
+			if (dataSelectionRelationshipValue != "") {
+				GtnUIFrameworkComboBoxConfig relationshipComboboxConfig = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(inputActionParamsList.get(2).toString(), componentId).getComponentConfig()
 						.getGtnComboboxConfig();
-				relationComboboxConfigForecastLevelLoad.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				relationshipComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				relationComboboxConfigForecastLevelLoad.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_FORCAST_LEVEL);
+				relationshipComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_FORCAST_LEVEL);
 
-				GtnUIFrameworkComboBoxComponent comboboxForecastLevelLoad = new GtnUIFrameworkComboBoxComponent();
-				comboboxForecastLevelLoad.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+				combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 						(String) gtnUIFrameWorkActionConfig.getActionParameterList().get(2), componentId,
-						Arrays.asList(relationshipBuilderSidForecastLevelLoad));
+						Arrays.asList(dataSelectionrelationshipBuilderSid));
 			}
 		} catch (Exception e) {
-			logger.error("Error in", e);
+			gtnForecastLevelLogger.error("Error in", e);
 		}
 	}
 

@@ -50,6 +50,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -580,7 +581,7 @@ public class NMSalesProjectionResultsLogic {
 			projSelDTO.setIsProjectionTotal(false);
 			projSelDTO.setLevelNo(projSelDTO.getFilterLevelNo());
 			projSelDTO.setTreeLevelNo(projSelDTO.getFilterLevelNo());
-			resultList = configureLevels(start, offset, start, projSelDTO);
+			resultList = configureLevels(start, offset, projSelDTO);
 		}
 		return resultList;
 	}
@@ -610,8 +611,7 @@ public class NMSalesProjectionResultsLogic {
 		return resultList;
 	}
 
-	public List<SalesProjectionResultsDTO> configureLevels(int start, int offset, int started,
-			ProjectionSelectionDTO projSelDTO) {
+	public List<SalesProjectionResultsDTO> configureLevels(int start, int offset,ProjectionSelectionDTO projSelDTO) {
 		int neededRecord = offset;
 		CommonLogic comm = new CommonLogic();
 		List<SalesProjectionResultsDTO> resultList = new ArrayList<>();
@@ -675,7 +675,6 @@ public class NMSalesProjectionResultsLogic {
 				dto.setOnExpandTotalRow(1);
 				dto.setParent(1);
 				resultList.add(dto);
-				started++;
 			}
 		}
 		return resultList;
@@ -996,7 +995,7 @@ public class NMSalesProjectionResultsLogic {
 				}
 				projSelDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo() + 1);
 				List<SalesProjectionResultsDTO> nextLevelValueList = configureLevels(mayBeAddedRecord, neededRecord,
-						started, projSelDTO);
+						 projSelDTO);
 				projDTOList.addAll(nextLevelValueList);
 			}
 		}
@@ -1146,14 +1145,15 @@ public class NMSalesProjectionResultsLogic {
 	}
 
 	public String getFormattedValue(DecimalFormat decFormat, String value) {
-		if (value.contains(Constant.NULL)) {
-			value = SPRDASH.getConstant();
+            String valueformatter = value; 
+		if (valueformatter.contains(Constant.NULL)) {
+			valueformatter = SPRDASH.getConstant();
 		} else if (decFormat.equals(CUR_PER)) {
-			value = decFormat.format(Double.valueOf(value)) + PERCENT;
+			valueformatter = decFormat.format(Double.valueOf(valueformatter)) + PERCENT;
 		} else {
-			value = decFormat.format(Double.valueOf(value));
+			valueformatter = decFormat.format(Double.valueOf(valueformatter));
 		}
-		return value;
+		return valueformatter;
 	}
 
 	public List<SalesProjectionResultsDTO> getContractSalesAndUnits(ProjectionSelectionDTO projSelDTO) {
@@ -2969,14 +2969,15 @@ public class NMSalesProjectionResultsLogic {
 	}
 
 	public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
-		if (value.contains(Constant.NULL)) {
-			value = "...";
+            String valueFormatVal = value ;
+		if (valueFormatVal.contains(Constant.NULL)) {
+			valueFormatVal = "...";
 		} else if (CURRENCY.equals(appendChar)) {
-			value = appendChar.concat(decFormat.format(Double.valueOf(value)));
+			valueFormatVal = appendChar.concat(decFormat.format(Double.valueOf(valueFormatVal)));
 		} else {
-			value = decFormat.format(Double.valueOf(value)).concat(appendChar);
+			valueFormatVal = decFormat.format(Double.valueOf(valueFormatVal)).concat(appendChar);
 		}
-		return value;
+		return valueFormatVal;
 	}
 
 	public static List<String> getCommonColumnHeaderMandated(int frequencyDivision, int year, int period) {
@@ -2994,7 +2995,7 @@ public class NMSalesProjectionResultsLogic {
 			commonHeader = Constant.S + period + " " + year;
 		} else if (frequencyDivision == NumericConstants.TWELVE) {
 			String monthName = getMonthForInt(period - 1);
-			commonColumn = monthName.toLowerCase() + year;
+			commonColumn = monthName.toLowerCase(Locale.ENGLISH) + year;
 			commonHeader = monthName + " " + year;
 		}
 		common.add(commonColumn);

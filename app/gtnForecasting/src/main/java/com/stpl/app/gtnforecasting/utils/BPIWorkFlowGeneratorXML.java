@@ -164,8 +164,8 @@ public class BPIWorkFlowGeneratorXML {
         String updateDate = hmCounterAndDate.get("updateDate").toString();
         
         int c = 0;
-        String DATE_FORMAT = "yyyyMMdd";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        String dateFormatBPI = "yyyyMMdd";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormatBPI);
         Calendar c1 = Calendar.getInstance();
         String currentDate = sdf.format(c1.getTime());
         

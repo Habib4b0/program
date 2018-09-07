@@ -522,7 +522,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     try {
                         BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                     } catch (IllegalAccessException | InvocationTargetException ex) {
-                        LOGGER.error("Error in configureWorkFlow :" , ex);
+                        LOGGER.error("Error in configureWorkFlow :", ex);
                     }
                 }
             }

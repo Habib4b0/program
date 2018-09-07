@@ -139,7 +139,7 @@ public class InventoryCustomerLookup extends Window {
                 });
 
             } catch (Exception ex) {
-                LOGGER.error("Error in viewListener :" , ex);
+                LOGGER.error("Error in viewListener :", ex);
             }
         }
     };
@@ -226,7 +226,7 @@ public class InventoryCustomerLookup extends Window {
             resultsContainer.removeAllItems();
             resultsContainer.addAll(pipelineLogic.getPipelineInventory(projectionId, selectionDto));
         } catch (Exception ex) {
-            LOGGER.error("Error in loadResultTable :" , ex);
+            LOGGER.error("Error in loadResultTable :", ex);
         }
 
     }

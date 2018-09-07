@@ -174,7 +174,7 @@ public class Converters {
      * @throws SystemException
      */
     public static List<CurrentContractDTO> setCurrentContracts(List resultList) throws ParseException {
-        List<CurrentContractDTO> CurrentContractList = new ArrayList<>();
+        List<CurrentContractDTO> currentContractList = new ArrayList<>();
         CurrentContractDTO currentContractDTO;
         int listSize = resultList.size();
         try {
@@ -194,12 +194,12 @@ public class Converters {
                 currentContractDTO.setStatus(String.valueOf(objects[NumericConstants.NINE]));
                 currentContractDTO.setCompanyStartDate(formatDate(String.valueOf(objects[NumericConstants.TEN])));
                 currentContractDTO.setCompanyEndDate((Date) objects[NumericConstants.ELEVEN]);
-                CurrentContractList.add(currentContractDTO);
+                currentContractList.add(currentContractDTO);
             }
         } catch (Exception ex) {
            LOGGER.error("",ex);
         }
-        return CurrentContractList;
+        return currentContractList;
     }
 
     /**

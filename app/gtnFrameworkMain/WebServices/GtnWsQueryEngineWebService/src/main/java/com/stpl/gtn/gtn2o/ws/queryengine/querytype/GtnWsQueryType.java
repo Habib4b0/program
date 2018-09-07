@@ -12,7 +12,8 @@ public enum GtnWsQueryType {
 	SELECT(new GtnExecuteSelectQueryImpl()), COUNT(new GtnWsExecuteCountQueryImpl()), SELECTWITHPARAMS(
 			new GtnWsExecuteSelectParamsQueryImpl()), INSERTORUPDATE(
 					new GtnWsExecuteInsertUpdateQueryImpl()),  INSERTORUPDATEWITHPARAMS(
-									new GtnWsExecuteInsertUpdateParamsQueryImpl());
+									new GtnWsExecuteInsertUpdateParamsQueryImpl()),
+                                        COUNTWITHPARAMS(new GtnExecuteCountQueryWithParamsImpl());
 
 	private final GtnWsQueryTypeInterface gtnWsQueryTypeInterface;
 

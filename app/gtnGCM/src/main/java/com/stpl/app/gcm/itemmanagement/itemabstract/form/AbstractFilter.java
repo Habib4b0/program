@@ -113,8 +113,8 @@ public class AbstractFilter {
         
     }
 
-    public void setFilterMap(String key, String Value) {
-        filterMap.put(key, Value);
+    public void setFilterMap(String key, String value) {
+        filterMap.put(key, value);
     }
 
     public void setFilterMap(Map m) {

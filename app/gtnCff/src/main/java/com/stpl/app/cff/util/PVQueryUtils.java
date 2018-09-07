@@ -4,10 +4,12 @@
  */
 package com.stpl.app.cff.util;
 
+import com.ctc.wstx.util.StringUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -22,13 +24,15 @@ public class PVQueryUtils {
     public static final String VALUE_LABEL = "Value";
     
     public String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " ";
+         String user = StringUtils.EMPTY;
+         user = user + StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " ";
         return user;
     }
 
     public String getPivotSelectQuery(String query1, String query2) {
         String finalWhereCond = " on TODIS.YEARS=SALEPPA.YEARS AND TODIS.PERIODS=SALEPPA.PERIODS";
-        String selectClause = " (\n" + query1 + "\n) TODIS FULL JOIN (\n" + query2 + "\n) SALEPPA \n" + finalWhereCond;
+        String selectClause = StringUtils.EMPTY;
+        selectClause = selectClause + " (\n" + query1 + "\n) TODIS FULL JOIN (\n" + query2 + "\n) SALEPPA \n" + finalWhereCond;
         return selectClause;
     }
 
@@ -37,7 +41,8 @@ public class PVQueryUtils {
     }
 
     public String getPivotSelectClause() {
-        String selectClause = " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
+        String selectClause = StringUtils.EMPTY;
+        selectClause = selectClause + " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
                 + "SALEPPA.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS,"                
                 + " CASE WHEN SALEPPA.sales_projection_sales = 0 THEN 0 ELSE ((((Isnull(TODIS.projection_sales, 0)) + ISNULL(SALEPPA.PROJECTED_RATE, 0)) / NULLIF(SALEPPA.sales_projection_sales,0)) * 100) END AS TOTAL_PROJECTION_RATE, "                
                 + " (Isnull(TODIS.projection_sales, 0) + ISNULL(SALEPPA.RETURNS_PROJECTED, 0)) AS TOTAL_PROJECTION_DOLAR,"
@@ -49,7 +54,8 @@ public class PVQueryUtils {
     }
 
     public String getPivotMainSelectClause(String projName) {
-        String selectClause = " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
+        String selectClause = StringUtils.EMPTY;
+         selectClause = selectClause + " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
                 + " " + projName + ".CONTRACT_PROJECTION_UNITS as " + projName + "CONTRACT_PROJECTION_UNITS,"
                 + " " + projName + ".TOTAL_PROJECTION_RATE AS " + projName + "TOTAL_PROJECTION_RATE, "
                 + " " + projName + ".TOTAL_PROJECTION_DOLAR as " + projName + "TOTAL_PROJECTION_DOLAR,"
@@ -73,7 +79,8 @@ public class PVQueryUtils {
     }
 
     public String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+         String ccpWhereCond = StringUtils.EMPTY;
+         ccpWhereCond = ccpWhereCond + StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 
@@ -89,7 +96,8 @@ public class PVQueryUtils {
      * @return String
      */
     public String getMainSelectClause(String projName) {
-        String selectClause = " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
+        String selectClause = StringUtils.EMPTY;
+         selectClause = selectClause + " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
                 + " " + projName + ".CONTRACT_PROJECTION_UNITS as " + projName + "CONTRACT_PROJECTION_UNITS,"
                 + " " + projName + ".TOTAL_PROJECTION_RATE AS " + projName + "TOTAL_PROJECTION_RATE, "
                 + " " + projName + ".TOTAL_PROJECTION_DOLAR as " + projName + "TOTAL_PROJECTION_DOLAR ";

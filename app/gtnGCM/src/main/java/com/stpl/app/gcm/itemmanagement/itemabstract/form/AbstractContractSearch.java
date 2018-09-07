@@ -1163,8 +1163,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.addAll(getResultsInput(selection));
-        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
-        return isUpdated;
+        return ItemQueries.itemUpdate(input, "Abstract Mass update");
     }
 
     /**
@@ -1651,7 +1650,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             return StringUtils.EMPTY;
         } else {
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
+                Object[] obj =  list.get(i);
                 if (sb.length() > 0) {
                     sb.append(',');
                 }

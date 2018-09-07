@@ -79,6 +79,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1387,7 +1388,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         supplementalDiscountDTO.setEndPeriod(endQuater);
                         supplementalDiscountProjectionLogic.populateValues(supplementalDiscountDTO, selectedValue, columnName, session);
                         tableLogic.setRefresh(true);
-                        if (columnName.containsKey(METHODOLOGY.getConstant().toUpperCase())) {
+                        if (columnName.containsKey(METHODOLOGY.getConstant().toUpperCase(Locale.ENGLISH))) {
                             checkFlag = true;
                         }
                     }

@@ -78,6 +78,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -272,16 +273,16 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         nonMandatedForm = form;
         session = nonMandatedForm.getSessions();
         projectionId = session.getProjectionId();
-        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
-        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
-        pvSelectionDTO.setSessionDTO(sessionDTO);
-        excelTable.setVisible(false);
-        if (flag) {
-            configure();
-        }
-        flag = true;
-        CommonUtil commonUtils = CommonUtil.getInstance();
-        commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
+//        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+//        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
+//        pvSelectionDTO.setSessionDTO(sessionDTO);
+//        excelTable.setVisible(false);
+//        if (flag) {
+//            configure();
+//        }
+//        flag = true;
+//        CommonUtil commonUtils = CommonUtil.getInstance();
+        //commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
 
         LOGGER.info("ProjectionVariance Constructor ends ");
     }
@@ -465,8 +466,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 String fromPeriod = fromDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 String toPeriod = toDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
-                    fromPeriod = fromPeriod.toLowerCase();
-                    toPeriod = toPeriod.toLowerCase();
+                    fromPeriod = fromPeriod.toLowerCase(Locale.ENGLISH);
+                    toPeriod = toPeriod.toLowerCase(Locale.ENGLISH);
                 }
 
                 int start = periodList.indexOf(fromPeriod);
@@ -1151,7 +1152,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     public void setBaseVariables(String columns, String varriables) {
         LOGGER.info("Entering setBaseVariables method");
-
+        String columnsBaseVariables = columns;
+        String baseVariables = varriables;
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1174,10 +1176,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setNetExFactorySales(false);
         pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsBaseVariables = columnsBaseVariables.substring(1, columnsBaseVariables.length() - 1);
+        baseVariables = baseVariables.substring(1, baseVariables.length() - 1);
+        final String[] col = columnsBaseVariables.split(",");
+        final String[] var = baseVariables.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);
@@ -1277,7 +1279,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", StringUtils.EMPTY);
             if ((pivotView.getValue().equals(Constant.PERIOD)) || (frequency.getValue().toString().equals(Constant.MONTHLY))) {
-                fromVal = fromVal.toLowerCase();
+                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
             }
             start = periodList.indexOf(fromVal);
         }
@@ -1886,6 +1888,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void setPvSelection(String columns, String varriables) {
+        String columnsPvSelection = columns;
+        String variablesPvSelection = varriables;
+        
         pvSelectionDTO.setColValue(false);
         pvSelectionDTO.setColVariance(false);
         pvSelectionDTO.setColPercentage(false);
@@ -1908,10 +1913,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setNetExFactorySales(false);
         pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
-        columns = columns.substring(1, columns.length() - 1);
-        varriables = varriables.substring(1, varriables.length() - 1);
-        final String[] col = columns.split(",");
-        final String[] var = varriables.split(",");
+        columnsPvSelection = columnsPvSelection.substring(1, columnsPvSelection.length() - 1);
+        variablesPvSelection = variablesPvSelection.substring(1, variablesPvSelection.length() - 1);
+        final String[] col = columnsPvSelection.split(",");
+        final String[] var = variablesPvSelection.split(",");
         for (String value : col) {
 
             value = StringUtils.trim(value);

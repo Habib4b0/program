@@ -54,6 +54,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import java.util.Locale;
 
 /**
  *
@@ -214,7 +215,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -232,7 +233,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase(Locale.ENGLISH) + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;

@@ -251,7 +251,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 				new String[] { "Product Hierarchy Group Builder" });
 		productSelectionDualListBoxConfig
 				.setRightVisibleColumns(new Object[] { "levelValue"});
-		productSelectionDualListBoxConfig.setModuleType("report");
+		productSelectionDualListBoxConfig.setModuleType("hierarchyRelationship");
 		productSelectionDualListBoxConfig.setRecordHeader(Arrays.asList("parent_relationrelationship_level_values",
 				"parent_relationlevel_no", "parent_relationparent_node", "parent_relationrelationship_level_sid",
 				"parent_relationhierarchy_no", "parent_relationrelationship_builder_sid", "levelValue", "levelNo",

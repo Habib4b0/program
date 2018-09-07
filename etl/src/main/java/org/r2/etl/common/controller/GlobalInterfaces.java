@@ -284,6 +284,41 @@ public final class GlobalInterfaces {
 		return Constants.SUCCESS;
 
 	}
+	
+    /**
+	 * This method is used to invoke DTX Item Master Interface.
+	 * 
+	 * @return SUCCESS
+	 * @throws IOException
+	 * @throws EtlException
+	 * 
+	 */
+	public static String runDtxItemMaster() throws BPIETLException {
+
+		LOGGER.info("The DTX Item Master Interface started executing");
+		setFileName(FilePathUtil.DTX_ITEM_MASTER_INTERFACE);
+		r2etl.runJob(filename);
+		return Constants.SUCCESS;
+
+	}
+	
+	
+	 /**
+		 * This method is used to invoke DTX Item Identifier Interface.
+		 * 
+		 * @return SUCCESS
+		 * @throws IOException
+		 * @throws EtlException
+		 * 
+		 */
+		public static String runDtxItemIdentifier() throws BPIETLException {
+
+			LOGGER.info("The DTX Item Identifier Interface started executing");
+			setFileName(FilePathUtil.DTX_ITEM_IDENTIFIER_INTERFACE);
+			r2etl.runJob(filename);
+			return Constants.SUCCESS;
+
+		}
 
 
 	private static void setFileName(String input) {

@@ -46,8 +46,7 @@ public class ResponsiveUtils {
         if (isMandatory) {
             sb.append(STYLECOLOR);
         }
-        Label label = new Label(sb.toString(), ContentMode.HTML);
-        return label;
+        return new Label(sb.toString(), ContentMode.HTML);
     }
    
 
