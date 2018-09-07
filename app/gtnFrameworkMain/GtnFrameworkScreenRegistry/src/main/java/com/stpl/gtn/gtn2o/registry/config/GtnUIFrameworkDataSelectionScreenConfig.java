@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.registry.action.GtnLandingScreenFromAndToPeriodLoadAct
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
 import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -576,7 +577,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"modifiedDate", GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,  
                                 GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID};
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8
-				,GtnUIFrameworkComponentType.CALENDAR_FIELD,GtnUIFrameworkComponentType.CALENDAR_FIELD,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+				,GtnUIFrameworkComponentType.DATEFIELDVAADIN8,GtnUIFrameworkComponentType.DATEFIELDVAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,  GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
 		
 		for (int i = 0; i < propertyIds.length; i++) {
 			
@@ -609,6 +610,18 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetCtrlBtn.setComponentName("RESET");
 		resetCtrlBtn.setParentComponentId(parentComponentId);
 		resetCtrlBtn.setAddToParent(true);
+                List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
+		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_TABLE_MESSAGE);
+		params.add(Arrays.asList(nameSpace + "_" + "projectionResultsTable"));
+		params.add(Arrays.asList(new Object[] { "" }));
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);
+                resetCtrlBtn.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
 		componentList.add(resetCtrlBtn);
 	}
 	

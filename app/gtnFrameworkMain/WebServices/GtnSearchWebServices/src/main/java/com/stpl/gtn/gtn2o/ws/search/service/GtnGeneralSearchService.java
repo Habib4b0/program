@@ -19,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
-//import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
+import com.stpl.gtn.gtn2o.ws.search.implementation.PrivatePublic;
 import com.stpl.gtn.gtn2o.ws.search.searchinterface.SearchInterface;
 import com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService;
 import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
@@ -89,7 +89,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         String query = gtnSearchSqlService.getQuery(key);
         if (keyMap == null) {
             keyMap = new HashMap();
-//            keyMap.put("privatePublic", new PrivatePublic());
+            keyMap.put("privatePublic", new PrivatePublic());
             keyMap.put("businessUnits", new ComboBoxSearch());
             keyMap.put("companies", new ComboBoxSearch());
             keyMap.put("dataSelectionDeduction", new ComboBoxSearch());
@@ -107,7 +107,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                 .getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList();
         String projectionName = webSearchCriteriaList.get(0).getFilterValue1();
         String projectionDescription = webSearchCriteriaList.get(1).getFilterValue1();
-        Object[] params = new Object[2];
+        Object[] params = new Object[webSearchCriteriaList.size()];
         params[0] = projectionName.replaceAll("\\*", "%");
         params[1] = projectionDescription.replaceAll("\\*", "%");
         GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
@@ -125,12 +125,12 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
                 getWebServiceEndpointBasedOnModule("/gtnServiceRegistry/serviceRegistryWebservicesForRedirectToQueryEngine", "serviceRegistry"),
                 gtnQueryEngineWebServiceRequest, GtnQueryEngineWebServiceResponse.class);
         List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
-//        int count = pagedTableSearchCount(webSearchCriteriaList);
+        int count = pagedTableSearchCount(webSearchCriteriaList);
         GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
         GtnSerachResponse searchResponse = new GtnSerachResponse();
         dataTable.addData(resultList);
         searchResponse.setResultSet(dataTable);
-//        searchResponse.setCount(count);
+        searchResponse.setCount(count);
         gtnUIFrameworkWebserviceResponse.setGtnSerachResponse(searchResponse);
         return gtnUIFrameworkWebserviceResponse;
     }
@@ -143,8 +143,8 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         String projectionName = webSearchCriteriaList.get(0).getFilterValue1();
         String projectionDescription = webSearchCriteriaList.get(1).getFilterValue1();
         Object[] params = new Object[2];
-        params[0] = projectionName;
-        params[1] = projectionDescription;
+        params[0] = projectionName.replaceAll("\\*", "%");
+        params[1] = projectionDescription.replaceAll("\\*", "%");
         GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
         queryExecutorBean.setParams(params);
         queryExecutorBean.setDataType(dataType);
