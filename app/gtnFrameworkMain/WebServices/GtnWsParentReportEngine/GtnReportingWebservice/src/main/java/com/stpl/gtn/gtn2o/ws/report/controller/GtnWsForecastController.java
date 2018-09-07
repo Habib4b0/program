@@ -56,6 +56,7 @@ public class GtnWsForecastController {
 	@RequestMapping(value = GtnWsForecastConstants.GTN_FORECAST_CUSTOMERHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
+		gtnLogger.info("Inside loadHierarchyResults");
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		List<Object[]> resultList = gtnWsReportWebsevice.loadHierarchyResults(request, true);
@@ -63,6 +64,7 @@ public class GtnWsForecastController {
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(gtnSearchResponse);
+		gtnLogger.info("ending loadHierarchyResults");
 		return response;
 	}
 
