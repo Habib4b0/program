@@ -36,7 +36,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
- * 
+ * @author Asha
  */
 public final class AdjustmentSummaryResults extends AbstractSummarySearchResults implements Serializable {
 
