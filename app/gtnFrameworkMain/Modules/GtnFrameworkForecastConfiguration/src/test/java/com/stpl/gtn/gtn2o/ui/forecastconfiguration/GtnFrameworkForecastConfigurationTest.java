@@ -19,6 +19,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.dynamicclasses.GtnUIFrameworkForecastConfigDynamicClassFiller;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkEngine;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
@@ -27,6 +28,8 @@ import com.vaadin.ui.UI;
 @PrepareForTest(value = { UI.class })
 public class GtnFrameworkForecastConfigurationTest {
 
+	private transient GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkForecastConfigurationTest.class); 
+	
 	@Mock
 	GtnUIFrameworkEngine gtnUIFrameworkEngine;
 	@InjectMocks
@@ -69,7 +72,7 @@ public class GtnFrameworkForecastConfigurationTest {
 
     }
         catch(Exception e){
-            e.printStackTrace();
+        	gtnLogger.error("Error", e);
         }
     }
 }
