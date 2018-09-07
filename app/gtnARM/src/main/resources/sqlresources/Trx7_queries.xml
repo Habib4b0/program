@@ -2768,7 +2768,7 @@ ELSE
        CASE
          WHEN @FLAG = 0 THEN Isnull(( Sum(Isnull(DEDUCTION_AMOUNT, 0)) / Sum(NULLIF(NET_CALCULATED_SALES, 0)) * 100 ), 0)
          WHEN @FLAG <> 0
-              AND @VIEW IN ( 'CONTRACT', 'DEDUCTION' ) THEN Isnull(Avg(AVG_RATE), 0)
+              AND @VIEW IN ( 'CONTRACT', 'DEDUCTION' ,'PRODUCT') THEN Isnull(Avg(AVG_RATE), 0)
          ELSE Isnull(Avg(RATE), 0)
        END                                AS RATE,
        CONVERT(INT, Max(DEDUCTION_SET_3)) AS SID,

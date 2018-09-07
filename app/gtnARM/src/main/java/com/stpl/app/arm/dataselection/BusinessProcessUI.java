@@ -210,8 +210,6 @@ public class BusinessProcessUI extends CommonUI {
         HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
         // This method is to load transaction name of adjustment config value in helper list map
         CommonLogic.loadTransactionName();
-//        ExecutorService service = Executors.newSingleThreadExecutor();
-//        service.submit(new BPMJob());
         if (projectionId != null) {
             getUI().getNavigator().navigateTo(ArmWorkflowView.NAME + "/" + pageParameters);
         } else {
@@ -251,7 +249,6 @@ public class BusinessProcessUI extends CommonUI {
         @Override
         public void run() {
             LOGGERVALUE.info("Intailizing BPM Engine:");
-//            BPMManagerBean.getEngine().getRuntimeEngine().getKieSession();
         }
 
     }
