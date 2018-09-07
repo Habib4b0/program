@@ -1924,7 +1924,7 @@ public class ForecastForm extends AbstractForm {
 	 * @throws Exception
 	 */
 
-	private void checkForActualSales() throws Exception {
+	private void checkForActualSales() throws PortalException {
 
 	if (logic.checkForZeroActuals(session)) {
 			new AbstractNotificationUtils() {
