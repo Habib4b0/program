@@ -398,6 +398,27 @@ public class ExcelUtils {
     }
 
     public static void setTotalDTOValue(AdjustmentDTO dto, Object value, String column) {
+        getDemandColumns(column, value, dto);
+        if (column.contains("adjustment.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalAdjustment(dto.getExcelTotalAdjustment() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("demandPaymentRecon.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalDemandPaymentRecon(dto.getExcelTotalDemandPaymentRecon() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("actualPayments.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalActualPayments(dto.getExcelTotalActualPayments() + Double.valueOf(String.valueOf(value)));
+        }
+
+        if (column.contains("cPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalcPipelineAccrual(dto.getExcelTotalcPipelineAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("pPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalpPipelineAccrual(dto.getExcelTotalpPipelineAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+
+    }
+
+    private static void getDemandColumns(String column, Object value, AdjustmentDTO dto) {
         if (column.contains("demandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
             dto.setExcelTotalDemandAccrual(dto.getExcelTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
         }
@@ -420,39 +441,19 @@ public class ExcelUtils {
                 dto.setExcelTotalOverride(dto.getExcelTotalOverride() + Double.valueOf(String.valueOf(value)));
             }
         }
-        if (column.contains("adjustment.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalAdjustment(dto.getExcelTotalAdjustment() + Double.valueOf(String.valueOf(value)));
-        }
-        if (column.contains("demandPaymentRecon.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalDemandPaymentRecon(dto.getExcelTotalDemandPaymentRecon() + Double.valueOf(String.valueOf(value)));
-        }
-        if (column.contains("actualPayments.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalActualPayments(dto.getExcelTotalActualPayments() + Double.valueOf(String.valueOf(value)));
-        }
-
-        if (column.contains("cPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalcPipelineAccrual(dto.getExcelTotalcPipelineAccrual() + Double.valueOf(String.valueOf(value)));
-        }
-        if (column.contains("pPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
-            dto.setExcelTotalpPipelineAccrual(dto.getExcelTotalpPipelineAccrual() + Double.valueOf(String.valueOf(value)));
-        }
-
     }
 
     public static void setTotalProperity(AdjustmentDTO dto, String column) {
-        // Case Sensitive. Do not change the case.
-        if (column.contains("Total--demandAccrual.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalDemandAccrual()));
-        }
-        if (column.contains("Total--demandAccrualReforecast.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalDemandAccrualReforecast()));
-        }
-        if (column.contains("Total--totalDemandAccrual.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalTotalDemandAccrual()));
-        }
-        if (column.contains("Total--projectedTotalDemandAccrual.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalProjectedTotalDemandAccrual()));
-        }
+        getStringProperties(column, dto, "Total--demandAccrual.", dto.getExcelTotalDemandAccrual());
+        getStringProperties(column, dto, "Total--demandAccrualReforecast..", dto.getExcelTotalDemandAccrualReforecast());
+        getStringProperties(column, dto, "Total--totalDemandAccrual.", dto.getExcelTotalTotalDemandAccrual());
+        getStringProperties(column, dto, "Total--projectedTotalDemandAccrual.", dto.getExcelTotalProjectedTotalDemandAccrual());
+        getStringProperties(column, dto, "Total--variance.", dto.getExcelTotalVariance());
+        getStringProperties(column, dto, "Total--adjustment.", dto.getExcelTotalAdjustment());
+        getStringProperties(column, dto, "Total--demandPaymentRecon.", dto.getExcelTotalDemandPaymentRecon());
+        getStringProperties(column, dto, "Total--actualPayments.", dto.getExcelTotalActualPayments());
+        getStringProperties(column, dto, "Total--cPipelineAccrual.", dto.getExcelTotalcPipelineAccrual());
+        getStringProperties(column, dto, "Total--pPipelineAccrual.", dto.getExcelTotalpPipelineAccrual());
         if (column.contains("Total--demandAccrualRatio.")) {
             Double demandAccrualRatio = 0.0;
             if (Double.compare(dto.getExcelTotalProjectedTotalDemandAccrual(), 0.0) != 0) {
@@ -460,30 +461,12 @@ public class ExcelUtils {
             }
             dto.addStringProperties(column, "" + new BigDecimal(demandAccrualRatio));
         }
-        if (column.contains("Total--variance.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalVariance()));
-        }
         if (column.contains("Total--override.")) {
             if (dto.getExcelTotalOverride() != null) {
                 dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalOverride()));
             } else {
                 dto.addStringProperties(column, "");
             }
-        }
-        if (column.contains("Total--adjustment.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalAdjustment()));
-        }
-        if (column.contains("Total--demandPaymentRecon.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalDemandPaymentRecon()));
-        }
-        if (column.contains("Total--actualPayments.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalActualPayments()));
-        }
-        if (column.contains("Total--cPipelineAccrual.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalcPipelineAccrual()));
-        }
-        if (column.contains("Total--pPipelineAccrual.")) {
-            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalpPipelineAccrual()));
         }
         if (column.contains("Total--pipelineRatio.")) {
             Double totalpipelineRatio = 0.0;
@@ -499,6 +482,13 @@ public class ExcelUtils {
                 totalpaymentRatio = (dto.getExcelTotalTotalDemandAccrual() / dto.getExcelTotalActualPayments()) * NumericConstants.HUNDRED;
             }
             dto.addStringProperties(column, "" + new BigDecimal(totalpaymentRatio));
+        }
+    }
+
+    private static void getStringProperties(String column, AdjustmentDTO dto, String checkColumn, Double value) {
+        // Case Sensitive. Do not change the case.
+        if (column.contains(checkColumn)) {
+            dto.addStringProperties(column, "" + new BigDecimal(value));
         }
     }
 

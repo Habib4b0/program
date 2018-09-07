@@ -351,7 +351,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
-        return CommonServiceImpl.getInstance().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
+        return CommonServiceImpl.getInstance().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct);
 
     }
 
@@ -459,7 +459,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List getParentLevels(int levelNo, int relationshipLevelSid, final Map<String, Object> parameters) throws SystemException {
-        return CommonServiceImpl.getInstance().getParentLevels(levelNo, relationshipLevelSid, parameters);
+        return CommonServiceImpl.getInstance().getParentLevels(relationshipLevelSid, parameters);
     }
 
     @Override

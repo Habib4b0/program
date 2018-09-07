@@ -118,7 +118,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 
 			Iterator<String> iter = list.iterator();
 			while (iter.hasNext()) {
-				String string = (String) iter.next();
+				String string =  iter.next();
 				idList.add(brMap.get(string));
 			}
 			DynamicQuery deleteDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();

@@ -28,8 +28,6 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         List<String> reforecastReserveHeader = new ArrayList<>();
         List<String> reforecastReserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder value;
-        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
         reforecastReplaceList.add(isReserveValue);
         reforecastReplaceList.add(reforecastSelection.getDataSelectionDTO().getAdjustmentId());
@@ -49,6 +47,12 @@ public class DRDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             }
         }
         List list = QueryUtils.executeSelect(reforecastQuery.toString());
+        return reforecastDetailsList(list, reforecastReserveHeader, reforecastReserveProperty, finalList);
+    }
+
+    private List<List> reforecastDetailsList(List list, List<String> reforecastReserveHeader, List<String> reforecastReserveProperty, List<List> finalList) {
+        StringBuilder value;
+        StringBuilder property;
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] reforecastObj = (Object[]) list.get(i);

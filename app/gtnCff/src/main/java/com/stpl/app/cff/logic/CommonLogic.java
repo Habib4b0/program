@@ -157,7 +157,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = "D".equals(hierarchyIndicator)? getHierarchyTreeQueryDeduction(projectionId, hierarchyIndicator, levelNo,versionNo) : getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo,versionNo);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -528,7 +528,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public static List<Leveldto> getAllHierarchyLevels() {
         List<Leveldto> newLevelList = new ArrayList<>();
             String query = "";
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -826,7 +826,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
      * @param priceGroupType
      * @return object
      */
-    public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
+    public static Object executeSelectQuery(String query) {
 
         return commonDao.executeSelectQuery(query);
 
@@ -1086,7 +1086,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_DISCOUNT_PROJ_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     groupList.add(StringConstantsUtil.DISCOUNT_HYPEN + String.valueOf(list1));
@@ -1102,7 +1102,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_PPA_PROJECTION_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     groupList.add("PPA-" + String.valueOf(list1));
@@ -1118,7 +1118,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_SALES_PROJECTION_MASTER");
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     groupList.add(StringConstantsUtil.SALES_HYPEN + String.valueOf(list1));
@@ -1165,7 +1165,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     + "                 WHERE RLD.LEVEL_NAME = 'Trading Partner'";
         }
         try {
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
                 levelNo = Integer.parseInt(String.valueOf(ob));
@@ -1257,7 +1257,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo, rbID);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 int count = 0;
                 for (Object list1 : list) {
@@ -1609,7 +1609,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQueryMan(projectionId, hierarchyIndicator, levelNo);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
+            List<Object> list = (List<Object>) executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;
@@ -1627,7 +1627,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         List<Leveldto> listCustomValue = new ArrayList<>();
         String selectQuery="SELECT LEVEL_NO,LEVEL_NO,HIERARCHY_INDICATOR,LEVEL_NAME,HIERARCHY_ID FROM CUST_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID=@SID";
         selectQuery=selectQuery.replace("@SID", String.valueOf(masterSid));
-        List<Object> list = (List<Object>) executeSelectQuery(selectQuery, null, null);
+        List<Object> list = (List<Object>) executeSelectQuery(selectQuery);
         Consumer<Object> consumer=(Object t) -> {
             Object[] temparray=(Object[])t;
             Leveldto dto = getCustomizedViewMan(temparray, true);

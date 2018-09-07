@@ -59,6 +59,11 @@ public class ItemQueries {
     public static final String STATUS_DESCRIPTION = "statusDescription";
     public static final String CONTRACT_TYPE = "contractType";
     
+    
+    private ItemQueries()
+    {
+        LOGGER.debug("ItemQueries");
+    }
     public static List getGroupList() {
         return new ArrayList();
     }
