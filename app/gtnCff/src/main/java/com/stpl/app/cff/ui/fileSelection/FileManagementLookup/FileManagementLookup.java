@@ -329,13 +329,10 @@ public class FileManagementLookup extends Window {
 	private DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
 	private DataFormatConverter zeroDecimalFormat = new DataFormatConverter("#0");
 	private List<FileMananagementResultDTO> addlineList = new ArrayList<>();
-	private ComboBox fmFileType;
 	private FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
 	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
-	private ExtFilterTable excelDetailsTable;
-	private BeanItemContainer<FileMananagementResultDTO> excelDetailsBean;
 	private FileManagementLogic vFileMgmtLogic = new FileManagementLogic();
 	private String helperFileType;
 	private BeanItemContainer searchContainer;
@@ -1731,7 +1728,6 @@ public class FileManagementLookup extends Window {
 											saveflag = true;
 											Notification.show("Records saved Successfully");
 											addlineList.clear();
-											try {
 												resultDTO.setFileType(String.valueOf(vFileType.getValue()));
 												resultDTO.setCountry(String.valueOf(country.getValue()));
 												resultDTO.setFileName(String.valueOf(fileName.getValue()));
@@ -1742,9 +1738,7 @@ public class FileManagementLookup extends Window {
 												resultDTO.setVersion(String.valueOf(version.getValue().trim()));
 												loadResultsTable();
 
-											} catch (Exception ex) {
-												LOGGER.error(ex.getMessage());
-											}
+											
 										}
 									} catch (SystemException ex) {
 										LOGGER.error(ex.getMessage());
@@ -2224,42 +2218,6 @@ public class FileManagementLookup extends Window {
 	/**
 	 * To configure Excel Details Results Table
 	 */
-	private void configureExcelDetailsTable() {
-		LOGGER.debug("Configure ExcelDetailsTable Starts---==============================================");
-
-		excelDetailsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
-		excelDetailsTable = new ExtFilterTable();
-
-		detailsTable.addComponent(excelDetailsTable);
-
-		excelDetailsTable.setVisible(false);
-		excelDetailsTable.setContainerDataSource(excelDetailsBean);
-
-		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDetailsColsExcelList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList());
-		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDemandDetailsColsExcelList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList());
-		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtInvDetailsSumColsExcelList());
-			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsSumHeaderList());
-		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-			excelDetailsTable
-					.setVisibleColumns(CommonUIUtil.getFileMgmtLookupInvDetailsColsExcelList());
-			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsHeaderExcelList());
-		} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsColsList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsHeaderList());
-		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupCustomerColumnsList());
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupCusHeaderList());
-		}
-		excelDetailsTable.markAsDirtyRecursive();
-		LOGGER.debug("Configure ExcelDetailsTable ends");
-	}
 
 	/**
 	 * To load excel Table similar to Details Table in UI
@@ -2267,16 +2225,6 @@ public class FileManagementLookup extends Window {
 	 * @param tableFieldLookUpDTO
 	 * @throws Exception
 	 */
-	private void loadExcelDetailsTable(Object fileObject) throws ParseException {
-		excelDetailsBean.removeAllItems();
-		if (detailsFilterTable.size() != 0) {
-			FileMananagementResultDTO detailsDTO = (FileMananagementResultDTO) fileObject;
-			int recordCount = (Integer) vFileMgmtLogic.getDetailsResults(detailsDTO, 0, 0, null, null, true);
-			List<FileMananagementResultDTO> resultList = (List<FileMananagementResultDTO>) vFileMgmtLogic
-					.getDetailsResults(detailsDTO, 0, recordCount, null, null, false);
-			excelDetailsBean.addAll(resultList);
-		}
-	}
 
 	public void exFactoryFieldFactory() {
 		detailsFilterTable.setTableFieldFactory(new DefaultFieldFactory() {

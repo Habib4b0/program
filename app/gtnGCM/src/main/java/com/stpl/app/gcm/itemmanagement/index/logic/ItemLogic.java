@@ -106,8 +106,8 @@ public class ItemLogic {
                         userid = entry.getKey().toString();
                     }
                 }
-        if (binderDto.getIdentifierType_DTO() != null) {
-            input.add(binderDto.getIdentifierType_DTO().getId());
+        if (binderDto.getIdentifierTypeDto() != null) {
+            input.add(binderDto.getIdentifierTypeDto().getId());
         } else {
             input.add("%");
         }
@@ -131,8 +131,8 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getForm_DTO() != null) {
-            input.add(binderDto.getForm_DTO().getId());
+        if (binderDto.getFormDto() != null) {
+            input.add(binderDto.getFormDto().getId());
         } else {
             input.add("%");
         }
@@ -146,8 +146,8 @@ public class ItemLogic {
         } else {
             input.add("%");
         }
-        if (binderDto.getBrand_DTO() != null) {
-            input.add(binderDto.getBrand_DTO().getId());
+        if (binderDto.getBrandDto() != null) {
+            input.add(binderDto.getBrandDto().getId());
         } else {
             input.add("%");
         }

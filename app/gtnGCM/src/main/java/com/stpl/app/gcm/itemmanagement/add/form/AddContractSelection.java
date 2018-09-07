@@ -238,8 +238,8 @@ public class AddContractSelection extends CustomComponent {
         Panel panel = new Panel();
         panel.setContent(layout);
         field.addItem(Constants.SELECT_ONE);
-        LoadField();
-        LoadTempToTableMap();
+        loadField();
+        loadTempToTableMap();
         loadFieldAndPropertyMap();
         field.setNullSelectionAllowed(true);
         field.setNullSelectionItemId(Constants.SELECT_ONE);
@@ -1420,17 +1420,17 @@ public class AddContractSelection extends CustomComponent {
                             baseLineTextValue = baseWacManual.getValue();
                             addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
                             baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, selection);
                         } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
                             addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
                             baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
                             baseLineValue = formatter.format(baseWacDate.getValue());
-                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
                             baseLineValue = baseWacPriceType.getValue();
                             addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
                             baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
@@ -1638,7 +1638,7 @@ public class AddContractSelection extends CustomComponent {
     }
 
 
-    private void LoadTempToTableMap() {
+    private void loadTempToTableMap() {
         tempTableMap.put(Constants.STATUS_FIELD, StringConstantsUtil.ITEM_STATUS_COLUMN);
         tempTableMap.put(Constants.START_DATE_HEADER, StringConstantsUtil.START_DATE_COLUMN);
         tempTableMap.put(Constants.END_DATE_HEADER, StringConstantsUtil.END_DATE_COLUMN);
@@ -1736,7 +1736,7 @@ public class AddContractSelection extends CustomComponent {
         fieldAndPropertyMap.put(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME, Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME);
     }
     
-    public void LoadField() {
+    public void loadField() {
         field.addItems(Arrays.asList(ConstantsUtil.MassUpdateConstants.values()));
     }
 

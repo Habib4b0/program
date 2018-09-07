@@ -140,7 +140,7 @@ public class Summary extends CustomComponent {
         layout.setSpacing(true);
         Panel panel = new Panel();
         panel.setContent(layout);
-        ConfigureTable();
+        configureTable();
         configureComponentDetailsTable();
         configureDashBoardTable();
         loadSelectionCriteria();
@@ -210,7 +210,7 @@ public class Summary extends CustomComponent {
         }
     }
 
-    Component ConfigureTable() {
+    Component configureTable() {
         contractTableLogic.setContainerDataSource(contractContainer);
         addContractTable.setVisibleColumns(VISIBLE_COLUMN);
         addContractTable.setColumnHeaders(COLUMN_HEADER);

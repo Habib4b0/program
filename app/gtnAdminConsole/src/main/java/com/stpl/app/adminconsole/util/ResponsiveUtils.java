@@ -15,12 +15,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author mohamed
  */
 public class ResponsiveUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+
+    private ResponsiveUtils()
+    {
+        LOGGER.debug("Entering ResponsiveUtils ");
+    }
 
     public static HorizontalLayout addNaviButton(final ExtFilterTable table) {
         final Button prevColumn = new Button("<<");
@@ -157,8 +165,7 @@ public class ResponsiveUtils {
         if (isMandatory) {
             sb.append(" <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>");
         }
-        Label label = new Label(sb.toString(), ContentMode.HTML);
-        return label;
+        return new Label(sb.toString(), ContentMode.HTML);
     }
     public static Label makeLabel(Label label, boolean isMandatory) {
             StringBuilder sb = new StringBuilder();

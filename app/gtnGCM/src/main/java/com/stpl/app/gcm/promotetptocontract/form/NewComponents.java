@@ -1840,7 +1840,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(ifpmodel.getIfpModelSid());
                         input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
                         input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
-                        IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
+                        IfpContractDetailsImpl.saveIfpDetailsAttached(input);
                     }
                 } else if (level.equals(Constants.THREE)) {
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1959,7 +1959,7 @@ public class NewComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
-                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input);
 
                 } else if (level.equals(Constants.FOUR)) {
                     /*Below line is used to get temp table sid from tree node */
@@ -2060,7 +2060,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(rsModel.getRsModelSid());
                         input.add(rsModel.getRsStartDate());
                         input.add(rsModel.getRsEndDate() == null ? null : rsModel.getRsEndDate());
-                        RsContractDetailsImpl.saveRsDetailsAttached(input, null);
+                        RsContractDetailsImpl.saveRsDetailsAttached(input);
 
                     }
                 }

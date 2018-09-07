@@ -104,7 +104,7 @@ public class NMDiscountProjectionLogic {
     public int getCCPCount(String query) {
         int count = 0;
         List<Object> objList;
-        objList = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
+        objList = (List<Object>) CommonLogic.executeSelectQuery(query);
 
         if (objList != null && !objList.isEmpty()) {
             Object ob = objList.get(0);
@@ -117,7 +117,7 @@ public class NMDiscountProjectionLogic {
     public String getCCPList(String query, Set<Integer> totalccp,SessionDTO session) {
         StringBuilder ccpList = new StringBuilder();
        
-          List<Integer> tempList = (List<Integer>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), null, null);
+          List<Integer> tempList = (List<Integer>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         for (int ccpid : tempList) {
             totalccp.add(ccpid);
             if(ccpList.length()==0){
@@ -184,7 +184,7 @@ public class NMDiscountProjectionLogic {
     public String getZeroActualCCPList(String query,Set<Integer> totalccp,SessionDTO session) {
       StringBuilder ccpList=new StringBuilder();
        
-          List<Object> tempList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), null, null);
+          List<Object> tempList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         for (Object list : tempList) {
             final Object[] obj = (Object[]) list;
             if (!(String.valueOf(obj[NumericConstants.TWO]).equals(Constant.DASH))) {

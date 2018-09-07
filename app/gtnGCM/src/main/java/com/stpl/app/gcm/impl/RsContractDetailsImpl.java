@@ -25,7 +25,7 @@ public class RsContractDetailsImpl {
      * @param future
      * @return 
      */
-    public static Boolean saveRsDetailsAttached(final List<Object> input, final Object future){
+    public static Boolean saveRsDetailsAttached(final List<Object> input){
         boolean retFlag;
         String sqlSaveRsDetailsAttached = StringUtils.EMPTY;
         try {

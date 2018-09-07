@@ -75,7 +75,7 @@ import org.asi.ui.extfilteringtable.paged.logic.HierarchyString;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class DataSelection extends AbstractDataSelection {
 
@@ -360,7 +360,7 @@ public class DataSelection extends AbstractDataSelection {
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
                         productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc, rsContractSids);
                 GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue()),
-                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                        selectedCustomerContractList, custhierarchyId, customerHierarchyLookup != null ? customerHierarchyLookup.getHierarchyDto().getVersionNo() : 0);
                 innerLevelValues = loadAvailableDsLogic.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);

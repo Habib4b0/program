@@ -388,10 +388,10 @@ public class ItemSelection extends CustomComponent {
     public void searchButtonLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
         binder.commit();
         if ((binderDto.getItemId() == null || binderDto.getItemId().isEmpty()) && (binderDto.getItemName() == null || binderDto.getItemName().isEmpty())
-                && (binderDto.getTherapeuticClass_DTO() == null) && (binderDto.getForm_DTO() == null)
-                && binderDto.getIdentifierType_DTO() == null && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
+                && (binderDto.getTherapeuticClassDto() == null) && (binderDto.getFormDto() == null)
+                && binderDto.getIdentifierTypeDto() == null && (binderDto.getItemNo() == null || binderDto.getItemNo().isEmpty())
                 && (binderDto.getItemDesc() == null || binderDto.getItemDesc().isEmpty())
-                && (binderDto.getBrand_DTO() == null) && (binderDto.getStrength_DTO() == null)
+                && (binderDto.getBrandDto() == null) && (binderDto.getStrength_DTO() == null)
                 && (binderDto.getIdentifier() == null || binderDto.getIdentifier().isEmpty()) && (binderDto.getCompany_DTO() == null)
                 && (binderDto.getPlaceHolder_DTO() == null)
                 && (binderDto.getNdc9() == null || binderDto.getNdc9().isEmpty()) && (binderDto.getItemCategory_DTO() == null)

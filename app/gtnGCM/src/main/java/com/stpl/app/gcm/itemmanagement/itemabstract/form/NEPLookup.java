@@ -156,9 +156,7 @@ public class NEPLookup extends Window {
         CommonUtil.loadComboBoxForGCM(netSalesFormulaType, Constants.NS_FORMULA_TYPE_LISTNAME, false);
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        return;
-    }
+    
 
     @UiHandler("closeBtn")
     public void closeButton(Button.ClickEvent event) {

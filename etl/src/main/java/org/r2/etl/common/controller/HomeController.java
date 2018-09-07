@@ -496,6 +496,8 @@ public class HomeController {
         private static final String DTX_ITEM_IDENTIFIER_INTERFACE = "DtxItemIdentifierInterface";
         private static final String DTX_CUSTOMER_GTS_ACTUAL_INTERFACE = "DtxCustomerGtsActualInterface";
         private static final String DTX_CUSTOMER_GTS_FORECAST_INTERFACE = "DtxCustomerGtsForecastInterface";
+        private static final String DTX_COMPANY_MASTER_INTERFACE = "DtxCompanyMasterInterface";
+        private static final String DTX_COMPANY_TRADE_CLASS_INTERFACE = "DtxCompanyTradeClassInterface";
 
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
@@ -748,8 +750,12 @@ public class HomeController {
                         loaddata.put(DTX_CUSTOMER_GTS_ACTUAL_INTERFACE,
                     new String[] { Constants.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE, FilePathUtil.DTX_CUSTOMER_GTS_ACTUAL_INTERFACE });
                         loaddata.put(DTX_CUSTOMER_GTS_FORECAST_INTERFACE,
-                                new String[] { Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE, FilePathUtil.DTX_CUSTOMER_GTS_FORECAST_INTERFACE });
-            		
+                    new String[] { Constants.DTX_CUSTOMER_GTS_FORECAST_INTERFACE, FilePathUtil.DTX_CUSTOMER_GTS_FORECAST_INTERFACE });
+                        loaddata.put(DTX_COMPANY_MASTER_INTERFACE,
+                    new String[] { Constants.DTX_COMPANY_MASTER_INTERFACE, FilePathUtil.DTX_COMPANY_MASTER_INTERFACE });
+                        loaddata.put(DTX_COMPANY_TRADE_CLASS_INTERFACE,
+                    new String[] { Constants.DTX_COMPANY_TRADE_CLASS_INTERFACE, FilePathUtil.DTX_COMPANY_TRADE_CLASS_INTERFACE });
+                        		
 		}
 		return loaddata.get(keyValue);
 	}
@@ -772,7 +778,7 @@ public class HomeController {
 					ITEM_IDEN, ITEM_IDEN_HIS, ITEM_PRICING, ITEM_PRICING_HISTORY, COMPANY_BUID_INTERFACE,
 					COMPANY_BUNIT_INTERFACE, COMPANY_BUTYPE_INTERFACE, PRODUCT_PRODID_INTERFACE, PRODUCT_PROD_INTERFACE,
 					PRICING_INTERFACE, PRODUCT_PROD_BW_INTERFACE, PRODUCT_PROD_HIERARCHY_INTERFACE,DTX_ITEM_PRICING_INTERFACE,
-					DTX_ITEM_MASTER_INTERFACE,DTX_ITEM_IDENTIFIER_INTERFACE);
+					DTX_ITEM_MASTER_INTERFACE,DTX_ITEM_IDENTIFIER_INTERFACE,DTX_COMPANY_MASTER_INTERFACE,DTX_COMPANY_TRADE_CLASS_INTERFACE);
 
 			List<String> contract = Arrays.asList(CONTRACT_HEADER, CONTRACT_HIS, CFP, CFP_HISTORY, IFP, IFP_HISTORY,
 					PRICE_SCHEDULE, PRICE_SCHEDULE_HISTORY, REBATE_SCHEDULE, REBATE_SCHEDULE_HISTORY, REBATE_PLAN,

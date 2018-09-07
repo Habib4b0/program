@@ -19,11 +19,11 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public List<DiscountProjectionDTO> getDiscountProjection(SessionDTO session, String frequency,
-            List<Integer> startAndEndPeriods, String parentName, boolean isProgram, List<String> discountList, String year, int historyNumber,
+            List<Integer> startAndEndPeriods, String parentName, boolean isProgram, List<String> discountList, String year,
             int levelNo, String hierarchyIndicator, String userGroup, int start, int offset, boolean isCount, boolean isCustom, List<String> customViewDetails, 
             boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid,boolean isAltHistory) {
         return new NmDiscountImpl().getDiscountProjection(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency,
-                startAndEndPeriods, parentName, isProgram, discountList, year, historyNumber, levelNo, hierarchyIndicator, userGroup,
+                startAndEndPeriods, parentName, isProgram, discountList, year,  levelNo, hierarchyIndicator, userGroup,
                 start, offset, isCount, isCustom, customViewDetails, isRefresh, refreshHierarchyNumbers, relationshipBuilderSid,isAltHistory,session.getAction());
     }
 
@@ -68,9 +68,9 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public boolean saveDiscountProjectionListView(SessionDTO session, String frequency, int period, int year, String hierarchy,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
+            String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
         return new NmDiscountImpl().saveDiscountProjectionListView(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, period, year, hierarchy,
-                levelNo, hierarchyNo, discountName, fieldValue, isProgram, isCustomHierarchy, customViewDetails, relationshipBuilderSid);
+                 hierarchyNo, discountName, fieldValue, isProgram, isCustomHierarchy, customViewDetails, relationshipBuilderSid);
     }
 
   
@@ -90,8 +90,8 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
     }
 
     @Override
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, List<String> discountList) {
-        new NmDiscountImpl().checkClearAll(projectionId, userId, sessionId, userGroup, checkClear, discountList);
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear) {
+        new NmDiscountImpl().checkClearAll(projectionId, userId, sessionId, userGroup, checkClear);
     }
 
 }

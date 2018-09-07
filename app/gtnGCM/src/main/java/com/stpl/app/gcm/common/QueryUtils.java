@@ -2083,7 +2083,7 @@ public class QueryUtils {
         return input == null ? StringUtils.EMPTY : temp.format(input);
     }
 
-    public String LoadmassupdateCompany(String sid) {
+    public String loadmassupdateCompany(String sid) {
         String query = StringUtils.EMPTY;
         query = query + "select distinct cm.COMPANY_MASTER_SID,cm.COMPANY_NO,cm.COMPANY_NAME,cm.COMPANY_STATUS as status ,"
                 + " cm.COMPANY_START_DATE,cm.COMPANY_END_DATE,Status.DESCRIPTION as statusdescription from  COMPANY_MASTER cm "

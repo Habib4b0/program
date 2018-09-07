@@ -6,9 +6,12 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.bean.GtnFrameworkDisplayFormatBean;
 
 public class GtnDisplayFormatMasterBean {
+
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnDisplayFormatMasterBean.class);
 
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
@@ -26,6 +29,10 @@ public class GtnDisplayFormatMasterBean {
 		displayFormatList.add(format);
 	}
 
+	public GtnDisplayFormatMasterBean() {
+		super();
+	}
+
 	public void init() {
 		String query = " SELECT TABLE_NAME, COLUMN_NAME, SELECTED_COLUMN_NAME FROM dbo.HIERARCHY_DISPLAY_FORMAT ";
 		List<Object[]> results;
@@ -39,7 +46,7 @@ public class GtnDisplayFormatMasterBean {
 				addDisplayFormatList(formatBean);
 			}
 		} catch (GtnFrameworkGeneralException e) {
-
+			gtnLogger.error(e.getErrorMessage(), e);
 		}
 	}
 

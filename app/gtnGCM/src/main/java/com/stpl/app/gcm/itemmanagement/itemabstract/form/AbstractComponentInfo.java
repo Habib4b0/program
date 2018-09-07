@@ -608,7 +608,7 @@ public class AbstractComponentInfo extends CustomComponent {
     }
 
     private void loadTextFields(Integer id) {
-        ComponentInfoDTO dto = abstractLogic.getComponentTextFields(componentFlag,id,selection.isIsItemAddTab());
+        ComponentInfoDTO dto = abstractLogic.getComponentTextFields(componentFlag,id);
         setComponentDto(dto);
         setReadOnlyComponents(Boolean.FALSE);
         componentId.setValue(dto.getComponenId());

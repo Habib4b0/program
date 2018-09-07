@@ -28,7 +28,7 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 		Map<String, Double> dataMap = new HashMap<>((aliases.length - 4));
 		for (int k = 4; k < aliases.length; k++) {
 			Double doubleData = tuple[k] == null ? 0D : ((BigDecimal) tuple[k]).doubleValue();
-			dataMap.put(rowData.getPeriod() + "" + rowData.getYear() + aliases[k], doubleData);
+			dataMap.put(Integer.toString(rowData.getPeriod()) + rowData.getYear() + aliases[k], doubleData);
 		}
 		rowData.setDataMap(dataMap);
 		return rowData;

@@ -11,7 +11,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class ResponsiveUtils {
 

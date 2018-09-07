@@ -79,7 +79,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  * are from Property files in GALGTNProperties.'Res'is appended in each of the
  * fields to represent unique combination of property Id.
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class AdjustmentReserveSearchForm extends CustomComponent {
 
@@ -559,7 +559,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
         LOGGER.debug("UserId-->> {}", VaadinSession.getCurrent().getAttribute("userId").toString());
-        selection.setUserId(Integer.valueOf(VaadinSession.getCurrent().getAttribute("userId").toString()));
+        selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
         return selection;
     }
 

@@ -66,7 +66,7 @@ public class CommonQueryUtils {
         queryBuilder.append(" ,'Discount Projection','SelectedDiscountsSids','");
         queryBuilder.append(map.get("SelectedDiscountsSids")).append( "');");
         }
-        commonDao.executeBulkUpdateQuery(queryBuilder.toString(), null, null);
+        commonDao.executeBulkUpdateQuery(queryBuilder.toString());
     }
 
     public List getPriceGroupType(List<String> discountName,SessionDTO session) {
@@ -77,7 +77,7 @@ public class CommonQueryUtils {
                     + "and D.PROJECTION_MASTER_SID = " + session.getProjectionId()
                     + "and DM.RS_CONTRACT_SID=RS.RS_CONTRACT_SID "
                     + "and RS.RS_NAME in (" + selectedDiscounts + ")";
-            List<Object[]> list = (List<Object[]>) commonDao.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()), null, null);
+            List<Object[]> list = (List<Object[]>) commonDao.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             return list;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

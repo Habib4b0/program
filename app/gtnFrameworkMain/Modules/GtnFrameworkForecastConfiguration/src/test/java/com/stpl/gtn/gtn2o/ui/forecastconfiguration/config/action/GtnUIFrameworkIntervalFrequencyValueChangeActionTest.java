@@ -40,7 +40,8 @@ import static org.mockito.Mockito.doReturn;
  */
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(value = {GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkBaseComponent.class, GtnUIFrameworkActionExecutor.class})
+@PrepareForTest(value = { GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class,
+		GtnUIFrameworkBaseComponent.class, GtnUIFrameworkActionExecutor.class })
 public class GtnUIFrameworkIntervalFrequencyValueChangeActionTest {
 
 	@Before
@@ -52,63 +53,57 @@ public class GtnUIFrameworkIntervalFrequencyValueChangeActionTest {
 	}
 
 	@Test
-    public void testConfigureParams() throws Exception {
-        System.out.println("configureParams");
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
-        GtnUIFrameworkIntervalFrequencyValueChangeAction instance = new GtnUIFrameworkIntervalFrequencyValueChangeAction();
-        instance.configureParams(gtnUIFrameWorkActionConfig);
-    }
+	public void testConfigureParams() throws Exception {
+		System.out.println("configureParams");
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
+		GtnUIFrameworkIntervalFrequencyValueChangeAction instance = new GtnUIFrameworkIntervalFrequencyValueChangeAction();
+		instance.configureParams(gtnUIFrameWorkActionConfig);
+	}
 
-    @Test
-    public void testCreateInstance() {
-        System.out.println("createInstance");
-        GtnUIFrameworkIntervalFrequencyValueChangeAction instance = new GtnUIFrameworkIntervalFrequencyValueChangeAction();
-        GtnUIFrameWorkAction result = instance.createInstance();
-        assertEquals(instance, result);
-    }
+	@Test
+	public void testCreateInstance() {
+		System.out.println("createInstance");
+		GtnUIFrameworkIntervalFrequencyValueChangeAction instance = new GtnUIFrameworkIntervalFrequencyValueChangeAction();
+		GtnUIFrameWorkAction result = instance.createInstance();
+		assertEquals(instance, result);
+	}
 
 	@Test
 	public void testDoAction_1() throws Exception {
 		GtnUIFrameworkIntervalFrequencyValueChangeAction instance = new GtnUIFrameworkIntervalFrequencyValueChangeAction();
-		
-		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class, GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
-        String componentId = "";
-        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-        gtnUIFrameWorkActionConfig.addActionParameter(1);
-        gtnUIFrameWorkActionConfig.addActionParameter(1);
-        gtnUIFrameWorkActionConfig.addActionParameter(1);
-        gtnUIFrameWorkActionConfig.addActionParameter(1);
-        gtnUIFrameWorkActionConfig.addActionParameter(1);
- 
-        Constructor cons = (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
-        cons.setAccessible(true);
-        
-        GtnUIFrameworkBaseComponent object = Mockito.mock(GtnUIFrameworkBaseComponent.class);
-        doReturn(1).when(object).getIntegerFromField();
-        doReturn(true).when(object).isValidFieldValue();
-        when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
 
-    	GtnUIFrameworkWebserviceResponse newResponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsForecastConfigurationResponse fcNewResponse = new GtnWsForecastConfigurationResponse();
-        newResponse.setGtnWsForecastConfigurationResponse(fcNewResponse);
-        
-       GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
-        
-        GtnWsForecastConfigurationResponse obj=Mockito.mock(GtnWsForecastConfigurationResponse.class);
-        doReturn(true).when(obj).isErrorMessage();
-        response.setGtnWsForecastConfigurationResponse(obj);
-        GtnUIFrameworkIntervalFrequencyValueChangeAction in = Mockito.spy(instance);
-        doReturn(response).when(in)
-        .getWsResponse(Mockito.any(GtnUIFrameworkWebserviceRequest.class));
-        
-        in.doAction(componentId, gtnUIFrameWorkActionConfig);
-        
-        
+		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class, GtnUIFrameworkActionExecutor.class,
+				GtnUIFrameWorkAction.class, GtnUIFrameworkActionExecutor.class);
+		String componentId = "";
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameWorkActionConfig.addActionParameter(1);
+		gtnUIFrameWorkActionConfig.addActionParameter(1);
+		gtnUIFrameWorkActionConfig.addActionParameter(1);
+		gtnUIFrameWorkActionConfig.addActionParameter(1);
+		gtnUIFrameWorkActionConfig.addActionParameter(1);
+
+		Constructor cons = (GtnUIFrameworkBaseComponent.class.getDeclaredConstructors()[0]);
+		cons.setAccessible(true);
+
+		GtnUIFrameworkBaseComponent object = Mockito.mock(GtnUIFrameworkBaseComponent.class);
+		doReturn(1).when(object).getIntegerFromField();
+		doReturn(true).when(object).isValidFieldValue();
+		when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
+
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+
+		GtnWsForecastConfigurationResponse obj = Mockito.mock(GtnWsForecastConfigurationResponse.class);
+		doReturn(true).when(obj).isErrorMessage();
+		response.setGtnWsForecastConfigurationResponse(obj);
+		GtnUIFrameworkIntervalFrequencyValueChangeAction in = Mockito.spy(instance);
+		doReturn(response).when(in).getWsResponse(Mockito.any(GtnUIFrameworkWebserviceRequest.class));
+
+		in.doAction(componentId, gtnUIFrameWorkActionConfig);
+
 	}
-	
+
 	@Test
-	public void testGetWSResponse()
-		throws Exception {
+	public void testGetWSResponse() throws Exception {
 		GtnUIFrameworkIntervalFrequencyValueChangeAction fixture = new GtnUIFrameworkIntervalFrequencyValueChangeAction();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class);

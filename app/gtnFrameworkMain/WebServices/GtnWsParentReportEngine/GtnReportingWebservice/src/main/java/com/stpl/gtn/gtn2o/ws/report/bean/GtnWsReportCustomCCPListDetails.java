@@ -27,11 +27,11 @@ public class GtnWsReportCustomCCPListDetails {
 	}
 
 	public Object[] getData() {
-		return data;
+		return data != null ? data.clone() : null;
 	}
 
 	public void setData(Object[] data) {
-		this.data = data;
+		this.data = data != null ? data.clone() : null;
 	}
 
 	public int getLevelNo() {

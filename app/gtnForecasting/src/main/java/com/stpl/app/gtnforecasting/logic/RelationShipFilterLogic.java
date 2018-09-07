@@ -90,7 +90,7 @@ public class RelationShipFilterLogic {
 			Map<String, String> customerDescMap, int relationVersionNo, boolean isNdc)
 			throws CloneNotSupportedException {
 		List<Leveldto> resultList = new ArrayList<>();
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(query, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(query);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -170,7 +170,7 @@ public class RelationShipFilterLogic {
 		String finalQuery = getQueryForCustomer(selectedHierarchyLevelDto, relationshipSid, groupFilteredCompanies,
 				dedLevel, dedValue, relationVersionNo, forecastEligibleDate, levelHierarchyLevelDefinitionList,
 				lastLevelNo);
-		List<String> resultsDataList = (List<String>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<String> resultsDataList = (List<String>) daoImpl.executeSelectQuery(finalQuery);
 		for (String data : resultsDataList) {
 			commaSeperatedList.add("'".concat(data).concat("'"));
 		}
