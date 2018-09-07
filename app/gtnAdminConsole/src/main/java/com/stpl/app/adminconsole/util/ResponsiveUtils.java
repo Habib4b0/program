@@ -157,8 +157,7 @@ public class ResponsiveUtils {
         if (isMandatory) {
             sb.append(" <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>");
         }
-        Label label = new Label(sb.toString(), ContentMode.HTML);
-        return label;
+        return new Label(sb.toString(), ContentMode.HTML);
     }
     public static Label makeLabel(Label label, boolean isMandatory) {
             StringBuilder sb = new StringBuilder();

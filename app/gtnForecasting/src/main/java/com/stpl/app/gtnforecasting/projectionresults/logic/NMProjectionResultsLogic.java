@@ -1767,7 +1767,7 @@ public class NMProjectionResultsLogic {
             List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (int i = 0; i < list.size(); i++) {
-                final Object[] obj = (Object[]) list.get(i);
+                final Object[] obj =  list.get(i);
                 String column;
                 int year = Integer.parseInt(String.valueOf(obj[1]));
                 int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));

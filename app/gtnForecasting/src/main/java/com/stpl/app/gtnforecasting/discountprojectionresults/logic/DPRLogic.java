@@ -298,7 +298,7 @@ public class DPRLogic {
         freq.put(NumericConstants.FOUR, Constant.QUARTER);
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        String freqChar = frequencyDPR(frequency);
         list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar), null, null);
         List<DiscountProjectionResultsDTO> projDTOList = getCustomizedPC(list, projSelDTO);
         return projDTOList;
@@ -1954,9 +1954,9 @@ public class DPRLogic {
         freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
         freq.put(NumericConstants.FOUR, Constant.QUARTER);
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
-        String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
+        String frequencyPivot = freq.get(projSelDTO.getFrequencyDivision());
+        String freqCharPivot = frequencyDPR(frequencyPivot);
+        String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequencyPivot, projSelDTO, freqCharPivot);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
         if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
             Collections.reverse(list);
@@ -2158,9 +2158,9 @@ public class DPRLogic {
         freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
         freq.put(NumericConstants.FOUR, Constant.QUARTER);
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
-        String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar), null, null);
+        String frequencyDiscounts = freq.get(projSelDTO.getFrequencyDivision());
+        String freqCharDiscounts = frequencyDPR(frequencyDiscounts);
+        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequencyDiscounts, projSelDTO, freqCharDiscounts), null, null);
         return list;
     }
 
@@ -2299,7 +2299,7 @@ public class DPRLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -2381,4 +2381,18 @@ public class DPRLogic {
 	public void setProjectionTotalList(List<DiscountProjectionResultsDTO> projectionTotalList) {
 		this.projectionTotalList = projectionTotalList;
 	}
+        
+    private String frequencyDPR(String frequency) {
+        String freqCharDPR = frequency;
+        if (Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency)) {
+            freqCharDPR = Constant.S;
+        } else if (Constant.QUARTER.equalsIgnoreCase(frequency)) {
+            freqCharDPR = Constant.Q;
+        } else if (Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            freqCharDPR = StringUtils.EMPTY;
+        } else {
+            freqCharDPR = CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED;
+        }
+        return freqCharDPR;
+    }
 }

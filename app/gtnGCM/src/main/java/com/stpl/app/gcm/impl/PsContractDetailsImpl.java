@@ -25,6 +25,11 @@ public class PsContractDetailsImpl {
      * @param future
      * @return 
      */
+     
+     private PsContractDetailsImpl ()
+     {
+          LOGGER.debug("PsContractDetailsImpl");
+     }
     public static Boolean savePsDetailsAttached(final List<Object> input, final Object future){
         boolean retFlag;
         String sqlSavePsDetailsAttached = SQlUtil.getQuery("com.contractDashboard.savePS");

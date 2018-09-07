@@ -33,6 +33,10 @@ public class RelationshipLevelValuesMasterBean {
 		this.gtnDisplayFormatMasterBean = gtnDisplayFormatMasterBean;
 	}
 
+	public RelationshipLevelValuesMasterBean() {
+		super();
+	}
+
 	public static final String DEFAULT_QUESTION = " @DEFAULTSELECTCLAUSE ";
 	private List<Object[]> tempList = null;
 	private String hierarchyNoType;
@@ -49,8 +53,6 @@ public class RelationshipLevelValuesMasterBean {
 		this.hierarchyNoType = hierarchyNoType;
 		if (!"D".equals(hierarchyNoType)) {
 			createQuery(dataSelectionBean);
-		} else {
-			// createDeductionQuery(sessionDTO);
 		}
 	}
 
@@ -85,13 +87,6 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 
-	// private void createDeductionQuery(SessionDTO sessionDTO) {
-	// for (int i = 0; i < tempList.size(); i++) {
-	// queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i),
-	// sessionDTO));
-	// }
-	// }
-
 	private RelationshipLevelValuesBean getCustomisedQuery(Object[] tempListObject,
 			GtnWsReportDataSelectionBean dataSelectionBean) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
@@ -110,83 +105,6 @@ public class RelationshipLevelValuesMasterBean {
 				: dataSelectionBean.getProductRelationshipVersionNo());
 		bean.setQuery(sqlService.getQuery(input, "getRelationshipLevelValues"));
 		return bean;
-	}
-
-	// private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[]
-	// tempListObject, SessionDTO sessionDTO) {
-	// RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
-	// String customSql;
-	// customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
-	// customSql = customSql.replace("?LNO",
-	// String.valueOf(tempListObject[NumericConstants.REPORT_ZERO]));
-	// customSql = customSql.replace(RBSID, relationshipBuilderSid);
-	// customSql = customSql.replace("?RLDV",
-	// sessionDTO.getDeductionRelationVersion() + StringUtils.EMPTY);
-	// boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);
-	// boolean isRSID = tempListObject[2].equals(0) && tempListObject[3].equals(0);
-	// boolean isHelperTableJoin = tempListObject[2].equals(1);
-	// if (isUDC) {
-	// customSql = customSql.replace(FIELD_VALUE,
-	// " RS.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' ");
-	// } else if (isRSID) {
-	// customSql = customSql.replace(FIELD_VALUE, " RS.RS_CONTRACT_SID =
-	// RLD.RELATIONSHIP_LEVEL_VALUES");
-	// } else {
-	// customSql = customSql.replace(FIELD_VALUE,
-	// " RS." + tempListObject[NumericConstants.REPORT_ONE] +
-	// "=RLD.RELATIONSHIP_LEVEL_VALUES");
-	// }
-	//
-	// if (isUDC) {
-	// customSql = customSql.replace("?UDCJOIN",
-	// " JOIN UDCS U ON U." + tempListObject[NumericConstants.REPORT_ONE] +
-	// "=RLD.RELATIONSHIP_LEVEL_VALUES ");
-	// customSql = customSql.replace("?HELPERTABLEJOIN",
-	// " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=U." +
-	// tempListObject[NumericConstants.REPORT_ONE]);
-	// customSql = customSql.replace("?REBATEJOIN", StringUtils.EMPTY);
-	// customSql = customSql.replace("?HTDESCRIPTION", HT_DESC);
-	// customSql = customSql.replace("?DEDGROUPBY", HT_DESC);
-	// } else {
-	// customSql = customSql.replace("?REBATEJOIN",
-	// isHelperTableJoin
-	// ? " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=RS." +
-	// tempListObject[NumericConstants.REPORT_ONE]
-	// : StringUtils.EMPTY);
-	// customSql = customSql.replace("?HELPERTABLEJOIN", StringUtils.EMPTY);
-	// customSql = customSql.replace("?UDCJOIN", StringUtils.EMPTY);
-	// customSql = customSql.replace("?HTDESCRIPTION", isHelperTableJoin ? HT_DESC :
-	// "RS.RS_ID");
-	// customSql = customSql.replace("?DEDGROUPBY", isHelperTableJoin ? HT_DESC :
-	// "RS.RS_ID");
-	// }
-	// customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
-	// getDisplayFormatColumnRS(masterBean.getDisplayFormatList(),
-	// String.valueOf(tempListObject[1]), bean));
-	// customSql = customSql.replace("?DEFGRPBY", bean.getDefaultGroupBy());
-	// bean.setQuery(customSql);
-	// return bean;
-	// }
-
-	private String getDisplayFormatColumnRS(List<GtnFrameworkDisplayFormatBean> hierarchyList, String columnName,
-			RelationshipLevelValuesBean bean) {
-		StringBuilder finalStr = new StringBuilder();
-		int count = 0;
-		if (!hierarchyList.isEmpty()) {
-			for (int i = 0; i < hierarchyList.size(); i++) {
-				GtnFrameworkDisplayFormatBean gtnFrameworkDisplayFormatBean = hierarchyList.get(i);
-				if (!StringUtils.isBlank(columnName)
-						&& columnName.equalsIgnoreCase(gtnFrameworkDisplayFormatBean.getColumnName())) {
-					finalStr.append(", RS.").append(gtnFrameworkDisplayFormatBean.getSelectedColumnName())
-							.append(" AS COLUMN_").append(i);
-					setDefaultCount(++count);
-					bean.setNoOfSelectFormed(count);
-					bean.setDefaultGroupBy(", RS." + gtnFrameworkDisplayFormatBean.getSelectedColumnName());
-				}
-			}
-		}
-		finalStr.append(DEFAULT_QUESTION);
-		return finalStr.toString();
 	}
 
 	private String getDisplayFormatColumn(List<GtnFrameworkDisplayFormatBean> hierarchyList, String columnName,

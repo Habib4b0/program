@@ -2152,8 +2152,6 @@ public class NmDiscountImpl {
     }
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencySubDiscount = frequency;
             try {
@@ -2262,13 +2260,10 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
         return null;
     }
 
     public List getTotalDiscountCount(int projectionMasterId, String frequency, String actualsOrProjections, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencyTotalDiscount = frequency;
             try {
@@ -2413,7 +2408,6 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
         return null;
     }
 

@@ -26,6 +26,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastNewArchitectureConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnUIFrameworkDataSelectionScreenConfig {
@@ -453,7 +454,16 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		searchBtn.setComponentName("SEARCH");
 		searchBtn.setParentComponentId(parentComponentId);
 		searchBtn.setAddToParent(true);
-
+                List<GtnUIFrameWorkActionConfig> actionConfigListSearch = new ArrayList<>();
+                GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
+                loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+                loadDataSearchTableActionConfig.setActionParameterList(
+                Arrays.asList(new Object[]{nameSpace+"_"+"projectionResultsTable"}));
+                loadDataSearchTableActionConfig.setFieldValues(
+                        Arrays.asList(new String[]{nameSpace+"_"+"projectionName",
+                            nameSpace+"_"+"projectionDescription"}));
+                actionConfigListSearch.add(loadDataSearchTableActionConfig);
+                searchBtn.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 		componentList.add(searchBtn);
 
 	}
@@ -525,6 +535,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		projectionResultsTable.setAddToParent(true);
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
+                projectionResultsTable.setModuleName("serviceRegistry");
 
 		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
 		projectionResultsTableConfig.setEditable(false);
@@ -546,8 +557,11 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 				"customerHierarchy", "customerLevel", "productHierarchy", "productLevel", "createdBy", "createdDate",
 				"modifiedDate", GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID, 
                                                                          GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID });
-		
-
+                projectionResultsTableConfig.setCountUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+                projectionResultsTableConfig.setResultSetUrl("/gtnServiceRegistry/serviceRegistryUIControllerMappingWs");
+		projectionResultsTableConfig.setPagedTableWsUrl("/forecastingPagedTableSearch");
+                projectionResultsTableConfig.setRegisteredWebContext("/GtnSearchWebService");
+                projectionResultsTableConfig.setModuleName("generalSearch");
 		projectionResultsTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);

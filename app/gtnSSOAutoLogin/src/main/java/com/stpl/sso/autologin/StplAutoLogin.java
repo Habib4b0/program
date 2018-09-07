@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.stpl.sso.autologin.config.StplConfigReader;
 import com.stpl.sso.kerberos.spnego.SpnegoHttpFilter;
 import com.stpl.sso.kerberos.spnego.SpnegoPrincipal;
+import com.stpl.sso.saml.StplSAMLRequestGenerator;
 import com.stpl.sso.saml.StplSAMLResponseParser;
 
 public class StplAutoLogin implements AutoLogin {
@@ -69,9 +70,16 @@ public class StplAutoLogin implements AutoLogin {
 		String relayState = request.getParameter("RelayState");
 
 		if (samlResponseString == null) {
-			LOGGER.info("- Redirecting to  Idp Url -");
-			request.setAttribute(AutoLogin.AUTO_LOGIN_REDIRECT,
-					StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getIdpURL());
+
+			String idpUrl = StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getIdpURL();
+			String isRequestNeeded = StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean()
+					.getIsSAMLRequestNeeded();
+			if (isRequestNeeded != null && !isRequestNeeded.isEmpty() && "yes".equalsIgnoreCase(isRequestNeeded)) {
+				idpUrl = new StplSAMLRequestGenerator().getAuthNRedirectUrl();
+			}
+
+			LOGGER.info("- Redirecting to  Idp Url - " + idpUrl);
+			request.setAttribute(AutoLogin.AUTO_LOGIN_REDIRECT, idpUrl);
 			return null;
 		}
 

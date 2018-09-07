@@ -47,7 +47,6 @@ public class ComparisonLookup extends AbstractComparisonLookup {
   /**
    * Screen Name
    */
-    private String screenName = StringUtils.EMPTY;
     /**
      * Constructor for ComparisonLookup.
      *

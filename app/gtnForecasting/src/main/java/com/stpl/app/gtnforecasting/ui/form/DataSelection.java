@@ -1847,10 +1847,8 @@ public class DataSelection extends ForecastDataSelection {
 		try {
 
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-				{
 					dedLevelCustomer = getDedutionLevel();
 					dedValueCustomer = String.valueOf(deductionValue.getValue());
-				}
 			}
 		} catch (NumberFormatException ex) {
 			LOGGER.error(" level  ValueChangeListener2= {} ", ex);
@@ -2152,10 +2150,8 @@ public class DataSelection extends ForecastDataSelection {
 				String dedLevel = StringUtils.EMPTY;
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-					{
 						dedLevel = getDedutionLevel();
 						dedValue = String.valueOf(deductionValue.getValue());
-					}
 				}
 				String relationshipSid = String.valueOf(productRelation.getValue());
 

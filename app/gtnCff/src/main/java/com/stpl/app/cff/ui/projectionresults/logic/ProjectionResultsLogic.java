@@ -937,7 +937,7 @@ public class ProjectionResultsLogic {
         String column;
         loadMap();
         for (int i = 0; i < list.size(); i++) {
-            final Object[] obj = (Object[]) list.get(i);
+            final Object[] obj =  list.get(i);
             newDiscountName = String.valueOf(obj[NumericConstants.THREE]);
             if (oldDiscountName.equals(newDiscountName)) {
                 column = getCommonColumn(projSelDTO, obj);
