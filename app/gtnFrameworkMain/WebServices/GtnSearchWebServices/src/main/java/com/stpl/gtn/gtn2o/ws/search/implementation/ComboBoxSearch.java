@@ -21,16 +21,16 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author anandh.karuppusamy
  */
-public class CommonForSelect extends GtnCommonWebServiceImplClass implements SearchInterface {
+public class ComboBoxSearch extends GtnCommonWebServiceImplClass implements SearchInterface {
 
-    public CommonForSelect() {
+    public ComboBoxSearch() {
         super();
         initializeLogger();
     }
 
     @PostConstruct
     public void initializeLogger() {
-        super.logInformation(CommonForSelect.class);
+        super.logInformation(ComboBoxSearch.class);
     }
 
     @Override
@@ -39,11 +39,10 @@ public class CommonForSelect extends GtnCommonWebServiceImplClass implements Sea
     }
 
     @Override
-    public GtnUIFrameworkWebserviceResponse getSearch(GtnGeneralSearchBean gtnGeneralSearchBean) {
+    public GtnUIFrameworkWebserviceResponse getSearch(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,String query) {
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
         try
         {
-        String query = gtnGeneralSearchBean.getQuery();
         logger.debug("Businnes unit query:" + query);
         GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
         queryExecutorBean.setSqlQuery(query);

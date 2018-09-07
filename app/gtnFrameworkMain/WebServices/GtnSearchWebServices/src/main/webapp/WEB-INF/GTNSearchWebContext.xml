@@ -15,7 +15,7 @@
     <bean id="gtnSearchwebServiceSqlService" class="com.stpl.gtn.gtn2o.ws.search.sqlservice.GtnSearchwebServiceSqlService"/>
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations" value="classpath:/sqlresources/sqlqueries.xml" />
+        <property name="locations" value="classpath:/sqlresources/sqlqueries.xml"/>
     </bean>
 
     

@@ -51,4 +51,12 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
         response=gtnGeneralSearch.commonMethod(gtnUiFrameworkWebservicerequest);
         return response;
     }
+    @PostMapping(value="/forecastingPagedTableSearch")
+        public GtnUIFrameworkWebserviceResponse gtnPagedTableSearch
+                            (@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest)
+                            {
+                                GtnUIFrameworkWebserviceResponse response;
+                                response=gtnGeneralSearch.pagedTableSearch(gtnUiFrameworkWebservicerequest);
+                                return response;
+                            }
 }
