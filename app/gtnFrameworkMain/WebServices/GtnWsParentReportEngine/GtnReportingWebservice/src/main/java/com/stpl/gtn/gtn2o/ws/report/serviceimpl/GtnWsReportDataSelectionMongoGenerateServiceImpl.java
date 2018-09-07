@@ -31,10 +31,10 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsReportDataSelectionGenerate {
 
 	@Autowired
-	GtnWsTreeService gtnWsTreeService;
+	private GtnWsTreeService gtnWsTreeService;
 
 	@Autowired
-	GtnWsMongoService gtnWsMongoService;
+	private GtnWsMongoService gtnWsMongoService;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -47,6 +47,10 @@ public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsRe
 
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
 			.getGTNLogger(GtnWsReportDataSelectionMongoGenerateServiceImpl.class);
+
+	public GtnWsReportDataSelectionMongoGenerateServiceImpl() {
+		super();
+	}
 
 	@Override
 	public void dataSelectionGenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest) {

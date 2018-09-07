@@ -884,7 +884,7 @@ public class ApprovalTab extends CustomComponent {
 
     public Boolean submitLogic() {
         if (sessionDTO.getAction().equals("edit")) {
-            cffLogic.getNoOfLevelFromJbpm(sessionDTO, String.valueOf(dto.getCffMasterSid()), sessionDTO.getUserId());
+            cffLogic.getNoOfLevelFromJbpm(sessionDTO, sessionDTO.getUserId());
             String noOfLevel = cffLogic.getNoOfLevelFromDB(String.valueOf(dto.getCffMasterSid()));
             cffLogic.submitCffPendingDetails(sessionDTO.getUserId(), dto.getCffMasterSid(), noOfLevel);
             CommonUIUtils.getMessageNotification("CFF Re-Submitted Successfully");

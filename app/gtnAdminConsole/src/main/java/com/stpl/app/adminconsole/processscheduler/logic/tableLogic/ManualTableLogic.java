@@ -34,8 +34,7 @@ public class ManualTableLogic extends PageTableLogic{
 
    @Override
     public List loadData(int start, int offset) {
-        List list = logic.getSearchResult(false,start,offset, false,getSortByColumns());
-        return list;
+        return logic.getSearchResult(false,start,offset, false,getSortByColumns());
     }
 
     @Override

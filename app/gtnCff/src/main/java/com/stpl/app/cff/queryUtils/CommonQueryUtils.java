@@ -23,7 +23,10 @@ public class CommonQueryUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonQueryUtils.class);
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-
+private CommonQueryUtils()
+{
+    LOGGER.debug("Entering CommonQueryUtils ");
+}
     public static String getQuery( String query,List input) {
         StringBuilder sql =new StringBuilder();
         try {

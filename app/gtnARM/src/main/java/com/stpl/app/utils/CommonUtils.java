@@ -694,10 +694,6 @@ public class CommonUtils {
             String freq = frequency.trim().toUpperCase(Locale.ENGLISH);
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             String[] months = dateFormatSymbols.getShortMonths();
-            String year;
-            int month;
-            String quarter;
-            String semi;
             int iterationCountWithS = freq.startsWith("S") ? calculateFrequency(diffMonth, NumericConstants.SIX) : diffYear;
             int iterationCountWithQ = freq.startsWith("Q") ? calculateFrequency(diffMonth, NumericConstants.THREE)
                     : iterationCountWithS;
@@ -706,19 +702,27 @@ public class CommonUtils {
             int incrementWithQ = freq.startsWith("Q") ? NumericConstants.THREE
                     : incrementWithS;
             int increment = freq.startsWith("M") ? 1 : incrementWithQ;
-            for (int i = 0; i <= iterationCount; i++) {
-                year = String.valueOf(fromDateCal.get(Calendar.YEAR));
-                month = fromDateCal.get(Calendar.MONTH);
-                quarter = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.THREE + 1);
-                semi = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String startWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
-                String startWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year : startWithS;
-                String period = freq.startsWith("M") ? months[month] + " " + year : startWithQ;
-                fromDateCal.add(Calendar.MONTH, increment);
-                periodList.add(period);
-            }
+            getPeriodList(iterationCount, fromDateCal, freq, months, increment, periodList);
         }
         return periodList;
+    }
+
+    private static void getPeriodList(int iterationCount, Calendar fromDateCal, String freq, String[] months, int increment, List<String> periodList) {
+        String year;
+        String quarter;
+        String semi;
+        int month;
+        for (int i = 0; i <= iterationCount; i++) {
+            year = String.valueOf(fromDateCal.get(Calendar.YEAR));
+            month = fromDateCal.get(Calendar.MONTH);
+            quarter = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.THREE + 1);
+            semi = String.valueOf(fromDateCal.get(Calendar.MONTH) / NumericConstants.SIX + 1);
+            String startWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
+            String startWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year : startWithS;
+            String period = freq.startsWith("M") ? months[month] + " " + year : startWithQ;
+            fromDateCal.add(Calendar.MONTH, increment);
+            periodList.add(period);
+        }
     }
 
     /**
@@ -1099,10 +1103,7 @@ public class CommonUtils {
             Collections.sort(list, sorter);
             if (list != null && !list.isEmpty()) {
                 for (HelperDTO helperDTO : list) {
-                    if (((ARMConstants.getPipelineAccrual().equals(adjustmentType) || ARMConstants.getTransaction6().equals(adjustmentType) || ARMConstants.getTransaction7().equals(adjustmentType))
-                            && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()))
-                            || (ARMConstants.getTransaction8().equals(adjustmentType) && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()))
-                            || (ARMConstants.getPipelineInventoryTrueUp().equals(adjustmentType) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()))) {
+                    if (getCondition(adjustmentType, helperDTO)) {
                         rateBasisSelect.addItem(helperDTO.getId());
                         rateBasisSelect.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
                     }
@@ -1116,6 +1117,13 @@ public class CommonUtils {
             LOGGER.error(CommonConstant.ERROR_WHILE_LOADING_DROP_DOWN + listName + CommonConstant.WITH, e);
         }
         return rateBasisSelect;
+    }
+
+    private static boolean getCondition(String adjustmentType, HelperDTO helperDTO) {
+        return ((ARMConstants.getPipelineAccrual().equals(adjustmentType) || ARMConstants.getTransaction6().equals(adjustmentType) || ARMConstants.getTransaction7().equals(adjustmentType))
+                && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()))
+                || (ARMConstants.getTransaction8().equals(adjustmentType) && !VariableConstants.CONTRACT_TERMS.equals(helperDTO.getDescription()))
+                || (ARMConstants.getPipelineInventoryTrueUp().equals(adjustmentType) && !VariableConstants.CALCULATED_RETURNS.equals(helperDTO.getDescription()) && !VariableConstants.CONTRACT_DETAILS.equals(helperDTO.getDescription()));
     }
 
     public static void loadCustomMenubarAccount(final CustomMenuBar menuBar, CustomMenuBar.CustomMenuItem customMenuItemDed, final int adjustmentType, ReserveSelection selection) {

@@ -28,8 +28,6 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        StringBuilder demandValue;
-        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
 
         if (demandSelection.getSessionDTO().isWorkFlow()) {
@@ -59,6 +57,12 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             }
         }
         List list = QueryUtils.executeSelect(query.toString());
+        return getFinalList(list, reserveHeader, reserveProperty, finalList);
+    }
+
+    private List<List> getFinalList(List list, List<String> reserveHeader, List<String> reserveProperty, List<List> finalList) {
+        StringBuilder demandValue;
+        StringBuilder property;
         if (list != null) {
 
             for (int i = 0; i < list.size(); i++) {

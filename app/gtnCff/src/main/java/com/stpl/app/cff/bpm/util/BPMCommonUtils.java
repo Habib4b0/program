@@ -6,12 +6,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author arulmurugan
  */
 public class BPMCommonUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BPMCommonUtils.class);
+    private BPMCommonUtils()
+    {
+        LOGGER.debug("Entering BPMCommonUtils ");
+    }
 
     public static List<Date> getPreviousQuarterDates() {
         Calendar cal = Calendar.getInstance();

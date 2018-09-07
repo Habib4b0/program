@@ -4,6 +4,9 @@
  */
 package com.stpl.app.gcm.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author mohamed.hameed
@@ -31,4 +34,10 @@ public class SecurityConstants {
     public static final String SALES_RABATES_TAB = "Sales and Rebates";
     public static final String ITEM_DETAILS_TAB = "Item Details";
     public static final String CONTRACT_SELECTION_TAB = "Contract selection Tab";
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConstants.class);
+    
+    private SecurityConstants()
+    {
+        LOGGER.debug("SecurityConstants");
+    }
 }
