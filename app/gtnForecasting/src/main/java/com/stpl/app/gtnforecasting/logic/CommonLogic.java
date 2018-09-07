@@ -1088,7 +1088,7 @@ public class CommonLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1113,7 +1113,7 @@ public class CommonLogic {
             list = NmProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
@@ -1989,7 +1989,7 @@ public class CommonLogic {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object[] obj = (Object[]) list.get(i);
+                    Object[] obj = list.get(i);
                     map.put(obj[0], obj[1]);
                 }
             }
