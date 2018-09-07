@@ -138,7 +138,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private List<GtnWsReportCustomCCPListDetails> customizeCustomCCP(List<Object[]> resultList,
 			Map<Integer, Integer> customViewDetails) {
-		List<GtnWsReportCustomCCPListDetails> ccpList = new ArrayList<>();
+		List<GtnWsReportCustomCCPListDetails> ccpList = new ArrayList<>(resultList.size());
 		for (Object[] result : resultList) {
 			GtnWsReportCustomCCPListDetails data = applicationContext.getBean(GtnWsReportCustomCCPListDetails.class);
 			data.setLevelNo(Integer.parseInt(result[3].toString()));

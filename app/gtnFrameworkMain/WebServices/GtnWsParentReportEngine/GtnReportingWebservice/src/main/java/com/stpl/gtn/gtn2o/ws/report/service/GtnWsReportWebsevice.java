@@ -47,32 +47,8 @@ public class GtnWsReportWebsevice {
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
 
-	public void setSysSessionFactory(org.hibernate.SessionFactory sysSessionFactory) {
-		this.sysSessionFactory = sysSessionFactory;
-	}
-
-	public org.hibernate.SessionFactory getSysSessionFactory() {
-		return sysSessionFactory;
-	}
-
-	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
-		return gtnSqlQueryEngine;
-	}
-
-	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
-		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
-	}
 
 	@Autowired
 	private GtnWsReportSqlService sqlService;
