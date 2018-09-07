@@ -317,7 +317,7 @@ public class PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abstrac
         try {
             QueryUtils.itemUpdate(input, "pipeline_common_query_Level_Filter", "Txn1_rates_override_query_Level_Filter");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :" + e);
+            LOGGER.error("Error in updateOverride :", e);
             return false;
         }
         return true;

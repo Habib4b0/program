@@ -257,7 +257,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
         try {
             QueryUtils.itemUpdate(input, "OVERRIDE_QUERY_LEVEL_FILTER");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :"+e);
+            LOGGER.error("Error in updateOverride :",e);
             return false;
         }
         return true;

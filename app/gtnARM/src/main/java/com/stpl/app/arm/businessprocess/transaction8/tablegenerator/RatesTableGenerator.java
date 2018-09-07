@@ -110,10 +110,10 @@ public class RatesTableGenerator implements TableFieldFactory, LeaveCheckAble {
                       rsId = "%";   
                     }
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
-                    valueChangeLogic(dto, val,false,rsId);
+                    valueChangeLogic(dto, val,Boolean.FALSE,rsId);
                 } else if (rsSid == dto.getDeductionSID() || staticFlag) {
                     selection.setRatesOverrideFlag(NumericConstants.ONE);
-                    valueChangeLogic(dto, val, true,"0");
+                    valueChangeLogic(dto, val, Boolean.TRUE,"0");
                 }
                 refreshTable(tableLogic);
             } catch (Exception e) {

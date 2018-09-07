@@ -282,12 +282,12 @@ public class WorkflowLogic {
             } else {
                 LOGGER.error("workflowMaster not created");
             }
-            LOGGER.debug(workflowMaster.getFileName());
+            LOGGER.debug(workflowMaster != null ? workflowMaster.getFileName() : null);
         } catch (Exception ex) {
             LOGGER.error("Error in updateWorkflow :" , ex);
             return ARMUtils.WORKFLOW_NOT_SAVED;
         }
-        return workflowMaster == null ? null : workflowMaster.getWorkflowId();
+        return workflowMaster != null ? workflowMaster.getWorkflowId() : null;
     }
 
     /**

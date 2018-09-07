@@ -359,7 +359,7 @@ public class Trx7PipelineAccrualRateLogic<T extends AdjustmentDTO, E extends Abs
         try {
             QueryUtils.itemUpdate(input, "pipeline_common_query_Level_Filter", "Txn7_rates_override_query_Level_Filter");
         } catch (Exception e) {
-            LOGGER.error("Error in updateOverride :" + e);
+            LOGGER.error("Error in updateOverride :",e);
             return false;
         }
         return true;
