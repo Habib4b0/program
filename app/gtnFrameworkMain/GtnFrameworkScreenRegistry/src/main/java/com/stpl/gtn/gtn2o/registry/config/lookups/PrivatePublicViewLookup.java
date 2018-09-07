@@ -59,7 +59,7 @@ public class PrivatePublicViewLookup
 		GtnUIFrameworkComponentConfig privatePublicViewLookupRootLayout = new GtnUIFrameworkComponentConfig();
 		privatePublicViewLookupRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privatePublicViewLookupRootLayout.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewLookupRootLayout");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.VIEW_LAYOUT);
 		privatePublicViewLookupRootLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		privatePublicViewLookupRootLayout.setAddToParent(false);
 		privatePublicViewLookupRootLayout.setSpacing(true);
@@ -82,7 +82,7 @@ public class PrivatePublicViewLookup
 		privatePublicLookupRootComponentForPopUp.setComponentId(namespace
 				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		privatePublicLookupRootComponentForPopUp.setParentComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewLookupRootLayout");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.VIEW_LAYOUT);
 		privatePublicLookupRootComponentForPopUp.setSpacing(true);
 		privatePublicLookupRootComponentForPopUp.setMargin(true);
 		componentList.add(privatePublicLookupRootComponentForPopUp);
@@ -98,7 +98,7 @@ public class PrivatePublicViewLookup
 		GtnUIFrameworkComponentConfig privatePublicViewSearchLookupSearchCriteriaPanel = new GtnUIFrameworkComponentConfig();
 		privatePublicViewSearchLookupSearchCriteriaPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		privatePublicViewSearchLookupSearchCriteriaPanel.setComponentId(namespace
-				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaPanel");
+				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.CRITERIA_PANEL);
 		privatePublicViewSearchLookupSearchCriteriaPanel.setComponentName("Search Criteria");
 		privatePublicViewSearchLookupSearchCriteriaPanel.setParentComponentId(namespace
 				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
@@ -117,13 +117,13 @@ public class PrivatePublicViewLookup
 		GtnUIFrameworkComponentConfig privatePublicViewSearchLookupSearchCriteriaConfig = new GtnUIFrameworkComponentConfig();
 		privatePublicViewSearchLookupSearchCriteriaConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privatePublicViewSearchLookupSearchCriteriaConfig.setComponentId(namespace
-				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaLayout");
+				+ GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.CRITERIA_LAYOUT);
 		privatePublicViewSearchLookupSearchCriteriaConfig.setComponentName("Search Criteria");
 		privatePublicViewSearchLookupSearchCriteriaConfig.setAddToParent(true);
 		privatePublicViewSearchLookupSearchCriteriaConfig.setComponentWidth("90%");
 		privatePublicViewSearchLookupSearchCriteriaConfig.setComponentHight("50px");
 		privatePublicViewSearchLookupSearchCriteriaConfig.setParentComponentId(namespace
-				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaPanel");
+				+ GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.CRITERIA_PANEL);
 		privatePublicViewSearchLookupSearchCriteriaConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
 		privatePublicViewSearchLookupSearchCriteriaConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		privatePublicViewSearchLookupSearchCriteriaConfig.setGtnLayoutConfig(privatePublicViewSearchLookupSearchCriteriaLayout);
@@ -134,7 +134,7 @@ public class PrivatePublicViewLookup
 	private void addViewNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig horizontalViewNameLayout = privatePublicViewConfig.getHorizontalLayoutConfig(
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "horizontalViewNameLayout", namespace
-						+ GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaLayout");
+						+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.CRITERIA_LAYOUT);
 		componentList.add(horizontalViewNameLayout);
 
 		GtnUIFrameworkComponentConfig addViewNameTextBox = new GtnUIFrameworkComponentConfig();
@@ -180,7 +180,7 @@ public class PrivatePublicViewLookup
 		GtnUIFrameworkComponentConfig privateViewSearchLookupSearchButton = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupSearchButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		privateViewSearchLookupSearchButton.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSearchButton");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.SEARCH_BUTTON);
 		privateViewSearchLookupSearchButton.setComponentName("SEARCH");
 		privateViewSearchLookupSearchButton
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
@@ -237,7 +237,7 @@ public class PrivatePublicViewLookup
 		GtnUIFrameworkComponentConfig privateViewSearchLookupResultsPanel = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		privateViewSearchLookupResultsPanel.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupResultsPanel");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.RESULTS_PANEL);
 		privateViewSearchLookupResultsPanel.setComponentName("Results");
 		privateViewSearchLookupResultsPanel.setParentComponentId(namespace
 				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
@@ -258,11 +258,11 @@ public class PrivatePublicViewLookup
 		GtnUIFrameworkComponentConfig privateViewSearchLookupResultConfig = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupResultConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewSearchLookupResultConfig.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupResultConfig");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.RESULT_CONFIG);
 
 		privateViewSearchLookupResultConfig.setGtnLayoutConfig(privateViewSearchLookupResultLayout);
 		privateViewSearchLookupResultConfig.setParentComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupResultsPanel");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.RESULTS_PANEL);
 		privateViewSearchLookupResultConfig.setAddToParent(true);
 		privateViewSearchLookupResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		privateViewSearchLookupResultConfig.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -279,7 +279,7 @@ public class PrivatePublicViewLookup
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
 		privateViewPagedTableComponent.setComponentName("Results");
 		privateViewPagedTableComponent.setParentComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupResultConfig");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.RESULT_CONFIG);
 		privateViewPagedTableComponent.setAddToParent(true);
 		privateViewPagedTableComponent.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		List<String> tableStyle = new ArrayList<>();

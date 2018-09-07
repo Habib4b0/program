@@ -35,7 +35,13 @@ public final class GtnFrameworkForecastingStringConstants {
 	
 	public static final String HIER_NAME = "hierName";
 	
+	public static final String SEARCH_BUTTON="privateViewSearchLookupSearchButton";
+	
 	public static final String HIGHEST_LEVEL = "highestLevel";
+	
+	public static final String RESULT_CONFIG="privateViewSearchLookupResultConfig";
+	
+	public static final String RESULTS_PANEL="privateViewSearchLookupResultsPanel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
@@ -44,6 +50,14 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String VIEW_INVALID_SEARCH_MESSAGE_BODY = "There are no Views that match the search criteria.  Please try again.";
 
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
+	
+	public static final String VIEW_LAYOUT="privateViewLookupRootLayout";
+	
+	public static final String  CRITERIA_PANEL="privateViewSearchLookupSearchCriteriaPanel";
+	
+	public static final String  CRITERIA_LAYOUT="privateViewSearchLookupSearchCriteriaLayout";
+	
+	
 	
 	public static final String REPORT = "report";
 

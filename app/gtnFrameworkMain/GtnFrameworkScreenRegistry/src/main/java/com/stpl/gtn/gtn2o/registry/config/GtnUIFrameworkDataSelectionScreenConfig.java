@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
@@ -180,7 +181,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(modeLayoutConfig);
 
 		GtnUIFrameworkComponentConfig modeOptionRadioGroup = new GtnUIFrameworkComponentConfig();
-		modeOptionRadioGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
+		modeOptionRadioGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		modeOptionRadioGroup.setComponentId(nameSpace + "_" + "profileMode");
 		modeOptionRadioGroup.setComponentName("Mode");
 		modeOptionRadioGroup.setAddToParent(Boolean.TRUE);
@@ -237,6 +238,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		company.setComponentName( GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID);
 		company.setAddToParent(Boolean.TRUE);
 		company.setParentComponentId(nameSpace + "_" + "companyLayout");
+		 company.setCustomReference("integerId");
 
 		GtnUIFrameworkComboBoxConfig companyConfig = new GtnUIFrameworkComboBoxConfig();
 		companyConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -299,6 +301,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		businessUnit.setComponentName("Business Unit");
 		businessUnit.setAddToParent(Boolean.TRUE);
 		businessUnit.setParentComponentId(nameSpace + "_" + "businessUnitLayout");
+		 businessUnit.setCustomReference("integerId");
 
 		GtnUIFrameworkComboBoxConfig businessUnitConfig = new GtnUIFrameworkComboBoxConfig();
 		businessUnitConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -374,6 +377,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		fromPeriod.setComponentName("From ");
 		fromPeriod.setAddToParent(Boolean.TRUE);
 		fromPeriod.setParentComponentId(nameSpace + "_" + "fromPeriodLayout");
+		fromPeriod.setCustomReference("integerId");
 
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 		fromPeriodConfig.setItemCaptionValues(new ArrayList<>());
@@ -510,6 +514,41 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		resetBtn.setParentComponentId(parentComponentId);
 		resetBtn.setAddToParent(true);
 		componentList.add(resetBtn);
+		
+		
+		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkScreenRegisteryConstants.GTN_NEWARCHITECTURE_CONFIRMATION_MSG_RESET_HEADER);
+		params.add(GtnFrameworkScreenRegisteryConstants.GTN_VALIDATION_MSG_RESET);
+		params.add(Arrays.asList(
+				nameSpace + "_" + "profileMode",
+				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_COMPANY_COMBOX_ID,
+				nameSpace + "_" + "projectionName",
+				nameSpace + "_" + GtnFrameworkScreenRegisteryConstants.ADD_BUSINESS_UNIT_COMPONENT_ID,
+				nameSpace + "_" + "projectionDescription",
+				nameSpace + "_" + "privateViewLookup",
+				nameSpace + "_" + "publicView"
+				
+				));
+		
+		params.add(Arrays.asList(
+				"Add",
+				0,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				0,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY
+				
+				
+				));
+		
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);
+		resetBtn.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+		
 	}
 
 	private void addSaveViewBtn(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
