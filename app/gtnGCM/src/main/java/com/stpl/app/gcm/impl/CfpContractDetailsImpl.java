@@ -30,7 +30,7 @@ public class CfpContractDetailsImpl {
      * @param future
      * @return
      */
-    public static Boolean saveCfpDetailsAttached(final List<Object> input, final Object future) {
+    public static Boolean saveCfpDetailsAttached(final List<Object> input) {
         boolean retFlag;
         String sqlSaveCfpDetailsAttached = StringUtils.EMPTY;
         try {
@@ -55,7 +55,7 @@ public class CfpContractDetailsImpl {
         return retFlag;
     }
 
-    public List getCompaniesList(String searchField, String searchVal, Map<String, Object> filterMap, int start, int offset, String column, String orderBy, Object future1, Object future2) {
+    public List getCompaniesList(String searchField, String searchVal, Map<String, Object> filterMap, int start, int offset, String column, String orderBy) {
 
         String sql = StringUtils.EMPTY;
         try {

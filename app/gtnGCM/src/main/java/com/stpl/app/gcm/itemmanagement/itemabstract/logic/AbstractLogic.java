@@ -568,7 +568,7 @@ public class AbstractLogic {
         return 0;
     }
 
-    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid,boolean isItemAddTab) {
+    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid) {
         List input = new ArrayList();
         ComponentInfoDTO dto = new ComponentInfoDTO();
         input.add(systemid);
@@ -1905,7 +1905,7 @@ public class AbstractLogic {
         return searchColumn;
     }
     
-    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
+    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, SelectionDTO selection) {
         String operation = ConstantsUtil.TRANSFER.equals(selection.getButtonMode()) ? ConstantsUtil.TRANSFER_CONTRACT : selection.getButtonMode();
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " ='" + baseLineValue + "' WHERE SESSION_ID ='" + selection.getSessionId() + "' "
                 + " AND OPERATION ='" + operation + "' " + Constants.AND_CHECK_RECORD;

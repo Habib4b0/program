@@ -1395,18 +1395,12 @@ public class PromoteTPLogic {
                         final Object[] obj = componentInformationList1;
                         dto = new ComponentInfoDTO();
 
-                         if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
+                         if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)|| PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
                             dto.setItemNo(convertNullToEmpty(obj[0]));
                             dto.setItemName(convertNullToEmpty(obj[1]));
                             dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));
                             dto.setStatus(convertNullToEmpty(obj[NumericConstants.THREE]));
-                        } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                            dto.setItemNo(convertNullToEmpty(obj[0]));
-                            dto.setItemName(convertNullToEmpty(obj[1]));
-                            dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));
-                            dto.setStatus(convertNullToEmpty(obj[NumericConstants.THREE]));
-
-                        } else if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
+                        }  else if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
                             dto.setItemNo(convertNullToEmpty(obj[0]));
                             dto.setItemName(convertNullToEmpty(obj[1]));
                             dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));

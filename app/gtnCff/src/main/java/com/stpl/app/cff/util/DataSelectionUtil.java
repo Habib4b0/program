@@ -504,13 +504,11 @@ public class DataSelectionUtil {
     public static String filterUser(String filter) {
         List<String> keys = new ArrayList<>();
         String userIds;
-        if (userMap != null) {
             for (Map.Entry<String, String> entry : userMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
-        }
         if (!keys.isEmpty()) {
             userIds = UiUtils.stringListToString(keys);
         } else {
@@ -521,9 +519,7 @@ public class DataSelectionUtil {
 
     public static String getUserName(String userId) {
         String userName = StringUtils.EMPTY;
-        if (userMap != null) {
             userName = userMap.get(userId);
-        }
         return userName;
     }
 
@@ -624,13 +620,11 @@ public class DataSelectionUtil {
     public static String filterUserId(String filter) {
         List<String> keys = new ArrayList<>();
         String userIds;
-        if (userIdMap != null) {
             for (Map.Entry<String, String> entry : userIdMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
             }
-        }
         if (!keys.isEmpty()) {
             userIds = UiUtils.stringListToString(keys);
         } else {
@@ -641,9 +635,7 @@ public class DataSelectionUtil {
 
     public static String getUserId(String userId) {
         String userName = StringUtils.EMPTY;
-        if (userIdMap != null) {
             userName = userIdMap.get(userId);
-        }
         return userName;
     }
 
@@ -674,12 +666,10 @@ public class DataSelectionUtil {
     public static String filterDiscount(String filter) {
         List<String> keys = new ArrayList<>();
         String discountIds;
-        if (discountMap != null) {
             for (Map.Entry<String, String> entry : discountMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase(Locale.ENGLISH).trim()).contains(filter.toLowerCase(Locale.ENGLISH).trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
-            }
         }
         if (!keys.isEmpty()) {
             discountIds = UiUtils.stringListToString(keys);

@@ -542,7 +542,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
             }
             if ("Variable".equals(pivotView.getValue().toString())) {
-                try {
                     if (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT)) {
                         resultsTable.getRightFreezeAsTable().setColumnCollapsingAllowed(true);
                         for (String object : pvSelectionDTO.getHeaderMap().keySet()) {
@@ -565,9 +564,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                             }
                         });
                     }
-                } catch (IllegalStateException e) {
-                    LOGGER.error(e.getMessage());
-                }
             }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
