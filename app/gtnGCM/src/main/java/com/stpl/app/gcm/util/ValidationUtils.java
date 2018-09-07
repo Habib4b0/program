@@ -28,6 +28,10 @@ public final class ValidationUtils {
     public final static String SPCL_CHARS_ERROR_MSG = "allowed Special characters are @,*,#,.,$,&,_,-";
     public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.validation");
     
+    private ValidationUtils()
+    {
+        LOGGER.debug("ValidationUtils");
+    }
      /**
      * The Constructor.
      */

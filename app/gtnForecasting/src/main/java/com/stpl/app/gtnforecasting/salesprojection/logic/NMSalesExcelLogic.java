@@ -100,8 +100,7 @@ public class NMSalesExcelLogic {
             SalesRowDto salesRowDto = resultMap.get(hierKeyValue.toString());
             if (salesRowDto == null) {
                 salesRowDto = new SalesRowDto();
-                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.toString()).get(4));
-                getExcelFormatColumns(keyValue.toString(), hierarchyIndicator, hierarchyLevelDetails, projectionSelection, salesRowDto);
+                getExcelFormatColumns(keyValue.toString(),  hierarchyLevelDetails, projectionSelection, salesRowDto);
                 salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? "-" : String.valueOf(obj[NumericConstants.TEN]));
                 salesRowDto.addStringProperties(Constant.BASELINE, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWELVE])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? "-" : String.valueOf(obj[NumericConstants.TWELVE]));
                 resultMap.put(hierKeyValue.toString(), salesRowDto);
@@ -113,7 +112,7 @@ public class NMSalesExcelLogic {
     private void setActualsProjectionValues(SalesRowDto salesRowDto, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn, Map<String, List> hierarchyLevelDetails, String hierarchyIndicator) {
         try {
             if(obj[NumericConstants.ONE] == null){
-            getExcelFormatColumns(getHierarchyNumber(obj[NumericConstants.ZERO]),hierarchyIndicator,hierarchyLevelDetails,projectionSelectionDTO,salesRowDto);
+            getExcelFormatColumns(getHierarchyNumber(obj[NumericConstants.ZERO]),hierarchyLevelDetails,projectionSelectionDTO,salesRowDto);
             return;
             }
             String header = commonLogic.getHeaderForExcel(freq, obj,StringUtils.EMPTY,"-");
@@ -127,9 +126,9 @@ public class NMSalesExcelLogic {
             }
              if (CommonUtil.isValueEligibleForLoading()) {
              
-                getExcelFormatColumns(hierarchyNo,hierarchyIndicator,hierarchyLevelDetails,projectionSelectionDTO,salesRowDto);
+                getExcelFormatColumns(hierarchyNo,hierarchyLevelDetails,projectionSelectionDTO,salesRowDto);
             } else {
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo,  hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo,  hierarchyLevelDetails, projectionSelectionDTO.getDisplayFormat()));
 
             }
             salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? "-" : String.valueOf(obj[NumericConstants.TEN]));
@@ -211,7 +210,7 @@ public class NMSalesExcelLogic {
             return hierarchyNo;
     }
     
-    public void getExcelFormatColumns(String hierarchyNo,String hierarchyIndicator,Map<String, List> hierarchyLevelDetails,ProjectionSelectionDTO projectionSelectionDTO,SalesRowDto salesRowDto ){
+    public void getExcelFormatColumns(String hierarchyNo,Map<String, List> hierarchyLevelDetails,ProjectionSelectionDTO projectionSelectionDTO,SalesRowDto salesRowDto ){
            List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo,  hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
                 salesRowDto.setLevelName(levelName.toString());
                 if (projectionSelectionDTO.getDisplayFormat().length == 1 && projectionSelectionDTO.getDisplayFormat().length > 0) {

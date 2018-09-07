@@ -522,7 +522,7 @@ public class UiUtils {
 		}
 	}
 
-	public static String getLevelNo(Object object) {
+	public static String getLevelNo() {
 		 
 		return null;
 	}

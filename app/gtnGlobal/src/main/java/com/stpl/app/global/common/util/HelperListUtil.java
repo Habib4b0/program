@@ -181,7 +181,7 @@ public class HelperListUtil {
     public int getIdByDesc(String listName, String desc) {
         int value = 0;
         if (!StringUtils.isBlank(listName) && !StringUtils.isBlank(desc)) {
-            List<HelperDTO> helperList = (List) getListNameMap().get(listName);
+            List<HelperDTO> helperList =  getListNameMap().get(listName);
             for (int i = 0; i < helperList.size(); i++) {
                 HelperDTO dto = helperList.get(i);
                 if (desc.trim().equalsIgnoreCase(dto.getDescription().trim())) {

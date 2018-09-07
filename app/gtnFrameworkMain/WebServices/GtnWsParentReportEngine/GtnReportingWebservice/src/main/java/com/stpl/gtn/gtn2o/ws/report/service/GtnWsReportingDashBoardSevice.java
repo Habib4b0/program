@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.client.FindIterable;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 
 /**
  *
@@ -21,36 +22,11 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 @Service
 public class GtnWsReportingDashBoardSevice {
 
-	// @Autowired
-	// GtnWsMongoService gtnMongoService;
-
-	// public static void main(String[] args) {
-	//// new GtnWsReportingDashBoardSevice().getDashboardLeftData();
-	// }
-	// public List<GtnWsRecordBean> getDashboardLeftData(GtnWsSearchRequest
-	// gtnWsSearchRequest,
-	// GtnWsReportDashboardBean reportDashboardBean) {
-	//
-	// Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
-	// Object values[] = gtnWsSearchRequest.getQueryInputList().toArray();
-	// FindIterable<Document> documents = gtnMongoService.fetchDataFromMongo(
-	// reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS),
-	// inputs,
-	// values);
-	// List<GtnWsRecordBean> data = new ArrayList<>();
-	// displayNodeValues(documents, data, gtnWsSearchRequest.getRecordHeader());
-	// return data;
-	// }
-
 	public void displayNodeValues(FindIterable<Document> documents, List<GtnWsRecordBean> data,
 			List<Object> recordHeader) {
 		if (documents != null) {
 			for (Document document : documents) {
-				// System.out.println(gtnWsTreeNode.toString());
 				data.add(convertBean(document, recordHeader));
-				// if (gtnWsTreeNode.getChildren() != null) {
-				// displayNodeValues(gtnWsTreeNode,data,recordHeader);
-				// }
 			}
 		}
 	}
@@ -58,19 +34,20 @@ public class GtnWsReportingDashBoardSevice {
 	GtnWsRecordBean convertBean(Document document, List<Object> recordHeader) {
 
 		GtnWsRecordBean bean = new GtnWsRecordBean();
-		if (recordHeader == null || recordHeader.isEmpty()) {
-			recordHeader.add("levelNumber");
-			recordHeader.add("hierarchyNo");
-			recordHeader.add("levelName");
-			recordHeader.add("levelValue");
-			recordHeader.add("generatedHierarchyNo");
+		if (recordHeader.isEmpty()) {
+			recordHeader.add(GtnWsQueryConstants.LEVEL_NUMBER);
+			recordHeader.add(GtnWsQueryConstants.HIERARCHY_NO);
+			recordHeader.add(GtnWsQueryConstants.LEVEL_NAME);
+			recordHeader.add(GtnWsQueryConstants.LEVEL_VALUE);
+			recordHeader.add(GtnWsQueryConstants.GENERATED_HIERARCHY_NO);
 		}
 		bean.setRecordHeader(recordHeader);
-		bean.addProperties("levelNumber", document.get("levelNumber"));
-		bean.addProperties("hierarchyNo", document.get("hierarchyNo"));
-		bean.addProperties("levelName", document.get("levelName"));
-		bean.addProperties("levelValue", document.get("levelValue"));
-		bean.addProperties("generatedHierarchyNo", document.get("generatedHierarchyNo"));
+		bean.addProperties(GtnWsQueryConstants.LEVEL_NUMBER, document.get(GtnWsQueryConstants.LEVEL_NUMBER));
+		bean.addProperties(GtnWsQueryConstants.HIERARCHY_NO, document.get(GtnWsQueryConstants.HIERARCHY_NO));
+		bean.addProperties(GtnWsQueryConstants.LEVEL_NAME, document.get(GtnWsQueryConstants.LEVEL_NAME));
+		bean.addProperties(GtnWsQueryConstants.LEVEL_VALUE, document.get(GtnWsQueryConstants.LEVEL_VALUE));
+		bean.addProperties(GtnWsQueryConstants.GENERATED_HIERARCHY_NO,
+				document.get(GtnWsQueryConstants.GENERATED_HIERARCHY_NO));
 		return bean;
 	}
 }

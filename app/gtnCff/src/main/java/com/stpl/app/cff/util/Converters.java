@@ -42,6 +42,11 @@ public class Converters {
      * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
+    
+    private Converters()
+    {
+        LOGGER.debug("Entering Converters");
+    }
     public static List<ViewDTO> getCustomizedViews(final List list) throws ParseException, SystemException {
         final List<ViewDTO> results = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedViews method with list size= {}",list.size());

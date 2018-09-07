@@ -86,7 +86,7 @@ public class NmDiscountImpl {
      * @return
      */
     public List getDiscountProjection(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String hierarchyNo, boolean isProgram, List<String> discountList,
-            String year, int historyNumber, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
+            String year, int levelNo, String hierarchyIndicator, String userGroup, int startIndex, int endIndex, boolean isCount, boolean isCustom,
             List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid, boolean isAltHistory, String action) {
         String hierarchyNoDP  = hierarchyNo;
         String customQuery = StringUtils.EMPTY;
@@ -824,7 +824,7 @@ public class NmDiscountImpl {
         }
     }
 
-    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue, List<String> discountList) {
+    public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkValue) {
 
         String query = StringUtils.EMPTY;
         LOGGER.debug(" inside checkClearAll");
@@ -1429,7 +1429,7 @@ public class NmDiscountImpl {
     }
 
     public boolean saveDiscountProjectionListView(int projectionId, String userId, String sessionId, String frequency, int period, int year, String hierarchyIndicator,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
+           String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
 
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering saveDiscountProjectionListView");
@@ -1605,7 +1605,7 @@ public class NmDiscountImpl {
     }
     
 
-    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
+    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
         String projectionQuery = "";
@@ -2152,8 +2152,6 @@ public class NmDiscountImpl {
     }
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencySubDiscount = frequency;
             try {
@@ -2262,13 +2260,10 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
         return null;
     }
 
     public List getTotalDiscountCount(int projectionMasterId, String frequency, String actualsOrProjections, List<Integer> startAndEndPeriods, int userId, int sessionId) {
-        {
-
             String sql = "";
             String frequencyTotalDiscount = frequency;
             try {
@@ -2413,7 +2408,6 @@ public class NmDiscountImpl {
                 LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
-        }
         return null;
     }
 
@@ -2474,7 +2468,7 @@ public class NmDiscountImpl {
         return null;
     }
 
-    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String hist, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
+    public List getAllPesriodDiscount(List<Integer> discountprojectionId, String frequency, String discountName, String order, List<Integer> startAndEndPeriods, int userId, int sessionId) {
 
         String sql = "";
         String frequencyAllPeriodDiscount = frequency;

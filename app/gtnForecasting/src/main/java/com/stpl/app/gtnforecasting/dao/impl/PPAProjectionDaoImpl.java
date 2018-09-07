@@ -48,8 +48,8 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
         
     }
      @Override
-    public void massUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String parent,String levelValue) {
-         new NmPpaProjectionMasterImpl().setPPAProjectionMassUpdate(priceCap,startQuater,endQuater,startYear,endYear,projectionId, parent, levelValue);
+    public void massUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String levelValue) {
+         new NmPpaProjectionMasterImpl().setPPAProjectionMassUpdate(priceCap,startQuater,endQuater,startYear,endYear,projectionId, levelValue);
     }
 
     @Override

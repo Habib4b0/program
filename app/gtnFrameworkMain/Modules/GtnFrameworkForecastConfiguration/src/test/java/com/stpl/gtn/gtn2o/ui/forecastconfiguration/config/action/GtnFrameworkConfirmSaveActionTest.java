@@ -58,8 +58,7 @@ public class GtnFrameworkConfirmSaveActionTest {
         List<Object> parameters = IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList());
         parameters.set(1, null);
         parameters.set(2,"val");
-        parameters.set(3,null);
-        parameters.set(0,null);
+
         PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class,GtnUIFrameWorkAction.class, GtnUIFrameworkBaseComponent.class, GtnUIFrameworkActionExecutor.class);
         gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
         GtnFrameworkConfirmSaveAction instance = new GtnFrameworkConfirmSaveAction();
@@ -80,12 +79,35 @@ public class GtnFrameworkConfirmSaveActionTest {
 		GtnUIFrameworkBaseComponent object = Mockito.mock(GtnUIFrameworkBaseComponent.class);
 		doReturn(config).when(object).getComponentConfig();
 		
-		
 		when(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(Mockito.anyString())).thenReturn(object);
 		
 		in.doAction(componentId, gtnUIFrameWorkActionConfig);
 	}
 	
+	@Test
+	public void testDoAction_2() throws Exception {
+		String componentId = "";
+		String tableId= "";
+        GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+        List<Object> parameters = IntStream.rangeClosed(0, 24).boxed().collect(Collectors.toList());
+        parameters.set(1, null);
+        parameters.set(2,"val");
+    
+        PowerMockito.mockStatic(GtnUIFrameworkGlobalUI.class,GtnUIFrameWorkAction.class, GtnUIFrameworkBaseComponent.class, GtnUIFrameworkActionExecutor.class);
+        gtnUIFrameWorkActionConfig.setActionParameterList(parameters);
+        GtnFrameworkConfirmSaveAction instance = new GtnFrameworkConfirmSaveAction();
+        
+        GtnUIFrameworkWebserviceResponse newResponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsForecastConfigurationResponse obj=Mockito.mock(GtnWsForecastConfigurationResponse.class);
+        doReturn(false).when(obj).isSuccess();
+        newResponse.setGtnWsForecastConfigurationResponse(obj);
+
+        GtnFrameworkConfirmSaveAction in = Mockito.spy(instance);
+		doReturn(newResponse).when(in).getResponse(Mockito.any(GtnUIFrameworkWebserviceRequest.class),Mockito.any(GtnUIFrameworkWebServiceClient.class));
+		
+		in.doAction(componentId, gtnUIFrameWorkActionConfig);
+		
+	}
 	@Test
     public void testConfigureParams() throws Exception {
         System.out.println("configureParams");
