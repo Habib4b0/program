@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardFilterBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
@@ -31,17 +32,21 @@ import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 @Service
 public class GtnWsReportDashboardFilterOptionService {
 
+	private static final String STRING_CLOSE_BRACES = ") ";
+
+	private static final String STRING_OPEN_BRACES = " (";
+
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportDashboardFilterOptionService.class);
-
-	@Autowired
-	private GtnWsReportSqlService reportSqlService;
-
-	@Autowired
-	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	public GtnWsReportDashboardFilterOptionService() {
 		super();
 	}
+
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
+	@Autowired
+	private GtnWsReportSqlService reportSqlService;
 
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getCustAndProdLevelValues(GtnUIFrameworkWebserviceRequest gtnWsRequest)
@@ -60,8 +65,9 @@ public class GtnWsReportDashboardFilterOptionService {
 			hierarchyVersionNo = dataSelectionBean.getCustomerHierarchyVersionNo();
 			forecastLevel = dataSelectionBean.getCustomerHierarchyForecastLevel();
 		}
-		Object[] parameterValues = { hierarchySid,hierarchyVersionNo, forecastLevel };
-		GtnFrameworkDataType[] dataTypes = { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		Object[] parameterValues = { hierarchySid, hierarchyVersionNo, forecastLevel };
+		GtnFrameworkDataType[] dataTypes = { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER,
+				GtnFrameworkDataType.INTEGER };
 		List<Object[]> hierarchyData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery,
 				parameterValues, dataTypes);
 		return Optional.ofNullable(hierarchyData).get();
@@ -133,34 +139,34 @@ public class GtnWsReportDashboardFilterOptionService {
 		Object[] params = { hierarchyDefinitionSid, levelNo, hierarchyVersionNo };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
 				GtnFrameworkDataType.INTEGER };
-		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
+		return (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(reportSqlService.getQuery("report-customer-filter"), params, paramsType);
-		return resultList;
 	}
 
 	private String getDynamicCustomerDeductionLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query)
 			throws GtnFrameworkGeneralException {
-		query = (filterBean.getSelectedCustomerList().isEmpty() || isUserDefined) ? query
+		String queryStr = (filterBean.getSelectedCustomerList().isEmpty() || isUserDefined) ? query
 				: getProductCustomerFilterQuery(filterBean, dataSelectionBean) + query;
-		return getFinalJoinedQuery(query, filterBean, isUserDefined);
+		return getFinalJoinedQuery(queryStr, filterBean, isUserDefined);
 	}
 
 	private String getCustDeductionJoinedQuery(String query, GtnWsReportDashboardFilterBean filterBean,
 			boolean isUserDefined) {
 		StringBuilder queryString = new StringBuilder(query);
 		if (!filterBean.getSelectedProductList().isEmpty() && !isUserDefined) {
-			queryString.insert(query.lastIndexOf("WHERE"),
+			queryString.insert(query.lastIndexOf(GtnWsQueryConstants.WHERE),
 					" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'  ");
 		}
 		if (!filterBean.getSelectedDeductionList().isEmpty() && !isUserDefined) {
 			List<String> dedQuery = getDeductionLevelQuery(filterBean);
-			queryString.insert(query.lastIndexOf("WHERE"),
-					reportSqlService.getQuery("deduction-dynamic-filter")
-							+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
-							+ dedQuery.get(0));
-			queryString.append(" and ").append(dedQuery.get(1)).append(
-					"(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
+			queryString.insert(query.lastIndexOf(GtnWsQueryConstants.WHERE), reportSqlService
+					.getQuery(GtnWsQueryConstants.DEDUCTION_DYNAMIC_FILTER)
+					+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
+					+ dedQuery.get(0));
+			queryString.append(" and ").append(dedQuery.get(1)).append(STRING_OPEN_BRACES)
+					.append(filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", ""))
+					.append(STRING_CLOSE_BRACES);
 		}
 		return queryString.toString();
 	}
@@ -173,39 +179,39 @@ public class GtnWsReportDashboardFilterOptionService {
 		switch (deductionLevel) {
 		case 1:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY  AND HT.HELPER_TABLE_SID <> 0 ";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 2:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 3:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 4:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC1'";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 5:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC2'";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 6:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC3'";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 7:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC4'";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 8:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC5'";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 9:
 			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC6'";
-			whereClause = "HT.HELPER_TABLE_SID in";
+			whereClause = GtnWsQueryConstants.HT_HELPER_TABLE_SID_IN;
 			break;
 		case 10:
 			joinClause = "";
@@ -223,26 +229,27 @@ public class GtnWsReportDashboardFilterOptionService {
 	private String getDynamicProductDeductionLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query)
 			throws GtnFrameworkGeneralException {
-		query = (filterBean.getSelectedProductList().isEmpty() || isUserDefined) ? query
+		String queryStr = (filterBean.getSelectedProductList().isEmpty() || isUserDefined) ? query
 				: getCustProductFilterQuery(filterBean, dataSelectionBean) + query;
-		return getCustDeductionJoinedQuery(query, filterBean, isUserDefined);
+		return getCustDeductionJoinedQuery(queryStr, filterBean, isUserDefined);
 	}
 
 	private String getFinalJoinedQuery(String query, GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined) {
 		StringBuilder queryString = new StringBuilder(query);
 		if (!filterBean.getSelectedCustomerList().isEmpty() && !isUserDefined) {
-			queryString.insert(query.lastIndexOf("WHERE"),
+			queryString.insert(query.lastIndexOf(GtnWsQueryConstants.WHERE),
 					"JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'  ");
 		}
 		if (!filterBean.getSelectedDeductionList().isEmpty() && !isUserDefined) {
 			List<String> dedQuery = getDeductionLevelQuery(filterBean);
-			queryString.insert(query.lastIndexOf("WHERE"),
-					reportSqlService.getQuery("deduction-dynamic-filter")
-							+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
-							+ dedQuery.get(0));
+			queryString.insert(query.lastIndexOf(GtnWsQueryConstants.WHERE), reportSqlService
+					.getQuery(GtnWsQueryConstants.DEDUCTION_DYNAMIC_FILTER)
+					+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
+					+ dedQuery.get(0));
 			queryString.append(" and ");
-			queryString.append(dedQuery.get(1)).append(
-					"(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
+			queryString.append(dedQuery.get(1)).append(STRING_OPEN_BRACES)
+					.append(filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", ""))
+					.append(STRING_CLOSE_BRACES);
 		}
 		return queryString.toString();
 	}
@@ -252,8 +259,9 @@ public class GtnWsReportDashboardFilterOptionService {
 		String query = reportSqlService.getQuery("customer-dynamic-filter");
 		int customerRelationBuilderSid = dataSelectionBean.getCustomerRelationshipBuilderSid();
 		List<Object> selectedList = filterBean.getSelectedCustomerList();
-		query = query.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", "")).replace("?",
-				String.valueOf(customerRelationBuilderSid));
+		query = query
+				.replace(GtnWsQueryConstants.LEVELVALUES, selectedList.toString().replace("[", "").replace("]", ""))
+				.replace("?", String.valueOf(customerRelationBuilderSid));
 		return query;
 	}
 
@@ -262,8 +270,9 @@ public class GtnWsReportDashboardFilterOptionService {
 		String query = reportSqlService.getQuery("product-dynamic-filter");
 		int prodRelationSid = dataSelectionBean.getProductRelationshipBuilderSid();
 		List<Object> selectedList = filterBean.getSelectedProductList();
-		query = query.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", "")).replace("?",
-				String.valueOf(prodRelationSid));
+		query = query
+				.replace(GtnWsQueryConstants.LEVELVALUES, selectedList.toString().replace("[", "").replace("]", ""))
+				.replace("?", String.valueOf(prodRelationSid));
 		return query;
 	}
 
@@ -407,7 +416,7 @@ public class GtnWsReportDashboardFilterOptionService {
 			int prodRelationSid = dataSelectionBean.getProductRelationshipBuilderSid();
 			List<Object> selectedList = filterBean.getSelectedProductList();
 			oldCustomerQuery = oldCustomerQuery
-					.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", ""))
+					.replace(GtnWsQueryConstants.LEVELVALUES, selectedList.toString().replace("[", "").replace("]", ""))
 					.replace("?", String.valueOf(prodRelationSid));
 			query.append(oldCustomerQuery);
 		}
@@ -419,7 +428,7 @@ public class GtnWsReportDashboardFilterOptionService {
 			int customerRelationBuilderSid = dataSelectionBean.getCustomerRelationshipBuilderSid();
 			List<Object> selectedList = filterBean.getSelectedCustomerList();
 			oldProductQuery = oldProductQuery
-					.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", ""))
+					.replace(GtnWsQueryConstants.LEVELVALUES, selectedList.toString().replace("[", "").replace("]", ""))
 					.replace("?", String.valueOf(customerRelationBuilderSid));
 			query.append(oldProductQuery);
 		}
@@ -484,21 +493,23 @@ public class GtnWsReportDashboardFilterOptionService {
 	}
 
 	private String getDeductionCCP(StringBuilder getCCPSidQuery, GtnWsReportDashboardFilterBean filterBean) {
-		StringBuilder queryString = getCCPSidQuery.equals("") ? new StringBuilder() : new StringBuilder(getCCPSidQuery);
+		StringBuilder queryString = getCCPSidQuery.toString().equals("") ? new StringBuilder()
+				: new StringBuilder(getCCPSidQuery);
 		if (!filterBean.getSelectedDeductionList().isEmpty()) {
 			queryString.insert(queryString.lastIndexOf("from"), ",rc.RS_CONTRACT_SID \n");
 			List<String> dedQuery = getDeductionLevelQuery(filterBean);
-			queryString.append("WHERE");
-			queryString.insert(queryString.lastIndexOf("WHERE"),
-					reportSqlService.getQuery("deduction-dynamic-filter")
-							+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID \n"
-							+ " JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
-							+ dedQuery.get(0));
+			queryString.append(GtnWsQueryConstants.WHERE);
+			queryString.insert(queryString.lastIndexOf(GtnWsQueryConstants.WHERE), reportSqlService
+					.getQuery(GtnWsQueryConstants.DEDUCTION_DYNAMIC_FILTER)
+					+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID \n"
+					+ " JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
+					+ dedQuery.get(0));
 			queryString.append(" cm.inbound_status <> 'D' and \n" + " com.inbound_status <> 'D' and \n"
 					+ " im.inbound_status <> 'D' and \n" + "rc.inbound_status <> 'D' and \n"
 					+ "rcd.inbound_status <> 'D' and \n");
-			queryString.append(dedQuery.get(1)).append(
-					"(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
+			queryString.append(dedQuery.get(1)).append(STRING_OPEN_BRACES)
+					.append(filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", ""))
+					.append(STRING_CLOSE_BRACES);
 		}
 		return queryString.toString();
 	}

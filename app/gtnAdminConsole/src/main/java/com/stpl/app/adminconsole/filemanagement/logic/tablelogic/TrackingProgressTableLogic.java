@@ -27,14 +27,12 @@ public class TrackingProgressTableLogic extends PageTableLogic {
     }
     @Override
     public int getCount() {
-        int count = 0;
-        return count;
+        return 0;
     }
 
     @Override
     public List loadData(int start, int offset) {
-        List list = new ArrayList();
-        return list;
+        return new ArrayList();
     }
 
     @Override

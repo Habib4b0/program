@@ -271,8 +271,9 @@ public class ExcelUtils {
 
     private int discount(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+         int discountView = discountIndex;
+        for (int i = discountView + 1; i < discountListForContract.size(); i++) {
+            discountView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String discountName = obj[NumericConstants.TEN].toString();
             String lastHierarchyNo = obj[0].toString();
@@ -288,7 +289,7 @@ public class ExcelUtils {
                 }
             }
         }
-        return discountIndex;
+        return discountView;
     }
  /**
      *
@@ -340,8 +341,9 @@ public class ExcelUtils {
 
     private int discountIndexForCustomPeriodView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+         int discountIndexCustomPeriodView = discountIndex;
+        for (int i = discountIndexCustomPeriodView + 1; i < discountListForContract.size(); i++) {
+            discountIndexCustomPeriodView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String discountName = obj[NumericConstants.FOURTEEN].toString(); 
             String lastHierarchyNo = obj[0].toString();
@@ -359,13 +361,14 @@ public class ExcelUtils {
                 }
             }
         }
-        return discountIndex;
+        return discountIndexCustomPeriodView;
     }
     
     private int discountIndexForCustomDiscountView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent,final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+        int discountIndexCustomView = discountIndex;
+        for (int i = discountIndexCustomView + 1; i < discountListForContract.size(); i++) {
+            discountIndexCustomView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String period = obj[NumericConstants.TWO].toString();
             String lastHierarchyNo = obj[0].toString();
@@ -386,7 +389,7 @@ public class ExcelUtils {
             }
         }
         }
-        return discountIndex;
+        return discountIndexCustomView;
     }
     
     private void setActualProjectionValue(DiscountProjectionResultsDTO dto, Object[] obj, String column, final ProjectionSelectionDTO projdto) {
@@ -499,8 +502,9 @@ public class ExcelUtils {
     
  private int discountForDiscountView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-        for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
-            discountIndex = i;
+        int discountIndexView = discountIndex;
+        for (int i = discountIndexView + 1; i < discountListForContract.size(); i++) {
+            discountIndexView = i;
             Object[] obj = (Object[]) discountListForContract.get(i);
             String period = obj[NumericConstants.TWO].toString();
             String lastHierarchyNo = obj[0].toString();
@@ -518,6 +522,6 @@ public class ExcelUtils {
                 }
             }
         }}
-        return discountIndex;
+        return discountIndexView;
     }
 }

@@ -773,14 +773,15 @@ public class MSalesProjectionResultsLogic {
     }
 
     public static String getMonthForInt(int num) {
+        int numberMonth = num;
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numberMonth == NumericConstants.TWELVE) {
+            numberMonth = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numberMonth >= 0 && numberMonth <= NumericConstants.ELEVEN) {
+            month = months[numberMonth];
         }
         return month;
     }

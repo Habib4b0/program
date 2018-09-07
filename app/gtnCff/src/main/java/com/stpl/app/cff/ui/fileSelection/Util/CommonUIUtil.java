@@ -6,6 +6,8 @@ package com.stpl.app.cff.ui.fileSelection.Util;
 
    
 import com.stpl.app.cff.util.StringConstantsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CommonUIUtil.
@@ -17,6 +19,8 @@ public final class CommonUIUtil {
     /**
      * The Constant COUNTRY.
      */
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUIUtil.class);
     public static final String COUNTRY = "Country";
 
     /**
@@ -277,10 +281,7 @@ public final class CommonUIUtil {
     /**
      * public constructor to protect to object creation.
      */
-    public CommonUIUtil() {
-        // public constructor to protect to object creation.
-    }
-
+    
     private static final String[] EXCEL_FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER = new String[]{ITEM_ID_LABEL, ITEM_NAME_LABEL, StringConstantsUtil.BRAND_ID_LABEL, "Brand Name", StringConstantsUtil.SEGMENT_LABEL, "Year", MONTH_LABEL, MARKET_SIZE_UNITS, MARKET_SHARE_RATIO_LABEL, StringConstantsUtil.MARKET_SHARE_UNITS_LABEL, UNCAPTURED_UNITS, UNCAPTURED_UNITS_RATIO, TOTAL_DEMAND_UNITS, TOTAL_DEMAND_AMOUNT, INVENTORY_UNIT_CHANGE, GROSS_UNITS_LABEL, GROSS_PRICE, GROSS_AMOUNT, NET_SALES_PRICE, NET_SALE_AMOUNT, StringConstantsUtil.BATCH_ID_LABEL, "Source", ORGANIZATION_KEY};
 
     private static final String[] EXCEL_FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER = new String[]{FORECAST_TYPE, FORECAST_YEAR, FORECAST_MONTH_LABEL,
@@ -301,7 +302,9 @@ public final class CommonUIUtil {
         }
         return object;
     }
-
+private CommonUIUtil() {
+        LOGGER.debug("Entering CommonQueryUtils ");
+    }
 	public static String[] getFileMgmtHistResHeader() {
 		return FILE_MGMT_HIST_RES_HEADER.clone();
 	}

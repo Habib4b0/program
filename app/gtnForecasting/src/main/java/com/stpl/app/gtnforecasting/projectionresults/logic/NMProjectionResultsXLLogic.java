@@ -354,23 +354,25 @@ public class NMProjectionResultsXLLogic {
     }
 
     public String getFormattedValue(DecimalFormat decFormat, String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueXL = value;
+        if (valueXL.contains(NULL.getConstant())) {
+            valueXL = ZERO;
         } else {
-            Double newValue = Double.valueOf(value);
+            Double newValue = Double.valueOf(valueXL);
             if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = decFormat.format(newValue);
+            valueXL = decFormat.format(newValue);
         }
-        return value;
+        return valueXL;
     }
 
     public String isNull(String value) {
-        if (value.contains(NULL.getConstant())) {
-            value = ZERO;
+        String valueisNull = value;
+        if (valueisNull.contains(NULL.getConstant())) {
+            valueisNull = ZERO;
         }
-        return value;
+        return valueisNull;
     }
 
     public void getTotalRawData() {

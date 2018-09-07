@@ -258,7 +258,7 @@ public class DeductionCalendarLogic {
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 
         if (isCount) {
-            return (Integer) resultList.get(0);
+            return resultList.get(0);
         } else {
             return getCustomizedDeductionResults(resultList);
         }

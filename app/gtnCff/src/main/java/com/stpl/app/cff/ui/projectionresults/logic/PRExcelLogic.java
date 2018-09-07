@@ -690,7 +690,7 @@ public class PRExcelLogic {
         Map<String, String> customViewMap = new HashMap<>();
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             String key = entry.getKey();
-            String value = (String) entry.getValue().get(0).toString();
+            String value = entry.getValue().get(0).toString();
             customViewMap.put(key, value);
         }
        
@@ -721,7 +721,7 @@ public class PRExcelLogic {
         List<ProjectionResultsDTO> discountPercentageExFactoryList = new ArrayList<>();
         List<List<ProjectionResultsDTO>> finaldiscountlist = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            Object[] obj = (Object[]) procRawListDisc.get(i);
+            Object[] obj =  procRawListDisc.get(i);
             if (i == 0) {
                 oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 3]));
             }
@@ -1490,7 +1490,7 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         List<ProjectionResultsDTO> discountPercentageExFactoryListTotal=new ArrayList<>();
         List<List<ProjectionResultsDTO>> finaldiscountlistTotal=new ArrayList<>();
         for(int i=0;i<count;i++){
-            Object[] obj = (Object[])procRawListTotDisc.get(i);
+            Object[] obj = procRawListTotDisc.get(i);
             String newDiscount=String.valueOf(obj[NumericConstants.THREE]);
             if(oldDiscount.equals(newDiscount)){
                 if (frequencyDivision == NumericConstants.FOUR) {
@@ -1791,7 +1791,7 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         ProjectionResultsDTO discountDto = new ProjectionResultsDTO();
         Map<String, ProjectionResultsDTO> periodDiscountMap = new HashMap<>();
         for (int i = 0; i < count; i++) {
-            Object[] obj = (Object[]) procRawListDetailDisc.get(i);
+            Object[] obj = procRawListDetailDisc.get(i);
             if (i == 0) {
                 oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 3])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 3]));
                 oldDiscount = String.valueOf(obj[NumericConstants.FIVE]);
@@ -1937,7 +1937,7 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
         ProjectionResultsDTO discountDto = new ProjectionResultsDTO();
        Map<String, ProjectionResultsDTO> periodDiscountMap = new HashMap<>();
         for (int i = 0; i < count; i++) {
-            Object[] obj = (Object[]) procRawListDisc.get(i);
+            Object[] obj = procRawListDisc.get(i);
             newyear = String.valueOf(obj[1]);
             newPeriod = String.valueOf(obj[NumericConstants.TWO]);
             /* Below If condition used to check next hierarchy No is same with old hierarchy No*/

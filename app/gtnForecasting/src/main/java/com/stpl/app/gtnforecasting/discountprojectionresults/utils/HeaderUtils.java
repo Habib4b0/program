@@ -453,8 +453,7 @@ public class HeaderUtils {
                             doubleHeaderMap.put(commonColumn, dmap.toArray());
                         }
                         boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                        k = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                                : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
+                        k = excelConditionCheck(excelTab, frequencyDivision, commonColumn);
                     }
                     startPr = 1;
                 }
@@ -464,8 +463,8 @@ public class HeaderUtils {
                     String commonHeader = projectionHeaderList.get(i);
                     dmap = new ArrayList<>();
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                            : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
+                    tempYear = excelConditionCheck(excelTab, frequencyDivision, commonColumn);
+                    
                     if (k != tempYear) {
                         singleColumnForExcel = new ArrayList<>();
                         singleHeaderForExcel = new ArrayList<>();
@@ -836,8 +835,7 @@ public class HeaderUtils {
                             doubleHeaderMap.put(commonColumn, dmap.toArray());
                         }
                         boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                        k = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                                : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
+                        k = excelConditionCheck(excelTab, frequencyDivision, commonColumn);
                     }
                     startPr = 1;
                 }
@@ -847,8 +845,7 @@ public class HeaderUtils {
                     String commonHeader = projectionHeaderList.get(i);
                     dmap = new ArrayList<>();
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                            : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
+                    tempYear = excelConditionCheck(excelTab, frequencyDivision, commonColumn);
                     if (k != tempYear) {
                         singleColumnForExcel = new ArrayList<>();
                         singleHeaderForExcel = new ArrayList<>();
@@ -1018,6 +1015,20 @@ public class HeaderUtils {
         projSelDTO.setHeaderMapForExcel(periodListMapForExcel);
         return tableHeaderDTO;
     }
+
+    private static int excelConditionCheck(boolean excelTab, int frequencyDivision, String commonColumn) throws NumberFormatException {
+        int tempYear;
+        if (excelTab) {
+            if (frequencyDivision == NumericConstants.FOUR) {
+                tempYear = Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn);
+            } else {
+                tempYear = Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn);
+            }
+        } else {
+            tempYear = 0;
+        }
+        return tempYear;
+    }
     
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period, boolean isNMDPR) {
         List<String> common = new ArrayList<>();
@@ -1055,12 +1066,13 @@ public class HeaderUtils {
     public static String getMonthForInt(int num) {
         String month = "wrong";
         DateFormatSymbols dfs = new DateFormatSymbols();
+        int number = num;
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE || num == -1) {
-            num = 0;
+        if (number == NumericConstants.TWELVE || number == -1) {
+            number = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (number >= 0 && number <= NumericConstants.ELEVEN) {
+            month = months[number];
         }
         return month;
     }

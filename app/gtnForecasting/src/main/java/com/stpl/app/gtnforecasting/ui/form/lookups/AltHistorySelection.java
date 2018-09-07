@@ -709,10 +709,11 @@ public class AltHistorySelection extends CustomComponent implements View {
     private String formDate(String value, String freq, boolean isFromDate) {
         LOGGER.debug("formDate method Starts");
         String date = StringUtils.EMPTY;
-        String year = value.substring(value.length() - NumericConstants.FOUR, value.length());
+        String valueDate = value;
+        String year = valueDate.substring(valueDate.length() - NumericConstants.FOUR, valueDate.length());
         if (freq.equals(Constant.QUARTERLY)) {
-            value = value.replace(Constant.Q, StringUtils.EMPTY);
-            String quarter = value.substring(0, 1);
+            valueDate = valueDate.replace(Constant.Q, StringUtils.EMPTY);
+            String quarter = valueDate.substring(0, 1);
             if (quarter.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
                     date = year + Constant.ONE_ONE;
@@ -742,8 +743,8 @@ public class AltHistorySelection extends CustomComponent implements View {
                 }
             }
         }else if (freq.equals(Constant.SEMI_ANNUALLY)) {
-            value = value.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
-            String semiAnnual = value.substring(0, 1);
+            valueDate = valueDate.toUpperCase(Locale.ENGLISH).replace(Constant.S, StringUtils.EMPTY);
+            String semiAnnual = valueDate.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
                     date = year + Constant.ONE_ONE;
@@ -770,7 +771,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 
                 Map<String, Integer> monthMap = getMonthMap();
                
-                int period = monthMap.get(StringUtils.capitalize(value.substring(value.length() - NumericConstants.SEVEN, value.length() - NumericConstants.FOUR)));
+                int period = monthMap.get(StringUtils.capitalize(valueDate.substring(valueDate.length() - NumericConstants.SEVEN, valueDate.length() - NumericConstants.FOUR)));
                 
                int startMonth = period + 1;
               

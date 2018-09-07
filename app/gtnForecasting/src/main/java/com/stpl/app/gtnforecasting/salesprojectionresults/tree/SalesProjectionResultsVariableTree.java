@@ -177,10 +177,11 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
     }
 
     public String getFormattedValue(String value) {
-        if (value.contains(Constant.NULL)) {
-            value = SPRDASH.getConstant();
+        String valueStr = value;
+        if (valueStr.contains(Constant.NULL)) {
+            valueStr = SPRDASH.getConstant();
         }
-        return value;
+        return valueStr;
     }
 
     @Override

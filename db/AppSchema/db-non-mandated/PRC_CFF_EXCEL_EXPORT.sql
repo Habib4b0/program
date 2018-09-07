@@ -361,6 +361,12 @@ INDICATOR BIT
 	into #trail
 	from #HIERARCHY_NO h cross join #period p cross join #CFF_PROJECTION_MASTER cpm
 	group by CFF_MASTER_SID,HIERARCHY_NO,period,year,row_id 
+declare @END_SALES_SID int = (
+		SELECT top 1 PERIOD
+		FROM #period
+		WHERE PERIOD_DATE = DATEADD(MM, - 3, DATEADD(QQ, DATEDIFF(QQ, 0, GETDATE()), 0))
+		order by period_sid asc
+		)
 --IF @INDICATOR IN ('C','P')
 BEGIN
 ----11,080,802
@@ -405,8 +411,7 @@ BEGIN
 	0 AS INDICATOR
 FROM #trail t 
 INNER JOIN #CFF_PROJECTION_MASTER CFM ON t.CFF_MASTER_SID = CFM.CFF_MASTER_SID
-	AND t.CFF_MASTER_SID = 53 and t.YEAR<=year(getdate())
-	--and s.PERIOD=1 and s.YEAR=2017
+	AND t.CFF_MASTER_SID = @FIRST_PROJ_SID and t.YEAR<=year(getdate())
 	left join #sales S  on S.PERIOD = t.PERIOD
 	AND t.YEAR = S.YEAR
 	AND t.CFF_MASTER_SID = S.CFF_MASTER_SID
@@ -481,7 +486,6 @@ SELECT t.CFF_MASTER_SID,
 	1 AS INDICATOR
 FROM  #trail t 
 INNER JOIN #CFF_PROJECTION_MASTER CFM ON t.CFF_MASTER_SID = CFM.CFF_MASTER_SID	
-	--and s.PERIOD=1 and s.YEAR=2017
 	left join #sales S  on S.PERIOD = t.PERIOD
 	AND t.YEAR = S.YEAR
 	AND t.CFF_MASTER_SID = S.CFF_MASTER_SID
@@ -548,5 +552,3 @@ END TRY
       END CATCH 
   END 
 GO
-
-	

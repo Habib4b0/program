@@ -1,0 +1,2844 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>DTX_PSTG_COMPANY_MASTER_INTERFACE</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>&#x2f;</directory>
+    <parameters>
+    </parameters>
+    <log>
+<trans-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
+<perf-log-table><connection/>
+<schema/>
+<table/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>SEQ_NR</id><enabled>Y</enabled><name>SEQ_NR</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>INPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>INPUT_BUFFER_ROWS</name></field><field><id>OUTPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>OUTPUT_BUFFER_ROWS</name></field></perf-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+<step-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <created_user>-</created_user>
+  <created_date>2018&#x2f;08&#x2f;20 17&#x3a;48&#x3a;08.244</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2018&#x2f;08&#x2f;20 17&#x3a;48&#x3a;08.244</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>Connection</name>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <port>1433</port>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>CSV file input</from><to>PSTG_COMPANY_MASTER_INTERFACE</to><enabled>Y</enabled> </hop>
+  <hop> <from>PSTG_COMPANY_MASTER_INTERFACE</from><to>Get System Info</to><enabled>Y</enabled> </hop>
+  <hop> <from>Get System Info</from><to>Add sequence</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add sequence</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values</from><to>VLD_PSTG_COMPANY_MASTER_INTERFACE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Data Validator</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 2</from><to>IVLD_PSTG_COMPANY_MASTER_INTERFACE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Java Script Value</from><to>Data Validator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Data Validator</from><to>Modified Java Script Value 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Java Script Value 2</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2</from><to>Select values</to><enabled>Y</enabled> </hop>
+  </order>
+  <step>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>ORGANIZATION_KEY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>AGN</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>LIVES</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>COMPANY_END_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>UDC1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>UDC2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>UDC3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>UDC4</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>UDC5</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>UDC6</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>COMPANY_GROUP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>FINANCIAL_SYSTEM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>COUNTRY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>REGION_CODE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>ADD_CHG_DEL_INDICATOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>A</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>CREATED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>REVITAS</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>MODIFIED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>REVITAS</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>BATCH_ID</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>COMPANY_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>COMPANY_NO</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>COMPANY_CATEGORY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>COMPANY_CATEGORY</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>COMPANY_STATUS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>COMPANY_STATUS</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ADDRESS_2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ADDRESS_2</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>568</xloc>
+      <yloc>146</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>IS_COMPLETE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Y</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>655</xloc>
+      <yloc>312</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>ERROR_CODE </name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E01</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>REASON_FOR_FAILURE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Missing Required Fields</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>907</xloc>
+      <yloc>161</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add sequence</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <valuename>COMPANY_MASTER_INTERFACE_ID</valuename>
+      <use_database>N</use_database>
+      <connection>Connection</connection>
+      <schema/>
+      <seqname>SEQ_</seqname>
+      <use_counter>Y</use_counter>
+      <counter_name/>
+      <start_at>1</start_at>
+      <increment_by>1</increment_by>
+      <max_value>999999999</max_value>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>393</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CSV file input</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding/>
+    <fields>
+      <field>
+        <name>BUNIT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>USERID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>LASTMOD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>FLG_NOTE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNITTYP_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_ENTITY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_MBR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_SUBAFFIL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_ROLLUP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_ENFPART</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOTIF_ANNUAL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOTIFCUST_SEND_INT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOTIFCUST_SEND_SUB</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOTIF_SAMEDAY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOTIFPROD_COST</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOTIF_WINDOW</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_NOT_ELIG_CBK</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_UPDATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_EVAL_AT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_PAY_TO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_SUBMITTOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_FLG_LOCK</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_DT_START</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_DT_END</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ID_PRI</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ID_PRITYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ID_SEC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ID_SECTYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_CITY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_STATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ZIP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_PAYNAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_PMT_DAYS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>STLTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>USERID_ADMIN_CBK</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUIDTYP_ID_NOTIFY_PRITYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUIDTYP_ID_NOTIFY_SECTYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PBASISCD_NUM_CBK</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_WHL_DECROUND</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>WHLPMT_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUCATTYP_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>REASON_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ERRSEVSET_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_NOTIF_ANNUAL_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_NOTIF_WINDOW_DAYS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_DT_LAST_ACTIVATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>STATUS_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_NAME_STD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_EVAL_AT_BUNIT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_PAY_TO_BUNIT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_SUBMITTER_BUNIT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_MOD_SEQ</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNITSTAT_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PBASISCD_NUM_CBK_ALT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PBASISCD_NUM</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_MBR_TOTAL_ERRORS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ADDR1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ADDR2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ADDR3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_DT_ADDED</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_STRING_01</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_STRING_02</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_STRING_03</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_STRING_04</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_STRING_05</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_DATE_01</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_DATE_02</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_DATE_03</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EXT_NUMBER_01</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_AUTO_NOTIF_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_AUTO_RECON_CD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ERRTHRSHLD_PCT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUNIT_ERRTHRSHLD_OVRRD_DAYS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>60</xloc>
+      <yloc>218</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Data Validator</name>
+    <type>Validator</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<validate_all>Y</validate_all>
+<concat_errors>Y</concat_errors>
+<concat_separator>,</concat_separator>
+       <validator_field><name>COMPANY_MASTER_INTERFACE_ID</name>
+<validation_name>COMPANY_MASTER_INTERFACE_ID</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_MASTER_INTERFACE_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUNIT_NAME</name>
+<validation_name>COMPANY_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUNITTYP_ID</name>
+<validation_name>COMPANY_TYPE</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_STATUS</name>
+<validation_name>COMPANY_STATUS</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_STATUS</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUNIT_DT_START</name>
+<validation_name>COMPANY_START_DATE</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_START_DATE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BATCH_ID</name>
+<validation_name>BATCH_ID</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>BATCH_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ADD_CHG_DEL_INDICATOR</name>
+<validation_name>ADD_CHG_DEL_INDICATOR</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>ADD_CHG_DEL_INDICATOR</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUNIT_NUM</name>
+<validation_name>COMPANY_ID</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_NO</name>
+<validation_name>COMPANY_NO</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>None</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_NO</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>782</xloc>
+      <yloc>61</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Get System Info</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>CREATED_DATE</name>
+        <type>system date &#x28;fixed&#x29;</type>
+        </field>
+      <field>
+        <name>MODIFIED_DATE</name>
+        <type>system date &#x28;fixed&#x29;</type>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>294</xloc>
+      <yloc>219</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>IVLD_PSTG_COMPANY_MASTER_INTERFACE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Connection</connection>
+    <schema>dbo</schema>
+    <table>IVLD_PSTG_COMPANY_MASTER_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>BUNIT_NUM</column_name>
+          <stream_name>BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>USERID</column_name>
+          <stream_name>USERID</stream_name>
+        </field>
+        <field>
+          <column_name>LASTMOD</column_name>
+          <stream_name>LASTMOD</stream_name>
+        </field>
+        <field>
+          <column_name>FLG_NOTE</column_name>
+          <stream_name>FLG_NOTE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNITTYP_ID</column_name>
+          <stream_name>BUNITTYP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NAME</column_name>
+          <stream_name>BUNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_ENTITY</column_name>
+          <stream_name>BUNIT_FLG_ENTITY</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_MBR</column_name>
+          <stream_name>BUNIT_FLG_MBR</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_SUBAFFIL</column_name>
+          <stream_name>BUNIT_FLG_SUBAFFIL</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_ROLLUP</column_name>
+          <stream_name>BUNIT_FLG_ROLLUP</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_ENFPART</column_name>
+          <stream_name>BUNIT_FLG_ENFPART</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIF_ANNUAL</column_name>
+          <stream_name>BUNIT_FLG_NOTIF_ANNUAL</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIFCUST_SEND_INT</column_name>
+          <stream_name>BUNIT_FLG_NOTIFCUST_SEND_INT</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIFCUST_SEND_SUB</column_name>
+          <stream_name>BUNIT_FLG_NOTIFCUST_SEND_SUB</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIF_SAMEDAY</column_name>
+          <stream_name>BUNIT_FLG_NOTIF_SAMEDAY</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIFPROD_COST</column_name>
+          <stream_name>BUNIT_FLG_NOTIFPROD_COST</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIF_WINDOW</column_name>
+          <stream_name>BUNIT_FLG_NOTIF_WINDOW</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOT_ELIG_CBK</column_name>
+          <stream_name>BUNIT_FLG_NOT_ELIG_CBK</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_UPDATE</column_name>
+          <stream_name>BUNIT_FLG_UPDATE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_EVAL_AT</column_name>
+          <stream_name>BUNIT_EVAL_AT</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PAY_TO</column_name>
+          <stream_name>BUNIT_PAY_TO</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_SUBMITTOR</column_name>
+          <stream_name>BUNIT_SUBMITTOR</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_LOCK</column_name>
+          <stream_name>BUNIT_FLG_LOCK</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_START</column_name>
+          <stream_name>BUNIT_DT_START</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_END</column_name>
+          <stream_name>BUNIT_DT_END</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_PRI</column_name>
+          <stream_name>BUNIT_ID_PRI</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_PRITYPE</column_name>
+          <stream_name>BUNIT_ID_PRITYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_SEC</column_name>
+          <stream_name>BUNIT_ID_SEC</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_SECTYPE</column_name>
+          <stream_name>BUNIT_ID_SECTYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_CITY</column_name>
+          <stream_name>BUNIT_CITY</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_STATE</column_name>
+          <stream_name>BUNIT_STATE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ZIP</column_name>
+          <stream_name>BUNIT_ZIP</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PAYNAME</column_name>
+          <stream_name>BUNIT_PAYNAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PMT_DAYS</column_name>
+          <stream_name>BUNIT_PMT_DAYS</stream_name>
+        </field>
+        <field>
+          <column_name>STLTYP_CD</column_name>
+          <stream_name>STLTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>USERID_ADMIN_CBK</column_name>
+          <stream_name>USERID_ADMIN_CBK</stream_name>
+        </field>
+        <field>
+          <column_name>BUIDTYP_ID_NOTIFY_PRITYPE</column_name>
+          <stream_name>BUIDTYP_ID_NOTIFY_PRITYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BUIDTYP_ID_NOTIFY_SECTYPE</column_name>
+          <stream_name>BUIDTYP_ID_NOTIFY_SECTYPE</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM_CBK</column_name>
+          <stream_name>PBASISCD_NUM_CBK</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_WHL_DECROUND</column_name>
+          <stream_name>BUNIT_WHL_DECROUND</stream_name>
+        </field>
+        <field>
+          <column_name>WHLPMT_CD</column_name>
+          <stream_name>WHLPMT_CD</stream_name>
+        </field>
+        <field>
+          <column_name>BUCATTYP_CD</column_name>
+          <stream_name>BUCATTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_NUM</column_name>
+          <stream_name>REASON_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>ERRSEVSET_NUM</column_name>
+          <stream_name>ERRSEVSET_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NOTIF_ANNUAL_DATE</column_name>
+          <stream_name>BUNIT_NOTIF_ANNUAL_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NOTIF_WINDOW_DAYS</column_name>
+          <stream_name>BUNIT_NOTIF_WINDOW_DAYS</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_LAST_ACTIVATE</column_name>
+          <stream_name>BUNIT_DT_LAST_ACTIVATE</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS_NUM</column_name>
+          <stream_name>STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NAME_STD</column_name>
+          <stream_name>BUNIT_NAME_STD</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_EVAL_AT_BUNIT_NUM</column_name>
+          <stream_name>BUNIT_EVAL_AT_BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PAY_TO_BUNIT_NUM</column_name>
+          <stream_name>BUNIT_PAY_TO_BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_SUBMITTER_BUNIT_NUM</column_name>
+          <stream_name>BUNIT_SUBMITTER_BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID</column_name>
+          <stream_name>BUNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_MOD_SEQ</column_name>
+          <stream_name>BUNIT_MOD_SEQ</stream_name>
+        </field>
+        <field>
+          <column_name>BUNITSTAT_NUM</column_name>
+          <stream_name>BUNITSTAT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM_CBK_ALT</column_name>
+          <stream_name>PBASISCD_NUM_CBK_ALT</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM</column_name>
+          <stream_name>PBASISCD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_MBR_TOTAL_ERRORS</column_name>
+          <stream_name>BUNIT_MBR_TOTAL_ERRORS</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ADDR1</column_name>
+          <stream_name>BUNIT_ADDR1</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ADDR2</column_name>
+          <stream_name>BUNIT_ADDR2</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ADDR3</column_name>
+          <stream_name>BUNIT_ADDR3</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_ADDED</column_name>
+          <stream_name>BUNIT_DT_ADDED</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_01</column_name>
+          <stream_name>EXT_STRING_01</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_02</column_name>
+          <stream_name>EXT_STRING_02</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_03</column_name>
+          <stream_name>EXT_STRING_03</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_04</column_name>
+          <stream_name>EXT_STRING_04</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_05</column_name>
+          <stream_name>EXT_STRING_05</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_DATE_01</column_name>
+          <stream_name>EXT_DATE_01</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_DATE_02</column_name>
+          <stream_name>EXT_DATE_02</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_DATE_03</column_name>
+          <stream_name>EXT_DATE_03</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_NUMBER_01</column_name>
+          <stream_name>EXT_NUMBER_01</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_AUTO_NOTIF_CD</column_name>
+          <stream_name>BUNIT_AUTO_NOTIF_CD</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_AUTO_RECON_CD</column_name>
+          <stream_name>BUNIT_AUTO_RECON_CD</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ERRTHRSHLD_PCT</column_name>
+          <stream_name>BUNIT_ERRTHRSHLD_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ERRTHRSHLD_OVRRD_DAYS</column_name>
+          <stream_name>BUNIT_ERRTHRSHLD_OVRRD_DAYS</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>REASON_FOR_FAILURE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE </column_name>
+          <stream_name>ERROR_CODE </stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>Error_Field</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1054</xloc>
+      <yloc>264</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Modified Java Script Value</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>BATCH_ID&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;var datevalue&#x3d;new Date&#x28;&#x29;&#x3b;&#xd;&#xa;var sdf &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyyMMdd_hhmmss&#x22;&#x29;&#x3b;&#xd;&#xa;var BATCH_ID &#x3d; &#x22;CMP_&#x22;&#x2b;sdf.format&#x28;datevalue&#x29;&#x3b; &#x2f;&#x2f;hh&#x3a;mm&#x3a;ss&#x22;&#xd;&#xa;&#xd;&#xa;var COMPANY_NO &#x3d; BUNIT_NUM&#xd;&#xa;&#xd;&#xa;var COMPANY_CATEGORY &#x3d; BUNITTYP_ID &#x3b;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>COMPANY_NO</name>
+        <rename>COMPANY_NO</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>COMPANY_CATEGORY</name>
+        <rename>COMPANY_CATEGORY</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>653</xloc>
+      <yloc>114</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Modified Java Script Value 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;var COMPANY_STATUS &#x3d; &#x28;&#x28;BUNIT_DT_END &#x21;&#x3d; 0&#x29; &#x26;&#x26; &#x28;BUNIT_DT_START &#x21;&#x3d; 0&#x29;&#x29; &#x3f; &#x22;ACTIVE&#x22;&#x3a;&#x22;INACTIVE&#x22;&#x3b;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;if &#x28;&#x28;BUNIT_ADDR2&#x2b;BUNIT_ADDR3&#x29;&#x3e;0&#x29;&#x7b;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f; var ADDRESS_2 &#x3d; &#x22;ACTIVE&#x22;&#x7d;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;&#x2f;	&#x28;x &#x3c; 10 &#x26;&#x26; y &#x3e; 1&#x29;&#xd;&#xa;&#x2f;&#x2f;x &#x21;&#x3d; 8&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#x2f;&#x2f;var ADDRESS_2 &#x3d; BUNIT_ADDR2 &#x2b; BUNIT_ADDR3&#x3b;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;var ADDRESS_2 &#x3d; &#x28;&#x28;BUNIT_ADDR2 &#x2b; BUNIT_ADDR3&#x29; &#x21;&#x3d; 0&#x29; &#x3f;  BUNIT_ADDR2 &#x2b; BUNIT_ADDR3&#x3a;&#x22;NULL&#x22;&#x3b;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>COMPANY_STATUS</name>
+        <rename>COMPANY_STATUS</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>      <field>        <name>ADDRESS_2</name>
+        <rename>ADDRESS_2</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>696</xloc>
+      <yloc>233</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>PSTG_COMPANY_MASTER_INTERFACE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Connection</connection>
+    <schema>dbo</schema>
+    <table>PSTG_COMPANY_MASTER_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>BUNIT_NUM</column_name>
+          <stream_name>BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>USERID</column_name>
+          <stream_name>USERID</stream_name>
+        </field>
+        <field>
+          <column_name>LASTMOD</column_name>
+          <stream_name>LASTMOD</stream_name>
+        </field>
+        <field>
+          <column_name>FLG_NOTE</column_name>
+          <stream_name>FLG_NOTE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNITTYP_ID</column_name>
+          <stream_name>BUNITTYP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NAME</column_name>
+          <stream_name>BUNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_ENTITY</column_name>
+          <stream_name>BUNIT_FLG_ENTITY</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_MBR</column_name>
+          <stream_name>BUNIT_FLG_MBR</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_SUBAFFIL</column_name>
+          <stream_name>BUNIT_FLG_SUBAFFIL</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_ROLLUP</column_name>
+          <stream_name>BUNIT_FLG_ROLLUP</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_ENFPART</column_name>
+          <stream_name>BUNIT_FLG_ENFPART</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIF_ANNUAL</column_name>
+          <stream_name>BUNIT_FLG_NOTIF_ANNUAL</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIFCUST_SEND_INT</column_name>
+          <stream_name>BUNIT_FLG_NOTIFCUST_SEND_INT</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIFCUST_SEND_SUB</column_name>
+          <stream_name>BUNIT_FLG_NOTIFCUST_SEND_SUB</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIF_SAMEDAY</column_name>
+          <stream_name>BUNIT_FLG_NOTIF_SAMEDAY</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIFPROD_COST</column_name>
+          <stream_name>BUNIT_FLG_NOTIFPROD_COST</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOTIF_WINDOW</column_name>
+          <stream_name>BUNIT_FLG_NOTIF_WINDOW</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_NOT_ELIG_CBK</column_name>
+          <stream_name>BUNIT_FLG_NOT_ELIG_CBK</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_UPDATE</column_name>
+          <stream_name>BUNIT_FLG_UPDATE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_EVAL_AT</column_name>
+          <stream_name>BUNIT_EVAL_AT</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PAY_TO</column_name>
+          <stream_name>BUNIT_PAY_TO</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_SUBMITTOR</column_name>
+          <stream_name>BUNIT_SUBMITTOR</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_FLG_LOCK</column_name>
+          <stream_name>BUNIT_FLG_LOCK</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_START</column_name>
+          <stream_name>BUNIT_DT_START</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_END</column_name>
+          <stream_name>BUNIT_DT_END</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_PRI</column_name>
+          <stream_name>BUNIT_ID_PRI</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_PRITYPE</column_name>
+          <stream_name>BUNIT_ID_PRITYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_SEC</column_name>
+          <stream_name>BUNIT_ID_SEC</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID_SECTYPE</column_name>
+          <stream_name>BUNIT_ID_SECTYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_CITY</column_name>
+          <stream_name>BUNIT_CITY</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_STATE</column_name>
+          <stream_name>BUNIT_STATE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ZIP</column_name>
+          <stream_name>BUNIT_ZIP</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PAYNAME</column_name>
+          <stream_name>BUNIT_PAYNAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PMT_DAYS</column_name>
+          <stream_name>BUNIT_PMT_DAYS</stream_name>
+        </field>
+        <field>
+          <column_name>STLTYP_CD</column_name>
+          <stream_name>STLTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>USERID_ADMIN_CBK</column_name>
+          <stream_name>USERID_ADMIN_CBK</stream_name>
+        </field>
+        <field>
+          <column_name>BUIDTYP_ID_NOTIFY_PRITYPE</column_name>
+          <stream_name>BUIDTYP_ID_NOTIFY_PRITYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BUIDTYP_ID_NOTIFY_SECTYPE</column_name>
+          <stream_name>BUIDTYP_ID_NOTIFY_SECTYPE</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM_CBK</column_name>
+          <stream_name>PBASISCD_NUM_CBK</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_WHL_DECROUND</column_name>
+          <stream_name>BUNIT_WHL_DECROUND</stream_name>
+        </field>
+        <field>
+          <column_name>WHLPMT_CD</column_name>
+          <stream_name>WHLPMT_CD</stream_name>
+        </field>
+        <field>
+          <column_name>BUCATTYP_CD</column_name>
+          <stream_name>BUCATTYP_CD</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_NUM</column_name>
+          <stream_name>REASON_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>ERRSEVSET_NUM</column_name>
+          <stream_name>ERRSEVSET_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NOTIF_ANNUAL_DATE</column_name>
+          <stream_name>BUNIT_NOTIF_ANNUAL_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NOTIF_WINDOW_DAYS</column_name>
+          <stream_name>BUNIT_NOTIF_WINDOW_DAYS</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_LAST_ACTIVATE</column_name>
+          <stream_name>BUNIT_DT_LAST_ACTIVATE</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS_NUM</column_name>
+          <stream_name>STATUS_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_NAME_STD</column_name>
+          <stream_name>BUNIT_NAME_STD</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_EVAL_AT_BUNIT_NUM</column_name>
+          <stream_name>BUNIT_EVAL_AT_BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_PAY_TO_BUNIT_NUM</column_name>
+          <stream_name>BUNIT_PAY_TO_BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_SUBMITTER_BUNIT_NUM</column_name>
+          <stream_name>BUNIT_SUBMITTER_BUNIT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ID</column_name>
+          <stream_name>BUNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_MOD_SEQ</column_name>
+          <stream_name>BUNIT_MOD_SEQ</stream_name>
+        </field>
+        <field>
+          <column_name>BUNITSTAT_NUM</column_name>
+          <stream_name>BUNITSTAT_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM_CBK_ALT</column_name>
+          <stream_name>PBASISCD_NUM_CBK_ALT</stream_name>
+        </field>
+        <field>
+          <column_name>PBASISCD_NUM</column_name>
+          <stream_name>PBASISCD_NUM</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_MBR_TOTAL_ERRORS</column_name>
+          <stream_name>BUNIT_MBR_TOTAL_ERRORS</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ADDR1</column_name>
+          <stream_name>BUNIT_ADDR1</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ADDR2</column_name>
+          <stream_name>BUNIT_ADDR2</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ADDR3</column_name>
+          <stream_name>BUNIT_ADDR3</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_DT_ADDED</column_name>
+          <stream_name>BUNIT_DT_ADDED</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_01</column_name>
+          <stream_name>EXT_STRING_01</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_02</column_name>
+          <stream_name>EXT_STRING_02</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_03</column_name>
+          <stream_name>EXT_STRING_03</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_04</column_name>
+          <stream_name>EXT_STRING_04</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_STRING_05</column_name>
+          <stream_name>EXT_STRING_05</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_DATE_01</column_name>
+          <stream_name>EXT_DATE_01</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_DATE_02</column_name>
+          <stream_name>EXT_DATE_02</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_DATE_03</column_name>
+          <stream_name>EXT_DATE_03</stream_name>
+        </field>
+        <field>
+          <column_name>EXT_NUMBER_01</column_name>
+          <stream_name>EXT_NUMBER_01</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_AUTO_NOTIF_CD</column_name>
+          <stream_name>BUNIT_AUTO_NOTIF_CD</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_AUTO_RECON_CD</column_name>
+          <stream_name>BUNIT_AUTO_RECON_CD</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ERRTHRSHLD_PCT</column_name>
+          <stream_name>BUNIT_ERRTHRSHLD_PCT</stream_name>
+        </field>
+        <field>
+          <column_name>BUNIT_ERRTHRSHLD_OVRRD_DAYS</column_name>
+          <stream_name>BUNIT_ERRTHRSHLD_OVRRD_DAYS</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>184</xloc>
+      <yloc>219</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>USERID</name>
+      </remove>      <remove>        <name>FLG_NOTE</name>
+      </remove>      <remove>        <name>BUNIT_FLG_ENTITY</name>
+      </remove>      <remove>        <name>BUNIT_FLG_MBR</name>
+      </remove>      <remove>        <name>BUNIT_FLG_SUBAFFIL</name>
+      </remove>      <remove>        <name>BUNIT_FLG_ROLLUP</name>
+      </remove>      <remove>        <name>BUNIT_FLG_ENFPART</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOTIF_ANNUAL</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOTIFCUST_SEND_INT</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOTIFCUST_SEND_SUB</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOTIF_SAMEDAY</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOTIFPROD_COST</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOTIF_WINDOW</name>
+      </remove>      <remove>        <name>BUNIT_FLG_NOT_ELIG_CBK</name>
+      </remove>      <remove>        <name>BUNIT_FLG_UPDATE</name>
+      </remove>      <remove>        <name>BUNIT_EVAL_AT</name>
+      </remove>      <remove>        <name>BUNIT_PAY_TO</name>
+      </remove>      <remove>        <name>BUNIT_SUBMITTOR</name>
+      </remove>      <remove>        <name>BUNIT_FLG_LOCK</name>
+      </remove>      <remove>        <name>BUNIT_DT_END</name>
+      </remove>      <remove>        <name>BUNIT_ID_PRI</name>
+      </remove>      <remove>        <name>BUNIT_ID_PRITYPE</name>
+      </remove>      <remove>        <name>BUNIT_ID_SEC</name>
+      </remove>      <remove>        <name>BUNIT_ID_SECTYPE</name>
+      </remove>      <remove>        <name>BUNIT_PAYNAME</name>
+      </remove>      <remove>        <name>BUNIT_PMT_DAYS</name>
+      </remove>      <remove>        <name>STLTYP_CD</name>
+      </remove>      <remove>        <name>USERID_ADMIN_CBK</name>
+      </remove>      <remove>        <name>BUIDTYP_ID_NOTIFY_PRITYPE</name>
+      </remove>      <remove>        <name>BUIDTYP_ID_NOTIFY_SECTYPE</name>
+      </remove>      <remove>        <name>PBASISCD_NUM_CBK</name>
+      </remove>      <remove>        <name>BUNIT_WHL_DECROUND</name>
+      </remove>      <remove>        <name>WHLPMT_CD</name>
+      </remove>      <remove>        <name>BUCATTYP_CD</name>
+      </remove>      <remove>        <name>REASON_NUM</name>
+      </remove>      <remove>        <name>ERRSEVSET_NUM</name>
+      </remove>      <remove>        <name>BUNIT_NOTIF_ANNUAL_DATE</name>
+      </remove>      <remove>        <name>BUNIT_NOTIF_WINDOW_DAYS</name>
+      </remove>      <remove>        <name>BUNIT_DT_LAST_ACTIVATE</name>
+      </remove>      <remove>        <name>STATUS_NUM</name>
+      </remove>      <remove>        <name>BUNIT_NAME_STD</name>
+      </remove>      <remove>        <name>BUNIT_EVAL_AT_BUNIT_NUM</name>
+      </remove>      <remove>        <name>BUNIT_PAY_TO_BUNIT_NUM</name>
+      </remove>      <remove>        <name>BUNIT_SUBMITTER_BUNIT_NUM</name>
+      </remove>      <remove>        <name>BUNIT_ID</name>
+      </remove>      <remove>        <name>BUNIT_MOD_SEQ</name>
+      </remove>      <remove>        <name>BUNITSTAT_NUM</name>
+      </remove>      <remove>        <name>PBASISCD_NUM_CBK_ALT</name>
+      </remove>      <remove>        <name>PBASISCD_NUM</name>
+      </remove>      <remove>        <name>BUNIT_MBR_TOTAL_ERRORS</name>
+      </remove>      <remove>        <name>BUNIT_DT_ADDED</name>
+      </remove>      <remove>        <name>EXT_STRING_01</name>
+      </remove>      <remove>        <name>EXT_STRING_02</name>
+      </remove>      <remove>        <name>EXT_STRING_03</name>
+      </remove>      <remove>        <name>EXT_STRING_04</name>
+      </remove>      <remove>        <name>EXT_STRING_05</name>
+      </remove>      <remove>        <name>EXT_DATE_01</name>
+      </remove>      <remove>        <name>EXT_DATE_02</name>
+      </remove>      <remove>        <name>EXT_DATE_03</name>
+      </remove>      <remove>        <name>EXT_NUMBER_01</name>
+      </remove>      <remove>        <name>BUNIT_AUTO_NOTIF_CD</name>
+      </remove>      <remove>        <name>BUNIT_AUTO_RECON_CD</name>
+      </remove>      <remove>        <name>BUNIT_ERRTHRSHLD_PCT</name>
+      </remove>      <remove>        <name>BUNIT_ERRTHRSHLD_OVRRD_DAYS</name>
+      </remove>      <remove>        <name>BUNIT_ADDR2</name>
+      </remove>      <remove>        <name>BUNIT_ADDR3</name>
+      </remove>      <meta>        <name>BUNIT_NUM</name>
+        <rename>COMPANY_ID</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNIT_NAME</name>
+        <rename>COMPANY_NAME</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNITTYP_ID</name>
+        <rename>COMPANY_TYPE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNIT_ADDR1</name>
+        <rename>ADDRESS_1</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNIT_CITY</name>
+        <rename>CITY</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNIT_STATE</name>
+        <rename>STATE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNIT_ZIP</name>
+        <rename>ZIP_CODE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>LASTMOD</name>
+        <rename>LAST_UPDATED_DATE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>BUNIT_DT_START</name>
+        <rename>COMPANY_START_DATE</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>608</xloc>
+      <yloc>403</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>VLD_PSTG_COMPANY_MASTER_INTERFACE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Connection</connection>
+    <schema>dbo</schema>
+    <table>VLD_PSTG_COMPANY_MASTER_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>COMPANY_ID</column_name>
+          <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_UPDATED_DATE</column_name>
+          <stream_name>LAST_UPDATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_TYPE</column_name>
+          <stream_name>COMPANY_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_START_DATE</column_name>
+          <stream_name>COMPANY_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CITY</column_name>
+          <stream_name>CITY</stream_name>
+        </field>
+        <field>
+          <column_name>STATE</column_name>
+          <stream_name>STATE</stream_name>
+        </field>
+        <field>
+          <column_name>ZIP_CODE</column_name>
+          <stream_name>ZIP_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ADDRESS_1</column_name>
+          <stream_name>ADDRESS_1</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_MASTER_INTERFACE_ID</column_name>
+          <stream_name>COMPANY_MASTER_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>LIVES</column_name>
+          <stream_name>LIVES</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_END_DATE</column_name>
+          <stream_name>COMPANY_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_GROUP</column_name>
+          <stream_name>COMPANY_GROUP</stream_name>
+        </field>
+        <field>
+          <column_name>FINANCIAL_SYSTEM</column_name>
+          <stream_name>FINANCIAL_SYSTEM</stream_name>
+        </field>
+        <field>
+          <column_name>COUNTRY</column_name>
+          <stream_name>COUNTRY</stream_name>
+        </field>
+        <field>
+          <column_name>REGION_CODE</column_name>
+          <stream_name>REGION_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NO</column_name>
+          <stream_name>COMPANY_NO</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_CATEGORY</column_name>
+          <stream_name>COMPANY_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_STATUS</column_name>
+          <stream_name>COMPANY_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ADDRESS_2</column_name>
+          <stream_name>ADDRESS_2</stream_name>
+        </field>
+        <field>
+          <column_name>IS_COMPLETE</column_name>
+          <stream_name>IS_COMPLETE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>848</xloc>
+      <yloc>403</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+      <error>
+        <source_step>Data Validator</source_step>
+        <target_step>Add constants 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename>Error_Field</fields_valuename>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+
+</transformation>

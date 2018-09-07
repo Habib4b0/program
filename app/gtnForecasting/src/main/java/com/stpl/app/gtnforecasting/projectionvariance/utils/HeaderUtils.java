@@ -56,13 +56,14 @@ public class HeaderUtils {
     }
     public static String getMonthForInt(int num) {
         String month = "wrong";
+        int numMonthInt = num;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
-        if (num == NumericConstants.TWELVE) {
-            num = 0;
+        if (numMonthInt == NumericConstants.TWELVE) {
+            numMonthInt = 0;
         }
-        if (num >= 0 && num <= NumericConstants.ELEVEN) {
-            month = months[num];
+        if (numMonthInt >= 0 && numMonthInt <= NumericConstants.ELEVEN) {
+            month = months[numMonthInt];
         }
         return month;
     }
@@ -946,7 +947,6 @@ public class HeaderUtils {
 
     static CustomTableHeaderDTO loadSingleDiscountHeader(String commonColumn, String commonHeader, final PVSelectionDTO selection, final CustomTableHeaderDTO tableHeaderDTO, Map<String, Object> headerMap) {
         String column = commonColumn;
-
         List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
