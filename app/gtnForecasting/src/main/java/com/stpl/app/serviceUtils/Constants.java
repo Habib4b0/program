@@ -894,51 +894,51 @@ public final class Constants {
     /**
      * The Constant CFP_START_DATE.
      */
-    public final static String CFP_START_DATE = "CFP Start Date";
+    public static final String CFP_START_DATE = "CFP Start Date";
     /**
      * The Constant CFP_START_DATE.
      */
-    public final static String CFP_END_DATE_CF = "CFP End Date";
+    public static final  String CFP_END_DATE_CF = "CFP End Date";
     /**
      * CP Start Date.
      */
-    public final static String CP_START_DATE_SP = "CP Start Date";
+    public static final  String CP_START_DATE_SP = "CP Start Date";
     /**
      * The Constant PRICE_PROTECTION_START_DATE_SP.
      */
-    public final static String PRICE_PROTECTION_START_DATE_SP = "Price Protection Start Date";
+    public static final  String PRICE_PROTECTION_START_DATE_SP = "Price Protection Start Date";
     /**
      * The Constant PRICE_PROTECTION_END_DATE_SP.
      */
-    public final static String PRICE_PROTECTION_END_DATE_SP = "Price Protection End Date";
+    public static final  String PRICE_PROTECTION_END_DATE_SP = "Price Protection End Date";
     /**
      * The Constant CONTRACT_pRICE.
      */
-    public final static String CONTRACT_PRICE_UPPERCASE = "Contract Price";
+    public static final  String CONTRACT_PRICE_UPPERCASE = "Contract Price";
     /**
      * The Constant Disable.
      */
-    public final static String DISABLE = "Disable";
+    public static final  String DISABLE = "Disable";
     /**
      * The Constant Enable.
      */
-    public final static String ENABLE = "Enable";
+    public static final  String ENABLE = "Enable";
     /**
      * The Constant PRICE_TOLERENCE.
      */
-    public final static String PRICE_TOLERENCE = "Price Tolerance";
+    public static final String PRICE_TOLERENCE = "Price Tolerance";
     /**
      * The Constant PRICE_SP.
      */
-    public final static String PRICE_SP = "Price";
+    public static final String PRICE_SP = "Price";
     /**
      * The Constant BASE_PRICE_SP.
      */
-    public final static String BASE_PRICE_SP = "Base Price";
+    public static final String BASE_PRICE_SP = "Base Price";
     /**
      * The Constant CP_END_DATE_SP.
      */
-    public final static String CP_END_DATE_SP = "CP End Date";
+    public static final String CP_END_DATE_SP = "CP End Date";
     /**
      * The start date SP.
      */
@@ -985,11 +985,11 @@ public final class Constants {
     /**
      * The rebate plan system id.
      */
-    public final static String REBATE_PLAN_MASTER_SID = "rebatePlanMasterSid";
+    public static final  String REBATE_PLAN_MASTER_SID = "rebatePlanMasterSid";
     /**
      * The rebate bundle no.
      */
-    public final static String REBATE_BUNDLE_NO = "bundleNo";
+    public static final String REBATE_BUNDLE_NO = "bundleNo";
 
     /**
      * Nofication delay time setting *
@@ -1097,26 +1097,26 @@ public final class Constants {
     /**
      * The Constant INBOUND_STATUS_D.
      */
-    public final static String INBOUND_STATUS_D = "D";
+    public static final String INBOUND_STATUS_D = "D";
     
-    public final static String MASS_PRICE_PROTECTION_START_DATE = "Price Protection Start Date";
-    public final static String MASS_PRICE_PROTECTION_STATUS = "Price Protection Status";
-    public final static String MASS_PRICE_PROTECTION_PRICE_TYPE = "Price Protection Price Type";
-    public final static String MASS_NEP = "NEP";
-    public final static String MASS_NEP_FORMULA = "NEP Formula";
-    public final static String MASS_PRICE_TOLERANCE_INTERVAL = "Price Tolerance Interval";
-    public final static String MASS_PRICE_TOLERANCE_FREQUENCY = "Price Tolerance Frequency";
-    public final static String MASS_PRICE_TOLERANCE_TYPE = "Price Tolerance Type";
-    public final static String MASS_MAX_INCREMENTAL_CHANGE = "Max Incremental Change";
-    public final static String MASS_RESET_ELIGIBLE = "Reset Eligible";
-    public final static String MASS_RESET_TYPE = "Reset Type";
-    public final static String MASS_RESET_DATE = "Reset Date";
-    public final static String MASS_RESET_INTERVAL = "Reset Interval";
-    public final static String MASS_RESET_FREQUENCY = "Reset Frequency";
-    public final static String MASS_NET_PRICE_TYPE = "Net Price Type";
-    public final static String MASS_NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
-    public final static String MASS_PRICE_PROTECTION_END_DATE = "Price Protection End Date";
-    public final static String MASS_BASE_PRICE = "Base Price";
+    public static final String MASS_PRICE_PROTECTION_START_DATE = "Price Protection Start Date";
+    public static final String MASS_PRICE_PROTECTION_STATUS = "Price Protection Status";
+    public static final String MASS_PRICE_PROTECTION_PRICE_TYPE = "Price Protection Price Type";
+    public static final String MASS_NEP = "NEP";
+    public static final String MASS_NEP_FORMULA = "NEP Formula";
+    public static final String MASS_PRICE_TOLERANCE_INTERVAL = "Price Tolerance Interval";
+    public static final String MASS_PRICE_TOLERANCE_FREQUENCY = "Price Tolerance Frequency";
+    public static final String MASS_PRICE_TOLERANCE_TYPE = "Price Tolerance Type";
+    public static final String MASS_MAX_INCREMENTAL_CHANGE = "Max Incremental Change";
+    public static final String MASS_RESET_ELIGIBLE = "Reset Eligible";
+    public static final String MASS_RESET_TYPE = "Reset Type";
+    public static final String MASS_RESET_DATE = "Reset Date";
+    public static final String MASS_RESET_INTERVAL = "Reset Interval";
+    public static final String MASS_RESET_FREQUENCY = "Reset Frequency";
+    public static final String MASS_NET_PRICE_TYPE = "Net Price Type";
+    public static final String MASS_NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
+    public static final String MASS_PRICE_PROTECTION_END_DATE = "Price Protection End Date";
+    public static final String MASS_BASE_PRICE = "Base Price";
     
     public static final String DB_STATUS = "STATUS";
     public static final String DB_LOCKED_STATUS = "LOCKED_STATUS";
@@ -1167,12 +1167,12 @@ public final class Constants {
     /**
      * Date Format.
      */
-    public final static String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
     
     
         
-    public final static String DB_RESET_ELIGIBLE="LOCKED_STATUS";
-    public final static String MANUAL="Manual";
+    public static final String DB_RESET_ELIGIBLE="LOCKED_STATUS";
+    public static final String MANUAL="Manual";
     public static final String DDLB_PRICE_TYPE = "Price Type";
     public static final String YES = "Yes";
     public static final String VIEW_NAME = "viewName";

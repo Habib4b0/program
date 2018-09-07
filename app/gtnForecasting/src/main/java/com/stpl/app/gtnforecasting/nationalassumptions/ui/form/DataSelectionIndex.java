@@ -526,13 +526,11 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         selectedId.put(selected.getItemMasterSid(), selected.getProductNo());
                     }
 
-                    for (Iterator<DataSelectionDTO> it = availableProducts.iterator(); it.hasNext();) {
-                        DataSelectionDTO dataDto = it.next();
-                        int itemSid = dataDto.getItemMasterSid();
-                        if (selectedId.get(itemSid) != null) {
-                            {
-                                it.remove();
-                            }
+                    for (Iterator<DataSelectionDTO> iter = availableProducts.iterator(); iter.hasNext();) {
+                        DataSelectionDTO dataDto = iter.next();
+                        int itemSidAllProductLeft = dataDto.getItemMasterSid();
+                        if (selectedId.get(itemSidAllProductLeft) != null) {
+                                iter.remove();
                         }
                     }
                     selectedProductBean.addAll(availableProducts);

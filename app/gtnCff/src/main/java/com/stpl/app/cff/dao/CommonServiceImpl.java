@@ -996,7 +996,6 @@ public class CommonServiceImpl {
             queryString.append(StringConstantsUtil.ORDER_BY);
             query = queryString.toString();
 
-            try {
                 if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
                         && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
                     query = query.replace(StringConstantsUtil.SELECTION, SQlUtil.getQuery("searchViewFindSelection"));
@@ -1273,14 +1272,10 @@ public class CommonServiceImpl {
                     query = query.replace(StringConstantsUtil.ORDER_BY, StringUtils.EMPTY);
                     query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                 }
-            } catch (NumberFormatException | ParseException ex) {
+        } catch (NumberFormatException | ParseException ex) {
                 LOGGER.error("Exception message from method= {} and StringConstandsUtil:Query= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
                 LOGGER.error(query);
             }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error(query);
-        }
         return query;
     }
 
