@@ -127,6 +127,7 @@ public class GtnReportDataAssumptionsTabLoadAction
 	private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid,
 			Integer reportDataSourceValue, String url, String sourceComponentId) {
 
+		logger.info("Entering Data Assumptions Grid Load Values with Source Component Id = " + sourceComponentId);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
@@ -141,10 +142,6 @@ public class GtnReportDataAssumptionsTabLoadAction
 			gtnWsSearchRequest.setCount(true);
 			request.setGtnWsSearchRequest(gtnWsSearchRequest);
 		}
-
-		// GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		// GtnWsReportDataSelectionBean dataSelectionBean = new
-		// GtnWsReportDataSelectionBean();
 
 		dataSelectionBean.setReportDataSource(reportDataSourceValue);
 		reportRequest.setDataSelectionBean(dataSelectionBean);

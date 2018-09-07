@@ -60,11 +60,13 @@ public class GtnReportDataSelectionReGenerateAction
 				&& dataSelectionBean.getComparisonProjectionBeanList() == null ? false
 						: areComparisonListsEqual(comparisonProjectionsListInDataSelection,
 								dataSelectionBean.getComparisonProjectionBeanList());
-		
-		boolean isComparisonProjectionChangedInReportingDashboard = comparisonProjectionsListInReportingDashboard == null
-				&& dataSelectionBean.getComparisonProjectionBeanList() == null ? false
-						: areComparisonListsEqual(comparisonProjectionsListInReportingDashboard,
-								dataSelectionBean.getComparisonProjectionBeanList());
+
+		boolean isComparisonProjectionChangedInReportingDashboard = false;
+		if (comparisonProjectionsListInReportingDashboard != null
+				&& dataSelectionBean.getComparisonProjectionBeanList() != null) {
+			isComparisonProjectionChangedInReportingDashboard = areComparisonListsEqual(
+					comparisonProjectionsListInReportingDashboard, dataSelectionBean.getComparisonProjectionBeanList());
+		}
 
 		List<Object> variableList = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
@@ -200,14 +202,15 @@ public class GtnReportDataSelectionReGenerateAction
 				: 0;
 		int dsComparisonProjectionListSize = comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig != null ? comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size() : 0;
 		if (dsComparisonProjectionListSize == comparisonProjectionListSize) {
-			Set<GtnReportComparisonProjectionBean> selectedCustomerSet = new HashSet<>(comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig);
-			Set<GtnReportComparisonProjectionBean> customerSelectedSet = new HashSet<>(comparisonProjectionBeanListInDataSelectionBean);
+			Set<GtnReportComparisonProjectionBean> selectedCustomerSet = new HashSet<>(
+					comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig);
+			Set<GtnReportComparisonProjectionBean> customerSelectedSet = new HashSet<>(
+					comparisonProjectionBeanListInDataSelectionBean);
 			selectedCustomerSet.addAll(customerSelectedSet);
-			if (selectedCustomerSet.size() > comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size()) {
-				return true;
-			} else {
-				return false;
-			}
+			return (selectedCustomerSet
+					.size() > (comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig != null
+							? comparisonProjectionsListFromCustomDataInDataSelectionTabComparisonConfig.size()
+							: 0));
 		}
 		return true;
 	}
